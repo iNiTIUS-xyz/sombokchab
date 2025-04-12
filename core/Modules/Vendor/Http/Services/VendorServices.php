@@ -77,7 +77,7 @@ class VendorServices
         return match ($type) {
             "vendor" => ["owner_name" => $data["owner_name"], "username" => $data["username"], "business_name" => $data["business_name"], "business_type_id" => $data["business_type_id"], "description" => $data["description"], "status_id" => $data["status_id"]],
             "vendor_address" => ["vendor_id" => $data["id"], "country_id" => $data["country_id"], "state_id" => $data["state_id"] ?? null, "city_id" => $data["city_id"] ?? null, "zip_code" => $data["zip_code"] ?? null, "address" => $data["address"] ?? null, "google_map_location" => $data["google_map_location"] ?? null],
-            "vendor_shop_info" => ["vendor_id" => $data["id"], "location" => $data["location"], "number" => $data["number"] ?? null, "email" => $data["email"], "facebook_url" => $data["facebook_url"], "website_url" => $data["website_url"], "logo_id" => $data["logo_id"], "cover_photo_id" => $data["cover_photo_id"], "colors" => $data["colors"]],
+            "vendor_shop_info" => ["vendor_id" => $data["id"], "location" => $data["location"], "number" => $data["number"] ?? null, "email" => $data["email"], "facebook_url" => $data["facebook_url"], "website_url" => $data["website_url"], "logo_id" => $data["logo_id"], "cover_photo_id" => $data["cover_photo_id"], "colors" => $data["colors"] ?? null],
             "vendor_bank_info" => ["vendor_id" => $data["id"], "bank_name" => $data["bank_name"], "bank_email" => $data["bank_email"], "bank_code" => $data["bank_code"], "account_number" => $data["account_number"]],
         };
     }
