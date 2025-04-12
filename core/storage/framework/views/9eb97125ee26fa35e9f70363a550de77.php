@@ -424,8 +424,22 @@
                                     <div class="row g-4 mt-1">
                                         <div class="col-lg-12">
                                             <div class="dashboard__card">
-                                                <h4 class="dashboard__card__title">
-                                                    <?php echo e(__('Bank Info')); ?> </h4>
+                                                <div class="dashboard__card__header">
+                                                    <h4 class="dashboard__card__title">
+                                                        <?php echo e(__('Bank Info')); ?>
+
+                                                    </h4>
+                                                    <br>
+                                                    <?php if($vendor?->vendor_bank_info?->is_varify && $vendor?->vendor_bank_info?->varify_at): ?>
+                                                        <p class="text-success">
+                                                            The vandor bank information approved
+                                                        </p>
+                                                    <?php else: ?>
+                                                        <p class="text-warning">
+                                                            The vandor bank information is pending.
+                                                        </p>
+                                                    <?php endif; ?>
+                                                </div>
                                                 <div class="dashboard__card__body custom__form mt-4 single-reg-form">
                                                     <div class="form-group">
                                                         <label class="label-title color-light mb-2">

@@ -66,6 +66,13 @@ class VendorServices
             }
         }
 
+        $requestData = request();
+
+        if (isset($requestData->is_varify) && $requestData->is_varify) {
+            $data['is_varify'] = $requestData->is_varify = 1 ? 1 : 0;
+            $data['varify_at'] = $requestData->is_varify = 1 ? date('Y-m-d H:i:s') : null;
+        }
+
         return VendorBankInfo::updateOrCreate(
             ['vendor_id' => $data["vendor_id"]],
             $data
