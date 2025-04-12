@@ -261,19 +261,26 @@
         ========================================
         */
 
-        $(document).on("click", ".media_upload_form_btn", function () {
+        $(document).on("click", ".media_upload_form_btn", function() {
             // now let's find modal
             let prevModal = $(this).closest(".modal");
 
             if (prevModal.length > 0) {
-                $(document).on("click", ".media_upload_modal_submit_btn , .modal-wrapper .close-select-button", function () {
-                    $(".media_upload_modal_submit_btn").closest('.modal-wrapper').hide();
-                    prevModal.modal("show");
-                })
+                $(document).on("click", ".media_upload_modal_submit_btn , .modal-wrapper .close-select-button",
+                    function() {
+                        $(".media_upload_modal_submit_btn").closest('.modal-wrapper').hide();
+                        prevModal.modal("show");
+                    })
             }
         });
     </script>
-
+    <script>
+        toastr.options = {
+            closeButton: true,
+            progressBar: true,
+            timeOut: 3000
+        };
+    </script>
     <?php echo $__env->yieldContent('script'); ?>
 </body>
 

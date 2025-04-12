@@ -392,9 +392,9 @@
                                                                 </label>
                                                                 <textarea name="google_map_location" type="text" class="form--control radius-10" value="">
                                                                     <?php if(!empty($vendor?->vendor_address?->google_map_location)): ?>
-                                                                        <?php echo $location_iframeHtml; ?>
+<?php echo $location_iframeHtml; ?>
 
-                                                                    <?php endif; ?>
+<?php endif; ?>
                                                                 </textarea>
                                                                 <span class="mt-3">
                                                                     <?php echo e(__('Example: Google Map Embed Code.')); ?>
@@ -730,6 +730,7 @@
                 $(".state_wrapper .list").html(data.li);
                 $(".submit_button button i").remove()
                 toastr.success("Vendor account updated successfully....");
+
             }, (data) => {
                 toastr.error("Some error found.");
                 prepare_errors(data);

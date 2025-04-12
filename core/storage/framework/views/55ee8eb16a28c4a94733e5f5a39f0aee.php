@@ -4,7 +4,16 @@
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
     <?php
-        $statistics = [['title' => __('Total Admin'), 'value' => $total_admin, 'icon' => 'lar la-user'], ['title' => __('Total Customer'), 'value' => $total_user, 'icon' => 'lar la-user'], ['title' => __('Total Blog'), 'value' => $all_blogs_count, 'icon' => 'lar la-edit'], ['title' => __('Total Products'), 'value' => $all_products_count, 'icon' => 'las la-box'], ['title' => __('Completed Sale'), 'value' => $all_completed_sell_count, 'icon' => 'las la-boxes'], ['title' => __('Pending Sale'), 'value' => $all_pending_sell_count, 'icon' => 'las la-history'], ['title' => __('Sold Amount'), 'value' => $total_sold_amount, 'icon' => 'las la-coins'], ['title' => __('Ongoing Campaign'), 'value' => $total_ongoing_campaign, 'icon' => 'las la-gifts']];
+        $statistics = [
+            ['title' => __('Total Admin'), 'value' => $total_admin, 'icon' => 'lar la-user'],
+            ['title' => __('Total Customer'), 'value' => $total_user, 'icon' => 'lar la-user'],
+            ['title' => __('Total Blog'), 'value' => $all_blogs_count, 'icon' => 'lar la-edit'],
+            ['title' => __('Total Products'), 'value' => $all_products_count, 'icon' => 'las la-box'],
+            ['title' => __('Completed Sale'), 'value' => $all_completed_sell_count, 'icon' => 'las la-boxes'],
+            ['title' => __('Pending Sale'), 'value' => $all_pending_sell_count, 'icon' => 'las la-history'],
+            ['title' => __('Sold Amount'), 'value' => $total_sold_amount, 'icon' => 'las la-coins'],
+            ['title' => __('Ongoing Campaign'), 'value' => $total_ongoing_campaign, 'icon' => 'las la-gifts'],
+        ];
     ?>
 
     <div class="dashboard-profile-inner">
@@ -203,7 +212,11 @@
                             <span class="seller-title-right chart-icon radius-5"> <i class="las la-chart-bar"></i> </span>
                         </div>
                         <h3 class="dashboard-earning-price mt-3">
-                            <?php echo e(float_amount_with_currency_symbol(array_sum($yearly_income_statement->toArray()))); ?> </h3>
+                            <?php if(isset($yearly_income_statement)): ?>
+                                <?php echo e(float_amount_with_currency_symbol(array_sum($yearly_income_statement->toArray()))); ?>
+
+                            <?php endif; ?>
+                        </h3>
                     </div>
                     <div class="bar-charts chart-height mt-4">
                         <canvas id="bar-chart"></canvas>
@@ -217,7 +230,11 @@
                             <div class="profile-single-contents">
                                 <span class="dashboard-week-earning"> <?php echo e(__('This Week Earnings')); ?> </span>
                                 <h3 class="dashboard-earning-price mt-3">
-                                    <?php echo e(float_amount_with_currency_symbol(array_sum($weekly_statement->toArray()))); ?> </h3>
+                                    <?php if(isset($weekly_statement)): ?>
+                                        <?php echo e(float_amount_with_currency_symbol(array_sum($weekly_statement->toArray()))); ?>
+
+                                    <?php endif; ?>
+                                </h3>
                             </div>
                             <div class="line-charts mt-3">
                                 <canvas id="line-chart"></canvas>
