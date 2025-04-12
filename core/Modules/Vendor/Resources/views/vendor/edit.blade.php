@@ -268,7 +268,7 @@
                                                                     {{ __('Location') }}
                                                                 </label>
                                                                 <input value="{{ $vendor?->vendor_shop_info?->location }}"
-                                                                    name="location" type="url"
+                                                                    name="location" type="text"
                                                                     class="form--control radius-10"
                                                                     placeholder="Set Location From Map">
                                                             </div>
@@ -301,7 +301,7 @@
                                                                 </label>
                                                                 <input
                                                                     value="{{ $vendor?->vendor_shop_info?->facebook_url }}"
-                                                                    type="url" name="facebook_url"
+                                                                    type="text" name="facebook_url"
                                                                     class="form--control radius-10"
                                                                     placeholder="Type Facebook Link">
                                                             </div>
@@ -312,7 +312,7 @@
                                                                 </label>
                                                                 <input
                                                                     value="{{ $vendor?->vendor_shop_info?->website_url }}"
-                                                                    type="url" name="website_url"
+                                                                    type="text" name="website_url"
                                                                     class="form--control radius-10"
                                                                     placeholder="Type Website">
                                                             </div>
