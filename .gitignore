@@ -1,3 +1,4 @@
 /core/vendor
+/core/public/storage
 /core/storage
 /storage/*.key
