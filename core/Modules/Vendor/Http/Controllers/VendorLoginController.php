@@ -1,15 +1,16 @@
 <?php
 namespace Modules\Vendor\Http\Controllers;
 
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Auth;
-use Modules\Vendor\Entities\BusinessType;
 use Modules\Vendor\Entities\Vendor;
-use Modules\Vendor\Http\Requests\VendorRegistrationRequest;
 use Modules\Wallet\Entities\Wallet;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Modules\Vendor\Entities\BusinessType;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Modules\Vendor\Http\Requests\VendorRegistrationRequest;
 
 class VendorLoginController extends Controller
 {
@@ -81,7 +82,7 @@ class VendorLoginController extends Controller
             'password' => 'required|min:6', // Ensure password is provided
         ]);
 
-                                       // Determine login type (email, phone, or username)
+        // Determine login type (email, phone, or username)
         $user_login_type = 'username'; // Default is username
 
         if (filter_var($req['username'], FILTER_VALIDATE_EMAIL)) {
@@ -96,16 +97,16 @@ class VendorLoginController extends Controller
             Auth::guard('admin')->logout();
 
             return response()->json([
-                'msg'    => __('Login Success Redirecting'),
-                'type'   => 'success',
+                'msg' => __('Login Success Redirecting'),
+                'type' => 'success',
                 'status' => 'ok',
             ]);
         }
 
         // Return error response if login fails
         return response()->json([
-            'msg'    => sprintf(__('Incorrect account details. Please try again!!!!'), ucfirst($user_login_type)),
-            'type'   => 'danger',
+            'msg' => sprintf(__('Incorrect account details. Please try again!!!!'), ucfirst($user_login_type)),
+            'type' => 'danger',
             'status' => 'not_ok',
         ]);
     }
@@ -127,8 +128,9 @@ class VendorLoginController extends Controller
         // store validated data into a temporary variable
         $data = $request->all() ?? $request->validated();
         // now change password value and make it hash
-        $rawPassword      = $data['password'];
-        $data['password'] = \Hash::make($data['password']);
+        $rawPassword = $data['password'];
+        $data['password'] = Hash::make($data['password']);
+        $data['is_verified'] = 0;
 
         // now create vendor
         $vendor = Vendor::create($data);
@@ -136,26 +138,26 @@ class VendorLoginController extends Controller
         if ($vendor) {
             Wallet::create([
                 'user_id',
-                'vendor_id'       => $vendor->id,
-                'balance'         => 0,
+                'vendor_id' => $vendor->id,
+                'balance' => 0,
                 'pending_balance' => 0,
-                'status'          => 0,
+                'status' => 0,
             ]);
         }
 
         // now make login vendor here
         if (Auth::guard('vendor')->attempt(['username' => $vendor['username'], 'password' => $rawPassword], true)) {
             return redirect()->route('vendor.login')->with([
-                'msg'    => $vendor ? __('Registration success') : __('Registration failed'),
+                'msg' => $vendor ? __('Registration success') : __('Registration failed'),
                 'status' => (bool) $vendor,
             ]);
         }
 
         return $vendor ? [
-            'msg'  => __('registration success'),
+            'msg' => __('registration success'),
             'type' => 'success',
         ] : [
-            'msg'  => __('Failed to register'),
+            'msg' => __('Failed to register'),
             'type' => 'error',
         ];
     }
