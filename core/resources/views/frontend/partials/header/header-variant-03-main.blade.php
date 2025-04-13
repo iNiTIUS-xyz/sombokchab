@@ -232,7 +232,7 @@
     <div class="categoryNav">
         <div class="categoryNav__close"><i class="las la-times"></i></div>
         <div class="categoryNav_sidebar">
-            <h3 class="categoryNav__title">{{ __('All Category') }}</h3>
+            <h3 class="categoryNav__title">{{ __('All Categories') }}</h3>
             <div class="categoryNav__inner mt-3">
                 <ul class="categoryNav__list parent_menu menu_visible">
                     {!! render_frontend_menu(get_static_option('megamenu'), 'category_menu') !!}
