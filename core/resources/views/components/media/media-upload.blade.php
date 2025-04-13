@@ -7,7 +7,10 @@
 @if (isset($multiple) && $multiple)
     <div class="dashboard__card mediaUploads__card">
         <div class="dashboard__card__header">
-            <h4 class="dashboard__card__title">{{ $title }}</h4>
+            <h4 class="dashboard__card__title">
+                {{ $title }}
+                <small class="text-info">{{ __('Image size should be 1080 X 1080') }}</small>
+            </h4>
         </div>
         <div class="dashboard__card__body profile-photo-upload">
             <div class="profile-photo-change bg-white mt-4">
@@ -36,9 +39,10 @@
                     data-imgid="{{ $id ?? '' }}">
                     <span class="upload-icon"> <i class="las la-cloud-upload-alt"></i> </span>
                     <h5 class="dashboard-common-title">
-                        {{ __("Click Files to this area to upload") }}
+                        {{ __('Click Files to this area to upload') }}
                     </h5>
-                    <span class="upload-para mt-2"> {{ __("Dimension of the logo image should be 600 x 600px") }} </span>
+                    <span class="upload-para mt-2"> {{ __('Dimension of the logo image should be 600 x 600px') }}
+                    </span>
                 </button>
             </div>
         </div>
@@ -46,7 +50,10 @@
 @else
     <div class="dashboard__card mediaUploads__card">
         <div class="dashboard__card__header">
-            <h4 class="dashboard__card__title">{{ $title }}</h4>
+            <h4 class="dashboard__card__title">
+                {{ $title }}
+                <small class="text-info">({{ __('Image size should be 1080 X 1080') }})</small>
+            </h4>
         </div>
         <div class="dashboard__card__body profile-photo-upload">
             <div class="profile-photo-change bg-white mt-4">
@@ -71,10 +78,10 @@
                         <i class="las la-cloud-upload-alt"></i>
                     </span>
                     <h5 class="dashboard-common-title">
-                        {{ __("Click Files to this area to upload") }}
+                        {{ __('Click Files to this area to upload') }}
                     </h5>
                     <span class="upload-para mt-2">
-                        {{ __("Dimension of the logo image should be 600 x 600px") }}
+                        {{ __('Dimension of the logo image should be 600 x 600px') }}
                     </span>
                 </button>
             </div>
