@@ -2,5 +2,8 @@
 /core/public/storage
 /core/storage
 /core/storage/framework
-/core/storage/framework/logs
+/core/storage/framework/debugbar
+/core/storage/framework/cache
+/core/storage/framework/session
+/core/storage/framework/testing
 /core/storage/*.key
