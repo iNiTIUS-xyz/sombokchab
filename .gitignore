@@ -1,4 +1,6 @@
 /core/vendor
 /core/public/storage
 /core/storage
+/core/storage/framework
+/core/storage/framework/logs
 /storage/*.key
