@@ -45,6 +45,7 @@ class Vendor extends Authenticatable
         "email_verify_token",
         "phone",
         "is_verified",
+        "verified_at",
         "passport_or_nid",
         "commission_type",
         "commission_amount",

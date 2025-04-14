@@ -131,6 +131,7 @@ class VendorLoginController extends Controller
         $rawPassword = $data['password'];
         $data['password'] = Hash::make($data['password']);
         $data['is_verified'] = 0;
+        $data['verified_at'] = null;
 
         // now create vendor
         $vendor = Vendor::create($data);
