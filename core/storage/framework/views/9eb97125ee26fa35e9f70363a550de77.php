@@ -1,3 +1,4 @@
+
 <?php $__env->startSection('site-title'); ?>
     <?php echo e(__('Vendor Create')); ?>
 
@@ -154,15 +155,27 @@
                                     <button type="submit" class="cmn_btn btn_bg_profile"><?php echo e(__('Submit')); ?></button>
                                 </div>
                             </div>
-
                             <div class="tab-content" id="myTabContent">
                                 <div class="tab-pane fade show active" id="basic-info" role="tabpanel"
                                     aria-labelledby="home-tab">
                                     <div class="row g-4 mt-1">
                                         <div class="col-lg-6">
                                             <div class="dashboard__card">
-                                                <h4 class="dashboard__card__title">
-                                                    <?php echo e(__('Basic Info*')); ?> </h4>
+                                                <div class="dashboard__card__header">
+                                                    <h4 class="dashboard__card__title">
+                                                        <?php echo e(__('Basic Info*')); ?>
+
+                                                    </h4>
+                                                    <?php if($vendor->is_vendor_verified && $vendor->verified_at): ?>
+                                                        <p class="text-success">
+                                                            The vandor is verified
+                                                        </p>
+                                                    <?php else: ?>
+                                                        <p class="text-warning">
+                                                            The vandor is not verified.
+                                                        </p>
+                                                    <?php endif; ?>
+                                                </div>
                                                 <div class="dashboard__card__body custom__form mt-4 single-reg-form">
 
                                                     <div class="form-group">
@@ -216,6 +229,22 @@
                                                         <label class="label-title color-light mb-2">
                                                             <?php echo e(__('Description')); ?> </label>
                                                         <textarea name="description" class="form--control form--message radius-10" style="height: 100px"><?php echo e($vendor->description); ?></textarea>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="label-title color-light mb-2">
+                                                            <?php echo e(__('Is Verified')); ?>
+
+                                                        </label>
+                                                        <select name="is_vendor_verified" class="form--control">
+                                                            <option value="1"
+                                                                <?php if($vendor->is_vendor_verified == 1): ?> selected <?php endif; ?>>
+                                                                Yes
+                                                            </option>
+                                                            <option value="0"
+                                                                <?php if($vendor->is_vendor_verified == 0): ?> selected <?php endif; ?>>
+                                                                No
+                                                            </option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -376,7 +405,7 @@
 
                                                         </label>
                                                         <input value="<?php echo e($vendor?->vendor_shop_info?->location); ?>"
-                                                            name="location" type="url"
+                                                            name="location" type="text"
                                                             class="form--control radius-10"
                                                             placeholder="<?php echo e(__('Set Location From Map')); ?>">
                                                     </div>
@@ -401,7 +430,7 @@
                                                         <label class="label-title color-light mb-2">
                                                             <?php echo e(__('Facebook Link')); ?> </label>
                                                         <input value="<?php echo e($vendor?->vendor_shop_info?->facebook_url); ?>"
-                                                            type="url" name="facebook_url"
+                                                            type="text" name="facebook_url"
                                                             class="form--control radius-10"
                                                             placeholder="Type Facebook Link">
                                                     </div>
@@ -411,7 +440,7 @@
 
                                                         </label>
                                                         <input value="<?php echo e($vendor?->vendor_shop_info?->website_url); ?>"
-                                                            type="url" name="website_url"
+                                                            type="text" name="website_url"
                                                             class="form--control radius-10"
                                                             placeholder="<?php echo e(__('Type Website')); ?>">
                                                     </div>

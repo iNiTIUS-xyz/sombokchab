@@ -55,15 +55,26 @@
                                     <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Submit') }}</button>
                                 </div>
                             </div>
-
                             <div class="tab-content" id="myTabContent">
                                 <div class="tab-pane fade show active" id="basic-info" role="tabpanel"
                                     aria-labelledby="home-tab">
                                     <div class="row g-4 mt-1">
                                         <div class="col-lg-6">
                                             <div class="dashboard__card">
-                                                <h4 class="dashboard__card__title">
-                                                    {{ __('Basic Info*') }} </h4>
+                                                <div class="dashboard__card__header">
+                                                    <h4 class="dashboard__card__title">
+                                                        {{ __('Basic Info*') }}
+                                                    </h4>
+                                                    @if ($vendor->is_vendor_verified && $vendor->verified_at)
+                                                        <p class="text-success">
+                                                            The vandor is verified
+                                                        </p>
+                                                    @else
+                                                        <p class="text-warning">
+                                                            The vandor is not verified.
+                                                        </p>
+                                                    @endif
+                                                </div>
                                                 <div class="dashboard__card__body custom__form mt-4 single-reg-form">
 
                                                     <div class="form-group">
@@ -116,6 +127,21 @@
                                                         <label class="label-title color-light mb-2">
                                                             {{ __('Description') }} </label>
                                                         <textarea name="description" class="form--control form--message radius-10" style="height: 100px">{{ $vendor->description }}</textarea>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="label-title color-light mb-2">
+                                                            {{ __('Is Verified') }}
+                                                        </label>
+                                                        <select name="is_vendor_verified" class="form--control">
+                                                            <option value="1"
+                                                                @if ($vendor->is_vendor_verified == 1) selected @endif>
+                                                                Yes
+                                                            </option>
+                                                            <option value="0"
+                                                                @if ($vendor->is_vendor_verified == 0) selected @endif>
+                                                                No
+                                                            </option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -234,7 +260,7 @@
                                                             {{ __('Location') }}
                                                         </label>
                                                         <input value="{{ $vendor?->vendor_shop_info?->location }}"
-                                                            name="location" type="url"
+                                                            name="location" type="text"
                                                             class="form--control radius-10"
                                                             placeholder="{{ __('Set Location From Map') }}">
                                                     </div>
@@ -258,7 +284,7 @@
                                                         <label class="label-title color-light mb-2">
                                                             {{ __('Facebook Link') }} </label>
                                                         <input value="{{ $vendor?->vendor_shop_info?->facebook_url }}"
-                                                            type="url" name="facebook_url"
+                                                            type="text" name="facebook_url"
                                                             class="form--control radius-10"
                                                             placeholder="Type Facebook Link">
                                                     </div>
@@ -267,7 +293,7 @@
                                                             {{ __('Website') }}
                                                         </label>
                                                         <input value="{{ $vendor?->vendor_shop_info?->website_url }}"
-                                                            type="url" name="website_url"
+                                                            type="text" name="website_url"
                                                             class="form--control radius-10"
                                                             placeholder="{{ __('Type Website') }}">
                                                     </div>

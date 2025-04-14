@@ -11,7 +11,8 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('vendors', function (Blueprint $table) {
-            $table->boolean('is_verified')->nullable();
+            $table->boolean('is_vendor_verified')->nullable();
+            $table->dateTime('verified_at')->nullable();
         });
     }
 
@@ -21,7 +22,8 @@ return new class extends Migration {
     public function down(): void
     {
         Schema::table('vendors', function (Blueprint $table) {
-            $table->dropColumn('is_verified');
+            $table->dropColumn('is_vendor_verified');
+            $table->dropColumn('verified_at');
         });
     }
 };

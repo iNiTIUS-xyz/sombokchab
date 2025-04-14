@@ -27,6 +27,7 @@ class UpdateVendorRequest extends FormRequest
             "state_id" => "nullable",
             "city_id" => "nullable",
             "zip_code" => "nullable",
+            "is_vendor_verified" => "nullable",
             "address" => "nullable",
             "location" => "nullable",
             "email" => "nullable",
