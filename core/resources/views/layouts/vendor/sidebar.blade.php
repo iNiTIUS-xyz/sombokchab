@@ -14,7 +14,7 @@
             <div class="dashboard-top-search mt-4">
                 <div class="dashboard__bottom__search dashboard-input">
                     <input class="form--control  w-100" type="text" placeholder="Search here..."
-                           id="search_sidebarList">
+                        id="search_sidebarList">
                 </div>
             </div>
         </div>
@@ -39,7 +39,7 @@
                     </a>
                 </li>
 
-                @if(moduleExists("Chat"))
+                @if (moduleExists('Chat'))
                     {{--        Product Inventory manage        --}}
                     <li class="{{ active_menu('vendor-home/chat') }}">
                         <a href="{{ route('vendor.chat.home') }}">
@@ -98,37 +98,39 @@
                     </a>
                 </li>
 
-                {{-- Product Module Sidebar menu list --}}
-                <li class="main_dropdown @if (request()->is(['vendor-home/product', 'vendor-home/product/*'])) active open @endif">
-                    <a href="#1" aria-expanded="true">
-                        <i class="ti-layout-tab"></i> <span>{{ __('Product Module') }}
-                        </span>
-                    </a>
+                @if (auth('vendor')->user()->is_vendor_verified && auth('vendor')->user()->verified_at)
+                    {{-- Product Module Sidebar menu list --}}
+                    <li class="main_dropdown @if (request()->is(['vendor-home/product', 'vendor-home/product/*'])) active open @endif">
+                        <a href="#1" aria-expanded="true">
+                            <i class="ti-layout-tab"></i> <span>{{ __('Product Module') }}
+                            </span>
+                        </a>
 
-                    <ul class="collapse">
-                        <li class="{{ active_menu('vendor-home/product/all') }}">
-                            <a href="{{ route('vendor.products.all') }}">{{ __('Product List') }}</a>
-                        </li>
+                        <ul class="collapse">
+                            <li class="{{ active_menu('vendor-home/product/all') }}">
+                                <a href="{{ route('vendor.products.all') }}">{{ __('Product List') }}</a>
+                            </li>
 
-                        <li class="{{ active_menu('vendor-home/product/create') }}">
-                            <a href="{{ route('vendor.products.create') }}">{{ __('Create Product') }}</a>
-                        </li>
-                    </ul>
-                </li>
+                            <li class="{{ active_menu('vendor-home/product/create') }}">
+                                <a href="{{ route('vendor.products.create') }}">{{ __('Create Product') }}</a>
+                            </li>
+                        </ul>
+                    </li>
 
-                {{-- Product Module Sidebar menu list --}}
-                <li class="main_dropdown @if (request()->is(['vendor-home/orders', 'vendor-home/orders/*'])) active open @endif">
-                    <a href="#1" aria-expanded="true">
-                        <i class="ti-view-list-alt"></i>
-                        <span>{{ __('Order Module') }}</span>
-                    </a>
+                    {{-- Product Module Sidebar menu list --}}
+                    <li class="main_dropdown @if (request()->is(['vendor-home/orders', 'vendor-home/orders/*'])) active open @endif">
+                        <a href="#1" aria-expanded="true">
+                            <i class="ti-view-list-alt"></i>
+                            <span>{{ __('Order Module') }}</span>
+                        </a>
 
-                    <ul class="collapse">
-                        <li class="{{ active_menu('vendor-home/orders') }}">
-                            <a href="{{ route('vendor.orders.list') }}">{{ __('Order List') }}</a>
-                        </li>
-                    </ul>
-                </li>
+                        <ul class="collapse">
+                            <li class="{{ active_menu('vendor-home/orders') }}">
+                                <a href="{{ route('vendor.orders.list') }}">{{ __('Order List') }}</a>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
 
                 {{-- Campaign route wrapper --}}
                 <li class="{{ active_menu('vendor-home/campaigns') }}">
@@ -139,7 +141,7 @@
                 </li>
 
                 <li
-                        class="main_dropdown {{ active_menu('vendor-home/support-tickets') }} @if (request()->is('vendor-home/support-tickets/*')) active open @endif">
+                    class="main_dropdown {{ active_menu('vendor-home/support-tickets') }} @if (request()->is('vendor-home/support-tickets/*')) active open @endif">
                     <a href="#1" aria-expanded="true">
                         <i class="ti-headphone-alt"></i>
                         <span>{{ __('Support Tickets') }}</span>

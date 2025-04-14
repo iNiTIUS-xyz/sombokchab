@@ -29,64 +29,66 @@ use Modules\Product\Http\Services\Admin\AdminProductServices;
 
 class VendorProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     * @param Request $request
-     * @return Renderable
-     * @throws Exception
-     */
-    public function index(Request $request): Renderable
+    public function index(Request $request)
     {
+
+        if (auth('vendor')->user()->is_vendor_verified == 0 && auth('vendor')->user()->verified_at == null) {
+
+            return redirect()->route('vendor.home')->with([
+                'msg' => __('Vendor not verified yet. Wait for admin approval.'),
+                'type' => 'success'
+            ]);
+        }
+
         $products = AdminProductServices::productSearch($request, queryType: 'vendor');
         $statuses = Status::all();
 
-        return view('product::vendor.index',compact("products","statuses"));
+        return view('product::vendor.index', compact("products", "statuses"));
+
+
     }
 
-    /**
-     * Show the form for creating a new resource.
-     * @return Renderable
-     */
-    public function create(): Renderable
+    public function create()
     {
+        if (auth('vendor')->user()->is_vendor_verified == 0 && auth('vendor')->user()->verified_at == null) {
+
+            return redirect()->route('vendor.home')->with([
+                'msg' => __('Vendor not verified yet. Wait for admin approval.'),
+                'type' => 'success'
+            ]);
+        }
+
         $data = $this->productData();
 
         return view('product::vendor/create', compact('data'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     * @param ProductStoreRequest $request
-     * @return JsonResponse
-     */
 
     public function store(ProductStoreRequest $request): JsonResponse
     {
         $data = $request->validated();
 
-        return response()->json((new AdminProductServices)->store($data) ? ["success" => true,"type" => "success"] : ["success" => false,"type" => "danger"]);
+        return response()->json((new AdminProductServices)->store($data) ? ["success" => true, "type" => "success"] : ["success" => false, "type" => "danger"]);
     }
 
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
     public function show($id)
     {
         return view('product::vendor/show');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function edit(int $id): Renderable
+    public function edit(int $id)
     {
+        if (auth('vendor')->user()->is_vendor_verified == 0 && auth('vendor')->user()->verified_at == null) {
+
+            return redirect()->route('vendor.home')->with([
+                'msg' => __('Vendor not verified yet. Wait for admin approval.'),
+                'type' => 'success'
+            ]);
+        }
+
         $data = $this->productData();
 
-        $product = (new AdminProductServices)->get_edit_product($id,"single");
+        $product = (new AdminProductServices)->get_edit_product($id, "single");
 
         $subCat = $product?->subCategory?->id ?? null;
         $cat = $product?->category?->id ?? null;
@@ -97,19 +99,16 @@ class VendorProductController extends Controller
         return view('product::vendor/edit', compact("data", "product", "sub_categories", "child_categories"));
     }
 
-    /**
-     * Update the specified resource in storage.
-     * @param ProductStoreRequest $request
-     * @param int $id
-     */
+
     public function update(ProductStoreRequest $request, $id)
     {
         $data = $request->validated();
 
-        return response()->json((new AdminProductServices)->update($data, $id) ? ["success" => true,"type" => "success"] : ["success" => false,"type" => "danger"]);
+        return response()->json((new AdminProductServices)->update($data, $id) ? ["success" => true, "type" => "success"] : ["success" => false, "type" => "danger"]);
     }
 
-    public function updateImage(Request $request){
+    public function updateImage(Request $request)
+    {
         $data = $request->validate([
             "image_id" => "nullable",
             "product_gallery" => "nullable",
@@ -122,7 +121,7 @@ class VendorProductController extends Controller
         ]);
 
         // update those value in product table
-        if(!empty(($data["product_gallery"] ?? []) ?? ($data->product_gallery ?? []))){
+        if (!empty(($data["product_gallery"] ?? []) ?? ($data->product_gallery ?? []))) {
             ProductGallery::where("product_id", $data['product_id'])->delete();
 
             ProductGallery::insert((new AdminProductServices)->prepareProductGalleryData($data, $data['product_id']));
@@ -141,7 +140,7 @@ class VendorProductController extends Controller
 
     private function validateUpdateStatus($req): array
     {
-        return Validator::make($req,[
+        return Validator::make($req, [
             "id" => "required",
             "status_id" => "required"
         ])->validated();
@@ -151,14 +150,9 @@ class VendorProductController extends Controller
     {
         $data = $this->validateUpdateStatus($request->all());
 
-        return (new AdminProductServices)->updateStatus($data["id"],$data["status_id"]);
+        return (new AdminProductServices)->updateStatus($data["id"], $data["status_id"]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return bool
-     */
     public function destroy($id)
     {
         return (new AdminProductServices)->delete($id);
@@ -166,13 +160,13 @@ class VendorProductController extends Controller
 
     public function bulk_destroy(Request $request): JsonResponse
     {
-        return response()->json((new AdminProductServices)->bulk_delete_action($request->ids) ? ["success" => true,"type" => "success"] : ["success" => false,"type" => "danger"]);
+        return response()->json((new AdminProductServices)->bulk_delete_action($request->ids) ? ["success" => true, "type" => "success"] : ["success" => false, "type" => "danger"]);
     }
 
     public function trash(): Renderable
     {
-        $products = Product::with('category','subCategory', 'childCategory','brand','inventory')->onlyTrashed()->get();
-        return view('product::vendor/trash',compact("products"));
+        $products = Product::with('category', 'subCategory', 'childCategory', 'brand', 'inventory')->onlyTrashed()->get();
+        return view('product::vendor/trash', compact("products"));
     }
 
     public function restore($id)
@@ -188,13 +182,13 @@ class VendorProductController extends Controller
 
     public function trash_bulk_destroy(Request $request)
     {
-        return response()->json((new AdminProductServices)->trash_bulk_delete_action($request->ids) ? ["success" => true,"type" => "success"] : ["success" => false,"type" => "danger"]);
+        return response()->json((new AdminProductServices)->trash_bulk_delete_action($request->ids) ? ["success" => true, "type" => "success"] : ["success" => false, "type" => "danger"]);
     }
 
     public function trash_empty(Request $request)
     {
         $ids = explode('|', $request->ids);
-        return response()->json((new AdminProductServices)->trash_bulk_delete_action($ids) ? ["success" => true,"type" => "success"] : ["success" => false,"type" => "danger"]);
+        return response()->json((new AdminProductServices)->trash_bulk_delete_action($ids) ? ["success" => true, "type" => "success"] : ["success" => false, "type" => "danger"]);
     }
 
     public function productSearch(Request $request): string
@@ -202,14 +196,14 @@ class VendorProductController extends Controller
         $products = AdminProductServices::productSearch($request, queryType: 'vendor');
         $statuses = Status::all();
 
-        return view('product::vendor/search',compact("products","statuses"))->render();
+        return view('product::vendor/search', compact("products", "statuses"))->render();
     }
 
     public function productData(): array
     {
         return [
             "brands" => Brand::select("id", "name")->get(),
-            "badges" => Badge::where("status","active")->get(),
+            "badges" => Badge::where("status", "active")->get(),
             "units" => Unit::select("id", "name")->get(),
             "tags" => Tag::select("id", "tag_text as name")->get(),
             "categories" => Category::select("id", "name")->get(),

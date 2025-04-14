@@ -9,6 +9,12 @@
                             <h2 class="heading-two fw-500 mt-2"> Welcome, Happy Hour </h2>
                             <h2 class="mt-2 fw-500">&nbsp;- <?php echo e(auth('vendor')->user()->owner_name); ?></h2>
                         </div>
+
+                        <?php if(auth('vendor')->user()->is_vendor_verified && auth('vendor')->user()->verified_at): ?>
+                            <p class="text-success"><?php echo e(__('Verified Vendor')); ?></p>
+                        <?php else: ?>
+                            <p class="text-warning"><?php echo e(__('Not Verified Yet')); ?></p>
+                        <?php endif; ?>
                     </div>
                     <div class="dashboard-right-flex">
                         <div class="author-flex-contents">
@@ -41,9 +47,7 @@
                             <div class="author-thumb-contents">
                                 <div class="author-thumb">
                                     <?php
-                                        $vendor = auth()
-                                            ->guard('vendor')
-                                            ->user();
+                                        $vendor = auth()->guard('vendor')->user();
                                         $profile_img = get_attachment_image_by_id($vendor->image, null, true);
                                     ?>
                                     <?php if(!empty($profile_img)): ?>
