@@ -113,7 +113,7 @@
                 <li class="list">
                     <a href="<?php echo e(route('user.logout')); ?>"
                        onclick="event.preventDefault();document.getElementById('menu_logout_submit_btn').dispatchEvent(new MouseEvent('click'));">
-                        <?php echo e(__('Logout')); ?>
+                        <?php echo e(__('Sign out')); ?>
 
                     </a>
                     <form action="<?php echo e(route('user.logout')); ?>" method="POST"

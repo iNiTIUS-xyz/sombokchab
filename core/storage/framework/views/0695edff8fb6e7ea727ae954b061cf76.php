@@ -60,7 +60,7 @@
                                     <li class="list"><a
                                             href="<?php echo e(route('vendor.password.change')); ?>"><?php echo e(__('Password Change')); ?></a>
                                     </li>
-                                    <li class="list"><a href="<?php echo e(route('vendor.logout')); ?>"><?php echo e(__('Logout')); ?></a>
+                                    <li class="list"><a href="<?php echo e(route('vendor.logout')); ?>"><?php echo e(__('Sign Out')); ?></a>
                                     </li>
                                 </ul>
                             </div>

@@ -1,6 +1,6 @@
 @extends('vendor.vendor-master')
 @section('site-title')
-    {{ __('All Campaign') }}
+    {{ __('All Campaigns') }}
 @endsection
 @section('style')
     <x-datatable.css />
@@ -14,7 +14,7 @@
                 <x-msg.flash />
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('All Campaign') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('All Campaigns') }}</h4>
                         <div class="dashboard__card__header__right">
                             {{--                        @can('campaign-delete') --}}
                             <x-bulk-action.dropdown />

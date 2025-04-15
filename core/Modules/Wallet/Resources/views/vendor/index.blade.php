@@ -13,7 +13,7 @@
                 <x-msg.flash />
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Your wallet page') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('Your Wallet') }}</h4>
                         @if ($current_balance >= get_static_option('minimum_withdraw_amount'))
                             <div class="btn-wrapper">
                                 <a href="{{ route('vendor.wallet.withdraw') }}" id="withdraw-button"
@@ -102,9 +102,9 @@
                         <div class="dashboard__card__header__left">
                             <h2 class="dashboard__card__title">
                                 {{ __('Yearly Income Statement') }}</h2>
-                            <h3 class="dashboard-earning-price mt-2">
+                            {{-- <h3 class="dashboard-earning-price mt-2">
                                 {{ float_amount_with_currency_symbol(array_sum($yearly_income_statement->toArray())) }}
-                            </h3>
+                            </h3> --}}
                         </div>
                         <span class="seller-title-right chart-icon radius-5"> <i class="las la-chart-bar"></i> </span>
                     </div>
@@ -122,9 +122,9 @@
                         <div class="dashboard__card__header__left">
                             <span class="dashboard__card__title dashboard-week-earning"> {{ __('This Week Earnings') }}
                             </span>
-                            <h3 class="dashboard-earning-price mt-2">
+                            {{-- <h3 class="dashboard-earning-price mt-2">
                                 {{ float_amount_with_currency_symbol(array_sum($weekly_statement->toArray())) }}
-                            </h3>
+                            </h3> --}}
                         </div>
 
                     </div>
@@ -147,13 +147,13 @@
         $weekName = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
         $weekArray = [0, 0, 0, 0, 0, 0, 0];
         
-        foreach ($yearly_income_statement as $month => $value) {
-            $monthArray[array_search($month, $monthName, true)] = (float) $value;
-        }
+        // foreach ($yearly_income_statement as $month => $value) {
+        //     $monthArray[array_search($month, $monthName, true)] = (float) $value;
+        // }
         
-        foreach ($weekly_statement as $week => $value) {
-            $weekArray[array_search($week, $weekName, true)] = (float) $value;
-        }
+        // foreach ($weekly_statement as $week => $value) {
+        //     $weekArray[array_search($week, $weekName, true)] = (float) $value;
+        // }
     @endphp
     <script>
         new Chart(document.getElementById("bar-chart"), {

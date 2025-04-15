@@ -1,3 +1,4 @@
+
 <?php $__env->startSection('page-meta-data'); ?>
     <meta name="description" content="<?php echo e($page_post->meta_description); ?>">
     <meta name="tags" content="<?php echo e($page_post->meta_tags); ?>">

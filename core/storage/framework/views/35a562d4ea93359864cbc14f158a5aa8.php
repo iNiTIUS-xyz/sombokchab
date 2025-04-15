@@ -137,7 +137,7 @@
                                         
                                         <li class="">
                                             <a href="<?php echo e(route('vendor.login')); ?>">
-                                                <?php echo e(__('Vendor Login')); ?>
+                                                <?php echo e(__('Vendor Sign in')); ?>
 
                                             </a>
                                         </li>
@@ -230,7 +230,7 @@
                                         
                                         <li class="">
                                             <a href="<?php echo e(route('vendor.login')); ?>">
-                                                <?php echo e(__('Vendor Login')); ?>
+                                                <?php echo e(__('Vendor Sign in')); ?>
 
                                             </a>
                                         </li>

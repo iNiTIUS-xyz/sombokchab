@@ -1,3 +1,5 @@
+
+
 <?php $__env->startSection('page-title', __('Vendor Page')); ?>
 <?php $__env->startSection('title', __('Vendor Page')); ?>
 
@@ -553,7 +555,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
-                        <div class="vendor-superMarket">
+                        <div class="vendor-superMarket" style="margin-top: 45px">
                             <div class="vendor-superMarket-flex">
                                 <div class="vendor-superMarket-contents">
                                     <h4 class="vendor-superMarket-title"><?php echo e($vendor->business_name); ?></h4>
@@ -818,7 +820,7 @@
                                             <div><span class="counter-minutes"></span> m</div>
                                             <div><span class="counter-seconds"></span> s</div>
                                         </div>
-                                        <h4 class="common-title-two mt-3"> <a href="#1"> <?php echo e($campaign->title); ?> </a>
+                                        <h4 class="common-title-two mt-3"> <a href="<?php echo e(route('frontend.products.campaign', $campaign->slug)); ?>"> <?php echo e($campaign->title); ?> </a>
                                         </h4>
                                         <p class="common-para mt-1">
                                             <?php echo e($campaign->subtitle); ?>

@@ -8,7 +8,7 @@ $taxClasses = $taxClasses ?? [];
 
 <div class="general-info-wrapper dashboard__card">
     <div class="dashboard__card__header">
-        <h4 class="dashboard__card__title"> <?php echo e(__('Price Manage')); ?> </h4>
+        <h4 class="dashboard__card__title"> <?php echo e(__('Manage Price')); ?> </h4>
     </div>
     <div class="general-info-form dashboard__card__body custom__form">
         <div class="row g-3 mt-2">

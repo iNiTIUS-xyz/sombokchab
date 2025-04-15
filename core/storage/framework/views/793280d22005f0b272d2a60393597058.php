@@ -1,5 +1,6 @@
+
 <?php $__env->startSection('site-title'); ?>
-    <?php echo e(__('All Campaign')); ?>
+    <?php echo e(__('All Campaigns')); ?>
 
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('style'); ?>
@@ -90,7 +91,7 @@
 <?php endif; ?>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title"><?php echo e(__('All Campaign')); ?></h4>
+                        <h4 class="dashboard__card__title"><?php echo e(__('All Campaigns')); ?></h4>
                         <div class="dashboard__card__header__right">
                             
                             <?php if (isset($component)) { $__componentOriginal66c712c34c984896b01ed8a6324aa4c2 = $component; } ?>

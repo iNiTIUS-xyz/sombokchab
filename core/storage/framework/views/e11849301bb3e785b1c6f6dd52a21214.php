@@ -6,7 +6,7 @@
 <div class="dashboard__card mt-4">
     <div class="dashboard__card__header">
         <div class="dashboard__card__header__left">
-            <h5 class="dashboard__card__title"><?php echo e(__('Custom Inventory variant')); ?></h5>
+            <h5 class="dashboard__card__title"><?php echo e(__('Custom Inventory Variant')); ?></h5>
             <p class="dashboard__card__para mt-3">
                 <?php echo e(__('Inventory will be variant of this product.')); ?>
 

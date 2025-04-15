@@ -13,7 +13,7 @@
                 <x-msg.flash />
                 <div class="dashboard__card">
                     <div class="cdashboard__card__header">
-                        <h2 class="dashboard__card__title">{{ __('Vendor withdraw gateway settings') }}</h2>
+                        <h2 class="dashboard__card__title">{{ __('Vendor Withdraw Gateway Settings') }}</h2>
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
                         <form method="post" action="{{ route('vendor.wallet.withdraw.gateway.update') }}"
@@ -21,9 +21,9 @@
                             @csrf
                             @method('PUT')
                             <div class="form-group">
-                                <label>{{ __('Select an gateway') }}</label>
+                                <label>{{ __('Select a gateway') }}</label>
                                 <select name="gateway_name" class="form-control gateway-name">
-                                    <option value="">{{ __('Select an gateway') }}</option>
+                                    <option value="">{{ __('Select a gateway') }}</option>
                                     @foreach ($adminGateways as $gateway)
                                         <option
                                             {{ $savedGateway?->vendor_wallet_gateway_id === $gateway->id ? 'selected' : '' }}

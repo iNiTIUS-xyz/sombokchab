@@ -37,7 +37,7 @@
                     data-imgid="<?php echo e($id ?? ''); ?>">
                     <span class="upload-icon"> <i class="las la-cloud-upload-alt"></i> </span>
                     <h5 class="dashboard-common-title">
-                        <?php echo e(__("Click Files to this area to upload")); ?>
+                        <?php echo e(__("Select Files to Upload Image")); ?>
 
                     </h5>
                     <span class="upload-para mt-2"> <?php echo e(__("Dimension of the logo image should be 600 x 600px")); ?> </span>
@@ -74,7 +74,7 @@
                         <i class="las la-cloud-upload-alt"></i>
                     </span>
                     <h5 class="dashboard-common-title">
-                        <?php echo e(__("Click Files to this area to upload")); ?>
+                        <?php echo e(__("Select Files to Upload Image")); ?>
 
                     </h5>
                     <span class="upload-para mt-2">

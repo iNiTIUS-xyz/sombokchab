@@ -1,3 +1,4 @@
+
 <?php $__env->startSection('site-title'); ?>
     <?php echo e(__('Dashboard')); ?>
 
@@ -261,10 +262,7 @@
                     <div class="dashboard__card__header">
                         <div class="dashboard__card__header__left">
                             <h2 class="dashboard__card__title"> <?php echo e(__('Yearly Income Statement')); ?></h2>
-                            <h3 class="dashboard-earning-price mt-3">
-                                <?php echo e(float_amount_with_currency_symbol(array_sum($yearly_income_statement->toArray()))); ?>
-
-                            </h3>
+                            
                         </div>
                         <span class="seller-title-right chart-icon radius-5"> <i class="las la-chart-bar"></i> </span>
                     </div>
@@ -281,8 +279,7 @@
                     <div class="dashboard__card__header d-block text-center">
                         <div class="dashboard__card__header__left">
                             <span class="dashboard__card__title"> <?php echo e(__('This Week Earnings')); ?> </span>
-                            <h3 class="dashboard-earning-price mt-3">
-                                <?php echo e(float_amount_with_currency_symbol(array_sum($weekly_statement->toArray()))); ?> </h3>
+                            
                         </div>
                     </div>
                     <div class="dashboard__card__body mt-4">
@@ -368,13 +365,13 @@
         $weekName = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
         $weekArray = [0, 0, 0, 0, 0, 0, 0];
         
-        foreach ($yearly_income_statement as $month => $value) {
-            $monthArray[array_search($month, $monthName, true)] = (float) $value;
-        }
+        // foreach ($yearly_income_statement as $month => $value) {
+        //     $monthArray[array_search($month, $monthName, true)] = (float) $value;
+        // }
         
-        foreach ($weekly_statement as $week => $value) {
-            $weekArray[array_search($week, $weekName, true)] = (float) $value;
-        }
+        // foreach ($weekly_statement as $week => $value) {
+        //     $weekArray[array_search($week, $weekName, true)] = (float) $value;
+        // }
     ?>
     <script>
         new Chart(document.getElementById("bar-chart"), {
