@@ -41,6 +41,7 @@ class VendorProductController extends Controller
         }
 
         $products = AdminProductServices::productSearch($request, queryType: 'vendor');
+
         $statuses = Status::all();
 
         return view('product::vendor.index', compact("products", "statuses"));

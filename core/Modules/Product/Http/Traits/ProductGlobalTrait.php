@@ -630,7 +630,6 @@ trait ProductGlobalTrait
                     'subCategory',
                     'childCategory',
                     'campaign_product' => function ($query) {
-                        // call a function for campaign this function will add condition to this table
                         $query = productCampaignConditionWith($query);
                     },
                     'inventoryDetail' => function ($query) {
@@ -652,12 +651,26 @@ trait ProductGlobalTrait
                 });
         } else if ($queryType == 'vendor') {
             $all_products = Product::query()
-                ->select("id", 'slug', "name", "status_id", "image_id", "brand_id")
-                ->with("brand:id,name", "inventory:id,stock_count,product_id", "status:id,name", "category", "subCategory", "childCategory", "brand")->without("badge", "uom");
+                ->select([
+                    "id",
+                    'slug',
+                    "name",
+                    "status_id",
+                    "image_id",
+                    "brand_id",
+                    "product_status"
+                ])
+                ->with([
+                    "brand:id,name",
+                    "inventory:id,stock_count,product_id",
+                    "status:id,name",
+                    "category",
+                    "subCategory",
+                    "childCategory",
+                    "brand"
+                ])
+                ->without("badge", "uom");
         }
-
-        // first, I need to check who is currently want to take data
-        // run a condition that will check if vendor is currently login then only vendor product will return
 
         // search product name
         $all_products->when(\Auth::guard("vendor")->check(), function ($query) use ($request) {
