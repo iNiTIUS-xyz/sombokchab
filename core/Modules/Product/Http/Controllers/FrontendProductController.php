@@ -196,72 +196,12 @@ class FrontendProductController extends Controller
         $inventoryDetails = optional($product->inventoryDetail);
         $product_inventory_attributes = $inventoryDetails->toArray();
 
-        /* *
-         * ========================================================
-         * Example of $product_inventory_attributes
-         *
-         * array:2 [▼
-         *     0 => array:15 [▼
-         *       'id" => 9
-         *       "inventory_id" => 54
-         *       "product_id" => 48
-         *       "color" => "2"
-         *       "size" => "1"
-         *       "hash" => null
-         *       "additional_price" => 971.0
-         *       "image" => "382"
-         *       "stock_count" => 92
-         *       "sold_count" => 0
-         *       "product_color" => array:6 [▼
-         *             "id" => 2
-         *             "name" => "Dark Green"
-         *             "color_code" => "#08781a"
-         *             "slug" => "dark-green"
-         *             "created_at" => "2022-03-03T11:05:51.000000Z"
-         *             "updated_at" => "2022-03-03T11:06:15.000000Z"
-         *         ]
-         *         "product_size" => array:6 [▼
-         *             "id" => 1
-         *             "name" => "Exatra Small"
-         *             "size_code" => "xs"
-         *             "slug" => "extra-small"
-         *         ]
-         *         "included_attributes" => array:3 [▼
-         *             0 => array:7 [▼
-         *                   "id" => 16
-         *                   "product_id" => 48
-         *                   "inventory_details_id" => 9
-         *                   "attribute_name" => "Cheese"
-         *                   "attribute_value" => "chereme"
-         *             ]
-         *         ]
-         *      ]
-         *   ]
-         * ========================================================
-         * */
 
         $all_included_attributes = array_filter(array_column($product_inventory_attributes, 'attribute', 'id'));
         $all_included_attributes_prd_id = array_keys($all_included_attributes);
 
-        /* *
-         * ========================================================
-         * Example of $all_included_attributes
-         *
-         * array:2 [▼
-         *     9 => array:3 [▼
-         *       0 => array:7 [▼
-         *         "id" => 16
-         *         "product_id" => 48
-         *         "inventory_details_id" => 9
-         *         "attribute_name" => "Cheese"
-         *         "attribute_value" => "cream"
-         *         "created_at" => "2022-03-15T07:44:52.000000Z"
-         *         "updated_at" => "2022-03-15T07:44:52.000000Z"
-         *       ]
-         *     ]
-         *   ]
-         * ========================================================
-         * */
+
+
 
         $available_attributes = [];  // FRONTEND : All displaying attributes
         $product_inventory_set = []; // FRONTEND : attribute_store
@@ -270,28 +210,13 @@ class FrontendProductController extends Controller
         foreach ($all_included_attributes as $id => $included_attributes) {
             $single_inventory_item = [];
             foreach ($included_attributes as $included_attribute_single) {
-                /**
-                 * Example: (Only data representation, not in code)
-                 *      selected_attributes = [
-                 *          'Cheese' => ['Mozzarella', 'Cheddar', 'Parmesan'],
-                 *          'Sauce' => ['Hot', 'Taco', 'Fish', 'Soy', 'Tartar']
-                 *      ];
-                 */
+
                 $available_attributes[$included_attribute_single['attribute_name']][$included_attribute_single['attribute_value']] = 1;
 
                 // individual inventory item
                 $single_inventory_item[$included_attribute_single['attribute_name']] = $included_attribute_single['attribute_value'];
-                /* *
-                 * ========================================================
-                 * Example of $available_attributes
-                 *
-                 * array:3 [▼
-                 *     "Cheese" => "cream"
-                 *     "Color" => "Green"
-                 *     "Size" => "M"
-                 *   ]
-                 * ========================================================
-                 * */
+
+
 
                 if (optional($inventoryDetails->find($id))->productColor) {
                     $single_inventory_item['Color'] = optional(optional($inventoryDetails->find($id))->productColor)->name;
@@ -364,17 +289,8 @@ class FrontendProductController extends Controller
         }
 
         $available_attributes = array_map(fn($i) => array_keys($i), $available_attributes);
-        /* *
-         * ========================================================
-         * Example of $available_attributes
-         * [
-         *      "Cheese" => ["cream"],
-         *      "Color" => ["Green"],
-         *      "Size" => ["M", "L"]
-         * ]
-         * ========================================================
-         * */
-        // related products
+
+
         $product_category = $product?->category?->id;
         $product_id = $product->id;
         $related_products = Product::query()
@@ -758,9 +674,6 @@ class FrontendProductController extends Controller
         ]);
     }
 
-    /** ======================================================================
-     *                  CART FUNCTIONS
-     * ======================================================================*/
     public function cartPage(Request $request)
     {
         return view('frontend.cart.all');
@@ -771,9 +684,6 @@ class FrontendProductController extends Controller
         return $request->all();
     }
 
-    /**
-     * @throws \Throwable
-     */
     public function moveToWishlist(Request $request)
     {
         if (!Auth::guard("web")->check()) {
@@ -819,9 +729,6 @@ class FrontendProductController extends Controller
         }
     }
 
-    /**
-     * @throws \Throwable
-     */
     public function moveToCart(Request $request)
     {
         $username = Auth::guard("web")->user()->id;
@@ -845,25 +752,16 @@ class FrontendProductController extends Controller
         ]);
     }
 
-    /** ======================================================================
-     *                  WISHLIST FUNCTIONS
-     * ======================================================================*/
     public function wishlistPage(Request $request)
     {
         return view('frontend.wishlist.all');
     }
 
-    /** ======================================================================
-     *                  COMPARE FUNCTIONS
-     * ======================================================================*/
     public function productsComparePage(Request $request)
     {
         return view('frontend.compare.all');
     }
 
-    /** ======================================================================
-     *                  PRODUCTS FILTER FUNCTIONS
-     * ======================================================================*/
     public function topRatedProducts()
     {
         $products = Product::where('status', 'publish')
@@ -961,9 +859,6 @@ class FrontendProductController extends Controller
         return view('frontend.payment.payment-cancel');
     }
 
-    /** ======================================================================
-     *                  ORDER TRACKING PAGE
-     * ======================================================================*/
     public function trackOrderPage()
     {
         return view('frontend.pages.track-order');
@@ -982,9 +877,6 @@ class FrontendProductController extends Controller
 
     }
 
-    /** ======================================================================
-     *                  AJAX SEARCH FUNCTION
-     * ======================================================================*/
     public function search(Request $request)
     {
         $request->validate([
@@ -996,6 +888,7 @@ class FrontendProductController extends Controller
         $product_data = [];
 
         $all_products = ApiProductServices::productSearch($request, "frontend.ajax", "frontend");
+
         $products = $all_products["items"];
         unset($all_products["items"]);
         $additional = $all_products;

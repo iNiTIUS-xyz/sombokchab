@@ -672,6 +672,11 @@ trait ProductGlobalTrait
                 ->without("badge", "uom");
         }
 
+        $all_products->when($request->search_category_id != 'all' && $request->search_category_id, function ($q) use ($request) {
+            $q->whereHas("category", function ($q) use ($request) {
+                $q->where("categories.id", $request->search_category_id);
+            });
+        });
         // search product name
         $all_products->when(\Auth::guard("vendor")->check(), function ($query) use ($request) {
             $query->where("vendor_id", \Auth::guard("vendor")->id());

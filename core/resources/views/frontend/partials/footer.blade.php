@@ -6,11 +6,12 @@
         <!-- footer area start -->
         <footer data-footer-variant="{{ $navbar_type }}" @class([
             'footer-area',
-            'white-color footer-four homeFour-bg' => $navbar_type == 2 || $navbar_type == 3,
+            'white-color footer-four homeFour-bg' =>
+                $navbar_type == 2 || $navbar_type == 3,
             'footer-bg footer-color-two margin-top-50' => $navbar_type == 1,
         ])>
             <div class="container container_1608">
-            {{-- <div @class([
+                {{-- <div @class([
                 'container' => $navbar_type == 3,
                 'container-one' => $navbar_type == 1,
                 'container container_1608' => $navbar_type == 2,
@@ -77,8 +78,10 @@
                     <li><a target="_blank" href="https://xgenious.com/docs/grenmart-organic-grocery-laravel-ecommerce/"
                             data-container="body" data-bs-toggle="popover" data-placement="left"
                             data-content="{{ __('Documentation') }}"><i class="lar la-file-alt"></i></a></li>
-                    <li><a target="_blank" href="https://1.envato.market/kj2GdL"><i class="las la-shopping-cart"></i></a></li>
-                    <li><a target="_blank" href="https://xgenious51.freshdesk.com/"><i class="las la-headset"></i></a></li>
+                    <li><a target="_blank" href="https://1.envato.market/kj2GdL"><i
+                                class="las la-shopping-cart"></i></a></li>
+                    <li><a target="_blank" href="https://xgenious51.freshdesk.com/"><i class="las la-headset"></i></a>
+                    </li>
                 </ul>
             </div>
         @endif
@@ -115,17 +118,20 @@
                 }, 'google_translate_element');
             }
         </script>
-        
-    
-        <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script> 
+
+
+        <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
+        </script>
         <style type="text/css">
             .skiptranslate iframe {
                 display: none !important;
             }
-            .goog-te-gadget-simple{
+
+            .goog-te-gadget-simple {
                 background: transparent !important;
                 border: none !important;
             }
+
             body {
                 top: 0 !important;
             }
@@ -150,7 +156,7 @@
                 }
             });
 
-            $(document).ready(function (){
+            $(document).ready(function() {
                 // make hide all logo available
                 $(".footer-logo-wrapper").addClass('d-none');
                 // first need to get footer
@@ -158,9 +164,9 @@
                 // now get footer variant
                 let variant = footer.attr('data-footer-variant');
                 // check variant and enable logo
-                if(variant == 3 || variant == 2){
+                if (variant == 3 || variant == 2) {
                     $('.logo-style-two').removeClass("d-none");
-                }else{
+                } else {
                     $('.logo-style-one').removeClass("d-none");
                 }
             });
@@ -182,7 +188,7 @@
                 }
             });
 
-            $(document).on('submit', '.subscribe-form form', function (e) {
+            $(document).on('submit', '.subscribe-form form', function(e) {
                 e.preventDefault();
 
                 const email = $(this).find('input[type="email"]');
@@ -204,15 +210,18 @@
                         _token: "{{ csrf_token() }}",
                         email: email.val()
                     },
-                    success: function (data) {
+                    success: function(data) {
                         email.val('')
-                        errrContaner.html('<div class="alert alert-' + data.type + '">' + data.msg + '</div>');
-                        el.find('i').addClass(paperIcon).addClass('lar').removeClass(spinnerIcon).removeClass('las');
+                        errrContaner.html('<div class="alert alert-' + data.type + '">' + data.msg +
+                            '</div>');
+                        el.find('i').addClass(paperIcon).addClass('lar').removeClass(spinnerIcon)
+                            .removeClass('las');
                         $(this).find("button").removeAttr('disabled');
                     },
-                    error: function (data) {
+                    error: function(data) {
                         email.val('')
-                        el.find('i').addClass(paperIcon).addClass('lar').removeClass(spinnerIcon).removeClass('las');
+                        el.find('i').addClass(paperIcon).addClass('lar').removeClass(spinnerIcon)
+                            .removeClass('las');
                         const errors = data.responseJSON.errors;
                         errrContaner.html('<div class="alert alert-danger">' + errors.email[0] + '</div>');
                         $(this).find("button").removeAttr('disabled');
@@ -220,7 +229,7 @@
                 });
             });
 
-            $(document).on('submit', '.custom-form-builder-form', function (e) {
+            $(document).on('submit', '.custom-form-builder-form', function(e) {
                 e.preventDefault();
                 const btn = $(this).find('button[type="submit"]');
                 let btnOldText = btn.text();
@@ -232,30 +241,31 @@
                 msgContainer.html('');
 
                 $.ajax({
-                    url: "{{ route("frontend.form.builder.custom.submit") }}",
+                    url: "{{ route('frontend.form.builder.custom.submit') }}",
                     type: "POST",
                     headers: {
-                        'X-CSRF-TOKEN': "{{csrf_token()}}",
+                        'X-CSRF-TOKEN': "{{ csrf_token() }}",
                     },
-                    beforeSend:function (){
-                        btn.html(`<i class="las la-spinner la-spin mr-1"></i> {{__('Submitting..')}}`);
+                    beforeSend: function() {
+                        btn.html(`<i class="las la-spinner la-spin mr-1"></i> {{ __('Submitting..') }}`);
                     },
                     processData: false,
                     contentType: false,
-                    data:formData,
-                    success: function (data) {
+                    data: formData,
+                    success: function(data) {
                         form.find('.ajax-loading-wrap').removeClass('show').addClass('hide');
-                        msgContainer.html('<div class="alert alert-'+data.type+'">' + data.msg + '</div>');
+                        msgContainer.html('<div class="alert alert-' + data.type + '">' + data.msg +
+                            '</div>');
                         btn.text(btnOldText);
                         form.trigger("reset");
 
                     },
-                    error: function (data) {
+                    error: function(data) {
                         form.find('.ajax-loading-wrap').removeClass('show').addClass('hide');
                         var errors = data.responseJSON.errors;
                         var markup = '<ul class="alert alert-danger">';
-                        $.each(errors,function (index,value){
-                            markup += '<li>'+value+'</li>';
+                        $.each(errors, function(index, value) {
+                            markup += '<li>' + value + '</li>';
                         })
                         markup += '</ul>';
                         msgContainer.html(markup);
@@ -392,22 +402,25 @@
             }
 
             function amount_with_currency_symbol(amount) {
-                let decimal_point_yes="{{get_static_option('enable_disable_decimal_point')}}"
+                let decimal_point_yes = "{{ get_static_option('enable_disable_decimal_point') }}"
 
                 let symbol = "{{ site_currency_symbol() }}";
                 let position = "{{ get_static_option('site_currency_symbol_position') }}";
-                let amount_format_by="{{get_static_option('amount_format_by')}}"
-                let comman_format="{{get_static_option('add_remove_comman_form_amount')}}" === 'yes';
+                let amount_format_by = "{{ get_static_option('amount_format_by') }}"
+                let comman_format = "{{ get_static_option('add_remove_comman_form_amount') }}" === 'yes';
 
-                let sptr=null;
-                if( amount_format_by===','){
+                let sptr = null;
+                if (amount_format_by === ',') {
                     sptr = 'en-US';
                 }
-                if( amount_format_by==='.'){
+                if (amount_format_by === '.') {
                     sptr = 'de-DE';
                 }
 
-                amount= comman_format ? (parseFloat(parseFloat(amount).toFixed(2))).toLocaleString(sptr,(decimal_point_yes==='yes' ? { minimumFractionDigits: 2 } : {})) : amount.replace('.',(amount_format_by===',' ? '.' : ',')) ;
+                amount = comman_format ? (parseFloat(parseFloat(amount).toFixed(2))).toLocaleString(sptr, (decimal_point_yes ===
+                    'yes' ? {
+                        minimumFractionDigits: 2
+                    } : {})) : amount.replace('.', (amount_format_by === ',' ? '.' : ','));
                 let return_val = symbol + amount;
                 if (position == 'right') {
                     return_val = amount + symbol;
@@ -457,9 +470,9 @@
                         _token: '{{ csrf_token() }}'
                     },
                     success: function(data) {
-                        if(data.type ?? false){
+                        if (data.type ?? false) {
                             toastr[data.type](data.msg);
-                        }else{
+                        } else {
                             toastr.success(data.msg);
                         }
 
@@ -510,14 +523,14 @@
                         _token: '{{ csrf_token() }}'
                     },
                     success: function(data) {
-                        if(data.type ?? false){
+                        if (data.type ?? false) {
                             if (data.quantity_msg) {
                                 toastr.warning(data.quantity_msg)
                                 return;
-                            }else{
+                            } else {
                                 toastr[data.type](data.msg);
                             }
-                        }else{
+                        } else {
                             toastr.success(data.msg);
                         }
 
@@ -552,14 +565,14 @@
                         _token: '{{ csrf_token() }}'
                     },
                     success: function(data) {
-                        if(data.type ?? false){
+                        if (data.type ?? false) {
                             if (data.quantity_msg) {
                                 toastr.warning(data.quantity_msg)
                                 return;
-                            }else{
+                            } else {
                                 toastr[data.type](data.msg);
                             }
-                        }else{
+                        } else {
                             toastr.success(data.msg);
                         }
                         loadHeaderCardAndWishlistArea(data);
@@ -787,9 +800,9 @@
                             _token: '{{ csrf_token() }}'
                         },
                         success: function(data) {
-                            if(data.type ?? false){
+                            if (data.type ?? false) {
                                 toastr[data.type](data.msg);
-                            }else{
+                            } else {
                                 toastr.success(data.msg);
                             }
 
@@ -842,9 +855,9 @@
                             _token: '{{ csrf_token() }}'
                         },
                         success: function(data) {
-                            if(data.type ?? false){
+                            if (data.type ?? false) {
                                 toastr[data.type](data.msg);
-                            }else{
+                            } else {
                                 toastr.success(data.msg);
                             }
 
@@ -888,9 +901,9 @@
                         _token: '{{ csrf_token() }}'
                     },
                     success: function(data) {
-                        if(data.type ?? false){
+                        if (data.type ?? false) {
                             toastr[data.type](data.msg);
-                        }else{
+                        } else {
                             toastr.success(data.msg);
                         }
 
@@ -944,9 +957,9 @@
                             _token: '{{ csrf_token() }}'
                         },
                         success: function(data) {
-                            if(data.type ?? false){
+                            if (data.type ?? false) {
                                 toastr[data.type](data.msg);
-                            }else{
+                            } else {
                                 toastr.success(data.msg);
                             }
 
@@ -999,9 +1012,9 @@
                             _token: '{{ csrf_token() }}'
                         },
                         success: function(data) {
-                            if(data.type ?? false){
+                            if (data.type ?? false) {
                                 toastr[data.type](data.msg);
-                            }else{
+                            } else {
                                 toastr.success(data.msg);
                             }
 
@@ -1345,7 +1358,10 @@
             @endif
 
             $(document).on('keyup', '#search_form_input', function(e) {
+
                 let input_values = $(this).val();
+                let search_category_id = $('#search_category_id').val();
+
                 let category_id = $('#search_selected_category').val();
                 let search_result_category = $('#search_result_categories');
                 let search_result_products = $('#search_result_products');
@@ -1363,7 +1379,8 @@
                     btnIns.html(sppinnerHtml)
                     $.get('{{ route('frontend.products.search') }}', {
                         name: input_values,
-                        category: category_id
+                        category: category_id,
+                        search_category_id: search_category_id
                     }).then(function(data) {
                         $('#search_suggestions_wrap').show();
                         search_result_category.html('');
@@ -1430,6 +1447,7 @@
                 }
             });
         </script>
-        <script src="{{ asset("assets/frontend/js/dynamic-script.js") }}"></script>
-    </body>
-</html>
+        <script src="{{ asset('assets/frontend/js/dynamic-script.js') }}"></script>
+        </body>
+
+        </html>
