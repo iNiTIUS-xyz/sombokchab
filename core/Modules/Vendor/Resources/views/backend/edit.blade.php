@@ -357,7 +357,7 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="label-title color-light mb-2">
-                                                            {{ __('Varify Stauts') }}
+                                                            {{ __('Verify Stauts') }}
                                                         </label>
                                                         <select name="is_varify" class="form-control">
                                                             <option value="" selected disabled>
