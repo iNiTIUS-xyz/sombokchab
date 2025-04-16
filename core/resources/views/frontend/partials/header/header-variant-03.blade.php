@@ -410,8 +410,56 @@
             padding: 0 10px;
         }
     }
+
+    @media (max-width: 1200px) {
+
+        .category-searchbar .input-group {
+            display: flex;
+            width: 90%;
+            border-radius: 5px;
+            overflow: hidden;
+            border: 1px solid #A69D9D;
+        }
+
+    }
+
+    @media (min-width: 1300px) {
+
+        .category-searchbar .input-group {
+            display: flex;
+            width: 90%;
+            border-radius: 5px;
+            overflow: hidden;
+            border: 1px solid #A69D9D;
+        }
+
+    }
+
+    @media (min-width: 1200px) {
+
+        .category-searchbar .input-group {
+            display: flex;
+            width: 88%;
+            border-radius: 5px;
+            overflow: hidden;
+            border: 1px solid #A69D9D;
+        }
+
+    }
+
+    @media (min-width: 1400px) {
+
+        .category-searchbar .input-group {
+            display: flex;
+            width: 95%;
+            border-radius: 5px;
+            overflow: hidden;
+            border: 1px solid #A69D9D;
+        }
+
+    }
 </style>
-<!-- Header area end -->
+
 <style>
     @media only screen and (min-width: 992px) {
         .desktop-navbar {
