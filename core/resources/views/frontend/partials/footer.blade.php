@@ -1357,6 +1357,8 @@
                 });
             @endif
 
+            const shopBaseUrl = "{{ route('frontend.dynamic.shop.page') }}";
+
             $(document).on('keyup', '#search_form_input', function(e) {
 
                 let input_values = $(this).val();
@@ -1369,6 +1371,8 @@
                 let btnIns = $(this).parent().find('button');
                 let btnOldText = `<i class="las la-search text-light la-2x"></i>`;
                 let site_currency_symbol = "{{ site_currency_symbol() }}";
+
+                const routeUrl = `${shopBaseUrl}?keyword=${input_values}&category_id=${search_category_id}`;
 
                 if (!input_values.length) {
                     search_result_category.html('');
@@ -1387,6 +1391,9 @@
                         if (data['product_url']) {
                             $('#search_result_all').attr('href', data['product_url']);
                         }
+
+                        $('.showMoreProduct').attr('href', routeUrl);
+
                         let fetchedCategory = data['categories'];
                         if (data['categories']) {
                             search_result_category.parent().show();

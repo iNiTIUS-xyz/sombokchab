@@ -48,15 +48,18 @@
 
                                     <div class="search-suggestions" id="search_suggestions_wrap">
                                         <div class="search-inner">
-                                            <div class="category-suggestion item-suggestions">
+                                            {{-- <div class="category-suggestion item-suggestions">
                                                 <h6 class="item-title">{{ __('Category Suggestions') }}</h6>
                                                 <ul id="search_result_categories" class="category-suggestion-list mt-4">
                                                 </ul>
-                                            </div>
+                                            </div> --}}
                                             <div class="product-suggestion item-suggestions">
                                                 <h6 class="item-title">{{ __('Product Suggestions') }}</h6>
-                                                <ul id="search_result_products" class="product-suggestion-list mt-4">
+                                                <ul id="search_result_products" class="product-suggestion-list my-4">
                                                 </ul>
+                                                <a href="" class="showMoreProduct">
+                                                    See More
+                                                </a>
                                             </div>
                                             <div class="product-suggestion item-suggestions" style="display:none;"
                                                 id="no_product_found_div">
@@ -277,23 +280,38 @@
                     <div class="col-10">
                         <div class="category-searchbar">
                             <form action="#" class="single-searchbar searchbar-suggetions">
-                                <input autocomplete="off" class="form--control radius-5" id="search_form_input"
-                                    type="text" placeholder="{{ 'Search For Products' }}">
-                                <button type="submit" class="right-position-button margin-2 radius-5"> <i
-                                        class="las la-search"></i> </button>
+                                <div class="input-group">
+                                    <select class="form--control category-select" id="search_category_id">
+                                        <option value="all">All Category</option>
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}">
+                                                {{ $category->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <input autocomplete="off" class="form--control radius-5" id="search_form_input"
+                                        type="text" placeholder="{{ 'Search For Products' }}">
+
+                                    <button type="submit" class="right-position-button margin-2 radius-5">
+                                        <i class="las la-search"></i>
+                                    </button>
+                                </div>
                                 <div class="search-suggestions" id="search_suggestions_wrap">
                                     <div class="search-inner">
-                                        <div class="category-suggestion item-suggestions">
+                                        {{-- <div class="category-suggestion item-suggestions">
                                             <h6 class="item-title">{{ __('Category Suggestions') }}</h6>
                                             <ul id="search_result_categories" class="category-suggestion-list mt-4">
 
                                             </ul>
-                                        </div>
+                                        </div> --}}
                                         <div class="product-suggestion item-suggestions">
                                             <h6 class="item-title">{{ __('Product Suggestions') }}</h6>
                                             <ul id="search_result_products" class="product-suggestion-list mt-4">
 
                                             </ul>
+                                            <a href="" class="showMoreProduct">
+                                                See More
+                                            </a>
                                         </div>
 
                                         <div class="product-suggestion item-suggestions" style="display:none;"
@@ -447,11 +465,23 @@
 
     }
 
-    @media (min-width: 1400px) {
+    @media (min-width: 1500px) {
 
         .category-searchbar .input-group {
             display: flex;
-            width: 95%;
+            width: 98%;
+            border-radius: 5px;
+            overflow: hidden;
+            border: 1px solid #A69D9D;
+        }
+
+    }
+
+    @media (min-width: 1400px) (min-width: 1460px) {
+
+        .category-searchbar .input-group {
+            display: flex;
+            width: 94%;
             border-radius: 5px;
             overflow: hidden;
             border: 1px solid #A69D9D;

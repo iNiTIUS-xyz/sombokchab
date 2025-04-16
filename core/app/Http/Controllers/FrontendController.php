@@ -205,10 +205,6 @@ class FrontendController extends Controller
         ]);
     }
 
-    /**
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     */
     public function dynamic_single_page($slug)
     {
         $page_post = Page::where('slug', $slug)->first();
@@ -245,9 +241,14 @@ class FrontendController extends Controller
         abort(404);
     }
 
-    /** ===================================================================
-     *                  ADMIN AUTH FUNCTIONS
-     * ===================================================================*/
+    public function dynamic_shop_single_page(Request $request)
+    {
+        dd($request->all());
+
+        return view('frontend.pages.dynamic-single', compact('page_post'));
+
+    }
+
     public function showAdminForgetPasswordForm()
     {
         return view('auth.admin.forget-password');

@@ -53,6 +53,9 @@ Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_
      *                          FRONTEND ROUTES
      * --------------------------------------------------------------------------------------------------------------------------*/
     Route::get('/', 'FrontendController@index')->name('homepage');
+
+    Route::get('products', 'FrontendController@dynamic_shop_single_page')->name('frontend.dynamic.shop.page');
+
     Route::get('/home/{id}', 'FrontendController@home_page_change')->name('homepage.demo');
 
     // Newsletter
@@ -861,5 +864,4 @@ Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_
     Route::feeds('feeds');
     Route::get('/vendor/{slug?}/products', 'FrontendController@dynamic_single_page')->name('frontend.vendor.product');
     Route::get('/{slug?}', 'FrontendController@dynamic_single_page')->name('frontend.dynamic.page');
-
 });
