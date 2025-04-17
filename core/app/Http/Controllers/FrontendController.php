@@ -243,11 +243,31 @@ class FrontendController extends Controller
 
     public function dynamic_shop_single_page(Request $request)
     {
-        dd($request->all());
+        $products = Product::query()
 
-        return view('frontend.pages.dynamic-single', compact('page_post'));
+            ->with([
+                'category',
+                'campaign_product',
+                'campaign_sold_product',
+                'inventory',
+            ])
+            ->when($request->category_id != 'all' && $request->category_id, function ($q) use ($request) {
+                $q->whereHas('category', function ($q2) use ($request) {
+                    $q2->where('categories.id', $request->category_id); // 👈 prefix with table name
+                });
+            })
+            ->when($request->brand_id, function ($q) use ($request) {
+                $q->where('brand_id', $request->brand_id);
+            })
+            ->when($request->keyword, function ($q) use ($request) {
+                $q->where('name', 'LIKE', "%" . $request->keyword . "%");
+            })
+            ->paginate(10);
 
+        return view('frontend.pages.product-list', compact('products'));
     }
+
+
 
     public function showAdminForgetPasswordForm()
     {
