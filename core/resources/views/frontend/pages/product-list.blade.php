@@ -71,10 +71,10 @@
                                 <div class="single-shops">
                                     <ul class="shop-flex-icon tabs">
                                         <li class="shop-icons" data-tab="tab-grid">
-                                            <a href="" class="icon"> <i class="las la-bars"></i> </a>
+                                            <a href="javascript:;" class="icon"> <i class="las la-bars"></i> </a>
                                         </li>
                                         <li class="shop-icons active" data-tab="tab-grid2">
-                                            <a href="" class="icon"> <i class="las la-border-all"></i> </a>
+                                            <a href="javascript:;" class="icon"> <i class="las la-border-all"></i> </a>
                                         </li>
                                     </ul>
                                 </div>
