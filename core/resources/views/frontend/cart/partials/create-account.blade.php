@@ -1,6 +1,6 @@
 @if (!$user)
     <div class="create-account-wrapper mt-4 mt-lg-5">
-        {{-- <a href="#1" class="create-accounts click-open-form2 ff-rubik fw-500 color-heading"><input type="hidden" name="create_account" value="1"> Create An Accounts </a> --}}
+        <a href="#1" class="create-accounts click-open-form2 ff-rubik fw-500 color-heading"><input type="hidden" name="create_account" value="1"> Create An Accounts </a>
         <div class="checkout-signup-form-wrapper">
             <div class="signin-contents">
                 <h2 class="contact-title"> Sign Up </h2>

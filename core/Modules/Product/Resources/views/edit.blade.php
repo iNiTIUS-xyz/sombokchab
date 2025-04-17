@@ -21,7 +21,7 @@
                         <div class="dashboard-left-flex d-flex align-items-center justify-content-between w-100">
                             <h3 class="heading-three fw-500"> {{ __('Update Product') }} </h3>
                             <div class="button-wrappers">
-                                <a href="{{ route('admin.products.all') }}" class="btn btn-info">{{ __('Product List') }}</a>
+                                <a href="{{ route('admin.products.all') }}" class="btn btn-info">{{ __("Product List") }}</a>
                             </div>
                         </div>
                     </div>
@@ -96,16 +96,8 @@
                             @csrf
                             <input name="id" type="hidden" value="{{ $product?->id }}">
 
-                            <div class="input-group">
-                                <select name="product_status" id="form-control">
-                                    <option value="publish" @if ($product->product_status == 'publish') selected @endif>
-                                        Publish
-                                    </option>
-                                    <option value="draft" @if ($product->product_status == 'draft') selected @endif>
-                                        Save as draft
-                                    </option>
-                                </select>
-                                <button class="cmn_btn btn_bg_profile">Save Product</button>
+                            <div class="form-button">
+                                <button class="cmn_btn btn_bg_profile">{{ __('Save Changes') }}</button>
                             </div>
 
                             <div class="tab-content margin-top-10" id="v-pills-tabContent">

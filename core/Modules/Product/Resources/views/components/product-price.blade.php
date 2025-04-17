@@ -15,8 +15,8 @@ $taxClasses = $taxClasses ?? [];
             <div class="col-sm-12">
                 <div class="dashboard-input">
                     <label class="dashboard-label color-light mb-2"> {{ __('Base Cost') }} </label>
-                    <input type="text" class="form--control radius-10" value="{{ $product?->cost }}" name="cost"
-                        placeholder="{{ __('Base Cost...') }}">
+                    <input type="text" class="form--control radius-10 form-control" value="{{ $product?->cost }}" name="cost"
+                        placeholder="{{ __('Base Cost...') }}" required>
                     <p>{{ __('Purchase price of this product.') }}</p>
                 </div>
             </div>
@@ -32,8 +32,8 @@ $taxClasses = $taxClasses ?? [];
             <div class="col-sm-12">
                 <div class="dashboard-input">
                     <label class="dashboard-label color-light mb-2"> {{ __('Sale Price') }} </label>
-                    <input type="text" class="form--control radius-10" value="{{ $product?->sale_price }}"
-                        name="sale_price" placeholder="{{ __('Enter Sale Price...') }}">
+                    <input type="text" class="form--control radius-10 form-control" value="{{ $product?->sale_price }}"
+                        name="sale_price" placeholder="{{ __('Enter Sale Price...') }}" required>
                     <small>{{ __('This will be your product selling price') }}</small>
                 </div>
             </div>

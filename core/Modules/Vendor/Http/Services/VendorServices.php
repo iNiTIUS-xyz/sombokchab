@@ -14,7 +14,7 @@ use Modules\Wallet\Entities\Wallet;
 
 class VendorServices
 {
-    public static function store_vendor($data, $type = "create")
+    public static function store_vendor($data,$type = "create")
     {
 
         $request = request();
@@ -29,33 +29,33 @@ class VendorServices
             return Vendor::create($data);
         }
 
-        return Vendor::where("id", $data["id"])->update($data);
+        return Vendor::where("id",$data["id"])->update($data);
     }
 
-    public static function store_vendor_address($data, $type = "create")
+    public static function store_vendor_address($data,$type = "create")
     {
-        if ($type == "create") {
+        if($type == "create"){
             return VendorAddress::create($data);
         }
 
         return VendorAddress::updateOrCreate(
-            ['vendor_id' => $data["vendor_id"]],
+            ['vendor_id'=>$data["vendor_id"]],
             $data
         );
     }
 
-    public static function store_vendor_shop_info($data, $type = "create")
+    public static function store_vendor_shop_info($data,$type = "create")
     {
-        if ($type == "create") {
+        if($type == "create"){
             return VendorShopInfo::create($data);
         }
 
         return VendorShopInfo::updateOrCreate(["vendor_id" => $data["vendor_id"]], $data);
     }
 
-    public static function store_vendor_bank_info($data, $type = "create")
+    public static function store_vendor_bank_info($data,$type = "create")
     {
-        if ($type == "create") {
+        if($type == "create") {
             return VendorBankInfo::create($data);
         }
 
@@ -83,12 +83,12 @@ class VendorServices
         }
 
         return VendorBankInfo::updateOrCreate(
-            ['vendor_id' => $data["vendor_id"]],
+            ['vendor_id'=>$data["vendor_id"]],
             $data
         );
     }
 
-    public static function prepare_data_for_update($data, $type): array
+    public static function prepare_data_for_update($data,$type): array
     {
         return match ($type) {
             "vendor" => ["owner_name" => $data["owner_name"], "username" => $data["username"], "business_name" => $data["business_name"], "business_type_id" => $data["business_type_id"], "description" => $data["description"], "status_id" => $data["status_id"], "is_vendor_verified" => $data["is_vendor_verified"]],
@@ -100,12 +100,12 @@ class VendorServices
 
     public static function generateReport($vendor_id, $from, $to = null, $type = "year"): Collection|array|null
     {
-        if ($to == null) {
+        if($to == null){
             $to = now()->format('Y-m-d');
         }
 
         // check report type
-        $type = match ($type) {
+        $type = match ($type){
             "year" => "%b",
             "week" => "%a",
         };
@@ -116,8 +116,8 @@ class VendorServices
             ->selectRaw("IFNULL(SUM(sub_orders.total_amount), 0) as amount")
             ->where('sub_orders.vendor_id', $vendor_id ?? 0)
             ->where('order_tracks.name', 'delivered')
-            ->whereBetween('order_tracks.created_at', [$from, $to])
-            ->groupBy('date')->get()?->pluck('amount', 'date') ?? [];
+            ->whereBetween('order_tracks.created_at', [$from,$to])
+            ->groupBy('date')->get()?->pluck('amount','date') ?? [];
     }
 
     public static function vendorAccountBanner($type = 'web'): array
@@ -129,13 +129,13 @@ class VendorServices
         return [
             "total_order_amount" => (double) SubOrder::where("vendor_id", $vendor_id)->sum("total_amount"),
             "total_complete_order_amount" => (double) SubOrder::where("vendor_id", $vendor_id)
-                ->whereHas("orderTrack", function ($order) {
+                ->whereHas("orderTrack", function ($order){
                     $order->where("name", "delivered");
                 })->sum("total_amount"),
             "pending_balance" => toFixed($wallet->pending_balance ?? 0, 0),
             "current_balance" => toFixed($wallet->balance ?? 0, 0),
-            // "yearly_income_statement" => self::generateReport($vendor_id, now()->subYear(1)->format("Y-m-d")),
-            // "weekly_statement" => self::generateReport($vendor_id, now()->subWeek(1)->format("Y-m-d"), type: 'week')
+            "yearly_income_statement" => self::generateReport($vendor_id, now()->subYear(1)->format("Y-m-d")),
+            "weekly_statement" =>  self::generateReport($vendor_id, now()->subWeek(1)->format("Y-m-d"), type: 'week')
         ];
     }
 }

@@ -23,20 +23,18 @@ use Modules\CountryManage\Entities\State;
 use Modules\CountryManage\Entities\City;
 class VendorController extends Controller
 {
-    public function adminIndex()
-    {
+    public function adminIndex(){
         return "Admin Index method rendered";
     }
 
-    public function index()
-    {
+    public function index(){
         $data = VendorServices::vendorAccountBanner();
 
         $vendor_id = auth("vendor")->id();
-        $data["total_product"] = Product::where("vendor_id", $vendor_id)->count() ?? 0;
+        $data["total_product"] = Product::where("vendor_id",$vendor_id)->count() ?? 0;
         $data["totalCampaign"] = Campaign::where("vendor_id", $vendor_id)->count() ?? 0;
         $data["totalOrder"] = SubOrder::where("vendor_id", $vendor_id)->count() ?? 0;
-        $data["successOrder"] = SubOrder::where("vendor_id", $vendor_id)->whereHas("order", function ($orderQuery) {
+        $data["successOrder"] = SubOrder::where("vendor_id", $vendor_id)->whereHas("order", function ($orderQuery){
             $orderQuery->where("order_status", "complete");
         })->count() ?? 0;
 
@@ -45,7 +43,7 @@ class VendorController extends Controller
             ->whereBetween('sub_orders.created_at', [
                 Carbon::now()->startOfMonth()->format('Y-m-d'),
                 Carbon::now()->endOfMonth()->addDay(1)->format('Y-m-d')
-            ])->whereHas('orderTrack', function ($query) {
+            ])->whereHas('orderTrack', function ($query){
                 $query->where('name', 'delivered');
             })
             ->groupBy('date')->get()->sum('amount');
@@ -55,7 +53,7 @@ class VendorController extends Controller
             ->whereBetween('sub_orders.created_at', [
                 Carbon::now()->subMonth(1)->startOfMonth()->format('Y-m-d'),
                 Carbon::now()->subMonth(1)->endOfMonth()->addDay(1)->format('Y-m-d')
-            ])->whereHas('orderTrack', function ($query) {
+            ])->whereHas('orderTrack', function ($query){
                 $query->where('name', 'delivered');
             })
             ->groupBy('date')->get()->sum('amount');
@@ -65,7 +63,7 @@ class VendorController extends Controller
             ->whereBetween('sub_orders.created_at', [
                 Carbon::now()->startOfYear()->format('Y-m-d'),
                 Carbon::now()->endOfYear()->addDay(1)->format('Y-m-d')
-            ])->whereHas('orderTrack', function ($query) {
+            ])->whereHas('orderTrack', function ($query){
                 $query->where('name', 'delivered');
             })
             ->groupBy('date')->get()->sum('amount');
@@ -75,7 +73,7 @@ class VendorController extends Controller
             ->whereBetween('sub_orders.created_at', [
                 Carbon::now()->startOfWeek()->format('Y-m-d'),
                 Carbon::now()->endOfWeek()->addDay(1)->format('Y-m-d')
-            ])->whereHas('orderTrack', function ($query) {
+            ])->whereHas('orderTrack', function ($query){
                 $query->where('name', 'delivered');
             })
             ->groupBy('date')->get()->sum('amount');
@@ -163,16 +161,16 @@ class VendorController extends Controller
     public function get_state(Request $request): JsonResponse
     {
         $id = $request->validate(["country_id" => "required"]);
-        $states = State::where("country_id", $id)->get();
+        $states = State::where("country_id",$id)->get();
 
-        return response()->json(["success" => true, "type" => "success"] + render_view_for_nice_select($states));
+        return response()->json(["success" => true,"type" => "success"] + render_view_for_nice_select($states));
     }
     public function get_city(Request $request): JsonResponse
     {
-        $id = $request->validate(["country_id" => "required", "state_id" => "required"]);
+        $id = $request->validate(["country_id" => "required","state_id" => "required"]);
         $states = City::where($id)->get();
-
-        return response()->json(["success" => true, "type" => "success"] + render_view_for_nice_select($states));
+        
+        return response()->json(["success" => true,"type" => "success"] + render_view_for_nice_select($states));
     }
 
 }

@@ -17,7 +17,7 @@
         @endif
         <div class="@if (isset($inventoryPage)) col-md-4 @else dashboard-input @endif">
             <label class="dashboard-label"> {{ __('Sku') }} </label>
-            <input type="text" class="form--control radius-10" name="sku" value="{{ $inventory?->sku }}">
+            <input type="text" class="form--control radius-10 form-control" name="sku" value="{{ $inventory?->sku }}" required>
             <small class="mt-2 mb-0 d-block">{{ __('Custom Unique Code for this product.') }}</small>
         </div>
 
@@ -34,7 +34,7 @@
             <label class="dashboard-label"> {{ __('Unit') }} </label>
 
             <div class="nice-select-two">
-                <select class="select2 form-control" name="unit_id">
+                <select class="select2 form-control" name="unit_id" required>
                     <option value="">{{ __('Select Unit') }}</option>
                     @foreach ($units as $unit)
                         <option {{ $unit->id === $uom?->unit_id ? 'selected' : '' }} value="{{ $unit->id }}">

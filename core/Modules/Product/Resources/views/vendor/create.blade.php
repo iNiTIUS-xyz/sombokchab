@@ -83,16 +83,13 @@
                         </div>
                     </div>
                     <div class="col-sm-8 col-md-9 col-lg-8 col-xl-9 col-xxl-10">
-                        <form data-request-route="{{ route('vendor.products.create') }}" method="post"
+                        <form class="was-validated" data-request-route="{{ route('vendor.products.create') }}" method="post"
                             id="product-create-form">
                             @csrf
-                            <div class="input-group">
-                                <select name="product_status" id="form-control">
-                                    <option value="publish">Publish</option>
-                                    <option value="draft">Save as draft</option>
-                                </select>
-                                <button class="cmn_btn btn_bg_profile">Save Product</button>
+                            <div class="form-button">
+                                <button class="cmn_btn btn_bg_profile">{{ __('Create Product') }}</button>
                             </div>
+
                             <div class="tab-content margin-top-10" id="v-pills-tabContent">
                                 <div class="tab-pane fade show active" id="v-general-info-tab" role="tabpanel"
                                     aria-labelledby="v-general-info-tab">

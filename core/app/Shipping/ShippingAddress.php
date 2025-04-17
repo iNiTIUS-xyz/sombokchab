@@ -112,7 +112,7 @@ class ShippingAddress extends Model
     // state
     public function state(): BelongsTo
     {
-        return $this->belongsTo(State::class);
+        return $this->belongsTo(State::class, 'state_id', 'id');
     }
 
     public function cities(): BelongsTo

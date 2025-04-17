@@ -92,7 +92,7 @@ class ProductCartController extends Controller
                 'msg' => __("This product is required minimum quantity of $product->min_purchase"),
             ]);
         }
-        $max_purchase=$product->max_purchase >0 ? $product->max_purchase : 9999999999;
+        $max_purchase = $product->max_purchase > 0 ? $product->max_purchase : 9999999999;
         if (($request->quantity + ($findCart?->qty ?? 0)) > $max_purchase) {
             return response()->json([
                 'type' => 'error',
@@ -355,7 +355,7 @@ class ProductCartController extends Controller
 
     private static function cart_stock_out_error_msg($product)
     {
-        return [__('Requested quantity is not available for this <b>'.$product->name.'</b> product')];
+        return [__('Requested quantity is not available for this <b>' . $product->name . '</b> product')];
     }
 
     private function check_inventory_to_add_cart_item($productId, $variantId, $quantity)
@@ -377,50 +377,109 @@ class ProductCartController extends Controller
         return true;
     }
 
+    // public function cart_update_ajax(Request $request)
+    // {
+    //     $data = $request->validate([
+    //         'product_id' => 'required',
+    //         'quantity' => 'required',
+    //         'variant_id' => 'nullable',
+    //     ]);
+
+    //     $products = Product::whereIn("id", Cart::instance('default')->content()?->pluck("id")?->toArray() ?? [])->get();
+
+    //     $error = [];
+    //     for ($i = 0; $i < count($request->product_id ?? []); $i++) {
+    //         // get cart item from the cart package
+    //         $product_data = Cart::instance('default')->get($data['product_id'][$i]);
+
+    //         $product = $products->where("id", $product_data->id ?? 0)->first();
+    //         // check product minimum and maximum quantity
+    //         if ($data['quantity'][$i] < $product->min_purchase) {
+    //             return response()->json([
+    //                 'type' => 'error',
+    //                 'msg' => __("This product is required minimum quantity of $product->min_purchase"),
+    //             ]);
+    //         }
+
+    //         if ($data['quantity'][$i] > $product->max_purchase) {
+    //             return response()->json([
+    //                 'type' => 'error',
+    //                 'msg' => __("This product is allowed you to add maximum quantity of $product->max_purchase"),
+    //             ]);
+    //         }
+    //         // now check inventory for updating cart
+    //         if ($this->check_inventory_to_add_cart_item($product_data->id, $data['variant_id'][$i], $data['quantity'][$i])) {
+    //             Cart::instance('default')->update($data['product_id'][$i], ['qty' => $data['quantity'][$i]]);
+    //         } else {
+    //             $error[] = self::cart_stock_out_error_msg($product_data);
+    //         }
+    //     }
+
+    //     if (! empty($error)) {
+    //         return response()->json(['error_type' => 'cart'] + [
+    //             'type' => 'warning',
+    //             'error_messages' => $error,
+    //             'header_area' => view('frontend.partials.header.navbar.card-and-wishlist-area')->render(),
+    //             ])->setStatusCode(422);
+    //     } else {
+    //         return response()->json([
+    //             'type' => 'success',
+    //             'msg' => 'Cart is updated',
+    //             'header_area' => view('frontend.partials.header.navbar.card-and-wishlist-area')->render(),
+    //         ]);
+    //     }
+    // }
     public function cart_update_ajax(Request $request)
     {
-        $data = $request->validate([
-            'product_id' => 'required',
-            'quantity' => 'required',
-            'variant_id' => 'nullable',
-        ]);
+        // Convert single values to arrays to maintain compatibility
+        $productIds = (array) $request->product_id;
+        $quantities = (array) $request->quantity;
+        $variantIds = (array) $request->variant_id;
 
         $products = Product::whereIn("id", Cart::instance('default')->content()?->pluck("id")?->toArray() ?? [])->get();
 
         $error = [];
-        for ($i = 0; $i < count($request->product_id ?? []); $i++) {
+        for ($i = 0; $i < count($productIds); $i++) {
             // get cart item from the cart package
-            $product_data = Cart::instance('default')->get($data['product_id'][$i]);
+            $product_data = Cart::instance('default')->get($productIds[$i]);
 
             $product = $products->where("id", $product_data->id ?? 0)->first();
+
+            // check product exists
+            if (!$product) {
+                $error[] = __('Product not found');
+                continue;
+            }
+
             // check product minimum and maximum quantity
-            if ($data['quantity'][$i] < $product->min_purchase) {
+            if ($quantities[$i] < $product->min_purchase) {
                 return response()->json([
                     'type' => 'error',
                     'msg' => __("This product is required minimum quantity of $product->min_purchase"),
                 ]);
             }
 
-            if ($data['quantity'][$i] > $product->max_purchase) {
+            if ($quantities[$i] > $product->max_purchase) {
                 return response()->json([
                     'type' => 'error',
                     'msg' => __("This product is allowed you to add maximum quantity of $product->max_purchase"),
                 ]);
             }
+
             // now check inventory for updating cart
-            if ($this->check_inventory_to_add_cart_item($product_data->id, $data['variant_id'][$i], $data['quantity'][$i])) {
-                Cart::instance('default')->update($data['product_id'][$i], ['qty' => $data['quantity'][$i]]);
+            if ($this->check_inventory_to_add_cart_item($product_data->id, $variantIds[$i] ?? null, $quantities[$i])) {
+                Cart::instance('default')->update($productIds[$i], ['qty' => $quantities[$i]]);
             } else {
                 $error[] = self::cart_stock_out_error_msg($product_data);
             }
         }
 
-        if (! empty($error)) {
+        if (!empty($error)) {
             return response()->json(['error_type' => 'cart'] + [
                 'type' => 'warning',
                 'error_messages' => $error,
                 'header_area' => view('frontend.partials.header.navbar.card-and-wishlist-area')->render(),
-                ])->setStatusCode(422);
+            ])->setStatusCode(422);
         } else {
             return response()->json([
                 'type' => 'success',
@@ -429,7 +488,6 @@ class ProductCartController extends Controller
             ]);
         }
     }
-
     public function updateCart(Request $request)
     {
         $request->validate([
@@ -478,7 +536,7 @@ class ProductCartController extends Controller
             // if item quantity is not available in stock show message
             if ($update_available_quantity <= 0) {
                 $product = Product::find($cart_item['id']);
-                $single_product_msg = $product->title ? __('of')." <b>$product->title</b>" : '';
+                $single_product_msg = $product->title ? __('of') . " <b>$product->title</b>" : '';
                 $quantity_msg[] = __("Requested quantity $single_product_msg is not available. Only available quantity is added to cart");
             }
         }

@@ -20,11 +20,11 @@ use Modules\Vendor\Http\Controllers\FrontendVendorController;
 Route::get('firebase-phone-authentication', [FirebaseController::class, 'index']);
 
 Route::get('update-notification', XgNotificationController::class)
-    ->middleware(['setlang:frontend', 'setlang:backend'])->name('update-notification');
+    ->middleware(['setlang:frontend','setlang:backend'])->name('update-notification');
 
 /**===========================================================================================================================
- *                          FRONTEND
- * ==========================================================================================================================*/
+*                          FRONTEND
+* ==========================================================================================================================*/
 Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_mode']], function () {
 
     /**=============================
@@ -47,7 +47,7 @@ Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_
     -----------------------------------------*/
     Route::post('submit-custom-form', 'FrontendFormController@custom_form_builder_message')->name('frontend.form.builder.custom.submit');
 
-    $blog_page_slug = getSlugFromReadingSetting('blog_page', 'blog');
+    $blog_page_slug = getSlugFromReadingSetting('blog_page','blog');
 
     /**---------------------------------------------------------------------------------------------------------------------------
      *                          FRONTEND ROUTES
@@ -61,7 +61,7 @@ Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_
     // Newsletter
     Route::get('/subscriber/email-verify/{token}', 'FrontendController@subscriber_verify')->name('subscriber.verify');
     //Unsubscribe Newsletter
-    Route::get('/newsletter/unsubscribe/{id}', 'FrontendController@newsletter_unsubscribe')->name('frontend.newsletter.unsubscribe.visitor');
+    Route::get('/newsletter/unsubscribe/{id}','FrontendController@newsletter_unsubscribe')->name('frontend.newsletter.unsubscribe.visitor');
 
     // Contact Route
     Route::post('/contact-message', 'FrontendFormController@send_contact_message')->name('frontend.contact.message');
@@ -83,9 +83,9 @@ Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_
     /**--------------------------------
      * FRONT PAGE FILTER ROUTES
      * ---------------------------------*/
-    Route::match(["get", "post"], 'filter-top-rated', 'FrontendController@topRatedProducts')->name('frontend.products.filter.top.rated');
-    Route::match(["get", "post"], 'filter-top-selling', 'FrontendController@topSellingProducts')->name('frontend.products.filter.top.selling');
-    Route::match(["get", "post"], 'filter-new', 'FrontendController@newProducts')->name('frontend.products.filter.new');
+    Route::match(["get","post"],'filter-top-rated', 'FrontendController@topRatedProducts')->name('frontend.products.filter.top.rated');
+    Route::match(["get","post"],'filter-top-selling', 'FrontendController@topSellingProducts')->name('frontend.products.filter.top.selling');
+    Route::match(["get","post"],'filter-new', 'FrontendController@newProducts')->name('frontend.products.filter.new');
     Route::post('filter-campaign', 'FrontendController@campaignProduct')->name('frontend.products.filter.campaign');
     Route::post('filter-discount', 'FrontendController@discountedProduct')->name('frontend.products.filter.discounted');
     Route::get('filter-category', 'FrontendController@filterCategoryProducts')->name('frontend.products.filter.category');
@@ -130,16 +130,16 @@ Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_
      * ---------------------------------*/
     Route::get('checkout', 'FrontendController@checkoutPage')->name('frontend.checkout');
     Route::get('get-tax-based-on-billing-address', 'FrontendController@cartItemsBasedOnBillingAddress')->name('frontend.get-tax-based-on-billing-address');
-    Route::get('vendors', [FrontendVendorController::class, "index"])->name('frontend.vendors');
-    Route::get('vendor/product/{slug}', [FrontendVendorController::class, "vendorProducts"])->name('frontend.vendors.single');
+    Route::get('vendors', [FrontendVendorController::class,"index"])->name('frontend.vendors');
+    Route::get('vendor/product/{slug}', [FrontendVendorController::class,"vendorProducts"])->name('frontend.vendors.single');
 
-    Route::post('checkout', [OrderController::class, "checkout"]);
-    Route::get('vendor/forget-password', [FrontendController::class, "showVendorForgetPasswordForm"])->name('vendor.forget.password.form');
-    Route::post('vendor/forget-password', [FrontendController::class, "sendVendorForgetPasswordMail"])->name('vendor.forget.password');
+    Route::post('checkout', [OrderController::class,"checkout"]);
+    Route::get('vendor/forget-password', [FrontendController::class,"showVendorForgetPasswordForm"])->name('vendor.forget.password.form');
+    Route::post('vendor/forget-password', [FrontendController::class,"sendVendorForgetPasswordMail"])->name('vendor.forget.password');
 
 
     Route::post('/vendor-check-phone-existence', [FrontendController::class, 'checkVendorPhoneExistence'])
-        ->name('vendor.check-phone-existence');
+    ->name('vendor.check-phone-existence');
     Route::post('/vendor-update-forgot-password', [FrontendController::class, 'updateVendorForgotPassword'])
         ->name('vendor.update-forgot-password');
 
@@ -147,14 +147,14 @@ Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_
     Route::get('/vendor/reset-password/{user}/{token}', 'FrontendController@showVendorResetPasswordForm')->name('vendor.reset.password');
     Route::post('/vendor/reset-password', 'FrontendController@VendorResetPassword')->name('vendor.reset.password.change');
 
-    Route::get('checkout/apply/coupon', [ProductCartController::class, 'checkoutPageApplyCouponAjax'])->name('frontend.checkout.apply.coupon');
+    Route::get('checkout/apply/coupon', [ProductCartController::class,'checkoutPageApplyCouponAjax'])->name('frontend.checkout.apply.coupon');
     Route::get('checkout/calculate', 'ProductCartController@calculateCheckout')->name('frontend.checkout.calculate');
-    Route::get('get-states/{country_id?}', [FrontendController::class, 'getStates'])->name("frontend.get-states");
+    Route::get('get-states/{country_id?}', [FrontendController::class,'getStates'])->name("frontend.get-states");
 
     Route::prefix("shipping-address")->as("frontend.shipping.address.")
-        ->controller(FrontendShippingAddresssController::class)->group(function () {
+        ->controller(FrontendShippingAddresssController::class)->group(function (){
             Route::post("/add", "store")->name("store");
-        });
+    });
 
     /**---------------------------------------------------------------------------------------------------------------------------
      *                   BLOG AREA FRONTEND ROUTES
@@ -216,8 +216,8 @@ Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_
             Route::post('/delivery-man-ratting/{item}', 'UserDashboardController@orderDeliveryManRatting')->name('delivery-man-ratting');
         });
 
-        Route::get("refund-request", 'UserDashboardController@allRefundsPage')->name("user.product.refund-request");
-        Route::get("refund-request/{id}", 'UserDashboardController@viewRequest')->name("user.product.refund-request.view");
+        Route::get("refund-request",'UserDashboardController@allRefundsPage')->name("user.product.refund-request");
+        Route::get("refund-request/{id}",'UserDashboardController@viewRequest')->name("user.product.refund-request.view");
 
         /**------------------------------------
          * User Shipping Address
@@ -263,17 +263,17 @@ Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_
     // Route::post('/login/forget-password', 'FrontendController@sendUserForgetPasswordMail');
     Route::get('/login/forget-password', 'FrontendController@showUserForgetPasswordForm')->name('user.forget.password');
     Route::post('/check-phone-existence', [FrontendController::class, 'checkPhoneExistence'])
-        ->name('user.check-phone-existence');
+    ->name('user.check-phone-existence');
     Route::post('/update-forgot-password', [FrontendController::class, 'updateForgotPassword'])
         ->name('user.update-forgot-password');
 
     // The route we call with JS to verify phone in DB
     Route::post('/forget-password/phone-check', [FrontendController::class, 'checkPhoneInDb'])
-        ->name('user.forget.passwordPhoneCheck');
+    ->name('user.forget.passwordPhoneCheck');
 
     // The route that shows the actual new password form
     Route::get('/login/reset-password/{user}/{token}', [FrontendController::class, 'showUserResetPasswordForm'])
-        ->name('user.reset.password');
+    ->name('user.reset.password');
     // Route::post('/forget-password/phone-check','FrontendController@checkPhoneInDb')->name('user.forget.passwordPhoneCheck');
 
     Route::get('/login/reset-password/{user}/{token}', 'FrontendController@showUserResetPasswordForm')->name('user.reset.password');
@@ -284,7 +284,7 @@ Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_
     //user register
     Route::get('/register', 'Auth\RegisterController@showRegistrationForm')->name('user.register');
     Route::post('/register', 'Auth\RegisterController@register');
-    Route::post('/check-user-data-availability', [RegisterController::class, 'checkUserDataAvailability'])->name('check.user.data.availability');
+     Route::post('/check-user-data-availability', [RegisterController::class, 'checkUserDataAvailability'])->name('check.user.data.availability');
     //user email verify
     Route::get('/user/email-verify', 'UserDashboardController@user_email_verify_index')->name('user.email.verify');
     Route::post('/user/email-verify', 'UserDashboardController@user_email_verify');
@@ -317,7 +317,7 @@ Route::group(['middleware' => 'globalVariable'], function () {
 /**--------------------------------------------------------------------------------------------------------------------------------
  *                          ADMIN PANEL ROUTES
  *----------------------------------------------------------------------------------------------------------------------------------*/
-Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable', 'auth:admin'])->group(function () {
+Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable','auth:admin'])->group(function () {
     // 404-page manage
     Route::get('404-page-manage', 'Admin\Error404PageManage@error_404_page_settings')->name('admin.404.page.settings')->permission('404-page-manage');
     Route::post('404-page-manage', 'Admin\Error404PageManage@update_error_404_page_settings')->permission('404-page-manage');
@@ -326,20 +326,20 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
     Route::get('/maintains-page/settings', 'Admin\MaintainsPageController@maintains_page_settings')->name('admin.maintains.page.settings')->permission('maintains-page-settings');
     Route::post('/maintains-page/settings', 'Admin\MaintainsPageController@update_maintains_page_settings')->permission('maintains-page-settings');
 
-    Route::get("shipping-charge-settings", [SiteSettingsController::class, "shippingMethods"])->name("admin.shipping-charge-settings")->permission('shipping-charge-settings');
-    Route::post("shipping-charge-settings", [SiteSettingsController::class, "updateShippingMethods"])->permission('shipping-charge-settings');
+    Route::get("shipping-charge-settings",[SiteSettingsController::class, "shippingMethods"])->name("admin.shipping-charge-settings")->permission('shipping-charge-settings');
+    Route::post("shipping-charge-settings",[SiteSettingsController::class, "updateShippingMethods"])->permission('shipping-charge-settings');
 
-    Route::get("notification", [AdminNotificationController::class, "index"])->name("admin.notifications");
+    Route::get("notification",[AdminNotificationController::class, "index"])->name("admin.notifications");
 
 
     /*-----------------------------------
         Admin Shop Manage Routes
     ------------------------------------*/
-    Route::controller(AdminShopManageController::class)->group(function () {
-        Route::get("invoice-note", "invoiceNote")->name("admin.shop-manage.invoice-note")->permission("invoice-note");
-        Route::post("invoice-note", "saveInvoiceNote")->permission("invoice-note");
-        Route::get("shop-manage", "index")->name("admin.shop-manage.update")->permission('shop-manage');
-        Route::post("shop-manage", "update")->permission('shop-manage');
+    Route::controller(AdminShopManageController::class)->group(function (){
+       Route::get("invoice-note", "invoiceNote")->name("admin.shop-manage.invoice-note")->permission("invoice-note");
+       Route::post("invoice-note", "saveInvoiceNote")->permission("invoice-note");
+       Route::get("shop-manage", "index")->name("admin.shop-manage.update")->permission('shop-manage');
+       Route::post("shop-manage", "update")->permission('shop-manage');
     });
 
     /*-----------------------------------
@@ -433,7 +433,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
         Route::post('/delete/{id}', 'CategoryMenuController@delete_menu')->name('admin.category.menu.delete')->permission('category-menu-delete');
         Route::post('/default/{id}', 'CategoryMenuController@set_default_menu')->name('admin.category.menu.default')->permission('category-menu-default');
         Route::post('/mega-menu', 'CategoryMenuController@mega_menu_item_select_markup')->name('admin.mega.category.menu.item.select.markup')->permission('category-menu-mega-menu');
-        Route::post('/render-sub-category', [CategoryMenuController::class, "fetch_sub_category"])->name("admin.category.menu.sub_category")->permission('category-menu-render-sub-category');
+        Route::post('/render-sub-category',[CategoryMenuController::class,"fetch_sub_category"])->name("admin.category.menu.sub_category")->permission('category-menu-render-sub-category');
     });
 
     /**---------------------------------------------------------------------------------------------------------------------------
@@ -512,7 +512,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
         Route::post('/password-change', 'AdminDashboardController@admin_password_chagne')->permission('password-change');
         //admin index
         Route::get('/', 'AdminDashboardController@adminIndex')->name('admin.home');
-        Route::get('/health', 'AdminDashboardController@health')->name('admin.health');
+        Route::get('/health','AdminDashboardController@health')->name('admin.health');
         Route::get('/dark-mode-toggle', 'AdminDashboardController@dark_mode_toggle')->name('admin.dark.mode.toggle')->permission('dark-mode-toggle');
     });
 
@@ -693,7 +693,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
         Route::post('/sitemap-settings', 'GeneralSettingsController@update_sitemap_settings')->permission('general-settings-sitemap-settings');
         Route::post('/sitemap-settings/delete', 'GeneralSettingsController@delete_sitemap_settings')->name('admin.general.sitemap.settings.delete')->permission('general-settings-sitemap-settings-delete');
 
-        Route::controller(LicenseController::class)->middleware('auth:admin')->group(function () {
+        Route::controller(LicenseController::class)->middleware('auth:admin')->group(function (){
             Route::post('/license-setting-verify', 'license_key_generate')->name('admin.general.license.key.generate');
             Route::get('/update-check', 'update_version_check')->name('admin.general.update.version.check');
             Route::post('/download-update/{productId}/{tenant}', 'updateDownloadLatestVersion')->name('admin.general.update.download.settings');
@@ -713,7 +713,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
         Route::post('/default/{id}', 'LanguageController@make_default')->name('admin.languages.default')->permission('languages-default');
         Route::post('/clone', 'LanguageController@clone_languages')->name('admin.languages.clone')->permission('languages-clone');
         Route::post('/add-new-string', 'LanguageController@add_new_string')->name('admin.languages.add.string')->permission('languages-add-new-string');
-        Route::post('/languages/regenerate-source-text', 'LanguageController@regenerate_source_text')->name('admin.languages.regenerate.source.texts')->permission('languages-languages-regenerate-source-text');
+        Route::post('/languages/regenerate-source-text','LanguageController@regenerate_source_text')->name('admin.languages.regenerate.source.texts')->permission('languages-languages-regenerate-source-text');
     });
 
     /** ------------------------------------------
@@ -803,7 +803,7 @@ Route::group(['middleware' => ['setlang:backend', 'auth:admin'], 'prefix' => 'ad
     /*--------------------------
         PAGE BUILDER
     --------------------------*/
-
+    
     Route::post('page-builder/update-order', 'PageBuilderController@update_addon_order')->name('admin.page.builder.update.addon.order')->permission('page-builder-update-order');
     Route::post('page-builder/get-admin-markup', 'PageBuilderController@get_admin_panel_addon_markup')->name('admin.page.builder.get.addon.markup')->permission('page-builder-get-admin-markup');
 });
@@ -817,7 +817,7 @@ Route::get("product-search", [FrontendController::class, "search"])->name("front
 Route::get('/search-results', [FrontendController::class, 'searchResults'])->name('frontend.search.results');
 
 
-Route::middleware("globalVariable")->as('frontend.')->controller(PaymentGatewayController::class)->group(function () {
+Route::middleware("globalVariable")->as('frontend.')->controller(PaymentGatewayController::class)->group(function (){
     Route::post('paytm-ipn', 'paytm_ipn')->name('paytm.ipn');
     Route::post('toyyibpay-ipn', 'toyyibpay_ipn')->name('toyyibpay.ipn');
     Route::get('mollie-ipn', 'mollie_ipn')->name('mollie.ipn');
@@ -836,7 +836,7 @@ Route::middleware("globalVariable")->as('frontend.')->controller(PaymentGatewayC
     Route::post('paytabs-ipn', 'paytabs_ipn')->name('paytabs.ipn');
     Route::post('billplz-ipn', 'billplz_ipn')->name('billplz.ipn');
     Route::post('zitopay-ipn', 'zitopay_ipn')->name('zitopay.ipn');
-    Route::post('pagali-ipn', 'pagali_ipn')->name('pagali.ipn');
+    Route::post('pagali-ipn', 'pagali_ipn' )->name('pagali.ipn');
     Route::get('authorize-ipn', 'authorize_ipn')->name('authorizenet.ipn');
     Route::post('siteways-ipn', 'siteways_ipn')->name('siteways.ipn');
     Route::get('transactioncloud-ipn', 'transactionclud_api')->name('transactionclud.ipn');
@@ -851,11 +851,11 @@ Route::middleware("globalVariable")->as('frontend.')->controller(PaymentGatewayC
     Route::post('aba-payway-ipn', 'aba_ipn')->name('abapayway.ipn');
     Route::post('acleda-pay', 'acleda_ipn')->name('acledapay.ipn');
 
-    Route::post('/order-confirm', 'order_payment_form')->name('order.payment.form');
-    Route::get('/order-success/{id}', 'order_payment_success')->name('order.payment.success');
-    Route::get('/order-cancel/{id}', 'order_payment_cancel')->name('order.payment.cancel');
-    Route::get('/order-cancel-static', 'order_payment_cancel_static')->name('order.payment.cancel.static');
-    Route::get('/order-confirm/{id}', 'order_confirm')->name('order.confirm');
+    Route::post('/order-confirm','order_payment_form')->name('order.payment.form');
+    Route::get('/order-success/{id}','order_payment_success')->name('order.payment.success');
+    Route::get('/order-cancel/{id}','order_payment_cancel')->name('order.payment.cancel');
+    Route::get('/order-cancel-static','order_payment_cancel_static')->name('order.payment.cancel.static');
+    Route::get('/order-confirm/{id}','order_confirm')->name('order.confirm');
 });
 
 

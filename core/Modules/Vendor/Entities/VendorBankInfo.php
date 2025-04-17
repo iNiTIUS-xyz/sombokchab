@@ -10,8 +10,8 @@ class VendorBankInfo extends Model
 {
     use HasFactory;
 
-    protected $fillable = ["vendor_id", "bank_name", "bank_email", "bank_code", "account_number", "is_varify", "varify_at"];
-
+    protected $fillable = ["vendor_id","bank_name","bank_email","bank_code","account_number"];
+    
     protected static function newFactory()
     {
         return VendorBankInfoFactory::new();

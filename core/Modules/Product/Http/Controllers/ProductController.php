@@ -40,12 +40,12 @@ class ProductController extends Controller
      * @return Renderable
      * @throws Exception
      */
-
+    
     public function index(Request $request): Renderable
     {
         $products = AdminProductServices::productSearch($request, "admin");
         $statuses = Status::all();
-        return view('product::index', compact("products", "statuses"));
+        return view('product::index',compact("products","statuses"));
     }
 
     /**
@@ -69,11 +69,10 @@ class ProductController extends Controller
     {
         $data = $request->validated();
 
-        return response()->json((new AdminProductServices)->store($data) ? ["success" => true, "type" => "success"] : ["success" => false, "type" => "danger"]);
+        return response()->json((new AdminProductServices)->store($data) ? ["success" => true,"type" => "success"] : ["success" => false,"type" => "danger"]);
     }
 
-    public function updateImage(Request $request)
-    {
+    public function updateImage(Request $request){
         $data = $request->validate([
             "image_id" => "nullable",
             "product_gallery" => "nullable",
@@ -86,7 +85,7 @@ class ProductController extends Controller
         ]);
 
         // update those value in product table
-        if (!empty(($data["product_gallery"] ?? []) ?? ($data->product_gallery ?? []))) {
+        if(!empty(($data["product_gallery"] ?? []) ?? ($data->product_gallery ?? []))){
             ProductGallery::where("product_id", $data['product_id'])->delete();
 
             ProductGallery::insert((new AdminProductServices)->prepareProductGalleryData($data, $data['product_id']));
@@ -117,7 +116,7 @@ class ProductController extends Controller
     {
         $data = $this->productData();
 
-        $product = (new AdminProductServices)->get_edit_product($id, "single");
+        $product = (new AdminProductServices)->get_edit_product($id,"single");
 
         $subCat = $product?->subCategory?->id ?? null;
         $cat = $product?->category?->id ?? null;
@@ -139,8 +138,8 @@ class ProductController extends Controller
 
         return response()->json(
             (new AdminProductServices)->update($data, $id)
-            ? ["success" => true, "type" => "success"]
-            : ["success" => false, "type" => "danger"]
+            ? ["success" => true,"type" => "success"]
+            : ["success" => false,"type" => "danger"]
         );
     }
 
@@ -151,7 +150,7 @@ class ProductController extends Controller
 
     private function validateUpdateStatus($req): array
     {
-        return Validator::make($req, [
+        return Validator::make($req,[
             "id" => "required",
             "status_id" => "required",
         ])->validated();
@@ -161,7 +160,7 @@ class ProductController extends Controller
     {
         $data = $this->validateUpdateStatus($request->all());
 
-        return (new AdminProductServices)->updateStatus($data["id"], $data["status_id"]);
+        return (new AdminProductServices)->updateStatus($data["id"],$data["status_id"]);
     }
 
     /**
@@ -176,13 +175,13 @@ class ProductController extends Controller
 
     public function bulk_destroy(Request $request): JsonResponse
     {
-        return response()->json((new AdminProductServices)->bulk_delete_action($request->ids) ? ["success" => true, "type" => "success"] : ["success" => false, "type" => "danger"]);
+        return response()->json((new AdminProductServices)->bulk_delete_action($request->ids) ? ["success" => true,"type" => "success"] : ["success" => false,"type" => "danger"]);
     }
 
     public function trash(): Renderable
     {
-        $products = Product::with('category', 'subCategory', 'childCategory', 'brand', 'inventory')->onlyTrashed()->get();
-        return view('product::trash', compact("products"));
+        $products = Product::with('category','subCategory', 'childCategory','brand','inventory')->onlyTrashed()->get();
+        return view('product::trash',compact("products"));
     }
 
     public function restore($id)
@@ -198,13 +197,13 @@ class ProductController extends Controller
 
     public function trash_bulk_destroy(Request $request)
     {
-        return response()->json((new AdminProductServices)->trash_bulk_delete_action($request->ids) ? ["success" => true, "type" => "success"] : ["success" => false, "type" => "danger"]);
+        return response()->json((new AdminProductServices)->trash_bulk_delete_action($request->ids) ? ["success" => true,"type" => "success"] : ["success" => false,"type" => "danger"]);
     }
 
     public function trash_empty(Request $request)
     {
         $ids = explode('|', $request->ids);
-        return response()->json((new AdminProductServices)->trash_bulk_delete_action($ids) ? ["success" => true, "type" => "success"] : ["success" => false, "type" => "danger"]);
+        return response()->json((new AdminProductServices)->trash_bulk_delete_action($ids) ? ["success" => true,"type" => "success"] : ["success" => false,"type" => "danger"]);
     }
 
     public function productSearch(Request $request): string
@@ -212,14 +211,14 @@ class ProductController extends Controller
         $products = AdminProductServices::productSearch($request);
         $statuses = Status::all();
 
-        return view('product::search', compact("products", "statuses"))->render();
+        return view('product::search',compact("products","statuses"))->render();
     }
 
     public function productData(): array
     {
         return [
             "brands" => Brand::select("id", "name")->get(),
-            "badges" => Badge::where("status", "active")->get(),
+            "badges" => Badge::where("status","active")->get(),
             "units" => Unit::select("id", "name")->get(),
             "tags" => Tag::select("id", "tag_text as name")->get(),
             "categories" => Category::select("id", "name")->get(),
@@ -232,11 +231,11 @@ class ProductController extends Controller
     }
     public function delete_dummy_product()
     {
-        $delete = DummyProductDeleteServices::destroy();
+        $delete=DummyProductDeleteServices::destroy();
         // $delete=true;
-        if ($delete) {
-            return response()->json(['success' => true, 'type' => 'success']);
+        if($delete){
+            return response()->json(['success'=>true,'type'=>'success']);
         }
-        return response()->json(['success' => false, 'type' => 'danger']);
+        return response()->json(['success'=>false,'type'=>'danger']);
     }
 }

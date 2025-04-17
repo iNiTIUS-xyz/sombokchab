@@ -31,16 +31,15 @@ class OrderService extends OrderAbstract
         $this->couponAmount = 0;
     }
 
-    public static function createOrder($data)
-    {
+    public static function createOrder($data){
         // CREATE AN INSTANCE OF THIS CLASS FOR ACCESSING THIS CLASS NON-STATIC  METHOD AND PROPERTIES
-
+        
         // STORE ORDER DATA INTO ORDER TABLE AND ASSIGN IN ORDER VARIABLE FOR USING NEXT TIME
         // run a foreach for creating every vendor order or admin order
-        foreach (self::groupByCartData() as $key => $value):
-            if (empty($key)) {
+        foreach(self::groupByCartData() as $key => $value) :
+            if(empty($key)){
                 return $value;
-            } else {
+            }else{
                 return $value;
             }
         endforeach;
@@ -50,23 +49,18 @@ class OrderService extends OrderAbstract
         return Cart::instance("default")->content()->groupBy("options.vendor_id");
     }
 
-    public static function subOrderDetails($id, $type = "admin"): Model|Factory|View|Builder|Application|null
+    public static function subOrderDetails($id, $type="admin"): Model|Factory|View|Builder|Application|null
     {
         $subOrders = SubOrder::with([
             "order",
-            "vendor" => function ($vendorQuery) {
-                $vendorQuery->withCount([
-                    "order as total_order" => function ($order) {
+            "vendor" => function ($vendorQuery){
+                $vendorQuery->withCount(["order as total_order" => function ($order){
                         $order->orderByDesc("orders.id");
-                    },
-                    "order as complete_order" => function ($order) {
+                    },"order as complete_order" => function ($order){
                         $order->where("orders.order_status", "complete");
-                    },
-                    "order as pending_order" => function ($order) {
+                    },"order as pending_order" => function ($order){
                         $order->where("orders.order_status", "pending");
-                    },
-                    "product"
-                ])
+                    },"product"])
                     ->withSum("subOrder as total_earning", "sub_orders.total_amount");
             },
             "vendor.logo",
@@ -80,15 +74,15 @@ class OrderService extends OrderAbstract
             "productVariant.productSize",
             "productVariant",
             "product",
-            "orderTrack" => function ($query) {
+            "orderTrack" => function ($query){
                 return $query->orderByDesc('id')->limit(1);
             }
         ])->withCount("orderItem")
-            ->where("id", $id)->first();
+        ->where("id", $id)->first();
 
-        if ($type == "vendor") {
+        if($type == "vendor"){
             return view("order::vendor.details", compact("subOrders"));
-        } elseif ($type == "vendor-api") {
+        }elseif ($type == "vendor-api"){
             return $subOrders;
         }
 

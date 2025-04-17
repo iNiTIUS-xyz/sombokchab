@@ -27,15 +27,13 @@ use Modules\Product\Services\FrontendProductServices;
 class ProductController extends Controller
 {
 
-    public function search(Request $request)
-    {
+    public function search(Request $request){
         $all_products = ApiProductServices::productSearch($request, "api", "api", false);
 
         return MobileFeatureProductResource::collection($all_products);//->additional($additional);
     }
 
-    public function productDetail($id)
-    {
+    public function productDetail($id){
         $product = Product::where('id', $id)
             ->with([
                 'category:categories.id,name,image_id',
@@ -49,8 +47,8 @@ class ProductController extends Controller
                 'color',
                 'size',
                 'campaign_product',
-                'inventoryDetail' => function ($query) {
-                    $query->where("stock_count", ">", 0);
+                'inventoryDetail' => function ($query){
+                    $query->where("stock_count",">", 0);
                 },
                 'inventoryDetail.productColor',
                 'inventoryDetail.productSize',
@@ -61,22 +59,22 @@ class ProductController extends Controller
                 'gallery_images',
                 'productDeliveryOption',
                 'campaign_sold_product',
-                'vendor' => function ($item) {
+                'vendor' => function ($item){
                     $item->withCount("product");
-                    $item->whereHas("product", function ($query) {
+                    $item->whereHas("product", function ($query){
                         $query->where("status_id", 1);
                     });
                 },
                 'vendor.vendor_shop_info:id,vendor_id,logo_id',
                 'vendor.vendor_shop_info.logo:id,title,alt,path',
-                'vendor.product' => function ($item) {
+                'vendor.product' => function ($item){
                     $item->withAvg("ratings", "rating");
                 },
                 'vendor.product.vendor',
                 'vendor.product.subCategory',
                 'vendor.product.childCategory',
                 'vendor.product.category',
-                'vendor.vendor_address' => function ($item) {
+                'vendor.vendor_address' => function ($item){
                     $item->with("country");
                 },
                 'vendor.product.campaign_product',
@@ -92,10 +90,10 @@ class ProductController extends Controller
             ->where("status_id", 1)
             ->first();
 
-        if (empty($product)) {
-            return response()->json([
-                "msg" => __("No product found")
-            ], 404);
+        if(empty($product)){
+           return response()->json([
+               "msg" => __("No product found")
+           ],404);
         }
 
         $campaign_product = getCampaignProductById($product->id);
@@ -103,15 +101,15 @@ class ProductController extends Controller
         $deleted_price = $campaign_product ? $product->sale_price : $product->price;
         $campaign_percentage = $campaign_product ? getPercentage($product->sale_price, $sale_price) : false;
         $product->campaign_percentage = $campaign_percentage;
-        $product->random_key = random_int(11111111, 99999999) . $product->tax_options_sum_rate . random_int(111111111111111, 999999999999999);
-        $product->random_secret = random_int(111111111111111, 999999999999999) . round($sale_price, 0) . random_int(11111111, 99999999);
+        $product->random_key = random_int(11111111,99999999) . $product->tax_options_sum_rate . random_int(111111111111111,999999999999999);
+        $product->random_secret = random_int(111111111111111,999999999999999) . round($sale_price,0) . random_int(11111111,99999999);
         $product->sale_price = calculatePrice($sale_price, $product);
         $product->price = calculatePrice($deleted_price, $product);
 
         unset($product->tax_options_sum_rate);
 
         // remove shop-info from a collection
-        if (!empty($product->vendor?->vendor_shop_info)) {
+        if(!empty($product->vendor?->vendor_shop_info)){
             // those lines are for vendor logo
             $product->vendor->image = render_image($product?->vendor?->vendor_shop_info?->logo, render_type: 'path');
             unset($product->vendor->vendor_shop_info);
@@ -119,59 +117,59 @@ class ProductController extends Controller
 
         // write code for product category only add an image path into a category array
 
-        if (!empty($product->category)) {
-            $product->category->categoryImage = render_image($product->category?->image, render_type: 'path');
+        if(!empty($product->category)){
+            $product->category->categoryImage = render_image($product->category?->image , render_type: 'path');
 
-            if ($product->category?->image_id ?? false) {
+            if($product->category?->image_id ?? false){
                 unset($product->category->image_id);
             }
 
-            if ($product->category?->laravel_through_key ?? false) {
+            if($product->category?->laravel_through_key ?? false){
                 unset($product->category->laravel_through_key);
             }
 
-            if ($product->category?->image ?? false) {
+            if($product->category?->image ?? false){
                 unset($product->category->image);
             }
         }
 
         // write code for product subcategory only add an image path into a category array
-        if (!empty($product->subCategory)) {
+        if (!empty($product->subCategory)){
             $product->subCategory->categoryImage = render_image($product->subCategory?->image ?? 0, render_type: 'path');
-            if ($product->subCategory->image_id ?? false) {
+            if($product->subCategory->image_id ?? false){
                 unset($product->subCategory->image_id);
             }
 
-            if ($product->subCategory?->laravel_through_key ?? false) {
+            if($product->subCategory?->laravel_through_key ?? false){
                 unset($product->subCategory->laravel_through_key);
             }
 
-            if ($product->subCategory?->image ?? false) {
+            if($product->subCategory?->image ?? false){
                 unset($product->subCategory->image);
             }
         }
 
         // write code for product sub category only add image path into category array
-        $product->childCategory->transform(function ($item) {
+        $product->childCategory->transform(function ($item){
             $image = $item->image ?? 0;
-            if ($item->image ?? false) {
+            if($item->image ?? false){
                 unset($item->image);
             }
 
-            if ($item->image_id ?? false) {
+            if($item->image_id ?? false){
                 unset($item->image_id);
             }
 
-            if ($item->laravel_through_key) {
+            if($item->laravel_through_key){
                 unset($item->laravel_through_key);
             }
 
-            $item->image = render_image($image ?? 0, render_type: 'path');
+            $item->image = render_image($image ?? 0 , render_type: 'path');
             return $item;
         });
 
-        foreach ($product->gallery_images as $gallery) {
-            $gallery->image = render_image($gallery, render_type: 'path');
+        foreach($product->gallery_images as $gallery){
+            $gallery->image = render_image($gallery,render_type: 'path');
             unset($gallery->id);
             unset($gallery->title);
             unset($gallery->path);
@@ -187,11 +185,11 @@ class ProductController extends Controller
 
         // test
         $productImage = $product->image ?? 0;
-        if ($product->image ?? false) {
+        if($product->image ?? false){
             unset($product->image);
         }
 
-        $product->image = render_image($productImage, render_type: "path");
+        $product->image = render_image($productImage,render_type: "path");
 
         // get selected attributes in this product ( $available_attributes )
         $inventoryDetails = optional($product->inventoryDetail);
@@ -281,7 +279,7 @@ class ProductController extends Controller
                  *      ];
                  */
 
-                $available_attributes[$included_attribute_single['attribute_name']][$included_attribute_single['attribute_value']] = 1;
+                $available_attributes[$included_attribute_single['attribute_name']][ $included_attribute_single['attribute_value']] = 1;
 
                 // individual inventory item
                 $single_inventory_item[$included_attribute_single['attribute_name']] = $included_attribute_single['attribute_value'];
@@ -378,7 +376,7 @@ class ProductController extends Controller
 
         $available_attributes = array_map(fn($i) => array_keys($i), $available_attributes);
 
-        $product->reviews->transform(function ($item) {
+        $product->reviews->transform(function ($item){
             $item->user->image = render_image($item->user->profile_image, render_type: 'path');
             unset($item->user->profile_image);
             return $item;
@@ -392,22 +390,9 @@ class ProductController extends Controller
         $product_category = $product?->category?->id;
         $product_id = $product->id;
 
-        $related_products = Product::query()
-            ->with([
-                'category',
-                'subCategory',
-                'childCategory',
-                'vendor',
-                'campaign_product',
-                'campaign_sold_product',
-                'reviews',
-                'inventory',
-                'badge',
-                'uom'
-            ])
+        $related_products = Product::with('category','subCategory','childCategory','vendor','campaign_product','campaign_sold_product','reviews','inventory','badge','uom')
             ->withAvg("ratings", "rating")
             ->where('status_id', 1)
-            ->where('product_status', 'publish')
             ->whereIn('id', function ($query) use ($product_id, $product_category) {
                 $query->select('product_categories.product_id')
                     ->from(with(new ProductCategory())->getTable())
@@ -423,7 +408,7 @@ class ProductController extends Controller
         $user = auth('sanctum')->user();
 
         $user_has_item = $user
-            ? SubOrderItem::where("product_id", $id)->whereHas("order", function ($query) {
+            ? SubOrderItem::where("product_id", $id)->whereHas("order", function ($query){
                 $query->where("user_id", auth('sanctum')->user()->id);
             })->count()
             : null;
@@ -440,11 +425,11 @@ class ProductController extends Controller
             'your_reviews_text',
             'write_your_feedback_text',
             'post_your_feedback_text',
-        ])->get()->mapWithKeys(fn($item) => [$item->option_name => $item->option_value])->toArray();
+        ])->get()->mapWithKeys(fn ($item) => [$item->option_name => $item->option_value])->toArray();
 
         // hare will prepare vendor product as like mobileFeaturedProduct or product list
         $vendorProduct = MobileFeatureProductResource::collection($product?->vendor?->product ?? []);
-        if (!empty($product?->vendor?->product)) {
+        if(!empty($product?->vendor?->product)){
             unset($product->vendor->product);
             $product->vendor->product = MobileFeatureProductResource::collection($vendorProduct);
         }
@@ -471,17 +456,15 @@ class ProductController extends Controller
             'user_rated_already' => $user_rated_already,
         ];
     }
-
-    public function priceRange()
-    {
+    
+    public function priceRange(){
         $max_price = Product::query()->with('category')->max('price');
         $min_price = Product::query()->min('price');
-
+        
         return response()->json(["min_price" => $min_price, "max_price" => $max_price]);
     }
 
-    public function storeReview(Request $request)
-    {
+    public function storeReview(Request $request){
         $user = auth('sanctum')->user();
         if (!$user) {
             return response()->json(['msg' => 'Login to submit rating'])->setStatusCode(422);
@@ -498,7 +481,7 @@ class ProductController extends Controller
         }
 
         // ensure rating not inserted before
-        $user_rated_already = !!ProductRating::where('product_id', $request->id)->where('user_id', $user->id)->count();
+        $user_rated_already = !! ProductRating::where('product_id', $request->id)->where('user_id', $user->id)->count();
         if ($user_rated_already) {
             return response()->json(['msg' => __('You have rated before')])->setStatusCode(422);
         }
@@ -511,11 +494,10 @@ class ProductController extends Controller
             'review_msg' => $request->comment
         ]);
 
-        return response()->json(["success" => true, "type" => "success", "data" => $rating]);
+        return response()->json(["success" => true,"type" => "success","data" => $rating]);
     }
 
-    public function searchItems()
-    {
+    public function searchItems(){
         return FrontendProductServices::shopPageSearchContent();
     }
 }
