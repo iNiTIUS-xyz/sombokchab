@@ -12,7 +12,7 @@ class ProductStoreRequest extends FormRequest
      *
      * @return array
      */
-    public function rules(): array
+    public function rules() : array
     {
         return [
             "name" => "required",
@@ -23,7 +23,7 @@ class ProductStoreRequest extends FormRequest
             "cost" => "required|numeric",
             "price" => "nullable|numeric",
             "sale_price" => "required|numeric",
-            "sku" => ["required", ($this->id ?? null) ? Rule::unique("product_inventories")->ignore($this->id, "product_id") : Rule::unique("product_inventories")],
+            "sku" => ["required", ($this->id ?? null) ? Rule::unique("product_inventories")->ignore($this->id,"product_id") :  Rule::unique("product_inventories")],
             "quantity" => "nullable|integer|gt:0",
             "unit_id" => "required",
             "uom" => "required|numeric",
@@ -69,13 +69,12 @@ class ProductStoreRequest extends FormRequest
             "is_refundable" => "nullable",
             "is_inventory_warn_able" => "nullable",
             "is_taxable" => "nullable",
-            "product_status" => "nullable",
             "tax_class_id" => [
                 Rule::requiredIf(function () {
                     return $this->is_taxable == 1;
                 })
             ],
-        ];
+         ];
     }
 
     protected function prepareForValidation()

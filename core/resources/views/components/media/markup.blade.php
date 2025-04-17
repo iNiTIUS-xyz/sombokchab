@@ -3,7 +3,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">{{ __('Media Uploads') }}</h5>
+                <h5 class="modal-title" id="exampleModalLabel">{{ __('Media Uploads rrrr') }}</h5>
                 <button type="button" class="close-icon media_upload_modal_submit_btn close-select-button"
                     data-bs-dismiss="modal" aria-bs-label="Close">
                     <span aria-hidden="true">&times;</span>

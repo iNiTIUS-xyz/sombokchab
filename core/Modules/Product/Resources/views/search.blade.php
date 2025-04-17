@@ -13,7 +13,6 @@
             <th> {{ __('Categories') }} </th>
             <th> {{ __('Stock Qty') }} </th>
             <th> {{ __('Status') }} </th>
-            <th> {{ __('Product Status') }} </th>
             <th> {{ __('Actions') }} </th>
         </tr>
     </thead>
@@ -36,7 +35,7 @@
                                 {!! render_image($product->image) !!}
                             </div>
 
-                            @if (false)
+                            @if(false)
                                 <button data-product-id="{{ $product->id }}" data-bs-target="#mediaUpdateModalId"
                                     data-bs-toggle="modal"
                                     class="product-image-change-action-button btn btn-sm btn-outline-primary position-absolute top-0 left-0 rounded-circle">
@@ -84,9 +83,7 @@
                         <x-product::table.status :statuses="$statuses" :statusId="$product?->status_id" :id="$product->id" />
                     @endcan
                 </td>
-                <td class="text-center">
-                    {{ Str::ucfirst($product?->product_status) }}
-                </td>
+
                 <td data-label="Actions">
                     <div class="action-icon">
                         <a href="{{ route('frontend.products.single', $product->slug) }}" class="icon eye">

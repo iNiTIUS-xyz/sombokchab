@@ -115,7 +115,7 @@
         </div>
     </div>
 @endsection
-@section('script')
+{{-- @section('script')
     <script>
         (function($) {
             'use script'
@@ -192,27 +192,27 @@
 
                             loadHeaderCardAndWishlistArea(data);
 
-                        $('table.custom--table.table-border.radius-10').load(location.href + ' .custom--table.table-border.radius-10');
-                            window.location.load('href=')
-                        }, (err) => {
-                            el.text("{{ __("Update Cart") }}")
-                            if (err.responseJSON.error_type === 'cart') {
-                                let messages = err.responseJSON.error_messages;
+                        // $('table.custom--table.table-border.radius-10').load(location.href + ' .custom--table.table-border.radius-10');
+                        //     window.location.load('href=')
+                        // }, (err) => {
+                        //     el.text("{{ __("Update Cart") }}")
+                        //     if (err.responseJSON.error_type === 'cart') {
+                        //         let messages = err.responseJSON.error_messages;
 
-                                for (let i = 0; i < messages.length; i++) {
-                                    setTimeout(() => toastr.error(messages[i]), i * 550)
-                                }
-                            }
+                        //         for (let i = 0; i < messages.length; i++) {
+                        //             setTimeout(() => toastr.error(messages[i]), i * 550)
+                        //         }
+                        //     }
 
-                            if ($(this).data('type') === 'tr') {
-                                $(this).closest("tr").removeClass("disabled");
-                            }
+                        //     if ($(this).data('type') === 'tr') {
+                        //         $(this).closest("tr").removeClass("disabled");
+                        //     }
 
-                            $(this).find('.icon-close i').removeClass("la-spinner").addClass(
-                                "la-times");
+                        //     $(this).find('.icon-close i').removeClass("la-spinner").addClass(
+                        //         "la-times");
 
-                            prepare_errors(err)
-                        })
+                        //     prepare_errors(err)
+                        // })
                 });
 
                 $(document).on('click', '.clear_cart', function(e) {
@@ -269,41 +269,234 @@
             });
         })(jQuery)
 
-        function updateCartQuantity(context) {
-            let all_item_info = $('.item_quantity_info');
-            let cart_data = [];
-            let this_btn = $(context);
+        // function updateCartQuantity(context) {
+        //     let all_item_info = $('.item_quantity_info');
+        //     let cart_data = [];
+        //     let this_btn = $(context);
 
-            this_btn.closest('tr').css('opacity', '.2');
+        //     this_btn.closest('tr').css('opacity', '.2');
 
-            for (let i = 0; i < all_item_info.length; i++) {
-                cart_data.push({
-                    id: $(all_item_info[i]).data('id'),
-                    product_attribute: $(all_item_info[i]).data('attr'),
-                    quantity: $(all_item_info[i]).val(),
+        //     for (let i = 0; i < all_item_info.length; i++) {
+        //         cart_data.push({
+        //             id: $(all_item_info[i]).data('id'),
+        //             product_attribute: $(all_item_info[i]).data('attr'),
+        //             quantity: $(all_item_info[i]).val(),
+        //         });
+        //     }
+
+        //     $('.lds-ellipsis').show();
+
+        //     $.ajax({
+        //         url: '{{ route('frontend.products.cart.update.ajax') }}',
+        //         type: 'POST',
+        //         data: {
+        //             _token: '{{ csrf_token() }}',
+        //             cart_data: cart_data,
+        //             coupon: $('#coupon_input').val()
+        //         },
+        //         success: function(data) {
+        //             $('.lds-ellipsis').hide();
+        //             this_btn.closest('tr').attr('opacity', '1');
+        //             $('#cart-container').html(data);
+        //         },
+        //         error: function(err) {
+        //             this_btn.closest('tr').attr('opacity', '1');
+        //             toastr.error('{{ __('An error occurred') }}');
+        //         }
+        //     });
+        // }
+    </script>
+@endsection --}}
+@section('script')
+    <script>
+        (function($) {
+            'use strict';
+
+            // Shared flag to prevent multiple updates
+            let isUpdating = false;
+
+            // Move to wishlist handler
+            $(document).on("click", ".move-wishlist", function(e) {
+                e.preventDefault();
+                let data = new FormData();
+                data.append("rowId", $(this).attr("data-product_hash_id"));
+                data.append("_token", "{{ csrf_token() }}");
+
+                send_ajax_request("post", data, "{{ route('frontend.products.cart.move.to.wishlist') }}",
+                    () => {},
+                    (data) => {
+                        loadHeaderCardAndWishlistArea(data);
+                        if ((data.type ?? '') == 'warning') {
+                            toastr.warning(data.quantity_msg ?? 'Something went wrong');
+                        } else {
+                            ajax_toastr_success_message(data);
+                        }
+                        $(".cart-page-wrapper").load(location.href + " .cart-page-wrapper");
+                    },
+                    (errors) => {
+                        prepare_errors(errors);
+                    }
+                );
+            });
+
+            // Remove from cart handler
+            $(document).on("click", ".remove-cart", function(e) {
+                e.preventDefault();
+                let formData = new FormData();
+                formData.append("rowId", $(this).attr("data-product_hash_id"));
+                formData.append("_token", "{{ csrf_token() }}");
+
+                send_ajax_request("post", formData, "{{ route('frontend.products.cart.ajax.remove') }}",
+                    () => {},
+                    (data) => {
+                        loadHeaderCardAndWishlistArea(data);
+                        ajax_toastr_success_message(data);
+                        $(".cart-page-wrapper").load(location.href + " .cart-page-wrapper");
+                    },
+                    (errors) => {
+                        prepare_errors(errors);
+                    }
+                );
+            });
+
+            // Quantity button handlers with proper debouncing
+            $(document).on('click', '.product-quantity .plus, .product-quantity .substract', function(e) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+
+                if (isUpdating) return;
+
+                const $button = $(this);
+                const $row = $button.closest('tr');
+                const $input = $row.find('.quantity-input');
+                let currentVal = parseInt($input.val());
+                let newVal = currentVal;
+
+                // Determine if we're increasing or decreasing
+                if ($button.hasClass('plus')) {
+                    newVal = currentVal + 1;
+                } else if ($button.hasClass('substract') && currentVal > 1) {
+                    newVal = currentVal - 1;
+                } else {
+                    return; // Don't allow quantity less than 1
+                }
+
+                // Immediately update the UI
+                $input.val(newVal);
+
+                // Update the cart
+                updateCartItem($row, newVal);
+            });
+
+            // Clear cart handler
+            $(document).on('click', '.clear_cart', function(e) {
+                e.preventDefault();
+                $.ajax({
+                    url: '{{ route('frontend.products.cart.ajax.clear') }}',
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                    },
+                    success: function(data) {
+                        if (data.type === 'success') {
+                            toastr.success(data.msg);
+                            setTimeout(function() {
+                                location.reload();
+                            }, 500);
+                        }
+                    },
+                    error: function(err) {
+                        toastr.error('{{ __('An error occurred') }}');
+                    }
+                });
+            });
+
+            // Coupon handler
+            $(document).on('submit', '.discount-coupon', function(e) {
+                e.preventDefault();
+                let url = $(this).attr('action');
+                let data = $(this).serialize();
+                $('.lds-ellipsis').show();
+
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: data,
+                    success: function(data) {
+                        $('.lds-ellipsis').hide();
+                        $('#cart-container').html(data);
+                    },
+                    error: function(err) {
+                        toastr.error('{{ __('An error occurred') }}');
+                    }
+                });
+            });
+
+            // Unified cart update function
+            function updateCartItem($row, newQuantity) {
+                isUpdating = true;
+
+                // Show loading state
+                $row.css('opacity', '0.5');
+                $row.find('.plus, .substract').prop('disabled', true);
+
+                const data = {
+                    rowId: $row.data('product_hash_id'),
+                    quantity: newQuantity,
+                    product_id: $row.data('product-id'),
+                    variant_id: $row.data('varinat-id'),
+                    _token: "{{ csrf_token() }}"
+                };
+
+                $.ajax({
+                    url: "{{ route('frontend.products.cart.update.ajax') }}",
+                    type: 'POST',
+                    data: data,
+                    dataType: 'json',
+                    success: function(response) {
+                        // Update UI
+                        $row.css('opacity', '1');
+                        $row.find('.plus, .substract').prop('disabled', false);
+
+                        // Update total price
+                        const priceText = $row.find('.price-td').first().text();
+                        const price = parseFloat(priceText.replace(/[^\d.-]/g, ''));
+                        const newTotal = price * newQuantity;
+                        $row.find('.price-td.color-one').text(amount_with_currency_symbol(newTotal));
+
+                        // Show message if exists
+                        if (response.msg) {
+                            toastr[response.type || 'success'](response.msg);
+                        }
+
+                        // Update header cart
+                        if (typeof loadHeaderCardAndWishlistArea === 'function') {
+                            loadHeaderCardAndWishlistArea(response);
+                        }
+                    },
+                    error: function(xhr) {
+                        $row.css('opacity', '1');
+                        $row.find('.plus, .substract').prop('disabled', false);
+
+                        // Revert the quantity if update failed
+                        $row.find('.quantity-input').val($row.data('last-valid-quantity') || 1);
+
+                        if (xhr.responseJSON && xhr.responseJSON.errors) {
+                            prepare_errors(xhr.responseJSON.errors);
+                        } else {
+                            toastr.error('{{ __('An error occurred while updating quantity') }}');
+                        }
+                    },
+                    complete: function() {
+                        isUpdating = false;
+                    }
                 });
             }
 
-            $('.lds-ellipsis').show();
-
-            $.ajax({
-                url: '{{ route('frontend.products.cart.update.ajax') }}',
-                type: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    cart_data: cart_data,
-                    coupon: $('#coupon_input').val()
-                },
-                success: function(data) {
-                    $('.lds-ellipsis').hide();
-                    this_btn.closest('tr').attr('opacity', '1');
-                    $('#cart-container').html(data);
-                },
-                error: function(err) {
-                    this_btn.closest('tr').attr('opacity', '1');
-                    toastr.error('{{ __('An error occurred') }}');
-                }
+            // Store last valid quantity on focus
+            $(document).on('focus', '.quantity-input', function() {
+                $(this).closest('tr').data('last-valid-quantity', $(this).val());
             });
-        }
+        })(jQuery);
     </script>
 @endsection

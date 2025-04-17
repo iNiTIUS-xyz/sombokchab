@@ -25,5 +25,6 @@
         <p>{{ __("State") }}: <b>{{ $shipping_address?->state?->name }}</b></p>
         <p>{{ __("City") }}: <b>{{ $shipping_address?->cities?->name }}</b></p>
         <p>{{ __("Mobile") }}: <b>{{ $shipping_address->phone }}</b></p>
+        <p>{{ __("Zip Code") }}: <b>{{ $shipping_address->zip_code }}</b></p>
     </div>
 </div>

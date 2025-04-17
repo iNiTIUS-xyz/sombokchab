@@ -718,7 +718,7 @@
                                             <div><span class="counter-minutes"></span> m</div>
                                             <div><span class="counter-seconds"></span> s</div>
                                         </div>
-                                        <h4 class="common-title-two mt-3"> <a href="{{ route('frontend.products.campaign', $campaign->slug) }}"> {{ $campaign->title }} </a>
+                                        <h4 class="common-title-two mt-3"> <a href="#1"> {{ $campaign->title }} </a>
                                         </h4>
                                         <p class="common-para mt-1">
                                             {{ $campaign->subtitle }}

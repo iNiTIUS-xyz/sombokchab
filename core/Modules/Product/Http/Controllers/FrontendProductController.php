@@ -41,20 +41,19 @@ use Modules\Product\Services\FrontendProductServices;
 
 class FrontendProductController extends Controller
 {
-    public function download_invoice($id)
-    {
+    public function download_invoice($id){
         $order_details = ProductSellInfo::with("sale_details")->findOrFail($id);
 
         $db_order_details = json_decode($order_details->order_details, true);
         $db_order_details = is_string($db_order_details) ? json_decode($db_order_details, true) : $db_order_details;
         $products = Product::whereIn('id', array_keys($db_order_details))->get();
         $user_shipping_address = getUserShippingAddress($order_details->shipping_address_id);
-        $customPaper = array(0, 0, 1280, 720);
-        //
+        $customPaper = array(0,0,1280,720);
+        // 
 
-        // return view('frontend.partials.product.pdf', compact('order_details', 'products', 'user_shipping_address'));
+//        return view('frontend.partials.product.pdf', compact('order_details', 'products', 'user_shipping_address'));
 
-        $pdf = PDF::loadView('frontend.partials.product.pdf', compact('order_details', 'products', 'user_shipping_address'))->setPaper($customPaper, 'landscape');
+        $pdf = PDF::loadView('frontend.partials.product.pdf', compact('order_details', 'products', 'user_shipping_address'))->setPaper($customPaper,'landscape');
         return $pdf->download('product-order-invoice.pdf');
     }
 
@@ -95,8 +94,7 @@ class FrontendProductController extends Controller
         ]);
     }
 
-    public function storeReview($slug, Request $request)
-    {
+    public function storeReview($slug, Request $request){
         // validate request hare
         $validatedData = $request->validate([
             "comment" => "nullable|string",
@@ -115,7 +113,7 @@ class FrontendProductController extends Controller
         // now check this user is already rated or not
         $alreadyRated = ProductRating::where('product_id', $product->id)->where('user_id', $user->id)->count();
 
-        if (!$alreadyRated) {
+        if(! $alreadyRated){
             ProductRating::create([
                 "product_id" => $product->id,
                 "review_msg" => $validatedData['comment'],
@@ -146,7 +144,7 @@ class FrontendProductController extends Controller
                 'tag',
                 'color',
                 'size',
-                'campaign_product' => function ($campaignProduct) use ($date) {
+                'campaign_product' => function ($campaignProduct) use ($date){
                     $campaignProduct->whereDate("end_date", ">=", $date)->whereDate("start_date", "<=", $date);
                 },
                 'inventoryDetail',
@@ -160,11 +158,11 @@ class FrontendProductController extends Controller
                 'productDeliveryOption',
                 'campaign_sold_product',
                 'metaData',
-                'vendor' => function ($item) {
-                    $item->withAvg("vendorProductRating", "product_ratings.rating")->withCount("product", "vendorProductRating");
+                'vendor' => function ($item){
+                    $item->withAvg("vendorProductRating","product_ratings.rating")->withCount("product","vendorProductRating");
                 },
                 'vendor.product',
-                'vendor.vendor_address' => function ($item) {
+                'vendor.vendor_address' => function ($item){
                     $item->with("country");
                 },
                 'vendor.product.campaign_product',
@@ -180,14 +178,12 @@ class FrontendProductController extends Controller
             ->withCount("reviews")
             ->withSum("taxOptions", "rate")
             ->where("status_id", 1)
-            ->where('product_status', 'publish')
             ->firstOrFail();
-
-        if (!empty($product->vendor_id) && get_static_option("calculate_tax_based_on") == 'vendor_shop_address') {
+        if(!empty($product->vendor_id) && get_static_option("calculate_tax_based_on") == 'vendor_shop_address') {
             $vendorAddress = $product->vendorAddress;
             $product = tax_options_sum_rate($product, $vendorAddress->country_id, $vendorAddress->state_id, $vendorAddress->city_id);
-        } elseif (empty($product->vendor_id) && get_static_option("calculate_tax_based_on") == 'vendor_shop_address') {
-            $vendorAddress = AdminShopManage::select("id", "country_id", "state_id", "city as city_id")->first();
+        }elseif(empty($product->vendor_id) && get_static_option("calculate_tax_based_on") == 'vendor_shop_address'){
+            $vendorAddress = AdminShopManage::select("id","country_id", "state_id","city as city_id")->first();
 
             $product = tax_options_sum_rate($product, $vendorAddress->country_id, $vendorAddress->state_id, $vendorAddress->city_id);
         }
@@ -377,17 +373,7 @@ class FrontendProductController extends Controller
         // related products
         $product_category = $product?->category?->id;
         $product_id = $product->id;
-        $related_products = Product::query()
-            ->with([
-                'campaign_product',
-                'campaign_sold_product',
-                'reviews',
-                'inventory',
-                'badge',
-                'uom'
-            ])
-            ->where('status_id', 1)
-            ->where('product_status', 'publish')
+        $related_products = Product::with('campaign_product','campaign_sold_product','reviews','inventory','badge','uom')->where('status_id', 1)
             ->whereIn('id', function ($query) use ($product_id, $product_category) {
                 $query->select('product_categories.product_id')
                     ->from(with(new ProductCategory())->getTable())
@@ -402,7 +388,7 @@ class FrontendProductController extends Controller
         // (bool) Check logged-in user bought this item (needed for review)
         $user = getUserByGuard(); // default guard is web
 
-        $user_rated_already = !!!ProductRating::where('product_id', optional($product)->id)->where('user_id', optional($user)->id)->count();
+        $user_rated_already = !!! ProductRating::where('product_id', optional($product)->id)->where('user_id', optional($user)->id)->count();
 
         $user_has_item = $user
             ? SubOrderItem::query()->whereHas("order", function ($query) use ($user) {
@@ -419,7 +405,7 @@ class FrontendProductController extends Controller
             'your_reviews_text',
             'write_your_feedback_text',
             'post_your_feedback_text',
-        ])->get()->mapWithKeys(fn($item) => [$item->option_name => $item->option_value])->toArray();
+        ])->get()->mapWithKeys(fn ($item) => [$item->option_name => $item->option_value])->toArray();
 
         // sidebar data
         $all_category = ProductCategory::all();
@@ -428,9 +414,10 @@ class FrontendProductController extends Controller
         $min_price = request()->pr_min ? request()->pr_min : Product::query()->min('price');
         $max_price = request()->pr_max ? request()->pr_max : $maximum_available_price;
         $all_tags = ProductTag::all();
-        $paymentGateways = PaymentGateway::with('oldImage')->where("status", 1)->get();
+        $paymentGateways = PaymentGateway::with('oldImage')->where("status",1)->get();
 
-        if (empty($product_inventory_set[0] ?? [])) {
+        if(empty($product_inventory_set[0] ?? []))
+        {
             $product_inventory_set = "";
         }
 
@@ -464,7 +451,7 @@ class FrontendProductController extends Controller
                 'tag',
                 'color',
                 'size',
-                'campaign_product' => function ($campaignProduct) use ($date) {
+                'campaign_product' => function ($campaignProduct) use ($date){
                     $campaignProduct->whereDate("end_date", ">=", $date)->whereDate("start_date", "<=", $date);
                 },
                 'inventoryDetail',
@@ -477,11 +464,11 @@ class FrontendProductController extends Controller
                 'gallery_images',
                 'productDeliveryOption',
                 'campaign_sold_product',
-                'vendor' => function ($item) {
-                    $item->withAvg("vendorProductRating", "product_ratings.rating")->withCount("product", "vendorProductRating");
+                'vendor' => function ($item){
+                    $item->withAvg("vendorProductRating","product_ratings.rating")->withCount("product","vendorProductRating");
                 },
                 'vendor.product',
-                'vendor.vendor_address' => function ($item) {
+                'vendor.vendor_address' => function ($item){
                     $item->with("country");
                 },
                 'vendor.product.campaign_product',
@@ -501,11 +488,11 @@ class FrontendProductController extends Controller
             ->where("status_id", 1)
             ->firstOrFail();
 
-        if (!empty($product->vendor_id) && get_static_option("calculate_tax_based_on") == 'vendor_shop_address') {
+        if(!empty($product->vendor_id) && get_static_option("calculate_tax_based_on") == 'vendor_shop_address') {
             $vendorAddress = $product->vendorAddress;
             $product = tax_options_sum_rate($product, $vendorAddress->country_id, $vendorAddress->state_id, $vendorAddress->city_id);
-        } elseif (empty($product->vendor_id) && get_static_option("calculate_tax_based_on") == 'vendor_shop_address') {
-            $vendorAddress = AdminShopManage::select("id", "country_id", "state_id", "city as city_id")->first();
+        }elseif(empty($product->vendor_id) && get_static_option("calculate_tax_based_on") == 'vendor_shop_address'){
+            $vendorAddress = AdminShopManage::select("id","country_id", "state_id","city as city_id")->first();
 
             $product = tax_options_sum_rate($product, $vendorAddress->country_id, $vendorAddress->state_id, $vendorAddress->city_id);
         }
@@ -608,10 +595,7 @@ class FrontendProductController extends Controller
         // related products
         $product_category = $product?->category?->id;
         $product_id = $product->id;
-        $related_products = Product::query()
-            ->with(['campaign_product', 'campaign_sold_product', 'reviews', 'inventory', 'badge', 'uom'])
-            ->where('status_id', 1)
-            ->where('product_status', 'publish')
+        $related_products = Product::with('campaign_product','campaign_sold_product','reviews','inventory','badge','uom')->where('status_id', 1)
             ->whereIn('id', function ($query) use ($product_id, $product_category) {
                 $query->select('product_categories.product_id')
                     ->from(with(new ProductCategory())->getTable())
@@ -626,9 +610,9 @@ class FrontendProductController extends Controller
         // (bool) Check logged-in user bought this item (needed for review)
         $user = getUserByGuard('web');
 
-        $user_has_item = $user ? !!SaleDetails::join("product_sell_infos", "product_sell_infos.id", "=", "sale_details.order_id")
-            ->where('product_sell_infos.user_id', $user->id)
-            ->where('sale_details.item_id', $product->id)->count()
+        $user_has_item = $user ? !!SaleDetails::join("product_sell_infos","product_sell_infos.id","=","sale_details.order_id")
+                ->where('product_sell_infos.user_id', $user->id)
+                ->where('sale_details.item_id', $product->id)->count()
             : null;
 
         $user_rated_already = ProductRating::where('product_id', optional($product)->id)->where('user_id', optional($user)->id)->count();
@@ -642,7 +626,7 @@ class FrontendProductController extends Controller
             'your_reviews_text',
             'write_your_feedback_text',
             'post_your_feedback_text',
-        ])->get()->mapWithKeys(fn($item) => [$item->option_name => $item->option_value])->toArray();
+        ])->get()->mapWithKeys(fn ($item) => [$item->option_name => $item->option_value])->toArray();
 
 
         // sidebar data
@@ -652,7 +636,7 @@ class FrontendProductController extends Controller
         $min_price = request()->pr_min ? request()->pr_min : Product::query()->min('price');
         $max_price = request()->pr_max ? request()->pr_max : $maximum_available_price;
         $all_tags = ProductTag::all();
-        $paymentGateways = PaymentGateway::with('oldImage')->where("status", 1)->get();
+        $paymentGateways = PaymentGateway::with('oldImage')->where("status",1)->get();
 
         return view('frontend.product.quick-view', compact(
             'product',
@@ -695,10 +679,10 @@ class FrontendProductController extends Controller
     {
         $default_item_count = get_static_option('default_item_count');
         $all_products = Product::when(!empty($slug), function ($query) use ($slug) {
-            $query->whereHas("category", function ($cat_query) use ($slug) {
-                $cat_query->where("slug", $slug);
-            });
-        })->with('campaign_product', 'category', 'ratings', 'inventory', 'campaign_sold_product')
+                $query->whereHas("category", function ($cat_query) use ($slug) {
+                    $cat_query->where("slug", $slug);
+                });
+            })->with('campaign_product', 'category', 'ratings','inventory','campaign_sold_product')
             ->orderBy('id', 'desc')
             ->paginate($default_item_count);
 
@@ -717,8 +701,8 @@ class FrontendProductController extends Controller
     public function products_subcategory($slug)
     {
         $default_item_count = get_static_option('default_item_count');
-        $all_products = Product::with('campaign_product', 'campaign_sold_product', 'inventory')->where('status_id', 1)
-            ->whereHas('subCategory', function ($query) use ($slug) {
+        $all_products = Product::with('campaign_product','campaign_sold_product','inventory')->where('status_id',1)
+            ->whereHas('subCategory',function ($query) use ($slug){
                 $query->where("slug", $slug);
             })
             ->orderBy('id', 'desc')
@@ -739,9 +723,9 @@ class FrontendProductController extends Controller
     public function products_child_category($slug)
     {
         $default_item_count = get_static_option('default_item_count');
-        $all_products = Product::with("campaign_product", "campaign_sold_product", "inventory")
-            ->where('status_id', 1)
-            ->whereHas('childCategory', function ($query) use ($slug) {
+        $all_products = Product::with("campaign_product","campaign_sold_product","inventory")
+            ->where('status_id',1)
+            ->whereHas('childCategory',function ($query) use ($slug){
                 $query->where("slug", $slug);
             })
             ->orderBy('id', 'desc')
@@ -766,16 +750,14 @@ class FrontendProductController extends Controller
         return view('frontend.cart.all');
     }
 
-    public function updateCart(Request $request)
-    {
+    public function updateCart(Request $request){
         return $request->all();
     }
 
     /**
      * @throws \Throwable
      */
-    public function moveToWishlist(Request $request)
-    {
+    public function moveToWishlist(Request $request){
         if (!Auth::guard("web")->check()) {
             return response()->json([
                 'type' => 'warning',
@@ -783,20 +765,19 @@ class FrontendProductController extends Controller
             ]);
         }
 
-        $username = Auth::guard("web")->user()->id;
-        ;
+        $username = Auth::guard("web")->user()->id;;
         // first of all get cart item from cart package
         $cart_data = (array) Cart::instance("default")->get($request->rowId);
         $options = [];
 
-        foreach ($cart_data["options"] as $key => $value) {
+        foreach($cart_data["options"] as $key => $value){
             $options[$key] = $value;
         }
 
         DB::beginTransaction();
         try {
             Cart::instance("wishlist")->restore($username);
-            Cart::instance("wishlist")->add(['id' => $cart_data['id'], 'name' => $cart_data["name"], 'qty' => $cart_data['qty'], 'price' => $cart_data["price"], 'weight' => '0', 'options' => $options]);
+            Cart::instance("wishlist")->add(['id' => $cart_data['id'], 'name' => $cart_data["name"], 'qty' => $cart_data['qty'], 'price' => $cart_data["price"], 'weight' => '0', 'options' => $options ]);
             Cart::instance("wishlist")->store($username);
             // now remove this item from cart
             Cart::instance("default")->remove($request->rowId);
@@ -822,19 +803,17 @@ class FrontendProductController extends Controller
     /**
      * @throws \Throwable
      */
-    public function moveToCart(Request $request)
-    {
-        $username = Auth::guard("web")->user()->id;
-        ;
+    public function moveToCart(Request $request){
+        $username = Auth::guard("web")->user()->id;;
         // first of all get cart item from cart package
         $cart_data = (array) Cart::instance("wishlist")->get($request->rowId);
         $options = [];
 
-        foreach ($cart_data["options"] as $key => $value) {
+        foreach($cart_data["options"] as $key => $value){
             $options[$key] = $value;
         }
 
-        Cart::instance("default")->add(['id' => $cart_data['id'], 'name' => $cart_data["name"], 'qty' => $cart_data['qty'], 'price' => $cart_data["price"], 'weight' => '0', 'options' => $options]);
+        Cart::instance("default")->add(['id' => $cart_data['id'], 'name' => $cart_data["name"], 'qty' => $cart_data['qty'], 'price' => $cart_data["price"], 'weight' => '0', 'options' => $options ]);
         // now remove this item from cart
         Cart::instance("wishlist")->remove($request->rowId);
 
@@ -858,7 +837,7 @@ class FrontendProductController extends Controller
      * ======================================================================*/
     public function productsComparePage(Request $request)
     {
-        return view('frontend.compare.all');
+       return view('frontend.compare.all');
     }
 
     /** ======================================================================
@@ -900,8 +879,7 @@ class FrontendProductController extends Controller
         return view('frontend.partials.filter-item', compact('products'));
     }
 
-    function filterCategoryProducts(Request $request)
-    {
+    function filterCategoryProducts (Request $request) {
         $request->validate([
             'id' => 'required|exists:product_categories',
             'item_count' => 'required|numeric'
@@ -924,7 +902,7 @@ class FrontendProductController extends Controller
     {
         $campaign = Campaign::with(['products', 'products.product'])->findOrFail($id);
         $campaign_product_ids = optional($campaign->products)->pluck('id')->toArray();
-        $campaign_products = CampaignProduct::whereIn('id', $campaign_product_ids)->with('product.rating')->paginate();
+        $campaign_products =  CampaignProduct::whereIn('id', $campaign_product_ids)->with('product.rating')->paginate();
 
         return view('frontend.campaign.index', compact('campaign', 'campaign_products'));
     }
@@ -985,8 +963,7 @@ class FrontendProductController extends Controller
     /** ======================================================================
      *                  AJAX SEARCH FUNCTION
      * ======================================================================*/
-    public function search(Request $request)
-    {
+    public function search(Request $request) {
         $request->validate([
             'category_id' => 'nullable|exists:product_categories',
             'search_query' => 'nullable|string|max:191'
@@ -995,19 +972,19 @@ class FrontendProductController extends Controller
         $category_data = [];
         $product_data = [];
 
-        $all_products = ApiProductServices::productSearch($request, "frontend.ajax", "frontend");
+        $all_products = ApiProductServices::productSearch($request, "frontend.ajax","frontend");
         $products = $all_products["items"];
         unset($all_products["items"]);
         $additional = $all_products;
         $product_url = $all_products["path"];
 
-        foreach ($products as $singleProduct) {
+        foreach($products as $singleProduct){
             $category = $singleProduct->category;
 
             // check category already exists or not
             // this condition is responsible for making unique category
-            if ($category_data[$category->id] ?? false)
-                continue;
+            if($category_data[$category->id] ?? false)
+                continue ;
 
             $category_data[$category->id] = [
                 'title' => $category->name,

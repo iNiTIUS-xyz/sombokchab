@@ -6,7 +6,7 @@
         $tag_name_arr = $tag->pluck('tag_name')?->toArray();
         $tag_name = implode(',', $tag_name_arr ?? []);
     }
-
+    
     if (!isset($singlebadge)) {
         $singlebadge = null;
     }
@@ -21,7 +21,7 @@
             <div class="col-sm-12">
                 <div class="dashboard-input">
                     <label class="dashboard-label"> {{ __('Tags') }} </label>
-                    <input type="text" name="tags" class="form-control tags_input" data-role="tagsinput"
+                    <input type="text" name="tags" class="form-control tags_input radius-10" data-role="tagsinput"
                         value="{{ $tag_name }}">
                 </div>
             </div>
@@ -39,9 +39,7 @@
                                 <div class="content">
                                     <h6 class="title">{{ $badge->name }}</h6>
                                     <span
-                                        class="badge badge-{{ $badge->type ? 'success bg-success' : 'warning bg-warning' }}">
-                                        {{ $badge->type ? __('Permanent') : __('Temporary') }}
-                                    </span>
+                                        class="badge badge-{{ $badge->type ? 'success bg-success' : 'warning bg-warning' }}">{{ $badge->type ? __('Permanent') : __('Temporary') }}</span>
                                 </div>
                             </div>
                         @endforeach

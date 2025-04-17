@@ -14,8 +14,8 @@
                 <div class="col-sm-12">
                     <div class="dashboard-input">
                         <label class="dashboard-label color-light mb-2"> <?php echo e(__('Name')); ?> </label>
-                        <input type="text" class="form--control radius-10" id="product-name"
-                            value="<?php echo e($product?->name ?? ''); ?>" name="name"
+                        <input type="text" class="form--control radius-10 form-control is-invalid" id="product-name"
+                            value="<?php echo e($product?->name ?? ''); ?>" name="name" aria-describedby="product-name-error" required
                             placeholder="<?php echo e(__('Write product Name...')); ?>">
                     </div>
                 </div>
@@ -23,28 +23,29 @@
                     <div class="dashboard-input">
                         <label class="dashboard-label color-light mb-2"> <?php echo e(__('Slug')); ?> </label>
                         <input type="text" class="form--control radius-10" id="product-slug"
-                            value="<?php echo e($product?->slug ?? ''); ?>" name="slug"
+                            value="<?php echo e($product?->slug ?? ''); ?>" name="slug" required
                             placeholder="<?php echo e(__('Write product slug...')); ?>">
                     </div>
                 </div>
                 <div class="col-sm-12">
                     <div class="dashboard-input">
                         <label class="dashboard-label color-light mb-2"> <?php echo e(__('Short Description')); ?> </label>
-                        <textarea style="height: 120px" class="form--control form--message  radius-10" name="summery"
+                        <textarea style="height: 120px" class="form--control form--message  radius-10 form-control is-invalid" name="summery" required
                             placeholder="<?php echo e(__('Write Short Description')); ?>"><?php echo e($product?->summary ?? ''); ?></textarea>
                     </div>
                 </div>
                 <div class="col-sm-12">
                     <div class="dashboard-input">
                         <label class="dashboard-label color-light mb-2"> <?php echo e(__('Description')); ?> </label>
-                        <textarea class="form--control summernote radius-10" name="description" placeholder="<?php echo e(__('Type Description')); ?>"><?php echo $product?->description; ?></textarea>
+                        <textarea class="form--control summernote radius-10 form-control is-invalid" name="description" placeholder="<?php echo e(__('Type Description')); ?>"
+                            required><?php echo $product?->description; ?></textarea>
                     </div>
                 </div>
                 <div class="col-sm-12">
                     <div class="dashboard-input">
                         <label class="dashboard-label color-light mb-2"> <?php echo e(__('Brand')); ?> </label>
                         <div class="nice-select-two">
-                            <select name="brand" class="form-control" id="brand_id">
+                            <select name="brand" class="form-control" id="brand_id" required>
                                 <option value=""><?php echo e(__('Select brand')); ?></option>
                                 <?php $__currentLoopData = $brands; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <option <?php echo e($item->id == $product?->brand_id ? 'selected' : ''); ?>

@@ -60,7 +60,7 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="form-group">
+                {{-- <div class="form-group">
                     <label for="city">{{ __('City') }}</label>
 
                     <select class="form-control" id="city" name="city">
@@ -75,7 +75,7 @@
                             </option>
                         @endforeach
                     </select>
-                </div>
+                </div> --}}
                 <div class="form-group">
                     <label for="zipcode">{{ __('Zipcode') }}</label>
                     <input type="text" class="form-control" id="zipcode" name="zipcode"

@@ -99,35 +99,35 @@
     $carts = Cart::instance('default')->content();
     $itemsTotal = null;
     $enableTaxAmount = !\Modules\TaxModule\Services\CalculateTaxServices::isPriceEnteredWithTax();
-    $shippingTaxClass = \Modules\TaxModule\Entities\TaxClassOption::where('class_id', get_static_option('shipping_tax_class'))->sum('rate');
+    $shippingTaxClass = \Modules\TaxModule\Entities\TaxClassOption::where(
+        'class_id',
+        get_static_option('shipping_tax_class'),
+    )->sum('rate');
     $tax = Modules\TaxModule\Services\CalculateTaxBasedOnCustomerAddress::init();
-    $uniqueProductIds = $carts
-    ->pluck('id')
-    ->unique()
-    ->toArray();
+    $uniqueProductIds = $carts->pluck('id')->unique()->toArray();
 
     $country_id = old('country_id') ?? 0;
     $state_id = old('state_id') ?? 0;
     $city_id = old('city') ?? 0;
 
     if (empty($uniqueProductIds)) {
-    $taxProducts = collect([]);
+        $taxProducts = collect([]);
     } else {
-    if (\Modules\TaxModule\Services\CalculateTaxBasedOnCustomerAddress::is_eligible()) {
-    $taxProducts = $tax
-        ->productIds($uniqueProductIds)
-        ->customerAddress($country_id, $state_id, $city_id)
-        ->generate();
-    } else {
-    $taxProducts = collect([]);
-    }
+        if (\Modules\TaxModule\Services\CalculateTaxBasedOnCustomerAddress::is_eligible()) {
+            $taxProducts = $tax
+                ->productIds($uniqueProductIds)
+                ->customerAddress($country_id, $state_id, $city_id)
+                ->generate();
+        } else {
+            $taxProducts = collect([]);
+        }
     }
 
     $carts = $carts->groupBy('options.vendor_id');
 
     $vendors = \Modules\Vendor\Entities\Vendor::with('shippingMethod', 'shippingMethod.zone')
-    ->whereIn('id', $carts->keys())
-    ->get();
+        ->whereIn('id', $carts->keys())
+        ->get();
 ?>
 
 <?php $__env->startSection('content'); ?>
@@ -211,11 +211,11 @@
                                                 class="cmn-btn btn-bg-1 billing_details_click btn-small"><?php echo e(__('New Shipping Address')); ?></button>
                                         </div>
                                     <?php endif; ?>
-                                        <div class="flex-start mt-4 user-shipping-address-wrapper d-flex position-relative">
-                                            <?php $__currentLoopData = $all_user_shipping ?? []; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $shipping_address): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                <?php echo $__env->make('frontend.cart.partials.shipping-address-option', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                        </div>
+                                    <div class="flex-start mt-4 user-shipping-address-wrapper d-flex position-relative">
+                                        <?php $__currentLoopData = $all_user_shipping ?? []; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $shipping_address): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <?php echo $__env->make('frontend.cart.partials.shipping-address-option', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    </div>
                                     <?php echo csrf_field(); ?>
 
                                     <input type="hidden" name="coupon" id="coupon_code"
@@ -341,7 +341,6 @@
                 </div>
             </div>
         </div>
-
     <?php endif; ?>
 
     <div class="popup_modal_checkout_overlay"></div>
@@ -366,7 +365,7 @@
                 <?php echo $__env->make('frontend.cart.partials.billing-info', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
             </form>
 
-            
+
         </div>
     </div>
     <?php if (isset($component)) { $__componentOriginalb2218846a3b052d68d61d1d2b4cea3a8 = $component; } ?>
@@ -393,136 +392,150 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('script'); ?>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC-p_XBbow_dJCi5TKLw69gIXITC4hvkE&libraries=places&callback=initialize"
+        async defer></script>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC-p_XBbow_dJCi5TKLw69gIXITC4hvkE&libraries=places&callback=initialize" async defer></script>
-
-<script>
-    function initialize() {
-        // Prevent 'enter' key from submitting the form when picking place
-        $('form').on('keyup keypress', function(e) {
-            var keyCode = e.keyCode || e.which;
-            if (keyCode === 13) {
-                e.preventDefault();
-                return false;
-            }
-        });
-
-        const geocoder = new google.maps.Geocoder();
-
-        // 1) Set default lat/lng for Phnom Penh (or wherever you like)
-        let latitude = parseFloat(document.getElementById("address-latitude").value) || 11.5564;
-        let longitude = parseFloat(document.getElementById("address-longitude").value) || 104.9282;
-
-        // 2) Create the map
-        const map = new google.maps.Map(document.getElementById("address-map"), {
-            center: { lat: latitude, lng: longitude },
-            zoom: 13,
-        });
-
-        // 3) Create a draggable marker
-        const marker = new google.maps.Marker({
-            map: map,
-            position: { lat: latitude, lng: longitude },
-            draggable: true,
-            visible: true
-        });
-
-        // 4) Autocomplete for the floating input (#address-input)
-        const locationInput = document.getElementById("address-input");
-        const autocomplete = new google.maps.places.Autocomplete(locationInput);
-
-        google.maps.event.addListener(autocomplete, "place_changed", function () {
-            marker.setVisible(false);
-            const place = autocomplete.getPlace();
-
-            if (!place.geometry) {
-                window.alert("No details available for input: '" + place.name + "'");
-                locationInput.value = "";
-                return;
-            }
-
-            // Center the map on the selected place
-            if (place.geometry.viewport) {
-                map.fitBounds(place.geometry.viewport);
-            } else {
-                map.setCenter(place.geometry.location);
-                map.setZoom(17);
-            }
-
-            // Move the marker
-            marker.setPosition(place.geometry.location);
-            marker.setVisible(true);
-
-            // Update hidden lat/lng fields
-            const lat = place.geometry.location.lat();
-            const lng = place.geometry.location.lng();
-            setLocationCoordinates(lat, lng);
-
-            // Update the "id=address" input
-            if (place.formatted_address) {
-                document.getElementById("address").value = place.formatted_address;
-            } else {
-                document.getElementById("address").value = place.name || "";
-            }
-        });
-
-        // 5) If the user drags the marker, reverse geocode the new position
-        google.maps.event.addListener(marker, "dragend", function (e) {
-            const lat = e.latLng.lat();
-            const lng = e.latLng.lng();
-            setLocationCoordinates(lat, lng);
-
-            geocoder.geocode({ location: { lat, lng } }, function (results, status) {
-                if (status === google.maps.GeocoderStatus.OK && results[0]) {
-                    // Update both inputs
-                    locationInput.value = results[0].formatted_address;
-                    document.getElementById("address").value = results[0].formatted_address;
-                } else {
-                    console.error("Geocoder failed: " + status);
+    <script>
+        function initialize() {
+            // Prevent 'enter' key from submitting the form when picking place
+            $('form').on('keyup keypress', function(e) {
+                var keyCode = e.keyCode || e.which;
+                if (keyCode === 13) {
+                    e.preventDefault();
+                    return false;
                 }
             });
-        });
 
-        // 6) If the user types in #address (main shipping address), geocode on "blur" or "change"
-        const addressEl = document.getElementById("address");
-        addressEl.addEventListener("change", function() {
-            geocodeAddress(addressEl.value, geocoder, map, marker);
-        });
-        // You could also do:
-        // addressEl.addEventListener("blur", function() {
-        //    geocodeAddress(addressEl.value, geocoder, map, marker);
-        // });
+            const geocoder = new google.maps.Geocoder();
 
-        // Helper: geocode the typed address, move the marker & update fields
-        function geocodeAddress(address, geocoder, map, marker) {
-            if (!address) return;
-            geocoder.geocode({ address: address }, function(results, status) {
-                if (status === google.maps.GeocoderStatus.OK && results[0]) {
-                    const latLng = results[0].geometry.location;
-                    map.setCenter(latLng);
+            // 1) Set default lat/lng for Phnom Penh (or wherever you like)
+            let latitude = parseFloat(document.getElementById("address-latitude").value) || 11.5564;
+            let longitude = parseFloat(document.getElementById("address-longitude").value) || 104.9282;
+
+            // 2) Create the map
+            const map = new google.maps.Map(document.getElementById("address-map"), {
+                center: {
+                    lat: latitude,
+                    lng: longitude
+                },
+                zoom: 13,
+            });
+
+            // 3) Create a draggable marker
+            const marker = new google.maps.Marker({
+                map: map,
+                position: {
+                    lat: latitude,
+                    lng: longitude
+                },
+                draggable: true,
+                visible: true
+            });
+
+            // 4) Autocomplete for the floating input (#address-input)
+            const locationInput = document.getElementById("address-input");
+            const autocomplete = new google.maps.places.Autocomplete(locationInput);
+
+            google.maps.event.addListener(autocomplete, "place_changed", function() {
+                marker.setVisible(false);
+                const place = autocomplete.getPlace();
+
+                if (!place.geometry) {
+                    window.alert("No details available for input: '" + place.name + "'");
+                    locationInput.value = "";
+                    return;
+                }
+
+                // Center the map on the selected place
+                if (place.geometry.viewport) {
+                    map.fitBounds(place.geometry.viewport);
+                } else {
+                    map.setCenter(place.geometry.location);
                     map.setZoom(17);
-                    marker.setPosition(latLng);
+                }
 
-                    // Update hidden fields
-                    const lat = latLng.lat();
-                    const lng = latLng.lng();
-                    setLocationCoordinates(lat, lng);
+                // Move the marker
+                marker.setPosition(place.geometry.location);
+                marker.setVisible(true);
 
-                    // Update the floating input
-                    locationInput.value = results[0].formatted_address;
+                // Update hidden lat/lng fields
+                const lat = place.geometry.location.lat();
+                const lng = place.geometry.location.lng();
+                setLocationCoordinates(lat, lng);
+
+                // Update the "id=address" input
+                if (place.formatted_address) {
+                    document.getElementById("address").value = place.formatted_address;
                 } else {
-                    console.error("Geocode was not successful: " + status);
+                    document.getElementById("address").value = place.name || "";
                 }
             });
-        }
 
-        // Helper to set lat/lng in hidden fields
-        function setLocationCoordinates(lat, lng) {
-            document.getElementById("address-latitude").value = lat;
-            document.getElementById("address-longitude").value = lng;
+            // 5) If the user drags the marker, reverse geocode the new position
+            google.maps.event.addListener(marker, "dragend", function(e) {
+                const lat = e.latLng.lat();
+                const lng = e.latLng.lng();
+                setLocationCoordinates(lat, lng);
+
+                geocoder.geocode({
+                    location: {
+                        lat,
+                        lng
+                    }
+                }, function(results, status) {
+                    if (status === google.maps.GeocoderStatus.OK && results[0]) {
+                        // Update both inputs
+                        locationInput.value = results[0].formatted_address;
+                        document.getElementById("address").value = results[0].formatted_address;
+                    } else {
+                        console.error("Geocoder failed: " + status);
+                    }
+                });
+            });
+
+            // 6) If the user types in #address (main shipping address), geocode on "blur" or "change"
+            const addressEl = document.getElementById("address");
+            addressEl.addEventListener("change", function() {
+                geocodeAddress(addressEl.value, geocoder, map, marker);
+            });
+            // You could also do:
+            // addressEl.addEventListener("blur", function() {
+            //    geocodeAddress(addressEl.value, geocoder, map, marker);
+            // });
+
+            // Helper: geocode the typed address, move the marker & update fields
+            function geocodeAddress(address, geocoder, map, marker) {
+                if (!address) return;
+                geocoder.geocode({
+                    address: address
+                }, function(results, status) {
+                    if (status === google.maps.GeocoderStatus.OK && results[0]) {
+                        const latLng = results[0].geometry.location;
+                        map.setCenter(latLng);
+                        map.setZoom(17);
+                        marker.setPosition(latLng);
+
+                        // Update hidden fields
+                        const lat = latLng.lat();
+                        const lng = latLng.lng();
+                        setLocationCoordinates(lat, lng);
+
+                        // Update the floating input
+                        locationInput.value = results[0].formatted_address;
+                    } else {
+                        console.error("Geocode was not successful: " + status);
+                    }
+                });
+            }
+
+            // Helper to set lat/lng in hidden fields
+            function setLocationCoordinates(lat, lng) {
+                document.getElementById("address-latitude").value = lat;
+                document.getElementById("address-longitude").value = lng;
+            }
         }
-    }
-</script>
+    </script>
 
 
     <script>
@@ -731,8 +744,8 @@
         }
 
         function replaceSymbol(text) {
-            let amount_format="<?php echo e(get_static_option('amount_format_by')); ?>";
-            return parseFloat((text.replace("<?php echo e(site_currency_symbol()); ?>", "")).replace(amount_format,''));
+            let amount_format = "<?php echo e(get_static_option('amount_format_by')); ?>";
+            return parseFloat((text.replace("<?php echo e(site_currency_symbol()); ?>", "")).replace(amount_format, ''));
         }
 
         let defaultGateway = $('#site_global_payment_gateway').val();
@@ -766,64 +779,178 @@
             $('.payment_gateway_passing_clicking_name').val($(this).data('gateway'));
         });
 
-        $(document).on("click", ".user-shipping-address-item", function() {
-            let states = JSON.parse($(this).attr("data-states"));
-            let cities = JSON.parse($(this).attr("data-cities"));
-            let countryTax = JSON.parse($(this).attr("data-country-tax"));
-            let stateTax = JSON.parse($(this).attr("data-state-tax"));
+        // $(document).on("click", ".user-shipping-address-item", function() {
+        //     let states = JSON.parse($(this).attr("data-states"));
+        //     let cities = JSON.parse($(this).attr("data-cities"));
+        //     let countryTax = JSON.parse($(this).attr("data-country-tax"));
+        //     let stateTax = JSON.parse($(this).attr("data-state-tax"));
 
-            let statehtml = "<option value=''>Please Select State</option>";
-            let selectedState = $(this).attr('data-state');
+        //     // Update form fields
+        //     $(".billing-form #name").val($(this).data('name'));
+        //     $(".billing-form #email").val($(this).data('email'));
+        //     $(".billing-form #address").val($(this).data('address'));
+        //     $(".billing-form #phone").val($(this).data('phone'));
+        //     $(".billing-form #zipcode").val($(this).data('zipcode'));
 
-            let cityhtml = "<option value=''>Please Select City</option>";
-            let selectedCity = $(this).attr('data-city');
+        //     let statehtml = "<option value=''>Please Select State</option>";
+        //     let selectedState = $(this).attr('data-state');
 
+        //     let cityhtml = "<option value=''>Please Select City</option>";
+        //     let selectedCity = $(this).attr('data-city');
+
+        //     states.forEach((state) => {
+        //         if (state.id == selectedState) {
+        //             statehtml += "<option " + 'selected' + " value='" + state.id + "'>" + state.name +
+        //                 "</option>";
+        //         } else {
+        //             statehtml += "<option  value='" + state.id + "'>" + state.name + "</option>";
+        //         }
+        //     });
+
+        //     cities.forEach((city) => {
+        //         if (city.id == selectedCity) {
+        //             cityhtml += "<option " + 'selected' + " value='" + city.id + "'>" + city.name +
+        //                 "</option>";
+        //         } else {
+        //             cityhtml += "<option  value='" + city.id + "'>" + city.name + "</option>";
+        //         }
+        //     });
+
+        //     $("#checkout_tax_percentage").val(countryTax.tax_amount)
+        //     $("#checkout_tax_percentage").val(stateTax.tax_amount)
+
+        //     calculateOrderSummary();
+
+        //     $(".modal-states").html(statehtml);
+        //     $(".modal-cities").html(cityhtml);
+
+
+        //     $("#country_id option:selected").attr("selected", false)
+        //     $("#country_id option[value=" + $(this).attr("data-country") + "]").attr("selected", true)
+
+        //     $(".billing-form #name").val($(this).data('name'));
+        //     $(".billing-form #address").val($(this).data('address'));
+
+        //     $("#city_id option:selected").attr("selected", false)
+        //     $("#city_id option[value=" + $(this).attr("data-city") + "]").attr("selected", true);
+
+
+        //     $(".billing-form #zipcode").val($(this).data('zipcode'));
+        //     $(".billing-form #phone").val($(this).data('phone'));
+        //     $(".billing-form #email").val($(this).data('email'));
+
+        //     $(".checkout_modal_close").trigger("click");
+
+        //     $(".user-shipping-address-item").removeClass("active");
+        //     $(this).toggleClass("active");
+        // });
+        $(document).on("click", ".user-shipping-address-item", function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            let $this = $(this);
+            let states = JSON.parse($this.attr("data-states"));
+            let cities = JSON.parse($this.attr("data-cities"));
+            let selectedCountry = $this.data('country');
+            let selectedState = $this.data('state');
+            let selectedCity = $this.data('city');
+
+            // Update basic fields
+            $(".billing-form #name").val($this.data('name'));
+            $(".billing-form #email").val($this.data('email'));
+            $(".billing-form #address").val($this.data('address'));
+            $(".billing-form #phone").val($this.data('phone'));
+            $(".billing-form #zipcode").val($this.data('zipcode'));
+
+            // Temporarily disable change handlers
+            $("#country_id, #state_id").off('change');
+
+            // Update country dropdown
+            $("#country_id").val(selectedCountry);
+
+            // Populate states immediately
+            let statehtml = "<option value=''><?php echo e(__('Select State')); ?></option>";
             states.forEach((state) => {
-                if (state.id == selectedState) {
-                    statehtml += "<option " + 'selected' + " value='" + state.id + "'>" + state.name +
-                        "</option>";
-                } else {
-                    statehtml += "<option  value='" + state.id + "'>" + state.name + "</option>";
-                }
+                let selected = state.id == selectedState ? 'selected' : '';
+                statehtml += `<option value="${state.id}" ${selected}>${state.name}</option>`;
             });
+            $("#state_id").html(statehtml).val(selectedState);
 
+            // Populate cities
+            let cityhtml = "<option value=''><?php echo e(__('Select City')); ?></option>";
             cities.forEach((city) => {
-                if (city.id == selectedCity) {
-                    cityhtml += "<option " + 'selected' + " value='" + city.id + "'>" + city.name +
-                        "</option>";
-                } else {
-                    cityhtml += "<option  value='" + city.id + "'>" + city.name + "</option>";
-                }
+                let selected = city.id == selectedCity ? 'selected' : '';
+                cityhtml += `<option value="${city.id}" ${selected}>${city.name}</option>`;
             });
+            $("#city_id").html(cityhtml).val(selectedCity);
 
-            $("#checkout_tax_percentage").val(countryTax.tax_amount)
-            $("#checkout_tax_percentage").val(stateTax.tax_amount)
+            // Re-enable change handlers after a delay
+            setTimeout(function() {
+                // Re-attach country change handler
+                $("#country_id").on('change', function() {
+                    let country_id = $(this).val();
 
+                    send_ajax_request("get", "",
+                        `<?php echo e(route('frontend.get-tax-based-on-billing-address')); ?>?country_id=${country_id}&state_id=&city_id=`,
+                        () => {},
+                        (data) => {
+                            $('.cart-items-wrapper').html(data.cart_items);
+
+                            let statehtml =
+                                "<option value=''> <?php echo e(__('Select an state')); ?> </option>";
+                            data?.states?.forEach((state) => {
+                                statehtml += "<option value='" + state.id + "'>" + state
+                                    .name + "</option>";
+                            });
+
+                            $(this).parent().parent().find(".select-state").html(statehtml);
+                            calculateOrderSummeryForAdvanceTax();
+                        },
+                        (errors) => {
+                            prepare_errors(errors);
+                        }
+                    );
+                });
+
+                // Re-attach state change handler
+                $("#state_id").on('change', function() {
+                    let country_id = $("#country_id").val();
+                    let state_id = $("#state_id").val();
+
+                    send_ajax_request("get", "",
+                        `<?php echo e(route('frontend.get-tax-based-on-billing-address')); ?>?country_id=${country_id}&state_id=${state_id}&city_id=`,
+                        () => {},
+                        (data) => {
+                            $('.cart-items-wrapper').html(data.cart_items);
+
+                            let cityhtml =
+                                "<option value=''> <?php echo e(__('Select an city')); ?> </option>";
+                            data?.cities?.forEach((city) => {
+                                cityhtml += "<option value='" + city.id + "'>" + city
+                                    .name + "</option>";
+                            });
+
+                            $("#city_id").html(cityhtml);
+                            calculateOrderSummeryForAdvanceTax();
+                        },
+                        (errors) => {
+                            prepare_errors(errors);
+                        }
+                    );
+                });
+            }, 1000);
+
+            // Update tax information
+            let countryTax = JSON.parse($this.attr("data-country-tax"));
+            let stateTax = JSON.parse($this.attr("data-state-tax"));
+            $("#checkout_tax_percentage").val(countryTax.tax_amount || stateTax.tax_amount);
             calculateOrderSummary();
 
-            $(".modal-states").html(statehtml);
-            $(".modal-cities").html(cityhtml);
-
-
-            $("#country_id option:selected").attr("selected", false)
-            $("#country_id option[value=" + $(this).attr("data-country") + "]").attr("selected", true)
-
-            $(".billing-form #name").val($(this).data('name'));
-            $(".billing-form #address").val($(this).data('address'));
-
-            $("#city_id option:selected").attr("selected", false)
-            $("#city_id option[value=" + $(this).attr("data-city") + "]").attr("selected", true);
-
-
-            $(".billing-form #zipcode").val($(this).data('zipcode'));
-            $(".billing-form #phone").val($(this).data('phone'));
-            $(".billing-form #email").val($(this).data('email'));
-
-            $(".checkout_modal_close").trigger("click");
-
+            // Toggle active class
             $(".user-shipping-address-item").removeClass("active");
-            $(this).toggleClass("active");
+            $this.addClass("active");
         });
+
 
         $(document).ready(function() {
             <?php if(get_static_option('tax_system') == 'advance_tax_system'): ?>
@@ -850,7 +977,8 @@
             } else {
                 $(this).parent().find(".checkout-shipping-method").removeClass("active");
                 $(this).addClass("active");
-                $(this).parent().parent().find("#vendor_shipping_cost").html(amount_with_currency_symbol(shippingCost))
+                $(this).parent().parent().find("#vendor_shipping_cost").html(amount_with_currency_symbol(
+                    shippingCost))
                 $(this).parent().parent().find("#shipping_cost").val(shippingCostId);
 
                 calculateAmount();
@@ -1027,39 +1155,39 @@
         });
         $(document).on("change", "#modal_state_id", function() {
             // first, i need to get all states
-                // to get all shipping methods
-                // to insert all shipping methods on .all-shipping-options hare
-                // Add tax amount to all the orders
-                let state_id = $(this).val();
-                let data = new FormData();
-                data.append("id", state_id);
-                data.append("type", "state");
-                data.append("_token", "<?php echo e(csrf_token()); ?>");
+            // to get all shipping methods
+            // to insert all shipping methods on .all-shipping-options hare
+            // Add tax amount to all the orders
+            let state_id = $(this).val();
+            let data = new FormData();
+            data.append("id", state_id);
+            data.append("type", "state");
+            data.append("_token", "<?php echo e(csrf_token()); ?>");
 
-                send_ajax_request("POST", data, "<?php echo e(route('frontend.shipping.module.methods')); ?>", () => {
+            send_ajax_request("POST", data, "<?php echo e(route('frontend.shipping.module.methods')); ?>", () => {
 
-                }, (data) => {
-                    if (data.success) {
-                        $("#checkout_tax_percentage").val(data.tax_amount);
+            }, (data) => {
+                if (data.success) {
+                    $("#checkout_tax_percentage").val(data.tax_amount);
 
-                        // now first i need to get all orders tax filed and insert tax amount
-                        // after those data we need to calculate every order
-                        $('#tax_amount').html(data.tax_amount + "%");
+                    // now first i need to get all orders tax filed and insert tax amount
+                    // after those data we need to calculate every order
+                    $('#tax_amount').html(data.tax_amount + "%");
 
-                        let cityhtml = "<option value=''> <?php echo e(__('Select an city')); ?> </option>";
-                        data?.cities?.forEach((city) => {
-                            cityhtml += "<option value='" + city.id + "'>" + city.name +
-                                "</option>";
-                        });
+                    let cityhtml = "<option value=''> <?php echo e(__('Select an city')); ?> </option>";
+                    data?.cities?.forEach((city) => {
+                        cityhtml += "<option value='" + city.id + "'>" + city.name +
+                            "</option>";
+                    });
 
-                        $("#modal_city_id").html(cityhtml);
+                    $("#modal_city_id").html(cityhtml);
 
-                        calculateAmount(data);
-                        calculateOrderSummary();
-                    }
-                }, function(xhr) {
-                    ajax_toastr_error_message(xhr);
-                })
+                    calculateAmount(data);
+                    calculateOrderSummary();
+                }
+            }, function(xhr) {
+                ajax_toastr_error_message(xhr);
+            })
         });
 
         $(document).on('click', '.billing_details_click', function() {
@@ -1069,15 +1197,26 @@
         $(document).on('click', '.popup_modal_checkout_overlay, .checkout_modal_close', function() {
             $('.popup_modal_checkout, .popup_modal_checkout_overlay').removeClass('show');
         });
-        $(document).on("click",".create-accounts",function(){
-            if($(this).hasClass("active")){
+        // $(document).on("click",".create-accounts",function(){
+        //     if($(this).hasClass("active")){
+        //         $("input[name='create_account']").val('');
+        //         $("input[name='password']").val('');
+        //         $("input[name='password_confirmation']").val('');
+        //     }else{
+        //         $("input[name='create_account']").val(1);
+        //     }
+        // })
+        $(document).on("click", ".create-accounts", function() {
+            if ($(this).hasClass("active")) {
+                $(this).removeClass("active");
+                $(".account-create-fields").slideUp();
                 $("input[name='create_account']").val('');
-                $("input[name='password']").val('');
-                $("input[name='password_confirmation']").val('');
-            }else{
+            } else {
+                $(this).addClass("active");
+                $(".account-create-fields").slideDown();
                 $("input[name='create_account']").val(1);
             }
-        })
+        });
     </script>
 <?php $__env->stopSection(); ?>
 

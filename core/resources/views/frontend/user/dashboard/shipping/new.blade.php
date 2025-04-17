@@ -59,25 +59,25 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    {{-- <div class="col-md-6">
                         <div class="form-group">
                             <label for='city'> {{ __("City/Town")  }} <span>({{__("optional")}})</span> </label>
                             <select id="city" class='form-control select-state' name="city">
                                 <option value="">{{ __("Select state first...") }}</option>
                             </select>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="zipcode">{{ __('Zipcode') }}  <span>({{__("optional")}})</span></label>
-                            <input type="text" class="form-control" name="zipcode" id="zipcode">
+                            <input type="text" class="form-control" name="zipcode" id="zipcode" placeholder="{{__('Enter Zipcode')}}">
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label for="address">{{ __('Address') }}  <span>({{__("optional")}})</span></label>
                             <input type="text" class="form-control" name="address" id="address" cols="30"
-                                rows="5">
+                                rows="5" placeholder="{{__('Enter Address')}}">
                         </div>
                     </div>
                     <div class="col-md-12">

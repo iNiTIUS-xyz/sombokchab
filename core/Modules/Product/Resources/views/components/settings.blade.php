@@ -10,14 +10,14 @@
     </div>
     <div class="dashboard__card__body custom__form">
         <div class="row g-3 mt-2">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
                 <div class="form-group">
                     <label for="min_purchase">{{ __('Minimum quantity of Purchase') }}</label>
                     <input id="min_purchase" name="min_purchase" class="form--control"
                         value="{{ $product?->min_purchase }}" placeholder="{{ __('Minimum quantity of purchase') }}">
                 </div>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-12">
                 <div class="form-group">
                     <label for="max_purchase">{{ __('Maximum quantity of Purchase') }}</label>
                     <input id="max_purchase" name="max_purchase" class="form--control"

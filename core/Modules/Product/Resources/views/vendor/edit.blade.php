@@ -23,8 +23,7 @@
                             <div class="d-flex align-items-center justify-content-between w-100">
                                 <h3 class="heading-three fw-500"> {{ __('Update Product') }} </h3>
                                 <div class="button-wrappers">
-                                    <a href="{{ route('vendor.products.all') }}"
-                                        class="btn btn-info">{{ __('Product List') }}</a>
+                                    <a href="{{ route('vendor.products.all') }}" class="btn btn-info">{{ __("Product List") }}</a>
                                 </div>
                             </div>
                         </div>
@@ -99,17 +98,11 @@
                             id="product-create-form">
                             @csrf
                             <input name="id" type="hidden" value="{{ $product?->id }}">
-                            <div class="input-group">
-                                <select name="product_status" id="form-control">
-                                    <option value="publish" @if ($product->product_status == 'publish') selected @endif>
-                                        Publish
-                                    </option>
-                                    <option value="draft" @if ($product->product_status == 'draft') selected @endif>
-                                        Save as draft
-                                    </option>
-                                </select>
-                                <button class="cmn_btn btn_bg_profile">Update Product</button>
+
+                            <div class="form-button">
+                                <button class="btn-sm btn btn-info">{{ __('Save Changes') }}</button>
                             </div>
+
                             <div class="tab-content margin-top-10" id="v-pills-tabContent">
                                 <div class="tab-pane fade show active" id="v-general-info-tab" role="tabpanel"
                                     aria-labelledby="v-general-info-tab">
@@ -159,12 +152,12 @@
                 </div>
             </div>
         </div>
-        <x-media.markup type="vendor" />
+        <x-media.markup type="vendor"/>
     @endsection
     @section('script')
         <script src="{{ asset('assets/common/js/jquery-ui.min.js') }}" rel="stylesheet"></script>
-        <x-media.js type="vendor" />
-        <x-summernote.js />
+         <x-media.js type="vendor" />
+        <x-summernote.js/>
         <x-product::variant-info.js :colors="$data['product_colors']" :sizes="$data['product_sizes']" :all-attributes="$data['all_attribute']" />
 
         <script>
@@ -212,8 +205,8 @@
                 data.append("category_id", $(this).val());
 
                 send_ajax_request("post", data, '{{ route('vendor.product.category.sub-category') }}', function() {
-                    $("#sub_category").html("<option value=''>{{ __('Select Sub Category') }}</option>");
-                    $("#child_category").html("<option value=''>{{ __('Select Child Category') }}</option>");
+                    $("#sub_category").html("<option value=''>{{ __("Select Sub Category")}}</option>");
+                    $("#child_category").html("<option value=''>{{ __("Select Child Category") }}</option>");
                     $("#select2-child_category-container").html('');
                 }, function(data) {
                     $("#sub_category").html(data.html);
@@ -228,7 +221,7 @@
                 data.append("sub_category_id", $(this).val());
 
                 send_ajax_request("post", data, '{{ route('vendor.product.category.child-category') }}', function() {
-                    $("#child_category").html("<option value=''>{{ __('Select Child Category') }}</option>");
+                    $("#child_category").html("<option value=''>{{ __("Select Child Category")}}</option>");
                     $("#select2-child_category-container").html('');
                 }, function(data) {
                     $("#child_category").html(data.html);

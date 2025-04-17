@@ -1,8 +1,8 @@
-@php
-    use Modules\Product\Entities\ProductSubCategory;
-    $sub_cat_details = ProductSubCategory::with('category')->find(request()->subcat);
-    $cat = optional(optional($sub_cat_details)->category)->id;
-@endphp
+<?php
+use Modules\Product\Entities\ProductSubCategory;
+$sub_cat_details = ProductSubCategory::with('category')->find(request()->subcat);
+$cat = optional(optional($sub_cat_details)->category)->id;
+?>
 
 <div class="widget-area-wrapper">
     <div class="widget widget-search">
@@ -35,9 +35,10 @@
                                         <span class="checkmark">{{ $category->title }}</span>
                                     </label>
 
-                                    @if ($category->subcategory->count() > 0)
-                                        <button class="sub-category-btn py-0 px-0 m-0" data-bs-toggle="collapse"
-                                            data-bs-target="#collapse-{{ $i }}" aria-expanded="true"
+                                @if($category->subcategory->count() > 0)
+                                    <button class="sub-category-btn py-0 px-0 m-0" data-bs-toggle="collapse"
+                                            data-bs-target="#collapse-{{ $i }}"
+                                            aria-expanded="true"
                                             aria-controls="collapse-{{ $i }}">
                                             +
                                         </button>

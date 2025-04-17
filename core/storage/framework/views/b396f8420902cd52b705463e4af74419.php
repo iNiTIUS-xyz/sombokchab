@@ -17,7 +17,7 @@
         <?php endif; ?>
         <div class="<?php if(isset($inventoryPage)): ?> col-md-4 <?php else: ?> dashboard-input <?php endif; ?>">
             <label class="dashboard-label"> <?php echo e(__('Sku')); ?> </label>
-            <input type="text" class="form--control radius-10" name="sku" value="<?php echo e($inventory?->sku); ?>">
+            <input type="text" class="form--control radius-10 form-control" name="sku" value="<?php echo e($inventory?->sku); ?>" required>
             <small class="mt-2 mb-0 d-block"><?php echo e(__('Custom Unique Code for this product.')); ?></small>
         </div>
 
@@ -35,7 +35,7 @@
             <label class="dashboard-label"> <?php echo e(__('Unit')); ?> </label>
 
             <div class="nice-select-two">
-                <select class="select2 form-control" name="unit_id">
+                <select class="select2 form-control" name="unit_id" required>
                     <option value=""><?php echo e(__('Select Unit')); ?></option>
                     <?php $__currentLoopData = $units; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $unit): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <option <?php echo e($unit->id === $uom?->unit_id ? 'selected' : ''); ?> value="<?php echo e($unit->id); ?>">

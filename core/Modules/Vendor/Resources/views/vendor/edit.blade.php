@@ -8,7 +8,7 @@
     <x-media.css />
     <x-datatable.css />
     <x-bulk-action.css />
-    <x-select2.select2-css />
+    <x-select2.select2-css/>
 @endsection
 @section('content')
     <div class="col-lg-12 col-ml-12">
@@ -114,8 +114,7 @@
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title color-light mb-2">
-                                                                    {{ __('Description') }}
+                                                                <label class="label-title color-light mb-2"> {{ __('Description') }}
                                                                 </label>
                                                                 <textarea name="description" class="form--control form--message radius-10" style="height: 100px">{{ $vendor->description }}</textarea>
                                                             </div>
@@ -144,12 +143,10 @@
                                                     <div class="row g-4">
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title color-light mb-2">
-                                                                    {{ __('Country *') }}
+                                                                <label class="label-title color-light mb-2"> {{ __('Country *') }}
                                                                 </label>
                                                                 <div class="nice-select-two country_wrapper">
-                                                                    <select class="form-control" id="country_id"
-                                                                        name="country_id">
+                                                                    <select  class="form-control" id="country_id" name="country_id">
                                                                         <option value="">Select Country</option>
                                                                         @foreach ($country as $item)
                                                                             <option value="{{ $item->id }}"
@@ -161,19 +158,14 @@
                                                             </div>
                                                         </div>
                                                         @php
-                                                            $states = \Modules\CountryManage\Entities\State::where(
-                                                                'country_id',
-                                                                31,
-                                                            )->get();
+                                                            $states = \Modules\CountryManage\Entities\State::where('country_id', 31)->get();
                                                             // $states = $vendor?->vendor_address?->country_id ? \Modules\CountryManage\Entities\State::where('country_id', $vendor?->vendor_address?->country_id)->get() : [];
                                                         @endphp
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title color-light mb-2">
-                                                                    {{ __('State *') }} </label>
+                                                                <label class="label-title color-light mb-2"> {{ __('State *') }} </label>
                                                                 <div class="nice-select-two state_wrapper">
-                                                                    <select class="form-control" id="state_id"
-                                                                        name="state_id">
+                                                                    <select class="form-control" id="state_id" name="state_id">
                                                                         <option value="">Select State</option>
                                                                         @foreach ($states as $state)
                                                                             <option value="{{ $state->id }}"
@@ -186,21 +178,14 @@
                                                         </div>
 
                                                         @php
-                                                            $cities = $vendor?->vendor_address?->state_id
-                                                                ? \App\City::where(
-                                                                    'state_id',
-                                                                    $vendor?->vendor_address?->state_id,
-                                                                )->get()
-                                                                : [];
+                                                            $cities = $vendor?->vendor_address?->state_id ? \App\City::where('state_id', $vendor?->vendor_address?->state_id)->get() : [];
                                                         @endphp
 
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title color-light mb-2">
-                                                                    {{ __('City') }} </label>
+                                                                <label class="label-title color-light mb-2"> {{ __('City') }} </label>
                                                                 <div class="nice-select-two city_wrapper">
-                                                                    <select class="form-control" id="city_id"
-                                                                        name="city_id">
+                                                                    <select class="form-control" id="city_id" name="city_id">
                                                                         <option value="">Select City</option>
                                                                         @foreach ($cities as $city)
                                                                             <option value="{{ $city->id }}"
@@ -213,8 +198,7 @@
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title color-light mb-2">
-                                                                    {{ __('Zip Code') }}
+                                                                <label class="label-title color-light mb-2"> {{ __('Zip Code') }}
                                                                 </label>
                                                                 <input type="text" name="zip_code"
                                                                     class="form--control radius-10"
@@ -223,27 +207,22 @@
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title color-light mb-2">
-                                                                    {{ __('Address') }}
+                                                                <label class="label-title color-light mb-2"> {{ __('Address') }}
                                                                 </label>
-                                                                <textarea name="address" type="text" class="form--control radius-10" value="">{{ $vendor?->vendor_address?->address }}</textarea>
+                                                                <textarea name="address" type="text" class="form--control radius-10"
+                                                                    value="">{{ $vendor?->vendor_address?->address }}</textarea>
                                                             </div>
                                                         </div>
 
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title color-light mb-2">
-                                                                    {{ __('Google Map Location') }}
-                                                                </label>
+                                                                <label class="label-title color-light mb-2"> {{ __('Google Map Location') }}</label>
                                                                 <textarea name="google_map_location" type="text" class="form--control radius-10" value="">
-                                                                    @if (!empty($vendor?->vendor_address?->google_map_location))
-                                                                        {!! $location_iframeHtml !!}
+                                                                    @if(!empty($vendor?->vendor_address?->google_map_location))
+                                                                         {!! $location_iframeHtml !!}
                                                                     @endif
                                                                 </textarea>
-                                                                <span class="mt-3">
-                                                                    {{ __('Example: Google Map Embed Code.') }}
-                                                                </span>
-                                                                <pre><code>  &lt;iframe src="https://www.example.com" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"&gt;&lt;/iframe&gt;</code></pre>
+                                                                <span class="mt-3">{{ __('Example: Google Map Embed Code.') }}</span><pre><code>  &lt;iframe src="https://www.example.com" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"&gt;&lt;/iframe&gt;</code></pre>
                                                             </div>
                                                         </div>
 
@@ -264,8 +243,7 @@
                                                     <div class="row g-4">
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title color-light mb-2">
-                                                                    {{ __('Location') }}
+                                                                <label class="label-title color-light mb-2"> {{ __('Location') }}
                                                                 </label>
                                                                 <input value="{{ $vendor?->vendor_shop_info?->location }}"
                                                                     name="location" type="url"
@@ -275,8 +253,7 @@
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title color-light mb-2">
-                                                                    {{ __('Number') }}
+                                                                <label class="label-title color-light mb-2"> {{ __('Number') }}
                                                                 </label>
                                                                 <input value="{{ $vendor?->vendor_shop_info?->number }}"
                                                                     name="number" type="tel"
@@ -286,8 +263,7 @@
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title color-light mb-2">
-                                                                    {{ __('Email Address') }}
+                                                                <label class="label-title color-light mb-2"> {{ __('Email Address') }}
                                                                 </label>
                                                                 <input value="{{ $vendor?->vendor_shop_info?->email }}"
                                                                     type="text" name="email"
@@ -320,49 +296,41 @@
 
 
                                                         <!--color settings start -->
-                                                        <span class="label-title color-light mt-3">
-                                                            {{ __('Store Color Settings') }}</span>
+                                                        <span class="label-title color-light mt-3"> {{ __('Store Color Settings') }}</span>
                                                         <div class="col-sm-3">
                                                             <div class="form-group">
                                                                 <label for="store_color">{{ __('Main Color') }}</label>
                                                                 <input type="text" name="store_color"
-                                                                    style="background-color: {{ $vendor?->vendor_shop_info?->colors['store_color'] ?? '' }};color: #fff;"
-                                                                    class="form-control"
-                                                                    value="{{ $vendor?->vendor_shop_info?->colors['store_color'] ?? '' }}"
-                                                                    id="store_color">
+                                                                       style="background-color: {{ $vendor?->vendor_shop_info?->colors['store_color'] ?? '' }};color: #fff;"
+                                                                       class="form-control" value="{{ $vendor?->vendor_shop_info?->colors['store_color'] ?? '' }}"
+                                                                       id="store_color">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-3">
                                                             <div class="form-group">
-                                                                <label
-                                                                    for="store_secondary_color">{{ __('Secondary Color') }}</label>
+                                                                <label for="store_secondary_color">{{ __('Secondary Color') }}</label>
                                                                 <input type="text" name="store_secondary_color"
-                                                                    style="background-color: {{ $vendor?->vendor_shop_info?->colors['store_secondary_color'] ?? '' }};color: #fff;"
-                                                                    class="form-control"
-                                                                    value="{{ $vendor?->vendor_shop_info?->colors['store_secondary_color'] ?? '' }}"
-                                                                    id="store_secondary_color">
+                                                                       style="background-color: {{ $vendor?->vendor_shop_info?->colors['store_secondary_color'] ?? '' }};color: #fff;"
+                                                                       class="form-control" value="{{ $vendor?->vendor_shop_info?->colors['store_secondary_color'] ?? '' }}"
+                                                                       id="store_secondary_color">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-3">
                                                             <div class="form-group">
-                                                                <label
-                                                                    for="store_heading_color">{{ __('Heading Color') }}</label>
+                                                                <label for="store_heading_color">{{ __('Heading Color') }}</label>
                                                                 <input type="text" name="store_heading_color"
-                                                                    style="background-color: {{ $vendor?->vendor_shop_info?->colors['store_heading_color'] ?? '' }};color: #fff;"
-                                                                    class="form-control"
-                                                                    value="{{ $vendor?->vendor_shop_info?->colors['store_heading_color'] ?? '' }}"
-                                                                    id="store_heading_color">
+                                                                       style="background-color: {{ $vendor?->vendor_shop_info?->colors['store_heading_color'] ?? '' }};color: #fff;"
+                                                                       class="form-control" value="{{ $vendor?->vendor_shop_info?->colors['store_heading_color'] ?? '' }}"
+                                                                       id="store_heading_color">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-3">
                                                             <div class="form-group">
-                                                                <label
-                                                                    for="store_paragraph_color">{{ __('Paragraph Color') }}</label>
+                                                                <label for="store_paragraph_color">{{ __('Paragraph Color') }}</label>
                                                                 <input type="text" name="store_paragraph_color"
-                                                                    style="background-color: {{ $vendor?->vendor_shop_info?->colors['store_paragraph_color'] ?? '' }};color: #fff;"
-                                                                    class="form-control"
-                                                                    value="{{ $vendor?->vendor_shop_info?->colors['store_paragraph_color'] ?? '' }}"
-                                                                    id="store_paragraph_color">
+                                                                       style="background-color: {{ $vendor?->vendor_shop_info?->colors['store_paragraph_color'] ?? '' }};color: #fff;"
+                                                                       class="form-control" value="{{ $vendor?->vendor_shop_info?->colors['store_paragraph_color'] ?? '' }}"
+                                                                       id="store_paragraph_color">
                                                                 <small>{{ __('you can change site paragraph color from there') }}</small>
                                                             </div>
                                                         </div>
@@ -380,16 +348,6 @@
                                             <div class="dashboard__card">
                                                 <div class="dashboard__card__header">
                                                     <h4 class="dashboard__card__title">Bank Info</h4>
-                                                    <br>
-                                                    @if ($vendor?->vendor_bank_info?->is_varify && $vendor?->vendor_bank_info?->varify_at)
-                                                        <p class="text-success">
-                                                            Your bank information approved by admin
-                                                        </p>
-                                                    @else
-                                                        <p class="text-warning">
-                                                            Your bank information is pending. Wait for admin approval.
-                                                        </p>
-                                                    @endif
                                                 </div>
                                                 <div class="sdashboard__card__body mt-4">
                                                     <div class="row g-4">
@@ -458,7 +416,7 @@
     <x-datatable.js />
     <x-media.js type="vendor" />
     <x-table.btn.swal.js />
-    <x-select2.select2-js />
+    <x-select2.select2-js/>
     <script>
         $('#country_id,#state_id,#city_id').select2()
         $(document).on("submit", "#vendor-create-form", function(e) {
@@ -489,8 +447,8 @@
             data.append("_token", "{{ csrf_token() }}");
 
             send_ajax_request("post", data, "{{ route('vendor.get.state') }}", function() {}, (data) => {
-                option = "<option value=''>Select an state</option>";
-                option += data.option;
+                option="<option value=''>Select an state</option>";
+                option+=data.option;
                 $("#state_id").html(option);
                 $(".state_wrapper .list").html(data.li);
             }, (data) => {
@@ -506,9 +464,9 @@
             data.append("_token", "{{ csrf_token() }}");
 
             send_ajax_request("post", data, "{{ route('vendor.get.city') }}", function() {}, (data) => {
-                option = "<option value=''>Select an city</option>";
-                option += data.option;
-
+                option="<option value=''>Select an city</option>";
+                option+=data.option;
+                
                 $("#city_id").html(option);
                 $(".city_wrapper .list").html(data.li);
             }, (data) => {
@@ -553,4 +511,5 @@
             });
         }(jQuery));
     </script>
+
 @endsection

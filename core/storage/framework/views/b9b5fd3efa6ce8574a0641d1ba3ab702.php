@@ -176,7 +176,7 @@
                             </div>
                             
                             <button type="button" class="btn btn-next step-button-outline" onclick="verifyAndCreateAccount()">
-                                Verify OTP
+                                Verify & Create Account
                             </button>
                             
                             

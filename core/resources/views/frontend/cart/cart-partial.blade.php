@@ -70,8 +70,8 @@
                                                 <div class="product-quantity">
                                                     <span class="substract"><i class="las la-minus"></i></span>
                                                     <input class="quantity-input" type="number"
-                                                        value="{{ $cart_item->qty }}"><span class="plus"><i
-                                                            class="las la-plus"></i></span>
+                                                        value="{{ $cart_item->qty }}">
+                                                    <span class="plus"><i class="las la-plus"></i></span>
                                                 </div>
                                             </td>
                                             <td class="color-one price-td text-center" data-label="Total Price">
@@ -117,11 +117,12 @@
                         </div>
                         @if (!$wishlist)
                             <div class="table-update-btn margin-top-40 gap-4">
-                                <a href="#1" class="btn-update text-white btn-info cart-update-table btn-table btn-border-1">
+                                {{-- <a href="#1" class="btn-update text-white btn-info cart-update-table btn-table btn-border-1">
                                     {{ __('Update Cart') }}
-                                </a>
+                                </a> --}}
 
-                                <a href="{{ route('frontend.checkout') }}" class="btn-table btn-border-1 btn-success text-light">
+                                <a href="{{ route('frontend.checkout') }}"
+                                    class="btn-table btn-border-1 btn-success text-light">
                                     {{ __('Checkout') }}
                                 </a>
                             </div>

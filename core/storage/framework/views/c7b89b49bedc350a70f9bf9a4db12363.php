@@ -1,1 +1,0 @@
-<div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div><?php /**PATH C:\wamp64\www\sombokchab\core\resources\views/components/loader/html.blade.php ENDPATH**/ ?>

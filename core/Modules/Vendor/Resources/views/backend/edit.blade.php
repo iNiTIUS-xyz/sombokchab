@@ -62,13 +62,11 @@
                                     <div class="row g-4 mt-1">
                                         <div class="col-lg-6">
                                             <div class="dashboard__card">
-                                                <h4 class="dashboard__card__title">
-                                                    {{ __('Basic Info*') }} </h4>
+                                                <h4 class="dashboard__card__title"> {{ __('Basic Info*') }} </h4>
                                                 <div class="dashboard__card__body custom__form mt-4 single-reg-form">
 
                                                     <div class="form-group">
-                                                        <label class="label-title color-light mb-2">
-                                                            {{ __('Owner Name') }}
+                                                        <label class="label-title color-light mb-2"> {{ __('Owner Name') }}
                                                         </label>
                                                         <input name="owner_name" type="text"
                                                             class="form--control radius-10"
@@ -133,13 +131,11 @@
                                     <div class="row g-4 mt-1">
                                         <div class="col-lg-12">
                                             <div class="dashboard__card">
-                                                <h4 class="dashboard__card__title">
-                                                    {{ __('Address') }} </h4>
+                                                <h4 class="dashboard__card__title"> {{ __('Address') }} </h4>
                                                 <div class="dashboard__card__body custom__form mt-4 single-reg-form">
 
                                                     <div class="form-group">
-                                                        <label class="label-title color-light mb-2">
-                                                            {{ __('Country') }}
+                                                        <label class="label-title color-light mb-2"> {{ __('Country') }}
                                                         </label>
                                                         <div class="nice-select-two country_wrapper">
                                                             <select class="form-control" id="country_id"
@@ -154,16 +150,10 @@
                                                         </div>
                                                     </div>
                                                     @php
-                                                        $states = $vendor?->vendor_address?->country_id
-                                                            ? \Modules\CountryManage\Entities\State::where(
-                                                                'country_id',
-                                                                $vendor?->vendor_address?->country_id,
-                                                            )->get()
-                                                            : [];
+                                                        $states = $vendor?->vendor_address?->country_id ? \Modules\CountryManage\Entities\State::where('country_id', $vendor?->vendor_address?->country_id)->get() : [];
                                                     @endphp
                                                     <div class="form-group">
-                                                        <label class="label-title color-light mb-2">
-                                                            {{ __('State') }}
+                                                        <label class="label-title color-light mb-2"> {{ __('State') }}
                                                         </label>
                                                         <div class="nice-select-two state_wrapper">
                                                             <select class="form-control" id="state_id" name="state_id">
@@ -178,17 +168,11 @@
                                                     </div>
 
                                                     @php
-                                                        $cities = $vendor?->vendor_address?->state_id
-                                                            ? \App\City::where(
-                                                                'state_id',
-                                                                $vendor?->vendor_address?->state_id,
-                                                            )->get()
-                                                            : [];
+                                                        $cities = $vendor?->vendor_address?->state_id ? \App\City::where('state_id', $vendor?->vendor_address?->state_id)->get() : [];
                                                     @endphp
 
                                                     <div class="form-group">
-                                                        <label class="label-title color-light mb-2">
-                                                            {{ __('City') }}
+                                                        <label class="label-title color-light mb-2"> {{ __('City') }}
                                                         </label>
                                                         <div class="nice-select-two city_wrapper">
                                                             <select id="city_id" name="city_id" class="form-control">
@@ -203,18 +187,17 @@
                                                     </div>
 
                                                     <div class="form-group">
-                                                        <label class="label-title color-light mb-2">
-                                                            {{ __('Zip Code') }}
+                                                        <label class="label-title color-light mb-2"> {{ __('Zip Code') }}
                                                         </label>
                                                         <input type="text" name="zip_code"
                                                             class="form--control radius-10"
                                                             value="{{ $vendor?->vendor_address?->zip_code }}">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="label-title color-light mb-2">
-                                                            {{ __('Address') }}
+                                                        <label class="label-title color-light mb-2"> {{ __('Address') }}
                                                         </label>
-                                                        <textarea name="address" type="text" class="form--control radius-10">{{ $vendor?->vendor_address?->address }}</textarea>
+                                                        <textarea name="address" type="text" class="form--control radius-10"
+                                                            >{{ $vendor?->vendor_address?->address }}</textarea>
                                                     </div>
 
                                                 </div>
@@ -226,12 +209,10 @@
                                     <div class="row g-4 mt-1">
                                         <div class="col-lg-12">
                                             <div class="dashboard__card">
-                                                <h4 class="dashboard__card__title">
-                                                    {{ __('Shop Info') }} </h4>
+                                                <h4 class="dashboard__card__title"> {{ __('Shop Info') }} </h4>
                                                 <div class="dashboard__card__body custom__form mt-4 single-reg-form">
                                                     <div class="form-group">
-                                                        <label class="label-title color-light mb-2">
-                                                            {{ __('Location') }}
+                                                        <label class="label-title color-light mb-2"> {{ __('Location') }}
                                                         </label>
                                                         <input value="{{ $vendor?->vendor_shop_info?->location }}"
                                                             name="location" type="url"
@@ -239,8 +220,7 @@
                                                             placeholder="{{ __('Set Location From Map') }}">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="label-title color-light mb-2">
-                                                            {{ __('Number') }}
+                                                        <label class="label-title color-light mb-2"> {{ __('Number') }}
                                                         </label>
                                                         <input value="{{ $vendor?->vendor_shop_info?->number }}"
                                                             name="number" type="tel" class="form--control radius-10"
@@ -263,8 +243,7 @@
                                                             placeholder="Type Facebook Link">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="label-title color-light mb-2">
-                                                            {{ __('Website') }}
+                                                        <label class="label-title color-light mb-2"> {{ __('Website') }}
                                                         </label>
                                                         <input value="{{ $vendor?->vendor_shop_info?->website_url }}"
                                                             type="url" name="website_url"
@@ -280,12 +259,10 @@
                                     <div class="row g-4 mt-1">
                                         <div class="col-lg-12">
                                             <div class="dashboard__card">
-                                                <h4 class="dashboard__card__title">
-                                                    {{ __('Bank Info') }} </h4>
+                                                <h4 class="dashboard__card__title"> {{ __('Bank Info') }} </h4>
                                                 <div class="dashboard__card__body custom__form mt-4 single-reg-form">
                                                     <div class="form-group">
-                                                        <label class="label-title color-light mb-2">
-                                                            {{ __('Name') }}
+                                                        <label class="label-title color-light mb-2"> {{ __('Name') }}
                                                         </label>
                                                         <input value="{{ $vendor?->vendor_bank_info?->bank_name }}"
                                                             name="bank_name" type="text"
@@ -293,16 +270,14 @@
                                                             placeholder="{{ __('Type Name') }}">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="label-title color-light mb-2">
-                                                            {{ __('Email') }}
+                                                        <label class="label-title color-light mb-2"> {{ __('Email') }}
                                                         </label>
                                                         <input value="{{ $vendor?->vendor_bank_info?->bank_email }}"
                                                             name="bank_email" type="text"
                                                             class="form--control radius-10" placeholder="Type Email">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="label-title color-light mb-2">
-                                                            {{ __('Bank Code') }}
+                                                        <label class="label-title color-light mb-2"> {{ __('Bank Code') }}
                                                         </label>
                                                         <input value="{{ $vendor?->vendor_bank_info?->bank_code }}"
                                                             name="bank_code" type="tel"
@@ -315,24 +290,6 @@
                                                             name="account_number" type="tel"
                                                             class="form--control radius-10"
                                                             placeholder="Type Account Number">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="label-title color-light mb-2">
-                                                            {{ __('Varify Stauts') }}
-                                                        </label>
-                                                        <select name="is_varify" class="form-control">
-                                                            <option value="" selected disabled>
-                                                                Select One
-                                                            </option>
-                                                            <option value="1"
-                                                                @if ($vendor?->vendor_bank_info?->is_varify == 1) selected @endif>
-                                                                Verify
-                                                            </option>
-                                                            <option value="0"
-                                                                @if ($vendor?->vendor_bank_info?->is_varify == 0) selected @endif>
-                                                                Rejected
-                                                            </option>
-                                                        </select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -357,7 +314,7 @@
     <x-table.btn.swal.js />
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function (){
             $("#business_type").select2();
             $("#country_id").select2();
             $("#state_id").select2();
@@ -392,7 +349,7 @@
             data.append("_token", "{{ csrf_token() }}");
 
             send_ajax_request("post", data, "{{ route('admin.vendor.get.state') }}", function() {}, (data) => {
-                $("#state_id").html("<option value=''>{{ __('Select an state') }}</option>" + data.option);
+                $("#state_id").html("<option value=''>{{ __("Select an state") }}</option>" + data.option);
                 $(".state_wrapper .list").html(data.li);
             }, (data) => {
                 prepare_errors(data);
@@ -407,7 +364,7 @@
             data.append("_token", "{{ csrf_token() }}");
 
             send_ajax_request("post", data, "{{ route('admin.vendor.get.city') }}", function() {}, (data) => {
-                $("#city_id").html("<option value=''>{{ __('Select an city') }}</option>" + data.option);
+                $("#city_id").html("<option value=''>{{ __("Select an city") }}</option>" + data.option);
                 $(".city_wrapper .list").html(data.li);
             }, (data) => {
                 prepare_errors(data);

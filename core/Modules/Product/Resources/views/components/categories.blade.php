@@ -20,7 +20,7 @@
     <div class="dashboard-input mt-4">
         <label class="dashboard-label color-light mb-2">{{ __('Category') }}</label>
         <div class="nice-select-two">
-            <select name="category_id" id="category" class="form-control">
+            <select name="category_id" id="category" class="form-control" required>
                 <option value="">{{ __('Select Category') }}</option>
                 @foreach ($categories as $category)
                     <option value="{{ $category->id }}" {{ $selectedcat === $category->id ? 'selected' : '' }}>

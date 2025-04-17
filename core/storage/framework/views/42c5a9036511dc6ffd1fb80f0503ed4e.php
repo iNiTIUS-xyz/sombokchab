@@ -15,8 +15,8 @@ $taxClasses = $taxClasses ?? [];
             <div class="col-sm-12">
                 <div class="dashboard-input">
                     <label class="dashboard-label color-light mb-2"> <?php echo e(__('Base Cost')); ?> </label>
-                    <input type="text" class="form--control radius-10" value="<?php echo e($product?->cost); ?>" name="cost"
-                        placeholder="<?php echo e(__('Base Cost...')); ?>">
+                    <input type="text" class="form--control radius-10 form-control" value="<?php echo e($product?->cost); ?>" name="cost"
+                        placeholder="<?php echo e(__('Base Cost...')); ?>" required>
                     <p><?php echo e(__('Purchase price of this product.')); ?></p>
                 </div>
             </div>
@@ -33,8 +33,8 @@ $taxClasses = $taxClasses ?? [];
             <div class="col-sm-12">
                 <div class="dashboard-input">
                     <label class="dashboard-label color-light mb-2"> <?php echo e(__('Sale Price')); ?> </label>
-                    <input type="text" class="form--control radius-10" value="<?php echo e($product?->sale_price); ?>"
-                        name="sale_price" placeholder="<?php echo e(__('Enter Sale Price...')); ?>">
+                    <input type="text" class="form--control radius-10 form-control" value="<?php echo e($product?->sale_price); ?>"
+                        name="sale_price" placeholder="<?php echo e(__('Enter Sale Price...')); ?>" required>
                     <small><?php echo e(__('This will be your product selling price')); ?></small>
                 </div>
             </div>

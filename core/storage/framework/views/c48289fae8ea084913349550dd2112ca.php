@@ -20,7 +20,7 @@
     <div class="dashboard-input mt-4">
         <label class="dashboard-label color-light mb-2"><?php echo e(__('Category')); ?></label>
         <div class="nice-select-two">
-            <select name="category_id" id="category" class="form-control">
+            <select name="category_id" id="category" class="form-control" required>
                 <option value=""><?php echo e(__('Select Category')); ?></option>
                 <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <option value="<?php echo e($category->id); ?>" <?php echo e($selectedcat === $category->id ? 'selected' : ''); ?>>

@@ -55,7 +55,7 @@ class RegistrationAction
             'name' => $data['name'],
             'email' => $data['email'],
             'country' => $data['country_id'],
-            'city' => $data['city'],
+            'city' => $data['city'] ?? null,
             'state' => $data['state_id'],
             'username' => Str::slug($data['name'],'_').'_'.$this->getUniqueNumber(),
             'zipcode' => $data['zipcode'],

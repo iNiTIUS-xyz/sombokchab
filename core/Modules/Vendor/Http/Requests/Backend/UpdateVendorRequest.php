@@ -17,7 +17,7 @@ class UpdateVendorRequest extends FormRequest
         return [
             "id" => "required",
             "owner_name" => "required",
-            "username" => ["required", Rule::unique('vendors')->ignore($this->id)],
+            "username" => ["required",Rule::unique('vendors')->ignore($this->id)],
             "business_name" => "required",
             "business_type_id" => "required",
             "description" => "nullable",
@@ -36,8 +36,7 @@ class UpdateVendorRequest extends FormRequest
             "bank_name" => "nullable",
             "bank_email" => "nullable",
             "bank_code" => "nullable",
-            "account_number" => "nullable",
-            "is_varify" => "nullable"
+            "account_number" => "nullable"
         ];
     }
 

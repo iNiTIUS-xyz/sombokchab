@@ -15,14 +15,12 @@ class AdminProductServices
         return $this->productStore($data);
     }
 
-    public function update($data, $id)
-    {
+    public function update($data, $id){
         return $this->productUpdate($data, $id);
     }
 
-    public function get_edit_product($id, $type = "single")
-    {
-        return $this->get_product($id, $type);
+    public function get_edit_product($id, $type = "single"){
+        return $this->get_product($id,$type);
     }
 
     public function delete(int $id): ?bool
@@ -30,8 +28,7 @@ class AdminProductServices
         return $this->destroy($id);
     }
 
-    public function clone($id)
-    {
+    public function clone($id){
         return $this->productClone($id);
     }
 

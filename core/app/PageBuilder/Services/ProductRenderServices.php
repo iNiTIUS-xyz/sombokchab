@@ -17,12 +17,7 @@ class ProductRenderServices
     {
         $output = "";
 
-        $products = Product::query()
-            ->where(['status' => 'publish'])
-            ->where('product_status', 'publish')
-            ->get()
-            ->pluck('title', 'id')
-            ->toArray();
+        $products = Product::where(['status' => 'publish'])->get()->pluck('title', 'id')->toArray();
         $output .= NiceSelect::get([
             'name' => 'products',
             'multiple' => true,
@@ -77,7 +72,7 @@ class ProductRenderServices
         return $output;
     }
 
-    public static function frontend($settings, $soldCampaign)
+    public static function frontend($settings,$soldCampaign)
     {
         $order_by = SanitizeInput::esc_html($settings['order_by'] ?? "") ?? null;
         $order = SanitizeInput::esc_html($settings['order'] ?? "") ?? null;
@@ -85,29 +80,25 @@ class ProductRenderServices
         $product_items = $settings['products'] ?? [];
 
         // check product selected or not
-        if (is_array($settings) && array_key_exists('product_items', $settings)) {
+        if(is_array($settings) && array_key_exists('product_items',$settings)){
             $product_items = $settings['product_items'] ?? '';
         }
 
-        if ($soldCampaign) {
+        if($soldCampaign){
             $products = Product::query()
-                ->withCount('ratings', 'inventoryDetail')
-                ->withAvg('ratings', 'rating')
-                ->withSum('taxOptions', 'rate')
-                ->with('inventory', 'campaign_product', 'campaign_sold_product')
-                ->where(['status_id' => 1])
-                ->where('product_status', 'publish');
-        } else {
+                ->withCount('ratings','inventoryDetail')
+                ->withAvg('ratings','rating')
+                ->withSum('taxOptions','rate')
+                ->with('inventory', 'campaign_product', 'campaign_sold_product')->where(['status_id' => 1]);
+        }else{
             $products = Product::query()
-                ->withCount('ratings', 'inventoryDetail')
-                ->withAvg('ratings', 'rating')
-                ->withSum('taxOptions', 'rate')
-                ->with('inventory', 'campaign_product', 'campaign_sold_product')
-                ->where(['status_id' => 1])
-                ->where('product_status', 'publish');
+                ->withCount('ratings','inventoryDetail')
+                ->withAvg('ratings','rating')
+                ->withSum('taxOptions','rate')
+                ->with('inventory', 'campaign_product','campaign_sold_product')->where(['status_id' => 1]);
         }
 
-        $products = $products->when(get_static_option('vendor_enable', 'on') != 'on', function ($query) {
+        $products = $products->when(get_static_option('vendor_enable', 'on') != 'on', function ($query){
             $query->whereNull("vendor_id");
         });
 
@@ -117,13 +108,13 @@ class ProductRenderServices
         $all_products = "";
 
         if ($order_by === 'rating') {
-            $products = $products->with(['ratings', 'campaign_product'])
+            $products = $products->with(['ratings','campaign_product'])
                 ->orderBy('ratings_count', 'desc')->get();
             $all_products = $products;
         } else {
             $order_by = empty($order_by) ? "id" : $order_by;
             $order = empty($order) ? "asc" : $order;
-
+           
             $products->orderBy($order_by, $order);
         }
 
@@ -138,19 +129,15 @@ class ProductRenderServices
 
     public static function new_products($limit): Collection|_IH_Product_C|array
     {
-        $product = Product::query()
-            ->where('status_id', 1)
-            ->where('product_status', 'publish')
+        return Product::where('status_id',1)
             ->withCount('ratings')
             ->withAvg('ratings', 'rating')
-            ->with('inventory', 'campaign_product', 'ratings')
-            ->when(get_static_option('vendor_enable', 'on') != 'on', function ($query) {
+            ->with('inventory','campaign_product','ratings')
+            ->when(get_static_option('vendor_enable', 'on') != 'on', function ($query){
                 $query->whereNull("vendor_id");
             })
             ->orderBy('created_at', 'DESC')
             ->take($limit)
             ->get();
-
-        return $product;
     }
 }

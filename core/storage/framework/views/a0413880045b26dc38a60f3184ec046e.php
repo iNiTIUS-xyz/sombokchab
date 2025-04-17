@@ -1,6 +1,6 @@
 <?php if(!$user): ?>
     <div class="create-account-wrapper mt-4 mt-lg-5">
-        
+        <a href="#1" class="create-accounts click-open-form2 ff-rubik fw-500 color-heading"><input type="hidden" name="create_account" value="1"> Create An Accounts </a>
         <div class="checkout-signup-form-wrapper">
             <div class="signin-contents">
                 <h2 class="contact-title"> Sign Up </h2>
@@ -20,5 +20,4 @@
             </div>
         </div>
     </div>
-<?php endif; ?>
-<?php /**PATH C:\xampp\htdocs\sombokchab\core\resources\views/frontend/cart/partials/create-account.blade.php ENDPATH**/ ?>
+<?php endif; ?><?php /**PATH C:\xampp\htdocs\sombokchab\core\resources\views/frontend/cart/partials/create-account.blade.php ENDPATH**/ ?>

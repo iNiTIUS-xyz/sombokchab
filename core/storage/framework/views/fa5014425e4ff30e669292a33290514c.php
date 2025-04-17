@@ -65,6 +65,7 @@
                             <ul class="payment-list payment-list-two margin-top-30">
                                 <li><span class="list-bold"><?php echo e(__('Amount Paid')); ?>: </span> <span class="payment-strong payment-bold"><?php echo e(float_amount_with_currency_symbol($payment_details->paymentMeta->total_amount)); ?></span></li>
                                 <li><?php echo e(__('Transaction ID')); ?>: <span class="payment-strong"><?php echo e($payment_details->transaction_id); ?></span></li>
+                                <li><?php echo e(__('Order Number')); ?>: <span class="payment-strong"><?php echo e($payment_details->order_number); ?></span></li>
                             </ul>
 
                             <div class="btn-wrapper margin-top-40">

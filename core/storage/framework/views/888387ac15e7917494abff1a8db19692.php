@@ -26,5 +26,6 @@
         <p><?php echo e(__("State")); ?>: <b><?php echo e($shipping_address?->state?->name); ?></b></p>
         <p><?php echo e(__("City")); ?>: <b><?php echo e($shipping_address?->cities?->name); ?></b></p>
         <p><?php echo e(__("Mobile")); ?>: <b><?php echo e($shipping_address->phone); ?></b></p>
+        <p><?php echo e(__("Zip Code")); ?>: <b><?php echo e($shipping_address->zip_code); ?></b></p>
     </div>
 </div><?php /**PATH C:\xampp\htdocs\sombokchab\core\resources\views/frontend/cart/partials/shipping-address-option.blade.php ENDPATH**/ ?>

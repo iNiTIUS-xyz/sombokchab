@@ -59,7 +59,7 @@
                     </div>
                     <div class="col-lg-2 d-none d-lg-block">
                         <div class="single-right-content">
-                            
+
                             <div class="track-icon-list header-card-area-content-wrapper">
                                 <!-- Currency Selector with Dropdown Icon -->
                                 <div class="custom-dropdown" style="float: right; margin-left: 10px;">
@@ -67,8 +67,8 @@
                                         <option value="USD" selected>USD</option>
                                         <option value="KHR">KHR</option>
                                     </select>
-                                </div>       
-                                
+                                </div>
+
                                 <?php echo $__env->make('frontend.partials.header.navbar.card-and-wishlist-area', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                             </div>
                         </div>
@@ -79,7 +79,8 @@
         <!-- Topbar area Ends -->
         <!-- Menu area Starts -->
         <nav class="navbar navbar-area nav-five navbar-expand-lg py-1" style="background: rgb(57, 77, 72);">
-            <div class="container container_1608 nav-container  <?php echo e($containerClass ?? ""); ?>" style="max-width: 100%; width: 100%; margin: 0px">
+            <div class="container container_1608 nav-container  <?php echo e($containerClass ?? ''); ?>"
+                style="max-width: 100%; width: 100%; margin: 0px">
                 <div class="navbar-inner-all">
                     <div class="navbar-inner-all--left">
                         <div class="nav-category category_bars">
@@ -93,7 +94,9 @@
 
                                     <?php else: ?>
                                         <h2 class="site-title">
-                                            <?php echo e(filter_static_option_value('site_title', $global_static_field_data)); ?></h2>
+                                            <?php echo e(filter_static_option_value('site_title', $global_static_field_data)); ?>
+
+                                        </h2>
                                     <?php endif; ?>
                                 </a>
                             </div>
@@ -117,7 +120,8 @@
                             <div class="topbar-right-offer">
                                 <ul class="list">
                                     <li class="me-2">
-                                        <a href="<?php echo e(route('frontend.products.track.order')); ?>" class="track-icon-single text-white">
+                                        <a href="<?php echo e(route('frontend.products.track.order')); ?>"
+                                            class="track-icon-single text-white">
                                             <span class="icon">
                                                 <i class="las la-map-marker-alt text-white"></i>
                                             </span>
@@ -125,44 +129,52 @@
 
                                         </a>
                                     </li>
-                                    <?php if(!auth('web')->check()): ?>
-                                        <?php if(get_static_option("enable_vendor_registration") === 'on'): ?>
-                                            <li class="me-2">
-                                                <a class="btn btn-sm text-dark become-a-seller-button" href="<?php echo e(route('vendor.register')); ?>" style="background-color: var(--main-color-two);">
-                                                    <?php echo e(__('Become a Vendor')); ?>
+                                    <?php if(auth('vendor')->check()): ?>
+                                        
+                                    <?php else: ?>
+                                        
+                                        <?php if(!auth('web')->check()): ?>
+                                            <?php if(get_static_option('enable_vendor_registration') === 'on'): ?>
+                                                <li class="me-2">
+                                                    <a class="btn btn-sm text-dark become-a-seller-button"
+                                                        href="<?php echo e(route('vendor.register')); ?>"
+                                                        style="background-color: var(--main-color-two);">
+                                                        <?php echo e(__('Become a Vendor')); ?>
+
+                                                    </a>
+                                                </li>
+                                            <?php endif; ?>
+
+                                            <li class="">
+                                                <a href="<?php echo e(route('vendor.login')); ?>">
+                                                    <?php echo e(__('Vendor Login')); ?>
 
                                                 </a>
                                             </li>
                                         <?php endif; ?>
-                                        
-                                        <li class="">
-                                            <a href="<?php echo e(route('vendor.login')); ?>">
-                                                <?php echo e(__('Vendor Login')); ?>
-
-                                            </a>
-                                        </li>
                                     <?php endif; ?>
                                     <?php echo render_frontend_menu(get_static_option('topbar_menu')); ?>
 
                                 </ul>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
         </nav>
         <!-- Menu area end -->
     </div>
-    
+
     <div class="mobile-navbar">
-        
+
         <!-- Menu area Starts -->
         <nav class="navbar navbar-area nav-five navbar-expand-lg py-1" style="background: rgb(57, 77, 72);">
-            <div class="container container_1608 nav-container  <?php echo e($containerClass ?? ""); ?>" style="max-width: 100%; width: 100%; margin: 0px">
+            <div class="container container_1608 nav-container  <?php echo e($containerClass ?? ''); ?>"
+                style="max-width: 100%; width: 100%; margin: 0px">
                 <div class="navbar-inner-all">
                     <div class="navbar-inner-all--left">
-                        
+
                         <div class="responsive-mobile-menu d-lg-none d-block">
                             <div class="logo-wrapper">
                                 <a href="<?php echo e(route('homepage')); ?>">
@@ -171,12 +183,14 @@
 
                                     <?php else: ?>
                                         <h2 class="site-title">
-                                            <?php echo e(filter_static_option_value('site_title', $global_static_field_data)); ?></h2>
+                                            <?php echo e(filter_static_option_value('site_title', $global_static_field_data)); ?>
+
+                                        </h2>
                                     <?php endif; ?>
                                 </a>
                             </div>
-                            
-                            
+
+
                             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#mares_main_menu">
                                 <span class="">
@@ -184,7 +198,7 @@
                                 </span>
                             </button>
                             
-                           
+
                         </div>
                     </div>
                     <div class="collapse navbar-collapse" id="mares_main_menu">
@@ -201,7 +215,7 @@
                                                 <option value="USD" selected>USD</option>
                                                 <option value="KHR">KHR</option>
                                             </select>
-                                        </div>    
+                                        </div>
                                     </li>
                                     <div class="account d-flex">
                                         <?php echo $__env->make('frontend.partials.header.navbar.card-and-wishlist-area', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
@@ -210,7 +224,8 @@
 
 
                                     <li class="me-2">
-                                        <a href="<?php echo e(route('frontend.products.track.order')); ?>" class="track-icon-single text-white">
+                                        <a href="<?php echo e(route('frontend.products.track.order')); ?>"
+                                            class="track-icon-single text-white">
                                             <span class="icon">
                                                 <i class="las la-map-marker-alt text-white"></i>
                                             </span>
@@ -219,15 +234,17 @@
                                         </a>
                                     </li>
                                     <?php if(!auth('web')->check()): ?>
-                                        <?php if(get_static_option("enable_vendor_registration") === 'on'): ?>
+                                        <?php if(get_static_option('enable_vendor_registration') === 'on'): ?>
                                             <li class="me-2">
-                                                <a class="btn btn-sm text-dark become-a-seller-button" href="<?php echo e(route('vendor.register')); ?>" style="background-color: var(--main-color-two);">
+                                                <a class="btn btn-sm text-dark become-a-seller-button"
+                                                    href="<?php echo e(route('vendor.register')); ?>"
+                                                    style="background-color: var(--main-color-two);">
                                                     <?php echo e(__('Become a Vendor')); ?>
 
                                                 </a>
                                             </li>
                                         <?php endif; ?>
-                                        
+
                                         <li class="">
                                             <a href="<?php echo e(route('vendor.login')); ?>">
                                                 <?php echo e(__('Vendor Login')); ?>
@@ -235,7 +252,7 @@
                                             </a>
                                         </li>
                                     <?php endif; ?>
-                                    
+
                                 </ul>
                             </div>
                         </div>
@@ -243,9 +260,9 @@
                             <?php echo render_frontend_menu($primary_menu); ?>
 
                         </ul>
-                        
+
                     </div>
-                    
+
                 </div>
             </div>
         </nav>
@@ -320,7 +337,8 @@
 </header>
 
 <!-- Image Search Modal -->
-<div class="modal fade" id="imageSearchModal" tabindex="-1" role="dialog" aria-labelledby="imageSearchModalLabel" aria-hidden="true">
+<div class="modal fade" id="imageSearchModal" tabindex="-1" role="dialog" aria-labelledby="imageSearchModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -331,7 +349,8 @@
             </div>
             <div class="modal-body text-center">
                 <input type="file" id="imageSearchInput" accept="image/*" class="form-control">
-                <img id="imagePreview" src="#" alt="Image Preview" class="img-fluid mt-3" style="display:none; max-height: 200px;">
+                <img id="imagePreview" src="#" alt="Image Preview" class="img-fluid mt-3"
+                    style="display:none; max-height: 200px;">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" onclick="uploadImageForSearch()">Search</button>
@@ -342,11 +361,11 @@
 
 <!-- Header area end -->
 <style>
-
     @media only screen and (min-width: 992px) {
         .desktop-navbar {
             display: block;
         }
+
         .mobile-navbar {
             display: none;
         }
@@ -356,6 +375,7 @@
         .desktop-navbar {
             display: none;
         }
+
         .mobile-navbar {
             display: block;
         }
@@ -365,44 +385,52 @@
         .navbar-right-content {
             margin-top: -80px;
         }
+
         .navbar-area .nav-container .navbar-collapse.show .navbar-nav {
             background: transparent;
         }
+
         .nav-category {
             padding: 8px 10px;
             border-radius: 4px;
             width: 100%;
         }
+
         .nav-category .nav-category-bars i {
             font-size: 35px;
         }
+
         .navbar-area .navbar-toggler {
             border: none;
             padding: 0px;
             /* top: 30%; */
             right: 0px;
         }
+
         .mobile-navbar .topbar-right-offer .single-icon .icon {
             font-size: 22px;
             color: #FFF;
         }
-        .mobile-navbar .topbar-right-offer .single-icon .icon .las.la-shopping-cart{
+
+        .mobile-navbar .topbar-right-offer .single-icon .icon .las.la-shopping-cart {
             font-size: 28px;
             color: #FFF;
             margin-top: 3px;
         }
-        .mobile-navbar .topbar-right-offer .single-icon .icon .las.la-retweet{
+
+        .mobile-navbar .topbar-right-offer .single-icon .icon .las.la-retweet {
             margin-top: 5px;
             font-size: 26px;
             color: #FFF;
         }
+
         .mobile-navbar .topbar-right-offer .single-icon .icon {
             font-size: 22px;
             color: #FFF;
         }
     }
 
-   
+
 
     /* General Styles */
     .single-right-content .track-icon-list {
@@ -435,9 +463,12 @@
         background: transparent;
         color: #FFF;
         border-radius: 5px;
-        appearance: none; /* Remove default arrow */
-        -webkit-appearance: none; /* Remove default arrow for Safari */
-        -moz-appearance: none; /* Remove default arrow for Firefox */
+        appearance: none;
+        /* Remove default arrow */
+        -webkit-appearance: none;
+        /* Remove default arrow for Safari */
+        -moz-appearance: none;
+        /* Remove default arrow for Firefox */
         text-align: center;
     }
 
@@ -468,24 +499,26 @@
         right: 10px;
         top: 50%;
         transform: translateY(-50%);
-        pointer-events: none; /* Ensure the icon doesn't interfere with clicking */
-        color: #FFF; /* Match the text color */
-        font-size: 12px; /* Adjust size as needed */
+        pointer-events: none;
+        /* Ensure the icon doesn't interfere with clicking */
+        color: #FFF;
+        /* Match the text color */
+        font-size: 12px;
+        /* Adjust size as needed */
     }
-
 </style>
-           
+
 <script>
     window.gtranslateSettings = {
-        "default_language":"en",
-        "languages":["en","km"],
-        "wrapper_selector":".gtranslate_wrapper"
-        }
+        "default_language": "en",
+        "languages": ["en", "km"],
+        "wrapper_selector": ".gtranslate_wrapper"
+    }
 </script>
 <script src="https://cdn.gtranslate.net/widgets/latest/dropdown.js" defer></script>
 
 <script>
-    document.addEventListener("DOMContentLoaded", async function () {
+    document.addEventListener("DOMContentLoaded", async function() {
         const CURRENCYFREAKS_API_KEY = "24b96ee77023425b95d417d36bc4a830";
         const currencySelector = document.getElementById("currency-selector");
         const INACTIVITY_LIMIT = 5 * 60 * 1000; // 5 minutes in milliseconds
@@ -509,7 +542,7 @@
         }
 
         // Event listener for currency change
-        currencySelector.addEventListener("change", async function () {
+        currencySelector.addEventListener("change", async function() {
             const selectedCurrency = this.value;
 
             // Store currency in localStorage and update activity time
@@ -524,12 +557,18 @@
 
             // Collect price elements
             document.querySelectorAll(".price-update-through, .product__price").forEach(container => {
-                const currentElem = container.querySelector(".flash-prices, .product__price__current");
+                const currentElem = container.querySelector(
+                    ".flash-prices, .product__price__current");
                 if (!currentElem) return;
 
-                const oldElem = container.querySelector(".flash-old-prices, .product__price__old");
-                let baseCurrent = getBaseUsdPrice(currentElem, ["data-usd-price", "data-main-price"]);
-                let baseOld = oldElem ? getBaseUsdPrice(oldElem, ["data-usd-price", "data-deleted-price"]) : 0;
+                const oldElem = container.querySelector(
+                    ".flash-old-prices, .product__price__old");
+                let baseCurrent = getBaseUsdPrice(currentElem, ["data-usd-price",
+                    "data-main-price"
+                ]);
+                let baseOld = oldElem ? getBaseUsdPrice(oldElem, ["data-usd-price",
+                    "data-deleted-price"
+                ]) : 0;
 
                 // Save base USD price once
                 if (!currentElem.hasAttribute("data-usd-price")) {
@@ -544,12 +583,22 @@
                 baseOld = oldElem ? parseFloat(oldElem.getAttribute("data-usd-price")) : 0;
 
 
-                allPricesData.push({ currentElem, oldElem, baseCurrent, baseOld });
+                allPricesData.push({
+                    currentElem,
+                    oldElem,
+                    baseCurrent,
+                    baseOld
+                });
             });
 
             // If USD, revert to base
             if (selectedCurrency === "USD") {
-                allPricesData.forEach(({ currentElem, oldElem, baseCurrent, baseOld }) => {
+                allPricesData.forEach(({
+                    currentElem,
+                    oldElem,
+                    baseCurrent,
+                    baseOld
+                }) => {
                     currentElem.textContent = formatCurrency(baseCurrent, "USD", "en-US");
                     if (oldElem) oldElem.textContent = formatCurrency(baseOld, "USD", "en-US");
                 });
@@ -558,7 +607,8 @@
 
             // Fetch conversion rate if not USD
             try {
-                const url = `https://api.currencyfreaks.com/latest?apikey=${CURRENCYFREAKS_API_KEY}&symbols=KHR`;
+                const url =
+                    `https://api.currencyfreaks.com/latest?apikey=${CURRENCYFREAKS_API_KEY}&symbols=KHR`;
                 const response = await fetch(url);
                 const data = await response.json();
 
@@ -566,9 +616,16 @@
                 const rate = parseFloat(data.rates.KHR);
                 if (isNaN(rate)) throw new Error("Invalid KHR rate.");
 
-                allPricesData.forEach(({ currentElem, oldElem, baseCurrent, baseOld }) => {
-                    currentElem.textContent = formatCurrency(baseCurrent * rate, "KHR", "km-KH");
-                    if (oldElem) oldElem.textContent = formatCurrency(baseOld * rate, "KHR", "km-KH");
+                allPricesData.forEach(({
+                    currentElem,
+                    oldElem,
+                    baseCurrent,
+                    baseOld
+                }) => {
+                    currentElem.textContent = formatCurrency(baseCurrent * rate, "KHR",
+                    "km-KH");
+                    if (oldElem) oldElem.textContent = formatCurrency(baseOld * rate, "KHR",
+                        "km-KH");
                 });
 
             } catch (error) {
@@ -590,17 +647,20 @@
         }
 
         function formatCurrency(value, currencyCode, locale) {
-            return new Intl.NumberFormat(locale, { style: "currency", currency: currencyCode }).format(value);
+            return new Intl.NumberFormat(locale, {
+                style: "currency",
+                currency: currencyCode
+            }).format(value);
         }
     });
 </script>
 <script>
-   document.getElementById("imageSearchInput").addEventListener("change", function () {
+    document.getElementById("imageSearchInput").addEventListener("change", function() {
         const file = this.files[0];
 
         if (file) {
             const reader = new FileReader();
-            reader.onload = function (e) {
+            reader.onload = function(e) {
                 document.getElementById("imagePreview").src = e.target.result;
                 document.getElementById("imagePreview").style.display = "block";
             };
@@ -622,23 +682,23 @@
         formData.append("_token", document.querySelector('input[name="_token"]').value);
 
         fetch("<?php echo e(route('search.image')); ?>", {
-            method: "POST",
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.products.length > 0) {
-                displayProductResults(data.products);
-            } else {
-                document.getElementById("no_product_found_div").style.display = "block";
-            }
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.products.length > 0) {
+                    displayProductResults(data.products);
+                } else {
+                    document.getElementById("no_product_found_div").style.display = "block";
+                }
 
-            // Close modal after search
-            $("#imageSearchModal").modal("hide");
-        })
-        .catch(error => {
-            console.error("Error:", error);
-        });
+                // Close modal after search
+                $("#imageSearchModal").modal("hide");
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
     }
 
     function displayProductResults(products) {
@@ -653,5 +713,5 @@
 
         document.getElementById("search_suggestions_wrap").style.display = "block";
     }
-
-</script><?php /**PATH C:\xampp\htdocs\sombokchab\core\resources\views/frontend/partials/header/header-variant-03.blade.php ENDPATH**/ ?>
+</script>
+<?php /**PATH C:\xampp\htdocs\sombokchab\core\resources\views/frontend/partials/header/header-variant-03.blade.php ENDPATH**/ ?>
