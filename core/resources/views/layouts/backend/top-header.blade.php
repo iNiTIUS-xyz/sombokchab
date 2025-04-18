@@ -29,7 +29,7 @@
                                 <ul class="author-account-list">
                                     <li class="list"><a href="{{route('admin.profile.update')}}">{{__('Edit Profile')}}</a></li>
                                     <li class="list"><a href="{{route('admin.password.change')}}">{{__('Password Change')}}</a></li>
-                                    <li class="list"><a href="{{ route('admin.logout') }}">{{ __('Logout') }}</a></li>
+                                    <li class="list"><a href="{{ route('admin.logout') }}">{{ __('Sign out') }}</a></li>
                                 </ul>
                             </div>
                         </div>

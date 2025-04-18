@@ -14,7 +14,7 @@
             <div class="col-lg-12">
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Shipping Methods Create') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('Create Shipping Method') }}</h4>
                         @can("shipping-method")
                             <a class="btn btn-info" href="{{ route('admin.shipping-method.index') }}">{{ __("Shipping Method List") }}</a>
                         @endcan

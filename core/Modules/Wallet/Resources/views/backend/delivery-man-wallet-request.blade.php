@@ -22,7 +22,7 @@
                 <x-flash-msg />
                 <div class="dashboard__card card__two">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('All withdraw request page') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('All Withdraw Request') }}</h4>
                     </div>
                     <div class="dashboard__card__body">
                         <div class="table-wrap">

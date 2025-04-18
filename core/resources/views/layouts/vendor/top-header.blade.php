@@ -45,7 +45,7 @@
                                     <li class="list"><a
                                             href="{{ route('vendor.password.change') }}">{{ __('Password Change') }}</a>
                                     </li>
-                                    <li class="list"><a href="{{ route('vendor.logout') }}">{{ __('Logout') }}</a>
+                                    <li class="list"><a href="{{ route('vendor.logout') }}">{{ __('Sign Out') }}</a>
                                     </li>
                                 </ul>
                             </div>

@@ -516,7 +516,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
-                        <div class="vendor-superMarket">
+                        <div class="vendor-superMarket" style="margin-top: 45px">
                             <div class="vendor-superMarket-flex">
                                 <div class="vendor-superMarket-contents">
                                     <h4 class="vendor-superMarket-title">{{ $vendor->business_name }}</h4>

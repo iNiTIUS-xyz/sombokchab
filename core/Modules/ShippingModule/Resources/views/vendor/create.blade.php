@@ -14,7 +14,7 @@
                 <x-msg.flash />
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Shipping Methods Create') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('Create Shipping Method') }}</h4>
                         <a class="cmn_btn btn_bg_profile" href="{{ route('vendor.shipping-method.index') }}">Shipping Method
                             List</a>
                     </div>
