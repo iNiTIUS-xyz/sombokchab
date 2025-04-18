@@ -84,10 +84,11 @@ class FrontendController extends Controller
                 })->toArray();
         });
 
-        return view('frontend.frontend-home')->with([
-            'static_field_data' => $static_field_data,
-            'page_details' => $page_details,
-        ]);
+        return view('frontend.frontend-home', compact('static_field_data', 'page_details'));
+        // return view('frontend.frontend-home')->with([
+        //     'static_field_data' => $static_field_data,
+        //     'page_details' => $page_details,
+        // ]);
     }
 
     public function home_page_change($id)
