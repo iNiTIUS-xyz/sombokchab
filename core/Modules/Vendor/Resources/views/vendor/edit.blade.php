@@ -163,10 +163,10 @@
                                                         @endphp
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title color-light mb-2"> {{ __('State *') }} </label>
+                                                                <label class="label-title color-light mb-2"> {{ __('City *') }} </label>
                                                                 <div class="nice-select-two state_wrapper">
                                                                     <select class="form-control" id="state_id" name="state_id">
-                                                                        <option value="">Select State</option>
+                                                                        <option value="">Select City</option>
                                                                         @foreach ($states as $state)
                                                                             <option value="{{ $state->id }}"
                                                                                 {{ $vendor?->vendor_address?->state_id == $state->id ? 'selected' : '' }}>
@@ -183,10 +183,10 @@
 
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title color-light mb-2"> {{ __('City') }} </label>
+                                                                <label class="label-title color-light mb-2"> {{ __('State') }} </label>
                                                                 <div class="nice-select-two city_wrapper">
                                                                     <select class="form-control" id="city_id" name="city_id">
-                                                                        <option value="">Select City</option>
+                                                                        <option value="">Select State</option>
                                                                         @foreach ($cities as $city)
                                                                             <option value="{{ $city->id }}"
                                                                                 {{ $vendor?->vendor_address?->city_id == $city->id ? 'selected' : '' }}>

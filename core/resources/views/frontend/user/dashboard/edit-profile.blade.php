@@ -38,23 +38,30 @@
                     <select id="country" class="form-control wide" name="country">
                         <option value="">Select Country</option>
                         @foreach ($all_countries as $country)
-                            <option value="{{ $country->id }}" {{ $user_details->country == $country->id ? 'selected' : '' }}>
+                            <option value="{{ $country->id }}"
+                                {{ $user_details->country == $country->id ? 'selected' : '' }}>
                                 {{ $country->name }}</option>
                         @endforeach
                     </select>
 
                 </div>
                 <div class="form-group">
-                    <label for="state">{{ __('State') }}</label>
+                    <label for="state">{{ __('City') }}</label>
 
                     <select class="form-control" id="state" name="state">
-                        <option value="">{{ __('Select State') }}</option>
+                        <option value="">
+                            {{ __('Select City') }}
+                        </option>
                         @php
-                            $states = \Modules\CountryManage\Entities\State::where("country_id", $user_details->country ?? 0)->get();
+                            $states = \Modules\CountryManage\Entities\State::where(
+                                'country_id',
+                                $user_details->country ?? 0,
+                            )->get();
                         @endphp
 
                         @foreach ($states as $state)
-                            <option value="{{ $state->id }}" {{ $state->id == $user_details->state ? 'selected' : '' }}>
+                            <option value="{{ $state->id }}"
+                                {{ $state->id == $user_details->state ? 'selected' : '' }}>
                                 {{ $state->name }}
                             </option>
                         @endforeach
@@ -101,11 +108,12 @@
     <div class="dashboard-form-wrapper" style="margin-top: 20px">
         <h2 class="dashboard__card__title">{{ __('Deactivate Account') }}</h2>
         <div class="custom__form mt-4">
-            <form action="{{route('user.deactivate')}}" method="post">
+            <form action="{{ route('user.deactivate') }}" method="post">
                 @csrf
                 <div class="form-group">
                     <label for="password">{{ __('Password') }}</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" required>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password"
+                        required>
                 </div>
                 <div class="btn-wrapper mt-2">
                     <button type="submit" class="cmn_btn btn_bg_4">{{ __('Deactivate Account') }}</button>
