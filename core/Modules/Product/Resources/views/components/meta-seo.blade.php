@@ -21,7 +21,7 @@
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="twitter-meta-tab" data-bs-toggle="tab" data-bs-target="#twitter-meta"
                 type="button" role="tab" aria-controls="twitter-meta" aria-selected="false">
-                {{ __('Twitter meta') }}</button>
+                {{ __('X') }}</button>
         </li>
     </ul>
     <div class="tab-content" id="myTabContent">
@@ -71,7 +71,7 @@
         <div class="tab-pane py-4 fade" id="twitter-meta" role="tabpanel" aria-labelledby="twitter-meta-tab">
             <div class="dashboard__card">
                 <div class="dashboard__card__header">
-                    <h4 class="dashboard__card__title">{{ __('Twitter Info') }}</h4>
+                    <h4 class="dashboard__card__title">{{ __('X Info') }}</h4>
                 </div>
                 <div class="dashboard__card__body custom__form mt-4">
                     <div class="form-group dashboard-input">
