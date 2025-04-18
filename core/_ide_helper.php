@@ -20036,6 +20036,14 @@ namespace Illuminate\Database\Query {
             }
     }
 
+namespace Nwidart\Modules {
+            /**
+     * 
+     *
+     */        class Collection {
+            }
+    }
+
 namespace Illuminate\Database\Eloquent {
             /**
      * 

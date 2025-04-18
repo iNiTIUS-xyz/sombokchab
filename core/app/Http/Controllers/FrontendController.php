@@ -1146,7 +1146,7 @@ class FrontendController extends Controller
         $request->validate(['id' => 'required']);
 
         $states = State::select('id', 'name')->where('country_id', $request->id)->get();
-        $html = "<option value=''>Select State</option>";
+        $html = "<option value=''>Select One</option>";
         foreach ($states as $state) {
             $html .= "<option value='".$state->id."'>".$state->name.'</option>';
         }
@@ -1160,7 +1160,7 @@ class FrontendController extends Controller
 
         $cities = City::select('id', 'name')->where('state_id', $request->id)->get();
 
-        $html = "<option value=''>".__('Select City').'</option>';
+        $html = "<option value=''>".__('Select One').'</option>';
         foreach ($cities as $city) {
             $html .= "<option value='".$city->id."'>".$city->name.'</option>';
         }
@@ -1172,12 +1172,12 @@ class FrontendController extends Controller
     {
         $states = State::where('country_id', $country_id)->get();
 
-        $html = "<option value=''>".__('Select State').'</option>';
+        $html = "<option value=''>".__('Select One').'</option>';
         foreach ($states as $state) {
             $html .= "<option value='".$state->id."'>".$state->name.'</option>';
         }
 
-        $list = "<li data-value='' class='option'>".__('Select State').'</li>';
+        $list = "<li data-value='' class='option'>".__('Select One').'</li>';
         foreach ($states as $state) {
             $list .= "<li data-value='".$state->id."' class='option'>".$state->name.'</option>';
         }

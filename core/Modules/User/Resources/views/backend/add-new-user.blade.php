@@ -51,15 +51,15 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="state">{{ __('State') }}</label>
+                                <label for="state">{{ __('City') }}</label>
                                 <select id="state_id" name="state">
-                                    <option value="">{{ __("Select State") }}</option>
+                                    <option value="">{{ __("Select City") }}</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="city">{{ __('City') }}</label>
+                                <label for="city">{{ __('State') }}</label>
                                 <select id="city_id" name="city" >
-                                    <option value="">{{ __("Select City") }}</option>
+                                    <option value="">{{ __("Select State") }}</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -99,7 +99,7 @@
             data.append("_token", "{{ csrf_token() }}");
 
             send_ajax_request("post", data, "{{ route('admin.vendor.get.state') }}", function() {}, (data) => {
-                $("#state_id").html("<option value=''>{{ __("Select an state") }}</option>" + data.option);
+                $("#state_id").html("<option value=''>{{ __("Select One") }}</option>" + data.option);
                 $(".state_wrapper .list").html(data.li);
             }, (data) => {
                 prepare_errors(data);
@@ -114,7 +114,7 @@
             data.append("_token", "{{ csrf_token() }}");
 
             send_ajax_request("post", data, "{{ route('admin.vendor.get.city') }}", function() {}, (data) => {
-                $("#city_id").html("<option value=''>{{ __("Select an city") }}</option>" + data.option);
+                $("#city_id").html("<option value=''>{{ __("Select One") }}</option>" + data.option);
                 $(".city_wrapper .list").html(data.li);
             }, (data) => {
                 prepare_errors(data);

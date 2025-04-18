@@ -56,12 +56,15 @@
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="single-input">
-                                                <label class="label-title"> {{ __('State') }} </label>
+                                                <label class="label-title"> {{ __('City') }} </label>
                                                 <div class="nice-select-two state_wrapper">
                                                     <select id="state_id" class="form-control" name="state_id">
-                                                        <option value="">{{ __('Select State') }}</option>
+                                                        <option value="">{{ __('Select City') }}</option>
                                                         @php
-                                                            $states = \Modules\CountryManage\Entities\State::where('country_id', $shopManage->country_id ?? null)->get();
+                                                            $states = \Modules\CountryManage\Entities\State::where(
+                                                                'country_id',
+                                                                $shopManage->country_id ?? null,
+                                                            )->get();
                                                         @endphp
                                                         @foreach ($states as $state)
                                                             <option
@@ -74,17 +77,21 @@
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="single-input">
-                                                <label class="label-title"> {{ __('City') }} </label>
+                                                <label class="label-title"> {{ __('State') }} </label>
                                                 <div class="nice-select-two city_wrapper">
                                                     <select id="city_id" class="form-control" name="city">
                                                         <option value="">{{ __('Select State') }}</option>
                                                         @php
-                                                            $cities = \Modules\CountryManage\Entities\City::where('state_id', $shopManage->state_id ?? null)->get();
+                                                            $cities = \Modules\CountryManage\Entities\City::where(
+                                                                'state_id',
+                                                                $shopManage->state_id ?? null,
+                                                            )->get();
                                                         @endphp
                                                         @foreach ($cities as $city)
-                                                            <option
-                                                                    {{ $city->id == $shopManage->city ? 'selected' : '' }}
-                                                                    value="{{ $city->id }}">{{ $city->name }}</option>
+                                                            <option {{ $city->id == $shopManage->city ? 'selected' : '' }}
+                                                                value="{{ $city->id }}">
+                                                                {{ $city->name }}
+                                                            </option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -93,9 +100,10 @@
                                         <div class="col-sm-6">
                                             <div class="single-input">
                                                 <label class="label-title"> {{ __('Zip Code') }} </label>
-                                                <input value="{{ $shopManage->zipcode ?? null }}" type="text" name="zipcode"
-                                                    class="form--control radius-10" placeholder="{{ __('Zip Code') }}">
-                                            </div>
+                                                <input value="{{ $shopManage->zipcode ?? null }}" type="text"
+                                                    name="zipcode" class="form--control radius-10"
+                                                    placeholder="{{ __('Zip Code') }}">
+                                            </div>s
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="single-input">
@@ -108,9 +116,8 @@
                                         <div class="col-sm-12">
                                             <div class="single-input">
                                                 <label class="label-title"> {{ __('Address') }} </label>
-                                             
-                                                <textarea  name="address" type="text" class="form--control radius-10"
-                                                    placeholder="{{ __('Type Address') }}">{{ $shopManage->address ?? null }}</textarea>
+
+                                                <textarea name="address" type="text" class="form--control radius-10" placeholder="{{ __('Type Address') }}">{{ $shopManage->address ?? null }}</textarea>
                                             </div>
                                         </div>
                                         <div class="col-sm-12">
@@ -161,7 +168,7 @@
             data.append("_token", "{{ csrf_token() }}");
 
             send_ajax_request("post", data, "{{ route('admin.vendor.get.state') }}", function() {}, (data) => {
-                $("#state_id").html(`<option value="">{{ __('Select an state') }}</option>` + data.option);
+                $("#state_id").html(`<option value="">{{ __('Select One') }}</option>` + data.option);
                 $(".state_wrapper .list").html(data.li);
             }, (data) => {
                 prepare_errors(data);
@@ -176,7 +183,7 @@
             data.append("_token", "{{ csrf_token() }}");
 
             send_ajax_request("post", data, "{{ route('admin.vendor.get.city') }}", function() {}, (data) => {
-                $("#city_id").html(`<option value="">{{ __('Select an city') }}</option>` + data.option);
+                $("#city_id").html(`<option value="">{{ __('Select One') }}</option>` + data.option);
                 $(".city_wrapper .list").html(data.li);
             }, (data) => {
                 prepare_errors(data);

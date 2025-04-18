@@ -255,8 +255,14 @@
                             @php
                                 $presentAddress = $deliveryMan->presentAddress;
                                 // if country is selected then load all states
-                                $presentAddressStates = \Modules\CountryManage\Entities\State::where('country_id', $presentAddress->country_id)->get();
-                                $presentAddressCities = \Modules\CountryManage\Entities\City::where('state_id', $presentAddress->state_id)->get();
+                                $presentAddressStates = \Modules\CountryManage\Entities\State::where(
+                                    'country_id',
+                                    $presentAddress->country_id,
+                                )->get();
+                                $presentAddressCities = \Modules\CountryManage\Entities\City::where(
+                                    'state_id',
+                                    $presentAddress->state_id,
+                                )->get();
                             @endphp
 
                             <div class="dashboard-delivery-info mt-3">
@@ -274,9 +280,9 @@
                                             </select>
                                         </div>
                                         <div class="dashboard-input">
-                                            <label class="dashboard-label color-light mb-2">{{ __('State') }}</label>
+                                            <label class="dashboard-label color-light mb-2">{{ __('City') }}</label>
                                             <select id="state_id" class="form--control" name="present_state_id">
-                                                <option value="">{{ __('First select country') }}</option>
+                                                <option value="">{{ __('Select One') }}</option>
                                                 @foreach ($presentAddressStates as $presentState)
                                                     <option
                                                         {{ (old('present_state_id') ?? $presentAddress?->state_id) == $presentState->id ? 'selected' : '' }}
@@ -286,13 +292,14 @@
                                             </select>
                                         </div>
                                         <div class="dashboard-input">
-                                            <label class="dashboard-label color-light mb-2">{{ __('City') }}</label>
+                                            <label class="dashboard-label color-light mb-2">{{ __('State') }}</label>
                                             <select id="city_id" class="form--control" name="present_city_id">
-                                                <option value="">{{ __('First select state') }}</option>
+                                                <option value="">{{ __('Select One') }}</option>
                                                 @foreach ($presentAddressCities as $presentCity)
                                                     <option
                                                         {{ (old('present_city_id') ?? $presentAddress?->city_id) == $presentCity->id ? 'selected' : '' }}
-                                                        value="{{ $presentCity->id }}">{{ $presentCity->name }}</option>
+                                                        value="{{ $presentCity->id }}">{{ $presentCity->name }}
+                                                    </option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -334,8 +341,14 @@
                             @php
                                 $permanentAddress = $deliveryMan->permanentAddress;
                                 // if country is selected then load all states
-                                $permanentAddressStates = \Modules\CountryManage\Entities\State::where('country_id', $permanentAddress->country_id)->get();
-                                $permanentAddressCities = \Modules\CountryManage\Entities\City::where('state_id', $permanentAddress->state_id)->get();
+                                $permanentAddressStates = \Modules\CountryManage\Entities\State::where(
+                                    'country_id',
+                                    $permanentAddress->country_id,
+                                )->get();
+                                $permanentAddressCities = \Modules\CountryManage\Entities\City::where(
+                                    'state_id',
+                                    $permanentAddress->state_id,
+                                )->get();
                             @endphp
 
                             <div class="dashboard-delivery-info mt-3">
@@ -546,8 +559,14 @@
                                 @php
                                     $presentAddress = $deliveryMan->presentAddress;
                                     // if country is selected then load all states
-                                    $presentAddressStates = \Modules\CountryManage\Entities\State::where('country_id', $presentAddress->country_id)->get();
-                                    $presentAddressCities = \Modules\CountryManage\Entities\City::where('state_id', $presentAddress->state_id)->get();
+                                    $presentAddressStates = \Modules\CountryManage\Entities\State::where(
+                                        'country_id',
+                                        $presentAddress->country_id,
+                                    )->get();
+                                    $presentAddressCities = \Modules\CountryManage\Entities\City::where(
+                                        'state_id',
+                                        $presentAddress->state_id,
+                                    )->get();
                                 @endphp
                             </div>
                         </div>
@@ -622,8 +641,14 @@
                                 @php
                                     $permanentAddress = $deliveryMan->permanentAddress;
                                     // if country is selected then load all states
-                                    $permanentAddressStates = \Modules\CountryManage\Entities\State::where('country_id', $permanentAddress->country_id)->get();
-                                    $permanentAddressCities = \Modules\CountryManage\Entities\City::where('state_id', $permanentAddress->state_id)->get();
+                                    $permanentAddressStates = \Modules\CountryManage\Entities\State::where(
+                                        'country_id',
+                                        $permanentAddress->country_id,
+                                    )->get();
+                                    $permanentAddressCities = \Modules\CountryManage\Entities\City::where(
+                                        'state_id',
+                                        $permanentAddress->state_id,
+                                    )->get();
                                 @endphp
                             </div>
                         </div>

@@ -66,17 +66,17 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="pickup-point-state-id" class="mb-2">{{ __("Select State") }}</label>
+                            <label for="pickup-point-state-id" class="mb-2">{{ __("Select City") }}</label>
                             <select id="pickup-point-state-id" name="state_id" class="form-control form-control-sm">
-                                <option value="">{{ __("Select State") }}</option>
+                                <option value="">{{ __("Select City") }}</option>
                             </select>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="pickup-point-city-id" class="mb-2">{{ __("Select City") }}</label>
+                            <label for="pickup-point-city-id" class="mb-2">{{ __("Select State") }}</label>
                             <select id="pickup-point-city-id" name="city_id" type="text" class="form-control form-control-sm">
-                                <option value="">{{ __("Select City") }}</option>
+                                <option value="">{{ __("Select State") }}</option>
                             </select>
                         </div>
                     </div>
