@@ -1356,68 +1356,82 @@
                     $(this).closest('.categoryNav__inner').find('.submenu').removeClass('menu_visible');
                 });
             @endif
+        </script>
 
+        <script>
             const shopBaseUrl = "{{ route('frontend.dynamic.shop.page') }}";
 
-            $(document).on('keyup', '#search_form_input', function(e) {
+            $(document).ready(function() {
+                // Keyup event for search input
+                $(document).on('keyup', '#search_form_input', function(e) {
+                    handleSearch();
+                });
 
-                let input_values = $(this).val();
-                let search_category_id = $('#search_category_id').val();
+                // Change event for category select
+                $(document).on('change', '#search_category_id', function() {
+                    // Only trigger search if there's text in the input field
+                    if ($('#search_form_input').val().length > 0) {
+                        handleSearch();
+                    }
+                });
 
-                let category_id = $('#search_selected_category').val();
-                let search_result_category = $('#search_result_categories');
-                let search_result_products = $('#search_result_products');
-                let sppinnerHtml = '<i class="las la-spinner la-spin"></i>';
-                let btnIns = $(this).parent().find('button');
-                let btnOldText = `<i class="las la-search text-light la-2x"></i>`;
-                let site_currency_symbol = "{{ site_currency_symbol() }}";
+                function handleSearch() {
+                    let input_values = $('#search_form_input').val();
+                    let search_category_id = $('#search_category_id').val();
+                    let category_id = $('#search_selected_category').val();
+                    let search_result_category = $('#search_result_categories');
+                    let search_result_products = $('#search_result_products');
+                    let sppinnerHtml = '<i class="las la-spinner la-spin"></i>';
+                    let btnIns = $('#search_form_input').parent().find('button');
+                    let btnOldText = `<i class="las la-search text-light la-2x"></i>`;
+                    let site_currency_symbol = "{{ site_currency_symbol() }}";
 
-                const routeUrl = `${shopBaseUrl}?keyword=${input_values}&category_id=${search_category_id}`;
+                    const routeUrl = `${shopBaseUrl}?keyword=${input_values}&category_id=${search_category_id}`;
 
-                if (!input_values.length) {
-                    search_result_category.html('');
-                    search_result_products.html('');
-                    $('#search_suggestions_wrap').hide();
-                } else {
-                    //enable preloader
-                    btnIns.html(sppinnerHtml)
-                    $.get('{{ route('frontend.products.search') }}', {
-                        name: input_values,
-                        category: category_id,
-                        search_category_id: search_category_id
-                    }).then(function(data) {
-                        $('#search_suggestions_wrap').show();
+                    if (!input_values.length) {
                         search_result_category.html('');
-                        if (data['product_url']) {
-                            $('#search_result_all').attr('href', data['product_url']);
-                        }
-
-                        $('.showMoreProduct').attr('href', routeUrl);
-
-                        let fetchedCategory = data['categories'];
-                        if (data['categories']) {
-                            search_result_category.parent().show();
-                            $('#no_product_found_div').hide();
-                            //check it ther category avialble or not
-                            Object.values(data['categories']).forEach(function(category) {
-                                search_result_category.append(`<li class="list">
-                                    <a href="${category['url']}" class="item">${category['title']}</a>
-                                </li>`);
-                            });
-                        }
-
-                        if (fetchedCategory.length === 0) {
-                            $('#search_result_categories').parent().hide();
-                        }
-
-                        let fetchedProdcuts = data['products'];
                         search_result_products.html('');
-                        if (data['products']) {
-                            $('#search_result_products').parent().show();
-                            $('#no_product_found_div').hide();
-                            let searchResultForProducts = "";
-                            Object.values(data['products']).forEach(function(product) {
-                                searchResultForProducts += `
+                        $('#search_suggestions_wrap').hide();
+                    } else {
+                        //enable preloader
+                        btnIns.html(sppinnerHtml);
+                        $.get('{{ route('frontend.products.search') }}', {
+                            name: input_values,
+                            category: category_id,
+                            search_category_id: search_category_id
+                        }).then(function(data) {
+                            $('#search_suggestions_wrap').show();
+                            search_result_category.html('');
+                            if (data['product_url']) {
+                                $('#search_result_all').attr('href', data['product_url']);
+                            }
+
+                            $('.showMoreProduct').attr('href', routeUrl);
+
+                            let fetchedCategory = data['categories'];
+                            if (data['categories']) {
+                                search_result_category.parent().show();
+                                $('#no_product_found_div').hide();
+                                //check it ther category avialble or not
+                                Object.values(data['categories']).forEach(function(category) {
+                                    search_result_category.append(`<li class="list">
+                            <a href="${category['url']}" class="item">${category['title']}</a>
+                        </li>`);
+                                });
+                            }
+
+                            if (fetchedCategory.length === 0) {
+                                $('#search_result_categories').parent().hide();
+                            }
+
+                            let fetchedProdcuts = data['products'];
+                            search_result_products.html('');
+                            if (data['products']) {
+                                $('#search_result_products').parent().show();
+                                $('#no_product_found_div').hide();
+                                let searchResultForProducts = "";
+                                Object.values(data['products']).forEach(function(product) {
+                                    searchResultForProducts += `
                                     <li class="list">
                                         <a href="${product['url']}" class="item">
                                             <div class="product-image"><img src="${product['img_url']}" alt="img"></div>
@@ -1436,21 +1450,22 @@
                                         </a>
                                     </li>
                                 `
-                            });
+                                });
 
-                            $("#search_result_products").html(searchResultForProducts);
-                        }
+                                $("#search_result_products").html(searchResultForProducts);
+                            }
 
-                        if (fetchedProdcuts.length === 0 && fetchedCategory.length === 0) {
-                            $('#no_product_found_div').show();
-                        }
+                            if (fetchedProdcuts.length === 0 && fetchedCategory.length === 0) {
+                                $('#no_product_found_div').show();
+                            }
 
-                        //  disable preloader
-                        btnIns.html(btnOldText);
+                            // disable preloader
+                            btnIns.html(btnOldText);
 
-                        $('.category-searchbar').show();
-                        $('#search_suggestions_wrap').addClass("show");
-                    });
+                            $('.category-searchbar').show();
+                            $('#search_suggestions_wrap').addClass("show");
+                        });
+                    }
                 }
             });
         </script>
