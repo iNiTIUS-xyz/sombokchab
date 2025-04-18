@@ -14,7 +14,7 @@
                 <x-msg.flash />
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Your wallet withdraw page') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('Your Wallet Withdraw') }}</h4>
                     </div>
                     <div class="dashboard__card__body mt-4">
                         <div class="row g-4 justify-content-center">
@@ -88,7 +88,7 @@
                             <div class="col-lg-12">
                                 <div class="dashboard__card">
                                     <div class="dashboard__card__header">
-                                        <h2 class="dashboard__card__title">{{ __('Withdraw information') }}</h2>
+                                        <h2 class="dashboard__card__title">{{ __('Withdraw Information') }}</h2>
                                     </div>
                                     <div class="dashboard__card__body custom__form mt-4">
                                         <form action="{{ route('vendor.wallet.withdraw') }}" method="post">
@@ -104,7 +104,7 @@
                                             <div class="form-group">
                                                 <label>{{ __('Select an gateway') }}</label>
                                                 <select name="gateway_name" class="form-control gateway-name">
-                                                    <option value="">{{ __('Select an gateway') }}</option>
+                                                    <option value="">{{ __('Select a gateway') }}</option>
                                                     @foreach ($adminGateways as $gateway)
                                                         <option
                                                             {{ $savedGateway?->vendor_wallet_gateway_id === $gateway->id ? 'selected' : '' }}

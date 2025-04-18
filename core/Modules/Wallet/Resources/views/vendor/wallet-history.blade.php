@@ -20,7 +20,7 @@
                 <x-flash-msg />
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Wallet history') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('Wallet History') }}</h4>
                     </div>
                     <div class="dashboard__card__body mt-4">
                         <div class="table-wrap">

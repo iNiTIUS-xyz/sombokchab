@@ -1,6 +1,6 @@
 @extends('frontend.frontend-page-master')
 @section('page-title')
-    {{ __('All Campaign') }}
+    {{ __('All Campaigns') }}
 @endsection
 @section('style')
 @endsection

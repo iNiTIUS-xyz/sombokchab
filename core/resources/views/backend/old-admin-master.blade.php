@@ -117,7 +117,7 @@
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="{{route('admin.profile.update')}}">{{__('Edit Profile')}}</a>
                             <a class="dropdown-item" href="{{route('admin.password.change')}}">{{__('Password Change')}}</a>
-                            <a class="dropdown-item" href="{{ route('admin.logout') }}">{{ __('Logout') }}</a>
+                            <a class="dropdown-item" href="{{ route('admin.logout') }}">{{ __('Sign out') }}</a>
                         </div>
                     </div>
                 </div>

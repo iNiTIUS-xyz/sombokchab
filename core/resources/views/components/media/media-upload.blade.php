@@ -39,7 +39,7 @@
                     data-imgid="{{ $id ?? '' }}">
                     <span class="upload-icon"> <i class="las la-cloud-upload-alt"></i> </span>
                     <h5 class="dashboard-common-title">
-                        {{ __('Click Files to this area to upload') }}
+                        {{ __("Select Files to Upload Image") }}
                     </h5>
                     <span class="upload-para mt-2"> {{ __('Dimension of the logo image should be 600 x 600px') }}
                     </span>
@@ -78,7 +78,7 @@
                         <i class="las la-cloud-upload-alt"></i>
                     </span>
                     <h5 class="dashboard-common-title">
-                        {{ __('Click Files to this area to upload') }}
+                        {{ __("Select Files to Upload Image") }}
                     </h5>
                     <span class="upload-para mt-2">
                         {{ __('Dimension of the logo image should be 600 x 600px') }}

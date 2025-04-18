@@ -71,7 +71,7 @@
                     <a href="admin_wallet.html"> <i class="las la-id-card"></i> Wallet </a>
                 </li>
                 <li class="list">
-                    <a href="#1"> <i class="las la-sign-out-alt"></i> Log Out </a>
+                    <a href="#1"> <i class="las la-sign-out-alt"></i> Sign Out </a>
                 </li>
                 <li class="list empty"></li>
             </ul>

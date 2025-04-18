@@ -158,7 +158,7 @@
                 </li>
 
                 <li class="list">
-                    <a href="{{ route('vendor.logout') }}"> <i class="ti-share-alt"></i> Log Out </a>
+                    <a href="{{ route('vendor.logout') }}"> <i class="ti-share-alt"></i> Sign Out </a>
                 </li>
                 <li class="list empty"></li>
             </ul>

@@ -203,11 +203,9 @@
                     <div class="dashboard__card__header">
                         <div class="dashboard__card__header__left">
                             <h2 class="dashboard__card__title"> {{ __('Yearly Income Statement') }}</h2>
-                            <h3 class="dashboard-earning-price mt-3">
-                                @if (isset($yearly_income_statement))
-                                    {{ float_amount_with_currency_symbol(array_sum($yearly_income_statement->toArray())) }}
-                                @endif
-                            </h3>
+                            {{-- <h3 class="dashboard-earning-price mt-3">
+                                {{ float_amount_with_currency_symbol(array_sum($yearly_income_statement->toArray())) }}
+                            </h3> --}}
                         </div>
                         <span class="seller-title-right chart-icon radius-5"> <i class="las la-chart-bar"></i> </span>
                     </div>
@@ -224,11 +222,8 @@
                     <div class="dashboard__card__header d-block text-center">
                         <div class="dashboard__card__header__left">
                             <span class="dashboard__card__title"> {{ __('This Week Earnings') }} </span>
-                            <h3 class="dashboard-earning-price mt-3">
-                                @if (isset($weekly_statement))
-                                    {{ float_amount_with_currency_symbol(array_sum($weekly_statement->toArray())) }}
-                                @endif
-                            </h3>
+                            {{-- <h3 class="dashboard-earning-price mt-3">
+                                {{ float_amount_with_currency_symbol(array_sum($weekly_statement->toArray())) }} </h3> --}}
                         </div>
                     </div>
                     <div class="dashboard__card__body mt-4">
@@ -256,17 +251,14 @@
         $monthArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         $weekName = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
         $weekArray = [0, 0, 0, 0, 0, 0, 0];
-
-        if (isset($yearly_income_statement)) {
-            foreach ($yearly_income_statement as $month => $value) {
-                $monthArray[array_search($month, $monthName, true)] = (float) $value;
-            }
-        }
-        if (isset($weekly_statement)) {
-            foreach ($weekly_statement as $week => $value) {
-                $weekArray[array_search($week, $weekName, true)] = (float) $value;
-            }
-        }
+        
+        // foreach ($yearly_income_statement as $month => $value) {
+        //     $monthArray[array_search($month, $monthName, true)] = (float) $value;
+        // }
+        
+        // foreach ($weekly_statement as $week => $value) {
+        //     $weekArray[array_search($week, $weekName, true)] = (float) $value;
+        // }
     @endphp
     <script>
         new Chart(document.getElementById("bar-chart"), {
