@@ -702,7 +702,7 @@
                         @can('state')
                             <li class="{{ active_menu('admin-home/state/csv/import') }}">
                                 <a href="{{ route('admin.state.import.csv.settings') }}">
-                                    {{ __('Import State') }}
+                                    {{ __('Import City') }}
                                 </a>
                             </li>
                         @endcan
@@ -718,7 +718,7 @@
                         @can('city')
                             <li class="{{ active_menu('admin-home/city/csv/import') }}">
                                 <a href="{{ route('admin.city.import.csv.settings') }}">
-                                    {{ __('Import City') }}
+                                    {{ __('Import State') }}
 
                                 </a>
                             </li>
