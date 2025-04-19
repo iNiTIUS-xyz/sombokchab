@@ -197,7 +197,7 @@
                 const spinnerIcon = 'la-spinner la-spin';
                 const el = $(this);
 
-                $(this).find("button").attr('disabled', true);
+                // $(this).find("button").attr('disabled', true);
 
                 errrContaner.html('');
 
@@ -216,7 +216,7 @@
                             '</div>');
                         el.find('i').addClass(paperIcon).addClass('lar').removeClass(spinnerIcon)
                             .removeClass('las');
-                        $(this).find("button").removeAttr('disabled');
+                        // $(this).find("button").removeAttr('disabled');
                     },
                     error: function(data) {
                         email.val('')
