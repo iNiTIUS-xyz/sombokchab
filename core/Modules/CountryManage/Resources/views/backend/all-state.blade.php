@@ -1,6 +1,6 @@
 @extends('backend.admin-master')
 @section('site-title')
-    {{ __('State') }}
+    {{ __('Cities') }}
 @endsection
 @section('style')
     <x-datatable.css />
@@ -14,7 +14,7 @@
             <div class="col-lg-12">
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('All States') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('All Cities') }}</h4>
                         <div class="dashboard__card__header__right">
                             @can('state-bulk-action')
                                 <x-bulk-action.dropdown />
@@ -22,7 +22,7 @@
                             @can('state-new')
                                 <div class="btn-wrapper">
                                     <button class="cmn_btn btn_bg_profile" data-bs-target="#state_create_modal"
-                                        data-bs-toggle="modal">{{ __('New State') }}</button>
+                                        data-bs-toggle="modal">{{ __('New City') }}</button>
                                 </div>
                             @endcan
                         </div>
@@ -82,7 +82,7 @@
             <div class="modal-dialog">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
-                        <h5 class="modal-title">{{ __('Update state') }}</h5>
+                        <h5 class="modal-title">{{ __('Update City') }}</h5>
                         <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
                     </div>
                     <form action="{{ route('admin.state.update') }}" method="post">
@@ -125,7 +125,7 @@
             <div class="modal-dialog">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
-                        <h5 class="modal-title">{{ __('Update state') }}</h5>
+                        <h5 class="modal-title">{{ __('Create City') }}</h5>
                         <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
                     </div>
                     <form action="{{ route('admin.state.new') }}" method="post" enctype="multipart/form-data">

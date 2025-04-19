@@ -679,7 +679,6 @@
                             <li class="{{ active_menu('admin-home/country') }}">
                                 <a href="{{ route('admin.country.all') }}">
                                     {{ __('Country') }}
-
                                 </a>
                             </li>
                         @endcan
@@ -695,8 +694,7 @@
                         @can('state')
                             <li class="{{ active_menu('admin-home/state') }}">
                                 <a href="{{ route('admin.state.all') }}">
-                                    {{ __('State') }}
-
+                                    {{ __('City') }}
                                 </a>
                             </li>
                         @endcan
@@ -712,8 +710,7 @@
                         @can('city')
                             <li class="{{ active_menu('admin-home/city') }}">
                                 <a href="{{ route('admin.city.all') }}">
-                                    {{ __('City') }}
-
+                                    {{ __('State') }}
                                 </a>
                             </li>
                         @endcan

@@ -3,7 +3,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">{{ __('Edit City') }}</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">{{ __('Edit State') }}</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="{{route('admin.city.edit')}}" method="POST" enctype="multipart/form-data">
@@ -11,7 +11,7 @@
                 <input type="hidden" name="city_id" id="city_id" value="">
 
                 <div class="modal-body">
-                    <x-form.text :title="__('City')" :type="__('text')" :name="'city'" :id="'city_name'" :placeholder="__('Enter city name')"/>
+                    <x-form.text :title="__('State')" :type="__('text')" :name="'city'" :id="'city_name'" :placeholder="__('Enter State name')"/>
                     <div class="single-input">
                         <label class="label-title mt-3">{{ __('Select Country') }}</label>
                         <select name="country" id="country_id" class="form-control select22-country">
@@ -22,9 +22,9 @@
                         </select>
                     </div>
                     <div class="single-input mb-3">
-                        <label class="label-title mt-3">{{ __('Select State') }}</label>
+                        <label class="label-title mt-3">{{ __('Select City') }}</label>
                         <select name="state" id="state_id" class="form-control get_country_state select22-state">
-                            <option value="">{{ __('Select State') }}</option>
+                            <option value="">{{ __('Select One') }}</option>
                         </select>
                         <span class="info_msg"></span>
                     </div>

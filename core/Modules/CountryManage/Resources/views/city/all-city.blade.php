@@ -1,5 +1,5 @@
 @extends('backend.admin-master')
-@section('site-title', __('All Cities'))
+@section('site-title', __('All States'))
 @section('style')
     <x-select2.select2-css />
     <style>
@@ -17,10 +17,10 @@
         <div class="col-lg-12">
             <div class="dashboard__card">
                 <div class="dashboard__card__header">
-                    <h4 class="dashboard__card__title">{{ __('All Cities') }}</h4>
+                    <h4 class="dashboard__card__title">{{ __('All States') }}</h4>
                     <div class="dashboard__card__header__right">
                         <x-bulk-action.bulk-action />
-                        <x-btn.add-modal :title="__('Add City')" />
+                        <x-btn.add-modal :title="__('Add State')" />
                     </div>
                 </div>
                 <div class="dashboard__card__body mt-4">

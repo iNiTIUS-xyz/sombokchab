@@ -3,7 +3,7 @@
     <div class="modal-dialog">
         <div class="modal-content custom__form">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">{{ __('Add City') }}</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">{{ __('Add State') }}</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="{{ route('admin.city.all') }}" method="POST" enctype="multipart/form-data">
@@ -20,15 +20,15 @@
                     </div>
 
                     <div class="single-input mb-3">
-                        <label class="label-title mt-3">{{ __('Select State') }}</label>
+                        <label class="label-title mt-3">{{ __('Select CIty') }}</label>
                         <select name="state" id="state" class="form-control get_country_state select2-state">
-                            <option value="">{{ __('Select State') }}</option>
+                            <option value="">{{ __('Select One') }}</option>
                         </select>
                         <span class="info_msg"></span>
                     </div>
 
-                    <x-form.text :title="__('City')" :type="__('text')" :name="'city'" :id="'city'"
-                        :placeholder="__('Enter city name')" />
+                    <x-form.text :title="__('State')" :type="__('text')" :name="'city'" :id="'city'"
+                        :placeholder="__('Enter State name')" />
 
                     <select name="status" id="status" class="form-control">
                         <option value="publish">{{ __('Active') }}</option>
