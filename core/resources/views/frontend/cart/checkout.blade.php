@@ -208,8 +208,6 @@
 
                 @include('frontend.cart.partials.billing-info')
             </form>
-
-
         </div>
     </div>
     <x-loader.html />
@@ -218,7 +216,7 @@
 
 @section('script')
     <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC-p_XBbow_dJCi5TKLw69gIXITC4hvkE&libraries=places&callback=initialize"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyATEWmpZ0w_C8dzgbWq3bD8UtmsFCrj4To&libraries=places&callback=initialize"
         async defer></script>
 
     <script>

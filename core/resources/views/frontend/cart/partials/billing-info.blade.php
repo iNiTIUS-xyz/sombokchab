@@ -13,8 +13,9 @@
             @if ($modal)
                 <div class="input-flex-item">
                     <div class="single-input mt-4">
-
-                        <label class="label-title mb-3"> {{ __('Shipping Address Name') }} </label>
+                        <label class="label-title mb-3">
+                            {{ __('Shipping Address Name') }}
+                        </label>
                         <input class="form--control" type="text" name="shipping_address_name"
                             value="{{ old('shipping_address_name') ?? '' }}"
                             placeholder="{{ __('Shipping Address Name.') }}">
@@ -23,7 +24,19 @@
             @endif
 
             <div class="input-flex-item">
-                <div class="single-input mt-4">
+                <div id="address-map-container" class="mb-5">
+                    <input type="text" id="address-input" class="map-input form--control" name="address_address"
+                        placeholder="Search location..." />
+                    <div id="address-map"></div>
+                </div>
+                <!-- Hidden fields to store lat/long -->
+                <input type="hidden" name="address_latitude" id="address-latitude" value="0" />
+                <input type="hidden" name="address_longitude" id="address-longitude" value="0" />
+            </div>
+
+
+            <div class="input-flex-item">
+                <div class="single-input mt-2">
                     <div class="input-group">
                         <span><label class="label-title mb-3"> {{ __('Full Name') }} </label></span>
                         <input class="form--control" id="{{ !$modal ? 'name' : 'modal_name' }}" type="text"
@@ -49,8 +62,7 @@
 
                 <div class="single-input mt-4">
                     <label class="label-title mb-3"> {{ __('Zip Code') }} </label>
-                    <input class="form--control" type="text" name="zip_code"
-                        value="{{ old('zip_code') ?? '' }}"
+                    <input class="form--control" type="text" name="zip_code" value="{{ old('zip_code') ?? '' }}"
                         id="{{ !$modal ? 'zipcode' : 'modal_zipcode' }}" placeholder="{{ __('Type Zip Code') }}">
                 </div>
 
@@ -100,8 +112,7 @@
                 </div> --}}
                 <div class="single-input mt-4">
                     <label class="label-title mb-3"> {{ __('Mobile Number') }} </label>
-                    <input class="form--control" type="tel" name="phone"
-                        value="{{ old('phone') ?? '' }}"
+                    <input class="form--control" type="tel" name="phone" value="{{ old('phone') ?? '' }}"
                         id="{{ !$modal ? 'phone' : 'modal_phone' }}" placeholder="{{ __('Type Mobile Number') }}">
                 </div>
                 {{-- <div class="single-input mt-4">
@@ -111,24 +122,10 @@
                 </div> --}}
                 <div class="single-input mt-4">
                     <label class="label-title mb-3"> {{ __('Email Address') }} </label>
-                    <input class="form--control" type="text" name="email"
-                        value="{{ old('email') ?? '' }}"
+                    <input class="form--control" type="text" name="email" value="{{ old('email') ?? '' }}"
                         id="{{ !$modal ? 'email' : 'modal_email' }}" placeholder="{{ __('Type Email') }}">
                 </div>
             </div>
-
-            <div class="input-flex-item">
-                <div id="address-map-container" class="mt-4">
-                    <input type="text" id="address-input" class="map-input form--control" name="address_address"
-                        placeholder="Search location..." />
-                    <div id="address-map"></div>
-                </div>
-
-                <!-- Hidden fields to store lat/long -->
-                <input type="hidden" name="address_latitude" id="address-latitude" value="0" />
-                <input type="hidden" name="address_longitude" id="address-longitude" value="0" />
-            </div>
-
 
             @if (!$modal)
                 <div class="input-flex-item">
