@@ -215,7 +215,9 @@
 @endsection
 
 @section('script')
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3ZfXgfE-O2L0DklA2rQp1IxJqUSruAUA&libraries=places&callback=initialize" async defer></script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC-p_XBbow_dJCi5TKLw69gIXITC4hvkE&libraries=places&callback=initialize"
+        async defer></script>
 
     <script>
         function initialize() {
