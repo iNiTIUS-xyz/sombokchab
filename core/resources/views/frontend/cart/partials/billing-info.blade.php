@@ -36,7 +36,7 @@
 
 
             <div class="input-flex-item">
-                <div class="single-input mt-2">
+                <div class="single-input mt-3">
                     <div class="input-group">
                         <span><label class="label-title mb-3"> {{ __('Full Name') }} </label></span>
                         <input class="form--control" id="{{ !$modal ? 'name' : 'modal_name' }}" type="text"
