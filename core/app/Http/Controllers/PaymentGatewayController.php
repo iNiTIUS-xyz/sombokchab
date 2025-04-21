@@ -6,6 +6,7 @@ use App\Helpers\PaymentGatewayCredential;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Log;
 use Modules\Order\Entities\Order;
 use Modules\Order\Entities\OrderAddress;
 use Modules\Order\Entities\SubOrder;
@@ -548,6 +549,7 @@ class PaymentGatewayController extends Controller
 
     public function aba_ipn()
     {
+        Log::info('abapayway ipn');
         $abapayway = PaymentGatewayCredential::get_abapayway_credential();
         $payment_data = $abapayway->ipn_response(); // same pattern as PayPal
         return $this->common_ipn_data($payment_data);
