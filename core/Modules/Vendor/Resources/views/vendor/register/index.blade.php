@@ -234,12 +234,13 @@
                                 <!-- Continue Button -->
                                 <button
                                     type="button"
-                                    class="btn btn-next step-button-outline my-4"
+                                    class="btn btn-next step-button-outline p-2 my-4"
                                     onclick="sendCodeAndContinue()"
                                     id="continueButton"
                                     disabled
                                 >
-                                <i class="las la-arrow-right la-3x"></i>
+                                <span class="">Next </span> 
+                                <i class="las la-arrow-right"></i>
                                 </button>
                             </form>
                         </div>
@@ -248,10 +249,11 @@
                         <div id="step-2" style="display: none;">
                             <button
                                 type="button"
-                                class="btn btn-prev step-button-outline mb-4"
+                                class="btn btn-prev p-2 mb-4"
                                 onclick="prevStep()"
                             >
-                            <i class="las la-arrow-left la-3x"></i>
+                            <span class="">Back </span> 
+                            <i class="las la-arrow-left"></i>
                             </button>
 
                             <div class="form-group">
@@ -266,25 +268,28 @@
                                 <small class="text-danger" id="verificationCodeError"></small>
                             </div>
 
-                            <button
-                                type="button"
-                                class="btn btn-next step-button-outline mt-4"
-                                onclick="verifyAndCreateAccount()"
-                            >
-                                Verify & Create Account
-                            </button>
-                            
+                            <div class="col-12 pb-3 mb-4">
+                                <div class="mt-4">
+                                    <button
+                                        type="button"
+                                        class="btn btn-link p-2"
+                                        id="resendOtpButton"
+                                        onclick="resendCode()"
+                                        disabled
+                                        style="float: left"
+                                    >
+                                        Resend OTP <span id="resendTimer">(60s)</span>
+                                    </button>
 
-                            <div class="mt-3">
-                                <button
-                                    type="button"
-                                    class="btn btn-link"
-                                    id="resendOtpButton"
-                                    onclick="resendCode()"
-                                    disabled
-                                >
-                                    Resend OTP <span id="resendTimer">(60s)</span>
-                                </button>
+                                    <button
+                                        type="button"
+                                        class="btn btn-next submit-button p-2"
+                                        onclick="verifyAndCreateAccount()"
+                                        style="float: right"
+                                    >
+                                        Verify & Create Account
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -300,21 +305,49 @@
             font-size: 16px;
             font-weight: bold;
         }
+        .btn{
+            font-size: 16px;
+        }
         .btn:disabled {
-            color: #FFF;
-            background-color: #656565;
+            color: #656565;
+            background-color: transparent;
             border-color: #656565;
         }
         #step-1 .btn.btn-next.step-button-outline {
-            padding: 0px;
-            border: none;
+            border: 1px solid var(--main-color-one);
             font-weight: bold;
             float: right;
+            font-size: 16px;
         }
-        #step-2 .btn.btn-prev.step-button-outline {
-            padding: 0px;
+        #step-2 .btn.btn-prev.step-button {
             border: none;
             font-weight: bold;
+            border: 1px solid var(--main-color-one);
+        }
+        #step-2 .btn.btn-prev {
+            border: var(--main-color-one);
+            color: var(--main-color-one);
+            font-weight: bold;
+            border: 1px solid var(--main-color-one);
+        }
+        #step-2 .btn.btn-prev:hover {
+            color: #FFF;
+            font-weight: bold;
+            background: var(--main-color-one);
+            border: 1px solid var(--main-color-one);
+        }
+        #step-2 .btn.submit-button {
+            border: 1px solid var(--main-color-one);
+            font-weight: bold;
+            background: var(--main-color-one);
+            color: #FFF;
+        }
+
+        #step-2 .btn.submit-button:hover {
+            border: 1px solid #284137;
+            font-weight: bold;
+            background: #284137;
+            color: #FFF;
         }
     </style>
 @endsection
