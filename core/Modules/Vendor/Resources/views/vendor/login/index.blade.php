@@ -26,10 +26,6 @@
                 <div class="col-lg-12">
                     <div class="breadcrumb-contents">
                         <h2 class="breadcrumb-title"> {{ __('Vendor Sign In') }} </h2>
-                        {{-- <ul class="breadcrumb-list">
-                            <li class="list"> <a href="{{ route('homepage') }}"> {{ __('Home') }} </a> </li>
-                            <li class="list"> {{ __('Registration') }} </li>
-                        </ul> --}}
                     </div>
                 </div>
             </div>
@@ -54,17 +50,17 @@
                             <div class="dashboard-input">
                                 <label class="label-title mb-2"> {{ __('Phone Number or Email') }} </label>
                                 <input class="form--control" type="text" name="username"
-                                    placeholder="{{ __('Type Phone Number with Country Code or Email') }}">
+                                    placeholder="{{ __('Type Phone Number without Country Code or Email') }}">
                             </div>
 
                             <div class="dashboard-input mt-4">
                                 <label class="label-title mb-2"> {{ __('Password') }} </label>
-                                <input class="form--control" name="password" type="password"
+                                <input class="form--control" name="password" id="passwordInput" type="password"
                                     placeholder="{{ __('Type Password') }}">
-                                {{-- <div class="toggle-password">
-                                    <span class="show-icon"> <i class="las la-eye-slash"></i> </span>
-                                    <span class="hide-icon"> <i class="las la-eye"></i> </span>
-                                </div> --}}
+                                <div class="toggle-password">
+                                    <span class="show-icon" style="display: inline;"> <i class="las la-eye-slash"></i> </span>
+                                    <span class="hide-icon" style="display: none;"> <i class="las la-eye"></i> </span>
+                                </div>
                             </div>
 
                             
@@ -83,20 +79,76 @@
                                 <a href="{{route("vendor.forget.password.form")}}" class="forgot-password mt-3"> {{ __('Forgot Password?') }} </a>
                             </div>
                         </form>
-                    </div>
-                    <div class="dashboard-bottom-contents">
-                        <div class="account-bottom">
-                            <span class="account-title mt-3"> {{ __("Don't have account?") }} </span>
-                            <a href="{{ route('vendor.register') }}" class="signup-login mt-3">
-                                {{ __('Sign up') }}
-                            </a>
+
+                        {{-- <form data-form-url="{{ route('vendor.login') }}" method="post" id="vendor-login-form">
+                            <div class="alert alert-small py-1 alert-success bg-success text-light display-login-alert" style="display: none">{{ __('Success alert') }}</div>
+                            @csrf
+                        
+                            <!-- Toggle Button for Phone/Email -->
+                            <div class="toggle-input-type mb-3">
+                                <button type="button" id="togglePhoneEmail" class="btn btn-outline-secondary">
+                                    {{ __('Use Email') }}
+                                </button>
+                            </div>
+                        
+                            <!-- Phone Input (Default) -->
+                            <div class="dashboard-input phone-input">
+                                <label class="label-title mb-2"> {{ __('Phone Number') }} </label>
+                                <div class="d-flex">
+                                    <select id="phone_country_code" class="form-select" style="width: 30% !important; border: 1px solid rgba(221, 221, 221, 0.4) !important box-shadow: 0 0 10px rgba(255, 255, 255, 0.1) !important;">
+                                        <option value="+1" selected>+1</option>
+                                        <option value="+880">+880</option>
+                                        <option value="+855">+855</option>
+                                    </select>
+                                    <input id="number" name="username" type="text" class="form--control radius-10" placeholder="{{ __('Phone Number') }}" required style="width: 70% !important; border-radius: 0px;">
+                                </div>
+                            </div>
+                        
+                            <!-- Email Input (Hidden by Default) -->
+                            <div class="dashboard-input email-input" style="display: none;">
+                                <label class="label-title mb-2"> {{ __('Email') }} </label>
+                                <input class="form--control" type="email" name="username" placeholder="{{ __('Type Email') }}" required>
+                            </div>
+                        
+                            <!-- Password Input -->
+                            <div class="dashboard-input mt-4">
+                                <label class="label-title mb-2"> {{ __('Password') }} </label>
+                                <input class="form--control" name="password" type="password" id="passwordInput" placeholder="{{ __('Type Password') }}">
+                                <div class="toggle-password">
+                                    <span class="show-icon" style="display: inline;"> <i class="las la-eye-slash"></i> </span>
+                                    <span class="hide-icon" style="display: none;"> <i class="las la-eye"></i> </span>
+                                </div>
+                            </div>
+                        
+                            <div class="dashboard-btn-wrapper mt-4">
+                                <button type="submit" class="btn-submit dashboard-bg w-100"> {{ __('Sign In') }}</button>
+                            </div>
+                        
+                            <div class="remember-password-flex d-flex flex-wrap justify-content-between align-items-center">
+                                <div class="dashboard-checkbox add-money-checkbox mt-3">
+                                    <input class="check-input" name="remember" type="checkbox" id="agree">
+                                    <label class="checkbox-label" for="agree"> {{ __('Remember Me') }} </label>
+                                </div>
+                                <a href="{{route('vendor.forget.password.form')}}" class="forgot-password mt-3"> {{ __('Forgot Password?') }} </a>
+                            </div>
+                        </form>                       --}}
+
+                        <div class="dashboard-bottom-contents">
+                            <div class="account-bottom">
+                                <span class="account-title"> {{ __("Don't have an account?") }} </span>
+                                <a href="{{ route('vendor.register') }}" class="signup-login">
+                                    {{ __('Sign up') }}
+                                </a>
+                            </div>
                         </div>
                     </div>
+                    
                 </div>
             </div>
         </div>
     </section>
     <!-- Vendor Signin area end -->
+
 
     <!-- jquery -->
     <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
@@ -154,6 +206,47 @@
             }, function(errors) {
                 prepare_errors(errors)
             });
+        });
+    </script>
+
+    <!-- JavaScript for Toggle Phone/Email and Password Visibility -->
+    {{-- <script>
+        // Toggle Phone/Email
+        document.getElementById('togglePhoneEmail').addEventListener('click', function () {
+            const phoneInput = document.querySelector('.phone-input');
+            const emailInput = document.querySelector('.email-input');
+            const toggleButton = this;
+    
+            if (phoneInput.style.display === 'none') {
+                phoneInput.style.display = 'block';
+                emailInput.style.display = 'none';
+                toggleButton.textContent = '{{ __('Use Email') }}';
+            } else {
+                phoneInput.style.display = 'none';
+                emailInput.style.display = 'block';
+                toggleButton.textContent = '{{ __('Use Phone') }}';
+            }
+        });
+    
+        
+    </script> --}}
+
+    <script>
+        // Toggle Password Visibility
+        const passwordInput = document.getElementById('passwordInput');
+        const showIcon = document.querySelector('.show-icon');
+        const hideIcon = document.querySelector('.hide-icon');
+    
+        showIcon.addEventListener('click', function () {
+            passwordInput.type = 'text';
+            showIcon.style.display = 'none';
+            hideIcon.style.display = 'inline';
+        });
+    
+        hideIcon.addEventListener('click', function () {
+            passwordInput.type = 'password';
+            showIcon.style.display = 'inline';
+            hideIcon.style.display = 'none';
         });
     </script>
 

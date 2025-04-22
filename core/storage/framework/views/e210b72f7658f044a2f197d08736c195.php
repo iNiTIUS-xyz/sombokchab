@@ -16,7 +16,7 @@
             <div class="dashboard-top-search mt-4">
                 <div class="dashboard__bottom__search dashboard-input">
                     <input class="form--control  w-100" type="text" placeholder="Search here..."
-                           id="search_sidebarList">
+                        id="search_sidebarList">
                 </div>
             </div>
         </div>
@@ -43,7 +43,7 @@
                     </a>
                 </li>
 
-                <?php if(moduleExists("Chat")): ?>
+                <?php if(moduleExists('Chat')): ?>
                     
                     <li class="<?php echo e(active_menu('vendor-home/chat')); ?>">
                         <a href="<?php echo e(route('vendor.chat.home')); ?>">
@@ -103,38 +103,40 @@
                     </a>
                 </li>
 
-                
-                <li class="main_dropdown <?php if(request()->is(['vendor-home/product', 'vendor-home/product/*'])): ?> active open <?php endif; ?>">
-                    <a href="#1" aria-expanded="true">
-                        <i class="ti-layout-tab"></i> <span><?php echo e(__('Product Module')); ?>
+                <?php if(auth('vendor')->user()->is_vendor_verified && auth('vendor')->user()->verified_at): ?>
+                    
+                    <li class="main_dropdown <?php if(request()->is(['vendor-home/product', 'vendor-home/product/*'])): ?> active open <?php endif; ?>">
+                        <a href="#1" aria-expanded="true">
+                            <i class="ti-layout-tab"></i> <span><?php echo e(__('Product Module')); ?>
 
-                        </span>
-                    </a>
+                            </span>
+                        </a>
 
-                    <ul class="collapse">
-                        <li class="<?php echo e(active_menu('vendor-home/product/all')); ?>">
-                            <a href="<?php echo e(route('vendor.products.all')); ?>"><?php echo e(__('Product List')); ?></a>
-                        </li>
+                        <ul class="collapse">
+                            <li class="<?php echo e(active_menu('vendor-home/product/all')); ?>">
+                                <a href="<?php echo e(route('vendor.products.all')); ?>"><?php echo e(__('Product List')); ?></a>
+                            </li>
 
-                        <li class="<?php echo e(active_menu('vendor-home/product/create')); ?>">
-                            <a href="<?php echo e(route('vendor.products.create')); ?>"><?php echo e(__('Create Product')); ?></a>
-                        </li>
-                    </ul>
-                </li>
+                            <li class="<?php echo e(active_menu('vendor-home/product/create')); ?>">
+                                <a href="<?php echo e(route('vendor.products.create')); ?>"><?php echo e(__('Create Product')); ?></a>
+                            </li>
+                        </ul>
+                    </li>
 
-                
-                <li class="main_dropdown <?php if(request()->is(['vendor-home/orders', 'vendor-home/orders/*'])): ?> active open <?php endif; ?>">
-                    <a href="#1" aria-expanded="true">
-                        <i class="ti-view-list-alt"></i>
-                        <span><?php echo e(__('Order Module')); ?></span>
-                    </a>
+                    
+                    <li class="main_dropdown <?php if(request()->is(['vendor-home/orders', 'vendor-home/orders/*'])): ?> active open <?php endif; ?>">
+                        <a href="#1" aria-expanded="true">
+                            <i class="ti-view-list-alt"></i>
+                            <span><?php echo e(__('Order Module')); ?></span>
+                        </a>
 
-                    <ul class="collapse">
-                        <li class="<?php echo e(active_menu('vendor-home/orders')); ?>">
-                            <a href="<?php echo e(route('vendor.orders.list')); ?>"><?php echo e(__('Order List')); ?></a>
-                        </li>
-                    </ul>
-                </li>
+                        <ul class="collapse">
+                            <li class="<?php echo e(active_menu('vendor-home/orders')); ?>">
+                                <a href="<?php echo e(route('vendor.orders.list')); ?>"><?php echo e(__('Order List')); ?></a>
+                            </li>
+                        </ul>
+                    </li>
+                <?php endif; ?>
 
                 
                 <li class="<?php echo e(active_menu('vendor-home/campaigns')); ?>">
@@ -145,7 +147,7 @@
                 </li>
 
                 <li
-                        class="main_dropdown <?php echo e(active_menu('vendor-home/support-tickets')); ?> <?php if(request()->is('vendor-home/support-tickets/*')): ?> active open <?php endif; ?>">
+                    class="main_dropdown <?php echo e(active_menu('vendor-home/support-tickets')); ?> <?php if(request()->is('vendor-home/support-tickets/*')): ?> active open <?php endif; ?>">
                     <a href="#1" aria-expanded="true">
                         <i class="ti-headphone-alt"></i>
                         <span><?php echo e(__('Support Tickets')); ?></span>

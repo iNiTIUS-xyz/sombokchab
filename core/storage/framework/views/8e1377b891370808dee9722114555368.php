@@ -11,24 +11,36 @@
                 <div class="signin-contents">
                     
                     <form action="<?php echo e(route('user.login')); ?>" method="post" class="login-form padding-top-20 register-form"
-                        id="login_form_order_page" onsubmit="return validateLoginForm()">
+                        id="login_form_order_page">
                         <div class="error-wrap"></div>
-
+                        <?php echo csrf_field(); ?>
                         <div class="single-input">
                             <label class="label-title mb-2"> <?php echo e(__("Phone Number or Email")); ?> </label>
                             <input class="form--control" type="text" id="login_phone" name="phone"
-                                placeholder="<?php echo e(__("Type Phone Number with Country Code or Email")); ?>">
+                                placeholder="<?php echo e(__("Type Phone Number without Country Code or Email")); ?>">
                             <small id="login_phone_error" class="text-danger"></small>
                         </div>
-                        <div class="single-input mt-4">
-                            <label class="label-title mb-2"> <?php echo e(__("Password")); ?> </label>
-                            <input class="form--control" type="password" id="login_password" name="password"
-                                placeholder="<?php echo e(__('Password')); ?>"
-                                >
+
+                        <div class="dashboard-input mt-4">
+                            <label class="label-title mb-2"> <?php echo e(__('Password')); ?> </label>
+                            <input class="form--control" name="password" id="login_password" type="password"
+                                placeholder="<?php echo e(__('Type Password')); ?>">
+                            <div class="toggle-password">
+                                <span class="show-icon" style="display: inline;"> <i class="las la-eye-slash"></i> </span>
+                                <span class="hide-icon" style="display: none;"> <i class="las la-eye"></i> </span>
+                            </div>
                             <small id="login_password_error" class="text-danger"></small>
                         </div>
-                        <button class="btn-submit w-100" type="submit" id="login_btn"> <?php echo e(__("Sign In")); ?> </button>
+
+                        
+                        <div class="dashboard-btn-wrapper mt-4">
+                            <button type="submit" class="btn-submit dashboard-bg w-100"> <?php echo e(__('Sign In')); ?></button>
+                        </div>
                     </form>
+
+                    
+                    
+                    
                     <div class="single-checbox mt-3">
                         <div class="checkbox-inlines">
                             <input class="check-input" type="checkbox" id="login_remember" name="remember">
@@ -38,22 +50,14 @@
                             <a href="<?php echo e(route('user.forget.password')); ?>" class="forgot-btn color-one"> <?php echo e(__("Forgot Password?")); ?> </a>
                         </div>
                     </div>
-                    <div class="signin-bottom-contents">
-                        <div class="or-contents mb-2">
-                            <span class="or-para"> <?php echo e(__("Or")); ?> </span>
-                        </div>
-                        <div class="signin-others">
-                            <div class="row g-2">
-                                <div class="col-md-12">
-                                    <?php if(get_static_option('enable_google_login')): ?>
-                                        <a href="<?php echo e(route('login.google.redirect')); ?>" class="special-account">
-                                            <img src="<?php echo e(asset('assets/frontend/img/icon/google-icon.svg')); ?>" alt="icon">
-                                            <p class="special-account-para"><?php echo e(__("Login With Google")); ?></p>
-                                        </a>
-                                    <?php endif; ?>
-                                </div>
-                                
-                            </div>
+                    
+                    <div class="dashboard-bottom-contents">
+                        <div class="account-bottom">
+                            <span class="account-title mt-3"> <?php echo e(__("Don't have an account?")); ?> </span>
+                            <a href="<?php echo e(route('user.register')); ?>" class="signup-login mt-3">
+                                <?php echo e(__('Sign up')); ?>
+
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -150,50 +154,29 @@
         }
     </script>
 
+    
+
     <script>
-        function validatePhoneOrEmail(value) {
-            const phoneRegex = /^(\+855\d{8,9}|\+8801\d{9}|\+1\d{10})$/; // Phone number format
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Email format
+        // Toggle Password Visibility
+        const passwordInput = document.getElementById('login_password');
+            const showIcon = document.querySelector('.show-icon');
+            const hideIcon = document.querySelector('.hide-icon');
 
-            if (phoneRegex.test(value) || emailRegex.test(value)) {
-                return ''; // Valid input
-            }
-            return 'Enter a valid phone number or email';
-        }
+            showIcon.addEventListener('click', function () {
+                passwordInput.type = 'text';
+                showIcon.style.display = 'none';
+                hideIcon.style.display = 'inline';
+            });
 
-        function validatePassword(value) {
-            return value.trim() === '' ? 'Password is required' : '';
-        }
-
-        function validateLoginForm() {
-            const phoneOrEmailField = document.getElementById('login_phone');
-            const passwordField = document.getElementById('login_password');
-            const phoneErrorField = document.getElementById('login_phone_error');
-            const passwordErrorField = document.getElementById('login_password_error');
-
-            // Validate phone/email
-            const phoneOrEmailError = validatePhoneOrEmail(phoneOrEmailField.value.trim());
-            phoneErrorField.textContent = phoneOrEmailError;
-
-            // Validate password
-            const passwordError = validatePassword(passwordField.value);
-            passwordErrorField.textContent = passwordError;
-
-            // Prevent form submission if there are errors
-            return phoneOrEmailError === '' && passwordError === '';
-        }
-
-        // Real-time validation
-        document.getElementById('login_phone').addEventListener('input', function () {
-            const errorMessage = validatePhoneOrEmail(this.value.trim());
-            document.getElementById('login_phone_error').textContent = errorMessage;
-        });
-
-        document.getElementById('login_password').addEventListener('input', function () {
-            const errorMessage = validatePassword(this.value.trim());
-            document.getElementById('login_password_error').textContent = errorMessage;
-        });
+            hideIcon.addEventListener('click', function () {
+                passwordInput.type = 'password';
+                showIcon.style.display = 'inline';
+                hideIcon.style.display = 'none';
+            });
     </script>
+
+    <!-- JavaScript for Toggle Functionality and Password Visibility -->
+    
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('frontend.frontend-page-master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\sombokchab\core\resources\views/frontend/user/login.blade.php ENDPATH**/ ?>
