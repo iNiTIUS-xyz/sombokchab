@@ -404,7 +404,7 @@
     .category-searchbar #search_form_input {
         flex: 1;
         border: none;
-        padding: 10px 15px;
+        padding: 10px 200px;
         order: 2;
         /* Appears after the select */
     }
