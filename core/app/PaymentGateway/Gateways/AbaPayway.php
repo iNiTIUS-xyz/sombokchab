@@ -117,8 +117,9 @@ class AbaPayway extends PaymentGatewayBase
         $phone                 = $args['phone'] ?? '';
         $type                  = $args['type'] ?? 'purchase';   // "purchase" or "pre-auth"
         $payment_option        = $args['payment_option'] ?? ''; // "cards", "abapay", etc.
-        $return_url            = $args['return_url'] ?? '';
-        $cancel_url            = $args['cancel_url'] ?? '';
+        $return_url            = 'aHR0cHM6Ly9zb21ib2tjaGFiLmNvbS9hYmEtcGF5d2F5LWlwbg==';
+        // $return_url            = $args['return_url'] ?? 'aHR0cHM6Ly9zb21ib2tjaGFiLmNvbS9hYmEtcGF5d2F5LWlwbg==';
+        $cancel_url            = $args['cancel_url'] ?? 'https://sombokchab.com';
         $continue_success_url  = $args['continue_success_url'] ?? '';
         $return_deeplink       = $args['return_deeplink'] ?? '';
         $shipping              = $args['shipping'] ?? ''; // numeric
@@ -235,6 +236,7 @@ class AbaPayway extends PaymentGatewayBase
      */
     public function ipn_response($args = [])
     {
+        Log::info('[ABA PayWay] IPN Response:', $args);
         // This part is speculative, as the new docs do not show an IPN signature.
         // Adjust to your use case. Typically you'd read:
         // - $request = $args['request'] ?? request();
