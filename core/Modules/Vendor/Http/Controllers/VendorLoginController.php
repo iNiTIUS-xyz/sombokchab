@@ -44,74 +44,9 @@ class VendorLoginController extends Controller
         return view('vendor::vendor.login.index');
     }
 
-    // public function vendor_login(Request $request): JsonResponse
-    // {
-    //     // First validate
-    //     $req = $request->validate([
-    //         'username' => 'nullable',
-    //         'password' => 'min:6',
-    //     ]);
-
-    //     // Set login type
-    //     $user_login_type = 'username';
-    //     if (filter_var($req['username'], FILTER_VALIDATE_EMAIL)) {
-    //         $user_login_type = 'email';
-    //     }
-
-    //     if (Auth::guard('vendor')->attempt([$user_login_type => $req['username'], 'password' => $req['password']], $request->get('remember'))) {
-    //         Auth::guard('admin')->logout();
-    //         return response()->json([
-    //             'msg' => __('Login Success Redirecting'),
-    //             'type' => 'success',
-    //             'status' => 'ok',
-    //         ]);
-    //     }
-
-    //     return response()->json([
-    //         'msg' => sprintf(__('invalid %s or Password!!'), $user_login_type),
-    //         'type' => 'danger',
-    //         'status' => 'not_ok',
-    //     ]);
-    // }
 
     public function vendor_login(Request $request): JsonResponse
     {
-
-        // $request->validate([
-        //     'phone' => 'required|string',
-        //     'password' => 'required|min:6',
-        // ], [
-        //     'phone.required' => __('Phone number or email is required'),
-        //     'password.required' => __('Password is required'),
-        //     'password.min' => __('Password must be at least 6 characters'),
-        // ]);
-
-        // $login_key = 'phone';
-        // $input_value = $request->phone;
-
-        // if (filter_var($input_value, FILTER_VALIDATE_EMAIL)) {
-        //     $login_key = 'email';
-        // }
-
-        // if (Auth::guard('vendor')->attempt([$login_key => $request->phone, 'password' => $request->password], $request->get('remember'))) {
-
-        //     Auth::guard('admin')->logout();
-
-        //     return response()->json([
-        //         'msg' => __('Login Success Redirecting'),
-        //         'type' => 'success',
-        //         'status' => 'ok',
-        //     ]);
-
-        // }
-
-        // return response()->json([
-        //     'msg' => sprintf(__('Incorrect account details. Please try again!!!!'), ucfirst($login_key)),
-        //     'type' => 'danger',
-        //     'status' => 'not_ok',
-        // ]);
-
-
         $request->validate([
             'phone' => 'required|string',
             'password' => 'required|min:6',
