@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\PaymentGatewayCredential;
-use Carbon\Carbon;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Log;
+use Carbon\Carbon;
+use RuntimeException;
+use App\PaymentDetailsLog;
+use Illuminate\Http\Request;
 use Modules\Order\Entities\Order;
-use Modules\Order\Entities\OrderAddress;
 use Modules\Order\Entities\SubOrder;
 use Modules\Order\Traits\OrderTrait;
-use RuntimeException;
+use Illuminate\Http\RedirectResponse;
+use Modules\Order\Entities\OrderAddress;
+use App\Helpers\PaymentGatewayCredential;
 use Modules\Wallet\Http\Services\WalletService;
 
 class PaymentGatewayController extends Controller
@@ -29,7 +30,8 @@ class PaymentGatewayController extends Controller
         return redirect()->route('frontend.order.payment.cancel.static');
     }
 
-    public function order_payment_cancel(){
+    public function order_payment_cancel()
+    {
         return view("frontend.payment.payment-cancel");
     }
 
@@ -37,8 +39,7 @@ class PaymentGatewayController extends Controller
     {
         $manual_transection_condition = $request->selected_payment_gateway == 'manual_payment' ? 'required' : 'nullable';
         $request_pack_id = $request->package_id;
-        if(PricePlan::findOrFail($request_pack_id)->price == 0)
-        {
+        if (PricePlan::findOrFail($request_pack_id)->price == 0) {
             $request->selected_payment_gateway = 'manual_payment';
         }
 
@@ -77,12 +78,29 @@ class PaymentGatewayController extends Controller
             $site_domain = url('/');
             $site_domain = str_replace(['http://', 'https://'], '', $site_domain);
             $site_domain = substr($site_domain, 0, strpos($site_domain, '.'));
-            $restricted_words = ['https', 'http', 'http://', 'https://','www', 'subdomain', 'domain', 'primary-domain', 'central-domain',
-                'landlord', 'landlords', 'tenant', 'tenants', 'multi-store', 'multistore', 'admin',
-                'user', 'user', $site_domain];
+            $restricted_words = [
+                'https',
+                'http',
+                'http://',
+                'https://',
+                'www',
+                'subdomain',
+                'domain',
+                'primary-domain',
+                'central-domain',
+                'landlord',
+                'landlords',
+                'tenant',
+                'tenants',
+                'multi-store',
+                'multistore',
+                'admin',
+                'user',
+                'user',
+                $site_domain
+            ];
 
-            if (in_array(trim($request->custom_subdomain), $restricted_words))
-            {
+            if (in_array(trim($request->custom_subdomain), $restricted_words)) {
                 return back()->with(FlashMsg::explain('danger', 'Sorry, You can not use this subdomain'));
             }
         }
@@ -96,7 +114,6 @@ class PaymentGatewayController extends Controller
             if ($order_details->type == 0) { //monthly
                 $package_start_date = Carbon::now()->format('d-m-Y h:i:s');
                 $package_expire_date = Carbon::now()->addMonth(1)->format('d-m-Y h:i:s');
-
             } elseif ($order_details->type == 1) { //yearly
                 $package_start_date = Carbon::now()->format('d-m-Y h:i:s');
                 $package_expire_date = Carbon::now()->addYear(1)->format('d-m-Y h:i:s');
@@ -282,8 +299,7 @@ class PaymentGatewayController extends Controller
             return back()->with('msg', 'Something went wrong');
         }
 
-        if ($request->selected_payment_gateway === 'manual_payment')
-        {
+        if ($request->selected_payment_gateway === 'manual_payment') {
             PaymentLogs::find($this->payment_details['id'])->update([
                 'transaction_id' => $trasaction_id ?? '',
                 'attachments' => $trasaction_attachment ?? '',
@@ -291,7 +307,8 @@ class PaymentGatewayController extends Controller
 
             try {
                 (new PaymentGateways())->send_order_mail($this->payment_details['id']);
-            } catch (\Exception $e) {}
+            } catch (\Exception $e) {
+            }
 
             return redirect()->route(self::SUCCESS_ROUTE, $this->payment_details['id']);
         } else {
@@ -303,7 +320,7 @@ class PaymentGatewayController extends Controller
      * @param $payment_gateway_name
      * @return RedirectResponse
      */
-    public function payment_with_gateway($payment_gateway_name) : RedirectResponse
+    public function payment_with_gateway($payment_gateway_name): RedirectResponse
     {
         try {
             $gateway_function = 'get_' . $payment_gateway_name . '_credential';
@@ -326,7 +343,7 @@ class PaymentGatewayController extends Controller
         return [
             'amount' => $this->total,
             'title' => $this->payment_details['package_name'],
-            'description' => 'Payment For Package Order Id: #' . $this->payment_details['id'] . ' Package Name: ' . $this->payment_details['package_name']  . ' Payer Name: ' . $this->payment_details['name']  . ' Payer Email:' . $this->payment_details['email'] ,
+            'description' => 'Payment For Package Order Id: #' . $this->payment_details['id'] . ' Package Name: ' . $this->payment_details['package_name']  . ' Payer Name: ' . $this->payment_details['name']  . ' Payer Email:' . $this->payment_details['email'],
             'ipn_url' => route('landlord.frontend.' . strtolower($payment_gateway_name) . '.ipn', $this->payment_details['id']),
             'order_id' => $this->payment_details['id'],
             'track' => \Str::random(36),
@@ -547,14 +564,55 @@ class PaymentGatewayController extends Controller
     }
 
 
-    public function aba_ipn()
+    public function aba_ipn(Request $request)
     {
         Log::info('abapayway ipn');
-        $abapayway = PaymentGatewayCredential::get_abapayway_credential();
-        $payment_data = $abapayway->ipn_response(); // same pattern as PayPal
-        return $this->common_ipn_data($payment_data);
+        // $abapayway = PaymentGatewayCredential::get_abapayway_credential();
+        // $payment_data = $abapayway->ipn_response();
+        // return $this->common_ipn_data($payment_data);
+
+        $data = $request->all();
+
+        // Decode the JSON string inside the 'response' key
+        $responseData = json_decode($data['response'], true);
+
+        $tran_id = $responseData['tran_id'] ?? null;
+        $status = $responseData['status'] ?? null;
+
+        $status_map = [
+            0 => 'complete',
+            2 => 'pending',
+            3 => 'failed',
+            4 => 'refunded',
+            7 => 'cancelled',
+        ];
+
+        $status = $status_map[$status] ?? 'unknown';
+
+        $log = PaymentDetailsLog::where('trx_id', $tran_id)->first();
+
+        if (isset($responseData['status']) && $responseData['status'] == 0) {
+            $order_id = $log->order_id;
+            $transaction_id = $tran_id;
+
+            $order_address = OrderAddress::where("order_id", $order_id)->first();
+
+            $payment_data = [
+                "order_id" => $order_id,
+                "transaction_id" => $transaction_id,
+                "status" => $status
+            ];
+            
+            $this->update_database($order_id, $transaction_id);
+            self::sendOrderMail($payment_data, $order_address?->toArray());
+            WalletService::updateWallet($order_id);
+
+            return redirect()->route(self::SUCCESS_ROUTE, $order_id);
+        }
+
+        return ['success' => false, "type" => "danger"];
     }
-    
+
     public function acleda_ipn()
     {
         $acledapay = PaymentGatewayCredential::get_acledapay_credential();
@@ -562,10 +620,8 @@ class PaymentGatewayController extends Controller
         return $this->common_ipn_data($payment_data);
     }
 
-    
-    public function order_payment_cancel_static (){
-        
-    }
+
+    public function order_payment_cancel_static() {}
 
     private function common_ipn_data($payment_data, $redirect = true): mixed
     {
@@ -578,9 +634,9 @@ class PaymentGatewayController extends Controller
             // now add money to wallet account if vendor is
             WalletService::updateWallet($payment_data["order_id"]);
 
-            if($redirect){
+            if ($redirect) {
                 return redirect()->route(self::SUCCESS_ROUTE, $payment_data['order_id']);
-            }else{
+            } else {
                 return [
                     "success" => true,
                     "type" => "success"
@@ -588,7 +644,7 @@ class PaymentGatewayController extends Controller
             }
         }
 
-        if($redirect){
+        if ($redirect) {
             return $this->cancel_page();
         }
 
@@ -597,11 +653,11 @@ class PaymentGatewayController extends Controller
 
     public function order_payment_success($id)
     {
-        $orders = SubOrder::with(["order","vendor","orderItem","orderItem.product","orderItem.variant","orderItem.variant.productColor","orderItem.variant.productSize"])
+        $orders = SubOrder::with(["order", "vendor", "orderItem", "orderItem.product", "orderItem.variant", "orderItem.variant.productColor", "orderItem.variant.productSize"])
             ->where("order_id", $id)->get();
-        $payment_details = Order::with("address","paymentMeta","orderTrack")->find($id);
+        $payment_details = Order::with("address", "paymentMeta", "orderTrack")->find($id);
 
-        return view('frontend.payment.payment-success', compact('orders','payment_details'));
+        return view('frontend.payment.payment-success', compact('orders', 'payment_details'));
     }
 
     private function update_database($order_id, $transaction_id)
@@ -618,10 +674,10 @@ class PaymentGatewayController extends Controller
     {
         $instance = new static();
 
-        if(!method_exists($instance, $name)){
+        if (!method_exists($instance, $name)) {
             throw new RuntimeException("This method is not found.");
         }
 
-        return call_user_func_array([$instance, $name],$arguments);
+        return call_user_func_array([$instance, $name], $arguments);
     }
 }
