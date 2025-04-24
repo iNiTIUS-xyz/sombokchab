@@ -128,7 +128,7 @@
                                         <i class="las la-arrow-right la-3x"></i>
                                     </button>
                                     <!-- (We keep this p#resend-timer hidden or remove it if you prefer)
-                                    <p id="resend-timer" style="display:none; margin-top:10px; color: #ff0000;"></p> -->
+                                                            <p id="resend-timer" style="display:none; margin-top:10px; color: #ff0000;"></p> -->
                                 </form>
                             </div>
 
@@ -145,16 +145,13 @@
                                         placeholder="6-digit Code">
                                     <small class="text-danger" id="verificationCodeError"></small>
                                 </div>
-
-                                <button type="button" class="btn btn-next step-button-outline"
-                                    onclick="verifyAndCreateAccount()">
-                                    Verify & Create Account
-                                </button>
-
-
-                                <div class="mt-3">
+                                <div class="mt-3 d-flex justify-content-between align-items-center">
+                                    <button type="button" class="btn btn-next step-button-outline bg-success text-white"
+                                        onclick="verifyAndCreateAccount()">
+                                        Verify & Create Account
+                                    </button>
                                     <!-- 'Resend OTP' button with 60s timer in #resendTimer -->
-                                    <button type="button" class="btn btn-link" id="resendOtpButton"
+                                    <button type="button" class="btn btn-link float-right" id="resendOtpButton"
                                         onclick="resendCode()" disabled>
                                         Resend OTP <span id="resendTimer">(60s)</span>
                                     </button>
