@@ -30,6 +30,8 @@ class VerifyCsrfToken extends Middleware
         'kineticpay-ipn',
         'salt-ipn',
         'iyzipay-ipn',
-        'sslcommerz-ipn'
+        'sslcommerz-ipn',
+        'aba-payway-ipn',
+        'frontend/aba-payway-ipn',
     ];
 }
