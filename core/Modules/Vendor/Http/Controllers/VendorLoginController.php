@@ -76,39 +76,92 @@ class VendorLoginController extends Controller
 
     public function vendor_login(Request $request): JsonResponse
     {
-        // Validate the input
-        $req = $request->validate([
-            'username' => 'required',       // Ensure username is provided
-            'password' => 'required|min:6', // Ensure password is provided
+
+        // $request->validate([
+        //     'phone' => 'required|string',
+        //     'password' => 'required|min:6',
+        // ], [
+        //     'phone.required' => __('Phone number or email is required'),
+        //     'password.required' => __('Password is required'),
+        //     'password.min' => __('Password must be at least 6 characters'),
+        // ]);
+
+        // $login_key = 'phone';
+        // $input_value = $request->phone;
+
+        // if (filter_var($input_value, FILTER_VALIDATE_EMAIL)) {
+        //     $login_key = 'email';
+        // }
+
+        // if (Auth::guard('vendor')->attempt([$login_key => $request->phone, 'password' => $request->password], $request->get('remember'))) {
+
+        //     Auth::guard('admin')->logout();
+
+        //     return response()->json([
+        //         'msg' => __('Login Success Redirecting'),
+        //         'type' => 'success',
+        //         'status' => 'ok',
+        //     ]);
+
+        // }
+
+        // return response()->json([
+        //     'msg' => sprintf(__('Incorrect account details. Please try again!!!!'), ucfirst($login_key)),
+        //     'type' => 'danger',
+        //     'status' => 'not_ok',
+        // ]);
+
+
+        $request->validate([
+            'phone' => 'required|string',
+            'password' => 'required|min:6',
+        ], [
+            'phone.required' => __('Phone number or email is required'),
+            'password.required' => __('Password is required'),
+            'password.min' => __('Password must be at least 6 characters'),
         ]);
 
-        // Determine login type (email, phone, or username)
-        $user_login_type = 'username'; // Default is username
+        $login_key = 'phone';
+        $input_value = $request->phone;
 
-        if (filter_var($req['username'], FILTER_VALIDATE_EMAIL)) {
-            $user_login_type = 'email'; // If the input is a valid email, set type to email
-        } elseif (preg_match('/^\+?(1|855|880)\d{9,15}$/', $req['username'])) {
-            $user_login_type = 'phone'; // If the input matches phone number format, set type to phone
+        if (filter_var($input_value, FILTER_VALIDATE_EMAIL)) {
+            $login_key = 'email';
         }
 
-        // Attempt login with the determined login type and password
-        if (Auth::guard('vendor')->attempt([$user_login_type => $req['username'], 'password' => $req['password']], $request->get('remember'))) {
-            // Logout admin guard to prevent conflicts
-            Auth::guard('admin')->logout();
+        $vendor = Vendor::where($login_key, $input_value)->first();
 
+        if (!$vendor) {
             return response()->json([
-                'msg' => __('Login Success Redirecting'),
-                'type' => 'success',
-                'status' => 'ok',
+                'msg' => __('Account not found.'),
+                'type' => 'danger',
+                'status' => 'invalid',
             ]);
         }
 
-        // Return error response if login fails
+        if (!$vendor->is_vendor_verified) {
+            return response()->json([
+                'msg' => __('Your account is not verified. Please contact support.'),
+                'type' => 'danger',
+                'status' => 'invalid',
+            ]);
+        }
+
+        // Attempt to log in
+        if (Auth::guard('vendor')->attempt([$login_key => $input_value, 'password' => $request->password], $request->get('remember'))) {
+            return response()->json([
+                'msg' => __('Login Success. Redirecting...'),
+                'type' => 'success',
+                'status' => 'valid',
+                'user_identification' => random_int(11111111, 99999999) . auth()->guard('web')->id() . random_int(11111111, 99999999),
+            ]);
+        }
+
         return response()->json([
-            'msg' => sprintf(__('Incorrect account details. Please try again!!!!'), ucfirst($user_login_type)),
+            'msg' => ($login_key == 'email' ? __('Email') : __('Phone Number')) . __(' or Password does not match!'),
             'type' => 'danger',
-            'status' => 'not_ok',
+            'status' => 'invalid',
         ]);
+
     }
 
     public function register()

@@ -19,9 +19,6 @@ use Modules\Vendor\Http\Controllers\VendorLoginController;
 use Modules\Vendor\Http\Controllers\VendorMediaUploadController;
 use Modules\Vendor\Http\Controllers\VendorProfileController;
 
-/*======================================
-    add Admin panel vendor route
-=====================================*/
 Route::prefix('admin-home/vendor')->middleware(['setlang:backend', 'adminglobalVariable', 'auth:admin', 'userEmailVerify'])->group(callback: function () {
     Route::controller(VendorBackendController::class)->as('admin.vendor.')->group(function () {
         Route::get('index', 'index')->name('all')->permission('vendor-index');
@@ -45,11 +42,7 @@ Route::prefix('admin-home/vendor')->middleware(['setlang:backend', 'adminglobalV
     });
 });
 
-/*======================================
-    Add frontend vendor route
-=======================================*/
-
-Route::prefix("vendor-home")->middleware(['setlang:backend','adminglobalVariable','auth:vendor'])->controller(VendorController::class)->group(callback: function (){
+Route::prefix("vendor-home")->middleware(['setlang:backend', 'adminglobalVariable', 'auth:vendor'])->controller(VendorController::class)->group(callback: function () {
     //todo:: user email verify
     Route::get('email-verify', 'user_email_verify_index')->name('vendor.email.verify')->middleware(['setlang:frontend', 'globalVariable']);
     Route::post('email-verify', 'user_email_verify');
@@ -69,9 +62,6 @@ Route::prefix('vendor-home')->middleware(['setlang:backend', 'adminglobalVariabl
         Route::get('/logout', 'VendorLoginController@logout')->name('vendor.logout');
     });
 
-    /**---------------------------------------------------------------------------------------------------------------------------
-     * VENDOR Settings ROUTE
-     * ----------------------------------------------------------------------------------------------------------------------------*/
     Route::controller(VendorProfileController::class)->prefix('profile')->group(function () {
         //todo:: vendor Profile
         Route::get('/settings', 'vendor_settings')->name('vendor.profile.settings');
@@ -82,9 +72,6 @@ Route::prefix('vendor-home')->middleware(['setlang:backend', 'adminglobalVariabl
         Route::post('/password-change', 'vendor_password_change')->name('vendor.password.update');
     });
 
-    /**---------------------------------------------------------------------------------------------------------------------------
-     * MEDIA UPLOAD ROUTE
-     * ----------------------------------------------------------------------------------------------------------------------------*/
     Route::group(['prefix' => 'vendor/media-upload'], function () {
         Route::controller(VendorMediaUploadController::class)->group(function () {
             Route::post('/', 'upload_media_file')->name('vendor.upload.media.file');
@@ -105,10 +92,9 @@ Route::prefix('vendor')->middleware(['guest', 'guest:vendor', 'setlang:frontend'
         Route::post('check-vendor-data-availability', 'checkVendorDataAvailability')->name('check.vendor.data.availability');
     });
 });
+
 Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_mode']], function () {
     Route::get('vendor/{slug}', [FrontendVendorController::class, "vendor"])->name('frontend.vendors.single');
 });
-/*=====================================
-    Add vendor panel route
-======================================*/
+
 Route::get('frontend/vendor', [FrontendVendorController::class, 'searchVendor'])->name('frontend.vendor-search');
