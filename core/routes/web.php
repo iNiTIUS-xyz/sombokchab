@@ -256,10 +256,6 @@ Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_
         });
     });
 
-    /**---------------------------------------------------------------------------------------------------------------------------
-     * USER LOGIN - REGISTRATION
-     * ----------------------------------------------------------------------------------------------------------------------------*/
-    //user login
     Route::get('/login', 'Auth\LoginController@showLoginForm')->name('user.login');
     Route::post('/ajax-login', 'FrontendController@ajax_login')->name('user.ajax.login');
     Route::post('/login', 'Auth\LoginController@login');

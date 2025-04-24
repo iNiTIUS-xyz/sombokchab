@@ -151,7 +151,7 @@ class FrontendController extends Controller
 
     public function tags_wise_blog_page($tag)
     {
-        $all_blogs = Blog::Where('tags', 'LIKE', '%'.$tag.'%')
+        $all_blogs = Blog::Where('tags', 'LIKE', '%' . $tag . '%')
             ->orderBy('id', 'desc')->paginate(get_static_option('blog_page_item'));
         if ($all_blogs->isEmpty()) {
             abort(404);
@@ -172,7 +172,7 @@ class FrontendController extends Controller
     {
         $all_recent_blogs = Blog::orderBy('id', 'desc')->take(get_static_option('blog_page_recent_post_widget_item'))->get();
         $all_category = BlogCategory::where(['status' => 'publish'])->orderBy('id', 'desc')->get();
-        $all_blogs = Blog::Where('title', 'LIKE', '%'.$request->search.'%')
+        $all_blogs = Blog::Where('title', 'LIKE', '%' . $request->search . '%')
             ->orderBy('id', 'desc')->paginate(get_static_option('blog_page_item'));
 
         return view('frontend.pages.blog.blog-search')->with([
@@ -232,11 +232,11 @@ class FrontendController extends Controller
             return $this->fallbackBlogPage($page_post);
         } elseif (in_array($slug, $pages_id_slugs) && $slug === $pages_id_slugs[$static_option['product_page']]) {
             return $this->fallbackProductPage($page_post);
-        } elseif (empty($page_post) && ! empty($vendor)) {
+        } elseif (empty($page_post) && !empty($vendor)) {
             return $this->fallbackProductPage($page_post, $vendor);
         }
 
-        if (! is_null($page_post)) {
+        if (!is_null($page_post)) {
             return view('frontend.pages.dynamic-single', compact('page_post'));
         }
 
@@ -282,13 +282,13 @@ class FrontendController extends Controller
 
         $user_info = Admin::where('username', $request->username)->orWhere('email', $request->username)->first();
 
-        if (! empty($user_info)) {
+        if (!empty($user_info)) {
             $token_id = Str::random(30);
             $existing_token = DB::table('password_resets')->where('email', $user_info->email)->delete();
             if (empty($existing_token)) {
                 DB::table('password_resets')->insert(['email' => $user_info->email, 'token' => $token_id]);
             }
-            $message = 'Here is you password reset link, If you did not request to reset your password just ignore this mail. <a class="btn" href="'.route('admin.reset.password', ['user' => $user_info->username, 'token' => $token_id]).'">Click Reset Password</a>';
+            $message = 'Here is you password reset link, If you did not request to reset your password just ignore this mail. <a class="btn" href="' . route('admin.reset.password', ['user' => $user_info->username, 'token' => $token_id]) . '">Click Reset Password</a>';
             $data = [
                 'username' => $user_info->username,
                 'message' => $message,
@@ -333,7 +333,7 @@ class FrontendController extends Controller
         $user_info = Admin::where('username', $request->username)->first();
         $user = Admin::findOrFail($user_info->id);
         $token_iinfo = DB::table('password_resets')->where(['email' => $user_info->email, 'token' => $request->token])->first();
-        if (! empty($token_iinfo)) {
+        if (!empty($token_iinfo)) {
             $user->password = Hash::make($request->password);
             $user->save();
 
@@ -408,7 +408,7 @@ class FrontendController extends Controller
             'verify_token' => $verify_token,
         ]);
 
-        $message = __('Verify your email to get all news from ').get_static_option('site_title').'<div class="btn-wrap"> <a class="anchor-btn" href="'.route('subscriber.verify', ['token' => $verify_token]).'">'.__('verify email').'</a></div>';
+        $message = __('Verify your email to get all news from ') . get_static_option('site_title') . '<div class="btn-wrap"> <a class="anchor-btn" href="' . route('subscriber.verify', ['token' => $verify_token]) . '">' . __('verify email') . '</a></div>';
 
         $data = [
             'message' => $message,
@@ -429,7 +429,7 @@ class FrontendController extends Controller
         $newsletter = Newsletter::where('token', $request->token)->first();
         $title = __('Sorry');
         $description = __('your token is expired');
-        if (! empty($newsletter)) {
+        if (!empty($newsletter)) {
             Newsletter::where('token', $request->token)->update([
                 'verified' => 1,
             ]);
@@ -440,12 +440,14 @@ class FrontendController extends Controller
         return view('frontend.thankyou', compact('title', 'description'));
     }
 
-    public function newsletter_unsubscribe($id){
-        Newsletter::where('id',$id)->update(['subscribe_status'=> 0]);
+    public function newsletter_unsubscribe($id)
+    {
+        Newsletter::where('id', $id)->update(['subscribe_status' => 0]);
         // Redirect to the homepage with a flash message
         return redirect()->to('/')->with([
             'type' => 'danger',
-            'msg', 'You have been unsubscribed..!',
+            'msg',
+            'You have been unsubscribed..!',
         ]);
     }
 
@@ -463,14 +465,14 @@ class FrontendController extends Controller
         $user_info = User::where('username', $request->username)
             ->orWhere('email', $request->username)->first();
 
-        if (! empty($user_info)) {
+        if (!empty($user_info)) {
             $token_id = Str::random(30);
             $existing_token = DB::table('password_resets')->where('email', $user_info->email)->delete();
             if (empty($existing_token)) {
                 DB::table('password_resets')->insert(['email' => $user_info->email, 'token' => $token_id]);
             }
 
-            $message = __('Here is you password reset link, If you did not request to reset your password just ignore this mail.').' <a class="btn" href="'.route('user.reset.password', ['user' => $user_info->username, 'token' => $token_id]).'">'.__('Click Reset Password').'</a>';
+            $message = __('Here is you password reset link, If you did not request to reset your password just ignore this mail.') . ' <a class="btn" href="' . route('user.reset.password', ['user' => $user_info->username, 'token' => $token_id]) . '">' . __('Click Reset Password') . '</a>';
             $data = [
                 'username' => $user_info->username,
                 'message' => $message,
@@ -499,7 +501,7 @@ class FrontendController extends Controller
     public function checkPhoneInDb(Request $request)
     {
         $phone = $request->input('phone');
-        
+
         // Check if phone is in DB
         $user = User::where('phone', $phone)->first();
         if (!$user) {
@@ -514,7 +516,7 @@ class FrontendController extends Controller
         // Return JSON: found=true, plus user ID & token
         return response()->json([
             'found' => true,
-            'user'  => $user->id,
+            'user' => $user->id,
             'token' => $token,
         ]);
     }
@@ -525,7 +527,8 @@ class FrontendController extends Controller
     {
         return view('frontend.vendor.forget-password');
     }
-    public function sendVendorForgetPasswordMail(Request $request){
+    public function sendVendorForgetPasswordMail(Request $request)
+    {
         $request->validate([
             'username' => 'required|string:max:191',
         ]);
@@ -533,14 +536,14 @@ class FrontendController extends Controller
         $vendor_info = Vendor::where('username', $request->username)
             ->orWhere('email', $request->username)->first();
 
-        if (! empty($vendor_info)) {
+        if (!empty($vendor_info)) {
             $token_id = Str::random(30);
             $existing_token = DB::table('password_resets')->where('email', $vendor_info->email)->delete();
             if (empty($existing_token)) {
                 DB::table('password_resets')->insert(['email' => $vendor_info->email, 'token' => $token_id]);
             }
 
-            $message = __('Here is you password reset link, If you did not request to reset your password just ignore this mail.').' <a class="btn" href="'.route('vendor.reset.password', ['user' => $vendor_info->username, 'token' => $token_id]).'">'.__('Click Reset Password').'</a>';
+            $message = __('Here is you password reset link, If you did not request to reset your password just ignore this mail.') . ' <a class="btn" href="' . route('vendor.reset.password', ['user' => $vendor_info->username, 'token' => $token_id]) . '">' . __('Click Reset Password') . '</a>';
             $data = [
                 'username' => $vendor_info->username,
                 'message' => $message,
@@ -582,7 +585,7 @@ class FrontendController extends Controller
         $user_info = Vendor::where('username', $request->username)->first();
         $user = Vendor::findOrFail($user_info->id);
         $token_iinfo = DB::table('password_resets')->where(['email' => $user_info->email, 'token' => $request->token])->first();
-        if (! empty($token_iinfo)) {
+        if (!empty($token_iinfo)) {
             $user->password = Hash::make($request->password);
             $user->save();
 
@@ -608,7 +611,7 @@ class FrontendController extends Controller
         $user_info = User::where('username', $request->username)->first();
         $user = User::findOrFail($user_info->id);
         $token_iinfo = DB::table('password_resets')->where(['email' => $user_info->email, 'token' => $request->token])->first();
-        if (! empty($token_iinfo)) {
+        if (!empty($token_iinfo)) {
             $user->password = Hash::make($request->password);
             $user->save();
 
@@ -618,60 +621,26 @@ class FrontendController extends Controller
         return redirect()->back()->with(['msg' => __('Somethings Going Wrong! Please Try Again or Check Your Old Password'), 'type' => 'danger']);
     }
 
-    /**
-     * @throws RandomException
-     */
-    // public function ajax_login(Request $request)
-    // {
-    //     $request->validate([
-    //         'username' => 'required|string',
-    //         'password' => 'required|min:6',
-    //     ], [
-    //         'username.required' => __('username required'),
-    //         'password.required' => __('password required'),
-    //         'password.min' => __('password length must be 6 characters'),
-    //     ]);
 
-    //     $login_key = 'username';
-    //     // check username is contained valid email than user will log in by using email and password
-    //     if (filter_var($request->username, FILTER_VALIDATE_EMAIL)) {
-    //         $login_key = 'email';
-    //     }
-
-    //     if (Auth::guard('web')->attempt([$login_key => $request->username, 'password' => $request->password], $request->get('remember'))) {
-    //         return response()->json([
-    //             'msg' => __('login Success Redirecting'),
-    //             'type' => 'danger',
-    //             'status' => 'valid',
-    //             'user_identification' => random_int(11111111, 99999999).auth()->guard('web')->id().random_int(11111111, 99999999),
-    //         ]);
-    //     }
-
-    //     return response()->json([
-    //         'msg' => ($login_key == 'email' ? 'Email' : 'Username').__(' Or Password Doest Not Matched !!!'),
-    //         'type' => 'danger',
-    //         'status' => 'invalid',
-    //     ]);
-    // }
     public function ajax_login(Request $request)
     {
         $request->validate([
             'phone' => 'required|string',
             'password' => 'required|min:6',
         ], [
-            'phone.required' => __('phone number required'),
-            'password.required' => __('password required'),
-            'password.min' => __('password length must be 6 characters'),
+            'phone.required' => __('Phone number or email is required'),
+            'password.required' => __('Password is required'),
+            'password.min' => __('Password must be at least 6 characters'),
         ]);
 
         $login_key = 'phone';
+        $input_value = $request->phone;
 
-        // Check if input is an email, then login with email
-        if (filter_var($request->phone, FILTER_VALIDATE_EMAIL)) {
+        if (filter_var($input_value, FILTER_VALIDATE_EMAIL)) {
             $login_key = 'email';
         }
 
-        $user = User::where($login_key, $request->phone)->first();
+        $user = User::where($login_key, $input_value)->first();
 
         if (!$user) {
             return response()->json([
@@ -681,7 +650,6 @@ class FrontendController extends Controller
             ]);
         }
 
-        // Check if the user is deactivated
         if ($user->deactive_status == 1) {
             return response()->json([
                 'msg' => __('Your account is deactivated. Please contact support.'),
@@ -691,7 +659,7 @@ class FrontendController extends Controller
         }
 
         // Attempt to log in
-        if (Auth::guard('web')->attempt([$login_key => $request->phone, 'password' => $request->password], $request->get('remember'))) {
+        if (Auth::guard('web')->attempt([$login_key => $input_value, 'password' => $request->password], $request->get('remember'))) {
             return response()->json([
                 'msg' => __('Login Success. Redirecting...'),
                 'type' => 'success',
@@ -701,7 +669,7 @@ class FrontendController extends Controller
         }
 
         return response()->json([
-            'msg' => ($login_key == 'email' ? 'Email' : 'Phone Number') . __(' or Password does not match!'),
+            'msg' => ($login_key == 'email' ? __('Email') : __('Phone Number')) . __(' or Password does not match!'),
             'type' => 'danger',
             'status' => 'invalid',
         ]);
@@ -717,12 +685,10 @@ class FrontendController extends Controller
         return view('frontend.user.login')->with(['title' => __('Login To Create New Campaign')]);
     }
 
-    /** ======================================================================
-     *                  USER SHIPPING ADDRESS
-     * ======================================================================*/
+
     public function addUserShippingAddress(Request $request)
     {
-        if (! auth('web')->check()) {
+        if (!auth('web')->check()) {
             return back()->with(FlashMsg::explain('danger', __('Please login to add new address')));
         }
 
@@ -786,7 +752,7 @@ class FrontendController extends Controller
         $all_user_shipping = [];
 
         if (auth('web')->check()) {
-            $all_user_shipping = ShippingAddress::with(['get_cities', 'get_states','country:id,name', 'state:id,name,country_id', 'cities:id,name', 'country_taxs', 'state_taxs'])
+            $all_user_shipping = ShippingAddress::with(['get_cities', 'get_states', 'country:id,name', 'state:id,name,country_id', 'cities:id,name', 'country_taxs', 'state_taxs'])
                 ->where('user_id', getUserByGuard('web')->id)->get();
         }
 
@@ -879,7 +845,7 @@ class FrontendController extends Controller
     {
         $carts = Cart::instance('default')->content();
         $itemsTotal = null;
-        $enableTaxAmount = ! CalculateTaxServices::isPriceEnteredWithTax();
+        $enableTaxAmount = !CalculateTaxServices::isPriceEnteredWithTax();
         $shippingTaxClass = TaxClassOption::where('class_id', get_static_option('shipping_tax_class'))->sum('rate');
         $tax = CalculateTaxBasedOnCustomerAddress::init();
         $uniqueProductIds = $carts->pluck('id')->unique()->toArray();
@@ -1112,9 +1078,11 @@ class FrontendController extends Controller
         $language = Language::where('slug', $request->language)->first();
         session()->put('lang', $request->language);
 
-        return response()->json(FlashMsg::explain(
-            'success',
-            sprintf(__('Language changed to %s'), $language->name))
+        return response()->json(
+            FlashMsg::explain(
+                'success',
+                sprintf(__('Language changed to %s'), $language->name)
+            )
         );
     }
 
@@ -1148,7 +1116,7 @@ class FrontendController extends Controller
         $states = State::select('id', 'name')->where('country_id', $request->id)->get();
         $html = "<option value=''>Select One</option>";
         foreach ($states as $state) {
-            $html .= "<option value='".$state->id."'>".$state->name.'</option>';
+            $html .= "<option value='" . $state->id . "'>" . $state->name . '</option>';
         }
 
         return $html;
@@ -1160,9 +1128,9 @@ class FrontendController extends Controller
 
         $cities = City::select('id', 'name')->where('state_id', $request->id)->get();
 
-        $html = "<option value=''>".__('Select One').'</option>';
+        $html = "<option value=''>" . __('Select One') . '</option>';
         foreach ($cities as $city) {
-            $html .= "<option value='".$city->id."'>".$city->name.'</option>';
+            $html .= "<option value='" . $city->id . "'>" . $city->name . '</option>';
         }
 
         return $html;
@@ -1172,14 +1140,14 @@ class FrontendController extends Controller
     {
         $states = State::where('country_id', $country_id)->get();
 
-        $html = "<option value=''>".__('Select One').'</option>';
+        $html = "<option value=''>" . __('Select One') . '</option>';
         foreach ($states as $state) {
-            $html .= "<option value='".$state->id."'>".$state->name.'</option>';
+            $html .= "<option value='" . $state->id . "'>" . $state->name . '</option>';
         }
 
-        $list = "<li data-value='' class='option'>".__('Select One').'</li>';
+        $list = "<li data-value='' class='option'>" . __('Select One') . '</li>';
         foreach ($states as $state) {
-            $list .= "<li data-value='".$state->id."' class='option'>".$state->name.'</option>';
+            $list .= "<li data-value='" . $state->id . "' class='option'>" . $state->name . '</option>';
         }
 
         return response()->json(['success' => true, 'data' => $html, 'list' => $list]);
@@ -1230,12 +1198,12 @@ class FrontendController extends Controller
         $sort_by = request()->get('sort');
 
         $request = request();
-        if (! empty($vendor)) {
+        if (!empty($vendor)) {
             $request->vendor_username = $vendor->username;
         }
 
         if ($request->count ?? true) {
-            $request->count = get_static_option('default_item_count',16);
+            $request->count = get_static_option('default_item_count', 16);
         }
 
         $all_products = FrontendProductServices::productSearch($request, 'frontend.ajax');
@@ -1311,7 +1279,7 @@ class FrontendController extends Controller
         $grid = view('product::frontend.search.grid', compact('all_products'))->render();
         $list = view('product::frontend.search.list', compact(['all_products']))->render();
         $paginationList = view('components.search-product-list-pagination', compact('all_products'))->render();
-        $showing_items = ' Showing '.$all_products['from'].'-'.$all_products['to'].' of '.$all_products['total_items'].' results ';
+        $showing_items = ' Showing ' . $all_products['from'] . '-' . $all_products['to'] . ' of ' . $all_products['total_items'] . ' results ';
 
         return [
             'pagination_list' => $paginationList,
@@ -1353,17 +1321,17 @@ class FrontendController extends Controller
     public function checkPhoneExistence(Request $request)
     {
         $request->validate(['phone' => 'required']);
-        
+
         $exists = User::where('phone', $request->phone)->exists();
-        
+
         return response()->json(['exists' => $exists]);
     }
 
     public function updateForgotPassword(Request $request)
     {
         $request->validate([
-            'phone'                 => 'required',
-            'password'              => 'required|confirmed|min:8',
+            'phone' => 'required',
+            'password' => 'required|confirmed|min:8',
             'password_confirmation' => 'required|min:8'
         ]);
 
@@ -1371,7 +1339,7 @@ class FrontendController extends Controller
         $user = User::where('phone', $request->phone)->first();
         if (!$user) {
             return response()->json([
-                'status'  => 'error',
+                'status' => 'error',
                 'message' => 'User not found'
             ], 404);
         }
@@ -1386,17 +1354,17 @@ class FrontendController extends Controller
     public function checkVendorPhoneExistence(Request $request)
     {
         $request->validate(['phone' => 'required']);
-        
+
         $exists = Vendor::where('phone', $request->phone)->exists();
-        
+
         return response()->json(['exists' => $exists]);
     }
 
     public function updateVendorForgotPassword(Request $request)
     {
         $request->validate([
-            'phone'                 => 'required',
-            'password'              => 'required|confirmed|min:8',
+            'phone' => 'required',
+            'password' => 'required|confirmed|min:8',
             'password_confirmation' => 'required|min:8'
         ]);
 
@@ -1404,7 +1372,7 @@ class FrontendController extends Controller
         $vendor = Vendor::where('phone', $request->phone)->first();
         if (!$vendor) {
             return response()->json([
-                'status'  => 'error',
+                'status' => 'error',
                 'message' => 'Vendor not found'
             ], 404);
         }
@@ -1448,10 +1416,12 @@ class FrontendController extends Controller
         $matchingProducts = [];
 
         foreach ($products as $product) {
-            if (!$product->image) continue;
+            if (!$product->image)
+                continue;
 
             $productImagePath = storage_path('app/public/' . $product->image);
-            if (!file_exists($productImagePath)) continue;
+            if (!file_exists($productImagePath))
+                continue;
 
             $productHash = $this->generateImageHash($productImagePath);
 
