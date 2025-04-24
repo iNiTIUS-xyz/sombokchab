@@ -128,12 +128,12 @@
                                         <i class="las la-arrow-right la-3x"></i>
                                     </button>
                                     <!-- (We keep this p#resend-timer hidden or remove it if you prefer)
-                                                                <p id="resend-timer" style="display:none; margin-top:10px; color: #ff0000;"></p> -->
+                                                                        <p id="resend-timer" style="display:none; margin-top:10px; color: #ff0000;"></p> -->
                                 </form>
                             </div>
 
                             <!-- Step 2: OTP Verification (REPLACED WITH YOUR SNIPPET) -->
-                            <div id="step-2">
+                            <div id="step-2" style="display: none;">
                                 <button type="button" class="btn btn-prev step-button-outline mb-4"
                                     onclick="prevStep()">
                                     <i class="las la-arrow-left la-3x"></i>
@@ -145,8 +145,8 @@
                                     <small class="text-danger" id="verificationCodeError"></small>
                                 </div>
                                 <div class="mt-3 d-flex justify-content-between align-items-center">
-                                    <button type="button"
-                                        style="background: transparent; border: 1px solid #808080; text-decoration: underline;ss color: #808080;"
+                                    <button type="button" class="btn"
+                                        style="background: transparent; border: 1px solid #41695a; text-decoration: underline; color: #41695a;"
                                         id="resendOtpButton" onclick="resendCode()" disabled>
                                         Resend OTP <span id="resendTimer">(60s)</span>
                                     </button>
