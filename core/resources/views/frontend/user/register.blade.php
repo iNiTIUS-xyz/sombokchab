@@ -128,17 +128,16 @@
                                         <i class="las la-arrow-right la-3x"></i>
                                     </button>
                                     <!-- (We keep this p#resend-timer hidden or remove it if you prefer)
-                                                            <p id="resend-timer" style="display:none; margin-top:10px; color: #ff0000;"></p> -->
+                                                                <p id="resend-timer" style="display:none; margin-top:10px; color: #ff0000;"></p> -->
                                 </form>
                             </div>
 
                             <!-- Step 2: OTP Verification (REPLACED WITH YOUR SNIPPET) -->
-                            <div id="step-2" style="display: none;">
+                            <div id="step-2">
                                 <button type="button" class="btn btn-prev step-button-outline mb-4"
                                     onclick="prevStep()">
                                     <i class="las la-arrow-left la-3x"></i>
                                 </button>
-
                                 <div class="form-group">
                                     <label>Enter OTP</label>
                                     <input type="text" id="verificationCode" class="form-control"
@@ -146,15 +145,16 @@
                                     <small class="text-danger" id="verificationCodeError"></small>
                                 </div>
                                 <div class="mt-3 d-flex justify-content-between align-items-center">
+                                    <button type="button"
+                                        style="background: transparent; border: 1px solid #808080; text-decoration: underline;ss color: #808080;"
+                                        id="resendOtpButton" onclick="resendCode()" disabled>
+                                        Resend OTP <span id="resendTimer">(60s)</span>
+                                    </button>
                                     <button type="button" class="btn btn-next step-button-outline bg-success text-white"
                                         onclick="verifyAndCreateAccount()">
                                         Verify & Create Account
                                     </button>
                                     <!-- 'Resend OTP' button with 60s timer in #resendTimer -->
-                                    <button type="button" class="btn btn-link float-right" id="resendOtpButton"
-                                        onclick="resendCode()" disabled>
-                                        Resend OTP <span id="resendTimer">(60s)</span>
-                                    </button>
                                 </div>
                             </div>
 
