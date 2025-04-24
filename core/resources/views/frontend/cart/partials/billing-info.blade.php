@@ -1,5 +1,6 @@
 @php
     $modal = $modal ?? false;
+    $states = DB::table('states')->where('country_id', 31)->get();
     // dd($modal);
 @endphp
 
@@ -72,7 +73,6 @@
                     <label class="label-title mb-3"> {{ __('Country') }} </label>
                     <select @class(['form--control', 'modal-country' => !$modal]) id="{{ !$modal ? 'country_id' : 'modal_country_id' }}"
                         type="text" name="country_id">
-                        <option value="">{{ __('Select an Country') }}</option>
                         @foreach ($countries as $country)
                             <option {{ (old('country_id') ?? 0) == $country->id ? 'selected' : '' }}
                                 value="{{ $country->id }}">{{ $country->name }}</option>
@@ -81,9 +81,12 @@
                 </div>
                 <div class="single-input mt-4">
                     <label class="label-title mb-3"> {{ __('State') }} </label>
-                    <select id="{{ !$modal ? 'state_id' : 'modal_state_id' }}" @class(['form--control select-state', 'modal-states' => !$modal])
-                        type="text" name="state_id">
-                        <option value="">{{ __('Select country first...') }}</option>
+                    <select @class(['form--control select-state', 'modal-states' => !$modal]) type="text" name="state_id">
+                        @foreach ($states as $state)
+                            <option value="{{ $state->id }}">
+                                {{ $state->name }}
+                            </option>
+                        @endforeach
                     </select>
                 </div>
             </div>
