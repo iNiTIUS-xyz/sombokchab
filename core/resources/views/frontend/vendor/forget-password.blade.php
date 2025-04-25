@@ -1,6 +1,6 @@
 @extends('frontend.frontend-page-master')
 @section('page-title')
-    {{ __('Vendor Forget Password') }}
+    {{ __('Vendor Forgot Password') }}
 @endsection
 {{-- @section('content')
     <section class="sign-in-area-wrapper padding-top-100 padding-bottom-50">
