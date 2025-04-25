@@ -80,7 +80,7 @@
                     </select>
                 </div>
                 <div class="single-input mt-4">
-                    <label class="label-title mb-3"> {{ __('State') }} </label>
+                    <label class="label-title mb-3"> {{ __('City') }} </label>
                     <select @class(['form--control select-state', 'modal-states' => !$modal]) type="text" name="state_id">
                         @foreach ($states as $state)
                             <option value="{{ $state->id }}">
