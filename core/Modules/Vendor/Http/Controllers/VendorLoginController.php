@@ -120,6 +120,7 @@ class VendorLoginController extends Controller
         $data['password'] = Hash::make($data['password']);
         $data['is_vendor_verified'] = 0;
         $data['verified_at'] = null;
+        $data['phone'] = $data['phone_country_code'] . $data['phone'];
 
         // now create vendor
         $vendor = Vendor::create($data);

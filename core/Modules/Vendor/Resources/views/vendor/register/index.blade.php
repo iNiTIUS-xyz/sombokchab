@@ -41,16 +41,13 @@
                                 @csrf
                                 <input type="hidden" name="captcha_token" id="gcaptcha_token">
                                 <input type="hidden" name="phone" id="verified_phone">
-
                                 <input type="hidden" name="country_id" value="31">
 
                                 <!-- Phone Number (with country code) -->
                                 <div class="form-group">
                                     <label class="label-title color-light mb-2"> {{ __('Phone Number *') }} </label>
                                     <div class="input-group">
-                                        <!-- If you prefer a dropdown for phone country code, do so here:
-                                                     for example: +1, +880, +855 -->
-                                        <select id="phone_country_code" class="form-select" style="width: 30% !important;">
+                                        <select id="phone_country_code" name="phone_country_code" class="form-select" style="width: 30% !important;">
                                             <option value="+1" selected>+1</option>
                                             <option value="+880">+880</option>
                                             <option value="+855">+855</option>
@@ -173,7 +170,7 @@
                                             {{ __('Accept all') }}
                                             <a href="{{ url(get_static_option('toc_page_link')) }}" class="text-active">
                                                 {{ __('Terms and Conditions') }}
-                                            </a> &amp;
+                                            </a> &
                                             <a href="{{ url(get_static_option('privacy_policy_link')) }}"
                                                 class="text-active">
                                                 {{ __('Privacy Policy') }}
@@ -220,14 +217,12 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
     </section>
 
     <style>
-        /* Match styling from your second snippet */
         #vendor-form label {
             font-size: 16px;
             font-weight: bold;
@@ -287,14 +282,12 @@
 @endsection
 
 @section('script')
-    <!-- Firebase and Google Captcha Scripts (Consolidated) -->
-    <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase.js"></script>
     <script
         src="https://www.google.com/recaptcha/api.js?render={{ get_static_option('site_google_captcha_v3_site_key') }}">
     </script>
 
     <script>
-        // ----------------- reCAPTCHA & Firebase Init ----------------- //
+        // ----------------- reCAPTCHA Init ----------------- //
         grecaptcha.ready(function() {
             grecaptcha.execute("{{ get_static_option('site_google_captcha_v3_site_key') }}", {
                 action: 'homepage'
@@ -302,20 +295,6 @@
                 document.getElementById('gcaptcha_token').value = token;
             });
         });
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyC0MrxJImZMkVRN4giYpv8K11NpmWc7DNY",
-            authDomain: "sombokchab-laravel.firebaseapp.com",
-            projectId: "sombokchab-laravel",
-            storageBucket: "sombokchab-laravel.firebasestorage.app",
-            messagingSenderId: "663828199574",
-            appId: "1:663828199574:web:b205a70700279494cbeab7",
-            measurementId: "G-95NBRK1SJ5"
-        };
-        firebase.initializeApp(firebaseConfig);
-
-        let recaptchaVerifier;
-        let confirmationResult = null;
 
         // ----------------- FIELD & ELEMENT REFS ----------------- //
         const phoneCountryCode = document.getElementById('phone_country_code');
@@ -348,36 +327,11 @@
         let resendTimer = null;
         let timeLeft = 60;
 
-        // ----------------- ON LOAD: Render reCAPTCHA ----------------- //
-        window.onload = function() {
-            renderReCAPTCHA();
-            updateContinueButton(); // Check initial
-        };
-
-        function renderReCAPTCHA() {
-            if (!recaptchaVerifier) {
-                recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
-                    size: 'normal',
-                    callback: function() {
-                        console.log("reCAPTCHA resolved");
-                    },
-                    'expired-callback': function() {
-                        console.error("reCAPTCHA expired. Re-initializing...");
-                        renderReCAPTCHA();
-                    }
-                });
-            }
-            recaptchaVerifier.render().then(widgetId => {
-                console.log("reCAPTCHA widget ID:", widgetId);
-            });
-        }
-
         // ----------------- VALIDATION FUNCTIONS ----------------- //
         function validatePhone(countryCode, rawNumber) {
             const fullPhone = (countryCode + rawNumber).trim();
             if (!rawNumber.trim()) return 'Phone number is required';
 
-            // Example patterns: +1\d{10}, +8801\d{9}, +855\d{8,9}
             const phoneRegex = /^(\+1\d{10}|\+8801\d{9}|\+855\d{8,9})$/;
             return phoneRegex.test(fullPhone) ? '' : 'Invalid phone number';
         }
@@ -392,7 +346,7 @@
 
         function validateEmail(value) {
             const trimmed = value.trim();
-            if (!trimmed) return ''; // optional
+            if (!trimmed) return '';
             if (/\s/.test(trimmed)) return 'Email cannot contain spaces';
             const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             return re.test(trimmed) ? '' : 'Invalid email';
@@ -400,7 +354,6 @@
 
         function validateUsername(value) {
             if (!value.trim()) return 'Username is required';
-            // 3-20 chars, letters/digits/dot/underscore, no spaces
             const re = /^[A-Za-z0-9._]{3,20}$/;
             return re.test(value) ?
                 '' :
@@ -408,10 +361,9 @@
         }
 
         function validatePassword(value) {
-            // At least 8 chars, 1 uppercase, 1 lowercase, 1 digit, no spaces
             const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?!.*\s).{8,}$/;
             if (!re.test(value)) {
-                return 'Password must have atleast (8 Characters with 1 Uppercase, 1 Lowercase, 1 Number, and No spaces allowed)';
+                return 'Password must have at least 8 characters, 1 uppercase, 1 lowercase, 1 number, no spaces';
             }
             return '';
         }
@@ -432,9 +384,8 @@
             return !isChecked ? 'You must accept the terms and conditions' : '';
         }
 
-        // Availability check
         async function checkFieldAvailability(field, value) {
-            if (!value.trim()) return ''; // skip if empty
+            if (!value.trim()) return '';
             try {
                 const resp = await fetch("{{ route('check.vendor.data.availability') }}", {
                     method: 'POST',
@@ -448,7 +399,7 @@
                     })
                 });
                 if (resp.ok) {
-                    return ''; // no conflict
+                    return '';
                 }
                 const errorJson = await resp.json();
                 return errorJson.error || 'Server error. Please try again later.';
@@ -458,7 +409,6 @@
             }
         }
 
-        // Generic function to show a message for X seconds
         function displayTempMessage(elementId, message, seconds = 5) {
             const el = document.getElementById(elementId);
             el.textContent = message;
@@ -468,11 +418,10 @@
             }, seconds * 1000);
         }
 
-        // ----------------- REAL-TIME VALIDATION (Event Listeners) ----------------- //
+        // ----------------- REAL-TIME VALIDATION ----------------- //
         phoneField.addEventListener('input', async () => {
             const errorMsg = validatePhone(phoneCountryCode.value, phoneField.value);
             if (!errorMsg) {
-                // check DB if local validation passed
                 const fullPhone = phoneCountryCode.value + phoneField.value;
                 const dbError = await checkFieldAvailability('phone', fullPhone);
                 phoneErrorEl.textContent = dbError;
@@ -551,7 +500,7 @@
             updateContinueButton();
         });
 
-        // ----------------- Enable or Disable Continue button ----------------- //
+        // ----------------- Enable/Disable Continue Button ----------------- //
         function updateContinueButton() {
             const errorsPresent = (
                 phoneErrorEl.textContent ||
@@ -566,7 +515,6 @@
                 termsErrorEl.textContent
             );
 
-            // Ensure all required fields are non-empty
             const requiredFilled = (
                 phoneField.value.trim() &&
                 ownerNameField.value.trim() &&
@@ -601,43 +549,47 @@
             }, 1000);
         }
 
-        // 1) Send OTP
-        function sendCodeAndContinue() {
+        async function sendCodeAndContinue() {
             const fullPhone = phoneCountryCode.value + phoneField.value;
-            // double-check phone validation
             const phoneErr = validatePhone(phoneCountryCode.value, phoneField.value);
             if (phoneErr) {
                 phoneErrorEl.textContent = phoneErr;
                 return;
             }
 
-            if (!recaptchaVerifier) {
-                renderReCAPTCHA();
-                displayTempMessage('error', "reCAPTCHA not initialized. Please try again.");
-                return;
-            }
+            try {
+                const response = await fetch("{{ route('send.otp') }}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
+                    },
+                    body: JSON.stringify({
+                        phone: fullPhone
+                    })
+                });
 
-            firebase.auth().signInWithPhoneNumber(fullPhone, recaptchaVerifier)
-                .then((result) => {
-                    confirmationResult = result;
-                    displayTempMessage('sentSuccess', "OTP Sent Successfully!", 5);
-
-                    // Move to step 2 after 1s
+                const data = await response.json();
+                if (response.ok) {
+                    displayTempMessage('sentSuccess', 'OTP Sent Successfully!', 5);
                     setTimeout(() => {
                         document.getElementById('step-1').style.display = 'none';
                         document.getElementById('step-2').style.display = 'block';
                         startResendTimer();
                     }, 1000);
-                })
-                .catch((error) => {
-                    console.error("Error sending OTP:", error);
-                    displayTempMessage('error', error.message, 5);
-                });
+                } else {
+                    displayTempMessage('error', data.error || 'Failed to send OTP. Please try again.', 5);
+                }
+            } catch (error) {
+                console.error('Error sending OTP:', error);
+                displayTempMessage('error', 'Server error. Please try again later.', 5);
+            }
         }
 
-        // 2) Verify OTP
-        function verifyAndCreateAccount() {
+        async function verifyAndCreateAccount() {
             const code = document.getElementById('verificationCode').value.trim();
+            const fullPhone = phoneCountryCode.value + phoneField.value;
+
             if (!code) {
                 document.getElementById('verificationCodeError').textContent = 'Verification code is required';
                 return;
@@ -645,37 +597,52 @@
                 document.getElementById('verificationCodeError').textContent = '';
             }
 
-            confirmationResult.confirm(code)
-                .then(() => {
-                    // OTP verified
-                    const fullPhone = phoneCountryCode.value + phoneField.value;
-                    document.getElementById('verified_phone').value = fullPhone;
-                    displayTempMessage('verifiedSuccess', "Account Created Successfully!", 5);
+            try {
+                const response = await fetch("{{ route('verify.otp') }}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
+                    },
+                    body: JSON.stringify({
+                        phone: fullPhone,
+                        otp: code
+                    })
+                });
 
-                    // Now submit vendor form
+                const data = await response.json();
+                if (response.ok) {
+                    document.getElementById('verified_phone').value = fullPhone;
+                    displayTempMessage('verifiedSuccess', 'Account Created Successfully!', 5);
                     setTimeout(() => {
                         const form = document.getElementById('vendor-form');
                         form.action = "{{ route('vendor.vendor_registration') }}";
                         form.submit();
                     }, 2000);
-                })
-                .catch((error) => {
-                    console.error("OTP verification error:", error);
-                    document.getElementById('verificationCodeError').textContent = error.message;
-                });
+                } else {
+                    document.getElementById('verificationCodeError').textContent = data.error ||
+                        'Invalid OTP. Please try again.';
+                }
+            } catch (error) {
+                console.error('Error verifying OTP:', error);
+                document.getElementById('verificationCodeError').textContent = 'Server error. Please try again later.';
+            }
         }
 
-        // "Back" button from Step 2 -> Step 1
         function prevStep() {
             document.getElementById('step-2').style.display = 'none';
             document.getElementById('step-1').style.display = 'block';
+            clearInterval(resendTimer);
         }
 
-        // Resend OTP
         function resendCode() {
-            // re-init the 60s countdown
             timeLeft = 60;
             sendCodeAndContinue();
         }
+
+        // ----------------- On Load ----------------- //
+        window.onload = () => {
+            updateContinueButton();
+        };
     </script>
 @endsection
