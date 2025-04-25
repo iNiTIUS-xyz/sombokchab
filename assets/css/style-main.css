@@ -6098,6 +6098,7 @@ textarea {
   top: 100%;
   -webkit-transform: scale(1);
   transform: scale(1);
+  margin-top: 15px;
 }
 
 @media (min-width: 300px) and (max-width: 991.98px) {

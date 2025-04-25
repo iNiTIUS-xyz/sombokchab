@@ -17,9 +17,9 @@
                             <div class="alert alert-success" id="sentSuccess" style="display: none;">OTP Sent Successfully!
                             </div>
                             <div class="alert alert-success" id="verifiedSuccess" style="display: none;">Account Created
-                                Successfully!</div>
+                                Successfully!
+                            </div>
 
-                            <!-- Step 1: Account Details and Phone Number -->
                             <div id="step-1">
                                 <form id="account-form" method="post" enctype="multipart/form-data" novalidate>
                                     @csrf
@@ -49,7 +49,8 @@
                                         <!-- Name -->
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="label-title color-light mb-2"> {{ __('Name *') }} </label>
+                                                <label class="label-title color-light mb-2"> {{ __('Name *') }}
+                                                </label>
                                                 <input type="text" name="name" id="name" class="form-control"
                                                     placeholder="{{ __('Name *') }}" required>
                                                 <small class="text-danger" id="nameError"></small>
@@ -59,7 +60,8 @@
                                         <!-- Username -->
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="label-title color-light mb-2"> {{ __('Username *') }} </label>
+                                                <label class="label-title color-light mb-2"> {{ __('Username *') }}
+                                                </label>
                                                 <input type="text" name="username" id="username" class="form-control"
                                                     placeholder="{{ __('Username *') }}" required>
                                                 <small class="text-danger" id="usernameError"></small>
@@ -69,7 +71,8 @@
                                         <!-- Email (Optional) -->
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="label-title color-light mb-2"> {{ __('Email') }} </label>
+                                                <label class="label-title color-light mb-2"> {{ __('Email') }}
+                                                </label>
                                                 <input type="email" name="email" id="email" class="form-control"
                                                     placeholder="{{ __('Email') }}">
                                                 <small class="text-danger" id="emailError"></small>
@@ -79,7 +82,8 @@
                                         <!-- Password -->
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="label-title color-light mb-2"> {{ __('Password *') }} </label>
+                                                <label class="label-title color-light mb-2"> {{ __('Password *') }}
+                                                </label>
                                                 <input type="password" name="password" id="password" class="form-control"
                                                     placeholder="{{ __('Password *') }}" required>
                                                 <small>
@@ -94,7 +98,8 @@
                                         <!-- Confirm Password -->
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="label-title color-light mb-2"> {{ __('Confirm Password *') }}
+                                                <label class="label-title color-light mb-2">
+                                                    {{ __('Confirm Password *') }}
                                                 </label>
                                                 <input type="password" name="password_confirmation"
                                                     id="password_confirmation" class="form-control"
@@ -123,48 +128,49 @@
                                     <!-- reCAPTCHA container -->
                                     <div id="recaptcha-container"></div>
 
-                                    <button type="button" class="btn btn-next step-button-outline"
+                                    <button type="button" class="btn btn-next step-button-outline p-2"
                                         onclick="sendCodeAndContinue()" id="continueButton" disabled>
-                                        <i class="las la-arrow-right la-3x"></i>
+                                        <span class="">Next </span>
+                                        <i class="las la-arrow-right"></i>
                                     </button>
-                                    <!-- (We keep this p#resend-timer hidden or remove it if you prefer)
-                                                                        <p id="resend-timer" style="display:none; margin-top:10px; color: #ff0000;"></p> -->
                                 </form>
                             </div>
 
-                            <!-- Step 2: OTP Verification (REPLACED WITH YOUR SNIPPET) -->
                             <div id="step-2" style="display: none;">
-                                <button type="button" class="btn btn-prev step-button-outline mb-4"
-                                    onclick="prevStep()">
-                                    <i class="las la-arrow-left la-3x"></i>
-                                </button>
-                                <div class="form-group">
-                                    <label>Enter OTP</label>
-                                    <input type="text" id="verificationCode" class="form-control"
-                                        placeholder="6-digit Code">
-                                    <small class="text-danger" id="verificationCodeError"></small>
+                                <div class="col-12 pb-3 mb-4">
+                                    <div class="form-group">
+                                        <label>Enter OTP</label>
+                                        <input type="text" id="verificationCode" class="form-control"
+                                            placeholder="6-digit Code" style="border-radius: 10px;" />
+                                        <small class="text-danger" id="verificationCodeError"></small>
+                                        <button type="button"
+                                            style="background: transparent; border: none; text-decoration: underline; color: #41695a; float: right"
+                                            id="resendOtpButton" onclick="resendCode()" disabled>
+                                            Resend OTP <span id="resendTimer">(60s)</span>
+                                        </button>
+                                    </div>
                                 </div>
-                                <div class="mt-3 d-flex justify-content-between align-items-center">
-                                    <button type="button" class="btn"
-                                        style="background: transparent; border: 1px solid #41695a; text-decoration: underline; color: #41695a;"
-                                        id="resendOtpButton" onclick="resendCode()" disabled>
-                                        Resend OTP <span id="resendTimer">(60s)</span>
-                                    </button>
-                                    <button type="button" class="btn btn-next step-button-outline bg-success text-white"
-                                        onclick="verifyAndCreateAccount()">
-                                        Verify & Create Account
-                                    </button>
-                                    <!-- 'Resend OTP' button with 60s timer in #resendTimer -->
-                                </div>
-                            </div>
 
-                            <!-- Already have an account -->
-                            <div class="signin__account__para d-flex justify-content-center" style="margin-top: 3.5rem">
-                                <p class="info">{{ __('Already Have account?') }}</p>
-                                <a href="{{ route('user.login') }}" class="active">
-                                    <strong>{{ __('Sign in') }}</strong>
-                                </a>
+                                <div class="col-12 pb-3 mb-4">
+                                    <div class="mt-4">
+                                        <button type="button" class="btn btn-prev p-2 mb-4" onclick="prevStep()">
+                                            <i class="las la-arrow-left"></i>
+                                            <span class="">Back </span>
+                                        </button>
+                                        <button type="button" class="btn btn-next submit-button p-2"
+                                            onclick="verifyAndCreateAccount()" style="float: right">
+                                            Verify & Create Account
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
+                        </div>
+                        <!-- Already have an account -->
+                        <div class="signin__account__para d-flex justify-content-center" style="margin-top: 3.5rem">
+                            <p class="info">{{ __('Already have an account?') }}</p>
+                            <a href="{{ route('user.login') }}" class="active">
+                                <strong>{{ __('Sign In') }}</strong>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -195,6 +201,65 @@
             padding: 0px;
             border: none;
             font-weight: bold;
+        }
+    </style>
+
+    <style>
+        /* Match styling from your second snippet */
+        #vendor-form label {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .btn {
+            font-size: 16px;
+        }
+
+        .btn:disabled {
+            color: #656565;
+            background-color: transparent;
+            border-color: #656565;
+        }
+
+        #step-1 .btn.btn-next.step-button-outline {
+            border: 1px solid var(--main-color-one);
+            font-weight: bold;
+            float: right;
+            font-size: 16px;
+        }
+
+        #step-2 .btn.btn-prev.step-button {
+            border: none;
+            font-weight: bold;
+            border: 1px solid var(--main-color-one);
+        }
+
+        #step-2 .btn.btn-prev {
+            border: var(--main-color-one);
+            color: var(--main-color-one);
+            font-weight: bold;
+            border: 1px solid var(--main-color-one);
+        }
+
+        #step-2 .btn.btn-prev:hover {
+            color: #FFF;
+            font-weight: bold;
+            background: var(--main-color-one);
+            border: 1px solid var(--main-color-one);
+        }
+
+        #step-2 .btn.submit-button {
+            border: 1px solid var(--main-color-one);
+            font-weight: bold;
+            background: var(--main-color-one);
+            color: #FFF;
+        }
+
+        #step-2 .btn.submit-button:hover {
+            border: 1px solid #284137;
+            font-weight: bold;
+            background: #284137;
+            color: #FFF;
         }
     </style>
 @endsection

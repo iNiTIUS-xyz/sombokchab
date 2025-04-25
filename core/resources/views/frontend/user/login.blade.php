@@ -15,7 +15,7 @@
                         <div class="error-wrap"></div>
                         <div class="single-input">
                             <div class="phone-input">
-                                <label class="label-title mb-2"> {{ __('Phone Number') }} </label>
+                                <label class="label-title mb-1"> {{ __('Phone Number') }} </label>
                                 <div class="d-flex">
                                     <select id="phone_country_code" class="form-select"
                                         style="width: 30% !important; border: 1px solid rgba(221, 221, 221, 0.4) !important; box-shadow: 0 0 10px rgba(255, 255, 255, 0.1) !important;">
@@ -43,13 +43,13 @@
                             </div>
                         </div>
                         <!-- Password Input with Toggle Eye -->
-                        <div class="single-input mt-4">
+                        <div class="single-input">
                             <label class="label-title mb-2"> {{ __('Password') }} </label>
                             <div class="position-relative">
                                 <input class="form--control" type="password" id="login_password" name="password"
                                     placeholder="{{ __('Type Password') }}">
                                 <div class="toggle-password position-absolute"
-                                    style="right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;">
+                                    style="right: 10px; top: 45%; transform: translateY(-50%); cursor: pointer;">
                                     <span class="show-icon" style="display: inline;"> <i class="las la-eye-slash"></i>
                                     </span>
                                     <span class="hide-icon" style="display: none;"> <i class="las la-eye"></i> </span>
@@ -78,7 +78,7 @@
                         <div class="account-bottom">
                             <span class="account-title mt-3"> {{ __("Don't have an account?") }} </span>
                             <a href="{{ route('user.register') }}" class="signup-login mt-3">
-                                {{ __('Sign up') }}
+                                {{ __('Sign Up') }}
                             </a>
                         </div>
                     </div>

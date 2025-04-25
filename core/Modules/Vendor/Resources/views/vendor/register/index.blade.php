@@ -30,8 +30,10 @@
                     <div class="dashboard__card">
                         <!-- Alert messages to show/hide after 5s -->
                         <div class="alert alert-danger" id="error" style="display: none;"></div>
-                        <div class="alert alert-success" id="sentSuccess" style="display: none;">OTP Sent Successfully!</div>
-                        <div class="alert alert-success" id="verifiedSuccess" style="display: none;">Account Created Successfully!</div>
+                        <div class="alert alert-success" id="sentSuccess" style="display: none;">OTP Sent Successfully!
+                        </div>
+                        <div class="alert alert-success" id="verifiedSuccess" style="display: none;">Account Created
+                            Successfully!</div>
 
                         <!-- STEP 1: Vendor Registration Form Fields -->
                         <div id="step-1">
@@ -47,21 +49,14 @@
                                     <label class="label-title color-light mb-2"> {{ __('Phone Number *') }} </label>
                                     <div class="input-group">
                                         <!-- If you prefer a dropdown for phone country code, do so here:
-                                             for example: +1, +880, +855 -->
+                                                     for example: +1, +880, +855 -->
                                         <select id="phone_country_code" class="form-select" style="width: 30% !important;">
                                             <option value="+1" selected>+1</option>
                                             <option value="+880">+880</option>
                                             <option value="+855">+855</option>
                                         </select>
-                                        <input
-                                            id="number"
-                                            name="phone"
-                                            type="text"
-                                            class="form--control radius-10"
-                                            placeholder="Phone Number"
-                                            required
-                                            style="width: 70% !important;"
-                                        />
+                                        <input id="number" name="phone" type="text" class="form--control radius-10"
+                                            placeholder="Phone Number" required style="width: 70% !important;" />
                                     </div>
                                     <small class="text-danger" id="phoneError"></small>
                                 </div>
@@ -71,14 +66,9 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="label-title color-light mb-2"> {{ __('Owner Name *') }} </label>
-                                            <input
-                                                name="owner_name"
-                                                id="owner_name"
-                                                type="text"
-                                                class="form--control radius-10"
-                                                placeholder="{{ __('Owner Name') }}"
-                                                required
-                                            />
+                                            <input name="owner_name" id="owner_name" type="text"
+                                                class="form--control radius-10" placeholder="{{ __('Owner Name') }}"
+                                                required />
                                             <small class="text-danger" id="ownerNameError"></small>
                                         </div>
                                     </div>
@@ -87,14 +77,9 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="label-title color-light mb-2"> {{ __('Store Name *') }} </label>
-                                            <input
-                                                name="business_name"
-                                                id="business_name"
-                                                type="text"
-                                                class="form--control radius-10"
-                                                placeholder="{{ __('Store Name') }}"
-                                                required
-                                            />
+                                            <input name="business_name" id="business_name" type="text"
+                                                class="form--control radius-10" placeholder="{{ __('Store Name') }}"
+                                                required />
                                             <small class="text-danger" id="businessNameError"></small>
                                         </div>
                                     </div>
@@ -103,13 +88,8 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="label-title color-light mb-2"> {{ __('Email') }} </label>
-                                            <input
-                                                name="email"
-                                                id="email"
-                                                type="text"
-                                                class="form--control radius-10"
-                                                placeholder="{{ __('Email') }}"
-                                            />
+                                            <input name="email" id="email" type="text"
+                                                class="form--control radius-10" placeholder="{{ __('Email') }}" />
                                             <small class="text-danger" id="emailError"></small>
                                         </div>
                                     </div>
@@ -118,14 +98,9 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="label-title color-light mb-2"> {{ __('Username *') }} </label>
-                                            <input
-                                                name="username"
-                                                id="username"
-                                                type="text"
-                                                class="form--control radius-10"
-                                                placeholder="{{ __('Username') }}"
-                                                required
-                                            />
+                                            <input name="username" id="username" type="text"
+                                                class="form--control radius-10" placeholder="{{ __('Username') }}"
+                                                required />
                                             <small class="text-danger" id="usernameError"></small>
                                         </div>
                                     </div>
@@ -134,14 +109,9 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="label-title color-light mb-2"> {{ __('Password *') }} </label>
-                                            <input
-                                                name="password"
-                                                id="password"
-                                                type="password"
-                                                class="form--control radius-10"
-                                                placeholder="{{ __('Password') }}"
-                                                required
-                                            />
+                                            <input name="password" id="password" type="password"
+                                                class="form--control radius-10" placeholder="{{ __('Password') }}"
+                                                required />
                                             <small>
                                                 <ul>
                                                     <li>Minimum 8 characters</li>
@@ -154,15 +124,11 @@
                                     <!-- Confirm Password -->
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="label-title color-light mb-2"> {{ __('Confirm Password *') }} </label>
-                                            <input
-                                                name="password_confirmation"
-                                                id="password_confirmation"
-                                                type="password"
-                                                class="form--control radius-10"
-                                                placeholder="{{ __('Confirm Password') }}"
-                                                required
-                                            />
+                                            <label class="label-title color-light mb-2"> {{ __('Confirm Password *') }}
+                                            </label>
+                                            <input name="password_confirmation" id="password_confirmation"
+                                                type="password" class="form--control radius-10"
+                                                placeholder="{{ __('Confirm Password') }}" required />
                                             <small class="text-danger" id="passwordConfirmError"></small>
                                         </div>
                                     </div>
@@ -170,14 +136,11 @@
                                     <!-- Business Category -->
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="label-title color-light mb-2"> {{ __('Business Category *') }} </label>
+                                            <label class="label-title color-light mb-2"> {{ __('Business Category *') }}
+                                            </label>
                                             <div class="nice-select-two">
-                                                <select
-                                                    name="business_type"
-                                                    id="business_type"
-                                                    class="form--control radius-10"
-                                                    required
-                                                >
+                                                <select name="business_type" id="business_type"
+                                                    class="form--control radius-10" required>
                                                     <option value="">Select business type</option>
                                                     @foreach ($business_type as $item)
                                                         <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -191,15 +154,11 @@
                                     <!-- Passport / National ID -->
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="label-title color-light mb-2"> {{ __('Passport or National ID *') }} </label>
-                                            <input
-                                                name="passport_nid"
-                                                id="passport_nid"
-                                                type="text"
+                                            <label class="label-title color-light mb-2">
+                                                {{ __('Passport or National ID *') }} </label>
+                                            <input name="passport_nid" id="passport_nid" type="text"
                                                 class="form--control radius-10"
-                                                placeholder="{{ __('Passport or National ID') }}"
-                                                required
-                                            />
+                                                placeholder="{{ __('Passport or National ID') }}" required />
                                             <small class="text-danger" id="passportNidError"></small>
                                         </div>
                                     </div>
@@ -208,92 +167,60 @@
                                 <!-- Terms & Conditions -->
                                 <div class="form-group">
                                     <div class="box-wrap form-check">
-                                        <input
-                                            type="checkbox"
-                                            class="form-check-input"
-                                            id="toc_and_privacy"
-                                            name="agree_terms"
-                                            required
-                                        />
+                                        <input type="checkbox" class="form-check-input" id="toc_and_privacy"
+                                            name="agree_terms" required />
                                         <label class="form-check-label" for="toc_and_privacy">
                                             {{ __('Accept all') }}
                                             <a href="{{ url(get_static_option('toc_page_link')) }}" class="text-active">
                                                 {{ __('Terms and Conditions') }}
                                             </a> &amp;
-                                            <a href="{{ url(get_static_option('privacy_policy_link')) }}" class="text-active">
+                                            <a href="{{ url(get_static_option('privacy_policy_link')) }}"
+                                                class="text-active">
                                                 {{ __('Privacy Policy') }}
                                             </a>
                                         </label>
                                     </div>
                                     <small class="text-danger" id="termsError"></small>
                                 </div>
-
-                                <!-- reCAPTCHA -->
                                 <div id="recaptcha-container"></div>
-
-                                <!-- Continue Button -->
-                                <button
-                                    type="button"
-                                    class="btn btn-next step-button-outline p-2 my-4"
-                                    onclick="sendCodeAndContinue()"
-                                    id="continueButton"
-                                    disabled
-                                >
-                                <span class="">Next </span> 
-                                <i class="las la-arrow-right"></i>
+                                <button type="button" class="btn btn-next step-button-outline p-2 my-4"
+                                    onclick="sendCodeAndContinue()" id="continueButton" disabled>
+                                    <span class="">Next </span>
+                                    <i class="las la-arrow-right"></i>
                                 </button>
                             </form>
                         </div>
 
                         <!-- STEP 2: OTP Verification -->
                         <div id="step-2" style="display: none;">
-                            <button
-                                type="button"
-                                class="btn btn-prev p-2 mb-4"
-                                onclick="prevStep()"
-                            >
-                            <span class="">Back </span> 
-                            <i class="las la-arrow-left"></i>
+                            <button type="button" class="btn btn-prev p-2 mb-4" onclick="prevStep()">
+                                <span class="">Back </span>
+                                <i class="las la-arrow-left"></i>
                             </button>
 
                             <div class="form-group">
                                 <label>Enter OTP</label>
-                                <input
-                                    type="text"
-                                    id="verificationCode"
-                                    class="form-control"
-                                    placeholder="6-digit Code"
-                                    style="border-radius: 10px;"
-                                />
+                                <input type="text" id="verificationCode" class="form-control"
+                                    placeholder="6-digit Code" style="border-radius: 10px;" />
                                 <small class="text-danger" id="verificationCodeError"></small>
                             </div>
 
                             <div class="col-12 pb-3 mb-4">
                                 <div class="mt-4">
-                                    <button
-                                        type="button"
-                                        class="btn btn-link p-2"
-                                        id="resendOtpButton"
-                                        onclick="resendCode()"
-                                        disabled
-                                        style="float: left"
-                                    >
+                                    <button type="button" class="btn btn-link p-2" id="resendOtpButton"
+                                        onclick="resendCode()" disabled style="float: left">
                                         Resend OTP <span id="resendTimer">(60s)</span>
                                     </button>
 
-                                    <button
-                                        type="button"
-                                        class="btn btn-next submit-button p-2"
-                                        onclick="verifyAndCreateAccount()"
-                                        style="float: right"
-                                    >
+                                    <button type="button" class="btn btn-next submit-button p-2"
+                                        onclick="verifyAndCreateAccount()" style="float: right">
                                         Verify & Create Account
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
@@ -305,37 +232,44 @@
             font-size: 16px;
             font-weight: bold;
         }
-        .btn{
+
+        .btn {
             font-size: 16px;
         }
+
         .btn:disabled {
             color: #656565;
             background-color: transparent;
             border-color: #656565;
         }
+
         #step-1 .btn.btn-next.step-button-outline {
             border: 1px solid var(--main-color-one);
             font-weight: bold;
             float: right;
             font-size: 16px;
         }
+
         #step-2 .btn.btn-prev.step-button {
             border: none;
             font-weight: bold;
             border: 1px solid var(--main-color-one);
         }
+
         #step-2 .btn.btn-prev {
             border: var(--main-color-one);
             color: var(--main-color-one);
             font-weight: bold;
             border: 1px solid var(--main-color-one);
         }
+
         #step-2 .btn.btn-prev:hover {
             color: #FFF;
             font-weight: bold;
             background: var(--main-color-one);
             border: 1px solid var(--main-color-one);
         }
+
         #step-2 .btn.submit-button {
             border: 1px solid var(--main-color-one);
             font-weight: bold;
@@ -355,7 +289,9 @@
 @section('script')
     <!-- Firebase and Google Captcha Scripts (Consolidated) -->
     <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase.js"></script>
-    <script src="https://www.google.com/recaptcha/api.js?render={{ get_static_option('site_google_captcha_v3_site_key') }}"></script>
+    <script
+        src="https://www.google.com/recaptcha/api.js?render={{ get_static_option('site_google_captcha_v3_site_key') }}">
+    </script>
 
     <script>
         // ----------------- reCAPTCHA & Firebase Init ----------------- //
@@ -382,35 +318,35 @@
         let confirmationResult = null;
 
         // ----------------- FIELD & ELEMENT REFS ----------------- //
-        const phoneCountryCode  = document.getElementById('phone_country_code');
-        const phoneField        = document.getElementById('number');
-        const ownerNameField    = document.getElementById('owner_name');
+        const phoneCountryCode = document.getElementById('phone_country_code');
+        const phoneField = document.getElementById('number');
+        const ownerNameField = document.getElementById('owner_name');
         const businessNameField = document.getElementById('business_name');
-        const emailField        = document.getElementById('email');
-        const usernameField     = document.getElementById('username');
-        const passwordField     = document.getElementById('password');
-        const confirmField      = document.getElementById('password_confirmation');
+        const emailField = document.getElementById('email');
+        const usernameField = document.getElementById('username');
+        const passwordField = document.getElementById('password');
+        const confirmField = document.getElementById('password_confirmation');
         const businessTypeField = document.getElementById('business_type');
-        const passportNidField  = document.getElementById('passport_nid');
-        const termsCheckbox     = document.getElementById('toc_and_privacy');
+        const passportNidField = document.getElementById('passport_nid');
+        const termsCheckbox = document.getElementById('toc_and_privacy');
 
         // Error displays
-        const phoneErrorEl        = document.getElementById('phoneError');
-        const ownerNameErrorEl    = document.getElementById('ownerNameError');
+        const phoneErrorEl = document.getElementById('phoneError');
+        const ownerNameErrorEl = document.getElementById('ownerNameError');
         const businessNameErrorEl = document.getElementById('businessNameError');
-        const emailErrorEl        = document.getElementById('emailError');
-        const usernameErrorEl     = document.getElementById('usernameError');
-        const passwordErrorEl     = document.getElementById('passwordError');
-        const confirmErrorEl      = document.getElementById('passwordConfirmError');
+        const emailErrorEl = document.getElementById('emailError');
+        const usernameErrorEl = document.getElementById('usernameError');
+        const passwordErrorEl = document.getElementById('passwordError');
+        const confirmErrorEl = document.getElementById('passwordConfirmError');
         const businessTypeErrorEl = document.getElementById('businessTypeError');
-        const passportNidErrorEl  = document.getElementById('passportNidError');
-        const termsErrorEl        = document.getElementById('termsError');
+        const passportNidErrorEl = document.getElementById('passportNidError');
+        const termsErrorEl = document.getElementById('termsError');
 
-        const continueButton      = document.getElementById('continueButton');
+        const continueButton = document.getElementById('continueButton');
 
         // Timer references
         let resendTimer = null;
-        let timeLeft    = 60;
+        let timeLeft = 60;
 
         // ----------------- ON LOAD: Render reCAPTCHA ----------------- //
         window.onload = function() {
@@ -466,9 +402,9 @@
             if (!value.trim()) return 'Username is required';
             // 3-20 chars, letters/digits/dot/underscore, no spaces
             const re = /^[A-Za-z0-9._]{3,20}$/;
-            return re.test(value)
-              ? ''
-              : 'Username must be 3–20 chars (letters, numbers, ., _) with no spaces';
+            return re.test(value) ?
+                '' :
+                'Username must be 3–20 chars (letters, numbers, ., _) with no spaces';
         }
 
         function validatePassword(value) {
@@ -506,7 +442,10 @@
                         'Content-Type': 'application/json',
                         'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
                     },
-                    body: JSON.stringify({ field, value })
+                    body: JSON.stringify({
+                        field,
+                        value
+                    })
                 });
                 if (resp.ok) {
                     return ''; // no conflict
