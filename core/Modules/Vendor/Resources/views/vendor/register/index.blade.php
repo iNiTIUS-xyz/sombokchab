@@ -47,13 +47,14 @@
                                 <div class="form-group">
                                     <label class="label-title color-light mb-2"> {{ __('Phone Number *') }} </label>
                                     <div class="input-group">
-                                        <select id="phone_country_code" name="phone_country_code" class="form-select" style="width: 30% !important;">
+                                        <select id="phone_country_code" name="phone_country_code" class="form-select"
+                                            style="width: 15% !important;">
                                             <option value="+1" selected>+1</option>
                                             <option value="+880">+880</option>
                                             <option value="+855">+855</option>
                                         </select>
                                         <input id="number" name="phone" type="text" class="form--control radius-10"
-                                            placeholder="Phone Number" required style="width: 70% !important;" />
+                                            placeholder="Phone Number" required style="width: 85% !important;" />
                                     </div>
                                     <small class="text-danger" id="phoneError"></small>
                                 </div>
@@ -277,6 +278,17 @@
             font-weight: bold;
             background: #284137;
             color: #FFF;
+        }
+
+        .form--control {
+            width: 100%;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 20px;
+            color: var(--paragraph-color);
+            height: 48px;
+            border: 1px solid var(--border-two);
+            border-radius: 5px;
         }
     </style>
 @endsection

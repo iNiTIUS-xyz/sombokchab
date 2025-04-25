@@ -92,7 +92,7 @@ class VendorLoginController extends Controller
         }
 
         return response()->json([
-            'msg' => ($login_key == 'email' ? __('Email') : __('Phone Number')) . __(' or Password does not match!'),
+            'msg' => "Your sign in credentials don't match our record!",
             'type' => 'danger',
             'status' => 'invalid',
         ]);
@@ -159,16 +159,26 @@ class VendorLoginController extends Controller
 
         $exists = false;
 
+        $msg = '';
+
         if ($field === 'phone') {
             $exists = \DB::table('vendors')->where('phone', $value)->exists();
+
+            $msg = 'Phone number already exists';
+
         } elseif ($field === 'email') {
             $exists = \DB::table('vendors')->where('email', $value)->exists();
+
+            $msg = 'Email address already exists';
+
         } elseif ($field === 'username') {
             $exists = \DB::table('vendors')->where('username', $value)->exists();
+
+            $msg = 'Username already taken';
         }
 
         if ($exists) {
-            return response()->json(['error' => ucfirst($field) . ' already exists.'], 409);
+            return response()->json(['error' => $msg], 409);
         }
 
         return response()->json(['success' => true], 200);
