@@ -26734,7 +26734,7 @@ th.sorting_desc {
   border: 0;
   border-left: 4px solid #842029;
   font-size: 18px;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 
 .form-control {
@@ -27967,7 +27967,7 @@ button.submit-btn.gd-bg.pay-now {
 
 /* Those line are added by riyad hossain for checkout page */
 .error-wrap li {
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 
 .popup_modal_checkout {
