@@ -83,8 +83,13 @@
                         </div>
                     
                         <!-- Password Input with Toggle Eye -->
+<<<<<<< Updated upstream
                         <div class="single-input mt-4">
                             <label class="label-title mb-2"> {{ __("Password") }} </label>
+=======
+                        <div class="single-input mt-2">
+                            <label class="label-title mb-2"> {{ __('Password') }} </label>
+>>>>>>> Stashed changes
                             <div class="position-relative">
                                 <input class="form--control" type="password" id="login_password" name="password" placeholder="{{ __('Type Password') }}">
                                 <div class="toggle-password position-absolute" style="right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;">

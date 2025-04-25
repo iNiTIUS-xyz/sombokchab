@@ -234,7 +234,7 @@
                                 <!-- Continue Button -->
                                 <button
                                     type="button"
-                                    class="btn btn-next step-button-outline p-2 my-4"
+                                    class="btn btn-next step-button-outline p-2 mb-4"
                                     onclick="sendCodeAndContinue()"
                                     id="continueButton"
                                     disabled

@@ -63,6 +63,7 @@
                                         </div>
                                     </div>
 
+<<<<<<< Updated upstream
                                     <!-- Email (Optional) -->
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -197,6 +198,87 @@
                             <a href="{{ route('user.login') }}" class="active">
                                 <strong>{{ __('Sign in') }}</strong>
                             </a>
+=======
+                                    <button
+                                        type="button"
+                                        class="btn btn-next step-button-outline p-2 mb-4"
+                                        onclick="sendCodeAndContinue()"
+                                        id="continueButton"
+                                        disabled
+                                    >
+                                        <span class="">Next </span> 
+                                        <i class="las la-arrow-right"></i>
+                                    </button>
+
+                                    {{-- <button type="button" class="btn btn-next step-button-outline"
+                                        onclick="sendCodeAndContinue()" id="continueButton" disabled>
+                                        <i class="las la-arrow-right la-3x"></i>
+                                    </button> --}}
+                                    <!-- (We keep this p#resend-timer hidden or remove it if you prefer)
+                                                                        <p id="resend-timer" style="display:none; margin-top:10px; color: #ff0000;"></p> -->
+                                </form>
+                            </div>
+
+                            <!-- Step 2: OTP Verification (REPLACED WITH YOUR SNIPPET) -->
+                            <div id="step-2" style="display: none;">
+                                <button
+                                    type="button"
+                                    class="btn btn-prev p-2 mb-4"
+                                    onclick="prevStep()"
+                                >
+                                <i class="las la-arrow-left"></i>
+                                <span class="">Back </span> 
+                                
+                                </button>
+                                {{-- <button type="button" class="btn btn-prev step-button-outline mb-4"
+                                    onclick="prevStep()">
+                                    <i class="las la-arrow-left la-3x"></i>
+                                </button> --}}
+                                <div class="form-group">
+                                    <label>Enter OTP</label>
+                                    <input type="text" id="verificationCode" class="form-control"
+                                        placeholder="6-digit Code">
+                                    <small class="text-danger" id="verificationCodeError"></small>
+                                </div>
+                                <div class="mt-3 d-flex justify-content-between align-items-center">
+                                    <button
+                                        type="button"
+                                        class="btn btn-link p-2"
+                                        id="resendOtpButton" onclick="resendCode()" disabled
+                                        style="float: left"
+                                    >
+                                        Resend OTP <span id="resendTimer">(60s)</span>
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        class="btn btn-next submit-button p-2"
+                                        onclick="verifyAndCreateAccount()"
+                                        style="float: right"
+                                    >
+                                        Verify & Create Account
+                                    </button>
+                                    {{-- <button type="button" class="btn"
+                                        style="background: transparent; border: 1px solid #41695a; text-decoration: underline; color: #41695a;"
+                                        id="resendOtpButton" onclick="resendCode()" disabled>
+                                        Resend OTP <span id="resendTimer">(60s)</span>
+                                    </button>
+                                    <button type="button" class="btn btn-next step-button-outline btn-submit text-white" style="background: #41695a"
+                                        onclick="verifyAndCreateAccount()">
+                                        Verify & Create Account
+                                    </button> --}}
+                                    <!-- 'Resend OTP' button with 60s timer in #resendTimer -->
+                                </div>
+                            </div>
+
+                            <!-- Already have an account -->
+                            <div class="signin__account__para d-flex justify-content-center" style="margin-top: 4.5rem">
+                                <p class="info">{{ __('Already have an account?') }}</p>
+                                <a href="{{ route('user.login') }}" class="active">
+                                    <strong>{{ __('Sign in') }}</strong>
+                                </a>
+                            </div>
+>>>>>>> Stashed changes
                         </div>
                     </div>
                 </div>
@@ -205,6 +287,7 @@
     </div>
 </section>
 
+<<<<<<< Updated upstream
 <style>
     /* Match styling from your second snippet */
     #account-form label {
@@ -256,6 +339,88 @@
         color: #FFF;
     }
 </style>
+=======
+    <style>
+        /* 
+        #account-form label {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .btn:disabled {
+            color: #FFF;
+            background-color: #656565;
+            border-color: #656565;
+        }
+
+        #step-1 .btn.btn-next.step-button-outline {
+            padding: 0px;
+            border: none;
+            font-weight: bold;
+            float: right;
+        }
+
+        #step-2 .btn.btn-prev.step-button-outline {
+            padding: 0px;
+            border: none;
+            font-weight: bold;
+        }
+        .btn-next.step-button-outline.btn-submit:hover{
+            background: #243831
+        }
+    </style>
+    <style> */
+        /* Match styling from your second snippet */
+        #account-form label {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .btn{
+            font-size: 16px;
+        }
+        .btn:disabled {
+            color: #656565;
+            background-color: transparent;
+            border-color: #656565;
+        }
+        #step-1 .btn.btn-next.step-button-outline {
+            border: 1px solid var(--main-color-one);
+            font-weight: bold;
+            float: right;
+            font-size: 16px;
+        }
+        #step-2 .btn.btn-prev.step-button {
+            border: none;
+            font-weight: bold;
+            border: 1px solid var(--main-color-one);
+        }
+        #step-2 .btn.btn-prev {
+            border: var(--main-color-one);
+            color: var(--main-color-one);
+            font-weight: bold;
+            border: 1px solid var(--main-color-one);
+        }
+        #step-2 .btn.btn-prev:hover {
+            color: #FFF;
+            font-weight: bold;
+            background: var(--main-color-one);
+            border: 1px solid var(--main-color-one);
+        }
+        #step-2 .btn.submit-button {
+            border: 1px solid var(--main-color-one);
+            font-weight: bold;
+            background: var(--main-color-one);
+            color: #FFF;
+        }
+
+        #step-2 .btn.submit-button:hover {
+            border: 1px solid #284137;
+            font-weight: bold;
+            background: #284137;
+            color: #FFF;
+        }
+    </style>
+>>>>>>> Stashed changes
 @endsection
 
 @section('script')
@@ -377,6 +542,7 @@
         }
     }
 
+<<<<<<< Updated upstream
     // Show a message for X seconds, then hide
     function displayTempMessage(elementId, message, seconds = 5) {
         const el = document.getElementById(elementId);
@@ -415,6 +581,14 @@
         let errorMsg = validatePhone(fullPhone);
         if (!errorMsg) {
             errorMsg = await checkFieldAvailability('phone', fullPhone);
+=======
+        function validateEmail(value) {
+            const trimmed = value.trim();
+            if (!trimmed) return ''; // optional
+            if (/\s/.test(trimmed)) return 'Email can not contain spaces';
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(trimmed) ? '' : 'Invalid email';
+>>>>>>> Stashed changes
         }
         phoneErrorEl.textContent = errorMsg;
         updateContinueButton();
