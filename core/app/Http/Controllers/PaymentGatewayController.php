@@ -664,7 +664,7 @@ class PaymentGatewayController extends Controller
     {
         Order::where('id', $order_id)->update([
             'transaction_id' => $transaction_id,
-            'order_status' => 'complete',
+            'order_status' => 'processing',
             'payment_status' => 'complete',
             'updated_at' => Carbon::now()
         ]);
