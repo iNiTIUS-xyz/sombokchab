@@ -473,7 +473,7 @@
             }
 
             try {
-                const response = await fetch('http://localhost/sombokchab/send-otp', { // Adjust route as needed
+                const response = await fetch("{{ route('send.otp') }}", { // Adjust route as needed
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -513,7 +513,7 @@
             }
 
             try {
-                const response = await fetch('http://localhost/sombokchab/verify-otp', { // Adjust route as needed
+                const response = await fetch("{{ route('verify.otp') }}", { // Adjust route as needed
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

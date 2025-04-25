@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Admin;
-use Modules\CountryManage\Entities\Country;
-use App\Helpers\CountryHelper;
-use Illuminate\Routing\Controller;
 use App\User;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Admin;
 use Illuminate\Http\Request;
+use App\Helpers\CountryHelper;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Validator;
+use Modules\CountryManage\Entities\Country;
+use Illuminate\Foundation\Auth\RegistersUsers;
 use Modules\Wallet\Http\Services\WalletService;
 
 class RegisterController extends Controller
@@ -55,6 +57,7 @@ class RegisterController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'agree_terms' => ['required'],
             'phone' => ['required', 'max:20', 'unique:users'],
+            'phone_country_code' => ['nullable'],
         ], [
             'captcha_token.required' => __('google captcha is required'),
             'name.required' => __('name is required'),
@@ -91,12 +94,12 @@ class RegisterController extends Controller
             'state' => $data['state'] ?? null,
             'city' => $data['city'] ?? null,
             'username' => $data['username'],
-            'phone' => $data['phone'],
+            'phone' => $data['phone_country_code'] . $data['phone'],
             'password' => Hash::make($data['password']),
         ]);
 
         // create wallet fot this user if module exists
-        if (moduleExists("Wallet")){
+        if (moduleExists("Wallet")) {
             WalletService::createWallet($user->id, "user");
         }
 
@@ -115,7 +118,8 @@ class RegisterController extends Controller
         return redirect()->route('admin.home');
     }
 
-    public function showAdminRegistrationForm() {
+    public function showAdminRegistrationForm()
+    {
         return view('auth.admin.register');
     }
 
@@ -124,7 +128,7 @@ class RegisterController extends Controller
         $all_country = Country::where('status', 'publish')->get();
         return view('frontend.user.register', compact('all_country'));
     }
-    
+
     public function checkUserDataAvailability(Request $request)
     {
         $field = $request->input('field');
@@ -146,5 +150,4 @@ class RegisterController extends Controller
 
         return response()->json(['success' => true], 200);
     }
-
 }
