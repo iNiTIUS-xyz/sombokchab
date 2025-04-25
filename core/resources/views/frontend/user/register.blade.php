@@ -14,10 +14,10 @@
 
                             {{-- Alert messages to show for 5s and then hide --}}
                             <div class="alert alert-danger" id="error" style="display: none;"></div>
-                            <div class="alert alert-success" id="sentSuccess" style="display: none;">OTP Sent Successfully!
+                            <div class="alert alert-success" id="sentSuccess" style="display: none;">OTP sent successfully!
                             </div>
-                            <div class="alert alert-success" id="verifiedSuccess" style="display: none;">Account Created
-                                Successfully!
+                            <div class="alert alert-success" id="verifiedSuccess" style="display: none;">Account created
+                                successfully!
                             </div>
 
                             <div id="step-1">

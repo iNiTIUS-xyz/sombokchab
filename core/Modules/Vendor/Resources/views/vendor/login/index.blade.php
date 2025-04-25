@@ -77,7 +77,7 @@
                     <div class="dashboard-bottom-contents">
                         <div class="account-bottom">
                             <span class="account-title mt-3"> {{ __("Don't have an account?") }} </span>
-                            <a href="{{ route('user.register') }}" class="signup-login mt-3">
+                            <a href="{{ route('vendor.register') }}" class="signup-login mt-3">
                                 {{ __('Sign Up') }}
                             </a>
                         </div>
