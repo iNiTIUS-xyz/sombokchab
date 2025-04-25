@@ -70,7 +70,7 @@
                             <label class="checkbox-label" for="login_remember"> {{ __('Remember Me') }} </label>
                         </div>
                         <div class="forgot-password">
-                            <a href="{{ route('user.forget.password') }}" class="forgot-btn color-one">
+                            <a href="{{ route('vendor.forget.password') }}" class="forgot-btn color-one">
                                 {{ __('Forgot Password?') }} </a>
                         </div>
                     </div>
