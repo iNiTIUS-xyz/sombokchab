@@ -1,14 +1,14 @@
 @extends('tenant.frontend.frontend-page-master')
 @section('site-title')
-    {{ __('Forget Password') }}
+    {{ __('Forgot Password') }}
 @endsection
 
 @section('page-title')
-    {{ __('Forget Password') }}
+    {{ __('Forgot Password') }}
 @endsection
 
 @section('custom-page-title')
-    {{ __('Forget Password') }}
+    {{ __('Forgot Password') }}
 @endsection
 
 @section('content')
