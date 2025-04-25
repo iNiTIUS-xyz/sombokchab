@@ -1,14 +1,14 @@
 @extends('tenant.frontend.frontend-page-master')
 @section('site-title')
-    {{ __('Forget Password') }}
+    {{ __('Forgot Password') }}
 @endsection
 
 @section('page-title')
-    {{ __('Forget Password') }}
+    {{ __('Forgot Password') }}
 @endsection
 
 @section('custom-page-title')
-    {{ __('Forget Password') }}
+    {{ __('Forgot Password') }}
 @endsection
 
 @section('content')
@@ -17,7 +17,7 @@
             <div class="row justify-content-center">
                 <div class="col-lg-6">
                     <div class="login-form-wrapper">
-                        <h2 class="single-title">{{ __('Forget Password ?') }}</h2>
+                        <h2 class="single-title">{{ __('Forgot Password ?') }}</h2>
                         <x-error-msg />
                         <x-flash-msg />
                         <form action="{{ route('tenant.user.forget.password') }}" method="post" enctype="multipart/form-data"
