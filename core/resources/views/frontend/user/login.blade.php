@@ -50,9 +50,12 @@
                                     placeholder="{{ __('Type Password') }}">
                                 <div class="toggle-password position-absolute"
                                     style="right: 10px; top: 45%; transform: translateY(-50%); cursor: pointer;">
-                                    <span class="show-icon" style="display: inline;"> <i class="las la-eye-slash"></i>
+                                    <span class="hide-icon" style="display: inline;">
+                                        <i class="las la-eye-slash"></i>
                                     </span>
-                                    <span class="hide-icon" style="display: none;"> <i class="las la-eye"></i> </span>
+                                    <span class="show-icon" style="display: none;">
+                                        <i class="las la-eye"></i>
+                                    </span>
                                 </div>
                             </div>
                             <small id="login_password_error" class="text-danger"></small>
@@ -162,23 +165,23 @@
     </script>
 
     <script>
-        // Toggle Password Visibility
-        const passwordInput = document.getElementById('login_password');
-        const showIcon = document.querySelector('.show-icon');
-        const hideIcon = document.querySelector('.hide-icon');
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordInput = document.getElementById('login_password');
+            const showIcon = document.querySelector('.show-icon');
+            const hideIcon = document.querySelector('.hide-icon');
 
-        showIcon.addEventListener('click', function() {
-            passwordInput.type = 'text';
-            showIcon.style.display = 'none';
-            hideIcon.style.display = 'inline';
+            showIcon.addEventListener('click', function() {
+                passwordInput.type = 'text';
+                showIcon.style.display = 'none';
+                hideIcon.style.display = 'inline';
+            });
+
+            hideIcon.addEventListener('click', function() {
+                passwordInput.type = 'password';
+                showIcon.style.display = 'inline';
+                hideIcon.style.display = 'none';
+            });
         });
-
-        hideIcon.addEventListener('click', function() {
-            passwordInput.type = 'password';
-            showIcon.style.display = 'inline';
-            hideIcon.style.display = 'none';
-        });
-
         // Toggle Phone/Email
         document.getElementById('togglePhoneEmail').addEventListener('click', function() {
             const phoneInput = document.querySelector('.phone-input');

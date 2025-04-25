@@ -51,7 +51,7 @@
                                             <div class="form-group">
                                                 <label class="label-title color-light mb-2"> {{ __('Name *') }}
                                                 </label>
-                                                <input type="text" name="name" id="name" class="form-control"
+                                                <input type="text" name="name" id="name" class="form--control radius-10"
                                                     placeholder="{{ __('Name *') }}" required>
                                                 <small class="text-danger" id="nameError"></small>
                                             </div>
@@ -62,7 +62,7 @@
                                             <div class="form-group">
                                                 <label class="label-title color-light mb-2"> {{ __('Username *') }}
                                                 </label>
-                                                <input type="text" name="username" id="username" class="form-control"
+                                                <input type="text" name="username" id="username" class="form--control radius-10"
                                                     placeholder="{{ __('Username *') }}" required>
                                                 <small class="text-danger" id="usernameError"></small>
                                             </div>
@@ -73,7 +73,7 @@
                                             <div class="form-group">
                                                 <label class="label-title color-light mb-2"> {{ __('Email') }}
                                                 </label>
-                                                <input type="email" name="email" id="email" class="form-control"
+                                                <input type="email" name="email" id="email" class="form--control radius-10"
                                                     placeholder="{{ __('Email') }}">
                                                 <small class="text-danger" id="emailError"></small>
                                             </div>
@@ -84,7 +84,7 @@
                                             <div class="form-group">
                                                 <label class="label-title color-light mb-2"> {{ __('Password *') }}
                                                 </label>
-                                                <input type="password" name="password" id="password" class="form-control"
+                                                <input type="password" name="password" id="password" class="form--control radius-10"
                                                     placeholder="{{ __('Password *') }}" required>
                                                 <small>
                                                     <ul>
@@ -102,7 +102,7 @@
                                                     {{ __('Confirm Password *') }}
                                                 </label>
                                                 <input type="password" name="password_confirmation"
-                                                    id="password_confirmation" class="form-control"
+                                                    id="password_confirmation" class="form--control radius-10"
                                                     placeholder="{{ __('Confirm Password *') }}" required>
                                                 <small class="text-danger" id="passwordConfirmError"></small>
                                             </div>
@@ -140,7 +140,7 @@
                                 <div class="col-12 pb-3 mb-4">
                                     <div class="form-group">
                                         <label>Enter OTP</label>
-                                        <input type="text" id="verificationCode" class="form-control"
+                                        <input type="text" id="verificationCode" class="form--control radius-10"
                                             placeholder="6-digit Code" style="border-radius: 10px;" />
                                         <small class="text-danger" id="verificationCodeError"></small>
                                         <button type="button"
