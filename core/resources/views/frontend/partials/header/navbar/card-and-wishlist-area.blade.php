@@ -120,6 +120,8 @@
                     </form>
                 </li>
             </ul>
+        @elseif (auth('vendor')->check())
+            <a href="{{ route('vendor.home') }}" style="color: #fff">Dashboard</a>
         @else
             <a class="accounts" href="#1"><i class="las la-user"></i> <span
                         class="icon-title">{{ __('Account') }}</span></a>
