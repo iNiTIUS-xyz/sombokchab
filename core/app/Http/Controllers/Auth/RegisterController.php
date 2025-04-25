@@ -135,17 +135,21 @@ class RegisterController extends Controller
         $value = $request->input('value');
 
         $exists = false;
+        $msg = '';
 
         if ($field === 'phone') {
             $exists = \DB::table('users')->where('phone', $value)->exists();
+            $msg = 'Phone number already exists';
         } elseif ($field === 'email') {
             $exists = \DB::table('users')->where('email', $value)->exists();
+            $msg = 'Email address already exists';
         } elseif ($field === 'username') {
             $exists = \DB::table('users')->where('username', $value)->exists();
+            $msg = 'Username already taken';
         }
 
         if ($exists) {
-            return response()->json(['error' => ucfirst($field) . ' already exists.'], 409);
+            return response()->json(['error' => $msg], 409);
         }
 
         return response()->json(['success' => true], 200);
