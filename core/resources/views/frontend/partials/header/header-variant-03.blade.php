@@ -142,22 +142,26 @@
                                             {{ __('Order Tracking') }}
                                         </a>
                                     </li>
-                                    @if (!auth('web')->check())
-                                        @if (get_static_option('enable_vendor_registration') === 'on')
-                                            <li class="me-2">
-                                                <a class="btn btn-sm text-dark become-a-seller-button"
-                                                    href="{{ route('vendor.register') }}"
-                                                    style="background-color: var(--main-color-two);">
-                                                    {{ __('Become a Vendor') }}
+                                    @if (auth('vendor')->check())
+                                        {{-- Vendor is logged in --}}
+                                    @else
+                                        @if (!auth('web')->check())
+                                            @if (get_static_option('enable_vendor_registration') === 'on')
+                                                <li class="me-2">
+                                                    <a class="btn btn-sm text-dark become-a-seller-button"
+                                                        href="{{ route('vendor.register') }}"
+                                                        style="background-color: var(--main-color-two);">
+                                                        {{ __('Become a Vendor') }}
+                                                    </a>
+                                                </li>
+                                            @endif
+
+                                            <li class="">
+                                                <a href="{{ route('vendor.login') }}">
+                                                    {{ __('Vendor Sign in') }}
                                                 </a>
                                             </li>
                                         @endif
-
-                                        <li class="">
-                                            <a href="{{ route('vendor.login') }}">
-                                                {{ __('Vendor Sign in') }}
-                                            </a>
-                                        </li>
                                     @endif
                                     {!! render_frontend_menu(get_static_option('topbar_menu')) !!}
                                 </ul>
@@ -236,22 +240,26 @@
                                             {{ __('Order Tracking') }}
                                         </a>
                                     </li>
-                                    @if (!auth('web')->check())
-                                        @if (get_static_option('enable_vendor_registration') === 'on')
-                                            <li class="me-2">
-                                                <a class="btn btn-sm text-dark become-a-seller-button"
-                                                    href="{{ route('vendor.register') }}"
-                                                    style="background-color: var(--main-color-two);">
-                                                    {{ __('Become a Vendor') }}
+                                    @if (auth('vendor')->check())
+                                        {{-- Vendor is logged in --}}
+                                    @else
+                                        @if (!auth('web')->check())
+                                            @if (get_static_option('enable_vendor_registration') === 'on')
+                                                <li class="me-2">
+                                                    <a class="btn btn-sm text-dark become-a-seller-button"
+                                                        href="{{ route('vendor.register') }}"
+                                                        style="background-color: var(--main-color-two);">
+                                                        {{ __('Become a Vendor') }}
+                                                    </a>
+                                                </li>
+                                            @endif
+
+                                            <li class="">
+                                                <a href="{{ route('vendor.login') }}">
+                                                    {{ __('Vendor Sign in') }}
                                                 </a>
                                             </li>
                                         @endif
-
-                                        <li class="">
-                                            <a href="{{ route('vendor.login') }}">
-                                                {{ __('Vendor Sign in') }}
-                                            </a>
-                                        </li>
                                     @endif
 
                                 </ul>
