@@ -53,15 +53,15 @@ class ContactInfoWidget extends WidgetBase
 
         $output .= '<ul class="footer-link-address">';
 
-        if (!empty($location)) {
-            $output .= '<li class="list">
-                <span class="address">
-                    <a href="#1"><i class="las la-map-marker icon icon-address"></i>
-                        '.purify_html($location).'
-                    </a>
-                </span>
-            </li>';
-        }
+        // if (!empty($location)) {
+        //     $output .= '<li class="list">
+        //         <span class="address">
+        //             <a href="#1"><i class="las la-map-marker icon icon-address"></i>
+        //                 '.purify_html($location).'
+        //             </a>
+        //         </span>
+        //     </li>';
+        // }
 
         if (!empty($phone)) {
             $output .= 
