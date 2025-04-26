@@ -142,10 +142,8 @@ Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_
     Route::post('vendor/forget-password', [FrontendController::class, "sendVendorForgetPasswordMail"])->name('vendor.forget.password');
 
 
-    Route::post('/vendor-check-phone-existence', [FrontendController::class, 'checkVendorPhoneExistence'])
-        ->name('vendor.check-phone-existence');
-    Route::post('/vendor-update-forgot-password', [FrontendController::class, 'updateVendorForgotPassword'])
-        ->name('vendor.update-forgot-password');
+    Route::post('/vendor-check-phone-existence', [FrontendController::class, 'checkVendorPhoneExistence'])->name('vendor.check-phone-existence');
+    Route::post('/vendor-update-forgot-password', [FrontendController::class, 'updateVendorForgotPassword'])->name('vendor.update-forgot-password');
 
 
     Route::get('/vendor/reset-password/{user}/{token}', 'FrontendController@showVendorResetPasswordForm')->name('vendor.reset.password');
@@ -259,13 +257,10 @@ Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_
     Route::get('/login', 'Auth\LoginController@showLoginForm')->name('user.login');
     Route::post('/ajax-login', 'FrontendController@ajax_login')->name('user.ajax.login');
     Route::post('/login', 'Auth\LoginController@login');
-    // Route::get('/login/forget-password', 'FrontendController@showUserForgetPasswordForm')->name('user.forget.password');
-    // Route::post('/login/forget-password', 'FrontendController@sendUserForgetPasswordMail');
+
     Route::get('/login/forget-password', 'FrontendController@showUserForgetPasswordForm')->name('user.forget.password');
-    Route::post('/check-phone-existence', [FrontendController::class, 'checkPhoneExistence'])
-        ->name('user.check-phone-existence');
-    Route::post('/update-forgot-password', [FrontendController::class, 'updateForgotPassword'])
-        ->name('user.update-forgot-password');
+    Route::post('/check-phone-existence', [FrontendController::class, 'checkPhoneExistence'])->name('user.check-phone-existence');
+    Route::post('/update-forgot-password', [FrontendController::class, 'updateForgotPassword'])->name('user.update-forgot-password');
 
     // The route we call with JS to verify phone in DB
     Route::post('/forget-password/phone-check', [FrontendController::class, 'checkPhoneInDb'])

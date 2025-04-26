@@ -1315,9 +1315,6 @@ class FrontendController extends Controller
     }
 
 
-
-
-
     public function checkPhoneExistence(Request $request)
     {
         $request->validate(['phone' => 'required']);
@@ -1356,6 +1353,8 @@ class FrontendController extends Controller
         $request->validate(['phone' => 'required']);
 
         $exists = Vendor::where('phone', $request->phone)->exists();
+
+        dd($exists);
 
         return response()->json(['exists' => $exists]);
     }
