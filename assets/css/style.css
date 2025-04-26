@@ -26726,7 +26726,7 @@ th.sorting_desc {
   border: 0;
   border-left: 4px solid #13d57a;
   font-size: 18px;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 
 .alert.alert-danger {

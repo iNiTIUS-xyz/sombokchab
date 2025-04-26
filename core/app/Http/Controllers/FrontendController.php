@@ -1354,8 +1354,6 @@ class FrontendController extends Controller
 
         $exists = Vendor::where('phone', $request->phone)->exists();
 
-        dd($exists);
-
         return response()->json(['exists' => $exists]);
     }
 
