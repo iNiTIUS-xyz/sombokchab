@@ -1,9 +1,17 @@
 @php
     $disableForm = $disableForm ?? false;
-    $orderTracks = \Modules\Order\Services\OrderServices::orderTrackArray();
+    $orderTracks = \Modules\Order\Services\OrderServices::orderTrackArray() ?? [];
+    $orderTrack = [];
     $orderTrackIcons = ['', '', '', '', ''];
 
-    $orderTrack = $order->orderTrack->pluck('name')->toArray();
+    try {
+        if (!empty($order)) {
+            $orderTrack = $order->orderTracks->pluck('name')->toArray() ?? [];
+        }
+    } catch (\Exception $e) {
+        \Log::error('Error fetching order tracks: ' . $e->getMessage());
+        session()->flash('error', __('Failed to load order tracking information'));
+    }
 @endphp
 
 <div class="dashboard__card">
@@ -15,57 +23,93 @@
             <form method="post" action="{{ route('admin.orders.update.order-track') }}" class="">
                 @csrf
                 @method('PUT')
-                <input type="hidden" value="{{ $order->id }}" name="order_id">
+                @if (!empty($order))
+                    <input type="hidden" value="{{ $order->id }}" name="order_id">
+                @else
+                    <div class="alert alert-danger">
+                        {{ __('Order information not available') }}
+                    </div>
+                @endif
         @endif
 
+        @if (count($orderTracks) > 0)
+            <div class="d-flex flex-wrap flex-xl-nowrap gap-3 justify-content-center">
+                @foreach ($orderTracks as $track)
+                    @php
+                        $isDisabled = false;
+                        $isChecked = false;
 
-        <div class="d-flex flex-wrap flex-xl-nowrap gap-3 justify-content-center">
-            @foreach ($orderTracks as $track)
-                @if (in_array('assigned_delivery_man', $orderTrack) && $track == 'picked_by_courier')
+                        if (in_array($track, $orderTrack)) {
+                            $isChecked = true;
+                            $isDisabled = true;
+                        }
+
+                        // Special case for delivery man assignment
+                        if (in_array('assigned_delivery_man', $orderTrack) && $track == 'picked_by_courier') {
+                            $track = 'assigned_delivery_man';
+                            $isChecked = true;
+                            $isDisabled = true;
+                        }
+                    @endphp
+
                     <div class="form-group text-center">
-                        <label
-                            for="{{ 'assigned_delivery_man' }}">{{ ucwords(str_replace(['-', '_'], ' ', 'assigned_delivery_man')) }}</label>
+                        <label for="{{ $track }}">{{ ucwords(str_replace(['-', '_'], ' ', $track)) }}</label>
                         @if (!$disableForm)
-                            <input {{ 'checked disabled' }} class="order-track-input" id="{{ 'assigned_delivery_man' }}"
-                                value="{{ 'assigned_delivery_man' }}" type="checkbox" name="order_track[]" />
+                            <input {{ $isChecked ? 'checked' : '' }} {{ $isDisabled ? 'disabled' : '' }}
+                                class="order-track-input" id="{{ $track }}" value="{{ $track }}"
+                                type="checkbox" name="order_track[]" />
                         @endif
                     </div>
+                @endforeach
+            </div>
 
-                    @continue
-                @endif
+            <div class="track-wrapper">
+                <div class="track">
+                    @foreach ($orderTracks as $track)
+                        @php
+                            $isActive = in_array($track, $orderTrack);
 
-                <div class="form-group text-center">
-                    <label for="{{ $track }}">{{ ucwords(str_replace(['-', '_'], ' ', $track)) }}</label>
-                    @if (!$disableForm)
-                        <input {{ in_array($track, $orderTrack) ? 'checked disabled' : '' }} class="order-track-input"
-                            id="{{ $track }}" value="{{ $track }}" type="checkbox"
-                            name="order_track[]" />
-                    @endif
+                            if (in_array('assigned_delivery_man', $orderTrack) && $track == 'picked_by_courier') {
+                                $track = 'assigned_delivery_man';
+                                $isActive = true;
+                            }
+                        @endphp
+
+                        <div class="step {{ $isActive ? 'active' : '' }}">
+                            <span class="icon"> <i class="las la-check"></i> </span>
+                            <small class="text">
+                                {{ ucwords(str_replace(['-', '_'], ' ', $track)) }}
+                            </small>
+                        </div>
+                    @endforeach
                 </div>
-            @endforeach
-        </div>
-        <div class="track-wrapper">
-            <div class="track">
-            @foreach ($orderTracks as $track)
-                @if (in_array('assigned_delivery_man', $orderTrack) && $track == 'picked_by_courier')
-                    <div class="step active"> <span class="icon"> <i class="las la-check"></i> </span> <small
-                            class="text">{{ ucwords(str_replace(['-', '_'], ' ', 'assigned_delivery_man')) }}</small>
-                    </div>
-                    @continue
-                @endif
+            </div>
+        @else
+            <div class="alert alert-warning">
+                {{ __('No order tracking steps are configured') }}
+            </div>
+        @endif
 
-                <div class="step {{ in_array($track, $orderTrack) ? 'active' : '' }}"> <span class="icon"> <i
-                            class="las la-check"></i> </span> <small
-                        class="text">{{ ucwords(str_replace(['-', '_'], ' ', $track)) }}</small> </div>
-            @endforeach
-        </div>
-        </div>
         @if ($disableForm === false)
             <div class="form-group">
-                <button {{ $orderTracks == $orderTrack ? 'disabled' : '' }}
-                    class="cmn_btn btn_bg_profile ">{{ __('Update') }}</button>
+                @if (!empty($order))
+                    <button {{ count(array_diff($orderTracks, $orderTrack)) === 0 ? 'disabled' : '' }}
+                        class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
+                @else
+                    <button disabled class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
+                @endif
             </div>
             </form>
         @endif
     </div>
 </div>
+
+@if ($errors->any())
+    <div class="alert alert-danger mt-3">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
