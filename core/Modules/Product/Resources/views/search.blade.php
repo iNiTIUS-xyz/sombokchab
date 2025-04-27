@@ -35,7 +35,7 @@
                                 {!! render_image($product->image) !!}
                             </div>
 
-                            @if(false)
+                            @if (false)
                                 <button data-product-id="{{ $product->id }}" data-bs-target="#mediaUpdateModalId"
                                     data-bs-toggle="modal"
                                     class="product-image-change-action-button btn btn-sm btn-outline-primary position-absolute top-0 left-0 rounded-circle">
@@ -44,7 +44,9 @@
                             @endif
                         </div>
                         <div class="product-summary">
-                            <p class="font-weight-bold mb-1">{{ $product->name }}</p>
+                            <p class="font-weight-bold mb-1">
+                                {{ Str::limit($product->name, 25, '...') }}
+                            </p>
                             <p>{{ Str::words($product->summary, 5) }}</p>
                         </div>
                     </div>

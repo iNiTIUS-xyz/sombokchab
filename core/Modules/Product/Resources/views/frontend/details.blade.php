@@ -1,7 +1,7 @@
 @extends('frontend.frontend-page-master')
 
 @section('product-name')
-    {{ $product->name }}
+    {{ Str::limit($product->name, 25, '...') }}
 @endsection
 
 @section('product-category')
@@ -103,7 +103,7 @@
                         </div>
                         <div class="col-lg-4 col-xl-5">
                             <div class="single-shop-details-wrapper padding-left-50">
-                                <h2 class="details-title">{{ $product->name }}</h2>
+                                <h2 class="details-title">{{ Str::limit($product->name, 25, '...') }}</h2>
                                 <div class="rating-wrap">
                                     {!! view('product::components.frontend.common.rating-markup', compact('product')) !!}
                                 </div>

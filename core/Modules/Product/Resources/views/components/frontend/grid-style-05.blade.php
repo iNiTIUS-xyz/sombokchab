@@ -34,7 +34,7 @@
 
             <h6 class="product__card__contents__title mt-2">
                 <a href="{{ route('frontend.products.single', $product->slug) }}">
-                    {{ $product->name }}
+                    {{ Str::limit($product->name, 25, '...') }}
                 </a>
             </h6>
             <div class="product__price mt-2">

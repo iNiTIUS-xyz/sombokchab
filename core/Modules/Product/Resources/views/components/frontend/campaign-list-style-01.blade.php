@@ -34,7 +34,7 @@
                     </div>
 
                     <div class="shop-list-contents">
-                        <h2 class="common-title"> <a href="{{ route("frontend.products.single", $product->slug) }}">{{ $product->name }}</a> </h2>
+                        <h2 class="common-title"> <a href="{{ route("frontend.products.single", $product->slug) }}">{{ Str::limit($product->name, 25, '...') }}</a> </h2>
 
                         <div class="global-card-right">
                             <div class="rating-wrap">

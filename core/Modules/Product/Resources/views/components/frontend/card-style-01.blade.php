@@ -24,7 +24,7 @@
             </ul>
         </div>
         <div class="global-card-contents">
-            <h5 class="common-title hover-color-two"> <a href="{{ route("frontend.products.single",$product->slug) }}"> {{ $product->name }}</a> </h5>
+            <h5 class="common-title hover-color-two"> <a href="{{ route("frontend.products.single",$product->slug) }}"> {{ Str::limit($product->name, 25, '...') }}</a> </h5>
             <div class="global-card-flex-contents">
                 <div class="single-global-card {{ $product->reviews_avg_rating < 1 ? "d-none" : "" }}">
                     <div class="global-card-right">

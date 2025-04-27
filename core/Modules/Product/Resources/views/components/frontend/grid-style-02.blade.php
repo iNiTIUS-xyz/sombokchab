@@ -33,7 +33,7 @@
                     </div>
                 </div>
             </div>
-            <h5 class="common-title-two hover-color-two mt-2"><a href="{{ route("frontend.products.single",$product->slug) }}"> {{ $product->name }}</a></h5>
+            <h5 class="common-title-two hover-color-two mt-2"><a href="{{ route("frontend.products.single",$product->slug) }}"> {{ Str::limit($product->name, 25, '...') }}</a></h5>
             <div class="global-card-flex-contents">
                 <div class="single-global-card">
                     <div class="global-card-left">

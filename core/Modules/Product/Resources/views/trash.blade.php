@@ -83,14 +83,13 @@
                                                     <x-product::table.bulk-delete-checkbox :id="$product->id" />
                                                 </td>
                                             @endcan
-
                                             <td class="product-name-info max-width-300">
                                                 <div class="logo-brand-wrapper">
                                                     <div class="logo-brand">
                                                         {!! render_image($product->image) !!}
                                                     </div>
                                                     <div class="logo-brand-contents">
-                                                        <b class="">{{ $product->name }}</b>
+                                                        <b class="">{{ Str::limit($product->name, 25, '...') }}</b>
                                                         <p>{{ Str::words($product->summary, 10) }}</p>
                                                     </div>
                                                 </div>

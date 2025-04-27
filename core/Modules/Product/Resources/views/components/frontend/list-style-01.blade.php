@@ -22,7 +22,7 @@
         </div>
         <div class="products-contents">
             <h5 class="common-title-three hover-color-two">
-                <a href="{{ route("frontend.products.single",$product->slug) }}"> {{ $product->name }}</a>
+                <a href="{{ route("frontend.products.single",$product->slug) }}"> {{ Str::limit($product->name, 25, '...') }}</a>
             </h5>
             <div class="price-update-through mt-3">
                 <span class="fs-20 fw-500 ff-rubik flash-prices color-two"> {{ float_amount_with_currency_symbol(calculatePrice($sale_price, $product)) }} </span>

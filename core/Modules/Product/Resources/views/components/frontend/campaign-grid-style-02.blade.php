@@ -29,7 +29,7 @@
         </div>
         <div class="product_card__contents">
             <h5 class="product_card__title"> <a
-                    href="{{ route('frontend.products.single', $product->slug) }}">{{ $product->name }} </a> </h5>
+                    href="{{ route('frontend.products.single', $product->slug) }}">{{ Str::limit($product->name, 25, '...') }} </a> </h5>
             <h4 class="product_card__price mt-2">
                 {{ float_amount_with_currency_symbol(calculatePrice($sale_price, $product)) }}
                 <s>{{ float_amount_with_currency_symbol(calculatePrice($deleted_price, $product)) }}</s></h4>

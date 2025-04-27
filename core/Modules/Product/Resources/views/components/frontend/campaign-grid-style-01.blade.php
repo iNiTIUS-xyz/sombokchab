@@ -35,7 +35,7 @@
                 <div><span class="counter-seconds"></span></div>
             </div>
 
-            <h4 class="common-title"> <a href="{{ route("frontend.products.single", $product->slug) }}">{{ $product->name }}</a> </h4>
+            <h4 class="common-title"> <a href="{{ route("frontend.products.single", $product->slug) }}">{{ Str::limit($product->name, 25, '...') }}</a> </h4>
 
             <div class="global-card-flex-contents">
                 <div class="single-global-card d-flex justify-content-between">

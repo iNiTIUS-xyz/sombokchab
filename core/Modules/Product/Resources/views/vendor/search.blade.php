@@ -50,7 +50,7 @@
                             @endif
                         </div>
                         <div class="product-summary">
-                            <p class="font-weight-bold mb-1">{{ $product->name }}</p>
+                            <p class="font-weight-bold mb-1">{{ Str::limit($product->name, 25, '...') }}</p>
                             <p>{{Str::words($product->summary, 5)}}</p>
                         </div>
                     </div>

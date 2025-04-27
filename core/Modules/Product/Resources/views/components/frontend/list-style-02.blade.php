@@ -26,7 +26,7 @@
             </div>
             <div class="flash-item-contents">
                 <h6 class="title hover-color-two">
-                    <a href="{{ route("frontend.products.single",$product->slug) }}"> {{ $product->name }}</a>
+                    <a href="{{ route("frontend.products.single",$product->slug) }}"> {{ Str::limit($product->name, 25, '...') }}</a>
                 </h6>
                 <div class="rating-wrap mt-2 {{ $product->reviews_avg_rating < 1 ? "d-none" : "" }}">
                     {!! view('product::components.frontend.common.rating-markup', compact('product','attributes')) !!}

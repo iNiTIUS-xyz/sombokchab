@@ -29,7 +29,7 @@
                                 @if($brand->products_count > 0)
                                     <p class="chooseBrand__para mt-1">{{ $brand->products_count }}+ {{ __("Available Product") }}</p>
                                 @else
-                                    <p class="chooseBrand__para mt-1">{{ __("No product found") }}</p>
+                                    <p class="chooseBrand__para mt-1 text-center">{{ __("No product found") }}</p>
                                 @endif
                             </div>
                         </div>

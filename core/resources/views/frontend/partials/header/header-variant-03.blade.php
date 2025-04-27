@@ -63,8 +63,8 @@
                                             </div>
                                             <div class="product-suggestion item-suggestions" style="display:none;"
                                                 id="no_product_found_div">
-                                                <h6 class="item-title d-flex justify-content-between">
-                                                    <span>{{ __('No Product Found') }}</span>
+                                                <h6 class="item-title d-flex justify-content-between text-center">
+                                                    <span class="text-center">{{ __('No Product Found') }}</span>
                                                 </h6>
                                             </div>
                                         </div>
@@ -324,8 +324,8 @@
 
                                         <div class="product-suggestion item-suggestions" style="display:none;"
                                             id="no_product_found_div">
-                                            <h6 class="item-title d-flex justify-content-between">
-                                                <span>
+                                            <h6 class="item-title d-flex justify-content-between text-center">
+                                                <span class="text-center">
                                                     {{ __('No Product Found') }}
                                                 </span>
                                             </h6>

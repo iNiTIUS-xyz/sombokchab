@@ -71,7 +71,7 @@
                                             <div class="logo-brand">
                                                 {!! render_image_markup_by_attachment_id($product?->image_id) !!}
                                             </div>
-                                            <b class="">{{ $product->name }}</b>
+                                            <b class="">{{ Str::limit($product->name, 25, '...') }}</b>
                                             <p>{{Str::words($product->summary, 10)}}</p>
                                         </div>
                                     </td>
