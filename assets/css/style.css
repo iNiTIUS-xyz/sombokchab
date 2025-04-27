@@ -5364,7 +5364,7 @@ textarea {
 .category-searchbar .category-select {
   position: absolute;
   top: 0;
-  /* right: 70px; */
+  /*right: 70px;*/
 }
 
 .category-searchbar .category-select .nice-select {
@@ -8371,7 +8371,7 @@ textarea {
 }
 
 .selectder-filter-contents .selected-flex-list li:not(:last-child) a::after {
-  content: "";
+  content: "";
   font-family: "Line Awesome Free";
   font-weight: 900;
   position: absolute;
@@ -8560,7 +8560,7 @@ textarea {
 }
 
 .single-shop-left .shop-left-title .title::after {
-  content: "";
+  content: "";
   font-family: "Line Awesome Free";
   font-weight: 900;
   font-size: 16px;
@@ -8794,7 +8794,7 @@ textarea {
 .single-shop-left .shop-left-title .shop-left-list .filter-lists .list.active::before {
   font-family: "Line Awesome Free";
   font-weight: 900;
-  content: "";
+  content: "";
   background: var(--main-color-one);
   border-color: var(--main-color-one);
 }
@@ -10861,7 +10861,7 @@ textarea {
 }
 
 .shop-details-faq-contents .faq-contents .faq-item .faq-title::after {
-  content: "";
+  content: "";
   color: var(--paragraph-color);
   font-size: 24px;
   right: 0;
@@ -16630,7 +16630,7 @@ textarea {
 }
 
 .create-accounts.active::before {
-  content: "";
+  content: "";
   font-family: "Line Awesome Free";
   font-weight: 900;
   background: var(--main-color-one);
@@ -17277,9 +17277,13 @@ textarea {
 }
 
 .dashboard-logo {
-  max-width: 170px;
+  max-width: 100%;
   margin-inline: auto;
-  height: 50px;
+  height: 100px;
+  padding:0px 20px;
+  background:#41695a;
+  box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
+  border-radius:5px;
 }
 .dashboard-logo img {
   height: 100%;
@@ -17594,7 +17598,7 @@ textarea {
 
 .dashboard-list li.main_dropdown.open>a::after,
 .dashboard-list .list.has-children.open>a::after {
-  content: "";
+  content: "";
 }
 
 li.main_dropdown ul {
@@ -17609,7 +17613,7 @@ li.main_dropdown ul {
 
 .dashboard-list li.main_dropdown>a::after,
 .dashboard-list .list.has-children>a::after {
-  content: "";
+  content: "";
   font-family: "Line Awesome Free";
   font-weight: 900;
   position: absolute;
@@ -23378,7 +23382,7 @@ table.dataTable.no-footer {
 }
 
 .see-all.arrow-two::after {
-  content: "";
+  content: "";
 }
 
 .see-all.hover-color-two:hover {
@@ -24211,7 +24215,7 @@ table.dataTable.no-footer {
 }
 
 .btn-see-more::after {
-  content: "";
+  content: "";
   font-size: 20px;
   font-family: "Line Awesome Free";
   font-weight: 900;
@@ -25866,7 +25870,7 @@ table.dataTable.no-footer {
 }
 
 .faq-contents .faq-item.open .faq-title::after {
-  content: "";
+  content: "";
   color: var(--white);
 }
 
@@ -26726,7 +26730,7 @@ th.sorting_desc {
   border: 0;
   border-left: 4px solid #13d57a;
   font-size: 18px;
-  /* text-transform: capitalize; */
+  text-transform: capitalize;
 }
 
 .alert.alert-danger {
@@ -26735,7 +26739,6 @@ th.sorting_desc {
   border: 0;
   border-left: 4px solid #842029;
   font-size: 18px;
-  /* text-transform: capitalize; */
 }
 
 .form-control {
@@ -27967,9 +27970,7 @@ button.submit-btn.gd-bg.pay-now {
 
 
 /* Those line are added by riyad hossain for checkout page */
-.error-wrap li {
-  /* text-transform: capitalize; */
-}
+
 
 .popup_modal_checkout {
   position: fixed;
@@ -35031,7 +35032,7 @@ div[class*=col]:nth-child(3n+3) .counter__item__icon svg path {
 }
 
 .topbar-bottom-four .category-searchbar .form--control {
-  padding: 0 75px 0 20px;
+  padding: 0 10px 0 10px;
 }
 
 .topbar-bottom-four .right-position-button {

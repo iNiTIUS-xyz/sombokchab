@@ -127,12 +127,14 @@
 
                                     <!-- reCAPTCHA container -->
                                     <div id="recaptcha-container"></div>
-
-                                    <button type="button" class="btn btn-next step-button-outline p-2"
+                                    <div class="form-group text-right" style="text-align: right;">
+                                        <button type="button" class="btn btn-next step-button-outline p-2"
                                         onclick="sendCodeAndContinue()" id="continueButton" disabled>
                                         <span class="">Next </span>
                                         <i class="las la-arrow-right"></i>
                                     </button>
+                                    </div>
+                                    
                                 </form>
                             </div>
 
@@ -151,7 +153,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-12 pb-3 mb-4">
+                                <div class="col-12 pb-3">
                                     <div class="mt-4">
                                         <button type="button" class="btn btn-prev p-2 mb-4" onclick="prevStep()">
                                             <i class="las la-arrow-left"></i>
@@ -165,13 +167,17 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Already have an account -->
-                        <div class="signin__account__para d-flex justify-content-center" style="margin-top: 3.5rem">
-                            <p class="info">{{ __('Already have an account?') }}</p>
+                        
+                    </div>
+                    <!-- Already have an account -->
+                    <div class="signin__account__para d-flex justify-content-center" style="margin-top: 10px">
+                        <p class="info">
+                            {{ __('Already have an account?') }}
                             <a href="{{ route('user.login') }}" class="active">
-                                <strong>{{ __('Sign In') }}</strong>
-                            </a>
-                        </div>
+                            <strong>{{ __('Sign In') }}</strong>
+                        </a>
+                        </p>
+                        
                     </div>
                 </div>
             </div>
@@ -194,7 +200,6 @@
             padding: 0px;
             border: none;
             font-weight: bold;
-            float: right;
         }
 
         #step-2 .btn.btn-prev.step-button-outline {
@@ -224,7 +229,6 @@
         #step-1 .btn.btn-next.step-button-outline {
             border: 1px solid var(--main-color-one);
             font-weight: bold;
-            float: right;
             font-size: 16px;
         }
 

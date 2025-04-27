@@ -47,8 +47,7 @@
                                 <div class="form-group">
                                     <label class="label-title color-light mb-2"> {{ __('Phone Number *') }} </label>
                                     <div class="input-group">
-                                        <select id="phone_country_code" name="phone_country_code" class="form-select"
-                                            style="width: 15% !important;">
+                                        <select id="phone_country_code" name="phone_country_code" class="form-select" style="width: 15% !important;">
                                             <option value="+1" selected>+1</option>
                                             <option value="+880">+880</option>
                                             <option value="+855">+855</option>
@@ -112,7 +111,10 @@
                                                 required />
                                             <small>
                                                 <ul>
-                                                    <li>Minimum 8 characters</li>
+                                                    <li style="font-size: 12px;
+  font-weight: 400;
+  line-height: 20px;
+  color: var(--paragraph-color);">Minimum 8 characters</li>
                                                 </ul>
                                             </small>
                                             <small class="text-danger" id="passwordError"></small>
@@ -181,35 +183,39 @@
                                     <small class="text-danger" id="termsError"></small>
                                 </div>
                                 <div id="recaptcha-container"></div>
-                                <button type="button" class="btn btn-next step-button-outline p-2 my-4"
-                                    onclick="sendCodeAndContinue()" id="continueButton" disabled>
-                                    <span class="">Next </span>
-                                    <i class="las la-arrow-right"></i>
-                                </button>
+                                <div class="form-group" style="text-align: right;">
+                                    <button type="button" class="btn btn-next step-button-outline p-2"
+                                        onclick="sendCodeAndContinue()" id="continueButton" disabled>
+                                        <span class="">Next </span>
+                                        <i class="las la-arrow-right"></i>
+                                    </button>
+                                </div>
+                                
                             </form>
                         </div>
 
                         <!-- STEP 2: OTP Verification -->
                         <div id="step-2" style="display: none;">
-                            <button type="button" class="btn btn-prev p-2 mb-4" onclick="prevStep()">
-                                <span class="">Back </span>
-                                <i class="las la-arrow-left"></i>
-                            </button>
-
-                            <div class="form-group">
-                                <label>Enter OTP</label>
-                                <input type="text" id="verificationCode" class="form-control"
-                                    placeholder="6-digit Code" style="border-radius: 10px;" />
-                                <small class="text-danger" id="verificationCodeError"></small>
-                            </div>
-
                             <div class="col-12 pb-3 mb-4">
-                                <div class="mt-4">
-                                    <button type="button" class="btn btn-link p-2" id="resendOtpButton"
-                                        onclick="resendCode()" disabled style="float: left">
+                                <div class="form-group">
+                                    <label>Enter OTP</label>
+                                    <input type="text" id="verificationCode" class="form--control radius-10"
+                                        placeholder="6-digit Code" style="border-radius: 10px;" />
+                                    <small class="text-danger" id="verificationCodeError"></small>
+                                    <button type="button"
+                                        style="background: transparent; border: none; text-decoration: underline; color: #41695a; float: right"
+                                        id="resendOtpButton" onclick="resendCode()" disabled>
                                         Resend OTP <span id="resendTimer">(60s)</span>
                                     </button>
+                                </div>
+                            </div>
 
+                            <div class="col-12 pb-3">
+                                <div class="mt-4">
+                                    <button type="button" class="btn btn-prev p-2 mb-4" onclick="prevStep()">
+                                        <i class="las la-arrow-left"></i>
+                                        <span class="">Back </span>
+                                    </button>
                                     <button type="button" class="btn btn-next submit-button p-2"
                                         onclick="verifyAndCreateAccount()" style="float: right">
                                         Verify & Create Account
@@ -217,6 +223,33 @@
                                 </div>
                             </div>
                         </div>
+                        <!--<div id="step-2" style="display: none;">-->
+                        <!--    <button type="button" class="btn btn-prev p-2 mb-4" onclick="prevStep()">-->
+                        <!--        <span class="">Back </span>-->
+                        <!--        <i class="las la-arrow-left"></i>-->
+                        <!--    </button>-->
+
+                        <!--    <div class="form-group">-->
+                        <!--        <label>Enter OTP</label>-->
+                        <!--        <input type="text" id="verificationCode" class="form-control"-->
+                        <!--            placeholder="6-digit Code" style="border-radius: 10px;" />-->
+                        <!--        <small class="text-danger" id="verificationCodeError"></small>-->
+                        <!--    </div>-->
+
+                        <!--    <div class="col-12 pb-3 mb-4">-->
+                        <!--        <div class="mt-4">-->
+                        <!--            <button type="button" class="btn btn-link p-2" id="resendOtpButton"-->
+                        <!--                onclick="resendCode()" disabled style="float: left">-->
+                        <!--                Resend OTP <span id="resendTimer">(60s)</span>-->
+                        <!--            </button>-->
+
+                        <!--            <button type="button" class="btn btn-next submit-button p-2"-->
+                        <!--                onclick="verifyAndCreateAccount()" style="float: right">-->
+                        <!--                Verify & Create Account-->
+                        <!--            </button>-->
+                        <!--        </div>-->
+                        <!--    </div>-->
+                        <!--</div>-->
                     </div>
                 </div>
             </div>
@@ -242,7 +275,6 @@
         #step-1 .btn.btn-next.step-button-outline {
             border: 1px solid var(--main-color-one);
             font-weight: bold;
-            float: right;
             font-size: 16px;
         }
 
@@ -279,7 +311,7 @@
             background: #284137;
             color: #FFF;
         }
-
+      
         .form--control {
             width: 100%;
             font-size: 14px;

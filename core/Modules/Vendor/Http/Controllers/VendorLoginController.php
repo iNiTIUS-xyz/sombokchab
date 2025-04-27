@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Modules\Vendor\Entities\BusinessType;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Modules\Vendor\Http\Requests\VendorRegistrationRequest;
+use Carbon\Carbon;
 
 class VendorLoginController extends Controller
 {
@@ -92,7 +93,7 @@ class VendorLoginController extends Controller
         }
 
         return response()->json([
-            'msg' => "Your sign in credentials don't match our record!",
+            'msg' => ($login_key == 'email' ? __('Email') : __('Phone Number')) . __(' or Password does not match!'),
             'type' => 'danger',
             'status' => 'invalid',
         ]);
@@ -118,9 +119,10 @@ class VendorLoginController extends Controller
         // now change password value and make it hash
         $rawPassword = $data['password'];
         $data['password'] = Hash::make($data['password']);
-        $data['is_vendor_verified'] = 0;
-        $data['verified_at'] = null;
-        $data['phone'] = $data['phone_country_code'] . $data['phone'];
+        $data['is_vendor_verified'] = 1;
+        
+        $data['verified_at'] = Carbon::now();
+      	$data['phone'] = $data['phone_country_code'] . $data['phone'];
 
         // now create vendor
         $vendor = Vendor::create($data);
@@ -152,6 +154,7 @@ class VendorLoginController extends Controller
         ];
     }
 
+   
     public function checkVendorDataAvailability(Request $request)
     {
         $field = $request->input('field');
