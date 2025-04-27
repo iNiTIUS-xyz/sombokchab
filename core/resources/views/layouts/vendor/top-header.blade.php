@@ -5,15 +5,17 @@
                 <div class="dashboard-flex-contetns">
                     <div class="dashboard-left-flex">
                         <span class="date-text"> 20 Jan, 2022 07:20pm </span>
-                        <div class="d-flex align-items-center">
-                            <h2 class="heading-two fw-500 mt-2"> Welcome, Happy Hour </h2>
-                            <h2 class="mt-2 fw-500">&nbsp;- {{ auth('vendor')->user()->owner_name }}</h2>
-                        </div>
 
                         @if (auth('vendor')->user()->is_vendor_verified && auth('vendor')->user()->verified_at)
-                            <p class="text-success">{{ __('Verified Vendor') }}</p>
+                            <p class="text-success">
+                                <i class="las la-user-check"></i>
+                                {{ __('Verified Vendor') }}
+                            </p>
                         @else
-                            <p class="text-warning">{{ __('Not Verified Yet') }}</p>
+                            <p class="text-danger">
+                                <i class="las la-times-circle"></i>
+                                {{ __('Not Verified Yet') }}
+                            </p>
                         @endif
                     </div>
                     <div class="dashboard-right-flex">

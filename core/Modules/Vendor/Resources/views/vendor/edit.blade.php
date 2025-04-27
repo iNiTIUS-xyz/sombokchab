@@ -147,7 +147,6 @@
                                                                 </label>
                                                                 <div class="nice-select-two country_wrapper">
                                                                     <select  class="form-control" id="country_id" name="country_id">
-                                                                        <option value="">Select Country</option>
                                                                         @foreach ($country as $item)
                                                                             <option value="{{ $item->id }}"
                                                                                 {{ $vendor?->vendor_address?->country_id == $item->id ? 'selected' : '' }}>
@@ -183,7 +182,7 @@
 
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title color-light mb-2"> {{ __('State') }} </label>
+                                                                <label class="label-title color-light mb-2"> {{ __('Province') }} </label>
                                                                 <div class="nice-select-two city_wrapper">
                                                                     <select class="form-control" id="city_id" name="city_id">
                                                                         <option value="">Select State</option>
@@ -198,7 +197,7 @@
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title color-light mb-2"> {{ __('Zip Code') }}
+                                                                <label class="label-title color-light mb-2"> {{ __('Postal Code') }}
                                                                 </label>
                                                                 <input type="text" name="zip_code"
                                                                     class="form--control radius-10"
