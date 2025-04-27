@@ -147,6 +147,7 @@
                                                                 </label>
                                                                 <div class="nice-select-two country_wrapper">
                                                                     <select  class="form-control" id="country_id" name="country_id">
+                                                                        <option value="">Select City</option>
                                                                         @foreach ($country as $item)
                                                                             <option value="{{ $item->id }}"
                                                                                 {{ $vendor?->vendor_address?->country_id == $item->id ? 'selected' : '' }}>
