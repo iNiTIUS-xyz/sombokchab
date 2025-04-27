@@ -21,6 +21,7 @@
                                 </thead>
                                 <tbody class="cart-table-body">
                                     @foreach ($all_cart_items as $key => $cart_item)
+                                        @dd($cart_item);
                                         <tr class="table-cart-row" data-product_hash_id="{{ $cart_item->rowId }}"
                                             data-product-id="{{ $key }}"
                                             data-varinat-id="{{ $cart_item?->options?->variant_id ?? 'admin' }}">
@@ -117,10 +118,6 @@
                         </div>
                         @if (!$wishlist)
                             <div class="table-update-btn margin-top-40 gap-4">
-                                {{-- <a href="#1" class="btn-update text-white btn-info cart-update-table btn-table btn-border-1">
-                                    {{ __('Update Cart') }}
-                                </a> --}}
-
                                 <a href="{{ route('frontend.checkout') }}"
                                     class="btn-table btn-border-1 btn-success text-light">
                                     {{ __('Checkout') }}

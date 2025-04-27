@@ -9,7 +9,7 @@
                 <ul class="category-suggestion-list mt-4" id="search_result_categories"></ul>
             </div>
             <div class="product-suggestion item-suggestions">
-                <h6 class="item-title d-flex justify-content-between">
+                <h6 class="item-title text-center">
                     <span>
                         {{ __('Product Suggestions') }}
                     </span>
@@ -18,7 +18,7 @@
                 <ul class="product-suggestion-list mt-4" id="search_result_products"></ul>
             </div>
             <div class="product-suggestion item-suggestions" style="display:none;" id="no_product_found_div">
-                <h6 class="item-title d-flex justify-content-between text-center">
+                <h6 class="item-title text-center">
                     <span class="text-center">
                         {{ __('No Product Found') }}
                     </span>

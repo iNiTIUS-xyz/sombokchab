@@ -54,16 +54,17 @@
                                                 </ul>
                                             </div> --}}
                                             <div class="product-suggestion item-suggestions">
-                                                <h6 class="item-title">{{ __('Product Suggestions') }}</h6>
+                                                <h6 class="item-title text-center">{{ __('Product Suggestions') }}</h6>
                                                 <ul id="search_result_products" class="product-suggestion-list my-4">
                                                 </ul>
-                                                <a href="" class="showMoreProduct">
+                                                <a href="" class="showMoreProduct"
+                                                    style="text-align: center; display: block;">
                                                     See More
                                                 </a>
                                             </div>
                                             <div class="product-suggestion item-suggestions" style="display:none;"
                                                 id="no_product_found_div">
-                                                <h6 class="item-title d-flex justify-content-between text-center">
+                                                <h6 class="item-title  text-center">
                                                     <span class="text-center">{{ __('No Product Found') }}</span>
                                                 </h6>
                                             </div>
@@ -313,18 +314,19 @@
                                             </ul>
                                         </div> --}}
                                         <div class="product-suggestion item-suggestions">
-                                            <h6 class="item-title">{{ __('Product Suggestions') }}</h6>
+                                            <h6 class="item-title text-center">{{ __('Product Suggestions') }}</h6>
                                             <ul id="search_result_products" class="product-suggestion-list mt-4">
 
                                             </ul>
-                                            <a href="" class="showMoreProduct">
+                                            <a href="" class="showMoreProduct"
+                                                style="text-align: center; display: block;">
                                                 See More
                                             </a>
                                         </div>
 
                                         <div class="product-suggestion item-suggestions" style="display:none;"
                                             id="no_product_found_div">
-                                            <h6 class="item-title d-flex justify-content-between text-center">
+                                            <h6 class="item-title  text-center">
                                                 <span class="text-center">
                                                     {{ __('No Product Found') }}
                                                 </span>

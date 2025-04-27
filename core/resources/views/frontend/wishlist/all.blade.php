@@ -1,7 +1,7 @@
 @extends('frontend.frontend-page-master')
 
 @section('page-title')
-    {{ __('Wishlist Page') }}
+    {{ __('Wishlist') }}
 @endsection
 
 @section('style')
@@ -97,7 +97,7 @@
 @endsection
 
 @section('content')
-    <div class=" cart-page-wrapper  padding-top-100 padding-bottom-50">
+    <div class=" cart-page-wrapper mt-3">
         @php
             $all_cart_items = \Gloudemans\Shoppingcart\Facades\Cart::instance('wishlist')->content();
             $wishlist = true;
@@ -129,16 +129,16 @@
                 data.append("_token", "{{ csrf_token() }}");
 
                 send_ajax_request("post", data, "{{ route('frontend.products.wishlist.move.to.cart') }}",
-            () => {
+                    () => {
 
-                }, (data) => {
-                    loadHeaderCardAndWishlistArea(data);
-                    ajax_toastr_success_message(data);
+                    }, (data) => {
+                        loadHeaderCardAndWishlistArea(data);
+                        ajax_toastr_success_message(data);
 
-                    $(".cart-page-wrapper").load(location.href + " .cart-page-wrapper");
-                }, (errors) => {
-                    prepare_errors(errors)
-                })
+                        $(".cart-page-wrapper").load(location.href + " .cart-page-wrapper");
+                    }, (errors) => {
+                        prepare_errors(errors)
+                    })
             });
 
             $(document).on("click", ".remove-wishlist", function(e) {
@@ -147,7 +147,7 @@
                 formData.append("_token", "{{ csrf_token() }}");
 
                 send_ajax_request("post", formData, "{{ route('frontend.products.wishlist.ajax.remove') }}",
-                () => {
+                    () => {
 
                     }, (data) => {
                         loadHeaderCardAndWishlistArea(data);

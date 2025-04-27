@@ -29,7 +29,7 @@ use App\Shipping\ZoneRegion;
 use Illuminate\Support\Str;
 use Mews\Purifier\Facades\Purifier;
 use Modules\TaxModule\Services\CalculateTaxServices;
-use Illuminate\Support\Facades\File;
+
 function getAllExternalMenu(): array
 {
     return (new \App\Helpers\ModuleMetaData())->getAllExternalMenu();
@@ -55,7 +55,8 @@ function check_image_extension($file)
 
 function render_image_markup_by_attachment_id($id, $class = null, $size = 'full', $isLazy = false, $isAjax = false)
 {
-    if (empty($id)) return '';
+    if (empty($id))
+        return '';
     $output = '';
 
     $image_details = get_attachment_image_by_id($id, $size);
@@ -64,7 +65,7 @@ function render_image_markup_by_attachment_id($id, $class = null, $size = 'full'
             $class_list = "class=";
             $class_list .= !empty($class) ? $class . ' lazy"' : ' lazy';
             $data_ajax = $isAjax ? ' data-loader="ajax" ' : '';
-            $output .= '<img data-src="'.$image_details['img_url'].'" ' . $class_list . ' ' . $data_ajax . ' />';
+            $output .= '<img data-src="' . $image_details['img_url'] . '" ' . $class_list . ' ' . $data_ajax . ' />';
         } else {
             $class_list = !empty($class) ? 'class="' . $class . '"' : '';
             $output = '<img src="' . $image_details['img_url'] . '" ' . $class_list . ' alt="' . $image_details['img_alt'] . '"/>';
@@ -153,7 +154,7 @@ function get_default_language()
     return $defaultLang->slug;
 }
 
-function update_static_option($key, $value) : bool
+function update_static_option($key, $value): bool
 {
     $option = StaticOption::where('option_name', $key)->first();
     if (!$option) {
@@ -162,7 +163,7 @@ function update_static_option($key, $value) : bool
             'option_value' => $value
         ]);
         return true;
-    }else{
+    } else {
         $option->update([
             'option_name' => $key,
             'option_value' => $value
@@ -272,9 +273,10 @@ function load_google_fonts()
     return sprintf('<link rel="preconnect" href="https://fonts.gstatic.com"> <link href="%1$s&display=swap" rel="stylesheet">', $fonts_url);
 }
 
-function render_background_image_markup_by_attachment_id($id, $size = 'full', $isLazy = false) : string
+function render_background_image_markup_by_attachment_id($id, $size = 'full', $isLazy = false): string
 {
-    if (empty($id)) return '';
+    if (empty($id))
+        return '';
     $output = '';
 
     $image_details = get_attachment_image_by_id($id, $size);
@@ -304,11 +306,11 @@ function get_attachment_image_by_id($id, $size = null, $default = false)
     $return_val = [];
     $image_url = '';
 
-    if(optional($image_details)->path ?? false){
+    if (optional($image_details)->path ?? false) {
         if (file_exists('assets/uploads/media-uploader/' . optional($image_details)->path ?? '')) {
             $image_url = asset('assets/uploads/media-uploader/' . optional($image_details)->path);
         }
-    }else{
+    } else {
         return "";
     }
 
@@ -374,7 +376,8 @@ function filter_static_option_value(string $index, array $array = [], $default =
 
 function render_og_meta_image_by_attachment_id($id, $size = 'full')
 {
-    if (empty($id)) return '';
+    if (empty($id))
+        return '';
     $output = '';
     $image_details = get_attachment_image_by_id($id, $size);
     if (!empty($image_details)) {
@@ -408,7 +411,8 @@ function setEnvValue(array $values): bool
     }
 
     $str = substr($str, 0, -1);
-    if (!file_put_contents($envFile, $str)) return false;
+    if (!file_put_contents($envFile, $str))
+        return false;
     return true;
 }
 
@@ -418,17 +422,147 @@ function get_language_by_slug($slug)
     return !empty($lang_details) ? $lang_details->name : '';
 }
 
-function getAllCurrency() : array
+function getAllCurrency(): array
 {
     return [
-        'USD' => '$', 'EUR' => '€', 'INR' => '₹', 'IDR' => 'Rp', 'AUD' => 'A$', 'SGD' => 'S$', 'JPY' => '¥', 'GBP' => '£', 'MYR' => 'RM', 'PHP' => '₱', 'THB' => '฿', 'KRW' => '₩', 'NGN' => '₦', 'GHS' => 'GH₵', 'BRL' => 'R$',
-        'BIF' => 'FBu', 'CAD' => 'C$', 'CDF' => 'FC', 'CVE' => 'Esc', 'GHP' => 'GH₵', 'GMD' => 'D', 'GNF' => 'FG', 'KES' => 'K', 'LRD' => 'L$', 'MWK' => 'MK', 'MZN' => 'MT', 'RWF' => 'R₣', 'SLL' => 'Le', 'STD' => 'Db', 'TZS' => 'TSh', 'UGX' => 'USh', 'XAF' => 'FCFA', 'XOF' => 'CFA', 'ZMK' => 'ZK', 'ZMW' => 'ZK', 'ZWD' => 'Z$',
-        'AED' => 'د.إ', 'AFN' => '؋', 'ALL' => 'L', 'AMD' => '֏', 'ANG' => 'NAf', 'AOA' => 'Kz', 'ARS' => '$', 'AWG' => 'ƒ', 'AZN' => '₼', 'BAM' => 'KM', 'BBD' => 'Bds$', 'BDT' => '৳', 'BGN' => 'Лв', 'BMD' => '$', 'BND' => 'B$', 'BOB' => 'Bs', 'BSD' => 'B$', 'BWP' => 'P', 'BZD' => '$',
-        'CHF' => 'CHf', 'CNY' => '¥', 'CLP' => '$', 'COP' => '$', 'CRC' => '₡', 'CZK' => 'Kč', 'DJF' => 'Fdj', 'DKK' => 'Kr', 'DOP' => 'RD$', 'DZD' => 'دج', 'EGP' => 'E£', 'ETB' => 'ብር', 'FJD' => 'FJ$', 'FKP' => '£', 'GEL' => 'ლ', 'GIP' => '£', 'GTQ' => 'Q',
-        'GYD' => 'G$', 'HKD' => 'HK$', 'HNL' => 'L', 'HRK' => 'kn', 'HTG' => 'G', 'HUF' => 'Ft', 'ILS' => '₪', 'ISK' => 'kr', 'JMD' => '$', 'KGS' => 'Лв', 'KHR' => '៛', 'KMF' => 'CF', 'KYD' => '$', 'KZT' => '₸', 'LAK' => '₭', 'LBP' => 'ل.ل.', 'LKR' => 'ரூ', 'LSL' => 'L',
-        'MAD' => 'MAD', 'MDL' => 'L', 'MGA' => 'Ar', 'MKD' => 'Ден', 'MMK' => 'K', 'MNT' => '₮', 'MOP' => 'MOP$', 'MRO' => 'MRU', 'MUR' => '₨', 'MVR' => 'Rf', 'MXN' => 'Mex$', 'NAD' => 'N$', 'NIO' => 'C$', 'NOK' => 'kr', 'NPR' => 'रू', 'NZD' => '$', 'PAB' => 'B/.', 'PEN' => 'S/', 'PGK' => 'K',
-        'PKR' => '₨', 'PLN' => 'zł', 'PYG' => '₲', 'QAR' => 'QR', 'RON' => 'lei', 'RSD' => 'din', 'RUB' => '₽', 'SAR' => 'SR', 'SBD' => 'Si$', 'SCR' => 'SR', 'SEK' => 'kr', 'SHP' => '£', 'SOS' => 'Sh.so.', 'SRD' => '$', 'SZL' => 'E', 'TJS' => 'ЅM',
-        'TRY' => '₺', 'TTD' => 'TT$', 'TWD' => 'NT$', 'UAH' => '₴', 'UYU' => '$U', 'UZS' => 'so\'m', 'VND' => '₫', 'VUV' => 'VT', 'WST' => 'WS$', 'XCD' => '$', 'XPF' => '₣', 'YER' => '﷼', 'ZAR' => 'R'
+        'USD' => '$',
+        'EUR' => '€',
+        'INR' => '₹',
+        'IDR' => 'Rp',
+        'AUD' => 'A$',
+        'SGD' => 'S$',
+        'JPY' => '¥',
+        'GBP' => '£',
+        'MYR' => 'RM',
+        'PHP' => '₱',
+        'THB' => '฿',
+        'KRW' => '₩',
+        'NGN' => '₦',
+        'GHS' => 'GH₵',
+        'BRL' => 'R$',
+        'BIF' => 'FBu',
+        'CAD' => 'C$',
+        'CDF' => 'FC',
+        'CVE' => 'Esc',
+        'GHP' => 'GH₵',
+        'GMD' => 'D',
+        'GNF' => 'FG',
+        'KES' => 'K',
+        'LRD' => 'L$',
+        'MWK' => 'MK',
+        'MZN' => 'MT',
+        'RWF' => 'R₣',
+        'SLL' => 'Le',
+        'STD' => 'Db',
+        'TZS' => 'TSh',
+        'UGX' => 'USh',
+        'XAF' => 'FCFA',
+        'XOF' => 'CFA',
+        'ZMK' => 'ZK',
+        'ZMW' => 'ZK',
+        'ZWD' => 'Z$',
+        'AED' => 'د.إ',
+        'AFN' => '؋',
+        'ALL' => 'L',
+        'AMD' => '֏',
+        'ANG' => 'NAf',
+        'AOA' => 'Kz',
+        'ARS' => '$',
+        'AWG' => 'ƒ',
+        'AZN' => '₼',
+        'BAM' => 'KM',
+        'BBD' => 'Bds$',
+        'BDT' => '৳',
+        'BGN' => 'Лв',
+        'BMD' => '$',
+        'BND' => 'B$',
+        'BOB' => 'Bs',
+        'BSD' => 'B$',
+        'BWP' => 'P',
+        'BZD' => '$',
+        'CHF' => 'CHf',
+        'CNY' => '¥',
+        'CLP' => '$',
+        'COP' => '$',
+        'CRC' => '₡',
+        'CZK' => 'Kč',
+        'DJF' => 'Fdj',
+        'DKK' => 'Kr',
+        'DOP' => 'RD$',
+        'DZD' => 'دج',
+        'EGP' => 'E£',
+        'ETB' => 'ብር',
+        'FJD' => 'FJ$',
+        'FKP' => '£',
+        'GEL' => 'ლ',
+        'GIP' => '£',
+        'GTQ' => 'Q',
+        'GYD' => 'G$',
+        'HKD' => 'HK$',
+        'HNL' => 'L',
+        'HRK' => 'kn',
+        'HTG' => 'G',
+        'HUF' => 'Ft',
+        'ILS' => '₪',
+        'ISK' => 'kr',
+        'JMD' => '$',
+        'KGS' => 'Лв',
+        'KHR' => '៛',
+        'KMF' => 'CF',
+        'KYD' => '$',
+        'KZT' => '₸',
+        'LAK' => '₭',
+        'LBP' => 'ل.ل.',
+        'LKR' => 'ரூ',
+        'LSL' => 'L',
+        'MAD' => 'MAD',
+        'MDL' => 'L',
+        'MGA' => 'Ar',
+        'MKD' => 'Ден',
+        'MMK' => 'K',
+        'MNT' => '₮',
+        'MOP' => 'MOP$',
+        'MRO' => 'MRU',
+        'MUR' => '₨',
+        'MVR' => 'Rf',
+        'MXN' => 'Mex$',
+        'NAD' => 'N$',
+        'NIO' => 'C$',
+        'NOK' => 'kr',
+        'NPR' => 'रू',
+        'NZD' => '$',
+        'PAB' => 'B/.',
+        'PEN' => 'S/',
+        'PGK' => 'K',
+        'PKR' => '₨',
+        'PLN' => 'zł',
+        'PYG' => '₲',
+        'QAR' => 'QR',
+        'RON' => 'lei',
+        'RSD' => 'din',
+        'RUB' => '₽',
+        'SAR' => 'SR',
+        'SBD' => 'Si$',
+        'SCR' => 'SR',
+        'SEK' => 'kr',
+        'SHP' => '£',
+        'SOS' => 'Sh.so.',
+        'SRD' => '$',
+        'SZL' => 'E',
+        'TJS' => 'ЅM',
+        'TRY' => '₺',
+        'TTD' => 'TT$',
+        'TWD' => 'NT$',
+        'UAH' => '₴',
+        'UYU' => '$U',
+        'UZS' => 'so\'m',
+        'VND' => '₫',
+        'VUV' => 'VT',
+        'WST' => 'WS$',
+        'XCD' => '$',
+        'XPF' => '₣',
+        'YER' => '﷼',
+        'ZAR' => 'R'
     ];
 }
 
@@ -447,23 +581,23 @@ function site_currency_symbol($text = false)
     }
 
     $sapce = get_static_option('add_remove_sapce_between_amount_and_symbol') === 'yes' ? true : false;
-    return $sapce ? ' '. $symbol. ' ' : $symbol;
+    return $sapce ? ' ' . $symbol . ' ' : $symbol;
 }
 
 function amount_with_currency_symbol($amount, $text = false): string
 {
-    if (is_null($amount) || empty($amount) || $amount == 0){
+    if (is_null($amount) || empty($amount) || $amount == 0) {
         return "";
     }
 
     $decimal_yes_or_no = get_static_option('enable_disable_decimal_point');
-    $separator =get_static_option('amount_format_by') ?? '';
-    $add_remove_comman_form_amount = get_static_option('add_remove_comman_form_amount') === "yes" ? $separator :'';
+    $separator = get_static_option('amount_format_by') ?? '';
+    $add_remove_comman_form_amount = get_static_option('add_remove_comman_form_amount') === "yes" ? $separator : '';
 
-    if($decimal_yes_or_no == 'yes'){
-        $amount = number_format((float) $amount, 2, ($separator==',' ? '.' : ','), $add_remove_comman_form_amount);
-    }else{
-        $amount = number_format((int) $amount,null,null,$separator);
+    if ($decimal_yes_or_no == 'yes') {
+        $amount = number_format((float) $amount, 2, ($separator == ',' ? '.' : ','), $add_remove_comman_form_amount);
+    } else {
+        $amount = number_format((int) $amount, null, null, $separator);
 
     }
 
@@ -499,12 +633,12 @@ function float_amount_with_currency_symbol($amount, $text = false)
     }
     $separator = get_static_option('amount_format_by') ?? '';
     $decimal_yes_or_no = get_static_option('enable_disable_decimal_point');
-    $add_remove_comman_form_amount = get_static_option('add_remove_comman_form_amount') === "yes" ? $separator:'';
+    $add_remove_comman_form_amount = get_static_option('add_remove_comman_form_amount') === "yes" ? $separator : '';
 
-    if($decimal_yes_or_no == 'yes'){
-        $amount = number_format((float) $amount, 2, ($separator==',' ? '.' : ','), $add_remove_comman_form_amount);
-    }else{
-        $amount = number_format((int) $amount,null,null,$separator);
+    if ($decimal_yes_or_no == 'yes') {
+        $amount = number_format((float) $amount, 2, ($separator == ',' ? '.' : ','), $add_remove_comman_form_amount);
+    } else {
+        $amount = number_format((int) $amount, null, null, $separator);
     }
 
     $return_val = $symbol . $amount;
@@ -628,7 +762,8 @@ function render_form_field_for_frontend($form_content)
             $output .= get_field_by_type($value, $form_fields->field_name[$key], $form_fields->field_placeholder[$key], $options, $required, $mimes);
             if ($value == 'select') {
                 $select_index++;
-            };
+            }
+            ;
         }
     }
     return $output;
@@ -645,11 +780,11 @@ function render_payment_gateway_select()
     $output = '';
 
     foreach ($all_gateway as $gateway) {
-        $status = get_static_option($gateway->name.'_gateway');
-        if(empty($status)){
+        $status = get_static_option($gateway->name . '_gateway');
+        if (empty($status)) {
             continue;
         }
-        
+
         $selected = (get_static_option('site_default_payment_gateway') == $gateway) ? 'selected' : '';
         if (!empty(get_static_option($gateway . '_gateway'))) {
             $output .= '<option value="' . $gateway . '" ' . $selected . '>' . ucfirst(str_replace('_', ' ', $gateway)) . '</option>';
@@ -670,7 +805,7 @@ function render_drag_drop_form_builder_markup($content = '')
             $args = [];
             $required_field = '';
             if (property_exists($form_fields, 'field_required')) {
-                $filed_requirement = (array)$form_fields->field_required;
+                $filed_requirement = (array) $form_fields->field_required;
                 $required_field = !empty($filed_requirement[$key]) ? 'on' : '';
             }
             if ($ftype == 'select') {
@@ -889,7 +1024,7 @@ function check_currency_support_by_payment_gateway($gateway)
 
 function custom_number_format($amount)
 {
-    return number_format((float)$amount, 2, '.', '');
+    return number_format((float) $amount, 2, '.', '');
 }
 
 function get_charge_currency($gateway)
@@ -977,7 +1112,7 @@ function get_visitor_country()
         "http://www.geoplugin.net/json.gp?ip=" . $ip
     ));
 
-    $ipdat = (array)$ipdat;
+    $ipdat = (array) $ipdat;
     $return_val = isset($ipdat['geoplugin_countryCode']) ? $ipdat['geoplugin_countryCode'] : $return_val;
 
     return $return_val;
@@ -1157,7 +1292,7 @@ function getAllBlogTags(): array
 
 function custom_amount_with_currency_symbol($amount, $text = false)
 {
-    $amount = number_format((float)$amount, 0, '.', ',');
+    $amount = number_format((float) $amount, 0, '.', ',');
     $position = get_static_option('site_currency_symbol_position');
     $symbol = site_currency_symbol($text);
     $return_val = '<span class="sign">' . $symbol . '</span>' . $amount;
@@ -1213,7 +1348,7 @@ function is_tax_enable()
 
 function render_ratings($ratings, $class = '')
 {
-    return str_repeat('<i class="las la-star '.$class.'"></i>', $ratings);
+    return str_repeat('<i class="las la-star ' . $class . '"></i>', $ratings);
 }
 
 function get_cart_items()
@@ -1237,7 +1372,7 @@ function get_cart_subtotal($currency_symbol = true)
     if (!empty($total_cart_items)) {
         $return_val = 0;
         foreach ($total_cart_items as $product_id => $cat_data) {
-            $return_val += (int)$cat_data['price'];
+            $return_val += (int) $cat_data['price'];
         }
         return $currency_symbol ? amount_with_currency_symbol($return_val) : $return_val;
     }
@@ -1368,11 +1503,11 @@ function render_draggable_menu($id): string
     return $instance->render_admin_panel_menu($id);
 }
 
-function render_frontend_menu($id,$type=null): string
+function render_frontend_menu($id, $type = null): string
 {
     $instance = new MenuBuilderFrontendRender();
 
-    return $instance->render_frrontend_panel_menu($id,$type);
+    return $instance->render_frrontend_panel_menu($id, $type);
 }
 
 function ratings_markup($ratings, $type = '')
@@ -1471,7 +1606,7 @@ function decodeProductAttributes($endcoded_attributes): array
     return $result;
 }
 
-if(!function_exists("getUserByGuard")){
+if (!function_exists("getUserByGuard")) {
     function getUserByGuard($guard = 'web'): ?Authenticatable
     {
         return auth()->guard($guard)->user();
@@ -1528,13 +1663,14 @@ function getCampaignItemStockInfo($campaign_product)
 
 function getCampaignPricePercentage($campaign_product, $product_price, $precision = 0): float|int
 {
-    if (!$campaign_product) return 0;
+    if (!$campaign_product)
+        return 0;
     return round(getPercentage($product_price, $campaign_product->campaign_price) * -1, $precision);
 }
 
 function getPercentage($main_price, $lower_price)
 {
-    return round(($main_price - $lower_price) / $main_price * 100,2);
+    return round(($main_price - $lower_price) / $main_price * 100, 2);
 }
 
 function getQuickViewDataMarkup($item)
@@ -1550,7 +1686,7 @@ function getQuickViewDataMarkup($item)
     $deleted_price = $campaign_product ? $item->sale_price : $item->price;
     $campaign_percentage = $campaign_product ? getPercentage($item->sale_price, $sale_price) : false;
 
-    $campaignSoldCount = CampaignSoldProduct::where("product_id",$item->id)->first();
+    $campaignSoldCount = CampaignSoldProduct::where("product_id", $item->id)->first();
     $stock_count = $campaign_product ? $campaign_product->units_for_sale - optional($campaignSoldCount)->sold_count ?? 0 : optional($item->inventory)->stock_count ?? 0;
     $stock_count = $stock_count > (int) get_static_option('product_in_stock_limit_set') ? $stock_count : 0;
 
@@ -1570,17 +1706,17 @@ function getQuickViewDataMarkup($item)
     $image_url = "";
     $image_id = $item->image;
     if ($image_id) {
-        $image_details = render_image($image_id,render_type: 'url');
+        $image_details = render_image($image_id, render_type: 'url');
         if (!empty($image_details)) {
             $image_url = $image_details;
         }
     }
 
-    if($campaign_product){
-        $campaign_title = Campaign::select('id','title')->where("id",$campaign_product->campaign_id)->first();
+    if ($campaign_product) {
+        $campaign_title = Campaign::select('id', 'title')->where("id", $campaign_product->campaign_id)->first();
     }
 
-    $isCampaign =  $item->campaign ? 'true' : 'false';
+    $isCampaign = $item->campaign ? 'true' : 'false';
     $campaignTitle = $campaign_title->title ?? '';
 
     $quick_view_data = "data-title='" . htmlentities($title, ENT_QUOTES) . "' ";
@@ -1596,19 +1732,19 @@ function getQuickViewDataMarkup($item)
     $quick_view_data .= "data-category-url='" . htmlentities($category_page_url, ENT_QUOTES) . "' ";
     $quick_view_data .= "data-image='" . htmlentities($image_url, ENT_QUOTES) . "' ";
     $quick_view_data .= "data-rating='" . htmlentities($avg_rating, ENT_QUOTES) . "' ";
-    $quick_view_data .= "data-iscampaign='" .$isCampaign."'";
-    $quick_view_data .= "data-campaignTitle='" .$campaignTitle."'";
+    $quick_view_data .= "data-iscampaign='" . $isCampaign . "'";
+    $quick_view_data .= "data-campaignTitle='" . $campaignTitle . "'";
     $end_date = $campaign_product->end_date ?? '';
-    if(!empty($end_date)){
-        $quick_view_data .= "data-campaigndate='" .htmlentities($end_date, ENT_QUOTES). "' ";
+    if (!empty($end_date)) {
+        $quick_view_data .= "data-campaigndate='" . htmlentities($end_date, ENT_QUOTES) . "' ";
     }
 
     $quick_view_data .= $stock_count
         ? "data-in-stock='" . htmlentities($stock_count, ENT_QUOTES) . "' "
         : '';
 
-    if($campaign_percentage){
-        $quick_view_data .= "data-campaign-percentage='" . htmlentities(round($campaign_percentage,0)) . "%'";
+    if ($campaign_percentage) {
+        $quick_view_data .= "data-campaign-percentage='" . htmlentities(round($campaign_percentage, 0)) . "%'";
     }
 
     $quick_view_data .= "data-badge='" . htmlentities($item->badge ?? "") . "'";
@@ -1628,7 +1764,7 @@ function getCountryShippingCost($type, $id)
     return $shipping_methods;
 }
 
-function getItemAttributesName($attributes) : string
+function getItemAttributesName($attributes): string
 {
     if (is_string($attributes)) {
         try {
@@ -1645,13 +1781,13 @@ function getItemAttributesName($attributes) : string
         foreach ($attributes as $key => $attribute) {
             if ($key != 'price' && $key != 'user_id') {
                 if ($key == '_color') {
-                    $item_attributes .= sprintf(__('Color: %s'),$attribute).' , ';
+                    $item_attributes .= sprintf(__('Color: %s'), $attribute) . ' , ';
                     $attribute_count += 1;
                 } elseif ($key == '_size') {
                     $item_attributes .= 'Size: ' . $attribute . ', ';
                     $attribute_count += 1;
                 } else {
-                    $item_attributes .= $key .': '. $attribute . ', ';
+                    $item_attributes .= $key . ': ' . $attribute . ', ';
                     $attribute_count += 1;
                 }
             }
@@ -1661,11 +1797,12 @@ function getItemAttributesName($attributes) : string
     return $item_attributes;
 }
 
-function ratingMarkup($rating_avg, $rating_count, $include_count = true) {
+function ratingMarkup($rating_avg, $rating_count, $include_count = true)
+{
     $width = round($rating_avg * 20);
 
     $output = '<div class="rating-wrapper"><div class="rating-contents"><div class="ratings"><span class="hide-rating"></span>';
-    $output .= '<span class="show-rating" style="width: '. $width .'%"></span>';
+    $output .= '<span class="show-rating" style="width: ' . $width . '%"></span>';
     $output .= '</div>';
 
     if ($include_count) {
@@ -1679,7 +1816,8 @@ function ratingMarkup($rating_avg, $rating_count, $include_count = true) {
 /** ============================================
  *          PAGE RENDER BUILDER HELPERS
  * ============================================= */
-function formatCustomTags($custom_tags, $render_tags, $text) {
+function formatCustomTags($custom_tags, $render_tags, $text)
+{
     return str_replace($custom_tags, $render_tags, $text);
 }
 
@@ -1718,29 +1856,30 @@ function getInvoiceAddressInfo($address_id, $type)
             break;
     }
 
-    $output = '<li class="list"><span>'. $type_name .':</span> '. $address_text .'</li>';
+    $output = '<li class="list"><span>' . $type_name . ':</span> ' . $address_text . '</li>';
 
     return $output;
 }
 /*
  * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
  * */
-function getProductByParams($params) {
+function getProductByParams($params)
+{
     $product_items = $params['product_items'];
     $items_order = $params['items_order'];
     $items_count = $params['items_count'];
     $sort_by = $params['sort_by'];
 
     $products = Product::query()
-    ->with('campaign_sold_product', 'subCategory','campaign_product', 'inventory','badge','uom')
-    ->withAvg("reviews", "rating")
-    ->withCount("reviews")
-    // this line of code will return sum of tax rate for example I have 2 tax one is 5 percent another one is 10 percent then this will return 15 percent
-    ->withSum("taxOptions", "rate")
-    ->when(get_static_option('vendor_enable', 'on') != 'on', function ($query){
-        $query->whereNull("vendor_id");
-    })
-    ->where('status_id', '1');
+        ->with('campaign_sold_product', 'subCategory', 'campaign_product', 'inventory', 'badge', 'uom')
+        ->withAvg("reviews", "rating")
+        ->withCount("reviews")
+        // this line of code will return sum of tax rate for example I have 2 tax one is 5 percent another one is 10 percent then this will return 15 percent
+        ->withSum("taxOptions", "rate")
+        ->when(get_static_option('vendor_enable', 'on') != 'on', function ($query) {
+            $query->whereNull("vendor_id");
+        })
+        ->where('status_id', '1');
 
 
     // call a function for campaign this function will add condition to this table
@@ -1775,14 +1914,14 @@ function getPaginationSummaryText($pagination_instance)
     ];
 }
 
-function getProductSearchRatingInput($field, $selected_value) : string
+function getProductSearchRatingInput($field, $selected_value): string
 {
     $checked = $selected_value == $field ? 'checked' : '';
     $output = '<div class="single-rating-item">
                 <label class="radio-btn-wrapper">
                     <input type="radio" class="checkbox"
-                           name="filter_rating" data-value="'.$field.'"
-                           class="checkbox filter_rating" '.$checked.'
+                           name="filter_rating" data-value="' . $field . '"
+                           class="checkbox filter_rating" ' . $checked . '
                     >
                     <span class="checkmark"></span>
                     <span class="icon-wrap">';
@@ -1792,7 +1931,8 @@ function getProductSearchRatingInput($field, $selected_value) : string
     return $output;
 }
 
-function productSort($all_products, $sort_by, $items_order = 'DESC') {
+function productSort($all_products, $sort_by, $items_order = 'DESC')
+{
     if ($sort_by == 'popularity') {
         $all_products->orderBy('sold_count', $items_order);
     } else if ($sort_by == 'latest') {
@@ -1818,15 +1958,16 @@ function getItemAttributes($product_id)
     foreach ($all_attributes as $key => $product_attributes) {
         foreach ($product_attributes as $key => $product_attribute) {
             $result[$product_attribute['type']][] = $product_attribute['name'];
-        };
+        }
+        ;
     }
     return $result;
 }
 function getCampaignProductById($product_id): ?CampaignProduct
 {
     return CampaignProduct::where('product_id', $product_id)
-        ->whereDate("start_date","<=", now())
-        ->whereDate("end_date",">=", now())->first();
+        ->whereDate("start_date", "<=", now())
+        ->whereDate("end_date", ">=", now())->first();
 }
 function getItemDisplayPrice($item): void
 {
@@ -1834,12 +1975,13 @@ function getItemDisplayPrice($item): void
     $sale_price = $campaign_product ? $campaign_product->campaign_price : $item->sale_price;
     $deleted_price = $campaign_product ? $item->sale_price : $item->price;
 }
-function getSlugFromReadingSetting ($reading_type,$default='blog') {
+function getSlugFromReadingSetting($reading_type, $default = 'blog')
+{
     $page_id = get_static_option($reading_type);
     $page = null;
-    try{
+    try {
         $page = Page::find($page_id);
-    }catch (\Exception $e){
+    } catch (\Exception $e) {
         //handle error
     }
 
@@ -1848,14 +1990,16 @@ function getSlugFromReadingSetting ($reading_type,$default='blog') {
     }
     return $default;
 }
-function getAllCategory() {
+function getAllCategory()
+{
     return Category::select('id', 'name as title')->where('status_id', 1)->get();
 }
 function render_navbar_category_menu(): string
 {
     $category_dropdown_data = json_decode(get_static_option('navbar_category_dropdown'), true);
 
-    if (empty($category_dropdown_data)) return '';
+    if (empty($category_dropdown_data))
+        return '';
 
     $output = '';
     $all_categories = Category::with('subcategory')->whereIn('id', array_keys($category_dropdown_data))->get();
@@ -1877,12 +2021,12 @@ function render_navbar_category_menu(): string
         $sub_category_style_class = $style === 'thumbnail' ? 'catg' : '';
 
         // category
-        $output .= '<li class="'.$sub_menu_class.'">'; // category <li> start
-        $output .= '<a href="'.$category_url.'">'.$category->title.'</a>';
+        $output .= '<li class="' . $sub_menu_class . '">'; // category <li> start
+        $output .= '<a href="' . $category_url . '">' . $category->title . '</a>';
 
         // subcategory
         if ($subcategories->count()) {
-            $output .= '<ul class="sub-menu mega-menu-inner '.$sub_category_style_class.'">'; // subcategory <ul> start
+            $output .= '<ul class="sub-menu mega-menu-inner ' . $sub_category_style_class . '">'; // subcategory <ul> start
 
             foreach ($subcategories as $subcategory) {
                 if ($style == 'list') {
@@ -1891,26 +2035,26 @@ function render_navbar_category_menu(): string
                     $products = Product::where('status_id', 1)->whereIn('sub_category_id', $sub_category_ids)->get();
 
                     $output .= '<ul class="mega-menu-single-section">'; // sub-category column start
-                    $output .= '<h5 class="menu-title">'.$subcategory->title.'</h5>'; // sub-category title
+                    $output .= '<h5 class="menu-title">' . $subcategory->title . '</h5>'; // sub-category title
 
                     foreach ($products as $product) {
-                        $output .= '<li><a href="'.route("frontend.products.single", $product->slug).'">'.$product->title.'</a></li>';
+                        $output .= '<li><a href="' . route("frontend.products.single", $product->slug) . '">' . $product->title . '</a></li>';
                     }
 
                     $output .= '</ul>'; // sub-category column end
                     $output .= '</li>'; // list style section end
                 } else {
                     /* THUMBNAIL style */
-//                    $output .= '<li class="mega-menu-single-section custom">'; // thumbnail style section start
+                    //                    $output .= '<li class="mega-menu-single-section custom">'; // thumbnail style section start
 //                    $output .= '<ul class="mega-menu-main">'; // subcategory items thumbnails <ul> start
 
                     $output .=
-                        '<li class="round-menu-product"><a href="'.route("frontend.products.subcategory", $subcategory->id).'">'
+                        '<li class="round-menu-product"><a href="' . route("frontend.products.subcategory", $subcategory->id) . '">'
                         . render_image_markup_by_attachment_id($subcategory->image)
                         . $subcategory->title
                         . '</a></li>';
 
-//                    $output .= '</ul>';
+                    //                    $output .= '</ul>';
 //                    $output .= '</li>'; // thumbnail style section end
                 }
             }
@@ -1944,32 +2088,33 @@ function render_draggable_category_menu($id)
     return $instance->render_product_category_admin_panel_menu($id);
 }
 
-function render_payment_gateway_name($type){
-    if($type == 'manual_payment'){
+function render_payment_gateway_name($type)
+{
+    if ($type == 'manual_payment') {
         return get_static_option("site_manual_payment_name");
-    }elseif($type == 'cash_on_delivery'){
+    } elseif ($type == 'cash_on_delivery') {
         return __("Cash On Delivery");
-    }else{
+    } else {
         return $type;
     }
 }
 
-if(!function_exists("render_view_for_nice_select")){
-    #[ArrayShape(["option" => "string","li" => "string"])]
+if (!function_exists("render_view_for_nice_select")) {
+    #[ArrayShape(["option" => "string", "li" => "string"])]
     function render_view_for_nice_select($data): array
     {
-        $li = view("vendor::backend.get_state.list",compact("data"))->render();
-        $option = view("backend.partials.nice-select-option.option",compact("data"))->render();
+        $li = view("vendor::backend.get_state.list", compact("data"))->render();
+        $option = view("backend.partials.nice-select-option.option", compact("data"))->render();
 
-        return ["li" => $li,"option" => $option];
+        return ["li" => $li, "option" => $option];
     }
 }
 
-if(!function_exists("render_validated_value")){
+if (!function_exists("render_validated_value")) {
     function render_validated_value($data): string
     {
         $output = "";
-        foreach($data as $key => $value){
+        foreach ($data as $key => $value) {
             $output .= $key . ' = ' . $value . "<br>";
         }
 
@@ -1977,22 +2122,22 @@ if(!function_exists("render_validated_value")){
     }
 }
 
-if(!function_exists("status_option")){
+if (!function_exists("status_option")) {
     function status_option($type = "option", $vendor_status_id = null): string
     {
-        $vendor_status_id = $vendor_status_id ? (string)$vendor_status_id : '';
+        $vendor_status_id = $vendor_status_id ? (string) $vendor_status_id : '';
         // get all status
         $statuses = \App\Status::all();
         $output = "";
 
-        if($type == "option"){
-            foreach($statuses as $status){
-                $selected = ((string)$status->id === $vendor_status_id) ? 'selected' : '';
+        if ($type == "option") {
+            foreach ($statuses as $status) {
+                $selected = ((string) $status->id === $vendor_status_id) ? 'selected' : '';
                 $output .= "<option value='" . $status->id . "' $selected>" . $status->name . "</option>";
             }
-        }elseif ($type == "list"){
-            foreach($statuses as $status){
-                $output .= '<li class="single-item" data-value="'. $status->id .'"><a class="dropdown-item" href="#1">' . $status->name . '</a></li>';
+        } elseif ($type == "list") {
+            foreach ($statuses as $status) {
+                $output .= '<li class="single-item" data-value="' . $status->id . '"><a class="dropdown-item" href="#1">' . $status->name . '</a></li>';
             }
         }
 
@@ -2000,27 +2145,26 @@ if(!function_exists("status_option")){
     }
 }
 
-if(!function_exists("filter_value_for_query")){
+if (!function_exists("filter_value_for_query")) {
     function filter_value_for_query($value): string
     {
         return trim(strip_tags($value));
     }
 }
 
-if(!function_exists("render_image")){ // Idea and generated by Md Zahidul Islam
-    function render_image(string|object|null $image, string $size = "grid",string $render_type = 'tag',string $class = '', string $attribute = '' , string $file_type = "image", bool $defaultImage = false,string $custom_path = '') : null | string
+if (!function_exists("render_image")) { // Idea and generated by Md Zahidul Islam
+    function render_image(string|object|null $image, string $size = "grid", string $render_type = 'tag', string $class = '', string $attribute = '', string $file_type = "image", bool $defaultImage = false, string $custom_path = ''): null|string
     {
         return Media::render_image($image, $size, $render_type, $class, $attribute, $file_type, $defaultImage, $custom_path);
     }
 }
 
-if(!function_exists("createSlug")){
+if (!function_exists("createSlug")) {
     function createSlug($sluggable_text, $model_name, $is_module = false, $module_name = null, $column_name = 'slug'): string  // Idea from Suzon extended by Md Zahid
     {
         // Use CamelCase for Model and Module Name
-        if ($is_module)
-        {
-            $model_path = 'Modules\\'.ucwords($module_name).'\Entities\\' . ucwords($model_name);
+        if ($is_module) {
+            $model_path = 'Modules\\' . ucwords($module_name) . '\Entities\\' . ucwords($model_name);
         } else {
             $model_path = '\App\Models\\' . ucwords($model_name);
         }
@@ -2028,8 +2172,8 @@ if(!function_exists("createSlug")){
         $slug = Str::slug($sluggable_text);
         $check = true;
 
-        do{
-            $old_category = (new $model_path)->where($column_name, $slug)->orderBy('id','DESC')->first();
+        do {
+            $old_category = (new $model_path)->where($column_name, $slug)->orderBy('id', 'DESC')->first();
 
             if ($old_category != null) {
                 $old_category_name = $old_category->$column_name;
@@ -2038,21 +2182,20 @@ if(!function_exists("createSlug")){
                 if (array_key_exists(1, $exploded)) {
                     $number = end($exploded);
 
-                    if (is_numeric($number))
-                    {
-                        $number = (int)$number;
+                    if (is_numeric($number)) {
+                        $number = (int) $number;
                         array_pop($exploded);
 
                         $final_array = array_merge($exploded, Arr::wrap(++$number));
 
-                        $slug = implode('-',$final_array);
+                        $slug = implode('-', $final_array);
                     } else {
                         $slug .= '-1';
                     }
                 } else {
                     $slug .= '-1';
                 }
-            }else{
+            } else {
                 $check = false;
             }
         } while ($check);
@@ -2063,22 +2206,22 @@ if(!function_exists("createSlug")){
 
 function render_star_rating_markup($rating): string
 {
-    $star = (int)(2*$rating).'0';
+    $star = (int) (2 * $rating) . '0';
 
     return '<div class="rating-wrap mt-2">
                  <div class="ratings">
                       <span class="hide-rating"></span>
-                      <span class="show-rating" style="width: '.$star.'%'.'"></span>
+                      <span class="show-rating" style="width: ' . $star . '%' . '"></span>
                  </div>
             </div>';
 }
 
 function moduleExists($name): bool
 {
-    $module_status = json_decode(file_get_contents(__DIR__.'/../../modules_statuses.json'));
-    $folderPath = base_path('./Modules'.DIRECTORY_SEPARATOR .$name); 
-    if(file_exists($folderPath) && is_dir($folderPath)){
-        return property_exists($module_status,$name) ? $module_status->$name : false;
+    $module_status = json_decode(file_get_contents(__DIR__ . '/../../modules_statuses.json'));
+    $folderPath = base_path('./Modules' . DIRECTORY_SEPARATOR . $name);
+    if (file_exists($folderPath) && is_dir($folderPath)) {
+        return property_exists($module_status, $name) ? $module_status->$name : false;
     }
     return false;
 }
@@ -2097,7 +2240,7 @@ function common_route(): void
     Route::post('bulk-action', 'bulk_action')->name('bulk.action');
 }
 
-if(!function_exists("toFixed")){
+if (!function_exists("toFixed")) {
     function toFixed($number, $decimals = 0): string
     {
         return number_format($number, $decimals, '.', "");
@@ -2108,8 +2251,8 @@ function render_payment_gateway_for_form($cash_on_delivery = false): string
 {
     $output = '<div class="payment-gateway-wrapper">';
     $output .= '<input type="hidden" name="selected_payment_gateway" value="' . get_static_option('site_default_payment_gateway') . '">';
-    $all_gateway = PaymentGateway::when($cash_on_delivery == false, function ($query){
-        $query->whereNot('name','cash_on_delivery');
+    $all_gateway = PaymentGateway::when($cash_on_delivery == false, function ($query) {
+        $query->whereNot('name', 'cash_on_delivery');
     })->where('status', 1)->get();
 
     $output .= '<ul>';
@@ -2129,19 +2272,21 @@ function render_payment_gateway_for_form($cash_on_delivery = false): string
     return $output;
 }
 
-function toastr_success($success){
-    Toastr::success($success,'Success!', ["closeButton" => "true","progressBar" => "true"]);
+function toastr_success($success)
+{
+    Toastr::success($success, 'Success!', ["closeButton" => "true", "progressBar" => "true"]);
 }
 
 function toastr_error($success): void
 {
-    Toastr::success($success,'Error!', ["positionClass" => "toast-top-right","closeButton" => "true","progressBar" => "true"]);
+    Toastr::success($success, 'Error!', ["positionClass" => "toast-top-right", "closeButton" => "true", "progressBar" => "true"]);
 }
 
 function activeGuard(): int|string|null
 {
-    foreach(array_keys(config('auth.guards')) as $guard){
-        if(auth($guard)->check()) return $guard;
+    foreach (array_keys(config('auth.guards')) as $guard) {
+        if (auth($guard)->check())
+            return $guard;
     }
 
     return null;
@@ -2151,20 +2296,27 @@ function addonProductInstance(): Builder|_IH_Product_QB
 {
     $products = Product::query();
 
-    $products->withCount("inventoryDetail","ratings","orderItems");
+    $products->withCount("inventoryDetail", "ratings", "orderItems");
     $products->with([
         'vendor',
         "taxOptions:tax_class_options.id,country_id,state_id,city_id,rate",
         "vendorAddress:vendor_addresses.id,country_id,state_id,city_id",
-        "campaign_sold_product","category","subCategory","childCategory",
+        "campaign_sold_product",
+        "category",
+        "subCategory",
+        "childCategory",
         "campaign_product" => function ($query) {
             $query = productCampaignConditionWith($query);
-        },"inventory","uom", "badge","taxOptions:tax_class_options.id,country_id,state_id,city_id,rate",
+        },
+        "inventory",
+        "uom",
+        "badge",
+        "taxOptions:tax_class_options.id,country_id,state_id,city_id,rate",
         "vendorAddress:vendor_addresses.id,country_id,state_id,city_id"
     ]);
-    $products->withAvg('ratings','rating');// this line of code will return a sum of tax rate, for example,
+    $products->withAvg('ratings', 'rating');// this line of code will return a sum of tax rate, for example,
     //I have 2 tax one is 5 percent, another one is 10 percent then this will return 15 percent
-    $products->withSum("taxOptions", "rate")->when(get_static_option('vendor_enable', 'on') != 'on', function ($query){
+    $products->withSum("taxOptions", "rate")->when(get_static_option('vendor_enable', 'on') != 'on', function ($query) {
         $query->whereNull("vendor_id");
     });
 
@@ -2176,34 +2328,37 @@ function calculatePercentageAmount($price, $percentage): float|int
     return ($price * $percentage) / 100;
 }
 
-function calculatePrice($price, $product,$for = "product"): float|int|null
+function calculatePrice($price, $product, $for = "product"): float|int|null
 {
-    if(gettype($product) == 'array'){
+    if (gettype($product) == 'array') {
         $product = (object) $product;
     }
-    return CalculateTaxServices::productPrice($price, $product,$for);
+    return CalculateTaxServices::productPrice($price, $product, $for);
 }
 
-function productCampaignConditionWith($query){
+function productCampaignConditionWith($query)
+{
     $date = now();
 
     return $query->whereDate("end_date", ">=", $date)->whereDate("start_date", "<=", $date);
 }
 
-function productCampaignCondition($query){
+function productCampaignCondition($query)
+{
     $date = now();
 
-    $query->whereHas("campaign_product", function ($campaignProduct) use ($date){
+    $query->whereHas("campaign_product", function ($campaignProduct) use ($date) {
         $campaignProduct->whereDate("end_date", ">=", $date)->whereDate("start_date", "<=", $date);
-    })->when(get_static_option("calculate_tax_based_on") == 'customer_billing_address', function ($query){
+    })->when(get_static_option("calculate_tax_based_on") == 'customer_billing_address', function ($query) {
         // first need to get vendor address from
-    })->when(get_static_option('vendor_enable', 'on') != 'on', function ($query){
+    })->when(get_static_option('vendor_enable', 'on') != 'on', function ($query) {
         $query->whereNull("vendor_id");
     });
 
     return $query;
 }
-function tax_options_sum_rate($item, $country_id = 0, $state_id = 0, $city_id = 0){
+function tax_options_sum_rate($item, $country_id = 0, $state_id = 0, $city_id = 0)
+{
     $taxOptions = $item->taxOptions?->where("country_id", $country_id);
     $stateTaxOptions = $taxOptions->where("state_id", $state_id);
     $cityTaxOptions = $taxOptions->where("city_id", $city_id);
@@ -2223,23 +2378,23 @@ function tax_options_sum_rate($item, $country_id = 0, $state_id = 0, $city_id = 
         $taxPercentageForCity += $taxOption->rate;
     }
 
-    if($item->taxOptions->count() > 0 && empty($country_id)){
-        foreach($item->taxOptions as $taxOption){
+    if ($item->taxOptions->count() > 0 && empty($country_id)) {
+        foreach ($item->taxOptions as $taxOption) {
             $item->tax_options_sum_rate += $taxOption->rate;
         }
 
         return $item;
     }
 
-    if(!empty($country_id) && $taxOptions->count() > 0){
+    if (!empty($country_id) && $taxOptions->count() > 0) {
         $item->tax_options_sum_rate = $taxPercentage;
     }
 
-    if(!empty($state_id) && $stateTaxOptions->count() > 0){
+    if (!empty($state_id) && $stateTaxOptions->count() > 0) {
         $item->tax_options_sum_rate = $taxPercentageForState;
     }
 
-    if(!empty($city_id) && $cityTaxOptions->count() > 0 && is_int($city_id)){
+    if (!empty($city_id) && $cityTaxOptions->count() > 0 && is_int($city_id)) {
         $item->tax_options_sum_rate = $taxPercentageForCity;
     }
 
@@ -2249,7 +2404,7 @@ function tax_options_sum_rate($item, $country_id = 0, $state_id = 0, $city_id = 
 function calculateOrderedPrice($price, $tax, $type): float|int
 {
     // check type if type is billing
-    return match ($type){
+    return match ($type) {
         "billing_address", "inclusive_price" => $price * $tax / 100,
         "zone_wise_tax" => $tax,
     };
@@ -2307,26 +2462,27 @@ function xgUnReadNotifications($from = null): int
 
 function formatNotificationText($text = null): string
 {
-    return str_replace(["[b]","[/b]","[br]"],["<b>","</b>","<br>"],$text);
+    return str_replace(["[b]", "[/b]", "[br]"], ["<b>", "</b>", "<br>"], $text);
 }
 
-function render_page_meta_data_for_product($product_details){
+function render_page_meta_data_for_product($product_details)
+{
 
     $user_lang = LanguageHelper::user_lang_slug();
-    $site_url = route('frontend.products.single',$product_details->slug);
+    $site_url = route('frontend.products.single', $product_details->slug);
 
-    $meta_title =  $product_details->metaData->meta_title ?? '';
+    $meta_title = $product_details->metaData->meta_title ?? '';
 
     $site_tags = $product_details->metaData->meta_tags ?? '';
-    $site_description =  $product_details->metaData->meta_description ?? '';
+    $site_description = $product_details->metaData->meta_description ?? '';
     $facebook_meta_tags = $product_details->metaData->facebook_meta_tags ?? '';
-    $facebook_meta_description =  $product_details->metaData->facebook_meta_description ?? '';
-    $facebook_meta_image =  get_attachment_image_by_id($product_details->metaData->facebook_meta_image ?? '')['img_url'] ?? '';
-    $facebook_meta_image_alt =  get_attachment_image_by_id($product_details->metaData->facebook_meta_image ?? '')['img_alt'] ?? '';
+    $facebook_meta_description = $product_details->metaData->facebook_meta_description ?? '';
+    $facebook_meta_image = get_attachment_image_by_id($product_details->metaData->facebook_meta_image ?? '')['img_url'] ?? '';
+    $facebook_meta_image_alt = get_attachment_image_by_id($product_details->metaData->facebook_meta_image ?? '')['img_alt'] ?? '';
 
     $twitter_meta_tags = $product_details->metaData->twitter_meta_tags ?? '';
-    $twitter_meta_description =  $product_details->metaData->twitter_meta_description ?? '';
-    $twitter_meta_image =  get_attachment_image_by_id($product_details->metaData->twitter_meta_image ?? '')['img_url'] ?? '';
+    $twitter_meta_description = $product_details->metaData->twitter_meta_description ?? '';
+    $twitter_meta_image = get_attachment_image_by_id($product_details->metaData->twitter_meta_image ?? '')['img_url'] ?? '';
     $title = $product_details->name;
 
     return <<<HTML
@@ -2354,7 +2510,8 @@ HTML;
 
 }
 
-function frontendProductPageUrl(){
+function frontendProductPageUrl()
+{
     $product_reading_page = get_static_option('product_page');
     $page = Page::findOrFail($product_reading_page);
     $page_url = $page->slug ?? 'shop-page';

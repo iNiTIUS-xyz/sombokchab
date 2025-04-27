@@ -4,16 +4,31 @@
     <x-niceselect.css />
 @endsection
 @section('section')
+    @php
+
+        $states = \Modules\CountryManage\Entities\State::where('country_id', 31)->get();
+    @endphp
     <div class="bodyUser_overlay"></div>
     <div class="dashboard-form-wrapper">
         <h2 class="dashboard__card__title">{{ __('Edit Profile') }}</h2>
         <div class="custom__form mt-4">
             <form action="{{ route('user.profile.update') }}" method="post" enctype="multipart/form-data">
                 @csrf
-                <div class="form-group">
-                    <label for="name">{{ __('Name') }}</label>
-                    <input type="text" class="form-control" id="name" name="name"
-                        value="{{ $user_details->name }}">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="name">{{ __('Name') }}</label>
+                            <input type="text" class="form-control" id="name" name="name"
+                                value="{{ $user_details->name }}">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="name">{{ __('Username') }}</label>
+                            <input type="text" class="form-control" value="{{ $user_details->username }}" readonly
+                                disabled>
+                        </div>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="email">{{ __('Email') }}</label>
@@ -36,7 +51,6 @@
 
                     <label for="country">{{ __('Country') }}</label>
                     <select id="country" class="form-control wide" name="country">
-                        <option value="">Select Country</option>
                         @foreach ($all_countries as $country)
                             <option value="{{ $country->id }}"
                                 {{ $user_details->country == $country->id ? 'selected' : '' }}>
@@ -52,13 +66,6 @@
                         <option value="">
                             {{ __('Select City') }}
                         </option>
-                        @php
-                            $states = \Modules\CountryManage\Entities\State::where(
-                                'country_id',
-                                $user_details->country ?? 0,
-                            )->get();
-                        @endphp
-
                         @foreach ($states as $state)
                             <option value="{{ $state->id }}"
                                 {{ $state->id == $user_details->state ? 'selected' : '' }}>
@@ -84,7 +91,7 @@
                     </select>
                 </div> --}}
                 <div class="form-group">
-                    <label for="zipcode">{{ __('Zipcode') }}</label>
+                    <label for="zipcode">{{ __('Postal Code') }}</label>
                     <input type="text" class="form-control" id="zipcode" name="zipcode"
                         value="{{ $user_details->zipcode }}">
                 </div>
