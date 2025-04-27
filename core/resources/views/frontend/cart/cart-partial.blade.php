@@ -21,7 +21,6 @@
                                 </thead>
                                 <tbody class="cart-table-body">
                                     @foreach ($all_cart_items as $key => $cart_item)
-                                        @dd($cart_item);
                                         <tr class="table-cart-row" data-product_hash_id="{{ $cart_item->rowId }}"
                                             data-product-id="{{ $key }}"
                                             data-varinat-id="{{ $cart_item?->options?->variant_id ?? 'admin' }}">
