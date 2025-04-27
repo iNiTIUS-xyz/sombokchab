@@ -218,8 +218,8 @@
                                                                 <label class="label-title color-light mb-2"> {{ __('Google Map Location') }}</label>
                                                                 <textarea name="google_map_location" type="text" class="form--control radius-10" value="">
                                                                     @if (!empty($vendor?->vendor_address?->google_map_location))
-{!! $location_iframeHtml !!}
-@endif
+                                                                        {!! $location_iframeHtml !!}
+                                                                    @endif
                                                                 </textarea>
                                                                 <span class="mt-3">{{ __('Example: Google Map Embed Code.') }}</span><pre><code>  &lt;iframe src="https://www.example.com" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"&gt;&lt;/iframe&gt;</code></pre>
                                                             </div>
