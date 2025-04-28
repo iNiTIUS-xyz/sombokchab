@@ -665,11 +665,11 @@ class PaymentGatewayCredential
         $login_id    = $creds->login_id ?? '';
         $password    = $creds->password ?? '';
 
-        // {"merchant_id":"VMtz5hy8QFxgmq06576jycISzGg=","login_id":"sombokchab","password":"sombokchab","secret":"123456"}
+        // {"merchant_id":"VMtz5hy8QFxgmq06576jycISzGg=","login_id":"sombokchab","password":"sombokchab","secret":"5cf5e73f7556"}
         // 3) Create an AcledaPay instance
         $acledaPay = XgPaymentGateway::acledapay();
         $acledaPay->setMerchantId($merchant_id);
-        $acledaPay->setApiKey($secret);
+        $acledaPay->setSecret($secret);
         $acledaPay->setLoginId($login_id);
         $acledaPay->setPassword($password);
 
