@@ -63,7 +63,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('user.logout') }}"
                                    onclick="event.preventDefault();document.getElementById('logout_submit_btn').dispatchEvent(new MouseEvent('click'));">
-                                    {{ __('Sign out') }}
+                                    {{ __('Sign Out') }}
                                 </a>
 
                                 <form id="logout-form" action="{{ route('user.logout') }}" method="POST"

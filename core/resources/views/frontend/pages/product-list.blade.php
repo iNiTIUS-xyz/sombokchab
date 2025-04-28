@@ -1,7 +1,11 @@
 @extends('frontend.frontend-page-master')
 
 @section('page-title')
-    {{ __('Shop') }}
+    @if (request()->get('keyword'))
+        {{ __('Search Result') }}
+    @else
+        {{ __('Shop') }}
+    @endif
 @endsection
 
 @section('content')
@@ -33,7 +37,7 @@
                                 <div class="shop-left-list margin-top-15">
                                     <ul class="shop-lists active-list">
                                         @foreach ($all_category as $category)
-                                            <li class="list ">
+                                            <li class="list @if (request('category_id') == $category->id) active @endif">
                                                 <a
                                                     href="{{ route('frontend.dynamic.shop.page', ['keyword' => request('keyword'), 'category_id' => $category->id]) }}">
                                                     {{ $category->name }}
@@ -50,7 +54,7 @@
                                 <div class="shop-left-list margin-top-15">
                                     <ul class="shop-lists active-list brand-list">
                                         @foreach ($all_brands as $brand)
-                                            <li class="list">
+                                            <li class="list @if (request('brand_id') == $brand->id) active @endif">
                                                 <a
                                                     href="{{ route('frontend.dynamic.shop.page', ['keyword' => request('keyword'), 'category_id' => request('category_id'), 'brand_id' => $brand->id]) }}">
                                                     {{ $brand->name }}

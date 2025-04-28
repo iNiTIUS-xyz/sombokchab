@@ -38,7 +38,7 @@ class ProductWishlistController extends Controller
             'product_id' => 'required|exists:products,id',
             'product_attributes' => 'nullable|array',
         ]);
-
+        
         $attributes = (array) $request->product_attributes;
         $attributes['user_id'] = auth('web')->check() ? auth('web')->id() : null;
 

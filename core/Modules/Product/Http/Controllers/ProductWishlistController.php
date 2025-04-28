@@ -57,9 +57,6 @@ class ProductWishlistController extends Controller
         return back()->with(FlashMsg::explain('success', __('Item added to wishlist')));
     }
 
-    /**
-     * @throws \Throwable
-     */
     public function addToWishlistAjax(Request $request)
     {
         $request->validate([
@@ -72,13 +69,18 @@ class ProductWishlistController extends Controller
         ]);
 
         $product_inventory = ProductInventory::where('product_id', $request->product_id)->first();
+
         if ($request->product_variant) {
+
             $product_inventory_details = ProductInventoryDetail::where('id', $request->product_variant)->first();
+
         } else {
+
             $product_inventory_details = null;
+
         }
 
-        if (! Auth::guard('web')->check()) {
+        if (!Auth::guard('web')->check()) {
             return response()->json([
                 'type' => 'warning',
                 'quantity_msg' => __('If you want to add cart item into wishlist than you have to login first.'),
@@ -97,24 +99,29 @@ class ProductWishlistController extends Controller
             ]);
         }
 
-        if (! empty($product->campaign_product)) {
+        if (!empty($product->campaign_product)) {
             $sold_count = CampaignSoldProduct::where('product_id', $request->product_id)->first();
             $product = Product::where('id', $request->product_id)->first();
 
             $product_left = $sold_count !== null ? $product->campaign_product->units_for_sale - $sold_count->sold_count : null;
+
         } else {
+
             $product_left = $product_inventory_details->stock_count ?? $product_inventory->stock_count;
+
         }
 
-        // now we will check if product left is equal or bigger than quantity than we will check
-        if (! ($request->quantity <= $product_left) && $sold_count) {
+        if (!($request->quantity <= $product_left) && $sold_count) {
+
             return response()->json([
                 'type' => 'warning',
                 'quantity_msg' => __('Requested amount can not be cart. Campaign product stock limit is over!'),
             ]);
+
         }
 
         DB::beginTransaction();
+
         try {
             $cart_data = $request->all();
             $product = Product::findOrFail($cart_data['product_id']);
@@ -160,8 +167,12 @@ class ProductWishlistController extends Controller
                 'category' => $category,
                 'subcategory' => $subcategory,
             ];
+
             $options['slug'] = $product->slug;
+
             $username = Auth::guard('web')->user()->id;
+
+            Cart::instance('wishlist')->content();
             Cart::instance('wishlist')->restore($username);
             Cart::instance('wishlist')->add(['id' => $cart_data['product_id'], 'name' => $product->name, 'qty' => $cart_data['quantity'], 'price' => $final_sale_price, 'weight' => '0', 'options' => $options]);
             Cart::instance('wishlist')->store($username);
@@ -182,13 +193,13 @@ class ProductWishlistController extends Controller
             ]);
         }
     }
-
     public function removeWishlistItem(Request $request)
     {
         $request->validate([
             'rowId' => 'required|string',
         ]);
 
+        Cart::instance('wishlist')->content();
         Cart::instance('wishlist')->remove($request->rowId);
 
         return response()->json(FlashMsg::explain('success', __('Item removed from wishlist')) + [
