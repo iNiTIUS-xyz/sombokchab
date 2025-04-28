@@ -479,13 +479,24 @@
 
         .category-searchbar .input-group {
             display: flex;
-            width: 98%;
+            width: 95%;
             border-radius: 5px;
             overflow: hidden;
             border: 1px solid #A69D9D;
         }
 
     }
+    /* @media (min-width: 1510px) (min-width: 1670px) {
+
+        .category-searchbar .input-group {
+            display: flex;
+            width: 82%;
+            border-radius: 5px;
+            overflow: hidden;
+            border: 1px solid #A69D9D;
+        }
+
+    } */
 
     @media (min-width: 1400px) (min-width: 1460px) {
 
