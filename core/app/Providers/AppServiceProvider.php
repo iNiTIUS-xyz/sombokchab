@@ -2,15 +2,16 @@
 
 namespace App\Providers;
 
-use App\Helpers\SidebarMenuHelper;
 use Blade;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Query\Builder;
-use Illuminate\Database\Query\Expression;
-use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Facades\Schema;
+use Twilio\Rest\Client;
+use App\Helpers\SidebarMenuHelper;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Database\Query\Expression;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -33,7 +34,14 @@ class AppServiceProvider extends ServiceProvider
         // this will check if app environment is local then register ide heloper service provider this will help IDE like PHPSTORM for make developer life easy
         if ($this->app->isLocal()) {
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
-        }
+        };
+
+        $this->app->singleton('twilio', function () {
+            return new Client(
+                env('TWILIO_ACCOUNT_SID'),
+                env('TWILIO_AUTH_TOKEN')
+            );
+        });
     }
 
     public function boot(): void

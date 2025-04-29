@@ -7,3 +7,4 @@
 /core/storage/framework/session
 /core/storage/framework/testing
 /core/storage/*.key
+/core/.env
