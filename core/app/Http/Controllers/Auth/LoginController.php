@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
@@ -7,6 +8,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
+use Twilio\Rest\Client;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -66,6 +68,42 @@ class LoginController extends Controller
             'status' => 'not_ok',
         ]);
     }
+
+    // public function sendOtp(Request $request)
+    // {
+    //     $phone = $request->input('phone');
+
+    //     // Generate 6-digit OTP
+    //     $otp = mt_rand(100000, 999999);
+
+    //     // Store OTP in cache for 5 minutes
+    //     Cache::put('otp_' . $phone, $otp, now()->addMinutes(5));
+
+    //     try {
+    //         $twilio = new Client(
+    //             env('TWILIO_ACCOUNT_SID'),
+    //             env('TWILIO_AUTH_TOKEN')
+    //         );
+
+    //         $message = $twilio->messages->create(
+    //             $phone, // Phone number to send to
+    //             [
+    //                 'from' => env('TWILIO_PHONE_NUMBER'),
+    //                 'body' => "Your verification code is: $otp"
+    //             ]
+    //         );
+
+    //         return response()->json([
+    //             'success' => true,
+    //             'message' => 'OTP sent successfully'
+    //         ]);
+    //     } catch (\Exception $e) {
+    //         return response()->json([
+    //             'error' => 'Failed to send OTP',
+    //             'details' => $e->getMessage()
+    //         ], 500);
+    //     }
+    // }
     public function sendOtp(Request $request)
     {
         $phone = $request->input('phone');
@@ -111,5 +149,4 @@ class LoginController extends Controller
         $all_country = CountryHelper::getAllCountries();
         return view('frontend.user.login', compact('all_country'));
     }
-
 }
