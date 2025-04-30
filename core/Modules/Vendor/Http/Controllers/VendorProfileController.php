@@ -20,9 +20,9 @@ class VendorProfileController extends Controller
         $vendor = auth("vendor")->id();
 
         $data = [
-            "country" => Country::select("id","name")->orderBy("name","ASC")->get(),
+            "country" => Country::select("id", "name")->orderBy("name", "ASC")->get(),
             "business_type" => BusinessType::select()->get(),
-            "vendor" => Vendor::with(["vendor_address","vendor_shop_info","business_type","vendor_bank_info","vendor_shop_info.cover_photo","vendor_shop_info.logo"])->where("id",$vendor)->first()
+            "vendor" => Vendor::with(["vendor_address", "vendor_shop_info", "business_type", "vendor_bank_info", "vendor_shop_info.cover_photo", "vendor_shop_info.logo"])->where("id", $vendor)->first()
         ];
 
         $location = $data['vendor']->vendor_address?->google_map_location;
@@ -38,7 +38,7 @@ class VendorProfileController extends Controller
     function vendor_profile_update(UpdateVendorRequest $request)
     {
 
-       $request->validate([
+        $request->validate([
             'google_map_location' => 'nullable|string',
         ]);
 
@@ -64,20 +64,20 @@ class VendorProfileController extends Controller
 
         try {
             // store vendor
-            VendorServices::store_vendor(VendorServices::prepare_data_for_update($data + ["status_id" => 1],"vendor") + ["id" => $data["id"]],"update");
+            VendorServices::store_vendor(VendorServices::prepare_data_for_update($data + ["status_id" => 1], "vendor") + ["id" => $data["id"]], "update");
             // store vendor address
-            VendorServices::store_vendor_address(VendorServices::prepare_data_for_update($data + ["google_map_location" => $map_src], "vendor_address"),"update");
+            VendorServices::store_vendor_address(VendorServices::prepare_data_for_update($data + ["google_map_location" => $map_src], "vendor_address"), "update");
             // store Shop Info
-            VendorServices::store_vendor_shop_info(VendorServices::prepare_data_for_update($data,"vendor_shop_info"),"update");
+            VendorServices::store_vendor_shop_info(VendorServices::prepare_data_for_update($data, "vendor_shop_info"), "update");
             // store vendor bank
-            VendorServices::store_vendor_bank_info(VendorServices::prepare_data_for_update($data,"vendor_bank_info"),"update");
+            VendorServices::store_vendor_bank_info(VendorServices::prepare_data_for_update($data, "vendor_bank_info"), "update");
             // Database Commit
             \DB::commit();
 
-            return response()->json(["success" => true,"type" => "success"]);
-        }catch(\Exception $e){
+            return response()->json(["success" => true, "type" => "success"]);
+        } catch (\Exception $e) {
             \DB::rollBack();
-            return response()->json(["msg" => $e,"custom_msg" => "Failed to create vendor account..","success" => false,"type" => "danger"])->setStatusCode(422);
+            return response()->json(["msg" => $e, "custom_msg" => "Failed to create vendor account..", "success" => false, "type" => "danger"])->setStatusCode(422);
         }
     }
 

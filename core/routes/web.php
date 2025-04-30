@@ -26,7 +26,7 @@ Route::get('update-notification', XgNotificationController::class)
  *                          FRONTEND
  * ==========================================================================================================================*/
 
-Route::post('send-otp', '\App\Http\Controllers\Auth\LoginController@sendOtp')->name('send.otp');
+Route::get('send-otp', '\App\Http\Controllers\Auth\LoginController@sendOtp')->name('send.otp');
 Route::post('verify-otp', '\App\Http\Controllers\Auth\LoginController@verifyOtp')->name('verify.otp');
 
 Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_mode']], function () {

@@ -71,7 +71,7 @@
                                                     <div class="row g-4">
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title color-light mb-2"> Owner Name *
+                                                                <label class="label-title color-light mb-2"> Vendor Name *
                                                                 </label>
                                                                 <input name="owner_name" type="text"
                                                                     class="form--control radius-10"
