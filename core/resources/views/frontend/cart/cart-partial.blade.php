@@ -12,11 +12,11 @@
                             <table class="custom--table table-border radius-10">
                                 <thead class="head-bg">
                                     <tr>
-                                        <th> {{ __('Product Name') }} </th>
-                                        <th> {{ __('Unite Price') }} </th>
-                                        <th> {{ __('Quantity') }} </th>
-                                        <th> {{ __('Total Price') }} </th>
-                                        <th> {{ __('Action') }} </th>
+                                        <th class="text-center"> {{ __('Product Name') }} </th>
+                                        <th class="text-center"> {{ __('Unite Price') }} </th>
+                                        {{-- <th> {{ __('Quantity') }} </th> --}}
+                                        <th class="text-center"> {{ __('Total Price') }} </th>
+                                        <th class="text-center"> {{ __('Action') }} </th>
                                     </tr>
                                 </thead>
                                 <tbody class="cart-table-body">
@@ -65,19 +65,20 @@
                                                 </div>
                                             </td>
                                             <td class="price-td text-center" data-label="Unite Price">
-                                                {{ amount_with_currency_symbol($cart_item->price) }} </td>
-                                            <td data-label="Quantity">
+                                                {{ amount_with_currency_symbol($cart_item->price) }}
+                                            </td>
+                                            {{-- <td data-label="Quantity">
                                                 <div class="product-quantity">
                                                     <span class="substract"><i class="las la-minus"></i></span>
                                                     <input class="quantity-input" type="number"
                                                         value="{{ $cart_item->qty }}">
                                                     <span class="plus"><i class="las la-plus"></i></span>
                                                 </div>
-                                            </td>
+                                            </td> --}}
                                             <td class="color-one price-td text-center" data-label="Total Price">
                                                 {{ amount_with_currency_symbol($cart_item->price * $cart_item->qty ?? 0) }}
                                             </td>
-                                            <td data-label="Close">
+                                            <td data-label="Close" class="text-center">
                                                 @if ($wishlist)
                                                     <a data-label="Move" data-type="tr"
                                                         data-product_hash_id="{{ $cart_item->rowId }}" href="#1"

@@ -16,9 +16,9 @@ class UpdateVendorRequest extends FormRequest
     {
         return [
             "id" => "required",
-            "owner_name" => "required",
+            "owner_name" => "required|min:3|max:30",
             "username" => ["required",Rule::unique('vendors')->ignore($this->id)],
-            "business_name" => "required",
+            "business_name" => "required|min:3|max:30",
             "business_type_id" => "required",
             "description" => "nullable",
             "logo_id" => "nullable",
