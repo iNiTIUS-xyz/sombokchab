@@ -12,25 +12,25 @@
                             <x-msg.error />
                             <x-msg.flash />
 
-                            {{-- Alert messages to show for 5s and then hide --}}
+                            {{-- Alert messages --}}
                             <div class="alert alert-danger" id="error" style="display: none;"></div>
                             <div class="alert alert-success" id="sentSuccess" style="display: none;">OTP sent successfully!
                             </div>
                             <div class="alert alert-success" id="verifiedSuccess" style="display: none;">Account created
-                                successfully!
-                            </div>
+                                successfully!</div>
 
+                            {{-- Step 1: Registration Form --}}
                             <div id="step-1">
                                 <form id="account-form" method="post" enctype="multipart/form-data" novalidate>
                                     @csrf
                                     <input type="hidden" name="phone" id="verified_phone">
 
                                     <div class="row">
-                                        <!-- Phone and Country Code -->
+                                        <!-- Phone Number -->
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="label-title color-light mb-2"> {{ __('Phone Number *') }}
-                                                </label>
+                                                <label
+                                                    class="label-title color-light mb-2">{{ __('Phone Number *') }}</label>
                                                 <div class="input-group">
                                                     <select name="phone_country_code" id="phone_country_code"
                                                         class="form-select" required>
@@ -49,21 +49,23 @@
                                         <!-- Name -->
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="label-title color-light mb-2"> {{ __('Name *') }}
-                                                </label>
-                                                <input type="text" name="name" id="name" class="form--control radius-10"
-                                                    placeholder="{{ __('Name *') }}" required>
+                                                <label class="label-title color-light mb-2">{{ __('Name *') }}</label>
+                                                <input type="text" name="name" id="name"
+                                                    class="form--control radius-10" placeholder="{{ __('Name *') }}"
+                                                    required>
                                                 <small class="text-danger" id="nameError"></small>
                                             </div>
                                         </div>
 
-                                        <!-- Username -->
+                                        <!-- Username (Updated Validation) -->
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="label-title color-light mb-2"> {{ __('Username *') }}
-                                                </label>
-                                                <input type="text" name="username" id="username" class="form--control radius-10"
-                                                    placeholder="{{ __('Username *') }}" required>
+                                                <label class="label-title color-light mb-2">{{ __('Username *') }}</label>
+                                                <input type="text" name="username" id="username"
+                                                    class="form--control radius-10" placeholder="{{ __('Username *') }}"
+                                                    required>
+                                                <small class="text-muted">Allowed: letters (A-Z, a-z), numbers (0-9), dots
+                                                    (.), underscores (_)</small>
                                                 <small class="text-danger" id="usernameError"></small>
                                             </div>
                                         </div>
@@ -71,10 +73,9 @@
                                         <!-- Email (Optional) -->
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="label-title color-light mb-2"> {{ __('Email') }}
-                                                </label>
-                                                <input type="email" name="email" id="email" class="form--control radius-10"
-                                                    placeholder="{{ __('Email') }}">
+                                                <label class="label-title color-light mb-2">{{ __('Email') }}</label>
+                                                <input type="email" name="email" id="email"
+                                                    class="form--control radius-10" placeholder="{{ __('Email') }}">
                                                 <small class="text-danger" id="emailError"></small>
                                             </div>
                                         </div>
@@ -82,10 +83,10 @@
                                         <!-- Password -->
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="label-title color-light mb-2"> {{ __('Password *') }}
-                                                </label>
-                                                <input type="password" name="password" id="password" class="form--control radius-10"
-                                                    placeholder="{{ __('Password *') }}" required>
+                                                <label class="label-title color-light mb-2">{{ __('Password *') }}</label>
+                                                <input type="password" name="password" id="password"
+                                                    class="form--control radius-10" placeholder="{{ __('Password *') }}"
+                                                    required>
                                                 <small>
                                                     <ul>
                                                         <li>Minimum 8 characters</li>
@@ -98,9 +99,8 @@
                                         <!-- Confirm Password -->
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="label-title color-light mb-2">
-                                                    {{ __('Confirm Password *') }}
-                                                </label>
+                                                <label
+                                                    class="label-title color-light mb-2">{{ __('Confirm Password *') }}</label>
                                                 <input type="password" name="password_confirmation"
                                                     id="password_confirmation" class="form--control radius-10"
                                                     placeholder="{{ __('Confirm Password *') }}" required>
@@ -129,15 +129,15 @@
                                     <div id="recaptcha-container"></div>
                                     <div class="form-group text-right" style="text-align: right;">
                                         <button type="button" class="btn btn-next step-button-outline p-2"
-                                        onclick="sendCodeAndContinue()" id="continueButton" disabled>
-                                        <span class="">Next </span>
-                                        <i class="las la-arrow-right"></i>
-                                    </button>
+                                            onclick="sendCodeAndContinue()" id="continueButton" disabled>
+                                            <span class="">Next </span>
+                                            <i class="las la-arrow-right"></i>
+                                        </button>
                                     </div>
-                                    
                                 </form>
                             </div>
 
+                            {{-- Step 2: OTP Verification --}}
                             <div id="step-2" style="display: none;">
                                 <div class="col-12 pb-3 mb-4">
                                     <div class="form-group">
@@ -167,110 +167,26 @@
                                 </div>
                             </div>
                         </div>
-                        
                     </div>
+
                     <!-- Already have an account -->
                     <div class="signin__account__para d-flex justify-content-center" style="margin-top: 10px">
                         <p class="info">
                             {{ __('Already have an account?') }}
                             <a href="{{ route('user.login') }}" class="active">
-                            <strong>{{ __('Sign In') }}</strong>
-                        </a>
+                                <strong>{{ __('Sign In') }}</strong>
+                            </a>
                         </p>
-                        
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
-    <style>
-        #account-form label {
-            font-size: 16px;
-            font-weight: bold;
-        }
-
-        .btn:disabled {
-            color: #FFF;
-            background-color: #656565;
-            border-color: #656565;
-        }
-
-        #step-1 .btn.btn-next.step-button-outline {
-            padding: 0px;
-            border: none;
-            font-weight: bold;
-        }
-
-        #step-2 .btn.btn-prev.step-button-outline {
-            padding: 0px;
-            border: none;
-            font-weight: bold;
-        }
-    </style>
-
-    <style>
-        /* Match styling from your second snippet */
-        #vendor-form label {
-            font-size: 16px;
-            font-weight: bold;
-        }
-
-        .btn {
-            font-size: 16px;
-        }
-
-        .btn:disabled {
-            color: #656565;
-            background-color: transparent;
-            border-color: #656565;
-        }
-
-        #step-1 .btn.btn-next.step-button-outline {
-            border: 1px solid var(--main-color-one);
-            font-weight: bold;
-            font-size: 16px;
-        }
-
-        #step-2 .btn.btn-prev.step-button {
-            border: none;
-            font-weight: bold;
-            border: 1px solid var(--main-color-one);
-        }
-
-        #step-2 .btn.btn-prev {
-            border: var(--main-color-one);
-            color: var(--main-color-one);
-            font-weight: bold;
-            border: 1px solid var(--main-color-one);
-        }
-
-        #step-2 .btn.btn-prev:hover {
-            color: #FFF;
-            font-weight: bold;
-            background: var(--main-color-one);
-            border: 1px solid var(--main-color-one);
-        }
-
-        #step-2 .btn.submit-button {
-            border: 1px solid var(--main-color-one);
-            font-weight: bold;
-            background: var(--main-color-one);
-            color: #FFF;
-        }
-
-        #step-2 .btn.submit-button:hover {
-            border: 1px solid #284137;
-            font-weight: bold;
-            background: #284137;
-            color: #FFF;
-        }
-    </style>
 @endsection
 
 @section('script')
     <script>
-        // ----------------- Fields & References ----------------- //
+        // ================== Fields & References ================== //
         const phoneCountryCode = document.getElementById('phone_country_code');
         const phoneField = document.getElementById('number');
         const nameField = document.getElementById('name');
@@ -291,27 +207,71 @@
 
         // Timer references
         let resendTimer = null;
-        let timeLeft = 60; // For the 60s countdown
+        let timeLeft = 60;
 
-        // ----------------- Validation Helpers ----------------- //
+        // ================== Username Validation ================== //
+        function validateUsername(value) {
+            if (!value.trim()) return 'Username is required';
+
+            // Strict regex: Only A-Z, a-z, 0-9, ., _
+            const re = /^[A-Za-z0-9._]+$/;
+
+            if (!re.test(value)) {
+                return 'Only letters (A-Z, a-z), numbers (0-9), dots (.), and underscores (_) allowed';
+            }
+
+            // Length check
+            if (value.length < 3 || value.length > 20) {
+                return 'Username must be 3-20 characters';
+            }
+
+            // Cannot start/end with . or _
+            if (value.startsWith('.') || value.startsWith('_')) {
+                return 'Cannot start with . or _';
+            }
+
+            if (value.endsWith('.') || value.endsWith('_')) {
+                return 'Cannot end with . or _';
+            }
+
+            return '';
+        }
+
+        // Block invalid characters in username field
+        usernameField.addEventListener('keypress', (e) => {
+            const allowedChars = /^[A-Za-z0-9._]$/;
+            const key = String.fromCharCode(e.keyCode || e.which);
+
+            if (!allowedChars.test(key)) {
+                e.preventDefault();
+                usernameErrorEl.textContent = 'Only letters, numbers, . and _ allowed';
+                return false;
+            }
+        });
+
+        // Real-time username validation
+        usernameField.addEventListener('input', async () => {
+            const val = usernameField.value;
+            let errorMsg = validateUsername(val);
+
+            if (!errorMsg && val.trim()) {
+                errorMsg = await checkFieldAvailability('username', val.trim());
+            }
+
+            usernameErrorEl.textContent = errorMsg;
+            updateContinueButton();
+        });
+
+        // ================== Other Validations ================== //
         function validatePhone(fullPhone) {
             const phoneRegex = /^(\+855\d{8,9}|\+8801\d{9}|\+1\d{10})$/;
             if (!fullPhone.trim()) return 'Phone number is required';
             return phoneRegex.test(fullPhone) ? '' : 'Invalid phone number';
         }
 
-        function validateUsername(value) {
-            if (!value.trim()) return 'Username is required';
-            const re = /^[A-Za-z0-9._]{3,20}$/;
-            if (!re.test(value)) {
-                return 'Username must be 3–20 chars (letters, numbers, ., _) with no spaces';
-            }
-            return '';
-        }
-
         function validateEmail(value) {
             const trimmed = value.trim();
-            if (!trimmed) return ''; // optional
+            if (!trimmed) return '';
             if (/\s/.test(trimmed)) return 'Email cannot contain spaces';
             const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             return re.test(trimmed) ? '' : 'Invalid email';
@@ -334,7 +294,7 @@
         }
 
         async function checkFieldAvailability(field, value) {
-            if (!value.trim()) return ''; // skip if empty
+            if (!value.trim()) return '';
             try {
                 const resp = await fetch("{{ route('check.user.data.availability') }}", {
                     method: 'POST',
@@ -347,9 +307,8 @@
                         value
                     })
                 });
-                if (resp.ok) {
-                    return ''; // no conflict
-                }
+
+                if (resp.ok) return '';
                 const errorJson = await resp.json();
                 return errorJson.error || 'Server error. Please try again later.';
             } catch (e) {
@@ -358,7 +317,7 @@
             }
         }
 
-        // Show a message for X seconds, then hide
+        // ================== Form Utilities ================== //
         function displayTempMessage(elementId, message, seconds = 5) {
             const el = document.getElementById(elementId);
             el.textContent = message;
@@ -390,66 +349,7 @@
             continueButton.disabled = !requiredFilled || hasAnyError;
         }
 
-        // ----------------- Event Listeners ----------------- //
-        phoneField.addEventListener('input', async () => {
-            const fullPhone = phoneCountryCode.value + phoneField.value;
-            let errorMsg = validatePhone(fullPhone);
-            if (!errorMsg) {
-                errorMsg = await checkFieldAvailability('phone', fullPhone);
-            }
-            phoneErrorEl.textContent = errorMsg;
-            updateContinueButton();
-        });
-
-        phoneCountryCode.addEventListener('change', async () => {
-            const fullPhone = phoneCountryCode.value + phoneField.value;
-            let errorMsg = validatePhone(fullPhone);
-            if (!errorMsg) {
-                errorMsg = await checkFieldAvailability('phone', fullPhone);
-            }
-            phoneErrorEl.textContent = errorMsg;
-            updateContinueButton();
-        });
-
-        usernameField.addEventListener('input', async () => {
-            const val = usernameField.value;
-            let errorMsg = validateUsername(val);
-            if (!errorMsg && val.trim()) {
-                errorMsg = await checkFieldAvailability('username', val.trim());
-            }
-            usernameErrorEl.textContent = errorMsg;
-            updateContinueButton();
-        });
-
-        emailField.addEventListener('input', async () => {
-            const val = emailField.value;
-            let errorMsg = validateEmail(val);
-            if (!errorMsg && val.trim()) {
-                errorMsg = await checkFieldAvailability('email', val.trim());
-            }
-            emailErrorEl.textContent = errorMsg;
-            updateContinueButton();
-        });
-
-        passwordField.addEventListener('input', () => {
-            const errorMsg = validatePassword(passwordField.value);
-            passwordErrorEl.textContent = errorMsg;
-            updateContinueButton();
-        });
-
-        confirmField.addEventListener('input', () => {
-            const errorMsg = validateConfirmPassword(confirmField.value, passwordField.value);
-            confirmErrorEl.textContent = errorMsg;
-            updateContinueButton();
-        });
-
-        termsCheckbox.addEventListener('change', () => {
-            const errorMsg = validateTerms(termsCheckbox.checked);
-            termsErrorEl.textContent = errorMsg;
-            updateContinueButton();
-        });
-
-        // ----------------- OTP Logic ----------------- //
+        // ================== OTP Logic ================== //
         function startResendTimer() {
             const resendOtpButton = document.getElementById('resendOtpButton');
             const resendTimerSpan = document.getElementById('resendTimer');
@@ -477,7 +377,7 @@
             }
 
             try {
-                const response = await fetch("{{ route('send.otp') }}", { // Adjust route as needed
+                const response = await fetch("{{ route('send.otp') }}", {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -512,12 +412,10 @@
             if (!code) {
                 document.getElementById('verificationCodeError').textContent = 'Verification code is required';
                 return;
-            } else {
-                document.getElementById('verificationCodeError').textContent = '';
             }
 
             try {
-                const response = await fetch("{{ route('verify.otp') }}", { // Adjust route as needed
+                const response = await fetch("{{ route('verify.otp') }}", {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -556,9 +454,58 @@
             sendCodeAndContinue();
         }
 
-        // ----------------- On Load ----------------- //
+        // ================== Initialize ================== //
         window.onload = () => {
             updateContinueButton();
+
+            // Add event listeners for other fields
+            phoneField.addEventListener('input', async () => {
+                const fullPhone = phoneCountryCode.value + phoneField.value;
+                let errorMsg = validatePhone(fullPhone);
+                if (!errorMsg) {
+                    errorMsg = await checkFieldAvailability('phone', fullPhone);
+                }
+                phoneErrorEl.textContent = errorMsg;
+                updateContinueButton();
+            });
+
+            phoneCountryCode.addEventListener('change', async () => {
+                const fullPhone = phoneCountryCode.value + phoneField.value;
+                let errorMsg = validatePhone(fullPhone);
+                if (!errorMsg) {
+                    errorMsg = await checkFieldAvailability('phone', fullPhone);
+                }
+                phoneErrorEl.textContent = errorMsg;
+                updateContinueButton();
+            });
+
+            emailField.addEventListener('input', async () => {
+                const val = emailField.value;
+                let errorMsg = validateEmail(val);
+                if (!errorMsg && val.trim()) {
+                    errorMsg = await checkFieldAvailability('email', val.trim());
+                }
+                emailErrorEl.textContent = errorMsg;
+                updateContinueButton();
+            });
+
+            passwordField.addEventListener('input', () => {
+                const errorMsg = validatePassword(passwordField.value);
+                passwordErrorEl.textContent = errorMsg;
+                updateContinueButton();
+            });
+
+            confirmField.addEventListener('input', () => {
+                const errorMsg = validateConfirmPassword(confirmField.value, passwordField.value);
+                confirmErrorEl.textContent = errorMsg;
+                updateContinueButton();
+            });
+
+            termsCheckbox.addEventListener('change', () => {
+                const errorMsg = validateTerms(termsCheckbox.checked);
+                termsErrorEl.textContent = errorMsg;
+                updateContinueButton();
+            });
         };
     </script>
 @endsection
