@@ -110,7 +110,7 @@
                         <div class="signin__account__para d-flex justify-content-center mt-4">
                             <p class="info">{{ __('Already Have account?') }}</p>
                             <a href="{{ route('user.login') }}" class="active">
-                                <strong>{{ __('Sign in') }}</strong>
+                                <strong>{{ __('Sign In') }}</strong>
                             </a>
                         </div>
                     </div>

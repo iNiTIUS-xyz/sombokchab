@@ -44,7 +44,7 @@
                     placeholder="{{ filter_static_option_value('checkout_password', $setting_text, __('Password')) }}">
             </div>
             <button class="btn-submit w-100 mt-4" id="login_btn" type="submit">
-                {!! filter_static_option_value('checkout_login_btn_text', $setting_text, __('Sign in')) !!}
+                {!! filter_static_option_value('checkout_login_btn_text', $setting_text, __('Sign In')) !!}
             </button>
         </form>
         <div class="single-checbox mt-3">

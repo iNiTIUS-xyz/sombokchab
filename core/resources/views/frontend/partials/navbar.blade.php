@@ -81,7 +81,7 @@
                                     <li class="list">
                                         <a href="{{ route('user.logout') }}"
                                             onclick="event.preventDefault();document.getElementById('menu_logout_submit_btn').dispatchEvent(new MouseEvent('click'));">
-                                            {{ __('Sign out') }}
+                                            {{ __('Sign Out') }}
                                         </a>
                                         <form action="{{ route('user.logout') }}" method="POST"
                                             style="display: none;">

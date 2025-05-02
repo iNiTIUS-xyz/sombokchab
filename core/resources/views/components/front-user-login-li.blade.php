@@ -5,7 +5,7 @@
     <li class="volunteer"><a href="{{$route}}">{{__('Dashboard')}}</a>  <span>/</span>
         <a href="{{ route('user.logout') }}"
            onclick="event.preventDefault();document.getElementById('logout_submit_btn__').dispatchEvent(new MouseEvent('click'))">
-            {{ __('Sign out') }}
+            {{ __('Sign Out') }}
         </a>
         <form id="userlogout-form" action="{{ route('user.logout') }}" method="POST" style="display: none;">
             @csrf

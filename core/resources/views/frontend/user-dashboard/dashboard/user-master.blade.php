@@ -48,7 +48,7 @@
                                 </li>
 
                                 <li class="list">
-                                    <a href="{{ route('tenant.user.logout') }}" ><i class="las la-sign-out-alt"></i>{{ __('Sign out') }}</a>
+                                    <a href="{{ route('tenant.user.logout') }}" ><i class="las la-sign-out-alt"></i>{{ __('Sign Out') }}</a>
                                 </li>
                             </ul>
                         </div>

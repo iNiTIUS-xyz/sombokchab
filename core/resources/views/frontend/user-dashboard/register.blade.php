@@ -12,7 +12,7 @@
             <div class="row justify-content-center">
                 <div class="col-md-8 col-lg-8">
                     <div class="sign-up register">
-                        <h4 class="title">{{ __('sign up') }}</h4>
+                        <h4 class="title">{{ __('Sign Up') }}</h4>
                         <div class="form-wrapper">
                             <x-error-msg />
                             <x-flash-msg />
@@ -79,11 +79,11 @@
                                 </div>
 
                                 <div class="btn-wrapper">
-                                    <button type="submit" class="btn-default rounded-btn">{{ __('sign up') }}</button>
+                                    <button type="submit" class="btn-default rounded-btn">{{ __('Sign Up') }}</button>
                                 </div>
                             </form>
                             <p class="info">{{ __('Already have an Account?') }} <a
-                                    href="{{ route('tenant.user.login') }}" class="active">{{ __('Sign in') }}</a>
+                                    href="{{ route('tenant.user.login') }}" class="active">{{ __('Sign In') }}</a>
                             </p>
                         </div>
                     </div>
