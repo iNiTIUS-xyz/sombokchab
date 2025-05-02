@@ -142,7 +142,7 @@
         function validatePhone(value) {
             // Updated regex to accept any country code with valid phone number
             const phoneRegex = /^\+(?:[0-9] ?){6,14}[0-9]$/;
-            const msgPone = 'Invalid phone number format. Please include country code (e.g., +8801602307323)';
+            const msgPone = 'Invalid phone number format. Please include country code (e.g., +88016XXXXXXX).';
             return phoneRegex.test(value) ? '' : msgPone;
         }
 
