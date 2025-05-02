@@ -60,12 +60,10 @@ use Modules\TaxModule\Services\CalculateTaxServices;
 use Modules\Vendor\Entities\Vendor;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Random\RandomException;
-use Spatie\Feed\Feed;
 use Throwable;
-use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
-ini_set('max_execution_time', 300); // 5 minutes
+
+ini_set('max_execution_time', 300);
 
 class FrontendController extends Controller
 {
@@ -85,10 +83,7 @@ class FrontendController extends Controller
         });
 
         return view('frontend.frontend-home', compact('static_field_data', 'page_details'));
-        // return view('frontend.frontend-home')->with([
-        //     'static_field_data' => $static_field_data,
-        //     'page_details' => $page_details,
-        // ]);
+
     }
 
     public function home_page_change($id)
@@ -112,9 +107,6 @@ class FrontendController extends Controller
         return redirect_404_page();
     }
 
-    /** ==================================================================
-     *                  BLOG PAGES
-     * ==================================================================*/
     public function blog_page()
     {
         $page_details = Page::findOrFail(get_static_option('blog_page'));
@@ -122,7 +114,7 @@ class FrontendController extends Controller
         return view('frontend.frontend-home', compact('page_details'));
     }
 
-    final public function category_wise_blog_page(int $id, string $slug = null): string
+    final public function category_wise_blog_page(int $id, $slug = null)
     {
         $all_blogs = Blog::where(['blog_categories_id' => $id])->orderBy('id', 'desc')
             ->paginate(get_static_option('blog_page_item'));
@@ -511,7 +503,7 @@ class FrontendController extends Controller
         // If user found, generate a token (purely ephemeral for the route)
         // We do NOT want to send mail or store in password_resets
         // So we skip DB insert if you truly do not want to track it
-        $token = \Illuminate\Support\Str::random(40);
+        $token = Str::random(40);
 
         // Return JSON: found=true, plus user ID & token
         return response()->json([
@@ -589,10 +581,10 @@ class FrontendController extends Controller
             $user->password = Hash::make($request->password);
             $user->save();
 
-            return redirect()->route('vendor.login')->with(['msg' => __('Password Changed Successfully'), 'type' => 'success']);
+            return redirect()->route('vendor.login')->with(['msg' => __('Password Changed Successfully.'), 'type' => 'success']);
         }
 
-        return redirect()->back()->with(['msg' => __('Somethings Going Wrong! Please Try Again or Check Your Old Password'), 'type' => 'danger']);
+        return redirect()->back()->with(['msg' => __('Somethings Going Wrong! Please Try Again or Check Your Old Password.'), 'type' => 'danger']);
     }
     public function showUserResetPasswordForm($username, $token)
     {
@@ -615,12 +607,11 @@ class FrontendController extends Controller
             $user->password = Hash::make($request->password);
             $user->save();
 
-            return redirect()->route('user.login')->with(['msg' => __('Password Changed Successfully'), 'type' => 'success']);
+            return redirect()->route('user.login')->with(['msg' => __('Password Changed Successfully.'), 'type' => 'success']);
         }
 
-        return redirect()->back()->with(['msg' => __('Somethings Going Wrong! Please Try Again or Check Your Old Password'), 'type' => 'danger']);
+        return redirect()->back()->with(['msg' => __('Somethings Going Wrong! Please Try Again or Check Your Old Password.'), 'type' => 'danger']);
     }
-
 
     public function ajax_login(Request $request)
     {
@@ -628,9 +619,9 @@ class FrontendController extends Controller
             'phone' => 'required|string',
             'password' => 'required|min:6',
         ], [
-            'phone.required' => __('Phone number or email is required'),
-            'password.required' => __('Password is required'),
-            'password.min' => __('Password must be at least 6 characters'),
+            'phone.required' => __('Phone number or email is required.'),
+            'password.required' => __('Password is required.'),
+            'password.min' => __('Password must be at least 6 characters.'),
         ]);
 
         $login_key = 'phone';
@@ -658,10 +649,9 @@ class FrontendController extends Controller
             ]);
         }
 
-        // Attempt to log in
         if (Auth::guard('web')->attempt([$login_key => $input_value, 'password' => $request->password], $request->get('remember'))) {
             return response()->json([
-                'msg' => __('Login Success. Redirecting...'),
+                'msg' => __('Login successful. Redirecting...'),
                 'type' => 'success',
                 'status' => 'valid',
                 'user_identification' => random_int(11111111, 99999999) . auth()->guard('web')->id() . random_int(11111111, 99999999),
@@ -669,7 +659,7 @@ class FrontendController extends Controller
         }
 
         return response()->json([
-            'msg' => ($login_key == 'email' ? __('Email') : __('Phone Number')) . __(' or Password does not match!'),
+            'msg' => ($login_key == 'email' ? __('Email') : __('Phone number')) . __(' or password does not match.'),
             'type' => 'danger',
             'status' => 'invalid',
         ]);
@@ -682,14 +672,14 @@ class FrontendController extends Controller
             return redirect()->route('user.campaign.new');
         }
 
-        return view('frontend.user.login')->with(['title' => __('Login To Create New Campaign')]);
+        return view('frontend.user.login')->with(['title' => __('Login To Create New Campaign.')]);
     }
 
 
     public function addUserShippingAddress(Request $request)
     {
         if (!auth('web')->check()) {
-            return back()->with(FlashMsg::explain('danger', __('Please login to add new address')));
+            return back()->with(FlashMsg::explain('danger', __('Please login to add new address.')));
         }
 
         $request->validate([
@@ -719,16 +709,12 @@ class FrontendController extends Controller
         }
     }
 
-    /** ======================================================================
-     *                  CART FUNCTIONS
-     * ======================================================================*/
     public function cartPage(Request $request)
     {
         $default_shipping_cost = CartAction::getDefaultShippingCost();
 
         $all_cart_items = CartHelper::getItems();
 
-        // validate stock count here ...
         CartAction::validateItemQuantity();
 
         $all_cart_items = CartHelper::getItems();

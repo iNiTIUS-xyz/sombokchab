@@ -14,10 +14,12 @@
 
                             {{-- Alert messages --}}
                             <div class="alert alert-danger" id="error" style="display: none;"></div>
-                            <div class="alert alert-success" id="sentSuccess" style="display: none;">OTP sent successfully!
+                            <div class="alert alert-success" id="sentSuccess" style="display: none;">
+                                OTP sent successfully.
                             </div>
-                            <div class="alert alert-success" id="verifiedSuccess" style="display: none;">Account created
-                                successfully!</div>
+                            <div class="alert alert-success" id="verifiedSuccess" style="display: none;">
+                                Account created successfully.
+                            </div>
 
                             {{-- Step 1: Registration Form --}}
                             <div id="step-1">

@@ -13,6 +13,7 @@
                         id="login_form_order_page" onsubmit="return validateLoginForm()">
                         @csrf
                         <div class="error-wrap"></div>
+                        <div class="alert alert-success showLoginRedirect" style="display: none;"></div>
                         <div class="single-input">
                             <div class="phone-input">
                                 <label class="label-title mb-1"> {{ __('Phone Number') }} </label>
@@ -134,7 +135,8 @@
                                     '</div>');
                             } else {
                                 formContainer.find('.error-wrap').html('');
-                                el.text('{{ __('Login Success.. Redirecting ..') }}');
+                                $(".showLoginRedirect").show();
+                                $(".showLoginRedirect").text(data.msg);
                                 setTimeout(function() {
                                     location.reload();
                                 }, 500);

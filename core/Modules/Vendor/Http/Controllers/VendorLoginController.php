@@ -52,9 +52,9 @@ class VendorLoginController extends Controller
             'phone' => 'required|string',
             'password' => 'required|min:6',
         ], [
-            'phone.required' => __('Phone number or email is required'),
-            'password.required' => __('Password is required'),
-            'password.min' => __('Password must be at least 6 characters'),
+            'phone.required' => __('Phone number or email is required.'),
+            'password.required' => __('Password is required.'),
+            'password.min' => __('Password must be at least 6 characters.'),
         ]);
 
         $login_key = 'phone';
@@ -82,22 +82,20 @@ class VendorLoginController extends Controller
             ]);
         }
 
-        // Attempt to log in
         if (Auth::guard('vendor')->attempt([$login_key => $input_value, 'password' => $request->password], $request->get('remember'))) {
             return response()->json([
-                'msg' => __('Login Success. Redirecting...'),
+                'msg' => __('Login successful. Redirecting...'),
                 'type' => 'success',
                 'status' => 'valid',
-                'user_identification' => random_int(11111111, 99999999) . auth()->guard('web')->id() . random_int(11111111, 99999999),
+                'user_identification' => random_int(11111111, 99999999) . auth()->guard('vendor')->id() . random_int(11111111, 99999999),
             ]);
         }
 
         return response()->json([
-            'msg' => ($login_key == 'email' ? __('Email') : __('Phone Number')) . __(' or Password does not match!'),
+            'msg' => ($login_key == 'email' ? __('Email') : __('Phone number')) . __(' or password does not match.'),
             'type' => 'danger',
             'status' => 'invalid',
         ]);
-
     }
 
     public function register()
@@ -120,9 +118,9 @@ class VendorLoginController extends Controller
         $rawPassword = $data['password'];
         $data['password'] = Hash::make($data['password']);
         $data['is_vendor_verified'] = 1;
-        
+
         $data['verified_at'] = Carbon::now();
-      	$data['phone'] = $data['phone_country_code'] . $data['phone'];
+        $data['phone'] = $data['phone_country_code'] . $data['phone'];
 
         // now create vendor
         $vendor = Vendor::create($data);
@@ -154,7 +152,7 @@ class VendorLoginController extends Controller
         ];
     }
 
-   
+
     public function checkVendorDataAvailability(Request $request)
     {
         $field = $request->input('field');

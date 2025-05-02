@@ -43,7 +43,7 @@ Route::prefix('admin-home/vendor')->middleware(['setlang:backend', 'adminglobalV
 });
 
 Route::prefix("vendor-home")->middleware(['setlang:backend', 'adminglobalVariable', 'auth:vendor'])->controller(VendorController::class)->group(callback: function () {
-    //todo:: user email verify
+    // user email verify
     Route::get('email-verify', 'user_email_verify_index')->name('vendor.email.verify')->middleware(['setlang:frontend', 'globalVariable']);
     Route::post('email-verify', 'user_email_verify');
 
@@ -56,14 +56,14 @@ Route::prefix('vendor-home')->middleware(['setlang:backend', 'adminglobalVariabl
     Route::controller(VendorController::class)->group(function () {
         Route::post('get-state', 'get_state')->name('vendor.get.state');
         Route::post('get-city', 'get_city')->name('vendor.get.city');
-        //todo:: admin index
+        // admin index
         Route::get('dashboard', 'index')->name('vendor.home');
         Route::get('/dark-mode-toggle', 'AdminDashboardController@dark_mode_toggle')->name('vendor.dark.mode.toggle');
         Route::get('/logout', 'VendorLoginController@logout')->name('vendor.logout');
     });
 
     Route::controller(VendorProfileController::class)->prefix('profile')->group(function () {
-        //todo:: vendor Profile
+        // vendor Profile
         Route::get('/settings', 'vendor_settings')->name('vendor.profile.settings');
         Route::get('/settings', 'vendor_settings')->name('vendor.profile.preview');
         Route::get('/profile-update', 'vendor_profile')->name('vendor.profile.update');

@@ -13,13 +13,14 @@
                         id="login_form_order_page" onsubmit="return validateLoginForm()">
                         @csrf
                         <div class="error-wrap"></div>
+                        <div class="alert alert-success showLoginRedirect" style="display: none;"></div>
+
                         <div class="single-input">
                             <div class="phone-input">
                                 <label class="label-title mb-1"> {{ __('Phone Number') }} </label>
                                 <div class="d-flex">
-                                    <select id="phone_country_code" class="form-select"
-                                        style="width: 30% !important; border: 1px solid rgba(221, 221, 221, 0.4) !important; box-shadow: 0 0 10px rgba(255, 255, 255, 0.1) !important;">
-                                        <option value="+1" selected>+1</option>
+                                    <select id="phone_country_code" class="form-select" style="width: 30% !important;">
+                                        <option value="+1">+1</option>
                                         <option value="+880">+880</option>
                                         <option value="+855">+855</option>
                                     </select>
@@ -29,12 +30,14 @@
                                 </div>
                                 <small id="login_phone_error" class="text-danger"></small>
                             </div>
+
                             <div class="email-input" style="display: none;">
                                 <label class="label-title mb-2"> {{ __('Email') }} </label>
                                 <input class="form--control" type="email" name="email" id="login_email"
                                     placeholder="{{ __('Type Email') }}" required>
                                 <small id="login_email_error" class="text-danger"></small>
                             </div>
+
                             <div class="toggle-input-type mb-3 text-end">
                                 <button type="button" id="togglePhoneEmail"
                                     style="background: transparent; border: none; text-decoration: underline;">
@@ -42,6 +45,7 @@
                                 </button>
                             </div>
                         </div>
+
                         <!-- Password Input with Toggle Eye -->
                         <div class="single-input">
                             <label class="label-title mb-2"> {{ __('Password') }} </label>
@@ -50,9 +54,9 @@
                                     placeholder="{{ __('Type Password') }}">
                                 <div class="toggle-password position-absolute"
                                     style="right: 10px; top: 45%; transform: translateY(-50%); cursor: pointer;">
-                                    <span class="hide-icon" style="display: inline;"> <i class="las la-eye-slash"></i>
-                                    </span>
-                                    <span class="show-icon" style="display: none;"> <i class="las la-eye"></i> </span>
+                                    <span class="hide-icon" style="display: inline;"> <i
+                                            class="las la-eye-slash"></i></span>
+                                    <span class="show-icon" style="display: none;"> <i class="las la-eye"></i></span>
                                 </div>
                             </div>
                             <small id="login_password_error" class="text-danger"></small>
@@ -64,6 +68,7 @@
                             </button>
                         </div>
                     </form>
+
                     <div class="single-checbox mt-3">
                         <div class="checkbox-inlines">
                             <input class="check-input" type="checkbox" id="login_remember" name="remember">
@@ -74,6 +79,7 @@
                                 {{ __('Forgot Password?') }} </a>
                         </div>
                     </div>
+
                     <div class="dashboard-bottom-contents">
                         <div class="account-bottom">
                             <span class="account-title mt-3"> {{ __("Don't have an account?") }} </span>
@@ -89,17 +95,30 @@
 @endsection
 
 @section('script')
-    @include('frontend.partials.google-captcha')
-    @include('frontend.partials.gdpr-cookie')
-    @include('frontend.partials.inline-script')
-    @include('frontend.partials.twakto')
-    <x-sweet-alert-msg />
     <script src="{{ asset('assets/common/js/toastr.min.js') }}"></script>
+
     <script>
         (function($) {
             "use strict";
+
             $(document).ready(function() {
-                $(document).on('click', '#login_btn', function(e) {
+                // Prefill inputs from cookie
+                let rememberedType = getCookie("remembered_type");
+                let rememberedValue = getCookie("remembered_value");
+                let rememberedCode = getCookie("remembered_code");
+
+                if (rememberedType === "email") {
+                    $('#togglePhoneEmail').trigger('click'); // switch to email
+                    $('#login_email').val(rememberedValue);
+                } else if (rememberedType === "phone") {
+                    $('#number').val(rememberedValue);
+                    if (rememberedCode) {
+                        $('#phone_country_code').val(rememberedCode);
+                    }
+                }
+
+                // Login button click
+                $('#login_btn').on('click', function(e) {
                     e.preventDefault();
                     let formContainer = $('#login_form_order_page');
                     let el = $(this);
@@ -119,7 +138,7 @@
                         url: "{{ route('vendor.login') }}",
                         data: {
                             _token: "{{ csrf_token() }}",
-                            [isEmail ? 'phone' : 'phone']: loginInput,
+                            [isEmail ? 'email' : 'phone']: loginInput,
                             password: password,
                             remember: remember,
                         },
@@ -130,8 +149,25 @@
                                     '<div class="alert alert-danger">' + data.msg +
                                     '</div>');
                             } else {
+                                // Save to cookies if remember me is checked
+                                if (remember) {
+                                    if (isEmail) {
+                                        setCookie("remembered_type", "email", 7);
+                                        setCookie("remembered_value", email, 7);
+                                        eraseCookie("remembered_code");
+                                    } else {
+                                        setCookie("remembered_type", "phone", 7);
+                                        setCookie("remembered_value", phone, 7);
+                                        setCookie("remembered_code", countryCode, 7);
+                                    }
+                                } else {
+                                    eraseCookie("remembered_type");
+                                    eraseCookie("remembered_value");
+                                    eraseCookie("remembered_code");
+                                }
+
                                 formContainer.find('.error-wrap').html('');
-                                el.text('{{ __('Login Success.. Redirecting ..') }}');
+                                $(".showLoginRedirect").show().text(data.msg);
                                 setTimeout(function() {
                                     location.reload();
                                 }, 500);
@@ -150,50 +186,67 @@
                     });
                 });
 
-                $('.nav-item .nav-link').on('click', function() {
-                    $('#forgot-password').removeClass('active');
+                // Toggle Email/Phone
+                $('#togglePhoneEmail').on('click', function() {
+                    const phoneInput = $('.phone-input');
+                    const emailInput = $('.email-input');
+                    const toggleBtn = $(this);
+
+                    if (phoneInput.is(':visible')) {
+                        phoneInput.hide();
+                        emailInput.show();
+                        toggleBtn.text('{{ __('Use Phone') }}');
+                    } else {
+                        phoneInput.show();
+                        emailInput.hide();
+                        toggleBtn.text('{{ __('Use Email') }}');
+                    }
                 });
+
+                // Password Show/Hide
+                $('.show-icon').on('click', function() {
+                    $('#login_password').attr('type', 'text');
+                    $(this).hide();
+                    $('.hide-icon').show();
+                });
+                $('.hide-icon').on('click', function() {
+                    $('#login_password').attr('type', 'password');
+                    $(this).hide();
+                    $('.show-icon').show();
+                });
+
             });
-        })(jQuery)
 
-        function capitalizeFirstLetter(string) {
-            return string.charAt(0).toUpperCase() + string.slice(1);
-        }
-    </script>
-
-    <script>
-        // Toggle Password Visibility
-        const passwordInput = document.getElementById('login_password');
-        const showIcon = document.querySelector('.show-icon');
-        const hideIcon = document.querySelector('.hide-icon');
-
-        showIcon.addEventListener('click', function() {
-            passwordInput.type = 'text';
-            showIcon.style.display = 'none';
-            hideIcon.style.display = 'inline';
-        });
-
-        hideIcon.addEventListener('click', function() {
-            passwordInput.type = 'password';
-            showIcon.style.display = 'inline';
-            hideIcon.style.display = 'none';
-        });
-
-        // Toggle Phone/Email
-        document.getElementById('togglePhoneEmail').addEventListener('click', function() {
-            const phoneInput = document.querySelector('.phone-input');
-            const emailInput = document.querySelector('.email-input');
-            const toggleButton = this;
-
-            if (phoneInput.style.display === 'none') {
-                phoneInput.style.display = 'block';
-                emailInput.style.display = 'none';
-                toggleButton.textContent = '{{ __('Use Email') }}';
-            } else {
-                phoneInput.style.display = 'none';
-                emailInput.style.display = 'block';
-                toggleButton.textContent = '{{ __('Use Phone') }}';
+            function capitalizeFirstLetter(string) {
+                return string.charAt(0).toUpperCase() + string.slice(1);
             }
-        });
+
+            // Cookie Helpers
+            function setCookie(name, value, days) {
+                let expires = "";
+                if (days) {
+                    const date = new Date();
+                    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                    expires = "; expires=" + date.toUTCString();
+                }
+                document.cookie = name + "=" + (value || "") + expires + "; path=/";
+            }
+
+            function getCookie(name) {
+                const nameEQ = name + "=";
+                const ca = document.cookie.split(';');
+                for (let i = 0; i < ca.length; i++) {
+                    let c = ca[i];
+                    while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+                }
+                return null;
+            }
+
+            function eraseCookie(name) {
+                document.cookie = name + '=; Max-Age=-99999999;';
+            }
+
+        })(jQuery);
     </script>
 @endsection
