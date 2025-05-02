@@ -14,17 +14,15 @@
                             <!-- Display success/error messages -->
                             <div class="alert alert-danger" id="error" style="display: none;"></div>
                             <div class="alert alert-success" id="sentSuccess" style="display: none;">
-                                OTP sent successfully!
+                                OTP sent successfully.
                             </div>
                             <div class="alert alert-success" id="verifiedSuccess" style="display: none;">
-                                Phone verified
-                                successfully!
+                                Phone verified successfully.
                             </div>
                             <div class="alert alert-success" id="passwordUpdated" style="display: none;">
-                                Password updated
-                                successfully!</div>
+                                Password updated successfully.
+                            </div>
 
-                            <!-- Step 1: Enter Phone Number -->
                             <div id="step-1">
                                 <form id="step1-form" method="POST" novalidate>
                                     @csrf

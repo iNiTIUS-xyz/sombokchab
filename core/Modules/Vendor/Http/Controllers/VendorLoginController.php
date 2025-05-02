@@ -37,7 +37,7 @@ class VendorLoginController extends Controller
         Auth::logout();
 
         return redirect()->route('vendor.login')
-            ->with(['msg' => __('You Logged Out !!'), 'type' => 'danger']);
+            ->with(['msg' => __('You Logged Out.'), 'type' => 'danger']);
     }
 
     public function login()
@@ -144,10 +144,10 @@ class VendorLoginController extends Controller
         }
 
         return $vendor ? [
-            'msg' => __('registration success'),
+            'msg' => __('registration success.'),
             'type' => 'success',
         ] : [
-            'msg' => __('Failed to register'),
+            'msg' => __('Failed to register.'),
             'type' => 'error',
         ];
     }
@@ -165,17 +165,17 @@ class VendorLoginController extends Controller
         if ($field === 'phone') {
             $exists = \DB::table('vendors')->where('phone', $value)->exists();
 
-            $msg = 'Phone number already exists';
+            $msg = 'Phone number already exists.';
 
         } elseif ($field === 'email') {
             $exists = \DB::table('vendors')->where('email', $value)->exists();
 
-            $msg = 'Email address already exists';
+            $msg = 'Email address already exists.';
 
         } elseif ($field === 'username') {
             $exists = \DB::table('vendors')->where('username', $value)->exists();
 
-            $msg = 'Username already taken';
+            $msg = 'Username already taken.';
         }
 
         if ($exists) {

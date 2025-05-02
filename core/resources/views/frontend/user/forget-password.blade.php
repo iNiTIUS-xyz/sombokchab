@@ -21,8 +21,6 @@
                             <div class="alert alert-success" id="passwordUpdated" style="display: none;">
                                 Password updated successfully!
                             </div>
-
-                            <!-- Step 1: Enter Phone Number -->
                             <div id="step-1">
                                 <form id="step1-form" method="POST" novalidate>
                                     @csrf
@@ -142,8 +140,10 @@
         }
 
         function validatePhone(value) {
-            const phoneRegex = /^(\+855\d{8,9}|\+8801\d{9}|\+1\d{10})$/;
-            return phoneRegex.test(value) ? '' : 'Invalid phone number format.';
+            // Updated regex to accept any country code with valid phone number
+            const phoneRegex = /^\+(?:[0-9] ?){6,14}[0-9]$/;
+            const msgPone = 'Invalid phone number format. Please include country code (e.g., +8801602307323)';
+            return phoneRegex.test(value) ? '' : msgPone;
         }
 
         // Real-time phone validation
