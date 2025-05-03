@@ -14,7 +14,9 @@
                                     <tr>
                                         <th class="text-center"> {{ __('Product Name') }} </th>
                                         <th class="text-center"> {{ __('Unite Price') }} </th>
-                                        <th> {{ __('Quantity') }} </th>
+                                        @if (!Route::is('frontend.products.wishlist'))
+                                            <th class="text-center">{{ __('Quantity') }} </th>
+                                        @endif
                                         <th class="text-center"> {{ __('Total Price') }} </th>
                                         <th class="text-center"> {{ __('Action') }} </th>
                                     </tr>
@@ -67,14 +69,16 @@
                                             <td class="price-td text-center" data-label="Unite Price">
                                                 {{ amount_with_currency_symbol($cart_item->price) }}
                                             </td>
-                                            <td data-label="Quantity">
-                                                <div class="product-quantity">
-                                                    <span class="substract"><i class="las la-minus"></i></span>
-                                                    <input class="quantity-input" type="number"
-                                                        value="{{ $cart_item->qty }}">
-                                                    <span class="plus"><i class="las la-plus"></i></span>
-                                                </div>
-                                            </td>
+                                            @if (!Route::is('frontend.products.wishlist'))
+                                                <td data-label="Quantity">
+                                                    <div class="product-quantity">
+                                                        <span class="substract"><i class="las la-minus"></i></span>
+                                                        <input class="quantity-input" type="number"
+                                                            value="{{ $cart_item->qty }}">
+                                                        <span class="plus"><i class="las la-plus"></i></span>
+                                                    </div>
+                                                </td>
+                                            @endif
                                             <td class="color-one price-td text-center" data-label="Total Price">
                                                 {{ amount_with_currency_symbol($cart_item->price * $cart_item->qty ?? 0) }}
                                             </td>
