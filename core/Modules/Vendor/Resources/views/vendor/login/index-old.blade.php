@@ -130,9 +130,6 @@
             // make default
             e.preventDefault();
 
-
-
-
             send_ajax_request('post', new FormData(e.target), '', function() {
 
             }, function(data) {

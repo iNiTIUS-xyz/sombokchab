@@ -651,7 +651,7 @@ class FrontendController extends Controller
 
         if (Auth::guard('web')->attempt([$login_key => $input_value, 'password' => $request->password], $request->get('remember'))) {
             return response()->json([
-                'msg' => __('Login successful. Redirecting...'),
+                'msg' => __('Sign in successfull... Redirecting...'),
                 'type' => 'success',
                 'status' => 'valid',
                 'user_identification' => random_int(11111111, 99999999) . auth()->guard('web')->id() . random_int(11111111, 99999999),
