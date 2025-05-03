@@ -47,12 +47,13 @@
                                 <div class="form-group">
                                     <label class="label-title color-light mb-2"> {{ __('Phone Number *') }} </label>
                                     <div class="input-group">
-                                        <select id="phone_country_code" name="phone_country_code" class="form-select" style="width: 15% !important;">
+                                        <select id="phone_country_code" name="phone_country_code" class="form-select"
+                                            style="width: 15% !important;">
                                             <option value="+1" selected>+1</option>
                                             <option value="+880">+880</option>
                                             <option value="+855">+855</option>
                                         </select>
-                                        <input id="number" name="phone" type="text" class="form--control radius-10"
+                                        <input id="number" name="phone" type="number" class="form--control radius-10"
                                             placeholder="Phone Number" required style="width: 85% !important;" />
                                     </div>
                                     <small class="text-danger" id="phoneError"></small>
@@ -111,10 +112,10 @@
                                                 required />
                                             <small>
                                                 <ul>
-                                                    <li style="font-size: 12px;
-  font-weight: 400;
-  line-height: 20px;
-  color: var(--paragraph-color);">Minimum 8 characters</li>
+                                                    <li
+                                                        style="font-size: 12px; font-weight: 400; line-height: 20px; color: var(--paragraph-color);">
+                                                        Minimum 8 characters
+                                                    </li>
                                                 </ul>
                                             </small>
                                             <small class="text-danger" id="passwordError"></small>
@@ -190,7 +191,7 @@
                                         <i class="las la-arrow-right"></i>
                                     </button>
                                 </div>
-                                
+
                             </form>
                         </div>
 
@@ -223,33 +224,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!--<div id="step-2" style="display: none;">-->
-                        <!--    <button type="button" class="btn btn-prev p-2 mb-4" onclick="prevStep()">-->
-                        <!--        <span class="">Back </span>-->
-                        <!--        <i class="las la-arrow-left"></i>-->
-                        <!--    </button>-->
-
-                        <!--    <div class="form-group">-->
-                        <!--        <label>Enter OTP</label>-->
-                        <!--        <input type="text" id="verificationCode" class="form-control"-->
-                        <!--            placeholder="6-digit Code" style="border-radius: 10px;" />-->
-                        <!--        <small class="text-danger" id="verificationCodeError"></small>-->
-                        <!--    </div>-->
-
-                        <!--    <div class="col-12 pb-3 mb-4">-->
-                        <!--        <div class="mt-4">-->
-                        <!--            <button type="button" class="btn btn-link p-2" id="resendOtpButton"-->
-                        <!--                onclick="resendCode()" disabled style="float: left">-->
-                        <!--                Resend OTP <span id="resendTimer">(60s)</span>-->
-                        <!--            </button>-->
-
-                        <!--            <button type="button" class="btn btn-next submit-button p-2"-->
-                        <!--                onclick="verifyAndCreateAccount()" style="float: right">-->
-                        <!--                Verify & Create Account-->
-                        <!--            </button>-->
-                        <!--        </div>-->
-                        <!--    </div>-->
-                        <!--</div>-->
                     </div>
                 </div>
             </div>
@@ -311,7 +285,7 @@
             background: #284137;
             color: #FFF;
         }
-      
+
         .form--control {
             width: 100%;
             font-size: 14px;
@@ -371,21 +345,40 @@
         let resendTimer = null;
         let timeLeft = 60;
 
-        // ----------------- VALIDATION FUNCTIONS ----------------- //
         function validatePhone(countryCode, rawNumber) {
             const fullPhone = (countryCode + rawNumber).trim();
+
             if (!rawNumber.trim()) return 'Phone number is required';
 
-            const phoneRegex = /^(\+1\d{10}|\+8801\d{9}|\+855\d{8,9})$/;
-            return phoneRegex.test(fullPhone) ? '' : 'Invalid phone number';
+            const phoneDigitsOnly = fullPhone.replace(/\D/g, ''); // Remove non-digit characters
+
+            if (phoneDigitsOnly.length < 8 || phoneDigitsOnly.length > 10) {
+                return 'Phone number must be between 8 and 10 digits';
+            }
+
+            if (!/^\+?\d+$/.test(fullPhone)) {
+                return 'Phone number must contain only digits and optional leading +';
+            }
+
+            return '';
         }
 
         function validateOwnerName(value) {
-            return !value.trim() ? 'Owner name is required' : '';
+            const trimmed = value.trim();
+            if (!trimmed) return 'Owner name is required';
+            if (trimmed.length < 3) return 'Owner name must be at least 3 characters';
+            if (trimmed.length > 30) return 'Owner name cannot exceed 30 characters';
+            if (/@/.test(trimmed)) return 'Owner name cannot contain "@" character';
+            return '';
         }
 
         function validateBusinessName(value) {
-            return !value.trim() ? 'Store name is required' : '';
+            const trimmed = value.trim();
+            if (!trimmed) return 'Store name is required';
+            if (trimmed.length < 3) return 'Store name must be at least 3 characters';
+            if (trimmed.length > 30) return 'Store name cannot exceed 30 characters';
+            if (/@/.test(trimmed)) return 'Store name cannot contain "@" character';
+            return '';
         }
 
         function validateEmail(value) {
@@ -396,12 +389,26 @@
             return re.test(trimmed) ? '' : 'Invalid email';
         }
 
+        // function validateUsername(value) {
+        //     const trimmed = value.trim();
+        //     if (!trimmed) return 'Username is required';
+        //     if (trimmed.includes(' ')) return 'Username cannot contain spaces';
+
+        //     const re = /^[A-Za-z0-9._]{3,20}$/;
+        //     return re.test(trimmed) ?
+        //         '' :
+        //         'Username must be 3–20 characters (letters, numbers, ., _)';
+        // }
+
         function validateUsername(value) {
             if (!value.trim()) return 'Username is required';
+
             const re = /^[A-Za-z0-9._]{3,20}$/;
-            return re.test(value) ?
-                '' :
-                'Username must be 3–20 chars (letters, numbers, ., _) with no spaces';
+            if (!re.test(value)) {
+                return 'Username must be 3–20 characters (letters, numbers, ., _) with no spaces';
+            }
+
+            return '';
         }
 
         function validatePassword(value) {
