@@ -56,7 +56,7 @@ class LoginController extends Controller
         if (Auth::guard('admin')->attempt([$user_login_type => $request->username, 'password' => $request->password], $request->get('remember'))) {
             Auth::guard('vendor')->logout();
             return response()->json([
-                'msg' => __('Sign in successfully... Redirecting...'),
+                'msg' => __('Signed in successfully... Redirecting...'),
                 'type' => 'success',
                 'status' => 'ok',
             ]);

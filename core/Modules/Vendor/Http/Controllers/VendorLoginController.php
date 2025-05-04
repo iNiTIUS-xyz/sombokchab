@@ -155,7 +155,7 @@ class VendorLoginController extends Controller
 
         if (Auth::guard('vendor')->attempt($credentials, $request->remember)) {
             return response()->json([
-                'msg' => __('Sign in successfully... Redirecting...'),
+                'msg' => __('Signed in successfully... Redirecting...'),
                 'type' => 'success',
                 'status' => 'valid',
                 'user_identification' => random_int(11111111, 99999999) . auth()->guard('vendor')->id() . random_int(11111111, 99999999),
