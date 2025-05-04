@@ -332,7 +332,7 @@ class FrontendController extends Controller
             return redirect()->route('admin.login')->with(['msg' => __('Password Changed Successfully'), 'type' => 'success']);
         }
 
-        return redirect()->back()->with(['msg' => __('Somethings Going Wrong! Please Try Again or Check Your Old Password'), 'type' => 'danger']);
+        return redirect()->back()->with(['msg' => __('Unable to change the Password. Please try again or check your old Password.'), 'type' => 'danger']);
     }
 
     public function lang_change(Request $request)
@@ -584,7 +584,7 @@ class FrontendController extends Controller
             return redirect()->route('vendor.login')->with(['msg' => __('Password Changed Successfully.'), 'type' => 'success']);
         }
 
-        return redirect()->back()->with(['msg' => __('Somethings Going Wrong! Please Try Again or Check Your Old Password.'), 'type' => 'danger']);
+        return redirect()->back()->with(['msg' => __('Unable to change the Password. Please try again or check your old Password..'), 'type' => 'danger']);
     }
     public function showUserResetPasswordForm($username, $token)
     {
@@ -610,7 +610,7 @@ class FrontendController extends Controller
             return redirect()->route('user.login')->with(['msg' => __('Password Changed Successfully.'), 'type' => 'success']);
         }
 
-        return redirect()->back()->with(['msg' => __('Somethings Going Wrong! Please Try Again or Check Your Old Password.'), 'type' => 'danger']);
+        return redirect()->back()->with(['msg' => __('Unable to change the Password. Please try again or check your old Password..'), 'type' => 'danger']);
     }
 
     public function ajax_login(Request $request)

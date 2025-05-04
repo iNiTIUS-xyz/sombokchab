@@ -143,7 +143,7 @@ class UserDashboardController extends Controller
             'address' => $request->address,
         ]);
 
-        return redirect()->back()->with(['msg' => __('Profile Update Success'), 'type' => 'success']);
+        return redirect()->back()->with(['msg' => __('Profile updated successfully.'), 'type' => 'success']);
     }
 
     public function deactivateAccount(Request $request)
@@ -191,7 +191,7 @@ class UserDashboardController extends Controller
             return redirect()->route('user.login')->with(['msg' => __('Password Changed Successfully'), 'type' => 'success']);
         }
 
-        return redirect()->back()->with(['msg' => __('Somethings Going Wrong! Please Try Again or Check Your Old Password'), 'type' => 'danger']);
+        return redirect()->back()->with(['msg' => __('Unable to change the Password. Please try again or check your old Password.'), 'type' => 'danger']);
     }
 
     public function edit_profile()

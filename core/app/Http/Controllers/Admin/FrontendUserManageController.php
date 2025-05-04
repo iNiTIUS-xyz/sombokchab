@@ -74,7 +74,7 @@ class FrontendUserManageController extends Controller
             'phone' => $request->phone,
         ]);
 
-        return redirect()->back()->with(['msg' => __('User Profile Update Success..'), 'type' => 'success']);
+        return redirect()->back()->with(['msg' => __('User profile updated successfully...'), 'type' => 'success']);
     }
 
     public function new_user_delete(Request $request, $id)

@@ -1,7 +1,7 @@
 @extends('vendor.vendor-master')
 
 @section('site-title')
-    {{ __('Wallet settings') }}
+    {{ __('Wallet Settings') }}
 @endsection
 
 @section('style')

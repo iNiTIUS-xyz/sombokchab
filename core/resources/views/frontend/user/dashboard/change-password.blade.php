@@ -1,7 +1,7 @@
 @extends('frontend.user.dashboard.user-master')
 
 @section('section')
-    <div class="dashboard-form-wrapper ">
+    <div class="dashboard-form-wrapper">
         <h2 class="dashboard__card__title">{{ __('Change Password') }}</h2>
         <div class="custom__form mt-4">
             <form action="{{ route('user.password.change') }}" method="post" enctype="multipart/form-data">
@@ -26,7 +26,7 @@
                         match!</small>
                 </div>
                 <div class="btn-wrapper mt-4">
-                    <button type="submit" id="submitBtn" class="cmn_btn btn_bg_2">{{ __('Save changes') }}</button>
+                    <button type="submit" id="submitBtn" class="cmn_btn btn_bg_2">{{ __('Save Changes') }}</button>
                 </div>
             </form>
         </div>
@@ -39,10 +39,13 @@
         const confirmSuccess = document.getElementById('confirmSuccess');
         const submitBtn = document.getElementById('submitBtn');
 
-        // Password requirements: at least 8 characters, 1 uppercase, 1 lowercase, 1 number
+        // Password requirements: 8-20 characters, 1 uppercase, 1 lowercase, 1 number
         function validatePassword(password) {
             if (password.length < 8) {
                 return 'Password must be at least 8 characters long';
+            }
+            if (password.length > 20) {
+                return 'Password must not exceed 20 characters';
             }
             if (!/[A-Z]/.test(password)) {
                 return 'Password must contain at least one uppercase letter';
@@ -117,7 +120,7 @@
                 confirmHelp.style.display = 'block';
                 confirmSuccess.style.display = 'none';
                 confirmField.classList.add('is-invalid');
-            } else if (passwordField.value !== '') {
+            } else {
                 confirmHelp.style.display = 'none';
                 confirmSuccess.style.display = 'block';
                 confirmField.classList.remove('is-invalid');
