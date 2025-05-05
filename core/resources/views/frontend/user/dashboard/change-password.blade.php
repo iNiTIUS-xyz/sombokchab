@@ -8,19 +8,40 @@
                 @csrf
                 <div class="form-group">
                     <label for="old_password">{{ __('Old Password') }}</label>
-                    <input type="password" class="form-control" id="old_password" name="old_password"
-                        placeholder="{{ __('Old Password') }}">
+                    <div class="input-group-custom">
+                        <input type="password" class="form-control" id="old_password" name="old_password"
+                            placeholder="{{ __('Old Password') }}">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn-toggle-password" data-target="old_password">
+                                <i class="la la-eye"></i>
+                            </button>
+                        </span>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="password">{{ __('New Password') }}</label>
-                    <input type="password" class="form-control" id="password" name="password"
-                        placeholder="{{ __('New Password') }}">
+                    <div class="input-group-custom">
+                        <input type="password" class="form-control" id="password" name="password"
+                            placeholder="{{ __('New Password') }}">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn-toggle-password" data-target="password">
+                                <i class="la la-eye"></i>
+                            </button>
+                        </span>
+                    </div>
                     <small id="passwordHelp" class="form-text" style="display: none;"></small>
                 </div>
                 <div class="form-group">
                     <label for="password_confirmation">{{ __('Confirm Password') }}</label>
-                    <input type="password" class="form-control" id="password_confirmation" name="password_confirmation"
-                        placeholder="{{ __('Confirm Password') }}">
+                    <div class="input-group-custom">
+                        <input type="password" class="form-control" id="password_confirmation" name="password_confirmation"
+                            placeholder="{{ __('Confirm Password') }}">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn-toggle-password" data-target="password_confirmation">
+                                <i class="la la-eye"></i>
+                            </button>
+                        </span>
+                    </div>
                     <small id="confirmHelp" class="form-text" style="display: none;"></small>
                     <small id="confirmSuccess" class="form-text text-success" style="display: none;">Passwords
                         match!</small>
@@ -31,7 +52,77 @@
             </form>
         </div>
     </div>
+
+    <style>
+        /* Custom input group styles */
+        .input-group-custom {
+            position: relative;
+            display: flex;
+            width: 100%;
+        }
+
+        .input-group-custom .form-control {
+            flex: 1;
+            padding-right: 40px;
+            /* Space for the button */
+        }
+
+        .input-group-btn {
+            background: #898b8b;
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .btn-toggle-password {
+            background: transparent;
+            border: none;
+            padding: 0 10px;
+            height: 100%;
+            cursor: pointer;
+            color: #d6d6d6;
+            outline: none;
+        }
+
+        .btn-toggle-password:hover {
+            color: #e9e9e9;
+        }
+
+        .btn-toggle-password:focus {
+            box-shadow: none;
+        }
+
+        /* Disabled button styles */
+        .disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+    </style>
+
     <script>
+        // Password toggle functionality
+        document.querySelectorAll('.btn-toggle-password').forEach(button => {
+            button.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                const input = document.getElementById(targetId);
+                const icon = this.querySelector('i');
+
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.classList.remove('la-eye');
+                    icon.classList.add('la-eye-slash');
+                } else {
+                    input.type = 'password';
+                    icon.classList.remove('la-eye-slash');
+                    icon.classList.add('la-eye');
+                }
+            });
+        });
+
+        // Password validation
         const passwordField = document.getElementById('password');
         const confirmField = document.getElementById('password_confirmation');
         const passwordHelp = document.getElementById('passwordHelp');
