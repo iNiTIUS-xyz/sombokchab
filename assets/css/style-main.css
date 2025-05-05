@@ -2234,7 +2234,7 @@ textarea {
   display: inline-block;
   font-size: 16px;
   font-family: var(--body-font);
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   color: var(--heading-color);
   font-weight: 400;
   line-height: 32px;
@@ -3644,7 +3644,7 @@ textarea {
   font-size: 18px;
   font-weight: 500;
   line-height: 28px;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   position: relative;
   font-family: var(--heading-font);
   color: var(--heading-color);
@@ -10065,7 +10065,7 @@ textarea {
   display: -webkit-inline-box;
   display: -ms-inline-flexbox;
   display: inline-flex;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
@@ -10097,7 +10097,7 @@ textarea {
   display: -webkit-inline-box;
   display: -ms-inline-flexbox;
   display: inline-flex;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
@@ -25162,7 +25162,7 @@ table.dataTable.no-footer {
 
 .global-timer .syotimer__body .syotimer-cell .syotimer-cell__unit {
   font-size: 16px;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   font-weight: 400;
   line-height: 19px;
 }
@@ -26477,7 +26477,7 @@ table.dataTable.no-footer {
   background: none;
   border: 1px solid rgba(0, 0, 0, 0.2);
   outline: none;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   padding: 10px 30px;
   padding-right: 120px;
   font-size: 16px;
@@ -27944,13 +27944,6 @@ button.submit-btn.gd-bg.pay-now {
   font-weight: 900;
 }
 
-
-
-/* Those line are added by riyad hossain for checkout page */
-.error-wrap li {
-  /* text-transform: capitalize; */
-}
-
 .popup_modal_checkout {
   position: fixed;
   top: 20px;
@@ -28311,7 +28304,7 @@ button.submit-btn.gd-bg.pay-now {
   padding: 3px 10px;
   border-radius: 4px;
   color: var(--white);
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   border: none;
   font-weight: 600;
 }
@@ -29812,7 +29805,7 @@ tr td .btn-light:hover {
   border: 1px solid transparent;
   background: rgba(var(--customer-profile-rgb), 0.1);
   color: var(--customer-profile);
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   padding: 1px 8px;
   font-size: 15px;
   font-weight: 400;
@@ -30605,7 +30598,7 @@ shop-nice-select select,
   font-size: 22px;
   line-height: 28px;
   font-weight: 600;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 
 @media screen and (max-width: 1399.98px) and (min-width:992px) {
@@ -30709,7 +30702,7 @@ shop-nice-select select,
   font-weight: 500;
   padding-top: 50px;
   color: #999999;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   -webkit-transition: all linear 0.2s;
   -o-transition: all linear 0.2s;
   transition: all linear 0.2s;
@@ -30774,7 +30767,7 @@ shop-nice-select select,
   border: 1px solid var(--main-color-one);
   background-color: var(--main-color-one);
   color: var(--white);
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   padding: 9px 30px 11px;
   -webkit-transition: all linear 0.2s;
   -o-transition: all linear 0.2s;
@@ -30841,7 +30834,7 @@ shop-nice-select select,
   font-weight: 400;
   line-height: 18px;
   color: var(--secondary-color);
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   display: inline-block;
   padding: 7px 16px 9px;
   background-color: var(--white);
@@ -31126,7 +31119,7 @@ shop-nice-select select,
   display: inline-block;
   font-size: 16px;
   font-family: var(--body-font);
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   color: var(--heading-color);
   font-weight: 400;
   line-height: 32px;
@@ -32391,7 +32384,7 @@ shop-nice-select select,
   font-size: 18px;
   font-weight: 700;
   line-height: 24px;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   position: relative;
   font-family: var(--heading-font);
   color: var(--heading-color);

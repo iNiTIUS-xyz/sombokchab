@@ -149,7 +149,7 @@
     border: 1px solid var(--main-color-one);
     background-color: var(--main-color-one);
     color: #fff;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
     padding: 9px 30px 11px;
     -webkit-transition: all linear 0.2s;
     -o-transition: all linear 0.2s;
@@ -450,7 +450,7 @@
     font-family: var(--body-font);
     font-weight: 600;
     color: var(--secondary-color);
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
     font-size: 16px;
     border-bottom: 1px solid var(--secondary-color);
     -webkit-transition: all linear 0.2s;

@@ -159,7 +159,7 @@
     display: block;
     color: #8d97ad;
     font-size: 15px;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
     padding: 15px 15px;
     letter-spacing: 0;
     font-weight: 400;
@@ -284,7 +284,7 @@
     font-size: 13px;
     padding: 10px 20px;
     color: #000000;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
 }
 
 .horizontal-menu ul li:hover>a,
@@ -373,7 +373,7 @@
 
 .slicknav_nav .slicknav_row,
 .slicknav_nav a {
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
 }
 
 .slicknav_nav .slicknav_row:hover {
@@ -704,7 +704,7 @@ ul.breadcrumbs {
 .breadcrumbs li span {
     margin-right: 0;
     color: #768387;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
 }
 
 .user-profile {
@@ -842,7 +842,7 @@ ul.breadcrumbs {
     font-weight: 600;
     letter-spacing: 0;
     color: #333;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
     margin-bottom: 17px;
 }
 
@@ -2090,7 +2090,7 @@ table tr td [class^="ti-"] {
     padding: 0px 20px 1px;
     border-radius: 20px;
     display: inline-block;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
     vertical-align: middle;
 }
 
@@ -2281,7 +2281,7 @@ table.dataTable thead td {
     background: #815ef6;
     padding: 12px 19px;
     border-radius: 3px;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
     font-family: 'Lato', sans-serif;
     font-weight: 600;
     letter-spacing: 0.03em;
@@ -2439,7 +2439,7 @@ table.dataTable thead td {
     height: 43px;
     line-height: 43px;
     border-radius: 40px;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
     letter-spacing: 0;
     font-weight: 600;
     font-size: 12px;

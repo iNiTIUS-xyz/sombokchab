@@ -477,7 +477,7 @@ small {
 }
 
 .available-form-field li a {
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
 }
 
 .available-form-field li span {
@@ -628,10 +628,10 @@ small {
     margin-bottom: 30px;
 }
 
-.view-quote-details-info .view-quote-top-wrap span,
+/* .view-quote-details-info .view-quote-top-wrap span,
 .view-order-details-info .view-order-top-wrap span {
     text-transform: capitalize;
-}
+} */
 
 .view-quote-details-info .quote-all-custom-fields,
 .view-order-details-info .order-all-custom-fields {
@@ -640,7 +640,7 @@ small {
 
 .view-quote-details-info .quote-all-custom-fields .fname,
 .view-order-details-info .order-all-custom-fields .fname {
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
     padding: 10px;
 }
 
@@ -1594,7 +1594,7 @@ button.status-open {
     padding: 3px 10px;
     border-radius: 4px;
     color: #fff;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
     border: none;
     font-weight: 600;
 }
@@ -1606,7 +1606,7 @@ button.status-close {
     padding: 3px 10px;
     border-radius: 4px;
     color: #fff;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
     border: none;
     font-weight: 600;
 }
@@ -1617,7 +1617,7 @@ button.medium {
     padding: 3px 10px;
     border-radius: 4px;
     color: #fff;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
     border: none;
     font-weight: 600;
 }
@@ -1628,7 +1628,7 @@ button.urgent {
     padding: 3px 10px;
     border-radius: 4px;
     color: #fff;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
     border: none;
     font-weight: 600;
 }
@@ -1775,7 +1775,7 @@ button.urgent {
     padding: 10px 30px;
     color: #fff;
     cursor: pointer;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
     position: absolute;
     top: -20px;
     left: 50%;
@@ -1875,7 +1875,7 @@ button.urgent {
     background-color: #d5ecd5;
     width: max-content;
     padding: 2px 10px;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
     margin-top: 20px;
 }
 
