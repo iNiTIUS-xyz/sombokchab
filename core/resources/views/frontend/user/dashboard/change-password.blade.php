@@ -68,13 +68,14 @@
         }
 
         .input-group-btn {
-            background: #898b8b;
+            background: #faf7f7;
             position: absolute;
             right: 0;
             top: 0;
             height: 100%;
             display: flex;
             align-items: center;
+            border-radius: 0 8px 8px 0;
         }
 
         .btn-toggle-password {
@@ -83,7 +84,7 @@
             padding: 0 10px;
             height: 100%;
             cursor: pointer;
-            color: #d6d6d6;
+            color: gray;
             outline: none;
         }
 
