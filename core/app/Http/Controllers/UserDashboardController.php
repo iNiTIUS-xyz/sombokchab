@@ -48,7 +48,7 @@ class UserDashboardController extends Controller
             ->latest()
             ->paginate(5);
 
-        return view(self::BASE_PATH.'user-home', compact('all_orders','product_count', 'support_ticket_count'));
+        return view(self::BASE_PATH . 'user-home', compact('all_orders', 'product_count', 'support_ticket_count'));
     }
 
     public function user_email_verify_index()
@@ -60,7 +60,7 @@ class UserDashboardController extends Controller
         if (empty($user_details->email_verify_token)) {
             User::find($user_details->id)->update(['email_verify_token' => \Str::random(8)]);
             $user_details = User::find($user_details->id);
-            $message_body = __('Here is your verification code').' <span class="verify-code">'.$user_details->email_verify_token.'</span>';
+            $message_body = __('Here is your verification code') . ' <span class="verify-code">' . $user_details->email_verify_token . '</span>';
 
             try {
                 Mail::to($user_details->email)->send(new BasicMail([
@@ -81,7 +81,7 @@ class UserDashboardController extends Controller
         if ($user_details->email_verified == 1) {
             return redirect()->route('user.home');
         }
-        $message_body = __('Here is your verification code').' <span class="verify-code">'.$user_details->email_verify_token.'</span>';
+        $message_body = __('Here is your verification code') . ' <span class="verify-code">' . $user_details->email_verify_token . '</span>';
 
         try {
             Mail::to($user_details->email)->send(new BasicMail([
@@ -196,13 +196,13 @@ class UserDashboardController extends Controller
 
     public function edit_profile()
     {
-        return view(self::BASE_PATH.'edit-profile')
+        return view(self::BASE_PATH . 'edit-profile')
             ->with(['user_details' => $this->logged_user_details()]);
     }
 
     public function change_password()
     {
-        return view(self::BASE_PATH.'change-password');
+        return view(self::BASE_PATH . 'change-password');
     }
 
     public function logged_user_details()
@@ -217,28 +217,28 @@ class UserDashboardController extends Controller
 
     /** ============================================================================
      *                  SHIPPING ADDRESS FUNCTIONS
-   *  ============================================================================ */
+     *  ============================================================================ */
     public function allShippingAddress()
     {
-        if (! auth()->check('web')) {
+        if (!auth()->check('web')) {
             return redirect()->route('homepage');
         }
         $all_country = Country::where('status', 'publish')->get();
         $all_shipping_address = ShippingAddress::where('user_id', getUserByGuard('web')->id)->paginate(10);
 
-        return view(self::BASE_PATH.'shipping.all', compact('all_shipping_address', 'all_country'));
+        return view(self::BASE_PATH . 'shipping.all', compact('all_shipping_address', 'all_country'));
     }
 
     public function createShippingAddress()
     {
         $all_country = Country::where('status', 'publish')->get();
 
-        return view(self::BASE_PATH.'shipping.new', compact('all_country'));
+        return view(self::BASE_PATH . 'shipping.new', compact('all_country'));
     }
 
     public function storeShippingAddress(Request $request): \Illuminate\Http\RedirectResponse
     {
-        if (! auth('web')->user()) {
+        if (!auth('web')->user()) {
             return back()->with(FlashMsg::explain('danger', __('Login to add new ')));
         }
 
@@ -253,6 +253,15 @@ class UserDashboardController extends Controller
             'zipcode' => 'nullable|string|max:191',
             'address' => 'nullable|string|max:191',
         ]);
+
+        $existShippingAddress = ShippingAddress::query()
+            ->where('name', $request->name)
+            ->get();
+
+
+        if ($existShippingAddress->count() > 0) {
+            return back()->with(FlashMsg::explain('danger', __('Shipping address already has with this name')));
+        }
 
         $user_shipping_address = ShippingAddress::create([
             'shipping_address_name' => $request->shipping_address_name,
@@ -276,7 +285,7 @@ class UserDashboardController extends Controller
     {
         $address = ShippingAddress::find($request->id);
         $all_country = Country::where('status', 'publish')->get();
-        return view(self::BASE_PATH.'shipping.edit', compact('all_country', 'address'));
+        return view(self::BASE_PATH . 'shipping.edit', compact('all_country', 'address'));
     }
 
     public function updateShippingAddress(Request $request)
@@ -334,7 +343,7 @@ class UserDashboardController extends Controller
             ->orderBy('id', 'DESC')
             ->paginate(10);
 
-        return view(self::BASE_PATH.'order.all', compact('all_orders'));
+        return view(self::BASE_PATH . 'order.all', compact('all_orders'));
     }
 
     /** ============================================================================
@@ -342,7 +351,7 @@ class UserDashboardController extends Controller
      * ============================================================================ */
     public function allRefundsPage(): Factory|View|Application
     {
-        if(!moduleExists("Refund")){
+        if (!moduleExists("Refund")) {
             abort(404);
         }
 
@@ -351,27 +360,40 @@ class UserDashboardController extends Controller
             ->where('user_id', auth('web')->user()->id)->orderByDesc('id')
             ->paginate(20);
 
-        return view(self::BASE_PATH.'refund.all', compact('refundRequests'));
+        return view(self::BASE_PATH . 'refund.all', compact('refundRequests'));
     }
 
     public function viewRequest($id)
     {
-        if(!moduleExists("Refund")){
+        if (!moduleExists("Refund")) {
             abort(404);
         }
 
         // fetch all information about this request
-        $request = RefundRequest::with(['currentTrackStatus', 'preferredOption', 'products', 'user', 'order' => function ($query) {
-            $query->withCount('orderItems');
-        }, 'order.paymentMeta', 'requestFile', 'requestTrack', 'requestProduct', 'productVariant', 'productVariant.productColor', 'productVariant.productSize'])
+        $request = RefundRequest::with([
+            'currentTrackStatus',
+            'preferredOption',
+            'products',
+            'user',
+            'order' => function ($query) {
+                $query->withCount('orderItems');
+            },
+            'order.paymentMeta',
+            'requestFile',
+            'requestTrack',
+            'requestProduct',
+            'productVariant',
+            'productVariant.productColor',
+            'productVariant.productSize'
+        ])
             ->findOrFail($id);
 
-        return view(self::BASE_PATH.'refund.view-request', compact('request'));
+        return view(self::BASE_PATH . 'refund.view-request', compact('request'));
     }
 
     public function orderRefundPage($id)
     {
-        if(!moduleExists("Refund")){
+        if (!moduleExists("Refund")) {
             abort(404);
         }
 
@@ -389,12 +411,12 @@ class UserDashboardController extends Controller
         $refundReasons = RefundReason::all();
         $refundPreferredOptions = RefundPreferredOption::all();
 
-        return view(self::BASE_PATH.'order.refund', compact('id', 'order', 'subOrders', 'refundable_items', 'refundReasons', 'refundPreferredOptions'));
+        return view(self::BASE_PATH . 'order.refund', compact('id', 'order', 'subOrders', 'refundable_items', 'refundReasons', 'refundPreferredOptions'));
     }
 
     public function handleRefundRequest(HandleUserRefundRequest $request, $id)
     {
-        if(!moduleExists("Refund")){
+        if (!moduleExists("Refund")) {
             abort(404);
         }
 
@@ -412,12 +434,12 @@ class UserDashboardController extends Controller
         $orders = SubOrder::with(['order', 'vendor', 'orderItem', 'orderItem.product', 'orderItem.variant', 'orderItem.variant.productColor', 'orderItem.variant.productSize'])
             ->where('order_id', $item)->get();
         $payment_details = Order::with('address', 'paymentMeta')
-            ->when(moduleExists("DeliveryMan"), function ($query){
+            ->when(moduleExists("DeliveryMan"), function ($query) {
                 $query->with("deliveryMan");
             })->find($item);
         $orderTrack = OrderTrack::where('order_id', $payment_details->id)->orderByDesc('id')->first();
 
-        return view(self::BASE_PATH.'order.details', compact('item', 'orders', 'payment_details', 'orderTrack'));
+        return view(self::BASE_PATH . 'order.details', compact('item', 'orders', 'payment_details', 'orderTrack'));
     }
 
     public function orderDeliveryManRatting($item, Request $request)
@@ -428,14 +450,14 @@ class UserDashboardController extends Controller
             'review' => 'nullable|string',
         ]);
 
-        if(!moduleExists("DeliveryMan")){
+        if (!moduleExists("DeliveryMan")) {
             abort(403);
         }
 
         // check order is exist or not if order not exist then show 404 page
         $order = Order::with('deliveryMan')->findOrFail($item); // if order is not found on database then it will show 404 page
         // check this order is contain delivery man or not if this order does not have assigned delivery man then show exception
-        if (! empty($order->deliveryMan)) {
+        if (!empty($order->deliveryMan)) {
             // first check if this order is have already a ratting then user can't give ratting again
             if (DeliveryManRating::where('delivery_man_id', $order->deliveryMan?->delivery_man_id)->count() < 1) {
                 DeliveryManRating::create([
@@ -468,7 +490,7 @@ class UserDashboardController extends Controller
     {
         $all_tickets = SupportTicket::where('user_id', auth('web')->user()->id)->paginate(10);
 
-        return view(self::BASE_PATH.'support-tickets.all')->with(['all_tickets' => $all_tickets]);
+        return view(self::BASE_PATH . 'support-tickets.all')->with(['all_tickets' => $all_tickets]);
     }
 
     public function support_ticket_view(Request $request, $id)
@@ -477,7 +499,7 @@ class UserDashboardController extends Controller
         $all_messages = SupportTicketMessage::where(['support_ticket_id' => $id])->get();
         $q = $request->q ?? '';
 
-        return view(self::BASE_PATH.'support-tickets.view')->with(['ticket_details' => $ticket_details, 'all_messages' => $all_messages, 'q' => $q]);
+        return view(self::BASE_PATH . 'support-tickets.view')->with(['ticket_details' => $ticket_details, 'all_messages' => $all_messages, 'q' => $q]);
     }
 
     public function support_ticket_message(Request $request)
@@ -500,7 +522,7 @@ class UserDashboardController extends Controller
         if ($request->hasFile('file')) {
             $uploaded_file = $request->file;
             $file_extension = 'zip';
-            $file_name = Str::uuid().'-'.time().'.'.$file_extension;
+            $file_name = Str::uuid() . '-' . time() . '.' . $file_extension;
             $uploaded_file->move('assets/uploads/ticket', $file_name);
             $ticket_info->attachment = $file_name;
             $ticket_info->save();
@@ -544,8 +566,8 @@ class UserDashboardController extends Controller
     {
         // Fetch the order
         $order = Order::where('id', $orderId)
-                    ->where('user_id', auth('web')->id()) // Ensure the user owns the order
-                    ->first();
+            ->where('user_id', auth('web')->id()) // Ensure the user owns the order
+            ->first();
 
         // Check if order exists and is cancelable
         if (!$order || !$order->isCancelableStatus || $order->order_status !== 'pending') {
