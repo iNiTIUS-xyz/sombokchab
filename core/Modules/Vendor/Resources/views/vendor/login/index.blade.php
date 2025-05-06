@@ -24,7 +24,7 @@
                                         <option value="+880">+880</option>
                                         <option value="+855">+855</option>
                                     </select>
-                                    <input id="number" name="phone" type="text" class="form--control radius-10"
+                                    <input id="number" name="phone" type="number" class="form--control radius-10"
                                         placeholder="{{ __('Phone Number') }}" required
                                         style="width: 70% !important; border-radius: 0px;">
                                 </div>
@@ -117,9 +117,9 @@
                     }
                 }
 
-                // Login button click
                 $('#login_btn').on('click', function(e) {
                     e.preventDefault();
+
                     let formContainer = $('#login_form_order_page');
                     let el = $(this);
                     let isEmail = $('.email-input').is(':visible');
@@ -128,10 +128,12 @@
                     let password = $('#login_password').val();
                     let remember = $('#login_remember').is(':checked');
                     let countryCode = $('#phone_country_code').val();
-
                     let loginInput = isEmail ? email : (countryCode + phone);
 
                     el.text('{{ __('Please Wait') }}');
+
+                    // Clear any previous errors
+                    formContainer.find('.error-wrap').html('');
 
                     $.ajax({
                         type: 'post',
@@ -146,8 +148,8 @@
                             if (data.status === 'invalid') {
                                 el.text('{{ __('Sign In') }}');
                                 formContainer.find('.error-wrap').html(
-                                    '<div class="alert alert-danger">' + data.msg +
-                                    '</div>');
+                                    `<div class="alert alert-danger">${data.msg}</div>`
+                                );
                             } else {
                                 // Save to cookies if remember me is checked
                                 if (remember) {
@@ -173,18 +175,36 @@
                                 }, 500);
                             }
                         },
-                        error: function(data) {
-                            let response = data.responseJSON.errors || {};
-                            formContainer.find('.error-wrap').html(
-                                '<ul class="alert alert-danger"></ul>');
-                            $.each(response, function(key, errors) {
-                                formContainer.find('.error-wrap ul').append('<li>' +
-                                    capitalizeFirstLetter(errors[0]) + '</li>');
-                            });
+                        error: function(xhr) {
                             el.text('{{ __('Sign In') }}');
+
+                            const res = xhr.responseJSON;
+
+                            let errorHtml = '<div class="alert alert-danger"><ul>';
+
+                            if (res && res.errors) {
+                                // Validation errors
+                                $.each(res.errors, function(key, messages) {
+                                    errorHtml +=`<li>${capitalizeFirstLetter(messages[0])}</li>`;
+                                });
+                            } else if (res && res.msg) {
+                                // Custom message
+                                errorHtml += `<li>${res.msg}</li>`;
+                            } else {
+                                // Fallback
+                                errorHtml +=`<li>{{ __('Something went wrong. Please try again.') }}</li>`;
+                            }
+
+                            errorHtml += '</ul></div>';
+                            formContainer.find('.error-wrap').html(errorHtml);
                         }
                     });
                 });
+
+                // Capitalize first letter helper
+                function capitalizeFirstLetter(string) {
+                    return string.charAt(0).toUpperCase() + string.slice(1);
+                }
 
                 // Toggle Email/Phone
                 $('#togglePhoneEmail').on('click', function() {
