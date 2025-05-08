@@ -29,7 +29,10 @@
                             </button>
                         </span>
                     </div>
-                    <small id="passwordHelp" class="form-text" style="display: none;"></small>
+                    <small id="passwordHelp" class="form-text text-muted">
+                        Password must contain: 8-20 characters, 1 uppercase, 1 lowercase, 1 number, no spaces
+                    </small>
+                    <small id="passwordError" class="form-text text-danger" style="display: none;"></small>
                 </div>
                 <div class="form-group">
                     <label for="password_confirmation">{{ __('Confirm Password') }}</label>
@@ -42,12 +45,11 @@
                             </button>
                         </span>
                     </div>
-                    <small id="confirmHelp" class="form-text" style="display: none;"></small>
-                    <small id="confirmSuccess" class="form-text text-success" style="display: none;">Passwords
-                        match!</small>
+                    <small id="confirmHelp" class="form-text text-danger" style="display: none;"></small>
+                    <small id="confirmSuccess" class="form-text text-success" style="display: none;">Passwords match!</small>
                 </div>
                 <div class="btn-wrapper mt-4">
-                    <button type="submit" id="submitBtn" class="cmn_btn btn_bg_2">{{ __('Save Changes') }}</button>
+                    <button type="submit" id="submitBtn" class="cmn_btn btn_bg_2" disabled>{{ __('Save Changes') }}</button>
                 </div>
             </form>
         </div>
@@ -123,35 +125,48 @@
             });
         });
 
-        // Password validation
+        // Password validation elements
         const passwordField = document.getElementById('password');
         const confirmField = document.getElementById('password_confirmation');
         const passwordHelp = document.getElementById('passwordHelp');
+        const passwordError = document.getElementById('passwordError');
         const confirmHelp = document.getElementById('confirmHelp');
         const confirmSuccess = document.getElementById('confirmSuccess');
         const submitBtn = document.getElementById('submitBtn');
 
-        // Password requirements: 8-20 characters, 1 uppercase, 1 lowercase, 1 number
+        // Password validation function
         function validatePassword(password) {
-            if (password.length < 8) {
-                return 'Password must be at least 8 characters long';
+            const errors = [];
+            
+            // Check length
+            if (password.length < 8 || password.length > 20) {
+                errors.push('8-20 characters');
             }
-            if (password.length > 20) {
-                return 'Password must not exceed 20 characters';
-            }
+            
+            // Check uppercase
             if (!/[A-Z]/.test(password)) {
-                return 'Password must contain at least one uppercase letter';
+                errors.push('1 uppercase');
             }
+            
+            // Check lowercase
             if (!/[a-z]/.test(password)) {
-                return 'Password must contain at least one lowercase letter';
+                errors.push('1 lowercase');
             }
+            
+            // Check number
             if (!/[0-9]/.test(password)) {
-                return 'Password must contain at least one number';
+                errors.push('1 number');
             }
+            
+            // Check spaces
             if (/\s/.test(password)) {
-                return 'Password must not contain spaces';
+                errors.push('no spaces');
             }
-            return '';
+            
+            return {
+                isValid: errors.length === 0,
+                errors: errors
+            };
         }
 
         function validatePasswordMatch(password, confirmPassword) {
@@ -162,10 +177,10 @@
         }
 
         function updateSubmitButton() {
-            const passwordError = validatePassword(passwordField.value);
+            const passwordValidation = validatePassword(passwordField.value);
             const confirmError = validatePasswordMatch(passwordField.value, confirmField.value);
 
-            if (passwordError || confirmError || passwordField.value === '' || confirmField.value === '') {
+            if (!passwordValidation.isValid || confirmError || passwordField.value === '' || confirmField.value === '') {
                 submitBtn.disabled = true;
                 submitBtn.classList.add('disabled');
             } else {
@@ -175,18 +190,19 @@
         }
 
         passwordField.addEventListener('input', function() {
-            const error = validatePassword(this.value);
-            if (error) {
-                passwordHelp.textContent = error;
-                passwordHelp.className = 'form-text text-danger';
-                passwordHelp.style.display = 'block';
-                this.classList.add('is-invalid');
-            } else {
-                passwordHelp.textContent = 'Password meets all requirements';
-                passwordHelp.className = 'form-text text-success';
-                passwordHelp.style.display = 'block';
+            const validation = validatePassword(this.value);
+            
+            if (validation.isValid) {
+                passwordHelp.style.display = 'none';
+                passwordError.style.display = 'none';
                 this.classList.remove('is-invalid');
+            } else {
+                passwordHelp.style.display = 'block';
+                passwordError.textContent = 'Missing: ' + validation.errors.join(', ');
+                passwordError.style.display = 'block';
+                this.classList.add('is-invalid');
             }
+            
             updateSubmitButton();
             checkPasswordMatch();
         });
@@ -208,7 +224,6 @@
 
             if (error) {
                 confirmHelp.textContent = error;
-                confirmHelp.className = 'form-text text-danger';
                 confirmHelp.style.display = 'block';
                 confirmSuccess.style.display = 'none';
                 confirmField.classList.add('is-invalid');

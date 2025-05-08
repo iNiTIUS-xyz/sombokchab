@@ -77,7 +77,7 @@ class VendorLoginController extends Controller
         }
 
         $credentials = [
-            $loginField => $loginValue,
+            $login_key => $input_value,
             'password' => $request->password
         ];
 

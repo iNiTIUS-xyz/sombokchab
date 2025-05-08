@@ -134,15 +134,17 @@
                         <div class="topbar-bottom-right-flex">
                             <div class="topbar-right-offer">
                                 <ul class="list">
-                                    <li class="me-2">
-                                        <a href="{{ route('frontend.products.track.order') }}"
-                                            class="track-icon-single text-white">
-                                            <span class="icon">
-                                                <i class="las la-map-marker-alt text-white"></i>
-                                            </span>
-                                            {{ __('Order Tracking') }}
-                                        </a>
-                                    </li>
+                                    @if (auth('web')->check())
+                                        <li class="me-2">
+                                            <a href="{{ route('frontend.products.track.order') }}"
+                                                class="track-icon-single text-white">
+                                                <span class="icon">
+                                                    <i class="las la-map-marker-alt text-white"></i>
+                                                </span>
+                                                {{ __('Order Tracking') }}
+                                            </a>
+                                        </li>
+                                    @endif
                                     @if (auth('vendor')->check())
                                         {{-- Vendor is logged in --}}
                                     @else
