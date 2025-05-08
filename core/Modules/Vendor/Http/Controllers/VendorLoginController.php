@@ -54,7 +54,7 @@ class VendorLoginController extends Controller
 
         // Validate based on login field
         $rules = [
-            'password' => 'required|min:6',
+            'password' => 'required|min:8',
         ];
 
         if ($loginField === 'email') {
@@ -68,7 +68,7 @@ class VendorLoginController extends Controller
             'email.email' => __('Please enter a valid email.'),
             'phone.required' => __('Phone number is required.'),
             'password.required' => __('Password is required.'),
-            'password.min' => __('Password must be at least 6 characters.'),
+            'password.min' => __('Password must be at least 8 characters.'),
         ]);
 
 
