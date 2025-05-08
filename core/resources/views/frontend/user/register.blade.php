@@ -1,6 +1,6 @@
 @extends('frontend.frontend-page-master')
 @section('page-title')
-    {{ __('Sign Up') }}
+    {{ __('Customer Sign Up') }}
 @endsection
 @section('content')
     <section class="sign-in-area-wrapper padding-top-20 padding-bottom-20">
