@@ -659,7 +659,7 @@ class FrontendController extends Controller
         }
 
         return response()->json([
-            'msg' => ($login_key == 'email' ? __('Email') : __('Phone number')) . __(' or password does not match.'),
+            'msg' => 'Credentials not match',
             'type' => 'danger',
             'status' => 'invalid',
         ]);
