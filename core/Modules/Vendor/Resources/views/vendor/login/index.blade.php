@@ -122,18 +122,35 @@
                     $('#phone_country_code').val(rememberedCode);
                 }
 
-                $('#togglePhoneEmail').on('click', function() {
-                    const phoneInput = $('.phone-input');
-                    const emailInput = $('.email-input');
+                // $('#togglePhoneEmail').on('click', function() {
+                //     const phoneInput = $('.phone-input');
+                //     const emailInput = $('.email-input');
 
-                    if (phoneInput.is(':visible')) {
-                        phoneInput.hide();
-                        emailInput.show();
-                        $(this).text('{{ __('Use Phone') }}');
+                //     if (phoneInput.is(':visible')) {
+                //         phoneInput.hide();
+                //         emailInput.show();
+                //         $(this).text('{{ __('Use Phone') }}');
+                //     } else {
+                //         phoneInput.show();
+                //         emailInput.hide();
+                //         $(this).text('{{ __('Use Email') }}');
+                //     }
+                // });
+
+
+                $('.toggle-password').on('click', function() {
+                    const input = $('#login_password');
+                    const hideIcon = $(this).find('.hide-icon');
+                    const showIcon = $(this).find('.show-icon');
+
+                    if (input.attr('type') === 'password') {
+                        input.attr('type', 'text');
+                        hideIcon.hide();
+                        showIcon.show();
                     } else {
-                        phoneInput.show();
-                        emailInput.hide();
-                        $(this).text('{{ __('Use Email') }}');
+                        input.attr('type', 'password');
+                        showIcon.hide();
+                        hideIcon.show();
                     }
                 });
 
@@ -172,7 +189,7 @@
                                 el.text('{{ __('Sign In') }}');
                                 form.find('.error-wrap').html(
                                     `<div class="alert alert-danger">${response.msg}</div>`
-                                    );
+                                );
                             } else {
                                 // Save cookies
                                 if (remember) {
