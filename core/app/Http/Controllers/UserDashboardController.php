@@ -191,7 +191,7 @@ class UserDashboardController extends Controller
             return redirect()->route('user.login')->with(['msg' => __('Password Changed Successfully'), 'type' => 'success']);
         }
 
-        return redirect()->back()->with(['msg' => __('Unable to change the Password. Please try again or check your old Password.'), 'type' => 'danger']);
+        return redirect()->back()->with(['msg' => __('Current password does not match.'), 'type' => 'danger']);
     }
 
     public function edit_profile()

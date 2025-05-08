@@ -33,19 +33,19 @@
         }
 
         /* .support-ticket-wrapper button[type=submit]:hover {
-                background-color: var(--secondary-color);
-                color: #fff
-            }
+                    background-color: var(--secondary-color);
+                    color: #fff
+                }
 
-            .support-ticket-wrapper button[type=submit] {
-                display: inline-block;
-                border: none;
-                background-color: var(--main-color-two);
-                color: #fff;
-                padding: 10px 30px;
-                font-weight: 600;
-                transition: all .4s
-            } */
+                .support-ticket-wrapper button[type=submit] {
+                    display: inline-block;
+                    border: none;
+                    background-color: var(--main-color-two);
+                    color: #fff;
+                    padding: 10px 30px;
+                    font-weight: 600;
+                    transition: all .4s
+                } */
 
         .support-ticket-wrapper textarea:focus {
             outline: 0;
@@ -131,7 +131,10 @@
                                         <select name="order_id" class="form-control">
                                             <option value="" selected>Select A Order</option>
                                             @foreach ($user_orders as $order)
-                                                <option value="{{ $order->id }}">{{ $order->order_number }} - {{ $order->created_at->format('F d, Y') }} - {{ float_amount_with_currency_symbol($order->paymentMeta->total_amount ?? 0) }}</option>
+                                                <option value="{{ $order->id }}">{{ $order->order_number }} -
+                                                    {{ $order->created_at->format('F d, Y') }} -
+                                                    {{ float_amount_with_currency_symbol($order->paymentMeta->total_amount ?? 0) }}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -143,6 +146,9 @@
                                         <button type="submit" class="cmn_btn btn_bg_2 default-theme-btn">
                                             {{ get_static_option('support_ticket_button_text') }}
                                         </button>
+                                        <a href="{{ route('user.home.support.tickets') }}" class="btn cmn_btn btn-secondary text-white">
+                                            {{ __('Back') }}
+                                        </a>
                                     </div>
                                 </form>
                             </div>

@@ -7,10 +7,10 @@
             <form action="{{ route('user.password.change') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
-                    <label for="old_password">{{ __('Old Password') }}</label>
+                    <label for="old_password">{{ __('Current password') }}</label>
                     <div class="input-group-custom">
                         <input type="password" class="form-control" id="old_password" name="old_password"
-                            placeholder="{{ __('Old Password') }}">
+                            placeholder="{{ __('Current password') }}">
                         <span class="input-group-btn">
                             <button type="button" class="btn-toggle-password" data-target="old_password">
                                 <i class="la la-eye"></i>
