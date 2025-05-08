@@ -122,6 +122,19 @@
                     $('#phone_country_code').val(rememberedCode);
                 }
 
+                // Toggle between phone and email input
+                $('#togglePhoneEmail').on('click', function() {
+                    if ($('.phone-input').is(':visible')) {
+                        $('.phone-input').hide();
+                        $('.email-input').show();
+                        $(this).text('{{ __('Use Phone') }}');
+                    } else {
+                        $('.phone-input').show();
+                        $('.email-input').hide();
+                        $(this).text('{{ __('Use Email') }}');
+                    }
+                });
+
                 $('.toggle-password').on('click', function() {
                     const input = $('#login_password');
                     const hideIcon = $(this).find('.hide-icon');
