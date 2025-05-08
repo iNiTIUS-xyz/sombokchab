@@ -159,7 +159,7 @@
 
                                             <li class="">
                                                 <a href="{{ route('vendor.login') }}">
-                                                    {{ __('Vendor Sign in') }}
+                                                    {{ __('Vendor Sign In') }}
                                                 </a>
                                             </li>
                                         @endif
@@ -257,7 +257,7 @@
 
                                             <li class="">
                                                 <a href="{{ route('vendor.login') }}">
-                                                    {{ __('Vendor Sign in') }}
+                                                    {{ __('Vendor Sign In') }}
                                                 </a>
                                             </li>
                                         @endif

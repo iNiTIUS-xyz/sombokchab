@@ -66,8 +66,9 @@
                                                 <input type="text" name="username" id="username"
                                                     class="form--control radius-10" placeholder="{{ __('Username *') }}"
                                                     required>
-                                                <small class="text-muted">Allowed: letters (A-Z, a-z), numbers (0-9), dots
-                                                    (.), underscores (_)</small>
+                                                <small class="text-muted">
+                                                    Allowed: letters (A-Z, a-z), numbers (0-9), underscores (_)
+                                                </small>
                                                 <small class="text-danger" id="usernameError"></small>
                                             </div>
                                         </div>
@@ -219,7 +220,7 @@
             const re = /^[A-Za-z0-9._]+$/;
 
             if (!re.test(value)) {
-                return 'Only letters (A-Z, a-z), numbers (0-9), dots (.), and underscores (_) allowed';
+                return 'Only letters (A-Z, a-z), numbers (0-9), and underscores (_) allowed';
             }
 
             // Length check
@@ -228,12 +229,12 @@
             }
 
             // Cannot start/end with . or _
-            if (value.startsWith('.') || value.startsWith('_')) {
-                return 'Cannot start with . or _';
+            if (value.startsWith('_')) {
+                return 'Cannot start with or _';
             }
 
-            if (value.endsWith('.') || value.endsWith('_')) {
-                return 'Cannot end with . or _';
+            if (value.endsWith('_')) {
+                return 'Cannot end with or _';
             }
 
             return '';
