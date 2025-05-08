@@ -64,11 +64,11 @@ class VendorLoginController extends Controller
         }
 
         $request->validate($rules, [
-            'email.required' => __('Email is required'),
-            'email.email' => __('Please enter a valid email'),
-            'phone.required' => __('Phone number is required'),
-            'password.required' => __('Password is required'),
-            'password.min' => __('Password must be at least 6 characters'),
+            'email.required' => __('Email is required.'),
+            'email.email' => __('Please enter a valid email.'),
+            'phone.required' => __('Phone number is required.'),
+            'password.required' => __('Password is required.'),
+            'password.min' => __('Password must be at least 6 characters.'),
         ]);
 
 
