@@ -617,11 +617,11 @@ class FrontendController extends Controller
     {
         $request->validate([
             'phone' => 'required|string',
-            'password' => 'required|min:6',
+            'password' => 'required|min:8',
         ], [
             'phone.required' => __('Phone number or email is required.'),
             'password.required' => __('Password is required.'),
-            'password.min' => __('Password must be at least 6 characters.'),
+            'password.min' => __('Password must be at least 8 characters.'),
         ]);
 
         $login_key = 'phone';

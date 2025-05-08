@@ -42,37 +42,23 @@ class VendorLoginController extends Controller
 
     public function vendor_login(Request $request)
     {
-        // Determine if the request contains email or phone
-        $loginField = 'phone'; // Default to phone
-        $loginValue = $request->input('phone');
-
-        // If email field is present and not empty, use email instead
-        if ($request->has('email') && !empty($request->input('email'))) {
-            $loginField = 'email';
-            $loginValue = $request->input('email');
-        }
-
-        // Validate based on login field
-        $rules = [
+        $request->validate([
+            'phone' => 'required|string',
             'password' => 'required|min:8',
-        ];
-
-        if ($loginField === 'email') {
-            $rules['email'] = 'required|email';
-        } else {
-            $rules['phone'] = 'required|string';
-        }
-
-        $request->validate($rules, [
-            'email.required' => __('Email is required.'),
-            'email.email' => __('Please enter a valid email.'),
-            'phone.required' => __('Phone number is required.'),
+        ], [
+            'phone.required' => __('Phone number or email is required.'),
             'password.required' => __('Password is required.'),
             'password.min' => __('Password must be at least 8 characters.'),
         ]);
 
+        $login_key = 'phone';
+        $input_value = $request->phone;
 
-        $vendor = Vendor::where($loginField, $loginValue)->first();
+        if (filter_var($input_value, FILTER_VALIDATE_EMAIL)) {
+            $login_key = 'email';
+        }
+
+        $vendor = Vendor::where($login_key, $input_value)->first();
 
         if (!$vendor) {
             return response()->json([
