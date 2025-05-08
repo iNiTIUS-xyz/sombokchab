@@ -17,11 +17,6 @@ class VendorLoginController extends Controller
 {
     use AuthenticatesUsers;
 
-    /**
-     * Where to redirect users after login.
-     *
-     * @return string
-     */
     public function redirectTo()
     {
         return route('vendor.home');
@@ -44,59 +39,6 @@ class VendorLoginController extends Controller
     {
         return view('vendor::vendor.login.index');
     }
-
-
-    // public function vendor_login(Request $request): JsonResponse
-    // {
-    //     $request->validate([
-    //         'phone' => 'required|string',
-    //         'password' => 'required|min:6',
-    //     ], [
-    //         'phone.required' => __('Phone number or email is required.'),
-    //         'password.required' => __('Password is required.'),
-    //         'password.min' => __('Password must be at least 6 characters.'),
-    //     ]);
-
-    //     $login_key = 'phone';
-    //     $input_value = $request->phone;
-
-    //     if (filter_var($input_value, FILTER_VALIDATE_EMAIL)) {
-    //         $login_key = 'email';
-    //     }
-
-    //     $vendor = Vendor::where($login_key, $input_value)->first();
-
-    //     if (!$vendor) {
-    //         return response()->json([
-    //             'msg' => __('Account not found.'),
-    //             'type' => 'danger',
-    //             'status' => 'invalid',
-    //         ]);
-    //     }
-
-    //     if (!$vendor->is_vendor_verified) {
-    //         return response()->json([
-    //             'msg' => __('Your account is not verified. Please contact support.'),
-    //             'type' => 'danger',
-    //             'status' => 'invalid',
-    //         ]);
-    //     }
-
-    //     if (Auth::guard('vendor')->attempt([$login_key => $input_value, 'password' => $request->password], $request->get('remember'))) {
-    //         return response()->json([
-    //             'msg' => __('Sign in successfull... Redirecting...'),
-    //             'type' => 'success',
-    //             'status' => 'valid',
-    //             'user_identification' => random_int(11111111, 99999999) . auth()->guard('vendor')->id() . random_int(11111111, 99999999),
-    //         ]);
-    //     }
-
-    //     return response()->json([
-    //         'msg' => ($login_key == 'email' ? __('Email') : __('Phone number')) . __(' or password does not match.'),
-    //         'type' => 'danger',
-    //         'status' => 'invalid',
-    //     ]);
-    // }
 
     public function vendor_login(Request $request)
     {
@@ -134,7 +76,7 @@ class VendorLoginController extends Controller
 
         if (!$vendor) {
             return response()->json([
-                'msg' => __('Account not found'),
+                'msg' => __('Account not found.'),
                 'type' => 'danger',
                 'status' => 'invalid',
             ], 404);
@@ -163,7 +105,7 @@ class VendorLoginController extends Controller
         }
 
         return response()->json([
-            'msg' => __('Invalid credentials. Please try again.'),
+            'msg' => __('Account credentials does not match.'),
             'type' => 'danger',
             'status' => 'invalid',
         ], 401);

@@ -659,7 +659,7 @@ class FrontendController extends Controller
         }
 
         return response()->json([
-            'msg' => 'Credentials not match',
+            'msg' => 'Account credentials does not match.',
             'type' => 'danger',
             'status' => 'invalid',
         ]);
