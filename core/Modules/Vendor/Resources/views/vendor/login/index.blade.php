@@ -122,22 +122,6 @@
                     $('#phone_country_code').val(rememberedCode);
                 }
 
-                // $('#togglePhoneEmail').on('click', function() {
-                //     const phoneInput = $('.phone-input');
-                //     const emailInput = $('.email-input');
-
-                //     if (phoneInput.is(':visible')) {
-                //         phoneInput.hide();
-                //         emailInput.show();
-                //         $(this).text('{{ __('Use Phone') }}');
-                //     } else {
-                //         phoneInput.show();
-                //         emailInput.hide();
-                //         $(this).text('{{ __('Use Email') }}');
-                //     }
-                // });
-
-
                 $('.toggle-password').on('click', function() {
                     const input = $('#login_password');
                     const hideIcon = $(this).find('.hide-icon');
