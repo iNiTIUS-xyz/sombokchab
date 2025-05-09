@@ -102,7 +102,7 @@
                     </div>
                 </div>
                 <div class="btn-wrapper mt-4">
-                    <button type="submit" class="cmn_btn btn_bg_2">{{ __('Save Changes') }}</button>
+                    <button type="submit" class="cmn_btn btn_bg_2 btn-success">{{ __('Save Changes') }}</button>
                 </div>
             </form>
         </div>
