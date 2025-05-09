@@ -164,7 +164,41 @@
                 </li>
             </ul>
         @elseif (auth('vendor')->check())
-            <a href="{{ route('vendor.home') }}" style="color: #fff">Dashboard</a>
+            <a class="accounts" href="#1">
+                <i class="las la-user"></i>
+            </a>
+            <ul class="account-list-item">
+                <li class="list">
+                    <a href="#" class="account_active">
+                        {{ __('Welcome, ') }} {{ auth('vendor')->user()->username }}
+                    </a>
+                </li>
+                <li class="list">
+                    <a href="{{ route('vendor.home') }}">
+                        {{ __('Dashboard') }}
+                    </a>
+                </li>
+                <li class="list">
+                    <a href="{{ route('vendor.products.all') }}">
+                        {{ __('Product List') }}
+                    </a>
+                </li>
+                <li class="list">
+                    <a href="{{ route('vendor.products.inventory.all') }}">
+                        {{ __('Inventory') }}
+                    </a>
+                </li>
+                <li class="list">
+                    <a href="{{ route('vendor.shipping-method.index') }}">
+                        {{ __('Shipping Method') }}
+                    </a>
+                </li>
+                <li class="list">
+                    <a href="{{ route('vendor.logout') }}">
+                        {{ __('Sign Out') }}
+                    </a>
+                </li>
+            </ul>
         @else
             <a class="accounts" href="#1"><i class="las la-user"></i> <span
                     class="icon-title">{{ __('Account') }}</span></a>
