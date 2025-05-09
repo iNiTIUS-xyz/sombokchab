@@ -1,3 +1,24 @@
+<style>
+    .account_active {
+        background: var(--main-color-one);
+        color: var(--white) !important;
+    }
+
+    .single-right-content .login-account .accounts i {
+        color: var(--heading-color-two);
+        background: var(--main-color-two);
+        border-radius: 30px;
+        padding: 6px;
+    }
+
+    .single-right-content .login-account .accounts i:hover {
+        color: var(--main-color-one);
+        background: var(--white);
+        border-radius: 30px;
+        padding: 6px;
+    }
+</style>
+
 <!-- Topbar bottom area Starts -->
 <div class="topbar-bottom-area index-02 color-two">
     <div class="container container-one">
@@ -58,25 +79,44 @@
                         </div>
                         <div class="login-account">
                             @if (auth('web')->check())
-                                <a class="accounts" href="#1"> {{ auth('web')->user()->name }} <i
-                                        class="las la-user"></i> </a>
+                                <a class="accounts" href="#1">
+                                    <i class="las la-user"></i>
+                                </a>
                                 <ul class="account-list-item">
-                                    <li class="list"><a href="{{ route('user.home') }}">{{ __('Dashboard') }}</a>
+                                    <li class="list">
+                                        <a href="#" class="account_active">
+                                            {{ __('Welcome, ') }} {{ auth('web')->user()->name }}
+                                        </a>
                                     </li>
-                                    <li class="list"><a
-                                            href="{{ route('user.home.edit.profile') }}">{{ __('Edit Profile') }}</a>
+                                    <li class="list">
+                                        <a href="{{ route('user.home') }}">
+                                            {{ __('Dashboard') }}
+                                        </a>
                                     </li>
-                                    <li class="list"><a
-                                            href="{{ route('user.home.change.password') }}">{{ __('Change Password') }}</a>
+                                    <li class="list">
+                                        <a href="{{ route('user.home.edit.profile') }}">
+                                            {{ __('Edit Profile') }}
+                                        </a>
                                     </li>
-                                    <li class="list"><a
-                                            href="{{ route('user.product.order.all') }}">{{ __('My Orders') }}</a>
+                                    <li class="list">
+                                        <a href="{{ route('user.home.change.password') }}">
+                                            {{ __('Change Password') }}
+                                        </a>
                                     </li>
-                                    <li class="list"><a
-                                            href="{{ route('user.shipping.address.all') }}">{{ __('Shipping Address') }}</a>
+                                    <li class="list">
+                                        <a href="{{ route('user.product.order.all') }}">
+                                            {{ __('My Orders') }}
+                                        </a>
                                     </li>
-                                    <li class="list"><a
-                                            href="{{ route('user.home.support.tickets') }}">{{ __('Support Ticket') }}</a>
+                                    <li class="list">
+                                        <a href="{{ route('user.shipping.address.all') }}">
+                                            {{ __('Shipping Address') }}
+                                        </a>
+                                    </li>
+                                    <li class="list">
+                                        <a href="{{ route('user.home.support.tickets') }}">
+                                            {{ __('Support Ticket') }}
+                                        </a>
                                     </li>
                                     <li class="list">
                                         <a href="{{ route('user.logout') }}"
