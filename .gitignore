@@ -6,5 +6,5 @@
 /core/storage/framework/cache
 /core/storage/framework/session
 /core/storage/framework/testing
-/core/storage/*.key
+/core/storage/**/*.key
 /core/.env
