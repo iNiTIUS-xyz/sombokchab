@@ -1,9 +1,4 @@
 <style>
-    .account_active {
-        background: var(--main-color-one);
-        color: var(--white) !important;
-    }
-
     .single-right-content .login-account .accounts i {
         color: var(--heading-color-two);
         background: var(--main-color-two);

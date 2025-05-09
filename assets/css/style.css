@@ -26913,7 +26913,7 @@ table .attachment-preview {
 
 .nav-pills .nav-link.active,
 .nav-pills .show>.nav-link {
-  color: var(--main-color-two) !important;
+  color: white !important;
   background: none;
 }
 
@@ -27365,7 +27365,7 @@ section.news-area {
 }
 
 .user-dashboard-wrapper ul.nav-pills .nav-link.active {
-  background: #F2F3F5 !important;
+  background: var(--main-color-one);
   color: var(--heading-color);
 }
 
@@ -27386,6 +27386,12 @@ section.news-area {
   background: var(--main-color-one);
   color: #fff !important;
 }
+
+.account_active {
+    background: var(--main-color-one) !important;
+    color: var(--white) !important;
+}
+
 
 .user-dashboard-wrapper .nav-pills .nav-link {
   border-radius: 0px;

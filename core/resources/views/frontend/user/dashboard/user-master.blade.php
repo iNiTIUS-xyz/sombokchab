@@ -24,43 +24,61 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link @if (request()->routeIs('user.home')) active @endif"
-                                    href="{{ route('user.home') }}">{{ __('Dashboard') }}</a>
+                                    href="{{ route('user.home') }}">
+                                    {{ __('Dashboard') }}
+                                </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link @if (request()->routeIs('user.home.edit.profile')) active @endif "
-                                    href="{{ route('user.home.edit.profile') }}">{{ __('Edit Profile') }}</a>
+                                    href="{{ route('user.home.edit.profile') }}">
+                                    {{ __('Edit Profile') }}
+                                </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link @if (request()->routeIs('user.home.change.password')) active @endif "
-                                    href="{{ route('user.home.change.password') }}">{{ __('Change Password') }}</a>
+                                    href="{{ route('user.home.change.password') }}">
+                                    {{ __('Change Password') }}
+                                </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link @if (request()->routeIs('user.product.order.all')) active @endif"
-                                    href="{{ route('user.product.order.all') }}">{{ __('My Orders') }}</a>
+                                    href="{{ route('user.product.order.all') }}">
+                                    {{ __('My Orders') }}
+                                </a>
                             </li>
                             @if (moduleExists('Chat'))
                                 <li class="nav-item">
                                     <a class="nav-link @if (request()->routeIs('frontend.chat.home')) active @endif"
-                                        href="{{ route('frontend.chat.home') }}">{{ __('Chat List') }}</a>
+                                        href="{{ route('frontend.chat.home') }}">
+                                        {{ __('Chat List') }}
+                                    </a>
                                 </li>
                             @endif
                             @if (moduleExists('Refund'))
                                 <li class="nav-item">
                                     <a class="nav-link @if (request()->routeIs('user.product.refund-request')) active @endif"
-                                        href="{{ route('user.product.refund-request') }}">{{ __('Refund Request') }}</a>
+                                        href="{{ route('user.product.refund-request') }}">
+                                        {{ __('Refund Request') }}
+                                    </a>
                                 </li>
                             @endif
                             <li class="nav-item">
                                 <a class="nav-link @if (request()->routeIs('user-home.wallet.history')) active @endif"
-                                    href="{{ route('user-home.wallet.history') }}">{{ __('Wallet History') }}</a>
+                                    href="{{ route('user-home.wallet.history') }}">
+                                    {{ __('Wallet History') }}
+                                </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link @if (request()->routeIs('user.shipping.address.all')) active @endif"
-                                    href="{{ route('user.shipping.address.all') }}">{{ __('Shipping Address') }}</a>
+                                    href="{{ route('user.shipping.address.all') }}">
+                                    {{ __('Shipping Address') }}
+                                </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link @if (request()->routeIs('user.home.support.tickets')) active @endif"
-                                    href="{{ route('user.home.support.tickets') }}">{{ __('Support Ticket') }}</a>
+                                    href="{{ route('user.home.support.tickets') }}">
+                                    {{ __('Support Ticket') }}
+                                </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('user.logout') }}"
