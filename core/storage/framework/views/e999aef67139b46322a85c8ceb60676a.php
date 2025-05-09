@@ -5,13 +5,13 @@
 <div class="single-icon-flex">
     <?php if(auth('vendor')->check()): ?>
         <div class="single-icon notifications-parent">
-            <a class="btn btn-outline-danger site-health-btn btn-icon-text" href="<?php echo e(route('frontend.vendors.single', auth('vendor')->user()->username ?? "")); ?>">
+            <a class="btn btn-outline-danger site-health-btn btn-icon-text" target="__blank" href="<?php echo e(route('frontend.vendors.single', auth('vendor')->user()->username ?? "")); ?>">
                 <i class="las la-eye"></i> <span class="d-none d-sm-inline-block"><?php echo e(__("Visit Store")); ?></span>
             </a>
         </div>
     <?php elseif(auth('admin')->check()): ?>
         <div class="single-icon notifications-parent">
-            <a class="btn btn-outline-danger site-health-btn btn-icon-text" href="<?php echo e(route('homepage')); ?>">
+            <a class="btn btn-outline-danger site-health-btn btn-icon-text" target="__blank" href="<?php echo e(route('homepage')); ?>">
                 <i class="las la-eye"></i> <span class="d-none d-sm-inline-block"><?php echo e(__("Visit Site")); ?></span>
             </a>
         </div>

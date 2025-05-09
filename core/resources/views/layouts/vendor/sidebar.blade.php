@@ -83,7 +83,7 @@
 
                         <li class="{{ active_menu('vendor-home/wallet/history') }}">
                             <a href="{{ route('vendor.wallet.history') }}">
-                                <span>{{ __('History') }}</span>
+                                <span>{{ __('Wallet History') }}</span>
                             </a>
                         </li>
                     </ul>

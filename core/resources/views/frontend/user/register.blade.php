@@ -3,6 +3,15 @@
     {{ __('Customer Sign Up') }}
 @endsection
 @section('content')
+
+    <style>
+        .label-title.text-bold{
+            font-size: 16px !important;
+            font-weight: 500 !important;
+            color: var(--heading-color);
+        }
+    </style>
+
     <section class="sign-in-area-wrapper padding-top-20 padding-bottom-20">
         <div class="container">
             <div class="row justify-content-center">
@@ -32,7 +41,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label
-                                                    class="label-title color-light mb-2">{{ __('Phone Number *') }}</label>
+                                                    class="label-title text-bold mb-2">{{ __('Phone Number *') }}</label>
                                                 <div class="input-group">
                                                     <select name="phone_country_code" id="phone_country_code"
                                                         class="form-select" required>
@@ -51,7 +60,7 @@
                                         <!-- Name -->
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="label-title color-light mb-2">{{ __('Name *') }}</label>
+                                                <label class="label-title text-bold mb-2">{{ __('Name *') }}</label>
                                                 <input type="text" name="name" id="name"
                                                     class="form--control radius-10" placeholder="{{ __('Name *') }}"
                                                     required>
@@ -62,13 +71,13 @@
                                         <!-- Username (Updated Validation) -->
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="label-title color-light mb-2">{{ __('Username *') }}</label>
+                                                <label class="label-title text-bold mb-2">{{ __('Username *') }}</label>
                                                 <input type="text" name="username" id="username"
                                                     class="form--control radius-10" placeholder="{{ __('Username *') }}"
                                                     required>
-                                                <small class="text-muted">
+                                                {{-- <small class="text-muted">
                                                     Allowed: letters (A-Z, a-z), numbers (0-9), underscores (_)
-                                                </small>
+                                                </small> --}}
                                                 <small class="text-danger" id="usernameError"></small>
                                             </div>
                                         </div>
@@ -76,7 +85,7 @@
                                         <!-- Email (Optional) -->
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="label-title color-light mb-2">{{ __('Email') }}</label>
+                                                <label class="label-title text-bold mb-2">{{ __('Email') }}</label>
                                                 <input type="email" name="email" id="email"
                                                     class="form--control radius-10" placeholder="{{ __('Email') }}">
                                                 <small class="text-danger" id="emailError"></small>
@@ -86,15 +95,15 @@
                                         <!-- Password -->
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="label-title color-light mb-2">{{ __('Password *') }}</label>
+                                                <label class="label-title text-bold mb-2">{{ __('Password *') }}</label>
                                                 <input type="password" name="password" id="password"
                                                     class="form--control radius-10" placeholder="{{ __('Password *') }}"
                                                     required>
-                                                <small>
+                                                {{-- <small>
                                                     <ul>
                                                         <li>Minimum 8 characters</li>
                                                     </ul>
-                                                </small>
+                                                </small> --}}
                                                 <small class="text-danger" id="passwordError"></small>
                                             </div>
                                         </div>
@@ -103,7 +112,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label
-                                                    class="label-title color-light mb-2">{{ __('Confirm Password *') }}</label>
+                                                    class="label-title text-bold mb-2">{{ __('Confirm Password *') }}</label>
                                                 <input type="password" name="password_confirmation"
                                                     id="password_confirmation" class="form--control radius-10"
                                                     placeholder="{{ __('Confirm Password *') }}" required>
@@ -216,25 +225,9 @@
         function validateUsername(value) {
             if (!value.trim()) return 'Username is required';
 
-            // Strict regex: Only A-Z, a-z, 0-9, ., _
-            const re = /^[A-Za-z0-9._]+$/;
-
+            const re = /^[A-Za-z0-9_]{3,20}$/; // Removed '.' from the character set
             if (!re.test(value)) {
-                return 'Only letters (A-Z, a-z), numbers (0-9), and underscores (_) allowed';
-            }
-
-            // Length check
-            if (value.length < 3 || value.length > 20) {
-                return 'Username must be 3-20 characters';
-            }
-
-            // Cannot start/end with . or _
-            if (value.startsWith('_')) {
-                return 'Cannot start with or _';
-            }
-
-            if (value.endsWith('_')) {
-                return 'Cannot end with or _';
+                return 'Username must be 3–20 characters (letters, numbers, underscore( _ )) with no spaces';
             }
 
             return '';
@@ -511,4 +504,5 @@
             });
         };
     </script>
+    
 @endsection

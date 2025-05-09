@@ -615,19 +615,51 @@ class FrontendController extends Controller
 
     public function ajax_login(Request $request)
     {
-        $request->validate([
-            'phone' => 'required|string',
+        // Custom validation to check phone number content
+        $validator = \Validator::make($request->all(), [
+            // $request->validate([
+            //     'phone' => 'required|string',
+            //     'password' => 'required|min:8',
+            // ], [
+            //     'phone.required' => __('Phone number or email is required.'),
+            //     'password.required' => __('Password is required.'),
+            //     'password.min' => __('Password must be at least 8 characters.'),
+            // ]);
+            'phone' => [
+                'required_without:email',
+                function ($attribute, $value, $fail) {
+                    $countryCode = ['+1', '+880', '+855']; // Match your country code options
+                    $phoneNumber = str_replace($countryCode, '', $value); // Remove country code
+                    if (empty(trim($phoneNumber))) {
+                        $fail(__('Phone number or email is required.'));
+                    }
+                },
+            ],
+            // 'email' => 'required_without:phone|email',
             'password' => 'required|min:8',
         ], [
-            'phone.required' => __('Phone number or email is required.'),
+            'phone.required_without' => __('Phone number or email is required.'),
+            // 'email.required_without' => __('Phone number or email is required.'),
+            // 'email.email' => __('Invalid email format.'),
             'password.required' => __('Password is required.'),
             'password.min' => __('Password must be at least 8 characters.'),
         ]);
 
+        if ($validator->fails()) {
+            \Log::info('Validation Errors: ' . json_encode($validator->errors()));
+            return response()->json([
+                'message' => 'The given data was invalid.',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
         $login_key = 'phone';
         $input_value = $request->phone;
 
-        if (filter_var($input_value, FILTER_VALIDATE_EMAIL)) {
+        if ($request->filled('email')) {
+            $login_key = 'email';
+            $input_value = $request->email;
+        } elseif (filter_var($input_value, FILTER_VALIDATE_EMAIL)) {
             $login_key = 'email';
         }
 
@@ -659,7 +691,7 @@ class FrontendController extends Controller
         }
 
         return response()->json([
-            'msg' => 'Account credentials does not match.',
+            'msg' => 'Account credentials do not match.',
             'type' => 'danger',
             'status' => 'invalid',
         ]);

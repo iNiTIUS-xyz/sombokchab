@@ -1,7 +1,7 @@
 @extends('frontend.frontend-page-master')
 
 @section('page-title')
-    {{ __('Sign In') }}
+    {{ __('Customer Sign In') }}
 @endsection
 
 @section('content')
@@ -16,7 +16,7 @@
                         <div class="alert alert-success showLoginRedirect" style="display: none;"></div>
                         <div class="single-input">
                             <div class="phone-input">
-                                <label class="label-title mb-1"> {{ __('Phone Number') }} </label>
+                                <label class="label-title mb-2"> {{ __('Phone Number') }} </label>
                                 <div class="d-flex">
                                     <select id="phone_country_code" class="form-select"
                                         style="width: 30% !important; border: 1px solid rgba(221, 221, 221, 0.4) !important; box-shadow: 0 0 10px rgba(255, 255, 255, 0.1) !important;">
@@ -78,7 +78,7 @@
                                 {{ __('Forgot Password?') }} </a>
                         </div>
                     </div>
-                    <div class="dashboard-bottom-contents">
+                    <div class="dashboard-bottom-contents" style="display: flex; justify-content: center;">
                         <div class="account-bottom">
                             <span class="account-title mt-3"> {{ __("Don't have an account?") }} </span>
                             <a href="{{ route('user.register') }}" class="signup-login mt-3">
@@ -113,11 +113,11 @@
                     let password = $('#login_password').val();
                     let remember = $('#login_remember').is(':checked');
                     let countryCode = $('#phone_country_code').val();
-
+    
                     let loginInput = isEmail ? email : (countryCode + phone);
-
+    
                     el.text('{{ __('Please Wait') }}');
-
+    
                     $.ajax({
                         type: 'post',
                         url: "{{ route('user.ajax.login') }}",
@@ -143,6 +143,7 @@
                             }
                         },
                         error: function(data) {
+                            console.log('Error Response:', data.responseJSON);
                             let response = data.responseJSON.errors || {};
                             formContainer.find('.error-wrap').html(
                                 '<ul class="alert alert-danger"></ul>');
@@ -154,13 +155,13 @@
                         }
                     });
                 });
-
+    
                 $('.nav-item .nav-link').on('click', function() {
                     $('#forgot-password').removeClass('active');
                 });
             });
         })(jQuery)
-
+    
         function capitalizeFirstLetter(string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
         }

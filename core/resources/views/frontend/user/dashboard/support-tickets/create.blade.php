@@ -146,7 +146,7 @@
                                         <button type="submit" class="cmn_btn btn_bg_2 default-theme-btn">
                                             {{ get_static_option('support_ticket_button_text') }}
                                         </button>
-                                        <a href="{{ route('user.home.support.tickets') }}" class="btn cmn_btn btn-secondary text-white">
+                                        <a href="{{ route('user.home.support.tickets') }}" class="cmn_btn default-theme-btn" style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
                                             {{ __('Back') }}
                                         </a>
                                     </div>

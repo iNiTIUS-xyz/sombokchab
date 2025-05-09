@@ -17,9 +17,9 @@
 
                         <div class="single-input">
                             <div class="phone-input">
-                                <label class="label-title mb-1"> {{ __('Phone Number') }} </label>
+                                <label class="label-title mb-2"> {{ __('Phone Number') }} </label>
                                 <div class="d-flex">
-                                    <select id="phone_country_code" class="form-select" style="width: 30% !important;">
+                                    <select id="phone_country_code" class="form-select" style="width: 30% !important; border: 1px solid rgba(221, 221, 221, 0.4) !important; box-shadow: 0 0 10px rgba(255, 255, 255, 0.1) !important;">
                                         <option value="+1">+1</option>
                                         <option value="+880">+880</option>
                                         <option value="+855">+855</option>
@@ -81,7 +81,7 @@
                         </div>
                     </div>
 
-                    <div class="dashboard-bottom-contents">
+                    <div class="dashboard-bottom-contents" style="display: flex; justify-content: center;">
                         <div class="account-bottom">
                             <span class="account-title mt-3"> {{ __("Don't have an account?") }} </span>
                             <a href="{{ route('vendor.register') }}" class="signup-login mt-3">
@@ -177,7 +177,7 @@
                         url: "{{ route('vendor.login') }}",
                         data: {
                             _token: "{{ csrf_token() }}",
-                            [isEmail ? 'email' : 'phone']: isEmail ? email : (code + phone),
+                            [isEmail ? 'phone' : 'phone']: isEmail ? email : (code + phone),
                             password: password,
                             remember: remember
                         },

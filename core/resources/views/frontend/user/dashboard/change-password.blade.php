@@ -70,7 +70,7 @@
         }
 
         .input-group-btn {
-            background: #faf7f7;
+            background: transparent;
             position: absolute;
             right: 0;
             top: 0;
@@ -134,33 +134,11 @@
         const confirmSuccess = document.getElementById('confirmSuccess');
         const submitBtn = document.getElementById('submitBtn');
 
-        // Password validation function
-        function validatePassword(password) {
-            const errors = [];
-            
-            // Check length
-            if (password.length < 8 || password.length > 20) {
-                errors.push('8-20 characters');
-            }
-            
-            // Check uppercase
-            if (!/[A-Z]/.test(password)) {
-                errors.push('1 uppercase');
-            }
-            
-            // Check lowercase
-            if (!/[a-z]/.test(password)) {
-                errors.push('1 lowercase');
-            }
-            
-            // Check number
-            if (!/[0-9]/.test(password)) {
-                errors.push('1 number');
-            }
-            
-            // Check spaces
-            if (/\s/.test(password)) {
-                errors.push('no spaces');
+        // New password validation function
+        function validatePassword(value) {
+            const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?!.*\s).{8,}$/;
+            if (!re.test(value)) {
+                return 'Password must have at least 8 characters with 1 uppercase, 1 lowercase, 1 number, and no spaces';
             }
             
             return {
@@ -169,16 +147,14 @@
             };
         }
 
-        function validatePasswordMatch(password, confirmPassword) {
-            if (password !== confirmPassword) {
-                return 'Passwords do not match';
-            }
-            return '';
+        // New confirm password validation function
+        function validateConfirmPassword(confirmVal, passwordVal) {
+            return confirmVal !== passwordVal ? 'Passwords do not match' : '';
         }
 
         function updateSubmitButton() {
-            const passwordValidation = validatePassword(passwordField.value);
-            const confirmError = validatePasswordMatch(passwordField.value, confirmField.value);
+            const passwordError = validatePassword(passwordField.value);
+            const confirmError = validateConfirmPassword(confirmField.value, passwordField.value);
 
             if (!passwordValidation.isValid || confirmError || passwordField.value === '' || confirmField.value === '') {
                 submitBtn.disabled = true;
@@ -213,7 +189,7 @@
         });
 
         function checkPasswordMatch() {
-            const error = validatePasswordMatch(passwordField.value, confirmField.value);
+            const error = validateConfirmPassword(confirmField.value, passwordField.value);
 
             if (passwordField.value === '') {
                 confirmHelp.style.display = 'none';
