@@ -45,7 +45,7 @@
 
                                 <!-- Phone Number (with country code) -->
                                 <div class="form-group">
-                                    <label class="label-title color-light mb-2"> {{ __('Phone Number *') }} </label>
+                                    <label class="label-title mb-2"> {{ __('Phone Number *') }} </label>
                                     <div class="input-group">
                                         <select id="phone_country_code" name="phone_country_code" class="form-select"
                                             style="width: 15% !important;">
@@ -63,7 +63,7 @@
                                     <!-- Owner Name -->
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="label-title color-light mb-2"> {{ __('Vendor Name *') }} </label>
+                                            <label class="label-title mb-2"> {{ __('Vendor Name *') }} </label>
                                             <input name="owner_name" id="owner_name" type="text"
                                                 class="form--control radius-10" placeholder="{{ __('Vendor Name') }}"
                                                 required />
@@ -74,7 +74,7 @@
                                     <!-- Store Name -->
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="label-title color-light mb-2"> {{ __('Store Name *') }} </label>
+                                            <label class="label-title mb-2"> {{ __('Store Name *') }} </label>
                                             <input name="business_name" id="business_name" type="text"
                                                 class="form--control radius-10" placeholder="{{ __('Store Name') }}"
                                                 required />
@@ -85,7 +85,7 @@
                                     <!-- Email (Optional) -->
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="label-title color-light mb-2"> {{ __('Email') }} </label>
+                                            <label class="label-title mb-2"> {{ __('Email') }} </label>
                                             <input name="email" id="email" type="text"
                                                 class="form--control radius-10" placeholder="{{ __('Email') }}" />
                                             <small class="text-danger" id="emailError"></small>
@@ -95,10 +95,13 @@
                                     <!-- Username -->
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="label-title color-light mb-2"> {{ __('Username *') }} </label>
+                                            <label class="label-title mb-2"> {{ __('Username *') }} </label>
                                             <input name="username" id="username" type="text"
                                                 class="form--control radius-10" placeholder="{{ __('Username') }}"
                                                 required />
+                                                {{-- <small class="text-muted">
+                                                    Allowed: letters (A-Z, a-z), numbers (0-9), underscores (_)
+                                                </small> --}}
                                             <small class="text-danger" id="usernameError"></small>
                                         </div>
                                     </div>
@@ -106,18 +109,18 @@
                                     <!-- Password -->
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="label-title color-light mb-2"> {{ __('Password *') }} </label>
+                                            <label class="label-title mb-2"> {{ __('Password *') }} </label>
                                             <input name="password" id="password" type="password"
                                                 class="form--control radius-10" placeholder="{{ __('Password') }}"
                                                 required />
-                                            <small>
+                                            {{-- <small>
                                                 <ul>
                                                     <li
                                                         style="font-size: 12px; font-weight: 400; line-height: 20px; color: var(--paragraph-color);">
                                                         Minimum 8 characters
                                                     </li>
                                                 </ul>
-                                            </small>
+                                            </small> --}}
                                             <small class="text-danger" id="passwordError"></small>
                                         </div>
                                     </div>
@@ -125,7 +128,7 @@
                                     <!-- Confirm Password -->
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="label-title color-light mb-2"> {{ __('Confirm Password *') }}
+                                            <label class="label-title mb-2"> {{ __('Confirm Password *') }}
                                             </label>
                                             <input name="password_confirmation" id="password_confirmation"
                                                 type="password" class="form--control radius-10"
@@ -137,7 +140,7 @@
                                     <!-- Business Category -->
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="label-title color-light mb-2"> {{ __('Business Category *') }}
+                                            <label class="label-title mb-2"> {{ __('Business Category *') }}
                                             </label>
                                             <div class="nice-select-two">
                                                 <select name="business_type" id="business_type"
@@ -155,7 +158,7 @@
                                     <!-- Passport / National ID -->
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="label-title color-light mb-2">
+                                            <label class="label-title mb-2">
                                                 {{ __('Passport or National ID *') }} </label>
                                             <input name="passport_nid" id="passport_nid" type="text"
                                                 class="form--control radius-10"
@@ -232,8 +235,10 @@
 
     <style>
         #vendor-form label {
-            font-size: 16px;
-            font-weight: bold;
+            line-height: 20px;
+            color: var(--heading-color);
+            font-size: 16px !important;
+            font-weight: 500 !important;
         }
 
         .btn {
@@ -403,9 +408,9 @@
         function validateUsername(value) {
             if (!value.trim()) return 'Username is required';
 
-            const re = /^[A-Za-z0-9._]{3,20}$/;
+            const re = /^[A-Za-z0-9_]{3,20}$/; // Removed '.' from the character set
             if (!re.test(value)) {
-                return 'Username must be 3–20 characters (letters, numbers, ., _) with no spaces';
+                return 'Username must be 3–20 characters (letters, numbers, underscore( _ )) with no spaces';
             }
 
             return '';

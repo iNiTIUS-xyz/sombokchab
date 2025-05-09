@@ -186,12 +186,12 @@ class UserDashboardController extends Controller
 
             $user->password = Hash::make($request->password);
             $user->save();
-            Auth::guard('web')->logout();
+            // Auth::guard('web')->logout();
 
-            return redirect()->route('user.login')->with(['msg' => __('Password Changed Successfully'), 'type' => 'success']);
+            return redirect()->back()->with(['msg' => __('Password changed successfully'), 'type' => 'success']);
         }
 
-        return redirect()->back()->with(['msg' => __('Current password does not match.'), 'type' => 'danger']);
+        return redirect()->back()->with(['msg' => __('Current password do not match.'), 'type' => 'danger']);
     }
 
     public function edit_profile()

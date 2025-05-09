@@ -1,6 +1,6 @@
 @extends('vendor.vendor-master')
 @section('site-title')
-    {{ __('Vendor withdraw settings page') }}
+    {{ __('Vendor withdraw settings') }}
 @endsection
 @section('style')
 @endsection

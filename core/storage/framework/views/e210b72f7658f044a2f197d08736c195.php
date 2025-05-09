@@ -22,13 +22,13 @@
         </div>
         <div class="dashboard-bottom custom__form mt-4" id="sidbar-menu-wrap">
             <ul class="dashboard-list">
-                <li class="list active">
+                <li class="list <?php echo e(Route::is('vendor.home') ? 'active' : ''); ?>">
                     <a href="<?php echo e(route('vendor.home')); ?>">
                         <i class="ti-view-grid"></i> <?php echo e(__('Dashboard')); ?>
 
                     </a>
                 </li>
-                <li class="list">
+                <li class="list <?php echo e(Route::is('vendor.profile.update') ? 'active' : ''); ?>">
                     <a href="<?php echo e(route('vendor.profile.update')); ?>">
                         <i class="ti-user"></i> <?php echo e(__('Profile')); ?>
 
@@ -48,54 +48,51 @@
                     <li class="<?php echo e(active_menu('vendor-home/chat')); ?>">
                         <a href="<?php echo e(route('vendor.chat.home')); ?>">
                             <i class="ti-comment-alt"></i>
-                            <span><?php echo e(__('Chat Module')); ?></span>
+                            <span><?php echo e(__('Chat')); ?></span>
                         </a>
                     </li>
                 <?php endif; ?>
 
-                
                 <li class="main_dropdown <?php if(request()->is(['vendor-home/wallet', 'vendor-home/wallet/*'])): ?> active open <?php endif; ?>">
                     <a href="#1" aria-expanded="true">
-                        <i class="ti-wallet"></i> <span><?php echo e(__('Wallet Module')); ?>
+                        <i class="ti-wallet"></i> <span><?php echo e(__('Wallet')); ?>
 
                         </span>
                     </a>
 
                     <ul class="collapse">
-                        
+
                         <li class="<?php echo e(active_menu('vendor-home/wallet')); ?>">
                             <a href="<?php echo e(route('vendor.wallet.home')); ?>">
                                 <span><?php echo e(__('Wallet')); ?></span>
                             </a>
                         </li>
-                        
+
                         <li class="<?php echo e(active_menu('vendor-home/wallet/gateway')); ?>">
                             <a href="<?php echo e(route('vendor.wallet.withdraw.gateway.index')); ?>">
                                 <span><?php echo e(__('Wallet settings')); ?></span>
                             </a>
                         </li>
-                        
+
                         <li class="<?php echo e(active_menu('vendor-home/wallet/withdraw')); ?>">
                             <a href="<?php echo e(route('vendor.wallet.withdraw')); ?>">
                                 <span><?php echo e(__('Withdraw')); ?></span>
                             </a>
                         </li>
-                        
+
                         <li class="<?php echo e(active_menu('vendor-home/wallet/withdraw-request')); ?>">
                             <a href="<?php echo e(route('vendor.wallet.withdraw-request')); ?>">
                                 <span><?php echo e(__('Withdraw request')); ?></span>
                             </a>
                         </li>
-                        
+
                         <li class="<?php echo e(active_menu('vendor-home/wallet/history')); ?>">
                             <a href="<?php echo e(route('vendor.wallet.history')); ?>">
-                                <span><?php echo e(__('History')); ?></span>
+                                <span><?php echo e(__('Wallet History')); ?></span>
                             </a>
                         </li>
                     </ul>
                 </li>
-
-                
                 <li class="<?php echo e(active_menu('vendor-home/shipping-method')); ?>">
                     <a href="<?php echo e(route('vendor.shipping-method.index')); ?>">
                         <i class="ti-money"></i>
@@ -104,10 +101,9 @@
                 </li>
 
                 <?php if(auth('vendor')->user()->is_vendor_verified && auth('vendor')->user()->verified_at): ?>
-                    
                     <li class="main_dropdown <?php if(request()->is(['vendor-home/product', 'vendor-home/product/*'])): ?> active open <?php endif; ?>">
                         <a href="#1" aria-expanded="true">
-                            <i class="ti-layout-tab"></i> <span><?php echo e(__('Product Module')); ?>
+                            <i class="ti-layout-tab"></i> <span><?php echo e(__('Product')); ?>
 
                             </span>
                         </a>
@@ -123,11 +119,10 @@
                         </ul>
                     </li>
 
-                    
                     <li class="main_dropdown <?php if(request()->is(['vendor-home/orders', 'vendor-home/orders/*'])): ?> active open <?php endif; ?>">
                         <a href="#1" aria-expanded="true">
                             <i class="ti-view-list-alt"></i>
-                            <span><?php echo e(__('Order Module')); ?></span>
+                            <span><?php echo e(__('Order')); ?></span>
                         </a>
 
                         <ul class="collapse">
@@ -142,7 +137,7 @@
                 <li class="<?php echo e(active_menu('vendor-home/campaigns')); ?>">
                     <a href="<?php echo e(route('vendor.campaigns.all')); ?>">
                         <i class="ti-announcement"></i>
-                        <span><?php echo e(__('Campaign Module')); ?></span>
+                        <span><?php echo e(__('Campaign')); ?></span>
                     </a>
                 </li>
 
