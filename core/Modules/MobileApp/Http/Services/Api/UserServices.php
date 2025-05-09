@@ -23,8 +23,8 @@ class UserServices
             'username' => 'required|unique:users|max:191',
             'phone' => 'required|unique:users|max:191',
             'password' => 'required|min:6|max:191',
-            'country_id' => 'required',
-            'state_id' => 'nullable',
+            // 'country_id' => 'required',
+            // 'state_id' => 'nullable',
             'terms_conditions' => 'required',
         ]);
     }
@@ -36,8 +36,8 @@ class UserServices
             'username' => $validatedData["username"],
             'phone' => $validatedData["phone"],
             'password' => Hash::make($validatedData["password"]),
-            'country' => $validatedData["country_id"],
-            'state' => $validatedData["state_id"],
+            // 'country' => $validatedData["country_id"],
+            // 'state' => $validatedData["state_id"],
         ]);
     }
 

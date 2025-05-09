@@ -33,6 +33,7 @@ Route::post('social/login', [UserController::class, 'socialLogin']);
 
 Route::post('/send-otp-in-mail', [UserController::class, 'sendOTP']);
 Route::post('/otp-success', [UserController::class, 'sendOTPSuccess']);
+Route::post('/verify-otp', [UserController::class, 'verifyOtp']);
 Route::post('/reset-password', [UserController::class, 'resetPassword']);
 Route::get('/check-username', [UserController::class, 'checkUsername']);
 
