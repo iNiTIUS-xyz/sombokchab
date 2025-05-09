@@ -174,7 +174,7 @@
             border: 1px solid transparent;
             background: rgba(var(--customer-profile-rgb), 0.1);
             color: var(--customer-profile);
-            text-transform: capitalize;
+            /* text-transform: capitalize; */
             padding: 1px 8px;
             font-size: 15px;
             font-weight: 400;

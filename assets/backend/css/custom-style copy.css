@@ -737,7 +737,7 @@ select.form-control:not([size]):not([multiple]) {
 }
 
 .available-form-field li a {
-	text-transform: capitalize;
+	/* text-transform: capitalize; */
 }
 
 .available-form-field li span {
@@ -793,7 +793,7 @@ select.form-control:not([size]):not([multiple]) {
 
 .view-quote-details-info .view-quote-top-wrap span,
 .view-order-details-info .view-order-top-wrap span{
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
 }
 
 .view-quote-details-info .quote-all-custom-fields,
@@ -803,7 +803,7 @@ select.form-control:not([size]):not([multiple]) {
 
 .view-quote-details-info .quote-all-custom-fields .fname,
 .view-order-details-info .order-all-custom-fields .fname{
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
     padding: 10px;
 }
 

@@ -149,7 +149,7 @@
 
         $(document).on('click', '#upload_media_image', function (e) {
             e.preventDefault();
-            $('.media_upload_modal_submit_btn').hide();
+            // $('.media_upload_modal_submit_btn').hide();
         });
 
 

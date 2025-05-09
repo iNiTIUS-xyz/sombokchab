@@ -47,7 +47,7 @@
             }
             .syotimer-cell__unit {
                 font-size: 16px;
-                text-transform: capitalize;
+                // text-transform: capitalize;
                 font-weight: 400;
                 line-height: 19px;
                 @include responsive(allPhone) {

@@ -2143,7 +2143,7 @@ textarea {
     display: inline-block;
     font-size: 16px;
     font-family: var(--body-font);
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
     color: var(--heading-color);
     font-weight: 400;
     line-height: 32px;
@@ -3399,7 +3399,7 @@ textarea {
     font-size: 18px;
     font-weight: 700;
     line-height: 24px;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
     position: relative;
     font-family: var(--heading-font);
     color: var(--heading-color);

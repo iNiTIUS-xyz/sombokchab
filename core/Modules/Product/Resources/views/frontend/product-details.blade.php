@@ -789,7 +789,7 @@
                                     '</div>');
                             } else {
                                 formContainer.find('.error-wrap').html('');
-                                el.text('{{ __('Login Success.. Redirecting ..') }}');
+                                el.text('{{ __('Sign in successfully... Redirecting...') }}');
                                 location.reload();
                             }
                         },

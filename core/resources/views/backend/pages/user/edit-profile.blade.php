@@ -65,7 +65,7 @@
                                 <small class="info-text">{{__('Recommended Image Size 100x100. Only Accept: jpg,png.jpeg. Size less than 2MB')}}</small>
                             </div>
                             <div class="form-group">
-                                <button type="submit" class="btn btn-primary">{{__('Save changes')}}</button>
+                                <button type="submit" class="btn btn-primary">{{__('Save Changes')}}</button>
                             </div>
                         </form>
                     </div>

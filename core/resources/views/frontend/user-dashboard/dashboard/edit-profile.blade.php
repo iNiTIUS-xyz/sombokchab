@@ -299,7 +299,7 @@
                 <x-fields.media-upload :name="'image'" :title="'Image'"/>
 
             <div class="btn-wrapper mt-2">
-                  <button type="submit" class="btn-default boxed-btn">{{__('Save changes')}}</button>
+                  <button type="submit" class="btn-default boxed-btn">{{__('Save Changes')}}</button>
             </div>
         </form>
     </div>

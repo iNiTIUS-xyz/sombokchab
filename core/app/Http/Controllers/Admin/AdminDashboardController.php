@@ -271,7 +271,7 @@ class AdminDashboardController extends Controller
 
         Admin::find(Auth::user()->id)->update(['name' => $request->name, 'email' => $request->email, 'image' => $request->image]);
 
-        return redirect()->back()->with(['msg' => __('Profile Update Success'), 'type' => 'success']);
+        return redirect()->back()->with(['msg' => __('Profile updated successfully.'), 'type' => 'success']);
     }
 
     public function admin_password_chagne(Request $request)
@@ -292,7 +292,7 @@ class AdminDashboardController extends Controller
             return redirect()->route('admin.login')->with(['msg' => __('Password Changed Successfully'), 'type' => 'success']);
         }
 
-        return redirect()->back()->with(['msg' => __('Somethings Going Wrong! Please Try Again or Check Your Old Password'), 'type' => 'danger']);
+        return redirect()->back()->with(['msg' => __('Unable to change the Password. Please try again or check your old Password.'), 'type' => 'danger']);
     }
 
     public function adminLogout()

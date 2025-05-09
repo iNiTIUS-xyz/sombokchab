@@ -27,8 +27,8 @@
                             </div>
                             <div class="topbar-right-offer">
                                 <ul class="list">
-                                    @if(!auth('web')->check())
-                                    @if(get_static_option("enable_vendor_registration") === 'on')
+                                    @if (!auth('web')->check())
+                                    @if (get_static_option('enable_vendor_registration') === 'on')
                                         <li class="ml-2">
                                             <a class="btn btn-sm btn-warning text-dark become-a-seller-button" href="{{ route('vendor.register') }}">
                                                 {{ __('Become a Vendor') }}
@@ -122,7 +122,7 @@
                     <div class="topbar-bottom-right-content">
                         <div class="topbar-bottom-right-flex">
                             <div class="track-icon-list">
-                                {{-- @if(auth('web')->check())
+                                {{-- @if (auth('web')->check())
                                     <div class="track-icon-list-item">
                                         <a href="{{ route('user.product.order.all') }}" class="track-icon-single text-white">
                                             <span class="icon">
@@ -131,28 +131,31 @@
                                         </a>
                                     </div>
                                 @endif --}}
-
-                                <div class="track-icon-list-item">
-                                    <a href="{{ route('frontend.products.track.order') }}" class="track-icon-single text-white">
-                                        <span class="icon">
-                                            <i class="las la-map-marker-alt text-white"></i>
-                                        </span>
-                                        {{ __('Order Tracking') }}
-                                    </a>
-                                </div>
+                                @if (auth('web')->check())
+                                    <div class="track-icon-list-item">
+                                        <a href="{{ route('frontend.products.track.order') }}"
+                                            class="track-icon-single text-white">
+                                            <span class="icon">
+                                                <i class="las la-map-marker-alt text-white"></i>
+                                            </span>
+                                            {{ __('Order Tracking') }}
+                                        </a>
+                                    </div>
+                                @endif
                             </div>
                             <div class="topbar-right-offer">
                                 <ul class="list">
-                                    @if(!auth('web')->check())
-                                    @if(get_static_option("enable_vendor_registration") === 'on')
-                                        <li class="ml-2">
-                                            <a class="btn btn-sm btn-warning text-dark become-a-seller-button" href="{{ route('vendor.register') }}">
-                                                {{ __('Become a Vendor') }}
-                                            </a>
-                                        </li>
-                                    @endif
-                                    
-                                    {{-- <li class="ml-2">
+                                    @if (!auth('web')->check())
+                                        @if (get_static_option('enable_vendor_registration') === 'on')
+                                            <li class="ml-2">
+                                                <a class="btn btn-sm btn-warning text-dark become-a-seller-button"
+                                                    href="{{ route('vendor.register') }}">
+                                                    {{ __('Become a Vendor') }}
+                                                </a>
+                                            </li>
+                                        @endif
+
+                                        {{-- <li class="ml-2">
                                         <a href="{{ route('vendor.login') }}">
                                             {{ __('Vendor login') }}
                                         </a>
@@ -169,7 +172,7 @@
                                     </li>
 
                                     <style>
-                                        #google_translate_element .goog-te-gadget img{
+                                        #google_translate_element .goog-te-gadget img {
                                             display: none !important;
                                         }
                                     </style>
@@ -184,7 +187,7 @@
     <!-- Topbar bottom area Ends -->
     <!-- Menu area Starts -->
     <nav class="navbar navbar-area nav-five navbar-expand-lg">
-        <div class="container container_1608 nav-container  {{ $containerClass ?? "" }}">
+        <div class="container container_1608 nav-container  {{ $containerClass ?? '' }}">
             <div class="navbar-inner-all">
                 <div class="navbar-inner-all--left">
                     <div class="nav-category category_bars">

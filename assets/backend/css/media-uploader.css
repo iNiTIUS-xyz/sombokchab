@@ -68,7 +68,7 @@
     font-size: 25px;
     color: #fff;
     margin-bottom: 20px;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
 }
 
 .media-uploader-image-list {

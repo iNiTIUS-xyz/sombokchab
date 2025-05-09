@@ -1196,7 +1196,7 @@ object {
   font-weight: 600;
   line-height: 44px;
   text-align: center;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .section-title-wrapper .img-box {
   margin-top: 15px;
@@ -1231,7 +1231,7 @@ object {
   height: 50px;
   font-size: 13px;
   font-weight: 600;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   padding: 0px 53px;
   border-radius: 30px;
   margin-left: -35px;
@@ -1631,7 +1631,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   display: inline-block;
 }
 .user-account-widget .user-ac-widget-list li .text {
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   display: inline-block;
 }
 
@@ -1662,7 +1662,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   font-weight: 600;
   line-height: 25px;
   color: var(--heading-color);
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   display: inline-block;
   padding-right: 8px;
   position: relative;
@@ -1740,26 +1740,26 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   color: var(--heading-font);
 }
 .widget-area-wrapper .widget.widget-search .search-from .form-group .form-control::-webkit-input-placeholder {
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .widget-area-wrapper .widget.widget-search .search-from .form-group .form-control::-moz-placeholder {
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .widget-area-wrapper .widget.widget-search .search-from .form-group .form-control:-ms-input-placeholder {
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .widget-area-wrapper .widget.widget-search .search-from .form-group .form-control::-ms-input-placeholder {
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .widget-area-wrapper .widget.widget-search .search-from .form-group .form-control::placeholder {
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .widget-area-wrapper .widget.widget-search .search-from .widget-search-btn {
   height: 50px;
   display: inline-block;
   font-family: "Open Sans", sans-serif;
   font-weight: 400;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   font-size: 16px;
   text-align: center;
   padding: 12px 22px;
@@ -1816,7 +1816,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   -ms-flex-pack: justify;
   justify-content: space-between;
   padding-left: 10px;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   color: var(--heading-color);
   line-height: 26px;
 }
@@ -1921,7 +1921,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
 }
 .widget-area-wrapper .widget.widget-tag .tag-wrap .tag-btn {
   display: inline-block;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   font-size: 12px;
   font-weight: 400;
   line-height: 15px;
@@ -1982,7 +1982,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   font-weight: 500;
   line-height: 24px;
   color: var(--heading-color);
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   -webkit-transition: all linear 0.2s;
   -o-transition: all linear 0.2s;
   transition: all linear 0.2s;
@@ -2092,7 +2092,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   padding-left: 20px;
 }
 .navbar-area.nav-style-03.side-menu .nav-container .responsive-mobile-menu button .text {
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   font-size: 20px;
   font-weight: 600;
   line-height: 45px;
@@ -2123,7 +2123,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   display: block;
   font-size: 16px;
   font-family: var(--body-font);
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   font-weight: 400;
   padding-right: 20px;
   padding-left: 20px;
@@ -2282,7 +2282,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   -webkit-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   font-size: 11px;
   color: #fff;
   padding: 0px 6px;
@@ -2697,7 +2697,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   -webkit-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   font-size: 11px;
   color: #fff;
   padding: 0px 6px;
@@ -2861,7 +2861,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
 }
 .navbar-area .nav-container .nav-right-content ul li.nav-btn .btn-boxed {
   font-weight: 600;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   border-radius: 5px;
   background-color: var(--main-color-one);
 }
@@ -2884,7 +2884,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   display: inline-block;
   font-size: 14px;
   font-family: var(--body-font);
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   font-weight: 600;
   line-height: 70px;
 }
@@ -3366,7 +3366,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   font-weight: 700;
   line-height: 60px;
   color: #fff;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   padding: 15px 0 13px;
 }
 .header-area-wrapper .header-area.index-01 .content .offer-title {
@@ -3404,7 +3404,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   font-weight: 700;
   line-height: 100px;
   color: #fff;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   padding: 15px 0 13px;
 }
 .header-area-wrapper .header-area.index-03 .content .offer-title {
@@ -3507,7 +3507,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   font-weight: 600;
   line-height: 25px;
   color: #fff;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   margin-bottom: 28px;
 }
 .footer-area.style-01 .footer-top .footer-widget .footer-content-list .content-item,
@@ -3525,7 +3525,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   font-weight: 400;
   line-height: 20px;
   color: #fff;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   -webkit-transition: all linear 0.2s;
   -o-transition: all linear 0.2s;
   transition: all linear 0.2s;
@@ -3654,7 +3654,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   font-weight: 500;
   padding-top: 50px;
   color: #999999;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   -webkit-transition: all linear 0.2s;
   -o-transition: all linear 0.2s;
   transition: all linear 0.2s;
@@ -3720,7 +3720,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   font-weight: 400;
   line-height: 20px;
   color: var(--secondary-color);
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .add-banner-x-style-01 .content .title {
   font-family: var(--extra-font);
@@ -3728,7 +3728,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   font-weight: 700;
   line-height: 34px;
   color: var(--heading-color);
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   margin: 5px 0 18px;
 }
 .add-banner-x-style-01 .content.ex {
@@ -3770,7 +3770,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   font-weight: 400;
   line-height: 20px;
   color: var(--secondary-color);
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .add-banner-y-style-01 .content .title {
   font-family: var(--extra-font);
@@ -3778,7 +3778,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   font-weight: 700;
   line-height: 34px;
   color: var(--heading-color);
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   margin: 5px 0 18px;
 }
 
@@ -3798,7 +3798,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   font-weight: 700;
   line-height: 34px;
   color: var(--secondary-color);
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 
 .add-banner-x-long-area-wrapper {
@@ -3850,7 +3850,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   font-weight: 700;
   line-height: 60px;
   color: #fff;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   padding: 15px 0 13px;
 }
 .add-banner-x-long-area-wrapper .add-banner-x-long .content-2 .btn-wrapper {
@@ -3891,7 +3891,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   font-size: 20px;
   font-weight: 600;
   line-height: 25px;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   color: var(--main-color-one);
   padding: 5px 0;
   -webkit-transition: all linear 0.2s;
@@ -3947,7 +3947,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   font-size: 16px;
   font-weight: 600;
   line-height: 25px;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   color: var(--main-color-one);
   padding: 5px 12px;
   border-radius: 4px;
@@ -4107,7 +4107,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   font-size: 18px;
   font-weight: 600;
   line-height: 23px;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   text-align: center;
   -webkit-transition: all linear 0.2s;
   -o-transition: all linear 0.2s;
@@ -4169,7 +4169,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   border: 1px solid var(--form-bg-color);
   background-color: var(--form-bg-color);
   color: #666666;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   padding: 7px 25px 9px;
   -webkit-transition: all linear 0.2s;
   -o-transition: all linear 0.2s;
@@ -4272,7 +4272,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   font-size: 20px;
   line-height: 60px;
   font-weight: 600;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   color: var(--main-color-one);
 }
 .count-down-area-wrapper .count-down-inner .content .title {
@@ -4498,7 +4498,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   font-size: 16px;
   line-height: 20px;
   font-weight: 400;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .breadcrumb-area .breadcrumb-inner .content .page-list .list-item:first-child {
   padding-left: 0;
@@ -4745,7 +4745,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   line-height: 35px;
   font-weight: 700;
   color: var(--heading-color);
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   text-align: center;
   margin-bottom: 25px;
 }
@@ -4937,13 +4937,13 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   display: inline-block;
   font-weight: 400;
   color: var(--heading-color);
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   margin-right: 15px;
 }
 .blog-details-area-wrapper .blog-details-area-inner .blog-details-tag-and-social-link .tag a {
   color: #666666;
   display: inline-block;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   font-size: 12px;
   border: 1px solid var(--form-bg-color);
   background-color: var(--form-bg-color);
@@ -4985,7 +4985,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   font-size: 24px;
   line-height: 35px;
   font-weight: 500;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .blog-details-area-wrapper .blog-details-area-inner .comment-area-full-wrapper .user-comment-area {
   margin-top: 40px;
@@ -5025,7 +5025,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   font-family: var(--heading-font);
   font-size: 16px;
   font-weight: 500;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .blog-details-area-wrapper .blog-details-area-inner .comment-area-full-wrapper .user-comment-area .comment-list > li .single-comment-wrap .content .content-top .left .post-meta {
   margin: 8px 0 6px;
@@ -5139,7 +5139,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   padding-top: 30px;
 }
 .shop-details-area-wrapper .product-summery .category a {
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   color: var(--secondary-color);
   margin-bottom: 17px;
   display: block;
@@ -5318,13 +5318,13 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   display: inline-block;
   font-weight: 400;
   color: var(--heading-color);
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   margin-right: 15px;
 }
 .shop-details-area-wrapper .product-summery .product-details-tag-and-social-link .tag a {
   color: #666666;
   display: inline-block;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   font-size: 12px;
   border: 1px solid var(--form-bg-color);
   background-color: var(--form-bg-color);
@@ -5377,7 +5377,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   font-size: 16px;
   font-weight: 600;
   line-height: 20px;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   background-color: var(--form-bg-color);
   color: #666666;
   border-radius: 25px;
@@ -5436,7 +5436,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   margin: 30px 0 8px;
 }
 .shop-details-area-wrapper .product-details-tab .tab-content .feedback-section .feedback .ratings p {
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   color: #0d1523;
   margin-bottom: 3px;
 }
@@ -5448,7 +5448,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   color: #fec333;
 }
 .shop-details-area-wrapper .product-details-tab .tab-content .feedback-section .feedback .feedback-form form label {
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   color: #0d1523;
   margin-top: 12px;
 }
@@ -5510,7 +5510,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   font-family: var(--heading-font);
   font-size: 16px;
   font-weight: 500;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .shop-details-area-wrapper .product-details-tab .tab-content .feedback-section .feedback .client-feedback .comment-list > li .single-comment-wrap .content .content-top .left .reviews {
   padding: 11px 0 17px;
@@ -5574,7 +5574,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   font-family: var(--heading-font);
   font-weight: 500;
   color: var(--heading-color-one);
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   margin-bottom: 30px;
   margin-top: 25px;
 }
@@ -5593,25 +5593,25 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   color: var(--heading-color);
 }
 .billing-details-area-wrapper .billing-form .form-group input::-webkit-input-placeholder, .billing-details-area-wrapper .billing-form .form-group select::-webkit-input-placeholder, .billing-details-area-wrapper .billing-form .form-group textarea::-webkit-input-placeholder {
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   color: var(--heading-color);
 }
 .billing-details-area-wrapper .billing-form .form-group input::-moz-placeholder, .billing-details-area-wrapper .billing-form .form-group select::-moz-placeholder, .billing-details-area-wrapper .billing-form .form-group textarea::-moz-placeholder {
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   color: var(--heading-color);
 }
 .billing-details-area-wrapper .billing-form .form-group input:-ms-input-placeholder, .billing-details-area-wrapper .billing-form .form-group select:-ms-input-placeholder, .billing-details-area-wrapper .billing-form .form-group textarea:-ms-input-placeholder {
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   color: var(--heading-color);
 }
 .billing-details-area-wrapper .billing-form .form-group input::-ms-input-placeholder, .billing-details-area-wrapper .billing-form .form-group select::-ms-input-placeholder, .billing-details-area-wrapper .billing-form .form-group textarea::-ms-input-placeholder {
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   color: var(--heading-color);
 }
 .billing-details-area-wrapper .billing-form .form-group input::placeholder,
 .billing-details-area-wrapper .billing-form .form-group select::placeholder,
 .billing-details-area-wrapper .billing-form .form-group textarea::placeholder {
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   color: var(--heading-color);
 }
 .billing-details-area-wrapper .billing-form .form-group textarea {
@@ -5645,13 +5645,13 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   font-weight: 700;
   line-height: 35px;
   color: var(--heading-color);
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   margin-bottom: 15px;
 }
 .order-summery-wrap .order-summery-list .single-order-summery {
   font-size: 16px;
   line-height: 26px;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   color: #666666;
   padding-bottom: 1px;
 }
@@ -5824,7 +5824,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   font-size: 16px;
   line-height: 26px;
   font-weight: 400;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   display: table-cell;
   padding-left: 100px;
   padding-bottom: 5px;
@@ -5835,7 +5835,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   color: var(--heading-color);
   font-size: 16px;
   line-height: 26px;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   display: table-cell;
   padding-left: 100px;
 }
@@ -5857,14 +5857,14 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   font-weight: 700;
   line-height: 35px;
   color: var(--heading-color);
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   margin-bottom: 15px;
   text-align: center;
 }
 .order-complete-wrap .order-summery-list .single-order-summery {
   font-size: 16px;
   line-height: 26px;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   color: #666666;
   padding-bottom: 1px;
 }
@@ -6042,7 +6042,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   font-weight: 700;
   line-height: 35px;
   color: var(--heading-color);
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   margin-bottom: 15px;
 }
 .order-inner-content-wrap .billing-info {
@@ -6071,7 +6071,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   font-size: 20px;
   font-weight: 600;
   line-height: 26px;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   margin-bottom: 25px;
 }
 .order-inner-content-wrap .billing-info .address .address {
@@ -6080,7 +6080,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
 .order-inner-content-wrap .order-summery-list .single-order-summery {
   font-size: 16px;
   line-height: 26px;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   color: #666666;
   padding-bottom: 1px;
 }
@@ -6249,7 +6249,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   font-size: 16px;
   line-height: 26px;
   color: #666666;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   padding: 15px 30px;
 }
 .order-history-inner table tbody tr {
@@ -6261,7 +6261,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   font-size: 16px;
   line-height: 26px;
   color: var(--heading-color);
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   padding: 28px;
 }
 .order-history-inner table tbody tr td.order-numb {
@@ -6311,7 +6311,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   line-height: 26px;
   font-weight: 600;
   color: #666666;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   padding: 15px 30px;
 }
 .cart-inner-content table tbody tr {
@@ -6322,7 +6322,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   line-height: 26px;
   font-weight: 400;
   color: var(--heading-color);
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   padding: 15px 30px;
 }
 .cart-inner-content table tbody tr td .product-info-wrap {
@@ -6433,7 +6433,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   line-height: 26px;
   font-weight: 600;
   color: #666666;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   padding: 15px 30px;
 }
 .wishlist-inner-content table thead tr th.product-mane {
@@ -6459,7 +6459,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   line-height: 26px;
   font-weight: 400;
   color: var(--heading-color);
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   padding: 15px 30px;
 }
 .wishlist-inner-content table tbody tr td .product-info-wrap {
@@ -6592,7 +6592,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   margin-left: 20px;
 }
 .edit-profile-inner .content-top .content .sub-title {
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   color: var(--heading-color);
 }
 .edit-profile-inner .content-top .content .title {
@@ -6600,7 +6600,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   font-size: 20px;
   font-weight: 700;
   line-height: 30px;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   color: var(--heading-color);
 }
 .edit-profile-inner .content-bottom {
@@ -6610,7 +6610,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   font-size: 20px;
   font-weight: 600;
   line-height: 26px;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   color: var(--heading-color);
   margin-bottom: 30px;
 }
@@ -6622,23 +6622,23 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   border-radius: 4px;
 }
 .edit-profile-inner .content-bottom .user-account-form .form-group input::-webkit-input-placeholder {
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   color: var(--heading-color);
 }
 .edit-profile-inner .content-bottom .user-account-form .form-group input::-moz-placeholder {
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   color: var(--heading-color);
 }
 .edit-profile-inner .content-bottom .user-account-form .form-group input:-ms-input-placeholder {
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   color: var(--heading-color);
 }
 .edit-profile-inner .content-bottom .user-account-form .form-group input::-ms-input-placeholder {
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   color: var(--heading-color);
 }
 .edit-profile-inner .content-bottom .user-account-form .form-group input::placeholder {
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   color: var(--heading-color);
 }
 .edit-profile-inner .content-bottom .user-account-form .form-group select {
@@ -6694,7 +6694,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   margin-bottom: 23px;
 }
 .profile-inner .content-bottom .profile-info-list .info-item {
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   line-height: 26px;
   margin-bottom: 10px;
   color: #333333;
@@ -6911,7 +6911,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   line-height: 26px;
   font-size: 16px;
   font-weight: 400;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   margin-top: 15px;
   padding-top: 10px;
   margin-bottom: 15px;
@@ -7080,7 +7080,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   border: 1px solid var(--main-color-one);
   background-color: var(--main-color-one);
   color: #fff;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   padding: 9px 30px 11px;
   -webkit-transition: all linear 0.2s;
   -o-transition: all linear 0.2s;
@@ -7136,7 +7136,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   font-weight: 400;
   line-height: 18px;
   color: var(--secondary-color);
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   display: inline-block;
   padding: 7px 16px 9px;
   background-color: #fff;
@@ -7338,7 +7338,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   font-size: 12px;
   font-weight: 400;
   line-height: 15px;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   color: var(--secondary-color);
   margin-bottom: 8px;
 }
@@ -7348,7 +7348,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   font-weight: 600;
   line-height: 20px;
   color: var(--heading-color);
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   margin-bottom: 13px;
 }
 .single-product-view-grid-style-01 .product-content .main-content .quantity {
@@ -7624,7 +7624,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   font-weight: 600;
   line-height: 20px;
   color: var(--heading-color);
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   margin-bottom: 9px;
 }
 .single-product-view-grid-style-02 .product-content .main-content .product-meta {
@@ -7845,7 +7845,7 @@ div#quick_view .product-view-wrap .other-content .discount-tag,
   font-weight: 600;
   line-height: 20px;
   color: var(--heading-color);
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   margin-bottom: 10px;
 }
 .single-product-view-grid-style-03 .product-content .main-content .product-meta-and-pricing {
@@ -7953,7 +7953,7 @@ div#quick_view .product-view-wrap .other-content .discount-tag,
   font-weight: 600;
   line-height: 20px;
   color: var(--heading-color);
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   margin-bottom: 10px;
 }
 .single-product-view-grid-style-03 .product-content .main-content .bottom-content,
@@ -8141,7 +8141,7 @@ div#quick_view .product-view-wrap .other-content .discount-tag,
   font-size: 22px;
   line-height: 28px;
   font-weight: 600;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .support-area-wrapper .support-item-wrap .single-support-item .content .info {
   font-size: 12px;
@@ -8206,7 +8206,7 @@ div#quick_view .product-view-wrap .other-content .discount-tag,
 .toolbox-wrapper .toolbox-item.toolbox-show select, .toolbox-wrapper .toolbox-item.toolbox-sort select {
   font-size: 16px;
   font-weight: 600;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   color: var(--heading-color);
   cursor: pointer;
 }
@@ -8325,7 +8325,7 @@ div#quick_view .product-view-wrap .other-content .discount-tag,
   font-weight: 600;
   line-height: 20px;
   color: var(--heading-color);
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   margin-bottom: 13px;
 }
 .single-product-view-list .product-content .main-content .product-meta {
@@ -8491,7 +8491,7 @@ div#quick_view .product-view-wrap .other-content .discount-tag,
   font-size: 16px;
   line-height: 20px;
   font-weight: 400;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   -webkit-transition: all linear 0.2s;
   -o-transition: all linear 0.2s;
   transition: all linear 0.2s;
@@ -8565,7 +8565,7 @@ div#quick_view .product-view-wrap .other-content .discount-tag,
   font-weight: 700;
   color: var(--heading-color);
   display: block;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .order-status-wrap .order-status-inner tbody tr td .price {
   font-family: var(--heading-color);
@@ -8600,7 +8600,7 @@ div#quick_view .product-view-wrap .other-content .discount-tag,
   color: #999999;
   padding: 7px 26px 9px;
   border-radius: 30px;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .order-status-wrap .order-status-inner tbody tr td .btn-wrapper .order-btn-custom:last-child {
   margin-left: 10px;
@@ -8864,7 +8864,7 @@ div#quick_view .product-view-wrap .other-content .discount-tag,
   margin-bottom: 5px;
   display: inline-block;
   background-color: #f4f7fc;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   -webkit-transition: all 300ms;
   -o-transition: all 300ms;
   transition: all 300ms;
@@ -9732,7 +9732,7 @@ element.style {
 .campaign-progress-wrap .right {
   font-size: 14px;
   font-weight: 400;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   color: #999999;
 }
 
@@ -9751,7 +9751,7 @@ element.style {
   transition: all linear 0.2s;
 }
 .error-container {
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 
 /* search result dropdown */
@@ -10046,7 +10046,7 @@ element.style {
 }
 
 .product_category {
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   color: var(--secondary-color);
   margin-bottom: 9px;
   display: block;
@@ -11205,7 +11205,7 @@ div#quick_view .product-view-wrap .other-content .discount-tag, .single-main-ima
 }
 
 .product_category {
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   color: var(--secondary-color);
   margin-bottom: 9px;
   display: block;
@@ -11657,7 +11657,7 @@ input::-webkit-inner-spin-button {
 	font-size: 16px;
 	line-height: 20px;
 	font-weight: 400;
-	text-transform: capitalize;
+	/* text-transform: capitalize; */
 	-webkit-transition: all linear 0.2s;
 	-o-transition: all linear 0.2s;
 	transition: all linear 0.2s;
@@ -11705,7 +11705,7 @@ input::-webkit-inner-spin-button {
 	font-size: 16px;
 	line-height: 20px;
 	font-weight: 400;
-	text-transform: capitalize;
+	/* text-transform: capitalize; */
 	-webkit-transition: all linear 0.2s;
 	-o-transition: all linear 0.2s;
 	transition: all linear 0.2s;
@@ -11757,7 +11757,7 @@ input::-webkit-inner-spin-button {
 	font-weight: 600;
 	line-height: 20px;
 	color: var(--heading-color);
-	text-transform: capitalize;
+	/* text-transform: capitalize; */
 	margin-bottom: 13px;
 }
 
@@ -11975,7 +11975,7 @@ input::-webkit-inner-spin-button {
   padding: 14px;
   font-weight: 500;
   font-size: 18px;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   border-radius: 7px 7px 0 0;
 }
 .user-dashboard-wrapper .nav-link.bg-info.text-white i{

@@ -14,7 +14,7 @@
             padding: 3px 10px;
             border-radius: 4px;
             color: #fff;
-            text-transform: capitalize;
+            /* text-transform: capitalize; */
             border: none;
             font-weight: 600;
             font-size: 10px;
@@ -28,7 +28,7 @@
             padding: 3px 10px;
             border-radius: 4px;
             color: #fff;
-            text-transform: capitalize;
+            /* text-transform: capitalize; */
             border: none;
             font-weight: 600;
             font-size: 10px;
@@ -41,7 +41,7 @@
             padding: 3px 10px;
             border-radius: 4px;
             color: #fff;
-            text-transform: capitalize;
+            /* text-transform: capitalize; */
             border: none;
             font-weight: 600;
             ,
@@ -55,7 +55,7 @@
             padding: 3px 10px;
             border-radius: 4px;
             color: #fff;
-            text-transform: capitalize;
+            /* text-transform: capitalize; */
             border: none;
             font-weight: 600;
             font-size: 10px;

@@ -42,7 +42,7 @@
     display: inline-block;
     font-size: 14px;
     line-height: 24px;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
 }
 
 .blog-classic-item-01 .content-wrapper .post-meta li i {
@@ -80,7 +80,7 @@
 .blog-classic-item-01 .blog-bottom .btn-wrapper .boxed-btn {
     padding: 8px 15px;
     margin-top: 20px;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
 }
 
 .blog-classic-item-01 .thumbnail {
@@ -192,7 +192,7 @@
     display: inline-block;
     font-size: 14px;
     line-height: 24px;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
 }
 
 .blog-details-item .content-wrapper .post-meta li:hover a {
@@ -545,7 +545,7 @@ ul.wp-block-latest-posts__list li,
     font-weight: 700;
     line-height: 26px;
     margin-bottom: 25px;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
     position: relative;
     font-family: var(--heading-font);
 }
@@ -1286,7 +1286,7 @@ ul.wp-block-latest-posts__list li,
     display: inline-block;
     font-size: 14px;
     line-height: 24px;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
 }
 
 .single-blog-grid-01 .content-wrapper .post-meta li:hover a {

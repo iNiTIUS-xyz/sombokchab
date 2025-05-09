@@ -43,7 +43,7 @@
             text-align: left;
             background-color: #f2f2f2;
             color: #333;
-            text-transform: capitalize;
+            /* text-transform: capitalize; */
         }
         footer {
             margin: 20px 0;

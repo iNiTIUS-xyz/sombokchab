@@ -50,7 +50,7 @@
                             @endif
                             <li class="nav-item">
                                 <a class="nav-link @if (request()->routeIs('user-home.wallet.history')) active @endif"
-                                   href="{{ route('user-home.wallet.history') }}">{{ __('Wallet history') }}</a>
+                                   href="{{ route('user-home.wallet.history') }}">{{ __('Wallet History') }}</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link @if (request()->routeIs('user.shipping.address.all')) active @endif"

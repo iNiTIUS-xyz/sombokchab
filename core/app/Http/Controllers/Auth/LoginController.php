@@ -56,7 +56,7 @@ class LoginController extends Controller
         if (Auth::guard('admin')->attempt([$user_login_type => $request->username, 'password' => $request->password], $request->get('remember'))) {
             Auth::guard('vendor')->logout();
             return response()->json([
-                'msg' => __('Login Success Redirecting'),
+                'msg' => __('Signed in successfully... Redirecting...'),
                 'type' => 'success',
                 'status' => 'ok',
             ]);
@@ -68,54 +68,6 @@ class LoginController extends Controller
             'status' => 'not_ok',
         ]);
     }
-
-    // public function sendOtp(Request $request)
-    // {
-    //     $phone = $request->input('phone');
-
-    //     // Ensure phone number is in E.164 format
-    //     if (!str_starts_with($phone, '+')) {
-    //         $phone = '+' . ltrim($phone, '0');
-    //     }
-
-    //     // Generate 6-digit OTP
-    //     $otp = mt_rand(100000, 999999);
-
-    //     Cache::put('otp_' . $phone, $otp, now()->addMinutes(5));
-
-    //     try {
-    //         $twilio = new Client(
-    //             env('TWILIO_ACCOUNT_SID'),
-    //             env('TWILIO_AUTH_TOKEN')
-    //         );
-
-    //         $message = $twilio->messages->create(
-    //             $phone, // Now properly formatted
-    //             [
-    //                 'from' => env('TWILIO_PHONE_NUMBER'),
-    //                 'body' => "Your verification code is: $otp"
-    //             ]
-    //         );
-
-    //         return response()->json([
-    //             'success' => true,
-    //             'message' => 'OTP sent successfully',
-    //             'message_sid' => $message->sid
-    //         ]);
-
-    //     } catch (\Twilio\Exceptions\TwilioException $e) {
-    //         return response()->json([
-    //             'error' => 'Failed to send OTP',
-    //             'details' => $e->getMessage(),
-    //             'twilio_code' => $e->getCode()
-    //         ], 500);
-    //     } catch (\Exception $e) {
-    //         return response()->json([
-    //             'error' => 'Failed to send OTP',
-    //             'details' => $e->getMessage()
-    //         ], 500);
-    //     }
-    // }
 
     public function sendOtp(Request $request)
     {

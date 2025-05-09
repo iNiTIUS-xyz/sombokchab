@@ -98,6 +98,6 @@ class VendorProfileController extends Controller
             Auth::logout();
             return redirect()->route('vendor.login')->with(['msg' => __('Password Changed Successfully'), 'type' => 'success']);
         }
-        return redirect()->back()->with(['msg' => __('Somethings Going Wrong! Please Try Again or Check Your Old Password'), 'type' => 'danger']);
+        return redirect()->back()->with(['msg' => __('Unable to change the Password. Please try again or check your old Password.'), 'type' => 'danger']);
     }
 }

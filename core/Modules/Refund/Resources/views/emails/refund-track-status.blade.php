@@ -55,7 +55,7 @@
             font-size: 14px;
             line-height: 26px;
             font-weight: 500;
-            text-transform: capitalize;
+            /* text-transform: capitalize; */
             text-decoration: none;
             padding: 8px 20px;
             display: inline-block;

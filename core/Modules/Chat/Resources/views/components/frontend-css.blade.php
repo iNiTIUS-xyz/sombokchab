@@ -427,7 +427,7 @@
         display: -webkit-inline-box;
         display: -ms-inline-flexbox;
         display: inline-flex;
-        text-transform: capitalize;
+        /* text-transform: capitalize; */
         -webkit-box-align: center;
         -ms-flex-align: center;
         align-items: center;

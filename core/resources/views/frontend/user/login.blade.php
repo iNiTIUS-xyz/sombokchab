@@ -24,7 +24,7 @@
                                         <option value="+880">+880</option>
                                         <option value="+855">+855</option>
                                     </select>
-                                    <input id="number" name="phone" type="text" class="form--control radius-10"
+                                    <input id="number" name="phone" type="number" class="form--control radius-10"
                                         placeholder="{{ __('Phone Number') }}" required
                                         style="width: 70% !important; border-radius: 0px;">
                                 </div>

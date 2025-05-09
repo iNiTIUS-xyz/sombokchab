@@ -332,7 +332,7 @@ class FrontendController extends Controller
             return redirect()->route('admin.login')->with(['msg' => __('Password Changed Successfully'), 'type' => 'success']);
         }
 
-        return redirect()->back()->with(['msg' => __('Somethings Going Wrong! Please Try Again or Check Your Old Password'), 'type' => 'danger']);
+        return redirect()->back()->with(['msg' => __('Unable to change the Password. Please try again or check your old Password.'), 'type' => 'danger']);
     }
 
     public function lang_change(Request $request)
@@ -584,7 +584,7 @@ class FrontendController extends Controller
             return redirect()->route('vendor.login')->with(['msg' => __('Password Changed Successfully.'), 'type' => 'success']);
         }
 
-        return redirect()->back()->with(['msg' => __('Somethings Going Wrong! Please Try Again or Check Your Old Password.'), 'type' => 'danger']);
+        return redirect()->back()->with(['msg' => __('Unable to change the Password. Please try again or check your old Password..'), 'type' => 'danger']);
     }
     public function showUserResetPasswordForm($username, $token)
     {
@@ -610,18 +610,18 @@ class FrontendController extends Controller
             return redirect()->route('user.login')->with(['msg' => __('Password Changed Successfully.'), 'type' => 'success']);
         }
 
-        return redirect()->back()->with(['msg' => __('Somethings Going Wrong! Please Try Again or Check Your Old Password.'), 'type' => 'danger']);
+        return redirect()->back()->with(['msg' => __('Unable to change the Password. Please try again or check your old Password..'), 'type' => 'danger']);
     }
 
     public function ajax_login(Request $request)
     {
         $request->validate([
             'phone' => 'required|string',
-            'password' => 'required|min:6',
+            'password' => 'required|min:8',
         ], [
             'phone.required' => __('Phone number or email is required.'),
             'password.required' => __('Password is required.'),
-            'password.min' => __('Password must be at least 6 characters.'),
+            'password.min' => __('Password must be at least 8 characters.'),
         ]);
 
         $login_key = 'phone';
@@ -651,7 +651,7 @@ class FrontendController extends Controller
 
         if (Auth::guard('web')->attempt([$login_key => $input_value, 'password' => $request->password], $request->get('remember'))) {
             return response()->json([
-                'msg' => __('Login successful. Redirecting...'),
+                'msg' => __('Signed in successfully... Redirecting...'),
                 'type' => 'success',
                 'status' => 'valid',
                 'user_identification' => random_int(11111111, 99999999) . auth()->guard('web')->id() . random_int(11111111, 99999999),
@@ -659,7 +659,7 @@ class FrontendController extends Controller
         }
 
         return response()->json([
-            'msg' => ($login_key == 'email' ? __('Email') : __('Phone number')) . __(' or password does not match.'),
+            'msg' => 'Account credentials does not match.',
             'type' => 'danger',
             'status' => 'invalid',
         ]);

@@ -1,5 +1,5 @@
 @php $type = $type ?? 'admin';  @endphp
-<div class="modal fade" id="media_upload_modal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="media_upload_modal" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">

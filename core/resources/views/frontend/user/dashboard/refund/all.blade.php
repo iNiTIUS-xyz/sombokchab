@@ -8,7 +8,7 @@
 @section('section')
     <div class="dashboard__card__refund">
         <div class="dashboard__card__header">
-            <h3 class="dashboard__card__title">{{ __('My Refund Request') }}</h3>
+            <h3 class="dashboard__card__title">{{ __('My Refund Requests') }}</h3>
         </div>
         <div class="dashboard__card__body mt-4">
             <div class="table-wrap table-responsive all-user-campaign-table">

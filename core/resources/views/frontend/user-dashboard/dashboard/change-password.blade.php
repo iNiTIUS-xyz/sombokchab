@@ -31,7 +31,7 @@
                            name="password_confirmation" placeholder="{{__('Confirm Password')}}">
                 </div>
                 <div class="btn-wrapper">
-                    <button id="save" type="submit" class="btn-default boxed-btn">{{__('Save changes')}}</button>
+                    <button id="save" type="submit" class="btn-default boxed-btn">{{__('Save Changes')}}</button>
                 </div>
             </form>
         </div>

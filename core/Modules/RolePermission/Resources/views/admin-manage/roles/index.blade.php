@@ -32,7 +32,7 @@
         .section-tittle-one .title {
             color: #151D26;
             font-family: "Poppins", sans-serif;
-            text-transform: capitalize;
+            /* text-transform: capitalize; */
             font-size: 18px;
             font-weight: 600;
             line-height: 1.3;
@@ -296,7 +296,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"
                             data-bs-dismiss="modal">{{ __('Close') }}</button>
-                        <button type="submit" class="btn btn-primary">{{ __('Save changes') }}</button>
+                        <button type="submit" class="btn btn-primary">{{ __('Save Changes') }}</button>
                     </div>
                 </form>
             </div>
@@ -322,7 +322,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"
                             data-bs-dismiss="modal">{{ __('Close') }}</button>
-                        <button type="submit" class="btn btn-primary">{{ __('Save changes') }}</button>
+                        <button type="submit" class="btn btn-primary">{{ __('Save Changes') }}</button>
                     </div>
                 </form>
             </div>

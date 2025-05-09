@@ -1,6 +1,6 @@
 @extends('backend.admin-master')
 @section('site-title')
-    {{__('Change Password')}}
+    {{ __('Change Password') }}
 @endsection
 @section('content')
     <div class="main-content-inner margin-top-30">
@@ -9,33 +9,33 @@
                 @include('backend.partials.message')
                 <div class="card">
                     <div class="card-body">
-                        @if($errors->any())
+                        @if ($errors->any())
                             <div class="alert alert-danger">
                                 <ul>
-                                    @foreach($errors->all() as $error)
-                                        <li>{{$error}}</li>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
                                     @endforeach
                                 </ul>
                             </div>
                         @endif
-                        <form action="{{route('admin.password.change')}}" method="POST">
+                        <form action="{{ route('admin.password.change') }}" method="POST">
                             @csrf
                             <div class="form-group">
-                                <label for="old_password">{{__('Old Password')}}</label>
+                                <label for="old_password">{{ __('Current password') }}</label>
                                 <input type="password" class="form-control" id="old_password" name="old_password"
-                                       placeholder="{{__('Old Password')}}">
+                                    placeholder="{{ __('Current password') }}">
                             </div>
                             <div class="form-group">
-                                <label for="password">{{__('New Password')}}</label>
+                                <label for="password">{{ __('New Password') }}</label>
                                 <input type="password" class="form-control" id="password" name="password"
-                                       placeholder="{{__('New Password')}}">
+                                    placeholder="{{ __('New Password') }}">
                             </div>
                             <div class="form-group">
-                                <label for="password_confirmation">{{__('Confirm Password')}}</label>
+                                <label for="password_confirmation">{{ __('Confirm Password') }}</label>
                                 <input type="password" class="form-control" id="password_confirmation"
-                                       name="password_confirmation" placeholder="{{__('Confirm Password')}}">
+                                    name="password_confirmation" placeholder="{{ __('Confirm Password') }}">
                             </div>
-                            <button type="submit" class="btn btn-primary">{{__('Save changes')}}</button>
+                            <button type="submit" class="btn btn-primary">{{ __('Save Changes') }}</button>
                         </form>
                     </div>
                 </div>

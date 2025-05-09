@@ -134,15 +134,17 @@
                         <div class="topbar-bottom-right-flex">
                             <div class="topbar-right-offer">
                                 <ul class="list">
-                                    <li class="me-2">
-                                        <a href="{{ route('frontend.products.track.order') }}"
-                                            class="track-icon-single text-white">
-                                            <span class="icon">
-                                                <i class="las la-map-marker-alt text-white"></i>
-                                            </span>
-                                            {{ __('Order Tracking') }}
-                                        </a>
-                                    </li>
+                                    @if (auth('web')->check())
+                                        <li class="me-2">
+                                            <a href="{{ route('frontend.products.track.order') }}"
+                                                class="track-icon-single text-white">
+                                                <span class="icon">
+                                                    <i class="las la-map-marker-alt text-white"></i>
+                                                </span>
+                                                {{ __('Order Tracking') }}
+                                            </a>
+                                        </li>
+                                    @endif
                                     @if (auth('vendor')->check())
                                         {{-- Vendor is logged in --}}
                                     @else
@@ -159,7 +161,7 @@
 
                                             <li class="">
                                                 <a href="{{ route('vendor.login') }}">
-                                                    {{ __('Vendor Sign in') }}
+                                                    {{ __('Vendor Sign In') }}
                                                 </a>
                                             </li>
                                         @endif
@@ -257,7 +259,7 @@
 
                                             <li class="">
                                                 <a href="{{ route('vendor.login') }}">
-                                                    {{ __('Vendor Sign in') }}
+                                                    {{ __('Vendor Sign In') }}
                                                 </a>
                                             </li>
                                         @endif
@@ -479,13 +481,14 @@
 
         .category-searchbar .input-group {
             display: flex;
-            width: 95%;
+            width: 98%;
             border-radius: 5px;
             overflow: hidden;
             border: 1px solid #A69D9D;
         }
 
     }
+
     /* @media (min-width: 1510px) (min-width: 1670px) {
 
         .category-searchbar .input-group {
@@ -502,7 +505,7 @@
 
         .category-searchbar .input-group {
             display: flex;
-            width: 94%;
+            width: 95%;
             border-radius: 5px;
             overflow: hidden;
             border: 1px solid #A69D9D;
