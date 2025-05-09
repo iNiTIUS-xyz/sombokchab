@@ -51,7 +51,7 @@
                                     ->where('status', 'publish')
                                     ->get();
                             @endphp
-        
+
                             <label for="country">{{ __('Country') }}</label>
                             <select id="country" class="form-control wide" name="country">
                                 @foreach ($all_countries as $country)
@@ -60,13 +60,13 @@
                                         {{ $country->name }}</option>
                                 @endforeach
                             </select>
-        
+
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="state">{{ __('City') }}</label>
-        
+
                             <select class="form-control" id="state" name="state">
                                 <option value="">
                                     {{ __('Select City') }}
@@ -101,31 +101,6 @@
                         </div>
                     </div>
                 </div>
-                
-                
-
-                
-                
-                {{-- <div class="form-group">
-                    <label for="city">{{ __('City') }}</label>
-
-                    <select class="form-control" id="city" name="city">
-                        <option value="">{{ __('Select City') }}</option>
-                        @php
-                            $cities = \Modules\CountryManage\Entities\City::where("state_id", $user_details->state ?? 0)->get();
-                        @endphp
-
-                        @foreach ($cities as $city)
-                            <option value="{{ $city->id }}" {{ $user_details->city == $city->id ? 'selected' : '' }}>
-                                {{ $city->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div> --}}
-                
-                
-                
-
                 <div class="btn-wrapper mt-4">
                     <button type="submit" class="cmn_btn btn_bg_2">{{ __('Save Changes') }}</button>
                 </div>

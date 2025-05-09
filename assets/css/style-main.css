@@ -27360,7 +27360,7 @@ section.news-area {
 }
 
 .user-dashboard-wrapper .nav-pills .nav-link.bg-main {
-  background: var(--main-color-two);
+  background: var(--main-color-one);
   color: #fff !important;
 }
 
