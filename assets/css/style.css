@@ -23610,6 +23610,11 @@ table.dataTable.no-footer {
   color: var(--main-color-three);
 }
 
+.vendor_active_sidebar {
+  background: var(--main-color-one) !important;
+  color: white;
+}
+
 .cmn_btn.btn_bg_4 {
   background: var(--danger-color);
   color: var(--white);
