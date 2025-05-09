@@ -23612,7 +23612,7 @@ table.dataTable.no-footer {
 
 .vendor_active_sidebar {
   background: var(--main-color-one) !important;
-  color: white;
+  color: white !important;
 }
 
 .cmn_btn.btn_bg_4 {
