@@ -54,12 +54,12 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="label-title mb-2"> {{ __('Phone Number *') }} </label>
                                             <div class="input-group">
                                                 <select id="phone_country_code" name="phone_country_code"
-                                                    class="form-select" style="width: 15% !important;">
+                                                    class="form-select" style="width: 35% !important;">
                                                     <option value="+1" selected>+1</option>
                                                     <option value="+880">+880</option>
                                                     <option value="+855">+855</option>
@@ -83,7 +83,7 @@
                                             <small class="text-danger" id="usernameError"></small>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="label-title mb-2"> {{ __('Email') }} </label>
@@ -218,6 +218,14 @@
 
         .btn {
             font-size: 16px;
+        }
+
+        .input-group {
+            position: relative;
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: stretch;
+            width: 100%;
         }
 
         .btn:disabled {
