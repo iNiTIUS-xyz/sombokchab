@@ -15,15 +15,21 @@
 </style>
 
 <div class="single-icon">
-    <a class="icon" href="{{ route('frontend.products.wishlist') }}"> <i class="lar la-heart"></i> </a>
+    <a class="icon" href="{{ route('frontend.products.wishlist') }}">
+        <i class="lar la-heart"></i>
+    </a>
     <a href="#1" class="icon-notification">
-        {{ \Gloudemans\Shoppingcart\Facades\Cart::instance('wishlist')->content()->count() }} </a>
+        {{ \Gloudemans\Shoppingcart\Facades\Cart::instance('wishlist')->content()->count() }}
+    </a>
 </div>
 <div class="single-icon cart-shopping">
     <div class="single-icon cart-shopping">
-        <a class="icon" href="{{ route('frontend.products.cart') }}"> <i class="las la-shopping-cart"></i> </a>
+        <a class="icon" href="{{ route('frontend.products.cart') }}">
+            <i class="las la-shopping-cart"></i>
+        </a>
         <a href="#1" class="icon-notification cart-item-count-amount">
-            {{ \Gloudemans\Shoppingcart\Facades\Cart::instance('default')->content()->count() }} </a>
+            {{ \Gloudemans\Shoppingcart\Facades\Cart::instance('default')->content()->count() }}
+        </a>
         <div class="addto-cart-contents ">
             <div class="single-addto-cart-wrappers">
                 @php
@@ -108,7 +114,12 @@
     </div>
 </div>
 <div class="single-icon">
-    <a class="icon" href="{{ route('frontend.products.compare') }}"> <i class="las la-retweet"></i> </a>
+    <a class="icon" href="{{ route('frontend.products.compare') }}">
+        <i class="las la-retweet"></i>
+    </a>
+    <a href="#1" class="icon-notification compare-item-count-amount">
+        {{ \Gloudemans\Shoppingcart\Facades\Cart::instance('compare')->content()->count() }}
+    </a>
 </div>
 <div class="track-icon-list-item single-icon">
     <div class="login-account">

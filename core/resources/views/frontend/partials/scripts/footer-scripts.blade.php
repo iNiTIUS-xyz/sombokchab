@@ -1,12 +1,12 @@
 <script>
-    (function ($) {
+    (function($) {
         'use strict'
 
         /**
          * Cart script
          * */
 
-        $(document).on('click', '.ff-jost[data-label=Close]', function (e){
+        $(document).on('click', '.ff-jost[data-label=Close]', function(e) {
             let el = $(this);
             let product_hash_id = el.data('product_hash_id');
 
@@ -14,28 +14,27 @@
             data.append("product_hash_id", product_hash_id);
             data.append("_token", "{{ csrf_token() }}");
 
-            send_ajax_request('POST', data ,'{{route('frontend.products.cart.ajax.remove')}}', () => {
-                if($(this).data('type') === 'tr'){
+            send_ajax_request('POST', data, '{{ route('frontend.products.cart.ajax.remove') }}', () => {
+                if ($(this).data('type') === 'tr') {
                     $(this).closest("tr").addClass("disabled");
                 }
 
                 $(this).find('.icon-close i').removeClass("la-times").addClass("la-spinner");
                 $('.cart-item-count-amount').html("<i class='las la-spinner'></i>");
             }, (data) => {
-                if (data.msg)
-                {
+                if (data.msg) {
                     toastr.success(data.msg);
                     $('.coupon-contents').parent().load(location.href + " .coupon-contents");
                     $('.navbar-right-flex .cart-shopping').load(location.href + " .cart-shopping");
 
-                    if($(this).data('type') === 'tr'){
+                    if ($(this).data('type') === 'tr') {
                         $(".cart-page-wrapper").load(location.href + " .cart-page-wrapper");
                     }
                 }
 
                 $('.loader').hide();
-            },(err) => {
-                if($(this).data('type') === 'tr'){
+            }, (err) => {
+                if ($(this).data('type') === 'tr') {
                     $(this).closest("tr").removeClass("disabled");
                 }
 
@@ -49,43 +48,46 @@
          * */
 
         $("#product_quick_view .modal-content.p-5").niceScroll();
-        
+
         let site_currency_symbol = '{{ site_currency_symbol() }}';
 
-        $(document).on('submit', '.custom-form-builder-form', function (e) {
+        $(document).on('submit', '.custom-form-builder-form', function(e) {
             e.preventDefault();
             var btn = $(this).find('button[type="submit"]');
             let btnOldText = btn.text();
             var form = $(this);
             var formID = form.attr('id');
-            var msgContainer =  form.find('.error-message');
+            var msgContainer = form.find('.error-message');
             var formSelector = document.getElementById(formID);
             var formData = new FormData(formSelector);
             msgContainer.html('');
 
             $.ajax({
-                url: "{{ route("frontend.form.builder.custom.submit") }}",
+                url: "{{ route('frontend.form.builder.custom.submit') }}",
                 type: "POST",
                 headers: {
-                    'X-CSRF-TOKEN': "{{csrf_token()}}",
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}",
                 },
-                beforeSend:function (){
-                    btn.html(`<i class="las la-spinner la-spin mr-1"></i> {{__('Submitting..')}}`);
+                beforeSend: function() {
+                    btn.html(
+                        `<i class="las la-spinner la-spin mr-1"></i> {{ __('Submitting..') }}`
+                    );
                 },
                 processData: false,
                 contentType: false,
-                data:formData,
-                success: function (data) {
+                data: formData,
+                success: function(data) {
                     form.find('.ajax-loading-wrap').removeClass('show').addClass('hide');
-                    msgContainer.html('<div class="alert alert-'+data.type+'">' + data.msg + '</div>');
+                    msgContainer.html('<div class="alert alert-' + data.type + '">' + data.msg +
+                        '</div>');
                     btn.text(btnOldText);
                 },
-                error: function (data) {
+                error: function(data) {
                     form.find('.ajax-loading-wrap').removeClass('show').addClass('hide');
                     var errors = data.responseJSON.errors;
                     var markup = '<ul class="alert alert-danger">';
-                    $.each(errors,function (index,value){
-                        markup += '<li>'+value+'</li>';
+                    $.each(errors, function(index, value) {
+                        markup += '<li>' + value + '</li>';
                     })
                     markup += '</ul>';
                     msgContainer.html(markup);
@@ -94,37 +96,37 @@
             });
         });
 
-        $(document).on('click', '.buy_now_single_quick_view_btn' , function (e) {
+        $(document).on('click', '.buy_now_single_quick_view_btn', function(e) {
             e.preventDefault();
 
             let product_id = $(this).data('id');
             let quantity = Number($('#quantity_single_quick_view_btn').val().trim());
 
             $.ajax({
-                url: '{{ route("frontend.products.add.to.cart.ajax") }}',
+                url: '{{ route('frontend.products.add.to.cart.ajax') }}',
                 type: 'POST',
                 data: {
                     product_id: product_id,
                     quantity: quantity,
                     _token: '{{ csrf_token() }}'
                 },
-                success: function (data) {
+                success: function(data) {
                     toastr.success(data.msg);
                     if (data.quantity_msg) {
                         toastr.warning(data.quantity_msg)
                     }
-                    setTimeout(function () {
-                        location.href = '{{ route("frontend.checkout") }}';
+                    setTimeout(function() {
+                        location.href = '{{ route('frontend.checkout') }}';
                     }, 1000);
                     // refreshShippingDropdown();
                 },
-                erorr: function (err) {
-                    toastr.error('{{ __("Something went wrong") }}');
+                erorr: function(err) {
+                    toastr.error('{{ __('Something went wrong') }}');
                 }
             });
         });
 
-        $('body').on('click', '.quick-view-size-lists li', function (event) {
+        $('body').on('click', '.quick-view-size-lists li', function(event) {
             let el = $(this);
             let value = el.data('displayValue');
             let parentWrap = el.parent().parent();
@@ -139,18 +141,18 @@
 
         function selectedAttributeSearch(selected_item) {
             /*
-            * search based on all selected attributes
-            *
-            * 1. get all selected attributes in {key:value} format
-            * 2. search in attribute_store for all available matches
-            * 3. display available matches (keep available matches selectable, and rest as disabled)
-            * */
+             * search based on all selected attributes
+             *
+             * 1. get all selected attributes in {key:value} format
+             * 2. search in attribute_store for all available matches
+             * 3. display available matches (keep available matches selectable, and rest as disabled)
+             * */
 
             let available_variant_types = [];
             let selected_options = {};
 
             // get all selected attributes in {key:value} format
-            quick_view_available_options.map(function (k, option) {
+            quick_view_available_options.map(function(k, option) {
                 let selected_option = $(option).find('li.active');
                 let type = selected_option.closest('.quick-view-size-lists').data('type');
                 let value = selected_option.data('displayValue');
@@ -170,10 +172,10 @@
             // search in attribute_store for all available matches
             let available_variants_selection = [];
             let selected_attributes_by_type = {};
-            quick_view_attribute_store.map(function (arr) {
+            quick_view_attribute_store.map(function(arr) {
                 let matched = true;
 
-                Object.keys(selected_options).map(function (type) {
+                Object.keys(selected_options).map(function(type) {
 
                     if (arr[type] != selected_options[type]) {
                         matched = false;
@@ -184,7 +186,7 @@
                     available_variants_selection.push(arr);
 
                     // insert as {key: [value, value...]}
-                    Object.keys(arr).map(function (type) {
+                    Object.keys(arr).map(function(type) {
                         // not array available for the given key
                         if (!selected_attributes_by_type[type]) {
                             selected_attributes_by_type[type] = []
@@ -200,7 +202,7 @@
 
             // selected item not contain product then de-select all selected option hare
             if (Object.keys(selected_attributes_by_type).length == 0) {
-                $('.quick-view-size-lists li.active').each(function () {
+                $('.quick-view-size-lists li.active').each(function() {
                     let sizeItem = $(this).parent().parent();
 
                     sizeItem.find('input[type=hidden]').val('');
@@ -221,14 +223,15 @@
             }
 
             // keep only available matches selectable
-            Object.keys(selected_attributes_by_type).map(function (type) {
+            Object.keys(selected_attributes_by_type).map(function(type) {
                 // initially, disable all buttons
                 $('.quick-view-size-lists[data-type="' + type + '"] li').addClass('disabled-option');
 
                 // make buttons selectable for the available options
-                selected_attributes_by_type[type].map(function (value) {
-                    let available_buttons = $('.quick-view-size-lists[data-type="' + type + '"] li[data-display-value="' + value + '"]');
-                    available_buttons.map(function (key, el) {
+                selected_attributes_by_type[type].map(function(value) {
+                    let available_buttons = $('.quick-view-size-lists[data-type="' + type +
+                        '"] li[data-display-value="' + value + '"]');
+                    available_buttons.map(function(key, el) {
                         $(el).removeClass('disabled-option');
                     })
                 })
@@ -278,7 +281,7 @@
             }
         }
 
-        $('body').on('click','.add_to_wishlist_single_page_quick_view', function (e) {
+        $('body').on('click', '.add_to_wishlist_single_page_quick_view', function(e) {
             e.preventDefault();
             let product_id = $(this).data('id');
             let quantity = Number($('#quantity').val().trim());
@@ -287,7 +290,7 @@
             // if selected attribute is a valid product item
             if (quickViewValidateSelectedAttributes()) {
                 $.ajax({
-                    url: '{{ route("frontend.products.add.to.wishlist.ajax") }}',
+                    url: '{{ route('frontend.products.add.to.wishlist.ajax') }}',
                     type: 'POST',
                     data: {
                         product_id: product_id,
@@ -295,20 +298,20 @@
                         pid_id: pid_id,
                         _token: '{{ csrf_token() }}'
                     },
-                    success: function (data) {
+                    success: function(data) {
                         toastr.success(data.msg);
                         refreshWishlistDropdown();
                     },
-                    erorr: function (err) {
-                        toastr.error('{{ __("An error occurred") }}');
+                    erorr: function(err) {
+                        toastr.error('{{ __('An error occurred') }}');
                     }
                 });
             } else {
-                toastr.error('{{ __("Select an attribute to proceed") }}');
+                toastr.error('{{ __('Select an attribute to proceed') }}');
             }
         });
 
-        $('body').on('click','.buy_now_single_page_quick_view', function (e) {
+        $('body').on('click', '.buy_now_single_page_quick_view', function(e) {
             e.preventDefault();
 
             let selected_size = $('#quick_view_selected_size').val();
@@ -316,7 +319,7 @@
             let product_id = $(this).data('id');
             let quantity = Number($('#quick-view-quantity').val().trim());
             let pid_id = getQuickViewAttributesForCart();
-            
+
             let price = $('#quick-view-price').text().split(site_currency_symbol)[1];
             let attributes = {};
             let product_variant = pid_id;
@@ -324,7 +327,7 @@
 
             if (quickViewValidateSelectedAttributes()) {
                 $.ajax({
-                    url: '{{ route("frontend.products.add.to.cart.ajax") }}',
+                    url: '{{ route('frontend.products.add.to.cart.ajax') }}',
                     type: 'POST',
                     data: {
                         product_id: product_id,
@@ -336,27 +339,27 @@
                         attributes: attributes,
                         _token: '{{ csrf_token() }}'
                     },
-                    success: function (data) {
+                    success: function(data) {
                         toastr.success(data.msg);
                         if (data.quantity_msg) {
                             toastr.warning(data.quantity_msg)
                         }
 
-                        setTimeout(function () {
-                            location.href = '{{ route("frontend.checkout") }}';
+                        setTimeout(function() {
+                            location.href = '{{ route('frontend.checkout') }}';
                         }, 1000);
                         // refreshShippingDropdown();
                     },
-                    erorr: function (err) {
-                        toastr.error('{{ __("Something went wrong") }}');
+                    erorr: function(err) {
+                        toastr.error('{{ __('Something went wrong') }}');
                     }
                 });
             } else {
-                toastr.error('{{ __("Select all attribute to proceed") }}');
+                toastr.error('{{ __('Select all attribute to proceed') }}');
             }
         });
 
-        $('body').on('click', '.add_to_cart_single_page_quick_view',function (e) {
+        $('body').on('click', '.add_to_cart_single_page_quick_view', function(e) {
             e.preventDefault();
             let selected_size = $('#quick_view_selected_size').val();
             let selected_color = $('#quick_view_selected_color').val();
@@ -376,7 +379,7 @@
             // if selected attribute is a valid product item
             if (quickViewValidateSelectedAttributes()) {
                 $.ajax({
-                    url: '{{ route("frontend.products.add.to.cart.ajax") }}',
+                    url: '{{ route('frontend.products.add.to.cart.ajax') }}',
                     type: 'POST',
                     data: {
                         product_id: product_id,
@@ -388,7 +391,7 @@
                         attributes: attributes,
                         _token: '{{ csrf_token() }}'
                     },
-                    success: function (data) {
+                    success: function(data) {
                         toastr.success(data.msg);
                         if (data.quantity_msg) {
                             toastr.warning(data.quantity_msg)
@@ -396,32 +399,32 @@
 
                         refreshShippingDropdown();
                     },
-                    erorr: function (err) {
-                        toastr.error('{{ __("An error occurred") }}');
+                    erorr: function(err) {
+                        toastr.error('{{ __('An error occurred') }}');
                     }
                 });
             } else {
-                toastr.error('{{ __("Select all attribute to proceed") }}');
+                toastr.error('{{ __('Select all attribute to proceed') }}');
             }
         });
 
         let productQuickViewModel = document.getElementById("product_quick_view");
         let defaultQuickViewModel = document.getElementById("quick_view");
 
-        window.onclick = function (event){
-            if(productQuickViewModel == event.target){
+        window.onclick = function(event) {
+            if (productQuickViewModel == event.target) {
                 $("#product_quick_view").fadeOut();
-                setTimeout(function (){
+                setTimeout(function() {
                     $("#product_quick_view").empty();
-                },200);
-            }else if(defaultQuickViewModel == event.target){
+                }, 200);
+            } else if (defaultQuickViewModel == event.target) {
                 $("#quick_view").fadeOut();
                 $("#quick_view").removeClass('show');
                 $(".modal-backdrop").fadeOut();
             }
         }
 
-        $(document).on('click', '.add_to_cart_ajax', function (e) {
+        $(document).on('click', '.add_to_cart_ajax', function(e) {
             e.preventDefault();
 
             let pid_id = null;
@@ -430,7 +433,7 @@
             let product_variant = null;
 
             $.ajax({
-                url: '{{ route("frontend.products.add.to.cart.ajax") }}',
+                url: '{{ route('frontend.products.add.to.cart.ajax') }}',
                 type: 'POST',
                 data: {
                     product_id: product_id,
@@ -441,114 +444,110 @@
                     selected_color: null,
                     _token: '{{ csrf_token() }}'
                 },
-                beforeSend: function () {
+                beforeSend: function() {
 
                 },
-                success: function (data) {
-                    if (data.quantity_msg)
-                    {
+                success: function(data) {
+                    if (data.quantity_msg) {
                         toastr.warning(data.quantity_msg);
-                    }
-                    else if(data.error_msg)
-                    {
+                    } else if (data.error_msg) {
                         toastr.error(data.error_msg);
-                    }
-                    else
-                    {
+                    } else {
                         toastr.success(data.msg, 'Go to Cart', '#', 60000);
                         $('.track-icon-list').load(location.href + " .track-icon-list");
                     }
                 },
-                erorr: function (err) {
+                erorr: function(err) {
                     prepare_errors(err);
                 }
             });
         });
 
 
-    {{--let site_currency_symbol = '{{ site_currency_symbol() }}';--}}
+        {{-- let site_currency_symbol = '{{ site_currency_symbol() }}'; --}}
 
-        {{--$(document).on('click','.add_to_cart_ajax', function (e) {--}}
-        {{--    e.preventDefault();--}}
-        {{--    let product_id = $(this).data('id');--}}
-        {{--    let quickViewQty = $("#quantity_single_quick_view_btn").val();--}}
-        {{--    quickViewQty = quickViewQty != undefined ? quickViewQty.trim() : 1;--}}
-        {{--    let quantity = Number(quickViewQty);--}}
-        {{--    $.ajax({--}}
-        {{--        url: '{{ route("frontend.products.add.to.cart.ajax") }}',--}}
-        {{--        type: 'POST',--}}
-        {{--        data: {--}}
-        {{--            product_id: product_id,--}}
-        {{--            quantity: quantity,--}}
-        {{--            product_attributes: null,--}}
-        {{--            _token: '{{ csrf_token() }}'--}}
-        {{--        },--}}
-        {{--        success: function (data) {--}}
-        {{--            toastr.success(data.msg);--}}
-        {{--            if (data.quantity_msg) {--}}
-        {{--                toastr.warning(data.quantity_msg)--}}
-        {{--            }--}}
-        {{--            refreshShippingDropdown();--}}
-        {{--        },--}}
-        {{--        erorr: function (err) {--}}
-        {{--            toastr.error('{{ __("Something went wrong") }}');--}}
-        {{--        }--}}
-        {{--    });--}}
-        {{--});--}}
+        {{-- $(document).on('click','.add_to_cart_ajax', function (e) { --}}
+        {{--    e.preventDefault(); --}}
+        {{--    let product_id = $(this).data('id'); --}}
+        {{--    let quickViewQty = $("#quantity_single_quick_view_btn").val(); --}}
+        {{--    quickViewQty = quickViewQty != undefined ? quickViewQty.trim() : 1; --}}
+        {{--    let quantity = Number(quickViewQty); --}}
+        {{--    $.ajax({ --}}
+        {{--        url: '{{ route("frontend.products.add.to.cart.ajax") }}', --}}
+        {{--        type: 'POST', --}}
+        {{--        data: { --}}
+        {{--            product_id: product_id, --}}
+        {{--            quantity: quantity, --}}
+        {{--            product_attributes: null, --}}
+        {{--            _token: '{{ csrf_token() }}' --}}
+        {{--        }, --}}
+        {{--        success: function (data) { --}}
+        {{--            toastr.success(data.msg); --}}
+        {{--            if (data.quantity_msg) { --}}
+        {{--                toastr.warning(data.quantity_msg) --}}
+        {{--            } --}}
+        {{--            refreshShippingDropdown(); --}}
+        {{--        }, --}}
+        {{--        erorr: function (err) { --}}
+        {{--            toastr.error('{{ __("Something went wrong") }}'); --}}
+        {{--        } --}}
+        {{--    }); --}}
+        {{-- }); --}}
 
         // open modal with product quick view
-        $(document).on("click",".product-quick-view-ajax",function (e){
+        $(document).on("click", ".product-quick-view-ajax", function(e) {
             e.preventDefault();
 
-           let action_route = $(this).data('action-route');
+            let action_route = $(this).data('action-route');
 
             let icon = $(this).find("i");
             let oldIconClass = icon.attr("class");
-            icon.attr("class","las la-spinner icon la-spin");
+            icon.attr("class", "las la-spinner icon la-spin");
 
             $.ajax({
                 url: action_route,
                 type: 'GET',
-                success: function (data) {
-                    icon.attr("class",oldIconClass);
+                success: function(data) {
+                    icon.attr("class", oldIconClass);
 
                     $("#product_quick_view").html(data);
                     $("#product_quick_view").fadeIn();
                 },
-                erorr: function (err) {
-                    toastr.error('{{ __("An error occurred") }}');
+                erorr: function(err) {
+                    toastr.error('{{ __('An error occurred') }}');
                 }
             });
         });
 
-        $(document).on('click','.quick-view', function (e) {
+        $(document).on('click', '.quick-view', function(e) {
             e.preventDefault();
 
             //todo: work on showing campaign date countdown
-            
-            
+
+
             let data = $(this).data();
             let rating = $(this).data('rating');
             let stock_msg = "{{ __('Item is not available in stock') }}";
             let stock_msg_type = "text-danger";
             let quick_view = $('#quick_view');
             quick_view.find('.flash-countdown-wrapper').hide();
-            if(data.iscampaign){
+            if (data.iscampaign) {
                 quick_view.find('.flash-countdown-title').text(data.campaigntitle);
-                quick_view.find('.flash-countdown-product-2').attr('data-date',data.campaigndate);
+                quick_view.find('.flash-countdown-product-2').attr('data-date', data.campaigndate);
                 let coundClass = quick_view.find('.flash-countdown-product-2');
                 let oldId = quick_view.find('.flash-countdown-product-2').attr('id');
                 coundClass.removeClass(oldId);
                 oldId = oldId.substr(35);
-                
-                let newClassGen = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-                coundClass.addClass(oldId+newClassGen);
-                coundClass.attr('id',oldId+newClassGen);
-               
+
+                let newClassGen = Math.random().toString(36).substring(2, 15) + Math.random().toString(36)
+                    .substring(2, 15) + Math.random().toString(36).substring(2, 15);
+                coundClass.addClass(oldId + newClassGen);
+                coundClass.attr('id', oldId + newClassGen);
+
                 loopcounter(quick_view.find('.flash-countdown-product-2').attr('id'));
                 quick_view.find('.flash-countdown-wrapper').show();
             }
-            
+
 
             quick_view.find('a.add-to-cart').data('id', data['id']);
 
@@ -561,9 +560,9 @@
             quick_view.find('.product-img img').attr('src', data['image']);
             quick_view.find('.sku_wrapper .sku').text(data['inventory']);
             quick_view.find('.badge-tag').text(data['badge']);
-            if(data['campaignPercentage']){
+            if (data['campaignPercentage']) {
                 quick_view.find('.discount-tag').text(data['campaignPercentage']);
-            }else{
+            } else {
                 quick_view.find('.discount-tag').text('');
             }
 
@@ -592,7 +591,8 @@
                 if (i < subcategory.length - 1) {
                     comma += ', ';
                 }
-                subcategory_html += '<a href="' + subcategory[i]['url'] + '" class="tag-btn" rel="tag">' + subcategory[i]['name'] + '</a>' + comma;
+                subcategory_html += '<a href="' + subcategory[i]['url'] + '" class="tag-btn" rel="tag">' +
+                    subcategory[i]['name'] + '</a>' + comma;
             }
 
             quick_view.find('.subcategory_container').html(subcategory_html);
@@ -633,16 +633,16 @@
             $(".modal-backdrop").fadeIn();
         });
 
-        $(document).ready(function () {
+        $(document).ready(function() {
             refreshShippingDropdown();
             refreshWishlistDropdown();
 
-            $('.add_to_cart_ajax_with_quantity').on('click', function (e) {
+            $('.add_to_cart_ajax_with_quantity').on('click', function(e) {
                 e.preventDefault();
                 let product_id = $(this).data('id');
                 let quantity = $(this).closest('.product_card').find('.hover-content .qty_').val();
                 $.ajax({
-                    url: '{{ route("frontend.products.add.to.cart.ajax") }}',
+                    url: '{{ route('frontend.products.add.to.cart.ajax') }}',
                     type: 'POST',
                     data: {
                         product_id: product_id,
@@ -650,10 +650,10 @@
                         product_attributes: null,
                         _token: '{{ csrf_token() }}'
                     },
-                    success: function (data) {
-                        if(data.type == 'danger'){
+                    success: function(data) {
+                        if (data.type == 'danger') {
                             toastr.error(data.msg);
-                        }else{
+                        } else {
                             toastr.success(data.msg);
                         }
 
@@ -662,13 +662,13 @@
                         }
                         refreshShippingDropdown();
                     },
-                    erorr: function (err) {
-                        toastr.error('{{ __("Something went wrong") }}');
+                    erorr: function(err) {
+                        toastr.error('{{ __('Something went wrong') }}');
                     }
                 });
             });
 
-            $('.attribute input[type=radio]').on('click', function () {
+            $('.attribute input[type=radio]').on('click', function() {
                 let attribute_img_el = $('.attribute_img');
                 let total_extra = 0;
                 let main_price = Number($('#price').data('mainPrice'));
@@ -677,7 +677,8 @@
                 // image
                 if ($(this).data('attrImage')) {
                     attribute_img_el.attr('src', $(this).data('attrImage')).show();
-                    attribute_img_el.closest('.single-main-image').find('.magnific').attr('href', $(this).data('attrImage'));
+                    attribute_img_el.closest('.single-main-image').find('.magnific').attr('href', $(
+                        this).data('attrImage'));
                     attribute_img_el.prev().hide();
                 } else {
                     attribute_img_el.hide();
@@ -692,7 +693,7 @@
                 $('#price').text(site_currency_symbol + parseFloat(new_price).toFixed(0));
             });
 
-            $('.nav_search_btn').on('click', function (e) {
+            $('.nav_search_btn').on('click', function(e) {
                 e.preventDefault();
                 if ($('.search_bar .form-group .form-control').val().length) {
                     $('#product_search_form').trigger('submit');
@@ -703,59 +704,59 @@
 
             // view data with
 
-            
-
-            $('.add_to_compare_ajax').on('click', function (e) {
+            $('.add_to_compare_ajax').on('click', function(e) {
                 e.preventDefault();
+
                 let product_id = $(this).data('id');
+
                 $.ajax({
-                    url: '{{ route("frontend.products.add.to.compare") }}',
+                    url: '{{ route('frontend.products.add.to.compare') }}',
                     type: 'POST',
                     data: {
                         product_id: product_id,
                         _token: '{{ csrf_token() }}'
                     },
-                    success: function (data) {
+                    success: function(data) {
                         if (data) {
-                            toastr.success('{{ __("Item added to compare") }}');
+                            toastr.success('{{ __('Item added to compare') }}');
                         }
                     },
-                    erorr: function (err) {
-                        toastr.error('{{ __("Something went wrong") }}');
+                    erorr: function(err) {
+                        toastr.error('{{ __('Something went wrong') }}');
                     }
                 });
             });
 
-            $(document).on('click','#product_filter_featured_products', function (e) {
-                let url = '{{ route("frontend.products.filter.top.rated") }}';
+            $(document).on('click', '#product_filter_featured_products', function(e) {
+                let url = '{{ route('frontend.products.filter.top.rated') }}';
                 loadFilterData(url);
             });
 
-            $(document).on('click','#product_filter_top_selling', function (e) {
-                let url = '{{ route("frontend.products.filter.top.selling") }}';
+            $(document).on('click', '#product_filter_top_selling', function(e) {
+                let url = '{{ route('frontend.products.filter.top.selling') }}';
                 loadFilterData(url);
             });
 
-            $(document).on('click','#product_filter_new_products', function (e) {
-                let url = '{{ route("frontend.products.filter.new") }}';
+            $(document).on('click', '#product_filter_new_products', function(e) {
+                let url = '{{ route('frontend.products.filter.new') }}';
                 loadFilterData(url);
             });
 
-            $(document).on('click', '.remove_cart_item', function (e) {
+            $(document).on('click', '.remove_cart_item', function(e) {
                 e.preventDefault();
                 let id = $(this).data('id');
                 let pid_id = $(this).data('pid_id');
                 $('.lds-ellipsis').show();
 
                 $.ajax({
-                    url: '{{ route("frontend.products.cart.ajax.remove") }}',
+                    url: '{{ route('frontend.products.cart.ajax.remove') }}',
                     type: 'POST',
                     data: {
                         _token: '{{ csrf_token() }}',
                         id: id,
                         pid_id: pid_id,
                     },
-                    success: function (data) {
+                    success: function(data) {
                         $('.lds-ellipsis').hide();
 
                         if (!Number(String(data).trim())) {
@@ -765,74 +766,74 @@
                         }
                         refreshShippingDropdown();
                     },
-                    error: function (err) {
+                    error: function(err) {
                         $('.lds-ellipsis').hide();
-                        toastr.error('{{ __("Something went wrong") }}');
+                        toastr.error('{{ __('Something went wrong') }}');
                     }
                 });
             });
 
-            {{--$(document).on('click', '.remove_wishlist_item', function (e) {--}}
-            {{--    e.preventDefault();--}}
-            {{--    let id = $(this).data('id');--}}
-            {{--    let pid_id = $(this).data('pid_id');--}}
-            {{--    $('.lds-ellipsis').show();--}}
+            {{-- $(document).on('click', '.remove_wishlist_item', function (e) { --}}
+            {{--    e.preventDefault(); --}}
+            {{--    let id = $(this).data('id'); --}}
+            {{--    let pid_id = $(this).data('pid_id'); --}}
+            {{--    $('.lds-ellipsis').show(); --}}
 
-            {{--    $.ajax({--}}
-            {{--        url: '{{ route("frontend.products.wishlist.ajax.remove") }}',--}}
-            {{--        type: 'POST',--}}
-            {{--        data: {--}}
-            {{--            id: id,--}}
-            {{--            pid_id: pid_id,--}}
-            {{--            _token: '{{ csrf_token() }}'--}}
-            {{--        },--}}
-            {{--        success: function (data) {--}}
-            {{--            $('.lds-ellipsis').hide();--}}
-            {{--            $('#cart-container').html(data);--}}
-            {{--            refreshWishlistDropdown();--}}
-            {{--        },--}}
-            {{--        error: function (err) {--}}
-            {{--            $('.lds-ellipsis').hide();--}}
-            {{--            toastr.error('{{ __("Something went wrong") }}');--}}
-            {{--        }--}}
-            {{--    });--}}
-            {{--});--}}
+            {{--    $.ajax({ --}}
+            {{--        url: '{{ route("frontend.products.wishlist.ajax.remove") }}', --}}
+            {{--        type: 'POST', --}}
+            {{--        data: { --}}
+            {{--            id: id, --}}
+            {{--            pid_id: pid_id, --}}
+            {{--            _token: '{{ csrf_token() }}' --}}
+            {{--        }, --}}
+            {{--        success: function (data) { --}}
+            {{--            $('.lds-ellipsis').hide(); --}}
+            {{--            $('#cart-container').html(data); --}}
+            {{--            refreshWishlistDropdown(); --}}
+            {{--        }, --}}
+            {{--        error: function (err) { --}}
+            {{--            $('.lds-ellipsis').hide(); --}}
+            {{--            toastr.error('{{ __("Something went wrong") }}'); --}}
+            {{--        } --}}
+            {{--    }); --}}
+            {{-- }); --}}
 
-            {{--$(document).on('click', '#quick_view .modal_add_to_cart', function (e) {--}}
-            {{--    e.preventDefault();--}}
-            {{--    --}}{{--let site_currency_symbol = '{{ site_currency_symbol() }}';--}}
-            {{--    let product_id = $(this).data('id');--}}
-            {{--    let quantity = Number($('.quantity').val().trim());--}}
-            {{--    let price = Number($('#quick_view .price.sale_price').text().split(site_currency_symbol)[1].trim())--}}
-            {{--    let pid_id = getQuickViewAttributesForCart();--}}
+            {{-- $(document).on('click', '#quick_view .modal_add_to_cart', function (e) { --}}
+            {{--    e.preventDefault(); --}}
+            {{--    --}}{{-- let site_currency_symbol = '{{ site_currency_symbol() }}'; --}}
+            {{--    let product_id = $(this).data('id'); --}}
+            {{--    let quantity = Number($('.quantity').val().trim()); --}}
+            {{--    let price = Number($('#quick_view .price.sale_price').text().split(site_currency_symbol)[1].trim()) --}}
+            {{--    let pid_id = getQuickViewAttributesForCart(); --}}
 
-            {{--    if (attributeSelected()) {--}}
-            {{--        $.ajax({--}}
-            {{--            url: '{{ route("frontend.products.add.to.cart.ajax") }}',--}}
-            {{--            type: 'POST',--}}
-            {{--            data: {--}}
-            {{--                _token: '{{ csrf_token() }}',--}}
-            {{--                product_id: product_id,--}}
-            {{--                quantity: quantity,--}}
-            {{--                pid_id: pid_id--}}
-            {{--            },--}}
-            {{--            success: function (data) {--}}
-            {{--                toastr.success(data.msg);--}}
-            {{--                if (data.quantity_msg) {--}}
-            {{--                    toastr.warning(data.quantity_msg)--}}
-            {{--                }--}}
-            {{--                refreshShippingDropdown();--}}
-            {{--            },--}}
-            {{--            erorr: function (err) {--}}
-            {{--                toastr.error('{{ __("Something went wrong") }}');--}}
-            {{--            }--}}
-            {{--        });--}}
-            {{--    } else {--}}
-            {{--        toastr.error('{{ __("Select all attribute to proceed") }}');--}}
-            {{--    }--}}
-            {{--});--}}
+            {{--    if (attributeSelected()) { --}}
+            {{--        $.ajax({ --}}
+            {{--            url: '{{ route("frontend.products.add.to.cart.ajax") }}', --}}
+            {{--            type: 'POST', --}}
+            {{--            data: { --}}
+            {{--                _token: '{{ csrf_token() }}', --}}
+            {{--                product_id: product_id, --}}
+            {{--                quantity: quantity, --}}
+            {{--                pid_id: pid_id --}}
+            {{--            }, --}}
+            {{--            success: function (data) { --}}
+            {{--                toastr.success(data.msg); --}}
+            {{--                if (data.quantity_msg) { --}}
+            {{--                    toastr.warning(data.quantity_msg) --}}
+            {{--                } --}}
+            {{--                refreshShippingDropdown(); --}}
+            {{--            }, --}}
+            {{--            erorr: function (err) { --}}
+            {{--                toastr.error('{{ __("Something went wrong") }}'); --}}
+            {{--            } --}}
+            {{--        }); --}}
+            {{--    } else { --}}
+            {{--        toastr.error('{{ __("Select all attribute to proceed") }}'); --}}
+            {{--    } --}}
+            {{-- }); --}}
 
-            $(document).on('click', '.newsletter-form-wrap .submit-btn', function (e) {
+            $(document).on('click', '.newsletter-form-wrap .submit-btn', function(e) {
                 e.preventDefault();
                 var email = $('.newsletter-form-wrap input[type="email"]').val();
                 var errrContaner = $(this).parent().parent().parent().find('.form-message-show');
@@ -848,49 +849,52 @@
                         _token: "{{ csrf_token() }}",
                         email: email
                     },
-                    success: function (data) {
-                        errrContaner.html('<div class="alert alert-' + data.type + '">' + data.msg + '</div>');
+                    success: function(data) {
+                        errrContaner.html('<div class="alert alert-' + data.type +
+                            '">' + data.msg + '</div>');
                         el.find('i').addClass(paperIcon).removeClass(spinnerIcon);
                     },
-                    error: function (data) {
+                    error: function(data) {
                         el.find('i').addClass(paperIcon).removeClass(spinnerIcon);
                         var errors = data.responseJSON.errors;
-                        errrContaner.html('<div class="alert alert-danger">' + errors.email[0] + '</div>');
+                        errrContaner.html('<div class="alert alert-danger">' + errors
+                            .email[0] + '</div>');
                     }
                 });
             });
 
-            $(document).on('change', '#langchange', function (e) {
+            $(document).on('change', '#langchange', function(e) {
                 $.ajax({
                     url: "{{ route('frontend.langchange') }}",
                     type: "GET",
                     data: {
                         'lang': $(this).val()
                     },
-                    success: function (data) {
+                    success: function(data) {
                         location.reload();
                     }
                 });
             });
 
-            $(document).on('click', '#close_search_dropdown', function (e) {
+            $(document).on('click', '#close_search_dropdown', function(e) {
                 $('.category-searchbar').hide();
             });
 
-            $(document).on('focus', '#search_form_input', function (e) {
-                if ($('#search_result_categories').html().length && $('#search_result_products').html().length) {
+            $(document).on('focus', '#search_form_input', function(e) {
+                if ($('#search_result_categories').html().length && $('#search_result_products')
+                    .html().length) {
                     $('.category-searchbar').show();
                 }
             });
 
-            $(document).on('keyup', '#search_form_input', function (e) {
+            $(document).on('keyup', '#search_form_input', function(e) {
                 let input_values = $(this).val();
                 let category_id = $('#search_selected_category').val();
                 let search_result_category = $('#search_result_categories');
                 let search_result_products = $('#search_result_products');
                 let sppinnerHtml = '<i class="las la-spinner la-spin"></i>';
                 let btnIns = $(this).parent().next('button');
-                let btnOldText = "{{__('Search')}}";
+                let btnOldText = "{{ __('Search') }}";
                 if (!input_values.length) {
                     search_result_category.html('');
                     search_result_products.html('');
@@ -901,7 +905,7 @@
                     $.get('{{ route('frontend.products.search') }}', {
                         search_query: input_values,
                         category_id: category_id
-                    }).then(function (data) {
+                    }).then(function(data) {
                         search_result_category.html('');
                         if (data['product_url']) {
                             $('#search_result_all').attr('href', data['product_url']);
@@ -912,7 +916,7 @@
                             search_result_category.parent().show();
                             $('#no_product_found_div').hide();
                             //check it ther category avialble or not
-                            Object.values(data['categories']).forEach(function (category) {
+                            Object.values(data['categories']).forEach(function(category) {
                                 search_result_category.append(`<li class="list">
                                 <a href="${category['url']}" class="item">${category['title']}</a>
                             </li>`);
@@ -923,9 +927,9 @@
                         search_result_products.html('');
 
                         if (data['products']) {
-                             $('#search_result_products').parent().show();
-                             $('#no_product_found_div').hide();
-                            Object.values(data['products']).forEach(function (product) {
+                            $('#search_result_products').parent().show();
+                            $('#no_product_found_div').hide();
+                            Object.values(data['products']).forEach(function(product) {
                                 search_result_products.append(`
                                 <li class="list">
                                     <a href="${product['url']}" class="item">
@@ -939,7 +943,7 @@
                                                     <span class="flash-price fw-500">${site_currency_symbol + product['sale_price']}</span>
                                                     <span class="flash-old-prices">${site_currency_symbol + product['deleted_price']}</span>
                                                 </div>
-                                                <span class="stock-out">${product['is_stock'] ? '{{ __("In Stock") }}' : '{{ __("Stock Out") }}'}</span>
+                                                <span class="stock-out">${product['is_stock'] ? '{{ __('In Stock') }}' : '{{ __('Stock Out') }}'}</span>
                                             </div>
                                         </div>
                                     </a>
@@ -947,11 +951,11 @@
                             `);
                             });
                         }
-                        
-                         if(fetchedProdcuts.length === 0){
-                             $('#search_result_products').parent().hide();
+
+                        if (fetchedProdcuts.length === 0) {
+                            $('#search_result_products').parent().hide();
                         }
-                        if(fetchedProdcuts.length === 0 && fetchedCategory.length === 0){
+                        if (fetchedProdcuts.length === 0 && fetchedCategory.length === 0) {
                             $('#no_product_found_div').show();
                         }
                         //disable preloader
@@ -964,26 +968,26 @@
                 }
             });
 
-            $('#select_site_currency').on('change', function () {
+            $('#select_site_currency').on('change', function() {
                 let selected_currency = $(this).val();
                 $.post('{{ route('frontend.change.currency') }}', {
                     _token: '{{ csrf_token() }}',
                     currency: selected_currency
-                }).then(function (data) {
+                }).then(function(data) {
                     location.reload();
                 });
             });
 
-            $('#change_site_language').on('change', function (e) {
+            $('#change_site_language').on('change', function(e) {
                 e.preventDefault();
                 let language = $(this).val();
                 $.post('{{ route('frontend.change.language') }}', {
                     _token: '{{ csrf_token() }}',
                     language: language
-                }).then(function (data) {
+                }).then(function(data) {
                     toastr[data['type']](data['msg']);
                     if (data['type'] === 'success') {
-                        setTimeout(function () {
+                        setTimeout(function() {
                             location.reload();
                         }, 500);
                     }
@@ -996,28 +1000,28 @@
 
         function refreshShippingDropdown() {
             $.ajax({
-                url: '{{ route("frontend.products.cart.info.ajax") }}',
+                url: '{{ route('frontend.products.cart.info.ajax') }}',
                 type: 'GET',
-                success: function (data) {
+                success: function(data) {
                     $('#cart_badge').text(data.item_total);
                     $('#top_minicart_container').html(data.cart);
                 },
-                erorr: function (err) {
-                    toastr.error('{{ __("Something went wrong") }}');
+                erorr: function(err) {
+                    toastr.error('{{ __('Something went wrong') }}');
                 }
             });
         }
 
         function refreshWishlistDropdown() {
             $.ajax({
-                url: '{{ route("frontend.products.wishlist.info.ajax") }}',
+                url: '{{ route('frontend.products.wishlist.info.ajax') }}',
                 type: 'GET',
-                success: function (data) {
+                success: function(data) {
                     $('#wishlist_badge').text(data['item_total']);
                     $('#top_wishlist_container').html(data['wishlist']);
                 },
-                erorr: function (err) {
-                    toastr.error('{{ __("Something went wrong") }}');
+                erorr: function(err) {
+                    toastr.error('{{ __('Something went wrong') }}');
                 }
             });
         }
@@ -1027,14 +1031,14 @@
             $.ajax({
                 url: url,
                 type: 'GET',
-                success: function (data) {
+                success: function(data) {
                     if (data) {
                         $('#product_filter_section').html(data);
                         $('.lds-ellipsis').hide();
                     }
                 },
-                erorr: function (err) {
-                    toastr.error('{{ __("Something went wrong") }}');
+                erorr: function(err) {
+                    toastr.error('{{ __('Something went wrong') }}');
                     $('.lds-ellipsis').hide();
                 }
             });
@@ -1046,15 +1050,17 @@
             $.ajax({
                 url: url,
                 type: 'GET',
-                data: {slug: slug},
-                success: function (data) {
+                data: {
+                    slug: slug
+                },
+                success: function(data) {
                     if (data) {
                         $('#quick_view .cart-option').html(data);
                         $('.lds-ellipsis').hide();
                     }
                 },
-                erorr: function (err) {
-                    toastr.error('{{ __("Something went wrong") }}');
+                erorr: function(err) {
+                    toastr.error('{{ __('Something went wrong') }}');
                     $('.lds-ellipsis').hide();
                 }
             });
@@ -1079,7 +1085,7 @@
         let selected_options = {};
         var quick_view_available_options = $('.quick-view-value-input-area');
         // get all selected attributes in {key:value} format
-        quick_view_available_options.map(function (k, option) {
+        quick_view_available_options.map(function(k, option) {
             let selected_option = $(option).find('li.active');
             let type = selected_option.closest('.quick-view-size-lists').data('type');
             let value = selected_option.data('displayValue');
@@ -1091,7 +1097,7 @@
 
         let ordered_data = {};
         let selected_options_keys = Object.keys(selected_options).sort();
-        selected_options_keys.map(function (e) {
+        selected_options_keys.map(function(e) {
             ordered_data[e] = String(selected_options[e]);
         });
 
@@ -1109,34 +1115,34 @@
         }
 
         // if selected attribute set is not available
-        if  (Object.keys(selected_options).length) {
-            toastr.error('{{ __("Attribute not available") }}')
+        if (Object.keys(selected_options).length) {
+            toastr.error('{{ __('Attribute not available') }}')
         }
 
         return '';
     }
 
     // Product Filter
-    $(document).on("click",".product_filter_style_two",function (){
+    $(document).on("click", ".product_filter_style_two", function() {
         $(".product-filter-two-wrapper").hide();
         $(".product_filter_style_two").removeClass("active");
         $(this).addClass("active");
 
-        if($(this).attr("data-filter") == 'campaign'){
-            send_ajax_response_get_response("post","{{ route("frontend.products.filter.campaign") }}");
-        }else if($(this).attr("data-filter") == 'new-items'){
-            send_ajax_response_get_response("post","{{ route("frontend.products.filter.new") }}");
-        }else if($(this).attr("data-filter") == 'top-rated'){
-            send_ajax_response_get_response("post","{{ route("frontend.products.filter.top.rated") }}");
-        }else if($(this).attr("data-filter") == 'top-selling'){
-            send_ajax_response_get_response("post","{{ route("frontend.products.filter.top.selling") }}");
-        }else if($(this).attr("data-filter") == 'discounted'){
-            send_ajax_response_get_response("post","{{ route("frontend.products.filter.discounted") }}");
+        if ($(this).attr("data-filter") == 'campaign') {
+            send_ajax_response_get_response("post", "{{ route('frontend.products.filter.campaign') }}");
+        } else if ($(this).attr("data-filter") == 'new-items') {
+            send_ajax_response_get_response("post", "{{ route('frontend.products.filter.new') }}");
+        } else if ($(this).attr("data-filter") == 'top-rated') {
+            send_ajax_response_get_response("post", "{{ route('frontend.products.filter.top.rated') }}");
+        } else if ($(this).attr("data-filter") == 'top-selling') {
+            send_ajax_response_get_response("post", "{{ route('frontend.products.filter.top.selling') }}");
+        } else if ($(this).attr("data-filter") == 'discounted') {
+            send_ajax_response_get_response("post", "{{ route('frontend.products.filter.discounted') }}");
         }
 
     });
 
-    function send_ajax_response_get_response(type,url){
+    function send_ajax_response_get_response(type, url) {
         $.ajax({
             url: url,
             type: type,
@@ -1145,25 +1151,25 @@
                 limit: $(".product-filter-two-wrapper").data("item-limit")
             },
             headers: {
-                'X-CSRF-TOKEN': "{{ csrf_token() }}",//$('meta[name="csrf-token"]').attr('content')
+                'X-CSRF-TOKEN': "{{ csrf_token() }}", //$('meta[name="csrf-token"]').attr('content')
             },
-            beforeSend:function (){
-                $(".product-filter-two-wrapper").attr("style","height:912px");
+            beforeSend: function() {
+                $(".product-filter-two-wrapper").attr("style", "height:912px");
                 $(".filter-style-block-preloader.lds-ellipsis").show();
             },
-            success: function (data) {
+            success: function(data) {
                 $(".filter-style-block-preloader.lds-ellipsis").hide(300);
                 $(".product-filter-two-wrapper").removeAttr("style");
                 $(".product-filter-two-wrapper").html(data).removeAttr("style");
 
-                if(data.success == false){
+                if (data.success == false) {
                     toastr.warning('There something is wrong please try again');
                 }
             },
-            erorr: function (err) {
+            erorr: function(err) {
                 $(".product-filter-two-wrapper").removeAttr("style");
                 $(".filter-style-block-preloader.lds-ellipsis").hide(300);
-                toastr.error('{{ __("An error occurred") }}');
+                toastr.error('{{ __('An error occurred') }}');
             }
         });
     }

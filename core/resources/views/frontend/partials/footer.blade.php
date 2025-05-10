@@ -544,6 +544,7 @@
 
             $(document).on('click', '.add_to_compare_ajax', function(e) {
                 e.preventDefault();
+
                 let pid_id = ''; //getQuickViewAttributesForCart();
 
                 let product_id = $(this).data('id');
@@ -980,6 +981,7 @@
 
             $(document).on('click', '.add_to_compare_single_page_quick_view', function(e) {
                 e.preventDefault();
+
                 let selected_size = $('#quick_view_selected_size').val();
                 let selected_color = $('#quick_view_selected_color').val();
                 let site_currency_symbol = "{{ site_currency_symbol() }}";

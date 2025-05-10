@@ -16,10 +16,22 @@
 @endsection
 
 @php
-    $setting_text = \App\StaticOption::whereIn('option_name', ['product_in_stock_text', 'product_out_of_stock_text', 'details_tab_text', 'additional_information_text', 'reviews_text', 'your_reviews_text', 'write_your_feedback_text', 'post_your_feedback_text'])
+    $setting_text = \App\StaticOption::whereIn('option_name', [
+            'product_in_stock_text',
+            'product_out_of_stock_text',
+            'details_tab_text',
+            'additional_information_text',
+            'reviews_text',
+            'your_reviews_text',
+            'write_your_feedback_text',
+            'post_your_feedback_text',
+        ])
         ->get()
         ->mapWithKeys(fn($item) => [$item->option_name => $item->option_value])
         ->toArray();
+
+    $products = \Gloudemans\Shoppingcart\Facades\Cart::instance('compare')->content();
+
 @endphp
 
 @section('content')
@@ -27,22 +39,33 @@
     <section class="compare-area padding-top-100 padding-bottom-100">
         <div class="container container-one">
             <div class="row g-4">
-                @forelse(\Gloudemans\Shoppingcart\Facades\Cart::instance("compare")->content() as $product)
+                @forelse($products as $product)
                     @php
-                        $product_inventory = \Modules\Product\Entities\ProductInventory::where('product_id', $product->id)->first();
+                        $product_inventory = \Modules\Product\Entities\ProductInventory::where(
+                            'product_id',
+                            $product->id,
+                        )->first();
 
                         $campaign_product = $product->campaign_product ?? null;
                         $campaignSoldCount = $product?->campaign_sold_product;
-                        $stock_count = $campaign_product ? $campaign_product->units_for_sale - optional($campaignSoldCount)->sold_count ?? 0 : optional($product->inventory)->stock_count;
+                        $stock_count = $campaign_product
+                            ? $campaign_product->units_for_sale - optional($campaignSoldCount)->sold_count ?? 0
+                            : optional($product->inventory)->stock_count;
 
                         if ($product->options->variant_id ?? false) {
-                            $product_inventory_details = \Modules\Product\Entities\ProductInventoryDetail::where('id', $product->options->variant_id)->first();
-                            $stock_count = $campaign_product ? $campaign_product->units_for_sale - optional($campaignSoldCount)->sold_count ?? 0 : $product_inventory_details->stock_count;
+                            $product_inventory_details = \Modules\Product\Entities\ProductInventoryDetail::where(
+                                'id',
+                                $product->options->variant_id,
+                            )->first();
+                            $stock_count = $campaign_product
+                                ? $campaign_product->units_for_sale - optional($campaignSoldCount)->sold_count ?? 0
+                                : $product_inventory_details->stock_count;
                         } else {
                             $product_inventory_details = null;
                         }
 
-                        $stock_count = $stock_count > (int) get_static_option('product_in_stock_limit_set') ? $stock_count : 0;
+                        $stock_count =
+                            $stock_count > (int) get_static_option('product_in_stock_limit_set') ? $stock_count : 0;
                     @endphp
                     <div class="col-lg-4 col-md-6">
                         <div class="single-compare text-center">
