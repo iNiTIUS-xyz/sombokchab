@@ -460,11 +460,6 @@
   color: var(--main-color-one);
 }
 
-.single-right-content .track-icon-list {
-  gap: 20px 12px;
-  margin: 0;
-}
-
 .single-right-content .track-icon-list .track-icon-single:hover {
   color: var(--main-color-one);
 }

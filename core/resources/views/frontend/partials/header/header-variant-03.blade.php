@@ -585,12 +585,6 @@
     }
 
 
-
-    /* General Styles */
-    .single-right-content .track-icon-list {
-        float: right;
-    }
-
     #google_translate_element .goog-te-gadget img {
         display: none !important;
     }
