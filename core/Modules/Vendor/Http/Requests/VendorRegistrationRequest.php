@@ -12,11 +12,11 @@ class VendorRegistrationRequest extends FormRequest
             "owner_name" => "required",
             "username" => "required|unique:vendors",
             "password" => "required|confirmed|min:6",
-            "business_name" => "required",
-            "business_type_id" => "required",
+            "business_name" => "nullable",
+            "business_type_id" => "nullable",
             "description" => "nullable",
-            "status_id" => "required",
-            "phone" => "required",
+            "status_id" => "nullable",
+            "phone" => "nullable",
             "email" => "unique:vendors",
             "agree_terms" => "required"
         ];

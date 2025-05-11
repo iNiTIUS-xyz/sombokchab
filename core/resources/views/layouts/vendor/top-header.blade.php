@@ -28,8 +28,7 @@
                                 </div>
                             </div>
                             <div class="author-thumb-contents">
-                                <div class="author-thumb" style="font-size: 24px !important;
-  font-weight: normal;">
+                                <div class="author-thumb" style="font-size: 24px !important; font-weight: normal;">
                                     @php
                                         $vendor = auth()->guard('vendor')->user();
                                         $profile_img = get_attachment_image_by_id($vendor->image, null, true);
@@ -37,19 +36,29 @@
                                     @if (!empty($profile_img))
                                         <img src="{{ $profile_img['img_url'] }}" alt="{{ $vendor->owner_name }}">
                                     @else
-                                        <i class="las la-user"> {{ $vendor->username }}</i>
+                                        <i class="las la-user"></i>
                                     @endif
-                                    
                                 </div>
-
                                 <ul class="author-account-list">
-                                    <li class="list"><a
-                                            href="{{ route('vendor.profile.update') }}">{{ __('Edit Profile') }}</a>
+                                    <li class="list">
+                                        <a href="#" class="vendor_active_sidebar">
+                                           Welcome, {{ $vendor->username }}
+                                        </a>
                                     </li>
-                                    <li class="list"><a
-                                            href="{{ route('vendor.password.change') }}">{{ __('Password Change') }}</a>
+                                    <li class="list">
+                                        <a href="{{ route('vendor.profile.update') }}">
+                                            {{ __('Edit Profile') }}
+                                        </a>
                                     </li>
-                                    <li class="list"><a href="{{ route('vendor.logout') }}">{{ __('Sign Out') }}</a>
+                                    <li class="list">
+                                        <a href="{{ route('vendor.password.change') }}">
+                                            {{ __('Password Change') }}
+                                        </a>
+                                    </li>
+                                    <li class="list">
+                                        <a href="{{ route('vendor.logout') }}">
+                                            {{ __('Sign Out') }}
+                                        </a>
                                     </li>
                                 </ul>
                             </div>

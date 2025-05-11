@@ -5347,14 +5347,14 @@ div[class*=col]:nth-child(3n+3) .counter__item__icon svg path {
 }
 
 .cmn_btn.btn_bg_2 {
-    background: var(--main-color-two);
+    background: var(--main-color-one);
     color: #fff;
-    border: 2px solid var(--main-color-two);
+    border: 2px solid var(--main-color-one);
 }
 
 .cmn_btn.btn_bg_2:hover {
     background: none;
-    color: var(--main-color-two);
+    color: var(--main-color-one);
 }
 
 .cmn_btn.btn_bg_3 {

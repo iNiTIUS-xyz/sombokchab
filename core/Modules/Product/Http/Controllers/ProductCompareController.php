@@ -13,7 +13,6 @@ use Modules\Campaign\Entities\CampaignSoldProduct;
 use Modules\Product\Entities\Product;
 use Modules\Product\Entities\ProductInventory;
 use Modules\Product\Entities\ProductInventoryDetail;
-use Throwable;
 
 class ProductCompareController extends Controller
 {
@@ -24,9 +23,6 @@ class ProductCompareController extends Controller
         return CompareHelper::add($request->product_id);
     }
 
-    /**
-     * @throws Throwable
-     */
     public function add_to_compare(Request $request): JsonResponse
     {
         $request->validate([
@@ -57,7 +53,7 @@ class ProductCompareController extends Controller
             ]);
         }
 
-        if (! empty($product->campaign_product)) {
+        if (!empty($product->campaign_product)) {
             $sold_count = CampaignSoldProduct::where('product_id', $request->product_id)->first();
             $product = Product::where('id', $request->product_id)->first();
 
@@ -67,7 +63,7 @@ class ProductCompareController extends Controller
         }
 
         // now we will check if product left is equal or bigger than quantity than we will check
-        if (! ($request->quantity <= $product_left) && $sold_count) {
+        if (!($request->quantity <= $product_left) && $sold_count) {
             return response()->json([
                 'type' => 'warning',
                 'quantity_msg' => __('Requested amount can not be compare. Campaign product stock limit is over!'),
@@ -130,7 +126,7 @@ class ProductCompareController extends Controller
         $options['review_count'] = $product->reviews_count;
         $options['avg_review'] = $product->reviews_avg_rating;
 
-        //        Cart::instance("compare")->destroy();
+
         Cart::instance('compare')->add(['id' => $cart_data['product_id'], 'name' => $product->name, 'qty' => $cart_data['quantity'], 'price' => $final_sale_price, 'weight' => '0', 'options' => $options]);
 
         return response()->json([
@@ -138,12 +134,7 @@ class ProductCompareController extends Controller
             'msg' => 'Item added to compare.',
             'header_area' => view('frontend.partials.header.navbar.card-and-wishlist-area')->render(),
         ]);
-        //        } catch (\Exception $exception) {
-        //            return response()->json([
-        //                'type' => 'error',
-        //                'error_msg' => __('Something went wrong!')
-        //            ]);
-        //        }
+
     }
 
     public function removeFromCompare(Request $request)
@@ -165,4 +156,5 @@ class ProductCompareController extends Controller
     {
         return CompareHelper::clear();
     }
+
 }

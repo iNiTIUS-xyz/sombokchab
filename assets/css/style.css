@@ -23589,14 +23589,14 @@ table.dataTable.no-footer {
 }
 
 .cmn_btn.btn_bg_2 {
-  background: var(--main-color-two);
+  background: var(--main-color-one);
   color: var(--white);
-  border: 1px solid var(--main-color-two);
+  border: 1px solid var(--main-color-one);
 }
 
 .cmn_btn.btn_bg_2:hover {
   background: none;
-  color: var(--main-color-two);
+  color: var(--main-color-one);
 }
 
 .cmn_btn.btn_bg_3 {
@@ -23610,15 +23610,20 @@ table.dataTable.no-footer {
   color: var(--main-color-three);
 }
 
+.vendor_active_sidebar {
+  background: var(--main-color-one) !important;
+  color: white !important;
+}
+
 .cmn_btn.btn_bg_4 {
-  background: var(--main-color-four);
+  background: var(--danger-color);
   color: var(--white);
   border: 1px solid var(--main-color-four);
 }
 
 .cmn_btn.btn_bg_4:hover {
   background: none;
-  color: var(--main-color-four);
+  color: var(--danger-color);
 }
 
 .cmn_btn.shop-color-2 {
@@ -26913,7 +26918,7 @@ table .attachment-preview {
 
 .nav-pills .nav-link.active,
 .nav-pills .show>.nav-link {
-  color: var(--main-color-two) !important;
+  color: white !important;
   background: none;
 }
 
@@ -27365,7 +27370,7 @@ section.news-area {
 }
 
 .user-dashboard-wrapper ul.nav-pills .nav-link.active {
-  background: #F9E9A9 !important;
+  background: var(--main-color-one);
   color: var(--heading-color);
 }
 
@@ -27383,9 +27388,15 @@ section.news-area {
 }
 
 .user-dashboard-wrapper .nav-pills .nav-link.bg-main {
-  background: var(--main-color-two);
+  background: var(--main-color-one);
   color: #fff !important;
 }
+
+.account_active {
+    background: var(--main-color-one) !important;
+    color: var(--white) !important;
+}
+
 
 .user-dashboard-wrapper .nav-pills .nav-link {
   border-radius: 0px;
@@ -34508,14 +34519,14 @@ div[class*=col]:nth-child(3n+3) .counter__item__icon svg path {
 }
 
 .cmn_btn.btn_bg_2 {
-  background: var(--main-color-two);
+  background: var(--main-color-one);
   color: var(--white);
-  border: 2px solid var(--main-color-two);
+  border: 2px solid var(--main-color-one);
 }
 
 .cmn_btn.btn_bg_2:hover {
   background: none;
-  color: var(--main-color-two);
+  color: var(--main-color-one);
 }
 
 .cmn_btn.btn_bg_3 {
@@ -35266,10 +35277,6 @@ div[class*=col]:nth-child(3n+3) .counter__item__icon svg path {
   color: var(--main-color-five);
 }
 
-.single-right-content .track-icon-list {
-  gap: 20px 12px;
-  margin: 0;
-}
 
 .single-right-content .track-icon-list .track-icon-single:hover {
   color: var(--main-color-one);

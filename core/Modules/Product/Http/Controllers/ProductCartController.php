@@ -2,31 +2,32 @@
 
 namespace Modules\Product\Http\Controllers;
 
-use App\Action\CartAction;
-use App\AdminShopManage;
-use App\Helpers\CartHelper;
-use App\Helpers\FlashMsg;
-use App\Helpers\ProductRequestHelper;
-use App\Shipping\ShippingMethod;
-use App\Shipping\ShippingMethodOption;
-use DB;
-use Gloudemans\Shoppingcart\Facades\Cart;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
-use Modules\Attributes\Entities\Color;
-use Modules\Attributes\Entities\Size;
-use Modules\Campaign\Entities\CampaignSoldProduct;
-use Modules\Product\Entities\InventoryDetailsAttribute;
-use Modules\Product\Entities\Product;
-use Modules\Product\Entities\ProductInventory;
-use Modules\Product\Entities\ProductInventoryDetail;
 use Throwable;
-
 use function __;
+use function view;
 use function optional;
 use function response;
-use function view;
+use App\AdminShopManage;
+use App\Helpers\FlashMsg;
+use App\Action\CartAction;
+use App\Helpers\CartHelper;
+use Illuminate\Http\Request;
+use App\Shipping\ShippingMethod;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use App\Helpers\ProductRequestHelper;
+use Modules\Attributes\Entities\Size;
+use Modules\Product\Entities\Product;
+use App\Shipping\ShippingMethodOption;
+
+use Modules\Attributes\Entities\Color;
+use Gloudemans\Shoppingcart\Facades\Cart;
+use Modules\Product\Entities\ProductInventory;
+use Modules\Campaign\Entities\CampaignSoldProduct;
+use Modules\Product\Entities\ProductInventoryDetail;
+use Modules\Product\Entities\InventoryDetailsAttribute;
 
 class ProductCartController extends Controller
 {
@@ -42,9 +43,6 @@ class ProductCartController extends Controller
         ];
     }
 
-    /**
-     * Top-bar mini-cart info
-     */
     public function getCartInfoAjax(): array
     {
         $all_cart_items = CartHelper::getItems();
@@ -64,9 +62,6 @@ class ProductCartController extends Controller
         ];
     }
 
-    /**
-     * @throws Throwable
-     */
     public function add_to_cart(Request $request): JsonResponse
     {
         $request->validate([
@@ -120,7 +115,7 @@ class ProductCartController extends Controller
         }
 
         $sold_count = 0;
-        if (! empty($product->campaign_product)) {
+        if (!empty($product->campaign_product)) {
             $sold_count = CampaignSoldProduct::where('product_id', $request->product_id)->first();
 
             $product_left = $sold_count !== null ? $product->campaign_product->units_for_sale - $sold_count->sold_count : null;
@@ -131,7 +126,7 @@ class ProductCartController extends Controller
         // first check campaign date is available or not if a campaign is running then add those conditions
         if ($product->campaign_product?->start_date <= now() && $product->campaign_product?->end_date >= now()) {
             // now we will check if a product left is equal or bigger than quantity than we will check
-            if (! ($request->quantity <= $product_left) && $sold_count) {
+            if (!($request->quantity <= $product_left) && $sold_count) {
                 return response()->json([
                     'type' => 'warning',
                     'quantity_msg' => __('Requested amount can not be cart. Campaign product stock limit is over!'),
@@ -145,7 +140,7 @@ class ProductCartController extends Controller
                 ->withSum('taxOptions', 'rate')
                 ->findOrFail($cart_data['product_id']);
 
-            if (! empty($product->vendor_id) && get_static_option('calculate_tax_based_on') == 'vendor_shop_address') {
+            if (!empty($product->vendor_id) && get_static_option('calculate_tax_based_on') == 'vendor_shop_address') {
                 $vendorAddress = $product->vendorAddress;
                 $product = tax_options_sum_rate($product, $vendorAddress->country_id, $vendorAddress->state_id, $vendorAddress->city_id);
             } elseif (empty($product->vendor_id) && get_static_option('calculate_tax_based_on') == 'vendor_shop_address') {
@@ -169,7 +164,7 @@ class ProductCartController extends Controller
             $final_sale_price = $sale_price + $additional_price;
 
             $product_image = $product->image_id;
-            if (! empty($cart_data['product_variant'] ?? null)) {
+            if (!empty($cart_data['product_variant'] ?? null)) {
                 $size_name = Size::find($cart_data['selected_size'] ?? 0)->name ?? '';
                 $color_name = Color::find($cart_data['selected_color'] ?? 0)->name ?? '';
 
@@ -218,9 +213,6 @@ class ProductCartController extends Controller
         }
     }
 
-    /**
-     * @throws Throwable
-     */
     public function add_to_wishlist(Request $request): JsonResponse
     {
         $request->validate([
@@ -239,7 +231,7 @@ class ProductCartController extends Controller
             $product_inventory_details = null;
         }
 
-        if (! Auth::guard('web')->check()) {
+        if (!Auth::guard('web')->check()) {
             return response()->json([
                 'type' => 'warning',
                 'quantity_msg' => __('If you want to add cart item into wishlist than you have to login first.'),
@@ -258,7 +250,7 @@ class ProductCartController extends Controller
             ]);
         }
 
-        if (! empty($product->campaign_product)) {
+        if (!empty($product->campaign_product)) {
             $sold_count = CampaignSoldProduct::where('product_id', $request->product_id)->first();
             $product = Product::where('id', $request->product_id)->first();
 
@@ -268,7 +260,7 @@ class ProductCartController extends Controller
         }
 
         // now we will check if product left is equal or bigger than quantity than we will check
-        if (! ($request->quantity <= $product_left) && $sold_count) {
+        if (!($request->quantity <= $product_left) && $sold_count) {
             return response()->json([
                 'type' => 'warning',
                 'quantity_msg' => __('Requested amount can not be cart. Campaign product stock limit is over!'),
@@ -362,7 +354,7 @@ class ProductCartController extends Controller
     {
         $product_inventory = ProductInventory::where('product_id', $productId)->first();
 
-        if (! empty($variantId)) {
+        if (!empty($variantId)) {
             $product_inventory_details = ProductInventoryDetail::where('id', $variantId)->first();
 
             if ($product_inventory_details && $quantity > $product_inventory_details->stock_count) {
@@ -377,58 +369,6 @@ class ProductCartController extends Controller
         return true;
     }
 
-    // public function cart_update_ajax(Request $request)
-    // {
-    //     $data = $request->validate([
-    //         'product_id' => 'required',
-    //         'quantity' => 'required',
-    //         'variant_id' => 'nullable',
-    //     ]);
-
-    //     $products = Product::whereIn("id", Cart::instance('default')->content()?->pluck("id")?->toArray() ?? [])->get();
-
-    //     $error = [];
-    //     for ($i = 0; $i < count($request->product_id ?? []); $i++) {
-    //         // get cart item from the cart package
-    //         $product_data = Cart::instance('default')->get($data['product_id'][$i]);
-
-    //         $product = $products->where("id", $product_data->id ?? 0)->first();
-    //         // check product minimum and maximum quantity
-    //         if ($data['quantity'][$i] < $product->min_purchase) {
-    //             return response()->json([
-    //                 'type' => 'error',
-    //                 'msg' => __("This product is required minimum quantity of $product->min_purchase"),
-    //             ]);
-    //         }
-
-    //         if ($data['quantity'][$i] > $product->max_purchase) {
-    //             return response()->json([
-    //                 'type' => 'error',
-    //                 'msg' => __("This product is allowed you to add maximum quantity of $product->max_purchase"),
-    //             ]);
-    //         }
-    //         // now check inventory for updating cart
-    //         if ($this->check_inventory_to_add_cart_item($product_data->id, $data['variant_id'][$i], $data['quantity'][$i])) {
-    //             Cart::instance('default')->update($data['product_id'][$i], ['qty' => $data['quantity'][$i]]);
-    //         } else {
-    //             $error[] = self::cart_stock_out_error_msg($product_data);
-    //         }
-    //     }
-
-    //     if (! empty($error)) {
-    //         return response()->json(['error_type' => 'cart'] + [
-    //             'type' => 'warning',
-    //             'error_messages' => $error,
-    //             'header_area' => view('frontend.partials.header.navbar.card-and-wishlist-area')->render(),
-    //             ])->setStatusCode(422);
-    //     } else {
-    //         return response()->json([
-    //             'type' => 'success',
-    //             'msg' => 'Cart is updated',
-    //             'header_area' => view('frontend.partials.header.navbar.card-and-wishlist-area')->render(),
-    //         ]);
-    //     }
-    // }
     public function cart_update_ajax(Request $request)
     {
         // Convert single values to arrays to maintain compatibility
@@ -613,9 +553,6 @@ class ProductCartController extends Controller
         ]);
     }
 
-    /** ==============================================================================
-     *                  Checkout Page
-     * ============================================================================== */
     public function checkoutPageApplyCouponAjax(Request $request)
     {
         $all_cart_items = CartHelper::getItems();
@@ -634,7 +571,7 @@ class ProductCartController extends Controller
         } else {
             $shipping_option = ShippingMethodOption::where('coupon', $request->coupon)->first();
 
-            if (! is_null($shipping_option)) {
+            if (!is_null($shipping_option)) {
                 return response()->json([
                     'type' => 'failed',
                     'coupon_amount' => 0,
@@ -664,7 +601,7 @@ class ProductCartController extends Controller
         if (isset($request->selected_shipping_option)) {
             $shipping_is_valid = CartAction::validateSelectedShipping($request->selected_shipping_option, $request->coupon);
 
-            if (! $shipping_is_valid) {
+            if (!$shipping_is_valid) {
                 $shipping_method = ShippingMethod::with('availableOptions')->find($request->selected_shipping_option); // $request->selected_shipping_option;
 
                 if (is_null($shipping_method)) {
@@ -709,9 +646,6 @@ class ProductCartController extends Controller
         }
     }
 
-    /** ==============================================================================
-     *                  HELPER FUNCTIONS
-     * ============================================================================== */
     public function formatAttributes($product_attributes)
     {
         $attribute = $product_attributes;

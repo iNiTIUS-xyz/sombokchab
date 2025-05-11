@@ -38,13 +38,26 @@
                         <i class="ti-view-grid"></i> {{ __('Dashboard') }}
                     </a>
                 </li>
-                <li class="list {{ Route::is('vendor.profile.update') ? 'active' : '' }}">
-                    <a href="{{ route('vendor.profile.update') }}">
-                        <i class="ti-user"></i> {{ __('Profile') }}
-                    </a>
-                </li>
+                @if (auth('vendor')->user()->is_vendor_verified && auth('vendor')->user()->verified_at)
+                    <li class="main_dropdown @if (request()->is(['vendor-home/product', 'vendor-home/product/*'])) active open @endif">
+                        <a href="#1" aria-expanded="true">
+                            <i class="ti-layout-tab"></i> <span>{{ __('Product') }}
+                            </span>
+                        </a>
 
-                {{--        Product Inventory manage        --}}
+                        <ul class="collapse">
+                            <li class="{{ active_menu('vendor-home/product/all') }}">
+                                <a href="{{ route('vendor.products.all') }}">{{ __('Product List') }}</a>
+                            </li>
+
+                            <li class="{{ active_menu('vendor-home/product/create') }}">
+                                <a href="{{ route('vendor.products.create') }}">{{ __('Create Product') }}</a>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
+
+
                 <li class="{{ active_menu('vendor-home/product-inventory') }}">
                     <a href="{{ route('vendor.products.inventory.all') }}">
                         <i class="ti-package"></i>
@@ -52,13 +65,25 @@
                     </a>
                 </li>
 
-                @if (moduleExists('Chat'))
-                    {{--        Product Inventory manage        --}}
-                    <li class="{{ active_menu('vendor-home/chat') }}">
-                        <a href="{{ route('vendor.chat.home') }}">
-                            <i class="ti-comment-alt"></i>
-                            <span>{{ __('Chat') }}</span>
+                <li class="{{ active_menu('vendor-home/shipping-method') }}">
+                    <a href="{{ route('vendor.shipping-method.index') }}">
+                        <i class="ti-money"></i>
+                        <span>{{ __('Shipping Method') }}</span>
+                    </a>
+                </li>
+
+                @if (auth('vendor')->user()->is_vendor_verified && auth('vendor')->user()->verified_at)
+                    <li class="main_dropdown @if (request()->is(['vendor-home/orders', 'vendor-home/orders/*'])) active open @endif">
+                        <a href="#1" aria-expanded="true">
+                            <i class="ti-view-list-alt"></i>
+                            <span>{{ __('Order') }}</span>
                         </a>
+
+                        <ul class="collapse">
+                            <li class="{{ active_menu('vendor-home/orders') }}">
+                                <a href="{{ route('vendor.orders.list') }}">{{ __('Order List') }}</a>
+                            </li>
+                        </ul>
                     </li>
                 @endif
 
@@ -101,50 +126,17 @@
                         </li>
                     </ul>
                 </li>
-                <li class="{{ active_menu('vendor-home/shipping-method') }}">
-                    <a href="{{ route('vendor.shipping-method.index') }}">
-                        <i class="ti-money"></i>
-                        <span>{{ __('Shipping Method') }}</span>
-                    </a>
-                </li>
-
-                @if (auth('vendor')->user()->is_vendor_verified && auth('vendor')->user()->verified_at)
-                    <li class="main_dropdown @if (request()->is(['vendor-home/product', 'vendor-home/product/*'])) active open @endif">
-                        <a href="#1" aria-expanded="true">
-                            <i class="ti-layout-tab"></i> <span>{{ __('Product') }}
-                            </span>
-                        </a>
-
-                        <ul class="collapse">
-                            <li class="{{ active_menu('vendor-home/product/all') }}">
-                                <a href="{{ route('vendor.products.all') }}">{{ __('Product List') }}</a>
-                            </li>
-
-                            <li class="{{ active_menu('vendor-home/product/create') }}">
-                                <a href="{{ route('vendor.products.create') }}">{{ __('Create Product') }}</a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="main_dropdown @if (request()->is(['vendor-home/orders', 'vendor-home/orders/*'])) active open @endif">
-                        <a href="#1" aria-expanded="true">
-                            <i class="ti-view-list-alt"></i>
-                            <span>{{ __('Order') }}</span>
-                        </a>
-
-                        <ul class="collapse">
-                            <li class="{{ active_menu('vendor-home/orders') }}">
-                                <a href="{{ route('vendor.orders.list') }}">{{ __('Order List') }}</a>
-                            </li>
-                        </ul>
-                    </li>
-                @endif
 
                 {{-- Campaign route wrapper --}}
                 <li class="{{ active_menu('vendor-home/campaigns') }}">
                     <a href="{{ route('vendor.campaigns.all') }}">
                         <i class="ti-announcement"></i>
                         <span>{{ __('Campaign') }}</span>
+                    </a>
+                </li>
+                <li class="list {{ Route::is('vendor.profile.update') ? 'active' : '' }}">
+                    <a href="{{ route('vendor.profile.update') }}">
+                        <i class="ti-user"></i> {{ __('Profile') }}
                     </a>
                 </li>
 
@@ -164,9 +156,20 @@
                         </li>
                     </ul>
                 </li>
+                @if (moduleExists('Chat'))
+                    <li class="{{ active_menu('vendor-home/chat') }}">
+                        <a href="{{ route('vendor.chat.home') }}">
+                            <i class="ti-comment-alt"></i>
+                            <span>{{ __('Chat') }}</span>
+                        </a>
+                    </li>
+                @endif
 
                 <li class="list">
-                    <a href="{{ route('vendor.logout') }}"> <i class="ti-share-alt"></i> Sign Out </a>
+                    <a href="{{ route('vendor.logout') }}">
+                        <i class="ti-share-alt"></i>
+                        Sign Out
+                    </a>
                 </li>
                 <li class="list empty"></li>
             </ul>

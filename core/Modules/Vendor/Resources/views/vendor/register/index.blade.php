@@ -43,36 +43,8 @@
                                 <input type="hidden" name="phone" id="verified_phone">
                                 <input type="hidden" name="country_id" value="31">
 
-                                <!-- Phone Number (with country code) -->
-                                <div class="form-group">
-                                    <label class="label-title mb-2"> {{ __('Phone Number *') }} </label>
-                                    <div class="input-group">
-                                        <select id="phone_country_code" name="phone_country_code" class="form-select"
-                                            style="width: 15% !important;">
-                                            <option value="+1" selected>+1</option>
-                                            <option value="+880">+880</option>
-                                            <option value="+855">+855</option>
-                                        </select>
-                                        <input id="number" name="phone" type="number" class="form--control radius-10"
-                                            placeholder="Phone Number" required style="width: 85% !important;" />
-                                    </div>
-                                    <small class="text-danger" id="phoneError"></small>
-                                </div>
-
                                 <div class="row">
-                                    <!-- Owner Name -->
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="label-title mb-2"> {{ __('Vendor Name *') }} </label>
-                                            <input name="owner_name" id="owner_name" type="text"
-                                                class="form--control radius-10" placeholder="{{ __('Vendor Name') }}"
-                                                required />
-                                            <small class="text-danger" id="ownerNameError"></small>
-                                        </div>
-                                    </div>
-
-                                    <!-- Store Name -->
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             <label class="label-title mb-2"> {{ __('Store Name *') }} </label>
                                             <input name="business_name" id="business_name" type="text"
@@ -82,13 +54,21 @@
                                         </div>
                                     </div>
 
-                                    <!-- Email (Optional) -->
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="label-title mb-2"> {{ __('Email') }} </label>
-                                            <input name="email" id="email" type="text"
-                                                class="form--control radius-10" placeholder="{{ __('Email') }}" />
-                                            <small class="text-danger" id="emailError"></small>
+                                            <label class="label-title mb-2"> {{ __('Phone Number *') }} </label>
+                                            <div class="input-group">
+                                                <select id="phone_country_code" name="phone_country_code"
+                                                    class="form-select" style="width: 35% !important;">
+                                                    <option value="+1" selected>+1</option>
+                                                    <option value="+880">+880</option>
+                                                    <option value="+855">+855</option>
+                                                </select>
+                                                <input id="number" name="phone" type="number"
+                                                    class="form--control radius-10" placeholder="Phone Number" required
+                                                    style="width: 85% !important;" />
+                                            </div>
+                                            <small class="text-danger" id="phoneError"></small>
                                         </div>
                                     </div>
 
@@ -99,33 +79,41 @@
                                             <input name="username" id="username" type="text"
                                                 class="form--control radius-10" placeholder="{{ __('Username') }}"
                                                 required />
-                                                {{-- <small class="text-muted">
-                                                    Allowed: letters (A-Z, a-z), numbers (0-9), underscores (_)
-                                                </small> --}}
+
                                             <small class="text-danger" id="usernameError"></small>
                                         </div>
                                     </div>
 
-                                    <!-- Password -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="label-title mb-2"> {{ __('Email') }} </label>
+                                            <input name="email" id="email" type="text"
+                                                class="form--control radius-10" placeholder="{{ __('Email') }}" />
+                                            <small class="text-danger" id="emailError"></small>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="label-title mb-2">
+                                                {{ __('Passport or National ID *') }} </label>
+                                            <input name="passport_nid" id="passport_nid" type="text"
+                                                class="form--control radius-10"
+                                                placeholder="{{ __('Passport or National ID') }}" required />
+                                            <small class="text-danger" id="passportNidError"></small>
+                                        </div>
+                                    </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="label-title mb-2"> {{ __('Password *') }} </label>
                                             <input name="password" id="password" type="password"
                                                 class="form--control radius-10" placeholder="{{ __('Password') }}"
                                                 required />
-                                            {{-- <small>
-                                                <ul>
-                                                    <li
-                                                        style="font-size: 12px; font-weight: 400; line-height: 20px; color: var(--paragraph-color);">
-                                                        Minimum 8 characters
-                                                    </li>
-                                                </ul>
-                                            </small> --}}
+
                                             <small class="text-danger" id="passwordError"></small>
                                         </div>
                                     </div>
 
-                                    <!-- Confirm Password -->
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="label-title mb-2"> {{ __('Confirm Password *') }}
@@ -137,8 +125,7 @@
                                         </div>
                                     </div>
 
-                                    <!-- Business Category -->
-                                    <div class="col-md-6">
+                                    {{-- <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="label-title mb-2"> {{ __('Business Category *') }}
                                             </label>
@@ -153,19 +140,7 @@
                                             </div>
                                             <small class="text-danger" id="businessTypeError"></small>
                                         </div>
-                                    </div>
-
-                                    <!-- Passport / National ID -->
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="label-title mb-2">
-                                                {{ __('Passport or National ID *') }} </label>
-                                            <input name="passport_nid" id="passport_nid" type="text"
-                                                class="form--control radius-10"
-                                                placeholder="{{ __('Passport or National ID') }}" required />
-                                            <small class="text-danger" id="passportNidError"></small>
-                                        </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
 
                                 <!-- Terms & Conditions -->
@@ -243,6 +218,14 @@
 
         .btn {
             font-size: 16px;
+        }
+
+        .input-group {
+            position: relative;
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: stretch;
+            width: 100%;
         }
 
         .btn:disabled {

@@ -27,7 +27,7 @@
             </div>
             <br>
             <input type="hidden" @php $required @endphp name="{{ $name }}" value="{{ $imageId }}">
-            <button type="button" class="btn btn-info media_upload_form_btn popup-modal"
+            <button type="button" class="btn btn-light media_upload_form_btn popup-modal"
                 data-btntitle="{{ __('Select Image') }}" data-modaltitle="{{ __('Upload Image') }}"
                 data-imgid="{{ $imageId ?? '' }}" data-bs-toggle="modal" data-bs-target="#media_upload_modal">
                 {{ __($signature_image_upload_btn_label) }}

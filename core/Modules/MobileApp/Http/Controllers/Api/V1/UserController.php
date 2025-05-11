@@ -2,28 +2,30 @@
 
 namespace Modules\MobileApp\Http\Controllers\Api\V1;
 
-use Illuminate\Http\JsonResponse;
-use Illuminate\Routing\Controller;
-use App\Http\Requests\StoreShippingAddressRequest;
-use App\Http\Services\Media\MediaHelper;
-use App\Http\Services\ShippingAddressServices;
+use DB;
 use App\Mail\BasicMail;
 use App\Mail\TrackOrder;
-use App\Shipping\ShippingAddress;
-use App\Shipping\UserShippingAddress;
-use App\Support\SupportDepartment;
-use App\Support\SupportTicket;
-use App\Support\SupportTicketMessage;
-use Modules\User\Entities\User;
-use DB;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use Modules\MobileApp\Http\Services\Api\UserServices;
-use Modules\Product\Entities\ProductSellInfo;
+use Illuminate\Http\Request;
+use App\Support\SupportTicket;
+use Modules\User\Entities\User;
+use App\Shipping\ShippingAddress;
+use Illuminate\Http\JsonResponse;
+use App\Support\SupportDepartment;
+use Illuminate\Routing\Controller;
 use Modules\Vendor\Entities\Vendor;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
+use App\Shipping\UserShippingAddress;
+use App\Support\SupportTicketMessage;
+use Illuminate\Support\Facades\Cache;
+use App\Http\Services\Media\MediaHelper;
+use Illuminate\Support\Facades\Validator;
+use Modules\Product\Entities\ProductSellInfo;
+use App\Http\Services\ShippingAddressServices;
+use App\Http\Requests\StoreShippingAddressRequest;
+use Modules\MobileApp\Http\Services\Api\UserServices;
 
 class UserController extends Controller
 {
@@ -247,71 +249,177 @@ class UserController extends Controller
 
     public function sendOTP(Request $request)
     {
-        $validate = Validator::make($request->all(), [
-            'email' => 'required',
+        $phone = $request->input('phone');
+
+        // Generate 6-digit OTP
+        $otp = mt_rand(100000, 999999);
+
+        // Store OTP in cache for 5 minutes
+        Cache::put('otp_' . $phone, $otp, now()->addMinutes(5));
+
+        // Send OTP via SMS API
+        $response = Http::post('http://smpp.revesms.com:7788/sendtext', [
+            'apikey' => '815956373c0aa115',
+            'secretkey' => 'de18c381',
+            'callerID' => '01969910564',
+            'toUser' => $phone,
+            'messageContent' => "Your verification code is: $otp",
         ]);
 
-        if ($validate->fails()) {
-
+        if ($response->successful()) {
             return response()->json([
-                'validation_errors' => $validate->messages()
-            ])->setStatusCode(422);
-        }
-        $otp_code = sprintf("%d", random_int(1234, 9999));
-        $user_email = User::where('email', $request->email)->first();
-
-        if (!is_null($user_email)) {
-            try {
-                $message_body = __('Here is your otp code') . ' <span class="verify-code">' . $otp_code . '</span>';
-                Mail::to($request->email)->send(new BasicMail([
-                    'subject' => __('Your OTP Code'),
-                    'message' => $message_body
-                ]));
-            } catch (\Exception $e) {
-                return response()->json([
-                    'message' => $e->getMessage(),
-                ])->setStatusCode(422);
-            }
-
-            return response()->json([
-                'email' => $request->email,
-                'otp' => $otp_code,
+                'otp' => $otp,
             ]);
         }
 
-        return response()->json([
-            'message' => __('Email Does not Exists'),
-        ])->setStatusCode(422);
+        return response()->json(['error' => 'Failed to send OTP.'], 500);
+        // $validate = Validator::make($request->all(), [
+        //     'email' => 'required',
+        // ]);
+
+        // if ($validate->fails()) {
+
+        //     return response()->json([
+        //         'validation_errors' => $validate->messages()
+        //     ])->setStatusCode(422);
+        // }
+        // $otp_code = sprintf("%d", random_int(1234, 9999));
+        // $user_email = User::where('email', $request->email)->first();
+
+        // if (!is_null($user_email)) {
+        //     try {
+        //         $message_body = __('Here is your otp code') . ' <span class="verify-code">' . $otp_code . '</span>';
+        //         Mail::to($request->email)->send(new BasicMail([
+        //             'subject' => __('Your OTP Code'),
+        //             'message' => $message_body
+        //         ]));
+        //     } catch (\Exception $e) {
+        //         return response()->json([
+        //             'message' => $e->getMessage(),
+        //         ])->setStatusCode(422);
+        //     }
+
+        //     return response()->json([
+        //         'email' => $request->email,
+        //         'otp' => $otp_code,
+        //     ]);
+        // }
+
+        // return response()->json([
+        //     'message' => __('Email Does not Exists'),
+        // ])->setStatusCode(422);
     }
 
+    public function verifyOtp(Request $request)
+    {
+        // Validate input
+        $validator = Validator::make($request->all(), [
+            'phone' => 'required|string',
+            'otp' => 'required|digits:6'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $validator->errors()->first()
+            ], 422);
+        }
+
+        $phone = $request->input('phone');
+        $otp = $request->input('otp');
+        $storedOtp = Cache::get('otp_' . $phone);
+
+        if (!$storedOtp) {
+            return response()->json([
+                'success' => false,
+                'message' => 'OTP expired or not found'
+            ], 422);
+        }
+
+        if ($storedOtp != $otp) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid OTP code'
+            ], 422);
+        }
+
+        // OTP verified successfully
+        Cache::forget('otp_' . $phone);
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'OTP verified successfully',
+            'verified' => true,
+        ]);
+    }
     //reset password
     public function resetPassword(Request $request)
     {
+        // Validate the input fields (phone and password)
         $validate = Validator::make($request->all(), [
-            'email' => 'required',
-            'password' => 'required',
+            'phone' => 'required',  // Assuming phone is a 10-digit number
+            'password' => 'required',   // Example: Password should have at least 6 characters
         ]);
 
+        // If validation fails, return validation errors
         if ($validate->fails()) {
-            return response()->josn([
+            return response()->json([
                 'validation_errors' => $validate->messages()
             ])->setStatusCode(422);
         }
-        $email = $request->email;
-        $user = User::select('email')->where('email', $email)->first();
-        if (!is_null($user)) {
-            User::where('email', $user->email)->update([
+
+        // Get the phone number from the request
+        $phone = $request->phone;
+
+        // Find the user by phone number
+        $user = User::where('phone', $phone)->first();
+
+        // If the user exists, update the password
+        if ($user) {
+            // Update the user's password
+            $user->update([
                 'password' => Hash::make($request->password),
             ]);
+
+            // Return success response
             return response()->json([
-                'message' => 'success',
+                'message' => 'Password updated successfully',
             ]);
         } else {
+            // If the user does not exist, return an error message
             return response()->json([
-                'message' => __('Email Not Found'),
+                'message' => __('Phone number not found'),
             ])->setStatusCode(422);
         }
     }
+
+    // public function resetPassword(Request $request)
+    // {
+    //     $validate = Validator::make($request->all(), [
+    //         'email' => 'required',
+    //         'password' => 'required',
+    //     ]);
+
+    //     if ($validate->fails()) {
+    //         return response()->josn([
+    //             'validation_errors' => $validate->messages()
+    //         ])->setStatusCode(422);
+    //     }
+    //     $email = $request->email;
+    //     $user = User::select('email')->where('email', $email)->first();
+    //     if (!is_null($user)) {
+    //         User::where('email', $user->email)->update([
+    //             'password' => Hash::make($request->password),
+    //         ]);
+    //         return response()->json([
+    //             'message' => 'success',
+    //         ]);
+    //     } else {
+    //         return response()->json([
+    //             'message' => __('Email Not Found'),
+    //         ])->setStatusCode(422);
+    //     }
+    // }
 
     //logout
     public function logout()
