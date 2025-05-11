@@ -68,6 +68,7 @@ class ProductWishlistController extends Controller
             'selected_color' => 'nullable',
         ]);
 
+
         $product_inventory = ProductInventory::where('product_id', $request->product_id)->first();
 
         if ($request->product_variant) {
@@ -119,8 +120,6 @@ class ProductWishlistController extends Controller
             ]);
 
         }
-
-        DB::beginTransaction();
 
         try {
             $cart_data = $request->all();
@@ -177,15 +176,12 @@ class ProductWishlistController extends Controller
             Cart::instance('wishlist')->add(['id' => $cart_data['product_id'], 'name' => $product->name, 'qty' => $cart_data['quantity'], 'price' => $final_sale_price, 'weight' => '0', 'options' => $options]);
             Cart::instance('wishlist')->store($username);
 
-            DB::commit();
-
             return response()->json([
                 'type' => 'success',
                 'msg' => 'Item added to wishlist',
                 'header_area' => view('frontend.partials.header.navbar.card-and-wishlist-area')->render(),
             ]);
         } catch (\Exception $exception) {
-            DB::rollBack();
 
             return response()->json([
                 'type' => 'error',

@@ -18,10 +18,8 @@ use App\Tax\StateTax;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-class CartAction {
-    /**
-     * Calculate total of all the product's price in cart
-     */
+class CartAction
+{
     public static function getCartTotalAmount($cart_items, $products)
     {
         $subtotal = 0;
@@ -36,14 +34,6 @@ class CartAction {
         return $subtotal;
     }
 
-    /**
-     * Subtract coupon from total amount if coupon is applied and available
-     * @param Request $request
-     * @param $subtotal (Subtotal + Tax)
-     * @param Product $products - All products' DB collection from cart
-     * @param string $return_type
-     * @return float|int|mixed|null
-     */
     public static function calculateCoupon(Request $request, $subtotal, $products, $return_type = 'TOTAL')
     {
         if (empty($request->coupon)) {
@@ -86,7 +76,7 @@ class CartAction {
 
         if ($discount_on == 'all') {
             $discount_total = $subtotal / 100 * $coupon_amount; // not needed
-        }elseif ($discount_on == 'shipping') {
+        } elseif ($discount_on == 'shipping') {
             $discount_total = $subtotal / 100 * $coupon_amount; // not needed
         } elseif ($discount_on == 'category') {
             $categories = $coupon->discount_on_details;
@@ -95,10 +85,10 @@ class CartAction {
             $product_ids = $products->where('category_id', $category)->pluck('id');
 
             if (count($product_ids) < 1) {
-//                if ($return_type == 'DISCOUNT') {
-//                    return 0;
-//                }
-//                return $total;
+                // if ($return_type == 'DISCOUNT') {
+                //     return 0;
+                // }
+                // return $total;
                 return 0;
             }
 
@@ -110,10 +100,10 @@ class CartAction {
             $products = Product::whereJsonContains('sub_category_id', $subcategories)->whereIn('id', $cart_product_ids)->get();
             $product_ids = $products->pluck('id');
             if (count($product_ids) < 1) {
-//                if ($return_type == 'DISCOUNT') {
-//                    return 0;
-//                }
-//                return $total;
+                // if ($return_type == 'DISCOUNT') {
+                //     return 0;
+                // }
+                // return $total;
                 return 0;
             }
             $subtotal = CartAction::getCartItemTotalPrice($product_ids, $products);
@@ -123,10 +113,10 @@ class CartAction {
             $products = Product::whereIn('id', $product_ids)->get();
 
             if (is_null($products)) {
-//                if ($return_type == 'DISCOUNT') {
-//                    return 0;
-//                }
-//                return $total;
+                // if ($return_type == 'DISCOUNT') {
+                //     return 0;
+                // }
+                // return $total;
                 return 0;
             }
 
@@ -176,10 +166,7 @@ class CartAction {
         }
     }
 
-    /**
-     * From requested item quantity get only the available quantity from stock
-     */
-    public static function getAvailableQuantity($item_id, $quantity=null)
+    public static function getAvailableQuantity($item_id, $quantity = null)
     {
         $inventory_item = ProductInventory::where('product_id', $item_id)->first();
         $stock_count = 0;
@@ -188,17 +175,13 @@ class CartAction {
             $stock_count = $inventory_item->stock_count;
         }
 
-//        if ($stock_count - $quantity >= 0) {
-//            return $quantity;
-//        }
+        // if ($stock_count - $quantity >= 0) {
+        //     return $quantity;
+        // }
 
         return $stock_count;
     }
 
-    /**
-     * From requested item quantity get only the available quantity from campaign
-     *      and return the campaign quantity and remaining quantity
-     */
     public static function getCampaignQuantity($item_id, $requested_quantity)
     {
         $campaign_product = CampaignProduct::where('product_id', $item_id)
@@ -235,17 +218,11 @@ class CartAction {
         ];
     }
 
-    /**
-     * Return default shipping option
-     */
     public static function getDefaultShipping()
     {
         return ShippingMethod::where('is_default', 1)->with('availableOptions')->first();
     }
 
-    /**
-     * Return default shipping cost
-     */
     public static function getDefaultShippingCost()
     {
         $default_shipping_cost = ShippingMethod::where('is_default', 1)->first();
@@ -255,9 +232,6 @@ class CartAction {
         return $default_shipping_cost;
     }
 
-    /**
-     * Get selected shipping method cost
-     */
     public static function getSelectedShippingCost($shipping_id, $subtotal, $coupon = '')
     {
         $cost = 0;
@@ -361,9 +335,10 @@ class CartAction {
             $product = $products->find($key);
             $campaign_product = getCampaignProductById($key);
 
-            if($campaign_product){
+            if ($campaign_product) {
                 $campaignSoldProductInfo = CampaignSoldProduct::where("product_id", $key)->first();
-                CampaignSoldProduct::updateOrCreate(["product_id" => $key],
+                CampaignSoldProduct::updateOrCreate(
+                    ["product_id" => $key],
                     [
                         "sold_count" => optional($campaignSoldProductInfo)->sold_count ?? 0,
                         "total_amount" => optional($campaignSoldProductInfo)->total_amount ?? 0,
@@ -376,9 +351,6 @@ class CartAction {
         return true;
     }
 
-    /**
-     * Validate cart item quantity against stock count from the Inventory
-     */
     public static function validateItemQuantity()
     {
         $all_cart_items = CartHelper::getItems();
@@ -391,7 +363,7 @@ class CartAction {
 
         foreach ($all_cart_items as $product_id => $product_items) {
             $cart_item_count = 0;
-            $inventory_item = $cart_items_inventory_count->filter(function($item) use ($product_id) {
+            $inventory_item = $cart_items_inventory_count->filter(function ($item) use ($product_id) {
                 return $item->product_id == $product_id;
             })->first();
 
@@ -494,18 +466,13 @@ class CartAction {
         return $total_quantity;
     }
 
-    /**
-     * Calculate prices of the given product given products
-     * @param array $product_ids
-     * @param  $products
-     */
     public static function getCartItemTotalPrice($product_ids, $products)
     {
         // now first of all need to get all cart items and take only available product for this coupon
         $cart_items = Cart::content();
         $product_price = 0;
-        foreach($cart_items as $item){
-            if (in_array($item->id,$product_ids)){
+        foreach ($cart_items as $item) {
+            if (in_array($item->id, $product_ids)) {
                 $product_price += $item->price;
             }
         }
@@ -515,8 +482,6 @@ class CartAction {
         foreach ($product_ids as $product_id) {
             $cart_price = CartHelper::getItemPrice($product_id);
 
-            // if cart item has no attributes, there will be no price. So the price needs to
-            // collected from DB collection
             if ($cart_price == 0) {
                 $quantity = CartAction::getCartItemQuantity([$product_id]);
                 $item = $products->find($product_id);
@@ -529,11 +494,6 @@ class CartAction {
                     $item_price = $item->sale_price;
                     $cart_price = $item_price * $quantity;
                 } else {
-                    // Works as a fallback -
-                    // Even if the product is not found in the DB.
-                    // A case could be that the product was removed
-                    // from the DB and cannot be found at the time
-                    // when this functions runs
                     $cart_price = 0;
                 }
             }
@@ -590,13 +550,13 @@ class CartAction {
             //get state/country tax
             if (!is_null($state)) {
                 $state_tax = StateTax::where('state_id', $state->id)->first();
-                if(!is_null($state_tax)){
-                     $tax_percentage = $state_tax->tax_percentage ?? 0;
-                }else{
+                if (!is_null($state_tax)) {
+                    $tax_percentage = $state_tax->tax_percentage ?? 0;
+                } else {
                     $country_tax = CountryTax::where('country_id', $country->id)->first();
                     $tax_percentage = $country_tax->tax_percentage ?? 0;
                 }
-               
+
             } elseif (!is_null($country)) {
                 $country_tax = CountryTax::where('country_id', $country->id)->first();
                 $tax_percentage = $country_tax->tax_percentage ?? 0;
@@ -609,7 +569,7 @@ class CartAction {
         return $tax;
     }
 
-    public static function validateSelectedShipping($shipping_id, $coupon = '') : bool
+    public static function validateSelectedShipping($shipping_id, $coupon = ''): bool
     {
         $all_cart_items = CartHelper::getItems();
         $all_cart_ids = array_keys($all_cart_items);
