@@ -16,7 +16,7 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>{{ __('SL NO') }}</th>
+                                <th>{{ __('#') }}</th>
                                 <th>{{ __('Order Info') }}</th>
                                 <th>{{ __('Refund Info') }}</th>
                                 <th>{{ __('Action') }}</th>
@@ -46,7 +46,7 @@
                                     </td>
 
                                     <td>
-                                        <a class="btn btn-outline-secondary btn-sm"
+                                        <a class="btn btn-secondary btn-sm rounded-btn"
                                             href="{{ route('user.product.refund-request.view', $request->id) }}">{{ __('View') }}</a>
                                     </td>
                                 </tr>
@@ -84,8 +84,8 @@
                         text: '{{ __('You would not be able to revert this item!') }}',
                         icon: 'warning',
                         showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
+                        confirmButtonColor: '#ee0000',
+                        cancelButtonColor: '#55545b',
                         confirmButtonText: 'Yes, delete it!'
                     }).then((result) => {
                         if (result.isConfirmed) {

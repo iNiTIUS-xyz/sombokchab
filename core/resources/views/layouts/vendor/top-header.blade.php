@@ -7,15 +7,15 @@
                         <span class="date-text"> 20 Jan, 2022 07:20pm </span>
 
                         @if (auth('vendor')->user()->is_vendor_verified && auth('vendor')->user()->verified_at)
-                            <p class="text-success">
+                            <h3 class="text-success">
                                 <i class="las la-user-check"></i>
                                 {{ __('Verified Vendor') }}
-                            </p>
+                            </h3>
                         @else
-                            <p class="text-danger">
+                            <h3 class="text-danger">
                                 <i class="las la-times-circle"></i>
                                 {{ __('Not Verified Yet') }}
-                            </p>
+                            </h3>
                         @endif
                     </div>
                     <div class="dashboard-right-flex">

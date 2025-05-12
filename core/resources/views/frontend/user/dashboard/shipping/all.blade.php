@@ -1,13 +1,14 @@
 @extends('frontend.user.dashboard.user-master')
 @section('section')
+    <div class="btn-wrapper">
+        <a href="{{ route('user.shipping.address.new') }}"
+            class="cmn_btn btn_bg_2">{{ __('Add Shipping Address') }}</a>
+    </div>
     @if ($all_shipping_address && $all_shipping_address->count())
-        <div class="dashboard__card__shipping">
+        <div class="dashboard__card__shipping mt-4">
             <div class="dashboard__card__header">
                 <h4 class="dashboard__card__title">{{ __('My Shipping Address') }}</h4>
-                <div class="btn-wrapper">
-                    <a href="{{ route('user.shipping.address.new') }}"
-                        class="cmn_btn btn_bg_2">{{ __('Add Shipping Address') }}</a>
-                </div>
+                
             </div>
             <div class="dashboard__card__body mt-4">
                 <div class="table-responsive table-wrap">
@@ -46,9 +47,9 @@
             </div>
         </div>
     @else
-        <div class="alert alert-warning">
-            {{ __('No Shipping Address Found. ') }}
-            <a class="btn btn-link" href="{{ route('user.shipping.address.new') }}">{{ __('Create New?') }}</a>
+        <div class="alert alert-warning mt-4">
+            {{ __('No shipping address found. ') }}
+            {{-- <a class="btn btn-link" href="{{ route('user.shipping.address.new') }}">{{ __('Create New?') }}</a> --}}
         </div>
     @endif
 @endsection

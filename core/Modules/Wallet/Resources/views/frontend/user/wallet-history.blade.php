@@ -40,7 +40,7 @@
                         </div>
                     </div>
                     <button type="button" class="cmn_btn btn_bg_2" data-bs-toggle="modal"
-                        data-bs-target="#payoutRequestModal">{{ __('Deposit To Your Wallet') }}</button>
+                        data-bs-target="#payoutRequestModal">{{ __('Deposit to Your Wallet') }}</button>
                 </div>
             </div>
 
@@ -50,7 +50,7 @@
                         <table class="table-responsive table">
                             <thead>
                                 <tr>
-                                    <th>{{ __('SL NO') }}</th>
+                                    <th>{{ __('#') }}</th>
                                     <th>{{ __('Sub Order ID') }}</th>
                                     <th>{{ __('Transaction ID:') }}</th>
                                     <th>{{ __('Amount') }}</th>
@@ -104,16 +104,16 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
-                        <h5 class="modal-title text-warning" id="couponModal">
-                            {{ __('You can deposit to your wallet from the available payment gateway.') }}</h5>
+                        <h5 class="modal-title" id="couponModal">
+                            {{ __('Deposit to your wallet') }}</h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <label for="">{{ __('Deposit Amount') }}</label>
+                        {{-- <label for="">{{ __('Deposit Amount') }}</label> --}}
                         <input type="number" class="form-control" name="amount"
-                            placeholder="{{ __('Enter Deposit Amount') }}">
+                            placeholder="{{ __('Enter deposit amount') }}">
                         <div class="confirm-bottom-content">
                             <br>
                             {!! render_payment_gateway_for_form() !!}
@@ -122,7 +122,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"
                             data-bs-dismiss="modal">{{ __('Close') }}</button>
-                        <button type="submit" class="btn btn-primary">{{ __('Save Changes') }}</button>
+                        <button type="submit" class="btn btn_bg_1">{{ __('Confirm') }}</button>
                     </div>
                 </div>
             </div>

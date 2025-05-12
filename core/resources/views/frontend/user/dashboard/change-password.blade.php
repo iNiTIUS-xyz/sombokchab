@@ -30,7 +30,7 @@
                         </span>
                     </div>
                     <small id="passwordHelp" class="form-text text-muted">
-                        Password must contain: 8-20 characters, 1 uppercase, 1 lowercase, 1 number, no spaces
+                        {{-- Password must contain: 8-20 characters, 1 uppercase, 1 lowercase, 1 number, no spaces --}}
                     </small>
                     <small id="passwordError" class="form-text text-danger" style="display: none;"></small>
                 </div>
@@ -105,7 +105,7 @@
         }
     </style>
 
-    <script>
+    {{-- <script>
         // Password toggle functionality
         document.querySelectorAll('.btn-toggle-password').forEach(button => {
             button.addEventListener('click', function() {
@@ -188,6 +188,115 @@
             updateSubmitButton();
         });
 
+        function checkPasswordMatch() {
+            const error = validateConfirmPassword(confirmField.value, passwordField.value);
+
+            if (passwordField.value === '') {
+                confirmHelp.style.display = 'none';
+                confirmSuccess.style.display = 'none';
+                confirmField.classList.remove('is-invalid');
+                return;
+            }
+
+            if (error) {
+                confirmHelp.textContent = error;
+                confirmHelp.style.display = 'block';
+                confirmSuccess.style.display = 'none';
+                confirmField.classList.add('is-invalid');
+            } else {
+                confirmHelp.style.display = 'none';
+                confirmSuccess.style.display = 'block';
+                confirmField.classList.remove('is-invalid');
+            }
+        }
+
+        // Initialize button state
+        updateSubmitButton();
+    </script> --}}
+
+    <script>
+        // Password toggle functionality
+        document.querySelectorAll('.btn-toggle-password').forEach(button => {
+            button.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                const input = document.getElementById(targetId);
+                const icon = this.querySelector('i');
+
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.classList.remove('la-eye');
+                    icon.classList.add('la-eye-slash');
+                } else {
+                    input.type = 'password';
+                    icon.classList.remove('la-eye-slash');
+                    icon.classList.add('la-eye');
+                }
+            });
+        });
+
+        // Password validation elements
+        const passwordField = document.getElementById('password');
+        const confirmField = document.getElementById('password_confirmation');
+        const passwordHelp = document.getElementById('passwordHelp');
+        const passwordError = document.getElementById('passwordError');
+        const confirmHelp = document.getElementById('confirmHelp');
+        const confirmSuccess = document.getElementById('confirmSuccess');
+        const submitBtn = document.getElementById('submitBtn');
+
+        // New password validation function
+        function validatePassword(value) {
+            const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?!.*\s).{8,20}$/;
+            if (!re.test(value)) {
+                return 'Password must have 8-20 characters with 1 uppercase, 1 lowercase, 1 number, and no spaces';
+            }
+            return '';
+        }
+
+        // Confirm password validation function
+        function validateConfirmPassword(confirmVal, passwordVal) {
+            return confirmVal !== passwordVal ? 'Passwords do not match' : '';
+        }
+
+        // Update submit button state
+        function updateSubmitButton() {
+            const passwordError = validatePassword(passwordField.value);
+            const confirmError = validateConfirmPassword(confirmField.value, passwordField.value);
+
+            if (passwordError || confirmError || passwordField.value === '' || confirmField.value === '') {
+                submitBtn.disabled = true;
+                submitBtn.classList.add('disabled');
+            } else {
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('disabled');
+            }
+        }
+
+        // Password field validation
+        passwordField.addEventListener('input', function() {
+            const error = validatePassword(this.value);
+
+            if (error) {
+                passwordHelp.style.display = 'block';
+                passwordError.textContent = error;
+                passwordError.style.display = 'block';
+                this.classList.add('is-invalid');
+            } else {
+                passwordHelp.style.display = 'none';
+                passwordError.style.display = 'none';
+                this.classList.remove('is-invalid');
+            }
+
+            updateSubmitButton();
+            checkPasswordMatch();
+        });
+
+        // Confirm password field validation
+        confirmField.addEventListener('input', function() {
+            checkPasswordMatch();
+            updateSubmitButton();
+        });
+
+        // Check if passwords match
         function checkPasswordMatch() {
             const error = validateConfirmPassword(confirmField.value, passwordField.value);
 

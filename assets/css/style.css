@@ -5,7 +5,7 @@
 
 :root {
   --main-color-one: var(--main-color-one);
-  --main-color-one-rgb: 0, 96, 68;
+  --main-color-one-rgb: 65, 105, 90;
   --main-color-two: var(--secondary-color);
   --main-color-two-rgb: 0, 136, 221;
   --main-color-three: #2f4fff;
@@ -17579,6 +17579,8 @@ textarea {
   border-radius: 10px;
 }
 
+
+
 @media (min-width: 300px) and (max-width: 991.98px) {
   .dashboard-bottom {
     height: calc(100vh - 175px);
@@ -17651,6 +17653,11 @@ li.main_dropdown ul {
   transition: all 0.3s;
   background-color: var(--gray-two);
   text-align: left;
+}
+
+.dashboard-list li a:hover {
+  background: var(--main-color-one);
+  color: var(--white);
 }
 
 .dashboard-list li a i,
@@ -18121,19 +18128,26 @@ li.main_dropdown ul {
 
 .author-thumb-contents .author-thumb {
   max-height: 40px;
-  max-width: 100px;
+  max-width: 40px;
   font-size: 20px;
   color: var(--heading-color);
 }
 
 .dashboard-right-flex .author-thumb-contents .author-thumb {
   font-size: 24px;
-  background: transparent;
+  background: var(--main-color-two);
   height: 40px;
-  width: 100px;
+  width: 40px;
   border-radius: 50%;
   text-align: center
 }
+
+
+.dashboard-right-flex .author-thumb-contents .author-thumb:hover {
+  background: var(--main-color-one);
+   color: var(--white);
+}
+
 
 @media only screen and (max-width: 575.98px) {
   .author-thumb-contents .author-thumb {
@@ -27390,6 +27404,7 @@ section.news-area {
 .user-dashboard-wrapper .nav-pills .nav-link.bg-main {
   background: var(--main-color-one);
   color: #fff !important;
+  padding: 30px 20px;
 }
 
 .account_active {
@@ -27775,9 +27790,9 @@ button.submit-btn.gd-bg.pay-now {
 }
 
 .alert-success {
-  border-left: 5px solid #319a31;
+  border-left: 5px solid var(--main-color-one);
   background-color: #f2f2f2;
-  border-color: #319a31;
+  border-color: var(--main-color-one);
   color: #333;
   border-radius: 0;
 }
@@ -28639,21 +28654,23 @@ select.form-control:not([size]):not([multiple]) {
 
 .btn.btn_bg_1 {
   background-color: var(--main-color-one);
+  color: var(--white);
   border-color: var(--main-color-one);
 }
 
 .btn.btn_bg_1:hover {
-  background-color: unset;
+  background-color: transparent;
   color: var(--main-color-one);
 }
 
 .btn.btn_bg_2 {
   background-color: var(--main-color-two);
   border-color: var(--main-color-two);
+  color: var(--black);
 }
 
 .btn.btn_bg_2:hover {
-  background-color: unset;
+  background-color: transparent;
   color: var(--main-color-two);
 }
 

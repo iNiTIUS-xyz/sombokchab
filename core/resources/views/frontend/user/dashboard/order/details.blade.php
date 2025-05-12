@@ -600,7 +600,7 @@
                 </div>
                 <div class="col-lg-12 padding-top-60">
                     <div class="order__details__single">
-                        <h4 class="title__two">{{ __('Order details View') }}</h4>
+                        <h4 class="title__two">{{ __('Order Details View') }}</h4>
                         <div class="order__details__wrap checkout-page-content-wrapper margin-top-20">
                             @php
                                 $adminShopManage = \App\AdminShopManage::first();

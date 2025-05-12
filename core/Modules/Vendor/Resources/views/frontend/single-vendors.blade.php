@@ -483,7 +483,7 @@
             background-color: {{ $vendor?->vendor_shop_info?->colors['store_secondary_color'] ?? 'var(--main-color-two)' }};
         }
         .append-popularProduct .prev-icon, .append-popularProduct .next-icon {
-            background-color: {{ $vendor?->vendor_shop_info?->colors['store_secondary_color'] ?? 'rgba(var(--main-color-two-rgb), 0.6)' }};
+            background-color: {{ $vendor?->vendor_shop_info?->colors['store_secondary_color'] ?? 'rgba(var(--main-color-one-rgb), 0.6)' }};
         }
         .append-popularProduct .prev-icon:hover, .append-popularProduct .next-icon:hover {
             background-color: {{ $vendor?->vendor_shop_info?->colors['store_color'] ?? 'var(--main-color-two)' }};
@@ -669,10 +669,10 @@
                                                             data-action-route="{{ route('frontend.products.single-quick-view', $product->slug) }}"
                                                             data-attributes="{{ $product->attributes }}"
                                                             data-id="{{ $product->id }}"
-                                                            class="cmn-btn btn-outline-two color-two btn-small product-quick-view-ajax">{{ __('Buy Now') }}</a>
+                                                            class="cmn-btn btn-outline-one color-one btn-small product-quick-view-ajax">{{ __('Buy Now') }}</a>
                                                     @else
                                                         <a href="javacript:void(0)" data-id="{{ $product->id }}"
-                                                            class="cmn-btn btn-outline-two color-two btn-small add_to_buy_now_ajax">{{ __('Buy Now') }}</a>
+                                                            class="cmn-btn btn-outline-one color-one btn-small add_to_buy_now_ajax">{{ __('Buy Now') }}</a>
                                                     @endif
                                                 </div>
                                             </div>

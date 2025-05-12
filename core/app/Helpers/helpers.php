@@ -2093,7 +2093,7 @@ function render_payment_gateway_name($type)
     if ($type == 'manual_payment') {
         return get_static_option("site_manual_payment_name");
     } elseif ($type == 'cash_on_delivery') {
-        return __("Cash On Delivery");
+        return __("Cash on Delivery");
     } else {
         return $type;
     }

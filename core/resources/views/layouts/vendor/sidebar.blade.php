@@ -47,7 +47,7 @@
 
                         <ul class="collapse">
                             <li class="{{ active_menu('vendor-home/product/all') }}">
-                                <a href="{{ route('vendor.products.all') }}">{{ __('Product List') }}</a>
+                                <a href="{{ route('vendor.products.all') }}">{{ __('Products List') }}</a>
                             </li>
 
                             <li class="{{ active_menu('vendor-home/product/create') }}">
@@ -81,7 +81,7 @@
 
                         <ul class="collapse">
                             <li class="{{ active_menu('vendor-home/orders') }}">
-                                <a href="{{ route('vendor.orders.list') }}">{{ __('Order List') }}</a>
+                                <a href="{{ route('vendor.orders.list') }}">{{ __('Orders List') }}</a>
                             </li>
                         </ul>
                     </li>

@@ -51,12 +51,12 @@
                         <td class="amount">
                             {{ float_amount_with_currency_symbol($order->paymentMeta?->total_amount) }}
                         </td>
-                        <td class="table-btn">
+                        {{-- <td class="table-btn">
                             <div class="btn-wrapper">
 
                                 @if ($order->isCancelableStatus && $order->order_status == 'pending')
                                     <button onclick="confirmCancel({{ $order->id }})"
-                                            class="btn btn-warning btn-sm rounded-btn">
+                                            class="btn btn-danger btn-sm rounded-btn">
                                         {{ __('Cancel Order') }}
                                     </button>
                                 @endif
@@ -67,7 +67,7 @@
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="cancelOrderModalLabel">{{ __('Confirm Order Cancellation') }}</h5>
+                                                <h5 class="modal-title" id="cancelOrderModalLabel">{{ __('Are you sure?') }}</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
@@ -99,9 +99,58 @@
                                 @endif
 
                                 <a href="{{ route('user.product.order.details', $order->id) }}"
-                                   class="btn btn-secondary btn-sm rounded-btn"> {{ __('view details') }}</a>
+                                   class="btn btn-secondary btn-sm rounded-btn"> {{ __('View Details') }}</a>
+                            </div>
+                        </td> --}}
+                        <td class="table-btn">
+                            <div class="btn-wrapper">
+                                @if ($order->isCancelableStatus && $order->order_status == 'pending')
+                                    <button class="btn btn-danger btn-sm rounded-btn swal_cancel_button" data-order-id="{{ $order->id }}">
+                                        {{ __('Cancel Order') }}
+                                    </button>
+                                @endif
+
+                                @if ($order->is_delivered_count > 0)
+                                    <a href="{{ route('user.product.order.refund', $order->id) }}"
+                                    class="btn btn-danger btn-sm rounded-btn">
+                                        {{ __('Request refund') }}
+                                    </a>
+                                @endif
+
+                                <a href="{{ route('user.product.order.details', $order->id) }}"
+                                class="btn btn-secondary btn-sm rounded-btn"> {{ __('View Details') }}</a>
                             </div>
                         </td>
+
+                        @section('script')
+                            <script src="{{ asset('assets/backend/js/sweetalert2.js') }}"></script>
+                            <script>
+                                (function($) {
+                                    "use strict";
+                                    $(document).ready(function() {
+                                        $(document).on('click', '.swal_cancel_button', function(e) {
+                                            e.preventDefault();
+                                            const orderId = $(this).data('order-id');
+                                            Swal.fire({
+                                                title: '{{ __('Are you sure?') }}',
+                                                text: '{{ __('This action cannot be undone.') }}',
+                                                icon: 'warning',
+                                                showCancelButton: true,
+                                                confirmButtonColor: '#ee0000',
+                                                cancelButtonColor: '#55545b',
+                                                confirmButtonText: '{{ __('Yes, cancel it!') }}',
+                                                cancelButtonText: '{{ __('No') }}'
+                                            }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                    window.location.href = "{{ url('/user-home/orders/cancel') }}/" + orderId;
+                                                }
+                                            });
+                                        });
+                                    });
+                                })(jQuery);
+                            </script>
+                            <x-datatable.js />
+                        @endsection
                     </tr>
                 @endforeach
             </tbody>

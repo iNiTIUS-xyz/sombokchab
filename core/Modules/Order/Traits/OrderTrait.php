@@ -358,7 +358,7 @@ trait OrderTrait
 
             }
             if ($request["payment_gateway"] == 'cash_on_delivery') {
-                // do something for cash on delivery
+                // do something for Cash on Delivery
                 // now send email using this method,
                 // and this method will take care all the process
                 self::sendOrderMail(order_process: $order_process, request: $request);
@@ -388,7 +388,7 @@ trait OrderTrait
                 return (new PaymentGatewayService)->payment_with_gateway($request['payment_gateway'], $request, $order_process["order_id"], round($order_process['total_amount'], 0));
             }
         } else {
-            // do something for cash on delivery
+            // do something for Cash on Delivery
             // now send email using this method, and this method will take care all the process
             if (!empty($request->selected_customer ?? '') && $request->send_email == 'on') {
                 self::sendOrderMail(order_process: $order_process, request: $request, type: 'pos');
@@ -484,7 +484,7 @@ trait OrderTrait
         }
 
         if ($request["payment_gateway"] == 'cash_on_delivery') {
-            // do something for cash on delivery
+            // do something for Cash on Delivery
             // now send email using this method, and this method will take care all the process
             self::sendOrderMail(order_process: $order, request: $request);
 

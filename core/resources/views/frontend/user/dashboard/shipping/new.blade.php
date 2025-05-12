@@ -3,26 +3,33 @@
     <x-loader.css />
 @endsection
 @section('section')
+    @php
+        $all_countries = DB::table('countries')
+                                    ->select('id', 'name')
+                                    ->where('status', 'publish')
+                                    ->get();
+        $states = \Modules\CountryManage\Entities\State::where('country_id', 31)->get();
+    @endphp
     <div class="dashboard__card">
         <div class="dashboard__card__header">
             <h5 class="dashboard__card__title">{{ __('Add Shipping Address') }}</h5>
-            <div class="btn-wrapper">
+            {{-- <div class="btn-wrapper">
                 <a href="{{ route('user.shipping.address.all') }}"
                     class="cmn_btn btn_bg_2">{{ __('All Shipping Address') }}</a>
-            </div>
+            </div> --}}
         </div>
         <div class="dashboard__card__body custom__form mt-4">
             <form action="{{ route('user.shipping.address.new') }}" method="POST" id="new_user_shipping_address_form">
                 @csrf
                 <div class="form-row row g-4">
-                    <div class="col-md-12">
-                        <div class="single-input mt-4">
-                            <label class="label-title mb-3"> {{ __("Shipping Address Name") }}  <span>({{ __('optional') }})</span> </label>
+                    <div class="col-md-6">
+                        <div class="single-input">
+                            <label class="label-title"> {{ __("Shipping Address Name") }}  <span>({{ __('optional') }})</span> </label>
                             <input class="form--control" type="text" name="shipping_address_name" value="{{ old("shipping_address_name") ?? "" }}" placeholder="{{ __("Shipping Address Name.") }}">
                         </div>
                     </div>
 
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label for="name">{{ __('Name') }}</label>
                             <input type="text" class="form-control" name="name" id="name" placeholder="{{ __('Enter Name') }}">
@@ -45,35 +52,43 @@
                             <label for="country">{{ __('Country') }}</label>
                             <select class="form-control" name="country" id="country">
                                 <option value="">{{ __('Select Country') }}</option>
-                                @foreach ($all_country as $country)
-                                    <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                @foreach ($all_countries as $country)
+                                    <option value="{{ $country->id }}"
+                                        {{ Auth::guard('web')->user()->country == $country->id ? 'selected' : '' }}>
+                                        {{ $country->name }}</option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="state">{{ __('State') }} <span>({{__("optional")}})</span></label>
+                            <label for="state">{{ __('City') }} <span>({{__("optional")}})</span></label>
                             <select class="form-control" name="state" id="state">
-                                <option value="">{{ __('Select State') }}</option>
+                                <option value="">{{ __('Select City') }}</option>
+                                 @foreach ($states as $state)
+                                    <option value="{{ $state->id }}"
+                                        {{ $state->id == Auth::guard('web')->user()->state ? 'selected' : '' }}>
+                                        {{ $state->name }}
+                                    </option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
-                    {{-- <div class="col-md-6">
+                    <div class="col-md-6">
                         <div class="form-group">
-                            <label for='city'> {{ __("City/Town")  }} <span>({{__("optional")}})</span> </label>
+                            <label for='city'> {{ __("Province")  }} <span>({{__("optional")}})</span> </label>
                             <select id="city" class='form-control select-state' name="city">
-                                <option value="">{{ __("Select state first...") }}</option>
+                                <option value="">{{ __("Select City First...") }}</option>
                             </select>
-                        </div>
-                    </div> --}}
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="zipcode">{{ __('Zipcode') }}  <span>({{__("optional")}})</span></label>
-                            <input type="text" class="form-control" name="zipcode" id="zipcode" placeholder="{{__('Enter Zipcode')}}">
                         </div>
                     </div>
                     <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="zipcode">{{ __('Postal Code') }}  <span>({{__("optional")}})</span></label>
+                            <input type="text" class="form-control" name="zipcode" id="zipcode" placeholder="{{__('Enter Postal Code')}}">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
                         <div class="form-group">
                             <label for="address">{{ __('Address') }}  <span>({{__("optional")}})</span></label>
                             <input type="text" class="form-control" name="address" id="address" cols="30"
@@ -83,6 +98,9 @@
                     <div class="col-md-12">
                         <div class="btn-wrapper">
                             <button class="cmn_btn btn_bg_2">{{ __('Submit') }}</button>
+                            <a href="{{ route('user.shipping.address.all') }}" class="cmn_btn default-theme-btn" style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                                {{ __('Back') }}
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -112,7 +130,7 @@
                         id: id
                     }).then(function(data) {
                         $('.lds-ellipsis').hide();
-                        $('#state').html('<option value="">{{ __('Select State') }}</option>');
+                        $('#state').html('<option value="">{{ __('Select City') }}</option>');
                         data.states.map(function(e) {
                             $('#state').append('<option value="' + e.id + '">' + e
                                 .name + '</option>');
@@ -131,7 +149,7 @@
                             // do success action hare
                             $('.cart-items-wrapper').html(data.cart_items);
 
-                            let cityhtml = "<option value=''> {{ __('Select an city') }} </option>";
+                            let cityhtml = "<option value=''> {{ __('Select Province') }} </option>";
                             data?.cities?.forEach((city) => {
                                 cityhtml += "<option value='" + city.id + "'>" + city.name + "</option>";
                             });

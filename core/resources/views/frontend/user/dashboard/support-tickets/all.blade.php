@@ -120,7 +120,10 @@
         </div>
     @else
         <div class="nothing-found mt-4">
-            <div class="alert alert-warning">{{ __('Nothing Found') }}</div>
+            <div class="alert alert-warning">
+                {{ __('No support ticket found.') }}
+                {{-- <a class="btn btn-link" href="{{ route('user.shipping.address.new') }}">{{ __('Create New?') }}</a> --}}
+            </div>
         </div>
     @endif
 @endsection

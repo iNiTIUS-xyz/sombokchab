@@ -48,7 +48,7 @@
                 @if($product?->inventory_detail_count > 0)
                     <a href="javacript:void(0)" data-action-route="{{ route('frontend.products.single-quick-view', $product->slug) }}" data-attributes="{{ $product->attributes }}" data-id="{{ $product->id }}" class="cmn-btn btn-outline-two color-two btn-small product-quick-view-ajax">{{ __("Buy Now") }}</a>
                 @else
-                    <a href="javacript:void(0)" data-id="{{ $product->id }}" class="cmn-btn btn-outline-two color-two btn-small add_to_buy_now_ajax">{{ __("Buy Now") }}</a>
+                    <a href="javacript:void(0)" data-id="{{ $product->id }}" class="cmn-btn btn-outline-one color-one btn-small add_to_buy_now_ajax">{{ __("Buy Now") }}</a>
                 @endif
             </div>
         </div>

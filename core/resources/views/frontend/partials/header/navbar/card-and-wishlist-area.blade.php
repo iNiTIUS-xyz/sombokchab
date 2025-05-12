@@ -160,7 +160,7 @@
                 </li>
                 <li class="list">
                     <a href="{{ route('user.home.support.tickets') }}">
-                        {{ __('Support Ticket') }}
+                        {{ __('Support Tickets') }}
                     </a>
                 </li>
                 <li class="list">
@@ -191,7 +191,7 @@
                 </li>
                 <li class="list">
                     <a href="{{ route('vendor.products.all') }}">
-                        {{ __('Product List') }}
+                        {{ __('Products List') }}
                     </a>
                 </li>
                 <li class="list">
@@ -204,6 +204,12 @@
                         {{ __('Shipping Method') }}
                     </a>
                 </li>
+                </li>
+                <li class="list">
+                    <a href="{{ route('vendor.orders.list') }}">
+                        {{ __('Orders List') }}
+                    </a>
+                </li>
                 <li class="list">
                     <a href="{{ route('vendor.logout') }}">
                         {{ __('Sign Out') }}
@@ -211,8 +217,10 @@
                 </li>
             </ul>
         @else
-            <a class="accounts" href="#1"><i class="las la-user"></i> <span
-                    class="icon-title">{{ __('Account') }}</span></a>
+            <a class="accounts" href="#1">
+                <i class="las la-user"></i>
+                 {{-- <span class="icon-title">{{ __('Account') }}</span> --}}
+            </a>
             <ul class="account-list-item">
                 <li class="list">
                     <a href="{{ route('user.login') }}">

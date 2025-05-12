@@ -56,9 +56,9 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="state">{{ __('State') }} <span>({{ __('optional') }})</span></label>
+                            <label for="state">{{ __('City') }} <span>({{ __('optional') }})</span></label>
                             <select class="form-control" name="state" id="state">
-                                <option value="">{{ __('Select State') }}</option>
+                                <option value="">{{ __('Select City') }}</option>
                                 @if ($address->state_id)
                                     <option value="{{ $address->state_id }}" selected>{{ $address->state->name ?? '' }}</option>
                                 @endif
@@ -67,9 +67,9 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="city">{{ __('City/Town') }} <span>({{ __('optional') }})</span></label>
+                            <label for="city">{{ __('Province') }} <span>({{ __('optional') }})</span></label>
                             <select class="form-control" name="city" id="city">
-                                <option value="">{{ __('Select City') }}</option>
+                                <option value="">{{ __('Select Province') }}</option>
                                 @if ($address->city)
                                     <option value="{{ $address->city }}" selected>{{ $address->city }}</option>
                                 @endif
@@ -78,7 +78,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="zipcode">{{ __('Zipcode') }} <span>({{ __('optional') }})</span></label>
+                            <label for="zipcode">{{ __('Postal Code') }} <span>({{ __('optional') }})</span></label>
                             <input type="text" class="form-control" name="zipcode" id="zipcode" value="{{ $address->zip_code }}">
                         </div>
                     </div>
@@ -121,7 +121,7 @@
                         id: id
                     }).then(function(data) {
                         $('.lds-ellipsis').hide();
-                        $('#state').html('<option value="">{{ __('Select State') }}</option>');
+                        $('#state').html('<option value="">{{ __('Select City') }}</option>');
                         data.states.map(function(e) {
                             $('#state').append('<option value="' + e.id + '">' + e.name + '</option>');
                         });
@@ -138,7 +138,7 @@
                             // do success action hare
                             $('.cart-items-wrapper').html(data.cart_items);
 
-                            let cityhtml = "<option value=''> {{ __('Select an city') }} </option>";
+                            let cityhtml = "<option value=''> {{ __('Select Province') }} </option>";
                             data?.cities?.forEach((city) => {
                                 cityhtml += "<option value='" + city.id + "'>" + city.name + "</option>";
                             });
