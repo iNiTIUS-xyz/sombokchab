@@ -6,10 +6,9 @@
 
     try {
         if (!empty($order)) {
-            $orderTrack = $order->orderTracks->pluck('name')->toArray() ?? [];
+            $orderTrack = $order->orderTracks ? $order->orderTracks->pluck('name')->toArray() : [];
         }
     } catch (\Exception $e) {
-        \Log::error('Error fetching order tracks: ' . $e->getMessage());
         session()->flash('error', __('Failed to load order tracking information'));
     }
 @endphp
