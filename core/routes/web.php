@@ -847,7 +847,7 @@ Route::middleware("globalVariable")->as('frontend.')->controller(PaymentGatewayC
 });
 
 
-Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_mode']], function () {
+Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_mode', 'check.auth.vendor']], function () {
 
     Route::feeds('feeds');
     Route::get('/vendor/{slug?}/products', 'FrontendController@dynamic_single_page')->name('frontend.vendor.product');
