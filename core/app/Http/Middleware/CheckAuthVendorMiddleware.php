@@ -18,9 +18,15 @@ class CheckAuthVendorMiddleware
     {
         // If the user is authenticated with the 'vendor' guard
         if (Auth::guard('vendor')->check()) {
+
             return redirect()->route('vendor.home');
+
+        } else if (Auth::guard('admin')->check()) {
+
+            return redirect()->route('admin.home');
+
         }
-        // Otherwise, continue with the request
+
         return $next($request);
     }
 }
