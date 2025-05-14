@@ -728,7 +728,7 @@ class FrontendProductController extends Controller
         Cart::instance("wishlist")->remove($request->rowId);
 
         return response()->json([
-            'type' => 'success',
+            'success' => true,
             'msg' => __("Successfully moved item to cart."),
             'header_area' => view("frontend.partials.header.navbar.card-and-wishlist-area")->render()
         ]);
