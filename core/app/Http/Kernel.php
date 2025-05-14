@@ -50,7 +50,7 @@ class Kernel extends HttpKernel
         'api' => [
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-//            'throttle:api',
+            //            'throttle:api',
         ],
     ];
 
@@ -75,13 +75,14 @@ class Kernel extends HttpKernel
         'capability' => \App\Http\Middleware\UserRoleCheck::class,
         'setlang' => \App\Http\Middleware\SetLang::class,
         'maintains_mode' => \App\Http\Middleware\MaintainsMode::class,
+        'check.auth.vendor' => \App\Http\Middleware\CheckAuthVendorMiddleware::class,
         'globalVariable' => \App\Http\Middleware\GlobalVariableMiddleware::class,
         'adminglobalVariable' => \App\Http\Middleware\AdminGlobalVariable::class,
         'userEmailVerify' => \App\Http\Middleware\UserEmailVerify::class,
         // those are three middleware are responsible for role management
         'role' => RoleMiddleware::class,
         'permission' => PermissionMiddleware::class,
-        'role_or_permission' =>  RoleOrPermissionMiddleware::class,
+        'role_or_permission' => RoleOrPermissionMiddleware::class,
         // 'demo' => \App\Http\Middleware\Demo::class,
     ];
 
