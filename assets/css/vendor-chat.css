@@ -624,7 +624,7 @@
 
 .dashboard_table__title__btn.btn-outline-border {
     background-color: transparent;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--main-color-one);
 }
 
 .dashboard_table__title__btn.btn-outline-1 {
