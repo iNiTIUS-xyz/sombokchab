@@ -286,7 +286,7 @@
                 <td>- {{amount_with_currency_symbol($data->coupon_discount)}}</td>
             </tr>
             <tr>
-                <td><strong>{{__('Shipping Cost')}}</strong></td>
+                <td><strong>{{__('Cost Summary')}}</strong></td>
                 <td>+ {{amount_with_currency_symbol($data->shipping_cost)}}</td>
             </tr>
             @if(\App\Facades\Cart::is_tax_enable() && get_static_option('product_tax_type') === 'individual')

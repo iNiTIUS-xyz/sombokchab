@@ -136,7 +136,7 @@ trait OrderTrait
 
             // this line of code will take care of admin shipping charge if you do not have then plus with 0
             $shippingCostTemp += calculatePrice($shippingCost["admin"]?->cost ?? 0, $shippingTaxClass, "shipping") ?? 0;
-            // sum total shipping cost
+            // sum total Cost Summary
             $totalShippingCharge = $shippingCostTemp;
         } else {
             $totalShippingCharge = 0;
@@ -189,7 +189,7 @@ trait OrderTrait
             $subOrderTotal = 0;
             // get shipping charge amount from request
             $vendor_id = $key;
-            // sub order shipping cost store on a temporary variable
+            // sub order Cost Summary store on a temporary variable
             $subOrderShippingCost = 0;
 
             if ($key == "") {

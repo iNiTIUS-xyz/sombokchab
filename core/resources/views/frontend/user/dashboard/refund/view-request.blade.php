@@ -222,7 +222,7 @@
                                     {{ float_amount_with_currency_symbol($order?->paymentMeta?->coupon_amount) }}</p>
                             </div>
                             <div class="orderRequest__item">
-                                <span class="orderRequest__item__left">{{ __('Shipping Cost') }}</span>
+                                <span class="orderRequest__item__left">{{ __('Cost Summary') }}</span>
                                 <p class="orderRequest__item__right">
                                     {{ float_amount_with_currency_symbol($order?->paymentMeta?->shipping_cost) }}</p>
                             </div>

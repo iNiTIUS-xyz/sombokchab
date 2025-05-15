@@ -98,7 +98,7 @@
                                     <th>{{ __('order number') }}</th>
                                     <th>{{ __('date') }}</th>
                                     <th>{{ __('Sub Total') }}</th>
-                                    <th>{{ __('Shipping Cost') }}</th>
+                                    <th>{{ __('Cost Summary') }}</th>
                                     <th>{{ __('Tax Amount') }}</th>
                                     <th>{{ __('Discount amount') }}</th>
                                     <th>{{ __('Payable Amount') }}</th>
@@ -207,7 +207,7 @@
                                                         </b>
                                                     </div>
                                                     <div class="d-flex justify-content-between">
-                                                        <b>{{ __("Shipping Cost") }}</b> <b id="vendor_shipping_cost">{{ float_amount_with_currency_symbol($payment_details->paymentMeta?->shipping_cost) }}</b>
+                                                        <b>{{ __("Cost Summary") }}</b> <b id="vendor_shipping_cost">{{ float_amount_with_currency_symbol($payment_details->paymentMeta?->shipping_cost) }}</b>
                                                     </div>
                                                     <div class="d-flex justify-content-between">
                                                         <b>{{ __("Total") }}</b> <b id="vendor_total">{{ float_amount_with_currency_symbol($order->total_amount + $payment_details->paymentMeta?->shipping_cost + $order->tax_amount) }}</b>

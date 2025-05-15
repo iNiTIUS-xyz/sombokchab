@@ -168,7 +168,7 @@
                             <td>(+) {{ float_amount_with_currency_symbol($payment_meta['tax_amount']) }}</td>
                         </tr>
                         <tr>
-                            <th>{{ __('Shipping cost') }}</th>
+                            <th>{{ __('Cost Summary') }}</th>
                             <td>(+) {{ float_amount_with_currency_symbol($payment_meta['shipping_cost']) }}</td>
                         </tr>
                         <tr>
