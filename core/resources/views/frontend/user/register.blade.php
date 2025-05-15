@@ -3,9 +3,8 @@
     {{ __('Customer Sign Up') }}
 @endsection
 @section('content')
-
     <style>
-        .label-title.text-bold{
+        .label-title.text-bold {
             font-size: 16px !important;
             font-weight: 500 !important;
             color: var(--heading-color);
@@ -40,8 +39,7 @@
                                         <!-- Phone Number -->
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label
-                                                    class="label-title text-bold mb-2">{{ __('Phone Number *') }}</label>
+                                                <label class="label-title text-bold mb-2">{{ __('Phone Number *') }}</label>
                                                 <div class="input-group">
                                                     <select name="phone_country_code" id="phone_country_code"
                                                         class="form-select" required>
@@ -49,7 +47,7 @@
                                                         <option value="+880">+880</option>
                                                         <option value="+855">+855</option>
                                                     </select>
-                                                    <input type="text" id="number" name="phone"
+                                                    <input type="number" id="number" name="phone"
                                                         class="form--control radius-10" placeholder="Phone Number *"
                                                         style="width: unset" required>
                                                 </div>
@@ -68,21 +66,17 @@
                                             </div>
                                         </div>
 
-                                        <!-- Username (Updated Validation) -->
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="label-title text-bold mb-2">{{ __('Username *') }}</label>
                                                 <input type="text" name="username" id="username"
                                                     class="form--control radius-10" placeholder="{{ __('Username *') }}"
                                                     required>
-                                                {{-- <small class="text-muted">
-                                                    Allowed: letters (A-Z, a-z), numbers (0-9), underscores (_)
-                                                </small> --}}
+
                                                 <small class="text-danger" id="usernameError"></small>
                                             </div>
                                         </div>
 
-                                        <!-- Email (Optional) -->
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="label-title text-bold mb-2">{{ __('Email') }}</label>
@@ -504,5 +498,4 @@
             });
         };
     </script>
-    
 @endsection
