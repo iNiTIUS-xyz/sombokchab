@@ -106,10 +106,10 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label
-                                                    class="label-title text-bold mb-2">{{ __('Confirm Password *') }}</label>
+                                                    class="label-title text-bold mb-2">{{ __('Re-enter your password *') }}</label>
                                                 <input type="password" name="password_confirmation"
                                                     id="password_confirmation" class="form--control radius-10"
-                                                    placeholder="{{ __('Confirm Password *') }}" required>
+                                                    placeholder="{{ __('Re-enter your password *') }}" required>
                                                 <small class="text-danger" id="passwordConfirmError"></small>
                                             </div>
                                         </div>

@@ -1266,29 +1266,6 @@ class FrontendController extends Controller
         ]);
     }
 
-    /**
-     * @throws Exception
-     */
-    // public function search(Request $request)
-    // {
-
-    //     $all_products = FrontendProductServices::productSearch($request, 'frontend.ajax');
-
-    //     $selected_search = view('product::frontend.search.selected-search-item')->render();
-    //     $grid = view('product::frontend.search.grid', compact('all_products'))->render();
-    //     $list = view('product::frontend.search.list', compact(['all_products']))->render();
-    //     $paginationList = view('components.search-product-list-pagination', compact('all_products'))->render();
-    //     $showing_items = ' Showing '.$all_products['from'].'-'.$all_products['to'].' of  '.$all_products['total_items'].' results ';
-
-    //     return [
-    //         'pagination_list' => $paginationList,
-    //         'grid' => $grid,
-    //         'list' => $list,
-    //         'selected_search' => $selected_search,
-    //         'showing_items' => $showing_items,
-    //     ];
-    // }
-
     public function search(Request $request)
     {
         $all_products = FrontendProductServices::productSearch($request, 'frontend.ajax');

@@ -31,8 +31,8 @@
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="name">{{ __('Name') }}</label>
-                            <input type="text" class="form-control" name="name" id="name" placeholder="{{ __('Enter Name') }}">
+                            <label for="name">{{ __('Full Name') }}</label>
+                            <input type="text" class="form-control" name="name" id="name" placeholder="{{ __('Enter Full Name') }}">
                         </div>
                     </div>
                     <div class="col-md-6">
