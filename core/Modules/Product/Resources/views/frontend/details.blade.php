@@ -108,7 +108,7 @@
                                     {!! view('product::components.frontend.common.rating-markup', compact('product')) !!}
                                 </div>
 
-                                @if($stock_count > (int) get_static_option('product_in_stock_limit_set') ?? 0)
+                                {{-- @if($stock_count > (int) get_static_option('product_in_stock_limit_set') ?? 0)
                                     <span data-stock-text="{{ $stock_count }}"
                                           class="availability text-success">{{ filter_static_option_value('product_in_stock_text', $setting_text, __('In stock')) }}
                                         ({{ $stock_count }})
@@ -116,9 +116,9 @@
                                 @else
                                     <span data-stock-text="{{ $stock_count }}"
                                           class="availability text-danger">{{ filter_static_option_value('product_out_of_stock_text', $setting_text, __('Out of stock')) }}</span>
-                                @endif
+                                @endif --}}
 
-                                <div class="price-update-through mt-4">
+                                <div class="price-update-through">
                                     <h3 class="ff-rubik flash-prices color-one price" data-main-price="{{ $sale_price }}"
                                         data-price-percentage="{{ \Modules\TaxModule\Services\CalculateTaxServices::pricesEnteredWithTax() ? $product->tax_options_sum_rate : 0 }}"
                                         data-currency-symbol="{{ site_currency_symbol() }}" id="price">
@@ -234,7 +234,7 @@
                                            class="btn-wishlist buy_now_single_page btn-details btn-buyNow mt-4"> <i
                                                     class="las la-cart-arrow-down"></i> {{ __('Buy now') }} </a>
                                         <a href="#1" data-id="{{ $product->id }}"
-                                           class="btn-wishlist add_to_compare_single_page btn-details btn-addCompare mt-4">
+                                           class="btn-wishlist add_to_compare_single_page btn-details btn-buyNow mt-4">
                                             <i class="las la-retweet"></i> {{ __('Add Compare') }} </a>
                                     </div>
                                 </div>

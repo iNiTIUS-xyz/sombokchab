@@ -58,7 +58,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link @if (request()->routeIs('user.product.refund-request')) active @endif"
                                         href="{{ route('user.product.refund-request') }}">
-                                        {{ __('Refund Request') }}
+                                        {{ __('Refund Requests') }}
                                     </a>
                                 </li>
                             @endif
@@ -77,7 +77,7 @@
                             <li class="nav-item">
                                 <a class="nav-link @if (request()->routeIs('user.home.support.tickets')) active @endif"
                                     href="{{ route('user.home.support.tickets') }}">
-                                    {{ __('Support Ticket') }}
+                                    {{ __('Support Tickets') }}
                                 </a>
                             </li>
                             <li class="nav-item">

@@ -1,8 +1,10 @@
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+    
     :root {
         --main-color-one: #0080ff;
         --main-color-one-rgb: 0, 128, 255;
-        --border-color: #EAECF0;
+        --border-color: #CFD0D0;
         --border-color-2: #ddd;
         --box-shadow: #4242421a;
         --box-shadow-2: #70707059;
