@@ -440,7 +440,7 @@
                                     <br>
                                 @endif
                                 @if(!empty($payment_details['shipping_cost']))
-                                    <span class="data-span"> {{ __('Shipping Cost:') }} </span>{{ float_amount_with_currency_symbol($payment_details['shipping_cost'], false) }}
+                                    <span class="data-span"> {{ __('Cost Summary') }} </span>{{ float_amount_with_currency_symbol($payment_details['shipping_cost'], false) }}
                                     <br>
                                 @endif
                                 @if(!empty($payment_details['total']))

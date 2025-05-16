@@ -19,18 +19,6 @@
             </div>
         </div>
 
-        {{-- Dashboard
-        Product
-        Inventory
-        Shipping Method
-        Order 
-        Wallet
-        Campaign
-        Profile
-        Support Tickets 
-        Sign Out --}}
-        
-
         <div class="dashboard-bottom custom__form mt-4" id="sidbar-menu-wrap">
             <ul class="dashboard-list">
                 <li class="list {{ Route::is('vendor.home') ? 'active' : '' }}">

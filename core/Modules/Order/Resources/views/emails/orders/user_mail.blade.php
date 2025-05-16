@@ -383,7 +383,7 @@
                                                 <td align="left"
                                                     style="color:#3f3f3f;font-size:15px;font-style:normal;line-height:24px;font-weight:400;font-family:'Roboto','Arial',sans-serif"
                                                     valign="middle">
-                                                    {{ __("Shipping Cost:") }}
+                                                    {{ __("Cost Summary") }}
                                                 </td>
                                                 <td align="center" valign="middle">
                                                     <table align="right" border="0" cellpadding="0" cellspacing="0"

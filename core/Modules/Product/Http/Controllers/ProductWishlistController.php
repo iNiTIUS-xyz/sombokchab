@@ -68,7 +68,6 @@ class ProductWishlistController extends Controller
             'selected_color' => 'nullable',
         ]);
 
-
         $product_inventory = ProductInventory::where('product_id', $request->product_id)->first();
 
         if ($request->product_variant) {
@@ -84,7 +83,7 @@ class ProductWishlistController extends Controller
         if (!Auth::guard('web')->check()) {
             return response()->json([
                 'type' => 'warning',
-                'quantity_msg' => __('If you want to add cart item into wishlist than you have to login first.'),
+                'quantity_msg' => __('Sign up or Sign in to wishlist items.'),
             ]);
         }
 
@@ -189,14 +188,27 @@ class ProductWishlistController extends Controller
             ]);
         }
     }
+
+
     public function removeWishlistItem(Request $request)
     {
         $request->validate([
             'rowId' => 'required|string',
         ]);
 
-        Cart::instance('wishlist')->content();
+        $userId = Auth::guard('web')->id();
+
+        // Remove the item
         Cart::instance('wishlist')->remove($request->rowId);
+
+        if (Cart::instance('wishlist')->count() === 0) {
+            // If cart is empty, erase stored cart
+            Cart::instance('wishlist')->erase($userId);
+        } else {
+            // Overwrite the existing stored wishlist
+            Cart::instance('wishlist')->erase($userId);  // Clear first
+            Cart::instance('wishlist')->store($userId);  // Then store
+        }
 
         return response()->json(FlashMsg::explain('success', __('Item removed from wishlist')) + [
             'header_area' => view('frontend.partials.header.navbar.card-and-wishlist-area')->render(),

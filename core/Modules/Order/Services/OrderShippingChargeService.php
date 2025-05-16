@@ -15,7 +15,7 @@ class OrderShippingChargeService
         $adminShippingMethodId = $shippingCost["admin"] ?? 0;
         unset($shippingCost["admin"]);
 
-        // return an array with all vendor and admin shipping cost eloquent collection
+        // return an array with all vendor and admin Cost Summary eloquent collection
         return [
             "vendor" => !empty($shippingCost) ? self::vendorShippingCharge($shippingCost) : collect([]),
             "admin" => self::adminShippingCharge($adminShippingMethodId),
@@ -32,7 +32,7 @@ class OrderShippingChargeService
     private static function vendorShippingCharge($shippingMethods): Collection|array
     {
         $shippingMethodQuery = VendorShippingMethod::query();
-        // run a loop for getting multiple shipping cost and for that I am using orWhere method
+        // run a loop for getting multiple Cost Summary and for that I am using orWhere method
         foreach($shippingMethods as $vendorId => $methodId){
             $shippingMethodQuery->where([
                 ["id" ,"=",$methodId] ,
