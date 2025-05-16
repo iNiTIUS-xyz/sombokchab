@@ -25,8 +25,8 @@
             
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="name">{{ __('Name') }}</label>
-                            <input type="text" class="form-control" name="name" id="name" value="{{ $address->name }}" placeholder="{{ __('Enter Name') }}" required>
+                            <label for="name">{{ __('Full Name') }}</label>
+                            <input type="text" class="form-control" name="name" id="name" value="{{ $address->name }}" placeholder="{{ __('Enter Full Name') }}" required>
                         </div>
                     </div>
                     <div class="col-md-6">

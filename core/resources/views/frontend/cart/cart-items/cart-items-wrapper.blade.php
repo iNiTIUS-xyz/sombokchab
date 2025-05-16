@@ -99,7 +99,7 @@
 
             @if (!empty($c_vendor))
                 <div class="card-footer checkout__card__footer">
-                    <h6 class="card-title py-2">{{ __('Shipping Cost') }}</h6>
+                    <h6 class="card-title py-2">{{ __('Cost Summary') }}</h6>
                     <input type="hidden" class="shipping_cost" name="shipping_cost[{{ $c_vendor->id }}]" />
                     <div class="shippingMethod__wrapper shipping-method-wrapper d-flex gap-2 justify-content-start">
                         @foreach ($c_vendor?->shippingMethod ?? [] as $method)
@@ -154,7 +154,7 @@
                                 @endif
 
                                 <div class="checkout__card__footer__estimate__item d-flex justify-content-between">
-                                    <b>{{ __('Shipping Cost') }}</b> <b id="vendor_shipping_cost"
+                                    <b>{{ __('Cost Summary') }}</b> <b id="vendor_shipping_cost"
                                         class="vendor_shipping_cost">{{ float_amount_with_currency_symbol($default_shipping_cost) }}</b>
                                 </div>
                                 <div class="checkout__card__footer__estimate__item d-flex justify-content-between">
@@ -170,7 +170,7 @@
 
             @if (empty($key))
                 <div class="card-footer checkout__card__footer">
-                    <h6 class="checkout__card__title card-title py-2">{{ __('Shipping Cost') }}</h6>
+                    <h6 class="checkout__card__title card-title py-2">{{ __('Cost Summary') }}</h6>
                     <input type="hidden" class="shipping_cost" name="shipping_cost[admin]" />
 
                     <div class="shippingMethod__wrapper shipping-method-wrapper d-flex gap-2 justify-content-start">
@@ -230,7 +230,7 @@
                                 @endif
 
                                 <div class="checkout__card__footer__estimate__item d-flex justify-content-between">
-                                    <b>{{ __('Shipping Cost') }}</b>
+                                    <b>{{ __('Cost Summary') }}</b>
                                     <b id="vendor_shipping_cost" class="vendor_shipping_cost">
                                         {{ float_amount_with_currency_symbol($default_shipping_cost) }}
                                     </b>

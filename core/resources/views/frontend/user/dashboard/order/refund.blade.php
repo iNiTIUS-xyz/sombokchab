@@ -65,7 +65,7 @@
                                 <strong id="vendor_tax_amount">{{ float_amount_with_currency_symbol(170) }}</strong>
                             </div>
                             <div class="order__item__estimate__single d-flex justify-content-between">
-                                <span>{{ __('Shipping Cost') }}</span>
+                                <span>{{ __('Cost Summary') }}</span>
                                 <strong id="vendor_shipping_cost">{{ float_amount_with_currency_symbol(200) }}</strong>
                             </div>
                             <div class="order__item__estimate__single d-flex justify-content-between">

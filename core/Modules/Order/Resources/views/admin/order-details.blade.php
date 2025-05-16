@@ -116,7 +116,7 @@
                         </span>
                     </div>
                     <div class="subOrder__single__item">
-                        <span class="subOrder__single__item__left">{{ __('Shipping Cost') }}</span>
+                        <span class="subOrder__single__item__left">{{ __('Cost Summary') }}</span>
                         <span
                             class="subOrder__single__item__right">{{ float_amount_with_currency_symbol($subOrders->shipping_cost) }}</span>
                     </div>

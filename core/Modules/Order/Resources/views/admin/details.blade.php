@@ -295,7 +295,7 @@
                         </span>
                     </div>
                     <div class="request__item">
-                        <span class="request__left">{{ __('Shipping Cost') }}</span>
+                        <span class="request__left">{{ __('Cost Summary') }}</span>
                         <span class="request__right">{{ float_amount_with_currency_symbol($order?->paymentMeta?->shipping_cost) }} </span>
                     </div>
                     <div class="request__item">

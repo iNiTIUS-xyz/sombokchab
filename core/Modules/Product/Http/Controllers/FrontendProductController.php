@@ -672,7 +672,7 @@ class FrontendProductController extends Controller
         if (!Auth::guard("web")->check()) {
             return response()->json([
                 'type' => 'warning',
-                'quantity_msg' => __('If you want to add cart item into wishlist than you have to login first.')
+                'quantity_msg' => __('Sign up or Sign in to wishlist items.')
             ]);
         }
 
@@ -728,7 +728,7 @@ class FrontendProductController extends Controller
         Cart::instance("wishlist")->remove($request->rowId);
 
         return response()->json([
-            'type' => 'success',
+            'success' => true,
             'msg' => __("Successfully moved item to cart."),
             'header_area' => view("frontend.partials.header.navbar.card-and-wishlist-area")->render()
         ]);
