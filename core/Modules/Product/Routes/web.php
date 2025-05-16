@@ -20,9 +20,7 @@ use Modules\Product\Http\Controllers\VendorProductController;
 
 $product_page_slug = getSlugFromReadingSetting('product_page') ?? 'product';
 
-Route::group(['prefix' => $product_page_slug, 'as' => 'frontend.products.',
-    'middleware' => ['setlang:frontend', 'globalVariable', 'maintains_mode'],
-], function () {
+Route::group(['prefix' => $product_page_slug, 'as' => 'frontend.products.', 'middleware' => ['setlang:frontend', 'globalVariable', 'maintains_mode', 'check.auth.vendor'],], function () {
     Route::get('/', 'FrontendProductController@products')->name('all');
     Route::get('search', 'FrontendProductController@search')->name('search');
     Route::post("{slug}/rating-store", [FrontendProductController::class, 'storeReview'])->name('ratings.store');
@@ -38,8 +36,8 @@ Route::group(['prefix' => $product_page_slug, 'as' => 'frontend.products.',
     Route::group(['prefix' => 'cart'], function () {
         Route::get('/all', 'FrontendProductController@cartPage')->name('cart');
         /**------------------------------------------------------------------------------------
-        *          CART AJAX ROUTES
-        *----------------------------------------------------------------------------------*/
+         *          CART AJAX ROUTES
+         *----------------------------------------------------------------------------------*/
         Route::post('move-to-wishlist', 'FrontendProductController@moveToWishlist')->name('cart.move.to.wishlist');
 
         Route::group(['prefix' => 'ajax'], function () {
@@ -87,7 +85,9 @@ Route::group(['prefix' => $product_page_slug, 'as' => 'frontend.products.',
 
 
 
-Route::group(['prefix' => 'product', 'as' => 'frontend.products.',
+Route::group([
+    'prefix' => 'product',
+    'as' => 'frontend.products.',
     'middleware' => ['setlang:frontend', 'globalVariable', 'maintains_mode'],
 ], function () {
     Route::get('/{slug}', [FrontendProductController::class, 'productDetailsPage'])->name('single');

@@ -234,7 +234,7 @@ class ProductCartController extends Controller
         if (!Auth::guard('web')->check()) {
             return response()->json([
                 'type' => 'warning',
-                'quantity_msg' => __('If you want to add cart item into wishlist than you have to login first.'),
+                'quantity_msg' => __('Sign up or Sign in to wishlist items.'),
             ]);
         }
 

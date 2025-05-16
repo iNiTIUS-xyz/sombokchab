@@ -100,14 +100,14 @@ trait ProductGlobalTrait
 
             $detailAttr = [];
 
-            if(isset($data["item_attribute_name"][$i]) && is_array($data["item_attribute_name"][$i])){
+            if (isset($data["item_attribute_name"][$i]) && is_array($data["item_attribute_name"][$i])) {
                 for ($j = 0, $length = count($data["item_attribute_name"][$i] ?? []); $j < $length; $j++) {
-                        $detailAttr[] = [
-                            "product_id" => $product_id,
-                            "inventory_details_id" => $productDetailId->id,
-                            "attribute_name" => $data["item_attribute_name"][$i][$j] ?? "",
-                            "attribute_value" => $data["item_attribute_value"][$i][$j] ?? ""
-                        ];
+                    $detailAttr[] = [
+                        "product_id" => $product_id,
+                        "inventory_details_id" => $productDetailId->id,
+                        "attribute_name" => $data["item_attribute_name"][$i][$j] ?? "",
+                        "attribute_value" => $data["item_attribute_value"][$i][$j] ?? ""
+                    ];
                 }
             }
 
@@ -201,7 +201,8 @@ trait ProductGlobalTrait
 
     private function separateStringToArray(string|null $string, string $separator = " , "): array|bool
     {
-        if (empty($string)) return [];
+        if (empty($string))
+            return [];
         return explode($separator, $string);
     }
 
@@ -222,15 +223,15 @@ trait ProductGlobalTrait
 
     private function userId()
     {
-        if(\Auth::guard("admin")->check()){
+        if (\Auth::guard("admin")->check()) {
             return \Auth::guard("admin")->user()->id;
         }
 
-        if(\Auth::guard("vendor")->check()){
+        if (\Auth::guard("vendor")->check()) {
             return \Auth::guard("vendor")->user()->id;
         }
 
-        if(\Auth::guard("sanctum")->check()){
+        if (\Auth::guard("sanctum")->check()) {
             return \Auth::guard("sanctum")->user()->id;
         }
 
@@ -306,7 +307,7 @@ trait ProductGlobalTrait
         $product = Product::find($productId)->update(["status_id" => $statusId]);
         $this->createdByUpdatedBy($productId, "update");
 
-        $response_status = $product ? ["success" => true,"type" => "success", "msg" => __("Successfully updated status")] : ["success" => false,"type" => "danger", "msg" => __("Failed to update status")];
+        $response_status = $product ? ["success" => true, "type" => "success", "msg" => __("Successfully updated status")] : ["success" => false, "type" => "danger", "msg" => __("Failed to update status")];
         return response()->json($response_status)->setStatusCode(200);
     }
 
@@ -314,9 +315,9 @@ trait ProductGlobalTrait
     {
         $product = Product::query();
         if ($type == "edit") {
-            $product->with(["product_category","uom", "gallery_images", "tag", "uom", "product_sub_category", "product_child_category", "image", "inventory", "delivery_option"]);
+            $product->with(["product_category", "uom", "gallery_images", "tag", "uom", "product_sub_category", "product_child_category", "image", "inventory", "delivery_option"]);
         } elseif ($type == "single") {
-            $product->with(["category","uom", "gallery_images", "tag", "uom", "subCategory", "childCategory", "image", "inventory", "delivery_option"]);
+            $product->with(["category", "uom", "gallery_images", "tag", "uom", "subCategory", "childCategory", "image", "inventory", "delivery_option"]);
         } elseif ($type == "list") {
             $product->with(["category", "uom", "subCategory", "childCategory", "brand", "badge", "image", "inventory"]);
         } elseif ($type == "search") {
@@ -342,7 +343,7 @@ trait ProductGlobalTrait
         $product = Product::create($product_data);
         $id = $product->id;
 
-//      $product->metaData() ? $product->metaData()->update($this->prepareMetaData($data)): $product->metaData()->create($this->prepareMetaData($data));
+        //      $product->metaData() ? $product->metaData()->update($this->prepareMetaData($data)): $product->metaData()->create($this->prepareMetaData($data));
         $product->metaData()->create($this->prepareMetaData($data));
 
         // store created by info in product created by table
@@ -370,7 +371,7 @@ trait ProductGlobalTrait
         ProductCategory::updateOrCreate(["product_id" => $id], $this->productCategoryData($data, $id));
         // this condition will make sub category optional
 
-        if($data['sub_category'] ?? false)
+        if ($data['sub_category'] ?? false)
             ProductSubCategory::updateOrCreate(["product_id" => $id], $this->productCategoryData($data, $id, "sub_category_id", "sub_category"));
 
         // delete product child category
@@ -379,18 +380,18 @@ trait ProductGlobalTrait
         ProductGallery::where("product_id", $id)->delete();
         ProductTag::where("product_id", $id)->delete();
 
-        ProductUom::updateOrCreate(["product_id" => $id],$this->prepareUomData($data, $id));
+        ProductUom::updateOrCreate(["product_id" => $id], $this->prepareUomData($data, $id));
         // this condition is for making child category optional
-        if($data["child_category"][0] ?? false)
+        if ($data["child_category"][0] ?? false)
             ProductChildCategory::insert($this->childCategoryData($data, $id));
         // this condition is for making delivery_option optional
-        if($data["delivery_option"] ?? false)
+        if ($data["delivery_option"] ?? false)
             ProductDeliveryOption::insert($this->prepareDeliveryOptionData($data, $id));
         // this condition is for making product_gallery optional
-        if(!empty(($data["product_gallery"] ?? []) ?? ($data->product_gallery ?? [])))
+        if (!empty(($data["product_gallery"] ?? []) ?? ($data->product_gallery ?? [])))
             ProductGallery::insert($this->prepareProductGalleryData($data, $id));
         // this condition is for making tags optional
-        if($data["tags"] ?? false)
+        if ($data["tags"] ?? false)
             ProductTag::insert($this->prepareProductTagData($data, $id));
 
         return true;
@@ -435,7 +436,7 @@ trait ProductGlobalTrait
 
         if ($product?->metaData) {
             $metaData = [
-//                'general_title' => $product?->metaData?->meta_tags,
+                //                'general_title' => $product?->metaData?->meta_tags,
                 'general_title' => $product?->metaData?->meta_title,
                 'general_description' => $product?->metaData?->meta_description,
                 'facebook_title' => $product?->metaData?->facebook_meta_tags,
@@ -536,13 +537,13 @@ trait ProductGlobalTrait
         ProductInventory::where('product_id', $product->id)->delete();
         $product->forceDelete();
 
-        return (bool)$product;
+        return (bool) $product;
     }
 
     protected function bulk_delete($ids)
     {
         $product = Product::whereIn('id', $ids)->delete();
-        return (bool)$product;
+        return (bool) $product;
     }
 
     protected function trash_bulk_delete($ids): bool
@@ -564,13 +565,13 @@ trait ProductGlobalTrait
             return false;
         }
 
-        return (bool)$products;
+        return (bool) $products;
     }
 
     /**
      * @throws Exception
      */
-    private function search($request, $route = 'admin',$queryType = "admin", $isCustomPagination = "custom")
+    private function search($request, $route = 'admin', $queryType = "admin", $isCustomPagination = "custom")
     {
         $type = $request->type ?? 'default';
         $multiple_date = $this->is_date_range_multiple();
@@ -578,42 +579,11 @@ trait ProductGlobalTrait
         $all_products = null;
 
         // create product model instance
-        if($queryType == 'admin'){
-            $all_products = Product::query()->with("brand", "category", "childCategory", "subCategory", "inventory","vendor","taxOptions:tax_class_options.id,country_id,state_id,city_id,rate","vendorAddress:vendor_addresses.id,country_id,state_id,city_id")
-                ->where("vendor_id", null);
-        }else if ($queryType == 'frontend'){
+        if ($queryType == 'admin') {
             $all_products = Product::query()
-                ->with([
-                    'campaign_sold_product','category', 'subCategory','childCategory',
-                    'campaign_product' => function ($query){
-                        $query = productCampaignConditionWith($query);
-                    },'inventory','badge','uom','vendor',
-                    "taxOptions:tax_class_options.id,country_id,state_id,city_id,rate",
-                    "vendorAddress:vendor_addresses.id,country_id,state_id,city_id"
-                ])
-                ->withAvg("ratings", "rating")
-                ->withCount("ratings")
-                ->where("status_id", 1)
-                ->withSum("taxOptions", "rate")
-                ->when(get_static_option('vendor_enable', 'on') != 'on', function ($query){
-                    $query->whereNull("vendor_id");
-                })->when($request->country,function ($query) use ($request){
-                    $query->whereHas('vendorAddress', function ($query) use ($request) {
-                        $query->where('vendor_addresses.country_id', '=', $request->country);
-                    });
-                })
-                ->when($request->state,function ($query) use ($request){
-                    $query->whereHas('vendorAddress', function ($query) use ($request) {
-                        $query->where('vendor_addresses.state_id', '=', $request->state);
-                    });
-                })
-                ->when($request->city,function ($query) use ($request){
-                    $query->whereHas('vendorAddress', function ($query) use ($request) {
-                        $query->where('vendor_addresses.city_id', '=', $request->city);
-                    });
-                });
-            // call a function for campaign this function will add condition to this table
-        }else if ($queryType == 'api'){
+                ->with("brand", "category", "childCategory", "subCategory", "inventory", "vendor", "taxOptions:tax_class_options.id,country_id,state_id,city_id,rate", "vendorAddress:vendor_addresses.id,country_id,state_id,city_id")
+                ->where("vendor_id", null);
+        } else if ($queryType == 'frontend') {
             $all_products = Product::query()
                 ->with([
                     'campaign_sold_product',
@@ -623,8 +593,47 @@ trait ProductGlobalTrait
                     'campaign_product' => function ($query) {
                         $query = productCampaignConditionWith($query);
                     },
-                    'inventoryDetail' => function ($query){
-                        $query->where("stock_count",">", 0);
+                    'inventory',
+                    'badge',
+                    'uom',
+                    'vendor',
+                    "taxOptions:tax_class_options.id,country_id,state_id,city_id,rate",
+                    "vendorAddress:vendor_addresses.id,country_id,state_id,city_id"
+                ])
+                ->withAvg("ratings", "rating")
+                ->withCount("ratings")
+                ->where("status_id", 1)
+                ->withSum("taxOptions", "rate")
+                ->when(get_static_option('vendor_enable', 'on') != 'on', function ($query) {
+                    $query->whereNull("vendor_id");
+                })->when($request->country, function ($query) use ($request) {
+                    $query->whereHas('vendorAddress', function ($query) use ($request) {
+                        $query->where('vendor_addresses.country_id', '=', $request->country);
+                    });
+                })
+                ->when($request->state, function ($query) use ($request) {
+                    $query->whereHas('vendorAddress', function ($query) use ($request) {
+                        $query->where('vendor_addresses.state_id', '=', $request->state);
+                    });
+                })
+                ->when($request->city, function ($query) use ($request) {
+                    $query->whereHas('vendorAddress', function ($query) use ($request) {
+                        $query->where('vendor_addresses.city_id', '=', $request->city);
+                    });
+                });
+            // call a function for campaign this function will add condition to this table
+        } else if ($queryType == 'api') {
+            $all_products = Product::query()
+                ->with([
+                    'campaign_sold_product',
+                    'category',
+                    'subCategory',
+                    'childCategory',
+                    'campaign_product' => function ($query) {
+                        $query = productCampaignConditionWith($query);
+                    },
+                    'inventoryDetail' => function ($query) {
+                        $query->where("stock_count", ">", 0);
                     },
                     'inventory',
                     'badge',
@@ -635,12 +644,12 @@ trait ProductGlobalTrait
                 ])->withAvg("ratings", "rating")
                 ->withCount("ratings")
                 ->withSum("taxOptions", "rate")
-                ->whereHas("status", function ($query){
+                ->whereHas("status", function ($query) {
                     $query->where("name", "Active");
-                })->when(get_static_option('vendor_enable', 'on') != 'on', function ($query){
+                })->when(get_static_option('vendor_enable', 'on') != 'on', function ($query) {
                     $query->whereNull("vendor_id");
                 });
-        }else if ($queryType == 'vendor'){
+        } else if ($queryType == 'vendor') {
             $all_products = Product::query()
                 ->select([
                     "id",
@@ -699,15 +708,15 @@ trait ProductGlobalTrait
             });
         })->when(!empty($request->category_id) && $request->has("category_id"), function ($query) use ($request) { // category
             $query->whereHas("category", function ($i_query) use ($request) {
-                $i_query->where("categories.id",trim(strip_tags($request->category_id)));
+                $i_query->where("categories.id", trim(strip_tags($request->category_id)));
             });
         })->when(!empty($request->sub_category_id) && $request->has("sub_category_id"), function ($query) use ($request) { // sub category
             $query->whereHas("subCategory", function ($i_query) use ($request) {
-                $i_query->where("sub_categories.id",trim(strip_tags($request->sub_category_id)));
+                $i_query->where("sub_categories.id", trim(strip_tags($request->sub_category_id)));
             });
         })->when(!empty($request->child_category_id) && $request->has("child_category_id"), function ($query) use ($request) { // child category
             $query->whereHas("childCategory", function ($i_query) use ($request) {
-                $i_query->where("child_categories.id",trim(strip_tags($request->child_category_id)));
+                $i_query->where("child_categories.id", trim(strip_tags($request->child_category_id)));
             });
         })->when(!empty($request->brand) && $request->has("brand"), function ($query) use ($request) { // Brand
             $query->whereHas("brand", function ($i_query) use ($request) {
@@ -743,13 +752,36 @@ trait ProductGlobalTrait
         })->when(!empty($request->min_price ?? null) && !empty($request->max_price ?? ""), function ($query) use ($request) { // Order By
             // now makes whereBetween condition for search product
             $query->whereBetween("sale_price", [$request->min_price, $request->max_price]);
-        })->when(!empty($request->order_by) && $request->has("order_by"), function ($query) use ($request) { // Order By
-            $query->orderBy("id", $request->order_by);
+        })->when(!empty($request->order_by), function ($query) use ($request) {
+            switch ($request->order_by) {
+                case 'asc':
+                    $query->orderBy('id', 'asc');
+                    break;
+                case 'desc':
+                    $query->orderBy('id', 'desc');
+                    break;
+                case 'a-z':
+                    $query->orderBy('name', 'asc'); // Replace `name` with your actual column
+                    break;
+                case 'z-a':
+                    $query->orderBy('name', 'desc');
+                    break;
+                case 'price_low_to_high':
+                    $query->orderBy('sale_price', 'asc');
+                    break;
+                case 'price_high_to_low':
+                    $query->orderBy('sale_price', 'desc');
+                    break;
+                default:
+                    // Optionally, set a default order
+                    $query->orderBy('id', 'desc');
+                    break;
+            }
         })->when(!empty($request->rating), function ($query) use ($request) {
             $query->having('ratings_avg_rating', '>=', $request->rating);
             $query->having('ratings_avg_rating', '>=', ($request->rating - 1));
         });
-        $display_item_count = request()->count ?? get_static_option('default_item_count',10);
+        $display_item_count = request()->count ?? get_static_option('default_item_count', 10);
         $current_query = request()->all();
         $create_query = http_build_query($current_query);
 
@@ -763,12 +795,12 @@ trait ProductGlobalTrait
     {
         $date = explode(" to ", request()->date_range);
 
-        if(count($date) > 1 && !empty(request()->date_range)){
-            foreach($date as $key => $value){
+        if (count($date) > 1 && !empty(request()->date_range)) {
+            foreach ($date as $key => $value) {
                 $date[$key] = new DateTime($value);
             }
 
-            return [true , $date];
+            return [true, $date];
         }
 
         return [false, request()->date_range];
@@ -791,19 +823,19 @@ trait ProductGlobalTrait
 
         ProductCategory::create($this->productCategoryData($product, $id));
         // this condition will make sub category optional
-        if($product['sub_category'] ?? false)
+        if ($product['sub_category'] ?? false)
             ProductSubCategory::create($this->productCategoryData($product, $id, "sub_category_id", "sub_category"));
         // this condition is for making child category optional
-        if($data["child_category"][0] ?? false)
+        if ($data["child_category"][0] ?? false)
             ProductChildCategory::insert($this->childCategoryData($product, $id));
         // this condition is for making delivery_option optional
-        if($product["delivery_option"] ?? false)
+        if ($product["delivery_option"] ?? false)
             ProductDeliveryOption::insert($this->prepareDeliveryOptionData($product, $id));
         // this condition is for making product_gallery optional
-        if(!empty(($product["product_gallery"] ?? []) ?? ($product->product_gallery ?? [])))
+        if (!empty(($product["product_gallery"] ?? []) ?? ($product->product_gallery ?? [])))
             ProductGallery::insert($this->prepareProductGalleryData($product, $id));
         // this condition is for making tags optional
-        if($product["tags"] ?? false)
+        if ($product["tags"] ?? false)
             ProductTag::insert($this->prepareProductTagData($product, $id));
 
         ProductUom::create($this->prepareUomData($data, $id));
@@ -814,8 +846,8 @@ trait ProductGlobalTrait
     public static function fetch_inventory_product()
     {
         return ProductInventory::query()->with("product")
-            ->when(\Auth::guard("vendor")->check(), function ($query){
-                $query->whereHas("product", function ($ven_query){
+            ->when(\Auth::guard("vendor")->check(), function ($query) {
+                $query->whereHas("product", function ($ven_query) {
                     $ven_query->where("vendor_id", \Auth::guard("vendor")->id());
                 });
             });

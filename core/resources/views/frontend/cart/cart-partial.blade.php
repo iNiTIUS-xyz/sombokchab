@@ -1,4 +1,4 @@
-@php
+q@php
     $wishlist = $wishlist ?? false;
 @endphp
 
@@ -38,7 +38,9 @@
                                                     <div class="carts-contents">
                                                         <a
                                                             href="{{ route('frontend.products.single', $cart_item->options->slug ?? '') }}">
-                                                            <span class="name-title">{{ $cart_item->name }}</span>
+                                                            <span class="name-title" title="{{ $cart_item->name }}">
+                                                                {{ Str::limit($cart_item->name, 25, '...') }}
+                                                            </span>
                                                         </a>
 
                                                         <p>

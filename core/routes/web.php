@@ -29,11 +29,7 @@ Route::get('update-notification', XgNotificationController::class)
 Route::get('send-otp', '\App\Http\Controllers\Auth\LoginController@sendOtp')->name('send.otp');
 Route::post('verify-otp', '\App\Http\Controllers\Auth\LoginController@verifyOtp')->name('verify.otp');
 
-Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_mode']], function () {
-
-    /**=============================
-     * SOCIAL LOGIN CALLBACK
-     * ==============================*/
+Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_mode', 'check.auth.vendor']], function () {
 
 
     Route::group(['prefix' => 'facebook'], function () {
@@ -46,9 +42,6 @@ Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_
         Route::get('redirect', 'SocialLoginController@google_redirect')->name('login.google.redirect');
     });
 
-    /*----------------------------------------
-      FRONTEND: CUSTOM FORM BUILDER ROUTES
-    -----------------------------------------*/
     Route::post('submit-custom-form', 'FrontendFormController@custom_form_builder_message')->name('frontend.form.builder.custom.submit');
 
     $blog_page_slug = getSlugFromReadingSetting('blog_page', 'blog');
@@ -854,7 +847,7 @@ Route::middleware("globalVariable")->as('frontend.')->controller(PaymentGatewayC
 });
 
 
-Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_mode']], function () {
+Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_mode', 'check.auth.vendor']], function () {
 
     Route::feeds('feeds');
     Route::get('/vendor/{slug?}/products', 'FrontendController@dynamic_single_page')->name('frontend.vendor.product');

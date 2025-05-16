@@ -10,12 +10,13 @@
     @endsection
 @endif
 
-@section("style")
+@section('style')
     <style>
         .preloader-parent-wrapper {
             position: relative;
             min-height: 600px;
         }
+
         .pre-loader {
             display: flex;
             justify-content: center;
@@ -29,12 +30,14 @@
             z-index: 99;
             transform: translate(-50%, -50%);
         }
+
         .pre-loader .shape {
             display: flex;
             justify-content: center;
             align-items: center;
             transform: translateY(-3em);
         }
+
         .pre-loader .shape .circle {
             width: 30px;
             height: 30px;
@@ -43,18 +46,22 @@
             margin: 0 1rem;
             animation: bounce 1.0s linear infinite;
         }
+
         .pre-loader .shape .circle:nth-child(2) {
             animation-delay: 0.1s;
         }
+
         .pre-loader .shape .circle:nth-child(3) {
             animation-delay: 0.2s;
         }
+
         .pre-loader .shadow-loader {
             display: flex;
             justify-content: center;
             align-items: center;
             transform: translateY(-3em);
         }
+
         .pre-loader .shadow-loader .shape-shadow {
             width: 30px;
             height: 18px;
@@ -64,43 +71,55 @@
             animation: bounceShadow 0.6s linear infinite;
             transform: translateY(3em) scale(0.5);
         }
+
         .pre-loader .shadow-loader .shape-shadow:nth-child(2) {
             animation-delay: 0.1s;
         }
+
         .pre-loader .shadow-loader .shape-shadow:nth-child(3) {
             animation-delay: 0.2s;
         }
+
         @keyframes bounce {
+
             from,
             to {
                 transform: translateY(0) scale(1, 1);
                 animation-timing-function: ease-in;
             }
+
             45% {
                 transform: translateY(3em) scale(1, 1);
                 animation-timing-function: linear;
             }
+
             50% {
                 transform: translateY(3em) scale(1.5, 0.5);
                 animation-timing-function: linear;
             }
+
             100% {
                 transform: translateY(3em) scale(1, 1);
                 animation-timing-function: ease-out;
             }
         }
+
         @keyframes bounceShadow {
+
             from,
             to {
                 transform: translateY(3em) scale(0.5);
                 filter: blur(5px);
             }
+
             45% {
                 transform: translateY(3em) scale(0.5);
             }
+
             50% {
                 box-shadow: 20px 0 5px rgba(0, 0, 0, 0.1), -20px 0 5px rgba(0, 0, 0, 0.1);
             }
+
             100% {
                 transform: translateY(3em) scale(0.5);
                 box-shadow: unset;
@@ -147,7 +166,8 @@
                                                                         @foreach ($sub_cat->childcategory as $child_cat)
                                                                             <li data-val="{{ $child_cat->name }}"
                                                                                 data-type="child_category" class="list">
-                                                                                <a href="#1">{{ $child_cat->name ?? '' }}</a>
+                                                                                <a
+                                                                                    href="#1">{{ $child_cat->name ?? '' }}</a>
                                                                             </li>
                                                                         @endforeach
                                                                     </ul>
@@ -167,12 +187,9 @@
                             <div class="shop-left-title open">
                                 <h5 class="title"> {{ __('Prices') }} </h5>
                                 <div class="shop-left-list mt-4">
-                                    <form class="price-range-slider" method="post"
-                                        data-start-min="{{ $min_price }}"
-                                        data-start-max="{{ $max_price }}"
-                                        data-min="{{ $min_price }}"
-                                        data-max="{{ $max_price }}"
-                                        data-step="5">
+                                    <form class="price-range-slider" method="post" data-start-min="{{ $min_price }}"
+                                        data-start-max="{{ $max_price }}" data-min="{{ $min_price }}"
+                                        data-max="{{ $max_price }}" data-step="5">
                                         <div class="ui-range-slider"></div>
                                         <div class="ui-range-slider-footer">
                                             <div class="ui-range-values">
@@ -286,46 +303,50 @@
                 </div>
 
                 <div class="shop-grid-contents">
-                    @if(get_static_option('shop_filter_by_location')==='on')
-                    <div class="mb-4 mx-2 ">
-                        <div class="row">
-                            <div class="col-12 col-md-7">
-                                <div class="row">
-                                    <div class="col-12 col-md-4">
-                                        <div class="shop-nice-select ">
-                                            <label for="" class="d-block text-black mb-2">Country</label>
-                                            @php
-                                                $countries=\Modules\CountryManage\Entities\Country::all();
-                                            @endphp
-                                            <select id="country" data-type="country" data-val="country" class="search_location">
-                                                <option value="">{{__('Select an Country')}}</option>
-                                                @foreach($countries as $country)
-                                                    <option value="{{$country->id}}"> {{ $country->name }} </option>
-                                                @endforeach
-                                            </select>
+                    @if (get_static_option('shop_filter_by_location') === 'on')
+                        <div class="mb-4 mx-2 ">
+                            <div class="row">
+                                <div class="col-12 col-md-7">
+                                    <div class="row">
+                                        <div class="col-12 col-md-4">
+                                            <div class="shop-nice-select ">
+                                                <label for="" class="d-block text-black mb-2">Country</label>
+                                                @php
+                                                    $countries = \Modules\CountryManage\Entities\Country::all();
+                                                @endphp
+                                                <select id="country" data-type="country" data-val="country"
+                                                    class="search_location">
+                                                    <option value="">{{ __('Select an Country') }}</option>
+                                                    @foreach ($countries as $country)
+                                                        <option value="{{ $country->id }}"> {{ $country->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-4">
+                                            <div class="shop-nice-select">
+                                                <label for="" class="d-block text-black mb-2">City</label>
+                                                <select id="city" data-type="city" data-val="city"
+                                                    class="search_location">
+                                                    <option value="">{{ __('Select an City') }}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-4">
+                                            <div class="shop-nice-select">
+                                                <label for="" class="d-block text-black mb-2">State</label>
+                                                <select id="state" data-type="state" data-val="state"
+                                                    class="search_location">
+                                                    <option value="">{{ __('Select an State') }}</option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-12 col-md-4">
-                                        <div class="shop-nice-select">
-                                            <label for="" class="d-block text-black mb-2">City</label>
-                                            <select id="city" data-type="city" data-val="city"  class="search_location">
-                                                <option value="">{{__('Select an City')}}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-md-4">
-                                        <div class="shop-nice-select">
-                                            <label for="" class="d-block text-black mb-2">State</label>
-                                            <select id="state" data-type="state" data-val="state"  class="search_location">
-                                                <option value="">{{__('Select an State')}}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
 
+                                </div>
                             </div>
                         </div>
-                    </div>
                     @endif
                     <div class="row align-items-center">
                         <div class="col-lg-5 col-md-5">
@@ -346,13 +367,17 @@
                         <div class="col-lg-7 col-md-7">
                             <div class="shop-right">
                                 <span class="showing-results showing-results-item-count color-light"> {{ __('Showing') }}
-                                    {{ $all_products['from'] }}-{{ $all_products['to'] }} {{ __("of") }}
-                                    {{ $all_products['total_items'] }} {{ __("results") }} </span>
+                                    {{ $all_products['from'] }}-{{ $all_products['to'] }} {{ __('of') }}
+                                    {{ $all_products['total_items'] }} {{ __('results') }} </span>
                                 <div class="single-shops">
                                     <div class="shop-nice-select">
                                         <select id="order_by" data-type="order_by" data-val="order_by">
                                             <option value="desc"> {{ __('Order By Desc') }} </option>
                                             <option value="asc"> {{ __('Order By ASC') }} </option>
+                                            <option value="a-z"> {{ __('Product A to Z') }} </option>
+                                            <option value="z-a"> {{ __('Product Z to A') }} </option>
+                                            <option value="price_low_to_high"> {{ __('Price low to high') }} </option>
+                                            <option value="price_high_to_low"> {{ __('Price high to low') }} </option>
                                         </select>
                                     </div>
                                 </div>
@@ -404,7 +429,7 @@
                     </div>
 
                     {{--          add condition here if current page is contain more content then per_page          --}}
-                    @if(($all_products['total_page'] ?? 0) > 1)
+                    @if (($all_products['total_page'] ?? 0) > 1)
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="pagination-default">
@@ -415,201 +440,202 @@
                             </div>
                         </div>
                     @endcan
-                </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    @include('frontend.partials.product.product-filter-form')
+@include('frontend.partials.product.product-filter-form')
 @endsection
 @section('script')
-    @include('frontend.partials.product.product-filter-script')
-    <script>
-        $(document).on("submit", "#search_product", function(e) {
-            e.preventDefault();
+@include('frontend.partials.product.product-filter-script')
+<script>
+    $(document).on("submit", "#search_product", function(e) {
+        e.preventDefault();
 
-            const activeTab = $('.tab-content-item.active');
-            const preloaderWrapper = $('.preloader-parent-wrapper');
+        const activeTab = $('.tab-content-item.active');
+        const preloaderWrapper = $('.preloader-parent-wrapper');
 
-            activeTab.removeClass('active');
-            preloaderWrapper.removeClass('d-none');
-            preloaderWrapper.addClass('d-block');
-            send_ajax_request($(this).attr("method"), new FormData(e.target), $(this).attr("action") + "?" + $(this).serialize(),
-                () => {
+        activeTab.removeClass('active');
+        preloaderWrapper.removeClass('d-none');
+        preloaderWrapper.addClass('d-block');
+        send_ajax_request($(this).attr("method"), new FormData(e.target), $(this).attr("action") + "?" + $(this)
+            .serialize(),
+            () => {
 
-                }, (data) => {
-                    $("#tab-grid2").html(data.grid);
-                    $("#tab-grid").html(data.list);
-                    $(".selected-flex-list").html(data.selected_search)
-                    $(".showing-results-item-count").html(data.showing_items)
-                    $(".pagination").html(data.pagination_list)
+            }, (data) => {
+                $("#tab-grid2").html(data.grid);
+                $("#tab-grid").html(data.list);
+                $(".selected-flex-list").html(data.selected_search)
+                $(".showing-results-item-count").html(data.showing_items)
+                $(".pagination").html(data.pagination_list)
 
-                    preloaderWrapper.removeClass('d-block');
-                    preloaderWrapper.addClass('d-none');
-                    activeTab.addClass('active');
-                }, () => {
-                    preloaderWrapper.removeClass('d-block');
-                    preloaderWrapper.addClass('d-none');
-                    activeTab.addClass('active');
-                }
-            );
-        });
+                preloaderWrapper.removeClass('d-block');
+                preloaderWrapper.addClass('d-none');
+                activeTab.addClass('active');
+            }, () => {
+                preloaderWrapper.removeClass('d-block');
+                preloaderWrapper.addClass('d-none');
+                activeTab.addClass('active');
+            }
+        );
+    });
 
-        // close-search-selected-item
-        // clear-search
-        $(document).on('click','.close-search-selected-item', function (){
+    // close-search-selected-item
+    // clear-search
+    $(document).on('click', '.close-search-selected-item', function() {
+        $("#" + $(this).attr('data-key')).val('');
+
+        submitForm();
+    })
+
+    $(document).on('click', '.clear-search', function() {
+        $('.close-search-selected-item').each(function() {
             $("#" + $(this).attr('data-key')).val('');
-
-            submitForm();
         })
 
-        $(document).on('click','.clear-search', function (){
-            $('.close-search-selected-item').each(function (){
-                $("#" + $(this).attr('data-key')).val('');
-            })
+        submitForm();
+    })
 
-            submitForm();
+    function submitForm() {
+        $("#search_product").trigger("submit");
+    }
+
+    // write code for ajax pagination
+    $(document).on("click", ".pagination a", function(e) {
+        e.preventDefault();
+
+        $("#search_page").val($(this).attr("data-page-index"));
+
+        submitForm();
+    });
+
+    $(document).on("click", ".list[data-type=category] a", function() {
+        $("#" + $(this).parent().attr("data-type")).val($(this).parent().attr("data-val"));
+
+        submitForm();
+    });
+
+    $(document).on("click", ".list[data-type=sub_category] a", function() {
+        $("#" + $(this).parent().attr("data-type")).val($(this).parent().attr("data-val"));
+
+        submitForm();
+    });
+
+    $(document).on("click", ".list[data-type=child_category] a", function() {
+        $("#" + $(this).parent().attr("data-type")).val($(this).parent().attr("data-val"));
+
+        submitForm();
+    });
+
+    $(document).on("click", ".color-lists .list[data-type=color] a", function() {
+        $("#" + $(this).parent().attr("data-type")).val($(this).parent().attr("data-val"));
+
+        submitForm();
+    });
+
+    $(document).on("click", ".size-lists .list[data-type=size] a", function() {
+        $("#" + $(this).parent().attr("data-type")).val($(this).parent().attr("data-val"));
+
+        submitForm();
+    });
+
+    $(document).on("click", ".brand-list .list[data-type=brand] a", function() {
+        $("#" + $(this).parent().attr("data-type")).val($(this).parent().attr("data-val"));
+
+        submitForm();
+    });
+
+    $(document).on("click", ".review-filter .list[data-type=rating] a", function() {
+        $("#" + $(this).parent().attr("data-type")).val($(this).parent().attr("data-val"));
+
+        submitForm();
+    });
+
+    $(document).on('click', '.active-list .list a', function() {
+        $(this).parent().siblings().removeClass('active');
+        $(this).parent().siblings().find('.submenu .list').removeClass('active');
+        $(this).parent().addClass('active');
+    });
+
+    $(document).on("change", "#order_by", function() {
+        $("#search_order_by").val($(this).val());
+
+        submitForm();
+    });
+
+    $(document).on("change", "#country", function() {
+        $("#search_country").val($(this).val());
+
+        submitForm();
+    });
+    $(document).on("change", "#state", function() {
+        $("#search_state").val($(this).val());
+
+        submitForm();
+    });
+    $(document).on("change", "#city", function() {
+        $("#search_city").val($(this).val());
+
+        submitForm();
+    });
+
+    $(document).on("change", "#country", function() {
+        // first i need to get all states
+        // get all shipping methods
+        // insert all shipping methods on .all-shipping-options hare
+        // Add tax amount to all the orders
+        let country_id = $(this).val();
+        let data = new FormData();
+        data.append("id", country_id);
+        data.append("type", "country");
+        data.append("_token", "{{ csrf_token() }}");
+
+        send_ajax_request("POST", data, "{{ route('frontend.shipping.module.methods') }}", () => {
+
+        }, (data) => {
+            if (data.success) {
+                let statehtml = "<option value=''> {{ __('Select an state') }} </option>";
+                data?.states?.forEach((state) => {
+                    statehtml += "<option value='" + state.id + "'>" + state.name +
+                        "</option>";
+                });
+
+                $('#state').html(statehtml);
+
+            }
+        }, function(xhr) {
+            ajax_toastr_error_message(xhr);
         })
+    });
+    $(document).on("change", "#state", function() {
+        // first, i need to get all states
+        // to get all shipping methods
+        // to insert all shipping methods on .all-shipping-options hare
+        // Add tax amount to all the orders
+        let state_id = $(this).val();
+        let data = new FormData();
+        data.append("id", state_id);
+        data.append("type", "state");
+        data.append("_token", "{{ csrf_token() }}");
 
-        function submitForm() {
-            $("#search_product").trigger("submit");
-        }
+        send_ajax_request("POST", data, "{{ route('frontend.shipping.module.methods') }}", () => {
 
-        // write code for ajax pagination
-        $(document).on("click", ".pagination a", function(e) {
-            e.preventDefault();
-
-            $("#search_page").val($(this).attr("data-page-index"));
-
-            submitForm();
-        });
-
-        $(document).on("click", ".list[data-type=category] a", function() {
-            $("#" + $(this).parent().attr("data-type")).val($(this).parent().attr("data-val"));
-
-            submitForm();
-        });
-
-        $(document).on("click", ".list[data-type=sub_category] a", function() {
-            $("#" + $(this).parent().attr("data-type")).val($(this).parent().attr("data-val"));
-
-            submitForm();
-        });
-
-        $(document).on("click", ".list[data-type=child_category] a", function() {
-            $("#" + $(this).parent().attr("data-type")).val($(this).parent().attr("data-val"));
-
-            submitForm();
-        });
-
-        $(document).on("click", ".color-lists .list[data-type=color] a", function() {
-            $("#" + $(this).parent().attr("data-type")).val($(this).parent().attr("data-val"));
-
-            submitForm();
-        });
-
-        $(document).on("click", ".size-lists .list[data-type=size] a", function() {
-            $("#" + $(this).parent().attr("data-type")).val($(this).parent().attr("data-val"));
-
-            submitForm();
-        });
-
-        $(document).on("click", ".brand-list .list[data-type=brand] a", function() {
-            $("#" + $(this).parent().attr("data-type")).val($(this).parent().attr("data-val"));
-
-            submitForm();
-        });
-
-        $(document).on("click", ".review-filter .list[data-type=rating] a", function() {
-            $("#" + $(this).parent().attr("data-type")).val($(this).parent().attr("data-val"));
-
-            submitForm();
-        });
-
-        $(document).on('click', '.active-list .list a', function() {
-            $(this).parent().siblings().removeClass('active');
-            $(this).parent().siblings().find('.submenu .list').removeClass('active');
-            $(this).parent().addClass('active');
-        });
-
-        $(document).on("change", "#order_by", function() {
-            $("#search_order_by").val($(this).val());
-
-            submitForm();
-        });
-
-        $(document).on("change", "#country", function() {
-            $("#search_country").val($(this).val());
-
-            submitForm();
-        });
-        $(document).on("change", "#state", function() {
-            $("#search_state").val($(this).val());
-
-            submitForm();
-        });
-        $(document).on("change", "#city", function() {
-            $("#search_city").val($(this).val());
-
-            submitForm();
-        });
-
-        $(document).on("change", "#country", function() {
-            // first i need to get all states
-            // get all shipping methods
-            // insert all shipping methods on .all-shipping-options hare
-            // Add tax amount to all the orders
-            let country_id = $(this).val();
-            let data = new FormData();
-            data.append("id", country_id);
-            data.append("type", "country");
-            data.append("_token", "{{ csrf_token() }}");
-
-            send_ajax_request("POST", data, "{{ route('frontend.shipping.module.methods') }}", () => {
-
-            }, (data) => {
-                if (data.success) {
-                    let statehtml = "<option value=''> {{ __('Select an state') }} </option>";
-                    data?.states?.forEach((state) => {
-                        statehtml += "<option value='" + state.id + "'>" + state.name +
-                            "</option>";
-                    });
-
-                    $('#state').html(statehtml);
-
-                }
-            }, function(xhr) {
-                ajax_toastr_error_message(xhr);
-            })
-        });
-        $(document).on("change", "#state", function() {
-            // first, i need to get all states
-            // to get all shipping methods
-            // to insert all shipping methods on .all-shipping-options hare
-            // Add tax amount to all the orders
-            let state_id = $(this).val();
-            let data = new FormData();
-            data.append("id", state_id);
-            data.append("type", "state");
-            data.append("_token", "{{ csrf_token() }}");
-
-            send_ajax_request("POST", data, "{{ route('frontend.shipping.module.methods') }}", () => {
-
-            }, (data) => {
-                if (data.success) {
+        }, (data) => {
+            if (data.success) {
 
 
-                    let cityhtml = "<option value=''> {{ __('Select an city') }} </option>";
-                    data?.cities?.forEach((city) => {
-                        cityhtml += "<option value='" + city.id + "'>" + city.name +
-                            "</option>";
-                    });
-                    $("#city").html(cityhtml);
+                let cityhtml = "<option value=''> {{ __('Select an city') }} </option>";
+                data?.cities?.forEach((city) => {
+                    cityhtml += "<option value='" + city.id + "'>" + city.name +
+                        "</option>";
+                });
+                $("#city").html(cityhtml);
 
-                }
-            }, function(xhr) {
-                ajax_toastr_error_message(xhr);
-            })
-        });
-    </script>
+            }
+        }, function(xhr) {
+            ajax_toastr_error_message(xhr);
+        })
+    });
+</script>
 @endsection

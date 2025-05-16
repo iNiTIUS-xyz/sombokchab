@@ -142,7 +142,7 @@
                         <h6>{{ float_amount_with_currency_symbol($subOrders->total_amount) }}</h6>
                     </div>
                     <div class="d-flex justify-content-between mb-2">
-                        <b>{{ __("Shipping Cost") }}</b>
+                        <b>{{ __("Cost Summary") }}</b>
                         <h6>{{ float_amount_with_currency_symbol($subOrders->shipping_cost) }}</h6>
                     </div>
                     <div class="d-flex justify-content-between mb-2">

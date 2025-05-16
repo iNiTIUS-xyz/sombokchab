@@ -5,7 +5,7 @@
 @endsection
 
 @section('product-category')
-    @if($product?->category)
+    @if ($product?->category)
         <li class="category-list">
             <a class="list-item" href="{{ route('frontend.products.category', $product?->category?->slug) }}">
                 {{ $product?->category?->name }}
@@ -13,7 +13,7 @@
         </li>
     @endif
 
-    @if($product?->subCategory)
+    @if ($product?->subCategory)
         <li class="category-list">
             <a class="list-item" href="{{ route('frontend.products.subcategory', $product?->subCategory?->slug) }}">
                 {{ $product?->subCategory?->name }}
@@ -24,8 +24,8 @@
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('assets/common/css/font-awesome.min.css') }}">
-    @if(moduleExists('Chat'))
-        @include("chat::components.frontend-css")
+    @if (moduleExists('Chat'))
+        @include('chat::components.frontend-css')
     @endif
 @endsection
 
@@ -38,31 +38,26 @@
     $deleted_price = !is_null($campaign_product) ? $product->sale_price : $product->price;
     $campaign_percentage = !is_null($campaign_product) ? getPercentage($product->sale_price, $sale_price) : false;
     $campaignSoldCount = $product?->campaign_sold_product;
-    $stock_count = $campaign_product ? $campaign_product->units_for_sale - optional($campaignSoldCount)->sold_count ?? 0 : optional($product->inventory)->stock_count;
+    $stock_count = $campaign_product
+        ? $campaign_product->units_for_sale - optional($campaignSoldCount)->sold_count ?? 0
+        : optional($product->inventory)->stock_count;
     $stock_count = $stock_count > (int) get_static_option('product_in_stock_limit_set') ? $stock_count : 0;
     $filter = $filter ?? false;
     $product_img_url = render_image($product->image, render_type: 'url');
 
     $vendor_information = $product->vendor ?? '';
     $product_id = $product->id ?? 0;
-    $facebook_meta_image=render_image($product->metaData?->facebook_meta_image ?? null, render_type: 'url');
-    $twitter_meta_image=render_image($product->metaData?->twitter_meta_image ?? null, render_type: 'url');
+    $facebook_meta_image = render_image($product->metaData?->facebook_meta_image ?? null, render_type: 'url');
+    $twitter_meta_image = render_image($product->metaData?->twitter_meta_image ?? null, render_type: 'url');
 @endphp
 @section('page-meta-data')
-    {!!  render_page_meta_data_for_product($product) !!}
+    {!! render_page_meta_data_for_product($product) !!}
 @endsection
 @section('content')
     <!-- Shop Details area end -->
     <div class="bradecrumb-wraper-div">
-        <x-product::frontend.breadcrumb.frontend-breadcrumb
-                :title="__('Product Details')"
-                :innerTitle="$product->category?->name"
-                :subInnerTitle="$product->subCategory?->name"
-                :chidInnerTitle="$product->childCategorySingle?->name ?? ''"
-                :routeName="route('frontend.products.category', $product->category?->slug ?? 'x')"
-                :subRouteName="route('frontend.products.subcategory', $product->subCategory?->slug ?? 'x')"
-                :childRouteName="route('frontend.products.child-category', $product->childCategorySingle?->slug ?? 'x')"
-        />
+        <x-product::frontend.breadcrumb.frontend-breadcrumb :title="__('Product Details')" :innerTitle="$product->category?->name" :subInnerTitle="$product->subCategory?->name"
+            :chidInnerTitle="$product->childCategorySingle?->name ?? ''" :routeName="route('frontend.products.category', $product->category?->slug ?? 'x')" :subRouteName="route('frontend.products.subcategory', $product->subCategory?->slug ?? 'x')" :childRouteName="route('frontend.products.child-category', $product->childCategorySingle?->slug ?? 'x')" />
     </div>
     <section class="shop-details-area padding-top-100 padding-bottom-50">
         <div class="container container-one">
@@ -72,7 +67,7 @@
                         <div class="col-lg-8 col-xl-7">
                             <div class="shop-details-top-slider big-product-image">
                                 <div class="shop-details-thumb-wrapper text-center bg-item-five product-image"
-                                     data-img-src="{{ render_image($product->image, render_type: 'url', class: 'lazyloads') }}">
+                                    data-img-src="{{ render_image($product->image, render_type: 'url', class: 'lazyloads') }}">
                                     <div class="shop-details-thums" id="shop-details-thums">
                                         {!! render_image($product->image, class: 'lazyloads') !!}
                                     </div>
@@ -81,11 +76,10 @@
 
                             <div class="shop-details-bottom-slider-area mt-4">
                                 <div class="global-slick-init shop-details-click-img dot-style-one banner-dots dot-absolute slider-inner-margin"
-                                     data-infinite="true" data-slidesToShow="5" data-dots="true"
-                                     data-rtl="{{get_user_lang_direction() == 'rtl' ? 'true' : 'false'}}"
-                                     data-autoplaySpeed="3000"
-                                     data-autoplay="true"
-                                     data-responsive='[{"breakpoint": 1800,"settings": {"slidesToShow": 4}},{"breakpoint": 1200,"settings": {"slidesToShow": 3}},{"breakpoint": 992,"settings": {"slidesToShow": 3,"arrows": false,"dots": true}},{"breakpoint": 768, "settings": {"slidesToShow": 2} },{"breakpoint": 376, "settings": {"slidesToShow": 2} }]'>
+                                    data-infinite="true" data-slidesToShow="5" data-dots="true"
+                                    data-rtl="{{ get_user_lang_direction() == 'rtl' ? 'true' : 'false' }}"
+                                    data-autoplaySpeed="3000" data-autoplay="true"
+                                    data-responsive='[{"breakpoint": 1800,"settings": {"slidesToShow": 4}},{"breakpoint": 1200,"settings": {"slidesToShow": 3}},{"breakpoint": 992,"settings": {"slidesToShow": 3,"arrows": false,"dots": true}},{"breakpoint": 768, "settings": {"slidesToShow": 2} },{"breakpoint": 376, "settings": {"slidesToShow": 2} }]'>
                                     <div class="shop-details-thumb-wrapper text-center bg-item-five">
                                         <div class="shop-details-thums shop-details-thums-small">
                                             {!! render_image($product->image, class: 'lazyloads') !!}
@@ -110,7 +104,7 @@
 
                                 {{-- @if($stock_count > (int) get_static_option('product_in_stock_limit_set') ?? 0)
                                     <span data-stock-text="{{ $stock_count }}"
-                                          class="availability text-success">{{ filter_static_option_value('product_in_stock_text', $setting_text, __('In stock')) }}
+                                        class="availability text-success">{{ filter_static_option_value('product_in_stock_text', $setting_text, __('In stock')) }}
                                         ({{ $stock_count }})
                                     </span>
                                 @else
@@ -122,9 +116,10 @@
                                     <h3 class="ff-rubik flash-prices color-one price" data-main-price="{{ $sale_price }}"
                                         data-price-percentage="{{ \Modules\TaxModule\Services\CalculateTaxServices::pricesEnteredWithTax() ? $product->tax_options_sum_rate : 0 }}"
                                         data-currency-symbol="{{ site_currency_symbol() }}" id="price">
-                                        {{ float_amount_with_currency_symbol(calculatePrice($sale_price, $product)) }} </h3>
+                                        {{ float_amount_with_currency_symbol(calculatePrice($sale_price, $product)) }}
+                                    </h3>
                                     <span class="fs-22 flash-old-prices" id="deleted_price"
-                                          data-deleted-price="{{ calculatePrice($deleted_price, $product) }}">
+                                        data-deleted-price="{{ calculatePrice($deleted_price, $product) }}">
                                         {{ float_amount_with_currency_symbol(calculatePrice($deleted_price, $product)) }}
                                     </span>
                                 </div>
@@ -138,7 +133,7 @@
                                         <span class="input-list">
                                             <strong class="color-light">{{ __('Size:') }}</strong>
                                             <input class="form--input value-size" name="size" type="text"
-                                                   value="">
+                                                value="">
                                             <input type="hidden" id="selected_size">
                                         </span>
 
@@ -159,7 +154,7 @@
                                         <span class="input-list">
                                             <strong class="color-light">{{ __('Color:') }}</strong>
                                             <input class="form--input value-size" disabled name="color" type="text"
-                                                   value="">
+                                                value="">
                                             <input type="hidden" id="selected_color">
                                         </span>
 
@@ -172,7 +167,7 @@
                                                         data-display-value="{{ optional($product_color)->name }}">
                                                         <span class="color-list-overlay"></span>
                                                         <span
-                                                                style="background: {{ optional($product_color)->color_code }}"></span>
+                                                            style="background: {{ optional($product_color)->color_code }}"></span>
                                                     </li>
                                                 @endif
                                             @endforeach
@@ -186,7 +181,7 @@
                                             <strong class="color-light">{{ $attribute }}</strong>
                                             <input class="form--input value-size" type="text" value="">
                                             <input type="hidden" id="selected_attribute_option"
-                                                   name="selected_attribute_option">
+                                                name="selected_attribute_option">
                                         </span>
 
                                         <ul class="size-lists" data-type="{{ $attribute }}">
@@ -206,24 +201,25 @@
                                                 <i class="las la-minus"></i>
                                             </span>
 
-                                            <input class="quantity-input" id="quantity" type="number" value="01" />
+                                            <input class="quantity-input" id="quantity" type="number"
+                                                value="01" />
 
                                             <span class="plus">
                                                 <i class="las la-plus"></i>
                                             </span>
                                         </div>
                                         <span data-stock-text="{{ $stock_count }}"
-                                              class="stock-available {{ $stock_count ? 'text-success' : 'text-danger' }}">
+                                            class="stock-available {{ $stock_count ? 'text-success' : 'text-danger' }}">
                                             {{ $stock_count ? "In Stock ($stock_count)" : 'Out of stock' }} </span>
                                     </div>
                                     <div class="quantity-btn margin-top-40">
                                         <div class="btn-wrapper">
                                             <a href="#1" data-id="{{ $product->id }}"
-                                               class="cmn-btn btn-bg-1 radius-0 cart-loading add_to_cart_single_page">
+                                                class="cmn-btn btn-bg-1 radius-0 cart-loading add_to_cart_single_page">
                                                 {{ __('Add to Cart') }} </a>
                                         </div>
                                         <a href="#1" data-id="{{ $product->id }}"
-                                           class="heart-btn fs-32 color-one radius-0 add_to_wishlist_single_page">
+                                            class="heart-btn fs-32 color-one radius-0 add_to_wishlist_single_page">
                                             <i class="lar la-heart"></i>
                                         </a>
                                     </div>
@@ -231,8 +227,8 @@
                                 <div class="wishlist-compare">
                                     <div class="wishlist-compare-btn">
                                         <a href="#1" data-id="{{ $product->id }}"
-                                           class="btn-wishlist buy_now_single_page btn-details btn-buyNow mt-4"> <i
-                                                    class="las la-cart-arrow-down"></i> {{ __('Buy now') }} </a>
+                                            class="btn-wishlist buy_now_single_page btn-details btn-buyNow mt-4"> <i
+                                                class="las la-cart-arrow-down"></i> {{ __('Buy now') }} </a>
                                         <a href="#1" data-id="{{ $product->id }}"
                                            class="btn-wishlist add_to_compare_single_page btn-details btn-buyNow mt-4">
                                             <i class="las la-retweet"></i> {{ __('Add Compare') }} </a>
@@ -243,12 +239,12 @@
                                         <span class="guaranteed-checkout fw-500 color-light">
                                             {{ __('Guaranteed Safe Checkout') }} </span>
                                         <div class="global-slick-init payment-slider nav-style-two dot-style-one slider-inner-margin"
-                                             data-infinite="true" data-arrows="true" data-dots="false"
-                                             data-slidesToShow="5" data-swipeToSlide="true" data-autoplay="true"
-                                             data-autoplaySpeed="2500"
-                                             data-prevArrow='<div class="prev-icon"><i class="las la-arrow-left"></i></div>'
-                                             data-nextArrow='<div class="next-icon"><i class="las la-arrow-right"></i></div>'
-                                             data-responsive='[{"breakpoint": 1800,"settings": {"slidesToShow": 5}},{"breakpoint": 1200,"settings": {"slidesToShow": 4}},{"breakpoint": 992,"settings": {"slidesToShow": 4,"arrows": false,"dots": true}},{"breakpoint": 768, "settings": {"slidesToShow": 2} },{"breakpoint": 576, "settings": {"slidesToShow": 2} }]'>
+                                            data-infinite="true" data-arrows="true" data-dots="false"
+                                            data-slidesToShow="5" data-swipeToSlide="true" data-autoplay="true"
+                                            data-autoplaySpeed="2500"
+                                            data-prevArrow='<div class="prev-icon"><i class="las la-arrow-left"></i></div>'
+                                            data-nextArrow='<div class="next-icon"><i class="las la-arrow-right"></i></div>'
+                                            data-responsive='[{"breakpoint": 1800,"settings": {"slidesToShow": 5}},{"breakpoint": 1200,"settings": {"slidesToShow": 4}},{"breakpoint": 992,"settings": {"slidesToShow": 4,"arrows": false,"dots": true}},{"breakpoint": 768, "settings": {"slidesToShow": 2} },{"breakpoint": 576, "settings": {"slidesToShow": 2} }]'>
                                             @foreach ($paymentGateways as $gateway)
                                                 <div class="slick-item">
                                                     <div class="payment-slider-item">
@@ -259,36 +255,36 @@
                                         </div>
                                     </div>
                                     <ul class="stock-category mt-4">
-                                        @if($product?->category)
+                                        @if ($product?->category)
                                             <li class="category-list">
                                                 <strong> {{ __('Category:') }} </strong>
                                                 <a class="list-item"
-                                                   href="{{ route('frontend.products.category', $product?->category?->slug) }}">
+                                                    href="{{ route('frontend.products.category', $product?->category?->slug) }}">
                                                     {{ $product?->category?->name }}
                                                 </a>
                                             </li>
                                         @endif
-                                        @if($product?->subCategory)
+                                        @if ($product?->subCategory)
                                             <li class="category-list">
                                                 <strong> {{ __('Sub Category:') }} </strong>
                                                 <a class="list-item"
-                                                   href="{{ route('frontend.products.subcategory', $product?->subCategory?->slug) }}">
+                                                    href="{{ route('frontend.products.subcategory', $product?->subCategory?->slug) }}">
                                                     {{ $product?->subCategory?->name }}
                                                 </a>
                                             </li>
                                         @endif
-                                        @if($product->childCategory)
+                                        @if ($product->childCategory)
                                             <li class="category-list">
                                                 <strong> {{ __('Child Category:') }} </strong>
                                                 @foreach ($product?->childCategory ?? [] as $childCategory)
                                                     <a class="list-item"
-                                                       href="{{ route('frontend.products.child-category', $childCategory?->slug) }}">
+                                                        href="{{ route('frontend.products.child-category', $childCategory?->slug) }}">
                                                         {{ $childCategory?->name }}
                                                     </a>
                                                 @endforeach
                                             </li>
                                         @endif
-                                        @if(!empty(get_static_option('product_sku_show_hide')))
+                                        @if (!empty(get_static_option('product_sku_show_hide')))
                                             <li class="category-list">
                                                 <strong> {{ __('Sku:') }} </strong>
                                                 <label class="list-item"> {{ $product->inventory?->sku }} </label>
@@ -304,7 +300,7 @@
                                                 @foreach ($product->tag ?? [] as $tag)
                                                     <li class="list">
                                                         <a
-                                                                href="{{ route('frontend.products.all', ['tag-name' => $tag->tag_name]) }}">
+                                                            href="{{ route('frontend.products.all', ['tag-name' => $tag->tag_name]) }}">
                                                             {{ $tag->tag_name }} </a>
                                                     </li>
                                                 @endforeach
@@ -330,7 +326,8 @@
                                             data-tab="reviews"> {{ __('Reviews') }}
                                             ({{ $product->reviews_count }}) </li>
                                     </ul>
-                                    <div id="description" class="tab-content-item {{ $product->reviews_count > 0 ? '' : 'active' }}">
+                                    <div id="description"
+                                        class="tab-content-item {{ $product->reviews_count > 0 ? '' : 'active' }}">
                                         {!! $product->description !!}
                                     </div>
                                     <div id="information" class="tab-content-item">
@@ -339,13 +336,15 @@
                                                 <div class="tab-information">
                                                     <div class="about-seller-flex-content align-items-center">
                                                         <div class="about-seller-thumb">
-                                                            <a  href="{{ route('frontend.vendors.single', $product?->vendor?->username) }}">
+                                                            <a
+                                                                href="{{ route('frontend.vendors.single', $product?->vendor?->username) }}">
                                                                 {!! render_image($product?->vendor?->vendor_shop_info?->logo) !!}
                                                             </a>
                                                         </div>
                                                         <div class="about-seller-content">
                                                             <h5 class="title">
-                                                                <a   href="{{ route('frontend.vendors.single', $product?->vendor?->username) }}">
+                                                                <a
+                                                                    href="{{ route('frontend.vendors.single', $product?->vendor?->username) }}">
                                                                     {{ $product?->vendor?->owner_name }}
                                                                 </a>
                                                             </h5>
@@ -353,7 +352,7 @@
                                                             <div class="rating-wrap mt-2">
                                                                 <div class="rating-wrap">
                                                                     <x-product::frontend.common.rating-markup
-                                                                            :avg-rattings="$product?->vendor
+                                                                        :avg-rattings="$product?->vendor
                                                                             ?->vendor_product_rating_avg_product_ratingsrating" :rating-count="$product?->vendor
                                                                             ?->vendor_product_rating_count" />
                                                                 </div>
@@ -375,7 +374,8 @@
                                             @endif
                                         </div>
                                     </div>
-                                    <div id="reviews" class="tab-content-item {{ $product->reviews_count > 0 ? 'active' : '' }} ">
+                                    <div id="reviews"
+                                        class="tab-content-item {{ $product->reviews_count > 0 ? 'active' : '' }} ">
                                         <div class="single-details-tab">
                                             <div class="feedback">
                                                 @if (auth('web')->check())
@@ -393,11 +393,12 @@
                                                         </div>
                                                         <div class="feedback-form">
                                                             <form method="POST"
-                                                                  action="{{ route('frontend.products.ratings.store', $product->slug) }}">
+                                                                action="{{ route('frontend.products.ratings.store', $product->slug) }}">
                                                                 @csrf
                                                                 <input name="id" value="{{ $product->id }}"
-                                                                       type="hidden">
-                                                                <input value="" name="rating" id="rating-number" type="hidden" />
+                                                                    type="hidden">
+                                                                <input value="" name="rating" id="rating-number"
+                                                                    type="hidden" />
 
                                                                 <div class="form-group">
                                                                     <label for="comment">
@@ -406,11 +407,11 @@
                                                                         <span class="required">*</span>
                                                                     </label>
                                                                     <textarea class="form-control" id="comment" name="comment" required=""
-                                                                              placeholder="{{ filter_static_option_value('write_your_feedback_text', $setting_text, __('Write your feedback here')) }}"></textarea>
+                                                                        placeholder="{{ filter_static_option_value('write_your_feedback_text', $setting_text, __('Write your feedback here')) }}"></textarea>
                                                                 </div>
                                                                 <div class="btn-wrapper">
                                                                     <button type="submit"
-                                                                            class="btn-default rounded-btn">
+                                                                        class="btn-default rounded-btn">
                                                                         {{ filter_static_option_value('post_your_feedback_text', $setting_text, __('Post your feedback')) }}
                                                                     </button>
                                                                 </div>
@@ -421,39 +422,38 @@
                                                     <div class="row">
                                                         <div class="col-sm-6">
                                                             <form action="{{ route('user.login') }}" method="post"
-                                                                  class="register-form" id="login_form_order_page">
+                                                                class="register-form" id="login_form_order_page">
                                                                 @csrf
                                                                 <div class="error-wrap"></div>
 
                                                                 <div class="row">
                                                                     <div class="form-group col-12">
                                                                         <label
-                                                                                for="login_email">{{ __('Email or User Name') }}
+                                                                            for="login_email">{{ __('Email or User Name') }}
                                                                             <span class="ex">*</span></label>
                                                                         <input class="form-control" type="text"
-                                                                               name="username" id="login_email"
-                                                                               required />
+                                                                            name="username" id="login_email" required />
                                                                     </div>
                                                                     <div class="form-group col-12">
-                                                                        <label
-                                                                                for="login_password">{{ __('Password') }}
+                                                                        <label for="login_password">{{ __('Password') }}
                                                                             <span class="ex">*</span></label>
                                                                         <input class="form-control" type="password"
-                                                                               name="password" id="login_password"
-                                                                               required />
+                                                                            name="password" id="login_password"
+                                                                            required />
                                                                     </div>
                                                                     <div class="form-group form-check col-12 mx-4">
                                                                         <input type="checkbox" name="remember"
-                                                                               class="form-check-input"
-                                                                               id="login_remember">
-                                                                        <label class="form-check-label" for="remember">{{ __('Remember me') }}
+                                                                            class="form-check-input" id="login_remember">
+                                                                        <label class="form-check-label"
+                                                                            for="remember">{{ __('Remember me') }}
                                                                         </label>
                                                                     </div>
                                                                 </div>
                                                                 <div class="btn-pair">
                                                                     <div class="btn-wrapper">
-                                                                        <button type="button" class="cmn-btn btn-bg-1 radius-0"
-                                                                                id="login_btn">{{ __('SIGN IN') }}</button>
+                                                                        <button type="button"
+                                                                            class="cmn-btn btn-bg-1 radius-0"
+                                                                            id="login_btn">{{ __('SIGN IN') }}</button>
                                                                     </div>
                                                                 </div>
                                                             </form>
@@ -473,13 +473,13 @@
                                                                         {{ $review?->user?->name }} </a> </h5>
                                                                 <div class="rating-wrap mt-2">
                                                                     <x-product::frontend.common.rating-markup
-                                                                            :avg-rattings="$product->reviews_avg_rating" />
+                                                                        :avg-rattings="$product->reviews_avg_rating" />
                                                                 </div>
                                                                 <p class="about-review-para">
                                                                     {{ $review->review_msg }}
                                                                 </p>
                                                                 <span
-                                                                        class="review-date">{{ $review->created_at->format('d F Y') }}</span>
+                                                                    class="review-date">{{ $review->created_at->format('d F Y') }}</span>
                                                             </div>
                                                         </div>
                                                     @empty
@@ -512,16 +512,17 @@
                                     <h5 class="title-sidebar-global"> {{ __('Sold By:') }} </h5>
                                     <div class="best-seller-sidebar mt-4">
                                         <a href="{{ route('frontend.vendors.single', $product->vendor->username) }}"
-                                           class="thumb-brand">
+                                            class="thumb-brand">
                                             {!! render_image($product->vendor?->vendor_shop_info?->logo) !!}
                                         </a>
                                         <div class="best-seller-contents mt-3">
                                             <h5 class="common-title-two">
-                                                <a href="{{ route('frontend.vendors.single', $product->vendor->username) }}">
+                                                <a
+                                                    href="{{ route('frontend.vendors.single', $product->vendor->username) }}">
                                                     {{ $product->vendor->business_name }}
                                                 </a>
-                                                @if(!empty($product->vendor))
-                                                 <x-badges.store-verify-badge :vendorStatus="$product->vendor?->status_id"/>
+                                                @if (!empty($product->vendor))
+                                                    <x-badges.store-verify-badge :vendorStatus="$product->vendor?->status_id" />
                                                 @endif
                                             </h5>
 
@@ -529,22 +530,25 @@
                                                 <div class="rating-wrap">
                                                     <x-product::frontend.common.rating-markup :avg-rattings="$product->vendor
                                                         ->vendor_product_rating_avg_product_ratingsrating"
-                                                                                              :rating-count="$product->vendor->vendor_product_rating_count" />
+                                                        :rating-count="$product->vendor->vendor_product_rating_count" />
                                                 </div>
                                             </div>
 
                                             <a href="{{ route('frontend.vendor.product', $product->vendor->username) }}"
-                                               class="color-stock d-block fs-16 fw-500 mt-3">
+                                                class="color-stock d-block fs-16 fw-500 mt-3">
                                                 {{ $product->vendor?->product_count ?? 0 }} {{ __('Products') }}
                                             </a>
 
                                             <div class="sidebar-wrapper-btn">
                                                 <a href="{{ route('frontend.vendors.single', $product->vendor->username) }}"
-                                                   class="visit-btn btn-visit-chat visit__btn__outline mt-3">
+                                                    class="visit-btn btn-visit-chat visit__btn__outline mt-3">
                                                     {{ __('Visit Store') }}
                                                 </a>
-                                                @if(moduleExists("Chat"))
-                                                    @include("chat::components.live-chat-button", ["from" => "product", "product" => $product])
+                                                @if (moduleExists('Chat'))
+                                                    @include('chat::components.live-chat-button', [
+                                                        'from' => 'product',
+                                                        'product' => $product,
+                                                    ])
                                                 @endif
                                             </div>
                                         </div>
@@ -593,17 +597,16 @@
                                     <div class="row mt-4">
                                         <div class="col-lg-12">
                                             <div class="global-slick-init deal-slider nav-style-two dot-style-one slider-inner-margin"
-                                                 data-infinite="true" data-arrows="true" data-dots="false"
-                                                 data-slidesToShow="1" data-swipeToSlide="true"
-                                                 data-rtl="{{get_user_lang_direction() == 'rtl' ? 'true' : 'false'}}"
-                                                 data-autoplay="true"
-                                                 data-autoplaySpeed="2500"
-                                                 data-prevArrow='<div class="prev-icon"><i class="las la-arrow-left"></i></div>'
-                                                 data-nextArrow='<div class="next-icon"><i class="las la-arrow-right"></i></div>'
-                                                 data-responsive='[{"breakpoint": 1800,"settings": {"slidesToShow": 1}},{"breakpoint": 1200,"settings": {"slidesToShow": 3}},{"breakpoint": 992,"settings": {"slidesToShow": 2,"arrows": false,"dots": true}},{"breakpoint": 768, "settings": {"slidesToShow": 2} },{"breakpoint": 576, "settings": {"slidesToShow": 1} }]'>
+                                                data-infinite="true" data-arrows="true" data-dots="false"
+                                                data-slidesToShow="1" data-swipeToSlide="true"
+                                                data-rtl="{{ get_user_lang_direction() == 'rtl' ? 'true' : 'false' }}"
+                                                data-autoplay="true" data-autoplaySpeed="2500"
+                                                data-prevArrow='<div class="prev-icon"><i class="las la-arrow-left"></i></div>'
+                                                data-nextArrow='<div class="next-icon"><i class="las la-arrow-right"></i></div>'
+                                                data-responsive='[{"breakpoint": 1800,"settings": {"slidesToShow": 1}},{"breakpoint": 1200,"settings": {"slidesToShow": 3}},{"breakpoint": 992,"settings": {"slidesToShow": 2,"arrows": false,"dots": true}},{"breakpoint": 768, "settings": {"slidesToShow": 2} },{"breakpoint": 576, "settings": {"slidesToShow": 1} }]'>
                                                 @foreach ($product->vendor->product as $product)
                                                     <div class="slick-slider-items wow fadeInUp"
-                                                         data-wow-delay=".{{ $loop->iteration }}s">
+                                                        data-wow-delay=".{{ $loop->iteration }}s">
                                                         <x-product::frontend.grid-style-03 :$product />
                                                     </div>
                                                 @endforeach
@@ -634,13 +637,12 @@
             <div class="row">
                 <div class="col-lg-12 mt-5">
                     <div class="global-slick-init relatedProducts-slider recent-slider nav-style-one slider-inner-margin"
-                         data-infinite="true" data-arrows="true" data-dots="false" data-slidesToShow="6"
-                         data-swipeToSlide="true"
-                         data-rtl="{{get_user_lang_direction() == 'rtl' ? 'true' : 'false'}}"
-                         data-autoplay="true" data-autoplaySpeed="2500"
-                         data-prevArrow='<div class="prev-icon"><i class="las la-arrow-left"></i></div>'
-                         data-nextArrow='<div class="next-icon"><i class="las la-arrow-right"></i></div>'
-                         data-responsive='[{"breakpoint": 1800,"settings": {"slidesToShow": 5}},{"breakpoint": 1400,"settings": {"slidesToShow": 4}},{"breakpoint": 1200,"settings": {"slidesToShow": 3}},{"breakpoint": 992,"settings": {"slidesToShow": 2}},{"breakpoint": 768, "settings": {"slidesToShow": 2}},{"breakpoint": 576, "settings": {"slidesToShow": 1} }]'>
+                        data-infinite="true" data-arrows="true" data-dots="false" data-slidesToShow="6"
+                        data-swipeToSlide="true" data-rtl="{{ get_user_lang_direction() == 'rtl' ? 'true' : 'false' }}"
+                        data-autoplay="true" data-autoplaySpeed="2500"
+                        data-prevArrow='<div class="prev-icon"><i class="las la-arrow-left"></i></div>'
+                        data-nextArrow='<div class="next-icon"><i class="las la-arrow-right"></i></div>'
+                        data-responsive='[{"breakpoint": 1800,"settings": {"slidesToShow": 5}},{"breakpoint": 1400,"settings": {"slidesToShow": 4}},{"breakpoint": 1200,"settings": {"slidesToShow": 3}},{"breakpoint": 992,"settings": {"slidesToShow": 2}},{"breakpoint": 768, "settings": {"slidesToShow": 2}},{"breakpoint": 576, "settings": {"slidesToShow": 1} }]'>
                         @foreach ($related_products as $product)
                             <x-product::frontend.grid-style-03 :$product :$loop />
                         @endforeach
@@ -651,14 +653,14 @@
     </section>
     <!-- Related Products area end -->
 
-    @if(moduleExists("Chat"))
-        @include("chat::components.live-chat-modal", ["vendor" => $vendor_information])
+    @if (moduleExists('Chat'))
+        @include('chat::components.live-chat-modal', ['vendor' => $vendor_information])
     @endif
 @endsection
 
 @section('script')
-    @if (!empty($vendor_information) && moduleExists("Chat"))
-        @include("chat::components.frontend-js", ["id" => $product_id, "vendor" => $vendor_information])
+    @if (!empty($vendor_information) && moduleExists('Chat'))
+        @include('chat::components.frontend-js', ['id' => $product_id, 'vendor' => $vendor_information])
     @endif
 
     <script>
@@ -706,6 +708,7 @@
 
         $(document).on('click', '.add_to_cart_single_page', function(e) {
             e.preventDefault();
+
             let selected_size = $('#selected_size').val();
             let selected_color = $('#selected_color').val();
             let site_currency_symbol = "{{ site_currency_symbol() }}";
@@ -1212,12 +1215,12 @@
         function getSelectionHash(selected_options) {
             return MD5(JSON.stringify(selected_options));
         }
-        $(document).on("click",".shop-details-thums-small",function(){
-            src=$(this).children().attr('src');
-            $("#shop-details-thums").children('img').attr("src",src);
+        $(document).on("click", ".shop-details-thums-small", function() {
+            src = $(this).children().attr('src');
+            $("#shop-details-thums").children('img').attr("src", src);
         })
         $(document).on({
-            mouseenter: function () {
+            mouseenter: function() {
                 // When the mouse enters an element with class 'shop-details-thums-small'
                 var src = $(this).children('img').attr('src');
                 $("#shop-details-thums").children('img').attr("src", src);

@@ -783,7 +783,7 @@
                 calculateOrderSummary();
             @endif
 
-            // now get default shipping cost
+            // now get default Cost Summary
             selectDefaultShippingMethod();
         });
 
