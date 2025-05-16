@@ -62,13 +62,13 @@
                                         {!! view('product::components.frontend.common.rating-markup', compact('product')) !!}
                                     </div>
 
-                                    @if($stock_count > 0)
+                                    {{-- @if($stock_count > 0)
                                         <span data-stock-text="{{ $stock_count }}" class="quick-view-availability text-success">{{ filter_static_option_value('product_in_stock_text', $setting_text, __('In stock')) }} ({{ $stock_count }})</span>
                                     @else
                                         <span data-stock-text="{{ $stock_count }}" class="quick-view-availability text-danger">{{ filter_static_option_value('product_out_of_stock_text', $setting_text, __('Out of stock')) }}</span>
-                                    @endif
+                                    @endif --}}
 
-                                    <div class="price-update-through mt-4">
+                                    <div class="price-update-through">
                                         <h3 class="ff-rubik flash-prices color-one price"
                                             data-main-price="{{ $sale_price }}"
                                             data-currency-symbol="{{ site_currency_symbol() }}"
@@ -163,7 +163,7 @@
                                     <div class="wishlist-compare">
                                         <div class="wishlist-compare-btn mt-4">
                                             <a href="#1" data-id="{{ $product->id }}" class="btn-wishlist buy_now_single_page_quick_view btn-details btn-buyNow"> <i class="las la-cart-arrow-down"></i> {{ __("Buy now") }} </a>
-                                            <a href="#1" data-id="{{ $product->id }}" class="btn-wishlist add_to_compare_single_page_quick_view btn-details btn-addCompare"> <i class="las la-retweet"></i> {{ __("Add Compare") }} </a>
+                                            <a href="#1" data-id="{{ $product->id }}" class="btn-wishlist add_to_compare_single_page_quick_view btn-details btn-buyNow"> <i class="las la-retweet"></i> {{ __("Add Compare") }} </a>
                                         </div>
                                     </div>
                                     <div class="shop-details-stock shop-border-top pt-4 mt-4">

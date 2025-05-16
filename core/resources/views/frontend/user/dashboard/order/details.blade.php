@@ -590,10 +590,7 @@
                                     </li>
                                 </ul>
 
-                                <div class="btn-wrapper margin-top-40">
-                                    <a href="{{ route('user.home') }}"
-                                        class="cmn_btn btn_bg_2">{{ __('Go to Dashboard') }}</a>
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -718,6 +715,13 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="btn-wrapper margin-top-40">
+                    <a href="{{ route('user.home') }}" class="cmn_btn default-theme-btn" style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                                            {{ __('Back to Dashboard') }}
+                                        </a>
+                    {{-- <a href="{{ route('user.home') }}"
+                        class="cmn_btn btn_bg_2">{{ __('Go to Dashboard') }}</a> --}}
                 </div>
             </div>
         </div>
