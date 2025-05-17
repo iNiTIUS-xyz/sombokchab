@@ -1,8 +1,10 @@
 @extends('frontend.user.dashboard.user-master')
+
 @section('section')
     <div class="btn-wrapper">
-        <a href="{{ route('user.shipping.address.new') }}"
-            class="cmn_btn btn_bg_2">{{ __('Add Shipping Address') }}</a>
+        <a href="{{ route('user.shipping.address.new') }}" class="cmn_btn btn_bg_2">
+            {{ __('Add Shipping Address') }}
+        </a>
     </div>
     @if ($all_shipping_address && $all_shipping_address->count())
         <div class="dashboard__card__shipping mt-4">
@@ -19,6 +21,7 @@
                                 <th>#</th>
                                 <th>{{ __('Name') }}</th>
                                 <th>{{ __('Address') }}</th>
+                                <th>{{ __('Is Default') }}</th>
                                 <th>{{ __('Action') }}</th>
                             </tr>
                         </thead>
@@ -28,14 +31,17 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $address->name }}</td>
                                     <td>{{ $address->address }}</td>
+                                    <td>{{ $address->is_default == 1 ? 'Yes' : 'No' }}</td>
                                     <td>
-                                        <!-- Edit Button -->
-                                        <a href="{{ route('user.shipping.address.edit', $address->id) }}" class="btn btn-sm btn-warning btn-xs mb-2 me-1">
+                                        <a href="{{ route('user.shipping.address.edit', $address->id) }}"
+                                            class="btn btn-sm btn-warning btn-xs mb-2 me-1">
                                             <i class="las la-edit"></i>
                                         </a>
-                                    
-                                        <!-- Delete Button -->
                                         <x-table.btn.swal.delete :route="route('shipping.address.delete', $address->id)" />
+                                        <a href="{{ route('user.shipping.address.make-default', $address->id) }}"
+                                            class="btn btn-sm btn-info btn-xs mb-2 me-1">
+                                            {{ __('Make default') }}
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -50,10 +56,10 @@
     @else
         <div class="alert alert-warning mt-4">
             {{ __('No shipping address found. ') }}
-            {{-- <a class="btn btn-link" href="{{ route('user.shipping.address.new') }}">{{ __('Create New?') }}</a> --}}
         </div>
     @endif
 @endsection
+
 @section('script')
     <script src="{{ asset('assets/backend/js/sweetalert2.js') }}"></script>
     <x-table.btn.swal.js />

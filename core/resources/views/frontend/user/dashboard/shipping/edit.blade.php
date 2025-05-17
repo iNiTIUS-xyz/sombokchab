@@ -7,7 +7,8 @@
         <div class="dashboard__card__header">
             <h5 class="dashboard__card__title">{{ __('Edit Shipping Address') }}</h5>
             <div class="btn-wrapper">
-                <a href="{{ route('user.shipping.address.all') }}" class="cmn_btn btn_bg_2">{{ __('All Shipping Address') }}</a>
+                <a href="{{ route('user.shipping.address.all') }}"
+                    class="cmn_btn btn_bg_2">{{ __('All Shipping Address') }}</a>
             </div>
         </div>
         <div class="dashboard__card__body custom__form mt-4">
@@ -18,27 +19,33 @@
                 <div class="form-row row g-4">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="label-title">{{ __('Shipping Address Name') }} <span>({{ __('optional') }})</span></label>
-                            <input class="form--control" type="text" name="shipping_address_name" value="{{ $address->shipping_address_name }}" placeholder="{{ __('Shipping Address Name') }}">
+                            <label class="label-title">{{ __('Shipping Address Name') }}
+                                <span>({{ __('optional') }})</span></label>
+                            <input class="form--control" type="text" name="shipping_address_name"
+                                value="{{ $address->shipping_address_name }}"
+                                placeholder="{{ __('Shipping Address Name') }}">
                         </div>
                     </div>
-            
+
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="name">{{ __('Full Name') }}</label>
-                            <input type="text" class="form-control" name="name" id="name" value="{{ $address->name }}" placeholder="{{ __('Enter Full Name') }}" required>
+                            <input type="text" class="form-control" name="name" id="name"
+                                value="{{ $address->name }}" placeholder="{{ __('Enter Full Name') }}" required>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="email">{{ __('Email') }} <span>({{ __('optional') }})</span></label>
-                            <input type="text" class="form-control" name="email" id="email" value="{{ $address->email }}" placeholder="{{ __('Enter Email') }}">
+                            <input type="text" class="form-control" name="email" id="email"
+                                value="{{ $address->email }}" placeholder="{{ __('Enter Email') }}">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="phone">{{ __('Phone') }}</label>
-                            <input type="number" class="form-control" name="phone" id="phone" value="{{ $address->phone }}" placeholder="{{ __('Enter Phone Number') }}" required>
+                            <input type="number" class="form-control" name="phone" id="phone"
+                                value="{{ $address->phone }}" placeholder="{{ __('Enter Phone Number') }}" required>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -47,7 +54,8 @@
                             <select class="form-control" name="country" id="country" required>
                                 <option value="">{{ __('Select Country') }}</option>
                                 @foreach ($all_country as $country)
-                                    <option value="{{ $country->id }}" {{ $address->country_id == $country->id ? 'selected' : '' }}>
+                                    <option value="{{ $country->id }}"
+                                        {{ $address->country_id == $country->id ? 'selected' : '' }}>
                                         {{ $country->name }}
                                     </option>
                                 @endforeach
@@ -60,7 +68,8 @@
                             <select class="form-control" name="state" id="state">
                                 <option value="">{{ __('Select City') }}</option>
                                 @if ($address->state_id)
-                                    <option value="{{ $address->state_id }}" selected>{{ $address->state->name ?? '' }}</option>
+                                    <option value="{{ $address->state_id }}" selected>{{ $address->state->name ?? '' }}
+                                    </option>
                                 @endif
                             </select>
                         </div>
@@ -79,7 +88,8 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="zipcode">{{ __('Postal Code') }} <span>({{ __('optional') }})</span></label>
-                            <input type="text" class="form-control" name="zipcode" id="zipcode" value="{{ $address->zip_code }}">
+                            <input type="text" class="form-control" name="zipcode" id="zipcode"
+                                value="{{ $address->zip_code }}">
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -88,10 +98,20 @@
                             <textarea class="form-control" name="address" id="address" rows="3">{{ $address->address }}</textarea>
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="country">{{ __('Is Default') }}</label>
+                            <select class="form-control" name="is_default" required>
+                                <option value="1" @if ($address->is_default == 1) selected @endif>Yes</option>
+                                <option value="0" @if ($address->is_default == 0) selected @endif>No</option>
+                            </select>
+                        </div>
+                    </div>
                     <div class="col-md-12">
                         <div class="btn-wrapper">
                             <button type="submit" class="cmn_btn btn_bg_2">{{ __('Update') }}</button>
-                            <a href="{{ route('user.shipping.address.all') }}" class="cmn_btn btn_bg_1">{{ __('Cancel') }}</a>
+                            <a href="{{ route('user.shipping.address.all') }}"
+                                class="cmn_btn btn_bg_1">{{ __('Cancel') }}</a>
                         </div>
                     </div>
                 </div>
@@ -123,7 +143,8 @@
                         $('.lds-ellipsis').hide();
                         $('#state').html('<option value="">{{ __('Select City') }}</option>');
                         data.states.map(function(e) {
-                            $('#state').append('<option value="' + e.id + '">' + e.name + '</option>');
+                            $('#state').append('<option value="' + e.id + '">' + e
+                                .name + '</option>');
                         });
                     });
                 });
@@ -138,9 +159,11 @@
                             // do success action hare
                             $('.cart-items-wrapper').html(data.cart_items);
 
-                            let cityhtml = "<option value=''> {{ __('Select Province') }} </option>";
+                            let cityhtml =
+                                "<option value=''> {{ __('Select Province') }} </option>";
                             data?.cities?.forEach((city) => {
-                                cityhtml += "<option value='" + city.id + "'>" + city.name + "</option>";
+                                cityhtml += "<option value='" + city.id + "'>" + city.name +
+                                    "</option>";
                             });
 
                             $("#city").html(cityhtml);

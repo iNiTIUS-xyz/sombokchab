@@ -15,7 +15,7 @@ class FlashMsg
     {
         return [
             'type' => 'success',
-            'msg' => __( ucfirst($item) . " Created Successfully")
+            'msg' => __( ucfirst($item) . " Created Successfully.")
         ];
     }
 
@@ -23,7 +23,7 @@ class FlashMsg
     {
         return [
             'type' => 'danger',
-            'msg' => __( ucfirst($item) . " Create Failed")
+            'msg' => __( ucfirst($item) . " Create Failed.")
         ];
     }
 
@@ -34,7 +34,7 @@ class FlashMsg
     {
         return [
             'type' => 'success',
-            'msg' => __( ucfirst($item) . " Updated Successfully")
+            'msg' => __( ucfirst($item) . " Updated Successfully.")
         ];
     }
 
@@ -42,7 +42,7 @@ class FlashMsg
     {
         return [
             'type' => 'danger',
-            'msg' => __( ucfirst($item) . " Update Failed")
+            'msg' => __( ucfirst($item) . " Update Failed.")
         ];
     }
 
@@ -53,7 +53,7 @@ class FlashMsg
     {
         return [
             'type' => 'danger',
-            'msg' => __( ucfirst($item) . " Deleted Successfully")
+            'msg' => __( ucfirst($item) . " Deleted Successfully.")
         ];
     }
 
@@ -61,7 +61,7 @@ class FlashMsg
     {
         return [
             'type' => 'danger',
-            'msg' => __( ucfirst($item) . " Delete Failed")
+            'msg' => __( ucfirst($item) . " Delete Failed.")
         ];
     }
 
@@ -72,7 +72,7 @@ class FlashMsg
     {
         return [
             'type' => 'success',
-            'msg' => __( ucfirst($item) . " Cloned Successfully")
+            'msg' => __( ucfirst($item) . " Cloned Successfully.")
         ];
     }
 
@@ -80,7 +80,7 @@ class FlashMsg
     {
         return [
             'type' => 'success',
-            'msg' => __( ucfirst($item) . " Cloned Failed")
+            'msg' => __( ucfirst($item) . " Cloned Failed.")
         ];
     }
 
@@ -98,7 +98,7 @@ class FlashMsg
 
         return [
             'type' => 'success',
-            'msg' => __("Signup Success")
+            'msg' => __("Signup Success.")
         ];
     }
 
@@ -106,7 +106,7 @@ class FlashMsg
     {
         return [
             'type' => 'danger',
-            'msg' => __("Signup Failed")
+            'msg' => __("Signup Failed.")
         ];
     }
 
@@ -117,7 +117,7 @@ class FlashMsg
     {
         return [
             'type' => 'success',
-            'msg' => __("Teacher approve Success")
+            'msg' => __("Teacher approve Success.")
         ];
     }
 
@@ -125,7 +125,7 @@ class FlashMsg
     {
         return [
             'type' => 'danger',
-            'msg' => __("Teacher approve Failed")
+            'msg' => __("Teacher approve Failed.")
         ];
     }
 
@@ -151,63 +151,63 @@ class FlashMsg
     {
         return [
             'type' => 'success',
-            'msg' => $msg ?? __('Item Cloned Successfully')
+            'msg' => $msg ?? __('Item Cloned Successfully.')
         ];
     }
     public static function item_new($msg = null)
     {
         return [
             'type' => 'success',
-            'msg' => $msg ?? __('Item Added Successfully')
+            'msg' => $msg ?? __('Item Added Successfully.')
         ];
     }
     public static function item_update($msg = null)
     {
         return [
             'type' => 'success',
-            'msg' => $msg ?? __('Item Updated Successfully')
+            'msg' => $msg ?? __('Item Updated Successfully.')
         ];
     }
     public static function item_delete($msg = null)
     {
         return [
             'type' => 'danger',
-            'msg' => $msg ?? __('Item Deleted Successfully')
+            'msg' => $msg ?? __('Item Deleted Successfully.')
         ];
     }
     public static function item_clone($msg = null)
     {
         return [
             'type' => 'success',
-            'msg' => $msg ?? __('Item Cloned Successfully')
+            'msg' => $msg ?? __('Item Cloned Successfully.')
         ];
     }
     public static function settings_update($msg = null)
     {
         return [
             'type' => 'success',
-            'msg' => $msg ?? __('Settings Updated Successfully')
+            'msg' => $msg ?? __('Settings Updated Successfully.')
         ];
     }
     public static function settings_new($msg = null)
     {
         return [
             'type' => 'success',
-            'msg' => $msg ?? __('Settings Added Successfully')
+            'msg' => $msg ?? __('Settings Added Successfully.')
         ];
     }
     public static function settings_delete($msg = null)
     {
         return [
             'type' => 'danger',
-            'msg' => $msg ?? __('Settings Deleted Successfully')
+            'msg' => $msg ?? __('Settings Deleted Successfully.')
         ];
     }
     public static function restore_succeed(String $item) : array
     {
         return [
             'type' => 'success',
-            'msg' => __( ucfirst($item) . " Restore Successfully")
+            'msg' => __( ucfirst($item) . " Restore Successfully.")
         ];
     }
 
@@ -215,7 +215,7 @@ class FlashMsg
     {
         return [
             'type' => 'danger',
-            'msg' => __( ucfirst($item) . " Restore Failed")
+            'msg' => __( ucfirst($item) . " Restore Failed.")
         ];
     }
 

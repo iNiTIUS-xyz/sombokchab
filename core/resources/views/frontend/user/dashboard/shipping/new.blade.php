@@ -4,10 +4,7 @@
 @endsection
 @section('section')
     @php
-        $all_countries = DB::table('countries')
-                                    ->select('id', 'name')
-                                    ->where('status', 'publish')
-                                    ->get();
+        $all_countries = DB::table('countries')->select('id', 'name')->where('status', 'publish')->get();
         $states = \Modules\CountryManage\Entities\State::where('country_id', 31)->get();
     @endphp
     <div class="dashboard__card">
@@ -24,27 +21,33 @@
                 <div class="form-row row g-4">
                     <div class="col-md-6">
                         <div class="single-input">
-                            <label class="label-title"> {{ __("Shipping Address Name") }}  <span>({{ __('optional') }})</span> </label>
-                            <input class="form--control" type="text" name="shipping_address_name" value="{{ old("shipping_address_name") ?? "" }}" placeholder="{{ __("Shipping Address Name.") }}">
+                            <label class="label-title"> {{ __('Shipping Address Name') }}
+                                <span>({{ __('optional') }})</span> </label>
+                            <input class="form--control" type="text" name="shipping_address_name"
+                                value="{{ old('shipping_address_name') ?? '' }}"
+                                placeholder="{{ __('Shipping Address Name.') }}">
                         </div>
                     </div>
 
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="name">{{ __('Full Name') }}</label>
-                            <input type="text" class="form-control" name="name" id="name" placeholder="{{ __('Enter Full Name') }}">
+                            <input type="text" class="form-control" name="name" id="name"
+                                placeholder="{{ __('Enter Full Name') }}">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="email">{{ __('Email') }} <span>({{ __('optional') }})</span> </label>
-                            <input type="text" class="form-control" name="email" id="email" placeholder="{{__('Enter Email')}}">
+                            <input type="text" class="form-control" name="email" id="email"
+                                placeholder="{{ __('Enter Email') }}">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="phone">{{ __('Phone') }}</label>
-                            <input type="number" class="form-control" name="phone" id="phone" placeholder="{{__('Enter Phone Number')}}">
+                            <input type="number" class="form-control" name="phone" id="phone"
+                                placeholder="{{ __('Enter Phone Number') }}">
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -62,10 +65,10 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="state">{{ __('City') }} <span>({{__("optional")}})</span></label>
+                            <label for="state">{{ __('City') }} <span>({{ __('optional') }})</span></label>
                             <select class="form-control" name="state" id="state">
                                 <option value="">{{ __('Select City') }}</option>
-                                 @foreach ($states as $state)
+                                @foreach ($states as $state)
                                     <option value="{{ $state->id }}"
                                         {{ $state->id == Auth::guard('web')->user()->state ? 'selected' : '' }}>
                                         {{ $state->name }}
@@ -76,29 +79,40 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for='city'> {{ __("Province")  }} <span>({{__("optional")}})</span> </label>
+                            <label for='city'> {{ __('Province') }} <span>({{ __('optional') }})</span> </label>
                             <select id="city" class='form-control select-state' name="city">
-                                <option value="">{{ __("Select City First...") }}</option>
+                                <option value="">{{ __('Select City First...') }}</option>
                             </select>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="zipcode">{{ __('Postal Code') }}  <span>({{__("optional")}})</span></label>
-                            <input type="text" class="form-control" name="zipcode" id="zipcode" placeholder="{{__('Enter Postal Code')}}">
+                            <label for="zipcode">{{ __('Postal Code') }} <span>({{ __('optional') }})</span></label>
+                            <input type="text" class="form-control" name="zipcode" id="zipcode"
+                                placeholder="{{ __('Enter Postal Code') }}">
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label for="address">{{ __('Address') }}  <span>({{__("optional")}})</span></label>
+                            <label for="address">{{ __('Address') }} <span>({{ __('optional') }})</span></label>
                             <input type="text" class="form-control" name="address" id="address" cols="30"
-                                rows="5" placeholder="{{__('Enter Address')}}">
+                                rows="5" placeholder="{{ __('Enter Address') }}">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="country">{{ __('Is Default') }}</label>
+                            <select class="form-control" name="is_default" required>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div class="btn-wrapper">
                             <button class="cmn_btn btn_bg_2">{{ __('Submit') }}</button>
-                            <a href="{{ route('user.shipping.address.all') }}" class="cmn_btn default-theme-btn" style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                            <a href="{{ route('user.shipping.address.all') }}" class="cmn_btn default-theme-btn"
+                                style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
                                 {{ __('Back') }}
                             </a>
                         </div>
@@ -149,9 +163,11 @@
                             // do success action hare
                             $('.cart-items-wrapper').html(data.cart_items);
 
-                            let cityhtml = "<option value=''> {{ __('Select Province') }} </option>";
+                            let cityhtml =
+                                "<option value=''> {{ __('Select Province') }} </option>";
                             data?.cities?.forEach((city) => {
-                                cityhtml += "<option value='" + city.id + "'>" + city.name + "</option>";
+                                cityhtml += "<option value='" + city.id + "'>" + city.name +
+                                    "</option>";
                             });
 
                             $("#city").html(cityhtml);

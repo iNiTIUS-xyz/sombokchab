@@ -62,6 +62,7 @@ class ShippingAddress extends Model
         'city',
         'zip_code',
         'address',
+        'is_default',
     ];
 
     public function get_states(): HasMany
