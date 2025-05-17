@@ -127,7 +127,6 @@
                             <x-msg.stock_error />
                             <x-msg.flash />
                             <x-msg.error />
-
                             <div class="checkout-inner-content">
                                 <div class="billing-details-area-wrapper">
                                     @if (auth('web')->check())
@@ -142,7 +141,6 @@
                                         @endforeach
                                     </div>
                                     @csrf
-
                                     <input type="hidden" name="coupon" id="coupon_code"
                                         value="{{ old('coupon') ?? request()->coupon }}">
                                     <input type="hidden" name="tax_amount">
@@ -156,13 +154,11 @@
                                     <input type="file" name="bank_transfer_input" id="bank_transfer" class="d-none">
                                     @include('frontend.cart.partials.billing-info')
                                 </div>
-
                                 <div class="cart-items-wrapper">
                                     @include('frontend.cart.cart-items.cart-items-wrapper')
                                 </div>
                             </div>
                         </div>
-
                         <div class="col-md-5 col-lg-5">
                             @include('frontend.cart.partials.order-summary')
                         </div>
@@ -176,7 +172,6 @@
                 <x-msg.stock_error />
                 <x-msg.flash />
                 <x-msg.error />
-
                 <div class="w-50 m-auto">
                     <x-frontend.page.empty :image="get_static_option('empty_cart_image')" :text="filter_static_option_value(
                         'checkout_page_no_product_text',
@@ -215,9 +210,9 @@
 @endsection
 
 @section('script')
-    <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC-p_XBbow_dJCi5TKLw69gIXITC4hvkE&libraries=places&callback=initialize"
-        async defer></script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC-p_XBbow_dJCi5TKLw69gIXITC4hvkE&libraries=places&callback=initialize">
+    </script>
 
     <script>
         function initialize() {
@@ -317,17 +312,11 @@
                 });
             });
 
-            // 6) If the user types in #address (main shipping address), geocode on "blur" or "change"
             const addressEl = document.getElementById("address");
             addressEl.addEventListener("change", function() {
                 geocodeAddress(addressEl.value, geocoder, map, marker);
             });
-            // You could also do:
-            // addressEl.addEventListener("blur", function() {
-            //    geocodeAddress(addressEl.value, geocoder, map, marker);
-            // });
 
-            // Helper: geocode the typed address, move the marker & update fields
             function geocodeAddress(address, geocoder, map, marker) {
                 if (!address) return;
                 geocoder.geocode({
@@ -359,7 +348,6 @@
             }
         }
     </script>
-
 
     <script>
         @if (get_static_option('tax_system') == 'advance_tax_system')
@@ -415,7 +403,7 @@
                 send_ajax_request("get", "",
                     `{{ route('frontend.get-tax-based-on-billing-address') }}?country_id=${country_id}&state_id=${state_id}&city_id=${city_id}`,
                     () => {}, (data) => {
-                        // do success action hare
+
                         $('.cart-items-wrapper').html(data.cart_items);
                         calculateOrderSummeryForAdvanceTax();
                     }, (errors) => {
@@ -475,10 +463,7 @@
 
         @if (get_static_option('tax_system') == 'zone_wise_tax_system')
             $(document).on("change", "#country_id", function() {
-                // first i need to get all states
-                // get all shipping methods
-                // insert all shipping methods on .all-shipping-options hare
-                // Add tax amount to all the orders
+
                 let country_id = $(this).val();
                 let data = new FormData();
                 data.append("id", country_id);
@@ -496,8 +481,7 @@
                         });
 
                         $("#checkout_tax_percentage").val(data.tax_amount);
-                        // Now first i need to get all orders tax filed and insert tax amount
-                        // After those data we need to calculate every order
+
                         $('#tax_amount').html(data.tax_amount + "%");
                         $(this).parent().parent().find(".select-state").html(statehtml);
 
@@ -510,10 +494,7 @@
             });
 
             $(document).on("change", "#state_id", function() {
-                // first, i need to get all states
-                // to get all shipping methods
-                // to insert all shipping methods on .all-shipping-options hare
-                // Add tax amount to all the orders
+
                 let state_id = $(this).val();
                 let data = new FormData();
                 data.append("id", state_id);
@@ -526,8 +507,6 @@
                     if (data.success) {
                         $("#checkout_tax_percentage").val(data.tax_amount);
 
-                        // now first i need to get all orders tax filed and insert tax amount
-                        // after those data we need to calculate every order
                         $('#tax_amount').html(data.tax_amount + "%");
 
                         let cityhtml = "<option value=''> {{ __('Select an city') }} </option>";
@@ -602,71 +581,6 @@
             $('.payment_gateway_passing_clicking_name').val($(this).data('gateway'));
         });
 
-        // $(document).on("click", ".user-shipping-address-item", function() {
-        //     let states = JSON.parse($(this).attr("data-states"));
-        //     let cities = JSON.parse($(this).attr("data-cities"));
-        //     let countryTax = JSON.parse($(this).attr("data-country-tax"));
-        //     let stateTax = JSON.parse($(this).attr("data-state-tax"));
-
-        //     // Update form fields
-        //     $(".billing-form #name").val($(this).data('name'));
-        //     $(".billing-form #email").val($(this).data('email'));
-        //     $(".billing-form #address").val($(this).data('address'));
-        //     $(".billing-form #phone").val($(this).data('phone'));
-        //     $(".billing-form #zipcode").val($(this).data('zipcode'));
-
-        //     let statehtml = "<option value=''>Please Select State</option>";
-        //     let selectedState = $(this).attr('data-state');
-
-        //     let cityhtml = "<option value=''>Please Select City</option>";
-        //     let selectedCity = $(this).attr('data-city');
-
-        //     states.forEach((state) => {
-        //         if (state.id == selectedState) {
-        //             statehtml += "<option " + 'selected' + " value='" + state.id + "'>" + state.name +
-        //                 "</option>";
-        //         } else {
-        //             statehtml += "<option  value='" + state.id + "'>" + state.name + "</option>";
-        //         }
-        //     });
-
-        //     cities.forEach((city) => {
-        //         if (city.id == selectedCity) {
-        //             cityhtml += "<option " + 'selected' + " value='" + city.id + "'>" + city.name +
-        //                 "</option>";
-        //         } else {
-        //             cityhtml += "<option  value='" + city.id + "'>" + city.name + "</option>";
-        //         }
-        //     });
-
-        //     $("#checkout_tax_percentage").val(countryTax.tax_amount)
-        //     $("#checkout_tax_percentage").val(stateTax.tax_amount)
-
-        //     calculateOrderSummary();
-
-        //     $(".modal-states").html(statehtml);
-        //     $(".modal-cities").html(cityhtml);
-
-
-        //     $("#country_id option:selected").attr("selected", false)
-        //     $("#country_id option[value=" + $(this).attr("data-country") + "]").attr("selected", true)
-
-        //     $(".billing-form #name").val($(this).data('name'));
-        //     $(".billing-form #address").val($(this).data('address'));
-
-        //     $("#city_id option:selected").attr("selected", false)
-        //     $("#city_id option[value=" + $(this).attr("data-city") + "]").attr("selected", true);
-
-
-        //     $(".billing-form #zipcode").val($(this).data('zipcode'));
-        //     $(".billing-form #phone").val($(this).data('phone'));
-        //     $(".billing-form #email").val($(this).data('email'));
-
-        //     $(".checkout_modal_close").trigger("click");
-
-        //     $(".user-shipping-address-item").removeClass("active");
-        //     $(this).toggleClass("active");
-        // });
         $(document).on("click", ".user-shipping-address-item", function(e) {
             e.preventDefault();
             e.stopPropagation();
@@ -1020,15 +934,7 @@
         $(document).on('click', '.popup_modal_checkout_overlay, .checkout_modal_close', function() {
             $('.popup_modal_checkout, .popup_modal_checkout_overlay').removeClass('show');
         });
-        // $(document).on("click",".create-accounts",function(){
-        //     if($(this).hasClass("active")){
-        //         $("input[name='create_account']").val('');
-        //         $("input[name='password']").val('');
-        //         $("input[name='password_confirmation']").val('');
-        //     }else{
-        //         $("input[name='create_account']").val(1);
-        //     }
-        // })
+
         $(document).on("click", ".create-accounts", function() {
             if ($(this).hasClass("active")) {
                 $(this).removeClass("active");
