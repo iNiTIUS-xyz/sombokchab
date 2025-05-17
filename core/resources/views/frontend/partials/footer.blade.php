@@ -149,6 +149,7 @@
 
         <x-sweet-alert-msg />
 
+
         <script>
             $.ajaxSetup({
                 headers: {
@@ -1359,7 +1360,11 @@
                 });
             @endif
         </script>
-
+        <script>
+            $(".dismissSearcSection").on('click', function() {
+                $("#search_suggestions_wrap").removeClass('show');
+            });
+        </script>
         <script>
             const shopBaseUrl = "{{ route('frontend.dynamic.shop.page') }}";
 

@@ -48,11 +48,13 @@
 
                                     <div class="search-suggestions" id="search_suggestions_wrap">
                                         <div class="search-inner">
-                                            {{-- <div class="category-suggestion item-suggestions">
-                                                <h6 class="item-title">{{ __('Category Suggestions') }}</h6>
-                                                <ul id="search_result_categories" class="category-suggestion-list mt-4">
-                                                </ul>
-                                            </div> --}}
+                                            <div class="row">
+                                                <div class="col-md- text-end">
+                                                    <a href="javascript:;" class="dismissSearcSection text-danger">
+                                                        <i class="las la-times"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
                                             <div class="product-suggestion item-suggestions">
                                                 <h6 class="item-title text-center">{{ __('Product Suggestions') }}</h6>
                                                 <ul id="search_result_products" class="product-suggestion-list my-4">
@@ -207,10 +209,6 @@
                                     <i class="las la-list-ul text-white" style="font-size: 36px;"></i>
                                 </span>
                             </button>
-                            {{-- <div class="show-nav-right-contents">
-                                <i class="las la-ellipsis-v text-white"></i>
-                            </div> --}}
-
                         </div>
                     </div>
                     <div class="collapse navbar-collapse" id="mares_main_menu">
@@ -309,12 +307,13 @@
                                 </div>
                                 <div class="search-suggestions" id="search_suggestions_wrap">
                                     <div class="search-inner">
-                                        {{-- <div class="category-suggestion item-suggestions">
-                                            <h6 class="item-title">{{ __('Category Suggestions') }}</h6>
-                                            <ul id="search_result_categories" class="category-suggestion-list mt-4">
-
-                                            </ul>
-                                        </div> --}}
+                                        <div class="row">
+                                            <div class="col-md- text-end">
+                                                <a href="javascript:;" class="dismissSearcSection text-danger">
+                                                    <i class="las la-times"></i>
+                                                </a>
+                                            </div>
+                                        </div>
                                         <div class="product-suggestion item-suggestions">
                                             <h6 class="item-title text-center">{{ __('Product Suggestions') }}</h6>
                                             <ul id="search_result_products" class="product-suggestion-list mt-4">

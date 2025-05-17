@@ -1,72 +1,4 @@
-<!-- Header area Starts -->
 <header class="header-style-01 topbar-bg-4">
-    <!-- Topbar area Starts -->
-    {{-- <div class="topbar-area topbar-four topbar-bg-4">
-        <div class="container {{ $containerClass ?? "" }}">
-            <div class="row justify-content-between align-items-center">
-                <div class="col-lg-4 col-sm-6">
-                    <div class="topbar-left-contents">
-                        <ul class="topbar-social">
-                            @if (!empty($all_social_item) && $all_social_item->count())
-                                @foreach ($all_social_item as $social_item)
-                                    <li class="link-item">
-                                        <a href="{{ $social_item->url }}">
-                                            <i class="{{ $social_item->icon }} icon"></i>
-                                        </a>
-                                    </li>
-                                @endforeach
-                            @endif
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-8 col-sm-6">
-                    <div class="topbar-right-contents">
-                        <div class="topbar-right-flex align-items-center">
-                            <div class="topbar-right-offer">
-
-                            </div>
-                            <div class="topbar-right-offer">
-                                <ul class="list">
-                                    @if (!auth('web')->check())
-                                    @if (get_static_option('enable_vendor_registration') === 'on')
-                                        <li class="ml-2">
-                                            <a class="btn btn-sm btn-warning text-dark become-a-seller-button" href="{{ route('vendor.register') }}">
-                                                {{ __('Become a Vendor') }}
-                                            </a>
-                                        </li>
-                                    @endif
-                                    
-                                    <li class="ml-2">
-                                        <a href="{{ route('vendor.login') }}">
-                                            {{ __('Vendor login') }}
-                                        </a>
-                                    </li>
-                                    @endif
-                                    {!! render_frontend_menu(get_static_option('topbar_menu')) !!}
-                                    <!--<li class="ml-2">-->
-                                    <!--    <a href="{{ route('frontend.products.track.order') }}">-->
-                                    <!--        {{ __('Tracking order') }}-->
-                                    <!--    </a>-->
-                                    <!--</li>-->
-                                    <li class="ml-2">
-                                        <div id="google_translate_element"></div>
-                                    </li>
-
-                                    <style>
-                                        #google_translate_element .goog-te-gadget img{
-                                            display: none !important;
-                                        }
-                                    </style>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> --}}
-    <!-- Topbar area Ends -->
-    <!-- Topbar bottom area Starts -->
     <div class="topbar-bottom-area topbar-bottom-four">
         <div class="container container_1608">
             <div class="row align-items-center">
@@ -154,12 +86,6 @@
                                                 </a>
                                             </li>
                                         @endif
-
-                                        {{-- <li class="ml-2">
-                                        <a href="{{ route('vendor.login') }}">
-                                            {{ __('Vendor login') }}
-                                        </a>
-                                    </li> --}}
                                     @endif
                                     {!! render_frontend_menu(get_static_option('topbar_menu')) !!}
                                     <!--<li class="ml-2">-->
