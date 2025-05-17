@@ -265,15 +265,15 @@
                                         <div class="dashboard-input">
                                             <label class="dashboard-label color-light mb-2">{{ __('City') }}</label>
                                             <select id="state_id" class="form--control" name="present_state_id">
-                                                <option value="">{{ __('Select One') }}</option>
+                                                <option value="">{{ __('Select City') }}</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="dashboard-input">
-                                            <label class="dashboard-label color-light mb-2">{{ __('State') }}</label>
+                                            <label class="dashboard-label color-light mb-2">{{ __('Province') }}</label>
                                             <select id="city_id" class="form--control" name="present_city_id">
-                                                <option value="">{{ __('Select One') }}</option>
+                                                <option value="">{{ __('Select Province') }}</option>
                                             </select>
                                         </div>
                                     </div>
@@ -332,16 +332,16 @@
                                             <label class="dashboard-label color-light mb-2">{{ __('City') }}</label>
                                             <select id="permanent_state_id" class="form--control"
                                                 name="permanent_state_id">
-                                                <option value="">{{ __('Select One') }}</option>
+                                                <option value="">{{ __('Select City') }}</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="dashboard-input">
-                                            <label class="dashboard-label color-light mb-2">{{ __('State') }}</label>
+                                            <label class="dashboard-label color-light mb-2">{{ __('Province') }}</label>
                                             <select id="permanent_city_id" class="form--control"
                                                 name="permanent_city_id">
-                                                <option value="">{{ __('Select One') }}</option>
+                                                <option value="">{{ __('Select Province') }}</option>
                                             </select>
                                         </div>
                                     </div>

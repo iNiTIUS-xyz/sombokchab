@@ -76,7 +76,7 @@ body {
   color: var(--body-color);
   font-family: var(--body-font);
   font-size: 16px;
-  background-color: #F4F4F4 !important;
+  background-color: #E3E6E6 !important;
 }
 
 @media only screen and (max-width: 991.98px) {
@@ -28401,7 +28401,7 @@ button.submit-btn.gd-bg.pay-now {
 }
 
 select.form-control:not([size]):not([multiple]) {
-  height: 42px !important;
+  height: 48px !important;
   border-radius: 5px;
   line-height: 1;
   padding-inline: 12px;

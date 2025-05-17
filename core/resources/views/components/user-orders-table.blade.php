@@ -105,20 +105,25 @@
                         <td class="table-btn">
                             <div class="btn-wrapper">
                                 @if ($order->isCancelableStatus && $order->order_status == 'pending')
-                                    <button class="btn btn-danger btn-sm rounded-btn swal_cancel_button" data-order-id="{{ $order->id }}">
-                                        {{ __('Cancel Order') }}
+                                    <button class="btn btn-danger btn-sm rounded-btn swal_cancel_button" title="Cancel" data-order-id="{{ $order->id }}" style="width: 40px;">
+                                        {{-- {{ __('Cancel Order') }}  --}}
+                                        <i class="las la-times"></i>
                                     </button>
                                 @endif
 
                                 @if ($order->is_delivered_count > 0)
                                     <a href="{{ route('user.product.order.refund', $order->id) }}"
-                                    class="btn btn-danger btn-sm rounded-btn">
-                                        {{ __('Request refund') }}
+                                    class="btn btn-dark btn-sm rounded-btn" title="Request Refund" style="width: 40px;">
+                                        {{-- {{ __('Request Refund') }} --}}
+                                        <i class="las la-undo"></i>
                                     </a>
                                 @endif
 
                                 <a href="{{ route('user.product.order.details', $order->id) }}"
-                                class="btn btn-secondary btn-sm rounded-btn"> {{ __('View Details') }}</a>
+                                class="btn btn-secondary btn-sm rounded-btn" title="View Details" style="width: 40px;"> 
+                                    {{-- {{ __('View Details') }} --}}
+                                    <i class="las la-file-alt"></i>
+                                </a>
                             </div>
                         </td>
 

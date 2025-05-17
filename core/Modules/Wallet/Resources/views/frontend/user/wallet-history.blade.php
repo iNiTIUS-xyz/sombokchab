@@ -16,9 +16,9 @@
                         <img src="{{ asset('assets/frontend/img/static/orders-shapes3.png') }}" alt="">
                     </div>
                     <div class="orders-flex-content">
-                        <div class="icon">
+                        {{-- <div class="icon">
                             <i class="las la-dollar-sign"></i>
-                        </div>
+                        </div> --}}
                         <div class="contents">
                             <h2 class="order-titles">
                                 {{ float_amount_with_currency_symbol($total_wallet_balance) }}
@@ -71,7 +71,7 @@
                                                 @if ($history->type == 4)
                                                     {{ __('Deposit') }}
                                                 @elseif($history->type == 5)
-                                                    {{ __('Due to pay') }}
+                                                    {{ __('Due') }}
                                                 @elseif($history->type == 1)
                                                     {{ __('Incoming') }}
                                                 @else

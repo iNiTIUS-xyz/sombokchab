@@ -2272,6 +2272,38 @@ if (!function_exists("toFixed")) {
 //     return $output;
 // }
 
+// function render_payment_gateway_for_form($cash_on_delivery = false): string
+// {
+//     $output = '<div class="payment-gateway-wrapper">';
+//     $output .= '<input type="hidden" name="selected_payment_gateway" id="selected_payment_gateway" value="' . get_static_option('site_default_payment_gateway') . '">';
+
+//     $all_gateway = PaymentGateway::when($cash_on_delivery == false, function ($query) {
+//         $query->whereNot('name', 'cash_on_delivery');
+//     })->where('status', 1)->get();
+
+//     $output .= '<div class="payment-radio-group" style="display: flex; flex-wrap: wrap; gap: 10px;">';
+
+//     foreach ($all_gateway as $gateway) {
+//         $id = 'gateway_' . $gateway->id;
+//         $checked = (get_static_option('site_default_payment_gateway') == $gateway->name) ? 'checked' : '';
+//         $image = render_image_markup_by_attachment_id($gateway->image, '', 'style="height: 30px;"');
+
+//         // Clean and format the display name
+//         $display_name = ucwords(str_replace('_', ' ', $gateway->name));
+
+//         $output .= <<<HTML
+//         <label for="{$id}" style="display: flex; align-items: center; gap: 8px; border: 1px solid #ccc; border-radius: 5px; padding: 10px; cursor: pointer; min-width: 180px;">
+//             <input type="radio" name="payment_gateway" value="{$gateway->name}" id="{$id}" {$checked} style="margin-right: 6px;">
+//             {$image}
+//             <span>{$display_name}</span>
+//         </label>
+//         HTML;
+//     }
+
+//     $output .= '</div></div>';
+//     return $output;
+// }
+
 function render_payment_gateway_for_form($cash_on_delivery = false): string
 {
     $output = '<div class="payment-gateway-wrapper">';
@@ -2292,9 +2324,9 @@ function render_payment_gateway_for_form($cash_on_delivery = false): string
         $display_name = ucwords(str_replace('_', ' ', $gateway->name));
 
         $output .= <<<HTML
-        <label for="{$id}" style="display: flex; align-items: center; gap: 8px; border: 1px solid #ccc; border-radius: 5px; padding: 10px; cursor: pointer; min-width: 180px;">
+        <label for="{$id}" style="width: 48%; display: flex; align-items: center; gap: 8px; border: 1px solid #ccc; border-radius: 5px; padding: 10px; cursor: pointer; min-width: 180px;">
             <input type="radio" name="payment_gateway" value="{$gateway->name}" id="{$id}" {$checked} style="margin-right: 6px;">
-            {$image}
+            <!-- {$image} -->
             <span>{$display_name}</span>
         </label>
         HTML;
@@ -2303,7 +2335,6 @@ function render_payment_gateway_for_form($cash_on_delivery = false): string
     $output .= '</div></div>';
     return $output;
 }
-
 
 function toastr_success($success)
 {

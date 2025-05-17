@@ -338,7 +338,7 @@
                                                         </label>
                                                         <select name="is_varify" class="form-control">
                                                             <option value="" selected disabled>
-                                                                Select One
+                                                                Select Status
                                                             </option>
                                                             <option value="1"
                                                                 @if ($vendor?->vendor_bank_info?->is_varify == 1) selected @endif>

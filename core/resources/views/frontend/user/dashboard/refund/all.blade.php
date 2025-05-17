@@ -30,7 +30,7 @@
                                     <td>
                                         <span class="user-info text-center">
                                             <b>#{{ $request->order?->id }}</b><br>
-                                            {{ __('Status') }} {{ $request->order?->order_status }}<br>
+                                            {{ __('Status') }}: <span class="text-capitalize">{{ $request->order?->order_status }}</span> <br>
                                             {{ __('Amount') }}
                                             {{ float_amount_with_currency_symbol($request->order?->paymentMeta?->total_amount) }}<br>
                                         </span>
@@ -46,8 +46,13 @@
                                     </td>
 
                                     <td>
-                                        <a class="btn btn-secondary btn-sm rounded-btn"
-                                            href="{{ route('user.product.refund-request.view', $request->id) }}">{{ __('View') }}</a>
+                                        <a href="{{ route('user.product.refund-request.view', $request->id) }}"
+                                            class="btn btn-secondary btn-sm rounded-btn" title="View Details" style="width: 40px;"> 
+                                                {{-- {{ __('View Details') }} --}}
+                                                <i class="las la-file-alt"></i>
+                                            </a>
+                                        {{-- <a class="btn btn-secondary btn-sm rounded-btn"
+                                            href="{{ route('user.product.refund-request.view', $request->id) }}">{{ __('View Details') }}</a> --}}
                                     </td>
                                 </tr>
                             @endforeach

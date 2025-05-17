@@ -296,10 +296,10 @@ class UserDashboardController extends Controller
             'email' => 'nullable|string|max:191',
             'phone' => 'required|string|max:191',
             'country' => 'required|string|max:191',
-            'state' => 'nullable|string|max:191',
+            'state' => 'required|string|max:191',
             'city' => 'nullable|string|max:191',
             'zipcode' => 'nullable|string|max:191',
-            'address' => 'nullable|string|max:191',
+            'address' => 'required|string|max:191',
         ]);
 
         $address = ShippingAddress::find($request->id);

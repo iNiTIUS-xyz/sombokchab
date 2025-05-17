@@ -168,7 +168,7 @@
             data.append("_token", "{{ csrf_token() }}");
 
             send_ajax_request("post", data, "{{ route('admin.vendor.get.state') }}", function() {}, (data) => {
-                $("#state_id").html(`<option value="">{{ __('Select One') }}</option>` + data.option);
+                $("#state_id").html(`<option value="">{{ __('Select City') }}</option>` + data.option);
                 $(".state_wrapper .list").html(data.li);
             }, (data) => {
                 prepare_errors(data);
@@ -183,7 +183,7 @@
             data.append("_token", "{{ csrf_token() }}");
 
             send_ajax_request("post", data, "{{ route('admin.vendor.get.city') }}", function() {}, (data) => {
-                $("#city_id").html(`<option value="">{{ __('Select One') }}</option>` + data.option);
+                $("#city_id").html(`<option value="">{{ __('Select Province') }}</option>` + data.option);
                 $(".city_wrapper .list").html(data.li);
             }, (data) => {
                 prepare_errors(data);

@@ -282,7 +282,7 @@
                                         <div class="dashboard-input">
                                             <label class="dashboard-label color-light mb-2">{{ __('City') }}</label>
                                             <select id="state_id" class="form--control" name="present_state_id">
-                                                <option value="">{{ __('Select One') }}</option>
+                                                <option value="">{{ __('Select City') }}</option>
                                                 @foreach ($presentAddressStates as $presentState)
                                                     <option
                                                         {{ (old('present_state_id') ?? $presentAddress?->state_id) == $presentState->id ? 'selected' : '' }}
@@ -292,9 +292,9 @@
                                             </select>
                                         </div>
                                         <div class="dashboard-input">
-                                            <label class="dashboard-label color-light mb-2">{{ __('State') }}</label>
+                                            <label class="dashboard-label color-light mb-2">{{ __('Province') }}</label>
                                             <select id="city_id" class="form--control" name="present_city_id">
-                                                <option value="">{{ __('Select One') }}</option>
+                                                <option value="">{{ __('Select Province') }}</option>
                                                 @foreach ($presentAddressCities as $presentCity)
                                                     <option
                                                         {{ (old('present_city_id') ?? $presentAddress?->city_id) == $presentCity->id ? 'selected' : '' }}

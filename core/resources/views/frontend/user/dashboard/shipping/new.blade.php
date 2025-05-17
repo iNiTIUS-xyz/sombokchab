@@ -24,32 +24,32 @@
                 <div class="form-row row g-4">
                     <div class="col-md-6">
                         <div class="single-input">
-                            <label class="label-title"> {{ __("Shipping Address Name") }}  <span>({{ __('optional') }})</span> </label>
+                            <label class="label-title"> {{ __("Shipping Address Name") }}  </label>
                             <input class="form--control" type="text" name="shipping_address_name" value="{{ old("shipping_address_name") ?? "" }}" placeholder="{{ __("Shipping Address Name.") }}">
                         </div>
                     </div>
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="name">{{ __('Full Name') }}</label>
+                            <label for="name">{{ __('Full Name') }} <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" name="name" id="name" placeholder="{{ __('Enter Full Name') }}">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="email">{{ __('Email') }} <span>({{ __('optional') }})</span> </label>
+                            <label for="email">{{ __('Email') }} </label>
                             <input type="text" class="form-control" name="email" id="email" placeholder="{{__('Enter Email')}}">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="phone">{{ __('Phone') }}</label>
+                            <label for="phone">{{ __('Phone') }} <span class="text-danger">*</span></label>
                             <input type="number" class="form-control" name="phone" id="phone" placeholder="{{__('Enter Phone Number')}}">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="country">{{ __('Country') }}</label>
+                            <label for="country">{{ __('Country') }} <span class="text-danger">*</span></label>
                             <select class="form-control" name="country" id="country">
                                 <option value="">{{ __('Select Country') }}</option>
                                 @foreach ($all_countries as $country)
@@ -62,7 +62,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="state">{{ __('City') }} <span>({{__("optional")}})</span></label>
+                            <label for="state">{{ __('City') }} <span class="text-danger">*</span></label>
                             <select class="form-control" name="state" id="state">
                                 <option value="">{{ __('Select City') }}</option>
                                  @foreach ($states as $state)
@@ -76,7 +76,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for='city'> {{ __("Province")  }} <span>({{__("optional")}})</span> </label>
+                            <label for='city'> {{ __("Province")  }}  </label>
                             <select id="city" class='form-control select-state' name="city">
                                 <option value="">{{ __("Select City First...") }}</option>
                             </select>
@@ -84,17 +84,23 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="zipcode">{{ __('Postal Code') }}  <span>({{__("optional")}})</span></label>
+                            <label for="zipcode">{{ __('Postal Code') }}  </label>
                             <input type="text" class="form-control" name="zipcode" id="zipcode" placeholder="{{__('Enter Postal Code')}}">
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label for="address">{{ __('Address') }}  <span>({{__("optional")}})</span></label>
+                            <label for="address">{{ __('Address') }}<span class="text-danger">*</span></label>
+                            <textarea class="form-control" name="address" id="address" rows="3" placeholder="{{__('Enter Address')}}"></textarea>
+                        </div>
+                    </div>
+                    {{-- <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="address">{{ __('Address') }} <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" name="address" id="address" cols="30"
                                 rows="5" placeholder="{{__('Enter Address')}}">
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="col-md-12">
                         <div class="btn-wrapper">
                             <button class="cmn_btn btn_bg_2">{{ __('Submit') }}</button>

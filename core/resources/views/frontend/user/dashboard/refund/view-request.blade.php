@@ -187,7 +187,7 @@
                 <div class="col-md-6">
                     <div class="dashboard__card card__two">
                         <div class="dashboard__card__header">
-                            <h4 class="dashboard__card__title">{{ __('Orders Details') }}</h4>
+                            <h5 class="">{{ __('Orders Details') }}</h5>
                         </div>
                         <div class="dashboard__card__body">
                             <div class="orderRequest__item">
@@ -242,16 +242,16 @@
                 <div class="col-md-6">
                     <div class="dashboard__card card__two">
                         <div class="dashboard__card__header">
-                            <h4 class="dashboard__card__title">{{ __('Refund Request Information') }}</h4>
+                            <h5 class="">{{ __('Refund Request Information') }}</h5>
                         </div>
                         <div class="dashboard__card__body">
                             <div class="orderRequest__item">
-                                <span class="orderRequest__item__left">{{ __('Request Id') }}</span>
+                                <span class="orderRequest__item__left">{{ __('Request ID') }}</span>
                                 <p class="orderRequest__item__right">{{ $request?->id }}</p>
                             </div>
 
                             <div class="orderRequest__item">
-                                <span class="orderRequest__item__left">{{ __('Additional info') }}: </span>
+                                <span class="orderRequest__item__left">{{ __('Additional Info') }}: </span>
                                 <p class="orderRequest__item__right">{{ $request->additional_information }}</p>
                             </div>
 
@@ -282,16 +282,16 @@
                 <div class="col-md-12 mt-4">
                     <div class="dashboard__card">
                         <div class="dashboard__card__header">
-                            <h4 class="dashboard__card__title">
-                                {{ $request->order?->order_items_count > 1 ? __('Refund request Items') : __('Refund request Item') }}
-                            </h4>
+                            <h5 class="">
+                                {{ $request->order?->order_items_count > 1 ? __('Refund Request Items') : __('Refund Request Item') }}
+                            </h5>
                         </div>
                         <div class="dashboard__card__body mt-4">
                             <div class="table-wrapper dashboard-table table-wrap">
                                 <table class="table table-responsive">
                                     <thead>
-                                        <tr>
-                                            <th>{{ __('SL NO:') }}</th>
+                                        <tr class="text-center">
+                                            <th>{{ __('SL.') }}</th>
                                             <th style="width: 60px">{{ __('Image') }}</th>
                                             <th>{{ __('Info') }}</th>
                                             <th>{{ __('QTY') }}</th>
@@ -345,7 +345,7 @@
                 <div class="col-md-12 mt-4">
                     <div class="dashboard__card">
                         <div class="dashboard__card__header">
-                            <h3 class="dashboard__card__title">{{ __('Request Track view') }}</h3>
+                            <h5 class="">{{ __('Request Status') }}</h5>
                         </div>
                         <div class="dashboard__card__body">
                             <div class="track">
