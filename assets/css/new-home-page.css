@@ -309,7 +309,7 @@ textarea {
 }
 
 .single-border {
-  border: 1px solid var(--main-color-one);
+    border: 1px solid rgba(221, 221, 221, 0.3);
 }
 
 .color-light {
@@ -5347,14 +5347,14 @@ div[class*=col]:nth-child(3n+3) .counter__item__icon svg path {
 }
 
 .cmn_btn.btn_bg_2 {
-    background: var(--main-color-one);
+    background: var(--main-color-two);
     color: #fff;
-    border: 2px solid var(--main-color-one);
+    border: 2px solid var(--main-color-two);
 }
 
 .cmn_btn.btn_bg_2:hover {
     background: none;
-    color: var(--main-color-one);
+    color: var(--main-color-two);
 }
 
 .cmn_btn.btn_bg_3 {

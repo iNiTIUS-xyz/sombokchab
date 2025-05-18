@@ -9880,7 +9880,7 @@ element.style {
   left: 0;
   width: 98%;
   background: #fff;
-  padding: 15px;
+  padding: 30px 20px;
   -webkit-box-shadow: 0 0 10px rgba(221, 221, 221, 0.4);
   box-shadow: 0 0 10px rgba(221, 221, 221, 0.4);
   visibility: hidden;
@@ -10291,7 +10291,7 @@ element.style {
 
 .user-dashboard-wrapper ul.nav-pills .nav-link.active{position: relative}
 .user-dashboard-wrapper ul.nav-pills .nav-link.active {
-  background: var(--main-color-one);
+  background: #F2F3F5 !important;
   color:var(--heading-color);
 }
 .user-dashboard-wrapper ul.nav-pills .nav-link.active::after {
