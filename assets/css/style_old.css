@@ -4,8 +4,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 
 :root {
-  --main-color-one: #41695A;
-  --main-color-one-rgb: 65, 105, 90;
+  --main-color-one: var(--main-color-one);
+  --main-color-one-rgb: 0, 96, 68;
   --main-color-two: var(--secondary-color);
   --main-color-two-rgb: 0, 136, 221;
   --main-color-three: #2f4fff;
@@ -28,7 +28,7 @@
   --blue-color: #62CDFF;
   --review-color-rgb: 250, 190, 80;
   --stock-color: #5AB27E;
-  --success-color: #41695A;
+  --success-color: #1f9960;
   --success-color-rgb: 31, 153, 96;
   --updatedOffer-bg-1: #FFF6D6;
   --updatedOffer-bg-2: #C0F4FF;
@@ -211,7 +211,7 @@ h6 {
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
   overflow: hidden;
-  /* -webkit-line-clamp: 4; */
+  -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -18121,16 +18121,16 @@ li.main_dropdown ul {
 
 .author-thumb-contents .author-thumb {
   max-height: 40px;
-  max-width: 100px;
+  max-width: 40px;
   font-size: 20px;
   color: var(--heading-color);
 }
 
 .dashboard-right-flex .author-thumb-contents .author-thumb {
   font-size: 24px;
-  background: transparent;
+  background: var(--gray-two);
   height: 40px;
-  width: 100px;
+  width: 40px;
   border-radius: 50%;
   text-align: center
 }
@@ -23580,7 +23580,7 @@ table.dataTable.no-footer {
 .cmn_btn.btn_bg_1 {
   background: var(--main-color-one);
   color: var(--white);
-  border: 2px solid var(--main-color-one);
+  border: 1px solid var(--main-color-one);
 }
 
 .cmn_btn.btn_bg_1:hover {
@@ -23591,7 +23591,7 @@ table.dataTable.no-footer {
 .cmn_btn.btn_bg_2 {
   background: var(--main-color-two);
   color: var(--white);
-  border: 2px solid var(--main-color-one);
+  border: 1px solid var(--main-color-two);
 }
 
 .cmn_btn.btn_bg_2:hover {
@@ -23602,7 +23602,7 @@ table.dataTable.no-footer {
 .cmn_btn.btn_bg_3 {
   background: var(--main-color-three);
   color: var(--white);
-  border: 2px solid var(--main-color-three);
+  border: 1px solid var(--main-color-three);
 }
 
 .cmn_btn.btn_bg_3:hover {
@@ -23613,7 +23613,7 @@ table.dataTable.no-footer {
 .cmn_btn.btn_bg_4 {
   background: var(--main-color-four);
   color: var(--white);
-  border: 2px solid var(--danger-color);
+  border: 1px solid var(--main-color-four);
 }
 
 .cmn_btn.btn_bg_4:hover {
@@ -23629,7 +23629,7 @@ table.dataTable.no-footer {
 .cmn_btn.btn_bg_profile {
   color: var(--white);
   background: var(--customer-profile);
-  border: 2px solid var(--customer-profile);
+  border: 1px solid var(--customer-profile);
 }
 
 .cmn_btn.btn_bg_profile:hover {
@@ -28375,7 +28375,7 @@ button.submit-btn.gd-bg.pay-now {
 }
 
 select.form-control:not([size]):not([multiple]) {
-  height: 48px !important;
+  height: 42px !important;
   border-radius: 5px;
   line-height: 1;
   padding-inline: 12px;
@@ -29308,7 +29308,7 @@ select.form-control:not([size]):not([multiple]) {
 }
 
 .order__item__product__contents {
-  max-width: 600px;
+  max-width: 250px;
 }
 
 .order__item__product__thumb {
@@ -29388,8 +29388,7 @@ select.form-control:not([size]):not([multiple]) {
 
 .refunded__product__main {
   display: flex;
-  /* align-items: flex-start; */
-  align-items: center;
+  align-items: flex-start;
   gap: 12px;
   max-width: 230px;
 }
@@ -35248,7 +35247,7 @@ div[class*=col]:nth-child(3n+3) .counter__item__icon svg path {
 }
 
 .single-right-content .login-account .accounts:hover i {
-  color: var(--main-color-two);
+  color: var(--main-color-one);
 }
 
 .color-two .single-right-content .login-account .accounts:hover i {

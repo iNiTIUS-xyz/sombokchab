@@ -226,9 +226,6 @@ class UserDashboardController extends Controller
         return $old_details;
     }
 
-    /** ============================================================================
-     *                  SHIPPING ADDRESS FUNCTIONS
-     *  ============================================================================ */
     public function allShippingAddress()
     {
         if (!auth()->check('web')) {
@@ -239,6 +236,8 @@ class UserDashboardController extends Controller
 
         return view(self::BASE_PATH . 'shipping.all', compact('all_shipping_address', 'all_country'));
     }
+
+
 
     public function createShippingAddress()
     {
@@ -263,6 +262,7 @@ class UserDashboardController extends Controller
             'city' => 'nullable|string|max:191',
             'zipcode' => 'nullable|string|max:191',
             'address' => 'nullable|string|max:191',
+            'is_default' => 'nullable',
         ]);
 
         $existShippingAddress = ShippingAddress::query()
@@ -271,8 +271,11 @@ class UserDashboardController extends Controller
 
 
         if ($existShippingAddress->count() > 0) {
-            return back()->with(FlashMsg::explain('danger', __('Shipping address already has with this name')));
+            return back()->with(FlashMsg::explain('danger', __('Shipping address already has with this name.')));
         }
+
+        // Reset all to non-default
+        ShippingAddress::query()->update(['is_default' => 0]);
 
         $user_shipping_address = ShippingAddress::create([
             'shipping_address_name' => $request->shipping_address_name,
@@ -285,7 +288,11 @@ class UserDashboardController extends Controller
             'city' => $request->city,
             'zip_code' => $request->zipcode,
             'address' => $request->address,
+            'is_default' => $request->is_default,
         ]);
+
+        $this->makeChangeDefault($user_shipping_address->id);
+
 
         return $user_shipping_address->id
             ? redirect()->route('user.shipping.address.all')->with(FlashMsg::create_succeed('Shipping address'))
@@ -311,13 +318,17 @@ class UserDashboardController extends Controller
             'city' => 'nullable|string|max:191',
             'zipcode' => 'nullable|string|max:191',
             'address' => 'nullable|string|max:191',
+            'is_default' => 'nullable',
         ]);
 
         $address = ShippingAddress::find($request->id);
 
         if (!$address) {
-            return back()->with(FlashMsg::explain('danger', __('Address not found')));
+            return back()->with(FlashMsg::explain('danger', __('Address not found.')));
         }
+
+        // Reset all to non-default
+        ShippingAddress::query()->update(['is_default' => 0]);
 
         $address->update([
             'shipping_address_name' => $request->shipping_address_name,
@@ -329,10 +340,23 @@ class UserDashboardController extends Controller
             'city' => $request->city,
             'zip_code' => $request->zipcode,
             'address' => $request->address,
+            'is_default' => $request->is_default,
         ]);
 
         // Redirect to the all shipping addresses page with a success message
         return redirect()->route('user.shipping.address.all')->with(FlashMsg::update_succeed('Shipping address'));
+    }
+
+    public function makeDefault($id)
+    {
+        // Reset all to non-default
+        ShippingAddress::query()->update(['is_default' => 0]);
+        // Set the selected one to default
+        $shippingAddress = ShippingAddress::findOrFail($id);
+        $shippingAddress->is_default = 1;
+        $shippingAddress->save();
+
+        return redirect()->route('user.shipping.address.all')->with(FlashMsg::update_succeed('Default shippging address change'));
     }
 
     public function deleteShippingAddress($id)

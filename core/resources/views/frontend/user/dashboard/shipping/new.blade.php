@@ -4,10 +4,7 @@
 @endsection
 @section('section')
     @php
-        $all_countries = DB::table('countries')
-                                    ->select('id', 'name')
-                                    ->where('status', 'publish')
-                                    ->get();
+        $all_countries = DB::table('countries')->select('id', 'name')->where('status', 'publish')->get();
         $states = \Modules\CountryManage\Entities\State::where('country_id', 31)->get();
     @endphp
     <div class="dashboard__card">
@@ -65,7 +62,7 @@
                             <label for="state">{{ __('City') }} <span class="text-danger">*</span></label>
                             <select class="form-control" name="state" id="state">
                                 <option value="">{{ __('Select City') }}</option>
-                                 @foreach ($states as $state)
+                                @foreach ($states as $state)
                                     <option value="{{ $state->id }}"
                                         {{ $state->id == Auth::guard('web')->user()->state ? 'selected' : '' }}>
                                         {{ $state->name }}
@@ -78,7 +75,7 @@
                         <div class="form-group">
                             <label for='city'> {{ __("Province")  }}  </label>
                             <select id="city" class='form-control select-state' name="city">
-                                <option value="">{{ __("Select City First...") }}</option>
+                                <option value="">{{ __('Select City First...') }}</option>
                             </select>
                         </div>
                     </div>
@@ -104,7 +101,8 @@
                     <div class="col-md-12">
                         <div class="btn-wrapper">
                             <button class="cmn_btn btn_bg_2">{{ __('Submit') }}</button>
-                            <a href="{{ route('user.shipping.address.all') }}" class="cmn_btn default-theme-btn" style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                            <a href="{{ route('user.shipping.address.all') }}" class="cmn_btn default-theme-btn"
+                                style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
                                 {{ __('Back') }}
                             </a>
                         </div>
@@ -155,9 +153,11 @@
                             // do success action hare
                             $('.cart-items-wrapper').html(data.cart_items);
 
-                            let cityhtml = "<option value=''> {{ __('Select Province') }} </option>";
+                            let cityhtml =
+                                "<option value=''> {{ __('Select Province') }} </option>";
                             data?.cities?.forEach((city) => {
-                                cityhtml += "<option value='" + city.id + "'>" + city.name + "</option>";
+                                cityhtml += "<option value='" + city.id + "'>" + city.name +
+                                    "</option>";
                             });
 
                             $("#city").html(cityhtml);

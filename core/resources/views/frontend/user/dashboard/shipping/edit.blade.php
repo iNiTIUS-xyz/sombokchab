@@ -22,7 +22,7 @@
                             <input class="form--control" type="text" name="shipping_address_name" value="{{ $address->shipping_address_name }}" placeholder="{{ __('Shipping Address Name') }}">
                         </div>
                     </div>
-            
+
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="name">{{ __('Full Name') }}<span class="text-danger">*</span></label>
@@ -47,7 +47,8 @@
                             <select class="form-control" name="country" id="country" required>
                                 <option value="">{{ __('Select Country') }}</option>
                                 @foreach ($all_country as $country)
-                                    <option value="{{ $country->id }}" {{ $address->country_id == $country->id ? 'selected' : '' }}>
+                                    <option value="{{ $country->id }}"
+                                        {{ $address->country_id == $country->id ? 'selected' : '' }}>
                                         {{ $country->name }}
                                     </option>
                                 @endforeach
@@ -60,7 +61,8 @@
                             <select class="form-control" name="state" id="state">
                                 <option value="">{{ __('Select City') }}</option>
                                 @if ($address->state_id)
-                                    <option value="{{ $address->state_id }}" selected>{{ $address->state->name ?? '' }}</option>
+                                    <option value="{{ $address->state_id }}" selected>{{ $address->state->name ?? '' }}
+                                    </option>
                                 @endif
                             </select>
                         </div>
@@ -86,6 +88,15 @@
                         <div class="form-group">
                             <label for="address">{{ __('Address') }}<span class="text-danger">*</span></label>
                             <textarea class="form-control" name="address" id="address" rows="3">{{ $address->address }}</textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="country">{{ __('Is Default') }}</label>
+                            <select class="form-control" name="is_default" required>
+                                <option value="1" @if ($address->is_default == 1) selected @endif>Yes</option>
+                                <option value="0" @if ($address->is_default == 0) selected @endif>No</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -129,7 +140,8 @@
                         $('.lds-ellipsis').hide();
                         $('#state').html('<option value="">{{ __('Select City') }}</option>');
                         data.states.map(function(e) {
-                            $('#state').append('<option value="' + e.id + '">' + e.name + '</option>');
+                            $('#state').append('<option value="' + e.id + '">' + e
+                                .name + '</option>');
                         });
                     });
                 });
@@ -144,9 +156,11 @@
                             // do success action hare
                             $('.cart-items-wrapper').html(data.cart_items);
 
-                            let cityhtml = "<option value=''> {{ __('Select Province') }} </option>";
+                            let cityhtml =
+                                "<option value=''> {{ __('Select Province') }} </option>";
                             data?.cities?.forEach((city) => {
-                                cityhtml += "<option value='" + city.id + "'>" + city.name + "</option>";
+                                cityhtml += "<option value='" + city.id + "'>" + city.name +
+                                    "</option>";
                             });
 
                             $("#city").html(cityhtml);

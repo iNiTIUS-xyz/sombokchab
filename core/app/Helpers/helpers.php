@@ -200,12 +200,12 @@ function single_post_share($url, $title, $img_url) // idea given by sharifur rah
     $whatsapp_share_link = "https://api.whatsapp.com/send?text=*$post_title $encoded_url";
     $reddit_share_link = "https://reddit.com/submit?url=$encoded_url&title=$post_title";
 
-    $output .= '<li class="list"><a class="social-icon" href="' . $facebook_share_link . '"><i class="lab la-facebook-f icon"></i></a></li>';
-    $output .= '<li class="list"><a class="social-icon" href="' . $twitter_share_link . '"><i class="lab la-twitter icon"></i></a></li>';
-    $output .= '<li class="list"><a class="social-icon" href="' . $linkedin_share_link . '"><i class="lab la-linkedin-in icon"></i></a></li>';
-    $output .= '<li class="list"><a class="social-icon" href="' . $pinterest_share_link . '"><i class="lab la-pinterest-p icon"></i></a></li>';
-    $output .= '<li class="list"><a class="social-icon" href="' . $whatsapp_share_link . '"><i class="lab la-whatsapp icon"></i></a></li>';
-    $output .= '<li class="list"><a class="social-icon" href="' . $reddit_share_link . '"><i class="lab la-reddit icon"></i></a></li>';
+    $output .= '<li class="list bg-color-two"><a class="social-icon" href="' . $facebook_share_link . '"><i class="lab la-facebook-f icon"></i></a></li>';
+    $output .= '<li class="list bg-color-two"><a class="social-icon" href="' . $twitter_share_link . '"><i class="lab la-twitter icon"></i></a></li>';
+    $output .= '<li class="list bg-color-two"><a class="social-icon" href="' . $linkedin_share_link . '"><i class="lab la-linkedin-in icon"></i></a></li>';
+    $output .= '<li class="list bg-color-two"><a class="social-icon" href="' . $pinterest_share_link . '"><i class="lab la-pinterest-p icon"></i></a></li>';
+    $output .= '<li class="list bg-color-two"><a class="social-icon" href="' . $whatsapp_share_link . '"><i class="lab la-whatsapp icon"></i></a></li>';
+    $output .= '<li class="list bg-color-two"><a class="social-icon" href="' . $reddit_share_link . '"><i class="lab la-reddit icon"></i></a></li>';
 
     return $output;
 }

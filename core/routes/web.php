@@ -223,6 +223,7 @@ Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_
         Route::post('shipping-address/delete/{id}', 'UserDashboardController@deleteShippingAddress')->name('shipping.address.delete');
         Route::get('shipping-address/edit/{id}', 'UserDashboardController@editShippingAddress')->name('user.shipping.address.edit');
         Route::put('shipping-address/update', 'UserDashboardController@updateShippingAddress')->name('user.shipping.address.update');
+        Route::get('make/shipping-address/default/{id}', 'UserDashboardController@makeDefault')->name('user.shipping.address.make-default');
 
         /**---------------------------------------------------------------------------------------------------------------------------
          * MEDIA UPLOAD ROUTE

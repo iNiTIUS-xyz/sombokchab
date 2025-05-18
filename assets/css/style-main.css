@@ -23580,14 +23580,14 @@ table.dataTable.no-footer {
 }
 
 .cmn_btn.btn_bg_2 {
-  background: var(--main-color-one);
+  background: var(--main-color-two);
   color: var(--white);
-  border: 1px solid var(--main-color-one);
+  border: 1px solid var(--main-color-two);
 }
 
 .cmn_btn.btn_bg_2:hover {
   background: none;
-  color: var(--main-color-one);
+  color: var(--main-color-two);
 }
 
 .cmn_btn.btn_bg_3 {
@@ -26890,7 +26890,7 @@ table .attachment-preview {
 
 .nav-pills .nav-link.active,
 .nav-pills .show>.nav-link {
-  color: white !important;
+  color: var(--main-color-two) !important;
   background: none;
 }
 
@@ -27342,7 +27342,7 @@ section.news-area {
 }
 
 .user-dashboard-wrapper ul.nav-pills .nav-link.active {
-  background: var(--main-color-one);
+  background: #F2F3F5 !important;
   color: var(--heading-color);
 }
 
@@ -27360,7 +27360,7 @@ section.news-area {
 }
 
 .user-dashboard-wrapper .nav-pills .nav-link.bg-main {
-  background: var(--main-color-one);
+  background: var(--main-color-two);
   color: #fff !important;
 }
 
@@ -34477,14 +34477,14 @@ div[class*=col]:nth-child(3n+3) .counter__item__icon svg path {
 }
 
 .cmn_btn.btn_bg_2 {
-  background: var(--main-color-one);
+  background: var(--main-color-two);
   color: var(--white);
-  border: 2px solid var(--main-color-one);
+  border: 2px solid var(--main-color-two);
 }
 
 .cmn_btn.btn_bg_2:hover {
   background: none;
-  color: var(--main-color-one);
+  color: var(--main-color-two);
 }
 
 .cmn_btn.btn_bg_3 {
@@ -35233,6 +35233,11 @@ div[class*=col]:nth-child(3n+3) .counter__item__icon svg path {
 
 .color-five .single-right-content .login-account .accounts:hover i {
   color: var(--main-color-five);
+}
+
+.single-right-content .track-icon-list {
+  /* gap: 20px 12px; */
+  margin: 0;
 }
 
 .single-right-content .track-icon-list .track-icon-single:hover {
