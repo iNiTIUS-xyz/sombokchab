@@ -56,25 +56,25 @@
                             </h4>
 
                             <ul class="payment-list margin-top-40">
-                                <li>{{ __('Payment Gateway') }}: <span class="payment-strong">{{ render_payment_gateway_name($payment_details->payment_gateway)  }}</span></li>
-                                <li>{{ __('Phone') }}: <span class="payment-strong">{{ $payment_details->address->phone }}</span></li>
-                                <li>{{ __('Name') }}: <span class="payment-strong">{{ $payment_details->address->name }}</span></li>
-                                <li>{{ __('Email') }}: <span class="payment-strong">{{ $payment_details->address->email }}</span></li>
+                                <li>{{ __('Payment Gateway') }}:&nbsp;<span class="payment-strong">{{ render_payment_gateway_name($payment_details->payment_gateway)  }}</span></li>
+                                <li>{{ __('Phone') }}:&nbsp;<span class="payment-strong"> {{ $payment_details->address->phone }}</span></li>
+                                <li>{{ __('Name') }}:&nbsp;<span class="payment-strong"> {{ $payment_details->address->name }}</span></li>
+                                <li>{{ __('Email') }}:&nbsp;<span class="payment-strong"> {{ $payment_details->address->email }}</span></li>
                             </ul>
 
                             <ul class="payment-list payment-list-two margin-top-30">
-                                <li><span class="list-bold">{{ __('Amount Paid') }}: </span> <span class="payment-strong payment-bold">{{ float_amount_with_currency_symbol($payment_details->paymentMeta->total_amount) }}</span></li>
-                                <li>{{ __('Transaction ID') }}: <span class="payment-strong">{{ $payment_details->transaction_id }}</span></li>
-                                <li>{{ __('Order Number') }}: <span class="payment-strong">{{ $payment_details->order_number }}</span></li>
+                                <li><span class="list-bold">{{ __('Amount Paid') }}:&nbsp;</span> <span class="payment-strong payment-bold"> {{ float_amount_with_currency_symbol($payment_details->paymentMeta->total_amount) }}</span></li>
+                                <li>{{ __('Transaction ID') }}:&nbsp;<span class="payment-strong"> {{ $payment_details->transaction_id }}</span></li>
+                                <li>{{ __('Order Number') }}:&nbsp;<span class="payment-strong"> {{ $payment_details->order_number }}</span></li>
                             </ul>
 
-                            <div class="btn-wrapper margin-top-40">
+                            {{-- <div class="btn-wrapper margin-top-40">
                                 @if(auth('web')->check())
                                     <a href="{{ route('user.home') }}" class="default-btn color-one">{{ __('Go to Dashboard') }}</a>
                                 @else
                                     <a href="{{ route('homepage') }}" class="btn btn-primary outline-one">{{ __('Back to Home') }}</a>
                                 @endif
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -95,14 +95,14 @@
                         <table class="table table-responsive">
                             <thead>
                                 <tr>
-                                    <th>{{ __('order number') }}</th>
-                                    <th>{{ __('date') }}</th>
+                                    <th>{{ __('Order No.') }}</th>
+                                    <th>{{ __('Date') }}</th>
                                     <th>{{ __('Sub Total') }}</th>
                                     <th>{{ __('Cost Summary') }}</th>
                                     <th>{{ __('Tax Amount') }}</th>
-                                    <th>{{ __('Discount amount') }}</th>
+                                    <th>{{ __('Discount Amount') }}</th>
                                     <th>{{ __('Payable Amount') }}</th>
-                                    <th>{{ __('payment method') }}</th>
+                                    <th>{{ __('Payment Method') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -124,7 +124,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="order-complete-wrap">
-                        <h4 class="title">{{ __('order details') }}</h4>
+                        <h4 class="title">{{ __('Order Details') }}</h4>
 
                         <div class="checkout-page-content-wrapper mt-4">
                             @php
@@ -160,7 +160,11 @@
                                                     {!! render_image($prd_image, class: 'w-100') !!}
                                                 </div>
                                                 <div class="checkout-cart-img-contents">
-                                                    <h6 class="checkout-cart-title fs-18"> <a href="#1"> {{Str::words($orderItem->product->name, 5)}} </a>
+                                                    <h6 class="checkout-cart-title fs-18" style="max-width: 350px"> 
+                                                        <a href="#1"> 
+                                                            {{-- {{Str::words($orderItem->product->name, 5)}}  --}}
+                                                            {{ $orderItem->product->name }} 
+                                                        </a>
                                                         <p>
                                                             {{ $orderItem?->variant?->productColor ? __("Color:") . $orderItem?->variant?->productColor?->name . ' , ' : "" }}
                                                             {{ $orderItem?->variant?->productSize ? __("Size:") . $orderItem?->variant?->productSize?->name . ' , ' : "" }}
@@ -175,7 +179,7 @@
                                                         </p>
                                                     </h6>
                                                 </div>
-                                                <span class="d-block product-items w-10"> {{ $orderItem->quantity ?? "0" }} {{ __("QTY") }} </span>
+                                                <span class="d-block product-items w-10" style="display: flex !important; justify-content: center; align-items: center"> {{ $orderItem->quantity ?? "0" }} {{ __("QTY") }} </span>
 
                                                 <div class="d-flex gap-2 w-20">
                                                     <del class="checkout-cart-price color-heading fw-500"> {{ amount_with_currency_symbol($orderItem->sale_price) }} </del>
@@ -225,7 +229,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="btn-wrapper text-right">
-                        <a href="{{ route('homepage') }}" class="btn btn-success rounded-btn semi-bold">{{ __('back to home') }}</a>
+                        <a href="{{ route('user.home') }}" class="cmn_btn btn_bg_2 default-theme-btn">{{ __('Back to Dashboard') }}</a>
                     </div>
                 </div>
             </div>

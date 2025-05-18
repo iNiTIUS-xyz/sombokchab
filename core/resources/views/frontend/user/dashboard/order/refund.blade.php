@@ -40,15 +40,15 @@
                                 </li>
                             </ul>
 
-                            <ul class="payment-list payment-list-two margin-top-30">
+                            <ul class="payment-list payment-list-two margin-top-15">
                                 <li>
-                                    <span class="payment-list-left">{{ __('Amount Paid') }}</span>
+                                    <span class="payment-list-left">{{ __('Amount Paid') }}:</span>
                                     <span
                                         class="payment-list-right">{{ float_amount_with_currency_symbol($order->paymentMeta->total_amount) }}
                                     </span>
                                 </li>
                                 <li>
-                                    <span class="payment-list-left">{{ __('Transaction ID') }}</span>
+                                    <span class="payment-list-left">{{ __('Transaction ID') }}:</span>
                                     <span class="payment-list-right">{{ $order->transaction_id }}</span>
                                 </li>
                             </ul>
@@ -80,7 +80,7 @@
                 @csrf
                 <div class="custom__form">
                     <div class="order__refund__item mt-5">
-                        <h4 class="title__two">{{ __('Only available product for refund') }}</h4>
+                        <h4 class="title__two">{{ __('Only Available Product for Refund') }}</h4>
                         <div class="order__refund__item__available mt-4">
                             {{-- @foreach ($refundable_items ?? [] as $item) --}}
                             @foreach ($subOrders as $order)
@@ -128,7 +128,7 @@
                                             </div>
                                             <div class="refunded__product__select product-refund-reason">
                                                 <select name="refund_reason[{{ $item->id }}]" id="refund_reason"
-                                                    class="form-control">
+                                                    class="form-select">
                                                     <option value="">{{ __('Select a reason') }}</option>
                                                     @foreach ($refundReasons as $reason)
                                                         <option value="{{ $reason->id }}">{{ $reason->name }}</option>
@@ -174,9 +174,9 @@
                                 <div class="col-md-6">
                                     <div class="form-group preferred-option-wrapper">
                                         <label class="form-label"
-                                            for="#additional-info">{{ __('Set Preferred option') }}</label>
+                                            for="#additional-info">{{ __('Payment Option') }}</label>
                                         <select class="form-control" name="preferred_option" id="preferred_option">
-                                            <option value="">{{ __('Select preferred option') }}
+                                            <option value="">{{ __('Select Payment Option') }}
                                             </option>
                                             @foreach ($refundPreferredOptions as $option)
                                                 <option data-fields="{{ json_encode(unserialize($option->fields)) }}"
@@ -189,7 +189,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="form-label"
-                                            for="#additional-info">{{ __('Upload images') }}</label>
+                                            for="#additional-info">{{ __('Upload Images') }}</label>
                                         <input type="file" name="files[]" id="" multiple max="6"
                                             class="form-control-file" />
                                     </div>
@@ -198,7 +198,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group d-flex justify-content-end">
                                         <button type="submit"
-                                            class="cmn_btn btn_bg_profile refund_request_button">{{ __('Request to refund') }}</button>
+                                            class="cmn_btn btn_bg_profile refund_request_button">{{ __('Request Refund') }}</button>
                                     </div>
                                 </div>
                             </div>

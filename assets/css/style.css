@@ -4,7 +4,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 
 :root {
-  --main-color-one: var(--main-color-one);
+  --main-color-one: #41695A;
   --main-color-one-rgb: 65, 105, 90;
   --main-color-two: var(--secondary-color);
   --main-color-two-rgb: 0, 136, 221;
@@ -28,7 +28,7 @@
   --blue-color: #62CDFF;
   --review-color-rgb: 250, 190, 80;
   --stock-color: #5AB27E;
-  --success-color: #1f9960;
+  --success-color: #41695A;
   --success-color-rgb: 31, 153, 96;
   --updatedOffer-bg-1: #FFF6D6;
   --updatedOffer-bg-2: #C0F4FF;
@@ -211,7 +211,7 @@ h6 {
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
   overflow: hidden;
-  -webkit-line-clamp: 4;
+  /* -webkit-line-clamp: 4; */
   -webkit-box-orient: vertical;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -23594,7 +23594,7 @@ table.dataTable.no-footer {
 .cmn_btn.btn_bg_1 {
   background: var(--main-color-one);
   color: var(--white);
-  border: 1px solid var(--main-color-one);
+  border: 2px solid var(--main-color-one);
 }
 
 .cmn_btn.btn_bg_1:hover {
@@ -23605,7 +23605,7 @@ table.dataTable.no-footer {
 .cmn_btn.btn_bg_2 {
   background: var(--main-color-one);
   color: var(--white);
-  border: 1px solid var(--main-color-one);
+  border: 2px solid var(--main-color-one);
 }
 
 .cmn_btn.btn_bg_2:hover {
@@ -23616,7 +23616,7 @@ table.dataTable.no-footer {
 .cmn_btn.btn_bg_3 {
   background: var(--main-color-three);
   color: var(--white);
-  border: 1px solid var(--main-color-three);
+  border: 2px solid var(--main-color-three);
 }
 
 .cmn_btn.btn_bg_3:hover {
@@ -23632,7 +23632,7 @@ table.dataTable.no-footer {
 .cmn_btn.btn_bg_4 {
   background: var(--danger-color);
   color: var(--white);
-  border: 1px solid var(--main-color-four);
+  border: 2px solid var(--danger-color);
 }
 
 .cmn_btn.btn_bg_4:hover {
@@ -23648,7 +23648,7 @@ table.dataTable.no-footer {
 .cmn_btn.btn_bg_profile {
   color: var(--white);
   background: var(--customer-profile);
-  border: 1px solid var(--customer-profile);
+  border: 2px solid var(--customer-profile);
 }
 
 .cmn_btn.btn_bg_profile:hover {
@@ -29336,7 +29336,7 @@ select.form-control:not([size]):not([multiple]) {
 }
 
 .order__item__product__contents {
-  max-width: 250px;
+  max-width: 600px;
 }
 
 .order__item__product__thumb {
@@ -29416,7 +29416,8 @@ select.form-control:not([size]):not([multiple]) {
 
 .refunded__product__main {
   display: flex;
-  align-items: flex-start;
+  /* align-items: flex-start; */
+  align-items: center;
   gap: 12px;
   max-width: 230px;
 }

@@ -329,7 +329,7 @@ class FrontendController extends Controller
             $user->password = Hash::make($request->password);
             $user->save();
 
-            return redirect()->route('admin.login')->with(['msg' => __('Password Changed Successfully'), 'type' => 'success']);
+            return redirect()->route('admin.login')->with(['msg' => __('Password Changed Successfully.'), 'type' => 'success']);
         }
 
         return redirect()->back()->with(['msg' => __('Unable to change the Password. Please try again or check your old Password.'), 'type' => 'danger']);

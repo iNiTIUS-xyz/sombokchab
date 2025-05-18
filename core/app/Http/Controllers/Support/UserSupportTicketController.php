@@ -21,37 +21,71 @@ class UserSupportTicketController extends Controller
         return view(self::BASE_PATH.'create', compact('departments', 'user_orders'));
     }
 
-    public function store(Request $request){
+    // public function store(Request $request){
+    //     $request->validate([
+    //        'title' => 'required|string|max:191',
+    //     //    'priority' => 'required|string|max:191',
+    //        'description' => 'required|string',
+    //        'departments' => 'required|string',
+    //        'order_id' => 'required|string',
+    //     ],[
+    //         'title.required' =>  __('subject required'),
+    //         // 'priority.required' =>  __('priority required'),
+    //         'description.required' => __('description required'),
+    //         'departments.required' => __('departments required'),
+    //         'order_id.required' => __('order required'),
+    //     ]);
+
+    //     SupportTicket::create([
+    //         'via' => $request->via,
+    //         'operating_system' => null,
+    //         'user_agent' => $_SERVER['HTTP_USER_AGENT'],
+    //         'description' => $request->description,
+    //         'title' => $request->subject,
+    //         'status' => 'open',
+    //         // 'priority' => $request->priority,
+    //         'user_id' => auth('web')->user()->id,
+    //         'order_id' => $request->order_id,
+    //         'admin_id' => null,
+    //         'departments' => $request->departments
+    //     ]);
+
+    //     $msg = get_static_option('support_ticket_success_message') ?? __('Thanks for contact us, we will reply soon');
+
+    //     return back()->with(FlashMsg::settings_update($msg));
+    // }
+
+    public function store(Request $request)
+    {
         $request->validate([
-           'subject' => 'required|string|max:191',
-        //    'priority' => 'required|string|max:191',
-           'description' => 'required|string',
-           'departments' => 'required|string',
-           'order_id' => 'required|string',
-        ],[
-            'subject.required' =>  __('subject required'),
-            // 'priority.required' =>  __('priority required'),
-            'description.required' => __('description required'),
-            'departments.required' => __('departments required'),
-            'order_id.required' => __('order required'),
+            'title' => 'required|string|max:191',
+            'description' => 'required|string',
+            'departments' => 'required|string',
+            'order_id' => 'required|string|exists:orders,id',
+        ], [
+            'title.required' => __('Subject is required'),
+            'description.required' => __('Description is required'),
+            'departments.required' => __('Department is required'),
+            'order_id.required' => __('Order is required'),
+            'order_id.exists' => __('Invalid order selected'),
         ]);
 
-        SupportTicket::create([
+        $support_ticket = SupportTicket::create([
             'via' => $request->via,
             'operating_system' => null,
             'user_agent' => $_SERVER['HTTP_USER_AGENT'],
             'description' => $request->description,
-            'subject' => $request->subject,
+            'title' => $request->title,
             'status' => 'open',
-            // 'priority' => $request->priority,
             'user_id' => auth('web')->user()->id,
             'order_id' => $request->order_id,
             'admin_id' => null,
             'departments' => $request->departments
         ]);
 
-        $msg = get_static_option('support_ticket_success_message') ?? __('Thanks for contact us, we will reply soon');
-
-        return back()->with(FlashMsg::settings_update($msg));
+        return $support_ticket->id
+            ? redirect()->route('user.home.support.tickets')->with(FlashMsg::create_succeed('Support ticket'))
+            : back()->with(FlashMsg::create_failed('Support ticket'));
     }
+
 }

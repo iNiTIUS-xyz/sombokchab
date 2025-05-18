@@ -38,14 +38,25 @@ class UserDashboardController extends Controller
         $this->middleware(['auth']);
     }
 
+    // public function user_index()
+    // {
+    //     $product_count = ProductSellInfo::where('user_id', auth('web')->user()->id)->count();
+    //     $support_ticket_count = SupportTicket::where('user_id', auth('web')->user()->id)->count();
+    //     $all_orders = Order::with('paymentMeta')->withCount('isDelivered')
+    //         ->where('user_id', auth('web')->user()->id)
+    //         ->orderBy('id', 'DESC')
+    //         ->latest()
+    //         ->paginate(5);
+
+    //     return view(self::BASE_PATH . 'user-home', compact('all_orders', 'product_count', 'support_ticket_count'));
+    // }
     public function user_index()
     {
         $product_count = ProductSellInfo::where('user_id', auth('web')->user()->id)->count();
         $support_ticket_count = SupportTicket::where('user_id', auth('web')->user()->id)->count();
-        $all_orders = Order::with('paymentMeta')->withCount('isDelivered')
+        $all_orders = Order::with(['paymentMeta', 'refundRequest.currentTrackStatus'])->withCount('isDelivered')
             ->where('user_id', auth('web')->user()->id)
             ->orderBy('id', 'DESC')
-            ->latest()
             ->paginate(5);
 
         return view(self::BASE_PATH . 'user-home', compact('all_orders', 'product_count', 'support_ticket_count'));
@@ -188,7 +199,7 @@ class UserDashboardController extends Controller
             $user->save();
             // Auth::guard('web')->logout();
 
-            return redirect()->back()->with(['msg' => __('Password changed successfully'), 'type' => 'success']);
+            return redirect()->back()->with(['msg' => __('Password changed successfully.'), 'type' => 'success']);
         }
 
         return redirect()->back()->with(['msg' => __('Current password do not match.'), 'type' => 'danger']);
@@ -277,7 +288,7 @@ class UserDashboardController extends Controller
         ]);
 
         return $user_shipping_address->id
-            ? back()->with(FlashMsg::create_succeed('Shipping address'))
+            ? redirect()->route('user.shipping.address.all')->with(FlashMsg::create_succeed('Shipping address'))
             : back()->with(FlashMsg::create_failed('Shipping address'));
     }
 
@@ -291,15 +302,15 @@ class UserDashboardController extends Controller
     public function updateShippingAddress(Request $request)
     {
         $request->validate([
-            'shipping_address_name' => 'required|string|max:191',
+            'shipping_address_name' => 'nullable|string|max:191',
             'name' => 'required|string|max:191',
             'email' => 'nullable|string|max:191',
             'phone' => 'required|string|max:191',
             'country' => 'required|string|max:191',
-            'state' => 'required|string|max:191',
+            'state' => 'nullable|string|max:191',
             'city' => 'nullable|string|max:191',
             'zipcode' => 'nullable|string|max:191',
-            'address' => 'required|string|max:191',
+            'address' => 'nullable|string|max:191',
         ]);
 
         $address = ShippingAddress::find($request->id);
@@ -338,10 +349,15 @@ class UserDashboardController extends Controller
      * ============================================================================ */
     public function allOrdersPage(): Factory|View|Application
     {
-        $all_orders = Order::with('paymentMeta')->withCount('isDelivered')
+        // $all_orders = Order::with('paymentMeta')->withCount('isDelivered')
+        //     ->where('user_id', auth('web')->user()->id)
+        //     ->orderBy('id', 'DESC')
+        //     ->paginate(10);
+        $all_orders = Order::with(['paymentMeta', 'refundRequest.currentTrackStatus'])->withCount('isDelivered')
             ->where('user_id', auth('web')->user()->id)
             ->orderBy('id', 'DESC')
             ->paginate(10);
+
 
         return view(self::BASE_PATH . 'order.all', compact('all_orders'));
     }
@@ -414,19 +430,39 @@ class UserDashboardController extends Controller
         return view(self::BASE_PATH . 'order.refund', compact('id', 'order', 'subOrders', 'refundable_items', 'refundReasons', 'refundPreferredOptions'));
     }
 
+    // public function handleRefundRequest(HandleUserRefundRequest $request, $id)
+    // {
+    //     if (!moduleExists("Refund")) {
+    //         abort(404);
+    //     }
+
+    //     // get prepare for product data for request refund
+    //     $refundProducts = RefundServices::prepareRefundRequestData($request->validated(), $id);
+
+    //     return back()->with([
+    //         'msg' => $refundProducts ? __('Your request has been sent') : __('Failed to send request something went wrong.'),
+    //         'type' => $refundProducts ? 'success' : 'danger',
+    //     ]);
+    // }
+
     public function handleRefundRequest(HandleUserRefundRequest $request, $id)
     {
         if (!moduleExists("Refund")) {
             abort(404);
         }
 
-        // get prepare for product data for request refund
+        // Get prepared product data for the refund request
         $refundProducts = RefundServices::prepareRefundRequestData($request->validated(), $id);
 
-        return back()->with([
-            'msg' => $refundProducts ? __('Your request has been sent') : __('Failed to send request something went wrong.'),
-            'type' => $refundProducts ? 'success' : 'danger',
-        ]);
+        return $refundProducts
+            ? redirect()->route('user.product.refund-request')->with([
+                'msg' => __('Your refund request has been sent successfully.'),
+                'type' => 'success',
+            ])
+            : back()->with([
+                'msg' => __('Failed to send refund request, something went wrong.'),
+                'type' => 'danger',
+            ]);
     }
 
     public function orderDetailsPage($item): Factory|View|Application
@@ -531,7 +567,7 @@ class UserDashboardController extends Controller
         //send mail to user
         event(new SupportMessage($ticket_info));
 
-        return back()->with(FlashMsg::settings_update(__('Message send')));
+        return back()->with(FlashMsg::settings_update(__('Message sent successfully.')));
     }
 
     public function support_ticket_priority_change(Request $request)
@@ -548,21 +584,58 @@ class UserDashboardController extends Controller
 
     public function support_ticket_status_change(Request $request)
     {
+        // $request->validate([
+        //     'status' => 'required|string|max:191',
+        // ]);
+        // SupportTicket::findOrFail($request->id)->update([
+        //     'status' => $request->status,
+        // ]);
+
+        // return 'ok';
         $request->validate([
-            'status' => 'required|string|max:191',
-        ]);
-        SupportTicket::findOrFail($request->id)->update([
-            'status' => $request->status,
+            'id' => 'required|exists:support_tickets,id',
+            'status' => 'required|in:open,close',
         ]);
 
-        return 'ok';
+        $ticket = SupportTicket::where('id', $request->id)
+            ->where('user_id', auth('web')->id())
+            ->firstOrFail();
+
+        $ticket->status = $request->status;
+        $ticket->save();
+
+        return response()->json(['success' => true]);
     }
 
 
     /** ===================================================================
      *                  Order Cancel
      * =================================================================== */
-    public function orderCancel($orderId)
+    // public function orderCancel($orderId)
+    // {
+    //     // Fetch the order
+    //     $order = Order::where('id', $orderId)
+    //         ->where('user_id', auth('web')->id()) // Ensure the user owns the order
+    //         ->first();
+
+    //     // Check if order exists and is cancelable
+    //     if (!$order || !$order->isCancelableStatus || $order->order_status !== 'pending') {
+    //         return redirect()->back()->with('error', 'This order cannot be canceled.');
+    //     }
+
+    //     // Update order status to "canceled"
+    //     $order->update(['order_status' => 'canceled']);
+
+    //     // Optionally, add an entry to `orderTrack` to log the cancellation
+    //     // $order->orderTrack()->create([
+    //     //     'order_id' => $order->id,
+    //     //     'name' => 'canceled'
+    //     // ]);
+
+    //     return redirect()->back()->with('success', 'Order has been successfully canceled.');
+    // }
+
+    public function orderCancel(Request $request, $orderId)
     {
         // Fetch the order
         $order = Order::where('id', $orderId)
@@ -571,18 +644,10 @@ class UserDashboardController extends Controller
 
         // Check if order exists and is cancelable
         if (!$order || !$order->isCancelableStatus || $order->order_status !== 'pending') {
-            return redirect()->back()->with('error', 'This order cannot be canceled.');
+            return response()->json(['success' => false, 'message' => 'This order cannot be canceled.'], 400);
         }
 
-        // Update order status to "canceled"
         $order->update(['order_status' => 'canceled']);
-
-        // Optionally, add an entry to `orderTrack` to log the cancellation
-        // $order->orderTrack()->create([
-        //     'order_id' => $order->id,
-        //     'name' => 'canceled'
-        // ]);
-
-        return redirect()->back()->with('success', 'Order has been successfully canceled.');
+        return response()->json(['success' => true]);
     }
 }

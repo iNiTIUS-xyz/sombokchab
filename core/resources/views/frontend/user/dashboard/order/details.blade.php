@@ -534,7 +534,7 @@
                                 <ul class="payment-list margin-top-40">
                                     <li>
                                         <span class="payment-list-left">{{ __('Payment Gateway:') }}</span>
-                                        <span class="payment-list-right">{{ render_payment_gateway_name($payment_details->payment_gateway) }}</span>
+                                        <span class="payment-list-right text-capitalize">{{ render_payment_gateway_name($payment_details->payment_gateway) }}</span>
                                     </li>
                                     <li>
                                         <span class="payment-list-left">{{ __('Phone:') }}</span>
@@ -628,7 +628,8 @@
                                                                     <h6
                                                                         class="order__item__product__name checkout-cart-title">
                                                                         <a href="#1">
-                                                                            {{ Str::words($orderItem->product?->name, 5) }}
+                                                                            {{ Str::words($orderItem->product?->name) }}
+                                                                            {{-- {{$orderItem->product?->name}} --}}
                                                                         </a>
                                                                         <p>
                                                                             {{ $orderItem?->variant?->productColor ? __('Color:') . $orderItem?->variant?->productColor?->name . ' , ' : '' }}
@@ -689,7 +690,7 @@
                                                                 {{ float_amount_with_currency_symbol($payment_details->paymentMeta?->sub_total) }}
                                                             </strong>
                                                         </div>
-                                                        <div class="order__item__estimate__single d-flex justify-content-between mt-3">
+                                                        <div class="order__item__estimate__single d-flex justify-content-between">
                                                             <span>{{ __('Discount Amount') }}</span>
                                                             <strong id="vendor_tax_amount">{{ float_amount_with_currency_symbol($payment_details->paymentMeta?->coupon_amount) }}</strong>
                                                         </div>
@@ -717,7 +718,7 @@
                     </div>
                 </div>
                 <div class="btn-wrapper margin-top-40">
-                    <a href="{{ route('user.home') }}" class="cmn_btn default-theme-btn" style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                    <a href="{{ route('user.home') }}" class="cmn_btn btn_bg_2 default-theme-btn" style="">
                                             {{ __('Back to Dashboard') }}
                                         </a>
                     {{-- <a href="{{ route('user.home') }}"

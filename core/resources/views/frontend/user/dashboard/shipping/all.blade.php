@@ -30,12 +30,12 @@
                                     <td>{{ $address->address }}</td>
                                     <td>
                                         <!-- Edit Button -->
-                                        <a href="{{ route('user.shipping.address.edit', $address->id) }}" class="btn btn-sm btn-warning btn-xs mb-2 me-1">
+                                        <a href="{{ route('user.shipping.address.edit', $address->id) }}" class="btn btn-sm btn-warning btn-xs mb-2 me-1" title="Edit Address">
                                             <i class="las la-edit"></i>
                                         </a>
                                     
                                         <!-- Delete Button -->
-                                        <x-table.btn.swal.delete :route="route('shipping.address.delete', $address->id)" />
+                                        <x-table.btn.swal.delete :route="route('shipping.address.delete', $address->id)" title="Delete Address" />
                                     </td>
                                 </tr>
                             @endforeach

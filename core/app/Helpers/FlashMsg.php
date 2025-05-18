@@ -15,7 +15,7 @@ class FlashMsg
     {
         return [
             'type' => 'success',
-            'msg' => __( ucfirst($item) . " Created Successfully")
+            'msg' => __( ucfirst($item) . " created successfully.")
         ];
     }
 
@@ -23,7 +23,7 @@ class FlashMsg
     {
         return [
             'type' => 'danger',
-            'msg' => __( ucfirst($item) . " Create Failed")
+            'msg' => __( ucfirst($item) . " creation failed.")
         ];
     }
 
@@ -34,7 +34,7 @@ class FlashMsg
     {
         return [
             'type' => 'success',
-            'msg' => __( ucfirst($item) . " Updated Successfully")
+            'msg' => __( ucfirst($item) . " updated successfully.")
         ];
     }
 
@@ -42,7 +42,7 @@ class FlashMsg
     {
         return [
             'type' => 'danger',
-            'msg' => __( ucfirst($item) . " Update Failed")
+            'msg' => __( ucfirst($item) . " updating failed.")
         ];
     }
 
@@ -53,7 +53,7 @@ class FlashMsg
     {
         return [
             'type' => 'danger',
-            'msg' => __( ucfirst($item) . " Deleted Successfully")
+            'msg' => __( ucfirst($item) . " deleted successfully.")
         ];
     }
 
@@ -61,7 +61,7 @@ class FlashMsg
     {
         return [
             'type' => 'danger',
-            'msg' => __( ucfirst($item) . " Delete Failed")
+            'msg' => __( ucfirst($item) . " deleting failed.")
         ];
     }
 
@@ -72,7 +72,7 @@ class FlashMsg
     {
         return [
             'type' => 'success',
-            'msg' => __( ucfirst($item) . " Cloned Successfully")
+            'msg' => __( ucfirst($item) . " cloned successfully")
         ];
     }
 
@@ -80,7 +80,7 @@ class FlashMsg
     {
         return [
             'type' => 'success',
-            'msg' => __( ucfirst($item) . " Cloned Failed")
+            'msg' => __( ucfirst($item) . " cloning failed.")
         ];
     }
 

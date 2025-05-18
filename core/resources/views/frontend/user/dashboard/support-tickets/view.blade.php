@@ -90,7 +90,7 @@
         }
 
         .single-message-item {
-            background-color: #e7ebec;
+            background-color: #e7ebec5b;
             padding: 20px;
             border-radius: 10px;
             margin-bottom: 20px;
@@ -105,9 +105,13 @@
         }
 
         .single-message-item.customer {
-            background-color: #dadde0;
+            background-color: #f0f0f0f;
             text-align: left;
             margin-right: 0;
+        }
+
+        .single-message-item .message-content {
+            color: #000 !important;
         }
 
         .reply-message-wrap .title {
@@ -181,7 +185,7 @@
 
         .single-message-item .top-part {
             display: flex;
-            margin-bottom: 25px;
+            /* margin-bottom: 25px; */
         }
 
         .single-message-item .top-part .content {
@@ -244,18 +248,19 @@
                         <div class="gig-chat-message-heading">
                             <div class="dashboard__card__header">
                                 <h4 class="dashboard__card__title">{{ __('Support Ticket Details') }}</h4>
-                                <a href="{{ route('user.home.support.tickets') }}"
-                                    class="cmn_btn btn_bg_profile">{{ __('All Tickets') }}</a>
+                                {{-- <a href="{{ route('user.home.support.tickets') }}"
+                                    class="cmn_btn btn_bg_profile">{{ __('All Tickets') }}</a> --}}
                             </div>
                             <div class="dashboard__card__body custom__form mt-4">
                                 <div class="gig-order-info">
                                     <ul>
                                         <li><strong>{{ __('Ticket ID:') }}</strong> #{{ $ticket_details->id }}</li>
                                         <li><strong>{{ __('Order No.:') }}</strong> #{{ $ticket_details->order_id }}</li>
-                                        {{-- <li><strong>{{ __('Title:') }}</strong> {{ $ticket_details->title }}</li> --}}
-                                        <li><strong>{{ __('Subject:') }}</strong> {{ $ticket_details->subject }} </li>
-                                        <li><strong>{{ __('Status:') }}</strong> <span
-                                                class="status-{{ $ticket_details->status }}">{{ __($ticket_details->status) }}</span>
+                                        <li><strong>{{ __('Subject:') }}</strong> {{ $ticket_details->title }} </li>
+                                        <li><strong>{{ __('Status:') }}</strong> 
+                                            <span class="text-capitalize badge {{ $ticket_details->status == 'close' ? 'status-close' : 'status-open' }}">
+                                                {{ $ticket_details->status == 'close' ? __('Closed') : __($ticket_details->status) }}
+                                            </span>
                                         </li>
                                         {{-- <li><strong>{{ __('Priority:') }}</strong> <span
                                                 class="{{ $ticket_details->priority }}">{{ __($ticket_details->priority) }}</span>
@@ -272,7 +277,7 @@
                                             <form action="" method="get">
                                                 <input type="hidden" value="all" name="q">
                                                 <button class="load_all_conversation"
-                                                    type="submit">{{ __('load all message') }}</button>
+                                                    type="submit">{{ __('Load all messages') }}</button>
                                             </form>
                                         @endif
                                         @forelse($all_messages as $msg)
@@ -316,12 +321,12 @@
                                                 </div>
                                             </div>
                                         @empty
-                                            <p class="alert alert-warning">{{ __('no message found') }}</p>
+                                            <p class="alert alert-warning">{{ __('No message found') }}</p>
                                         @endforelse
                                     </div>
                                 </div>
                                 <div class="reply-message-wrap ">
-                                    <h5 class="dashboard__card__title mb-3">{{ __('Replay To Message') }}</h5>
+                                    {{-- <h5 class="dashboard__card__title mb-3">{{ __('Type your message here') }}</h5> --}}
                                     <x-msg.error />
                                     <x-msg.flash />
                                     <form action="{{ route('user.dashboard.support.ticket.message') }}" method="post"
@@ -330,7 +335,7 @@
                                         <input type="hidden" value="{{ $ticket_details->id }}" name="ticket_id">
                                         <input type="hidden" value="customer" name="user_type">
                                         <div class="form-group">
-                                            <label for="">{{ __('Message') }}</label>
+                                            <label for="">{{ __('Type your message here') }}</label>
                                             <textarea name="message" class="form-control d-none" cols="30" rows="5"></textarea>
                                             <div class="summernote"></div>
                                         </div>
@@ -338,14 +343,22 @@
                                             <label for="file">{{ __('File') }}</label>
                                             <input type="file" name="file" accept="zip">
                                             <small
-                                                class="info-text d-block text-danger">{{ __('max file size 200mb, only zip file is allowed') }}</small>
+                                                class="info-text d-block text-danger">{{ __('Max file size is 200mb, only zip file is allowed') }}</small>
                                         </div>
                                         <div class="form-group d-flex align-items-start gap-3">
                                             <input type="checkbox" name="send_notify_mail" id="send_notify_mail">
-                                            <label for="send_notify_mail">{{ __('Notify Via Mail') }}</label>
+                                            <label for="send_notify_mail">{{ __('Notify via mail') }}</label>
                                         </div>
-                                        <button class="cmn_btn btn_bg_profile"
-                                            type="submit">{{ __('Send Message') }}</button>
+                                        <div class="btn-wrapper">
+                                            <button type="submit" class="cmn_btn btn_bg_2 default-theme-btn">
+                                                {{ __('Send Message') }}
+                                            </button>
+                                            <a href="{{ route('user.home.support.tickets') }}" class="cmn_btn default-theme-btn" style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                                                {{ __('Back') }}
+                                            </a>
+                                        </div>
+                                        {{-- <button class="cmn_btn btn_bg_profile"
+                                            type="submit">{{ __('Send Message') }}</button> --}}
                                     </form>
                                 </div>
                             </div>

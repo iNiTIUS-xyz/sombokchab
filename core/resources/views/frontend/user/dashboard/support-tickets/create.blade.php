@@ -106,7 +106,7 @@
                                     </div> --}}
                                     <div class="form-group">
                                         <label>{{ __('Subject') }}</label>
-                                        <input type="text" class="form-control" name="subject"
+                                        <input type="text" class="form-control" name="title"
                                             placeholder="{{ __('Subject') }}">
                                     </div>
                                     {{-- <div class="form-group">
