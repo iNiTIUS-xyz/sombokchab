@@ -17,10 +17,10 @@
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Update Campaign') }}</h4>
                         <div class="dashboard__card__header__right">
-                            <a href="{{ route('vendor.campaigns.all') }}"
-                                class="btn btn-primary">{{ __('All Campaigns') }}</a>
                             <a href="{{ route('frontend.products.campaign', $campaign->id) }}" target="_blank"
-                                class="btn btn-info">{{ __('View Campaign') }}</a>
+                                class="btn btn-info">
+                                {{ __('View Campaign') }}
+                            </a>
                         </div>
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
@@ -213,14 +213,23 @@
                                             </div>
                                         </div>
                                         <div class="col-md-12">
-                                            <button type="submit"
-                                                class="cmn_btn btn_bg_profile">{{ __('Update Campaign') }}</button>
+
+                                            <hr>
+                                            <div class="btn-wrapper">
+                                                <button type="submit" class="cmn_btn btn_bg_profile">
+                                                    {{ __('Create Campaign') }}
+                                                </button>
+                                                <a href="{{ route('vendor.campaigns.all') }}"
+                                                    class="cmn_btn default-theme-btn"
+                                                    style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                                                    {{ __('Back') }}
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </form>
-                        {{--                        @endcan --}}
                     </div>
                 </div>
             </div>
@@ -240,262 +249,263 @@
     <script>
         (function($) {
 
-            $('#campaign_slug').on('keyup', function() {
-                let title_text = $(this).val();
-                $('#campaign_slug').val(convertToSlug(title_text))
-            });
-
-            $(document).ready(function() {
-                flatpickr(".flatpickr", {
-                    altInput: true,
-                    altFormat: "F j, Y",
-                    dateFormat: "Y-m-d",
+                $('#campaign_slug').on('keyup', function() {
+                    let title_text = $(this).val();
+                    $('#campaign_slug').val(convertToSlug(title_text))
                 });
 
-                if ($('.nice-select').length > 0) {
-                    $('.nice-select').niceSelect();
-                }
+                $(document).ready(function() {
+                    flatpickr(".flatpickr", {
+                        altInput: true,
+                        altFormat: "F j, Y",
+                        dateFormat: "Y-m-d",
+                    });
 
-                $(document).on('click', '.cross-btn', function() {
-                    let container = $(this).closest('.card');
-                    container.slideUp('slow');
-                    setTimeout(() => container.remove(), 1000);
-                });
-
-                $('#set_fixed_percentage').on('change', function() {
-                    if ($(this).is(':checked')) {
-                        $('#fixe_price_cut_container').slideDown('500')
-                    } else {
-                        $('#fixe_price_cut_container').slideUp('500');
-                        setTimeout(function() {
-                            $('#fixed_percentage_amount').val('');
-                        }, 500);
+                    if ($('.nice-select').length > 0) {
+                        $('.nice-select').niceSelect();
                     }
-                });
 
-                $('#set_fixed_date').on('change', function() {
-                    if ($(this).is(':checked')) {
-                        $('#fixed_date_container').slideDown(500);
-                    } else {
-                        $('#fixed_date_container').slideUp(500);
-                        setTimeout(function() {
-                            $('#fixed_date_container input').val('');
-                        }, 500);
-                    }
-                });
+                    $(document).on('click', '.cross-btn', function() {
+                        let container = $(this).closest('.card');
+                        container.slideUp('slow');
+                        setTimeout(() => container.remove(), 1000);
+                    });
 
-                {{--$('#fixed_price_sync_all').on('click', function() {--}}
-                {{--    let fixed_percentage = $('#fixed_percentage_amount').val().trim();--}}
+                    $('#set_fixed_percentage').on('change', function() {
+                        if ($(this).is(':checked')) {
+                            $('#fixe_price_cut_container').slideDown('500')
+                        } else {
+                            $('#fixe_price_cut_container').slideUp('500');
+                            setTimeout(function() {
+                                $('#fixed_percentage_amount').val('');
+                            }, 500);
+                        }
+                    });
 
-                {{--    if (!fixed_percentage.length) {--}}
-                {{--        Swal.fire({--}}
-                {{--            position: 'top-end',--}}
-                {{--            icon: 'warning',--}}
-                {{--            title: '{{ __('Set percentage first') }}',--}}
-                {{--            showConfirmButton: false,--}}
-                {{--            timer: 1500--}}
-                {{--        });--}}
-                {{--    }--}}
+                    $('#set_fixed_date').on('change', function() {
+                        if ($(this).is(':checked')) {
+                            $('#fixed_date_container').slideDown(500);
+                        } else {
+                            $('#fixed_date_container').slideUp(500);
+                            setTimeout(function() {
+                                $('#fixed_date_container input').val('');
+                            }, 500);
+                        }
+                    });
 
-                {{--    let all_prices = $('.product_original_price');--}}
-                {{--    for (let i = 0; i < all_prices.length; i++) {--}}
-                {{--        let price_container = $(all_prices[i]).closest('.col');--}}
-                {{--        let final_price_container = price_container.next();--}}
-                {{--        let product_price = $(all_prices[i]).val().trim();--}}
-                {{--        let price_after_percentage = product_price - (product_price / 100 *--}}
-                {{--            fixed_percentage);--}}
-                {{--        price_after_percentage = price_after_percentage.toFixed(2);--}}
-                {{--        final_price_container.find('.campaign_price').val(price_after_percentage);--}}
-                {{--    }--}}
-                {{--});--}}
+                    {{-- $('#fixed_price_sync_all').on('click', function() { --}}
+                    {{--    let fixed_percentage = $('#fixed_percentage_amount').val().trim(); --}}
 
-                $('#fixed_date_sync_all').on('click', function() {
-                    if ($('#set_fixed_date').is(':checked')) {
-                        let from_date = $('#fixed_from_date').val();
-                        let to_date = $('#fixed_to_date').val();
+                    {{--    if (!fixed_percentage.length) { --}}
+                    {{--        Swal.fire({ --}}
+                    {{--            position: 'top-end', --}}
+                    {{--            icon: 'warning', --}}
+                    {{--            title: '{{ __('Set percentage first') }}', --}}
+                    {{--            showConfirmButton: false, --}}
+                    {{--            timer: 1500 --}}
+                    {{--        }); --}}
+                    {{--    } --}}
 
-                        $('.start_date.flatpickr-input').val(from_date);
-                        $('.end_date.flatpickr-input').val(to_date);
+                    {{--    let all_prices = $('.product_original_price'); --}}
+                    {{--    for (let i = 0; i < all_prices.length; i++) { --}}
+                    {{--        let price_container = $(all_prices[i]).closest('.col'); --}}
+                    {{--        let final_price_container = price_container.next(); --}}
+                    {{--        let product_price = $(all_prices[i]).val().trim(); --}}
+                    {{--        let price_after_percentage = product_price - (product_price / 100 * --}}
+                    {{--            fixed_percentage); --}}
+                    {{--        price_after_percentage = price_after_percentage.toFixed(2); --}}
+                    {{--        final_price_container.find('.campaign_price').val(price_after_percentage); --}}
+                    {{--    } --}}
+                    {{-- }); --}}
+
+                    $('#fixed_date_sync_all').on('click', function() {
+                        if ($('#set_fixed_date').is(':checked')) {
+                            let from_date = $('#fixed_from_date').val();
+                            let to_date = $('#fixed_to_date').val();
+
+                            $('.start_date.flatpickr-input').val(from_date);
+                            $('.end_date.flatpickr-input').val(to_date);
+
+                            flatpickr(".flatpickr", {
+                                altInput: true,
+                                altFormat: "F j, Y",
+                                dateFormat: "Y-m-d",
+                            });
+                        } else {
+                            Swal.fire({
+                                position: 'top-start',
+                                icon: 'warning',
+                                title: '{{ __('Set fixed date first') }}',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        }
+                    });
+
+                    $('.delete-campaign').on('click', function() {
+                        let container = $(this).closest('.card');
+                        let campaign_id = container.find('input.campaign_product_id').val();
+
+                        Swal.fire({
+                            title: "{{ __('Do you want to delete this campaign?') }}",
+                            showCancelButton: true,
+                            confirmButtonText: 'Delete',
+                            confirmButtonColor: '#dd3333',
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $.post('{{ route('vendor.campaigns.delete.product') }}', {
+                                    _token: '{{ csrf_token() }}',
+                                    id: campaign_id
+                                }).then(function(data) {
+                                    if (data) {
+                                        Swal.fire('Deleted!', '', 'success');
+                                        setTimeout(function() {
+                                            location.reload();
+                                        }, 1000);
+                                    }
+                                });
+                            }
+                        });
+                    });
+
+                    //     $('#add_product_btn').on('click', function() {
+                    //         let product_repeater_container = $('#product_repeater_container');
+                    //         let remove_button_selector = '.delete-campaign';
+                    //         let from_date = undefined;
+                    //         let to_date = undefined;
+                    //         let new_element = product_repeater_container.find('.card').last().clone();
+                    //
+                    //         if ($('#set_fixed_date').is(':checked')) {
+                    //             from_date = $('#fixed_from_date').val();
+                    //             to_date = $('#fixed_to_date').val();
+                    //         }
+                    //
+                    //         if (from_date) {
+                    //             new_element.find('.start_date.input').val(from_date);
+                    //         }
+                    //
+                    //         if (to_date) {
+                    //             new_element.find('.end_date.input').val(to_date);
+                    //         }
+                    //
+                    //         let remove_btn = new_element.find(remove_button_selector);
+                    //
+                    //         remove_btn.removeClass(remove_button_selector);
+                    //         remove_btn.addClass('cross-btn');
+                    //
+                    //         new_element.find('.start_date.input').remove();
+                    //         new_element.find('.end_date.input').remove();
+                    //
+                    //         new_element.find('.campaign_price').val('');
+                    //         new_element.find('.units_for_sale').val('');
+                    //
+                    //         product_repeater_container.append(new_element.hide());
+                    //         new_element.slideDown('slow');
+                    //
+                    //         flatpickr(".flatpickr", {
+                    //             altInput: true,
+                    //             altFormat: "F j, Y",
+                    //             dateFormat: "Y-m-d",
+                    //         });
+                    //
+                    //         product_repeater_container.find('.nice-select').niceSelect('destroy');
+                    //         product_repeater_container.find('.nice-select').niceSelect();
+                    //     });
+                    // });
+
+
+
+                    $(document).on('change', '.select_product select', function() {
+                        let selected_product_id = $(this).val();
+                        let container = $(this).closest('.card');
+                        let original_price_field = container.find('.original_price');
+                        // let campaign_price_field = container.find('.product_original_price');
+                        $(this).prev().val(selected_product_id);
+                        let data = $(this).find('option:checked').data();
+                        let product_price = data['sale_price'];
+
+                        $(this).closest('.card-body').find('.available_num_of_units').val(data['stock']);
+
+                        $(this).closest('.card-body').find('.product_original_price').val(product_price);
+
+                        if ($('#set_fixed_percentage').is(':checked')) {
+                            let percentage = $('#fixed_percentage_amount').val().trim();
+                            let price_after_percentage = product_price - (product_price / 100 * percentage);
+
+                            campaign_price_field.val(price_after_percentage);
+                        }
+                    });
+
+
+
+                    $(document).on('click', '#fixed_price_sync_all', function() {
+                        let fixed_percentage = $('#fixed_percentage_amount').val().trim();
+
+                        if (!fixed_percentage.length) {
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'warning',
+                                title: '{{ __('Set percentage first') }}',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        }
+
+                        let all_prices = $('.product_original_price');
+                        for (let i = 0; i < all_prices.length; i++) {
+                            let final_price_container = $(all_prices[i]).closest('.dashboard__card__body');
+                            let product_price = $(all_prices[i]).val().trim();
+                            let price_after_percentage = product_price - (product_price / 100 *
+                                fixed_percentage);
+                            price_after_percentage = price_after_percentage.toFixed(2);
+                            final_price_container.find('.campaign_price').val(price_after_percentage);
+                        }
+                    });
+
+                    $(document).on('click', '#add_product_btn', function() {
+                        let product_repeater_container = $('#product_repeater_container');
+                        let remove_button_selector = '.delete-campaign';
+                        let from_date = undefined;
+                        let to_date = undefined;
+                        let new_element = product_repeater_container.find('.dashboard__card').last()
+                            .clone();
+
+                        if ($('#set_fixed_date').is(':checked')) {
+                            from_date = $('#fixed_from_date').val();
+                            to_date = $('#fixed_to_date').val();
+                        }
+
+                        if (from_date) {
+                            new_element.find('.start_date.input').val(from_date);
+                        }
+
+                        if (to_date) {
+                            new_element.find('.end_date.input').val(to_date);
+                        }
+
+                        let remove_btn = new_element.find(remove_button_selector);
+
+                        remove_btn.removeClass(remove_button_selector);
+                        remove_btn.addClass('cross-btn');
+
+                        new_element.find('.start_date.input').remove();
+                        new_element.find('.end_date.input').remove();
+
+                        new_element.find('.campaign_price').val('');
+                        new_element.find('.units_for_sale').val('');
+
+                        product_repeater_container.append(new_element.hide());
+                        new_element.slideDown('slow');
 
                         flatpickr(".flatpickr", {
                             altInput: true,
                             altFormat: "F j, Y",
                             dateFormat: "Y-m-d",
                         });
-                    } else {
-                        Swal.fire({
-                            position: 'top-start',
-                            icon: 'warning',
-                            title: '{{ __('Set fixed date first') }}',
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
-                    }
-                });
 
-                $('.delete-campaign').on('click', function() {
-                    let container = $(this).closest('.card');
-                    let campaign_id = container.find('input.campaign_product_id').val();
-
-                    Swal.fire({
-                        title: "{{ __('Do you want to delete this campaign?') }}",
-                        showCancelButton: true,
-                        confirmButtonText: 'Delete',
-                        confirmButtonColor: '#dd3333',
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            $.post('{{ route('vendor.campaigns.delete.product') }}', {
-                                _token: '{{ csrf_token() }}',
-                                id: campaign_id
-                            }).then(function(data) {
-                                if (data) {
-                                    Swal.fire('Deleted!', '', 'success');
-                                    setTimeout(function() {
-                                        location.reload();
-                                    }, 1000);
-                                }
-                            });
-                        }
+                        product_repeater_container.find('.nice-select').niceSelect('destroy');
+                        product_repeater_container.find('.nice-select').niceSelect();
                     });
-                });
-
-            //     $('#add_product_btn').on('click', function() {
-            //         let product_repeater_container = $('#product_repeater_container');
-            //         let remove_button_selector = '.delete-campaign';
-            //         let from_date = undefined;
-            //         let to_date = undefined;
-            //         let new_element = product_repeater_container.find('.card').last().clone();
-            //
-            //         if ($('#set_fixed_date').is(':checked')) {
-            //             from_date = $('#fixed_from_date').val();
-            //             to_date = $('#fixed_to_date').val();
-            //         }
-            //
-            //         if (from_date) {
-            //             new_element.find('.start_date.input').val(from_date);
-            //         }
-            //
-            //         if (to_date) {
-            //             new_element.find('.end_date.input').val(to_date);
-            //         }
-            //
-            //         let remove_btn = new_element.find(remove_button_selector);
-            //
-            //         remove_btn.removeClass(remove_button_selector);
-            //         remove_btn.addClass('cross-btn');
-            //
-            //         new_element.find('.start_date.input').remove();
-            //         new_element.find('.end_date.input').remove();
-            //
-            //         new_element.find('.campaign_price').val('');
-            //         new_element.find('.units_for_sale').val('');
-            //
-            //         product_repeater_container.append(new_element.hide());
-            //         new_element.slideDown('slow');
-            //
-            //         flatpickr(".flatpickr", {
-            //             altInput: true,
-            //             altFormat: "F j, Y",
-            //             dateFormat: "Y-m-d",
-            //         });
-            //
-            //         product_repeater_container.find('.nice-select').niceSelect('destroy');
-            //         product_repeater_container.find('.nice-select').niceSelect();
-            //     });
-            // });
-
-
-
-            $(document).on('change', '.select_product select', function() {
-                let selected_product_id = $(this).val();
-                let container = $(this).closest('.card');
-                let original_price_field = container.find('.original_price');
-                // let campaign_price_field = container.find('.product_original_price');
-                $(this).prev().val(selected_product_id);
-                let data = $(this).find('option:checked').data();
-                let product_price = data['sale_price'];
-
-                $(this).closest('.card-body').find('.available_num_of_units').val(data['stock']);
-
-                $(this).closest('.card-body').find('.product_original_price').val(product_price);
-
-                if ($('#set_fixed_percentage').is(':checked')) {
-                    let percentage = $('#fixed_percentage_amount').val().trim();
-                    let price_after_percentage = product_price - (product_price / 100 * percentage);
-
-                    campaign_price_field.val(price_after_percentage);
-                }
-            });
-
-
-
-            $(document).on('click','#fixed_price_sync_all', function() {
-                let fixed_percentage = $('#fixed_percentage_amount').val().trim();
-
-                if (!fixed_percentage.length) {
-                    Swal.fire({
-                        position: 'top-end',
-                        icon: 'warning',
-                        title: '{{ __('Set percentage first') }}',
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                }
-
-                let all_prices = $('.product_original_price');
-                for (let i = 0; i < all_prices.length; i++) {
-                    let final_price_container = $(all_prices[i]).closest('.dashboard__card__body');
-                    let product_price = $(all_prices[i]).val().trim();
-                    let price_after_percentage = product_price - (product_price / 100 *
-                        fixed_percentage);
-                    price_after_percentage = price_after_percentage.toFixed(2);
-                    final_price_container.find('.campaign_price').val(price_after_percentage);
-                }
-            });
-
-            $(document).on('click','#add_product_btn', function() {
-                let product_repeater_container = $('#product_repeater_container');
-                let remove_button_selector = '.delete-campaign';
-                let from_date = undefined;
-                let to_date = undefined;
-                let new_element = product_repeater_container.find('.dashboard__card').last().clone();
-
-                if ($('#set_fixed_date').is(':checked')) {
-                    from_date = $('#fixed_from_date').val();
-                    to_date = $('#fixed_to_date').val();
-                }
-
-                if (from_date) {
-                    new_element.find('.start_date.input').val(from_date);
-                }
-
-                if (to_date) {
-                    new_element.find('.end_date.input').val(to_date);
-                }
-
-                let remove_btn = new_element.find(remove_button_selector);
-
-                remove_btn.removeClass(remove_button_selector);
-                remove_btn.addClass('cross-btn');
-
-                new_element.find('.start_date.input').remove();
-                new_element.find('.end_date.input').remove();
-
-                new_element.find('.campaign_price').val('');
-                new_element.find('.units_for_sale').val('');
-
-                product_repeater_container.append(new_element.hide());
-                new_element.slideDown('slow');
-
-                flatpickr(".flatpickr", {
-                    altInput: true,
-                    altFormat: "F j, Y",
-                    dateFormat: "Y-m-d",
-                });
-
-                product_repeater_container.find('.nice-select').niceSelect('destroy');
-                product_repeater_container.find('.nice-select').niceSelect();
-            });
-        })(jQuery)
+                })(jQuery)
     </script>
 @endsection

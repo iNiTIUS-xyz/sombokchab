@@ -14,9 +14,9 @@
                 <x-msg.flash />
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Create Shipping Method') }}</h4>
-                        <a class="cmn_btn btn_bg_profile" href="{{ route('vendor.shipping-method.index') }}">Shipping Method
-                            List</a>
+                        <h4 class="dashboard__card__title">
+                            {{ __('Create Shipping Method') }}
+                        </h4>
                     </div>
                     <div class="dashboard__card__body custom__form dashboard-recent-order mt-4">
                         <form action="{{ route('vendor.shipping-method.store') }}" method="post"
@@ -60,8 +60,15 @@
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <button type="submit"
-                                            class="cmn_btn btn_bg_profile">{{ __('Create Shipping Method') }}</button>
+                                        <button type="submit" class="cmn_btn btn_bg_profile">
+                                            {{ __('Create Shipping Method') }}
+                                        </button>
+
+                                        <a href="{{ route('vendor.shipping-method.index') }}"
+                                            class="cmn_btn default-theme-btn"
+                                            style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                                            {{ __('Back') }}
+                                        </a>
                                     </div>
                                 </div>
                             </div>

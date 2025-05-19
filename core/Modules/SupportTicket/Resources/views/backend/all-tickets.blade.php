@@ -13,26 +13,27 @@
                 <x-msg.flash />
                 <x-msg.error />
                 @can('support-tickets-create')
-                    <div class="btn-wrapper d-flex">
-                        <a href="{{ route('admin.support.ticket.new') }}"
-                            class="cmn_btn btn_bg_profile">{{ __('New Ticket') }}</a>
+                    <div class="btn-wrapper d-flex mb-4">
+                        <a href="{{ route('admin.support.ticket.new') }}" class="cmn_btn btn_bg_profile">
+                            {{ __('New Ticket') }}
+                        </a>
                     </div>
                 @endcan
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('All Tickets') }}</h4>
                         <div class="dashboard__card__header__right d-flex">
-                            @can("support-tickets-bulk-action")
+                            @can('support-tickets-bulk-action')
                                 <x-bulk-action.dropdown />
                             @endcan
-                            
+
                         </div>
                     </div>
                     <div class="dashboard__card__body mt-4">
                         <div class="table-wrap table-responsive">
                             <table class="table table-default">
                                 <thead class="text-center">
-                                    @can("support-tickets-bulk-action")
+                                    @can('support-tickets-bulk-action')
                                         <x-bulk-action.th />
                                     @endcan
                                     <th class="text-center">{{ __('ID') }}</th>
@@ -46,7 +47,7 @@
                                 <tbody>
                                     @foreach ($all_tickets as $data)
                                         <tr>
-                                            @can("support-tickets-bulk-action")
+                                            @can('support-tickets-bulk-action')
                                                 <x-bulk-action.td :id="$data->id" />
                                             @endcan
                                             <td>#{{ $data->id }}</td>
@@ -123,7 +124,7 @@
 @endsection
 
 @section('script')
-    @can("support-tickets-bulk-action")
+    @can('support-tickets-bulk-action')
         <x-bulk-action.js :route="route('admin.support.ticket.bulk.action')" />
     @endcan
 

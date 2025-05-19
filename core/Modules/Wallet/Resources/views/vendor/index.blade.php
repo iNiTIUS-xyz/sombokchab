@@ -11,17 +11,16 @@
             <div class="col-lg-12">
                 <x-msg.error />
                 <x-msg.flash />
+                @if ($current_balance >= get_static_option('minimum_withdraw_amount'))
+                    <div class="btn-wrapper mb-4">
+                        <a href="{{ route('vendor.wallet.withdraw') }}" id="withdraw-button" class="cmn_btn btn_bg_profile">
+                            {{ __('Withdraw') }}
+                        </a>
+                    </div>
+                @endif
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Your Wallet') }}</h4>
-                        @if ($current_balance >= get_static_option('minimum_withdraw_amount'))
-                            <div class="btn-wrapper">
-                                <a href="{{ route('vendor.wallet.withdraw') }}" id="withdraw-button"
-                                    class="cmn_btn btn_bg_profile">
-                                    {{ __('Withdraw') }}
-                                </a>
-                            </div>
-                        @endif
                     </div>
                     <div class="dashboard__card__body mt-4">
                         <div class="row g-4 justify-content-center">
@@ -146,14 +145,15 @@
         $monthArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         $weekName = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
         $weekArray = [0, 0, 0, 0, 0, 0, 0];
-        
+
         // foreach ($yearly_income_statement as $month => $value) {
         //     $monthArray[array_search($month, $monthName, true)] = (float) $value;
         // }
-        
+
         // foreach ($weekly_statement as $week => $value) {
         //     $weekArray[array_search($week, $weekName, true)] = (float) $value;
         // }
+
     @endphp
     <script>
         new Chart(document.getElementById("bar-chart"), {

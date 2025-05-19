@@ -59,9 +59,6 @@
                                     {{ __('Back') }}
                                 </a>
                             </div>
-                            {{-- <div class="form-group btn-wrapper">
-                                <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Submit Ticket') }}</button>
-                            </div> --}}
                         </form>
                     </div>
                 </div>

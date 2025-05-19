@@ -7,7 +7,10 @@
         <i class="ti-trash"></i>
     </a>
 @else
-    <a class="dropdown-item swal_delete_button"><i class="ti-trash"></i> {{ __('Delete') }} </a>
+    <a class="dropdown-item swal_delete_button">
+        <i class="ti-trash"></i>
+        {{ __('Delete') }}
+    </a>
 @endif
 
 
@@ -16,7 +19,6 @@
         @method('DELETE')
         @csrf
     @endif
-
     <input type='hidden' name='_token' value='{{ csrf_token() }}'>
     <br>
     <button type="submit" class="swal_form_submit_btn btn-sm d-none"></button>

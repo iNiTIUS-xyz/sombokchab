@@ -12,19 +12,15 @@
             <div class="col-lg-12">
                 <x-msg.error />
                 <x-msg.flash />
+                <div class="btn-wrapper mb-4">
+                    <a href="{{ route('vendor.campaigns.new') }}"
+                        class="cmn_btn btn_bg_profile">{{ __('Add New Campaign') }}</a>
+                </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('All Campaigns') }}</h4>
                         <div class="dashboard__card__header__right">
-                            {{--                        @can('campaign-delete') --}}
                             <x-bulk-action.dropdown />
-                            {{--                        @endcan --}}
-                            {{--                        @can('campaign-create') --}}
-                            <div class="btn-wrapper">
-                                <a href="{{ route('vendor.campaigns.new') }}"
-                                    class="cmn_btn btn_bg_profile">{{ __('Add New Campaign') }}</a>
-                            </div>
-                            {{--                        @endcan --}}
                         </div>
                     </div>
                     <div class="dashboard__card__body mt-4">

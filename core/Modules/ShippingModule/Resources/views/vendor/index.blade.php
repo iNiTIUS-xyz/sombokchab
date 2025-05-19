@@ -12,11 +12,12 @@
             <div class="col-lg-12">
                 <x-msg.error />
                 <x-msg.flash />
+                <a href="{{ route('vendor.shipping-method.create') }}" class="cmn_btn btn_bg_profile mb-4">
+                    Create Shipping Method
+                </a>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Shipping Methods List') }}</h4>
-                        <a href="{{ route('vendor.shipping-method.create') }}" class="cmn_btn btn_bg_profile">Create Shipping
-                            Method</a>
                     </div>
                     <div class="dashboard__card__body mt-4 dashboard-recent-order">
                         <div class="table-wrap table-responsive">
@@ -42,26 +43,35 @@
 
                                             <td>
                                                 @if (!$method->is_default)
-                                                    <a href="{{ route('vendor.shipping-method.destroy', $method->id) }}"
-                                                        class="btn btn-danger btn-xs mb-2 me-1">
-                                                        <i class="las la-trash"></i> </a>
+                                                    <x-delete-popover :url="route('vendor.shipping-method.destroy', $method->id)" style="margin: 0px !important" />
                                                 @endif
                                                 <a href="{{ route('vendor.shipping-method.edit', $method->id) }}"
-                                                    class="btn btn-primary btn-xs mb-2 me-1">
+                                                    class="btn btn-primary btn-xs mb-2 me-1" title="Edit Data">
                                                     <i class="mdi mdi-pencil"></i>
                                                 </a>
-
                                                 @if (!$method->is_default)
                                                     <form action="{{ route('vendor.shipping-method.make-default') }}"
                                                         method="post" style="display: inline">
                                                         @csrf
                                                         <input type="hidden" name="id" value="{{ $method->id }}">
-                                                        <button
-                                                            class="btn btn-info btn-xs mb-2 me-1">{{ __('Make Default') }}</button>
+                                                        <button class="btn btn-info btn-xs mb-2 me-1"
+                                                            title="{{ __('Make Default') }}">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                                height="16" fill="currentColor" viewBox="0 0 24 24">
+                                                                <path
+                                                                    d="M6 2a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V8l-6-6H6zm7 1.5L18.5 9H13V3.5z" />
+                                                            </svg>
+                                                        </button>
                                                     </form>
                                                 @else
-                                                    <button class="btn btn-success btn-xs px-4 mb-2 me-1"
-                                                        disabled>{{ __('Default') }}</button>
+                                                    <button type="button" class="btn btn-success btn-xs px-2 mb-2 me-1">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                            height="16" fill="currentColor" viewBox="0 0 24 24">
+                                                            <path
+                                                                d="M6 2a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V8l-6-6H6zm7 1.5L18.5 9H13V3.5z" />
+                                                        </svg>
+                                                        {{ __('Default') }}
+                                                    </button>
                                                 @endif
                                             </td>
                                         </tr>
