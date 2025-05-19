@@ -102,7 +102,7 @@
                                     {!! view('product::components.frontend.common.rating-markup', compact('product')) !!}
                                 </div>
 
-                                {{-- @if($stock_count > (int) get_static_option('product_in_stock_limit_set') ?? 0)
+                                {{-- @if ($stock_count > (int) get_static_option('product_in_stock_limit_set') ?? 0)
                                     <span data-stock-text="{{ $stock_count }}"
                                         class="availability text-success">{{ filter_static_option_value('product_in_stock_text', $setting_text, __('In stock')) }}
                                         ({{ $stock_count }})
@@ -201,8 +201,7 @@
                                                 <i class="las la-minus"></i>
                                             </span>
 
-                                            <input class="quantity-input" id="quantity" type="number"
-                                                value="01" />
+                                            <input class="quantity-input" id="quantity" type="number" value="01" />
 
                                             <span class="plus">
                                                 <i class="las la-plus"></i>
@@ -230,7 +229,7 @@
                                             class="btn-wishlist buy_now_single_page btn-details btn-buyNow mt-4"> <i
                                                 class="las la-cart-arrow-down"></i> {{ __('Buy now') }} </a>
                                         <a href="#1" data-id="{{ $product->id }}"
-                                           class="btn-wishlist add_to_compare_single_page btn-details btn-buyNow mt-4">
+                                            class="btn-wishlist add_to_compare_single_page btn-details btn-buyNow mt-4">
                                             <i class="las la-retweet"></i> {{ __('Add Compare') }} </a>
                                     </div>
                                 </div>
@@ -821,6 +820,7 @@
 
         $(document).on('click', '.add_to_wishlist_single_page', function(e) {
             e.preventDefault();
+
             let selected_size = $('#selected_size').val();
             let selected_color = $('#selected_color').val();
             let site_currency_symbol = "{{ site_currency_symbol() }}";
@@ -853,17 +853,15 @@
                         _token: '{{ csrf_token() }}'
                     },
                     success: function(data) {
-                        if (data.type ?? false) {
-                            toastr[data.type](data.msg);
-                        } else {
-                            toastr.success(data.msg);
-                        }
 
-                        if (data.quantity_msg) {
+                        if (data.type == 'success') {
+                            toastr.success(data.msg);
+                        } else {
                             toastr.warning(data.quantity_msg)
                         }
 
                         loadHeaderCardAndWishlistArea(data);
+
                     },
                     erorr: function(err) {
                         toastr.error('{{ __('An error occurred') }}');
