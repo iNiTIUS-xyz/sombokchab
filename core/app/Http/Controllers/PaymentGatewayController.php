@@ -567,6 +567,7 @@ class PaymentGatewayController extends Controller
     public function aba_ipn(Request $request)
     {
         Log::info('abapayway ipn');
+        Log::info($request->all());
         // $abapayway = PaymentGatewayCredential::get_abapayway_credential();
         // $payment_data = $abapayway->ipn_response();
         // return $this->common_ipn_data($payment_data);
@@ -603,7 +604,13 @@ class PaymentGatewayController extends Controller
                 "status" => $status
             ];
             
-            $this->update_database($order_id, $transaction_id);
+            // $this->update_database($order_id, $transaction_id);
+            Order::where('id', $order_id)->update([
+                'transaction_id' => $transaction_id,
+                'order_status' => 'processing',
+                'payment_status' => $status,
+                'updated_at' => Carbon::now()
+            ]);
             self::sendOrderMail($payment_data, $order_address?->toArray());
             WalletService::updateWallet($order_id);
 
@@ -664,7 +671,7 @@ class PaymentGatewayController extends Controller
     {
         Order::where('id', $order_id)->update([
             'transaction_id' => $transaction_id,
-            'order_status' => 'pending',
+            'order_status' => 'processing',
             'payment_status' => 'complete',
             'updated_at' => Carbon::now()
         ]);
