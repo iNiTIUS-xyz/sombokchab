@@ -1,20 +1,21 @@
 <?php
 
-use Modules\MobileApp\Http\Controllers\Api\ApiOrderController;
-use Modules\MobileApp\Http\Controllers\Api\V1\CategoryController;
-use Modules\MobileApp\Http\Controllers\Api\V1\ChildCategoryController;
-use Modules\MobileApp\Http\Controllers\Api\V1\CountryController;
-use Modules\MobileApp\Http\Controllers\Api\V1\LanguageController;
-use Modules\MobileApp\Http\Controllers\Api\V1\MobileSliderController;
-use Modules\MobileApp\Http\Controllers\Api\V1\OrderApiController;
-use Modules\MobileApp\Http\Controllers\Api\V1\SiteSettingsController;
-use Modules\MobileApp\Http\Controllers\Api\V1\SubCategoryController;
-use Modules\MobileApp\Http\Controllers\Api\V1\UserController;
-use Modules\MobileApp\Http\Controllers\CampaignController;
-use Modules\MobileApp\Http\Controllers\FeaturedProductController;
+use App\Http\Controllers\PaymentGatewayController;
 use Modules\MobileApp\Http\Controllers\MobileController;
-use Modules\MobileApp\Http\Controllers\MobileIntroApiController;
 use Modules\MobileApp\Http\Controllers\ProductController;
+use Modules\MobileApp\Http\Controllers\CampaignController;
+use Modules\MobileApp\Http\Controllers\Api\V1\UserController;
+use Modules\MobileApp\Http\Controllers\Api\ApiOrderController;
+use Modules\MobileApp\Http\Controllers\Api\V1\CountryController;
+use Modules\MobileApp\Http\Controllers\MobileIntroApiController;
+use Modules\MobileApp\Http\Controllers\Api\V1\CategoryController;
+use Modules\MobileApp\Http\Controllers\Api\V1\LanguageController;
+use Modules\MobileApp\Http\Controllers\Api\V1\OrderApiController;
+use Modules\MobileApp\Http\Controllers\FeaturedProductController;
+use Modules\MobileApp\Http\Controllers\Api\V1\SubCategoryController;
+use Modules\MobileApp\Http\Controllers\Api\V1\MobileSliderController;
+use Modules\MobileApp\Http\Controllers\Api\V1\SiteSettingsController;
+use Modules\MobileApp\Http\Controllers\Api\V1\ChildCategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -102,6 +103,9 @@ Route::post("apply-coupon", [OrderApiController::class, "applyCoupon"]);
 
 Route::post("checkout", [ApiOrderController::class, "placeOrder"]);
 Route::post("update-payment", [ApiOrderController::class, "update_payment_status"]);
+Route::post('abapayway/redirect', [ApiOrderController::class, 'abaRedirect']);
+Route::post('aba-payway-ipn', [PaymentGatewayController::class, 'aba_ipn'])->name('abapayway.ipn');
+     
 
 Route::group(['prefix' => 'user/', 'middleware' => 'auth:sanctum'], function () {
     Route::get("product/{id}", [ProductController::class, 'productDetail']);

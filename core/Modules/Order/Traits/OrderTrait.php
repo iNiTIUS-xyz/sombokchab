@@ -23,6 +23,7 @@ use Modules\TaxModule\Services\CalculateTaxBasedOnCustomerAddress;
 use Modules\User\Entities\User;
 use Modules\Wallet\Http\Services\WalletService;
 use App\Action\RegistrationAction;
+use Log;
 use stdClass;
 use Str;
 use Throwable;
@@ -212,7 +213,9 @@ trait OrderTrait
             $subOrderTaxAmount = 0;
 
             foreach ($data as $cart) {
-                $variantId = $cart->options['variant_id'] ?? null;
+                // $variantId = $cart->options['variant_id'] ?? null;
+                $variantId = $cart->options->variant_id ?? null;
+
                 $total_amount += $cart->price * $cart->qty;
                 $orderTotalAmount += $cart->price * $cart->qty;
                 $subOrderTotal += $cart->price * $cart->qty;
@@ -475,6 +478,7 @@ trait OrderTrait
      */
     public static function apiOrder($request): mixed
     {
+    Log::info("api order", $request);
 //        try {
         // now check order process status if truer than send email if mailable is true
         $order = self::orderProcess($request, "api");
