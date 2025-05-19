@@ -49,7 +49,7 @@
                     <small id="confirmSuccess" class="form-text text-success" style="display: none;">Passwords match!</small>
                 </div>
                 <div class="btn-wrapper mt-4">
-                    <button type="submit" id="submitBtn" class="cmn_btn btn_bg_2" disabled>{{ __('Update') }}</button>
+                    <button type="submit" id="submitBtn" class="cmn_btn btn_bg_1" disabled>{{ __('Update') }}</button>
                 </div>
             </form>
         </div>

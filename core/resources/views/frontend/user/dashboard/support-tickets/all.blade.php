@@ -45,7 +45,7 @@
     </style>
 @endsection
 @section('section')
-    <a href="{{ route('frontend.support.ticket') }}" class="cmn_btn btn_bg_2">{{ __('Create New Ticket') }}</a>
+    <a href="{{ route('frontend.support.ticket') }}" class="cmn_btn btn_bg_1">{{ __('Create New Ticket') }}</a>
     @if (count($all_tickets) > 0)
         <div class="table-wrap mt-4">
             <div class="table-responsive" style="overflow-x: unset !important;">
@@ -192,7 +192,7 @@
                                 },
                                 success: function(data) {
                                     if (data.success) {
-                                        Swal.fire('Updated!', '', 'success');
+                                        Swal.fire('Closed!', '', 'success');
                                         setTimeout(function() {
                                             location.reload();
                                         }, 1000);

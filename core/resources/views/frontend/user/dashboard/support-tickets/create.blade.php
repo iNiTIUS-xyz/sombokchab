@@ -143,7 +143,7 @@
                                         <textarea name="description" class="form-control" cols="30" rows="10" placeholder="{{ __('Description') }}"></textarea>
                                     </div>
                                     <div class="btn-wrapper">
-                                        <button type="submit" class="cmn_btn btn_bg_2 default-theme-btn">
+                                        <button type="submit" class="cmn_btn btn_bg_1 btn-success">
                                             {{ get_static_option('support_ticket_button_text') }}
                                         </button>
                                         <a href="{{ route('user.home.support.tickets') }}" class="cmn_btn default-theme-btn" style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">

@@ -718,7 +718,7 @@
                     </div>
                 </div>
                 <div class="btn-wrapper margin-top-40">
-                    <a href="{{ route('user.home') }}" class="cmn_btn btn_bg_2 default-theme-btn" style="">
+                    <a href="{{ route('user.home') }}" class="cmn_btn btn_bg_1 btn-success" style="">
                                             {{ __('Back to Dashboard') }}
                                         </a>
                     {{-- <a href="{{ route('user.home') }}"

@@ -77,7 +77,7 @@ class VendorSupportTicketController extends Controller
         ]);
 
         return $support_ticket->id
-            ? back()->with(FlashMsg::create_succeed('Support ticket'))
+            ? redirect()->route('vendor.support.ticket.all')->with(FlashMsg::create_succeed('Support ticket'))
             : back()->with(FlashMsg::create_failed('Support ticket'));
     }
 
@@ -113,12 +113,33 @@ class VendorSupportTicketController extends Controller
 
     public function status_change(Request $request)
     {
-        $request->validate(['status' => 'required|string|max:191']);
-        SupportTicket::findOrFail($request->id)->update([
-            'status' => $request->status,
+        // $request->validate(['status' => 'required|string|max:191']);
+        // SupportTicket::findOrFail($request->id)->update([
+        //     'status' => $request->status,
+        // ]);
+
+        // return 'ok';
+        // $request->validate([
+        //     'status' => 'required|string|max:191',
+        // ]);
+        // SupportTicket::findOrFail($request->id)->update([
+        //     'status' => $request->status,
+        // ]);
+
+        // return 'ok';
+        $request->validate([
+            'id' => 'required|exists:support_tickets,id',
+            'status' => 'required|in:open,close',
         ]);
 
-        return 'ok';
+        $ticket = SupportTicket::where('id', $request->id)
+            // ->where('user_id', auth('web')->id())
+            ->firstOrFail();
+
+        $ticket->status = $request->status;
+        $ticket->save();
+
+        return response()->json(['success' => true]);
     }
 
     public function send_message(AdminStoreSendMessageRequest $request)

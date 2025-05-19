@@ -2,7 +2,7 @@
 
 @section('section')
     <div class="btn-wrapper">
-        <a href="{{ route('user.shipping.address.new') }}" class="cmn_btn btn_bg_2">
+        <a href="{{ route('user.shipping.address.new') }}" class="cmn_btn btn_bg_1">
             {{ __('Add Shipping Address') }}
         </a>
     </div>

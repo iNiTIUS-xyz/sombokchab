@@ -229,7 +229,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="btn-wrapper text-right">
-                        <a href="{{ route('user.home') }}" class="cmn_btn btn_bg_2 default-theme-btn">{{ __('Back to Dashboard') }}</a>
+                        <a href="{{ route('user.home') }}" class="cmn_btn btn_bg_1 btn-success">{{ __('Back to Dashboard') }}</a>
                     </div>
                 </div>
             </div>

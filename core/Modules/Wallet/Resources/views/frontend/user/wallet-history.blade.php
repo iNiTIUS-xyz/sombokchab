@@ -39,7 +39,7 @@
                             </p>
                         </div>
                     </div>
-                    <button type="button" class="cmn_btn btn_bg_2" data-bs-toggle="modal"
+                    <button type="button" class="cmn_btn btn_bg_1" data-bs-toggle="modal"
                         data-bs-target="#payoutRequestModal">{{ __('Deposit to Your Wallet') }}</button>
                 </div>
             </div>
@@ -122,7 +122,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"
                             data-bs-dismiss="modal">{{ __('Close') }}</button>
-                        <button type="submit" class="btn btn_bg_1">{{ __('Confirm') }}</button>
+                        <button type="submit" class="btn btn-primary">{{ __('Confirm') }}</button>
                     </div>
                 </div>
             </div>

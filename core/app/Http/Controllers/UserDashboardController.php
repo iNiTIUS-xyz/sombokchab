@@ -299,6 +299,24 @@ class UserDashboardController extends Controller
             : back()->with(FlashMsg::create_failed('Shipping address'));
     }
 
+    private function makeChangeDefault($shippingAddressId)
+    {
+        $shippingAddress = ShippingAddress::findOrFail($shippingAddressId);
+
+        // If the address is not marked as default, do nothing
+        if (!$shippingAddress->is_default) {
+            return;
+        }
+
+        // Reset all other addresses for this user to non-default
+        ShippingAddress::where('user_id', $shippingAddress->user_id)
+            ->where('id', '!=', $shippingAddressId)
+            ->update(['is_default' => 0]);
+
+        // Ensure the specified address is marked as default (in case it was altered)
+        $shippingAddress->update(['is_default' => 1]);
+    }
+
     public function editShippingAddress(Request $request)
     {
         $address = ShippingAddress::find($request->id);

@@ -139,30 +139,34 @@
                 </div>
             </div>
             <div class="col-lg-12 mt-4">
+                <div class="btn-wrapper" style="width: 98%">
+                            <a class="cmn_btn btn_bg_profile mb-3"
+                                href="{{ route('vendor.products.create') }}">{{ __('Add New Product') }}</a>
+                            <a class="cmn_btn btn_bg_danger mb-3" style="float: right"
+                                href="{{ route('vendor.products.trash.all') }}">{{ __('Trash') }}</a>
+                        </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
+                        
                         <div class="dashboard__card__header__left">
+                            
                             <h3 class="dashboard__card__title mb-2">{{ __('Product List') }}</h3>
                             <div class="d-flex flex-wrap bulk-delete-wrapper gap-2">
-                                <label for="number-of-item">{{ __("Number Of Rows") }}</label>
+                                <label for="number-of-item">{{ __("Number of Products") }}</label>
                                 <select name="count" id="number-of-item">
                                     <option value="10">{{ __("10") }}</option>
                                     <option value="25">{{ __("25") }}</option>
                                     <option value="50">{{ __("50") }}</option>
                                     <option value="100">{{ __("100") }}</option>
                                 </select>
-
-                                <div class="btn-wrapper-trash">
-                                    <a class="btn btn-danger btn-sm"
-                                        href="{{ route('vendor.products.trash.all') }}">{{ __('Trash') }}</a>
-                                </div>
+                                
+                               
                             </div>
+                            
                         </div>
                         <div class="dashboard__card__header__right">
-                            <x-product::table.bulk-action />
                             <div class="btn-wrapper">
-                                <a class="cmn_btn btn_bg_profile"
-                                    href="{{ route('vendor.products.create') }}">{{ __('Add New Product') }}</a>
+                                <x-product::table.bulk-action />
                             </div>
                         </div>
                     </div>

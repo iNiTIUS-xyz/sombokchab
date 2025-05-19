@@ -90,9 +90,9 @@
                         <a href="{{ route($route . ".products.edit", $product->id) }}"
                            class="icon edit"> <i class="las la-pen-alt"></i> </a>
                         <a href="{{ route($route . ".products.clone", $product->id) }}"
-                           class="icon clone"> <i class="las la-copy"></i> </a>
+                           class="icon clone text-info"> <i class="las la-copy"></i> </a>
                         <a data-product-url="{{ route($route . ".products.destroy", $product->id) }}"
-                           href="#1" class="delete-row icon deleted"> <i
+                           href="#1" class="delete-row icon deleted text-danger"> <i
                                     class="las la-trash-alt"></i> </a>
                     </div>
                 </td>

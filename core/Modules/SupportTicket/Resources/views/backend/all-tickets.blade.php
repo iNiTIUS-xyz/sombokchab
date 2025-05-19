@@ -12,6 +12,12 @@
             <div class="col-lg-12">
                 <x-msg.flash />
                 <x-msg.error />
+                @can('support-tickets-create')
+                    <div class="btn-wrapper d-flex">
+                        <a href="{{ route('admin.support.ticket.new') }}"
+                            class="cmn_btn btn_bg_profile">{{ __('New Ticket') }}</a>
+                    </div>
+                @endcan
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('All Tickets') }}</h4>
@@ -19,12 +25,7 @@
                             @can("support-tickets-bulk-action")
                                 <x-bulk-action.dropdown />
                             @endcan
-                            @can('support-tickets-create')
-                                <div class="btn-wrapper d-flex">
-                                    <a href="{{ route('admin.support.ticket.new') }}"
-                                        class="cmn_btn btn_bg_profile">{{ __('New Ticket') }}</a>
-                                </div>
-                            @endcan
+                            
                         </div>
                     </div>
                     <div class="dashboard__card__body mt-4">

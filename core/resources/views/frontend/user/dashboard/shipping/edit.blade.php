@@ -101,7 +101,7 @@
                     </div>
                     <div class="col-md-12">
                         <div class="btn-wrapper">
-                            <button type="submit" class="cmn_btn btn_bg_2">{{ __('Update') }}</button>
+                            <button type="submit" class="cmn_btn btn_bg_1">{{ __('Update') }}</button>
                             <a href="{{ route('user.shipping.address.all') }}" class="cmn_btn default-theme-btn" style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
                                 {{ __('Back') }}
                             </a>
