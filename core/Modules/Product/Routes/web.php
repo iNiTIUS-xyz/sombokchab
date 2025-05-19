@@ -88,7 +88,7 @@ Route::group(['prefix' => $product_page_slug, 'as' => 'frontend.products.', 'mid
 Route::group([
     'prefix' => 'product',
     'as' => 'frontend.products.',
-    'middleware' => ['setlang:frontend', 'globalVariable', 'maintains_mode'],
+    'middleware' => ['setlang:frontend', 'globalVariable', 'maintains_mode', 'check.auth.vendor'],
 ], function () {
     Route::get('/{slug}', [FrontendProductController::class, 'productDetailsPage'])->name('single');
 });
