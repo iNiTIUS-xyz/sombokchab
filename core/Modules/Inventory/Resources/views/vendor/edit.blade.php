@@ -75,6 +75,7 @@
         .singleFlexitem .listCap .recentImg img {
             border-radius: 12px;
             margin-bottom: 16px;
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
         }
         @media only screen and (min-width: 1200px) and (max-width: 1399.99px) {
             .singleFlexitem .listCap .recentImg img {
@@ -247,12 +248,12 @@
                         <div class="recentCaption">
                             <div class="d-flex justify-content-between">
                                 <h5><a href="{{ route('frontend.products.single', $product->slug) }}" class="featureTittle">{{ $product->name }}</a></h5>
-                                <div class="btn-wrapper mb-20">
-                                    <a href="{{ route('frontend.products.single', $product->slug) }}" class="btn btn-info">
-                                        <i class="lar la-eye icon"></i><span>{{ __("View") }}</span>
+                                <div class="btn-wrapper mb-20" style="padding-left: 20px">
+                                    <a href="{{ route('frontend.products.single', $product->slug) }}" class="btn btn-warning">
+                                        <i class="lar la-eye icon"></i>
                                     </a>
                                     <a href="{{ route('vendor.products.edit', $product->id) }}" class="btn btn-primary">
-                                        {{ __("Edit") }}
+                                        <i class="ti-pencil icon"></i>
                                     </a>
                                 </div>
                             </div>
@@ -309,7 +310,7 @@
                 </div>
 
                 <div class="form-group">
-                    <button class="btn btn-sm btn-info">{{ __("Update Inventory") }}</button>
+                    <button class="cmn_btn btn_bg_profile my-3">{{ __("Update Inventory") }}</button>
                 </div>
             </form>
         </div>

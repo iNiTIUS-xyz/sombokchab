@@ -262,8 +262,11 @@
 }
 
 .media-upload-btn-wrapper{
-    display: block;
+    display: flex;
 }
+/* .media-upload-btn-wrapper{
+    display: block;
+} */
 .media-upload-btn-wrapper .img-wrap .rmv-span {
     position: absolute;
     right: 0;

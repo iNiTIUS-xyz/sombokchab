@@ -6,10 +6,9 @@
     <div class="dashboard__card">
         <div class="dashboard__card__header">
             <h5 class="dashboard__card__title">{{ __('Edit Shipping Address') }}</h5>
-            <div class="btn-wrapper">
-                <a href="{{ route('user.shipping.address.all') }}"
-                    class="cmn_btn btn_bg_2">{{ __('All Shipping Address') }}</a>
-            </div>
+            {{-- <div class="btn-wrapper">
+                <a href="{{ route('user.shipping.address.all') }}" class="cmn_btn btn_bg_2">{{ __('All Shipping Address') }}</a>
+            </div> --}}
         </div>
         <div class="dashboard__card__body custom__form mt-4">
             <form action="{{ route('user.shipping.address.update') }}" method="POST">
@@ -19,38 +18,32 @@
                 <div class="form-row row g-4">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="label-title">{{ __('Shipping Address Name') }}
-                                <span>({{ __('optional') }})</span></label>
-                            <input class="form--control" type="text" name="shipping_address_name"
-                                value="{{ $address->shipping_address_name }}"
-                                placeholder="{{ __('Shipping Address Name') }}">
+                            <label class="label-title">{{ __('Shipping Address Name') }}</label>
+                            <input class="form--control" type="text" name="shipping_address_name" value="{{ $address->shipping_address_name }}" placeholder="{{ __('Shipping Address Name') }}">
                         </div>
                     </div>
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="name">{{ __('Full Name') }}</label>
-                            <input type="text" class="form-control" name="name" id="name"
-                                value="{{ $address->name }}" placeholder="{{ __('Enter Full Name') }}" required>
+                            <label for="name">{{ __('Full Name') }}<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="name" id="name" value="{{ $address->name }}" placeholder="{{ __('Enter Full Name') }}" required>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="email">{{ __('Email') }} <span>({{ __('optional') }})</span></label>
-                            <input type="text" class="form-control" name="email" id="email"
-                                value="{{ $address->email }}" placeholder="{{ __('Enter Email') }}">
+                            <label for="email">{{ __('Email') }}</label>
+                            <input type="text" class="form-control" name="email" id="email" value="{{ $address->email }}" placeholder="{{ __('Enter Email') }}">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="phone">{{ __('Phone') }}</label>
-                            <input type="number" class="form-control" name="phone" id="phone"
-                                value="{{ $address->phone }}" placeholder="{{ __('Enter Phone Number') }}" required>
+                            <label for="phone">{{ __('Phone') }}<span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" name="phone" id="phone" value="{{ $address->phone }}" placeholder="{{ __('Enter Phone Number') }}" required>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="country">{{ __('Country') }}</label>
+                            <label for="country">{{ __('Country') }}<span class="text-danger">*</span></label>
                             <select class="form-control" name="country" id="country" required>
                                 <option value="">{{ __('Select Country') }}</option>
                                 @foreach ($all_country as $country)
@@ -64,7 +57,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="state">{{ __('City') }} <span>({{ __('optional') }})</span></label>
+                            <label for="state">{{ __('City') }}<span class="text-danger">*</span></label>
                             <select class="form-control" name="state" id="state">
                                 <option value="">{{ __('Select City') }}</option>
                                 @if ($address->state_id)
@@ -76,7 +69,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="city">{{ __('Province') }} <span>({{ __('optional') }})</span></label>
+                            <label for="city">{{ __('Province') }}</label>
                             <select class="form-control" name="city" id="city">
                                 <option value="">{{ __('Select Province') }}</option>
                                 @if ($address->city)
@@ -87,14 +80,13 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="zipcode">{{ __('Postal Code') }} <span>({{ __('optional') }})</span></label>
-                            <input type="text" class="form-control" name="zipcode" id="zipcode"
-                                value="{{ $address->zip_code }}">
+                            <label for="zipcode">{{ __('Postal Code') }}</label>
+                            <input type="text" class="form-control" name="zipcode" id="zipcode" value="{{ $address->zip_code }}">
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label for="address">{{ __('Address') }} <span>({{ __('optional') }})</span></label>
+                            <label for="address">{{ __('Address') }}<span class="text-danger">*</span></label>
                             <textarea class="form-control" name="address" id="address" rows="3">{{ $address->address }}</textarea>
                         </div>
                     </div>
@@ -109,10 +101,15 @@
                     </div>
                     <div class="col-md-12">
                         <div class="btn-wrapper">
-                            <button type="submit" class="cmn_btn btn_bg_2">{{ __('Update') }}</button>
-                            <a href="{{ route('user.shipping.address.all') }}"
-                                class="cmn_btn btn_bg_1">{{ __('Cancel') }}</a>
+                            <button type="submit" class="cmn_btn btn_bg_1">{{ __('Update') }}</button>
+                            <a href="{{ route('user.shipping.address.all') }}" class="cmn_btn default-theme-btn" style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                                {{ __('Back') }}
+                            </a>
                         </div>
+                        {{-- <div class="btn-wrapper">
+                            <button type="submit" class="cmn_btn btn_bg_2">{{ __('Update') }}</button>
+                            <a href="{{ route('user.shipping.address.all') }}" class="cmn_btn btn_bg_1">{{ __('Cancel') }}</a>
+                        </div> --}}
                     </div>
                 </div>
             </form>

@@ -130,7 +130,7 @@
                     </div>
                 </div>
                 <div class="col-auto text-center">
-                    <button type="button" class="btn btn-success add_item_attribute">
+                    <button type="button" class="btn btn-primary add_item_attribute">
                         <i class="las la-arrow-up"></i>
                     </button>
                 </div>
@@ -139,7 +139,7 @@
         <div class="col-auto">
             <div class="item_repeater_add_remove">
                 <div class="repeater_button">
-                    <button type="button" class="btn btn-success btn-xs add">
+                    <button type="button" class="btn btn-primary btn-xs add">
                         <i class="las la-plus"></i>
                     </button>
                 </div>
@@ -155,9 +155,9 @@
         </div>
         <div class="col-sm-12">
             <p class="mt-2">
-                {{ __('Click on the up arrow button beside attribute select after selecting the attribute') }}</p>
+                {{ __('Click on the up arrow button beside attribute select after selecting the attribute.') }}</p>
             <p class="attribute-warning">
-                {{ __('In a variant, you cannot select the same attribute more than once, so please create a new variant if you need to do so') }}
+                {{ __('In a variant, you cannot select the same attribute more than once, so please create a new variant if you need to do so.') }}
             </p>
         </div>
     </div>
@@ -202,7 +202,7 @@
                 </div>
             </div>
             <div class="col-auto">
-                <button type="button" class="btn btn-sm btn-success add_variant_info_btn"><i
+                <button type="button" class="btn btn-sm btn-primary add_variant_info_btn"><i
                         class="las la-plus"></i>
                 </button>
                 @if ($loop != 1)

@@ -96,7 +96,7 @@ class VendorProfileController extends Controller
             $vendor->password = Hash::make($request->password);
             $vendor->save();
             Auth::logout();
-            return redirect()->route('vendor.login')->with(['msg' => __('Password Changed Successfully'), 'type' => 'success']);
+            return redirect()->route('vendor.login')->with(['msg' => __('Password Changed Successfully.'), 'type' => 'success']);
         }
         return redirect()->back()->with(['msg' => __('Unable to change the Password. Please try again or check your old Password.'), 'type' => 'danger']);
     }

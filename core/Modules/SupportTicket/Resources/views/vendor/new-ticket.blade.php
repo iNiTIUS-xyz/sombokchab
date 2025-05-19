@@ -14,8 +14,8 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('New Ticket') }}</h4>
-                        <a href="{{ route('vendor.support.ticket.all') }}"
-                            class="cmn_btn btn_bg_profile">{{ __('All Support Tickets') }}</a>
+                        {{-- <a href="{{ route('vendor.support.ticket.all') }}"
+                            class="cmn_btn btn_bg_profile">{{ __('All Support Tickets') }}</a> --}}
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
                         <form action="{{ route('vendor.support.ticket.new') }}" method="POST" enctype="multipart/form-data">
@@ -51,9 +51,17 @@
                                 <label>{{ __('Description') }}</label>
                                 <textarea name="description" class="form-control" cols="30" rows="10" placeholder="{{ __('Description') }}"></textarea>
                             </div>
-                            <div class="form-group btn-wrapper">
-                                <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Submit Ticket') }}</button>
+                            <div class="btn-wrapper">
+                                <button type="submit" class="cmn_btn btn_bg_1 btn-success">
+                                    {{ get_static_option('support_ticket_button_text') }}
+                                </button>
+                                <a href="{{ route('vendor.support.ticket.all') }}" class="cmn_btn default-theme-btn" style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                                    {{ __('Back') }}
+                                </a>
                             </div>
+                            {{-- <div class="form-group btn-wrapper">
+                                <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Submit Ticket') }}</button>
+                            </div> --}}
                         </form>
                     </div>
                 </div>

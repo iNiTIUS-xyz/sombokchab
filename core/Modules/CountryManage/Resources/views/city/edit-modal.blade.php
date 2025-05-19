@@ -24,7 +24,7 @@
                     <div class="single-input mb-3">
                         <label class="label-title mt-3">{{ __('Select City') }}</label>
                         <select name="state" id="state_id" class="form-control get_country_state select22-state">
-                            <option value="">{{ __('Select One') }}</option>
+                            <option value="">{{ __('Select City') }}</option>
                         </select>
                         <span class="info_msg"></span>
                     </div>

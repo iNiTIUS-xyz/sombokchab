@@ -329,7 +329,7 @@ class FrontendController extends Controller
             $user->password = Hash::make($request->password);
             $user->save();
 
-            return redirect()->route('admin.login')->with(['msg' => __('Password Changed Successfully'), 'type' => 'success']);
+            return redirect()->route('admin.login')->with(['msg' => __('Password Changed Successfully.'), 'type' => 'success']);
         }
 
         return redirect()->back()->with(['msg' => __('Unable to change the Password. Please try again or check your old Password.'), 'type' => 'danger']);
@@ -1132,7 +1132,7 @@ class FrontendController extends Controller
         $request->validate(['id' => 'required']);
 
         $states = State::select('id', 'name')->where('country_id', $request->id)->get();
-        $html = "<option value=''>Select One</option>";
+        $html = "<option value=''>Select City</option>";
         foreach ($states as $state) {
             $html .= "<option value='" . $state->id . "'>" . $state->name . '</option>';
         }
@@ -1146,7 +1146,7 @@ class FrontendController extends Controller
 
         $cities = City::select('id', 'name')->where('state_id', $request->id)->get();
 
-        $html = "<option value=''>" . __('Select One') . '</option>';
+        $html = "<option value=''>" . __('Select Province') . '</option>';
         foreach ($cities as $city) {
             $html .= "<option value='" . $city->id . "'>" . $city->name . '</option>';
         }
@@ -1158,12 +1158,12 @@ class FrontendController extends Controller
     {
         $states = State::where('country_id', $country_id)->get();
 
-        $html = "<option value=''>" . __('Select One') . '</option>';
+        $html = "<option value=''>" . __('Select City') . '</option>';
         foreach ($states as $state) {
             $html .= "<option value='" . $state->id . "'>" . $state->name . '</option>';
         }
 
-        $list = "<li data-value='' class='option'>" . __('Select One') . '</li>';
+        $list = "<li data-value='' class='option'>" . __('Select City') . '</li>';
         foreach ($states as $state) {
             $list .= "<li data-value='" . $state->id . "' class='option'>" . $state->name . '</option>';
         }

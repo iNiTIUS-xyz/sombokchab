@@ -16,9 +16,9 @@
                         <img src="{{ asset('assets/frontend/img/static/orders-shapes3.png') }}" alt="">
                     </div>
                     <div class="orders-flex-content">
-                        <div class="icon">
+                        {{-- <div class="icon">
                             <i class="las la-dollar-sign"></i>
-                        </div>
+                        </div> --}}
                         <div class="contents">
                             <h2 class="order-titles">
                                 {{ float_amount_with_currency_symbol($total_wallet_balance) }}
@@ -39,7 +39,7 @@
                             </p>
                         </div>
                     </div>
-                    <button type="button" class="cmn_btn btn_bg_2" data-bs-toggle="modal"
+                    <button type="button" class="cmn_btn btn_bg_1" data-bs-toggle="modal"
                         data-bs-target="#payoutRequestModal">{{ __('Deposit to Your Wallet') }}</button>
                 </div>
             </div>
@@ -71,7 +71,7 @@
                                                 @if ($history->type == 4)
                                                     {{ __('Deposit') }}
                                                 @elseif($history->type == 5)
-                                                    {{ __('Due to pay') }}
+                                                    {{ __('Due') }}
                                                 @elseif($history->type == 1)
                                                     {{ __('Incoming') }}
                                                 @else
@@ -81,7 +81,7 @@
                                             </span>
                                         </td>
                                         <td>
-                                            {{ $history->created_at->format('H:i:s d-m-Y') }}
+                                            {{ $history->created_at->format('d-m-Y h:i A') }}
                                         </td>
                                     </tr>
                                 @endforeach
@@ -122,7 +122,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"
                             data-bs-dismiss="modal">{{ __('Close') }}</button>
-                        <button type="submit" class="btn btn_bg_1">{{ __('Confirm') }}</button>
+                        <button type="submit" class="btn btn-primary">{{ __('Confirm') }}</button>
                     </div>
                 </div>
             </div>

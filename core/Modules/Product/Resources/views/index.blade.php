@@ -146,7 +146,7 @@
                         <div class="dashboard__card__header__right">
                             <div class="d-flex bulk-delete-wrapper gap-2">
                                 @can('product-search')
-                                    <label for="number-of-item">{{ __('Number Of Rows') }}</label>
+                                    <label for="number-of-item">{{ __('Number of Products') }}</label>
                                     <select name="count" id="number-of-item">
                                         <option value="10">{{ __('10') }}</option>
                                         <option value="25">{{ __('25') }}</option>

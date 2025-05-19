@@ -14,7 +14,7 @@ class LandingController extends Controller
 {
     /** ============================================================================
      *                                  BLOG PAGES
-      ============================================================================ */
+    *  ============================================================================ */
     public function blogGrid()
     {
         $all_recent_blogs = Blog::orderBy('id', 'desc')->take(get_static_option('blog_page_recent_post_widget_item'))->get();
@@ -73,7 +73,7 @@ class LandingController extends Controller
 
     /** ============================================================================
      *                                  PRODUCT PAGES
-      ============================================================================ */
+    *  ============================================================================ */
     public function shopGrid(Request $request)
     {
         $item_style = isset($request->s) && $request->s == 'list' ? 'list' : 'grid';
@@ -100,7 +100,7 @@ class LandingController extends Controller
 
     /** ============================================================================
      *                                  HELPER FUNCTION
-      ============================================================================ */
+    *   ============================================================================ */
     private function calculateShopData($request, $item_style, $sidebar_position)
     {
         $all_category = ProductCategory::where('status', 'publish')->with('subcategory')->get();

@@ -95,4 +95,9 @@ class Order extends Model
     {
         return $this->hasOne(RefundRequest::class, 'order_id', 'id');
     }
+
+    public function hasRefundRequest(): Attribute
+    {
+        return Attribute::get(fn () => $this->refundRequest()->exists());
+    }
 }

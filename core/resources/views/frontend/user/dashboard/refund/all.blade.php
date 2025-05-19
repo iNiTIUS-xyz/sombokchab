@@ -30,7 +30,20 @@
                                     <td>
                                         <span class="user-info text-center">
                                             <b>#{{ $request->order?->id }}</b><br>
-                                            {{ __('Status') }} {{ $request->order?->order_status }}<br>
+                                            {{ __('Status') }}: 
+                                            @if ($request->order?->order_status == 'complete')
+                                                <span class="badge bg-success px-2 py-1">{{ __('Complete') }}</span>
+                                            @elseif ($request->order?->order_status == 'pending')
+                                                <span class="badge bg-warning px-2 py-1">{{ __('Pending') }}</span>
+                                            @elseif ($request->order?->order_status == 'failed')
+                                                <span class="badge bg-danger px-2 py-1">{{ __('Failed') }}</span>
+                                            @elseif ($request->order?->order_status == 'canceled')
+                                                <span class="badge bg-danger px-2 py-1">{{ __('Canceled') }}</span>
+                                            @elseif ($request->order?->order_status == 'rejected')
+                                                <span class="badge px-2 py-1" style="background: rgb(138, 1, 14) !important;">{{ __('Rejected') }}</span>
+                                            @endif
+                                            <br>
+                                            {{-- <span class="text-capitalize badge bg-light text-dark">{{ $request->order?->order_status }}</span> <br> --}}
                                             {{ __('Amount') }}
                                             {{ float_amount_with_currency_symbol($request->order?->paymentMeta?->total_amount) }}<br>
                                         </span>
@@ -40,14 +53,19 @@
                                         <span class="user-info text-center">
                                             <b>#{{ $request->id }}</b><br>
                                             {{ __('Status') }}:
-                                            {{ __(ucwords(str_replace('_', ' ', $request->currentTrackStatus?->name))) }}<br>
+                                            <span class="badge bg-light text-dark">{{ __(ucwords(str_replace('_', ' ', $request->currentTrackStatus?->name))) }}</span> <br>
                                             {{ __('Total Product:') }} {{ $request->request_product_count }}<br>
                                         </span>
                                     </td>
 
                                     <td>
-                                        <a class="btn btn-secondary btn-sm rounded-btn"
-                                            href="{{ route('user.product.refund-request.view', $request->id) }}">{{ __('View') }}</a>
+                                        <a href="{{ route('user.product.refund-request.view', $request->id) }}"
+                                            class="btn btn-secondary btn-sm rounded-btn" title="View Details" style="width: 40px;"> 
+                                                {{-- {{ __('View Details') }} --}}
+                                                <i class="las la-file-alt"></i>
+                                            </a>
+                                        {{-- <a class="btn btn-secondary btn-sm rounded-btn"
+                                            href="{{ route('user.product.refund-request.view', $request->id) }}">{{ __('View Details') }}</a> --}}
                                     </td>
                                 </tr>
                             @endforeach

@@ -82,12 +82,30 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
+                            <label for="city">{{ __('Province') }}</label>
+
+                            <select class="form-control" id="city" name="city">
+                                <option value="">{{ __('Select Province') }}</option>
+                                @php
+                                    $cities = \Modules\CountryManage\Entities\City::where("state_id", $user_details->state ?? 0)->get();
+                                @endphp
+
+                                @foreach ($cities as $city)
+                                    <option value="{{ $city->id }}" {{ $user_details->city == $city->id ? 'selected' : '' }}>
+                                        {{ $city->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
                             <label for="zipcode">{{ __('Postal Code') }}</label>
                             <input type="text" class="form-control" id="zipcode" name="zipcode"
                                 value="{{ $user_details->zipcode }}">
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group">
                             <label for="address">{{ __('Address') }}</label>
                             <input type="text" class="form-control" id="address" name="address"
@@ -102,7 +120,7 @@
                     </div>
                 </div>
                 <div class="btn-wrapper mt-4">
-                    <button type="submit" class="cmn_btn btn_bg_2 btn-success">{{ __('Save Changes') }}</button>
+                    <button type="submit" class="cmn_btn btn_bg_1 btn-success">{{ __('Update') }}</button>
                 </div>
             </form>
         </div>

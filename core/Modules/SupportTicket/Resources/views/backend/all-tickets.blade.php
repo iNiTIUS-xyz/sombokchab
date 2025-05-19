@@ -12,6 +12,12 @@
             <div class="col-lg-12">
                 <x-msg.flash />
                 <x-msg.error />
+                @can('support-tickets-create')
+                    <div class="btn-wrapper d-flex">
+                        <a href="{{ route('admin.support.ticket.new') }}"
+                            class="cmn_btn btn_bg_profile">{{ __('New Ticket') }}</a>
+                    </div>
+                @endcan
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('All Tickets') }}</h4>
@@ -19,28 +25,23 @@
                             @can("support-tickets-bulk-action")
                                 <x-bulk-action.dropdown />
                             @endcan
-                            @can('support-tickets-create')
-                                <div class="btn-wrapper d-flex">
-                                    <a href="{{ route('admin.support.ticket.new') }}"
-                                        class="cmn_btn btn_bg_profile">{{ __('New Ticket') }}</a>
-                                </div>
-                            @endcan
+                            
                         </div>
                     </div>
                     <div class="dashboard__card__body mt-4">
                         <div class="table-wrap table-responsive">
                             <table class="table table-default">
-                                <thead>
+                                <thead class="text-center">
                                     @can("support-tickets-bulk-action")
                                         <x-bulk-action.th />
                                     @endcan
-                                    <th>{{ __('ID') }}</th>
-                                    <th>{{ __('Title') }}</th>
-                                    <th>{{ __('Department') }}</th>
-                                    <th>{{ __('User') }}</th>
-                                    <th>{{ __('Priority') }}</th>
-                                    <th>{{ __('Status') }}</th>
-                                    <th>{{ __('Action') }}</th>
+                                    <th class="text-center">{{ __('ID') }}</th>
+                                    <th class="text-center">{{ __('Title') }}</th>
+                                    <th class="text-center">{{ __('Department') }}</th>
+                                    <th class="text-center">{{ __('User') }}</th>
+                                    <th class="text-center">{{ __('Priority') }}</th>
+                                    <th class="text-center">{{ __('Status') }}</th>
+                                    <th class="text-center">{{ __('Action') }}</th>
                                 </thead>
                                 <tbody>
                                     @foreach ($all_tickets as $data)

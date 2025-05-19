@@ -2,7 +2,7 @@
 
 @section('section')
     <div class="btn-wrapper">
-        <a href="{{ route('user.shipping.address.new') }}" class="cmn_btn btn_bg_2">
+        <a href="{{ route('user.shipping.address.new') }}" class="cmn_btn btn_bg_1">
             {{ __('Add Shipping Address') }}
         </a>
     </div>
@@ -33,15 +33,13 @@
                                     <td>{{ $address->address }}</td>
                                     <td>{{ $address->is_default == 1 ? 'Yes' : 'No' }}</td>
                                     <td>
-                                        <a href="{{ route('user.shipping.address.edit', $address->id) }}"
-                                            class="btn btn-sm btn-warning btn-xs mb-2 me-1">
+                                        <!-- Edit Button -->
+                                        <a href="{{ route('user.shipping.address.edit', $address->id) }}" class="btn btn-sm btn-warning btn-xs mb-2 me-1" title="Edit Address">
                                             <i class="las la-edit"></i>
                                         </a>
-                                        <x-table.btn.swal.delete :route="route('shipping.address.delete', $address->id)" />
-                                        <a href="{{ route('user.shipping.address.make-default', $address->id) }}"
-                                            class="btn btn-sm btn-info btn-xs mb-2 me-1">
-                                            {{ __('Make default') }}
-                                        </a>
+                                    
+                                        <!-- Delete Button -->
+                                        <x-table.btn.swal.delete :route="route('shipping.address.delete', $address->id)" title="Delete Address" />
                                     </td>
                                 </tr>
                             @endforeach

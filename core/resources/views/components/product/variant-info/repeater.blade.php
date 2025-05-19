@@ -119,7 +119,7 @@
                     </div>
                 </div>
                 <div class="col-auto">
-                    <button type="button" class="btn btn-success margin-top-30 add_item_attribute">
+                    <button type="button" class="btn btn-primary margin-top-30 add_item_attribute">
                         <i class="las la-arrow-up"></i>
                     </button>
                 </div>
@@ -128,7 +128,7 @@
         <div class="col-auto">
             <div class="item_repeater_add_remove">
                 <div class="repeater_button">
-                    <button type="button" class="btn btn-success btn-xs add"> +</button>
+                    <button type="button" class="btn btn-primary btn-xs add"> +</button>
                 </div>
                 @if(!isset($isFirst) || !$isFirst)
                     <div class="repeater_button">
@@ -181,7 +181,7 @@
             </div>
         </div>
         <div class="col-auto">
-            <button type="button" class="btn btn-sm btn-success add_variant_info_btn"> +</button>
+            <button type="button" class="btn btn-sm btn-primary add_variant_info_btn"> +</button>
            @if($loop != 1)
                 <button type="button"
                         class="btn btn-sm btn-danger remove_this_variant_info_btn @if(isset($variantId)) remove_variant @endif"

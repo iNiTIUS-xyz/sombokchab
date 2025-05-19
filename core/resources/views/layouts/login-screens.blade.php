@@ -39,9 +39,10 @@
             margin: auto;
             width: 450px;
             max-width: 100%;
-            background: #fff;
+            background: #41695A;
             border-radius: 3px;
             padding: 30px;
+            color: #fff;
         }
         @media screen and (max-width: 375px) {
             .login-box-wrapper form {
@@ -58,14 +59,14 @@
             font-size: 28px;
             font-weight: 700;
             line-height: 1.2;
-            color: #111;
+            color: #fff;
         }
 
         .main-para {
             font-size: 16px;
             font-weight: 400;
             line-height: 24px;
-            color: #777;
+            color: #FFF;
         }
 
         .dashboard-input {
@@ -166,9 +167,9 @@
 
         .dashboard_checkbox .check_input:checked,
         .dashboard-checkbox .check-input:checked {
-            background: #05cd99;
-            border-color: #05cd99;
-            background: #05cd99;
+            background: #E0BB20;
+            border-color: #E0BB20;
+            background: #E0BB20;
         }
 
         .dashboard_checkbox .check_input:checked::after,
@@ -187,21 +188,21 @@
             text-align: center;
             -webkit-transition: all 0.3s;
             transition: all 0.3s;
-            background: #05cd99;
+            background: #E0BB20;
             color: var(--white);
-            border: 2px solid #05cd99;
+            border: 2px solid #E0BB20;
         }
 
         .btn-submit:hover {
             background: none;
-            color: #05cd99;
+            color: #E0BB20;
         }
 
         .forgot-password {
             font-size: 16px;
             font-weight: 500;
             line-height: 20px;
-            color: #777;
+            color: #FFF;
             transition: all .3s
         }
 
@@ -211,7 +212,7 @@
         }
 
         .forgot-password:hover {
-            color: #05cd99;
+            color: #E0BB20;
         }
 
         .login-area{
