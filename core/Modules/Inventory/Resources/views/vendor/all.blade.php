@@ -41,12 +41,10 @@
                                             <td>{{ $inventory->stock_count ?? 0 }}</td>
                                             <td>{{ $inventory->sold_count ?? 0 }}</td>
                                             <td>
-                                                {{--                                            @can('product-inventory-delete') --}}
-                                                <x-table.btn.swal.delete :route="route('vendor.products.inventory.delete', $inventory->id)" />
-                                                {{--                                            @endcan --}}
-                                                {{--                                            @can('product-inventory-edit') --}}
                                                 <x-table.btn.edit :route="route('vendor.products.inventory.edit', $inventory->id)" />
-                                                {{--                                            @endcan --}}
+                                                <x-table.btn.swal.delete :route="route('vendor.products.inventory.delete', [
+                                                    'id' => $inventory->id,
+                                                ])" />
                                             </td>
                                         </tr>
                                     @endforeach
