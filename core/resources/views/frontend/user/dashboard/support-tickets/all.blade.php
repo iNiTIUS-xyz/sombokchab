@@ -22,26 +22,27 @@
             border: none;
             font-weight: 600;
         }
-/* 
-        button.medium {
-            display: inline-block;
-            background-color: #70b9ae;
-            padding: 3px 10px;
-            border-radius: 4px;
-            color: #fff;
-            border: none;
-            font-weight: 600;
-        }
 
-        button.urgent {
-            display: inline-block;
-            background-color: #bfb55a;
-            padding: 3px 10px;
-            border-radius: 4px;
-            color: #fff;
-            border: none;
-            font-weight: 600;
-        } */
+        /*
+                button.medium {
+                    display: inline-block;
+                    background-color: #70b9ae;
+                    padding: 3px 10px;
+                    border-radius: 4px;
+                    color: #fff;
+                    border: none;
+                    font-weight: 600;
+                }
+
+                button.urgent {
+                    display: inline-block;
+                    background-color: #bfb55a;
+                    padding: 3px 10px;
+                    border-radius: 4px;
+                    color: #fff;
+                    border: none;
+                    font-weight: 600;
+                } */
     </style>
 @endsection
 @section('section')
@@ -52,36 +53,37 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>{{ __('ID') }}</th>
-                            <th>{{ __('Order No.') }}</th>
-                            <th>{{ __('Title') }}</th>
-                            <th>{{__('Date Created')}}</th>
-                            <th>{{ __('Status') }}</th>
-                            <th>{{ __('Action') }}</th>
+                            <th class="text-center">{{ __('ID') }}</th>
+                            <th class="text-center">{{ __('Order No.') }}</th>
+                            <th class="text-center">{{ __('Title') }}</th>
+                            <th class="text-center">{{ __('Date Created') }}</th>
+                            <th class="text-center">{{ __('Status') }}</th>
+                            <th class="text-center">{{ __('Action') }}</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($all_tickets as $data)
                             <tr>
-                                <td>#{{ $data->id }}</td>
-                                <td>#{{ $data->order_id }}</td>
-                                <td>{{ $data->title }}</td>
-                                <td>
-                                    <small>{{ $data->created_at->format('D, d M Y') }}</small>
+                                <td class="text-center">{{ $data->id }}</td>
+                                <td class="text-center">{{ $data->order_id }}</td>
+                                <td class="text-center">{{ $data->title }}</td>
+                                <td class="text-center">
+                                    <small>{{ $data->created_at->format('M d, Y') }}</small>
                                 </td>
-                                <td>
-                                    <span class="text-capitalize badge {{ $data->status == 'close' ? 'status-close' : 'status-open' }}">
+                                <td class="text-center">
+                                    <span
+                                        class="text-capitalize badge {{ $data->status == 'close' ? 'status-close' : 'status-open' }}">
                                         {{ $data->status == 'close' ? __('Closed') : __($data->status) }}
                                     </span>
                                 </td>
-                                <td>
+                                <td class="text-center">
                                     <a href="{{ route('user.dashboard.support.ticket.view', $data->id) }}"
-                                       class="btn btn-primary btn-xs" target="_blank" class="View Support Ticket">
+                                        class="btn btn-primary btn-xs" target="_blank" class="View Support Ticket">
                                         <i class="las la-eye"></i>
                                     </a>
                                     @if ($data->status == 'open')
                                         <a href="#1" class="status_change btn btn-danger btn-xs"
-                                           data-id="{{ $data->id }}" data-val="close" title="Close Ticket">
+                                            data-id="{{ $data->id }}" data-val="close" title="Close Ticket">
                                             <i class="las la-times"></i>
                                         </a>
                                     @endif
@@ -151,14 +153,17 @@
                                 },
                                 success: function(data) {
                                     if (data.success) {
-                                        Swal.fire('Updated!', 'Priority changed successfully.', 'success');
+                                        Swal.fire('Updated!',
+                                            'Priority changed successfully.',
+                                            'success');
                                         setTimeout(function() {
                                             location.reload();
                                         }, 1000);
                                     }
                                 }.bind(this),
                                 error: function() {
-                                    Swal.fire('Error!', 'Failed to change priority.', 'error');
+                                    Swal.fire('Error!',
+                                        'Failed to change priority.', 'error');
                                 }
                             });
                         }
@@ -199,7 +204,8 @@
                                     }
                                 },
                                 error: function() {
-                                    Swal.fire('Error!', 'Failed to change status.', 'error');
+                                    Swal.fire('Error!', 'Failed to change status.',
+                                        'error');
                                 }
                             });
                         }

@@ -26,16 +26,16 @@
                         <h4 class="dashboard__card__title">{{ __('All Withdraw Requests') }}</h4>
                     </div>
                     <div class="dashboard__card__body">
-                        <div class="table-wrap">
-                            <table class="table-responsive table">
+                        <div class="table-responsive ">
+                            <table class="table">
                                 <thead>
                                     <tr>
-                                        <th>{{ __('Amount') }}</th>
-                                        <th>{{ __('Gateway Name') }}</th>
+                                        <th class="text-center">{{ __('Amount') }}</th>
+                                        <th class="text-center">{{ __('Gateway Name') }}</th>
                                         <th style="width: 30%">{{ __('Gateway Fields') }}</th>
-                                        <th>{{ __('Note') }}</th>
-                                        <th>{{ __('Image') }}</th>
-                                        <th>{{ __('Status') }}</th>
+                                        <th class="text-center">{{ __('Note') }}</th>
+                                        <th class="text-center">{{ __('Image') }}</th>
+                                        <th class="text-center">{{ __('Status') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -52,10 +52,10 @@
                                             @endphp
                                         @endforeach
                                         <tr>
-                                            <td>
+                                            <td class="text-center">
                                                 <strong>{{ $request->amount ?? '' }}</strong>
                                             </td>
-                                            <td>
+                                            <td class="text-center">
                                                 <div class="table-paymentGateway">
                                                     {{ $request->gateway->name }}
                                                 </div>
@@ -63,10 +63,10 @@
                                             <td>
                                                 <div class="table-fields">{{ $fields }}</div>
                                             </td>
-                                            <td>
+                                            <td class="text-center">
                                                 <div class="table-notes">{{ $request->note ?? '' }}</div>
                                             </td>
-                                            <td>
+                                            <td class="text-center">
                                                 @if (!empty($request->image))
                                                     <div class="table-image">
                                                         <img src="{{ asset('assets/uploads/wallet-withdraw-request/' . $request->image) }}"
@@ -74,7 +74,7 @@
                                                     </div>
                                                 @endif
                                             </td>
-                                            <td>
+                                            <td class="text-center">
                                                 <x-status-span :status="$request->request_status" />
                                             </td>
                                         </tr>

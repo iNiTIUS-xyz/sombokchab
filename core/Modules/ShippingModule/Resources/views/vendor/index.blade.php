@@ -23,16 +23,16 @@
                         <div class="table-wrap table-responsive">
                             <table class="table table-default">
                                 <thead>
-                                    <th>{{ __('ID') }}</th>
-                                    <th>{{ __('Title') }}</th>
-                                    <th>{{ __('Zone') }}</th>
-                                    <th>{{ __('Status') }}</th>
-                                    <th>{{ __('Cost') }}</th>
-                                    <th>{{ __('Action') }}</th>
+                                    <th class="text-center">{{ __('ID') }}</th>
+                                    <th class="text-center">{{ __('Title') }}</th>
+                                    <th class="text-center">{{ __('Zone') }}</th>
+                                    <th class="text-center">{{ __('Status') }}</th>
+                                    <th class="text-center">{{ __('Cost') }}</th>
+                                    <th class="text-center">{{ __('Action') }}</th>
                                 </thead>
                                 <tbody>
                                     @foreach ($all_shipping_methods as $method)
-                                        <tr>
+                                        <tr class="text-center">
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ optional($method)->title }}</td>
                                             <td>{{ optional($method->zone)->name }}</td>

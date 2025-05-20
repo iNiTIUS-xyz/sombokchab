@@ -537,12 +537,12 @@
                                         <span class="payment-list-right text-capitalize">{{ render_payment_gateway_name($payment_details->payment_gateway) }}</span>
                                     </li>
                                     <li>
-                                        <span class="payment-list-left">{{ __('Phone:') }}</span>
+                                        <span class="payment-list-left">{{ __('Phone Number:') }}</span>
                                         <span class="payment-list-right">
                                             {{ $payment_details->address->phone }}</span>
                                     </li>
                                     <li>
-                                        <span class="payment-list-left">{{ __('Name:') }}</span>
+                                        <span class="payment-list-left">{{ __('Full Name:') }}</span>
                                         <span class="payment-list-right">{{ $payment_details->address->name }}</span>
                                     </li>
                                     <li>

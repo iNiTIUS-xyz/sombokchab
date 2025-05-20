@@ -25,7 +25,7 @@
                     </div>
                     <div class="dashboard__card__body mt-4">
                         <div class="table-wrap table-responsive">
-                            <table class="table table-default">
+                            <table class="table table-default text-center">
                                 <thead>
                                     <x-bulk-action.th />
                                     <th>{{ __('ID') }}</th>
@@ -36,7 +36,7 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($all_campaigns as $campaign)
-                                        <tr>
+                                        <tr class="text-center">
                                             <x-bulk-action.td :id="$campaign->id" />
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $campaign->title }}</td>

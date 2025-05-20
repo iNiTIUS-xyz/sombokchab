@@ -49,7 +49,6 @@
                         <h4 class="dashboard__card__title">{{ __('All Tickets') }}</h4>
                         <div class="dashboard__card__header__right">
                             <x-bulk-action.dropdown />
-
                         </div>
                     </div>
                     <div class="dashboard__card__body mt-4">
@@ -57,7 +56,7 @@
                             @if (count($all_tickets) > 0)
                                 <div class="table-wrap mt-4">
                                     <div class="table-responsive" style="overflow-x: unset !important;">
-                                        <table class="table">
+                                        <table class="table text-center">
                                             <thead>
                                                 <tr>
                                                     <th>{{ __('ID') }}</th>
@@ -71,11 +70,11 @@
                                             </thead>
                                             <tbody>
                                                 @foreach ($all_tickets as $data)
-                                                    <tr>
-                                                        <td>#{{ $data->id }}</td>
+                                                    <tr class="text-center">
+                                                        <td>{{ $data->id }}</td>
                                                         <td>{{ $data->title }}</td>
                                                         <td>{{ $data->department->name ?? __('anonymous') }}</td>
-                                                        <td><small>{{ $data->created_at->format('D, d M Y') }}</small></td>
+                                                        <td><small>{{ $data->created_at->format('M d, Y') }}</small></td>
                                                         <td class="text-capitalize">{{ ucfirst($data->priority) }}</td>
                                                         <td>
                                                             <span

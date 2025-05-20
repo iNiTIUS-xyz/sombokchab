@@ -173,7 +173,7 @@
                 </div>
                 <div class="dashboard__card__body mt-4">
                     <div class="d-flex justify-content-between mb-3">
-                        <b>{{ __('Name') }}</b>
+                        <b>{{ __('Full Name') }}</b>
                         <h6>{{ $subOrders->order?->address?->name }}</h6>
                     </div>
                     <div class="d-flex justify-content-between mb-3">
@@ -181,7 +181,7 @@
                         <h6>{{ $subOrders->order?->address?->email }}</h6>
                     </div>
                     <div class="d-flex justify-content-between mb-3">
-                        <b>{{ __('Mobile') }}</b>
+                        <b>{{ __('Phone Number') }}</b>
                         <h6>{{ $subOrders->order?->address?->phone }}</h6>
                     </div>
                     <div class="d-flex justify-content-between mb-3">
@@ -197,7 +197,7 @@
                         <h6>{{ $subOrders->order?->address?->cityInfo?->name }}</h6>
                     </div>
                     <div class="d-flex justify-content-between mb-1">
-                        <b>{{ __('Zip Code') }}</b>
+                        <b>{{ __('Postal Code') }}</b>
                         <h6>{{ $subOrders->order?->address?->zipcode }}</h6>
                     </div>
                 </div>
@@ -211,14 +211,14 @@
                 </div>
                 <div class="dashboard__card__body mt-4">
                     <div class="table-wrapper table-wrap">
-                        <table class="table table-responsive">
+                        <table class="table table-responsive ">
                             <thead>
                                 <tr>
-                                    <th>{{ __('SL NO:') }}</th>
-                                    <th style="width: 60px">{{ __('Image') }}</th>
-                                    <th>{{ __('Info') }}</th>
-                                    <th>{{ __('QTY') }}</th>
-                                    <th>{{ __('Price') }}</th>
+                                    <th class="text-center">{{ __('SL NO:') }}</th>
+                                    <th class="texdt-center" style="width: 60px">{{ __('Image') }}</th>
+                                    <th class="text-center">{{ __('Info') }}</th>
+                                    <th class="text-center">{{ __('QTY') }}</th>
+                                    <th class="text-center">{{ __('Price') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -228,7 +228,7 @@
                                         $variant = $subOrders->productVariant->find($item->variant_id);
                                     @endphp
 
-                                    <tr>
+                                    <tr class="text-center">
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{!! render_image($product->image, class: 'w-100 h-100') !!}</td>
                                         <td>

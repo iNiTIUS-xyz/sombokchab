@@ -6,30 +6,25 @@ use App\AdminShopManage;
 
 class CustomPaginationService
 {
-    /**
-     * @param $all_products
-     * @param $count
-     * @param string $type
-     * @param $route
-     * @return mixed
-     */
-    public static function pagination_type($all_products, $count, string|bool $type = "custom", $route=null): mixed
+
+    public static function pagination_type($all_products, $count, string|bool $type = "custom", $route = null): mixed
     {
         $display_item_count = $count ?? 10;
+
         $all_products = $all_products->paginate($display_item_count);
 
         // check a pagination type if not custom then return Immediately from here
-        if($type !== "custom"){
+        if ($type !== "custom") {
             return $all_products;
         }
 
         // check route is present or not
         $all_products_items = $all_products->transform(function ($item) {
-            if(!empty($item->vendor_id) && get_static_option("calculate_tax_based_on") == 'vendor_shop_address') {
+            if (!empty($item->vendor_id) && get_static_option("calculate_tax_based_on") == 'vendor_shop_address') {
                 $vendorAddress = $item->vendorAddress;
                 $item = tax_options_sum_rate($item, $vendorAddress->country_id, $vendorAddress->state_id, $vendorAddress->city_id);
-            }elseif(empty($item->vendor_id) && get_static_option("calculate_tax_based_on") == 'vendor_shop_address'){
-                $vendorAddress = AdminShopManage::select("id","country_id", "state_id","city as city_id")->first();
+            } elseif (empty($item->vendor_id) && get_static_option("calculate_tax_based_on") == 'vendor_shop_address') {
+                $vendorAddress = AdminShopManage::select("id", "country_id", "state_id", "city as city_id")->first();
 
                 $item = tax_options_sum_rate($item, $vendorAddress->country_id, $vendorAddress->state_id, $vendorAddress->city_id);
             }
@@ -38,12 +33,12 @@ class CustomPaginationService
         });
 
         // if route variable is not empty, then set route to a pagination path
-        if(!empty($route)){
+        if (!empty($route)) {
             $all_products->withPath($route);
         }
 
         // set custom pagination code for pagination
-        if($type == "custom"){
+        if ($type == "custom") {
             $current_items = (($all_products->currentPage() - 1) * $display_item_count);
             return [
                 "items" => $all_products_items,
@@ -60,7 +55,7 @@ class CustomPaginationService
                 "to" => $current_items + $all_products->count(),
                 "on_first_page" => $all_products->onFirstPage(),
                 "hasMorePages" => $all_products->hasMorePages(),
-                "links" => $all_products->getUrlRange(1,$all_products->lastPage())
+                "links" => $all_products->getUrlRange(1, $all_products->lastPage())
             ];
         }
 

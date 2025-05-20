@@ -40,7 +40,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="phone">{{ __('Phone') }} <span class="text-danger">*</span></label>
+                            <label for="phone">{{ __('Phone Number') }} <span class="text-danger">*</span></label>
                             <input type="number" class="form-control" name="phone" id="phone" placeholder="{{__('Enter Phone Number')}}">
                         </div>
                     </div>

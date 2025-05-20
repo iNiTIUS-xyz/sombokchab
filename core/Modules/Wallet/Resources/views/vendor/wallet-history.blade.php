@@ -23,11 +23,11 @@
                         <h4 class="dashboard__card__title">{{ __('Wallet History') }}</h4>
                     </div>
                     <div class="dashboard__card__body mt-4">
-                        <div class="table-wrap">
-                            <table class="table-responsive table">
+                        <div class="table-responsive ">
+                            <table class="table text-center">
                                 <thead>
                                     <tr>
-                                        <th>{{ __('SL NO') }}</th>
+                                        <th>{{ __('SL No.') }}</th>
                                         <th>{{ __('Sub Order ID') }}</th>
                                         <th>{{ __('Amount') }}</th>
                                         <th>{{ __('Type') }}</th>
@@ -36,9 +36,9 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($histories as $history)
-                                        <tr>
-                                            <td>#{{ $history->id ?? '' }}</td>
-                                            <td>#{{ $history->sub_order_id ?? '' }}</td>
+                                        <tr class="text-center">
+                                            <td>{{ $history->id ?? '' }}</td>
+                                            <td>{{ $history->sub_order_id ?? '' }}</td>
                                             <td>{{ $history->amount ? float_amount_with_currency_symbol($history->amount) : '' }}
                                             </td>
                                             <td>
@@ -47,7 +47,7 @@
                                                 </span>
                                             </td>
                                             <td>
-                                                {{ $history->created_at->format('H:i:s d-m-Y') }}
+                                                {{ $history->created_at->format('M d, Y H:i:s') }}
                                             </td>
                                         </tr>
                                     @endforeach

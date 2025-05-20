@@ -132,7 +132,7 @@
                                             <option value="" selected>Select A Order</option>
                                             @foreach ($user_orders as $order)
                                                 <option value="{{ $order->id }}">{{ $order->order_number }} -
-                                                    {{ $order->created_at->format('F d, Y') }} -
+                                                    {{ $order->created_at->format('M d, Y') }} -
                                                     {{ float_amount_with_currency_symbol($order->paymentMeta->total_amount ?? 0) }}
                                                 </option>
                                             @endforeach

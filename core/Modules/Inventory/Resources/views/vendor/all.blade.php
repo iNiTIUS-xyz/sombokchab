@@ -1,11 +1,14 @@
 @extends('vendor.vendor-master')
+
 @section('site-title')
     {{ __('Product Inventory') }}
 @endsection
+
 @section('style')
     <x-datatable.css />
     <x-bulk-action.css />
 @endsection
+
 @section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row">
@@ -21,7 +24,7 @@
                     </div>
                     <div class="dashboard__card__body mt-4">
                         <div class="table-wrap table-responsive">
-                            <table class="table table-default">
+                            <table class="table table-default text-center">
                                 <thead>
                                     <x-bulk-action.th />
                                     <th>{{ __('ID') }}</th>
@@ -33,7 +36,7 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($all_inventory_products as $inventory)
-                                        <tr>
+                                        <tr class="text-center">
                                             <x-bulk-action.td :id="$inventory->id" />
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $inventory?->product?->name }}</td>
@@ -60,7 +63,5 @@
         <x-datatable.js />
         <x-table.btn.swal.js />
     </div>
-    {{--    @can('product-inventory-delete') --}}
     <x-bulk-action.js :route="route('admin.products.inventory.bulk.action')" />
-    {{--    @endcan --}}
 @endsection

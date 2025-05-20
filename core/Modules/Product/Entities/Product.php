@@ -33,7 +33,7 @@ class Product extends Model
     use SoftDeletes, NotificationRelation;
 
     protected $with = ["image","badge","uom","uom.unit"];
-    protected $fillable = ["name","slug","summary","description","brand_id","status_id","cost","price","sale_price","image_id","badge_id","min_purchase","max_purchase","is_refundable","is_inventory_warn_able","is_in_house","admin_id","vendor_id","is_taxable","tax_class_id"];
+    protected $fillable = ["name","slug","summary","description","brand_id","status_id","cost","price","sale_price","image_id","badge_id","min_purchase","max_purchase","is_refundable","is_inventory_warn_able","is_in_house","admin_id","vendor_id","is_taxable","tax_class_id", "product_status"];
 
     public function category() : HasOneThrough
     {

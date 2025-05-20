@@ -14,12 +14,12 @@
                 </h4>
             </div>
             <div class="dashboard__card__body mt-4">
-                <div class="table-responsive table-wrap">
+                <div class="table-responsive table-wrap text-center">
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>#</th>
-                                <th>{{ __('Name') }}</th>
+                                <th>{{ __('SL No.') }}</th>
+                                <th>{{ __('Full Name') }}</th>
                                 <th>{{ __('Address') }}</th>
                                 <th>{{ __('Is Default') }}</th>
                                 <th>{{ __('Action') }}</th>
@@ -28,18 +28,37 @@
                         <tbody>
                             @foreach ($all_shipping_address as $address)
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $address->name }}</td>
-                                    <td>{{ $address->address }}</td>
-                                    <td>{{ $address->is_default == 1 ? 'Yes' : 'No' }}</td>
-                                    <td>
+                                    <td class="text-center">{{ $loop->iteration }}</td>
+                                    <td class="text-center">{{ $address->name }}</td>
+                                    <td class="text-center">{{ $address->address }}</td>
+                                    <td class="text-center">{{ $address->is_default == 1 ? 'Yes' : 'No' }}</td>
+                                    <td class="text-center">
                                         <!-- Edit Button -->
-                                        <a href="{{ route('user.shipping.address.edit', $address->id) }}" class="btn btn-sm btn-warning btn-xs mb-2 me-1" title="Edit Address">
+                                        <a href="{{ route('user.shipping.address.edit', $address->id) }}"
+                                            class="btn btn-sm btn-warning btn-xs mb-2 me-1" title="Edit Address">
                                             <i class="las la-edit"></i>
                                         </a>
-                                    
+
                                         <!-- Delete Button -->
                                         <x-table.btn.swal.delete :route="route('shipping.address.delete', $address->id)" title="Delete Address" />
+
+                                        @if ($address->is_default != 1)
+                                            <a href="{{ route('user.shipping.address.make-default', $address->id) }}"
+                                                class="btn btn-info btn-xs mb-2 me-1" title="Make Default">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    fill="currentColor" viewBox="0 0 24 24">
+                                                    <path
+                                                        d="M6 2a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V8l-6-6H6zm7 1.5L18.5 9H13V3.5z">
+                                                    </path>
+                                                </svg>
+                                            </a>
+                                        @else
+                                            <button class="btn btn-succes  bg-success text-white btn-xs px-4 mb-2 me-1"
+                                                type="button" title="Default shipping">
+                                                {{ __('Default') }}
+                                            </button>
+                                        @endif
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach

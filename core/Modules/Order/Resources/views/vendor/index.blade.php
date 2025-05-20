@@ -13,10 +13,10 @@
         <div class="dashboard__card__body mt-4">
             <div class="table-wrap table-responsive all-user-campaign-table">
                 <div class="order-history-inner text-center">
-                    <table class="table">
+                    <table class="table text-center">
                         <thead>
                             <tr>
-                                <th>{{ __('#') }}</th>
+                                <th>{{ __('SL No.') }}</th>
                                 <th>{{ __('Tracking Number') }}</th>
                                 <th>
                                     {{ __('Date') }}
@@ -34,15 +34,15 @@
                         </thead>
                         <tbody>
                             @foreach ($all_orders as $order)
-                                <tr class="completed">
+                                <tr class="completed text-center">
                                     <td class="order-numb">
-                                        #{{ $order->id }}
+                                        {{ $order->id }}
                                     </td>
                                     <td class="order-numb">
                                         {{ $order->order_number }}
                                     </td>
                                     <td class="date">
-                                        {{ $order->order->created_at->format('F d, Y') }}
+                                        {{ $order->order->created_at->format('M d, Y') }}
                                     </td>
                                     <td class="status">
                                         @if ($order->order->order_status == 'complete')
