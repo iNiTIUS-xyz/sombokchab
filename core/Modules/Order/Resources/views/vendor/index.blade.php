@@ -52,7 +52,8 @@
                                         @elseif ($order->order->order_status == 'failed')
                                             <span class="badge bg-info px-2 py-1">{{ __('Failed') }}</span>
                                         @elseif ($order->order->order_status == 'rejected')
-                                            <span class="badge px-2 py-1" style="background: rgb(138, 1, 14) !important;">{{ __('Rejected') }}</span>
+                                            <span class="badge px-2 py-1"
+                                                style="background: rgb(138, 1, 14) !important;">{{ __('Rejected') }}</span>
                                         @elseif ($order->order->order_status == 'canceled')
                                             <span class="badge bg-danger px-2 py-1">{{ __('Canceled') }}</span>
                                         @endif
@@ -63,7 +64,9 @@
                                     <td class="table-btn">
                                         <div class="btn-wrapper">
                                             <a href="{{ route('vendor.orders.details', $order->id) }}"
-                                                class="btn btn-secondary btn-sm rounded-btn"> {{ __('view details') }}</a>
+                                                class="btn btn-success btn-sm rounded-btn" title="Order Details">
+                                                <i class="las la-eye"></i>
+                                            </a>
                                         </div>
                                     </td>
                                 </tr>

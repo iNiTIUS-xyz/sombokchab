@@ -15,11 +15,9 @@
                 <x-msg.flash />
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Create Campaign') }}</h4>
-                        <div class="btn-wrapper">
-                            <a href="{{ route('vendor.campaigns.all') }}"
-                                class="cmn_btn btn_bg_profile">{{ __('All Campaigns') }}</a>
-                        </div>
+                        <h4 class="dashboard__card__title">
+                            {{ __('Create Campaign') }}
+                        </h4>
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
                         <form action="{{ route('vendor.campaigns.new') }}" method="POST">
@@ -104,11 +102,16 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-12 ">
-                                    {{--                                        @can('campaign-create') --}}
                                     <hr>
-                                    <button type="submit"
-                                        class="cmn_btn btn_bg_profile">{{ __('Create Campaign') }}</button>
-                                    {{--                                        @endcan --}}
+                                    <div class="btn-wrapper">
+                                        <button type="submit" class="cmn_btn btn_bg_1 btn-success">
+                                            {{ __('Create Campaign') }}
+                                        </button>
+                                        <a href="{{ route('vendor.campaigns.all') }}" class="cmn_btn default-theme-btn"
+                                            style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                                            {{ __('Back') }}
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </form>
@@ -219,31 +222,31 @@
                     }
                 });
 
-                {{--$('#fixed_price_sync_all').on('click', function() {--}}
-                {{--    let fixed_percentage = $('#fixed_percentage_amount').val().trim();--}}
+                {{-- $('#fixed_price_sync_all').on('click', function() { --}}
+                {{--    let fixed_percentage = $('#fixed_percentage_amount').val().trim(); --}}
 
-                {{--    if (!fixed_percentage.length) {--}}
-                {{--        Swal.fire({--}}
-                {{--            position: 'top-end',--}}
-                {{--            icon: 'warning',--}}
-                {{--            title: '{{ __('Set percentage first') }}',--}}
-                {{--            showConfirmButton: false,--}}
-                {{--            timer: 1500--}}
-                {{--        });--}}
-                {{--    }--}}
+                {{--    if (!fixed_percentage.length) { --}}
+                {{--        Swal.fire({ --}}
+                {{--            position: 'top-end', --}}
+                {{--            icon: 'warning', --}}
+                {{--            title: '{{ __('Set percentage first') }}', --}}
+                {{--            showConfirmButton: false, --}}
+                {{--            timer: 1500 --}}
+                {{--        }); --}}
+                {{--    } --}}
 
-                {{--    let all_prices = $('.original_price');--}}
-                {{--    for (let i = 0; i < all_prices.length; i++) {--}}
-                {{--        let price_container = $(all_prices[i]).closest('.col');--}}
-                {{--        let final_price_container = price_container.next();--}}
-                {{--        let product_price = $(all_prices[i]).val().trim();--}}
-                {{--        let price_after_percentage = product_price - (product_price / 100 *--}}
-                {{--            fixed_percentage);--}}
-                {{--        price_after_percentage = price_after_percentage.toFixed(2);--}}
-                {{--        console.log(price_after_percentage);--}}
-                {{--        final_price_container.find('.campaign_price').val(price_after_percentage);--}}
-                {{--    }--}}
-                {{--});--}}
+                {{--    let all_prices = $('.original_price'); --}}
+                {{--    for (let i = 0; i < all_prices.length; i++) { --}}
+                {{--        let price_container = $(all_prices[i]).closest('.col'); --}}
+                {{--        let final_price_container = price_container.next(); --}}
+                {{--        let product_price = $(all_prices[i]).val().trim(); --}}
+                {{--        let price_after_percentage = product_price - (product_price / 100 * --}}
+                {{--            fixed_percentage); --}}
+                {{--        price_after_percentage = price_after_percentage.toFixed(2); --}}
+                {{--        console.log(price_after_percentage); --}}
+                {{--        final_price_container.find('.campaign_price').val(price_after_percentage); --}}
+                {{--    } --}}
+                {{-- }); --}}
 
                 $('#fixed_date_sync_all').on('click', function() {
                     console.log(111);
@@ -318,7 +321,7 @@
 
 
 
-            $(document).on('click','#fixed_price_sync_all', function() {
+            $(document).on('click', '#fixed_price_sync_all', function() {
                 let fixed_percentage = $('#fixed_percentage_amount').val().trim();
 
                 if (!fixed_percentage.length) {
@@ -342,7 +345,7 @@
                 }
             });
 
-            $(document).on('click','#add_product_btn', function() {
+            $(document).on('click', '#add_product_btn', function() {
                 let product_repeater_container = $('#product_repeater_container');
                 let remove_button_selector = '.delete-campaign';
                 let from_date = undefined;

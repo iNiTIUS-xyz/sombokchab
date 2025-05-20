@@ -125,8 +125,17 @@
                                                 @endforeach
                                             </div>
                                             <div class="form-group">
-                                                <button class="cmn_btn btn_bg_profile"
-                                                    type="submit">{{ __('Send Withdraw Request') }}</button>
+                                                <hr>
+                                                <div class="btn-wrapper">
+                                                    <button class="cmn_btn btn_bg_profile" type="submit">
+                                                        {{ __('Send Withdraw Request') }}
+                                                    </button>
+                                                    <a href="{{ route('vendor.wallet.home') }}"
+                                                        class="cmn_btn default-theme-btn"
+                                                        style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                                                        {{ __('Back') }}
+                                                    </a>
+                                                </div>
                                             </div>
                                         </form>
                                     </div>

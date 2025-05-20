@@ -36,33 +36,24 @@ class VendorInventoryController extends Controller
         $this->middleware('auth:vendor');
     }
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index(): Application|Factory|View
     {
         $all_inventory_products = ProductGlobalTrait::fetch_inventory_product()->get();
 
-        return view(self::BASE_URL.'all', compact('all_inventory_products'));
+        return view(self::BASE_URL . 'all', compact('all_inventory_products'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create(Request $request): View|Factory|Application
     {
         $all_products = AdminProductServices::productSearch($request);
         $all_attributes = ProductAttribute::select('id', 'title', 'terms')->get();
 
-        return view(self::BASE_URL.'new')->with([
+        return view(self::BASE_URL . 'new')->with([
             'all_products' => $all_products,
             'all_attributes' => $all_attributes,
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request): JsonResponse
     {
         $request->validate([
@@ -77,7 +68,7 @@ class VendorInventoryController extends Controller
 
             $product_inventory = ProductInventory::create([
                 'product_id' => $request->sanitize_html('product_id'),
-                'sku' => 'SKU-'.$request->sanitize_html('sku'),
+                'sku' => 'SKU-' . $request->sanitize_html('sku'),
                 'stock_count' => $request->sanitize_html('stock_count'),
             ]);
 
@@ -95,12 +86,6 @@ class VendorInventoryController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \Modules\Product\Entities\ProductInventory  $productInventory
-     * @return Response
-     */
     public function edit(ProductInventory $item)
     {
         $data = [
@@ -110,19 +95,19 @@ class VendorInventoryController extends Controller
             'tags' => Tag::select('id', 'tag_text as name')->get(),
             'categories' => Category::select('id', 'name')->get(),
             'deliveryOptions' => DeliveryOption::select('id', 'title', 'sub_title', 'icon')->get(),
-            'all_attribute' => ProductAttribute::all()->groupBy('title')->map(fn ($query) => $query[0]),
+            'all_attribute' => ProductAttribute::all()->groupBy('title')->map(fn($query) => $query[0]),
             'product_colors' => ProductColor::all(),
             'product_sizes' => ProductSize::all(),
         ];
 
         $inventory = $item->where('id', $item->id)->with('inventoryDetails')->first();
         $all_products = AdminProductServices::productSearch(request());
-        $all_attribute = ProductAttribute::all()->groupBy('title')->map(fn ($query) => $query[0]);
+        $all_attribute = ProductAttribute::all()->groupBy('title')->map(fn($query) => $query[0]);
         $product_colors = ProductColor::all();
         $product_sizes = ProductSize::all();
         $product = (new AdminProductServices)->get_edit_product($item->product_id);
 
-        return view(self::BASE_URL.'edit')->with([
+        return view(self::BASE_URL . 'edit')->with([
             'inventory' => $inventory,
             'all_products' => $all_products,
             'all_attributes' => $all_attribute,
@@ -133,13 +118,6 @@ class VendorInventoryController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  Request  $request
-     * @param  \Modules\Product\Entities\ProductInventory  $productInventory
-     * @return Response
-     */
     public function update(UpdateInventoryRequest $request)
     {
         try {
@@ -157,14 +135,11 @@ class VendorInventoryController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @return bool
-     */
     public function destroy(Request $request)
     {
-        return (bool) ProductInventoryDetails::find($request->id)->delete();
+        $productInventoryDetails = ProductInventory::find($request->id);
+        $productInventoryDetails->delete();
+        return response()->json(['success']);
     }
 
     public function bulk_action(Request $request)
@@ -177,9 +152,6 @@ class VendorInventoryController extends Controller
         return back()->with(FlashMsg::delete_failed(__('Product Inventory')));
     }
 
-    /** =========================================================================
-     *                          HELPER FUNCTIONS
-    ========================================================================= */
     private function insertInventoryDetails($inventory_id, $inventory_details)
     {
         foreach ($inventory_details as $details) {

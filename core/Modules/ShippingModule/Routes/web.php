@@ -60,7 +60,7 @@ Route::prefix("vendor-home")->as("vendor.")->middleware(['userEmailVerify','setl
         Route::get("/", "index")->name("index");
         Route::get("/create", "create")->name("create");
         Route::post("/store", "store")->name("store");
-        Route::get("/delete/{id}", "destroy")->name("destroy");
+        Route::post("/delete/{id}", "destroy")->name("destroy");
         Route::get("/edit/{id}", "edit")->name("edit");
         Route::post("/update/{id}", "update")->name("update");
         Route::post("/make-default", "makeDefault")->name("make-default");

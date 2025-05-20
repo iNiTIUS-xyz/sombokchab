@@ -183,7 +183,7 @@ class ProductWishlistController extends Controller
         } catch (\Exception $exception) {
 
             return response()->json([
-                'type' => 'error',
+                'type' => 'warning',
                 'error_msg' => __('Something went wrong!'),
             ]);
         }

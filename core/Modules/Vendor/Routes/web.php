@@ -93,7 +93,7 @@ Route::prefix('vendor')->middleware(['guest', 'guest:vendor', 'setlang:frontend'
     });
 });
 
-Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_mode']], function () {
+Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_mode', 'check.auth.vendor']], function () {
     Route::get('vendor/{slug}', [FrontendVendorController::class, "vendor"])->name('frontend.vendors.single');
 });
 
