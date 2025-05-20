@@ -28,7 +28,7 @@
                                     <input type="text" class="form-control" readonly value="{{auth()->user()->username}} ">
                                 </div>
                                 <div class="form-group">
-                                    <label for="name">{{__('Name')}}</label>
+                                    <label for="name">{{__('Full Name')}}</label>
                                     <input type="text" class="form-control" id="name" name="name"
                                            value="{{auth()->user()->name}}">
                                 </div>

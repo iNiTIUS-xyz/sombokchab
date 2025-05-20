@@ -17,7 +17,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="name">{{ __('Name') }}</label>
+                            <label for="name">{{ __('Full Name') }}</label>
                             <input type="text" class="form-control" id="name" name="name"
                                 value="{{ $user_details->name }}">
                         </div>
@@ -38,7 +38,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="phone">{{ __('Phone') }}</label>
+                            <label for="phone">{{ __('Phone Number') }}</label>
                             <input type="tel" class="form-control" id="phone" name="phone"
                                 value="{{ $user_details->phone }}">
                         </div>
@@ -53,7 +53,7 @@
                             @endphp
 
                             <label for="country">{{ __('Country') }}</label>
-                            <select id="country" class="form-control wide" name="country">
+                            <select id="country" class="form-select wide" name="country">
                                 @foreach ($all_countries as $country)
                                     <option value="{{ $country->id }}"
                                         {{ $user_details->country == $country->id ? 'selected' : '' }}>
@@ -67,7 +67,7 @@
                         <div class="form-group">
                             <label for="state">{{ __('City') }}</label>
 
-                            <select class="form-control" id="state" name="state">
+                            <select class="form-select" id="state" name="state">
                                 <option value="">
                                     {{ __('Select City') }}
                                 </option>
@@ -84,7 +84,7 @@
                         <div class="form-group">
                             <label for="city">{{ __('Province') }}</label>
 
-                            <select class="form-control" id="city" name="city">
+                            <select class="form-select" id="city" name="city">
                                 <option value="">{{ __('Select Province') }}</option>
                                 @php
                                     $cities = \Modules\CountryManage\Entities\City::where("state_id", $user_details->state ?? 0)->get();

@@ -79,7 +79,7 @@
             e.preventDefault();
             Swal.fire({
                 title: '{{ __('Are you sure?') }}',
-                text: '{{ __('You would not be able to revert this item!') }}',
+                text: '{{ __('This action cannot be undone.') }}',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',

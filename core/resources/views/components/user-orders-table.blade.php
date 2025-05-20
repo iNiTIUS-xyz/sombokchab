@@ -4,7 +4,7 @@
             <thead>
             <tr>
                 <th>
-                    {{ __('#') }}
+                    {{ __('Order No.') }}
                 </th>
                 <th>
                     {{ __('Tracking Number') }}
@@ -16,7 +16,7 @@
                     {{ __('Status') }}
                 </th>
                 <th>
-                    {{ __('Amount') }}
+                    {{ __('Total Amount') }}
                 </th>
                 <th>
                     {{ __('Action') }}
@@ -27,7 +27,7 @@
                 @foreach ($allOrders as $order)
                     <tr class="completed">
                         <td class="order-numb">
-                            #{{ $order->id }}
+                            {{ $order->id }}
                         </td>
                         <td class="order-numb">
                             {{ $order->order_number }}

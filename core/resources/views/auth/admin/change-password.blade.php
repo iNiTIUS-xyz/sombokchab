@@ -21,9 +21,9 @@
                         <form action="{{ route('admin.password.change') }}" method="POST">
                             @csrf
                             <div class="form-group">
-                                <label for="old_password">{{ __('Current password') }}</label>
+                                <label for="old_password">{{ __('Current Password') }}</label>
                                 <input type="password" class="form-control" id="old_password" name="old_password"
-                                    placeholder="{{ __('Current password') }}">
+                                    placeholder="{{ __('Current Password') }}">
                             </div>
                             <div class="form-group">
                                 <label for="password">{{ __('New Password') }}</label>
