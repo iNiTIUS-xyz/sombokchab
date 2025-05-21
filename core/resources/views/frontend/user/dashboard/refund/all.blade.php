@@ -12,7 +12,7 @@
         </div>
         <div class="dashboard__card__body mt-4">
             <div class="table-wrap table-responsive all-user-campaign-table">
-                <div class="order-history-inner text-center">
+                <div class="order-history-inner">
                     <table class="table">
                         <thead>
                             <tr>
@@ -28,7 +28,7 @@
                                     <td>{{ $loop->iteration }}</td>
 
                                     <td>
-                                        <span class="user-info text-center">
+                                        <span class="user-info">
                                             <b>{{ $request->order?->id }}</b><br>
                                             {{ __('Status') }}:
                                             @if ($request->order?->order_status == 'complete')
@@ -51,7 +51,7 @@
                                     </td>
 
                                     <td>
-                                        <span class="user-info text-center">
+                                        <span class="user-info ">
                                             <b>#{{ $request->id }}</b><br>
                                             {{ __('Status') }}:
                                             <span
@@ -68,8 +68,10 @@
                                             {{-- {{ __('View Details') }} --}}
                                             <i class="las la-file-alt"></i>
                                         </a>
-                                        {{-- <a class="btn btn-secondary btn-sm rounded-btn"
-                                            href="{{ route('user.product.refund-request.view', $request->id) }}">{{ __('View Details') }}</a> --}}
+                                        <a class="btn btn-secondary btn-sm rounded-btn"
+                                            href="{{ route('user.product.refund-request.view', $request->id) }}">
+                                            {{ __('View Details') }}
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach

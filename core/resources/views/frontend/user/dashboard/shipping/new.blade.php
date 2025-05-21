@@ -47,7 +47,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="country">{{ __('Country') }} <span class="text-danger">*</span></label>
-                            <select class="form-control" name="country" id="country">
+                            <select class="form-select" name="country" id="country">
                                 <option value="">{{ __('Select Country') }}</option>
                                 @foreach ($all_countries as $country)
                                     <option value="{{ $country->id }}"
@@ -60,7 +60,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="state">{{ __('City') }} <span class="text-danger">*</span></label>
-                            <select class="form-control" name="state" id="state">
+                            <select class="form-select" name="state" id="state">
                                 <option value="">{{ __('Select City') }}</option>
                                 @foreach ($states as $state)
                                     <option value="{{ $state->id }}"
@@ -71,18 +71,28 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label for='city'> {{ __("Province")  }}  </label>
-                            <select id="city" class='form-control select-state' name="city">
+                            <select id="city" class='form-select select-state' name="city">
                                 <option value="">{{ __('Select City First...') }}</option>
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label for="zipcode">{{ __('Postal Code') }}  </label>
                             <input type="text" class="form-control" name="zipcode" id="zipcode" placeholder="{{__('Enter Postal Code')}}">
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="country">{{ __('Is Default') }}</label>
+                            <select class="form-select" name="is_default" required>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-12">

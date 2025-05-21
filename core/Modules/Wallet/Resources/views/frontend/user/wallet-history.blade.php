@@ -66,23 +66,25 @@
                         <table class="table-responsive table">
                             <thead>
                                 <tr>
-                                    <th class="text-center">{{ __('SL No.') }}</th>
-                                    <th class="text-center">{{ __('Sub Order ID') }}</th>
-                                    <th class="text-center">{{ __('Transaction ID:') }}</th>
-                                    <th class="text-center">{{ __('Amount') }}</th>
-                                    <th class="text-center">{{ __('Type') }}</th>
-                                    <th class="text-center">{{ __('Date Time') }}</th>
+                                    <th>{{ __('SL No.') }}</th>
+                                    <th>{{ __('Sub Order ID') }}</th>
+                                    <th>{{ __('Transaction ID:') }}</th>
+                                    <th>{{ __('Amount') }}</th>
+                                    <th>{{ __('Type') }}</th>
+                                    <th>{{ __('Date Time') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($histories as $history)
                                     <tr>
-                                        <td class="text-center">{{ $history->id ?? '' }}</td>
-                                        <td class="text-center">{{ $history->sub_order_id ? '#' . $history->sub_order_id : '' }}</td>
-                                        <td class="text-center">{{ $history->transaction_id ?? '' }}</td>
-                                        <td class="text-center">{{ $history->amount ? float_amount_with_currency_symbol($history->amount) : '' }}
+                                        <td>{{ $history->id ?? '' }}</td>
+                                        <td>
+                                            {{ $history->sub_order_id ? '#' . $history->sub_order_id : '' }}</td>
+                                        <td>{{ $history->transaction_id ?? '' }}</td>
+                                        <td>
+                                            {{ $history->amount ? float_amount_with_currency_symbol($history->amount) : '' }}
                                         </td>
-                                        <td class="text-center">
+                                        <td>
                                             <span
                                                 class="badge bg-{{ $history->type == 4 || $history->type == 1 ? 'success' : ($history->type == 5 ? 'danger' : 'warning') }}">
                                                 @if ($history->type == 4)
@@ -118,7 +120,7 @@
         aria-hidden="true">
         <form action="{{ route('user-home.wallet.deposit') }}" method="post" enctype="multipart/form-data">
             @csrf
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
                         <h5 class="modal-title" id="couponModal">
@@ -137,9 +139,10 @@
                         </div>
                     </div>
                     <div class="modal-footer modal-footer-tow">
-                        <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">{{ __('Close') }}</button>
                         <button type="submit" class="btn btn-primary">{{ __('Confirm') }}</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            {{ __('Close') }}
+                        </button>
                     </div>
                 </div>
             </div>

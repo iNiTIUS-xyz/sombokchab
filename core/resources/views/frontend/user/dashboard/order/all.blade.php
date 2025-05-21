@@ -12,7 +12,6 @@
         </div>
         <div class="dashboard__card__table mt-4">
             <x-user-orders-table :allOrders="$all_orders" />
-
             <div class="pagination">
                 {!! $all_orders->links() !!}
             </div>

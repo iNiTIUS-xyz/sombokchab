@@ -107,7 +107,7 @@
                                     <div class="form-group">
                                         <label>{{ __('Subject') }}</label>
                                         <input type="text" class="form-control" name="title"
-                                            placeholder="{{ __('Subject') }}">
+                                            placeholder="{{ __('Enter Subject') }}">
                                     </div>
                                     {{-- <div class="form-group">
                                         <label>{{ __('Priority') }}</label>
@@ -120,7 +120,7 @@
                                     </div> --}}
                                     <div class="form-group">
                                         <label>{{ __('Departments') }}</label>
-                                        <select name="departments" class="form-control">
+                                        <select name="departments" class="form-select">
                                             @foreach ($departments as $dep)
                                                 <option value="{{ $dep->id }}">{{ $dep->name }}</option>
                                             @endforeach
@@ -128,7 +128,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>{{ __('Order Number (No. - Date - Amount)') }}</label>
-                                        <select name="order_id" class="form-control">
+                                        <select name="order_id" class="form-select">
                                             <option value="" selected>Select A Order</option>
                                             @foreach ($user_orders as $order)
                                                 <option value="{{ $order->id }}">{{ $order->order_number }} -
@@ -140,7 +140,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>{{ __('Description') }}</label>
-                                        <textarea name="description" class="form-control" cols="30" rows="10" placeholder="{{ __('Description') }}"></textarea>
+                                        <textarea name="description" class="form-control" cols="30" rows="10" placeholder="{{ __('Enter Description') }}"></textarea>
                                     </div>
                                     <div class="btn-wrapper">
                                         <button type="submit" class="cmn_btn btn_bg_1 btn-success">

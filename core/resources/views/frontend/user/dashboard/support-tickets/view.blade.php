@@ -255,9 +255,9 @@
                                 <div class="gig-order-info">
                                     <ul>
                                         <li><strong>{{ __('Ticket ID:') }}</strong> #{{ $ticket_details->id }}</li>
-                                        <li><strong>{{ __('Order No.:') }}</strong> #{{ $ticket_details->order_id }}</li>
+                                        <li><strong>{{ __('Order No:') }}</strong> #{{ $ticket_details->order_id }}</li>
                                         <li><strong>{{ __('Subject:') }}</strong> {{ $ticket_details->title }} </li>
-                                        <li><strong>{{ __('Status:') }}</strong> 
+                                        <li><strong>{{ __('Status:') }}</strong>
                                             <span class="text-capitalize badge {{ $ticket_details->status == 'close' ? 'status-close' : 'status-open' }}">
                                                 {{ $ticket_details->status == 'close' ? __('Closed') : __($ticket_details->status) }}
                                             </span>

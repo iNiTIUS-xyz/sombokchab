@@ -19,7 +19,7 @@
                         <div class="form-group">
                             <label for="name">{{ __('Full Name') }}</label>
                             <input type="text" class="form-control" id="name" name="name"
-                                value="{{ $user_details->name }}">
+                                value="{{ $user_details->name }}" placeholder="{{ __('Enter Full Name') }}">
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -33,14 +33,14 @@
                         <div class="form-group">
                             <label for="email">{{ __('Email') }}</label>
                             <input type="text" class="form-control" id="email" name="email"
-                                value="{{ $user_details->email }}">
+                                value="{{ $user_details->email }}" placeholder="{{ __('Enter Email') }}">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="phone">{{ __('Phone Number') }}</label>
                             <input type="tel" class="form-control" id="phone" name="phone"
-                                value="{{ $user_details->phone }}">
+                                value="{{ $user_details->phone }}" placeholder="{{ __('Enter Phone Number') }}">
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -66,7 +66,6 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="state">{{ __('City') }}</label>
-
                             <select class="form-select" id="state" name="state">
                                 <option value="">
                                     {{ __('Select City') }}
@@ -87,11 +86,15 @@
                             <select class="form-select" id="city" name="city">
                                 <option value="">{{ __('Select Province') }}</option>
                                 @php
-                                    $cities = \Modules\CountryManage\Entities\City::where("state_id", $user_details->state ?? 0)->get();
+                                    $cities = \Modules\CountryManage\Entities\City::where(
+                                        'state_id',
+                                        $user_details->state ?? 0,
+                                    )->get();
                                 @endphp
 
                                 @foreach ($cities as $city)
-                                    <option value="{{ $city->id }}" {{ $user_details->city == $city->id ? 'selected' : '' }}>
+                                    <option value="{{ $city->id }}"
+                                        {{ $user_details->city == $city->id ? 'selected' : '' }}>
                                         {{ $city->name }}
                                     </option>
                                 @endforeach
@@ -102,14 +105,14 @@
                         <div class="form-group">
                             <label for="zipcode">{{ __('Postal Code') }}</label>
                             <input type="text" class="form-control" id="zipcode" name="zipcode"
-                                value="{{ $user_details->zipcode }}">
+                                value="{{ $user_details->zipcode }}" placeholder="{{ __('Enter Postal Code') }}">
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="address">{{ __('Address') }}</label>
                             <input type="text" class="form-control" id="address" name="address"
-                                value="{{ $user_details->address }}">
+                                value="{{ $user_details->address }}" placeholder="{{ __('Enter Postal Code') }}">
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -133,7 +136,7 @@
                 @csrf
                 <div class="form-group">
                     <label for="password">{{ __('Password') }}</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password"
+                    <input type="password" class="form-control" id="password" name="password" placeholder="{{ __('Enter Password') }}"
                         required>
                 </div>
                 <div class="btn-wrapper mt-2">

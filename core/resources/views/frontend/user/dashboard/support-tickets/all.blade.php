@@ -1,4 +1,5 @@
 @extends('frontend.user.dashboard.user-master')
+
 @section('style')
     <style>
         .badge.status-open {
@@ -22,29 +23,9 @@
             border: none;
             font-weight: 600;
         }
-
-        /*
-                button.medium {
-                    display: inline-block;
-                    background-color: #70b9ae;
-                    padding: 3px 10px;
-                    border-radius: 4px;
-                    color: #fff;
-                    border: none;
-                    font-weight: 600;
-                }
-
-                button.urgent {
-                    display: inline-block;
-                    background-color: #bfb55a;
-                    padding: 3px 10px;
-                    border-radius: 4px;
-                    color: #fff;
-                    border: none;
-                    font-weight: 600;
-                } */
     </style>
 @endsection
+
 @section('section')
     <a href="{{ route('frontend.support.ticket') }}" class="cmn_btn btn_bg_1">{{ __('Create New Ticket') }}</a>
     @if (count($all_tickets) > 0)
@@ -53,30 +34,30 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th class="text-center">{{ __('ID') }}</th>
-                            <th class="text-center">{{ __('Order No.') }}</th>
-                            <th class="text-center">{{ __('Title') }}</th>
-                            <th class="text-center">{{ __('Date Created') }}</th>
-                            <th class="text-center">{{ __('Status') }}</th>
-                            <th class="text-center">{{ __('Action') }}</th>
+                            <th>{{ __('SL No.') }}</th>
+                            <th>{{ __('Order No.') }}</th>
+                            <th>{{ __('Title') }}</th>
+                            <th>{{ __('Date Created') }}</th>
+                            <th>{{ __('Status') }}</th>
+                            <th>{{ __('Action') }}</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($all_tickets as $data)
                             <tr>
-                                <td class="text-center">{{ $data->id }}</td>
-                                <td class="text-center">{{ $data->order_id }}</td>
-                                <td class="text-center">{{ $data->title }}</td>
-                                <td class="text-center">
+                                <td>{{ $data->id }}</td>
+                                <td>{{ $data->order_id }}</td>
+                                <td>{{ $data->title }}</td>
+                                <td>
                                     <small>{{ $data->created_at->format('M d, Y') }}</small>
                                 </td>
-                                <td class="text-center">
+                                <td>
                                     <span
                                         class="text-capitalize badge {{ $data->status == 'close' ? 'status-close' : 'status-open' }}">
                                         {{ $data->status == 'close' ? __('Closed') : __($data->status) }}
                                     </span>
                                 </td>
-                                <td class="text-center">
+                                <td>
                                     <a href="{{ route('user.dashboard.support.ticket.view', $data->id) }}"
                                         class="btn btn-primary btn-xs" target="_blank" class="View Support Ticket">
                                         <i class="las la-eye"></i>

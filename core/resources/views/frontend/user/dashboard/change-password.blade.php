@@ -10,7 +10,7 @@
                     <label for="old_password">{{ __('Current Password') }}</label>
                     <div class="input-group-custom">
                         <input type="password" class="form-control" id="old_password" name="old_password"
-                            placeholder="{{ __('Current Password') }}">
+                            placeholder="{{ __('Enter Current Password') }}">
                         <span class="input-group-btn">
                             <button type="button" class="btn-toggle-password" data-target="old_password">
                                 <i class="la la-eye"></i>
@@ -22,7 +22,7 @@
                     <label for="password">{{ __('New Password') }}</label>
                     <div class="input-group-custom">
                         <input type="password" class="form-control" id="password" name="password"
-                            placeholder="{{ __('New Password') }}">
+                            placeholder="{{ __('Enter New Password') }}">
                         <span class="input-group-btn">
                             <button type="button" class="btn-toggle-password" data-target="password">
                                 <i class="la la-eye"></i>
@@ -38,7 +38,7 @@
                     <label for="password_confirmation">{{ __('Confirm Password') }}</label>
                     <div class="input-group-custom">
                         <input type="password" class="form-control" id="password_confirmation" name="password_confirmation"
-                            placeholder="{{ __('Confirm Password') }}">
+                            placeholder="{{ __('Enter Confirm Password') }}">
                         <span class="input-group-btn">
                             <button type="button" class="btn-toggle-password" data-target="password_confirmation">
                                 <i class="la la-eye"></i>

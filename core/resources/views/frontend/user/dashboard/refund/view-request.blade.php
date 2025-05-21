@@ -290,8 +290,8 @@
                             <div class="table-wrapper dashboard-table table-wrap">
                                 <table class="table table-responsive">
                                     <thead>
-                                        <tr class="text-center">
-                                            <th>{{ __('SL.') }}</th>
+                                        <tr>
+                                            <th>{{ __('SL No.') }}</th>
                                             <th style="width: 60px">{{ __('Image') }}</th>
                                             <th>{{ __('Info') }}</th>
                                             <th>{{ __('QTY') }}</th>

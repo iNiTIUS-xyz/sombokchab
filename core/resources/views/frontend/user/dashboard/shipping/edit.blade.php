@@ -44,7 +44,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="country">{{ __('Country') }}<span class="text-danger">*</span></label>
-                            <select class="form-control" name="country" id="country" required>
+                            <select class="form-select" name="country" id="country" required>
                                 <option value="">{{ __('Select Country') }}</option>
                                 @foreach ($all_country as $country)
                                     <option value="{{ $country->id }}"
@@ -58,7 +58,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="state">{{ __('City') }}<span class="text-danger">*</span></label>
-                            <select class="form-control" name="state" id="state">
+                            <select class="form-select" name="state" id="state">
                                 <option value="">{{ __('Select City') }}</option>
                                 @if ($address->state_id)
                                     <option value="{{ $address->state_id }}" selected>{{ $address->state->name ?? '' }}
@@ -67,10 +67,10 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label for="city">{{ __('Province') }}</label>
-                            <select class="form-control" name="city" id="city">
+                            <select class="form-select" name="city" id="city">
                                 <option value="">{{ __('Select Province') }}</option>
                                 @if ($address->city)
                                     <option value="{{ $address->city }}" selected>{{ $address->city }}</option>
@@ -78,25 +78,25 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label for="zipcode">{{ __('Postal Code') }}</label>
                             <input type="text" class="form-control" name="zipcode" id="zipcode" value="{{ $address->zip_code }}">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="country">{{ __('Is Default') }}</label>
+                            <select class="form-select" name="is_default" required>
+                                <option value="1" @if ($address->is_default == 1) selected @endif>Yes</option>
+                                <option value="0" @if ($address->is_default == 0) selected @endif>No</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="address">{{ __('Address') }}<span class="text-danger">*</span></label>
                             <textarea class="form-control" name="address" id="address" rows="3">{{ $address->address }}</textarea>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="country">{{ __('Is Default') }}</label>
-                            <select class="form-control" name="is_default" required>
-                                <option value="1" @if ($address->is_default == 1) selected @endif>Yes</option>
-                                <option value="0" @if ($address->is_default == 0) selected @endif>No</option>
-                            </select>
                         </div>
                     </div>
                     <div class="col-md-12">

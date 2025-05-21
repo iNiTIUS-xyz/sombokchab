@@ -1,24 +1,24 @@
 <div class="table-wrap table-responsive all-user-campaign-table">
-    <div class="order-history-inner text-center">
+    <div class="order-history-inner">
         <table class="table">
             <thead>
             <tr>
-                <th class="text-center">
+                <th>
                     {{ __('Order No.') }}
                 </th>
-                <th class="text-center">
+                <th>
                     {{ __('Tracking Number') }}
                 </th>
-                <th class="text-center">
+                <th>
                     {{ __('Date') }}
                 </th>
-                <th class="text-center">
+                <th>
                     {{ __('Status') }}
                 </th>
-                <th class="text-center">
+                <th>
                     {{ __('Total Amount') }}
                 </th>
-                <th class="text-center">
+                <th>
                     {{ __('Action') }}
                 </th>
             </tr>
@@ -26,13 +26,13 @@
             <tbody>
                 @foreach ($allOrders as $order)
                     <tr class="completed">
-                        <td class="order-numb text-center">
+                        <td class="order-numb">
                             {{ $order->id }}
                         </td>
-                        <td class="order-numb text-center">
+                        <td class="order-numb">
                             {{ $order->order_number }}
                         </td>
-                        <td class="date text-center">
+                        <td class="date">
                             {{ $order->created_at->format('M d, Y') }}
                         </td>
                         {{-- <td class="status">
@@ -48,7 +48,7 @@
                                 <span class="badge px-2 py-1" style="background: rgb(138, 1, 14) !important;">{{ __('Rejected') }}</span>
                             @endif
                         </td> --}}
-                        <td class="status text-center">
+                        <td class="status">
                             @if ($order->hasRefundRequest && $order->refundRequest->currentTrackStatus)
                                 Refund: 
                                 <span class="badge bg-light text-dark px-2 py-1">
@@ -68,7 +68,7 @@
                                 @endif
                             @endif
                         </td>
-                        <td class="amount text-center">
+                        <td class="amount">
                             {{ float_amount_with_currency_symbol($order->paymentMeta?->total_amount) }}
                         </td>
                         {{-- <td class="table-btn">
@@ -122,15 +122,8 @@
                                    class="btn btn-secondary btn-sm rounded-btn"> {{ __('View Details') }}</a>
                             </div>
                         </td> --}}
-                        <td class="table-btn text-center">
+                        <td class="table-btn">
                             <div class="btn-wrapper">
-                                @if ($order->isCancelableStatus && $order->order_status == 'pending')
-                                    <button class="btn btn-danger btn-sm rounded-btn swal_cancel_button" title="Cancel" data-order-id="{{ $order->id }}" style="width: 40px;">
-                                        {{-- {{ __('Cancel Order') }}  --}}
-                                        <i class="las la-times"></i>
-                                    </button>
-                                @endif
-
                                 @if ($order->isDeliveredStatus && !$order->hasRefundRequest)
                                     <a href="{{ route('user.product.order.refund', $order->id) }}"
                                     class="btn btn-warning btn-sm rounded-btn" title="Request Refund" style="width: 40px;">
@@ -144,6 +137,13 @@
                                     {{-- {{ __('View Details') }} --}}
                                     <i class="las la-file-alt"></i>
                                 </a>
+                                @if ($order->isCancelableStatus && $order->order_status == 'pending')
+                                    <button class="btn btn-danger btn-sm rounded-btn swal_cancel_button" title="Cancel" data-order-id="{{ $order->id }}" style="width: 40px;">
+                                        {{-- {{ __('Cancel Order') }}  --}}
+                                        <i class="las la-times"></i>
+                                    </button>
+                                @endif
+
                             </div>
                         </td>
 
