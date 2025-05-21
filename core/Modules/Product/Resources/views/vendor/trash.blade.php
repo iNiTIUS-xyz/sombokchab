@@ -4,7 +4,7 @@
 @endsection
 
 @section('style')
-    <x-product::variant-info.css/>
+    <x-product::variant-info.css />
     <style>
         .float-left {
             float: left;
@@ -14,106 +14,109 @@
 @section('content')
     @php
         $allProduct = '';
-            if (!$products->isEmpty())
-                {
-                    if (count($products) > 1)
-                        {
-                            $allProduct = $products->pluck('id')->toArray();
-                            $allProduct = implode('|',$allProduct);
-                        } else {
-                            $allProduct = current(current($products))->id;
-                        }
-                }
+        if (!$products->isEmpty()) {
+            if (count($products) > 1) {
+                $allProduct = $products->pluck('id')->toArray();
+                $allProduct = implode('|', $allProduct);
+            } else {
+                $allProduct = current(current($products))->id;
+            }
+        }
     @endphp
 
     <div class="dashboard-recent-order">
         <div class="row">
-            <x-flash-msg/>
+            <x-flash-msg />
+            <div class="col-md-12">
+                <div class="btn-wrapper" style="width: 98%">
+                    <a class="cmn_btn btn_bg_profile mb-3" href="{{ route('vendor.products.all') }}">
+                        {{ __('Back') }}
+                    </a>
+                    <a href="javascript:;" class="cmn_btn btn_bg_danger mb-3" style="float: right"
+                        data-product-delete-all-url="{{ route('vendor.products.trash.empty') }}">
+                        {{ __('Empty Trash') }}
+                    </a>
+                </div>
+            </div>
             <div class="col-lg-12 mt-4">
                 <div class="recent-order-wrapper dashboard-table bg-white">
                     <div class="product-list-title-flex d-flex flex-wrap align-items-center justify-content-between">
-                        <h3>{{__('Product Trash')}}</h3>
-                        <x-product::table.bulk-action/>
-
-                        <a href="#1" class="btn btn-danger btn-sm delete-all"
-                           data-product-delete-all-url="{{ route("vendor.products.trash.empty") }}"> {{__('Empty Trash')}}</a>
-                        <div class="btn-wrapper">
-                            <a class="btn btn-primary btn-sm"
-                               href="{{route('vendor.products.all')}}">{{__('Back')}}</a>
-                        </div>
+                        <h3>{{ __('Product Trash') }}</h3>
+                        <x-product::table.bulk-action />
                     </div>
                     <div class="table-responsive table-responsive--md mt-4">
                         <table class="custom--table pt-4" id="myTable">
                             <thead class="head-bg">
-                            <tr>
-                                <th class="check-all-rows">
-                                    <div class="mark-all-checkbox">
-                                        <input type="checkbox" class="all-checkbox">
-                                    </div>
-                                </th>
+                                <tr>
+                                    <th class="check-all-rows">
+                                        <div class="mark-all-checkbox">
+                                            <input type="checkbox" class="all-checkbox">
+                                        </div>
+                                    </th>
 
-                                <th> {{__("Name")}} </th>
-                                <th> {{__("Brand")}} </th>
-                                <th> {{__("Categories")}} </th>
-                                <th> {{__("Stock Qty")}} </th>
-                                <th> {{__("Actions")}} </th>
-                            </tr>
+                                    <th> {{ __('Name') }} </th>
+                                    <th> {{ __('Brand') }} </th>
+                                    <th> {{ __('Categories') }} </th>
+                                    <th> {{ __('Stock Qty') }} </th>
+                                    <th> {{ __('Actions') }} </th>
+                                </tr>
                             </thead>
                             <tbody>
-                            @forelse($products as $product)
-                                <tr class="table-cart-row">
-                                    <td data-label="Check All">
-                                        <x-product::table.bulk-delete-checkbox :id="$product->id"/>
-                                    </td>
+                                @forelse($products as $product)
+                                    <tr class="table-cart-row">
+                                        <td data-label="Check All">
+                                            <x-product::table.bulk-delete-checkbox :id="$product->id" />
+                                        </td>
 
-                                    <td class="product-name-info">
-                                        <div class="d-flex gap-2">
-                                            <div class="logo-brand">
-                                                {!! render_image_markup_by_attachment_id($product?->image_id) !!}
+                                        <td class="product-name-info">
+                                            <div class="d-flex gap-2">
+                                                <div class="logo-brand">
+                                                    {!! render_image_markup_by_attachment_id($product?->image_id) !!}
+                                                </div>
+                                                <b class="">{{ Str::limit($product->name, 25, '...') }}</b>
+                                                <p>{{ Str::words($product->summary, 10) }}</p>
                                             </div>
-                                            <b class="">{{ Str::limit($product->name, 25, '...') }}</b>
-                                            <p>{{Str::words($product->summary, 10)}}</p>
-                                        </div>
-                                    </td>
+                                        </td>
 
-                                    <td data-label="Image">
-                                        <div class="d-flex gap-2">
-                                            <div class="logo-brand product-brand">
-                                                {!! render_image_markup_by_attachment_id($product?->brand?->image_id) !!}
+                                        <td data-label="Image">
+                                            <div class="d-flex gap-2">
+                                                <div class="logo-brand product-brand">
+                                                    {!! render_image_markup_by_attachment_id($product?->brand?->image_id) !!}
+                                                </div>
+                                                <b class="">{{ $product?->brand?->name }}</b>
                                             </div>
-                                            <b class="">{{ $product?->brand?->name }}</b>
-                                        </div>
-                                    </td>
+                                        </td>
 
-                                    <td class="price-td" data-label="Name">
-                                        @if($product?->category?->name)
-                                            <b> {{__('Category')}}: </b>
-                                        @endif{{ $product?->category?->name }} <br>
-                                        @if($product?->subCategory?->name)
-                                            <b> {{__('Sub Category')}}: </b>
-                                        @endif{{ $product?->subCategory?->name }} <br>
-                                    </td>
+                                        <td class="price-td" data-label="Name">
+                                            @if ($product?->category?->name)
+                                                <b> {{ __('Category') }}: </b>
+                                            @endif{{ $product?->category?->name }} <br>
+                                            @if ($product?->subCategory?->name)
+                                                <b> {{ __('Sub Category') }}: </b>
+                                            @endif{{ $product?->subCategory?->name }} <br>
+                                        </td>
 
-                                    <td class="price-td" data-label="Quantity">
-                                        <span class="quantity-number"> {{ $product?->inventory?->stock_count }}</span>
-                                    </td>
+                                        <td class="price-td" data-label="Quantity">
+                                            <span class="quantity-number"> {{ $product?->inventory?->stock_count }}</span>
+                                        </td>
 
-                                    <td data-label="Actions">
-                                        <div class="action-icon">
-                                            <a href="{{ route("vendor.products.trash.restore", $product->id) }}"
-                                               class="product-restore btn btn-success btn-sm"> {{__('Restore')}} </a>
-                                            <a data-product-delete-url="{{ route("vendor.products.trash.delete", $product->id) }}"
-                                               href="#1"
-                                               class="product-delete btn btn-danger btn-sm"> {{__('Delete')}} </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="9"
-                                        class="text-center text-warning"> {{__('No Trashed Product Available')}} </td>
-                                </tr>
-                            @endforelse
+                                        <td data-label="Actions">
+                                            <div class="action-icon">
+                                                <a href="{{ route('vendor.products.trash.restore', $product->id) }}"
+                                                    class="product-restore btn btn-success btn-sm"> {{ __('Restore') }}
+                                                </a>
+                                                <a data-product-delete-url="{{ route('vendor.products.trash.delete', $product->id) }}"
+                                                    href="#1" class="product-delete btn btn-danger btn-sm">
+                                                    {{ __('Delete') }} </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="9" class="text-center text-warning">
+                                            {{ __('No Trashed Product Available') }} </td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>
@@ -124,13 +127,13 @@
 @endsection
 
 @section('script')
-    <x-product::table.bulk-action-js :url="route('vendor.products.trash.bulk.destroy')"/>
+    <x-product::table.bulk-action-js :url="route('vendor.products.trash.bulk.destroy')" />
     <script>
-        $(document).on("click", ".delete-all", function (e) {
+        $(document).on("click", ".delete-all", function(e) {
             e.preventDefault();
             let el = $(this);
             let delete_url = el.data('product-delete-all-url');
-            let allIds = '{{$allProduct}}';
+            let allIds = '{{ $allProduct }}';
 
             Swal.fire({
                 title: 'Are you sure?',
@@ -143,15 +146,15 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     if (allIds != '') {
-                        $(this).html('<i class="fas fa-spinner fa-spin mr-1"></i>{{__("Deleting")}}');
+                        $(this).html('<i class="fas fa-spinner fa-spin mr-1"></i>{{ __('Deleting') }}');
                         $.ajax({
                             'type': "POST",
                             'url': delete_url,
                             'data': {
-                                _token: "{{csrf_token()}}",
+                                _token: "{{ csrf_token() }}",
                                 ids: allIds
                             },
-                            success: function (data) {
+                            success: function(data) {
                                 toastr.success('Trash in Empty');
                                 setTimeout(() => {
                                     location.reload();
@@ -163,7 +166,7 @@
             });
         });
 
-        $(document).on("click", ".product-delete", function (e) {
+        $(document).on("click", ".product-delete", function(e) {
             e.preventDefault();
             let delete_url = $(this).data('product-delete-url');
 

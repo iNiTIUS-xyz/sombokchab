@@ -32,15 +32,13 @@
                                             <div class="form-group">
                                                 <label for="campaign_name">{{ __('Campaign Name') }}</label>
                                                 <input type="text" class="form-control" id="campaign_name"
-                                                    name="campaign_name" placeholder="Campaign Name">
+                                                    name="campaign_name" placeholder="Enter Campaign Name">
                                             </div>
-
                                             <div class="form-group">
                                                 <label for="campaign_slug">{{ __('Campaign Slug') }}</label>
                                                 <input type="text" class="form-control" id="campaign_slug"
-                                                    name="campaign_slug" placeholder="Campaign Slug">
+                                                    name="campaign_slug" placeholder="Enter Campaign Slug">
                                             </div>
-
                                             <div class="form-group">
                                                 <label for="campaign_subtitle">{{ __('Campaign Subtitle') }}</label>
                                                 <textarea type="text" class="form-control" id="campaign_subtitle" name="campaign_subtitle"
@@ -49,7 +47,7 @@
                                             <x-media-upload :title="__('Campaign Image')" :name="'image'" :dimentions="'1920x1080'" />
                                             <div class="form-group">
                                                 <label for="campaign_status">{{ __('Campaign Status') }}</label>
-                                                <select name="status" id="status" class="form-control">
+                                                <select name="status" id="status" class="form-select">
                                                     <option value="draft">{{ __('Draft') }}</option>
                                                     <option value="publish">{{ __('Publish') }}</option>
                                                 </select>
@@ -63,7 +61,7 @@
                                                 <div id="fixe_price_cut_container" style="display: none">
                                                     <input type="number" id="fixed_percentage_amount"
                                                         class="form-control mb-2"
-                                                        placeholder="{{ __('Price Cut Percentage') }}">
+                                                        placeholder="{{ __('Enter Price Cut Percentage') }}">
                                                     <button type="button" class="btn btn-sm btn-primary mb-2"
                                                         id="fixed_price_sync_all">{{ __('Sync Price') }}</button>
                                                 </div>
@@ -77,12 +75,14 @@
                                                 <div id="fixed_date_container" style="display: none">
                                                     <input type="text" name="campaign_start_date" id="fixed_from_date"
                                                         class="form-control mb-2 flatpickr"
-                                                        placeholder="{{ __('From Date') }}">
+                                                        placeholder="{{ __('Enter From Date') }}">
                                                     <input type="text" name="campaign_end_date" id="fixed_to_date"
                                                         class="form-control mb-2 flatpickr"
-                                                        placeholder="{{ __('To Date') }}">
+                                                        placeholder="{{ __('Enter To Date') }}">
                                                     <button type="button" class="btn btn-sm btn-primary"
-                                                        id="fixed_date_sync_all">{{ __('Sync Date') }}</button>
+                                                        id="fixed_date_sync_all">
+                                                        {{ __('Sync Date') }}
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -222,31 +222,6 @@
                     }
                 });
 
-                {{-- $('#fixed_price_sync_all').on('click', function() { --}}
-                {{--    let fixed_percentage = $('#fixed_percentage_amount').val().trim(); --}}
-
-                {{--    if (!fixed_percentage.length) { --}}
-                {{--        Swal.fire({ --}}
-                {{--            position: 'top-end', --}}
-                {{--            icon: 'warning', --}}
-                {{--            title: '{{ __('Set percentage first') }}', --}}
-                {{--            showConfirmButton: false, --}}
-                {{--            timer: 1500 --}}
-                {{--        }); --}}
-                {{--    } --}}
-
-                {{--    let all_prices = $('.original_price'); --}}
-                {{--    for (let i = 0; i < all_prices.length; i++) { --}}
-                {{--        let price_container = $(all_prices[i]).closest('.col'); --}}
-                {{--        let final_price_container = price_container.next(); --}}
-                {{--        let product_price = $(all_prices[i]).val().trim(); --}}
-                {{--        let price_after_percentage = product_price - (product_price / 100 * --}}
-                {{--            fixed_percentage); --}}
-                {{--        price_after_percentage = price_after_percentage.toFixed(2); --}}
-                {{--        console.log(price_after_percentage); --}}
-                {{--        final_price_container.find('.campaign_price').val(price_after_percentage); --}}
-                {{--    } --}}
-                {{-- }); --}}
 
                 $('#fixed_date_sync_all').on('click', function() {
                     console.log(111);
@@ -273,50 +248,6 @@
                     }
                 });
 
-                // $('#add_product_btn').on('click', function() {
-                //     let product_repeater_container = $('#product_repeater_container');
-                //     let from_date = undefined;
-                //     let to_date = undefined;
-                //     let new_element = product_repeater_container.find('.card').last().clone();
-                //
-                //     if ($('#set_fixed_date').is(':checked')) {
-                //         from_date = $('#fixed_from_date').val();
-                //         to_date = $('#fixed_to_date').val();
-                //     }
-                //
-                //     if (from_date) {
-                //         new_element.find('.start_date.input').val(from_date);
-                //     }
-                //
-                //     if (to_date) {
-                //         new_element.find('.end_date.input').val(to_date);
-                //     }
-                //
-                //     let card_header = new_element.find('.campaign-card-header');
-                //
-                //     if (card_header.find('.cross-btn').length < 1) {
-                //         card_header.append(
-                //             '<span class="cross-btn"><i class="las la-times-circle"></i></span>');
-                //     }
-                //
-                //     new_element.find('.start_date.input').remove();
-                //     new_element.find('.end_date.input').remove();
-                //
-                //     new_element.find('.campaign_price').val('');
-                //     new_element.find('.units_for_sale').val('');
-                //
-                //     product_repeater_container.append(new_element.hide());
-                //     new_element.slideDown('slow');
-                //
-                //     flatpickr(".flatpickr", {
-                //         altInput: true,
-                //         altFormat: "F j, Y",
-                //         dateFormat: "Y-m-d",
-                //     });
-                //
-                //     product_repeater_container.find('.nice-select').niceSelect('destroy');
-                //     product_repeater_container.find('.nice-select').niceSelect();
-                // });
             });
 
 

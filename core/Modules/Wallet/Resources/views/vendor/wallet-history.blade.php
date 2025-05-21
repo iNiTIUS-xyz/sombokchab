@@ -24,7 +24,7 @@
                     </div>
                     <div class="dashboard__card__body mt-4">
                         <div class="table-responsive ">
-                            <table class="table text-center">
+                            <table class="table">
                                 <thead>
                                     <tr>
                                         <th>{{ __('SL No.') }}</th>
@@ -36,7 +36,7 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($histories as $history)
-                                        <tr class="text-center">
+                                        <tr>
                                             <td>{{ $history->id ?? '' }}</td>
                                             <td>{{ $history->sub_order_id ?? '' }}</td>
                                             <td>{{ $history->amount ? float_amount_with_currency_symbol($history->amount) : '' }}

@@ -25,7 +25,7 @@
                     </div>
                     <div class="dashboard__card__body mt-4">
                         <div class="table-wrap table-responsive">
-                            <table class="table table-default text-center">
+                            <table class="table table-default">
                                 <thead>
                                     <x-bulk-action.th />
                                     <th>{{ __('ID') }}</th>
@@ -36,19 +36,19 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($all_campaigns as $campaign)
-                                        <tr class="text-center">
+                                        <tr>
                                             <x-bulk-action.td :id="$campaign->id" />
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $campaign->title }}</td>
                                             <x-table.td-image :image="$campaign->image" />
                                             <td><x-status-span :status="$campaign->status" /></td>
                                             <td>
-                                                <x-delete-popover :url="route('vendor.campaigns.delete', $campaign->id)" />
                                                 <x-table.btn.edit :route="route('vendor.campaigns.edit', $campaign->id)" />
                                                 <a target="_blank" class="btn btn-info btn-xs mb-2 me-1"
                                                     href="{{ route('frontend.products.campaign', ['id' => $campaign->id, 'slug' => $campaign->slug]) }}">
                                                     <i class="ti-eye"></i>
                                                 </a>
+                                                <x-delete-popover :url="route('vendor.campaigns.delete', $campaign->id)" />
                                             </td>
                                         </tr>
                                     @endforeach

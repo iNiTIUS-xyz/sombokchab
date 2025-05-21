@@ -167,7 +167,7 @@
                                     <input type="hidden" value="vendor" name="user_type">
                                     <div class="form-group">
                                         <label for="">{{ __('Message') }}</label>
-                                        <textarea name="message" class="form-control d-none" cols="30" rows="5"></textarea>
+                                        <textarea name="message" class="form-control d-none" cols="30" rows="5" placeholder="Enter Message"></textarea>
                                         <div class="summernote"></div>
                                     </div>
                                     <div class="form-group">

@@ -27,72 +27,71 @@
                             <div class="row g-4">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label class="label-1" for="search-name">{{ __('Name') }}</label>
+                                        <label class="label-1" for="search-name">{{ __('Product Name') }}</label>
                                         <input name="name" class="form--control input-height-1" id="search-name"
-                                            value="{{ request()->name ?? old('name') }}" />
+                                            value="{{ request()->name ?? old('name') }}" placeholder="{{ __('Enter Product Name') }}"/>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="label-1" for="search-sku">{{ __('SKU') }}</label>
                                         <input name="sku" class="form--control input-height-1" id="search-sku"
-                                            value="{{ request()->sku ?? old('sku') }}" />
+                                            value="{{ request()->sku ?? old('sku') }}" placeholder="{{ __("Enter SKU") }}"/>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="label-1" for="search-brand">{{ __('Brand') }}</label>
                                         <input name="brand" class="form--control input-height-1" id="search-brand"
-                                            value="{{ request()->brand ?? old('brand') }}" />
+                                            value="{{ request()->brand ?? old('brand') }}" placeholder="{{ __('Enter Brand') }}"/>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="label-1" for="search-category">{{ __('Category') }}</label>
                                         <input name="category" class="form--control input-height-1" id="search-category"
-                                            value="{{ old('category') }}" />
+                                            value="{{ old('category') }}" placeholder="{{ __('Enter Category') }}"/>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="label-1" for="search-sub_category">{{ __('Sub Categor') }}y</label>
                                         <input name="sub_category" class="form--control input-height-1" id="search-brand"
-                                            value="{{ old('sub_category') }}" />
+                                            value="{{ old('sub_category') }}" placeholder="{{ __('Enete Sub Category') }}"/>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="label-1" for="search-category">{{ __('Child Category') }}</label>
                                         <input name="child_category" class="form--control input-height-1"
-                                            id="search-category" value="{{ old('child_category') }}" />
+                                            id="search-category" value="{{ old('child_category') }}" placeholder="{{ __('Eneter Child Category') }}" />
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="label-1" for="search-color">{{ __('Color Name') }}</label>
                                         <input name="color" class="form--control input-height-1" id="search-color"
-                                            value="{{ old('color') }}" />
+                                            value="{{ old('color') }}" placeholder="{{ __('Enter Color Name') }}"/>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="label-1" for="search-size">{{ __('Size Name') }}</label>
                                         <input name="size" class="form--control input-height-1" id="search-size"
-                                            value="{{ old('size') }}" />
+                                            value="{{ old('size') }}" placeholder="{{ __('Eneter Size Name') }}"/>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group dashboard_checkbox">
                                         <input type="checkbox" name="is_inventory_warn_able" class="check_input"
                                             id="search-is_inventory_warn_able"
-                                            value="{{ old('is_inventory_warn_able') }}" />
+                                            value="{{ old('is_inventory_warn_able') }}" placeholder="{{ __('Enter Inventory Warning') }}"/>
                                         <label for="search-is_inventory_warn_able"
-                                            class="checkbox_label">{{ __("Inventory
-                                                                                        Warning") }}</label>
+                                            class="checkbox_label">{{ __("Inventory Warning") }}</label>
                                     </div>
                                     <div class="form-group dashboard_checkbox">
                                         <input type="checkbox" name="refundable" class="check_input" id="search-refundable"
-                                            value="{{ old('refundable') }}" />
+                                            value="{{ old('refundable') }}" placeholder="{{ __('Enter Refundable') }}"/>
                                         <label for="search-refundable"
                                             class="checkbox_label">{{ __('Refundable') }}</label>
                                     </div>
@@ -104,15 +103,15 @@
                                                 <label class="label-1"
                                                     for="search-from_price">{{ __('From Price') }}</label>
                                                 <input name="from_price" class="form--control input-height-1"
-                                                    id="search-from_price" value="{{ old('from_price') }}" />
+                                                    id="search-from_price" value="{{ old('from_price') }}" placeholder="{{ __('Enter Form Price') }}"/>
                                             </div>
                                         </div>
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="label-1" for="search-to_price">{{ __('TO Price') }}</label>
+                                                <label class="label-1" for="search-to_price">{{ __('To Price') }}</label>
                                                 <input name="to_price" class="form--control input-height-1"
-                                                    id="search-to_price" value="{{ old('to_price') }}" />
+                                                    id="search-to_price" value="{{ old('to_price') }}"  placeholder="{{ __('Enter To Price') }}"/>
                                             </div>
                                         </div>
                                     </div>
@@ -123,7 +122,7 @@
                                         <label class="label-1"
                                             for="search-date_range">{{ __('Created Date Range') }}</label>
                                         <input name="date_range" class="form--control input-height-1"
-                                            id="search-date_range" value="{{ old('date_range') }}" />
+                                            id="search-date_range" value="{{ old('date_range') }}" placeholder="{{ __('Eneter Date ') }}"/>
                                     </div>
                                 </div>
 

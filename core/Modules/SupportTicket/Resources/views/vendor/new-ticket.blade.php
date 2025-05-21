@@ -22,15 +22,15 @@
                             @csrf
                             <div class="form-group">
                                 <label>{{ __('Title') }}</label>
-                                <input type="text" class="form-control" name="title" placeholder="{{ __('Title') }}">
+                                <input type="text" class="form-control" name="title" placeholder="{{ __('Enter Title') }}">
                             </div>
                             <div class="form-group">
                                 <label>{{ __('Subject') }}</label>
-                                <input type="text" class="form-control" name="subject" placeholder="{{ __('Subject') }}">
+                                <input type="text" class="form-control" name="subject" placeholder="{{ __('Enter Subject') }}">
                             </div>
                             <div class="form-group">
                                 <label>{{ __('Priority') }}</label>
-                                <select name="priority" class="form-control">
+                                <select name="priority" class="form-select">
                                     <option value="low">{{ __('Low') }}</option>
                                     <option value="medium">{{ __('Medium') }}</option>
                                     <option value="high">{{ __('High') }}</option>
@@ -40,7 +40,7 @@
 
                             <div class="form-group">
                                 <label>{{ __('Departments') }}</label>
-                                <select name="departments" class="form-control">
+                                <select name="departments" class="form-select">
                                     @foreach ($departments as $dep)
                                         <option value="{{ $dep->id }}">{{ $dep->name }}</option>
                                     @endforeach
@@ -49,7 +49,7 @@
 
                             <div class="form-group">
                                 <label>{{ __('Description') }}</label>
-                                <textarea name="description" class="form-control" cols="30" rows="10" placeholder="{{ __('Description') }}"></textarea>
+                                <textarea name="description" class="form-control" cols="30" rows="10" placeholder="{{ __('Enter Description') }}"></textarea>
                             </div>
                             <div class="btn-wrapper">
                                 <button type="submit" class="cmn_btn btn_bg_1 btn-success">

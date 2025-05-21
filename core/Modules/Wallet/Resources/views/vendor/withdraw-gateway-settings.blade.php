@@ -22,7 +22,7 @@
                             @method('PUT')
                             <div class="form-group">
                                 <label>{{ __('Select a gateway') }}</label>
-                                <select name="gateway_name" class="form-control gateway-name">
+                                <select name="gateway_name" class="form-select gateway-name">
                                     <option value="">{{ __('Select a gateway') }}</option>
                                     @foreach ($adminGateways as $gateway)
                                         <option

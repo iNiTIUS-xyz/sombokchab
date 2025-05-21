@@ -88,11 +88,11 @@
                                 <div class="form-group">
                                     <label for="name">{{ __('Name') }}</label>
                                     <input type="text" class="form-control" id="name" name="name"
-                                        placeholder="{{ __('Name') }}">
+                                        placeholder="{{ __('Enter Name') }}">
                                 </div>
                                 <div class="form-group">
                                     <label for="status">{{ __('Status') }}</label>
-                                    <select name="status" class="form-control" id="status">
+                                    <select name="status" class="form-select" id="status">
                                         <option value="publish">{{ __('Publish') }}</option>
                                         <option value="draft">{{ __('Draft') }}</option>
                                     </select>
@@ -121,11 +121,11 @@
                         <div class="form-group">
                             <label for="edit_name">{{ __('Name') }}</label>
                             <input type="text" class="form-control" id="edit_name" name="name"
-                                placeholder="{{ __('Name') }}">
+                                placeholder="{{ __('Enter Name') }}">
                         </div>
                         <div class="form-group">
                             <label for="edit_status">{{ __('Status') }}</label>
-                            <select name="status" class="form-control" id="edit_status">
+                            <select name="status" class="form-select" id="edit_status">
                                 <option value="draft">{{ __('Draft') }}</option>
                                 <option value="publish">{{ __('Publish') }}</option>
                             </select>

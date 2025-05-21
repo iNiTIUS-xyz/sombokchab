@@ -17,14 +17,16 @@
                 <x-msg.flash />
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Product Inventory') }}</h4>
+                        <h4 class="dashboard__card__title">
+                            {{ __('Product Inventory') }}
+                        </h4>
                         @can('product-inventory-delete')
                             <x-bulk-action.dropdown />
                         @endcan
                     </div>
                     <div class="dashboard__card__body mt-4">
                         <div class="table-wrap table-responsive">
-                            <table class="table table-default text-center">
+                            <table class="table table-default">
                                 <thead>
                                     <x-bulk-action.th />
                                     <th>{{ __('ID') }}</th>
@@ -36,7 +38,7 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($all_inventory_products as $inventory)
-                                        <tr class="text-center">
+                                        <tr>
                                             <x-bulk-action.td :id="$inventory->id" />
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $inventory?->product?->name }}</td>

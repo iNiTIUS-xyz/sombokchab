@@ -17,13 +17,14 @@
         @endif
         <div class="@if (isset($inventoryPage)) col-md-4 @else dashboard-input @endif">
             <label class="dashboard-label"> {{ __('Sku') }} </label>
-            <input type="text" class="form--control radius-10 form-control" name="sku" value="{{ $inventory?->sku }}" required>
+            <input type="text" class="form--control radius-10 form-control" name="sku"
+                value="{{ $inventory?->sku }}" required placeholder="Enter Sku">
             <small class="mt-2 mb-0 d-block">{{ __('Custom Unique Code for this product.') }}</small>
         </div>
 
         <div class="@if (isset($inventoryPage)) col-md-4 @else dashboard-input @endif">
             <label class="dashboard-label"> {{ __('Quantity') }} </label>
-            <input type="tel" class="form--control radius-10" name="quantity"
+            <input type="tel" class="form--control radius-10" name="quantity" placeholder="Enter Quantity"
                 value="{{ $inventory?->stock_count }}">
             <small
                 class="mt-2 mb-0 d-block">{{ __('This will be replaced with the sum of inventory items. if any inventory  item is registered..') }}
@@ -32,9 +33,8 @@
 
         <div class="@if (isset($inventoryPage)) col-md-2 @else dashboard-input @endif">
             <label class="dashboard-label"> {{ __('Unit') }} </label>
-
             <div class="nice-select-two">
-                <select class="select2 form-control" name="unit_id" required>
+                <select class="form-select" name="unit_id" required>
                     <option value="">{{ __('Select Unit') }}</option>
                     @foreach ($units as $unit)
                         <option {{ $unit->id === $uom?->unit_id ? 'selected' : '' }} value="{{ $unit->id }}">

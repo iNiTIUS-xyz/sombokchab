@@ -8,9 +8,9 @@
 <table class="customs-tables pt-4 position-relative" id="myTable">
     <div class="load-ajax-data"></div>
     <thead class="head-bg">
-        <tr class="text-center">
+        <tr>
             <th class="check-all-rows p-3">
-                <div class="mark-all-checkbox text-center">
+                <div class="mark-all-checkbox">
                     <input type="checkbox" class="all-checkbox">
                 </div>
             </th>
@@ -25,14 +25,14 @@
     </thead>
     <tbody>
         @forelse($products["items"] as $product)
-            <tr class="table-cart-row text-center">
-                <td data-label="Check All" class="text-center">
+            <tr class="table-cart-row">
+                <td data-label="Check All">
                     <x-product::table.bulk-delete-checkbox :id="$product->id" />
                 </td>
-                <td data-label="Check All" class="text-center">
+                <td data-label="Check All">
                     {{ $product->id }}
                 </td>
-                <td class="product-name-info text-center">
+                <td class="product-name-info ">
                     <div class="d-flex gap-2">
                         <div class="logo-brand position-relative">
                             <div class="image-box">
@@ -54,7 +54,7 @@
                     </div>
                 </td>
 
-                <td data-label="Image" class="text-center">
+                <td data-label="Image">
                     <div class="d-flex gap-2">
                         <div class="logo-brand product-brand">
                             {!! $product?->brand?->image_id ? render_image($product?->brand?->image_id) : '' !!}
@@ -63,7 +63,7 @@
                     </div>
                 </td>
 
-                <td class="price-td text-center" data-label="Name">
+                <td class="price-td " data-label="Name">
                     <span class="category-field">
                         @if ($product?->category?->name)
                             <b> {{ __('Category') }}: </b>
@@ -76,27 +76,27 @@
                     </span><br>
                 </td>
 
-                <td class="price-td" data-label="Quantity" class="text-center">
+                <td class="price-td" data-label="Quantity">
                     <span class="quantity-number"> {{ $product?->inventory?->stock_count }}</span>
                 </td>
 
-                <td data-label="Status" class="text-center">
+                <td data-label="Status">
                     <x-product::table.status :statuses="$statuses" :statusId="$product?->status_id" :id="$product->id" />
                 </td>
 
-                <td data-label="Actions" class="text-center">
+                <td data-label="Actions">
                     <div class="action-icon">
                         {{-- <a href="{{ route('frontend.products.single', $product->slug) }}"
                             class="icon eye btn-sm text-white btn btn-primary">
                             <i class="las la-eye"></i>
                         </a> --}}
-                        <a href="{{ route($route . '.products.clone', $product->id) }}"
-                            class="icon clone btn-sm text-white btn btn-info">
-                            <i class="las la-copy"></i>
-                        </a>
                         <a href="{{ route($route . '.products.edit', $product->id) }}"
                             class="icon edit btn-sm text-white btn btn-success">
                             <i class="las la-pen-alt"></i>
+                        </a>
+                        <a href="{{ route($route . '.products.clone', $product->id) }}"
+                            class="icon clone btn-sm text-white btn btn-info">
+                            <i class="las la-copy"></i>
                         </a>
                         <a data-product-url="{{ route($route . '.products.destroy', $product->id) }}" href="#1"
                             class="delete-row icon deleted btn-sm text-white btn btn-danger">

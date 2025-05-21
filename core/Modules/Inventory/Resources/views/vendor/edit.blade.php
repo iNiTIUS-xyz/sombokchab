@@ -265,8 +265,11 @@
                         </div>
                         <div class="recentCaption">
                             <div class="d-flex justify-content-between">
-                                <h5><a href="{{ route('frontend.products.single', $product->slug) }}"
-                                        class="featureTittle">{{ $product->name }}</a></h5>
+                                <h5>
+                                    <a href="{{ route('frontend.products.single', $product->slug) }}" class="featureTittle">
+                                        {{ $product->name }}
+                                    </a>
+                                </h5>
                                 <div class="btn-wrapper mb-20" style="padding-left: 20px">
                                     <a href="{{ route('frontend.products.single', $product->slug) }}"
                                         class="btn btn-warning">
@@ -277,9 +280,7 @@
                                     </a>
                                 </div>
                             </div>
-
                             <p class="featureCap">{{ $product?->summary }}</p>
-
                             <div class="d-flex">
                                 <div class="cat d-flex flex-column gap-1">
                                     <label>{{ __('Category') }}</label>
@@ -303,7 +304,6 @@
                                     @endforeach
                                 @endif
                             </div>
-
                         </div>
                     </div>
                 </div>

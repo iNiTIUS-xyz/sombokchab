@@ -56,7 +56,7 @@
                             @if (count($all_tickets) > 0)
                                 <div class="table-wrap mt-4">
                                     <div class="table-responsive" style="overflow-x: unset !important;">
-                                        <table class="table text-center">
+                                        <table class="table">
                                             <thead>
                                                 <tr>
                                                     <th>{{ __('ID') }}</th>
@@ -70,7 +70,7 @@
                                             </thead>
                                             <tbody>
                                                 @foreach ($all_tickets as $data)
-                                                    <tr class="text-center">
+                                                    <tr>
                                                         <td>{{ $data->id }}</td>
                                                         <td>{{ $data->title }}</td>
                                                         <td>{{ $data->department->name ?? __('anonymous') }}</td>

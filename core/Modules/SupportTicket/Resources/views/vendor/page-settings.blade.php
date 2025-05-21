@@ -19,26 +19,28 @@
                             <div class="form-group">
                                 <label for="support_ticket_login_notice">{{ __('Login Notice') }}</label>
                                 <input type="text" name="support_ticket_login_notice" class="form-control"
-                                    value="{{ get_static_option('support_ticket_login_notice') }}">
+                                    value="{{ get_static_option('support_ticket_login_notice') }}" placeholder="{{ __('Enter Login Notice') }}">
                             </div>
                             <div class="form-group">
                                 <label for="support_ticket_form_title">{{ __('Form Title') }}</label>
                                 <input type="text" name="support_ticket_form_title" class="form-control"
-                                    value="{{ get_static_option('support_ticket_form_title') }}">
+                                    value="{{ get_static_option('support_ticket_form_title') }}" placeholder="{{ __('Enter Form Title') }}">
                             </div>
                             <div class="form-group">
                                 <label for="support_ticket_button_text">{{ __('Button Text') }}</label>
                                 <input type="text" name="support_ticket_button_text" class="form-control"
-                                    value="{{ get_static_option('support_ticket_button_text') }}">
+                                    value="{{ get_static_option('support_ticket_button_text') }}" placeholder="{{ __('Button Text') }}">
                             </div>
                             <div class="form-group">
                                 <label for="support_ticket_success_message">{{ __('Success Message') }}</label>
                                 <input type="text" name="support_ticket_success_message" class="form-control"
-                                    value="{{ get_static_option('support_ticket_success_message') }}">
+                                    value="{{ get_static_option('support_ticket_success_message') }}" placeholder="{{ __('Success Message') }}">
                             </div>
 
                             <button type="submit"
-                                class="btn btn-primary mt-4 pr-4 pl-4">{{ __('Update Changes') }}</button>
+                                class="btn btn-primary mt-4 pr-4 pl-4">
+                                {{ __('Update Changes') }}
+                            </button>
                         </form>
                     </div>
                 </div>

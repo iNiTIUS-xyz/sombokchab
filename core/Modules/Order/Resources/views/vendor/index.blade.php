@@ -12,8 +12,8 @@
         </div>
         <div class="dashboard__card__body mt-4">
             <div class="table-wrap table-responsive all-user-campaign-table">
-                <div class="order-history-inner text-center">
-                    <table class="table text-center">
+                <div class="order-history-inner">
+                    <table class="table">
                         <thead>
                             <tr>
                                 <th>{{ __('SL No.') }}</th>
@@ -34,7 +34,7 @@
                         </thead>
                         <tbody>
                             @foreach ($all_orders as $order)
-                                <tr class="completed text-center">
+                                <tr class="completed">
                                     <td class="order-numb">
                                         {{ $order->id }}
                                     </td>

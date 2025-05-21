@@ -26,7 +26,7 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label for="zone_id">{{ __('Zone') }}</label>
-                                        <select name="zone_id" id="zone_id" class="form-control">
+                                        <select name="zone_id" id="zone_id" class="form-select">
                                             @foreach ($all_zones as $zone)
                                                 <option value="{{ $zone->id }}">{{ $zone->name }}</option>
                                             @endforeach
@@ -44,7 +44,7 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label for="status">{{ __('Status') }}</label>
-                                        <select name="status" id="status" class="form-control">
+                                        <select name="status" id="status" class="form-select">
                                             @foreach ($all_publish_status as $key => $status)
                                                 <option value="{{ $key }}">{{ $status }}</option>
                                             @endforeach
@@ -55,7 +55,7 @@
                                     <div class="form-group">
                                         <label for="cost">{{ __('Cost') }}</label>
                                         <input type="number" id="cost" name="cost" class="form-control"
-                                            placeholder="{{ __('Cost') }}">
+                                            placeholder="{{ __('Enter Cost') }}">
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
@@ -63,7 +63,6 @@
                                         <button type="submit" class="cmn_btn btn_bg_profile">
                                             {{ __('Create Shipping Method') }}
                                         </button>
-
                                         <a href="{{ route('vendor.shipping-method.index') }}"
                                             class="cmn_btn default-theme-btn"
                                             style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">

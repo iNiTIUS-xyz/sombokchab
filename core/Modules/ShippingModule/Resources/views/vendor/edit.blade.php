@@ -26,7 +26,7 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label for="zone_id">{{ __('Zone') }}</label>
-                                        <select name="zone_id" id="zone_id" class="form-control">
+                                        <select name="zone_id" id="zone_id" class="form-select">
                                             @foreach ($all_zones as $zone)
                                                 <option {{ $method->zone_id == $zone->id ? 'selected' : '' }}
                                                     value="{{ $zone->id }}">{{ $zone->name }}</option>
@@ -43,7 +43,7 @@
 
                                     <div class="form-group">
                                         <label for="status">{{ __('Status') }}</label>
-                                        <select name="status" id="status" class="form-control">
+                                        <select name="status" id="status" class="form-select">
                                             @foreach ($all_publish_status as $key => $status)
                                                 <option {{ $method->status_id == $key ? 'selected' : '' }}
                                                     value="{{ $key }}">{{ $status }}</option>
@@ -54,7 +54,7 @@
                                     <div class="form-group">
                                         <label for="cost">{{ __('Cost') }}</label>
                                         <input value="{{ $method->cost }}" type="number" id="cost" name="cost"
-                                            class="form-control" placeholder="{{ __('Cost') }}">
+                                            class="form-control" placeholder="{{ __('Enter Cost') }}">
                                     </div>
                                     <div class="form-group">
                                         <button type="submit" class="cmn_btn btn_bg_profile">

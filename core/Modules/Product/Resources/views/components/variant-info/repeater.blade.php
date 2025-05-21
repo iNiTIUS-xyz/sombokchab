@@ -1,14 +1,3 @@
-{{--
-    # Params/Variables
-        $key
-        $colors
-        $sizes
-        $selected_color
-        $selected_size
-        $isFirst
-        $allAvailableAttributes
-        $inventoryDetail
---}}
 @php
     if (!isset($detail)) {
         $detail = null;
@@ -26,7 +15,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="item_size">{{ __('Item Size') }}</label>
-                        <select name="item_size[]" class="form-control product-inventory-variant-select">
+                        <select name="item_size[]" class="form-select product-inventory-variant-select">
                             <option value="">{{ __('Select Size') }}</option>
                             @foreach ($sizes as $size)
                                 <option value="{{ $size->id }}" @if (isset($detail) && $detail->size == $size->id) selected @endif>
@@ -38,7 +27,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="item_color">{{ __('Item Color') }}</label>
-                        <select name="item_color[]" class="form-control product-inventory-variant-select">
+                        <select name="item_color[]" class="form-select product-inventory-variant-select">
                             <option value="">{{ __('Select Color') }}</option>
                             @foreach ($colors as $color)
                                 <option value="{{ $color->id }}" @if (isset($detail) && $detail->color == $color->id) selected @endif>
@@ -51,7 +40,7 @@
                     <div class="form-group">
                         <label for="item_additional_price">{{ __('Additional Price') }}</label>
                         <input type="number" step="0.01" name="item_additional_price[]" id="item_additional_price"
-                            class="form-control" min="0" placeholder="{{ __('Additional price') }}"
+                            class="form-control" min="0" placeholder="{{ __('Enter Additional price') }}"
                             value="{{ $detail?->additional_price ?? 0 }}">
                     </div>
                 </div>
@@ -59,7 +48,7 @@
                     <div class="form-group">
                         <label for="item_stock_count">{{ __('Extra cost') }} </label>
                         <input type="number" name="item_extra_cost[]" id="item_stock_count" class="form-control"
-                            min="0" placeholder="{{ __('Extra cost') }}" value="{{ $detail?->add_cost ?? 0 }}">
+                            min="0" placeholder="{{ __('Enter Extra cost') }}" value="{{ $detail?->add_cost ?? 0 }}">
                     </div>
                 </div>
                 <div class="col">
@@ -67,7 +56,7 @@
                         <label for="item_stock_count">{{ __('Stock Count') }} <i
                                 class="las la-star required-filed"></i></label>
                         <input type="number" name="item_stock_count[]" id="item_stock_count" class="form-control"
-                            min="0" placeholder="{{ __('Stock Count') }}"
+                            min="0" placeholder="{{ __('Enter Stock Count') }}"
                             value="{{ $detail->stock_count ?? 0 }}">
                     </div>
                 </div>
@@ -112,7 +101,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label>{{ __('Attribute Name') }}</label>
-                        <select name="item_attribute_name[]" class="form-control select2 item_attribute_name">
+                        <select name="item_attribute_name[]" class="form-select select2 item_attribute_name">
                             <option value="">{{ __('Select Attribute') }}</option>
                             @foreach ($allAvailableAttributes as $name => $attribute)
                                 <option value="{{ $attribute->id }}" data-terms="{{ $attribute->terms }}">
@@ -124,7 +113,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label>{{ __('Attribute Value') }}</label>
-                        <select name="item_attribute_value[]" class="form-control select2 item_attribute_value">
+                        <select name="item_attribute_value[]" class="form-select select2 item_attribute_value">
                             <option value="">{{ __('Select attribute value') }}</option>
                         </select>
                     </div>
@@ -173,7 +162,7 @@
                     @isset($variantId)
                         <input type="hidden" class="variant_id" name="variant_id[]" value="{{ $variantId }}">
                     @endisset
-                    <select class="form-control" name="variant_color[]" id="variant_color">
+                    <select class="form-select" name="variant_color[]" id="variant_color">
                         <option value="">{{ __('Select Color') }}</option>
                         @foreach ($colors as $color)
                             <option value="{{ $color->id }}" @if (isset($selectedColor) && $selectedColor->id == $color->id) selected @endif>
@@ -185,7 +174,7 @@
             <div class="col">
                 <div class="form-group">
                     <label for="variant_size">{{ __('Size') }}</label>
-                    <select class="form-control" name="variant_size[]" id="variant_size">
+                    <select class="form-select" name="variant_size[]" id="variant_size">
                         <option value="">{{ __('Select Size') }}</option>
                         @foreach ($sizes as $size)
                             <option value="{{ $size->id }}" @if (isset($selectedSize) && $selectedSize->id == $size->id) selected @endif>
@@ -197,7 +186,7 @@
             <div class="col">
                 <div class="form-group">
                     <label for="variant_stock_count">{{ __('Quantity') }}</label>
-                    <input type="number" name="variant_stock_count[]" id="variant_stock_count" class="form-control"
+                    <input type="number" name="variant_stock_count[]" id="variant_stock_count" class="form-control" placeholder="{{ __('Enter Quantity') }}"
                         step="0.01" @if (isset($quantity)) value="{{ $quantity }}" @endif>
                 </div>
             </div>

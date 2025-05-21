@@ -23,16 +23,16 @@
                         <div class="table-wrap table-responsive">
                             <table class="table table-default">
                                 <thead>
-                                    <th class="text-center">{{ __('ID') }}</th>
-                                    <th class="text-center">{{ __('Title') }}</th>
-                                    <th class="text-center">{{ __('Zone') }}</th>
-                                    <th class="text-center">{{ __('Status') }}</th>
-                                    <th class="text-center">{{ __('Cost') }}</th>
-                                    <th class="text-center">{{ __('Action') }}</th>
+                                    <th>{{ __('ID') }}</th>
+                                    <th>{{ __('Title') }}</th>
+                                    <th>{{ __('Zone') }}</th>
+                                    <th>{{ __('Status') }}</th>
+                                    <th>{{ __('Cost') }}</th>
+                                    <th>{{ __('Action') }}</th>
                                 </thead>
                                 <tbody>
                                     @foreach ($all_shipping_methods as $method)
-                                        <tr class="text-center">
+                                        <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ optional($method)->title }}</td>
                                             <td>{{ optional($method->zone)->name }}</td>
@@ -42,13 +42,6 @@
                                             <td>{{ amount_with_currency_symbol(optional($method)->cost) }}</td>
 
                                             <td>
-                                                @if (!$method->is_default)
-                                                    <x-delete-popover :url="route('vendor.shipping-method.destroy', $method->id)" style="margin: 0px !important" />
-                                                @endif
-                                                <a href="{{ route('vendor.shipping-method.edit', $method->id) }}"
-                                                    class="btn btn-primary btn-xs mb-2 me-1" title="Edit Data">
-                                                    <i class="mdi mdi-pencil"></i>
-                                                </a>
                                                 @if (!$method->is_default)
                                                     <form action="{{ route('vendor.shipping-method.make-default') }}"
                                                         method="post" style="display: inline">
@@ -72,6 +65,14 @@
                                                         </svg>
                                                         {{ __('Default') }}
                                                     </button>
+                                                @endif
+                                                <a href="{{ route('vendor.shipping-method.edit', $method->id) }}"
+                                                    class="btn btn-primary btn-xs mb-2 me-1" title="Edit Data">
+                                                    <i class="mdi mdi-pencil"></i>
+                                                </a>
+
+                                                @if (!$method->is_default)
+                                                    <x-delete-popover :url="route('vendor.shipping-method.destroy', $method->id)" style="margin: 0px !important" />
                                                 @endif
                                             </td>
                                         </tr>

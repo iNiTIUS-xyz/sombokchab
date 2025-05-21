@@ -62,10 +62,10 @@
                                     <label for="sku">{{ __('SKU') }}</label>
                                     <div class="input-group mb-2">
                                         <div class="input-group-prepend">
-                                            <div class="input-group-text">{{ __('SKU -') }}</div>
+                                            <div class="input-group-text">{{ __('SKU') }}</div>
                                         </div>
                                         <input type="text" class="form-control" id="sku" name="sku"
-                                            placeholder="{{ __('SKU Text') }}" x-model="inventory.sku">
+                                            placeholder="{{ __('Enter SKU Text') }}" x-model="inventory.sku">
                                     </div>
                                 </div>
                                 <div class="form-group">

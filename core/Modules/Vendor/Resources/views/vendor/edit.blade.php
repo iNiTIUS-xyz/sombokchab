@@ -75,7 +75,8 @@
                                                                 </label>
                                                                 <input name="owner_name" type="text"
                                                                     class="form--control radius-10"
-                                                                    value="{{ $vendor->owner_name }}" required>
+                                                                    value="{{ $vendor->owner_name }}" required
+                                                                    placeholder="{{ __('Enter Owner Name') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
@@ -84,7 +85,8 @@
                                                                 </label>
                                                                 <input name="business_name" type="text"
                                                                     class="form--control radius-10"
-                                                                    value="{{ $vendor->business_name }}" required>
+                                                                    value="{{ $vendor->business_name }}" required
+                                                                    placeholder="{{ __('Enter Business Name') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
@@ -93,7 +95,8 @@
                                                                     Username *</label>
                                                                 <input name="username" type="text"
                                                                     class="form--control radius-10"
-                                                                    value="{{ $vendor->username }}" required>
+                                                                    value="{{ $vendor->username }}" required
+                                                                    placeholder="{{ __('Enter Username') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
@@ -117,7 +120,8 @@
                                                                 <label class="label-title color-light mb-2">
                                                                     {{ __('Description') }}
                                                                 </label>
-                                                                <textarea name="description" class="form--control form--message radius-10" style="height: 100px">{{ $vendor->description }}</textarea>
+                                                                <textarea name="description" class="form--control form--message radius-10"
+                                                                    placeholder="{{ __('Enter Description') }}" style="height: 100px">{{ $vendor->description }}</textarea>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -218,7 +222,8 @@
                                                                 </label>
                                                                 <input type="text" name="zip_code"
                                                                     class="form--control radius-10"
-                                                                    value="{{ $vendor?->vendor_address?->zip_code }}">
+                                                                    value="{{ $vendor?->vendor_address?->zip_code }}"
+                                                                    placeholder="{{ __('Postal Code') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
@@ -226,7 +231,7 @@
                                                                 <label class="label-title color-light mb-2">
                                                                     {{ __('Address') }}
                                                                 </label>
-                                                                <textarea name="address" type="text" class="form--control radius-10" value="">{{ $vendor?->vendor_address?->address }}</textarea>
+                                                                <textarea name="address" type="text" class="form--control radius-10" placeholder="{{ __('Enter Address') }}">{{ $vendor?->vendor_address?->address }}</textarea>
                                                             </div>
                                                         </div>
 
@@ -234,13 +239,15 @@
                                                             <div class="single-input">
                                                                 <label class="label-title color-light mb-2">
                                                                     {{ __('Google Map Location') }}</label>
-                                                                <textarea name="google_map_location" type="text" class="form--control radius-10" value="">
+                                                                <textarea name="google_map_location" type="text" class="form--control radius-10"
+                                                                    placeholder="{{ __('Enter Google Map Location') }}">
                                                                     @if (!empty($vendor?->vendor_address?->google_map_location))
 {!! $location_iframeHtml !!}
 @endif
                                                                 </textarea>
-                                                                <span
-                                                                    class="mt-3">{{ __('Example: Google Map Embed Code.') }}</span>
+                                                                <span class="mt-3">
+                                                                    {{ __('Example: Google Map Embed Code.') }}
+                                                                </span>
                                                                 <pre><code>  &lt;iframe src="https://www.example.com" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"&gt;&lt;/iframe&gt;</code></pre>
                                                             </div>
                                                         </div>
@@ -279,50 +286,52 @@
                                                                 <input value="{{ $vendor?->vendor_shop_info?->number }}"
                                                                     name="number" type="tel"
                                                                     class="form--control radius-10"
-                                                                    placeholder="Type Number">
+                                                                    placeholder="{{ __('Enter Phone Number') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
                                                                 <label class="label-title color-light mb-2">
-                                                                    {{ __('Email Address') }}
+                                                                    {{ __('Email') }}
                                                                 </label>
                                                                 <input value="{{ $vendor?->vendor_shop_info?->email }}"
                                                                     type="text" name="email"
                                                                     class="form--control radius-10"
-                                                                    placeholder="Type Email">
+                                                                    placeholder="{{ __('Enter Email') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title color-light mb-2"> Facebook Link
+                                                                <label class="label-title color-light mb-2">
+                                                                    Facebook Link
                                                                 </label>
                                                                 <input
                                                                     value="{{ $vendor?->vendor_shop_info?->facebook_url }}"
                                                                     type="text" name="facebook_url"
                                                                     class="form--control radius-10"
-                                                                    placeholder="Type Facebook Link">
+                                                                    placeholder="{{ __('Enter Facebook Link') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title color-light mb-2"> Website
+                                                                <label class="label-title color-light mb-2">
+                                                                    Website
                                                                 </label>
                                                                 <input
                                                                     value="{{ $vendor?->vendor_shop_info?->website_url }}"
                                                                     type="text" name="website_url"
                                                                     class="form--control radius-10"
-                                                                    placeholder="Type Website">
+                                                                    placeholder="{{ __('Enter Website') }}">
                                                             </div>
                                                         </div>
-
-
                                                         <!--color settings start -->
                                                         <span class="label-title color-light mt-3">
                                                             {{ __('Store Color Settings') }}</span>
                                                         <div class="col-sm-3">
                                                             <div class="form-group">
-                                                                <label for="store_color">{{ __('Main Color') }}</label>
+                                                                <label for="store_color">
+                                                                    {{ __('Main Color') }}
+                                                                </label>
                                                                 <input type="text" name="store_color"
                                                                     style="background-color: {{ $vendor?->vendor_shop_info?->colors['store_color'] ?? '' }};color: #fff;"
                                                                     class="form-control"
@@ -388,7 +397,7 @@
                                                                     value="{{ $vendor?->vendor_bank_info?->bank_name }}"
                                                                     name="bank_name" type="text"
                                                                     class="form--control radius-10"
-                                                                    placeholder="Type Name">
+                                                                    placeholder="Enter Name">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
@@ -398,7 +407,7 @@
                                                                     value="{{ $vendor?->vendor_bank_info?->bank_email }}"
                                                                     name="bank_email" type="text"
                                                                     class="form--control radius-10"
-                                                                    placeholder="Type Email">
+                                                                    placeholder="Enter Email">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
@@ -409,7 +418,7 @@
                                                                     value="{{ $vendor?->vendor_bank_info?->bank_code }}"
                                                                     name="bank_code" type="tel"
                                                                     class="form--control radius-10"
-                                                                    placeholder="Type Code">
+                                                                    placeholder="Enter Code">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
@@ -420,7 +429,7 @@
                                                                     value="{{ $vendor?->vendor_bank_info?->account_number }}"
                                                                     name="account_number" type="tel"
                                                                     class="form--control radius-10"
-                                                                    placeholder="Type Account Number">
+                                                                    placeholder="Enter Account Number">
                                                             </div>
                                                         </div>
                                                     </div>
