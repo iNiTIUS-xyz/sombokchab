@@ -176,7 +176,7 @@
               icon: 'warning',
               showCancelButton: true,
               confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
+              cancelButtonColor: '#55545b',
               confirmButtonText: "{{__('Yes, Delete it!')}}"
             }).then((result) => {
               if (result.isConfirmed) {
@@ -193,7 +193,7 @@
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
+                cancelButtonColor: '#55545b',
                 confirmButtonText: "{{__('Yes, Change it!')}}"
             }).then((result) => {
                 if (result.isConfirmed) {
@@ -209,7 +209,7 @@
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
+                cancelButtonColor: '#55545b',
                 confirmButtonText:"{{__('Yes, Accept it!')}}"
             }).then((result) => {
                 if (result.isConfirmed) {

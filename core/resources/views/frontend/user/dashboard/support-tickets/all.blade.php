@@ -63,7 +63,7 @@
                                         <i class="las la-eye"></i>
                                     </a>
                                     @if ($data->status == 'open')
-                                        <a href="#1" class="status_change btn btn-danger btn-xs"
+                                        <a href="javascript:;" class="status_change btn btn-danger btn-xs"
                                             data-id="{{ $data->id }}" data-val="close" title="Close Ticket">
                                             <i class="las la-times"></i>
                                         </a>

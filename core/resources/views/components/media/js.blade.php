@@ -66,9 +66,10 @@
                 text: '{{__("This image will remove permanently")}}',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, Delete It'
+                confirmButtonColor: '#ee0000',
+                cancelButtonColor: '#55545b',
+                confirmButtonText: 'Yes, Delete It',
+                cancelButtonText: '{{ __('No') }}'
             }).then((result) => {
                 if (result.isConfirmed) {
                     deleteImage(type);

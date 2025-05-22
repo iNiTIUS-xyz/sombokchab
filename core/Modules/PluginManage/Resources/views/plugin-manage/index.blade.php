@@ -198,7 +198,7 @@
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
+                    cancelButtonColor: '#55545b',
                     confirmButtonText: swalBtnText,
                     cancelButtonText: "{{__('Cancel')}}",
 
@@ -247,7 +247,7 @@
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
+                    cancelButtonColor: '#55545b',
                     confirmButtonText: "{{__('Yes, Delete it!')}}",
                     cancelButtonText: "{{__('Cancel')}}",
 

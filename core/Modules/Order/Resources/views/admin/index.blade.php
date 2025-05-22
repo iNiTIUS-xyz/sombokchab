@@ -93,9 +93,10 @@
                         text: '{{ __('You would not be able to revert this item!') }}',
                         icon: 'warning',
                         showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, delete it!'
+                        confirmButtonColor: '#ee0000',
+                        cancelButtonColor: '#55545b',
+                        confirmButtonText: 'Yes, delete it!',
+                        cancelButtonText: '{{ __('No') }}'
                     }).then((result) => {
                         if (result.isConfirmed) {
                             $(this).next().find('.swal_form_submit_btn').trigger('click');

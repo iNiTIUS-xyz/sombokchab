@@ -14,6 +14,13 @@
             border-bottom-right-radius: calc(.3rem - 1px);
             border-bottom-left-radius: calc(.3rem - 1px);
         }
+
+        @media (min-width: 576px) {
+            .modal-dialog {
+                max-width: 500px !important;
+                margin: 17rem auto !important;
+            }
+        }
     </style>
 @endsection
 

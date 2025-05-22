@@ -143,10 +143,12 @@
                     <i class="las la-angle-left"></i>
                 </a>
             </li>
-
             @foreach ($products['links'] as $link)
-                <li><a href="{{ $link }}"
-                        class="page-number {{ $loop->iteration == $products['current_page'] ? 'current' : '' }}">{{ $loop->iteration }}</a>
+                <li>
+                    <a href="{{ $link }}"
+                        class="page-number {{ $loop->iteration == $products['current_page'] ? 'current' : '' }}">
+                        {{ $loop->iteration }}
+                    </a>
                 </li>
             @endforeach
 

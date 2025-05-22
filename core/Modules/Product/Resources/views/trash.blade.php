@@ -169,7 +169,7 @@
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
+                cancelButtonColor: '#55545b',
                 confirmButtonText: 'Yes, delete all!'
             }).then((result) => {
                 if (result.isConfirmed) {
@@ -204,7 +204,7 @@
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
+                cancelButtonColor: '#55545b',
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
