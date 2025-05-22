@@ -3,22 +3,10 @@
 @section('style')
     <x-datatable.css />
     <style>
-        .modal-footer-tow {
-            display: flex !important;
-            flex-wrap: wrap;
-            flex-shrink: 0;
-            align-items: center !important;
-            justify-content: center !important;
-            padding: .75rem;
-            border-top: 1px solid #dee2e6;
-            border-bottom-right-radius: calc(.3rem - 1px);
-            border-bottom-left-radius: calc(.3rem - 1px);
-        }
-
         @media (min-width: 576px) {
             .modal-dialog {
                 max-width: 500px !important;
-                margin: 17rem auto !important;
+                margin: 16.5rem auto !important;
             }
         }
     </style>
