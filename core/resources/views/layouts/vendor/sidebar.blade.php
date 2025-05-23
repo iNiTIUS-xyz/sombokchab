@@ -53,7 +53,7 @@
                     </a>
                 </li>
 
-                <li class="{{ active_menu('vendor-home/shipping-method') }}">
+                <li class="{{ active_menu('vendor-home/shipping-method') }}" style="display: none;">
                     <a href="{{ route('vendor.shipping-method.index') }}">
                         <i class="ti-money"></i>
                         <span>{{ __('Shipping Method') }}</span>
@@ -61,7 +61,13 @@
                 </li>
 
                 @if (auth('vendor')->user()->is_vendor_verified && auth('vendor')->user()->verified_at)
-                    <li class="main_dropdown @if (request()->is(['vendor-home/orders', 'vendor-home/orders/*'])) active open @endif">
+                    <li class="{{ active_menu('vendor-home/orders') }}">
+                        <a href="{{ route('vendor.orders.list') }}">
+                            <i class="ti-view-list-alt"></i>
+                            <span>{{ __('Orders List') }}</span>
+                        </a>
+                    </li>
+                    {{-- <li class="main_dropdown @if (request()->is(['vendor-home/orders', 'vendor-home/orders/*'])) active open @endif">
                         <a href="#1" aria-expanded="true">
                             <i class="ti-view-list-alt"></i>
                             <span>{{ __('Order') }}</span>
@@ -72,7 +78,7 @@
                                 <a href="{{ route('vendor.orders.list') }}">{{ __('Orders List') }}</a>
                             </li>
                         </ul>
-                    </li>
+                    </li> --}}
                 @endif
 
                 <li class="main_dropdown @if (request()->is(['vendor-home/wallet', 'vendor-home/wallet/*'])) active open @endif">
@@ -91,7 +97,7 @@
 
                         <li class="{{ active_menu('vendor-home/wallet/gateway') }}">
                             <a href="{{ route('vendor.wallet.withdraw.gateway.index') }}">
-                                <span>{{ __('Wallet settings') }}</span>
+                                <span>{{ __('Wallet Settings') }}</span>
                             </a>
                         </li>
 
@@ -103,7 +109,7 @@
 
                         <li class="{{ active_menu('vendor-home/wallet/withdraw-request') }}">
                             <a href="{{ route('vendor.wallet.withdraw-request') }}">
-                                <span>{{ __('Withdraw request') }}</span>
+                                <span>{{ __('Withdraw Requests') }}</span>
                             </a>
                         </li>
 
@@ -119,7 +125,7 @@
                 <li class="{{ active_menu('vendor-home/campaigns') }}">
                     <a href="{{ route('vendor.campaigns.all') }}">
                         <i class="ti-announcement"></i>
-                        <span>{{ __('Campaign') }}</span>
+                        <span>{{ __('Campaigns') }}</span>
                     </a>
                 </li>
                 <li class="list {{ Route::is('vendor.profile.update') ? 'active' : '' }}">

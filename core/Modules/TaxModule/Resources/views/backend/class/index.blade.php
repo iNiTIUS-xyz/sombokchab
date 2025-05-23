@@ -18,7 +18,7 @@
                     <div class="dashboard__card__header__left">
                         <h3 class="dashboard__card__title">{{ __('Manage Tax Class') }}</h3>
                         <small class="text-secondary mt-1">
-                            {{ __("if a class have any you can't delete class from hare you need to delete all options first or you can force for delete") }}
+                            {{ __("if a class have any you can't delete class from you need to delete all options first or you can force for delete") }}
                         </small>
                     </div>
                 </div>
@@ -68,7 +68,7 @@
                         <div class="form-group">
                             <label for="#tax-class-name" class="form-label">{{ __('Name') }}</label>
                             <input name="name" type="text" class="form-control"
-                                placeholder="{{ __('Write tax class name') }}" />
+                                placeholder="{{ __('Enter tax class name') }}" />
                         </div>
 
                         <div class="form-group">
@@ -95,7 +95,7 @@
                         <div class="form-group">
                             <label for="#update-tax-class-name" class="form-label">{{ __('Name') }}</label>
                             <input id="update-tax-class-name" name="name" type="text" class="form-control"
-                                placeholder="{{ __('Write tax class name') }}" />
+                                placeholder="{{ __('Enter tax class name') }}" />
                         </div>
                     </div>
 

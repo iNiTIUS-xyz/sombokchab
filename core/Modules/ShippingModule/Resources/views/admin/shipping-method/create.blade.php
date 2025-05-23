@@ -41,7 +41,7 @@
                                     <div class="form-group">
                                         <label for="title">{{ __('Title') }}
                                             <input name="title" class="form-control"
-                                                placeholder="{{ __('Write shipping method title') }}" value="{{ old("title") ?? "" }}" />
+                                                placeholder="{{ __('Enter shipping method title') }}" value="{{ old("title") ?? "" }}" />
                                         </label>
                                     </div>
                                 </div>

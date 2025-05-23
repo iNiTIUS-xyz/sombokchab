@@ -406,7 +406,7 @@
                                                                         <span class="required">*</span>
                                                                     </label>
                                                                     <textarea class="form-control" id="comment" name="comment" required=""
-                                                                        placeholder="{{ filter_static_option_value('write_your_feedback_text', $setting_text, __('Write your feedback here')) }}"></textarea>
+                                                                        placeholder="{{ filter_static_option_value('write_your_feedback_text', $setting_text, __('Enter your feedback here')) }}"></textarea>
                                                                 </div>
                                                                 <div class="btn-wrapper">
                                                                     <button type="submit"
@@ -991,7 +991,7 @@
                 }
             });
 
-            // selected item doesn't contain a product then deselect all selected option hare
+            // selected item doesn't contain a product then deselect all selected option here
             if (Object.keys(selected_attributes_by_type).length == 0) {
                 $('.size-lists li.active').each(function() {
                     let sizeItem = $(this).parent().parent();

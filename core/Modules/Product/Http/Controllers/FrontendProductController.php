@@ -95,7 +95,7 @@ class FrontendProductController extends Controller
     }
 
     public function storeReview($slug, Request $request){
-        // validate request hare
+        // validate request here
         $validatedData = $request->validate([
             "comment" => "nullable|string",
             "rating" => "required|integer"

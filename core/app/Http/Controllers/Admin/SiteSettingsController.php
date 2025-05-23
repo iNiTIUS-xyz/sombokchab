@@ -13,7 +13,7 @@ class SiteSettingsController extends Controller
     }
 
     public function updateShippingMethods(Request $request){
-        // first validate all requested data hare
+        // first validate all requested data here
         $validatedData = $request->validate([
             "shipping_charge_type" => "required|string",
             "global_shipping_charge_amount" => "nullable",

@@ -63,7 +63,7 @@
                                 <tr>
                                     <th>{{ __('SL No.') }}</th>
                                     <th>{{ __('Sub Order ID') }}</th>
-                                    <th>{{ __('Transaction ID:') }}</th>
+                                    <th>{{ __('Transaction ID') }}</th>
                                     <th>{{ __('Amount') }}</th>
                                     <th>{{ __('Type') }}</th>
                                     <th>{{ __('Date Time') }}</th>
@@ -95,7 +95,7 @@
                                             </span>
                                         </td>
                                         <td>
-                                            {{ $history->created_at->format('M d, Y') }}
+                                            {{ $history->created_at->format('M j, Y') }}
                                         </td>
                                     </tr>
                                 @endforeach

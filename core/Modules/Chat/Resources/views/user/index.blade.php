@@ -38,7 +38,7 @@
                             <div class="chat_wrapper__details__footer__form custom-form">
                                 <form action="#">
                                     <div class="single-input">
-                                        <textarea name="message" class="form--control form-message" id="message" placeholder="{{ __('Write your message') }}"></textarea>
+                                        <textarea name="message" class="form--control form-message" id="message" placeholder="{{ __('Enter your message') }}"></textarea>
                                     </div>
                                 </form>
                                 <div class="hat-wrapper-details-footer-btn btn_flex justify-content-end mt-2">

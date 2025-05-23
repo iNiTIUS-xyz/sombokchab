@@ -79,7 +79,7 @@
     });
 
     function fetch_chat_data(user_id, page = 1, callback){
-        // hare call an api for fetching data from a database if no data available then new item will be inserted
+        // here call an api for fetching data from a database if no data available then new item will be inserted
         let formData;
 
         formData = new FormData();

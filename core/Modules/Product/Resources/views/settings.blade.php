@@ -20,7 +20,7 @@
 
                         <div class="form-group">
                             <label for="">{{ __("Inventory warning threshold") }}</label>
-                            <input name="stock_threshold_amount" value="{{ get_static_option("stock_threshold_amount") ?? '' }}" class="form-control" placeholder="{{ __("Write inventory warning threshold amount") }}" type="number" />
+                            <input name="stock_threshold_amount" value="{{ get_static_option("stock_threshold_amount") ?? '' }}" class="form-control" placeholder="{{ __("Enter inventory warning threshold amount") }}" type="number" />
                         </div>
                         <div class="form-group">
                             <button class="btn btn-primary">{{ __("Update Settings") }}</button>

@@ -33,11 +33,11 @@
                             {{ $order->order_number }}
                         </td>
                         <td class="date">
-                            {{ $order->created_at->format('M d, Y') }}
+                            {{ $order->created_at->format('M j, Y') }}
                         </td>
                         {{-- <td class="status">
                             @if ($order->order_status == 'complete')
-                                <span class="badge bg-success px-2 py-1">{{ __('Complete') }}</span>
+                                <span class="badge bg-primary px-2 py-1">{{ __('Complete') }}</span>
                             @elseif ($order->order_status == 'pending')
                                 <span class="badge bg-warning px-2 py-1">{{ __('Pending') }}</span>
                             @elseif ($order->order_status == 'failed')
@@ -56,11 +56,12 @@
                                 </span>
                             @else
                                 @if ($order->order_status == 'complete')
-                                    <span class="badge bg-success px-2 py-1">{{ __('Complete') }}</span>
+                                    <span class="badge bg-primary px-2 py-1">{{ __('Complete') }}</span>
                                 @elseif ($order->order_status == 'pending')
                                     <span class="badge bg-warning px-2 py-1">{{ __('Pending') }}</span>
                                 @elseif ($order->order_status == 'failed')
-                                    <span class="badge bg-danger px-2 py-1">{{ __('Failed') }}</span>
+                                    <span class="badge px-2 py-1"
+                                    style="background: rgb(145, 2, 2) !important;">{{ __('Failed') }}</span>
                                 @elseif ($order->order_status == 'canceled')
                                     <span class="badge bg-danger px-2 py-1">{{ __('Canceled') }}</span>
                                 @elseif ($order->order_status == 'rejected')

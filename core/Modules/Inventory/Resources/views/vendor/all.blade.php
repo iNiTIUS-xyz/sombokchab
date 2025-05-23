@@ -46,10 +46,13 @@
                                             <td>{{ $inventory->stock_count ?? 0 }}</td>
                                             <td>{{ $inventory->sold_count ?? 0 }}</td>
                                             <td>
-                                                <x-table.btn.edit :route="route('vendor.products.inventory.edit', $inventory->id)" />
-                                                <x-table.btn.swal.delete :route="route('vendor.products.inventory.delete', [
+                                                <div class="d-flex">
+                                                    <x-table.btn.edit :route="route('vendor.products.inventory.edit', $inventory->id)" />
+                                                    <x-table.btn.swal.delete :route="route('vendor.products.inventory.delete', [
                                                     'id' => $inventory->id,
                                                 ])" />
+                                                </div>
+                                                
                                             </td>
                                         </tr>
                                     @endforeach

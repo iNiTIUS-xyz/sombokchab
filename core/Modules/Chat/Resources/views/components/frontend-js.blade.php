@@ -233,7 +233,7 @@
     });
 
     function fetch_chat_data(isFromProduct, page = 1, callback){
-        // hare call a api for fetching data from database if no data available then new item will be inserted
+        // here call a api for fetching data from database if no data available then new item will be inserted
         let formData,
          vendor_id = "{{ $vendor->id ?? "" }}",
          product_id = "{{ $id }}";

@@ -583,7 +583,7 @@
     $(document).on("change", "#country", function() {
         // first i need to get all states
         // get all shipping methods
-        // insert all shipping methods on .all-shipping-options hare
+        // insert all shipping methods on .all-shipping-options
         // Add tax amount to all the orders
         let country_id = $(this).val();
         let data = new FormData();
@@ -611,7 +611,7 @@
     $(document).on("change", "#state", function() {
         // first, i need to get all states
         // to get all shipping methods
-        // to insert all shipping methods on .all-shipping-options hare
+        // to insert all shipping methods on .all-shipping-options
         // Add tax amount to all the orders
         let state_id = $(this).val();
         let data = new FormData();

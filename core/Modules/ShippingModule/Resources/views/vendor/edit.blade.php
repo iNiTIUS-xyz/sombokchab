@@ -37,7 +37,7 @@
                                     <div class="form-group">
                                         <label for="title">{{ __('Title') }}
                                             <input value="{{ $method->title }}" name="title" class="form-control"
-                                                placeholder="{{ __('Write shipping method title') }}" />
+                                                placeholder="{{ __('Enter shipping method title') }}" />
                                         </label>
                                     </div>
 

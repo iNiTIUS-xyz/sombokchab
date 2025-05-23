@@ -19338,7 +19338,7 @@ li.main_dropdown ul {
 }
 
 .table-wrap thead tr th {
-  text-align: unset;
+  text-align: left;
 }
 
 .dashboard-table tbody {
@@ -33618,6 +33618,7 @@ shop-nice-select select,
   justify-content: center;
   height: 250px;
   overflow: hidden;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .product__card__thumb img {
@@ -33917,6 +33918,7 @@ shop-nice-select select,
 /* Category css start */
 .single__category.text-center .single__category__thumb {
   margin-inline: auto;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .single__category__thumb {
@@ -33942,7 +33944,8 @@ shop-nice-select select,
 
 
 .single__category__thumb img {
-  width: 80%;
+  width: 100%;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .single__category__title {
@@ -34118,6 +34121,7 @@ div[class*=col]:nth-child(4n+4) .promo__item__icon svg path {
   -webkit-box-shadow: 0 0 20px var(--box-shadow);
   box-shadow: 0 0 20px var(--box-shadow);
   overflow: hidden;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .allProduct__item__thumb {
@@ -38186,4 +38190,26 @@ h5.common-title-two svg {
 
 #number-of-item{
   padding: 5px;
+}
+
+
+table,
+table thead,
+table thead th,
+table tbody,
+table tbody tr{
+  text-align: left !important;
+}
+
+
+.swal2-confirm.swal2-styled.swal2-default-outline{
+  background-color: var(--main-color-one) !important;
+}
+
+.swal2-cancel.swal2-styled.swal2-default-outline{
+background-color: rgb(85, 84, 91) !important;
+}
+
+input::placeholder {
+  text-transform: capitalize !important;
 }
