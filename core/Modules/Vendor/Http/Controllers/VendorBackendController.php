@@ -164,13 +164,13 @@ class VendorBackendController extends Controller
 
     public function settings(){
         // add vendor registration settings is active or not
-        // render a view file from hare
+        // render a view file from
 
         return view("vendor::backend.settings");
     }
 
     public function updateSettings(Request $req){
-        // update all vendor settings in hare
+        // update all vendor settings in
         $reqSettings = $req->validate([
             "vendor_enable" => "nullable",
             "enable_vendor_registration" => "nullable",

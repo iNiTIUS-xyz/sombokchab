@@ -30,7 +30,7 @@
         <label for="commission_amount" class="dashboard-label color-light mb-2">{{ __("Commission Amount") }}</label>
         <div class="dashboard-input-select">
             <div class="single-input">
-                <input name="commission_amount" id="commission_amount" class="form-control" placeholder="{{ __("Write commission amount") }}" />
+                <input name="commission_amount" id="commission_amount" class="form-control" placeholder="{{ __("Enter commission amount") }}" />
             </div>
         </div>
     </div>

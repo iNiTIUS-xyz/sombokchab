@@ -44,10 +44,10 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="amount">{{ __('Write amount.') }}</label>
+                                <label for="amount">{{ __('Amount') }}</label>
                                 <input value="{{ get_static_option('commission_amount') }}" type="number"
                                     class="form-control form-control-sm" name="commission_amount" id="amount"
-                                    placeholder="{{ __('Write amount hare.') }}" />
+                                    placeholder="{{ __('Enter amount here') }}" />
                             </div>
 
                             <div class="form-group">
@@ -90,9 +90,9 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="amount">{{ __('Write percentage.') }}</label>
+                                <label for="amount">{{ __('Percentage') }}</label>
                                 <input class="form-control form-control-sm" type="number" name="commission_amount"
-                                    id="amount" placeholder="{{ __('Write percentage hare.') }}" />
+                                    id="amount" placeholder="{{ __('Enter percentage here') }}" />
                             </div>
 
                             <div class="form-group">

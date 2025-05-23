@@ -122,7 +122,7 @@ class VendorServices
 
     public static function vendorAccountBanner($type = 'web'): array
     {
-        // hare will check type if this method is called for api then auth guard will be sanctum
+        // will check type if this method is called for api then auth guard will be sanctum
         $vendor_id = $type == 'web' ? auth()->guard("vendor")->id() : auth('sanctum')->id();
         $wallet = Wallet::where("vendor_id", $vendor_id)->first();
 

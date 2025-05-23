@@ -65,7 +65,7 @@
                                             @if($data->subscribe_status == 0)
                                                 <span class="badge bg-danger">{{__('Unsubscribed')}}</span>
                                             @else
-                                                <span class="badge bg-success">{{__('Subscribed')}}</span>
+                                                <span class="badge bg-primary">{{__('Subscribed')}}</span>
                                             @endif
                                         </td>
                                         <td>

@@ -357,7 +357,7 @@
                 send_ajax_request("get", "",
                     `{{ route('frontend.get-tax-based-on-billing-address') }}?country_id=${country_id}&state_id=&city_id=`,
                     () => {}, (data) => {
-                        // do success action hare
+                        // do success action
                         $('.cart-items-wrapper').html(data.cart_items);
 
                         let statehtml = "<option value=''> {{ __('Select an state') }} </option>";
@@ -379,7 +379,7 @@
                 send_ajax_request("get", "",
                     `{{ route('frontend.get-tax-based-on-billing-address') }}?country_id=${country_id}&state_id=${state_id}&city_id=`,
                     () => {}, (data) => {
-                        // do success action hare
+                        // do success action
                         $('.cart-items-wrapper').html(data.cart_items);
 
                         let cityhtml = "<option value=''> {{ __('Select an city') }} </option>";
@@ -893,7 +893,7 @@
         $(document).on("change", "#modal_state_id", function() {
             // first, i need to get all states
             // to get all shipping methods
-            // to insert all shipping methods on .all-shipping-options hare
+            // to insert all shipping methods on .all-shipping-options
             // Add tax amount to all the orders
             let state_id = $(this).val();
             let data = new FormData();

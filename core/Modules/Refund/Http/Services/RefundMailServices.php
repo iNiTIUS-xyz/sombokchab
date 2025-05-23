@@ -185,7 +185,7 @@ class RefundMailServices{
     {
         // first i need to initialize this class for making class object
         $init = self::init($request,$data);
-        // now hare is the main thing we need to check RefundRequest status type
+        // now is the main thing we need to check RefundRequest status type
         return match ($status){
             "approved" => $init->approved(),
             "declined" => $init->declined(),

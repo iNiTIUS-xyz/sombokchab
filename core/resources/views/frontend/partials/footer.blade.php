@@ -585,7 +585,7 @@
                 });
             });
 
-            /* end hare without variant product js code */
+            /* end without variant product js code */
             $(document).on("click", ".product-quick-view-ajax", function(e) {
                 e.preventDefault();
 
@@ -1098,7 +1098,7 @@
                     }
                 });
 
-                // selected item not contain product then de-select all selected option hare
+                // selected item not contain product then de-select all selected option
                 if (Object.keys(selected_attributes_by_type).length == 0) {
                     $('.quick-view-size-lists li.active').each(function() {
                         let sizeItem = $(this).parent().parent();

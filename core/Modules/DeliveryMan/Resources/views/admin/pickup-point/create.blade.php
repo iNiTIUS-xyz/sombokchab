@@ -25,7 +25,7 @@
 
                 <div class="form-group">
                     <label for="pickup-point-name" class="mb-2">{{ __("Pickup Point Name") }} <span class="text-danger">*</span> </label>
-                    <input required id="pickup-point-name" name="name" type="text" class="form-control form-control-sm" placeholder="{{ __("Write Pickup Point Name") }}" />
+                    <input required id="pickup-point-name" name="name" type="text" class="form-control form-control-sm" placeholder="{{ __("Enter Pickup Point Name") }}" />
                 </div>
 
                 <div class="row g-4">
@@ -84,14 +84,14 @@
                     <div class="col-md-2">
                         <div class="form-group">
                             <label for="pickup-point-zip-code-id" class="mb-2">{{ __("Select Zip Code") }}</label>
-                            <input id="pickup-point-zip-code-id" name="zip_code" type="text" class="form-control form-control-sm" placeholder="{{ __("Write zip code.") }}" />
+                            <input id="pickup-point-zip-code-id" name="zip_code" type="text" class="form-control form-control-sm" placeholder="{{ __("Enter zip code") }}" />
                         </div>
                     </div>
 
                     <div class="col-md-5">
                         <div class="form-group">
                             <label for="pickup-point-contact-number" class="mb-2">{{ __("Contact Number") }} <span class="text-danger">*</span></label>
-                            <input id="pickup-point-contact-number" name="contact_number" type="text" class="form-control form-control-sm" placeholder="{{ __("Write contact number.") }}" />
+                            <input id="pickup-point-contact-number" name="contact_number" type="text" class="form-control form-control-sm" placeholder="{{ __("Enter contact number.") }}" />
                         </div>
                     </div>
 
@@ -105,7 +105,7 @@
 
                 <div class="form-group">
                     <label for="pickup-point-address" class="mb-2">{{ __("Pickup point address") }} <span class="text-danger">*</span></label>
-                    <textarea id="pickup-point-address" type="text" name="address" class="form-control form-control-sm" placeholder="{{ __("Write pickup point address.") }}"></textarea>
+                    <textarea id="pickup-point-address" type="text" name="address" class="form-control form-control-sm" placeholder="{{ __("Enter pickup point address") }}"></textarea>
                 </div>
 
                 <div class="form-group mt-4">

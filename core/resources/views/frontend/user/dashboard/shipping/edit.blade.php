@@ -153,7 +153,7 @@
                     send_ajax_request("get", "",
                         `{{ route('frontend.get-tax-based-on-billing-address') }}?country_id=${country_id}&state_id=${state_id}&city_id=`,
                         () => {}, (data) => {
-                            // do success action hare
+                            // do success action
                             $('.cart-items-wrapper').html(data.cart_items);
 
                             let cityhtml =

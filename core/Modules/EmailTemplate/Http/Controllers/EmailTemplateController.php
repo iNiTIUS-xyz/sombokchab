@@ -13,7 +13,7 @@ class EmailTemplateController extends Controller
         return view('emailtemplate::template.all-templates');
     }
 
-    // hare will be request send email template settings
+    // here will be request send email template settings
     public function requestSend(){
         return view("emailtemplate::refund.request-send");
     }
@@ -34,7 +34,7 @@ class EmailTemplateController extends Controller
         ]);
     }
 
-    // hare will be request send email template settings
+    // here will be request send email template settings
     public function refundRequestApproved(){
         return view("emailtemplate::refund.request-approved");
     }
@@ -55,7 +55,7 @@ class EmailTemplateController extends Controller
         ]);
     }
 
-    // hare will be request send email template settings
+    // here will be request send email template settings
     public function refundRequestDeclined(){
         return view("emailtemplate::refund.request-declined");
     }
@@ -76,7 +76,7 @@ class EmailTemplateController extends Controller
         ]);
     }
 
-    // hare will be request send email template settings
+    // here will be request send email template settings
     public function refundRequestCancel(){
         return view("emailtemplate::refund.cancel");
     }
@@ -97,7 +97,7 @@ class EmailTemplateController extends Controller
         ]);
     }
 
-    // hare will be request send email template settings
+    // here will be request send email template settings
     public function refundRequestReadyForPickup(){
         return view("emailtemplate::refund.request-ready-for-pickup");
     }
@@ -118,7 +118,7 @@ class EmailTemplateController extends Controller
         ]);
     }
 
-    // hare will be request send email template settings
+    // here will be request send email template settings
     public function refundRequestPickedUp(){
         return view("emailtemplate::refund.request-pickedup");
     }
@@ -139,7 +139,7 @@ class EmailTemplateController extends Controller
         ]);
     }
 
-    // hare will be request send email template settings
+    // here will be request send email template settings
     public function refundRequestOnTheWay(){
         return view("emailtemplate::refund.request-on-the-way");
     }
@@ -160,7 +160,7 @@ class EmailTemplateController extends Controller
         ]);
     }
 
-    // hare will be request send email template settings
+    // here will be request send email template settings
     public function refundRequestReturned(){
         return view("emailtemplate::refund.request-returned");
     }
@@ -181,7 +181,7 @@ class EmailTemplateController extends Controller
         ]);
     }
 
-    // hare will be request send email template settings
+    // here will be request send email template settings
     public function refundRequestVerifyProduct(){
         return view("emailtemplate::refund.request-verify-product");
     }
@@ -202,7 +202,7 @@ class EmailTemplateController extends Controller
         ]);
     }
 
-    // hare will be request send email template settings
+    // here will be request send email template settings
     public function refundRequestPaymentProcessing(){
         return view("emailtemplate::refund.request-payment-processing");
     }
@@ -223,7 +223,7 @@ class EmailTemplateController extends Controller
         ]);
     }
 
-    // hare will be request send email template settings
+    // here will be request send email template settings
     public function refundRequestPaymentTransferred(){
         return view("emailtemplate::refund.request-payment-transferred");
     }
@@ -244,7 +244,7 @@ class EmailTemplateController extends Controller
         ]);
     }
 
-    // hare will be request send email template settings
+    // here will be request send email template settings
     public function refundRequestPaymentCompleted(){
         return view("emailtemplate::refund.request-payment-completed");
     }

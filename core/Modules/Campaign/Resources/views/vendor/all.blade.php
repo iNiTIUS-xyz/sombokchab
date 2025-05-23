@@ -43,11 +43,13 @@
                                             <x-table.td-image :image="$campaign->image" />
                                             <td><x-status-span :status="$campaign->status" /></td>
                                             <td>
-                                                <x-table.btn.edit :route="route('vendor.campaigns.edit', $campaign->id)" />
-                                                <a target="_blank" class="btn btn-info btn-xs mb-2 me-1"
+                                                <a target="_blank" class="btn btn-primary btn-xs mb-2 me-1"
                                                     href="{{ route('frontend.products.campaign', ['id' => $campaign->id, 'slug' => $campaign->slug]) }}">
                                                     <i class="ti-eye"></i>
                                                 </a>
+                                                
+                                                <x-table.btn.edit :route="route('vendor.campaigns.edit', $campaign->id)" />
+                                                
                                                 <x-delete-popover :url="route('vendor.campaigns.delete', $campaign->id)" />
                                             </td>
                                         </tr>

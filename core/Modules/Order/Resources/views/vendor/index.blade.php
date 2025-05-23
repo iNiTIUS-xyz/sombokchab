@@ -46,11 +46,12 @@
                                     </td>
                                     <td class="status">
                                         @if ($order->order->order_status == 'complete')
-                                            <span class="badge bg-success px-2 py-1">{{ __('Complete') }}</span>
+                                            <span class="badge bg-primary px-2 py-1">{{ __('Complete') }}</span>
                                         @elseif ($order->order->order_status == 'pending')
                                             <span class="badge bg-warning px-2 py-1">{{ __('Pending') }}</span>
                                         @elseif ($order->order->order_status == 'failed')
-                                            <span class="badge bg-info px-2 py-1">{{ __('Failed') }}</span>
+                                            <span class="badge px-2 py-1"
+                                                style="background: rgb(145, 2, 2) !important;">{{ __('Failed') }}</span>
                                         @elseif ($order->order->order_status == 'rejected')
                                             <span class="badge px-2 py-1"
                                                 style="background: rgb(138, 1, 14) !important;">{{ __('Rejected') }}</span>

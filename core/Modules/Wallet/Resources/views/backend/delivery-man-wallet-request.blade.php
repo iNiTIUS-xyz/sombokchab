@@ -132,8 +132,8 @@
                         </div>
 
                         <div class="form-group">
-                            <label>{{ __('Write note for wallet request') }}</label>
-                            <textarea name="note" rows="4" placeholder="Write note for wallet request"></textarea>
+                            <label>{{ __('Enter note for wallet request') }}</label>
+                            <textarea name="note" rows="4" placeholder="Enter note for wallet request"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">

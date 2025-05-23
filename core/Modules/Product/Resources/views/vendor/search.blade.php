@@ -14,13 +14,13 @@
                     <input type="checkbox" class="all-checkbox">
                 </div>
             </th>
-            <th> {{ __('id') }} </th>
+            <th> {{ __('ID') }} </th>
             <th> {{ __('Name') }} </th>
             <th> {{ __('Brand') }} </th>
             <th> {{ __('Categories') }} </th>
             <th> {{ __('Stock Qty') }} </th>
             <th> {{ __('Status') }} </th>
-            <th> {{ __('Actions') }} </th>
+            <th> {{ __('Action') }} </th>
         </tr>
     </thead>
     <tbody>
@@ -48,7 +48,7 @@
                             @endif
                         </div>
                         <div class="product-summary">
-                            <p class="font-weight-bold mb-1">{{ Str::limit($product->name, 25, '...') }}</p>
+                            <p class="font-weight-bold mb-1">{{ Str::limit($product->name, 50, '...') }}</p>
                             <p>{{ Str::words($product->summary, 5) }}</p>
                         </div>
                     </div>
@@ -90,16 +90,18 @@
                             class="icon eye btn-sm text-white btn btn-primary">
                             <i class="las la-eye"></i>
                         </a> --}}
-                        <a href="{{ route($route . '.products.edit', $product->id) }}"
-                            class="icon edit btn-sm text-white btn btn-success">
-                            <i class="las la-pen-alt"></i>
-                        </a>
                         <a href="{{ route($route . '.products.clone', $product->id) }}"
-                            class="icon clone btn-sm text-white btn btn-info">
+                            class="icon clone btn-sm text-white btn btn-secondary" title="Create Duplicate">
                             <i class="las la-copy"></i>
                         </a>
+
+                        <a href="{{ route($route . '.products.edit', $product->id) }}"
+                            class="icon edit btn-sm text-white btn btn-warning" title="Edit Product">
+                            <i class="las la-pencil-alt"></i>
+                        </a>
+                        
                         <a data-product-url="{{ route($route . '.products.destroy', $product->id) }}" href="#1"
-                            class="delete-row icon deleted btn-sm text-white btn btn-danger">
+                            class="delete-row icon deleted btn-sm text-white btn btn-danger" title="Delete Product">
                             <i class="las la-trash-alt"></i>
                         </a>
                     </div>

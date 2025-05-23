@@ -201,9 +201,9 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="amount">{{ __('Write percentage.') }}</label>
+                                <label for="amount">{{ __('Enter percentage.') }}</label>
                                 <input class="form-control form-control-sm" type="number" name="commission_amount"
-                                    id="amount" placeholder="{{ __('Write percentage hare.') }}" />
+                                    id="amount" placeholder="{{ __('Enter percentage') }}" />
                             </div>
 
                             <div class="form-group">

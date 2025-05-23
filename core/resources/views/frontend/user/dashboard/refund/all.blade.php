@@ -19,6 +19,7 @@
                                 <th>{{ __('SL No.') }}</th>
                                 <th>{{ __('Order Info') }}</th>
                                 <th>{{ __('Refund Info') }}</th>
+                                <th>{{__('Date')}}</th>
                                 <th>{{ __('Action') }}</th>
                             </tr>
                         </thead>
@@ -32,7 +33,7 @@
                                             <b>{{ $request->order?->id }}</b><br>
                                             {{ __('Status') }}:
                                             @if ($request->order?->order_status == 'complete')
-                                                <span class="badge bg-success px-2 py-1">{{ __('Complete') }}</span>
+                                                <span class="badge bg-primary px-2 py-1">{{ __('Complete') }}</span>
                                             @elseif ($request->order?->order_status == 'pending')
                                                 <span class="badge bg-warning px-2 py-1">{{ __('Pending') }}</span>
                                             @elseif ($request->order?->order_status == 'failed')
@@ -52,7 +53,7 @@
 
                                     <td>
                                         <span class="user-info ">
-                                            <b>#{{ $request->id }}</b><br>
+                                            <b>{{ $request->id }}</b><br>
                                             {{ __('Status') }}:
                                             <span
                                                 class="badge bg-light text-dark">{{ __(ucwords(str_replace('_', ' ', $request->currentTrackStatus?->name))) }}</span>
@@ -60,7 +61,7 @@
                                             {{ __('Total Product:') }} {{ $request->request_product_count }}<br>
                                         </span>
                                     </td>
-
+                                    <td>{{ $request->created_at->format('M j, Y') }}</td>
                                     <td>
                                         <a href="{{ route('user.product.refund-request.view', $request->id) }}"
                                             class="btn btn-secondary btn-sm rounded-btn" title="View Details"
@@ -68,10 +69,10 @@
                                             {{-- {{ __('View Details') }} --}}
                                             <i class="las la-file-alt"></i>
                                         </a>
-                                        <a class="btn btn-secondary btn-sm rounded-btn"
+                                        {{-- <a class="btn btn-secondary btn-sm rounded-btn"
                                             href="{{ route('user.product.refund-request.view', $request->id) }}">
                                             {{ __('View Details') }}
-                                        </a>
+                                        </a> --}}
                                     </td>
                                 </tr>
                             @endforeach

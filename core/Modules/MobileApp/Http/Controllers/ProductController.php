@@ -427,7 +427,7 @@ class ProductController extends Controller
             'post_your_feedback_text',
         ])->get()->mapWithKeys(fn ($item) => [$item->option_name => $item->option_value])->toArray();
 
-        // hare will prepare vendor product as like mobileFeaturedProduct or product list
+        // here will prepare vendor product as like mobileFeaturedProduct or product list
         $vendorProduct = MobileFeatureProductResource::collection($product?->vendor?->product ?? []);
         if(!empty($product?->vendor?->product)){
             unset($product->vendor->product);

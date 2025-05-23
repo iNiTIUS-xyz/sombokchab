@@ -39,7 +39,7 @@
                                     </td>
                                     <td class="status">
                                         @if ($order->order_status == 'complete' && $order->orderTrack?->first()->name == 'delivered')
-                                            <span class="badge bg-success px-2 py-1">{{ __('Complete') }}</span>
+                                            <span class="badge bg-primary px-2 py-1">{{ __('Complete') }}</span>
                                         @elseif ($order->order_status == 'canceled')
                                             <span class="badge bg-danger px-2 py-1">{{ __('Canceled') }}</span>
                                         @elseif ($order->order_status == 'rejected')
@@ -50,7 +50,7 @@
                                     </td>
                                     <td class="status">
                                         @if ($order->payment_status == 'complete')
-                                            <span class="badge bg-success px-2 py-1">{{ __('Complete') }}</span>
+                                            <span class="badge bg-primary px-2 py-1">{{ __('Complete') }}</span>
                                         @elseif ($order->payment_status == 'pending')
                                             <span class="badge bg-warning px-2 py-1">{{ __('Pending') }}</span>
                                         @elseif ($order->payment_status == 'failed')

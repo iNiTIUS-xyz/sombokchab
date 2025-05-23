@@ -931,7 +931,7 @@
                 }
             });
 
-            // selected item not contain product then de-select all selected option hare
+            // selected item not contain product then de-select all selected option
             if (Object.keys(selected_attributes_by_type).length == 0) {
                 $('.size-lists li.active').each(function() {
                     let sizeItem = $(this).parent().parent();

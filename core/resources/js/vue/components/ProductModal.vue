@@ -412,7 +412,7 @@ export default {
       });
 
 
-      // selected item not contain product then de-select all selected option hare
+      // selected item not contain product then de-select all selected option
       if (Object.keys(selected_attributes_by_type).length == 0) {
         // get all active elements
         let activeElements = document.querySelectorAll('.size-lists li.active');
