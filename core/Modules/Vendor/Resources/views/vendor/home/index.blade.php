@@ -221,7 +221,7 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header d-block text-center">
                         <div class="dashboard__card__header__left">
-                            <span class="dashboard__card__title"> {{ __('This Week Earnings') }} </span>
+                            <span class="dashboard__card__title"> {{ __('This Week\'s Earning') }} </span>
                             {{-- <h3 class="dashboard-earning-price mt-3">
                                 {{ float_amount_with_currency_symbol(array_sum($weekly_statement->toArray())) }} </h3> --}}
                         </div>

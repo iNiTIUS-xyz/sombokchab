@@ -50,7 +50,7 @@
                                         <label>{{ $filed_name }}</label>
                                         <input type="text" name="gateway_filed[{{ $key }}]"
                                             class="form-control" value="{{ $filed }}"
-                                            placeholder="Write {{ str_replace('_', ' ', $filed_name) }}" />
+                                            placeholder="Enter {{ str_replace('_', ' ', $filed_name) }}" />
                                     </div>
                                 @endforeach
                             </div>
@@ -79,7 +79,7 @@
                     <div class="form-group">
                         <label>
                             ${ value }
-                            <input type="text" name="gateway_filed[${ gateway_name }]" class="form-control" placeholder="Write ${ value.toLowerCase() }" />
+                            <input type="text" name="gateway_filed[${ gateway_name }]" class="form-control" placeholder="Enter ${ value.toLowerCase() }" />
                         </label>
                     </div>
                 `;

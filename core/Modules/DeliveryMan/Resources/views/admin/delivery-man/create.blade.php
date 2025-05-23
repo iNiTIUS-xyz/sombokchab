@@ -281,7 +281,7 @@
                                         <div class="dashboard-input">
                                             <label class="dashboard-label color-light mb-2">{{ __('Zip Code') }}</label>
                                             <input type="text" name="present_zip_code" class="form--control"
-                                                placeholder="{{ __('Write your zip code') }}" />
+                                                placeholder="{{ __('Enter your zip code') }}" />
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
@@ -349,7 +349,7 @@
                                         <div class="dashboard-input">
                                             <label class="dashboard-label color-light mb-2">{{ __('Zip Code') }}</label>
                                             <input type="text" name="permanent_zip_code" class="form--control"
-                                                placeholder="{{ __('Write your zip code') }}" />
+                                                placeholder="{{ __('Enter your zip code') }}" />
                                         </div>
                                     </div>
                                     <div class="col-sm-6">

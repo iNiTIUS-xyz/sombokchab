@@ -22,7 +22,7 @@
                 <x-flash-msg />
                 <div class="dashboard__card card__two">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('All Withdraw Request') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('All Withdraw Requests') }}</h4>
                     </div>
                     <div class="dashboard__card__body">
                         <div class="table-wrap">
@@ -149,8 +149,8 @@
                         </div>
 
                         <div class="form-group">
-                            <label>{{ __('Write note for wallet request') }}</label>
-                            <textarea name="note" rows="4" placeholder="Write note for wallet request"></textarea>
+                            <label>{{ __('Enter note for wallet request') }}</label>
+                            <textarea name="note" rows="4" placeholder="Enter note for wallet request"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">

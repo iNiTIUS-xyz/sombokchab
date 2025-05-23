@@ -98,7 +98,7 @@
                                                 <input name="withdraw_amount" type="number" id="withdraw_amount"
                                                     min="{{ get_static_option('minimum_withdraw_amount') }}"
                                                     max="{{ $current_balance }}" class="form-control"
-                                                    placeholder="{{ __('Write withdraw amount') }}" />
+                                                    placeholder="{{ __('Enter withdraw amount') }}" />
                                             </div>
 
                                             <div class="form-group">
@@ -120,7 +120,7 @@
                                                         <label>{{ $filed }}</label>
                                                         <input type="text" name="gateway_filed[{{ $key }}]"
                                                             class="form-control" value="{{ $filed }}"
-                                                            placeholder="Write {{ str_replace('_', ' ', $filed) }}" />
+                                                            placeholder="Enter {{ str_replace('_', ' ', $filed) }}" />
                                                     </div>
                                                 @endforeach
                                             </div>
@@ -162,7 +162,7 @@
                     <div class="form-group">
                         <label>
                             ${ value }
-                            <input type="text" name="gateway_filed[${ gateway_name }]" class="form-control" placeholder="Write ${ value.toLowerCase() }" />
+                            <input type="text" name="gateway_filed[${ gateway_name }]" class="form-control" placeholder="Enter ${ value.toLowerCase() }" />
                         </label>
                     </div>
                 `;

@@ -234,7 +234,7 @@
                             <div class="dashboard__card__body mt-4">
                                 <div class="gig-order-info">
                                     <ul>
-                                        <li><strong>{{ __('Ticket ID:') }}</strong> #{{ $ticket_details->id }}</li>
+                                        <li><strong>{{ __('Ticket ID:') }}</strong> {{ $ticket_details->id }}</li>
                                         <li><strong>{{ __('Title:') }}</strong> {{ $ticket_details->title }}</li>
                                         <li><strong>{{ __('Subject:') }}</strong> {{ $ticket_details->subject }} </li>
                                         <li><strong>{{ __('Status:') }}</strong> <span

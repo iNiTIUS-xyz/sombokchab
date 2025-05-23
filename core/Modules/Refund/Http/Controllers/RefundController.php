@@ -107,12 +107,12 @@ class RefundController extends Controller
 
             // check if preferred option is wallet than move forward
             if($refundRequest->preferredOption?->name == "Wallet"){
-                // hare update wallet
+                // here update wallet
                 WalletService::updateRefundRequest($total_amount, $refundRequest);
             }
         }
 
-        // send email from hare
+        // send email from here
         RefundMailServices::sendMail($refundRequest,$data["track_status"],$mailableData);
 
         return back()->with([

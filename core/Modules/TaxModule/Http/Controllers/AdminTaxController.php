@@ -42,7 +42,7 @@ class AdminTaxController extends Controller
     }
 
     public function handlePostTaxClass(Request $request){
-        // validate tax class hare
+        // validate tax class
         // after validation store data
         $data = $request->validate(["name" => "required|unique:tax_classes"]);
         $taxClass = TaxClass::create($data);
@@ -65,7 +65,7 @@ class AdminTaxController extends Controller
     }
 
     public function deleteTaxClass(Request $request){
-        // hare first need to check class option are have or not if have then delete all first and if not then delete only tax class
+        // first need to check class option are have or not if have then delete all first and if not then delete only tax class
         TaxClassOption::where("class_id", $request->id)->delete();
         TaxClass::where("id", $request->id)->delete();
 

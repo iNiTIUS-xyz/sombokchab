@@ -487,7 +487,7 @@
             Object.keys(requestTrackJson).forEach(function(key) {
                 let item = requestTrackJson[key] ?? [];
 
-                // hare need to check request track type
+                // here need to check request track type
                 if (requestTrackType == 'reason') {
                     requestTrackHTML += `<p>${item.reason}</p>`;
                 } else if (requestTrackType == 'deductedAmount') {

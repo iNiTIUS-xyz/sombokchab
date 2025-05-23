@@ -34,7 +34,7 @@
                                 <label>
                                     {{ __('Zone Name') }}
                                     <input class="form-control" name="zone_name"
-                                        placeholder="{{ __('Write shipping zone.') }}" />
+                                        placeholder="{{ __('Enter shipping zone') }}" />
                                 </label>
                             </div>
                             <table class="table table-responsive">
@@ -47,7 +47,7 @@
                                 </thead>
                                 <tbody>
                                     @php
-                                        // this variable is needed for rendering tr block hare and initialize select two
+                                        // this variable is needed for rendering tr block and initialize select two
                                         $rand = random_int(9999999, 11111111);
                                     @endphp
 
@@ -98,7 +98,7 @@
         });
 
         $(document).on("click", "#shipping_zone_plus_btn", function() {
-            // this variable is needed for rendering tr block hare and initialize select two
+            // this variable is needed for rendering tr block and initialize select two
             // let random = Math.floor((Math.random() * 99999999) + 1);
 
             let data = `@include('shippingmodule::admin.shipping-zone-tr')`;

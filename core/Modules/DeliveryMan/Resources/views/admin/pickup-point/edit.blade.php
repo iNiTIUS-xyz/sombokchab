@@ -30,7 +30,7 @@
                             class="text-danger">*</span> </label>
                     <input required id="pickup-point-name" name="name" value="{{ $pickupPoint->name ?? '' }}"
                         type="text" class="form-control form-control-sm"
-                        placeholder="{{ __('Write Pickup Point Name') }}" />
+                        placeholder="{{ __('Enter Pickup Point Name') }}" />
                 </div>
 
                 <div class="row g-4">
@@ -107,7 +107,7 @@
                             <label for="pickup-point-zip-code-id" class="mb-2">{{ __('Select Zip Code') }}</label>
                             <input id="pickup-point-zip-code-id" name="zip_code" value="{{ $pickupPoint->zip_code }}"
                                 type="text" class="form-control form-control-sm"
-                                placeholder="{{ __('Write zip code.') }}" />
+                                placeholder="{{ __('Enter zip code') }}" />
                         </div>
                     </div>
 
@@ -117,7 +117,7 @@
                                     class="text-danger">*</span></label>
                             <input id="pickup-point-contact-number" name="contact_number"
                                 value="{{ $pickupPoint->contact_number }}" type="text"
-                                class="form-control form-control-sm" placeholder="{{ __('Write contact number.') }}" />
+                                class="form-control form-control-sm" placeholder="{{ __('Enter contact number.') }}" />
                         </div>
                     </div>
 
@@ -137,7 +137,7 @@
                     <label for="pickup-point-address" class="mb-2">{{ __('Pickup point address') }} <span
                             class="text-danger">*</span></label>
                     <textarea id="pickup-point-address" type="text" name="address" class="form-control form-control-sm"
-                        placeholder="{{ __('Write pickup point address.') }}">{{ $pickupPoint->address }}
+                        placeholder="{{ __('Enter pickup point address.') }}">{{ $pickupPoint->address }}
                     </textarea>
                 </div>
 

@@ -74,7 +74,7 @@
                                                         <td>{{ $data->id }}</td>
                                                         <td>{{ $data->title }}</td>
                                                         <td>{{ $data->department->name ?? __('anonymous') }}</td>
-                                                        <td><small>{{ $data->created_at->format('M d, Y') }}</small></td>
+                                                        <td><small>{{ $data->created_at->format('M j, Y') }}</small></td>
                                                         <td class="text-capitalize">{{ ucfirst($data->priority) }}</td>
                                                         <td>
                                                             <span

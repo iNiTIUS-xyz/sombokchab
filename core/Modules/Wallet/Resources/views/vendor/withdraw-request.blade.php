@@ -57,7 +57,7 @@
                     <div class="form-group">
                         <label>
                             ${ value }
-                            <input type="text" name="${ gateway_name }" class="form-control" placeholder="Write ${ value.toLowerCase() }" />
+                            <input type="text" name="${ gateway_name }" class="form-control" placeholder="Enter ${ value.toLowerCase() }" />
                         </label>
                     </div>
                 `;

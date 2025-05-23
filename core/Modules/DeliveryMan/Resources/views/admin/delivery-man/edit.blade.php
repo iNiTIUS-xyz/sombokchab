@@ -309,7 +309,7 @@
                                             <label class="dashboard-label color-light mb-2">{{ __('Zip Code') }}</label>
                                             <input value="{{ old('present_zip_code') ?? $presentAddress->zip_code }}"
                                                 type="text" name="present_zip_code" class="form--control"
-                                                placeholder="{{ __('Write your zip code') }}" />
+                                                placeholder="{{ __('Enter your zip code') }}" />
                                         </div>
                                         <div class="dashboard-input">
                                             <label
@@ -614,7 +614,7 @@
                                         <label class="dashboard-label color-light mb-2">{{ __('Zip Code') }}</label>
                                         <input value="{{ old('present_zip_code') ?? $presentAddress->zip_code }}"
                                             type="text" name="present_zip_code" class="form--control"
-                                            placeholder="{{ __('Write your zip code') }}" />
+                                            placeholder="{{ __('Enter your zip code') }}" />
                                     </div>
                                     <div class="dashboard-input">
                                         <label class="dashboard-label color-light mb-2">{{ __('Address One') }}</label>
@@ -694,7 +694,7 @@
                                     <label class="dashboard-label color-light mb-2">{{ __('Zip Code') }}</label>
                                     <input value="{{ old('permanent_zip_code') ?? $permanentAddress->zip_code }}"
                                         type="text" name="permanent_zip_code" class="form--control"
-                                        placeholder="{{ __('Write your zip code') }}" />
+                                        placeholder="{{ __('Enter your zip code') }}" />
                                 </div>
                                 <div class="dashboard-input">
                                     <label class="dashboard-label color-light mb-2">{{ __('Address One') }}</label>

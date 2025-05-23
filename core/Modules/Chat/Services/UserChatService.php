@@ -174,7 +174,7 @@ class UserChatService
         }
         // this method will store livechat message
         $message = $instance->storeMessage($messageFrom);
-        // hare will be fired an event for pusher
+        // here will be fired an event for pusher
 
         // this event will fire if from user is vendor
         $instance->fireEvent($message, $instance->liveChat, $messageFrom);

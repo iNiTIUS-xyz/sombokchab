@@ -30,7 +30,7 @@
                             <div class="form-group">
                                 <label>{{ __('Zone Name') }}</label>
                                 <input class="form-control" name="zone_name" value="{{ $zone->name }}"
-                                    placeholder="{{ __('Write shipping zone.') }}" />
+                                    placeholder="{{ __('Enter shipping zone.') }}" />
                             </div>
                             <div class="table-wrap">
                                 <table class="table table-responsive">
@@ -44,14 +44,14 @@
                                     <tbody>
                                         @forelse($zone->country as $zoneCountry)
                                             @php
-                                                // this variable is needed for rendering tr block hare and initialize select two
+                                                // this variable is needed for rendering tr block here and initialize select two
                                                 $rand = random_int(9999999, 11111111);
                                             @endphp
 
                                             @include('shippingmodule::admin.shipping-zone-tr')
                                         @empty
                                             @php
-                                                // this variable is needed for rendering tr block hare and initialize select two
+                                                // this variable is needed for rendering tr block here and initialize select two
                                                 $rand = random_int(9999999, 11111111);
                                             @endphp
 
@@ -104,7 +104,7 @@
         });
 
         $(document).on("click", "#shipping_zone_plus_btn", function() {
-            // this variable is needed for rendering tr block hare and initialize select two
+            // this variable is needed for rendering tr block here and initialize select two
             // let random = Math.floor((Math.random() * 99999999) + 1);
 
             let data = `@include('shippingmodule::admin.shipping-zone-tr')`;

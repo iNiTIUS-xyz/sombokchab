@@ -24,7 +24,7 @@ class OrderApiController extends Controller
     }
 
     public function checkoutContents(Request $request){
-        // first i have to get vendor information's hare i will accept vendor's id from request
+        // first i have to get vendor information's here i will accept vendor's id from request
         $vendor_ids = $request->vendor_ids;
         $default_vendor = $request->default_vendor;
 

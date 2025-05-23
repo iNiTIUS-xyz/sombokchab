@@ -14,7 +14,7 @@
         $cat = $product?->category?->id ?? null;
         $selectedDeliveryOption = $product?->delivery_option?->pluck('delivery_option_id')?->toArray() ?? [];
     @endphp
-    <div class="dashboard-top-contents">
+    {{-- <div class="dashboard-top-contents">
         <div class="row">
             <div class="col-lg-12">
                 <div class="top-inner-contents search-area top-searchbar-wrapper">
@@ -26,6 +26,19 @@
                                     <a href="{{ route('vendor.products.all') }}" class="btn btn-info">{{ __("Product List") }}</a>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> --}}
+    <div class="dashboard-top-contents">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="top-inner-contents search-area top-searchbar-wrapper">
+                    <div class="dashboard-flex-contetns">
+                        <div class="dashboard-left-flex">
+                            <h3 class="dashboard__card__title"> {{ __('Update Product') }} </h3>
                         </div>
                     </div>
                 </div>
@@ -100,7 +113,7 @@
                             <input name="id" type="hidden" value="{{ $product?->id }}">
 
                             <div class="form-button">
-                                <button class="btn-sm btn btn-info">{{ __('Save Changes') }}</button>
+                                <button class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
                             </div>
 
                             <div class="tab-content margin-top-10" id="v-pills-tabContent">

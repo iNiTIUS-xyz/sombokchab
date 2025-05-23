@@ -47,7 +47,7 @@
                                                 </span>
                                             </td>
                                             <td>
-                                                {{ $history->created_at->format('M d, Y H:i:s') }}
+                                                {{ $history->created_at->format('M j, Y') }}
                                             </td>
                                         </tr>
                                     @endforeach

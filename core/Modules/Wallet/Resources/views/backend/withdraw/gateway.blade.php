@@ -81,7 +81,7 @@
                             <div class="form-group">
                                 <label class="w-100">{{ __('Name:') }}</label>
                                 <input class="form-control" name="gateway_name"
-                                    placeholder="{{ __('Write gateway name...') }}">
+                                    placeholder="{{ __('Enter gateway name') }}">
                             </div>
                             <div class="dashboard__card card__two">
                                 <div class="dashboard__card__header">
@@ -90,7 +90,7 @@
                                 <div class="dashboard__card__body">
                                     <div class="form-group row">
                                         <div class="w-90 d-flex align-items-center">
-                                            <input class="form-control" name="filed[]" placeholder="Write filed name...">
+                                            <input class="form-control" name="filed[]" placeholder="Enter filed name">
                                         </div>
                                         <div
                                             class="col-md-1 d-flex flex-column align-items-center justify-content-center pb-2 gap-2">
@@ -141,7 +141,7 @@
                             @csrf
                             <div class="form-group">
                                 <label class="w-100">{{ __('Name:') }}</label>
-                                <input class="form-control" name="gateway_name" placeholder="Write gateway name...">
+                                <input class="form-control" name="gateway_name" placeholder="Enter gateway name">
                             </div>
                             <div class="dashboard__card">
                                 <div class="dashboard__card__header">
@@ -190,7 +190,7 @@
                     list_filed += `
                         <div class="form-group row">
                             <div class="w-90 d-flex align-items-center">
-                                <input class="form-control" value="${value}" name="filed[]" placeholder="Write filed name...">
+                                <input class="form-control" value="${value}" name="filed[]" placeholder="Enter filed name">
                             </div>
                             <div class="col-md-1 d-flex flex-column align-items-center justify-content-center pb-2 gap-2">
                                 <button type="button" class="btn btn-info btn-sm gateway-filed-add">
@@ -208,7 +208,7 @@
             } else {
                 $(".gateway-filed-body").html(`<div class="form-group row">
                     <div class="w-90 d-flex align-items-center">
-                        <input class="form-control" name="filed[]" placeholder="Write filed name...">
+                        <input class="form-control" name="filed[]" placeholder="Enter filed name">
                     </div>
                     <div class="col-md-1 d-flex flex-column align-items-center justify-content-center pb-2 gap-2">
                         <button type="button" class="btn btn-info btn-sm gateway-filed-add">

@@ -95,7 +95,7 @@ class ProductSubCategoryController extends Controller
     public function getSubcategoriesForSelect($id){
         $all_subcategory = ProductSubCategory::where('category_id', $id)->get();
 
-        // create option in hare
+        // create option in
         $option = "";
         $list = "";
         foreach($all_subcategory as $sub_category){
