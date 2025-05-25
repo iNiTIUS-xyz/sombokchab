@@ -33,20 +33,21 @@
                                 </div>
                                 <div class="form-group mt-2">
                                     <label for="phone">{{ __('Phone') }}</label>
-                                    <input type="text" name="phone" class="form-control" id="phone"
+                                    <input type="number" name="phone" class="form-control" id="phone"
                                         placeholder="{{ __('Phone Number') }}">
                                 </div>
 
                                 <div class="btn-wrapper mt-4">
-                                    <button type="submit"
-                                        class="cmn_btn btn_bg_1 btn_small">{{ __('Track your order') }}</button>
+                                    <button type="submit" class="cmn_btn btn_bg_1 btn_small">
+                                        {{ __('Track your order') }}
+                                    </button>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4 d-flex align-items-center pt-5">
-                    <img src="{{ asset("assets/img/tracking/treaking-image.webp") }}" alt="">
+                    <img src="{{ asset('assets/img/tracking/treaking-image.webp') }}" alt="">
                 </div>
             </div>
         </div>

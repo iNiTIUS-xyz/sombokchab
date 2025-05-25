@@ -30,8 +30,10 @@
                         <ul class="list">
                             {!! render_frontend_menu(get_static_option('topbar_menu')) !!}
 
-                            <li class="ml-2"><a
-                                    href="{{ route('frontend.products.track.order') }}">{{ __('Tracking order') }}</a>
+                            <li class="ml-2">
+                                <a href="{{ route('frontend.products.track.order') }}">
+                                    {{ __('Tracking order') }}
+                                </a>
                             </li>
                         </ul>
                     </div>

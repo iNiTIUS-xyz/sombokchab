@@ -54,15 +54,6 @@
                     <div class="topbar-bottom-right-content">
                         <div class="topbar-bottom-right-flex">
                             <div class="track-icon-list">
-                                {{-- @if (auth('web')->check())
-                                    <div class="track-icon-list-item">
-                                        <a href="{{ route('user.product.order.all') }}" class="track-icon-single text-white">
-                                            <span class="icon">
-                                                <i class="las la-shopping-bag text-white"></i>
-                                            </span> {{ __('Order') }}
-                                        </a>
-                                    </div>
-                                @endif --}}
                                 @if (auth('web')->check())
                                     <div class="track-icon-list-item">
                                         <a href="{{ route('frontend.products.track.order') }}"
@@ -88,11 +79,6 @@
                                         @endif
                                     @endif
                                     {!! render_frontend_menu(get_static_option('topbar_menu')) !!}
-                                    <!--<li class="ml-2">-->
-                                    <!--    <a href="{{ route('frontend.products.track.order') }}">-->
-                                    <!--        {{ __('Tracking order') }}-->
-                                    <!--    </a>-->
-                                    <!--</li>-->
                                     <li class="ml-2">
                                         <div id="google_translate_element"></div>
                                     </li>

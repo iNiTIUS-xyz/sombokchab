@@ -29,12 +29,13 @@
                                         placeholder="{{ __('Order Id') }}">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" name="phone" class="form-control" id="phone"
+                                    <input type="number" name="phone" class="form-control" id="phone"
                                         placeholder="{{ __('Phone Number') }}">
                                 </div>
                                 <div class="btn-wrapper">
-                                    <button type="submit"
-                                        class="btn-default rounded-btn">{{ __('Track your order') }}</button>
+                                    <button type="submit" class="btn-default rounded-btn">
+                                        {{ __('Track your order') }}
+                                    </button>
                                 </div>
                             </form>
                         </div>
