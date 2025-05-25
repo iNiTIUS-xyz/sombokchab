@@ -145,7 +145,7 @@
                     </ul>
                 </div>
                 <div class="navbar-right-content">
-                    <div class="single-right-content">
+                    <div class="single-right-content" style="display: flex; justify-content: center;">
                         <div class="track-icon-list header-card-area-content-wrapper">
                             @include('frontend.partials.header.navbar.card-and-wishlist-area')
                         </div>
