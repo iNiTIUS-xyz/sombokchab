@@ -90,7 +90,7 @@ class GeneralSettingsController extends Controller
             'MAIL_ENCRYPTION' => $request->site_smtp_mail_encryption,
         ]);
 
-        return redirect()->back()->with(['msg' => __('SMTP Settings Updated...'), 'type' => 'success']);
+        return redirect()->back()->with(['msg' => __('SMTP Settings Updated.'), 'type' => 'success']);
     }
 
     public function test_smtp_settings(Request $request)
@@ -141,7 +141,7 @@ class GeneralSettingsController extends Controller
     {
         file_put_contents('assets/frontend/js/dynamic-script.js', $request->custom_js_area);
 
-        return redirect()->back()->with(['msg' => __('Custom Script Added Success...'), 'type' => 'success']);
+        return redirect()->back()->with(['msg' => __('Custom Script Added Success.'), 'type' => 'success']);
     }
 
     public function gdpr_settings()
@@ -187,7 +187,7 @@ class GeneralSettingsController extends Controller
         update_static_option('site_gdpr_cookie_enabled', $request->site_gdpr_cookie_enabled);
         update_static_option('site_gdpr_cookie_expire', $request->site_gdpr_cookie_expire);
 
-        return redirect()->back()->with(['msg' => __('GDPR Cookie Settings Updated..'), 'type' => 'success']);
+        return redirect()->back()->with(['msg' => __('GDPR Cookie Settings Updated.'), 'type' => 'success']);
     }
 
     public function cache_settings()
@@ -204,7 +204,7 @@ class GeneralSettingsController extends Controller
         Cart::instance("default")->destroy();
         Artisan::call($request->cache_type.':clear');
 
-        return redirect()->back()->with(['msg' => __('Cache Cleaned...'), 'type' => 'success']);
+        return redirect()->back()->with(['msg' => __('Cache Cleaned.'), 'type' => 'success']);
     }
 
     public function license_settings()
@@ -247,7 +247,7 @@ class GeneralSettingsController extends Controller
     {
         file_put_contents('assets/frontend/css/dynamic-style.css', $request->custom_css_area);
 
-        return redirect()->back()->with(['msg' => __('Custom Style Added Success...'), 'type' => 'success']);
+        return redirect()->back()->with(['msg' => __('Custom Style Added Success.'), 'type' => 'success']);
     }
 
     public function typography_settings()
@@ -296,7 +296,7 @@ class GeneralSettingsController extends Controller
         update_static_option('heading_font_variant', serialize($heading_font_variant));
         update_static_option('extra_font_variant', serialize($extra_font_variant));
 
-        return redirect()->back()->with(['msg' => __('Typography Settings Updated..'), 'type' => 'success']);
+        return redirect()->back()->with(['msg' => __('Typography Settings Updated.'), 'type' => 'success']);
     }
 
     public function page_settings(): Factory|View|Application
@@ -332,7 +332,7 @@ class GeneralSettingsController extends Controller
             update_static_option($meta_description, $request->$meta_description);
         }
 
-        return redirect()->back()->with(['msg' => __('Settings Updated..'), 'type' => 'success']);
+        return redirect()->back()->with(['msg' => __('Settings Updated.'), 'type' => 'success']);
     }
 
     public function basic_settings(): Factory|View|Application
@@ -383,7 +383,7 @@ class GeneralSettingsController extends Controller
             update_static_option($field, $request->$field);
         }
 
-        return redirect()->back()->with(['msg' => __('Basic Settings Update Success'), 'type' => 'success']);
+        return redirect()->back()->with(['msg' => __('Basic Settings Update Success.'), 'type' => 'success']);
     }
 
     public function color_settings()
@@ -417,7 +417,7 @@ class GeneralSettingsController extends Controller
             update_static_option($field, $request->$field);
         }
 
-        return redirect()->back()->with(['msg' => __('Color Settings Update Success'), 'type' => 'success']);
+        return redirect()->back()->with(['msg' => __('Color Settings Update Success.'), 'type' => 'success']);
     }
 
     public function seo_settings(): Factory|View|Application
@@ -439,7 +439,7 @@ class GeneralSettingsController extends Controller
         update_static_option($site_tags, $request->$site_tags);
         update_static_option($site_description, $request->$site_description);
 
-        return redirect()->back()->with(['msg' => __('SEO Settings Update Success'), 'type' => 'success']);
+        return redirect()->back()->with(['msg' => __('SEO Settings Update Success.'), 'type' => 'success']);
     }
 
     public function scripts_settings()
@@ -493,7 +493,7 @@ class GeneralSettingsController extends Controller
             'GOOGLE_CALLBACK_URL' => route('google.callback'),
         ]);
 
-        return redirect()->back()->with(['msg' => __('Third Party Scripts Settings Updated..'), 'type' => 'success']);
+        return redirect()->back()->with(['msg' => __('Third Party Scripts Settings Updated.'), 'type' => 'success']);
     }
 
     public function email_template_settings()
@@ -512,7 +512,7 @@ class GeneralSettingsController extends Controller
         update_static_option('site_global_email', $request->site_global_email);
         update_static_option('site_global_email_template', $request->site_global_email_template);
 
-        return redirect()->back()->with(['msg' => __('Email Settings Updated..'), 'type' => 'success']);
+        return redirect()->back()->with(['msg' => __('Email Settings Updated.'), 'type' => 'success']);
     }
 
     public function site_identity()
@@ -534,7 +534,7 @@ class GeneralSettingsController extends Controller
         update_static_option('site_white_logo', $request->site_white_logo);
 
         return redirect()->back()->with([
-            'msg' => __('Site Identity Has Been Updated..'),
+            'msg' => __('Site Identity Has Been Updated.'),
             'type' => 'success',
         ]);
     }
@@ -604,7 +604,7 @@ class GeneralSettingsController extends Controller
         Artisan::call('cache:clear');
 
         return redirect()->back()->with([
-            'msg' => __('Payment Settings Updated..'),
+            'msg' => __('Payment Settings Updated.'),
             'type' => 'success',
         ]);
     }
@@ -628,7 +628,7 @@ class GeneralSettingsController extends Controller
         SitemapGenerator::create(Str::slug($request->site_url))->writeToFile('sitemap/sitemap-'.$title.'.xml');
 
         return redirect()->back()->with([
-            'msg' => __('Sitemap Generated..'),
+            'msg' => __('Sitemap Generated.'),
             'type' => 'success',
         ]);
     }
@@ -639,7 +639,7 @@ class GeneralSettingsController extends Controller
             @unlink($request->sitemap_name);
         }
 
-        return redirect()->back()->with(['msg' => __('Sitemap Deleted...'), 'type' => 'danger']);
+        return redirect()->back()->with(['msg' => __('Sitemap Deleted.'), 'type' => 'danger']);
     }
 
     public function rss_feed_settings()
@@ -670,7 +670,7 @@ class GeneralSettingsController extends Controller
         ]);
 
         return redirect()->back()->with([
-            'msg' => __('RSS Settings Update..'),
+            'msg' => __('RSS Settings Update.'),
             'type' => 'success',
         ]);
     }
@@ -700,7 +700,7 @@ class GeneralSettingsController extends Controller
             update_static_option($field, $request->$field);
         }
 
-        return redirect()->back()->with(['msg' => __('Settings Updated'), 'type' => 'success']);
+        return redirect()->back()->with(['msg' => __('Settings Updated.'), 'type' => 'success']);
     }
 
     public function update_script_settings()

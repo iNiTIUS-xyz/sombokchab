@@ -16,14 +16,34 @@
                             enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" name="cache_type" id="cache_type" class="form-control">
-                            <button class="cmn_btn btn_bg_profile mt-4 clear-cache-submit-btn"
-                                data-value="view">{{ __('Clear View Cache') }}</button><br>
-                            <button class="cmn_btn btn_bg_profile mt-4 clear-cache-submit-btn"
-                                data-value="route">{{ __('Clear Route Cache') }}</button><br>
-                            <button class="cmn_btn btn_bg_profile mt-4 clear-cache-submit-btn"
-                                data-value="config">{{ __('Clear Configure Cache') }}</button><br>
-                            <button class="cmn_btn btn_bg_profile mt-4 clear-cache-submit-btn"
-                                data-value="cache">{{ __('Clear Cache') }}</button>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <button class="cmn_btn w-100 btn_bg_profile mt-4 clear-cache-submit-btn" data-value="view">
+                                        {{ __('Clear View Cache') }}
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <button class="cmn_btn w-100 btn_bg_profile mt-4 clear-cache-submit-btn" data-value="route">
+                                        {{ __('Clear Route Cache') }}
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <button class="cmn_btn w-100 btn_bg_profile mt-4 clear-cache-submit-btn" data-value="config">
+                                        {{ __('Clear Configure Cache') }}
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <button class="cmn_btn w-100 btn_bg_profile mt-4 clear-cache-submit-btn" data-value="cache">
+                                        {{ __('Clear Cache') }}
+                                    </button>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>

@@ -17,7 +17,7 @@
                             <form action="{{ route('admin.page.settings.shop.page') }}" method="POST">
                                 @csrf
                                 <div class="row g-4">
-                                    <div class="col-sm-12">
+                                    <div class="col-sm-6">
                                         <div class="form-group">
                                             <label
                                                 for="default_item_count">{{ __('Number of Products to show by default') }}</label>
@@ -25,7 +25,7 @@
                                                 value="{{ get_static_option('default_item_count') }}">
                                         </div>
                                     </div>
-                                    <div class="col-sm-12">
+                                    <div class="col-sm-6">
                                         <div class="form-group">
                                             <label for="shop_column_count">{{ __('Number of Columns') }}</label>
                                             <input type="text" name="shop_column_count" class="form-control"
@@ -46,7 +46,7 @@
                                         <div class="form-group">
                                             <label for="sidebar_position">{{ __('Sidebar Position') }}</label>
                                             @php $sidebar_position = get_static_option('sidebar_position'); @endphp
-                                            <select name="sidebar_position" id="sidebar_position" class="form-control">
+                                            <select name="sidebar_position" id="sidebar_position" class="form-control form-select">
                                                 <option value="right" @if ($sidebar_position == 'right') selected @endif>
                                                     {{ __('Right') }}</option>
                                                 <option value="left" @if ($sidebar_position == 'left') selected @endif>
@@ -113,8 +113,9 @@
                                         <div class="form-group">
                                             <label for="shop_filter_by_location">{{ __('Filter by Location') }}</label>
                                             <label class="switch">
-                                                <input type="checkbox" id="shop_filter_by_location" name="shop_filter_by_location"
-                                                       @if (!empty(get_static_option('shop_filter_by_location'))) checked @endif>
+                                                <input type="checkbox" id="shop_filter_by_location"
+                                                    name="shop_filter_by_location"
+                                                    @if (!empty(get_static_option('shop_filter_by_location'))) checked @endif>
                                                 <span class="slider"></span>
                                             </label>
                                         </div>

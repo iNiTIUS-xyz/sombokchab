@@ -19,10 +19,10 @@
                             <form action="{{ route('admin.general.reading') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row g-4">
-                                    <div class="col-sm-12">
+                                    <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="home_page">{{ __('Home Page Display') }}</label>
-                                            <select name="home_page" id="home_page" class="form-control">
+                                            <select name="home_page" id="home_page" class="form-select">
                                                 @foreach ($all_pages as $page)
                                                     <option value="{{ $page->id }}"
                                                         @if ($page->id == get_static_option('home_page')) selected @endif>{{ $page->title }}
@@ -31,10 +31,10 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-sm-12">
+                                    <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="product_page">{{ __('Product Page Display') }}</label>
-                                            <select name="product_page" id="product_page" class="form-control">
+                                            <select name="product_page" id="product_page" class="form-select">
                                                 @foreach ($all_pages as $page)
                                                     <option value="{{ $page->id }}"
                                                         @if ($page->id == get_static_option('product_page')) selected @endif>{{ $page->title }}
@@ -43,10 +43,10 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-sm-12">
+                                    <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="blog_page">{{ __('Blog Page') }}</label>
-                                            <select name="blog_page" id="blog_page" class="form-control">
+                                            <select name="blog_page" id="blog_page" class="form-select">
                                                 @foreach ($all_pages as $page)
                                                     <option value="{{ $page->id }}"
                                                         @if ($page->id == get_static_option('blog_page')) selected @endif>{{ $page->title }}
@@ -55,7 +55,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-sm-12">
+                                    <div class="col-sm-4">
                                         <button type="submit" id="update"
                                             class="cmn_btn btn_bg_profile">{{ __('Update Changes') }}</button>
                                     </div>

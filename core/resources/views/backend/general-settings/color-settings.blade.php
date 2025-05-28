@@ -20,7 +20,6 @@
                         <form action="{{ route('admin.general.color.settings') }}" method="POST"
                             enctype="multipart/form-data">
                             @csrf
-
                             <div class="tab-content margin-top-30" id="nav-tabContent"></div>
                             <div class="row g-4">
                                 <div class="col-sm-12">
@@ -57,7 +56,7 @@
                                     <div class="form-group">
                                         <label for="site_special_color">{{ __('Customer profile Color Settings') }}</label>
                                         <input type="text" name="site_special_color"
-                                            style="background-color: {{ get_static_option('site_special_color') }};color: #fff;"
+                                            style="background-color: {{ get_static_option('site_special_color') }}; color: #fff;"
                                             class="form-control" value="{{ get_static_option('site_special_color') }}"
                                             id="site_special_color">
                                         <small>{{ __('You change customer profile Color Settings color from here, it will replace website special color') }}</small>
@@ -120,6 +119,9 @@
                 initColorPicker('#site_main_color_two');
                 initColorPicker('#site_heading_color');
                 initColorPicker('#site_paragraph_color');
+                initColorPicker('#site_special_color');
+                initColorPicker('#site_form_bg_color');
+                initColorPicker('#site_footer_bg_color');
                 initColorPicker('input[name="portfolio_home_color"');
                 initColorPicker('input[name="logistics_home_color"');
 

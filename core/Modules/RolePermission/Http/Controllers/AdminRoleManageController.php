@@ -55,7 +55,7 @@ class AdminRoleManageController extends Controller
             "name" => $request->name
         ]);
 
-        return back()->with(["msg" => __("role added"),"type" => "success"]);
+        return back()->with(["msg" => __("role added."),"type" => "success"]);
     }
 
     /**
@@ -74,7 +74,7 @@ class AdminRoleManageController extends Controller
             "name" => $request->name
         ]);
 
-        return back()->with(["msg" => __("role update"),"type" => "success"]);
+        return back()->with(["msg" => __("role update."),"type" => "success"]);
     }
 
     /**

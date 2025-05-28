@@ -21,14 +21,14 @@
                             enctype="multipart/form-data">
                             @csrf
                             <div class="row g-4">
-                                <div class="col-sm-12">
+                                <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="site_title">{{ __('Site Title') }}</label>
                                         <input type="text" name="site_title" class="form-control"
                                             value="{{ get_static_option('site_title') }}" id="site_title">
                                     </div>
                                 </div>
-                                <div class="col-sm-12">
+                                <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="site_tag_line">{{ __('Site Tag Line') }}</label>
                                         <input type="text" name="site_tag_line" class="form-control"
@@ -53,10 +53,10 @@
                                             class="form-text text-muted">{{ __('allowed image format: jpg,jpeg,png. Recommended image size 1200x900') }}</small>
                                     </div>
                                 </div>
-                                <div class="col-sm-12">
+                                <div class="col-sm-4">
                                     <div class="form-group">
                                         <label
-                                            for="site_sticky_navbar_enabled"><strong>{{ __('Enable buy now button on shop page') }}</strong></label>
+                                            for="enable_buy_now_button_on_shop_page"><strong>{{ __('Enable buy now button on shop page') }}</strong></label>
                                         <label class="switch">
                                             <input type="checkbox" name="enable_buy_now_button_on_shop_page"
                                                 @if (!empty(get_static_option('enable_buy_now_button_on_shop_page'))) checked @endif
@@ -65,7 +65,7 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div class="col-sm-12">
+                                <div class="col-sm-4">
                                     <div class="form-group">
                                         <label
                                             for="site_sticky_navbar_enabled"><strong>{{ __('Sticky Navbar Enable/Disable') }}</strong></label>
@@ -77,7 +77,7 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div class="col-sm-12">
+                                <div class="col-sm-4">
                                     <div class="form-group">
                                         <label
                                             for="site_maintenance_mode"><strong>{{ __('Maintenance Mode') }}</strong></label>
@@ -88,18 +88,19 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div class="col-sm-12">
+                                <div class="col-sm-4">
                                     <div class="form-group">
                                         <label
                                             for="site_admin_panel_nav_sticky"><strong>{{ __('Enable/Disable Admin Panel Nav Sticky') }}</strong></label>
                                         <label class="switch">
                                             <input type="checkbox" name="site_admin_panel_nav_sticky"
-                                                @if (!empty(get_static_option('site_admin_panel_nav_sticky'))) checked @endif>
+                                                @if (!empty(get_static_option('site_admin_panel_nav_sticky'))) checked @endif
+                                                id="site_admin_panel_nav_sticky">
                                             <span class="slider onff"></span>
                                         </label>
                                     </div>
                                 </div>
-                                <div class="col-sm-12">
+                                <div class="col-sm-4">
                                     <div class="form-group">
                                         <label
                                             for="site_payment_gateway"><strong>{{ __('Enable/Disable Payment Gateway') }}</strong></label>
@@ -110,7 +111,7 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div class="col-sm-12">
+                                <div class="col-sm-4">
                                     <div class="form-group">
                                         <label
                                             for="disable_backend_preloader"><strong>{{ __('Enable/Disable Backend Preloader') }}</strong></label>
@@ -122,18 +123,18 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div class="col-sm-12">
+                                <div class="col-sm-4">
                                     <div class="form-group">
                                         <label
                                             for="site_force_ssl_redirection"><strong>{{ __('Enable/Disable Force SSL Redirection') }}</strong></label>
                                         <label class="switch">
                                             <input type="checkbox" name="site_force_ssl_redirection"
-                                                @if (!empty(get_static_option('site_force_ssl_redirection'))) checked @endif>
+                                                @if (!empty(get_static_option('site_force_ssl_redirection'))) checked @endif id="site_force_ssl_redirection">
                                             <span class="slider onff"></span>
                                         </label>
                                     </div>
                                 </div>
-                                <div class="col-sm-12">
+                                <div class="col-sm-4">
                                     <div class="form-group">
                                         <label
                                             for="disable_user_email_verify"><strong>{{ __('Disable User Email Verify') }}</strong></label>
@@ -147,19 +148,19 @@
                                             class="info-text">{{ __('No, means user must have to verify their email account in order access his/her dashboard.') }}</small>
                                     </div>
                                 </div>
-                                <div class="col-sm-12">
+                                <div class="col-sm-4">
                                     <div class="form-group">
                                         <label
                                             for="preloader_status"><strong>{{ __('Enable/Disable Frontend Preloader') }}</strong></label>
                                         <label class="switch">
                                             <input type="checkbox" name="preloader_status"
-                                                @if (!empty(get_static_option('preloader_status'))) checked @endif>
+                                                @if (!empty(get_static_option('preloader_status'))) checked @endif id="preloader_status">
                                             <span class="slider onff"></span>
                                         </label>
                                         <small class="info-text">{{ __('enable disable preloader') }}</small>
                                     </div>
                                 </div>
-                                <div class="col-sm-12">
+                                <div class="col-sm-4">
                                     <button type="submit"
                                         class="cmn_btn btn_bg_profile">{{ __('Update Changes') }}</button>
                                 </div>
