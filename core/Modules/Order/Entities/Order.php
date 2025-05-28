@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Order extends Model
 {
-    use HasEagerLimit,NotificationRelation;
+    use HasEagerLimit, NotificationRelation;
 
     protected $fillable = [
         'coupon',
@@ -31,6 +31,27 @@ class Order extends Model
         'note',
         'selected_customer',
     ];
+
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($customer) {
+            $customer->tracking_code = static::generateUniqueCode();
+        });
+
+    }
+
+    protected static function generateUniqueCode()
+    {
+        do {
+            $trackingCode = date('ymdhs');
+        } while (Order::where('tracking_code', $trackingCode)->exists());
+
+        return $trackingCode;
+    }
+
 
     public function deliveryMan(): HasOne
     {
@@ -66,14 +87,14 @@ class Order extends Model
     {
         return $this->hasOne(OrderTrack::class, 'order_id', 'id')->where('name', 'delivered');
     }
-    
+
 
     /**
      * Check if the order is delivered.
      */
     public function isDeliveredStatus(): Attribute
     {
-        return Attribute::get(fn () => $this->orderTrack()->where('name', 'delivered')->exists());
+        return Attribute::get(fn() => $this->orderTrack()->where('name', 'delivered')->exists());
     }
 
     /**
@@ -83,7 +104,7 @@ class Order extends Model
     {
         return Attribute::get(function () {
             $orderTracks = $this->orderTrack()->pluck('name')->toArray();
-            
+
             // If 'ordered' exists and there are no other statuses, it is cancelable
             return in_array('ordered', $orderTracks) && count($orderTracks) === 1;
         });
@@ -98,6 +119,6 @@ class Order extends Model
 
     public function hasRefundRequest(): Attribute
     {
-        return Attribute::get(fn () => $this->refundRequest()->exists());
+        return Attribute::get(fn() => $this->refundRequest()->exists());
     }
 }

@@ -38,18 +38,6 @@ class UserDashboardController extends Controller
         $this->middleware(['auth']);
     }
 
-    // public function user_index()
-    // {
-    //     $product_count = ProductSellInfo::where('user_id', auth('web')->user()->id)->count();
-    //     $support_ticket_count = SupportTicket::where('user_id', auth('web')->user()->id)->count();
-    //     $all_orders = Order::with('paymentMeta')->withCount('isDelivered')
-    //         ->where('user_id', auth('web')->user()->id)
-    //         ->orderBy('id', 'DESC')
-    //         ->latest()
-    //         ->paginate(5);
-
-    //     return view(self::BASE_PATH . 'user-home', compact('all_orders', 'product_count', 'support_ticket_count'));
-    // }
     public function user_index()
     {
         $product_count = ProductSellInfo::where('user_id', auth('web')->user()->id)->count();
@@ -507,14 +495,25 @@ class UserDashboardController extends Controller
             ]);
     }
 
-    public function orderDetailsPage($item): Factory|View|Application
+    public function orderDetailsPage($item)
     {
-        $orders = SubOrder::with(['order', 'vendor', 'orderItem', 'orderItem.product', 'orderItem.variant', 'orderItem.variant.productColor', 'orderItem.variant.productSize'])
-            ->where('order_id', $item)->get();
         $payment_details = Order::with('address', 'paymentMeta')
             ->when(moduleExists("DeliveryMan"), function ($query) {
                 $query->with("deliveryMan");
-            })->find($item);
+            })
+            ->where('order_number', $item)
+            ->first();
+
+        if (!$payment_details) {
+            return redirect()->route('user.home')->with([
+                'msg' => __('Order not found.'),
+                'type' => 'danger',
+            ]);
+        }
+
+        $orders = SubOrder::with(['order', 'vendor', 'orderItem', 'orderItem.product', 'orderItem.variant', 'orderItem.variant.productColor', 'orderItem.variant.productSize'])
+            ->where('order_id', $payment_details->id)->get();
+
         $orderTrack = OrderTrack::where('order_id', $payment_details->id)->orderByDesc('id')->first();
 
         return view(self::BASE_PATH . 'order.details', compact('item', 'orders', 'payment_details', 'orderTrack'));

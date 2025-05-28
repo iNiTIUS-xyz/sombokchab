@@ -21,7 +21,8 @@
                 </div>
                 <div class="col-lg-8 col-md-6">
                     <div class="category-searchbar">
-                        <form action="{{ route("frontend.search.results") }}" class="single-searchbar searchbar-suggetions" method="GET">
+                        <form action="{{ route('frontend.search.results') }}"
+                            class="single-searchbar searchbar-suggetions" method="GET">
                             @csrf
                             {{-- <input autocomplete="off" class="form--control radius-5" id="search_form_input"
                                 type="text" placeholder="{{ 'Search For Products' }}">
@@ -41,7 +42,8 @@
 
                             <div class="input-group">
                                 <!-- Category Dropdown -->
-                                <select class="form-select" id="searchCategory" name="category_id" style="max-width: 200px;">
+                                <select class="form-select" id="searchCategory" name="category_id"
+                                    style="max-width: 200px;">
                                     <option value="">All</option>
                                     @foreach ($all_category as $category)
                                         <option value="{{ $category->id }}" style="font-weight: bold;">
@@ -67,7 +69,8 @@
                                     type="text" placeholder="Search For Products">
 
                                 <!-- Buttons -->
-                                <a class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#imageSearchModal">
+                                <a class="btn btn-outline-secondary" data-bs-toggle="modal"
+                                    data-bs-target="#imageSearchModal">
                                     <i class="la la-camera text-light la-2x" style="padding-top: 5px;"></i>
                                 </a>
                                 <button type="submit" class="btn btn-outline-secondary">
@@ -104,15 +107,13 @@
                     </div>
                 </div>
                 <div class="col-lg-2 d-none d-lg-block">
-                    <div class="single-right-content">
-                        
+                    <div class="single-right-content" style="display: flex; justify-content: center;">
                         <div class="track-icon-list header-card-area-content-wrapper">
-                            <select id="currency-selector" class="form-control" style="background: transparent; width: 55px;color: #FFF;font-size: 15px; text-align: center;">
+                            <select id="currency-selector" class="form-control"
+                                style="background: transparent; width: 55px;color: #FFF;font-size: 15px; text-align: center;">
                                 <option value="USD" selected>USD</option>
                                 <option value="KHR">Khmer (KHR)</option>
                             </select>
-                            
-                            
                             @include('frontend.partials.header.navbar.card-and-wishlist-area')
                         </div>
                     </div>
@@ -123,7 +124,8 @@
     <!-- Topbar area Ends -->
     <!-- Menu area Starts -->
     <nav class="navbar navbar-area nav-five navbar-expand-lg py-1" style="background: rgb(57, 77, 72);">
-        <div class="container container_1608 nav-container  {{ $containerClass ?? "" }}" style="max-width: 100%; width: 100%; margin: 0px">
+        <div class="container container_1608 nav-container  {{ $containerClass ?? '' }}"
+            style="max-width: 100%; width: 100%; margin: 0px">
             <div class="navbar-inner-all">
                 <div class="navbar-inner-all--left">
                     <div class="nav-category category_bars">
@@ -159,22 +161,25 @@
                         <div class="topbar-right-offer">
                             <ul class="list">
                                 <li class="me-2">
-                                    <a href="{{ route('frontend.products.track.order') }}" class="track-icon-single text-white">
+                                    <a href="{{ route('frontend.products.track.order') }}"
+                                        class="track-icon-single text-white">
                                         <span class="icon">
                                             <i class="las la-map-marker-alt text-white"></i>
                                         </span>
                                         {{ __('Order Tracking') }}
                                     </a>
                                 </li>
-                                @if(!auth('web')->check())
-                                    @if(get_static_option("enable_vendor_registration") === 'on')
+                                @if (!auth('web')->check())
+                                    @if (get_static_option('enable_vendor_registration') === 'on')
                                         <li class="me-2">
-                                            <a class="btn btn-sm text-dark become-a-seller-button" href="{{ route('vendor.register') }}" style="background-color: var(--main-color-two);">
+                                            <a class="btn btn-sm text-dark become-a-seller-button"
+                                                href="{{ route('vendor.register') }}"
+                                                style="background-color: var(--main-color-two);">
                                                 {{ __('Become a Vendor') }}
                                             </a>
                                         </li>
                                     @endif
-                                    
+
                                     <li class="">
                                         <a href="{{ route('vendor.login') }}">
                                             {{ __('Vendor Sign In') }}
@@ -185,7 +190,7 @@
                             </ul>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
@@ -207,7 +212,8 @@
     </div>
 </header>
 <!-- Image Search Modal -->
-<div class="modal fade" id="imageSearchModal" tabindex="-1" role="dialog" aria-labelledby="imageSearchModalLabel" aria-hidden="true">
+<div class="modal fade" id="imageSearchModal" tabindex="-1" role="dialog" aria-labelledby="imageSearchModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -218,7 +224,8 @@
             </div>
             <div class="modal-body text-center">
                 <input type="file" id="imageSearchInput" accept="image/*" class="form-control">
-                <img id="imagePreview" src="#" alt="Image Preview" class="img-fluid mt-3" style="display:none; max-height: 200px;">
+                <img id="imagePreview" src="#" alt="Image Preview" class="img-fluid mt-3"
+                    style="display:none; max-height: 200px;">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" onclick="uploadImageForSearch()">Search</button>
@@ -229,22 +236,22 @@
 
 <!-- Header area end -->
 <style>
-    .single-right-content .track-icon-list{
+    .single-right-content .track-icon-list {
         float: right;
     }
 
-    #google_translate_element .goog-te-gadget img{
+    #google_translate_element .goog-te-gadget img {
         display: none !important;
     }
 
-    .gtranslate_wrapper{
+    .gtranslate_wrapper {
         width: 100%;
         justify-content: center;
         align-items: center;
         display: flex;
     }
 
-    .gtranslate_wrapper  .gt_selector {
+    .gtranslate_wrapper .gt_selector {
         width: 100px;
         height: 42px;
         font-size: 15px;
@@ -255,34 +262,34 @@
         border-radius: 5px;
         float: right;
     }
-    .gtranslate_wrapper  .gt_selector option,
+
+    .gtranslate_wrapper .gt_selector option,
     #currency-selector option {
         background: var(--main-color-one) !important;
         border-radius: 0px !important;
     }
 
-    .single-searchbar.searchbar-suggetions .input-group{
+    .single-searchbar.searchbar-suggetions .input-group {
         border: 1px solid #A69D9D;
         border-radius: 5px;
     }
 
-    .single-searchbar.searchbar-suggetions input:focus{
+    .single-searchbar.searchbar-suggetions input:focus {
         border: none !important;
         box-shadow: none !important;
     }
-    
 </style>
 <script>
     window.gtranslateSettings = {
-        "default_language":"en",
-        "languages":["en","km"],
-        "wrapper_selector":".gtranslate_wrapper"
-        }
+        "default_language": "en",
+        "languages": ["en", "km"],
+        "wrapper_selector": ".gtranslate_wrapper"
+    }
 </script>
 <script src="https://cdn.gtranslate.net/widgets/latest/dropdown.js" defer></script>
 
 <script>
-    document.addEventListener("DOMContentLoaded", async function () {
+    document.addEventListener("DOMContentLoaded", async function() {
         const CURRENCYFREAKS_API_KEY = "24b96ee77023425b95d417d36bc4a830";
         const currencySelector = document.getElementById("currency-selector");
         const INACTIVITY_LIMIT = 5 * 60 * 1000; // 5 minutes in milliseconds
@@ -306,7 +313,7 @@
         }
 
         // Event listener for currency change
-        currencySelector.addEventListener("change", async function () {
+        currencySelector.addEventListener("change", async function() {
             const selectedCurrency = this.value;
 
             // Store currency in localStorage and update activity time
@@ -321,19 +328,31 @@
 
             // Collect price elements
             document.querySelectorAll(".price-update-through, .product__price").forEach(container => {
-                const currentElem = container.querySelector(".flash-prices, .product__price__current");
+                const currentElem = container.querySelector(
+                    ".flash-prices, .product__price__current");
                 if (!currentElem) return;
 
-                const oldElem = container.querySelector(".flash-old-prices, .product__price__old");
+                const oldElem = container.querySelector(
+                    ".flash-old-prices, .product__price__old");
                 const baseCurrent = getBaseUsdPrice(currentElem, ["data-main-price"]);
                 const baseOld = oldElem ? getBaseUsdPrice(oldElem, ["data-deleted-price"]) : 0;
 
-                allPricesData.push({ currentElem, oldElem, baseCurrent, baseOld });
+                allPricesData.push({
+                    currentElem,
+                    oldElem,
+                    baseCurrent,
+                    baseOld
+                });
             });
 
             // If USD, revert to base
             if (selectedCurrency === "USD") {
-                allPricesData.forEach(({ currentElem, oldElem, baseCurrent, baseOld }) => {
+                allPricesData.forEach(({
+                    currentElem,
+                    oldElem,
+                    baseCurrent,
+                    baseOld
+                }) => {
                     currentElem.textContent = formatCurrency(baseCurrent, "USD", "en-US");
                     if (oldElem) oldElem.textContent = formatCurrency(baseOld, "USD", "en-US");
                 });
@@ -342,7 +361,8 @@
 
             // Fetch conversion rate if not USD
             try {
-                const url = `https://api.currencyfreaks.com/latest?apikey=${CURRENCYFREAKS_API_KEY}&symbols=KHR`;
+                const url =
+                    `https://api.currencyfreaks.com/latest?apikey=${CURRENCYFREAKS_API_KEY}&symbols=KHR`;
                 const response = await fetch(url);
                 const data = await response.json();
 
@@ -350,9 +370,16 @@
                 const rate = parseFloat(data.rates.KHR);
                 if (isNaN(rate)) throw new Error("Invalid KHR rate.");
 
-                allPricesData.forEach(({ currentElem, oldElem, baseCurrent, baseOld }) => {
-                    currentElem.textContent = formatCurrency(baseCurrent * rate, "KHR", "km-KH");
-                    if (oldElem) oldElem.textContent = formatCurrency(baseOld * rate, "KHR", "km-KH");
+                allPricesData.forEach(({
+                    currentElem,
+                    oldElem,
+                    baseCurrent,
+                    baseOld
+                }) => {
+                    currentElem.textContent = formatCurrency(baseCurrent * rate, "KHR",
+                        "km-KH");
+                    if (oldElem) oldElem.textContent = formatCurrency(baseOld * rate, "KHR",
+                        "km-KH");
                 });
 
             } catch (error) {
@@ -374,17 +401,20 @@
         }
 
         function formatCurrency(value, currencyCode, locale) {
-            return new Intl.NumberFormat(locale, { style: "currency", currency: currencyCode }).format(value);
+            return new Intl.NumberFormat(locale, {
+                style: "currency",
+                currency: currencyCode
+            }).format(value);
         }
     });
 </script>
 <script>
-   document.getElementById("imageSearchInput").addEventListener("change", function () {
+    document.getElementById("imageSearchInput").addEventListener("change", function() {
         const file = this.files[0];
 
         if (file) {
             const reader = new FileReader();
-            reader.onload = function (e) {
+            reader.onload = function(e) {
                 document.getElementById("imagePreview").src = e.target.result;
                 document.getElementById("imagePreview").style.display = "block";
             };
@@ -406,23 +436,23 @@
         formData.append("_token", document.querySelector('input[name="_token"]').value);
 
         fetch("{{ route('search.image') }}", {
-            method: "POST",
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.products.length > 0) {
-                displayProductResults(data.products);
-            } else {
-                document.getElementById("no_product_found_div").style.display = "block";
-            }
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.products.length > 0) {
+                    displayProductResults(data.products);
+                } else {
+                    document.getElementById("no_product_found_div").style.display = "block";
+                }
 
-            // Close modal after search
-            $("#imageSearchModal").modal("hide");
-        })
-        .catch(error => {
-            console.error("Error:", error);
-        });
+                // Close modal after search
+                $("#imageSearchModal").modal("hide");
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
     }
 
     function displayProductResults(products) {
@@ -437,5 +467,4 @@
 
         document.getElementById("search_suggestions_wrap").style.display = "block";
     }
-
 </script>

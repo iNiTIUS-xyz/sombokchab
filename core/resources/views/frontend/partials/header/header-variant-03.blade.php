@@ -78,7 +78,7 @@
                         </div>
                     </div>
                     <div class="col-lg-2 d-none d-lg-block">
-                        <div class="single-right-content">
+                        <div class="single-right-content" style="display: flex; justify-content: center;">
 
                             <div class="track-icon-list header-card-area-content-wrapper">
                                 <!-- Currency Selector with Dropdown Icon -->

@@ -1,10 +1,13 @@
 @extends('frontend.frontend-page-master')
+
 @section('site-title')
     {{ __('Track Order') }}
 @endsection
+
 @section('page-title')
     {{ __('Track Order') }}
 @endsection
+
 @section('style')
     <style>
         @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
