@@ -59,8 +59,8 @@
                                 </td>
                                 <td>
                                     <a href="{{ route('user.dashboard.support.ticket.view', $data->id) }}"
-                                        class="btn btn-primary btn-xs" target="_blank" class="View Support Ticket">
-                                        <i class="las la-eye"></i>
+                                        class="btn btn-secondary btn-sm rounded-btn" target="_blank" class="View Support Ticket">
+                                        <i class="las la-file-alt"></i>
                                     </a>
                                     @if ($data->status == 'open')
                                         <a href="javascript:;" class="status_change btn btn-danger btn-xs"

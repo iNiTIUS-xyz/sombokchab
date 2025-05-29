@@ -8,7 +8,7 @@
                 <form method="POST" action="{{ route('admin.forget.password') }}">
                     @csrf
                     <div class="login-form-head">
-                        <h4>{{__('Forget Password')}}</h4>
+                        <h4>{{__('Reset Password')}}</h4>
                         <p>{{__('Hello there, here you can rest you password')}}</p>
                     </div>
                     @include('backend.partials.message')
