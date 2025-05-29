@@ -16,7 +16,7 @@ class VendorRegistrationRequest extends FormRequest
             "business_type_id" => "nullable",
             "description" => "nullable",
             "status_id" => "nullable",
-            "phone" => "nullable",
+            "phone" => "nullable|unique:vendors",
             "email" => "unique:vendors",
             "agree_terms" => "required"
         ];

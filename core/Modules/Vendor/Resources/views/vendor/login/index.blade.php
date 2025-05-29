@@ -71,7 +71,7 @@
 
                     <div class="single-checbox mt-3">
                         <div class="checkbox-inlines">
-                            <input class="check-input" type="checkbox" id="login_remember" name="remember">
+                            <input class="check-input" type="checkbox" id="login_remember" name="remember" checked>
                             <label class="checkbox-label" for="login_remember"> {{ __('Remember Me') }} </label>
                         </div>
                         <div class="forgot-password">
