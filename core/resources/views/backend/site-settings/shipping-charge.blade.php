@@ -11,8 +11,7 @@
     <div class="col-lg-12 col-ml-12 dashboard-area">
         <div class="row">
             <div class="col-lg-12">
-                <x-msg.error />
-                <x-msg.flash />
+                @include('backend.partials.message')
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Shipping Charge Settings') }}</h4>
@@ -21,12 +20,12 @@
                         <form action="{{ route('admin.shipping-charge-settings') }}" method="post">
                             @csrf
                             <div class="row g-4">
-                                <div class="col-sm-12">
+                                <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>
                                             {{ __('Select Shipping Charge Type') }}
                                             <select name="shipping_charge_type"
-                                                class="form-control mt-2 shipping-charge-type">
+                                                class="form-select form-control shipping-charge-type">
                                                 <option value="">{{ __('Select Type') }}</option>
                                                 <option
                                                     {{ get_static_option('shipping_charge_type') == 'global' ? 'selected' : '' }}
@@ -38,7 +37,7 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div class="col-sm-12">
+                                <div class="col-sm-6">
                                     <div class="form-group shipping-charge-wrapper"
                                         style="{{ get_static_option('shipping_charge_type') !== 'global' ? 'display: none' : '' }}">
                                         <label>
@@ -48,7 +47,7 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div class="col-sm-12">
+                                <div class="col-sm-6">
                                     <div class="form-group">
                                         <button class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
                                     </div>

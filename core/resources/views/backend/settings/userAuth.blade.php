@@ -20,25 +20,24 @@
                             <form action="{{ route('admin.page.settings.user.auth') }}" method="POST">
                                 @csrf
                                 <div class="row g-4">
-                                    <div class="col-sm-12">
+                                    <div class="col-sm-6">
                                         <div class="form-group">
                                             <label for="toc_page_link">{{ __('Terms of Service and Conditions Link') }}</label>
-                                            <select class="form-control" id="toc_page_link" name="toc_page_link">
-                                                <option value="">{{ __("Select Terms and condition page") }}</option>
-                                                @foreach($pages as $page)
+                                            <select class="form-control form-select" id="toc_page_link" name="toc_page_link">
+                                                <option value="">{{ __('Select Terms and condition page') }}</option>
+                                                @foreach ($pages as $page)
                                                     <option value="{{ $page->slug }}">{{ $page->title }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-sm-12">
+                                    <div class="col-sm-6">
                                         <div class="form-group">
                                             <label for="privacy_policy_link">{{ __('Privacy Policy Link') }}</label>
-                                            <select class="form-control" id="privacy_policy_link"
-                                                name="privacy_policy_link"
+                                            <select class="form-control form-select" id="privacy_policy_link" name="privacy_policy_link"
                                                 value="{{ get_static_option('privacy_policy_link') }}">
-                                                <option value="">{{ __("Select privacy policy page") }}</option>
-                                                @foreach($pages as $page)
+                                                <option value="">{{ __('Select privacy policy page') }}</option>
+                                                @foreach ($pages as $page)
                                                     <option value="{{ $page->slug }}">{{ $page->title }}</option>
                                                 @endforeach
                                             </select>

@@ -91,7 +91,7 @@
                                                 value="{{ get_static_option('no_rating_text') }}">
                                         </div>
                                     </div>
-                                    <div class="col-sm-12">
+                                    <div class="col-sm-6">
                                         <div class="form-group">
                                             <label
                                                 for="related_product_text">{{ __('Related Product Section Title Text') }}</label>
@@ -99,24 +99,14 @@
                                                 value="{{ get_static_option('related_product_text') }}">
                                         </div>
                                     </div>
-                                    @if(false)
-                                        <div class="col-sm-12">
+                                    @if (false)
+                                        <div class="col-sm-6">
                                             <div class="form-group">
                                                 <x-media-upload :name="'related_product_image'" :oldimage="get_static_option('related_product_image')" :title="__('Related Product Section Image')" />
                                             </div>
                                         </div>
                                     @endif
-                                    <div class="col-sm-12">
-                                        <div class="form-group">
-                                            <label for="">{{ __('Sidebar status') }}</label>
-                                            <label class="switch">
-                                                <input type="checkbox" name="sidebar_status"
-                                                    {{ !empty(get_static_option('sidebar_status')) ? 'checked' : '' }}><span
-                                                    class="slider"></span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12">
+                                    <div class="col-sm-6">
                                         <div class="form-group">
                                             <label for="sidebar_position">{{ __('Sidebar Position') }}</label>
                                             <select class="form-control" name="sidebar_position" id="sidebar_position">
@@ -127,13 +117,23 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-sm-12">
+                                    <div class="col-sm-3">
                                         <div class="form-group">
-                                            <label for="">{{ __('Product SKU show/hide') }}</label>
+                                            <label for="sidebar_status">{{ __('Sidebar status') }}</label>
                                             <label class="switch">
-                                                <input type="checkbox" name="product_sku_show_hide"
-                                                        {{ !empty(get_static_option('product_sku_show_hide')) ? 'checked' : '' }}><span
-                                                        class="slider"></span>
+                                                <input type="checkbox" name="sidebar_status" id="sidebar_status"
+                                                    {{ !empty(get_static_option('sidebar_status')) ? 'checked' : '' }}><span
+                                                    class="slider"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="product_sku">{{ __('Product SKU show/hide') }}</label>
+                                            <label class="switch">
+                                                <input type="checkbox" name="product_sku_show_hide" id="product_sku"
+                                                    {{ !empty(get_static_option('product_sku_show_hide')) ? 'checked' : '' }}><span
+                                                    class="slider"></span>
                                             </label>
                                         </div>
                                     </div>
