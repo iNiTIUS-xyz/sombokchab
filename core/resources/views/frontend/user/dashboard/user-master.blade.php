@@ -1,6 +1,6 @@
 @extends('frontend.frontend-page-master')
 @section('page-title')
-    {{ __('User Dashboard') }}
+    {{ __('Customer Dashboard') }}
 @endsection
 @section('style')
     @parent
