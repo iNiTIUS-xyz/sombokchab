@@ -1,6 +1,6 @@
 @extends('frontend.user.dashboard.user-master')
 @section('site-title')
-    {{ __('User Dashboard') }}
+    {{ __('Customer Dashboard') }}
 @endsection
 
 @section('section')

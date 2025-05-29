@@ -1,10 +1,10 @@
 @extends('frontend.frontend-page-master')
 @section('site-title')
-    {{__('User Dashboard')}}
+    {{__('Customer Dashboard')}}
 @endsection
 
 @section('page-title')
-    {{__('User Dashboard')}}
+    {{__('Customer Dashboard')}}
 @endsection
 
 @section('style')
