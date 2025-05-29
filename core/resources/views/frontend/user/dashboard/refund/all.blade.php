@@ -17,9 +17,8 @@
                         <thead>
                             <tr>
                                 <th>{{ __('SL No.') }}</th>
-                                <th>{{ __('Order Info') }}</th>
-                                <th>{{ __('Refund Info') }}</th>
-                                <th>{{__('Date')}}</th>
+                                <th>{{ __('Order Details') }}</th>
+                                <th>{{ __('Refund Details') }}</th>
                                 <th>{{ __('Action') }}</th>
                             </tr>
                         </thead>
@@ -111,7 +110,8 @@
                         showCancelButton: true,
                         confirmButtonColor: '#ee0000',
                         cancelButtonColor: '#55545b',
-                        confirmButtonText: 'Yes, delete it!'
+                        confirmButtonText: 'Yes, delete it!',
+                        cancelButtonText: '{{ __('No') }}'
                     }).then((result) => {
                         if (result.isConfirmed) {
                             $(this).next().find('.swal_form_submit_btn').trigger('click');

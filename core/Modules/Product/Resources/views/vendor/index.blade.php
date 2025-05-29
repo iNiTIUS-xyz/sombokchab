@@ -276,9 +276,10 @@
                     text: "You won't be able to revert this!",
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
+                    confirmButtonColor: '#ee0000',
+                    cancelButtonColor: '#55545b',
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: '{{ __('No') }}'
                 }).then((result) => {
                     if (result.isConfirmed) {
                         send_ajax_request("GET", null, $(this).data("product-url"), () => {
