@@ -33,19 +33,19 @@
         }
 
         /* .support-ticket-wrapper button[type=submit]:hover {
-                    background-color: var(--secondary-color);
-                    color: #fff
-                }
+                                        background-color: var(--secondary-color);
+                                        color: #fff
+                                    }
 
-                .support-ticket-wrapper button[type=submit] {
-                    display: inline-block;
-                    border: none;
-                    background-color: var(--main-color-two);
-                    color: #fff;
-                    padding: 10px 30px;
-                    font-weight: 600;
-                    transition: all .4s
-                } */
+                                    .support-ticket-wrapper button[type=submit] {
+                                        display: inline-block;
+                                        border: none;
+                                        background-color: var(--main-color-two);
+                                        color: #fff;
+                                        padding: 10px 30px;
+                                        font-weight: 600;
+                                        transition: all .4s
+                                    } */
 
         .support-ticket-wrapper textarea:focus {
             outline: 0;
@@ -99,25 +99,14 @@
                                     class="support-ticket-form-wrapper" enctype="multipart/form-data">
                                     @csrf
                                     <input type="hidden" name="via" value="{{ __('website') }}">
-                                    {{-- <div class="form-group">
-                                        <label>{{ __('Title') }}</label>
-                                        <input type="text" class="form-control" name="title"
-                                            placeholder="{{ __('Title') }}">
-                                    </div> --}}
                                     <div class="form-group">
                                         <label>{{ __('Subject') }}</label>
                                         <input type="text" class="form-control" name="title"
                                             placeholder="{{ __('Enter Subject') }}">
+                                        @error('title')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
-                                    {{-- <div class="form-group">
-                                        <label>{{ __('Priority') }}</label>
-                                        <select name="priority" class="form-control">
-                                            <option value="low">{{ __('Low') }}</option>
-                                            <option value="medium">{{ __('Medium') }}</option>
-                                            <option value="high">{{ __('High') }}</option>
-                                            <option value="urgent">{{ __('Urgent') }}</option>
-                                        </select>
-                                    </div> --}}
                                     <div class="form-group">
                                         <label>{{ __('Departments') }}</label>
                                         <select name="departments" class="form-select">
@@ -125,6 +114,9 @@
                                                 <option value="{{ $dep->id }}">{{ $dep->name }}</option>
                                             @endforeach
                                         </select>
+                                        @error('departments')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
                                         <label>{{ __('Order Number (No. - Date - Amount)') }}</label>
@@ -137,16 +129,25 @@
                                                 </option>
                                             @endforeach
                                         </select>
+                                        @error('order_id')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
                                         <label>{{ __('Description') }}</label>
-                                        <textarea name="description" class="form-control" cols="30" rows="10" placeholder="{{ __('Enter Description') }}"></textarea>
+                                        <textarea name="description" class="form-control" cols="30" rows="10"
+                                            placeholder="{{ __('Enter Description') }}"></textarea>
+                                        @error('description')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                     <div class="btn-wrapper">
                                         <button type="submit" class="cmn_btn btn_bg_1 btn-success">
                                             {{ get_static_option('support_ticket_button_text') }}
                                         </button>
-                                        <a href="{{ route('user.home.support.tickets') }}" class="cmn_btn default-theme-btn" style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                                        <a href="{{ route('user.home.support.tickets') }}"
+                                            class="cmn_btn default-theme-btn"
+                                            style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
                                             {{ __('Back') }}
                                         </a>
                                     </div>

@@ -91,7 +91,7 @@
 
                         <li class="{{ active_menu('vendor-home/wallet') }}">
                             <a href="{{ route('vendor.wallet.home') }}">
-                                <span>{{ __('Wallet') }}</span>
+                                <span>{{ __('Wallet Dashboard') }}</span>
                             </a>
                         </li>
 

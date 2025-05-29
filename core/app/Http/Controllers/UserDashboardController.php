@@ -115,19 +115,19 @@ class UserDashboardController extends Controller
     public function user_profile_update(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:191',
-            // 'email' => 'required|email|max:191|unique:users,id,'.$request->user_id,
-            'phone' => 'required|string|max:191',
-            'state' => 'nullable|string|max:191',
-            'city' => 'nullable|string|max:191',
-            'zipcode' => 'nullable|string|max:191',
-            'country' => 'nullable|string|max:191',
+            'name' => 'required|string|max:30',
+            // 'email' => 'required|email|max:30|unique:users,id,'.$request->user_id,
+            'phone' => 'required|string|max:30',
+            'state' => 'nullable|string|max:30',
+            'city' => 'nullable|string|max:30',
+            'zipcode' => 'nullable|string|max:30',
+            'country' => 'nullable|string|max:30',
             'address' => 'nullable|string',
             'image' => 'nullable|string',
         ], [
-            'name.' => __('name is required'),
+            'name.' => __('Name is required'),
             // 'email.required' => __('email is required'),
-            'email.email' => __('provide valid email'),
+            'email.email' => __('Provide valid email'),
         ]);
 
         User::find(Auth::guard()->user()->id)->update([

@@ -31,7 +31,7 @@
                                 <form action="#" class="single-searchbar searchbar-suggetions">
                                     <div class="input-group">
                                         <select class="form--control category-select" id="search_category_id">
-                                            <option value="all">All Category</option>
+                                            <option value="all">All Categories</option>
                                             @foreach ($categories as $category)
                                                 <option value="{{ $category->id }}">
                                                     {{ $category->name }}
@@ -291,7 +291,7 @@
                             <form action="#" class="single-searchbar searchbar-suggetions">
                                 <div class="input-group">
                                     <select class="form--control category-select" id="search_category_id">
-                                        <option value="all">All Category</option>
+                                        <option value="all">All Categories</option>
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->id }}">
                                                 {{ $category->name }}
