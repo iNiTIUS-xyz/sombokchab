@@ -1,8 +1,5 @@
-<span class="checkout-title fs-18 fw-500 color-light"> <i class="las la-exclamation-circle"></i>
-    {{-- {!! filter_static_option_value('returning_customer_text', $setting_text, __('Returning customer?')) !!} --}}
-    {{-- <a class="color-one fw-400 click-open-form" href="#1">
-        {!! filter_static_option_value('toggle_login_text', $setting_text, __('Click here to login')) !!}
-    </a> --}}
+<span class="checkout-title fs-18 fw-500 color-light">
+    <i class="las la-exclamation-circle"></i>
     {!! __('Returning customer?') !!}
     <a class="color-one fw-400" href="{{ route('user.login') }}">
         {!! __('Click here to login') !!}

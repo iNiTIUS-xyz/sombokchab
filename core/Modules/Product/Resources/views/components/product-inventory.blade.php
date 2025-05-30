@@ -38,7 +38,8 @@
                     <option value="">{{ __('Select Unit') }}</option>
                     @foreach ($units as $unit)
                         <option {{ $unit->id === $uom?->unit_id ? 'selected' : '' }} value="{{ $unit->id }}">
-                            {{ $unit->name }}</option>
+                            {{ $unit->name }}
+                        </option>
                     @endforeach
                 </select>
                 <small class="mt-2 mb-0 d-block">{{ __('Select Unit') }}</small>

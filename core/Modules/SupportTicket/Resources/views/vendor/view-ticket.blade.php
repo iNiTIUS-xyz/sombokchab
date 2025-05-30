@@ -159,7 +159,7 @@
                                 </div>
                             </div>
                             <div class="reply-message-wrap ">
-                                <h5 class="title">{{ __('Replay To Message') }}</h5>
+                                <h5 class="title">{{ __('Reply To Message') }}</h5>
                                 <form action="{{ route('vendor.support.ticket.send.message') }}" method="post"
                                     enctype="multipart/form-data">
                                     @csrf
@@ -172,9 +172,10 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="file">{{ __('File') }}</label>
-                                        <input type="file" name="file" accept="zip">
-                                        <small
-                                            class="info-text d-block text-danger">{{ __('max file size 200mb, only zip,png,gif,jpg,jpeg,pdf,docx,doc,odd file is allowed') }}</small>
+                                        <input type="file" name="file">
+                                        <small class="info-text d-block text-danger">
+                                            {{ __('max file size 200mb, only zip,png,gif,jpg,jpeg,pdf,docx,doc,odd file is allowed') }}
+                                        </small>
                                     </div>
                                     <div class="form-group d-flex align-items-baseline gap-3">
                                         <input type="checkbox" name="send_notify_mail" id="send_notify_mail">
@@ -206,8 +207,9 @@
                     onChange: function(contents, $editable) {
                         $(this).prev('textarea').val(contents);
                     },
-                    onPaste: function (e) {
-                        let bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('text/plain');
+                    onPaste: function(e) {
+                        let bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData)
+                            .getData('text/plain');
                         e.preventDefault();
                         document.execCommand('insertText', false, bufferText);
                     }

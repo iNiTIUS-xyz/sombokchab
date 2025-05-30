@@ -2,7 +2,6 @@
             $page_details = $page_details ?? ($page_post ?? '');
             $navbar_type = $page_details->navbar_variant ?? (get_static_option('global_navbar_variant') ?? 1);
         @endphp
-
         <!-- footer area start -->
         <footer data-footer-variant="{{ $navbar_type }}" @class([
             'footer-area',
@@ -11,11 +10,7 @@
             'footer-bg footer-color-two margin-top-50' => $navbar_type == 1,
         ])>
             <div class="container container_1608">
-                {{-- <div @class([
-                'container' => $navbar_type == 3,
-                'container-one' => $navbar_type == 1,
-                'container container_1608' => $navbar_type == 2,
-            ])> --}}
+
                 <div @class([
                     'footer-middle padding-top-20 padding-bottom-20' => $navbar_type == 3,
                     'footer-top-contents footer-top-border padding-top-30 padding-bottom-20' =>
@@ -75,12 +70,22 @@
             </script>
             <div class="buy-now-wrap">
                 <ul class="buy-list">
-                    <li><a target="_blank" href="https://xgenious.com/docs/grenmart-organic-grocery-laravel-ecommerce/"
+                    <li>
+                        <a target="_blank" href="https://xgenious.com/docs/grenmart-organic-grocery-laravel-ecommerce/"
                             data-container="body" data-bs-toggle="popover" data-placement="left"
-                            data-content="{{ __('Documentation') }}"><i class="lar la-file-alt"></i></a></li>
-                    <li><a target="_blank" href="https://1.envato.market/kj2GdL"><i
-                                class="las la-shopping-cart"></i></a></li>
-                    <li><a target="_blank" href="https://xgenious51.freshdesk.com/"><i class="las la-headset"></i></a>
+                            data-content="{{ __('Documentation') }}">
+                            <i class="lar la-file-alt"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://1.envato.market/kj2GdL">
+                            <i class="las la-shopping-cart"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://xgenious51.freshdesk.com/">
+                            <i class="las la-headset"></i>
+                        </a>
                     </li>
                 </ul>
             </div>

@@ -353,6 +353,9 @@
             <h3 class="categoryNav__title">{{ __('All Categories') }}</h3>
             <div class="categoryNav__inner mt-3">
                 <ul class="categoryNav__list parent_menu menu_visible">
+                    <li>
+                        <a href="{{ route('frontend.dynamic.shop.page') }}">All Categories</a>
+                    </li>
                     {!! render_frontend_menu(get_static_option('megamenu'), 'category_menu') !!}
                 </ul>
             </div>

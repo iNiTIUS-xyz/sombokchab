@@ -1,6 +1,6 @@
 <div class="checkout-order-summery bg-item-badge">
     <div class="order-summery-contents text-center">
-        <h2 class="summery-title"> {{ __('Order Summery') }} </h2>
+        <h2 class="summery-title"> {{ __('Order Summary') }} </h2>
         <div class="coupon-form mt-4">
             <div class="single-input">
                 <label>
@@ -119,7 +119,8 @@
             @endphp
             <input class="check-input" type="checkbox" id="terms_check" />
             <label class="checkbox-label" for="terms_check">
-                {!! $terms_text !!}
+                Accept all <a class="text-warning" href="{{ $checkout_page_terms_link_url }}">terms and condition</a> &
+                <a class="text-warning" href="{{ $checkout_page_terms_text }}">Privacy Policy</a>
             </label>
         </div>
 
