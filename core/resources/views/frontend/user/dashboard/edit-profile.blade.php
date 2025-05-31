@@ -32,15 +32,20 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="email">{{ __('Email') }}</label>
-                            <input type="text" class="form-control" id="email" name="email"
+                            <input type="email" class="form-control" id="email" name="email"
                                 value="{{ $user_details->email }}" placeholder="{{ __('Enter Email') }}">
+                            <span id="email-error" class="text-danger" style="display:none;">Please enter a valid email
+                                address.</span>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="phone">{{ __('Phone Number') }}</label>
                             <input type="tel" class="form-control" id="phone" name="phone"
-                                value="{{ $user_details->phone }}" placeholder="{{ __('Enter Phone Number') }}">
+                                value="{{ $user_details->phone }}" placeholder="{{ __('Enter Phone Number') }}"
+                                pattern="^\+[0-9]{10,15}$"
+                                title="Enter a valid phone number starting with + and followed by 10-15 digits"
+                                oninput="this.value = this.value.replace(/(?!^\+)[^\d]/g, '')">
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -136,8 +141,8 @@
                 @csrf
                 <div class="form-group">
                     <label for="password">{{ __('Password') }}</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="{{ __('Enter Password') }}"
-                        required>
+                    <input type="password" class="form-control" id="password" name="password"
+                        placeholder="{{ __('Enter Password') }}" required>
                 </div>
                 <div class="btn-wrapper mt-2">
                     <button type="submit" class="cmn_btn btn_bg_4">{{ __('Deactivate Account') }}</button>
@@ -188,6 +193,26 @@
             });
         })(jQuery);
     </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const emailInput = document.getElementById('email');
+            const errorSpan = document.getElementById('email-error');
+
+            emailInput.addEventListener('blur', function() {
+                const email = emailInput.value.trim();
+                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+                if (!emailPattern.test(email)) {
+                    errorSpan.style.display = 'block';
+                    emailInput.classList.add('is-invalid');
+                } else {
+                    errorSpan.style.display = 'none';
+                    emailInput.classList.remove('is-invalid');
+                }
+            });
+        });
+    </script>
+
     <x-media.js :deleteRoute="route('user.upload.media.file.delete')" :imgAltChangeRoute="route('user.upload.media.file.alt.change')" :allImageLoadRoute="route('user.upload.media.file.all')" type="user">
     </x-media.js>
 @endsection
