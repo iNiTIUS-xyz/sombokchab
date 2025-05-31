@@ -86,23 +86,17 @@
                                             </div>
                                         </div>
 
-                                        <!-- Password -->
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="label-title text-bold mb-2">{{ __('Password *') }}</label>
                                                 <input type="password" name="password" id="password"
                                                     class="form--control radius-10" placeholder="{{ __('Password *') }}"
                                                     required>
-                                                {{-- <small>
-                                                    <ul>
-                                                        <li>Minimum 8 characters</li>
-                                                    </ul>
-                                                </small> --}}
+
                                                 <small class="text-danger" id="passwordError"></small>
                                             </div>
                                         </div>
 
-                                        <!-- Confirm Password -->
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label
@@ -115,7 +109,6 @@
                                         </div>
                                     </div>
 
-                                    <!-- Terms & Conditions -->
                                     <div class="form-group">
                                         <div class="box-wrap form-check">
                                             <input type="checkbox" class="form-check-input" id="toc_and_privacy"
@@ -131,7 +124,6 @@
                                         <small class="text-danger" id="termsError"></small>
                                     </div>
 
-                                    <!-- reCAPTCHA container -->
                                     <div id="recaptcha-container"></div>
                                     <div class="form-group text-right" style="text-align: right;">
                                         <button type="button" class="btn btn-next step-button-outline p-2"
@@ -143,7 +135,6 @@
                                 </form>
                             </div>
 
-                            {{-- Step 2: OTP Verification --}}
                             <div id="step-2" style="display: none;">
                                 <div class="col-12 pb-3 mb-4">
                                     <div class="form-group">
@@ -175,7 +166,6 @@
                         </div>
                     </div>
 
-                    <!-- Already have an account -->
                     <div class="signin__account__para d-flex justify-content-center" style="margin-top: 10px">
                         <p class="info">
                             {{ __('Already have an account?') }}

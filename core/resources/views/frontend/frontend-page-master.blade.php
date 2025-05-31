@@ -15,12 +15,9 @@
         </div>
     </div>
 </div>
-<!-- Left Right area ends -->
 
-<!-- back to top area start -->
 <div class="back-to-top bg-color-two">
     <span class="back-top"> <i class="las la-angle-up"></i> </span>
 </div>
-<!-- back to top area end -->
 
 @include('frontend.partials.footer')
