@@ -147,7 +147,7 @@ class UserController extends Controller
             return UserServices::emailValidationResponse();
         }
 
-        $username = $request->isGoogle === 0 ?  'fb_' . Str::slug($request->displayName) : 'gl_' . Str::slug($request->displayName);
+        $username = $request->isGoogle === 0 ? 'fb_' . Str::slug($request->displayName) : 'gl_' . Str::slug($request->displayName);
         $user = User::select('id', 'email', 'username')
             ->where('email', $request->email)
             ->first();
@@ -233,7 +233,7 @@ class UserController extends Controller
         }
 
         $user = User::where('id', $request->user_id)->update([
-            'email_verified' =>  $request->email_verified
+            'email_verified' => $request->email_verified
         ]);
 
         if (is_null($user)) {
@@ -345,7 +345,7 @@ class UserController extends Controller
 
         // OTP verified successfully
         Cache::forget('otp_' . $phone);
-        
+
         return response()->json([
             'success' => true,
             'message' => 'OTP verified successfully',
@@ -692,7 +692,7 @@ class UserController extends Controller
         if ($request->hasFile('file')) {
             $uploaded_file = $request->file;
             $file_extension = $uploaded_file->extension();
-            $file_name =  pathinfo($uploaded_file->getClientOriginalName(), PATHINFO_FILENAME) . time() . '.' . $file_extension;
+            $file_name = pathinfo($uploaded_file->getClientOriginalName(), PATHINFO_FILENAME) . time() . '.' . $file_extension;
             $uploaded_file->move('assets/uploads/ticket', $file_name);
             $ticket_info->attachment = $file_name;
             $ticket_info->save();
@@ -724,8 +724,8 @@ class UserController extends Controller
             'departments' => 'required|string',
         ], [
             'title.required' => __('title required'),
-            'subject.required' =>  __('subject required'),
-            'priority.required' =>  __('priority required'),
+            'subject.required' => __('subject required'),
+            'priority.required' => __('priority required'),
             'description.required' => __('description required'),
             'departments.required' => __('departments required'),
         ]);

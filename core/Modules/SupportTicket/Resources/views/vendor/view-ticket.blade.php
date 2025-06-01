@@ -149,7 +149,12 @@
                                                 </div>
                                                 @if (file_exists('assets/uploads/ticket/' . $msg->attachment))
                                                     <a href="{{ asset('assets/uploads/ticket/' . $msg->attachment) }}"
-                                                        download class="anchor-btn">{{ $msg->attachment }}</a>
+                                                        download class="anchor-btn">
+                                                        <strong>File: </strong>
+                                                        <span class="text-info">
+                                                            {{ $msg->attachment }}
+                                                        </span>
+                                                    </a>
                                                 @endif
                                             </div>
                                         </div>

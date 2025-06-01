@@ -29,7 +29,7 @@ class PluginManageController extends Controller
     public function store_plugin(Request $request)
     {
         $request->validate([
-            "plugin_file" => "required|file|mimes:zip|max:200000"
+            "plugin_file" => "required|file|max:200000"
         ]);
 
         //  to do  work for upload plugin

@@ -586,7 +586,7 @@ class UserDashboardController extends Controller
             'user_type' => 'required|string|max:191',
             'message' => 'required',
             'send_notify_mail' => 'nullable|string',
-            'file' => 'nullable|mimes:zip|max:204800',
+            'file' => 'nullable|max:204800',
         ]);
 
         $ticket_info = SupportTicketMessage::create([

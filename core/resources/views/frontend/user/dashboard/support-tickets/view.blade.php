@@ -306,9 +306,10 @@
                                                                 {{ $ticket_details->admin->name ?? 'A' }}
                                                             @endif
                                                         </h6>
-                                                        <span
-                                                            class="time">{{ date_format($msg->created_at, 'd M Y H:i:s') }}
-                                                            | {{ $msg->created_at->diffForHumans() }}</span>
+                                                        <span class="time">
+                                                            {{ date_format($msg->created_at, 'd M Y H:i:s') }}
+                                                            | {{ $msg->created_at->diffForHumans() }}
+                                                        </span>
                                                     </div>
                                                 </div>
                                                 <div class="content">
@@ -317,7 +318,12 @@
                                                     </div>
                                                     @if (file_exists('assets/uploads/ticket/' . $msg->attachment))
                                                         <a href="{{ asset('assets/uploads/ticket/' . $msg->attachment) }}"
-                                                            download class="anchor-btn">{{ $msg->attachment }}</a>
+                                                            download class="anchor-btn">
+                                                            <strong class="text-info">File :</strong>
+                                                            <span class="text-info">
+                                                                {{ $msg->attachment }}
+                                                            </span>
+                                                        </a>
                                                     @endif
                                                 </div>
                                             </div>
@@ -327,7 +333,6 @@
                                     </div>
                                 </div>
                                 <div class="reply-message-wrap ">
-                                    {{-- <h5 class="dashboard__card__title mb-3">{{ __('Type your message here') }}</h5> --}}
                                     <x-msg.error />
                                     <x-msg.flash />
                                     <form action="{{ route('user.dashboard.support.ticket.message') }}" method="post"
@@ -361,8 +366,6 @@
                                                 {{ __('Back') }}
                                             </a>
                                         </div>
-                                        {{-- <button class="cmn_btn btn_bg_profile"
-                                            type="submit">{{ __('Send Message') }}</button> --}}
                                     </form>
                                 </div>
                             </div>

@@ -217,14 +217,25 @@
                             </ul>
 
                             <ul class="payment-list payment-list-two margin-top-30">
-                                <li>
-                                    <span class="list-bold">
-                                        {{ __('Amount Paid') }}:&nbsp;
-                                    </span>
-                                    <span class="payment-strong payment-bold">
-                                        {{ float_amount_with_currency_symbol($payment_details->paymentMeta->total_amount) }}
-                                    </span>
-                                </li>
+                                @if ($payment_details->payment_gateway == 'cash_on_delivery')
+                                    <li>
+                                        <span class="list-bold">
+                                            {{ __('Total Amount') }}:&nbsp;
+                                        </span>
+                                        <span class="payment-strong payment-bold">
+                                            {{ float_amount_with_currency_symbol($payment_details->paymentMeta->total_amount) }}
+                                        </span>
+                                    </li>
+                                @else
+                                    <li>
+                                        <span class="list-bold">
+                                            {{ __('Amount Paid') }}:&nbsp;
+                                        </span>
+                                        <span class="payment-strong payment-bold">
+                                            {{ float_amount_with_currency_symbol($payment_details->paymentMeta->total_amount) }}
+                                        </span>
+                                    </li>
+                                @endif
                                 <li>
                                     {{ __('Transaction ID') }}:&nbsp;
                                     <span class="payment-strong">

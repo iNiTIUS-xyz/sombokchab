@@ -7,8 +7,8 @@
 
 @section('content')
     <div class="col-lg-12 col-ml-12">
-        <div class="row">
-            <div class="col-lg-12">
+        <div class="row justify-content-center">
+            <div class="col-lg-5">
                 <x-msg.error />
                 <x-msg.flash />
                 <div class="dashboard__card">
