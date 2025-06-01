@@ -7,6 +7,23 @@ q@php
         <div class="cart-wrapper">
             <div class="row g-4">
                 <div class="col-xl-8 mt-4 m-auto">
+                    <div class="row justify-content-end">
+                        <div class="col-xl-2">
+                            <form action="{{ route('frontend.products.cart') }}" method="GET">
+                                <select name="sorting_by" class="form-control" onchange="this.form.submit()">
+                                    <option disabled selected>Sorthing By</option>
+                                    <option value="price" @if (request('sorting_by') == 'price') selected @endif>
+                                        Sorting By Price
+                                    </option>
+                                    <option value="name" @if (request('sorting_by') == 'name') selected @endif>
+                                        Sorting By Name
+                                    </option>
+                                </select>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-8 mt-4 m-auto">
                     <div class="table-list-content table-cart-clear">
                         <div class="table-responsive table-responsive--md">
                             <table class="custom--table table-border radius-10">
@@ -28,7 +45,8 @@ q@php
                                             data-varinat-id="{{ $cart_item?->options?->variant_id ?? 'admin' }}">
                                             <td data-label="Product Name">
                                                 <div class="product-name-table">
-                                                    <a href="{{ route('frontend.products.single', $cart_item->options->slug ?? '') }}">
+                                                    <a
+                                                        href="{{ route('frontend.products.single', $cart_item->options->slug ?? '') }}">
                                                         <div class="thumbs bg-image radius-10"
                                                             style="background-image: url({{ render_image($cart_item?->options['image'] ?? 0, render_type: 'path') }});">
                                                         </div>

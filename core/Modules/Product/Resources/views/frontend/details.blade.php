@@ -201,7 +201,8 @@
                                                 <i class="las la-minus"></i>
                                             </span>
 
-                                            <input class="quantity-input" id="quantity" type="number" value="01" />
+                                            <input class="quantity-input" id="quantity" type="number" value="1"
+                                                min="0" onkeydown="return restrictInput(event)" />
 
                                             <span class="plus">
                                                 <i class="las la-plus"></i>
@@ -663,6 +664,15 @@
     @endif
 
     <script>
+        function restrictInput(e) {
+            const invalidKeys = ['e', 'E', '+', '-', '.'];
+            if (invalidKeys.includes(e.key)) {
+                e.preventDefault();
+                return false;
+            }
+            return true;
+        }
+        
         let attribute_store = JSON.parse('{!! json_encode($product_inventory_set) !!}');
 
         let additional_info_store = JSON.parse('{!! json_encode($additional_info_store) !!}');
