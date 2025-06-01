@@ -18,27 +18,35 @@
                 <div class="form-row row g-4">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="label-title">{{ __('Shipping Address Name') }}</label>
-                            <input class="form--control" type="text" name="shipping_address_name" value="{{ $address->shipping_address_name }}" placeholder="{{ __('Shipping Address Name') }}">
+                            <label class="label-title">
+                                {{ __('Shipping Address Name') }}
+                                <span class="text-danger">*</span>
+                            </label>
+                            <input class="form--control" type="text" name="shipping_address_name"
+                                value="{{ $address->shipping_address_name }}" required
+                                placeholder="{{ __('Shipping Address Name') }}">
                         </div>
                     </div>
 
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="name">{{ __('Full Name') }}<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="name" id="name" value="{{ $address->name }}" placeholder="{{ __('Enter Full Name') }}" required>
+                            <input type="text" class="form-control" name="name" id="name"
+                                value="{{ $address->name }}" placeholder="{{ __('Enter Full Name') }}" required>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="email">{{ __('Email') }}</label>
-                            <input type="text" class="form-control" name="email" id="email" value="{{ $address->email }}" placeholder="{{ __('Enter Email') }}">
+                            <input type="text" class="form-control" name="email" id="email"
+                                value="{{ $address->email }}" placeholder="{{ __('Enter Email') }}">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="phone">{{ __('Phone Number') }}<span class="text-danger">*</span></label>
-                            <input type="number" class="form-control" name="phone" id="phone" value="{{ $address->phone }}" placeholder="{{ __('Enter Phone Number') }}" required>
+                            <input type="number" class="form-control" name="phone" id="phone"
+                                value="{{ $address->phone }}" placeholder="{{ __('Enter Phone Number') }}" required>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -81,7 +89,8 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="zipcode">{{ __('Postal Code') }}</label>
-                            <input type="text" class="form-control" name="zipcode" id="zipcode" value="{{ $address->zip_code }}">
+                            <input type="text" class="form-control" name="zipcode" id="zipcode"
+                                value="{{ $address->zip_code }}">
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -102,14 +111,11 @@
                     <div class="col-md-12">
                         <div class="btn-wrapper">
                             <button type="submit" class="cmn_btn btn_bg_1">{{ __('Update') }}</button>
-                            <a href="{{ route('user.shipping.address.all') }}" class="cmn_btn default-theme-btn" style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                            <a href="{{ route('user.shipping.address.all') }}" class="cmn_btn default-theme-btn"
+                                style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
                                 {{ __('Back') }}
                             </a>
                         </div>
-                        {{-- <div class="btn-wrapper">
-                            <button type="submit" class="cmn_btn btn_bg_2">{{ __('Update') }}</button>
-                            <a href="{{ route('user.shipping.address.all') }}" class="cmn_btn btn_bg_1">{{ __('Cancel') }}</a>
-                        </div> --}}
                     </div>
                 </div>
             </form>

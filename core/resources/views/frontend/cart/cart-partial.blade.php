@@ -28,13 +28,11 @@ q@php
                                             data-varinat-id="{{ $cart_item?->options?->variant_id ?? 'admin' }}">
                                             <td data-label="Product Name">
                                                 <div class="product-name-table">
-                                                    <a
-                                                        href="{{ route('frontend.products.single', $cart_item->options->slug ?? '') }}">
+                                                    <a href="{{ route('frontend.products.single', $cart_item->options->slug ?? '') }}">
                                                         <div class="thumbs bg-image radius-10"
                                                             style="background-image: url({{ render_image($cart_item?->options['image'] ?? 0, render_type: 'path') }});">
                                                         </div>
                                                     </a>
-
                                                     <div class="carts-contents">
                                                         <a
                                                             href="{{ route('frontend.products.single', $cart_item->options->slug ?? '') }}">

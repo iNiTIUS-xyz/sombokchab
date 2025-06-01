@@ -1419,6 +1419,7 @@
                             }
 
                             $('.showMoreProduct').attr('href', routeUrl);
+                            $('.formSubmitAction').attr('action', routeUrl);
 
                             let fetchedCategory = data['categories'];
                             if (data['categories']) {

@@ -27,7 +27,7 @@
             <ul class="coupon-flex-list coupon-border">
                 <li class="list">
                     <b>
-                        {{ __('Items Total') }}
+                        {{ __('Sub Total') }}
                     </b>
                     <b id="checkout_items_total">
                         {{ amount_with_currency_symbol(toFixed($itemsTotal, 0)) }}
@@ -86,7 +86,7 @@
                 </li>
                 <li class="list ">
                     <b>
-                        {{ __('Total') }}
+                        {{ __('Grand Total') }}
                     </b>
                     <b id="checkout_total">
                         {{ amount_with_currency_symbol(0) }}

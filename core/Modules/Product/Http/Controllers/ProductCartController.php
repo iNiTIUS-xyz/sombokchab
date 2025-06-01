@@ -95,7 +95,9 @@ class ProductCartController extends Controller
             ]);
         }
 
-        $product_inventory = ProductInventory::where('product_id', $request->product_id)->first();
+        $product_inventory = ProductInventory::query()
+            ->where('product_id', $request->product_id)
+            ->first();
         if ($request->product_variant) {
             $product_inventory_details = ProductInventoryDetail::where('id', $request->product_variant)->first();
         } else {
@@ -136,7 +138,11 @@ class ProductCartController extends Controller
 
         try {
             $cart_data = $request->all();
-            $product = Product::with(['taxOptions:tax_class_options.id,country_id,state_id,city_id,rate', 'vendorAddress:vendor_addresses.id,country_id,state_id,city_id'])
+            $product = Product::query()
+                ->with([
+                    'taxOptions:tax_class_options.id,country_id,state_id,city_id,rate',
+                    'vendorAddress:vendor_addresses.id,country_id,state_id,city_id'
+                ])
                 ->withSum('taxOptions', 'rate')
                 ->findOrFail($cart_data['product_id']);
 
@@ -168,7 +174,12 @@ class ProductCartController extends Controller
                 $size_name = Size::find($cart_data['selected_size'] ?? 0)->name ?? '';
                 $color_name = Color::find($cart_data['selected_color'] ?? 0)->name ?? '';
 
-                $product_detail = ProductInventoryDetail::where('id', $cart_data['product_variant'])->first();
+                $product_detail = ProductInventoryDetail::query()
+                    ->with([
+                        'attribute:attribute_name,attribute_value,inventory_details_id',
+                        'attribute.attribute:attribute_name,attribute_value'
+                    ])
+                    ->where('id', $cart_data['product_variant'])->first();
                 $product_attributes = $product_detail?->attribute?->pluck('attribute_value', 'attribute_name', 'inventory_details')
                     ->toArray();
 

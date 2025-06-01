@@ -28,7 +28,7 @@
                     <div class="col-lg-8 col-md-6">
                         <div class="category-searchbar">
                             <div class="category-searchbar">
-                                <form action="#" class="single-searchbar searchbar-suggetions">
+                                <form action="#"  method="GET" class="single-searchbar searchbar-suggetions formSubmitAction" >
                                     <div class="input-group">
                                         <select class="form--control category-select" id="search_category_id">
                                             <option value="all">All Categories</option>
@@ -74,7 +74,6 @@
                                     </div>
                                 </form>
                             </div>
-
                         </div>
                     </div>
                     <div class="col-lg-2 d-none d-lg-block">
