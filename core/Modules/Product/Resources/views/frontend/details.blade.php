@@ -292,7 +292,7 @@
                                         @endif
                                     </ul>
 
-                                    @if ($product->tag?->isNotEmpty())
+                                    {{-- @if ($product->tag?->isNotEmpty())
                                         <div class="tags-area-shop shop-border-top pt-4 mt-4">
                                             <span class="tags-span color-light"> <strong> {{ __('Tags:') }} </strong>
                                             </span>
@@ -306,7 +306,7 @@
                                                 @endforeach
                                             </ul>
                                         </div>
-                                    @endif
+                                    @endif --}}
                                 </div>
                             </div>
                         </div>

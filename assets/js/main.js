@@ -682,25 +682,32 @@
 
         $(document).on('click', '.close-thumb', function () {
             let el = $(this);
-            let inputValue = el.parent().parent().parent().parent().find('input[type="hidden"]').val();
-            console.log(inputValue)
-            // make an array
-            if (inputValue.includes("|")) {
-                let inputArray = inputValue.split("|");
-                let val = el.attr("data-media-id");
+            let input = el.closest('.parent-container-selector').find('input[type="hidden"]'); // Use a closer and clearer selector
+            let inputValue = input.val();
 
-                let finalValue = removeArray(inputArray, val).join("|");
-                el.parent().parent().parent().parent().find('input[type="hidden"]').val(finalValue)
-                $(this).parent().hide(200);
-                return true;
+            if (typeof inputValue !== 'undefined' && inputValue !== null && inputValue !== '') {
+                if (inputValue.includes("|")) {
+                    let inputArray = inputValue.split("|");
+                    let val = el.attr("data-media-id");
+
+                    let finalValue = removeArray(inputArray, val).join("|");
+                    input.val(finalValue);
+                    el.parent().hide(200);
+                } else {
+                    input.val('');
+                    el.parent().hide(200);
+                }
+            } else {
+                // In case input is empty or not found
+                input.val('');
+                el.parent().hide(200);
             }
-            el.parent().parent().parent().parent().find('input[type="hidden"]').val('')
-            $(this).parent().hide(200);
         });
+
 
         /* 
         ========================================
-            Payment Card Delivery 
+            Payment Card Delivery
         ========================================
         */
 

@@ -41,9 +41,9 @@
                                         <input autocomplete="off" class="form--control radius-5" id="search_form_input"
                                             type="text" placeholder="{{ 'Search For Products' }}">
 
-                                        <button type="submit" class="right-position-button margin-2 radius-5">
+                                        {{-- <button type="submit" class="right-position-button margin-2 radius-5">
                                             <i class="las la-search"></i>
-                                        </button>
+                                        </button> --}}
                                     </div>
 
                                     <div class="search-suggestions" id="search_suggestions_wrap">
@@ -300,9 +300,9 @@
                                     <input autocomplete="off" class="form--control radius-5" id="search_form_input"
                                         type="text" placeholder="{{ 'Search For Products' }}">
 
-                                    <button type="submit" class="right-position-button margin-2 radius-5">
+                                    {{-- <button type="submit" class="right-position-button margin-2 radius-5">
                                         <i class="las la-search"></i>
-                                    </button>
+                                    </button> --}}
                                 </div>
                                 <div class="search-suggestions" id="search_suggestions_wrap">
                                     <div class="search-inner">

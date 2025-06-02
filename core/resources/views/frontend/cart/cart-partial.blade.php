@@ -6,23 +6,43 @@ q@php
     <div class="container container-one">
         <div class="cart-wrapper">
             <div class="row g-4">
-                <div class="col-xl-8 mt-4 m-auto">
-                    <div class="row justify-content-end">
-                        <div class="col-xl-2">
-                            <form action="{{ route('frontend.products.cart') }}" method="GET">
-                                <select name="sorting_by" class="form-control" onchange="this.form.submit()">
-                                    <option disabled selected>Sorthing By</option>
-                                    <option value="price" @if (request('sorting_by') == 'price') selected @endif>
-                                        Sorting By Price
-                                    </option>
-                                    <option value="name" @if (request('sorting_by') == 'name') selected @endif>
-                                        Sorting By Name
-                                    </option>
-                                </select>
-                            </form>
+                @if (Route::is('frontend.products.wishlist'))
+                    <div class="col-xl-8 mt-4 m-auto">
+                        <div class="row justify-content-end">
+                            <div class="col-xl-2">
+                                <form action="{{ route('frontend.products.wishlist') }}" method="GET">
+                                    <select name="sorting_by" class="form-control" onchange="this.form.submit()">
+                                        <option disabled selected>Sorthing By</option>
+                                        <option value="price" @if (request('sorting_by') == 'price') selected @endif>
+                                            Sorting By Price
+                                        </option>
+                                        <option value="name" @if (request('sorting_by') == 'name') selected @endif>
+                                            Sorting By Name
+                                        </option>
+                                    </select>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                </div>
+                @else
+                    <div class="col-xl-8 mt-4 m-auto">
+                        <div class="row justify-content-end">
+                            <div class="col-xl-2">
+                                <form action="{{ route('frontend.products.cart') }}" method="GET">
+                                    <select name="sorting_by" class="form-control" onchange="this.form.submit()">
+                                        <option disabled selected>Sorthing By</option>
+                                        <option value="price" @if (request('sorting_by') == 'price') selected @endif>
+                                            Sorting By Price
+                                        </option>
+                                        <option value="name" @if (request('sorting_by') == 'name') selected @endif>
+                                            Sorting By Name
+                                        </option>
+                                    </select>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                @endif
                 <div class="col-xl-8 mt-4 m-auto">
                     <div class="table-list-content table-cart-clear">
                         <div class="table-responsive table-responsive--md">
@@ -33,8 +53,8 @@ q@php
                                         <th class="text-center"> {{ __('Unite Price') }} </th>
                                         @if (!Route::is('frontend.products.wishlist'))
                                             <th class="text-center">{{ __('Quantity') }} </th>
+                                            <th class="text-center"> {{ __('Total Price') }} </th>
                                         @endif
-                                        <th class="text-center"> {{ __('Total Price') }} </th>
                                         <th class="text-center"> {{ __('Action') }} </th>
                                     </tr>
                                 </thead>
@@ -96,10 +116,10 @@ q@php
                                                         <span class="plus"><i class="las la-plus"></i></span>
                                                     </div>
                                                 </td>
+                                                <td class="color-one price-td text-center" data-label="Total Price">
+                                                    {{ amount_with_currency_symbol($cart_item->price * $cart_item->qty ?? 0) }}
+                                                </td>
                                             @endif
-                                            <td class="color-one price-td text-center" data-label="Total Price">
-                                                {{ amount_with_currency_symbol($cart_item->price * $cart_item->qty ?? 0) }}
-                                            </td>
                                             <td data-label="Close" class="text-center">
                                                 @if ($wishlist)
                                                     <a data-label="Move" data-type="tr"

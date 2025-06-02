@@ -97,13 +97,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-12">
-                            <div class="selectder-filter-contents click-hide-filter mt-4">
-                                <ul class="selected-flex-list">
-                                    <li> {{ __('Selected Filter:') }} </li>
-                                </ul>
-                            </div>
-                        </div>
                     </div>
 
                     <div class="preloader-parent-wrapper d-none">

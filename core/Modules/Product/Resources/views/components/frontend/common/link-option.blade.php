@@ -39,9 +39,9 @@
     </a>
 </li>
 
-<li class="lists">
+{{-- <li class="lists">
     <a class="product-quick-view-ajax favourite icon cart-loading" href="#1"
        data-action-route="{{ route('frontend.products.single-quick-view', $product->slug) }}">
         <i class="lar la-eye"></i>
     </a>
-</li>
+</li> --}}
