@@ -98,8 +98,15 @@
 @section('content')
     <div class="cart-page-wrapper padding-top-20 padding-bottom-20">
         @php
-            $all_cart_items = \Gloudemans\Shoppingcart\Facades\Cart::content();
+
+            if (request('sorting_by')) {
+                $all_cart_items = \Gloudemans\Shoppingcart\Facades\Cart::content()->sortBy(request('sorting_by'));
+            } else {
+                $all_cart_items = \Gloudemans\Shoppingcart\Facades\Cart::content();
+            }
+
         @endphp
+
         @if (empty($all_cart_items->count()))
             <x-frontend.page.empty :image="get_static_option('empty_cart_image')" :text="get_static_option('empty_cart_text') ?? __('No products in your cart!')" />
         @else

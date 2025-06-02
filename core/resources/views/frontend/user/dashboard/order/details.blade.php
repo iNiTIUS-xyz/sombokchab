@@ -379,8 +379,10 @@
     </div>
 
     <div class="patment-success-area padding-top-100 padding-bottom-100">
-        @if(moduleExists("DeliveryMan"))
-            @if (!empty($payment_details->deliveryMan) && DeliveryManRating::where('delivery_man_id', $payment_details->deliveryMan?->delivery_man_id)->count() < 1)
+        @if (moduleExists('DeliveryMan'))
+            @if (
+                !empty($payment_details->deliveryMan) &&
+                    DeliveryManRating::where('delivery_man_id', $payment_details->deliveryMan?->delivery_man_id)->count() < 1)
                 <!-- End Contract area Starts -->
                 <div class="end-contract-area section-bg-2">
                     <div class="container">
@@ -396,119 +398,142 @@
                                                         {{ __('Rate delivery man service') }} </h4>
                                                 </div>
                                                 <div class="end-contract-feedback-single-contents profile-border-top">
-                                                    <form action="{{ route('user.product.order.delivery-man-ratting', $item) }}"
-                                                          method="post">
+                                                    <form
+                                                        action="{{ route('user.product.order.delivery-man-ratting', $item) }}"
+                                                        method="post">
                                                         @csrf
                                                         <input id="delivery-man-ratting-input" type="hidden" name="ratting"
-                                                               value="" />
+                                                            value="" />
 
                                                         <div class="end-contract-reaction">
                                                             <div class="end-contract-reaction-item reaction-list"
-                                                                 data-ratting-number="1">
-                                                            <span
-                                                                    class="end-contract-reaction-item-tooltip">{{ __('Very sad') }}</span>
+                                                                data-ratting-number="1">
+                                                                <span
+                                                                    class="end-contract-reaction-item-tooltip">{{ __('Very sad') }}
+                                                                </span>
                                                                 <div class="end-contract-reaction-item-flex">
                                                                     <div class="end-contract-reaction-icon">
-                                                                        <img src="{{ asset("assets/img/icons/sad_reaction.svg") }}"
-                                                                             alt="">
+                                                                        <img src="{{ asset('assets/img/icons/sad_reaction.svg') }}"
+                                                                            alt="">
                                                                     </div>
                                                                     <div class="end-contract-reaction-review">
-                                                                    <span class="end-contract-reaction-review-star"><i
-                                                                                class="las la-star"></i></span>
+                                                                        <span class="end-contract-reaction-review-star">
+                                                                            <i class="las la-star"></i>
+                                                                        </span>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="end-contract-reaction-item reaction-list"
-                                                                 data-ratting-number="2">
-                                                            <span
-                                                                    class="end-contract-reaction-item-tooltip">{{ __('Not Good') }}</span>
+                                                                data-ratting-number="2">
+                                                                <span
+                                                                    class="end-contract-reaction-item-tooltip">{{ __('Not Good') }}
+                                                                </span>
                                                                 <div class="end-contract-reaction-item-flex">
                                                                     <div class="end-contract-reaction-icon">
-                                                                        <img src="{{ asset("assets/img/icons/not_good_reaction.svg") }}"
-                                                                             alt="">
+                                                                        <img src="{{ asset('assets/img/icons/not_good_reaction.svg') }}"
+                                                                            alt="">
                                                                     </div>
                                                                     <div class="end-contract-reaction-review">
-                                                                    <span class="end-contract-reaction-review-star"><i
-                                                                                class="las la-star"></i></span>
-                                                                        <span class="end-contract-reaction-review-star"><i
-                                                                                    class="las la-star"></i></span>
+                                                                        <span class="end-contract-reaction-review-star">
+                                                                            <i class="las la-star"></i>
+                                                                        </span>
+                                                                        <span class="end-contract-reaction-review-star">
+                                                                            <i class="las la-star"></i>
+                                                                        </span>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="end-contract-reaction-item reaction-list"
-                                                                 data-ratting-number="3">
-                                                            <span
-                                                                    class="end-contract-reaction-item-tooltip">{{ __("It's Ok") }}</span>
+                                                                data-ratting-number="3">
+                                                                <span class="end-contract-reaction-item-tooltip">
+                                                                    {{ __("It's Ok") }}
+                                                                </span>
                                                                 <div class="end-contract-reaction-item-flex">
                                                                     <div class="end-contract-reaction-icon">
-                                                                        <img src="{{ asset("assets/img/icons/its_ok_reaction.svg") }}"
-                                                                             alt="">
+                                                                        <img src="{{ asset('assets/img/icons/its_ok_reaction.svg') }}"
+                                                                            alt="">
                                                                     </div>
                                                                     <div class="end-contract-reaction-review">
-                                                                    <span class="end-contract-reaction-review-star"><i
-                                                                                class="las la-star"></i></span>
-                                                                        <span class="end-contract-reaction-review-star"><i
-                                                                                    class="las la-star"></i></span>
-                                                                        <span class="end-contract-reaction-review-star"><i
-                                                                                    class="las la-star"></i></span>
+                                                                        <span class="end-contract-reaction-review-star">
+                                                                            <i class="las la-star"></i>
+                                                                        </span>
+                                                                        <span class="end-contract-reaction-review-star">
+                                                                            <i class="las la-star"></i>
+                                                                        </span>
+                                                                        <span class="end-contract-reaction-review-star">
+                                                                            <i class="las la-star"></i>
+                                                                        </span>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="end-contract-reaction-item reaction-list"
-                                                                 data-ratting-number="4">
-                                                            <span
-                                                                    class="end-contract-reaction-item-tooltip">{{ __("I'm Happy") }}</span>
+                                                                data-ratting-number="4">
+                                                                <span class="end-contract-reaction-item-tooltip">
+                                                                    {{ __("I'm Happy") }}
+                                                                </span>
                                                                 <div class="end-contract-reaction-item-flex">
                                                                     <div class="end-contract-reaction-icon">
-                                                                        <img src="{{ asset("assets/img/icons/happy_reaction.svg") }}"
-                                                                             alt="">
+                                                                        <img src="{{ asset('assets/img/icons/happy_reaction.svg') }}"
+                                                                            alt="">
                                                                     </div>
                                                                     <div class="end-contract-reaction-review">
-                                                                    <span class="end-contract-reaction-review-star"><i
-                                                                                class="las la-star"></i></span>
-                                                                        <span class="end-contract-reaction-review-star"><i
-                                                                                    class="las la-star"></i></span>
-                                                                        <span class="end-contract-reaction-review-star"><i
-                                                                                    class="las la-star"></i></span>
-                                                                        <span class="end-contract-reaction-review-star"><i
-                                                                                    class="las la-star"></i></span>
+                                                                        <span class="end-contract-reaction-review-star">
+                                                                            <i class="las la-star"></i>
+                                                                        </span>
+                                                                        <span class="end-contract-reaction-review-star">
+                                                                            <i class="las la-star"></i>
+                                                                        </span>
+                                                                        <span class="end-contract-reaction-review-star">
+                                                                            <i class="las la-star"></i>
+                                                                        </span>
+                                                                        <span class="end-contract-reaction-review-star">
+                                                                            <i class="las la-star"></i>
+                                                                        </span>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="end-contract-reaction-item reaction-list"
-                                                                 data-ratting-number="5">
-                                                            <span
-                                                                    class="end-contract-reaction-item-tooltip">{{ __('Very Happy') }}</span>
+                                                                data-ratting-number="5">
+                                                                <span
+                                                                    class="end-contract-reaction-item-tooltip">{{ __('Very Happy') }}
+                                                                </span>
                                                                 <div class="end-contract-reaction-item-flex">
                                                                     <div class="end-contract-reaction-icon">
-                                                                        <img src="{{ asset("assets/img/icons/very_happy_reaction.svg") }}"
-                                                                             alt="">
+                                                                        <img src="{{ asset('assets/img/icons/very_happy_reaction.svg') }}"
+                                                                            alt="">
                                                                     </div>
                                                                     <div class="end-contract-reaction-review">
-                                                                    <span class="end-contract-reaction-review-star"><i
-                                                                                class="las la-star"></i></span>
-                                                                        <span class="end-contract-reaction-review-star"><i
-                                                                                    class="las la-star"></i></span>
-                                                                        <span class="end-contract-reaction-review-star"><i
-                                                                                    class="las la-star"></i></span>
-                                                                        <span class="end-contract-reaction-review-star"><i
-                                                                                    class="las la-star"></i></span>
-                                                                        <span class="end-contract-reaction-review-star"><i
-                                                                                    class="las la-star"></i></span>
+                                                                        <span class="end-contract-reaction-review-star">
+                                                                            <i class="las la-star"></i>
+                                                                        </span>
+                                                                        <span class="end-contract-reaction-review-star">
+                                                                            <i class="las la-star"></i>
+                                                                        </span>
+                                                                        <span class="end-contract-reaction-review-star">
+                                                                            <i class="las la-star"></i>
+                                                                        </span>
+                                                                        <span class="end-contract-reaction-review-star">
+                                                                            <i class="las la-star"></i>
+                                                                        </span>
+                                                                        <span class="end-contract-reaction-review-star">
+                                                                            <i class="las la-star"></i>
+                                                                        </span>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="form-group delivery-man-rating-button d-none">
-                                                            <label
-                                                                    for="comment">{{ __('Write comment') }}({{ __('optional') }})</label>
+                                                            <label for="comment">
+                                                                {{ __('Write comment') }} ({{ __('optional') }})
+                                                            </label>
                                                             <textarea name="review" id="comment" cols="30" rows="5"></textarea>
                                                         </div>
 
                                                         <div class="form-group">
-
                                                             <button class="btn btn-info delivery-man-rating-button d-none"
-                                                                    type="submit">{{ __('Submit Rating') }}</button>
+                                                                type="submit">
+                                                                {{ __('Submit Rating') }}
+                                                            </button>
                                                         </div>
                                                     </form>
                                                 </div>
@@ -533,21 +558,35 @@
                                 <h4 class="title__two"> {{ __('Payment Details') }} </h4>
                                 <ul class="payment-list margin-top-40">
                                     <li>
-                                        <span class="payment-list-left">{{ __('Payment Gateway:') }}</span>
-                                        <span class="payment-list-right text-capitalize">{{ render_payment_gateway_name($payment_details->payment_gateway) }}</span>
+                                        <span class="payment-list-left">{{ __('Payment Gateway:') }}
+
+                                        </span>
+                                        <span class="payment-list-right text-capitalize">
+                                            {{ render_payment_gateway_name($payment_details->payment_gateway) }}
+                                        </span>
                                     </li>
                                     <li>
-                                        <span class="payment-list-left">{{ __('Phone Number:') }}</span>
+                                        <span class="payment-list-left">{{ __('Phone Number:') }}
+                                        </span>
                                         <span class="payment-list-right">
-                                            {{ $payment_details->address->phone }}</span>
+                                            {{ $payment_details->address->phone }}
+                                        </span>
                                     </li>
                                     <li>
-                                        <span class="payment-list-left">{{ __('Full Name:') }}</span>
-                                        <span class="payment-list-right">{{ $payment_details->address->name }}</span>
+                                        <span class="payment-list-left">
+                                            {{ __('Full Name:') }}
+                                        </span>
+                                        <span class="payment-list-right">
+                                            {{ $payment_details->address->name }}
+                                        </span>
                                     </li>
                                     <li>
-                                        <span class="payment-list-left">{{ __('Email:') }}</span>
-                                        <span class="payment-list-right">{{ $payment_details->address->email }}</span>
+                                        <span class="payment-list-left">
+                                            {{ __('Email:') }}
+                                        </span>
+                                        <span class="payment-list-right">
+                                            {{ $payment_details->address->email }}
+                                        </span>
                                     </li>
                                 </ul>
                             </div>
@@ -561,168 +600,220 @@
                                 <h4 class="title__two"> {{ __('Order Details') }} </h4>
                                 <ul class="payment-list payment-list-two margin-top-30">
                                     <li>
-                                        <span class="payment-list-left list-bold">{{ __('Amount Paid:') }} </span>
+                                        <span class="payment-list-left list-bold">
+                                            {{ __('Total Amount:') }}
+                                        </span>
                                         <span class="payment-list-right payment-bold">
-                                            {{ float_amount_with_currency_symbol($payment_details->paymentMeta?->total_amount) }}</span>
+                                            {{ float_amount_with_currency_symbol($payment_details->paymentMeta?->total_amount) }}
+                                        </span>
                                     </li>
                                     <li>
-                                        <span class="payment-list-left list-bold">{{ __('Payment Status:') }} </span>
+                                        <span class="payment-list-left list-bold">
+                                            {{ __('Order Status:') }}
+                                        </span>
                                         <span class="payment-list-right payment-bold">
-                                            {{ ucfirst($payment_details->payment_status) }}</span>
+                                            {{ ucfirst($payment_details->order_status) }}
+                                        </span>
                                     </li>
-                                    <li>
-                                        <span class="payment-list-left list-bold">{{ __('Order Status:') }} </span>
+                                    @if ($payment_details->payment_status == 'pending')
+                                        <li>
+                                            <span class="payment-list-left list-bold">
+                                                {{ __('Pending Amount:') }}
+                                            </span>
+                                            <span class="payment-list-right payment-bold">
+                                                {{ float_amount_with_currency_symbol($payment_details->paymentMeta?->total_amount) }}
+                                            </span>
+                                        </li>
+                                    @else
+                                        <li>
+                                            <span class="payment-list-left list-bold">
+                                                {{ __('Payment Status:') }}
+                                            </span>
+                                            <span class="payment-list-right payment-bold">
+                                                {{ ucfirst($payment_details->payment_status) }}
+                                            </span>
+                                        </li>
+                                    @endif
+                                    {{-- <li>
+                                        <span class="payment-list-left list-bold">
+                                            {{ __('Order Track:') }}
+                                        </span>
                                         <span class="payment-list-right payment-bold">
-                                            {{ ucfirst($payment_details->order_status) }}</span>
-                                    </li>
+                                            {{ ucfirst(str_replace(['-', '_'], ' ', $orderTrack->name)) }}
+                                        </span>
+                                    </li> --}}
                                     <li>
-                                        <span class="payment-list-left list-bold">{{ __('Order Track:') }} </span>
-                                        <span class="payment-list-right payment-bold"> {{ ucfirst(str_replace(['-','_'],' ',$orderTrack->name)) }}</span>
-                                    </li>
-                                    <li>
-                                        <span class="payment-list-left list-bold">{{ __('Order Track ID:') }} </span>
+                                        <span class="payment-list-left list-bold">
+                                            {{ __('Order Track ID:') }}
+                                        </span>
                                         <span class="payment-list-right payment-bold">
-                                            {{ ucfirst($payment_details->order_number) }}</span>
+                                            {{ ucfirst($payment_details->order_number) }}
+                                        </span>
                                     </li>
-                                    <li>
-                                        <span class="payment-list-left">{{ __('Transaction ID:') }}</span>
+                                    {{-- <li>
+                                        <span class="payment-list-left">
+                                            {{ __('Transaction ID:') }}
+                                        </span>
                                         <span class="payment-list-right">{{ $payment_details->transaction_id }}</span>
-                                    </li>
+                                    </li> --}}
                                 </ul>
 
-                                
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-12 padding-top-60">
-                    <div class="order__details__single">
-                        <h4 class="title__two">{{ __('Order Details View') }}</h4>
-                        <div class="order__details__wrap checkout-page-content-wrapper margin-top-20">
-                            @php
-                                $adminShopManage = \App\AdminShopManage::first();
-                                $itemsTotal = null;
-                            @endphp
-                            <div class="row g-4">
-                                @foreach ($orders as $order)
-                                    <div class="col-lg-12">
-                                        <div class="order__details__item">
-                                            <div class="order__item">
-                                                @foreach ($order?->orderItem as $orderItem)
-                                                    @php
-                                                        $prd_image = $orderItem->product?->image;
+                @if ($orders->count() > 0)
+                    <div class="col-lg-12 padding-top-60">
+                        <div class="order__details__single">
+                            <h4 class="title__two">{{ __('Order Details View') }}</h4>
+                            <div class="order__details__wrap checkout-page-content-wrapper margin-top-20">
+                                @php
+                                    $adminShopManage = \App\AdminShopManage::first();
+                                    $itemsTotal = null;
+                                @endphp
+                                <div class="row g-4">
+                                    @foreach ($orders as $order)
+                                        <div class="col-lg-12">
+                                            <div class="order__details__item">
+                                                <div class="order__item">
+                                                    @foreach ($order?->orderItem as $orderItem)
+                                                        @php
+                                                            $prd_image = $orderItem->product?->image;
 
-                                                        if (!empty($orderItem->variant?->attr_image)) {
-                                                            $prd_image = $orderItem->variant->attr_image;
-                                                        }
-                                                    @endphp
-                                                    <div class="order__item__single">
-                                                        <div class="order__item__single__flex">
-                                                            <div class="order__item__product">
-                                                                <div
-                                                                    class="order__item__product__thumb checkout-cart-thumb">
-                                                                    {!! render_image($prd_image, class: 'w-100') !!}
-                                                                </div>
-                                                                <div
-                                                                    class="order__item__product__contents checkout-cart-img-contents">
-                                                                    <h6
-                                                                        class="order__item__product__name checkout-cart-title">
-                                                                        <a href="#1">
-                                                                            {{ Str::words($orderItem->product?->name) }}
-                                                                            {{-- {{$orderItem->product?->name}} --}}
-                                                                        </a>
-                                                                        <p>
-                                                                            {{ $orderItem?->variant?->productColor ? __('Color:') . $orderItem?->variant?->productColor?->name . ' , ' : '' }}
-                                                                            {{ $orderItem?->variant?->productSize ? __('Size:') . $orderItem?->variant?->productSize?->name . ' , ' : '' }}
-                                                                            @foreach ($orderItem?->variant?->attribute ?? [] as $attr)
-                                                                                {{ $attr->attribute_name }}
-                                                                                : {{ $attr->attribute_value }}
+                                                            if (!empty($orderItem->variant?->attr_image)) {
+                                                                $prd_image = $orderItem->variant->attr_image;
+                                                            }
+                                                        @endphp
+                                                        <div class="order__item__single">
+                                                            <div class="order__item__single__flex">
+                                                                <div class="order__item__product">
+                                                                    <div
+                                                                        class="order__item__product__thumb checkout-cart-thumb">
+                                                                        {!! render_image($prd_image, class: 'w-100') !!}
+                                                                    </div>
+                                                                    <div
+                                                                        class="order__item__product__contents checkout-cart-img-contents">
+                                                                        <h6
+                                                                            class="order__item__product__name checkout-cart-title">
+                                                                            <a href="#1">
+                                                                                {{ Str::words($orderItem->product?->name) }}
+                                                                                {{-- {{$orderItem->product?->name}} --}}
+                                                                            </a>
+                                                                            <p>
+                                                                                {{ $orderItem?->variant?->productColor ? __('Color:') . $orderItem?->variant?->productColor?->name . ' , ' : '' }}
+                                                                                {{ $orderItem?->variant?->productSize ? __('Size:') . $orderItem?->variant?->productSize?->name . ' , ' : '' }}
+                                                                                @foreach ($orderItem?->variant?->attribute ?? [] as $attr)
+                                                                                    {{ $attr->attribute_name }}
+                                                                                    : {{ $attr->attribute_value }}
 
-                                                                                @if (!$loop->last)
-                                                                                    ,
-                                                                                @endif
-                                                                            @endforeach
+                                                                                    @if (!$loop->last)
+                                                                                        ,
+                                                                                    @endif
+                                                                                @endforeach
+                                                                            </p>
+                                                                        </h6>
+                                                                        @php
+                                                                            $subtotal = null;
+                                                                            $default_shipping_cost = null;
+                                                                        @endphp
+
+                                                                        <p class="order__item__product__span mt-2">
+                                                                            <span
+                                                                                class="order__item__product__span__left">{{ __('Sold By:') }}
+                                                                            </span>
+                                                                            <span
+                                                                                class="order__item__product__span__right">{{ $order->vendor?->business_name ?? $adminShopManage?->store_name }}</span>
                                                                         </p>
-                                                                    </h6>
-                                                                    @php
-                                                                        $subtotal = null;
-                                                                        $default_shipping_cost = null;
-                                                                    @endphp
+                                                                    </div>
+                                                                </div>
+                                                                <p class="d-block product-items">
+                                                                    <span>{{ __('QTY:') }}
 
-                                                                    <p class="order__item__product__span mt-2">
-                                                                        <span
-                                                                            class="order__item__product__span__left">{{ __('Sold By:') }}</span>
-                                                                        <span
-                                                                            class="order__item__product__span__right">{{ $order->vendor?->business_name ?? $adminShopManage?->store_name }}</span>
-                                                                    </p>
+                                                                    </span>
+                                                                    <strong
+                                                                        class="color-heading">{{ $orderItem->quantity ?? '0' }}</strong>
+                                                                </p>
+                                                                <div class="d-flex gap-2">
+                                                                    <s class="checkout-cart-price">
+                                                                        {{ amount_with_currency_symbol($orderItem->sale_price) }}
+                                                                    </s>
+                                                                    <strong class="color-heading">
+                                                                        {{ amount_with_currency_symbol($orderItem->price) }}
+                                                                    </strong>
                                                                 </div>
                                                             </div>
-                                                            <p class="d-block product-items">
-                                                                <span>{{ __('QTY:') }}</span>
-                                                                <strong
-                                                                    class="color-heading">{{ $orderItem->quantity ?? '0' }}</strong>
-                                                            </p>
-                                                            <div class="d-flex gap-2">
-                                                                <s class="checkout-cart-price">
-                                                                    {{ amount_with_currency_symbol($orderItem->sale_price) }}
-                                                                </s>
-                                                                <strong class="color-heading">
-                                                                    {{ amount_with_currency_symbol($orderItem->price) }}
+
+                                                            @php
+                                                                $subtotal +=
+                                                                    $orderItem->sale_price * $orderItem->quantity;
+                                                                $itemsTotal +=
+                                                                    $orderItem->sale_price * $orderItem->quantity;
+                                                            @endphp
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                                <div class="order__item__footer">
+                                                    @if ($order->order_status === 'order_cancelled')
+                                                        <h4 class="py-2 text-danger text-center pt-4">
+                                                            {{ __('This order is cancelled by the seller') }}</h4>
+                                                    @else
+                                                        <div class="order__item__estimate">
+                                                            <div
+                                                                class="order__item__estimate__single d-flex justify-content-between">
+                                                                <span>{{ __('Sub Total') }}
+
+                                                                </span>
+                                                                <strong id="vendor_subtotal">
+                                                                    {{ float_amount_with_currency_symbol($payment_details->paymentMeta?->sub_total) }}
                                                                 </strong>
                                                             </div>
-                                                        </div>
-
-                                                        @php
-                                                            $subtotal += $orderItem->sale_price * $orderItem->quantity;
-                                                            $itemsTotal += $orderItem->sale_price * $orderItem->quantity;
-                                                        @endphp
-                                                    </div>
-                                                @endforeach
-                                            </div>
-                                            <div class="order__item__footer">
-                                                @if($order->order_status === 'order_cancelled')
-                                                    <h4 class="py-2 text-danger text-center pt-4">{{ __("This order is cancelled by the seller") }}</h4>
-                                                @else
-                                                    <div class="order__item__estimate">
-                                                        <div class="order__item__estimate__single d-flex justify-content-between">
-                                                            <span>{{ __('Sub Total') }}</span>
-                                                            <strong id="vendor_subtotal">
-                                                                {{ float_amount_with_currency_symbol($payment_details->paymentMeta?->sub_total) }}
-                                                            </strong>
-                                                        </div>
-                                                        <div class="order__item__estimate__single d-flex justify-content-between">
-                                                            <span>{{ __('Discount Amount') }}</span>
-                                                            <strong id="vendor_tax_amount">{{ float_amount_with_currency_symbol($payment_details->paymentMeta?->coupon_amount) }}</strong>
-                                                        </div>
-                                                        <div
+                                                            <div
                                                                 class="order__item__estimate__single d-flex justify-content-between">
-                                                            <span>{{ __('Tax Amount') }}</span>
-                                                            <strong id="vendor_tax_amount">{{ float_amount_with_currency_symbol($payment_details->paymentMeta?->tax_amount) }}</strong>
+                                                                <span>{{ __('Discount Amount') }}
+
+                                                                </span>
+                                                                <strong
+                                                                    id="vendor_tax_amount">{{ float_amount_with_currency_symbol($payment_details->paymentMeta?->coupon_amount) }}</strong>
+                                                            </div>
+                                                            <div
+                                                                class="order__item__estimate__single d-flex justify-content-between">
+                                                                <span>{{ __('Tax Amount') }}
+
+                                                                </span>
+                                                                <strong
+                                                                    id="vendor_tax_amount">{{ float_amount_with_currency_symbol($payment_details->paymentMeta?->tax_amount) }}</strong>
+                                                            </div>
+                                                            <div
+                                                                class="order__item__estimate__single d-flex justify-content-between">
+                                                                <span>{{ __('Cost Summary') }}
+
+                                                                </span>
+                                                                <strong
+                                                                    id="vendor_shipping_cost">{{ float_amount_with_currency_symbol($payment_details->paymentMeta?->shipping_cost) }}</strong>
+                                                            </div>
+                                                            <div
+                                                                class="order__item__estimate__single d-flex justify-content-between">
+                                                                <span>{{ __('Total') }}
+
+                                                                </span>
+                                                                <strong
+                                                                    id="vendor_total">{{ float_amount_with_currency_symbol($payment_details->paymentMeta?->total_amount) }}</strong>
+                                                            </div>
                                                         </div>
-                                                        <div class="order__item__estimate__single d-flex justify-content-between">
-                                                            <span>{{ __('Cost Summary') }}</span>
-                                                            <strong id="vendor_shipping_cost">{{ float_amount_with_currency_symbol($payment_details->paymentMeta?->shipping_cost) }}</strong>
-                                                        </div>
-                                                        <div class="order__item__estimate__single d-flex justify-content-between">
-                                                            <span>{{ __('Total') }}</span>
-                                                            <strong id="vendor_total">{{ float_amount_with_currency_symbol($payment_details->paymentMeta?->total_amount) }}</strong>
-                                                        </div>
-                                                    </div>
-                                                @endif
+                                                    @endif
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                @endforeach
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                @endif
                 <div class="btn-wrapper margin-top-40">
                     <a href="{{ route('user.home') }}" class="cmn_btn btn_bg_1 btn-success" style="">
-                                            {{ __('Back to Dashboard') }}
-                                        </a>
-                    {{-- <a href="{{ route('user.home') }}"
-                        class="cmn_btn btn_bg_2">{{ __('Go to Dashboard') }}</a> --}}
+                        {{ __('Back to Dashboard') }}
+                    </a>
                 </div>
             </div>
         </div>

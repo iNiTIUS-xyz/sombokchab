@@ -1,7 +1,7 @@
 @extends('frontend.frontend-page-master')
 
 @section('page-title')
-    {{ __('Wishlist') }}
+    {{ __('Save for later') }}
 @endsection
 
 @section('style')
@@ -99,7 +99,7 @@
 @section('content')
     <div class=" cart-page-wrapper mt-3">
         @php
-            $all_cart_items = \Gloudemans\Shoppingcart\Facades\Cart::instance('wishlist')->content();
+            $all_cart_items = \Gloudemans\Shoppingcart\Facades\Cart::instance('wishlist')->content()->sortBy(request('sorting_by'));
             $wishlist = true;
         @endphp
         @if (empty($all_cart_items->count()))

@@ -258,7 +258,8 @@
                                         <li><strong>{{ __('Order No:') }}</strong> {{ $ticket_details->order_id }}</li>
                                         <li><strong>{{ __('Subject:') }}</strong> {{ $ticket_details->title }} </li>
                                         <li><strong>{{ __('Status:') }}</strong>
-                                            <span class="text-capitalize badge {{ $ticket_details->status == 'close' ? 'status-close' : 'status-open' }}">
+                                            <span
+                                                class="text-capitalize badge {{ $ticket_details->status == 'close' ? 'status-close' : 'status-open' }}">
                                                 {{ $ticket_details->status == 'close' ? __('Closed') : __($ticket_details->status) }}
                                             </span>
                                         </li>
@@ -305,9 +306,10 @@
                                                                 {{ $ticket_details->admin->name ?? 'A' }}
                                                             @endif
                                                         </h6>
-                                                        <span
-                                                            class="time">{{ date_format($msg->created_at, 'd M Y H:i:s') }}
-                                                            | {{ $msg->created_at->diffForHumans() }}</span>
+                                                        <span class="time">
+                                                            {{ date_format($msg->created_at, 'd M Y H:i:s') }}
+                                                            | {{ $msg->created_at->diffForHumans() }}
+                                                        </span>
                                                     </div>
                                                 </div>
                                                 <div class="content">
@@ -316,7 +318,12 @@
                                                     </div>
                                                     @if (file_exists('assets/uploads/ticket/' . $msg->attachment))
                                                         <a href="{{ asset('assets/uploads/ticket/' . $msg->attachment) }}"
-                                                            download class="anchor-btn">{{ $msg->attachment }}</a>
+                                                            download class="anchor-btn">
+                                                            <strong class="text-info">File :</strong>
+                                                            <span class="text-info">
+                                                                {{ $msg->attachment }}
+                                                            </span>
+                                                        </a>
                                                     @endif
                                                 </div>
                                             </div>
@@ -326,7 +333,6 @@
                                     </div>
                                 </div>
                                 <div class="reply-message-wrap ">
-                                    {{-- <h5 class="dashboard__card__title mb-3">{{ __('Type your message here') }}</h5> --}}
                                     <x-msg.error />
                                     <x-msg.flash />
                                     <form action="{{ route('user.dashboard.support.ticket.message') }}" method="post"
@@ -341,9 +347,10 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="file">{{ __('File') }}</label>
-                                            <input type="file" name="file" accept="zip">
-                                            <small
-                                                class="info-text d-block text-danger">{{ __('Max file size is 200mb, only zip file is allowed') }}</small>
+                                            <input type="file" name="file">
+                                            <small class="info-text d-block text-danger">
+                                                {{ __('max file size 200mb, only zip,png,gif,jpg,jpeg,pdf,docx,doc,odd file is allowed') }}
+                                            </small>
                                         </div>
                                         <div class="form-group d-flex align-items-start gap-3">
                                             <input type="checkbox" name="send_notify_mail" id="send_notify_mail">
@@ -353,12 +360,12 @@
                                             <button type="submit" class="cmn_btn btn_bg_1 btn-success">
                                                 {{ __('Send Message') }}
                                             </button>
-                                            <a href="{{ route('user.home.support.tickets') }}" class="cmn_btn default-theme-btn" style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                                            <a href="{{ route('user.home.support.tickets') }}"
+                                                class="cmn_btn default-theme-btn"
+                                                style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
                                                 {{ __('Back') }}
                                             </a>
                                         </div>
-                                        {{-- <button class="cmn_btn btn_bg_profile"
-                                            type="submit">{{ __('Send Message') }}</button> --}}
                                     </form>
                                 </div>
                             </div>
@@ -383,8 +390,9 @@
                     onChange: function(contents, $editable) {
                         $(this).prev('textarea').val(contents);
                     },
-                    onPaste: function (e) {
-                        let bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('text/plain');
+                    onPaste: function(e) {
+                        let bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData)
+                            .getData('text/plain');
                         e.preventDefault();
                         document.execCommand('insertText', false, bufferText);
                     }

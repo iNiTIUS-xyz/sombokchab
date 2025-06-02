@@ -1,7 +1,7 @@
 @extends('frontend.frontend-page-master')
 
 @section('page-title')
-    {{ __('Vendor Forgot Password') }}
+    {{ __('Vendor Reset Password') }}
 @endsection
 
 @section('content')

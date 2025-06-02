@@ -1250,6 +1250,7 @@ function render_frontend_sidebar($location, $args = []): string
             'column' => $args['column'] ?? false
         ]);
     }
+
     return $output;
 }
 

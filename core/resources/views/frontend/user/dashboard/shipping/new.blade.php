@@ -21,8 +21,11 @@
                 <div class="form-row row g-4">
                     <div class="col-md-6">
                         <div class="single-input">
-                            <label class="label-title"> {{ __("Shipping Address Name") }}  </label>
-                            <input class="form--control" type="text" name="shipping_address_name" value="{{ old("shipping_address_name") ?? "" }}" placeholder="{{ __("Shipping Address Name.") }}">
+                            <label class="label-title">
+                                {{ __("Shipping Address Name") }}
+                                <span class="text-danger">*</span>
+                            </label>
+                            <input class="form--control" type="text" name="shipping_address_name" value="{{ old("shipping_address_name") ?? "" }}" required placeholder="{{ __("Shipping Address Name.") }}">
                         </div>
                     </div>
 
@@ -101,13 +104,6 @@
                             <textarea class="form-control" name="address" id="address" rows="3" placeholder="{{__('Enter Address')}}"></textarea>
                         </div>
                     </div>
-                    {{-- <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="address">{{ __('Address') }} <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="address" id="address" cols="30"
-                                rows="5" placeholder="{{__('Enter Address')}}">
-                        </div>
-                    </div> --}}
                     <div class="col-md-12">
                         <div class="btn-wrapper">
                             <button class="cmn_btn btn_bg_1">{{ __('Submit') }}</button>

@@ -124,39 +124,17 @@
                                             <small class="text-danger" id="passwordConfirmError"></small>
                                         </div>
                                     </div>
-
-                                    {{-- <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="label-title mb-2"> {{ __('Business Category *') }}
-                                            </label>
-                                            <div class="nice-select-two">
-                                                <select name="business_type" id="business_type"
-                                                    class="form--control radius-10" required>
-                                                    <option value="">Select business type</option>
-                                                    @foreach ($business_type as $item)
-                                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <small class="text-danger" id="businessTypeError"></small>
-                                        </div>
-                                    </div> --}}
                                 </div>
-
-                                <!-- Terms & Conditions -->
                                 <div class="form-group">
                                     <div class="box-wrap form-check">
                                         <input type="checkbox" class="form-check-input" id="toc_and_privacy"
                                             name="agree_terms" required />
                                         <label class="form-check-label" for="toc_and_privacy">
                                             {{ __('Accept all') }}
-                                            <a href="{{ url(get_static_option('toc_page_link')) }}" class="text-active">
-                                                {{ __('Terms and Conditions') }}
-                                            </a> &
+                                            <a href="{{ url(get_static_option('toc_page_link')) }}"
+                                                class="text-active">{{ __('Terms and Conditions') }}</a> &amp;
                                             <a href="{{ url(get_static_option('privacy_policy_link')) }}"
-                                                class="text-active">
-                                                {{ __('Privacy Policy') }}
-                                            </a>
+                                                class="text-active">{{ __('Privacy Policy') }}</a>
                                         </label>
                                     </div>
                                     <small class="text-danger" id="termsError"></small>

@@ -43,7 +43,6 @@
                                 </button>
                             </div>
                         </div>
-                        <!-- Password Input with Toggle Eye -->
                         <div class="single-input">
                             <label class="label-title mb-2"> {{ __('Password') }} </label>
                             <div class="position-relative">
@@ -61,7 +60,6 @@
                             </div>
                             <small id="login_password_error" class="text-danger"></small>
                         </div>
-
                         <div class="dashboard-btn-wrapper">
                             <button type="submit" id="login_btn" class="btn-submit dashboard-bg w-100">
                                 {{ __('Sign In') }}

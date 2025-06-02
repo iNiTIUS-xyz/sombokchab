@@ -177,7 +177,8 @@
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#55545b',
-                confirmButtonText: 'Yes, delete it!'
+                confirmButtonText: "{{ __('Yes, delete it!') }}",
+                cancelButtonText: "{{ __('No') }}"
             }).then((result) => {
                 if (result.isConfirmed) {
                     location.replace(delete_url);

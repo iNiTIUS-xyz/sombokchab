@@ -10,19 +10,19 @@ use Illuminate\Http\Request;
 
 class VendorSupportTicketApiController extends Controller
 {
-    public function viewTickets(Request $request,$id= null)
+    public function viewTickets(Request $request, $id = null)
     {
-        $all_messages = SupportTicketMessage::where(['support_ticket_id'=>$id])->orderByDesc('id')
-            ->paginate(20)->transform(function($item){
-                $item->attachment = !empty($item->attachment) ? asset('assets/uploads/ticket/'.$item->attachment) : null;
+        $all_messages = SupportTicketMessage::where(['support_ticket_id' => $id])->orderByDesc('id')
+            ->paginate(20)->transform(function ($item) {
+                $item->attachment = !empty($item->attachment) ? asset('assets/uploads/ticket/' . $item->attachment) : null;
                 return $item;
             });
 
         $q = $request->q ?? '';
         return response()->json([
-            'ticket_id'=>$id,
-            'all_messages' =>$all_messages,
-            'q' =>$q,
+            'ticket_id' => $id,
+            'all_messages' => $all_messages,
+            'q' => $q,
         ]);
     }
 
@@ -41,30 +41,32 @@ class VendorSupportTicketApiController extends Controller
             'message' => $request->message,
         ]);
 
-        if ($request->hasFile('file')){
+        if ($request->hasFile('file')) {
             $uploaded_file = $request->file;
             $file_extension = $uploaded_file->extension();
-            $file_name =  pathinfo($uploaded_file->getClientOriginalName(),PATHINFO_FILENAME).time().'.'.$file_extension;
-            $uploaded_file->move('assets/uploads/ticket',$file_name);
+            $file_name = pathinfo($uploaded_file->getClientOriginalName(), PATHINFO_FILENAME) . time() . '.' . $file_extension;
+            $uploaded_file->move('assets/uploads/ticket', $file_name);
             $ticket_info->attachment = $file_name;
             $ticket_info->save();
         }
 
         return response()->json([
-            'message'=>__('Message Send Success'),
-            'ticket_id'=>$request->ticket_id,
-            'user_type'=>$request->user_type,
+            'message' => __('Message Send Success'),
+            'ticket_id' => $request->ticket_id,
+            'user_type' => $request->user_type,
             'ticket_info' => $ticket_info,
         ]);
     }
 
-    public function get_department(){
+    public function get_department()
+    {
 
-        $data = SupportDepartment::select("id","name","status")->where(['status' => 'publish'])->get();
+        $data = SupportDepartment::select("id", "name", "status")->where(['status' => 'publish'])->get();
         return response()->json(["data" => $data]);
     }
 
-    public function createTicket(Request $request){
+    public function createTicket(Request $request)
+    {
         $uesr_info = auth('sanctum')->user()->id;
         $request->validate([
             'title' => 'required|string|max:191',
@@ -72,10 +74,10 @@ class VendorSupportTicketApiController extends Controller
             'priority' => 'required|string|max:191',
             'description' => 'required|string',
             'departments' => 'required|string',
-        ],[
+        ], [
             'title.required' => __('title required'),
-            'subject.required' =>  __('subject required'),
-            'priority.required' =>  __('priority required'),
+            'subject.required' => __('subject required'),
+            'priority.required' => __('priority required'),
             'description.required' => __('description required'),
             'departments.required' => __('departments required'),
         ]);
@@ -96,34 +98,37 @@ class VendorSupportTicketApiController extends Controller
 
         $msg = get_static_option('support_ticket_success_message') ?? __('Thanks for contact us, we will reply soon');
 
-        return response()->json(["msg" => $msg,"ticket" => $ticket]);
+        return response()->json(["msg" => $msg, "ticket" => $ticket]);
     }
 
-    public function get_all_tickets(){
+    public function get_all_tickets()
+    {
         $user_id = auth('sanctum')->user()->id;
 
         return SupportTicket::where('vendor_id', $user_id)->orderByDesc('id')
             ->paginate(20)->withQueryString();
     }
 
-    public function single_ticket($id){
+    public function single_ticket($id)
+    {
         $user_id = auth('sanctum')->user()->id;
 
         $ticket_details = SupportTicket::where('vendor_id', $user_id)
-            ->where("id",$id)
+            ->where("id", $id)
             ->first();
-        $all_messages = SupportTicketMessage::where(['support_ticket_id' => $id])->get()->transform(function ($item){
-            $item->attachment = !empty($item->attachment) ? asset('assets/uploads/ticket/'.$item->attachment) : null;
+        $all_messages = SupportTicketMessage::where(['support_ticket_id' => $id])->get()->transform(function ($item) {
+            $item->attachment = !empty($item->attachment) ? asset('assets/uploads/ticket/' . $item->attachment) : null;
 
             return $item;
         });
 
-        return response()->json(["ticket_details" => $ticket_details,"all_messages" => $all_messages]);
+        return response()->json(["ticket_details" => $ticket_details, "all_messages" => $all_messages]);
     }
 
-    public function fetch_support_chat($ticket_id){
-        $all_messages = SupportTicketMessage::where(['support_ticket_id' => $ticket_id])->get()->transform(function ($item){
-            $item->attachment = !empty($item->attachment) ? asset('assets/uploads/ticket/'.$item->attachment) : null;
+    public function fetch_support_chat($ticket_id)
+    {
+        $all_messages = SupportTicketMessage::where(['support_ticket_id' => $ticket_id])->get()->transform(function ($item) {
+            $item->attachment = !empty($item->attachment) ? asset('assets/uploads/ticket/' . $item->attachment) : null;
 
             return $item;
         });
@@ -151,7 +156,8 @@ class VendorSupportTicketApiController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function send_support_chat(Request $request,$ticket_id){
+    public function send_support_chat(Request $request, $ticket_id)
+    {
         $request->validate([
             'user_type' => 'required|string|max:191',
             'message' => 'required',

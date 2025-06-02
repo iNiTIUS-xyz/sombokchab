@@ -28,7 +28,7 @@
                     <div class="col-lg-8 col-md-6">
                         <div class="category-searchbar">
                             <div class="category-searchbar">
-                                <form action="#" class="single-searchbar searchbar-suggetions">
+                                <form action="#"  method="GET" class="single-searchbar searchbar-suggetions formSubmitAction" >
                                     <div class="input-group">
                                         <select class="form--control category-select" id="search_category_id">
                                             <option value="all">All Categories</option>
@@ -41,9 +41,9 @@
                                         <input autocomplete="off" class="form--control radius-5" id="search_form_input"
                                             type="text" placeholder="{{ 'Search For Products' }}">
 
-                                        <button type="submit" class="right-position-button margin-2 radius-5">
+                                        {{-- <button type="submit" class="right-position-button margin-2 radius-5">
                                             <i class="las la-search"></i>
-                                        </button>
+                                        </button> --}}
                                     </div>
 
                                     <div class="search-suggestions" id="search_suggestions_wrap">
@@ -74,7 +74,6 @@
                                     </div>
                                 </form>
                             </div>
-
                         </div>
                     </div>
                     <div class="col-lg-2 d-none d-lg-block">
@@ -301,9 +300,9 @@
                                     <input autocomplete="off" class="form--control radius-5" id="search_form_input"
                                         type="text" placeholder="{{ 'Search For Products' }}">
 
-                                    <button type="submit" class="right-position-button margin-2 radius-5">
+                                    {{-- <button type="submit" class="right-position-button margin-2 radius-5">
                                         <i class="las la-search"></i>
-                                    </button>
+                                    </button> --}}
                                 </div>
                                 <div class="search-suggestions" id="search_suggestions_wrap">
                                     <div class="search-inner">
@@ -353,6 +352,9 @@
             <h3 class="categoryNav__title">{{ __('All Categories') }}</h3>
             <div class="categoryNav__inner mt-3">
                 <ul class="categoryNav__list parent_menu menu_visible">
+                    <li>
+                        <a href="{{ route('frontend.dynamic.shop.page') }}">All Categories</a>
+                    </li>
                     {!! render_frontend_menu(get_static_option('megamenu'), 'category_menu') !!}
                 </ul>
             </div>

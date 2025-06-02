@@ -121,7 +121,7 @@
                         confirmButtonColor: '#ee0000',
                         cancelButtonColor: '#55545b',
                         confirmButtonText: '{{ __('Yes, change it!') }}',
-                        cancelButtonText: '{{ __('No') }}'
+                        cancelButtonText: "{{ __('No') }}"
                     }).then((result) => {
                         if (result.isConfirmed) {
                             $.ajax({
@@ -165,7 +165,7 @@
                         confirmButtonColor: '#ee0000',
                         cancelButtonColor: '#55545b',
                         confirmButtonText: '{{ __('Yes, close it!') }}',
-                        cancelButtonText: '{{ __('No') }}'
+                        cancelButtonText: "{{ __('No') }}"
                     }).then((result) => {
                         if (result.isConfirmed) {
                             $.ajax({

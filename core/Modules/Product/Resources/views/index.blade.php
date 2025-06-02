@@ -274,8 +274,8 @@
                     showCancelButton: true,
                     confirmButtonColor: '#ee0000',
                     cancelButtonColor: '#55545b',
-                    confirmButtonText: 'Yes, delete it!',
-                    cancelButtonText: '{{ __('No') }}'
+                    confirmButtonText: "{{ __('Yes, delete it!') }}",
+                    cancelButtonText: "{{ __('No') }}"
                 }).then((result) => {
                     if (result.isConfirmed) {
                         send_ajax_request("GET", null, $(this).data("product-url"), () => {
