@@ -75,7 +75,13 @@
                                 <small class="form-text text-muted">{{ __('allowed image format: jpg,jpeg,png') }}</small>
                             </div>
                             <div class="form-group">
-                                <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Submit') }}</button>
+                                <button type="submit" class="cmn_btn btn_bg_profile">
+                                    {{ __('Submit') }}
+                                </button>
+                                <a href="{{ route('admin.all.user') }}" class="cmn_btn default-theme-btn"
+                                    style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                                    Back
+                                </a>
                             </div>
                         </form>
                     </div>

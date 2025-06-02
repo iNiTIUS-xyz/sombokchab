@@ -95,8 +95,8 @@
                         showCancelButton: true,
                         confirmButtonColor: '#ee0000',
                         cancelButtonColor: '#55545b',
-                        confirmButtonText: 'Yes, delete it!',
-                        cancelButtonText: '{{ __('No') }}'
+                        confirmButtonText: "{{ __('Yes, delete it!') }}",
+                        cancelButtonText: "{{ __('No') }}"
                     }).then((result) => {
                         if (result.isConfirmed) {
                             $(this).next().find('.swal_form_submit_btn').trigger('click');

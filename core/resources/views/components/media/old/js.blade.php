@@ -40,7 +40,7 @@
                 confirmButtonColor: '#ee0000',
                 cancelButtonColor: '#55545b',
                 confirmButtonText: 'Yes, Delete It',
-                cancelButtonText: '{{ __('No') }}'
+                cancelButtonText: "{{ __('No') }}"
             }).then((result) => {
                 if (result.isConfirmed) {
                     deleteImage(type);

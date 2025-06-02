@@ -13,6 +13,11 @@
         @include('backend/partials/error')
         <div class="row">
             <div class="col-12">
+                <div class="btn-wrapper mb-4">
+                    <a href="{{ route('admin.new.user') }}" class="cmn_btn btn_bg_profile">
+                        Add New Admin
+                    </a>
+                </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('All Admin Created By Super Admin') }}</h4>
@@ -22,7 +27,7 @@
                             <table id="all_user_table" class="text-center">
                                 <thead class="text-capitalize">
                                     <tr>
-                                        <th>{{ __('ID') }}</th>
+                                        <th>{{ __('SL No.') }}</th>
                                         <th>{{ __('Name') }}</th>
                                         <th>{{ __('Image') }}</th>
                                         <th>{{ __('Role') }}</th>
@@ -58,10 +63,6 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @can('admin-delete-user')
-                                                    <x-delete-popover :url="route('admin.delete.user', $data->id)" />
-                                                @endcan
-
                                                 @can('admin-user-edit')
                                                     <a href="{{ route('admin.user.edit', $data->id) }}"
                                                         class="btn btn-lg btn-primary btn-sm mb-2 me-1 user_edit_btn">
@@ -71,10 +72,14 @@
 
                                                 @can('admin-user-password-change')
                                                     <a href="#1" data-id="{{ $data->id }}" data-bs-toggle="modal"
-                                                        data-bs-target="#user_change_password_modal"
+                                                        title="Change Password" data-bs-target="#user_change_password_modal"
                                                         class="btn btn-sm btn-secondary mb-2 me-1 user_change_password_btn">
-                                                        {{ __('Change Password') }}
+                                                        <i class="ti-unlock"></i>
                                                     </a>
+                                                @endcan
+
+                                                @can('admin-delete-user')
+                                                    <x-delete-popover :url="route('admin.delete.user', $data->id)" />
                                                 @endcan
                                             </td>
                                         </tr>
