@@ -18,7 +18,7 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>{{ __('SL No.') }}</th>
+                                <th>{{ __('Serial No.') }}</th>
                                 <th>{{ __('Full Name') }}</th>
                                 <th>{{ __('Address') }}</th>
                                 <th>{{ __('Is Default') }}</th>

@@ -61,7 +61,7 @@
                         <table class="table-responsive table">
                             <thead>
                                 <tr>
-                                    <th>{{ __('SL No.') }}</th>
+                                    <th>{{ __('Serial No.') }}</th>
                                     <th>{{ __('Sub Order ID') }}</th>
                                     <th>{{ __('Transaction ID') }}</th>
                                     <th>{{ __('Amount') }}</th>
