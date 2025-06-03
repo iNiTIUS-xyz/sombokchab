@@ -104,6 +104,8 @@ class ProductCartController extends Controller
             $product_inventory_details = null;
         }
 
+        $availableStockQty = $product_inventory_details ? $product_inventory_details->stock_count : $product_inventory->stock_count;
+
         if ($product_inventory_details && $request->quantity > $product_inventory_details->stock_count) {
             return response()->json([
                 'type' => 'warning',
@@ -205,6 +207,7 @@ class ProductCartController extends Controller
             $options['slug'] = $product->slug ?? null;
             $options['sku'] = $product->slug ?? null;
             $options['regular_price'] = $product->price ?? 0;
+            $options['available_stock_qty'] = $availableStockQty ?? 0;
             $options['tax_options_sum_rate'] = $product->tax_options_sum_rate ?? 0;
 
             Cart::instance('default')->add(['id' => $cart_data['product_id'], 'name' => $product->name, 'qty' => $cart_data['quantity'], 'price' => $final_sale_price, 'weight' => '0', 'options' => $options]);

@@ -200,10 +200,9 @@
                                             <span class="substract">
                                                 <i class="las la-minus"></i>
                                             </span>
-
                                             <input class="quantity-input" id="quantity" type="number" value="1"
-                                                min="0" onkeydown="return restrictInput(event)" />
-
+                                                min="0" max="{{ $stock_count }}"
+                                                onkeydown="return restrictInput(event)" />
                                             <span class="plus">
                                                 <i class="las la-plus"></i>
                                             </span>
@@ -672,7 +671,7 @@
             }
             return true;
         }
-        
+
         let attribute_store = JSON.parse('{!! json_encode($product_inventory_set) !!}');
 
         let additional_info_store = JSON.parse('{!! json_encode($additional_info_store) !!}');
@@ -1234,5 +1233,26 @@
                 $("#shop-details-thums").children('img').attr("src", src);
             },
         }, '.shop-details-thums-small');
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const quantityInput = document.getElementById("quantity");
+            const maxStock = parseInt(quantityInput.max); // Gets value from `max="{{ $stock_count }}"`
+
+            quantityInput.addEventListener("input", function() {
+                let currentValue = parseInt(this.value);
+
+                // If the input is more than max stock, set it back to max
+                if (currentValue > maxStock) {
+                    this.value = maxStock;
+                }
+
+                // Prevent negative or invalid values
+                if (currentValue < 0 || isNaN(currentValue)) {
+                    this.value = 0;
+                }
+            });
+        });
     </script>
 @endsection

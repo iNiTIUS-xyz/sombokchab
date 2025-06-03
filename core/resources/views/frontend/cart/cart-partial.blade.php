@@ -1,4 +1,4 @@
-q@php
+@php
     $wishlist = $wishlist ?? false;
 @endphp
 
@@ -110,10 +110,15 @@ q@php
                                             @if (!Route::is('frontend.products.wishlist'))
                                                 <td data-label="Quantity">
                                                     <div class="product-quantity">
-                                                        <span class="substract"><i class="las la-minus"></i></span>
+                                                        <span class="substract">
+                                                            <i class="las la-minus"></i>
+                                                        </span>
                                                         <input class="quantity-input" type="number"
-                                                            value="{{ $cart_item->qty }}">
-                                                        <span class="plus"><i class="las la-plus"></i></span>
+                                                            value="{{ $cart_item->qty }}"
+                                                            max="{{ $cart_item?->options['available_stock_qty'] }}">
+                                                        <span class="plus">
+                                                            <i class="las la-plus"></i>
+                                                        </span>
                                                     </div>
                                                 </td>
                                                 <td class="color-one price-td text-center" data-label="Total Price">
@@ -172,3 +177,23 @@ q@php
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get all quantity inputs
+        document.querySelectorAll('.quantity-input').forEach(function(input) {
+            input.addEventListener('input', function() {
+                const maxQty = parseInt(this.getAttribute('max')) || 0;
+                let currentQty = parseInt(this.value);
+
+                if (currentQty > maxQty) {
+                    this.value = maxQty;
+                }
+
+                if (currentQty < 1 || isNaN(currentQty)) {
+                    this.value = 1;
+                }
+            });
+        });
+    });
+</script>
