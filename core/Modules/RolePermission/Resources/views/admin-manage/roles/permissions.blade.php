@@ -278,8 +278,13 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-12">
-                                            <button type="submit"
-                                                class="cmn_btn btn_bg_profile">{{ __('Submit Now') }}</button>
+                                            <button type="submit" class="cmn_btn btn_bg_profile">
+                                                {{ __('Submit Now') }}
+                                            </button>
+                                            <a href="{{ route('admin.roles.index') }}" class="cmn_btn default-theme-btn"
+                                                style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                                                Back
+                                            </a>
                                         </div>
                                     </div>
                                 </form>
@@ -350,9 +355,12 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">{{ __('Close') }}</button>
-                        <button type="submit" class="btn btn-primary">{{ __('Save Changes') }}</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            {{ __('Close') }}
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            {{ __('Save Changes') }}
+                        </button>
                     </div>
                 </form>
             </div>

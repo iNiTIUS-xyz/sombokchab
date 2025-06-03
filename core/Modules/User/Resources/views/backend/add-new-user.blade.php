@@ -42,7 +42,7 @@
                                 <label for="country">{{ __('Country') }}</label>
                                 {{-- {!! get_country_field('country', 'country', 'form-control') !!} --}}
                                 <select id="country" name="country">
-                                    <option value="">{{ __("Select Country") }}</option>
+                                    <option value="">{{ __('Select Country') }}</option>
                                     @foreach ($country as $item)
                                         <option value="{{ $item->id }}">
                                             {{ $item->name }}
@@ -53,13 +53,13 @@
                             <div class="form-group">
                                 <label for="state">{{ __('City') }}</label>
                                 <select id="state_id" name="state">
-                                    <option value="">{{ __("Select City") }}</option>
+                                    <option value="">{{ __('Select City') }}</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="city">{{ __('State') }}</label>
-                                <select id="city_id" name="city" >
-                                    <option value="">{{ __("Select State") }}</option>
+                                <select id="city_id" name="city">
+                                    <option value="">{{ __('Select State') }}</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -82,7 +82,13 @@
                                 <input type="password" class="form-control" id="password_confirmation"
                                     name="password_confirmation" placeholder="{{ __('Password Confirmation') }}">
                             </div>
-                            <button type="submit" class="cmn_btn btn_bg_profile mt-4">{{ __('Add New User') }}</button>
+                            <button type="submit" class="cmn_btn btn_bg_profile mt-4">
+                                {{ __('Add New User') }}
+                            </button>
+                            <a href="{{ route('admin.all.frontend.user') }}" class="cmn_btn default-theme-btn"
+                                style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                                Back
+                            </a>
                         </form>
                     </div>
                 </div>
@@ -90,16 +96,16 @@
         </div>
     </div>
 @endsection
-@section("script")
-<script>
-    $(document).on("change", "#country", function() {
+@section('script')
+    <script>
+        $(document).on("change", "#country", function() {
             let data = new FormData();
 
             data.append("country_id", $(this).val());
             data.append("_token", "{{ csrf_token() }}");
 
             send_ajax_request("post", data, "{{ route('admin.vendor.get.state') }}", function() {}, (data) => {
-                $("#state_id").html("<option value=''>{{ __("Select City") }}</option>" + data.option);
+                $("#state_id").html("<option value=''>{{ __('Select City') }}</option>" + data.option);
                 $(".state_wrapper .list").html(data.li);
             }, (data) => {
                 prepare_errors(data);
@@ -114,11 +120,11 @@
             data.append("_token", "{{ csrf_token() }}");
 
             send_ajax_request("post", data, "{{ route('admin.vendor.get.city') }}", function() {}, (data) => {
-                $("#city_id").html("<option value=''>{{ __("Select Province") }}</option>" + data.option);
+                $("#city_id").html("<option value=''>{{ __('Select Province') }}</option>" + data.option);
                 $(".city_wrapper .list").html(data.li);
             }, (data) => {
                 prepare_errors(data);
             })
         });
-</script>
+    </script>
 @endsection

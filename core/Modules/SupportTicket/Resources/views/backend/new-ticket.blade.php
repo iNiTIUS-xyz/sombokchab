@@ -67,6 +67,10 @@
                             @can('support-tickets-create')
                                 <div class="btn-wrapper mt-4">
                                     <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Submit Ticket') }}</button>
+                                    <a href="{{ route('admin.support.ticket.all') }}" class="cmn_btn default-theme-btn"
+                                        style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                                        Back
+                                    </a>
                                 </div>
                             @endcan
                         </form>

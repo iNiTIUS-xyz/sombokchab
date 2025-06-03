@@ -12,12 +12,14 @@
             <div class="col-lg-12 mt-2">
                 <x-msg.error />
                 <x-msg.flash />
+                <div class="btn-wrapper mb-4">
+                    <a class="cmn_btn btn_bg_profile" href="{{ route('admin.mobile.slider.three.create') }}">
+                        Create
+                    </a>
+                </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('List Mobile Slider') }}</h4>
-                        <div class="btn-wrapper">
-                            <a class="cmn_btn btn_bg_profile" href="{{ route('admin.mobile.slider.three.create') }}">Create</a>
-                        </div>
                     </div>
                     <div class="dashboard__card__body mt-4">
                         <div class="table-wrap table-responsive">
@@ -43,14 +45,14 @@
                                             <td>{{ $slider->button_text }}</td>
                                             <td>{{ $slider->url }}</td>
                                             <td>
-                                                @can('state-delete')
-                                                    <x-table.btn.swal.delete :route="route('admin.mobile.slider.three.delete', $slider->id)" />
-                                                @endcan
                                                 @can('state-edit')
                                                     <a class="btn btn-primary btn-xs mb-2 me-1"
                                                         href="{{ route('admin.mobile.slider.three.edit', $slider->id) }}">
                                                         <i class="ti-pencil"></i>
                                                     </a>
+                                                @endcan
+                                                @can('state-delete')
+                                                    <x-table.btn.swal.delete :route="route('admin.mobile.slider.three.delete', $slider->id)" />
                                                 @endcan
                                             </td>
                                         </tr>

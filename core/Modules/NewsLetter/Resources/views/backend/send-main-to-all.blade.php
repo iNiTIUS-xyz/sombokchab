@@ -43,6 +43,10 @@
                             </div>
                             <div class="form-group">
                                 <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Send Mail') }}</button>
+                                <a href="{{ route('admin.newsletter') }}" class="cmn_btn default-theme-btn"
+                                    style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                                    Back
+                                </a>
                             </div>
                         </form>
                     </div>

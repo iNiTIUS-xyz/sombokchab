@@ -12,13 +12,14 @@
             <div class="col-lg-12">
                 <x-msg.error />
                 <x-msg.flash />
+                <div class="btn-wrapper mb-4">
+                    <a class="cmn_btn btn_bg_profile" href="{{ route('admin.mobile.vendor.intro.create') }}">
+                        {{ __('Create') }}
+                    </a>
+                </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Mobile Intro List') }}</h4>
-                        <div class="btn-wrapper">
-                            <a class="cmn_btn btn_bg_profile"
-                                href="{{ route('admin.mobile.vendor.intro.create') }}">{{ __('Create') }}</a>
-                        </div>
                     </div>
                     <div class="dashboard__card__body mt-4">
                         <div class="table-wrap table-responsive">
@@ -42,12 +43,11 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <x-table.btn.swal.delete :route="route('admin.mobile.vendor.intro.delete', $slider->id)" />
-
                                                 <a class="btn btn-primary btn-sm btn-xs mb-2 me-1"
                                                     href="{{ route('admin.mobile.vendor.intro.edit', $slider->id) }}">
                                                     <i class="ti-pencil"></i>
                                                 </a>
+                                                <x-table.btn.swal.delete :route="route('admin.mobile.vendor.intro.delete', $slider->id)" />
                                             </td>
                                         </tr>
                                     @endforeach

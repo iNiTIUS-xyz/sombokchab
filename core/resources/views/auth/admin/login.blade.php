@@ -18,10 +18,9 @@
                     <div class="error-message"></div>
                     <div class="login-form-wrap mt-4">
                         <div class="dashboard-input">
-                            <label for="username" class="dashboard-label">{{ __('Username') }}</label>
+                            <label for="username" class="dashboard-label">{{ __('Email or username') }}</label>
                             <input type="text" class="form--control" id="username" name="username" @if(request()->host() == 'safecart.bytesed.com') value="super_admin" @endif autofocus>
                         </div>
-
                         <div class="dashboard-input mt-4">
                             <label for="password" class="dashboard-label">{{ __('Password') }}</label>
                             <input type="password" class="form--control" id="password" name="password" @if(request()->host() == 'safecart.bytesed.com') value="12345678" @endif>

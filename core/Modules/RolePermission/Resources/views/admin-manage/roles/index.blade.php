@@ -193,13 +193,18 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
+                    <div class="btn-wrapper mb-4">
+                        <a data-bs-toggle="modal" data-bs-target="#createNewRoles" href="#1" class="cmn_btn btn_bg_profile"
+                            data-text="Create New Role">
+                            {{ __('Create New Role') }}
+
+                        </a>
+                    </div>
+                </div>
+                <div class="col-12">
                     <div class="dashboard__card simplePresentCart-one">
-                        <!-- Title -->
                         <div class="dashboard__card__header">
                             <h3 class="dashboard__card__title">{{ __('Staff Roles') }}</h3>
-                            <a data-bs-toggle="modal" data-bs-target="#createNewRoles"
-                                href="#1"class="cmn_btn btn_bg_profile" data-text="Create Role"
-                                style="float:right"><span>{{ __('Create Role') }} </span></a>
                         </div>
                         <div class="dashboard__card__body mt-4">
                             <x-error-msg />
@@ -254,11 +259,11 @@
                                                                     </ul>
                                                                 </div>
                                                             @else
-                                                                <a href="#0" class="btn btn-xs btn-danger">Not
-                                                                    Allowed</a>
+                                                                <a href="#0" class="btn btn-xs btn-danger">
+                                                                    Not Allowed
+                                                                </a>
                                                             @endif
                                                         </td>
-
                                                     </tr>
                                                 @endforeach
 

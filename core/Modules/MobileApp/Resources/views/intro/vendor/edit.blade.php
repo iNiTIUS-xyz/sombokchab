@@ -16,10 +16,6 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Add New Mobile intro') }}</h4>
-                        <div class="btn-wrapper">
-                            <a class="cmn_btn btn_bg_profile"
-                                href="{{ route('admin.mobile.vendor.intro.all') }}">{{ __('List') }}</a>
-                        </div>
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
                         <form action="{{ route('admin.mobile.vendor.intro.edit', $mobileIntro->id) }}" method="post">
@@ -41,6 +37,10 @@
 
                             <div class="form-group">
                                 <button class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
+                                <a href="{{ route('admin.mobile.vendor.intro.all') }}" class="cmn_btn default-theme-btn"
+                                    style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                                    Back
+                                </a>
                             </div>
                         </form>
                     </div>

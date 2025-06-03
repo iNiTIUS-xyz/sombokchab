@@ -49,14 +49,6 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @can('support-tickets-department-delete')
-                                                    <a tabindex="0" class="btn btn-lg btn-danger btn-sm mb-2 me-1"
-                                                        role="button" data-bs-toggle="popover" data-bs-trigger="focus"
-                                                        data-bs-html="true" title=""
-                                                        data-content="<h6>{{ __('Are you sure to delete this category item?') }}</h6><form method='post' action='{{ route('admin.support.ticket.department.delete', $data->id) }}'><input type='hidden' name='_token' value='{{ csrf_token() }}'><br><input type='submit' class='btn btn-danger btn-sm' value='{{ __('Yes, Please') }}'></form>">
-                                                        <i class="ti-trash"></i>
-                                                    </a>
-                                                @endcan
                                                 @can('support-tickets-department-update')
                                                     <a href="#1" data-bs-toggle="modal"
                                                         data-bs-target="#category_edit_modal"
@@ -64,6 +56,14 @@
                                                         data-id="{{ $data->id }}" data-name="{{ $data->name }}"
                                                         data-status="{{ $data->status }}">
                                                         <i class="ti-pencil"></i>
+                                                    </a>
+                                                @endcan
+                                                @can('support-tickets-department-delete')
+                                                    <a tabindex="0" class="btn btn-lg btn-danger btn-sm mb-2 me-1"
+                                                        role="button" data-bs-toggle="popover" data-bs-trigger="focus"
+                                                        data-bs-html="true" title=""
+                                                        data-content="<h6>{{ __('Are you sure to delete this category item?') }}</h6><form method='post' action='{{ route('admin.support.ticket.department.delete', $data->id) }}'><input type='hidden' name='_token' value='{{ csrf_token() }}'><br><input type='submit' class='btn btn-danger btn-sm' value='{{ __('Yes, Please') }}'></form>">
+                                                        <i class="ti-trash"></i>
                                                     </a>
                                                 @endcan
                                             </td>
@@ -80,9 +80,6 @@
                     <div class="dashboard__card">
                         <div class="dashboard__card__header">
                             <h4 class="dashboard__card__title">{{ __('Add New Department') }}</h4>
-                            @can('support-tickets-department-delete')
-                                <x-bulk-action.dropdown />
-                            @endcan
                         </div>
                         <div class="dashboard__card__body custom__form mt-4">
                             <form action="{{ route('admin.support.ticket.department') }}" method="post"
@@ -146,7 +143,6 @@
             </div>
         </div>
     @endcan
-
 @endsection
 @section('script')
     <x-datatable.js />

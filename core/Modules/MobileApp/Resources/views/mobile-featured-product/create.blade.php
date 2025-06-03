@@ -76,23 +76,28 @@
     <x-niceselect.js />
 
     <script>
-        let nice_select = $('.nice-select');
-        if (nice_select.length) {
-            nice_select.niceSelect();
-        }
+        $(document).ready(function() {
+            // Initialize nice-select on page load
+            $('.nice-select').niceSelect();
 
-        $("#category").on("change", function() {
-            if ($(this).is(":checked")) {
-                $("#product-list").fadeOut();
-                setTimeout(function() {
-                    $("#category-list").fadeIn();
-                }, 400);
-            } else {
-                $("#category-list").fadeOut();
-                setTimeout(function() {
-                    $("#product-list").fadeIn();
-                }, 400);
-            }
+            // Handle category toggle
+            $("#category").on("change", function() {
+                if ($(this).is(":checked")) {
+                    $("#product-list").fadeOut();
+                    setTimeout(function() {
+                        $("#category-list").fadeIn();
+                        // Re-initialize nice-select for any new selects
+                        $("#category-list select").niceSelect();
+                    }, 400);
+                } else {
+                    $("#category-list").fadeOut();
+                    setTimeout(function() {
+                        $("#product-list").fadeIn();
+                        // Re-initialize nice-select for any new selects
+                        $("#product-list select").niceSelect();
+                    }, 400);
+                }
+            });
         });
     </script>
 @endsection

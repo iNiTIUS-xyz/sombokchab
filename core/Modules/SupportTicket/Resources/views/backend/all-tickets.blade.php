@@ -102,18 +102,17 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                @can('support-tickets-delete')
-                                                    <x-delete-popover :url="route('admin.support.ticket.delete', $data->id)" />
-                                                @endcan
                                                 @can('support-tickets-view')
                                                     <x-view-icon :url="route('admin.support.ticket.view', $data->id)" />
+                                                @endcan
+                                                @can('support-tickets-delete')
+                                                    <x-delete-popover :url="route('admin.support.ticket.delete', $data->id)" />
                                                 @endcan
                                             </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
                             </table>
-
                             {!! $all_tickets->links() !!}
                         </div>
                     </div>
@@ -179,8 +178,6 @@
                     }
                 })
             });
-
-
         })(jQuery);
     </script>
 @endsection
