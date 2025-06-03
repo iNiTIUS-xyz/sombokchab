@@ -85,8 +85,12 @@
                                                 </span>
                                             </td>
                                             <td>{{ $history->created_at }}</td>
-                                            <td><a class="btn btn-sm btn-primary"
-                                                    href="{{ route('admin.wallet.history.details', $history->id) }}">{{ __('View Details') }}</a>
+                                            <td>
+                                                <a class="btn btn-sm btn-primary"
+                                                    href="{{ route('admin.wallet.history.details', $history->id) }}"
+                                                    title="{{ __('View Details') }}">
+                                                    <i class="ti-book"></i>
+                                                </a>
                                             </td>
                                         </tr>
                                     @endforeach

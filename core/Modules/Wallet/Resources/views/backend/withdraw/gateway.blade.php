@@ -21,7 +21,9 @@
             <div class="col-lg-7">
                 <div class="dashboard__card card__two">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Vendor wallet payment gateway list') }}</h4>
+                        <h4 class="dashboard__card__title">
+                            {{ __('Vendor wallet payment gateway list') }}
+                        </h4>
                     </div>
                     <div class="dashboard__card__body">
                         <div class="table-wrap">
@@ -49,7 +51,7 @@
                                                     <button type="button" data-name="{{ $gateway->name }}"
                                                         data-id="{{ $gateway->id }}" data-status="{{ $gateway->status_id }}"
                                                         data-blog-filed="{{ json_encode(unserialize($gateway->filed)) }}"
-                                                        class="btn btn-sm btn-info mb-2 me-1 update-gateway"
+                                                        class="btn btn-sm btn-success mb-2 me-1 update-gateway"
                                                         data-bs-toggle="modal" data-bs-target="#edit-gateway-modal">
                                                         <i class="ti-pencil"></i>
                                                     </button>
@@ -109,7 +111,7 @@
                                 <select name="status_id" class="form-control">
                                     <option value="">{{ __('Select Status') }}</option>
                                     <option value="1">{{ __('Active') }}</option>
-                                    <option value="2">{{ __('inactive') }}</option>
+                                    <option value="2">{{ __('Inactive') }}</option>
                                 </select>
                             </div>
 
@@ -157,7 +159,7 @@
                                 <select name="status_id" class="form-control">
                                     <option value="">{{ __('Select Status') }}</option>
                                     <option value="1">{{ __('Active') }}</option>
-                                    <option value="2">{{ __('inactive') }}</option>
+                                    <option value="2">{{ __('Inactive') }}</option>
                                 </select>
                             </div>
                         </div>

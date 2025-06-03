@@ -15,7 +15,7 @@
 @section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-5">
                 <x-error-msg />
                 <x-flash-msg />
                 <div class="dashboard__card">
@@ -32,8 +32,9 @@
                             </div>
 
                             <div class="form-group">
-                                <button type="submit"
-                                    class="cmn_btn btn_bg_profile">{{ __('Update wallet settings') }}</button>
+                                <button type="submit" class="cmn_btn btn_bg_profile">
+                                    {{ __('Update wallet settings') }}
+                                </button>
                             </div>
                         </form>
                     </div>

@@ -7,7 +7,7 @@
 @section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-6">
                 <x-msg.error />
                 <x-msg.flash />
                 <div class="dashboard__card">
@@ -18,12 +18,14 @@
                         <form action="{{ route('admin.mobile.settings.buyer-app-settings') }}" method="post">
                             @csrf
                             <div class="form-group" id="product-list">
-                                <label for="products">{{ __("App secret key") }}</label>
-                                <input class="form-control" name="app_secret_key" value="{{ get_static_option("app_secret_key") }}" placeholder="{{ __("Enter your app secret key") }}" />
+                                <label for="products">{{ __('App secret key') }}</label>
+                                <input class="form-control" name="app_secret_key"
+                                    value="{{ get_static_option('app_secret_key') }}"
+                                    placeholder="{{ __('Enter your app secret key') }}" />
                             </div>
 
                             <div class="form-group">
-                                <button class="cmn_btn btn_bg_profile">{{ __("Update Settings") }}</button>
+                                <button class="cmn_btn btn_bg_profile">{{ __('Update Settings') }}</button>
                             </div>
                         </form>
                     </div>

@@ -60,8 +60,10 @@
 
                                     <td>
                                         @can('refund-request')
-                                            <a class="cmn_btn btn_bg_profile btn-sm"
-                                                href="{{ route('admin.refund.view-request', $request->id) }}">{{ __('View') }}</a>
+                                            <a class="cmn_btn btn_bg_profile btn-sm" title="{{ __('View') }}"
+                                                href="{{ route('admin.refund.view-request', $request->id) }}">
+                                                <i class="ti-eye"></i>
+                                            </a>
                                         @endcan
                                     </td>
                                 </tr>
