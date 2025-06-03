@@ -500,7 +500,7 @@ class UserController extends Controller
         $user_id = $user->id;
 
         $request->validate([
-            'name' => 'required|string|max:191',
+            'name' => 'nullab|string|max:191',
             'email' => 'required|email|max:191|unique:users,id,' . $request->user_id,
             'phone' => 'nullable|string|max:191',
             'state' => 'nullable|string|max:191',
@@ -523,16 +523,16 @@ class UserController extends Controller
 
         User::find($user_id)->update(
             [
-                'name' => $request->name,
-                'email' => $request->email,
+                'name' => $request->name ?? $user->name,
+                'email' => $request->email ?? $user->email,
                 'image' => $last_image_id ?? $user->image,
-                'phone' => $request->phone,
-                'state' => $request->state,
-                'city' => $request->city,
-                'zipcode' => $request->zipcode,
-                'country' => $request->country,
-                'country_code' => $request->country_code,
-                'address' => $request->address,
+                'phone' => $request->phone ?? $user->phone,
+                'state' => $request->state ?? $user->state,
+                'city' => $request->city ?? $user->city,
+                'zipcode' => $request->zipcode ?? $user->zipcode,
+                'country' => $request->country ?? $user->country,
+                'country_code' => $request->country_code ?? $user->country_code,
+                'address' => $request->address ?? $user->address,
             ]
         );
 
