@@ -500,7 +500,7 @@ class UserController extends Controller
         $user_id = $user->id;
 
         $request->validate([
-            'name' => 'nullab|string|max:191',
+            'name' => 'required|string|max:191',
             'email' => 'required|email|max:191|unique:users,id,' . $request->user_id,
             'phone' => 'nullable|string|max:191',
             'state' => 'nullable|string|max:191',
