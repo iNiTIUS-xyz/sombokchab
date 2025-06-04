@@ -35534,6 +35534,11 @@ div[class*=col]:nth-child(3n+3) .counter__item__icon svg path {
   font-size: 22px;
 }
 
+.nav-category .nav-category-bars:hover {
+  color: var(--main-color-two) !important;
+}
+
+
 .categoryNav_overlay {
   position: fixed;
   height: 100%;

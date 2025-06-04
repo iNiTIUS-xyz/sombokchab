@@ -219,8 +219,8 @@
                                                 {{ __('Add to Cart') }} </a>
                                         </div>
                                         <a href="#1" data-id="{{ $product->id }}"
-                                            class="heart-btn fs-32 color-one radius-0 add_to_wishlist_single_page">
-                                            <i class="lar la-heart"></i>
+                                            class="btn-wishlist buy_now_single_page btn-details btn-buyNow">
+                                            <i class="lar la-heart"></i> {{ __('Add to Wishlist') }}
                                         </a>
                                     </div>
                                 </div>
@@ -228,7 +228,7 @@
                                     <div class="wishlist-compare-btn">
                                         <a href="#1" data-id="{{ $product->id }}"
                                             class="btn-wishlist buy_now_single_page btn-details btn-buyNow mt-4"> <i
-                                                class="las la-cart-arrow-down"></i> {{ __('Buy now') }} </a>
+                                                class="las la-cart-arrow-down"></i> {{ __('Buy Now') }} </a>
                                         <a href="#1" data-id="{{ $product->id }}"
                                             class="btn-wishlist add_to_compare_single_page btn-details btn-buyNow mt-4">
                                             <i class="las la-retweet"></i> {{ __('Add Compare') }} </a>
@@ -541,7 +541,7 @@
 
                                             <div class="sidebar-wrapper-btn">
                                                 <a href="{{ route('frontend.vendors.single', $product->vendor->username) }}"
-                                                    class="visit-btn btn-visit-chat visit__btn__outline mt-3">
+                                                    class="visit-btn btn-visit-chat btn-buyNow mt-3">
                                                     {{ __('Visit Store') }}
                                                 </a>
                                                 @if (moduleExists('Chat'))
