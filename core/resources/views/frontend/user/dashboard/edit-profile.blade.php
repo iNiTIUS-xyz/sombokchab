@@ -48,24 +48,11 @@
                                 oninput="this.value = this.value.replace(/(?!^\+)[^\d]/g, '')">
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group">
-                            @php
-                                $all_countries = DB::table('countries')
-                                    ->select('id', 'name')
-                                    ->where('status', 'publish')
-                                    ->get();
-                            @endphp
-
-                            <label for="country">{{ __('Country') }}</label>
-                            <select id="country" class="form-select wide" name="country">
-                                @foreach ($all_countries as $country)
-                                    <option value="{{ $country->id }}"
-                                        {{ $user_details->country == $country->id ? 'selected' : '' }}>
-                                        {{ $country->name }}</option>
-                                @endforeach
-                            </select>
-
+                            <label for="address">{{ __('Address') }}</label>
+                            <input type="text" class="form-control" id="address" name="address"
+                                value="{{ $user_details->address }}" placeholder="{{ __('Enter Postal Code') }}">
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -113,11 +100,24 @@
                                 value="{{ $user_details->zipcode }}" placeholder="{{ __('Enter Postal Code') }}">
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group">
-                            <label for="address">{{ __('Address') }}</label>
-                            <input type="text" class="form-control" id="address" name="address"
-                                value="{{ $user_details->address }}" placeholder="{{ __('Enter Postal Code') }}">
+                            @php
+                                $all_countries = DB::table('countries')
+                                    ->select('id', 'name')
+                                    ->where('status', 'publish')
+                                    ->get();
+                            @endphp
+
+                            <label for="country">{{ __('Country') }}</label>
+                            <select id="country" class="form-select wide" name="country">
+                                @foreach ($all_countries as $country)
+                                    <option value="{{ $country->id }}"
+                                        {{ $user_details->country == $country->id ? 'selected' : '' }}>
+                                        {{ $country->name }}</option>
+                                @endforeach
+                            </select>
+
                         </div>
                     </div>
                     <div class="col-md-12">
