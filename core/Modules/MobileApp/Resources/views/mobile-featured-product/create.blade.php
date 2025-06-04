@@ -6,7 +6,7 @@
     <x-media.css />
     <x-datatable.css />
     <x-bulk-action.css />
-    <x-niceselect.css />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 @endsection
 @section('content')
     <div class="col-lg-12 col-ml-12">
@@ -33,12 +33,16 @@
                             <div class="form-group" id="product-list"
                                 {{ optional($selectedProduct)->type == 'category' ? 'style=display:none' : '' }}>
                                 <label for="products">Select Product</label>
-                                <select id="products" name="featured_product[]" multiple class="form-control wide">
-                                    <option value="">Select Product</option>
+                                <select id="products" name="featured_product[]" class="form-control">
+                                    <option value="">
+                                        Select Product
+                                    </option>
                                     @foreach ($products as $product)
                                         <option
                                             {{ in_array($product->id, json_decode(optional($selectedProduct)->ids) ?? []) ? 'selected' : '' }}
-                                            value="{{ $product->id }}">{{ $product->name }}</option>
+                                            value="{{ $product->id }}">
+                                            {{ $product->name }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -73,12 +77,13 @@
 @endsection
 @section('script')
     <x-media.js />
-    <x-niceselect.js />
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script>
         $(document).ready(function() {
-            // Initialize nice-select on page load
-            $('.nice-select').niceSelect();
+            // Initialize on page load
+            // $('').select2();
 
             // Handle category toggle
             $("#category").on("change", function() {
@@ -86,15 +91,15 @@
                     $("#product-list").fadeOut();
                     setTimeout(function() {
                         $("#category-list").fadeIn();
-                        // Re-initialize nice-select for any new selects
-                        $("#category-list select").niceSelect();
+                        // Re-initialize for any new selects
+                        $("#category-list select").select2();
                     }, 400);
                 } else {
                     $("#category-list").fadeOut();
                     setTimeout(function() {
                         $("#product-list").fadeIn();
-                        // Re-initialize nice-select for any new selects
-                        $("#product-list select").niceSelect();
+                        // Re-initialize for any new selects
+                        $("#product-list select").select2();
                     }, 400);
                 }
             });
