@@ -7,6 +7,11 @@
     <x-datatable.css />
     <x-bulk-action.css />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
+        .select2-container--default .select2-selection--multiple {
+            padding-bottom: 20px !important;
+        }
+    </style>
 @endsection
 @section('content')
     <div class="col-lg-12 col-ml-12">
@@ -14,16 +19,13 @@
             <div class="col-lg-12">
                 <x-msg.error />
                 <x-msg.flash />
-                <div class="dashboard__card">
-                    <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Add new mobile slider') }}</h4>
-                        <div class="btn-wrapper">
-                            <a class="cmn_btn btn_bg_profile" href="{{ route('admin.mobile.slider.all') }}">List</a>
+                <div class="card">
+                    <form action="{{ route('admin.featured.product.create') }}" method="post">
+                        @csrf
+                        <div class="card-header">
+                            <h4 class="dashboard__card__title">{{ __('Add new mobile slider') }}</h4>
                         </div>
-                    </div>
-                    <div class="dashboard__card__body custom__form mt-4">
-                        <form action="{{ route('admin.featured.product.create') }}" method="post">
-                            @csrf
+                        <div class="card-body custom__form my-5">
                             <div class="form-group">
                                 <label for="category">Enable Category</label>
                                 <input type="checkbox" id="category" name="category"
@@ -33,7 +35,7 @@
                             <div class="form-group" id="product-list"
                                 {{ optional($selectedProduct)->type == 'category' ? 'style=display:none' : '' }}>
                                 <label for="products">Select Product</label>
-                                <select id="products" name="featured_product[]" class="form-control select2">
+                                <select id="products" name="featured_product[]" multiple class="form-control select2">
                                     <option value="">
                                         Select Product
                                     </option>
@@ -42,6 +44,7 @@
                                             {{ in_array($product->id, json_decode(optional($selectedProduct)->ids) ?? []) ? 'selected' : '' }}
                                             value="{{ $product->id }}">
                                             {{ $product->name }}
+                                            {{-- {{ Str::limit($product->name, 10, '...') }} --}}
                                         </option>
                                     @endforeach
                                 </select>
@@ -51,7 +54,7 @@
                                 {{ optional($selectedProduct)->type == 'category' ? '' : 'style=display:none' }}
                                 id="category-list">
                                 <label for="products">Select Category</label>
-                                <select id="products" name="featured_category[]" class="form-control">
+                                <select id="products" name="featured_category[]" multiple class="form-control">
                                     <option value="">Select Category</option>
                                     @foreach ($categories as $category)
                                         <option
@@ -62,13 +65,15 @@
                                     @endforeach
                                 </select>
                             </div>
+                        </div>
+                        <div class="card-footer mt-5">
                             <div class="form-group">
                                 <button class="cmn_btn btn_bg_profile">
                                     Update Featured Product
                                 </button>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
