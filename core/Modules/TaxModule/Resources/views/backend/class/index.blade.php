@@ -39,15 +39,22 @@
                                         <td>{{ $class->name }}</td>
                                         <td>
                                             <a class="btn btn-info btn-sm"
-                                                href="{{ route('admin.tax-module.tax-class-option', $class->id) }}">{{ __('View') }}</a>
+                                                href="{{ route('admin.tax-module.tax-class-option', $class->id) }}"
+                                                title="{{ __('View') }}">
+                                                <i class="ti-eye"></i>
+                                            </a>
                                             <button data-id="{{ $class->id }}" data-name="{{ $class->name }}"
                                                 id="updateTaxClassButton" class="btn btn-primary btn-sm"
-                                                data-bs-target="#updateTaxClass"
-                                                data-bs-toggle="modal">{{ __('Edit') }}</button>
+                                                data-bs-target="#updateTaxClass" data-bs-toggle="modal"
+                                                title="{{ __('Edit') }}">
+                                                <i class="ti-pencil"></i>
+                                            </button>
                                             <button id="deleteTaxClassButton" data-id="{{ $class->id }}"
                                                 data-option-count="{{ $class->class_option_count }}"
                                                 data-href="{{ route('admin.tax-module.tax-class-delete', $class->id) }}"
-                                                class="btn btn-danger btn-sm">{{ __('Delete') }}</button>
+                                                class="btn btn-danger btn-sm" title="{{ __('Delete') }}">
+                                                <i class="ti-trash"></i>
+                                            </button>
                                         </td>
                                     </tr>
                                 @endforeach

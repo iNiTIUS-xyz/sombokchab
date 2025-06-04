@@ -39,9 +39,6 @@
                                             <td>{{ $item->title }}</td>
                                             <td>{{ $item->sub_title }}</td>
                                             <td>
-                                                @can('product-delivery_manage-delete')
-                                                    <x-table.btn.swal.delete :route="route('admin.delivery.option.delete', $item->id)" />
-                                                @endcan
                                                 @can('product-delivery_manage-edit')
                                                     <a href="#1" data-bs-toggle="modal"
                                                         data-bs-target="#delivery_manage_edit_modal"
@@ -51,6 +48,9 @@
                                                         data-icon="{{ $item->icon }}">
                                                         <i class="ti-pencil"></i>
                                                     </a>
+                                                @endcan
+                                                @can('product-delivery_manage-delete')
+                                                    <x-table.btn.swal.delete :route="route('admin.delivery.option.delete', $item->id)" />
                                                 @endcan
                                             </td>
                                         </tr>

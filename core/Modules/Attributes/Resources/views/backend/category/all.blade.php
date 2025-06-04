@@ -18,16 +18,20 @@
             <div class="col-lg-12">
                 <x-msg.error />
                 <x-msg.flash />
+                <div class="mb-4">
+                    @can('categories-new')
+                        <a href="#1" data-bs-toggle="modal" data-bs-target="#category_create_modal"
+                            class="cmn_btn btn_bg_profile">
+                            {{ __('New Category') }}
+                        </a>
+                    @endcan
+                </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h3 class="dashboard__card__title">{{ __('All Products Categories') }}</h3>
                         <div class="dashboard__card__header__right">
                             @can('categories-bulk-action')
                                 <x-bulk-action.dropdown />
-                            @endcan
-                            @can('categories-new')
-                                <a href="#1" data-bs-toggle="modal" data-bs-target="#category_create_modal"
-                                    class="cmn_btn btn_bg_profile">{{ __('New Category') }}</a>
                             @endcan
                         </div>
                     </div>
@@ -64,10 +68,6 @@
                                                 <x-status-span :status="$category->status?->name" />
                                             </td>
                                             <td>
-                                                @can('categories-delete')
-                                                    <x-table.btn.swal.delete :route="route('admin.category.delete', $category->id)" />
-                                                @endcan
-
                                                 @can('categories-update')
                                                     <a href="#1" data-bs-toggle="modal"
                                                         data-bs-target="#category_edit_modal"
@@ -81,12 +81,15 @@
                                                         <i class="ti-pencil"></i>
                                                     </a>
                                                 @endcan
+
+                                                @can('categories-delete')
+                                                    <x-table.btn.swal.delete :route="route('admin.category.delete', $category->id)" />
+                                                @endcan
                                             </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
                             </table>
-
                             <div class="category-pagination">
                                 {{ $all_category->links() }}
                             </div>

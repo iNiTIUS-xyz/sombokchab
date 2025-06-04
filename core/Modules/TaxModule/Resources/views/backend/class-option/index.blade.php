@@ -14,9 +14,16 @@
         <div class="dashboard__card__header">
             <h5 class="dashboard__card__title">{{ __('Tax Class Options') }}</h5>
             <div class="dashboard__card__header__right tax-class-options">
-                <button class="cmn_btn btn_bg_profile btn_sm add-tax-option">{{ __('Add') }}</button>
-                <button class="cmn_btn btn_bg_2 btn_sm remove-tax-option">{{ __('Delete') }}</button>
-                <button class="cmn_btn btn_bg_3 btn_sm store-tax-option">{{ __('Update') }}</button>
+                <button class="btn btn-success btn-sm btn_sm add-tax-option" title="{{ __('Add') }}">
+                    <i class="ti-plus"></i>
+                </button>
+                <button class="btn btn-danger btn-sm btn_sm remove-tax-option" title="{{ __('Delete') }}">
+                    <i class="ti-trash"></i>
+                </button>
+                <button class="btn btn-success btn-sm btn_sm store-tax-option">
+                    <i class="ti-save"></i>
+                    {{ __('Update') }}
+                </button>
             </div>
         </div>
 

@@ -52,8 +52,8 @@
                                         @can('orders-details')
                                             <div class="btn-wrapper">
                                                 <a href="{{ route('admin.orders.details', $order->id) }}"
-                                                    class="btn btn-secondary rounded-btn">
-                                                    {{ __('view details') }}
+                                                    class="btn btn-secondary rounded-btn" title="{{ __('view details') }}">
+                                                    <i class="ti-info"></i>
                                                 </a>
                                             </div>
                                         @endcan

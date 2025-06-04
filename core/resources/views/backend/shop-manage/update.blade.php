@@ -103,7 +103,7 @@
                                                 <input value="{{ $shopManage->zipcode ?? null }}" type="text"
                                                     name="zipcode" class="form--control radius-10"
                                                     placeholder="{{ __('Zip Code') }}">
-                                            </div>s
+                                            </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="single-input">
@@ -116,7 +116,6 @@
                                         <div class="col-sm-12">
                                             <div class="single-input">
                                                 <label class="label-title"> {{ __('Address') }} </label>
-
                                                 <textarea name="address" type="text" class="form--control radius-10" placeholder="{{ __('Type Address') }}">{{ $shopManage->address ?? null }}</textarea>
                                             </div>
                                         </div>
@@ -145,8 +144,9 @@
                                         :dimentions="'200x200'" />
                                 </div>
                                 <div class="btn-wrapper mt-4">
-                                    <button type="submit"
-                                        class="cmn_btn btn_bg_profile w-100">{{ __('Update Shop') }}</button>
+                                    <button type="submit" class="cmn_btn btn_bg_profile">
+                                        {{ __('Update Shop') }}
+                                    </button>
                                 </div>
                             </div>
                         </form>

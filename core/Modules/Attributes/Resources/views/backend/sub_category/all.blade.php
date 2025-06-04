@@ -18,16 +18,18 @@
         <x-msg.flash />
         <div class="row">
             <div class="col-lg-12 mt-2">
+                <div class="mb-4">
+                    @can('sub-categories-new')
+                        <a href="#1" data-bs-toggle="modal" data-bs-target="#category_create_modal"
+                            class="cmn_btn btn_bg_profile">{{ __('New Sub Category') }}</a>
+                    @endcan
+                </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h3 class="dashboard__card__title">{{ __('All Sub Categories') }}</h3>
                         <div class="dashboard__card__header__right">
                             @can('sub-categories-delete')
                                 <x-bulk-action.dropdown />
-                            @endcan
-                            @can('sub-categories-new')
-                                <a href="#1" data-bs-toggle="modal" data-bs-target="#category_create_modal"
-                                    class="cmn_btn btn_bg_profile">{{ __('New Sub Category') }}</a>
                             @endcan
                         </div>
                     </div>
@@ -62,10 +64,6 @@
                                                 <x-status-span :status="$category->status?->name" />
                                             </td>
                                             <td>
-                                                @can('sub-categories-delete')
-                                                    <x-table.btn.swal.delete :route="route('admin.subcategory.delete', $category->id)" />
-                                                @endcan
-
                                                 @can('sub-categories-update')
                                                     <a href="#1" data-bs-toggle="modal"
                                                         data-bs-target="#category_edit_modal"
@@ -80,6 +78,9 @@
                                                         data-image="{{ \App\Http\Services\Media::render_image($category->image, render_type: 'path') }}">
                                                         <i class="ti-pencil"></i>
                                                     </a>
+                                                @endcan
+                                                @can('sub-categories-delete')
+                                                    <x-table.btn.swal.delete :route="route('admin.subcategory.delete', $category->id)" />
                                                 @endcan
                                             </td>
                                         </tr>
@@ -121,7 +122,7 @@
                             <div class="form-group edit-category-wrapper">
                                 <label for="name">{{ __('Category') }}</label>
                                 <select type="text" class="form-control" id="category_id" name="category_id">
-                                    <option value="">{{ __("Select Category") }}</option>
+                                    <option value="">{{ __('Select Category') }}</option>
                                     @foreach ($all_category as $category)
                                         <option value="{{ $category->id }}">{{ $category->name }}</option>
                                     @endforeach
@@ -135,7 +136,7 @@
                             </div>
 
                             <x-media-upload :title="__('Image')" name="image_id" :dimentions="'200x200'" />
-                            
+
                             <div class="form-group edit-status-wrapper">
                                 <label for="edit_status">{{ __('Status') }}</label>
                                 <select name="status_id" class="form-control" id="edit_status">
@@ -252,16 +253,17 @@
                 if (imageid != '') {
                     modal.find('.media-upload-btn-wrapper .img-wrap').html(
                         '<div class="attachment-preview">' +
-                            '<div class="thumbnail">' +
-                                '<div class="centered">' +
-                                    '<img class="avatar user-thumb" src="' + image + '" > ' +
-                                '</div>' +
-                            '</div>' +
+                        '<div class="thumbnail">' +
+                        '<div class="centered">' +
+                        '<img class="avatar user-thumb" src="' + image + '" > ' +
+                        '</div>' +
+                        '</div>' +
                         '</div>'
                     );
 
                     modal.find('.media-upload-btn-wrapper input').val(imageid);
-                    modal.find('.media-upload-btn-wrapper .media_upload_form_btn').text('{{ __("Change Image") }}');
+                    modal.find('.media-upload-btn-wrapper .media_upload_form_btn').text(
+                        '{{ __('Change Image') }}');
                 }
 
             });

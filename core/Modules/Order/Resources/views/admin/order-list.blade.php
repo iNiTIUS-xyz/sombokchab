@@ -64,7 +64,7 @@
                                         <div class="btn-wrapper d-flex flex-wrap gap-2">
                                             @can('orders-generate-invoice')
                                                 <a href="{{ route('admin.orders.generate.invoice', $order->id) }}"
-                                                    class="btn btn-warning rounded-btn">
+                                                    class="btn btn-info rounded-btn">
                                                     <i class="las la-file-invoice"></i>
                                                 </a>
                                             @endcan
@@ -82,8 +82,8 @@
                                             @endcan
                                             @can('orders-details')
                                                 <a href="{{ route('admin.orders.order.details', $order->id) }}"
-                                                    class="btn btn-secondary rounded-btn">
-                                                    {{ __('view details') }}
+                                                    class="btn btn-secondary rounded-btn" title="{{ __('view details') }}">
+                                                    <i class="ti-info"></i>
                                                 </a>
                                             @endcan
                                         </div>

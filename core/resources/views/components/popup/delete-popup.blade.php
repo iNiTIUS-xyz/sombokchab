@@ -1,4 +1,7 @@
-<a tabindex="0" class="btn dropdown-item status_dropdown__list__link swal_delete_button">{{ $title }}</a>
+<a tabindex="0" class="btn dropdown-item status_dropdown__list__link swal_delete_button">
+    <i class="ti-trash"></i>
+    {{ $title }}
+</a>
 <form method='post' action='{{$url}}' class="d-none">
     <input type='hidden' name='_token' value='{{csrf_token()}}'>
     <br>

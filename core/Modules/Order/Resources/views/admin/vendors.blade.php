@@ -53,19 +53,21 @@
                                 <td>{{ $vendor->total_order }}</td>
                                 <td>{{ $vendor->pending_order }}</td>
                                 <td>{{ $vendor->complete_order }}</td>
-                                <td><b>{{ float_amount_with_currency_symbol($vendor->total_earning) }}</b></td>
                                 <td>
-                                    <a href="{{ route('frontend.vendors.single', $vendor->username) }}"
-                                        class="btn btn-sm btn-info">
-                                        {{ __('Visit Store') }}
+                                    <b>{{ float_amount_with_currency_symbol($vendor->total_earning) }}</b>
+                                </td>
+                                <td>
+                                    {{-- <a href="{{ route('frontend.vendors.single', $vendor->username) }}"
+                                        class="btn btn-sm btn-info" title="{{ __('Visit Store') }}">
+                                        <i class="ti-list"></i>
+                                    </a> --}}
+                                    <a href="{{ route('admin.orders.vendor.order', $vendor->username) }}"
+                                        class="btn btn-sm btn-primary" title="{{ __('See Orders') }}">
+                                        <i class="ti-eye"></i>
                                     </a>
                                     <a href="{{ route('admin.orders.vendor.order', $vendor->username) }}"
-                                        class="btn btn-sm btn-primary">
-                                        {{ __('See Orders') }}
-                                    </a>
-                                    <a href="{{ route('admin.orders.vendor.order', $vendor->username) }}"
-                                        class="btn btn-sm btn-secondary">
-                                        {{ __('Vendor info') }}
+                                        class="btn btn-sm btn-secondary" title="{{ __('Vendor info') }}">
+                                        <i class="ti-info"></i>
                                     </a>
                                 </td>
                             </tr>

@@ -41,15 +41,15 @@
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $unit->name }}</td>
                                             <td>
-                                                @can('units-delete')
-                                                    <x-table.btn.swal.delete :route="route('admin.units.delete', $unit->id)" />
-                                                @endcan
                                                 @can('units-update')
                                                     <a href="#1" data-bs-toggle="modal" data-bs-target="#unit_edit_modal"
                                                         class="btn btn-primary btn-sm btn-xs mb-2 me-1 unit_edit_btn"
                                                         data-id="{{ $unit->id }}" data-name="{{ $unit->name }}">
                                                         <i class="ti-pencil"></i>
                                                     </a>
+                                                @endcan
+                                                @can('units-delete')
+                                                    <x-table.btn.swal.delete :route="route('admin.units.delete', $unit->id)" />
                                                 @endcan
                                             </td>
                                         </tr>

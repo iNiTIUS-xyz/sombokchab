@@ -785,7 +785,7 @@
                         'admin-home/child-categories',
                         'admin-home/units',
                         'admin-home/tags',
-                        'admin-home/delivery-option',
+                        'admin-home/delivery-manage',
                         'admin-home/brand-manage',
                         'admin-home/brand-manage',
                         'admin-home/colors',
@@ -843,10 +843,9 @@
                             @endcan --}}
 
                         @can('delivery-option')
-                            <li class="{{ active_menu('admin-home/delivery-option') }}">
+                            <li class="{{ Route::is('admin.delivery.option.all') ? 'active' : '' }}">
                                 <a href="{{ route('admin.delivery.option.all') }}">
                                     {{ __('Delivery Options') }}
-
                                 </a>
                             </li>
                         @endcan

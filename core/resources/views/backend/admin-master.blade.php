@@ -52,6 +52,11 @@
             .ml-5-px{
                 margin-left: 5px;
             }
+            .media-upload-btn-wrapper {
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: flex-start !important;
+            }
         </style>
 
         @yield('style')

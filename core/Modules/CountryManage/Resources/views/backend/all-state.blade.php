@@ -12,18 +12,19 @@
         <x-msg.flash />
         <div class="row">
             <div class="col-lg-12">
+                @can('state-new')
+                    <div class="btn-wrapper mb-4">
+                        <button class="cmn_btn btn_bg_profile" data-bs-target="#state_create_modal" data-bs-toggle="modal">
+                            {{ __('New City') }}
+                        </button>
+                    </div>
+                @endcan
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('All Cities') }}</h4>
                         <div class="dashboard__card__header__right">
                             @can('state-bulk-action')
                                 <x-bulk-action.dropdown />
-                            @endcan
-                            @can('state-new')
-                                <div class="btn-wrapper">
-                                    <button class="cmn_btn btn_bg_profile" data-bs-target="#state_create_modal"
-                                        data-bs-toggle="modal">{{ __('New City') }}</button>
-                                </div>
                             @endcan
                         </div>
                     </div>
@@ -51,9 +52,6 @@
                                             <td>{{ optional($state->country)->name }}</td>
                                             <td><x-status-span :status="$state->status" /></td>
                                             <td>
-                                                @can('state-delete')
-                                                    <x-table.btn.swal.delete :route="route('admin.state.delete', $state->id)" />
-                                                @endcan
                                                 @can('state-update')
                                                     <a href="#1" data-bs-toggle="modal" data-bs-target="#state_edit_modal"
                                                         class="btn btn-primary btn-sm btn-xs mb-2 me-1 state_edit_btn"
@@ -62,6 +60,9 @@
                                                         data-status="{{ $state->status }}">
                                                         <i class="ti-pencil"></i>
                                                     </a>
+                                                @endcan
+                                                @can('state-delete')
+                                                    <x-table.btn.swal.delete :route="route('admin.state.delete', $state->id)" />
                                                 @endcan
                                             </td>
                                         </tr>

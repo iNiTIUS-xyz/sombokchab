@@ -18,16 +18,20 @@
             <div class="col-lg-12">
                 <x-msg.error />
                 <x-msg.flash />
+                <div class="mb-4">
+                    @can('child-categories-new')
+                        <a href="#1" data-bs-toggle="modal" data-bs-target="#child-category_create_modal"
+                            class="cmn_btn btn_bg_profile">
+                            {{ __('New Child Category') }}
+                        </a>
+                    @endcan
+                </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h3 class="dashboard__card__title">{{ __('All Products Child-Categories') }}</h3>
                         <div class="dashboard__card__header__right">
                             @can('child-categories-bulk-action')
                                 <x-bulk-action.dropdown />
-                            @endcan
-                            @can('child-categories-new')
-                                <a href="#1" data-bs-toggle="modal" data-bs-target="#child-category_create_modal"
-                                    class="cmn_btn btn_bg_profile">{{ __('New Child Category') }}</a>
                             @endcan
                         </div>
                     </div>
@@ -56,7 +60,8 @@
                                             @can('child-categories-bulk-action')
                                                 <x-bulk-action.td :id="$child_category->id" />
                                             @endcan
-                                            <td>{{ (($all_child_category->perPage() * ($all_child_category->currentPage() - 1)) + $loop->iteration) }}</td>
+                                            <td>{{ $all_child_category->perPage() * ($all_child_category->currentPage() - 1) + $loop->iteration }}
+                                            </td>
                                             <td>{{ $category }}</td>
                                             <td>{{ $sub_category }}</td>
                                             <td>{{ $child_category->name }}</td>
@@ -71,12 +76,6 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                @can('child-categories-delete')
-                                                    <x-table.btn.swal.delete :route="route(
-                                                        'admin.child-category.delete',
-                                                        $child_category->id,
-                                                    )" />
-                                                @endcan
                                                 @can('child-categories-update')
                                                     <a href="#1" data-bs-toggle="modal"
                                                         data-bs-target="#child-category_edit_modal"
@@ -91,6 +90,12 @@
                                                         data-sub-category-id="{{ $child_category->sub_category_id }}">
                                                         <i class="ti-pencil"></i>
                                                     </a>
+                                                @endcan
+                                                @can('child-categories-delete')
+                                                    <x-table.btn.swal.delete :route="route(
+                                                        'admin.child-category.delete',
+                                                        $child_category->id,
+                                                    )" />
                                                 @endcan
                                             </td>
                                         </tr>

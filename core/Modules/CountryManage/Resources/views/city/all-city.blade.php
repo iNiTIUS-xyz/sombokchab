@@ -15,12 +15,16 @@
 @section('content')
     <div class="row g-4">
         <div class="col-lg-12">
+            <div class="mb-4">
+                <x-btn.add-modal :title="__('Add State')" />
+            </div>
             <div class="dashboard__card">
                 <div class="dashboard__card__header">
-                    <h4 class="dashboard__card__title">{{ __('All States') }}</h4>
+                    <h4 class="dashboard__card__title">
+                        {{ __('All States') }}
+                    </h4>
                     <div class="dashboard__card__header__right">
                         <x-bulk-action.bulk-action />
-                        <x-btn.add-modal :title="__('Add State')" />
                     </div>
                 </div>
                 <div class="dashboard__card__body mt-4">

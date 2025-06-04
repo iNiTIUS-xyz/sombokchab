@@ -12,18 +12,18 @@
         <x-msg.flash />
         <div class="row">
             <div class="col-lg-12">
+                @can('country-new')
+                    <div class="btn-wrapper mb-4">
+                        <button class="cmn_btn btn_bg_profile" data-bs-toggle="modal"
+                            data-bs-target="#country_new_modal">{{ __('Add Country') }}</button>
+                    </div>
+                @endcan
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('All Countries') }}</h4>
                         <div class="dashboard__card__header__right">
                             @can('country-bulk-action')
                                 <x-bulk-action.dropdown />
-                            @endcan
-                            @can('country-new')
-                                <div class="btn-wrapper">
-                                    <button class="cmn_btn btn_bg_profile" data-bs-toggle="modal"
-                                        data-bs-target="#country_new_modal">{{ __('Add Country') }}</button>
-                                </div>
                             @endcan
                         </div>
                     </div>
@@ -49,9 +49,6 @@
                                             <td>{{ $country->name }}</td>
                                             <td><x-status-span :status="$country->status" /></td>
                                             <td>
-                                                @can('country-delete')
-                                                    <x-table.btn.swal.delete :route="route('admin.country.delete', $country->id)" />
-                                                @endcan
                                                 @can('country-update')
                                                     <a href="#1" data-bs-toggle="modal"
                                                         data-bs-target="#country_edit_modal"
@@ -60,6 +57,9 @@
                                                         data-status="{{ $country->status }}">
                                                         <i class="ti-pencil"></i>
                                                     </a>
+                                                @endcan
+                                                @can('country-delete')
+                                                    <x-table.btn.swal.delete :route="route('admin.country.delete', $country->id)" />
                                                 @endcan
                                             </td>
                                         </tr>
@@ -70,7 +70,6 @@
                     </div>
                 </div>
             </div>
-            {{--           --}}
         </div>
     </div>
     @can('country-update')
