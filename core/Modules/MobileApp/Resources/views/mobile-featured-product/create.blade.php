@@ -43,8 +43,7 @@
                                         <option
                                             {{ in_array($product->id, json_decode(optional($selectedProduct)->ids) ?? []) ? 'selected' : '' }}
                                             value="{{ $product->id }}">
-                                            {{ $product->name }}
-                                            {{-- {{ Str::limit($product->name, 10, '...') }} --}}
+                                            {{ Str::limit($product->name, 20, '...') }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -60,7 +59,7 @@
                                         <option
                                             {{ in_array($category->id, json_decode(optional($selectedProduct)->ids) ?? []) ? 'selected' : '' }}
                                             value="{{ $category->id }}">
-                                            {{ $category->name }}
+                                            {{ Str::limit($category->name, 20, '...') }}
                                         </option>
                                     @endforeach
                                 </select>
