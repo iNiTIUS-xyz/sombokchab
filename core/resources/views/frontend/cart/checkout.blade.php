@@ -50,8 +50,8 @@
         }
 
         .checkout__card__footer__estimate__main {
-            width: 230px;
-            max-width: 300px;
+            width: 100%;
+            /* max-width: 300px; */
         }
 
         .checkout__card__footer__estimate__item {
@@ -61,7 +61,7 @@
             font-size: 16px;
             font-weight: 400;
             line-height: 20px;
-            color: var(--paragraph-color);
+            color: var(--black);
         }
 
         .checkout__card__footer__estimate__item:not(:last-child) {

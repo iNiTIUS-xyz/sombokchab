@@ -16,7 +16,7 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>{{ __('SL No.') }}</th>
+                                <th>{{ __('Serial No.') }}</th>
                                 <th>{{ __('Order Details') }}</th>
                                 <th>{{ __('Refund Details') }}</th>
                                 <th>{{ __('Action') }}</th>
