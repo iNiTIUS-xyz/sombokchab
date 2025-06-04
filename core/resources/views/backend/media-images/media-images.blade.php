@@ -98,8 +98,9 @@
                                                     <div class="img-alt-wrap">
                                                         <input type="text" name="img_alt_tag"
                                                             placeholder="{{ __('image alt tag') }}">
-                                                        <button class="btn btn-success img_alt_submit_btn"><i
-                                                                class="ti-check"></i></button>
+                                                        <button class="btn btn-success img_alt_submit_btn">
+                                                            <i class="ti-check"></i>
+                                                        </button>
                                                     </div>
                                                 </li>
                                             </ul>
@@ -108,8 +109,9 @@
                                                     class="delete_image_form" style="display: none">
                                                     @csrf
                                                     <input type="hidden" name="img_id" id="info_image_id_input">
-                                                    <button type="submit" class=" btn btn-lg btn-danger btn-sm mb-2 me-1"><i
-                                                            class="ti-trash"></i></button>
+                                                    <button type="submit" class=" btn btn-lg btn-danger btn-sm mb-2 me-1">
+                                                        <i class="ti-trash"></i>
+                                                    </button>
                                                 </form>
                                             @endcan
                                         </div>
