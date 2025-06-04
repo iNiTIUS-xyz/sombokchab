@@ -33,7 +33,7 @@
                             <div class="form-group" id="product-list"
                                 {{ optional($selectedProduct)->type == 'category' ? 'style=display:none' : '' }}>
                                 <label for="products">Select Product</label>
-                                <select id="products" name="featured_product[]" class="form-control">
+                                <select id="products" name="featured_product[]" class="form-control select2">
                                     <option value="">
                                         Select Product
                                     </option>
@@ -62,9 +62,10 @@
                                     @endforeach
                                 </select>
                             </div>
-
                             <div class="form-group">
-                                <button class="cmn_btn btn_bg_profile">Update Featured Product</button>
+                                <button class="cmn_btn btn_bg_profile">
+                                    Update Featured Product
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -83,8 +84,7 @@
     <script>
         $(document).ready(function() {
             // Initialize on page load
-            // $('').select2();
-
+            $(".select2").select2();
             // Handle category toggle
             $("#category").on("change", function() {
                 if ($(this).is(":checked")) {
