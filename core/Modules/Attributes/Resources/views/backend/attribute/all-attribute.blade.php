@@ -12,18 +12,20 @@
             <div class="col-lg-12">
                 <x-msg.error />
                 <x-msg.flash />
+                <div class="mb-4">
+                    @can('attributes-new')
+                        <div class="btn-wrapper">
+                            <a href="{{ route('admin.products.attributes.store') }}"
+                                class="cmn_btn btn_bg_profile">{{ __('Add New Attribute') }}</a>
+                        </div>
+                    @endcan
+                </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('All Product Attributes') }}</h4>
                         <div class="dashboard__card__header__right">
                             @can('attributes-bulk-action')
                                 <x-bulk-action.dropdown />
-                            @endcan
-                            @can('attributes-new')
-                                <div class="btn-wrapper">
-                                    <a href="{{ route('admin.products.attributes.store') }}"
-                                        class="cmn_btn btn_bg_profile">{{ __('Add New Attribute') }}</a>
-                                </div>
                             @endcan
                         </div>
                     </div>
@@ -79,5 +81,4 @@
         <x-bulk-action.js :route="route('admin.products.attributes.bulk.action')" />
     @endcan
     <x-table.btn.swal.js />
-
 @endsection

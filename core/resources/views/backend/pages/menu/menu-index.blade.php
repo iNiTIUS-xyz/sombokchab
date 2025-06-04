@@ -43,16 +43,16 @@
                                             </td>
                                             <td>{{ $data->created_at->diffForHumans() }}</td>
                                             <td>
-                                                @can('menu-delete')
-                                                    @if ($data->status != 'default')
-                                                        <x-delete-popover :url="route('admin.menu.delete', $data->id)" />
-                                                    @endif
-                                                @endcan
                                                 @can('menu-edit')
                                                     <a class="btn btn-lg btn-primary btn-sm mb-2 me-1"
                                                         href="{{ route('admin.menu.edit', $data->id) }}">
                                                         <i class="ti-pencil"></i>
                                                     </a>
+                                                @endcan
+                                                @can('menu-delete')
+                                                    @if ($data->status != 'default')
+                                                        <x-delete-popover :url="route('admin.menu.delete', $data->id)" />
+                                                    @endif
                                                 @endcan
                                             </td>
                                         </tr>

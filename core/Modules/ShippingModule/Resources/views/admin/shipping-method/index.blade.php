@@ -12,14 +12,16 @@
             <div class="col-lg-12">
                 <x-msg.error />
                 <x-msg.flash />
+                <div class="mb-4">
+                    @can('shipping-method-create')
+                        <a href="{{ route('admin.shipping-method.create') }}" class="cmn_btn btn_bg_profile">
+                            {{ __('Create Shipping Method') }}
+                        </a>
+                    @endcan
+                </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Shipping Methods List') }}</h4>
-                        @can("shipping-method-create")
-                            <a href="{{ route('admin.shipping-method.create') }}" class="cmn_btn btn_bg_profile">
-                                {{ __("Create Shipping Method") }}
-                            </a>
-                        @endcan
                     </div>
                     <div class="dashboard__card__body dashboard-recent-order mt-4">
                         <div class="table-wrap table-responsive">
@@ -44,22 +46,14 @@
                                             <td>{{ amount_with_currency_symbol(optional($method)->cost) }}</td>
 
                                             <td>
-                                                @can("shipping-method-delete")
-                                                    @if (!$method->is_default)
-                                                        <a href="{{ route('admin.shipping-method.destroy', $method->id) }}"
-                                                            class="btn btn-danger btn-xs mb-2 me-1">
-                                                            <i class="las la-trash"></i> </a>
-                                                    @endif
-                                                @endcan
-
-                                                @can("shipping-method-edit")
+                                                @can('shipping-method-edit')
                                                     <a href="{{ route('admin.shipping-method.edit', $method->id) }}"
-                                                       class="btn btn-primary btn-xs mb-2 me-1">
+                                                        class="btn btn-primary btn-xs mb-2 me-1">
                                                         <i class="mdi mdi-pencil"></i>
                                                     </a>
                                                 @endcan
 
-                                                @can("shipping-method-make-default")
+                                                @can('shipping-method-make-default')
                                                     @if (!$method->is_default)
                                                         <form action="{{ route('admin.shipping-method.make-default') }}"
                                                             method="post" style="display: inline">
@@ -71,6 +65,13 @@
                                                     @else
                                                         <button class="btn btn-success btn-xs px-4 mb-2 me-1"
                                                             disabled>{{ __('Default') }}</button>
+                                                    @endif
+                                                @endcan
+                                                @can('shipping-method-delete')
+                                                    @if (!$method->is_default)
+                                                        <a href="{{ route('admin.shipping-method.destroy', $method->id) }}"
+                                                            class="btn btn-danger btn-xs mb-2 me-1">
+                                                            <i class="las la-trash"></i> </a>
                                                     @endif
                                                 @endcan
                                             </td>

@@ -15,20 +15,13 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Shipping Methods Edit') }}</h4>
-                        @can('shipping-method')
-                            <a class="cmn_btn btn_bg_profile" href="{{ route('admin.shipping-method.index') }}">
-                                {{ __('Shipping Method List') }}
-                            </a>
-                        @endcan
                     </div>
                     <div class="dashboard__card__body custom__form dashboard-recent-order mt-4">
-                        @can('shipping-method-update')
-                            <form action="{{ route('admin.shipping-method.update', $method->id) }}" method="post"
-                                enctype="multipart/form-data">
-                                @csrf
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                    @endcan
+                        <form action="{{ route('admin.shipping-method.update', $method->id) }}" method="post"
+                            enctype="multipart/form-data">
+                            @csrf
+                            <div class="row">
+                                <div class="col-lg-12">
                                     <div class="form-group">
                                         <label for="zone_id">{{ __('Zone') }}</label>
                                         <select name="zone_id" id="zone_id" class="form-control">
@@ -62,15 +55,19 @@
                                             class="form-control" placeholder="{{ __('Cost') }}">
                                     </div>
 
-                                    @can('shipping-method-update')
-                                        <div class="form-group">
-                                            <button type="submit"
-                                                class="cmn_btn btn_bg_profile">{{ __('Update Shipping Method') }}</button>
-                                        </div>
+                                    <div class="form-group">
+                                        <button type="submit" class="cmn_btn btn_bg_profile">
+                                            {{ __('Update Shipping Method') }}
+                                        </button>
+                                        <a href="{{ route('admin.shipping-method.index') }}"
+                                            class="cmn_btn default-theme-btn"
+                                            style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                                            Back
+                                        </a>
                                     </div>
                                 </div>
-                            </form>
-                        @endcan
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

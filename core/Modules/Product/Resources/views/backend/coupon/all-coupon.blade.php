@@ -135,9 +135,6 @@
                                                 <x-status-span :status="$data->status" />
                                             </td>
                                             <td>
-                                                @can('coupons-delete')
-                                                    <x-table.btn.swal.delete :route="route('admin.products.coupon.delete', $data->id)" />
-                                                @endcan
                                                 @can('coupons-update')
                                                     <a href="#1" data-bs-toggle="modal"
                                                         data-bs-target="#category_edit_modal"
@@ -152,6 +149,9 @@
                                                         data-status="{{ $data->status }}">
                                                         <i class="ti-pencil"></i>
                                                     </a>
+                                                @endcan
+                                                @can('coupons-delete')
+                                                    <x-table.btn.swal.delete :route="route('admin.products.coupon.delete', $data->id)" />
                                                 @endcan
                                             </td>
                                         </tr>
@@ -350,7 +350,7 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-sm btn-secondary"
+                                    <button type="button" class="btn btn-secondary"
                                         data-bs-dismiss="modal">{{ __('Close') }}</button>
                                     <button type="submit" class="btn btn-primary">{{ __('Save Change') }}</button>
                                 </div>
@@ -392,7 +392,8 @@
                 let status = el.data('status');
                 let modal = $('#category_edit_modal');
                 let discount_on = el.data('discount_on');
-                let discount_on_details = el.data('discount_on_details').length > 0 ? el.data('discount_on_details') : 0;
+                let discount_on_details = el.data('discount_on_details').length > 0 ? el.data(
+                    'discount_on_details') : 0;
 
                 modal.find('#coupon_id').val(id);
                 modal.find('#edit_status option[value="' + status + '"]').attr('selected', true);
@@ -423,7 +424,8 @@
                         discount_on_details);
                 } else {
                     console.log(discount_on_details)
-                    $('#edit_form_' + discount_on + ' option[value=' + discount_on_details + ']').attr('selected', true);
+                    $('#edit_form_' + discount_on + ' option[value=' + discount_on_details + ']').attr(
+                        'selected', true);
                     $('#edit_form_' + discount_on).show();
                 }
             });

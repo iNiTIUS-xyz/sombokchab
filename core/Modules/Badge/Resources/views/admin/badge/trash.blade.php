@@ -24,18 +24,17 @@
                 </div>
             </div>
             <div class="col-lg-12">
+                @can('badge')
+                    <div class="btn-wrapper mb-4">
+                        <a class="cmn_btn btn_bg_profile" href="{{ route('admin.badge.all') }}">{{ __('Back') }}</a>
+                    </div>
+                @endcan
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Trash Badges') }}</h4>
                         <div class="dashboard__card__header__right">
                             @can('badge-trash-delete')
                                 <x-bulk-action.dropdown />
-                            @endcan
-                            @can('badge')
-                                <div class="btn-wrapper">
-                                    <a class="cmn_btn btn_bg_profile"
-                                        href="{{ route('admin.badge.all') }}">{{ __('Back') }}</a>
-                                </div>
                             @endcan
                         </div>
                     </div>

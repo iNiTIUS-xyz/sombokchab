@@ -28,6 +28,13 @@
         <div class="row g-4">
             <div class="col-lg-12">
                 <x-flash-msg />
+                <div class="btn-wrapper mb-4">
+                    @can('product-all')
+                        <a class="cmn_btn btn_bg_profile" href="{{ route('admin.products.all') }}">
+                            {{ __('Back') }}
+                        </a>
+                    @endcan
+                </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h3 class="dashboard__card__title">{{ __('Product Trash') }}</h3>
@@ -44,14 +51,6 @@
                                         {{ __('Empty Trash') }}
                                     </a>
                                 @endcan
-                            </div>
-                            <div class="dashboard__card__header__right__item">
-                                <div class="btn-wrapper">
-                                    @can('product-all')
-                                        <a class="cmn_btn btn_bg_profile"
-                                            href="{{ route('admin.products.all') }}">{{ __('Back') }}</a>
-                                    @endcan
-                                </div>
                             </div>
                         </div>
                     </div>

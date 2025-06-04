@@ -23,67 +23,78 @@
                                 class="cmn_btn btn_bg_profile">{{ __('Search') }}</button>
                         </div>
 
-                        <form id="product-search-form" class="custom__form" action="{{ route('admin.products.search') }}" method="get">
+                        <form id="product-search-form" class="custom__form" action="{{ route('admin.products.search') }}"
+                            method="get">
                             <div class="row g-3 mt-2">
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="label-1" for="search-name">{{ __('Name') }}</label>
-                                        <input name="name" class="form-control" id="search-name" value="{{ request()->name ?? old('name') }}" />
+                                        <input name="name" class="form-control" id="search-name"
+                                            value="{{ request()->name ?? old('name') }}" />
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="label-1" for="search-sku">{{ __('SKU') }}</label>
-                                        <input name="sku" class="form-control" id="search-sku" value="{{ request()->sku ?? old('sku') }}" />
+                                        <input name="sku" class="form-control" id="search-sku"
+                                            value="{{ request()->sku ?? old('sku') }}" />
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="label-1" for="search-brand">{{ __('Brand') }}</label>
-                                        <input name="brand" class="form-control" id="search-brand" value="{{ request()->brand ?? old('brand') }}" />
+                                        <input name="brand" class="form-control" id="search-brand"
+                                            value="{{ request()->brand ?? old('brand') }}" />
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="label-1" for="search-category">{{ __('Category') }}</label>
-                                        <input name="category" class="form-control" id="search-category" value="{{ old('category') }}" />
+                                        <input name="category" class="form-control" id="search-category"
+                                            value="{{ old('category') }}" />
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="label-1" for="search-sub_category">{{ __('Sub Category') }}</label>
-                                        <input name="sub_category" class="form-control" id="search-brand" value="{{ old('sub_category') }}" />
+                                        <input name="sub_category" class="form-control" id="search-brand"
+                                            value="{{ old('sub_category') }}" />
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="label-1" for="search-category">{{ __('Child Category') }}</label>
-                                        <input name="child_category" class="form-control" id="search-category" value="{{ old('child_category') }}" />
+                                        <input name="child_category" class="form-control" id="search-category"
+                                            value="{{ old('child_category') }}" />
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="label-1" for="search-color">{{ __('Color Name') }}</label>
-                                        <input name="color" class="form-control" id="search-color" value="{{ old('color') }}" />
+                                        <input name="color" class="form-control" id="search-color"
+                                            value="{{ old('color') }}" />
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="label-1" for="search-size">{{ __('Size Name') }}</label>
-                                        <input name="size" class="form-control" id="search-size" value="{{ old('size') }}" />
+                                        <input name="size" class="form-control" id="search-size"
+                                            value="{{ old('size') }}" />
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="search-is_inventory_warn_able" class="checkbox-label-1"><input
                                                 type="checkbox" name="is_inventory_warn_able" class="form--checkbox-1"
-                                                id="search-is_inventory_warn_able" value="{{ old('is_inventory_warn_able') }}" />
-                                            {{ __("Inventory Warning") }}</label>
+                                                id="search-is_inventory_warn_able"
+                                                value="{{ old('is_inventory_warn_able') }}" />
+                                            {{ __('Inventory Warning') }}</label>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="search-refundable" class="checkbox-label-1"> <input type="checkbox"
-                                                name="refundable" class="form--checkbox-1" id="search-refundable" value="{{ old('refundable') }}" /> {{ __("Refundable") }}</label>
+                                                name="refundable" class="form--checkbox-1" id="search-refundable"
+                                                value="{{ old('refundable') }}" /> {{ __('Refundable') }}</label>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -91,14 +102,16 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="label-1" for="search-from_price">{{ __('From Price') }}</label>
-                                                <input name="from_price" class="form-control" id="search-from_price" value="{{ old('from_price') }}" />
+                                                <input name="from_price" class="form-control" id="search-from_price"
+                                                    value="{{ old('from_price') }}" />
                                             </div>
                                         </div>
 
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="label-1" for="search-to_price">{{ __('TO Price') }}</label>
-                                                <input name="to_price" class="form-control" id="search-to_price" value="{{ old('to_price') }}" />
+                                                <input name="to_price" class="form-control" id="search-to_price"
+                                                    value="{{ old('to_price') }}" />
                                             </div>
                                         </div>
                                     </div>
@@ -107,7 +120,8 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="label-1" for="search-date_range">{{ __('Created Date Range') }}</label>
-                                        <input name="date_range" class="form-control" id="search-date_range" value="{{ old('date_range') }}" />
+                                        <input name="date_range" class="form-control" id="search-date_range"
+                                            value="{{ old('date_range') }}" />
                                     </div>
                                 </div>
 
@@ -129,15 +143,17 @@
             @endcan
 
             <div class="col-lg-12">
+                <div class="mb-4">
+                    @can('product-create')
+                        <div class="dashboard__card__header__right">
+                            <a class="cmn_btn btn_bg_profile"
+                                href="{{ route('admin.products.create') }}">{{ __('Add New Product') }}</a>
+                        </div>
+                    @endcan
+                </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h3 class="dashboard__card__title">{{ __('Product list') }}</h3>
-                       
-                        @can('product-create')
-                            <div class="dashboard__card__header__right">
-                                    <a class="cmn_btn btn_bg_profile" href="{{ route('admin.products.create') }}">{{ __('Add New Product') }}</a>
-                            </div>
-                        @endcan
                     </div>
                     <div class="dashboard__card__header mt-4">
                         @can('product-bulk-destroy')
@@ -156,7 +172,8 @@
                                 @endcan
                                 @can('product-trash')
                                     <div class="btn-wrapper-trash margin-right-20">
-                                        <a class="cmn_btn btn_bg_danger btn-sm" href="{{ route('admin.products.trash.all') }}">
+                                        <a class="cmn_btn btn_bg_danger btn-sm"
+                                            href="{{ route('admin.products.trash.all') }}">
                                             {{ __('Trash') }}
                                         </a>
                                     </div>
@@ -175,7 +192,7 @@
     </div>
 
 
-    <x-product::product-image-modal/>
+    <x-product::product-image-modal />
     <x-media.markup />
 @endsection
 @section('script')
@@ -304,8 +321,8 @@
                     }
                 });
             });
-            
-            
+
+
         });
     </script>
 @endsection

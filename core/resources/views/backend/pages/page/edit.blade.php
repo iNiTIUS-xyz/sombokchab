@@ -22,7 +22,6 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Edit Page') }}</h4>
-                        <a href="{{ route('admin.page') }}" class="cmn_btn btn_bg_profile">{{ __('All Pages') }}</a>
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
                         <form action="{{ route('admin.page.update', $page_post->id) }}" method="post"
@@ -47,7 +46,7 @@
                                     <div
                                         class="form-group classic-editor-wrapper @if (!empty($page_post->page_builder_status)) d-none @endif ">
                                         <label>{{ __('Content') }}</label>
-                                        <textarea class="summernote" type="hidden" name="page_content" >{!! $page_post->content !!}</textarea>
+                                        <textarea class="summernote" type="hidden" name="page_content">{!! $page_post->content !!}</textarea>
                                     </div>
                                     <div
                                         class="btn-wrapper page-builder-btn-wrapper @if (empty($page_post->page_builder_status)) d-none @endif ">
@@ -144,9 +143,14 @@
                                         <label for="meta_description">{{ __('Page Meta Description') }}</label>
                                         <textarea name="meta_description" class="form-control" id="meta_description">{{ $page_post->meta_description }}</textarea>
                                     </div>
-                                    <div class="form-group">
-                                        <button type="submit"
-                                            class="cmn_btn btn_bg_profile">{{ __('Update Page') }}</button>
+                                    <div class="col-sm-12">
+                                        <button type="submit" class="cmn_btn btn_bg_profile">
+                                            {{ __('Add New Page') }}
+                                        </button>
+                                        <a href="{{ route('admin.page') }}" class="cmn_btn default-theme-btn"
+                                            style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                                            Back
+                                        </a>
                                     </div>
                                 </div>
                             </div>

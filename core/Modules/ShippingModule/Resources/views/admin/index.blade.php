@@ -16,13 +16,16 @@
             <div class="col-md-12">
                 <x-flash-msg />
                 <x-error-msg />
+                <div class="mb-4">
+                    @can('shipping-zone-create')
+                        <a href="{{ route('admin.shipping.zone.create') }}" class="cmn_btn btn_bg_profile">
+                            {{ __('Create Shipping Zone') }}
+                        </a>
+                    @endcan
+                </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Shipping Zone List') }}</h4>
-                        @can("shipping-zone-create")
-                            <a href="{{ route('admin.shipping.zone.create') }}"
-                                class="cmn_btn btn_bg_profile">{{ __('Create Shipping Zone') }}</a>
-                        @endcan
                     </div>
                     <div class="dashboard__card__body mt-4">
                         <div id="shipping-zone-create-form table-wrap">
@@ -51,14 +54,14 @@
                                                 @endforeach
                                             </td>
                                             <td>
-                                                @can("shipping-zone-edit")
-                                                    <a class="btn btn-sm btn-info"
+                                                @can('shipping-zone-edit')
+                                                    <a class="btn btn-sm btn-success"
                                                         href="{{ route('admin.shipping.zone.edit', $zone->id) }}">
                                                         <i class="las la-pen"></i>
                                                     </a>
                                                 @endcan
 
-                                                @can("shipping-zone-delete")
+                                                @can('shipping-zone-delete')
                                                     <a class="btn btn-sm btn-danger"
                                                         href="{{ route('admin.shipping.zone.delete', $zone->id) }}">
                                                         <i class="las la-trash"></i>

@@ -16,7 +16,6 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Add New Page') }}</h4>
-                        <a href="{{ route('admin.page') }}" class="cmn_btn btn_bg_profile">{{ __('All Pages') }}</a>
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
                         <form action="{{ route('admin.page.new') }}" method="post" enctype="multipart/form-data">
@@ -58,14 +57,16 @@
                                                     <div class="dashboard__card__body mt-4">
                                                         <div class="navbar_variants">
                                                             <div class="form-group">
-                                                                <input type="hidden" class="form-control" id="navbar_variant" name="navbar_variant">
+                                                                <input type="hidden" class="form-control"
+                                                                    id="navbar_variant" name="navbar_variant">
                                                             </div>
 
                                                             @for ($i = 1; $i <= 3; $i++)
                                                                 <div class="img-select img-select-nav">
                                                                     <div class="img-wrap">
                                                                         <img src="{{ asset('assets/frontend/navbar-variant/0' . $i . '.jpg') }}"
-                                                                             data-nav_id="{{ $i }}" alt="">
+                                                                            data-nav_id="{{ $i }}"
+                                                                            alt="">
                                                                     </div>
                                                                 </div>
                                                             @endfor
@@ -152,8 +153,13 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-12">
-                                            <button type="submit"
-                                                class="cmn_btn btn_bg_profile">{{ __('Add New Page') }}</button>
+                                            <button type="submit" class="cmn_btn btn_bg_profile">
+                                                {{ __('Add New Page') }}
+                                            </button>
+                                            <a href="{{ route('admin.page') }}" class="cmn_btn default-theme-btn"
+                                                style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                                                Back
+                                            </a>
                                         </div>
                                     </div>
                                 </div>

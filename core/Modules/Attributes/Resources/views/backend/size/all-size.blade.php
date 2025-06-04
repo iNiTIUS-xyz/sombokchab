@@ -42,9 +42,6 @@
                                             <td>{{ $product_size->size_code }}</td>
                                             <td>{{ $product_size->slug }}</td>
                                             <td>
-                                                @can('sizes-delete')
-                                                    <x-table.btn.swal.delete :route="route('admin.product.sizes.delete', $product_size->id)" />
-                                                @endcan
                                                 @can('sizes-update')
                                                     <a href="#1" data-bs-toggle="modal" data-bs-target="#size_edit_modal"
                                                         class="btn btn-primary btn-xs mb-2 me-1 size_edit_btn"
@@ -54,6 +51,9 @@
                                                         data-slug="{{ $product_size->slug }}">
                                                         <i class="mdi mdi-pencil"></i>
                                                     </a>
+                                                @endcan
+                                                @can('sizes-delete')
+                                                    <x-table.btn.swal.delete :route="route('admin.product.sizes.delete', $product_size->id)" />
                                                 @endcan
                                             </td>
                                         </tr>

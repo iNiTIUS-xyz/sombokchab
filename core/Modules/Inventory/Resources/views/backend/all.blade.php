@@ -45,11 +45,11 @@
                                             <td>{{ $inventory->stock_count ?? 0 }}</td>
                                             <td>{{ $inventory->sold_count ?? 0 }}</td>
                                             <td>
-                                                @can('product-inventory-delete')
-                                                    <x-table.btn.swal.delete :route="route('admin.products.inventory.delete', ['id'=>$inventory->id])" />
-                                                @endcan
                                                 @can('product-inventory-edit')
                                                     <x-table.btn.edit :route="route('admin.products.inventory.edit', $inventory->id)" />
+                                                @endcan
+                                                @can('product-inventory-delete')
+                                                    <x-table.btn.swal.delete :route="route('admin.products.inventory.delete', ['id'=>$inventory->id])" />
                                                 @endcan
                                             </td>
                                         </tr>

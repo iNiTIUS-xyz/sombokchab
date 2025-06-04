@@ -791,6 +791,7 @@
                         'admin-home/colors',
                         'admin-home/sizes',
                         'admin-home/attributes',
+                        'admin-home/badge',
                     ])) active open @endif ">
                     <a href="#1" aria-expanded="true">
                         <i class="ti-panel"></i>
@@ -843,7 +844,7 @@
                             @endcan --}}
 
                         @can('delivery-option')
-                            <li class="{{ Route::is('admin.delivery.option.all') ? 'active' : '' }}">
+                            <li class="{{ active_menu('admin-home/delivery-manage') }}">
                                 <a href="{{ route('admin.delivery.option.all') }}">
                                     {{ __('Delivery Options') }}
                                 </a>

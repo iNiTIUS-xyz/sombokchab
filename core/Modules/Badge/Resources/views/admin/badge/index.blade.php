@@ -59,10 +59,6 @@
                                             </td>
                                             <td>{{ $badge->status }}</td>
                                             <td>
-                                                @can('badge-delete')
-                                                    <x-delete-popover permissions="badge-delete"
-                                                        url="{{ route('admin.badge.delete', $badge->id) }}" />
-                                                @endcan
                                                 @can('badge-update')
                                                     @php
                                                         $img = get_attachment_image_by_id($badge->image);
@@ -76,6 +72,10 @@
                                                         data-route="{{ route('admin.badge.update', $badge->id) }}">
                                                         <i class="mdi mdi-pencil"></i>
                                                     </a>
+                                                @endcan
+                                                @can('badge-delete')
+                                                    <x-delete-popover permissions="badge-delete"
+                                                        url="{{ route('admin.badge.delete', $badge->id) }}" />
                                                 @endcan
                                             </td>
                                         </tr>

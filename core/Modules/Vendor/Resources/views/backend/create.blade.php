@@ -27,25 +27,25 @@
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
                                             data-bs-target="#basic-info" type="button" role="tab"
-                                            aria-controls="basic-info" aria-selected="true">{{ __("Basic") }}
+                                            aria-controls="basic-info" aria-selected="true">{{ __('Basic') }}
                                         </button>
                                     </li>
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
                                             data-bs-target="#address" type="button" role="tab" aria-controls="address"
-                                            aria-selected="false">{{ __("Address") }}
+                                            aria-selected="false">{{ __('Address') }}
                                         </button>
                                     </li>
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
                                             data-bs-target="#shop-info" type="button" role="tab"
-                                            aria-controls="shop-info" aria-selected="false">{{ __("Shop Info") }}
+                                            aria-controls="shop-info" aria-selected="false">{{ __('Shop Info') }}
                                         </button>
                                     </li>
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
                                             data-bs-target="#bank-info" type="button" role="tab"
-                                            aria-controls="bank-info" aria-selected="false">{{ __("Bank Info") }}
+                                            aria-controls="bank-info" aria-selected="false">{{ __('Bank Info') }}
                                         </button>
                                     </li>
                                 </ul>
@@ -63,55 +63,60 @@
                                                     <div class="row g-4">
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title"> {{ __("Owner Name") }} </label>
+                                                                <label class="label-title"> {{ __('Owner Name') }} </label>
                                                                 <input name="owner_name" type="text"
                                                                     class="form--control radius-10"
-                                                                    placeholder="{{ __("Owner Name") }}">
+                                                                    placeholder="{{ __('Owner Name') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title"> {{ __("Business Name") }} </label>
+                                                                <label class="label-title"> {{ __('Business Name') }}
+                                                                </label>
                                                                 <input name="business_name" type="text"
                                                                     class="form--control radius-10"
-                                                                    placeholder="{{ __("Business Name") }}">
+                                                                    placeholder="{{ __('Business Name') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title">{{ __("Email") }}</label>
+                                                                <label class="label-title">{{ __('Email') }}</label>
                                                                 <input name="email" type="text"
-                                                                    class="form--control radius-10" placeholder="{{ __("Email") }}">
+                                                                    class="form--control radius-10"
+                                                                    placeholder="{{ __('Email') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title"> {{ __("Username") }}</label>
+                                                                <label class="label-title"> {{ __('Username') }}</label>
                                                                 <input name="username" type="text"
                                                                     class="form--control radius-10"
-                                                                    placeholder="{{ __("Business Name") }}">
+                                                                    placeholder="{{ __('Business Name') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title"> {{ __("Password") }}</label>
+                                                                <label class="label-title"> {{ __('Password') }}</label>
                                                                 <input name="password" type="text"
                                                                     class="form--control radius-10"
-                                                                    placeholder="{{ __("Password") }}">
+                                                                    placeholder="{{ __('Password') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title">{{ __("Confirmed Password") }}</label>
+                                                                <label
+                                                                    class="label-title">{{ __('Confirmed Password') }}</label>
                                                                 <input name="password_confirmation" type="text"
                                                                     class="form--control radius-10"
-                                                                    placeholder="{{ __("Confirm Password") }}">
+                                                                    placeholder="{{ __('Confirm Password') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title"> {{ __("Business
-                                                                    Category") }} </label>
+                                                                <label class="label-title">
+                                                                    {{ __("Business
+                                                                                                                                        Category") }}
+                                                                </label>
                                                                 <div class="nice-select-two">
                                                                     <select id="business_type" name="business_type_id"
                                                                         style="display: none;">
@@ -126,7 +131,8 @@
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title"> {{ __("Description") }} </label>
+                                                                <label class="label-title"> {{ __('Description') }}
+                                                                </label>
                                                                 <textarea name="description" class="form--control form--message radius-10" style="height: 100px"></textarea>
                                                             </div>
                                                         </div>
@@ -136,7 +142,8 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <x-media-upload :title="__('Logo')" name="logo_id" dimentions="200x200" />
-                                            <x-media-upload :title="__('Cover Photo')" name="cover_photo_id" dimentions="200x200" />
+                                            <x-media-upload :title="__('Cover Photo')" name="cover_photo_id"
+                                                dimentions="200x200" />
                                         </div>
                                     </div>
                                 </div>
@@ -146,17 +153,18 @@
                                         <div class="col-lg-12">
                                             <div class="dashboard__card">
                                                 <div class="dashboard__card__header">
-                                                    <h4 class="dashboard__card__title"> {{ __("Address") }} </h4>
+                                                    <h4 class="dashboard__card__title"> {{ __('Address') }} </h4>
                                                 </div>
                                                 <div class="dashboard__card__body mt-4">
                                                     <div class="row g-4">
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title"> {{ __("Country") }} </label>
+                                                                <label class="label-title"> {{ __('Country') }} </label>
                                                                 <div class="nice-select-two country_wrapper">
                                                                     <select id="country_id" name="country_id"
                                                                         style="display: none;">
-                                                                        <option value="">{{ __("Select Country") }}</option>
+                                                                        <option value="">{{ __('Select Country') }}
+                                                                        </option>
                                                                         @foreach ($country as $item)
                                                                             <option value="{{ $item->id }}">
                                                                                 {{ $item->name }}
@@ -168,29 +176,31 @@
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title"> {{ __("State") }} </label>
+                                                                <label class="label-title"> {{ __('State') }} </label>
                                                                 <div class="nice-select-two state_wrapper">
                                                                     <select id="state_id" name="state_id"
                                                                         style="display: none;">
-                                                                        <option value="">{{ __("Select State") }}</option>
+                                                                        <option value="">{{ __('Select State') }}
+                                                                        </option>
                                                                     </select>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title"> {{ __("City") }} </label>
+                                                                <label class="label-title"> {{ __('City') }} </label>
                                                                 <div class="nice-select-two city_wrapper">
                                                                     <select id="city_id" name="city_id"
                                                                         style="display: none;">
-                                                                        <option value="">{{ __("Select City") }}</option>
+                                                                        <option value="">{{ __('Select City') }}
+                                                                        </option>
                                                                     </select>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title"> {{ __("Zip Code") }} </label>
+                                                                <label class="label-title"> {{ __('Zip Code') }} </label>
                                                                 <input type="text" name="zip_code"
                                                                     class="form--control radius-10"
                                                                     placeholder="Zip Code">
@@ -198,7 +208,7 @@
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title"> {{ __("Address") }} </label>
+                                                                <label class="label-title"> {{ __('Address') }} </label>
                                                                 <textarea name="address" type="text" class="form--control radius-10" placeholder="Type Address"></textarea>
                                                             </div>
                                                         </div>
@@ -220,42 +230,44 @@
                                                     <div class="row g-4">
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title"> {{ __("Location") }} </label>
+                                                                <label class="label-title"> {{ __('Location') }} </label>
                                                                 <input name="location" type="url"
                                                                     class="form--control radius-10"
-                                                                    placeholder="{{ __("Set Location From Map") }}" />
+                                                                    placeholder="{{ __('Set Location From Map') }}" />
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title"> {{ __("Number") }} </label>
+                                                                <label class="label-title"> {{ __('Number') }} </label>
                                                                 <input name="number" type="tel"
                                                                     class="form--control radius-10"
-                                                                    placeholder="{{ __("Type Number") }}">
+                                                                    placeholder="{{ __('Type Number') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title"> {{ __("Email Address") }} </label>
+                                                                <label class="label-title"> {{ __('Email Address') }}
+                                                                </label>
                                                                 <input type="text" name="shop_email"
                                                                     class="form--control radius-10"
-                                                                    placeholder="{{ __("Type Email") }}">
+                                                                    placeholder="{{ __('Type Email') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title"> {{ __("Facebook Link") }} </label>
+                                                                <label class="label-title"> {{ __('Facebook Link') }}
+                                                                </label>
                                                                 <input type="url" name="facebook_url"
                                                                     class="form--control radius-10"
-                                                                    placeholder="{{ __("Type Facebook Link") }}">
+                                                                    placeholder="{{ __('Type Facebook Link') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title"> {{ __("Website") }} </label>
+                                                                <label class="label-title"> {{ __('Website') }} </label>
                                                                 <input type="url" name="website_url"
                                                                     class="form--control radius-10"
-                                                                    placeholder="{{ __("Type Website") }}">
+                                                                    placeholder="{{ __('Type Website') }}">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -276,23 +288,23 @@
                                                     <div class="row g-4">
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title"> {{ __("Name") }} </label>
+                                                                <label class="label-title"> {{ __('Name') }} </label>
                                                                 <input name="bank_name" type="text"
                                                                     class="form--control radius-10"
-                                                                    placeholder="{{ __("Type Name") }}">
+                                                                    placeholder="{{ __('Type Name') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title"> {{ __("Email") }} </label>
+                                                                <label class="label-title"> {{ __('Email') }} </label>
                                                                 <input name="bank_email" type="text"
                                                                     class="form--control radius-10"
-                                                                    placeholder="{{ __("Type Email") }}">
+                                                                    placeholder="{{ __('Type Email') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title"> {{ __("Bank Code") }} </label>
+                                                                <label class="label-title"> {{ __('Bank Code') }} </label>
                                                                 <input name="bank_code" type="tel"
                                                                     class="form--control radius-10"
                                                                     placeholder="Type Code">
@@ -300,11 +312,11 @@
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title"> {{ __("Account Number") }}
+                                                                <label class="label-title"> {{ __('Account Number') }}
                                                                 </label>
                                                                 <input name="account_number" type="tel"
                                                                     class="form--control radius-10"
-                                                                    placeholder="{{ __("Type Account Number") }}">
+                                                                    placeholder="{{ __('Type Account Number') }}">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -315,7 +327,11 @@
                                 </div>
                             </div>
                             <div class="submit_button mt-4">
-                                <button type="submit" class="cmn_btn btn_bg_profile">{{ __("Submit") }}</button>
+                                <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Submit') }}</button>
+                                <a href="{{ route('admin.vendor.all') }}" class="cmn_btn default-theme-btn"
+                                    style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                                    Back
+                                </a>
                             </div>
                         </form>
                     </div>
@@ -331,7 +347,7 @@
     <x-media.js />
     <x-table.btn.swal.js />
     <script>
-        $(document).ready(function (){
+        $(document).ready(function() {
             $("#business_type").select2();
             $("#country_id").select2();
             $("#state_id").select2();
@@ -365,7 +381,7 @@
             data.append("_token", "{{ csrf_token() }}");
 
             send_ajax_request("post", data, "{{ route('admin.vendor.get.state') }}", function() {}, (data) => {
-                $("#state_id").html("<option value=''>{{ __("Select an state") }}</option>" + data.option);
+                $("#state_id").html("<option value=''>{{ __('Select an state') }}</option>" + data.option);
                 $(".state_wrapper .list").html(data.li);
             }, (data) => {
                 prepare_errors(data);
@@ -380,7 +396,7 @@
             data.append("_token", "{{ csrf_token() }}");
 
             send_ajax_request("post", data, "{{ route('admin.vendor.get.city') }}", function() {}, (data) => {
-                $("#city_id").html("<option value=''>{{ __("Select an city") }}</option>" + data.option);
+                $("#city_id").html("<option value=''>{{ __('Select an city') }}</option>" + data.option);
                 $(".city_wrapper .list").html(data.li);
             }, (data) => {
                 prepare_errors(data);

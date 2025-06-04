@@ -12,17 +12,19 @@
             <div class="col-lg-12">
                 <x-msg.error />
                 <x-msg.flash />
+                <div class="mb-4">
+                    @can('campaigns-new')
+                        <a href="{{ route('admin.campaigns.new') }}" class="cmn_btn btn_bg_profile">
+                            {{ __('Add New Campaign') }}
+                        </a>
+                    @endcan
+                </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('All Campaigns') }}</h4>
                         <div class="dashboard__card__header__right">
                             @can('campaigns-delete')
                                 <x-bulk-action.dropdown />
-                            @endcan
-                            @can('campaigns-new')
-                                <a href="{{ route('admin.campaigns.new') }}" class="cmn_btn btn_bg_profile">
-                                    {{ __('Add New Campaign') }}
-                                </a>
                             @endcan
                         </div>
                     </div>
@@ -50,17 +52,17 @@
                                             <x-table.td-image :image="$campaign->image" />
                                             <td><x-status-span :status="$campaign->status" /></td>
                                             <td>
-                                                @can('campaigns-delete')
-                                                    <x-delete-popover :url="route('admin.campaigns.delete', $campaign->id)" />
-                                                @endcan
+                                                <a target="_blank" class="btn btn-success btn-xs mb-2 me-1"
+                                                    href="{{ route('frontend.products.campaign', ['id' => $campaign->id, 'slug' => $campaign->slug]) }}">
+                                                    <i class="ti-eye"></i>
+                                                </a>
                                                 @can('campaigns-edit')
                                                     <x-table.btn.edit :route="route('admin.campaigns.edit', $campaign->id)" />
                                                 @endcan
-                                                {{--       This route is for viewing this campaing in frontend that is why there no permission needed       --}}
-                                                <a target="_blank" class="btn btn-info btn-xs mb-2 me-1"
-                                                    href="{{ route('frontend.products.campaign', ['id' => $campaign->id, 'slug' =>  $campaign->slug]) }}">
-                                                    <i class="ti-eye"></i>
-                                                </a>
+
+                                                @can('campaigns-delete')
+                                                    <x-delete-popover :url="route('admin.campaigns.delete', $campaign->id)" />
+                                                @endcan
                                             </td>
                                         </tr>
                                     @endforeach

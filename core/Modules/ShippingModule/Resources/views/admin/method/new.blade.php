@@ -16,10 +16,6 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Add New Shipping Method') }}</h4>
-                        @can('shipping-method-list')
-                            <a href="{{ route('admin.shipping.method.all') }}"
-                                class="btn btn-primary">{{ __('All Shipping Methods') }}</a>
-                        @endcan
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
                         @can('shipping-method-create')
@@ -91,8 +87,13 @@
                                             <input type="number" id="cost" name="cost" class="form-control"
                                                 placeholder="{{ __('Cost') }}">
                                         </div>
-                                        <button type="submit"
-                                            class="btn btn-primary my-4 px-4">{{ __('Create Shipping Method') }}</button>
+                                        <button type="submit" class="btn btn-primary my-4 px-4">
+                                            {{ __('Create Shipping Method') }}
+                                        </button>
+                                        <a target="_blank" class="btn btn-info btn-xs mb-2 me-1"
+                                            href="{{ route('admin.shipping.method.all', ['id' => $campaign->id, 'slug' => $campaign->slug]) }}">
+                                            <i class="ti-eye"></i>
+                                        </a>
                                     </div>
                                 </div>
                             </form>

@@ -14,11 +14,6 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Add New Blog Post') }} </h4>
-                        @can('blog')
-                            <div class="btn-wrapper">
-                                <a href="{{ route('admin.blog') }}" class="cmn_btn btn_bg_profile">{{ __('All Blog Post') }}</a>
-                            </div>
-                        @endcan
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
                         @if ($errors->any())
@@ -102,14 +97,16 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <x-media-upload :title="__('Blog Image')" name="image" id="image" />
-                                        <small class="form-text text-muted">{{ __('allowed image format: jpg,jpeg,png') }}</small>
+                                        <small
+                                            class="form-text text-muted">{{ __('allowed image format: jpg,jpeg,png') }}</small>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <x-media-upload :title="__('Og Meta Image')" name="og_meta_image" id="og_meta_image"  />
+                                        <x-media-upload :title="__('Og Meta Image')" name="og_meta_image" id="og_meta_image" />
 
-                                        <small class="form-text text-muted">{{ __('allowed image format: jpg,jpeg,png') }}</small>
+                                        <small
+                                            class="form-text text-muted">{{ __('allowed image format: jpg,jpeg,png') }}</small>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
@@ -134,8 +131,13 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
-                                    <button type="submit" id="submit"
-                                        class="cmn_btn btn_bg_profile">{{ __('Add New Post') }}</button>
+                                    <button type="submit" id="submit" class="cmn_btn btn_bg_profile">
+                                        {{ __('Add New Post') }}
+                                    </button>
+                                    <a href="{{ route('admin.blog') }}" class="cmn_btn default-theme-btn"
+                                        style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                                        Back
+                                    </a>
                                 </div>
                             </div>
                         </form>
@@ -151,9 +153,9 @@
     <x-summernote.js />
     <x-media.js />
     <script>
-        $(document).on('summernote.change',"textarea[name='blog_content']",function(){
-           var data = $("textarea[name='blog_content']").summernote('code');
-           $("textarea[name='blog_content']").val(data)
+        $(document).on('summernote.change', "textarea[name='blog_content']", function() {
+            var data = $("textarea[name='blog_content']").summernote('code');
+            $("textarea[name='blog_content']").val(data)
         })
     </script>
 @endsection

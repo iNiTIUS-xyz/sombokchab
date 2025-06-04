@@ -10,8 +10,8 @@
     <div class="col-lg-12 col-ml-12">
         <div class="row g-4">
             <div class="col-lg-7">
-                 <x-error-msg/>
-                 <x-flash-msg/>
+                <x-error-msg />
+                <x-flash-msg />
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('All Product Colors') }}</h4>
@@ -49,9 +49,6 @@
                                             <td>{{ $product_color->slug }}</td>
                                             <td>
                                                 @can('colors-delete')
-                                                    <x-table.btn.swal.delete :route="route('admin.product.colors.delete', $product_color->id)" />
-                                                @endcan
-                                                @can('colors-delete')
                                                     <a href="#1" data-bs-toggle="modal" data-bs-target="#color_edit_modal"
                                                         class="btn btn-primary btn-xs mb-2 me-1 color_edit_btn"
                                                         data-id="{{ $product_color->id }}"
@@ -60,6 +57,9 @@
                                                         data-slug="{{ $product_color->slug }}">
                                                         <i class="mdi mdi-pencil"></i>
                                                     </a>
+                                                @endcan
+                                                @can('colors-delete')
+                                                    <x-table.btn.swal.delete :route="route('admin.product.colors.delete', $product_color->id)" />
                                                 @endcan
                                             </td>
                                         </tr>

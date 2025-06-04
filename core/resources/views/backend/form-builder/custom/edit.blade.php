@@ -15,10 +15,6 @@
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Edit Form') }}</h4>
                         <div class="dashboard__card__header__right">
-                            @can('form-builder-custom-all')
-                                <a href="{{ route('admin.form.builder.all') }}"
-                                    class="cmn_btn btn_bg_profile">{{ __('All Form') }}</a>
-                            @endcan
                             @can('form-builder-custom-new')
                                 <a href="#1" data-bs-toggle="modal" data-bs-target="#create_new_custom_form"
                                     class="cmn_btn btn_bg_2">
@@ -56,6 +52,10 @@
                             </div>
                             <div class="form-group">
                                 <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Save Change') }}</button>
+                                <a href="{{ route('admin.form.builder.all') }}" class="cmn_btn default-theme-btn"
+                                    style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                                    Back
+                                </a>
                             </div>
                         </form>
                     </div>
@@ -143,7 +143,8 @@
         (function($) {
             "use strict";
             $(document).ready(function() {
-                <x-btn.save />
+                <
+                x - btn.save / >
                     $("#sortable").sortable({
                         axis: "y",
                         placeholder: "sortable-placeholder",

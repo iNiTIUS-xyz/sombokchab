@@ -11,12 +11,15 @@
             <div class="col-lg-12">
                 <x-msg.error />
                 <x-msg.flash />
+                <div class="mb-4">
+                    <a class="cmn_btn btn_bg_profile" href="{{ route('admin.vendor.create') }}">
+                        {{ __('Vendor Create') }}
+                    </a>
+                </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Vendor List') }}</h4>
-                        <div class="dashboard__card__header__right">
-                            <a class="cmn_btn btn_bg_profile" href="{{ route('admin.vendor.create') }}">{{ __('Vendor Create') }}</a>
-                        </div>
+
                     </div>
                     <div class="dashboard__card__body dashboard-recent-order mt-4">
                         <div class="table-wrap dashboard-table">
@@ -114,7 +117,7 @@
                                                     <div class="status-dropdown">
                                                         <select data-vendor-id="{{ $vendor->id }}" name="status"
                                                             id="vendor-status" class="form-control form-control-sm">
-                                                            {!! status_option($type = "option",$vendor->status_id) !!}
+                                                            {!! status_option($type = 'option', $vendor->status_id) !!}
                                                         </select>
                                                     </div>
                                                 </td>
@@ -122,22 +125,24 @@
                                                 <td data-label="Actions">
                                                     <div class="action-icon">
                                                         @can('vendor-details')
-                                                            <a href="#1" data-id="{{ $vendor->id }}"
-                                                                class="icon vendor-detail" data-bs-toggle="modal"
-                                                                data-bs-target="#vendor-details">
+                                                            <a href="#1" class="btn btn-info btn-sm"
+                                                                data-id="{{ $vendor->id }}" class="icon vendor-detail"
+                                                                data-bs-toggle="modal" data-bs-target="#vendor-details">
                                                                 <i class="las la-eye"></i>
                                                             </a>
                                                         @endcan
 
                                                         @can('vendor-edit')
                                                             <a href="{{ route('admin.vendor.edit', $vendor->id) }}"
-                                                                class="icon"> <i class="las la-pen-alt"></i> </a>
+                                                                class="btn btn-sm btn-success">
+                                                                <i class="las la-pen-alt"></i>
+                                                            </a>
                                                         @endcan
 
                                                         @can('vendor-delete')
                                                             <a data-vendor-url="{{ route('admin.vendor.delete', $vendor->id) }}"
-                                                                href="#1" class="icon delete-row"> <i
-                                                                    class="las la-trash-alt"></i>
+                                                                href="#1" class="btn btn-danger btn-sm delete-row">
+                                                                <i class="las la-trash-alt"></i>
                                                             </a>
                                                         @endcan
                                                     </div>
@@ -308,6 +313,5 @@
                 ajax_toastr_error_message(errors)
             });
         });
-       
     </script>
 @endsection

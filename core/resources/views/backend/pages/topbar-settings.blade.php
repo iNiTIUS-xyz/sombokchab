@@ -34,8 +34,9 @@
                                     </select>
                                 </div>
                                 <div class="btn-wrapper mt-4">
-                                    <button class="cmn_btn btn_bg_profile"
-                                        type="submit">{{ __('Update Top-bar Menu') }}</button>
+                                    <button class="cmn_btn btn_bg_profile" type="submit">
+                                        {{ __('Update Top-bar Menu') }}
+                                    </button>
                                 </div>
                             </form>
                         @endcan
@@ -71,9 +72,6 @@
                                             <td><i class="{{ $data->icon }}"></i></td>
                                             <td>{{ $data->url }}</td>
                                             <td>
-                                                @can('appearance-settings-topbar-delete-social-item')
-                                                    <x-delete-popover :url="route('admin.delete.social.item', $data->id)" />
-                                                @endcan
                                                 @can('appearance-settings-topbar-update-social-item')
                                                     <a href="#1" data-bs-toggle="modal"
                                                         data-bs-target="#social_item_edit_modal"
@@ -82,6 +80,9 @@
                                                         data-icon="{{ $data->icon }}">
                                                         <i class="ti-pencil"></i>
                                                     </a>
+                                                @endcan
+                                                @can('appearance-settings-topbar-delete-social-item')
+                                                    <x-delete-popover :url="route('admin.delete.social.item', $data->id)" />
                                                 @endcan
                                             </td>
                                         </tr>
@@ -161,8 +162,10 @@
         (function($) {
             "use strict";
             $(document).ready(function() {
-                <x-btn.submit />
-                <x-btn.update />
+                <
+                x - btn.submit / >
+                    <
+                    x - btn.update / >
 
                     $(document).on('click', '.social_item_edit_btn', function() {
                         var el = $(this);

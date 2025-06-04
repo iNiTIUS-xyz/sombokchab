@@ -15,12 +15,9 @@
                 <x-msg.error />
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Edit Blog Post') }} </h4>
-                        @can('blog')
-                            <div class="btn-wrapper">
-                                <a href="{{ route('admin.blog') }}" class="cmn_btn btn_bg_profile">{{ __('All Blog Post') }}</a>
-                            </div>
-                        @endcan
+                        <h4 class="dashboard__card__title">
+                            {{ __('Edit Blog Post') }}
+                        </h4>
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
                         <form action="{{ route('admin.blog.update', $blog_post->id) }}" method="post"
@@ -105,14 +102,17 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <x-media-upload :title="__('Blog Image')" name="image" id="image" :oldimage="$blog_post->image" />
-                                        <small class="form-text text-muted">{{ __('allowed image format: jpg,jpeg,png') }}</small>
+                                        <small
+                                            class="form-text text-muted">{{ __('allowed image format: jpg,jpeg,png') }}</small>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <x-media-upload :title="__('Og Meta Image')" :oldimage="$blog_post->og_meta_image" name="og_meta_image" id="og_meta_image"  />
+                                        <x-media-upload :title="__('Og Meta Image')" :oldimage="$blog_post->og_meta_image" name="og_meta_image"
+                                            id="og_meta_image" />
 
-                                        <small class="form-text text-muted">{{ __('allowed image format: jpg,jpeg,png') }}</small>
+                                        <small
+                                            class="form-text text-muted">{{ __('allowed image format: jpg,jpeg,png') }}</small>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -141,8 +141,13 @@
                                     </div>
                                 </div>
                                 <div class="col-md-12">
-                                    <button type="submit" id="update"
-                                        class="cmn_btn btn_bg_profile">{{ __('Update Post') }}</button>
+                                    <button type="submit" id="update" class="cmn_btn btn_bg_profile">
+                                        {{ __('Update Post') }}
+                                    </button>
+                                    <a href="{{ route('admin.blog') }}" class="cmn_btn default-theme-btn"
+                                        style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                                        Back
+                                    </a>
                                 </div>
                             </div>
                         </form>
@@ -160,8 +165,9 @@
 
     <script>
         (function($) {
-            <x-btn.update />
-            "use strict";
+            <
+            x - btn.update / >
+                "use strict";
             $(document).ready(function() {
                 $('.summernote').summernote({
                     height: 400, //set editable area's height
@@ -172,8 +178,9 @@
                         onChange: function(contents, $editable) {
                             $(this).prev('input').val(contents);
                         },
-                        onPaste: function (e) {
-                            let bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('text/plain');
+                        onPaste: function(e) {
+                            let bufferText = ((e.originalEvent || e).clipboardData || window
+                                .clipboardData).getData('text/plain');
                             e.preventDefault();
                             document.execCommand('insertText', false, bufferText);
                         }

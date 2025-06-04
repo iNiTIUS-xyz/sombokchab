@@ -51,8 +51,7 @@
                             </div>
 
                             <div class="form-group">
-                                <input type="submit" value="{{ __('Update vendor settings') }}"
-                                    class="cmn_btn btn_bg_profile">
+                                <button class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
                             </div>
                         </form>
                     </div>
@@ -96,7 +95,7 @@
                             </div>
 
                             <div class="form-group">
-                                <button class="cmn_btn btn_bg_profile">{{ __('Update vendor settings') }}</button>
+                                <button class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
                             </div>
                         </form>
                     </div>

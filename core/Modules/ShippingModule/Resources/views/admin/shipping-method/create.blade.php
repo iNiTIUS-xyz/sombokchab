@@ -15,18 +15,12 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Create Shipping Method') }}</h4>
-                        @can("shipping-method")
-                            <a class="btn btn-info" href="{{ route('admin.shipping-method.index') }}">{{ __("Shipping Method List") }}</a>
-                        @endcan
                     </div>
                     <div class="dashboard__card__body custom__form dashboard-recent-order">
-                        @can("shipping-method-store")
-                            <form action="{{ route('admin.shipping-method.store') }}" method="post"
-                                  enctype="multipart/form-data">
-                                @csrf
-                                <div class="row g-4">
-                                    <div class="col-lg-12">
-                        @endcan
+                        <form action="{{ route('admin.shipping-method.store') }}" method="post" enctype="multipart/form-data">
+                            @csrf
+                            <div class="row g-4">
+                                <div class="col-lg-12">
 
                                     <div class="form-group">
                                         <label for="zone_id">{{ __('Zone') }}</label>
@@ -41,7 +35,8 @@
                                     <div class="form-group">
                                         <label for="title">{{ __('Title') }}
                                             <input name="title" class="form-control"
-                                                placeholder="{{ __('Enter shipping method title') }}" value="{{ old("title") ?? "" }}" />
+                                                placeholder="{{ __('Enter shipping method title') }}"
+                                                value="{{ old('title') ?? '' }}" />
                                         </label>
                                     </div>
                                 </div>
@@ -59,21 +54,24 @@
                                     <div class="form-group">
                                         <label for="cost">{{ __('Cost') }}</label>
                                         <input type="number" id="cost" name="cost" class="form-control"
-                                            placeholder="{{ __('Cost') }}" value="{{ old("cost") ?? "" }}">
+                                            placeholder="{{ __('Cost') }}" value="{{ old('cost') ?? '' }}">
                                     </div>
                                 </div>
 
-                        @can("shipping-method-store")
-
-                                    <div class="col-lg-12">
-                                        <div class="form-group">
-                                            <button type="submit"
-                                                class="cmn_btn btn_bg_profile">{{ __('Create Shipping Method') }}</button>
-                                        </div>
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <button type="submit" class="cmn_btn btn_bg_profile">
+                                            {{ __('Create Shipping Method') }}
+                                        </button>
+                                        <a href="{{ route('admin.shipping-method.index') }}"
+                                            class="cmn_btn default-theme-btn"
+                                            style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                                            Back
+                                        </a>
                                     </div>
                                 </div>
-                            </form>
-                        @endcan
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

@@ -17,17 +17,18 @@
                 </div>
             </div>
             <div class="col-lg-12">
+                <div class="mb-4">
+                    @can('brand-manage-new')
+                        <a href="#1" data-bs-toggle="modal" data-bs-target="#brand_manage_create_modal"
+                            class="cmn_btn btn_bg_profile">{{ __('Create Brand Manage') }}</a>
+                    @endcan
+                </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('All Brand Manages') }}</h4>
                         <div class="dashboard__card__header__right">
                             @can('brand-manage-bulk-action')
                                 <x-bulk-action.dropdown />
-                            @endcan
-
-                            @can('brand-manage-new')
-                                <a href="#1" data-bs-toggle="modal" data-bs-target="#brand_manage_create_modal"
-                                    class="cmn_btn btn_bg_profile">{{ __('Create Brand Manage') }}</a>
                             @endcan
                         </div>
                     </div>
@@ -71,9 +72,6 @@
                                             <td>{{ $item->title }}</td>
                                             <td class="w-40">{{ $item->description }}</td>
                                             <td>
-                                                @can('brand-manage-delete')
-                                                    <x-table.btn.swal.delete class="margin-bottom-0" :route="route('admin.brand.manage.delete', $item->id)" />
-                                                @endcan
                                                 @can('brand-manage-update')
                                                     <a href="#1" data-bs-toggle="modal"
                                                         data-bs-target="#brand_manage_edit_modal"
@@ -87,6 +85,9 @@
                                                         data-banner="{{ \App\Http\Services\Media::render_image($item->banner, render_type: 'path') }}">
                                                         <i class="ti-pencil"></i>
                                                     </a>
+                                                @endcan
+                                                @can('brand-manage-delete')
+                                                    <x-table.btn.swal.delete class="margin-bottom-0" :route="route('admin.brand.manage.delete', $item->id)" />
                                                 @endcan
                                             </td>
                                         </tr>

@@ -249,7 +249,7 @@
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#55545b',
                     confirmButtonText: "{{__('Yes, Delete it!')}}",
-                    cancelButtonText: "{{__('Cancel')}}",
+                    cancelButtonText: "{{__('No')}}",
 
                 }).then((result) => {
                     if (result.isConfirmed) {

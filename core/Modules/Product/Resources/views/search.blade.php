@@ -88,25 +88,25 @@
 
                 <td data-label="Actions">
                     <div class="action-icon">
-                        <a href="{{ route('frontend.products.single', $product->slug) }}" class="icon eye">
+                        <a href="{{ route('frontend.products.single', $product->slug) }}" class="btn btn-info btn-sm">
                             <i class="las la-eye"></i>
                         </a>
 
                         @can('product-update')
-                            <a href="{{ route('admin.products.edit', $product->id) }}" class="icon edit">
+                            <a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-success btn-sm">
                                 <i class="las la-pen-alt"></i>
                             </a>
                         @endcan
 
                         @can('product-clone')
-                            <a href="{{ route('admin.products.clone', $product->id) }}" class="icon clone">
+                            <a href="{{ route('admin.products.clone', $product->id) }}" class="btn btn-warning btn-sm">
                                 <i class="las la-copy"></i>
                             </a>
                         @endcan
 
                         @can('product-destroy')
                             <a data-product-url="{{ route('admin.products.destroy', $product->id) }}" href="#1"
-                                class="delete-row icon deleted">
+                                class="delete-row btn btn-danger btn-sm deleted">
                                 <i class="las la-trash-alt"></i>
                             </a>
                         @endcan

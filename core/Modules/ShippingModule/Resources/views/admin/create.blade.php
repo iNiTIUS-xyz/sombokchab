@@ -22,10 +22,6 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Create Shipping Zone') }}</h4>
-                        @can("shipping-zone")
-                            <a href="{{ route('admin.shipping.zone.all') }}"
-                                class="cmn_btn btn_bg_profile">{{ __('Shipping Zone List') }}</a>
-                        @endcan
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
                         <form id="shipping-zone-create-form">
@@ -55,7 +51,11 @@
                                 </tbody>
                             </table>
                             <div class="form-group">
-                                <button class="btn btn-info">{{ __('Create Shipping Zone') }}</button>
+                                <button class="cmn_btn btn_bg_profile">{{ __('Create Shipping Zone') }}</button>
+                                <a href="{{ route('admin.shipping.zone.all') }}" class="cmn_btn default-theme-btn"
+                                    style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                                    Back
+                                </a>
                             </div>
                         </form>
                     </div>

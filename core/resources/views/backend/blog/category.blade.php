@@ -11,6 +11,12 @@
             <div class="col-lg-12">
                 <x-msg.error />
                 <x-msg.success />
+                @can('blog-category-create')
+                    <div class="btn-wrapper mb-4">
+                        <a data-bs-toggle="modal" data-bs-target="#new_category_modal"
+                            class="cmn_btn btn_bg_profile pull-right">{{ __('New Category') }}</a>
+                    </div>
+                @endcan
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('All Categories') }}</h4>
@@ -20,12 +26,6 @@
                                     <x-bulk-action />
                                 @endcan
                             </div>
-                            @can('blog-category-create')
-                                <div class="btn-wrapper">
-                                    <a data-bs-toggle="modal" data-bs-target="#new_category_modal"
-                                        class="cmn_btn btn_bg_profile pull-right">{{ __('New Category') }}</a>
-                                </div>
-                            @endcan
                         </div>
                     </div>
                     <div class="dashboard__card__body mt-4">
@@ -51,16 +51,17 @@
                                                 <x-status-span :status="$data->status" />
                                             </td>
                                             <td>
-                                                @can('blog-category-delete')
-                                                    <x-delete-popover :url="route('admin.blog.category.delete', $data->id)" />
-                                                @endcan
                                                 @can('blog-category-edit')
-                                                    <a href="#1" data-bs-toggle="modal" data-bs-target="#category_edit_modal"
+                                                    <a href="#1" data-bs-toggle="modal"
+                                                        data-bs-target="#category_edit_modal"
                                                         class="btn btn-primary btn-xs mb-2 me-1 category_edit_btn"
                                                         data-id="{{ $data->id }}" data-name="{{ $data->name }}"
                                                         data-lang="{{ $data->lang }}" data-status="{{ $data->status }}">
                                                         <i class="ti-pencil"></i>
                                                     </a>
+                                                @endcan
+                                                @can('blog-category-delete')
+                                                    <x-delete-popover :url="route('admin.blog.category.delete', $data->id)" />
                                                 @endcan
                                             </td>
                                         </tr>

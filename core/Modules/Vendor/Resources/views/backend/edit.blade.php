@@ -52,6 +52,10 @@
                                     </li>
                                 </ul>
                                 <div class="submit_button">
+                                    <a href="{{ route('admin.vendor.all') }}" class="cmn_btn default-theme-btn"
+                                        style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                                        Back
+                                    </a>
                                     <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Submit') }}</button>
                                 </div>
                             </div>
@@ -177,7 +181,12 @@
                                                         </div>
                                                     </div>
                                                     @php
-                                                        $states = $vendor?->vendor_address?->country_id ? \Modules\CountryManage\Entities\State::where('country_id', $vendor?->vendor_address?->country_id)->get() : [];
+                                                        $states = $vendor?->vendor_address?->country_id
+                                                            ? \Modules\CountryManage\Entities\State::where(
+                                                                'country_id',
+                                                                $vendor?->vendor_address?->country_id,
+                                                            )->get()
+                                                            : [];
                                                     @endphp
                                                     <div class="form-group">
                                                         <label class="label-title color-light mb-2"> {{ __('State') }}
@@ -195,7 +204,12 @@
                                                     </div>
 
                                                     @php
-                                                        $cities = $vendor?->vendor_address?->state_id ? \App\City::where('state_id', $vendor?->vendor_address?->state_id)->get() : [];
+                                                        $cities = $vendor?->vendor_address?->state_id
+                                                            ? \App\City::where(
+                                                                'state_id',
+                                                                $vendor?->vendor_address?->state_id,
+                                                            )->get()
+                                                            : [];
                                                     @endphp
 
                                                     <div class="form-group">
@@ -223,8 +237,7 @@
                                                     <div class="form-group">
                                                         <label class="label-title color-light mb-2"> {{ __('Address') }}
                                                         </label>
-                                                        <textarea name="address" type="text" class="form--control radius-10"
-                                                            >{{ $vendor?->vendor_address?->address }}</textarea>
+                                                        <textarea name="address" type="text" class="form--control radius-10">{{ $vendor?->vendor_address?->address }}</textarea>
                                                     </div>
 
                                                 </div>
@@ -373,7 +386,7 @@
     <x-table.btn.swal.js />
 
     <script>
-        $(document).ready(function (){
+        $(document).ready(function() {
             $("#business_type").select2();
             $("#country_id").select2();
             $("#state_id").select2();
@@ -408,7 +421,7 @@
             data.append("_token", "{{ csrf_token() }}");
 
             send_ajax_request("post", data, "{{ route('admin.vendor.get.state') }}", function() {}, (data) => {
-                $("#state_id").html("<option value=''>{{ __("Select an state") }}</option>" + data.option);
+                $("#state_id").html("<option value=''>{{ __('Select an state') }}</option>" + data.option);
                 $(".state_wrapper .list").html(data.li);
             }, (data) => {
                 prepare_errors(data);
@@ -423,7 +436,7 @@
             data.append("_token", "{{ csrf_token() }}");
 
             send_ajax_request("post", data, "{{ route('admin.vendor.get.city') }}", function() {}, (data) => {
-                $("#city_id").html("<option value=''>{{ __("Select an city") }}</option>" + data.option);
+                $("#city_id").html("<option value=''>{{ __('Select an city') }}</option>" + data.option);
                 $(".city_wrapper .list").html(data.li);
             }, (data) => {
                 prepare_errors(data);

@@ -14,11 +14,7 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Edit Menu') }}</h4>
-                        @can('menu')
-                            <div class="btn-wrapper">
-                                <a href="{{ route('admin.menu') }}" class="cmn_btn btn_bg_profile">{{ __('All Menus') }}</a>
-                            </div>
-                        @endcan
+
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
                         @can('menu-update')
@@ -81,7 +77,14 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <button type="button" id="add_custom_links"
-                                                                class="cmn_btn btn_bg_profile">{{ __('Add To Menu') }}</button>
+                                                                class="cmn_btn btn_bg_profile">
+                                                                {{ __('Add To Menu') }}
+                                                            </button>
+                                                            <a href="{{ route('admin.menu') }}"
+                                                                class="cmn_btn default-theme-btn"
+                                                                style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                                                                Back
+                                                            </a>
                                                         </div>
                                                     </div>
                                                 </div>
