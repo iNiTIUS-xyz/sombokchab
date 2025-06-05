@@ -372,8 +372,8 @@
                                 <div class="single-shops">
                                     <div class="shop-nice-select">
                                         <select id="order_by" data-type="order_by" data-val="order_by">
-                                            <option value="desc"> {{ __('Order By Desc') }} </option>
-                                            <option value="asc"> {{ __('Order By ASC') }} </option>
+                                            <option value="desc"> {{ __('Latest') }} </option>
+                                            <option value="asc"> {{ __('Oldest') }} </option>
                                             <option value="a-z"> {{ __('Product A to Z') }} </option>
                                             <option value="z-a"> {{ __('Product Z to A') }} </option>
                                             <option value="price_low_to_high"> {{ __('Price low to high') }} </option>

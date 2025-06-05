@@ -89,9 +89,11 @@
                             <div class="shop-right">
                                 <div class="single-shops">
                                     <div class="shop-nice-select">
-                                        <select id="order_by" data-type="order_by" data-val="order_by">
-                                            <option value="desc"> {{ __('Order By Desc') }} </option>
-                                            <option value="asc"> {{ __('Order By ASC') }} </option>
+                                        <select id="order_by" name="order_by">
+                                            <option value="latest"> {{ __('Latest') }} </option>
+                                            <option value="oldest"> {{ __('Oldest') }} </option>
+                                            <option value="price_low_high"> {{ __('Price: Low to High') }} </option>
+                                            <option value="price_high_low"> {{ __('Price: High to Low') }} </option>
                                         </select>
                                     </div>
                                 </div>
@@ -138,6 +140,19 @@
 
 @section('script')
     <script>
-        //
+        document.addEventListener('DOMContentLoaded', function() {
+            const orderBySelect = document.getElementById('order_by');
+
+            orderBySelect.addEventListener('change', function() {
+                const params = new URLSearchParams(window.location.search);
+                params.set('order_by', this.value);
+                window.location.href = `${window.location.pathname}?${params.toString()}`;
+            });
+
+            const currentOrderBy = new URLSearchParams(window.location.search).get('order_by');
+            if (currentOrderBy) {
+                orderBySelect.value = currentOrderBy;
+            }
+        });
     </script>
 @endsection

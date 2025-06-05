@@ -238,7 +238,6 @@ class FrontendController extends Controller
     public function dynamic_shop_single_page(Request $request)
     {
         $products = Product::query()
-
             ->with([
                 'category',
                 'campaign_product',
@@ -255,6 +254,25 @@ class FrontendController extends Controller
             })
             ->when($request->keyword, function ($q) use ($request) {
                 $q->where('name', 'LIKE', "%" . $request->keyword . "%");
+            })
+            ->when($request->order_by, function ($q) use ($request) {
+                switch ($request->order_by) {
+                    case 'latest':
+                        $q->orderBy('id', 'desc');
+                        break;
+                    case 'oldest':
+                        $q->orderBy('id', 'asc');
+                        break;
+                    case 'price_low_high':
+                        $q->orderBy('sale_price', 'asc');
+                        break;
+                    case 'price_high_low':
+                        $q->orderBy('sale_price', 'desc');
+                        break;
+                    default:
+                        $q->orderBy('id', 'desc');
+                        break;
+                }
             })
             ->paginate(10);
 
