@@ -33,19 +33,19 @@
         }
 
         /* .support-ticket-wrapper button[type=submit]:hover {
-                                        background-color: var(--secondary-color);
-                                        color: #fff
-                                    }
+                background-color: var(--secondary-color);
+                color: #fff
+            }
 
-                                    .support-ticket-wrapper button[type=submit] {
-                                        display: inline-block;
-                                        border: none;
-                                        background-color: var(--main-color-two);
-                                        color: #fff;
-                                        padding: 10px 30px;
-                                        font-weight: 600;
-                                        transition: all .4s
-                                    } */
+            .support-ticket-wrapper button[type=submit] {
+                display: inline-block;
+                border: none;
+                background-color: var(--main-color-two);
+                color: #fff;
+                padding: 10px 30px;
+                font-weight: 600;
+                transition: all .4s
+            } */
 
         .support-ticket-wrapper textarea:focus {
             outline: 0;
@@ -121,11 +121,10 @@
                                     <div class="form-group">
                                         <label>{{ __('Order Number (No. - Date - Amount)') }}</label>
                                         <select name="order_id" class="form-select">
-                                            <option value="" selected>Select A Order</option>
+                                            <option value="" selected>Select A Order No</option>
                                             @foreach ($user_orders as $order)
-                                                <option value="{{ $order->id }}">{{ $order->order_number }} -
-                                                    {{ $order->created_at->format('M d, Y') }} -
-                                                    {{ float_amount_with_currency_symbol($order->paymentMeta->total_amount ?? 0) }}
+                                                <option value="{{ $order->id }}">
+                                                    {{ $order->order_number }} - {{ $order->created_at->format('M d, Y') }} - {{ float_amount_with_currency_symbol($order->paymentMeta->total_amount ?? 0) }}
                                                 </option>
                                             @endforeach
                                         </select>
