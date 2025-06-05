@@ -5733,6 +5733,14 @@ textarea {
 
 .product-suggestion-list .item .product-info .stock-out {
   font-size: 16px;
+  background: var(--danger-color);
+  color: var(--white);
+  padding: 5px 10px;
+  display: inline-block;
+}
+
+.product-suggestion-list .item .product-info .stock-in {
+  font-size: 16px;
   background: var(--main-color-one);
   color: var(--white);
   padding: 5px 10px;

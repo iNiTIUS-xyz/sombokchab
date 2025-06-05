@@ -943,7 +943,9 @@
                                                     <span class="flash-price fw-500">${site_currency_symbol + product['sale_price']}</span>
                                                     <span class="flash-old-prices">${site_currency_symbol + product['deleted_price']}</span>
                                                 </div>
-                                                <span class="stock-out">${product['is_stock'] ? '{{ __('In Stock') }}' : '{{ __('Stock Out') }}'}</span>
+                                                <span class="${product['stock_count'] > 0 ? 'stock-in' : 'stock-out'}">
+                                                    ${product['stock_count'] > 0 ? 'In Stock' : 'Stock Out'}
+                                                </span>
                                             </div>
                                         </div>
                                     </a>
