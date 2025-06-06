@@ -79,7 +79,6 @@
                                             <input name="username" id="username" type="text"
                                                 class="form--control radius-10" placeholder="{{ __('Username') }}"
                                                 required />
-
                                             <small class="text-danger" id="usernameError"></small>
                                         </div>
                                     </div>
