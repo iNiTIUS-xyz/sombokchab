@@ -6,8 +6,8 @@
 :root {
   --main-color-one: #41695A;
   --main-color-one-rgb: 65, 105, 90;
-  --main-color-two: var(--secondary-color);
-  --main-color-two-rgb: 0, 136, 221;
+  --main-color-two: #e0bb20;
+  --main-color-two-rgb: 224, 187, 32;
   --main-color-three: #2f4fff;
   --main-color-three-rgb: 47, 79, 255;
   --main-color-four: #f0997d;
@@ -33901,7 +33901,7 @@ shop-nice-select select,
 }
 
 .product__price__current.color-two {
-  color: var(--main-color-two);
+  color: var(--main-color-one);
 }
 
 .product__price__current.color-three {
