@@ -6,7 +6,7 @@
                         <div class="profile-single-contents">
                             <div class="seller-title-flex-contents">
                                 <h2 class="dashboard-common-title"> Yearly Income Statement </h2>
-                                <span class="seller-title-right chart-icon radius-5"> <i class="las la-chart-bar"></i> </span>
+                                {{-- <span class="seller-title-right chart-icon radius-5"> <i class="las la-chart-bar"></i> </span> --}}
                             </div>
                             <h3 class="dashboard-earning-price mt-3"> $682.5 </h3>
                         </div>

@@ -207,7 +207,7 @@
                                 {{ float_amount_with_currency_symbol(array_sum($yearly_income_statement->toArray())) }}
                             </h3> --}}
                         </div>
-                        <span class="seller-title-right chart-icon radius-5"> <i class="las la-chart-bar"></i> </span>
+                        {{-- <span class="seller-title-right chart-icon radius-5"> <i class="las la-chart-bar"></i> </span> --}}
                     </div>
                     <div class="dashboard__card__body mt-4">
                         <div class="bar-charts">
