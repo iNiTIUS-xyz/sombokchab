@@ -58,9 +58,9 @@
                                     <div class="col-md-6">
                                          <!-- Owner Name -->
                                         <div class="form-group">
-                                            <label class="label-title color-light mb-2"> {{ __('Owner Name *') }} </label>
+                                            <label class="label-title color-light mb-2"> {{ __('Vendor Name *') }} </label>
                                             <input value="{{ old('owner_name') }}" name="owner_name" id="owner_name" type="text"
-                                                class="form--control radius-10" placeholder="{{ __('Owner Name') }}" required>
+                                                class="form--control radius-10" placeholder="{{ __('Vendor Name') }}" required>
                                             <small class="text-danger" id="ownerNameError"></small>
                                         </div>
                                     </div>

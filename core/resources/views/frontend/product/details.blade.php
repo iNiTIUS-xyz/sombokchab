@@ -159,7 +159,7 @@
                                             ({{ $stock_count }})</span>
                                     @else
                                         <span
-                                            class="availability text-danger">{{ filter_static_option_value('product_out_of_stock_text', $setting_text, __('Out of stock')) }}</span>
+                                            class="availability text-danger">{{ filter_static_option_value('product_out_of_stock_text', $setting_text, __('Sold out')) }}</span>
                                     @endif
 
                                     @if ($product->ratingCount() > 0)

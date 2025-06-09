@@ -214,7 +214,7 @@
                         <table class="table table-responsive ">
                             <thead>
                                 <tr>
-                                    <th class="text-center">{{ __('SL NO:') }}</th>
+                                    <th class="text-center">{{ __('Serial No:') }}</th>
                                     <th class="texdt-center" style="width: 60px">{{ __('Image') }}</th>
                                     <th class="text-center">{{ __('Info') }}</th>
                                     <th class="text-center">{{ __('QTY') }}</th>

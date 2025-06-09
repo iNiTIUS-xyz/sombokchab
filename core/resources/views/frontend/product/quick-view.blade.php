@@ -65,7 +65,7 @@
                                     {{-- @if($stock_count > 0)
                                         <span data-stock-text="{{ $stock_count }}" class="quick-view-availability text-success">{{ filter_static_option_value('product_in_stock_text', $setting_text, __('In stock')) }} ({{ $stock_count }})</span>
                                     @else
-                                        <span data-stock-text="{{ $stock_count }}" class="quick-view-availability text-danger">{{ filter_static_option_value('product_out_of_stock_text', $setting_text, __('Out of stock')) }}</span>
+                                        <span data-stock-text="{{ $stock_count }}" class="quick-view-availability text-danger">{{ filter_static_option_value('product_out_of_stock_text', $setting_text, __('Sold out')) }}</span>
                                     @endif --}}
 
                                     <div class="price-update-through">
@@ -151,7 +151,7 @@
                                                 <span class="substract"><i class="las la-minus"></i></span><input class="quantity-input" id="quick-view-quantity" type="number" value="01"><span class="plus"><i class="las la-plus"></i></span>
                                             </div>
 
-                                            <span data-stock-text="{{ $stock_count }}" class="quick-view-stock-available {{ $stock_count ? "text-success" : "text-danger" }}"> {{ $stock_count ? "In Stock ($stock_count)" : "Out of stock" }} </span>
+                                            <span data-stock-text="{{ $stock_count }}" class="quick-view-stock-available {{ $stock_count ? "text-success" : "text-danger" }}"> {{ $stock_count ? "In Stock ($stock_count)" : "Sold out" }} </span>
                                         </div>
                                         <div class="quantity-btn margin-top-40">
                                             <div class="btn-wrapper">

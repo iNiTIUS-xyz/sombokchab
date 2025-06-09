@@ -31,8 +31,8 @@
                                 <thead>
                                     <tr>
                                         <th>{{ __('Amount') }}</th>
-                                        <th>{{ __('Gateway Name') }}</th>
-                                        <th style="width: 30%">{{ __('Gateway Fields') }}</th>
+                                        <th>{{ __('Payment Method') }}</th>
+                                        <th style="width: 30%">{{ __('Payment Method Details') }}</th>
                                         <th>{{ __('Note') }}</th>
                                         <th>{{ __('Image') }}</th>
                                         <th>{{ __('Status') }}</th>

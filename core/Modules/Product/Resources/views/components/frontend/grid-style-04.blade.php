@@ -31,7 +31,7 @@
             <h4 class="common-title"> <a href="{{ route("frontend.products.single", $product->slug) }}">{{ Str::limit($product->name, 25, '...') }}</a> </h4>
             <div class="d-flex flex-wrap justify-content-between">
                 <div class="stock mt-2">
-                    <span class="stock-available {{ $stock_count ? "text-success" : "text-danger" }}"> {{ $stock_count ? "In Stock ($stock_count)" : "Out of stock" }} </span>
+                    <span class="stock-available {{ $stock_count ? "text-success" : "text-danger" }}"> {{ $stock_count ? "In Stock ($stock_count)" : "Sold out" }} </span>
                 </div>
 
                 <div class="rating-wrap mt-2">

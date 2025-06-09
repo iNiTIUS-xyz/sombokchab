@@ -63,10 +63,10 @@
                                                     <div class="row g-4">
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title"> {{ __('Owner Name') }} </label>
+                                                                <label class="label-title"> {{ __('Vendor Name') }} </label>
                                                                 <input name="owner_name" type="text"
                                                                     class="form--control radius-10"
-                                                                    placeholder="{{ __('Owner Name') }}">
+                                                                    placeholder="{{ __('Vendor Name') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">

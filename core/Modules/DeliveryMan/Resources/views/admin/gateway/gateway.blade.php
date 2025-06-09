@@ -28,8 +28,8 @@
                             <table class="table-responsive table">
                                 <thead>
                                     <tr>
-                                        <th>{{ __('SL NO:') }}</th>
-                                        <th>{{ __('Gateway Name:') }}</th>
+                                        <th>{{ __('Serial No:') }}</th>
+                                        <th>{{ __('Payment Method:') }}</th>
                                         <th>{{ __('Gateway Filed:') }}</th>
                                         <th>{{ __('Gateway Status:') }}</th>
                                         <th>{{ __('Action') }}</th>
@@ -83,7 +83,7 @@
                                 @csrf
                                 <div class="form-group">
                                     <label class="w-100">{{ __('Name:') }}</label>
-                                    <input class="form-control" name="gateway_name" placeholder="Enter gateway name">
+                                    <input class="form-control" name="gateway_name" placeholder="Enter payment method">
                                 </div>
 
                                 <div class="form-group">

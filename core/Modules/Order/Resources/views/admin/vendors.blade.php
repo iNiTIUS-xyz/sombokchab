@@ -24,7 +24,7 @@
                 <table class="table table-responsive">
                     <thead>
                         <tr>
-                            <th>{{ __('SL NO:') }}</th>
+                            <th>{{ __('Serial No:') }}</th>
                             <th style="width:80px">{{ __('Image') }}</th>
                             <th>{{ __('Info') }}</th>
                             <th>{{ __('Total Product') }}</th>

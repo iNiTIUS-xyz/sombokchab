@@ -329,10 +329,10 @@
 
         function validateOwnerName(value) {
             const trimmed = value.trim();
-            if (!trimmed) return 'Owner name is required';
-            if (trimmed.length < 3) return 'Owner name must be at least 3 characters';
-            if (trimmed.length > 30) return 'Owner name cannot exceed 30 characters';
-            if (/@/.test(trimmed)) return 'Owner name cannot contain "@" character';
+            if (!trimmed) return 'Vendor name is required';
+            if (trimmed.length < 3) return 'Vendor name must be at least 3 characters';
+            if (trimmed.length > 30) return 'Vendor name cannot exceed 30 characters';
+            if (/@/.test(trimmed)) return 'Vendor name cannot contain "@" character';
             return '';
         }
 

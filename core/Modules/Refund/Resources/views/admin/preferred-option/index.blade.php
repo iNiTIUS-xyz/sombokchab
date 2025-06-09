@@ -29,10 +29,10 @@
                             <table class="table-responsive table">
                                 <thead>
                                     <tr>
-                                        <th>{{ __('SL NO:') }}</th>
-                                        <th>{{ __('Gateway Name:') }}</th>
-                                        <th>{{ __('Gateway Fields:') }}</th>
-                                        <th>{{ __('Gateway Status:') }}</th>
+                                        <th>{{ __('Serial No:') }}</th>
+                                        <th>{{ __('Payment Method:') }}</th>
+                                        <th>{{ __('Payment Method Details:') }}</th>
+                                        <th>{{ __('Payment Method Status:') }}</th>
                                         <th>{{ __('Action') }}</th>
                                     </tr>
                                 </thead>

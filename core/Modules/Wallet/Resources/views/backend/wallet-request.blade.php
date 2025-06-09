@@ -31,8 +31,8 @@
                                     <tr>
                                         <th>{{ __('Vendor Info') }}</th>
                                         <th>{{ __('Amount') }}</th>
-                                        <th>{{ __('Gateway Name') }}</th>
-                                        <th style="width: 30%">{{ __('Gateway Fields') }}</th>
+                                        <th>{{ __('Payment Method') }}</th>
+                                        <th style="width: 30%">{{ __('Payment Method Details') }}</th>
                                         <th>{{ __('Note') }}</th>
                                         <th>{{ __('Image') }}</th>
                                         <th>{{ __('Status') }}</th>
@@ -55,7 +55,7 @@
                                         <tr>
                                             <td>
                                                 <div class="table-owner">
-                                                    <span>{{ __('Owner Name:') }}
+                                                    <span>{{ __('Vendor Name:') }}
                                                         <strong>{{ $request->vendor->owner_name ?? '' }}</strong></span>
                                                     <br />
                                                     <span>{{ __('Shop Name:') }}

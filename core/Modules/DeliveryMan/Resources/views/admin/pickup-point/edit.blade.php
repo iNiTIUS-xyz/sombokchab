@@ -58,7 +58,7 @@
                                 @foreach ($vendors as $vendor)
                                     <option {{ $vendor->id == $pickupPoint->vendor_id ? 'selected' : '' }}
                                         value="{{ $vendor->id }}">{{ $vendor->business_name }},
-                                        <b>{{ __('Owner Name:') }}</b> {{ $vendor->owner_name }}</option>
+                                        <b>{{ __('Vendor Name:') }}</b> {{ $vendor->owner_name }}</option>
                                 @endforeach
                             </select>
                         </div>

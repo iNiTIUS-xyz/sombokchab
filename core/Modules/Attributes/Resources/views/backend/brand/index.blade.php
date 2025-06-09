@@ -39,7 +39,7 @@
                                     @can('brand-manage-bulk-action')
                                         <x-bulk-action.th />
                                     @endcan
-                                    <th>{{ __('SL NO:') }}</th>
+                                    <th>{{ __('Serial No:') }}</th>
                                     <th>{{ __('Logo') }}</th>
                                     <th>{{ __('Banner') }}</th>
                                     <th>{{ __('Name') }}</th>

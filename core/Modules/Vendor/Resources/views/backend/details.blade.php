@@ -35,7 +35,7 @@
                     <div class="dashboard__card__body custom__form mt-4 single-reg-form">
 
                         <div class="form-group">
-                            <label class="label-title color-light mb-2"> {{ __('Owner Name') }} </label>
+                            <label class="label-title color-light mb-2"> {{ __('Vendor Name') }} </label>
                             <input disabled name="owner_name" type="text" class="form--control radius-10"
                                 value="{{ $vendor->owner_name }}">
                         </div>

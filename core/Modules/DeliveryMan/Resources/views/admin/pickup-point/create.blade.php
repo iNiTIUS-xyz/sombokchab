@@ -47,7 +47,7 @@
                             <select id="pickup-point-vendor-id" name="vendor_id" class="form-control form-control-sm">
                                 <option value="">{{ __("Select Vendor") }}</option>
                                 @foreach($vendors as $vendor)
-                                    <option value="{{ $vendor->id }}">{{ $vendor->business_name }}, <b>{{ __("Owner Name:") }}</b> {{ $vendor->owner_name }}</option>
+                                    <option value="{{ $vendor->id }}">{{ $vendor->business_name }}, <b>{{ __("Vendor Name:") }}</b> {{ $vendor->owner_name }}</option>
                                 @endforeach
                             </select>
                         </div>

@@ -76,7 +76,7 @@
                                                                 <input name="owner_name" type="text"
                                                                     class="form--control radius-10"
                                                                     value="{{ $vendor->owner_name }}" required
-                                                                    placeholder="{{ __('Enter Owner Name') }}">
+                                                                    placeholder="{{ __('Enter Vendor Name') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">

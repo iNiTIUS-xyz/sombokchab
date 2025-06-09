@@ -32,8 +32,8 @@
                                         <th>{{ __('Vendor Info') }}</th>
                                         <th>{{ __('Amount') }}</th>
                                         <th>{{ __('Gateway Name') }}</th>
-                                        <th style="width: 30%">{{ __('Gateway Fields') }}</th>
-                                        <th>{{ __('Note') }}</th>
+                                        <th style="width: 30%">{{ __('Payment Method Details') }}</th>
+                                        <th>{{ __('Notes') }}</th>
                                         <th>{{ __('Image') }}</th>
                                         <th>{{ __('Status') }}</th>
                                         <th>{{ __('Action') }}</th>

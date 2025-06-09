@@ -27,7 +27,7 @@
                                 <table class="custom--table pt-4" id="myTable">
                                     <thead class="head-bg">
                                         <tr>
-                                            <th> {{ __('SL NO:') }} </th>
+                                            <th> {{ __('Serial No:') }} </th>
                                             <th class="min-width-100"> {{ __('Vendor Info') }} </th>
                                             <th class="min-width-250"> {{ __('Shop Info') }} </th>
                                             <th class="min-width-100"> {{ __('Status') }} </th>
@@ -66,7 +66,7 @@
                                                     </div>
                                                 </td>
 
-                                                <td class="price-td" data-label="Owner Name">
+                                                <td class="price-td" data-label="Vendor Name">
                                                     <div class="vendorList__flex">
                                                         <div class="vendorList__thumb">
                                                             {!! \App\Http\Services\Media::render_image($vendor?->vendor_shop_info?->logo, attribute: "style='width:80px'") !!}

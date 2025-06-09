@@ -646,7 +646,7 @@
                                                 <div class="stock mt-2">
                                                     <span
                                                         class="stock-available {{ $stock_count ? 'text-success' : 'text-danger' }}">
-                                                        {{ $stock_count ? "In Stock ($stock_count)" : 'Out of stock' }} </span>
+                                                        {{ $stock_count ? "In Stock ($stock_count)" : 'Sold out' }} </span>
                                                 </div>
 
                                                 <div class="rating-wrap mt-2">

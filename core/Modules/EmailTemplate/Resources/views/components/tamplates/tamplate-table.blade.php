@@ -1,7 +1,7 @@
 <table class="table table-responsive">
     <thead>
         <tr>
-            <th>{{ __('SL No.') }}</th>
+            <th>{{ __('Serial No.') }}</th>
             <th>{{ __('Title') }}</th>
             <th>{{ __('Action') }}</th>
         </tr>

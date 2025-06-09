@@ -27,7 +27,7 @@
                             <table id="all_user_table" class="text-center">
                                 <thead class="text-capitalize">
                                     <tr>
-                                        <th>{{ __('SL No.') }}</th>
+                                        <th>{{ __('Serial No.') }}</th>
                                         <th>{{ __('Name') }}</th>
                                         <th>{{ __('Image') }}</th>
                                         <th>{{ __('Role') }}</th>
