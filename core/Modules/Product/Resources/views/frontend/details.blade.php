@@ -194,7 +194,7 @@
                                 @endforeach
 
                                 <div class="quantity-area mt-4">
-                                    <div class="quantity-flex">
+                                    {{-- <div class="quantity-flex">
                                         <span class="quantity-title color-light"> {{ __('Quantity:') }} </span>
                                         <div class="product-quantity">
                                             <span class="substract">
@@ -210,7 +210,59 @@
                                         <span data-stock-text="{{ $stock_count }}"
                                             class="stock-available {{ $stock_count ? 'text-success' : 'text-danger' }}">
                                             {{ $stock_count ? "In Stock ($stock_count)" : 'Out of stock' }} </span>
+                                    </div> --}}
+                                    <div class="quantity-flex">
+                                        <span class="quantity-title color-light"> {{ __('Quantity:') }} </span>
+                                        <div class="product-quantity">
+                                            <span class="substract">
+                                                <i class="las la-minus"></i>
+                                            </span>
+                                            <!-- Hidden input to store the actual value -->
+                                            <input class="quantity-input" id="quantity" type="hidden" value="1"
+                                                data-min="1" data-max="{{ $stock_count }}" />
+                                            <!-- Visible span to display the quantity -->
+                                            <span class="quantity-display">1</span>
+                                            <span class="plus">
+                                                <i class="las la-plus"></i>
+                                            </span>
+                                        </div>
+                                        <span data-stock-text="{{ $stock_count }}"
+                                            class="stock-available {{ $stock_count ? 'text-success' : 'text-danger' }}">
+                                            {{ $stock_count ? "In Stock ($stock_count)" : 'Out of stock' }} </span>
                                     </div>
+
+                                    
+
+                                    <style>
+                                    /* Style the quantity display to look like an input */
+                                    .quantity-display {
+                                        display: inline-block;
+                                        padding: 8px 30px;
+                                        border: 1px solid #ddd;
+                                        border-radius: 4px;
+                                        background-color: #f9f9f9;
+                                        min-width: 50px;
+                                        text-align: center;
+                                        font-weight: 500;
+                                        user-select: none; /* Prevent text selection */
+                                        cursor: default;
+                                        font-size: 14px;
+                                    }
+
+                                    /* Optional: Add hover effects to plus/minus buttons */
+                                    .product-quantity .plus:hover,
+                                    .product-quantity .substract:hover {
+                                        background-color: #f0f0f0;
+                                        cursor: pointer;
+                                    }
+
+                                    /* Disable button appearance when at limits */
+                                    .product-quantity .plus.disabled,
+                                    .product-quantity .substract.disabled {
+                                        opacity: 0.5;
+                                        cursor: not-allowed;
+                                    }
+                                    </style>
                                     <div class="quantity-btn margin-top-40">
                                         <div class="btn-wrapper">
                                             <a href="#1" data-id="{{ $product->id }}"
@@ -219,7 +271,7 @@
                                         </div>
                                         <a href="#1" data-id="{{ $product->id }}"
                                             class="btn-wishlist buy_now_single_page btn-details btn-buyNow">
-                                            <i class="lar la-heart"></i> {{ __('Add to Wishlist') }}
+                                            <i class="lar la-save"></i> {{ __('Add to Wishlist') }}
                                         </a>
                                     </div>
                                 </div>
@@ -1252,6 +1304,62 @@
                 if (currentValue < 0 || isNaN(currentValue)) {
                     this.value = 0;
                 }
+            });
+        });
+    </script>
+
+    <script>
+        // Product quantity control with validation
+        $(document).on('click', '.product-quantity .plus, .product-quantity .substract', function(e) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            
+            const $button = $(this);
+            const $quantityDiv = $button.closest('.product-quantity');
+            const $input = $quantityDiv.find('.quantity-input');
+            const $display = $quantityDiv.find('.quantity-display');
+            
+            let currentVal = parseInt($input.val()) || 1;
+            let newVal = currentVal;
+            
+            // Get min and max values
+            const maxQty = parseInt($input.data('max')) || 999;
+            const minQty = parseInt($input.data('min')) || 1;
+            
+            // Determine if we're increasing or decreasing with validation
+            if ($button.hasClass('plus')) {
+                if (currentVal < maxQty) {
+                    newVal = currentVal + 1;
+                } else {
+                    // Show message when trying to exceed max quantity
+                    toastr.warning('Maximum quantity available: ' + maxQty);
+                    return;
+                }
+            } else if ($button.hasClass('substract')) {
+                if (currentVal > minQty) {
+                    newVal = currentVal - 1;
+                } else {
+                    // Show message when trying to go below minimum
+                    toastr.warning('Minimum quantity is: ' + minQty);
+                    return;
+                }
+            }
+            
+            // Update both hidden input and visible display
+            $input.val(newVal);
+            $display.text(newVal);
+            
+            // Optional: Trigger change event if other scripts need to listen
+            $input.trigger('change');
+        });
+
+        // Initialize display on page load
+        $(document).ready(function() {
+            $('.product-quantity').each(function() {
+                const $input = $(this).find('.quantity-input');
+                const $display = $(this).find('.quantity-display');
+                const currentVal = $input.val() || 1;
+                $display.text(currentVal);
             });
         });
     </script>

@@ -2,7 +2,7 @@
 
 @section('page-title')
     @if (request()->get('keyword'))
-        {{ __('Search Result') }}
+        {{ __('Your Search Result') }}
     @else
         {{ __('Shop') }}
     @endif

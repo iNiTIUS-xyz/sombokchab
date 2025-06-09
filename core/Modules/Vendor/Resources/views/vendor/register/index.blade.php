@@ -128,7 +128,7 @@
                                     <div class="box-wrap form-check">
                                         <input type="checkbox" class="form-check-input" id="toc_and_privacy"
                                             name="agree_terms" required />
-                                        <label class="form-check-label" for="toc_and_privacy">
+                                        <label class="form-check-label" for="toc_and_privacy"  style="font-weight: bold !important;">
                                             {{ __('Accept all') }}
                                             <a href="{{ url(get_static_option('toc_page_link')) }}"
                                                 class="text-active">{{ __('Terms and Conditions') }}</a> &amp;
@@ -139,7 +139,7 @@
                                     <small class="text-danger" id="termsError"></small>
                                 </div>
                                 <div id="recaptcha-container"></div>
-                                <div class="form-group" style="text-align: right;">
+                                <div class="form-group" style="text-align: center;">
                                     <button type="button" class="btn btn-next step-button-outline p-2"
                                         onclick="sendCodeAndContinue()" id="continueButton" disabled>
                                         <span class="">Next </span>
@@ -154,7 +154,7 @@
                         <div id="step-2" style="display: none;">
                             <div class="col-12 pb-3 mb-4">
                                 <div class="form-group">
-                                    <label>Enter OTP</label>
+                                    <label class="label-title">Enter OTP</label>
                                     <input type="text" id="verificationCode" class="form--control radius-10"
                                         placeholder="6-digit Code" style="border-radius: 10px;" />
                                     <small class="text-danger" id="verificationCodeError"></small>
@@ -224,17 +224,16 @@
         }
 
         #step-2 .btn.btn-prev {
-            border: var(--main-color-one);
-            color: var(--main-color-one);
+            color: #4d4d4d;
             font-weight: bold;
-            border: 1px solid var(--main-color-one);
+            border: 1px solid #4d4d4d;
         }
 
         #step-2 .btn.btn-prev:hover {
             color: #FFF;
             font-weight: bold;
-            background: var(--main-color-one);
-            border: 1px solid var(--main-color-one);
+            background: #4d4d4d;
+            border: 1px solid #4d4d4d;
         }
 
         #step-2 .btn.submit-button {
@@ -257,7 +256,7 @@
             font-weight: 400;
             line-height: 20px;
             color: var(--paragraph-color);
-            height: 48px;
+            height: 55px;
             border: 1px solid var(--border-two);
             border-radius: 5px;
         }

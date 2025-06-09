@@ -157,7 +157,7 @@
                                             <div class="btn-wrapper">
                                                 <a href="#1" data-id="{{ $product->id }}" class="cmn-btn btn-bg-1 radius-0 cart-loading add_to_cart_single_page_quick_view"> {{ __("Add to Cart") }} </a>
                                             </div>
-                                            <a href="#1" data-id="{{ $product->id }}" class="heart-btn add_to_wishlist_single_page_quick_view fs-32 color-one radius-0"> <i class="lar la-heart"></i> </a>
+                                            <a href="#1" data-id="{{ $product->id }}" class="heart-btn add_to_wishlist_single_page_quick_view fs-32 color-one radius-0"> <i class="lar la-save"></i> </a>
                                         </div>
                                     </div>
                                     <div class="wishlist-compare">

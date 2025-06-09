@@ -39,10 +39,10 @@
             <div class="input-flex-item">
                 <div class="single-input mt-3">
                     <div class="input-group">
-                        <span><label class="label-title mb-3"> {{ __('Full Name') }} </label></span>
+                        <span><label class="label-title mb-3"> {{ __('Full name') }} </label></span>
                         <input class="form--control" id="{{ !$modal ? 'name' : 'modal_name' }}" type="text"
                             name="full_name" value="{{ old('full_name') ?? '' }}"
-                            placeholder="{{ __('Type First Name') }}">
+                            placeholder="{{ __('Enter full name') }}">
                     </div>
 
 
@@ -53,7 +53,7 @@
                 <div class="single-input mt-4">
                     <label class="label-title mb-3"> {{ __('Address') }} </label>
                     <input class="form--control" type="text" name="address" value="{{ old('address') ?? '' }}"
-                        id="{{ !$modal ? 'address' : 'modal_address' }}" placeholder="{{ __('Type Address') }}">
+                        id="{{ !$modal ? 'address' : 'modal_address' }}" placeholder="{{ __('Enter Address') }}">
                 </div>
                 {{-- <div class="single-input mt-4">
                     <label class="label-title mb-3"> {{ __('Zip Code') }} </label>
@@ -62,12 +62,13 @@
                 </div> --}}
 
                 <div class="single-input mt-4">
-                    <label class="label-title mb-3"> {{ __('Zip Code') }} </label>
+                    <label class="label-title mb-3"> {{ __('Postal code') }} </label>
                     <input class="form--control" type="text" name="zip_code" value="{{ old('zip_code') ?? '' }}"
-                        id="{{ !$modal ? 'zipcode' : 'modal_zipcode' }}" placeholder="{{ __('Type Zip Code') }}">
+                        id="{{ !$modal ? 'zipcode' : 'modal_zipcode' }}" placeholder="{{ __('Enter Postal code') }}">
                 </div>
 
             </div>
+
             <div class="input-flex-item">
                 <div class="single-input mt-4">
                     <label class="label-title mb-3"> {{ __('Country') }} </label>
@@ -80,8 +81,12 @@
                     </select>
                 </div>
                 <div class="single-input mt-4">
-                    <label class="label-title mb-3"> {{ __('City') }} </label>
-                    <select @class(['form--control select-state', 'modal-states' => !$modal]) type="text" name="state_id">
+                    <label class="label-title mb-3"> {{ __("City") }} </label>
+                    <select id="{{ !$modal ? "state_id" : "modal_state_id" }}" @class([
+                        'form--control select-state',
+                            'modal-states' => !$modal
+                    ]) type="text" name="state_id">
+                        <option value="">{{ __("Select a city") }}</option>
                         @foreach ($states as $state)
                             <option value="{{ $state->id }}">
                                 {{ $state->name }}
@@ -89,23 +94,16 @@
                         @endforeach
                     </select>
                 </div>
+                <div class="single-input mt-4">
+                    <label class="label-title mb-3"> {{ __("Province") }} </label>
+                    <select id="{{ !$modal ? "city_id" : "modal_city_id" }}" @class([
+                        'form--control select-state',
+                            'modal-cities' => !$modal
+                    ]) type="text" name="city">
+                        <option value="">{{ __("Select city first...") }}</option>
+                    </select>
+                </div>
             </div>
-
-            {{-- <div class="input-flex-item">
-                    <div class="single-input mt-4">
-                        <label class="label-title mb-3"> {{ __("City/Town") }} </label>
-                        <select id="{{ !$modal ? "city_id" : "modal_city_id" }}" @class([
-                            'form--control select-state',
-                             'modal-cities' => !$modal
-                        ]) type="text" name="city">
-                            <option value="">{{ __("Select state first...") }}</option>
-                        </select>
-                    </div>
-                    <div class="single-input mt-4">
-                        <label class="label-title mb-3"> {{ __("Zip Code") }} </label>
-                        <input class="form--control" type="text" name="zip_code" value="{{ old("zip_code") ?? "" }}" id="{{ !$modal ? "zipcode" : "modal_zipcode" }}" placeholder="{{ __("Type Zip Code") }}">
-                    </div>
-                </div> --}}
 
             <div class="input-flex-item">
                 {{-- <div class="single-input mt-4">
@@ -114,9 +112,9 @@
                         id="{{ !$modal ? 'phone' : 'modal_phone' }}" placeholder="{{ __('Type Mobile Number') }}">
                 </div> --}}
                 <div class="single-input mt-4">
-                    <label class="label-title mb-3"> {{ __('Mobile Number') }} </label>
+                    <label class="label-title mb-3"> {{ __('Phone number') }} </label>
                     <input class="form--control" type="tel" name="phone" value="{{ old('phone') ?? '' }}"
-                        id="{{ !$modal ? 'phone' : 'modal_phone' }}" placeholder="{{ __('Type Mobile Number') }}">
+                        id="{{ !$modal ? 'phone' : 'modal_phone' }}" placeholder="{{ __('Enter phone Number') }}">
                 </div>
                 {{-- <div class="single-input mt-4">
                     <label class="label-title mb-3"> {{ __('Email Address') }} </label>
@@ -126,7 +124,7 @@
                 <div class="single-input mt-4">
                     <label class="label-title mb-3"> {{ __('Email Address') }} </label>
                     <input class="form--control" type="text" name="email" value="{{ old('email') ?? '' }}"
-                        id="{{ !$modal ? 'email' : 'modal_email' }}" placeholder="{{ __('Type Email') }}">
+                        id="{{ !$modal ? 'email' : 'modal_email' }}" placeholder="{{ __('Enter email') }}">
                 </div>
             </div>
 
@@ -134,7 +132,7 @@
                 <div class="input-flex-item">
                     <div class="single-input mt-4">
                         <label class="label-title mb-3"> {{ __('Order Notes') }} </label>
-                        <textarea class="form--control form--message" name="note" id="message" placeholder="{{ __('Type Messages') }}">{{ old('note') ?? '' }}</textarea>
+                        <textarea class="form--control form--message" name="note" id="message" placeholder="{{ __('Enter your message here') }}">{{ old('note') ?? '' }}</textarea>
                     </div>
                 </div>
 

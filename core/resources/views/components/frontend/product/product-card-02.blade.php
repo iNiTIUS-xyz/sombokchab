@@ -60,13 +60,13 @@
                     <a href="{{ route('frontend.products.single', $product->slug) }}" class="add-cart-style-02">{{ __('View Options') }}</a>
                     <a href="{{ route('frontend.products.single', $product->slug) }}" class="favourite">
                         <i class="las la-heart icon hover"></i>
-                        <i class="lar la-heart icon regular"></i>
+                        <i class="lar la-save icon regular"></i>
                     </a>
                 @else
                     <a href="#1" data-attributes="{{ $product->attributes }}" data-id="{{ $product->id }}" class="add-cart-style-02 add_to_cart_ajax_with_quantity">{{ __('Add to Bag') }}</a>
                     <a href="#1" data-attributes="{{ $product->attributes }}" data-id="{{ $product->id }}" class="favourite add_to_wishlist_ajax">
                         <i class="las la-heart icon hover"></i>
-                        <i class="lar la-heart icon regular"></i>
+                        <i class="lar la-save icon regular"></i>
                     </a>
                 @endif
                 <a href="#1" data-id="{{ $product->id }}" class="favourite add_to_compare_ajax">

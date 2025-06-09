@@ -1062,7 +1062,7 @@ class Dropzone extends Emitter {
         }
 
         if (this.element.classList.contains("dropzone") && !this.element.querySelector(".dz-message")) {
-            this.element.appendChild(Dropzone.createElement(`<div class="dz-default dz-message"><span>${this.options.dictDefaultMessage}</span> <span class="xg-accept-files">Support Formats ( jpg,jpeg,png,gif,mp4,avi,flv )</span> <span class="xg-accept-files">Max Upload Size: 1GB</span> <span class="xg-accept-files">Max Upload Files: 50</span><span style="color: green;">Click Here</span></div>`));
+            this.element.appendChild(Dropzone.createElement(`<div class="dz-default dz-message"><span>${this.options.dictDefaultMessage}</span> <span class="xg-accept-files">Support Formats ( jpg,jpeg,png,gif,mp4,avi,flv )</span> <span class="xg-accept-files">Max Upload Size: 1GB</span> <span class="xg-accept-files">Max Upload Files: 50</span><span style="color: green;">Click here to upload</span></div>`));
         }
 
         if (this.clickableElements.length) {

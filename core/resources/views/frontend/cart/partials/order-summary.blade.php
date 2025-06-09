@@ -27,7 +27,7 @@
             <ul class="coupon-flex-list coupon-border">
                 <li class="list">
                     <b>
-                        {{ __('Sub Total') }}
+                        {{ __('Sub total') }}
                     </b>
                     <b id="checkout_items_total">
                         {{ amount_with_currency_symbol(toFixed($itemsTotal, 0)) }}
@@ -35,7 +35,7 @@
                 </li>
                 <li class="list">
                     <b>
-                        {{ __('Discount Amount') }}
+                        {{ __('Discount amount') }}
                     </b>
                     <b id="coupon_amount">
                         {{ amount_with_currency_symbol(0.0) }}
@@ -44,7 +44,7 @@
                 @if ($enableTaxAmount)
                     <li class="list">
                         <b>
-                            {{ __('Tax Amount') }}
+                            {{ __('Tax amount') }}
                         </b>
                         <b id="checkout_tax_amount">
                             {{ amount_with_currency_symbol(toFixed(0, 0)) }}
@@ -61,7 +61,7 @@
                 @else
                     <li class="list">
                         <b>
-                            {{ __('Tax Amount') }}
+                            {{ __('Tax amount') }}
                         </b>
                         <b id="checkout_tax_amount">
                             {{ get_static_option('display_price_in_the_shop') == 'including' ? __('Inclusive Tax') : '' }}
@@ -70,7 +70,7 @@
                 @endif
                 <li class="list">
                     <b>
-                        {{ __('Total Delivery Cost') }}
+                        {{ __('Total delivery cost') }}
                     </b>
                     <b id="checkout_delivery_cost">
                         {{ amount_with_currency_symbol(0) }}
@@ -78,7 +78,7 @@
                 </li>
                 <li class="list">
                     <b>
-                        {{ __('Payment Amount') }}
+                        {{ __('Payment amount') }}
                     </b>
                     <b id="total_payment_amount">
                         {{ amount_with_currency_symbol(0) }}
@@ -86,7 +86,7 @@
                 </li>
                 <li class="list ">
                     <b>
-                        {{ __('Grand Total') }}
+                        {{ __('Grand total') }}
                     </b>
                     <b id="checkout_total">
                         {{ amount_with_currency_symbol(0) }}
@@ -97,7 +97,7 @@
 
         <div class="payment-inlines mt-4">
             <h6 class="payment-label fw-500 mb-3">
-                {{ __('Select Payment Method') }}
+                {{ __('Select payment method') }}
             </h6>
             <div class="payment-card">
                 {!! render_payment_gateway_for_form(true) !!}

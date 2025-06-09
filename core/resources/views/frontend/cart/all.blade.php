@@ -6,6 +6,9 @@
 @section('style')
     <link rel="stylesheet" href="{{ asset('assets/common/css/toastr.css') }}">
     <style>
+        .table-list-content .custom--table tbody tr td{
+            width: unset !important;
+        }
         .lds-ellipsis {
             display: inline-block;
             position: fixed;
@@ -92,6 +95,27 @@
             display: flex;
             justify-content: center;
         }
+    /* </style>
+    <style> */
+        /* Optional: Style the quantity display to look like an input */
+        .quantity-display {
+            display: inline-block;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            min-width: 40px;
+            text-align: center;
+            font-weight: 500;
+            user-select: none; /* Prevent text selection */
+        }
+
+        /* Disable button states when at limits */
+        .product-quantity .plus:disabled,
+        .product-quantity .substract:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
     </style>
 @endsection
 
@@ -175,31 +199,47 @@
                 );
             });
 
-            // Quantity button handlers with proper debouncing
+            // Quantity button handlers with proper debouncing and validation
             $(document).on('click', '.product-quantity .plus, .product-quantity .substract', function(e) {
                 e.preventDefault();
                 e.stopImmediatePropagation();
-
                 if (isUpdating) return;
-
+                
                 const $button = $(this);
                 const $row = $button.closest('tr');
                 const $input = $row.find('.quantity-input');
+                const $display = $row.find('.quantity-display');
+                
                 let currentVal = parseInt($input.val());
                 let newVal = currentVal;
-
-                // Determine if we're increasing or decreasing
+                
+                // Get min and max values
+                const maxQty = parseInt($input.data('max')) || 999;
+                const minQty = parseInt($input.data('min')) || 1;
+                
+                // Determine if we're increasing or decreasing with validation
                 if ($button.hasClass('plus')) {
-                    newVal = currentVal + 1;
-                } else if ($button.hasClass('substract') && currentVal > 1) {
-                    newVal = currentVal - 1;
-                } else {
-                    return; // Don't allow quantity less than 1
+                    if (currentVal < maxQty) {
+                        newVal = currentVal + 1;
+                    } else {
+                        // Show message when trying to exceed max quantity
+                        toastr.warning('Maximum quantity available: ' + maxQty);
+                        return;
+                    }
+                } else if ($button.hasClass('substract')) {
+                    if (currentVal > minQty) {
+                        newVal = currentVal - 1;
+                    } else {
+                        // Show message when trying to go below minimum
+                        toastr.warning('Minimum quantity is: ' + minQty);
+                        return;
+                    }
                 }
-
-                // Immediately update the UI
+                
+                // Update both hidden input and visible display
                 $input.val(newVal);
-
+                $display.text(newVal);
+                
                 // Update the cart
                 updateCartItem($row, newVal);
             });
@@ -248,14 +288,21 @@
                 });
             });
 
+
+
             // Unified cart update function
             function updateCartItem($row, newQuantity) {
                 isUpdating = true;
-
+                
+                // Store the last valid quantity for potential rollback
+                const $input = $row.find('.quantity-input');
+                const $display = $row.find('.quantity-display');
+                const lastValidQuantity = parseInt($input.data('last-valid-quantity')) || parseInt($input.val());
+                
                 // Show loading state
                 $row.css('opacity', '0.5');
                 $row.find('.plus, .substract').prop('disabled', true);
-
+                
                 const data = {
                     rowId: $row.data('product_hash_id'),
                     quantity: newQuantity,
@@ -263,7 +310,7 @@
                     variant_id: $row.data('varinat-id'),
                     _token: "{{ csrf_token() }}"
                 };
-
+                
                 $.ajax({
                     url: "{{ route('frontend.products.cart.update.ajax') }}",
                     type: 'POST',
@@ -273,18 +320,21 @@
                         // Update UI
                         $row.css('opacity', '1');
                         $row.find('.plus, .substract').prop('disabled', false);
-
+                        
+                        // Store the successful quantity as last valid
+                        $input.data('last-valid-quantity', newQuantity);
+                        
                         // Update total price
                         const priceText = $row.find('.price-td').first().text();
                         const price = parseFloat(priceText.replace(/[^\d.-]/g, ''));
                         const newTotal = price * newQuantity;
                         $row.find('.price-td.color-one').text(amount_with_currency_symbol(newTotal));
-
+                        
                         // Show message if exists
                         if (response.msg) {
                             toastr[response.type || 'success'](response.msg);
                         }
-
+                        
                         // Update header cart
                         if (typeof loadHeaderCardAndWishlistArea === 'function') {
                             loadHeaderCardAndWishlistArea(response);
@@ -293,10 +343,11 @@
                     error: function(xhr) {
                         $row.css('opacity', '1');
                         $row.find('.plus, .substract').prop('disabled', false);
-
-                        // Revert the quantity if update failed
-                        $row.find('.quantity-input').val($row.data('last-valid-quantity') || 1);
-
+                        
+                        // Revert both input and display to last valid quantity
+                        $input.val(lastValidQuantity);
+                        $display.text(lastValidQuantity);
+                        
                         if (xhr.responseJSON && xhr.responseJSON.errors) {
                             prepare_errors(xhr.responseJSON.errors);
                         } else {

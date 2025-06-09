@@ -8601,7 +8601,7 @@ textarea {
   position: absolute;
   height: 20px;
   width: 20px;
-  border: 1px solid rgba(221, 221, 221, 0.4);
+  border: 1px solid rgba(var(--main-color-one-rgb), 0.9);
   left: 0;
   top: 12px;
   background: none;
@@ -26631,6 +26631,7 @@ table.dataTable.no-footer {
   font-weight: bold;
 }
 
+
 .card-body {
   padding: 1.5rem 1.5rem;
 }
@@ -38225,4 +38226,39 @@ background-color: rgb(85, 84, 91) !important;
 
 input::placeholder {
   text-transform: capitalize !important;
+}
+
+#continueButton{
+  font-weight: 500  !important;
+  font-size: 1rem !important;
+}
+
+.register .btn-prev{
+  border: 1px solid #4d4d4d;
+  color: #4d4d4d !important
+}
+
+.register .btn-prev:hover{
+  background: #4d4d4d !important;
+  color: #fff !important;
+  border: 1px solid #4d4d4d !important;
+}
+
+.btn-next.submit-button{
+  background: var(--main-color-one) !important;
+  color: #fff !important;
+  border: 1px solid var(--main-color-one) !important;
+}
+
+.btn-next.submit-button:hover{
+  background: #304940 !important;
+}
+
+#step-2 .form-group .label-title {
+  font-weight: 500 !important;
+  font-size: 1rem !important;
+}
+
+.media-upload-btn-wrapper{
+  display: block !important;
 }

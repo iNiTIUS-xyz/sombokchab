@@ -71,12 +71,12 @@
                         <a class="{{ $class ?? '' }} product-quick-view-ajax favourite icon cart-loading product__card__cart__btn__icon"
                             href="#1"
                             data-action-route="{{ route('frontend.products.single-quick-view', $product->slug) }}">
-                            <i class="lar la-heart"></i>
+                            <i class="lar la-save"></i>
                         </a>
                     @else
                         <a href="#1" data-id="{{ $product->id }}"
                             class="{{ $class ?? '' }} add_to_wishlist_ajax icon cart-loading product__card__cart__btn__icon">
-                            <i class="lar la-heart"></i>
+                            <i class="lar la-save"></i>
                         </a>
                     @endif
                 </div>

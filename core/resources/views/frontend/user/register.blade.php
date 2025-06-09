@@ -9,6 +9,9 @@
             font-weight: 500 !important;
             color: var(--heading-color);
         }
+        .form--control {
+            height: 55px !important;
+        }
     </style>
 
     <section class="sign-in-area-wrapper padding-top-20 padding-bottom-20">
@@ -112,7 +115,7 @@
                                         <div class="box-wrap form-check">
                                             <input type="checkbox" class="form-check-input" id="toc_and_privacy"
                                                 name="agree_terms" required>
-                                            <label class="form-check-label" for="toc_and_privacy">
+                                            <label class="form-check-label" for="toc_and_privacy" style="font-weight: bold !important;">
                                                 {{ __('Accept all') }}
                                                 <a href="{{ url(get_static_option('toc_page_link')) }}"
                                                     class="text-active">{{ __('Terms and Conditions') }}</a> &amp;
@@ -124,7 +127,7 @@
                                     </div>
 
                                     <div id="recaptcha-container"></div>
-                                    <div class="form-group text-right" style="text-align: right;">
+                                    <div class="form-group text-center" style="text-align: right;">
                                         <button type="button" class="btn btn-next step-button-outline p-2"
                                             onclick="sendCodeAndContinue()" id="continueButton" disabled>
                                             <span class="">Next </span>
@@ -137,7 +140,7 @@
                             <div id="step-2" style="display: none;">
                                 <div class="col-12 pb-3 mb-4">
                                     <div class="form-group">
-                                        <label>Enter OTP</label>
+                                        <label class="label-title">Enter OTP</label>
                                         <input type="text" id="verificationCode" class="form--control radius-10"
                                             placeholder="6-digit Code" style="border-radius: 10px;" />
                                         <small class="text-danger" id="verificationCodeError"></small>

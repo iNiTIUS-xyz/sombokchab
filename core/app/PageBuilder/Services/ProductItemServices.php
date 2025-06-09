@@ -18,9 +18,9 @@ class ProductItemServices
         $add_to_wishlist_markup = '';
         if (is_array($attributes) && count($attributes)) {
             $route = route('frontend.products.single', $item->slug);
-            $add_to_wishlist_markup = '<a href="'.$route.'"> <i class="lar la-heart icon"></i></a>';
+            $add_to_wishlist_markup = '<a href="'.$route.'"> <i class="lar la-save icon"></i></a>';
         } else {
-            $add_to_wishlist_markup = '<a href="#1" data-attributes="'.$item->attributes.'" data-id="'.$item->id.'" class="add_to_wishlist_ajax"><i class="lar la-heart icon"></i></a>';
+            $add_to_wishlist_markup = '<a href="#1" data-attributes="'.$item->attributes.'" data-id="'.$item->id.'" class="add_to_wishlist_ajax"><i class="lar la-save icon"></i></a>';
         }
 
         $add_to_compare = '<a href="#1" data-id="'.$item->id.'" class="add_to_compare_ajax"> <i class="las la-retweet icon"></i></a>';

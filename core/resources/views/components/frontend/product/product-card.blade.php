@@ -34,14 +34,14 @@
                 <li>
                     <a href="{{ route('frontend.products.single', $product->slug) }}" class="favourite">
                         <i class="las la-heart icon hover"></i>
-                        <i class="lar la-heart icon regular"></i>
+                        <i class="lar la-save icon regular"></i>
                     </a>
                 </li>
             @else
                 <li>
                     <a href="#1" data-id="{{ $product->id }}" class="favourite add_to_wishlist_ajax">
                         <i class="las la-heart icon hover"></i>
-                        <i class="lar la-heart icon regular"></i>
+                        <i class="lar la-save icon regular"></i>
                     </a>
                 </li>
             @endif

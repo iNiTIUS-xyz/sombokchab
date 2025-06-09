@@ -37,10 +37,10 @@
 @section('content')
     <!-- Compare Area Starts -->
     <section class="compare-area padding-top-100 padding-bottom-100">
-        <div class="container container-one">
+        <div class="container ">
             <div class="row g-4">
                 @forelse($products as $product)
-                    @php
+                    {{-- @php
                         $product_inventory = \Modules\Product\Entities\ProductInventory::where(
                             'product_id',
                             $product->id,
@@ -66,6 +66,38 @@
 
                         $stock_count =
                             $stock_count > (int) get_static_option('product_in_stock_limit_set') ? $stock_count : 0;
+                    @endphp --}}
+                    @php
+                        $product_inventory = \Modules\Product\Entities\ProductInventory::where(
+                            'product_id',
+                            $product->id,
+                        )->first();
+                        $campaign_product = $product->campaign_product ?? null;
+                        $campaignSoldCount = $product?->campaign_sold_product ?? null;
+                         $stock_count = $campaign_product
+                                ? $campaign_product->units_for_sale - (optional($campaignSoldCount)->sold_count ?? 0)
+                                : optional($product->inventory)->stock_count;
+                        // // Check if product has variants
+                        // if ($product->options->variant_id ?? false) {
+                        //     $product_inventory_details = \Modules\Product\Entities\ProductInventoryDetail::where(
+                        //         'id',
+                        //         $product->options->variant_id,
+                        //     )->first();
+                            
+                        //     // For variant products, use variant stock count (not campaign units)
+                        //     $stock_count = $campaign_product
+                        //         ? $campaign_product->units_for_sale - (optional($campaignSoldCount)->sold_count ?? 0)
+                        //         : ($product_inventory_details->stock_count ?? 0);
+                        // } else {
+                        //     $product_inventory_details = null;
+                        //     // For non-variant products, use main product stock
+                        //     $stock_count = $campaign_product
+                        //         ? $campaign_product->units_for_sale - (optional($campaignSoldCount)->sold_count ?? 0)
+                        //         : optional($product->inventory)->stock_count;
+                        // }
+                        
+                        // Apply stock limit check
+                        $stock_count = $stock_count > (int) get_static_option('product_in_stock_limit_set') ? $stock_count : 0;
                     @endphp
                     <div class="col-lg-4 col-md-6">
                         <div class="single-compare text-center">
@@ -74,12 +106,13 @@
                                     <a href="#1"> {!! render_image($product->options->image) !!} </a>
                                 @endif
                             </div>
-                            <div class="compare-contents mt-3">
-                                <h4 class="common-title">
+                            <div class="compare-contents mt-2">
+                                <h5 >
                                     <a href="{{ route('frontend.products.single', $product->options->slug ?? '') }}">
-                                        {{ $product->name }}
+                                        {{-- {{ $product->name }} --}}
+                                        {{ Str::limit($product->name, 100, '...') }}
                                     </a>
-                                </h4>
+                                </h5>
                                 <ul class="compare-review-list mt-2">
                                     <li class="rating-wrap">
                                         <div class="ratings">
@@ -91,7 +124,7 @@
                                         </p>
                                     </li>
                                 </ul>
-                                <h4 class="common-price-title-two color-one mt-3">
+                                <h4 class="common-price-title-four color-one mt-2">
                                     {{ float_amount_with_currency_symbol($product->price) }} </h4>
                                 <ul class="compare-content-list mt-3">
                                     <li class="list">
@@ -102,7 +135,7 @@
                                             {{ strip_tags($product->options->sort_description) }}
                                         </p>
                                     </li>
-                                    <li class="list">
+                                    {{-- <li class="list">
                                         @if ($stock_count > 0)
                                             <span
                                                 class="availability">{{ filter_static_option_value('product_in_stock_text', $setting_text, __('In stock')) }}
@@ -112,7 +145,7 @@
                                             <span
                                                 class="availability text-danger">{{ filter_static_option_value('product_out_of_stock_text', $setting_text, __('Out of stock')) }}</span>
                                         @endif
-                                    </li>
+                                    </li> --}}
                                     @if ($product->options->color_name ?? null)
                                         <li class="list">{{ __('Color:') }} <b class="">
                                                 {{ $product->options->color_name }} </b> </li>
@@ -129,7 +162,7 @@
                                     @endif
 
                                 </ul>
-                                <div class="btn-wrapper mt-3">
+                                <div class="btn-wrapper mt-2">
                                     <a href="#1" data-product_hash_id="{{ $product->rowId }}"
                                         class="btn btn-danger px-5 py-2 remove_compare_item_ajax">{{ __('Remove') }} </a>
                                 </div>

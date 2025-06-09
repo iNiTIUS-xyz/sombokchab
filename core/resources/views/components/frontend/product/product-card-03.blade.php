@@ -55,7 +55,7 @@
                     <li>
                         <a class="product-quick-view-ajax" href="#1"
                            data-action-route="{{ route('frontend.products.single-quick-view', $product->slug) }}">
-                            <i class="lar la-heart icon"></i>
+                            <i class="lar la-save icon"></i>
                         </a>
                     </li>
                 @else
@@ -65,7 +65,7 @@
                            data-attributes="{{ $product->attributes }}"
                            data-id="{{ $product->id }}"
                         >
-                            <i class="lar la-heart icon"></i>
+                            <i class="lar la-save icon"></i>
                         </a>
                     </li>
                 @endif

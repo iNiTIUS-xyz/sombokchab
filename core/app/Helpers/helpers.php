@@ -2344,7 +2344,7 @@ function toastr_success($success)
 
 function toastr_error($success): void
 {
-    Toastr::success($success, 'Error!', ["positionClass" => "toast-top-right", "closeButton" => "true", "progressBar" => "true"]);
+    Toastr::success($success, 'Error!', ["positionClass" => "toast-bottom-right", "closeButton" => "true", "progressBar" => "true"]);
 }
 
 function activeGuard(): int|string|null

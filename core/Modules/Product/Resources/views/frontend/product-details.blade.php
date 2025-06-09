@@ -285,7 +285,7 @@
 
                                             <div class="favorite add_to_wishlist" data-id="{{ $product->id }}">
                                                 <a href="#1">
-                                                    <i class="lar la-heart icon"></i>
+                                                    <i class="lar la-save icon"></i>
                                                 </a>
                                             </div>
                                             <div class="favorite add_to_compare_ajax" data-id="{{ $product->id }}">

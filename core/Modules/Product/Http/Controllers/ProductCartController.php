@@ -91,7 +91,8 @@ class ProductCartController extends Controller
         if (($request->quantity + ($findCart?->qty ?? 0)) > $max_purchase) {
             return response()->json([
                 'type' => 'error',
-                'msg' => __("This product is allowed you to add maximum quantity of $product->max_purchase"),
+                'msg' => __("You already added maximum quantity of this product to cart."),
+                // 'msg' => __("This product is allowed you to add maximum quantity of $product->max_purchase"),
             ]);
         }
 

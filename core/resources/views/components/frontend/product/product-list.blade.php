@@ -71,7 +71,7 @@
                         <li>
                             @if(isset($attributes) && $attributes > 0)
                                 <a href="{{ route('frontend.products.single', $product->slug) }}">
-                                    <i class="lar la-heart icon"></i>
+                                    <i class="lar la-save icon"></i>
                                 </a>
                             @else
                                 <a href="{{ route('frontend.products.single', $product->slug) }}"
@@ -79,7 +79,7 @@
                                    data-attributes="{{ $product->attributes }}"
                                    data-id="{{ $product->id }}"
                                 >
-                                    <i class="lar la-heart icon"></i>
+                                    <i class="lar la-save icon"></i>
                                 </a>
                             @endif
                         </li>

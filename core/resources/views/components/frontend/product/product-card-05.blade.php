@@ -51,12 +51,12 @@
                 <li>
                     @if(isset($attributes) && $attributes > 0)
                         <a href="{{ route('frontend.products.single', $product->slug) }}">
-                            <i class="lar la-heart icon"></i>
+                            <i class="lar la-save icon"></i>
                         </a>
                     @else
                         <a href="#1" data-attributes="{{ $product->attributes }}" data-id="{{ $product->id }}"
                            class="add_to_wishlist_ajax">
-                            <i class="lar la-heart icon"></i></a>
+                            <i class="lar la-save icon"></i></a>
                         </a>
                     @endif
                 </li>

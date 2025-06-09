@@ -30,7 +30,7 @@
                         <i class="las la-cart-plus icon"></i>
                     </a>
                     <a href="#1" class="wishlist-x">
-                        <i class="lar la-heart icon"></i>
+                        <i class="lar la-save icon"></i>
                     </a>
 
                 </div>

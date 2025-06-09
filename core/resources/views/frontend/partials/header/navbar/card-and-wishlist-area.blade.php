@@ -16,7 +16,7 @@
 
 <div class="single-icon">
     <a class="icon" href="{{ route('frontend.products.wishlist') }}">
-        <i class="lar la-heart"></i>
+        <i class="lar la-save"></i>
     </a>
     <a href="#1" class="icon-notification">
         {{ \Gloudemans\Shoppingcart\Facades\Cart::instance('wishlist')->content()->count() }}

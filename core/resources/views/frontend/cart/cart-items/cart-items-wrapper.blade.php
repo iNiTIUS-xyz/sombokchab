@@ -99,7 +99,7 @@
 
             @if (!empty($c_vendor))
                 <div class="card-footer checkout__card__footer">
-                    <h6 class="card-title py-2">{{ __('Cost Summary') }}</h6>
+                    <h6 class="card-title py-2">{{ __('Select shipping option') }}</h6>
                     <input type="hidden" class="shipping_cost" name="shipping_cost[{{ $c_vendor->id }}]" />
                     <div class="shippingMethod__wrapper shipping-method-wrapper d-flex gap-2 justify-content-start">
                         @foreach ($c_vendor?->shippingMethod ?? [] as $method)
@@ -129,7 +129,7 @@
                             </div>
                         @endforeach
                     </div>
-                    <hr />
+                    {{-- <hr />
                     <div class="checkout__card__footer__estimate d-flex justify-content-end">
                         <div class="checkout__card__footer__estimate__main">
                             <div class="checkout__card__footer__estimate__list">
@@ -164,7 +164,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             @endif
 

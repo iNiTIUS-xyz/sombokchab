@@ -33,7 +33,7 @@
                                 <li class=" cart cart2">
                                     <span class="cart-badge" id="wishlist_badge">0</span>
                                     <a href="#1">
-                                        <i class="lar la-heart icon"></i>
+                                        <i class="lar la-save icon"></i>
                                     </a>
                                     <div class="mini-cart-wrapper" id="top_wishlist_container"></div>
                                 </li>

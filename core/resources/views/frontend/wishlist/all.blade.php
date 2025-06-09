@@ -93,6 +93,10 @@
             display: flex;
             justify-content: center;
         }
+
+        .table-list-content .custom--table tbody tr td:first-child {
+            width: unset !important;
+        }
     </style>
 @endsection
 

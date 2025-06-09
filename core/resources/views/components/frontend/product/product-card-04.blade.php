@@ -46,12 +46,12 @@
                 <li>
                     @if(isset($attributes) && $attributes > 0)
                         <a href="{{ route('frontend.products.single', $item->slug) }}">
-                            <i class="lar la-heart icon"></i>
+                            <i class="lar la-save icon"></i>
                         </a>
                     @else
                         <a href="#1" data-attributes="{{ $item->attributes }}" data-id="{{ $item->id }}"
                            class="add_to_wishlist_ajax">
-                            <i class="lar la-heart icon"></i></a>
+                            <i class="lar la-save icon"></i></a>
                         </a>
                     @endif
                 </li>
@@ -95,12 +95,12 @@
                 <ul class="reaction">
                     @if(isset($attributes) && $attributes > 0)
                         <a href="{{ route('frontend.products.single', $item->slug) }}">
-                            <i class="lar la-heart icon"></i>
+                            <i class="lar la-save icon"></i>
                         </a>
                     @else
                         <a href="#1" data-attributes="{{ $item->attributes }}" data-id="{{ $item->id }}"
                            class="add_to_wishlist_ajax">
-                            <i class="lar la-heart icon"></i></a>
+                            <i class="lar la-save icon"></i></a>
                         </a>
                     @endif
                     {!! $quick_view_markup !!}

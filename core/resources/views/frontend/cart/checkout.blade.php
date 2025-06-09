@@ -661,7 +661,7 @@
                             $('.cart-items-wrapper').html(data.cart_items);
 
                             let cityhtml =
-                                "<option value=''> {{ __('Select an city') }} </option>";
+                                "<option value=''> {{ __('Select a province') }} </option>";
                             data?.cities?.forEach((city) => {
                                 cityhtml += "<option value='" + city.id + "'>" + city
                                     .name + "</option>";
