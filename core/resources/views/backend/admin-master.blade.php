@@ -86,7 +86,8 @@
                                 {!! render_footer_copyright_text() !!}
                             </div>
                             <div class="version-code-wrapper">
-                                V-{{ get_static_option("site_script_version",'1.0.0') }}
+                                {{-- V-{{ get_static_option("site_script_version",'1.0.0') }} --}}
+                                V-1.0.0
                             </div>
                         </div>
                     </div>

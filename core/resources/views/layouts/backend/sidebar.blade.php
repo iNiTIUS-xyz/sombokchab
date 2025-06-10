@@ -1385,7 +1385,7 @@
                         @endcan
 
                         @can('general-settings-reading')
-                            <li class="{{ active_menu('admin-home/general-settings/reading') }}">
+                            <li class="{{ active_menu('admin-home/general-settings/reading') }}" style="display: none;">
                                 <a href="{{ route('admin.general.reading') }}">
                                     {{ __('Reading') }}
 
@@ -1393,7 +1393,7 @@
                             </li>
                         @endcan
                         @can('general-settings-global-navbar')
-                            <li class="{{ active_menu('admin-home/general-settings/global-variant-navbar') }}">
+                            <li class="{{ active_menu('admin-home/general-settings/global-variant-navbar') }}" style="display: none;">
                                 <a href="{{ route('admin.general.global.variant.navbar') }}">
                                     {{ __('Navbar Global Variant') }}
                                 </a>
@@ -1512,20 +1512,20 @@
                             </li>
                         @endcan
                         @can('general-settings-license-setting')
-                            <li class="{{ active_menu('admin-home/general-settings/license-setting') }}">
+                            <li class="{{ active_menu('admin-home/general-settings/license-setting') }}" style="display: none;">
                                 <a href="{{ route('admin.general.license.settings') }}">
                                     {{ __('Licence Settings') }}
                                 </a>
                             </li>
 
-                            <li class="{{ active_menu('admin-home/general-settings/software-update-setting') }}">
+                            <li class="{{ active_menu('admin-home/general-settings/software-update-setting') }}" style="display: none;">
                                 <a href="{{ route('admin.general.software.update.settings') }}">
                                     {{ __('Check update') }}
                                 </a>
                             </li>
                         @endcan
                         @can('general-settings-license-setting')
-                            <li class="{{ active_menu('admin-home/general-settings/database-upgrade') }}">
+                            <li class="{{ active_menu('admin-home/general-settings/database-upgrade') }}" style="display: none;">
                                 <a href="{{ route('admin.general.database.upgrade') }}">
                                     {{ __('Database update') }}
                                 </a>
