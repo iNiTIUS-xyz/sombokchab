@@ -139,7 +139,7 @@
 @endsection
 
 @section('script')
-    <script>
+    {{-- <script>
         document.addEventListener('DOMContentLoaded', function() {
             const orderBySelect = document.getElementById('order_by');
 
@@ -153,6 +153,82 @@
             if (currentOrderBy) {
                 orderBySelect.value = currentOrderBy;
             }
+        });
+    </script> --}}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle category and brand list items
+            document.querySelectorAll('.shop-lists .list').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    // Prevent default if it's a link (but still process our logic)
+                    const isLink = e.target.tagName === 'A';
+                    if (isLink) e.preventDefault();
+
+                    // Get current URL parameters
+                    const params = new URLSearchParams(window.location.search);
+                    const paramName = this.closest('.shop-left-title').querySelector('.title')
+                        .textContent.trim().toLowerCase();
+                    const itemId = this.querySelector('a')?.getAttribute('href').match(
+                        /(category_id|brand_id)=(\d+)/)?.[2];
+
+                    if (this.classList.contains('active')) {
+                        // If active, remove the class and remove from URL
+                        this.classList.remove('active');
+                        params.delete(paramName === 'category' ? 'category_id' : 'brand_id');
+                    } else {
+                        // If not active, add the class and add to URL
+                        this.classList.add('active');
+                        if (itemId) {
+                            params.set(paramName === 'category' ? 'category_id' : 'brand_id',
+                                itemId);
+                        }
+                    }
+
+                    // Update URL (without page reload if you prefer)
+                    const newUrl = `${window.location.pathname}?${params.toString()}`;
+                    if (isLink) {
+                        window.location.href = newUrl;
+                    } else {
+                        history.pushState({}, '', newUrl);
+                        // You might want to add AJAX loading of products here
+                    }
+                });
+            });
+
+            // Your existing order_by code
+            const orderBySelect = document.getElementById('order_by');
+            if (orderBySelect) {
+                orderBySelect.addEventListener('change', function() {
+                    const params = new URLSearchParams(window.location.search);
+                    params.set('order_by', this.value);
+                    window.location.href = `${window.location.pathname}?${params.toString()}`;
+                });
+
+                const currentOrderBy = new URLSearchParams(window.location.search).get('order_by');
+                if (currentOrderBy) {
+                    orderBySelect.value = currentOrderBy;
+                }
+            }
+
+            // Initialize active states from URL
+            function initActiveStates() {
+                const params = new URLSearchParams(window.location.search);
+                const categoryId = params.get('category_id');
+                const brandId = params.get('brand_id');
+
+                if (categoryId) {
+                    document.querySelector(`.shop-lists .list a[href*="category_id=${categoryId}"]`)?.parentElement
+                        .classList.add('active');
+                }
+
+                if (brandId) {
+                    document.querySelector(`.brand-list .list a[href*="brand_id=${brandId}"]`)?.parentElement
+                        .classList.add('active');
+                }
+            }
+
+            initActiveStates();
         });
     </script>
 @endsection

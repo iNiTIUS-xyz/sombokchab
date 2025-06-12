@@ -54,12 +54,16 @@
                     </div>
                 </td>
 
-                <td data-label="Image">
+                <td data-label="Image" class="text-left">
                     <div class="d-flex gap-2">
-                        <div class="logo-brand product-brand">
-                            {!! $product?->brand?->image_id ? render_image($product?->brand?->image_id) : '' !!}
-                        </div>
-                        <b class="">{{ $product?->brand?->name }}</b>
+                        @if ($product?->brand?->image_id)
+                            <div class="logo-brand product-brand">
+                                {!! $product?->brand?->image_id ? render_image($product?->brand?->image_id) : '' !!}
+                            </div>
+                        @endif
+                        <b class="">
+                            {{ $product?->brand?->name }}
+                        </b>
                     </div>
                 </td>
 
@@ -99,7 +103,7 @@
                             class="icon edit btn-sm text-white btn btn-warning" title="Edit Product">
                             <i class="las la-pencil-alt"></i>
                         </a>
-                        
+
                         <a data-product-url="{{ route($route . '.products.destroy', $product->id) }}" href="#1"
                             class="delete-row icon deleted btn-sm text-white btn btn-danger" title="Delete Product">
                             <i class="las la-trash-alt"></i>

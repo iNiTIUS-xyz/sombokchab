@@ -44,6 +44,7 @@ class ProductController extends Controller
     public function index(Request $request): Renderable
     {
         $products = AdminProductServices::productSearch($request, "admin");
+
         $statuses = Status::all();
         return view('product::index',compact("products","statuses"));
     }

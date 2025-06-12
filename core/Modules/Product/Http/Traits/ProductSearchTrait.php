@@ -2,6 +2,8 @@
 
 namespace Modules\Product\Http\Traits;
 
+use Illuminate\Support\Facades\Auth;
+
 trait ProductSearchTrait
 {
     /**
@@ -12,9 +14,9 @@ trait ProductSearchTrait
 
         $route = null;
 
-        if(\Auth::guard('admin')->check()){
+        if(Auth::guard('admin')->check()){
             $route = "admin";
-        }elseif (\Auth::guard('vendor')->check()){
+        }elseif (Auth::guard('vendor')->check()){
             $route = "vendor";
         }else {
             $route = "api";

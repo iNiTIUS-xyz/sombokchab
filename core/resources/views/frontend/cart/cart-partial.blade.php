@@ -104,7 +104,7 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td class="price-td text-center" data-label="Unite Price">
+                                            <td class="price-td text-center" data-label="Unit Price">
                                                 {{ amount_with_currency_symbol($cart_item->price) }}
                                             </td>
                                             @if (!Route::is('frontend.products.wishlist'))

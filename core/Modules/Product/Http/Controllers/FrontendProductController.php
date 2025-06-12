@@ -697,7 +697,7 @@ class FrontendProductController extends Controller
 
             return response()->json([
                 'type' => 'success',
-                'msg' => 'Item added to wishlist',
+                'msg' => 'Item added to save for later',
                 'header_area' => view("frontend.partials.header.navbar.card-and-wishlist-area")->render()
             ]);
         } catch (\Exception $exception) {

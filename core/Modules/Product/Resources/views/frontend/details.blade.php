@@ -271,7 +271,7 @@
                                         </div>
                                         <a href="#1" data-id="{{ $product->id }}"
                                             class="btn-wishlist buy_now_single_page btn-details btn-buyNow">
-                                            <i class="lar la-save"></i> {{ __('Add to Wishlist') }}
+                                            <i class="lar la-save"></i> {{ __('Save for later') }}
                                         </a>
                                     </div>
                                 </div>
@@ -282,7 +282,7 @@
                                                 class="las la-cart-arrow-down"></i> {{ __('Buy Now') }} </a>
                                         <a href="#1" data-id="{{ $product->id }}"
                                             class="btn-wishlist add_to_compare_single_page btn-details btn-buyNow mt-4">
-                                            <i class="las la-retweet"></i> {{ __('Add Compare') }} </a>
+                                            <i class="las la-retweet"></i> {{ __('Add to Compare') }} </a>
                                     </div>
                                 </div>
                                 <div class="shop-details-stock shop-border-top pt-4 mt-4">
@@ -324,7 +324,7 @@
                                                 </a>
                                             </li>
                                         @endif
-                                        @if ($product->childCategory)
+                                        {{-- @if ($product->childCategory)
                                             <li class="category-list">
                                                 <strong> {{ __('Child Category:') }} </strong>
                                                 @foreach ($product?->childCategory ?? [] as $childCategory)
@@ -334,7 +334,7 @@
                                                     </a>
                                                 @endforeach
                                             </li>
-                                        @endif
+                                        @endif --}}
                                         @if (!empty(get_static_option('product_sku_show_hide')))
                                             <li class="category-list">
                                                 <strong> {{ __('Sku:') }} </strong>
