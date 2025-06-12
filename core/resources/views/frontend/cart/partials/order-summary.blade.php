@@ -119,8 +119,13 @@
             @endphp
             <input class="check-input" type="checkbox" id="terms_check" />
             <label class="checkbox-label" for="terms_check">
-                Accept all <a class="text-warning" href="{{ $checkout_page_terms_link_url }}">terms and condition</a> &
-                <a class="text-warning" href="{{ $checkout_page_terms_text }}">Privacy Policy</a>
+                Accept all
+                <a class="text-success" href="{{ $checkout_page_terms_link_url }}">
+                    Terms and Condition
+                </a> &
+                <a class="text-success" href="{{ $checkout_page_terms_text }}">
+                    Privacy Policy
+                </a>
             </label>
         </div>
 

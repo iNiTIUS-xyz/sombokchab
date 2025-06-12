@@ -251,6 +251,8 @@ class UserDashboardController extends Controller
             'zipcode' => 'nullable|string|max:191',
             'address' => 'nullable|string|max:191',
             'is_default' => 'nullable',
+        ], [
+            'phone.required' => 'Phone Number is Required.'
         ]);
 
         $existShippingAddress = ShippingAddress::query()
@@ -259,7 +261,7 @@ class UserDashboardController extends Controller
 
 
         if ($existShippingAddress->count() > 0) {
-            return back()->with(FlashMsg::explain('danger', __('Shipping address already has with this name.')));
+            return back()->with(FlashMsg::explain('danger', __('Shipping address with this name already exits.')));
         }
 
         // Reset all to non-default
@@ -325,7 +327,19 @@ class UserDashboardController extends Controller
             'zipcode' => 'nullable|string|max:191',
             'address' => 'nullable|string|max:191',
             'is_default' => 'nullable',
+        ], [
+            'phone.required' => 'Phone Number is Required.'
         ]);
+
+
+        $existShippingAddress = ShippingAddress::query()
+            ->where('id', '!=', $request->id)
+            ->where('name', $request->name)
+            ->get();
+
+        if ($existShippingAddress->count() > 0) {
+            return back()->with(FlashMsg::explain('danger', __('Shipping address with this name already exits.')));
+        }
 
         $address = ShippingAddress::find($request->id);
 
@@ -362,7 +376,7 @@ class UserDashboardController extends Controller
         $shippingAddress->is_default = 1;
         $shippingAddress->save();
 
-        return redirect()->route('user.shipping.address.all')->with(FlashMsg::update_succeed('Default shippging address change'));
+        return redirect()->route('user.shipping.address.all')->with(FlashMsg::update_succeed('Default shippging address'));
     }
 
     public function deleteShippingAddress($id)

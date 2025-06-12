@@ -48,7 +48,9 @@ class ProductSellPaymentController extends Controller
             // if register
             'password' => 'sometimes|nullable|min:8|confirmed',
             'create_account' => 'nullable|string|max:191',
-        ], ['agree.required' => __('You need to agree to our Terms & Conditions to complete the order')]);
+        ], [
+            'agree.required' => __('You need to agree to our Terms & Conditions to complete the order')
+        ]);
 
         // if no items in cart
         if (CartHelper::isEmpty()) {
@@ -67,8 +69,8 @@ class ProductSellPaymentController extends Controller
         if ($request->shipping_address_id) {
             $user_shipping_address = UserShippingAddress::find($request->shipping_address_id);
             $address = $user_shipping_address && strlen($user_shipping_address->address)
-                        ? $user_shipping_address->address
-                        : $request->sanitize_html('address');
+                ? $user_shipping_address->address
+                : $request->sanitize_html('address');
         }
 
         $user_id = auth('web')->check() ? auth('web')->id() : null;
@@ -92,7 +94,7 @@ class ProductSellPaymentController extends Controller
         if (isset($request->selected_shipping_option)) {
             $shipping_is_valid = CartAction::validateSelectedShipping($request->selected_shipping_option, $request->coupon);
 
-            if (! $shipping_is_valid) {
+            if (!$shipping_is_valid) {
                 $shipping_method = ShippingMethod::with('availableOptions')->find($request->selected_shipping_option);
 
                 if (is_null($shipping_method)) {
@@ -104,12 +106,12 @@ class ProductSellPaymentController extends Controller
                     $minimum_order_amount = float_amount_with_currency_symbol($minimum_order_amount);
 
                     $message = __('Minimum total order amount has to be')
-                                .' '.$minimum_order_amount;
+                        . ' ' . $minimum_order_amount;
 
                     if (optional(optional($shipping_method)->availableOptions)->setting_preset === 'min_order_or_coupon') {
-                        $message .= ' '.__('or a valid coupon has to be given.');
+                        $message .= ' ' . __('or a valid coupon has to be given.');
                     } elseif (optional(optional($shipping_method)->availableOptions)->setting_preset === 'min_order_and_coupon') {
-                        $message .= ' '.__('and a valid coupon has to be given.');
+                        $message .= ' ' . __('and a valid coupon has to be given.');
                     }
 
                     return back()->with(FlashMsg::explain('danger', $message))->withInput();
@@ -168,8 +170,8 @@ class ProductSellPaymentController extends Controller
             'payment_meta' => json_encode($payment_meta),
             // payment
             'payment_gateway' => $request->sanitize_html('selected_payment_gateway'),
-            'payment_track' => Str::random(10).Str::random(10),
-            'transaction_id' => Str::random(10).Str::random(10),
+            'payment_track' => Str::random(10) . Str::random(10),
+            'transaction_id' => Str::random(10) . Str::random(10),
             'payment_status' => 'pending',
             'status' => 'pending',
 
@@ -218,8 +220,8 @@ class ProductSellPaymentController extends Controller
         $new_sell->updated_at = Carbon::now();
         $new_sell->status = 'pending';
         $new_sell->payment_status = 'pending';
-        $new_sell->payment_track = Str::random(10).Str::random(10);
-        $new_sell->transaction_id = Str::random(10).Str::random(10);
+        $new_sell->payment_track = Str::random(10) . Str::random(10);
+        $new_sell->transaction_id = Str::random(10) . Str::random(10);
         $new_sell->save();
 
         return redirect()->to(route('user.product.order.details', $new_sell->id));
@@ -233,7 +235,7 @@ class ProductSellPaymentController extends Controller
                 'transaction_id' => $payment_data['transaction_id'],
             ]));
 
-            return redirect()->route(self::SUCCESS_ROUTE, Str::random(6).$payment_data['order_id'].Str::random(6));
+            return redirect()->route(self::SUCCESS_ROUTE, Str::random(6) . $payment_data['order_id'] . Str::random(6));
         }
 
         return redirect()->route(self::CANCEL_ROUTE, Str::random(6));

@@ -35,7 +35,6 @@ class ProductSellPaymentController extends Controller
 
     public function checkout(Request $request)
     {
-
         $request->validate([
             // user info
             'name' => 'required|string|max:191',
@@ -102,7 +101,7 @@ class ProductSellPaymentController extends Controller
         foreach ($all_cart_items as $key => $items) {
             foreach ($items as $item) {
                 $campaign_product = getCampaignProductById($key);
-                if (! empty($campaign_product)) {
+                if (!empty($campaign_product)) {
                     $remaining_quantity = $item['quantity'];
                     // if item is in campaign, add number of campaign quantity in the cart
                     $campaign = CartAction::getCampaignQuantity($key, $remaining_quantity);
@@ -117,7 +116,7 @@ class ProductSellPaymentController extends Controller
         }
 
         // redirect back with specific product error
-        if (! empty($campaign_prd_stock_error)) {
+        if (!empty($campaign_prd_stock_error)) {
             return back()->with(['stock_error' => $campaign_prd_stock_error]);
         }
 
@@ -125,7 +124,7 @@ class ProductSellPaymentController extends Controller
         if (isset($request->selected_shipping_option)) {
             $shipping_is_valid = CartAction::validateSelectedShipping($request->selected_shipping_option, $request->coupon);
 
-            if (! $shipping_is_valid) {
+            if (!$shipping_is_valid) {
                 $shipping_method = ShippingMethod::with('availableOptions')->find($request->selected_shipping_option); // $request->selected_shipping_option;
 
                 if (is_null($shipping_method)) {
@@ -194,8 +193,8 @@ class ProductSellPaymentController extends Controller
             'payment_meta' => json_encode($payment_meta),
             // payment
             'payment_gateway' => $request->sanitize_html('selected_payment_gateway'),
-            'payment_track' => Str::random(10).Str::random(10),
-            'transaction_id' => Str::random(10).Str::random(10),
+            'payment_track' => Str::random(10) . Str::random(10),
+            'transaction_id' => Str::random(10) . Str::random(10),
             'payment_status' => 'pending',
             'status' => 'pending',
             'checkout_image_path' => $checkout_image_path,
@@ -250,8 +249,8 @@ class ProductSellPaymentController extends Controller
         $new_sell->updated_at = Carbon::now();
         $new_sell->status = 'pending';
         $new_sell->payment_status = 'pending';
-        $new_sell->payment_track = Str::random(10).Str::random(10);
-        $new_sell->transaction_id = Str::random(10).Str::random(10);
+        $new_sell->payment_track = Str::random(10) . Str::random(10);
+        $new_sell->transaction_id = Str::random(10) . Str::random(10);
         $new_sell->save();
 
         return redirect()->to(route('user.product.order.details', $new_sell->id));
@@ -265,7 +264,7 @@ class ProductSellPaymentController extends Controller
                 'transaction_id' => $payment_data['transaction_id'],
             ]));
 
-            return redirect()->route(self::SUCCESS_ROUTE, Str::random(6).$payment_data['order_id'].Str::random(6));
+            return redirect()->route(self::SUCCESS_ROUTE, Str::random(6) . $payment_data['order_id'] . Str::random(6));
         }
 
         return redirect()->route(self::CANCEL_ROUTE, Str::random(6));

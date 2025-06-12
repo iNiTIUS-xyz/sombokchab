@@ -81,42 +81,42 @@
     $carts = Cart::instance('default')->content();
     $itemsTotal = null;
     $enableTaxAmount = !\Modules\TaxModule\Services\CalculateTaxServices::isPriceEnteredWithTax();
-    $shippingTaxClass = \Modules\TaxModule\Entities\TaxClassOption::where('class_id', get_static_option('shipping_tax_class'))->sum('rate');
+    $shippingTaxClass = \Modules\TaxModule\Entities\TaxClassOption::where(
+        'class_id',
+        get_static_option('shipping_tax_class'),
+    )->sum('rate');
     $tax = Modules\TaxModule\Services\CalculateTaxBasedOnCustomerAddress::init();
-    $uniqueProductIds = $carts
-    ->pluck('id')
-    ->unique()
-    ->toArray();
+    $uniqueProductIds = $carts->pluck('id')->unique()->toArray();
 
     $country_id = old('country_id') ?? 0;
     $state_id = old('state_id') ?? 0;
     $city_id = old('city') ?? 0;
 
     if (empty($uniqueProductIds)) {
-    $taxProducts = collect([]);
+        $taxProducts = collect([]);
     } else {
-    if (\Modules\TaxModule\Services\CalculateTaxBasedOnCustomerAddress::is_eligible()) {
-    $taxProducts = $tax
-        ->productIds($uniqueProductIds)
-        ->customerAddress($country_id, $state_id, $city_id)
-        ->generate();
-    } else {
-    $taxProducts = collect([]);
-    }
+        if (\Modules\TaxModule\Services\CalculateTaxBasedOnCustomerAddress::is_eligible()) {
+            $taxProducts = $tax
+                ->productIds($uniqueProductIds)
+                ->customerAddress($country_id, $state_id, $city_id)
+                ->generate();
+        } else {
+            $taxProducts = collect([]);
+        }
     }
 
     $carts = $carts->groupBy('options.vendor_id');
 
     $vendors = \Modules\Vendor\Entities\Vendor::with('shippingMethod', 'shippingMethod.zone')
-    ->whereIn('id', $carts->keys())
-    ->get();
+        ->whereIn('id', $carts->keys())
+        ->get();
 @endphp
 
 @section('content')
     @if ($all_cart_items->count() > 0)
         <div class="checkout-area-wrapper padding-top-100 padding-bottom-50">
             <div class="container">
-                @if(!auth('web')->check())
+                @if (!auth('web')->check())
                     @include('frontend.cart.partials.login')
                 @endif
                 <form action="{{ route('frontend.checkout') }}" class="billing-form checkout-billing-form" method="POST"
@@ -136,11 +136,11 @@
                                                 class="cmn-btn btn-bg-1 billing_details_click btn-small">{{ __('New Shipping Address') }}</button>
                                         </div>
                                     @endif
-                                        <div class="flex-start mt-4 user-shipping-address-wrapper d-flex position-relative">
-                                            @foreach ($all_user_shipping ?? [] as $shipping_address)
-                                                @include('frontend.cart.partials.shipping-address-option')
-                                            @endforeach
-                                        </div>
+                                    <div class="flex-start mt-4 user-shipping-address-wrapper d-flex position-relative">
+                                        @foreach ($all_user_shipping ?? [] as $shipping_address)
+                                            @include('frontend.cart.partials.shipping-address-option')
+                                        @endforeach
+                                    </div>
                                     @csrf
 
                                     <input type="hidden" name="coupon" id="coupon_code"
@@ -186,7 +186,6 @@
                 </div>
             </div>
         </div>
-
     @endif
 
     <div class="popup_modal_checkout_overlay"></div>
@@ -210,7 +209,7 @@
                 @include('frontend.cart.partials.billing-info')
             </form>
 
-            
+
         </div>
     </div>
     <x-loader.html />
@@ -218,8 +217,9 @@
 @endsection
 
 @section('script')
-
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC-p_XBbow_dJCi5TKLw69gIXITC4hvkE&libraries=places&callback=initialize" async defer></script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC-p_XBbow_dJCi5TKLw69gIXITC4hvkE&libraries=places&callback=initialize"
+        async defer></script>
     {{-- <script src="/js/mapInput.js"></script> --}}
     <script>
         function initialize() {
@@ -239,25 +239,37 @@
 
                 const input = locationInputs[i];
                 const fieldKey = input.id.replace("-input", "");
-                const isEdit = document.getElementById(fieldKey + "-latitude").value != '' && document.getElementById(fieldKey + "-longitude").value != '';
+                const isEdit = document.getElementById(fieldKey + "-latitude").value != '' && document.getElementById(
+                    fieldKey + "-longitude").value != '';
 
                 const latitude = parseFloat(document.getElementById(fieldKey + "-latitude").value) || -33.8688;
                 const longitude = parseFloat(document.getElementById(fieldKey + "-longitude").value) || 151.2195;
 
                 const map = new google.maps.Map(document.getElementById(fieldKey + '-map'), {
-                    center: {lat: latitude, lng: longitude},
+                    center: {
+                        lat: latitude,
+                        lng: longitude
+                    },
                     zoom: 13
                 });
                 const marker = new google.maps.Marker({
                     map: map,
-                    position: {lat: latitude, lng: longitude},
+                    position: {
+                        lat: latitude,
+                        lng: longitude
+                    },
                 });
 
                 marker.setVisible(isEdit);
 
                 const autocomplete = new google.maps.places.Autocomplete(input);
                 autocomplete.key = fieldKey;
-                autocompletes.push({input: input, map: map, marker: marker, autocomplete: autocomplete});
+                autocompletes.push({
+                    input: input,
+                    map: map,
+                    marker: marker,
+                    autocomplete: autocomplete
+                });
             }
 
             for (let i = 0; i < autocompletes.length; i++) {
@@ -266,11 +278,13 @@
                 const map = autocompletes[i].map;
                 const marker = autocompletes[i].marker;
 
-                google.maps.event.addListener(autocomplete, 'place_changed', function () {
+                google.maps.event.addListener(autocomplete, 'place_changed', function() {
                     marker.setVisible(false);
                     const place = autocomplete.getPlace();
 
-                    geocoder.geocode({'placeId': place.place_id}, function (results, status) {
+                    geocoder.geocode({
+                        'placeId': place.place_id
+                    }, function(results, status) {
                         if (status === google.maps.GeocoderStatus.OK) {
                             const lat = results[0].geometry.location.lat();
                             const lng = results[0].geometry.location.lng();
@@ -295,9 +309,9 @@
 
                 });
             }
-            }
+        }
 
-            function setLocationCoordinates(key, lat, lng) {
+        function setLocationCoordinates(key, lat, lng) {
             const latitudeField = document.getElementById(key + "-" + "latitude");
             const longitudeField = document.getElementById(key + "-" + "longitude");
             latitudeField.value = lat;
@@ -401,7 +415,7 @@
                     }
                 });
 
-                @if($enableTaxAmount)
+                @if ($enableTaxAmount)
                     $("#checkout_tax_amount").text(amount_with_currency_symbol(totalTax.toFixed(decimalPoint)))
                 @else
                     $("#checkout_tax_amount").text("{{ __('Inclusive Tax') }}")
@@ -510,8 +524,8 @@
         }
 
         function replaceSymbol(text) {
-            let amount_format="{{get_static_option('amount_format_by')}}";
-            return parseFloat((text.replace("{{ site_currency_symbol() }}", "")).replace(amount_format,''));
+            let amount_format = "{{ get_static_option('amount_format_by') }}";
+            return parseFloat((text.replace("{{ site_currency_symbol() }}", "")).replace(amount_format, ''));
         }
 
         let defaultGateway = $('#site_global_payment_gateway').val();
@@ -608,7 +622,6 @@
             @if (get_static_option('tax_system') == 'advance_tax_system')
                 calculateOrderSummeryForAdvanceTax();
             @else
-                // calculate order summary according to cart items
                 calculateOrderSummary();
             @endif
 
@@ -629,7 +642,8 @@
             } else {
                 $(this).parent().find(".checkout-shipping-method").removeClass("active");
                 $(this).addClass("active");
-                $(this).parent().parent().find("#vendor_shipping_cost").html(amount_with_currency_symbol(shippingCost))
+                $(this).parent().parent().find("#vendor_shipping_cost").html(amount_with_currency_symbol(
+                    shippingCost))
                 $(this).parent().parent().find("#shipping_cost").val(shippingCostId);
 
                 calculateAmount();
@@ -806,39 +820,39 @@
         });
         $(document).on("change", "#modal_state_id", function() {
             // first, i need to get all states
-                // to get all shipping methods
-                // to insert all shipping methods on .all-shipping-options
-                // Add tax amount to all the orders
-                let state_id = $(this).val();
-                let data = new FormData();
-                data.append("id", state_id);
-                data.append("type", "state");
-                data.append("_token", "{{ csrf_token() }}");
+            // to get all shipping methods
+            // to insert all shipping methods on .all-shipping-options
+            // Add tax amount to all the orders
+            let state_id = $(this).val();
+            let data = new FormData();
+            data.append("id", state_id);
+            data.append("type", "state");
+            data.append("_token", "{{ csrf_token() }}");
 
-                send_ajax_request("POST", data, "{{ route('frontend.shipping.module.methods') }}", () => {
+            send_ajax_request("POST", data, "{{ route('frontend.shipping.module.methods') }}", () => {
 
-                }, (data) => {
-                    if (data.success) {
-                        $("#checkout_tax_percentage").val(data.tax_amount);
+            }, (data) => {
+                if (data.success) {
+                    $("#checkout_tax_percentage").val(data.tax_amount);
 
-                        // now first i need to get all orders tax filed and insert tax amount
-                        // after those data we need to calculate every order
-                        $('#tax_amount').html(data.tax_amount + "%");
+                    // now first i need to get all orders tax filed and insert tax amount
+                    // after those data we need to calculate every order
+                    $('#tax_amount').html(data.tax_amount + "%");
 
-                        let cityhtml = "<option value=''> {{ __('Select an city') }} </option>";
-                        data?.cities?.forEach((city) => {
-                            cityhtml += "<option value='" + city.id + "'>" + city.name +
-                                "</option>";
-                        });
+                    let cityhtml = "<option value=''> {{ __('Select an city') }} </option>";
+                    data?.cities?.forEach((city) => {
+                        cityhtml += "<option value='" + city.id + "'>" + city.name +
+                            "</option>";
+                    });
 
-                        $("#modal_city_id").html(cityhtml);
+                    $("#modal_city_id").html(cityhtml);
 
-                        calculateAmount(data);
-                        calculateOrderSummary();
-                    }
-                }, function(xhr) {
-                    ajax_toastr_error_message(xhr);
-                })
+                    calculateAmount(data);
+                    calculateOrderSummary();
+                }
+            }, function(xhr) {
+                ajax_toastr_error_message(xhr);
+            })
         });
 
         $(document).on('click', '.billing_details_click', function() {
@@ -848,12 +862,12 @@
         $(document).on('click', '.popup_modal_checkout_overlay, .checkout_modal_close', function() {
             $('.popup_modal_checkout, .popup_modal_checkout_overlay').removeClass('show');
         });
-        $(document).on("click",".create-accounts",function(){
-            if($(this).hasClass("active")){
+        $(document).on("click", ".create-accounts", function() {
+            if ($(this).hasClass("active")) {
                 $("input[name='create_account']").val('');
                 $("input[name='password']").val('');
                 $("input[name='password_confirmation']").val('');
-            }else{
+            } else {
                 $("input[name='create_account']").val(1);
             }
         })

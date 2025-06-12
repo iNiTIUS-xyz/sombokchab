@@ -16,6 +16,7 @@ class SubmitCheckoutRequest extends FormRequest
     public function rules(): array
     {
         $paymentGateways = [...(new PaymentGatewayHelpers)->all_payment_gateway_list()];
+
         return [
             "coupon" => "nullable",
             "tax_amount" => "nullable",
@@ -53,9 +54,16 @@ class SubmitCheckoutRequest extends FormRequest
     protected function prepareForValidation()
     {
         return $this->merge([
-            'name' => $this->full_name  ?? "",
+            'name' => $this->full_name ?? "",
             'payment_gateway' => $this->selected_payment_gateway,
             'zipcode' => $this->zip_code,
         ]);
+    }
+
+    public function messages(): array
+    {
+        return [
+            "agree.required" => "Accept all terms and condition, Privacy Policy to continue",
+        ];
     }
 }

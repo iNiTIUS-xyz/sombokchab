@@ -748,9 +748,6 @@ class FrontendController extends Controller
         return view('frontend.cart.checkout-user-shipping', compact('all_user_shipping'));
     }
 
-    /** ======================================================================
-     *                  FRONTEND PRODUCT FUNCTIONS
-     * ======================================================================*/
     public function getProductAttributeHtml(Request $request)
     {
         $product = Product::where('slug', $request->slug)->first();

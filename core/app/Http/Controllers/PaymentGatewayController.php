@@ -77,7 +77,7 @@ class PaymentGatewayController extends Controller
 
             $site_domain = url('/');
             $site_domain = str_replace(['http://', 'https://'], '', $site_domain);
-            $site_domain = substr($site_domain, 0, strpos($site_domain, '.'));
+            $site_domain = substr($site_domain, 0, strpos($site_agreedomain, '.'));
             $restricted_words = [
                 'https',
                 'http',

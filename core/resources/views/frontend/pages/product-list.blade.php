@@ -1,10 +1,10 @@
 @extends('frontend.frontend-page-master')
 
 @section('page-title')
-    @if (request()->get('keyword'))
+    @if (request()->get('keyword') || request()->get('category_id'))
         {{ __('Your Search Result') }}
     @else
-        {{ __('Shop') }}
+        {{ __('All Categories') }}
     @endif
 @endsection
 
@@ -20,7 +20,7 @@
 
     <section class="signin-area padding-top-20 padding-bottom-20">
         <div class="container container-one">
-            <div class="shop-contents-wrapper style-02">
+            <div class="shop-contents-wrapper style-02 gap-3">
                 <div class="shop-icon shop-icon-text">
                     <div class="sidebar-icon sidebar-icon-text">
                         Filter

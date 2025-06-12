@@ -693,7 +693,6 @@
             @if (get_static_option('tax_system') == 'advance_tax_system')
                 calculateOrderSummeryForAdvanceTax();
             @else
-                // calculate order summary according to cart items
                 calculateOrderSummary();
             @endif
 
