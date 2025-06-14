@@ -19,7 +19,7 @@
         <i class="lar la-save"></i>
     </a>
     <a href="#1" class="icon-notification">
-        {{ \Gloudemans\Shoppingcart\Facades\Cart::instance('wishlist')->content()->count() }}
+        {{ Cart::instance('wishlist')->content()->count() }}
     </a>
 </div>
 <div class="single-icon cart-shopping">
@@ -27,13 +27,14 @@
         <a class="icon" href="{{ route('frontend.products.cart') }}">
             <i class="las la-shopping-cart"></i>
         </a>
-        <a href="#1" class="icon-notification cart-item-count-amount">
-            {{ \Gloudemans\Shoppingcart\Facades\Cart::instance('default')->content()->count() }}
+        <a href="{{ route('frontend.products.cart') }}" class="icon-notification cart-item-count-amount">
+            {{-- {{ Cart::instance('default')->content()->count() }} --}}
+            {{ Cart::instance('default')->content()->sum('qty') }}
         </a>
         <div class="addto-cart-contents ">
             <div class="single-addto-cart-wrappers">
                 @php
-                    $cart = \Gloudemans\Shoppingcart\Facades\Cart::instance('default')->content();
+                    $cart = Cart::instance('default')->content();
                     $subtotal = 0;
                 @endphp
                 @forelse($cart as $cart_item)
@@ -118,7 +119,7 @@
         <i class="las la-retweet"></i>
     </a>
     <a href="#1" class="icon-notification compare-item-count-amount">
-        {{ \Gloudemans\Shoppingcart\Facades\Cart::instance('compare')->content()->count() }}
+        {{ Cart::instance('compare')->content()->count() }}
     </a>
 </div>
 <div class="track-icon-list-item single-icon">
@@ -219,7 +220,7 @@
         @else
             <a class="accounts" href="#1">
                 <i class="las la-user"></i>
-                 {{-- <span class="icon-title">{{ __('Account') }}</span> --}}
+                {{-- <span class="icon-title">{{ __('Account') }}</span> --}}
             </a>
             <ul class="account-list-item">
                 <li class="list">

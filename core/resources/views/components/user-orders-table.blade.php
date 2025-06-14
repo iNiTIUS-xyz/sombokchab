@@ -57,7 +57,11 @@
                             @endif
                         </td>
                         <td class="amount">
-                            {{ float_amount_with_currency_symbol($order->paymentMeta?->total_amount) }}
+                            <div class="product__price ">
+                                <span class="product__price__current ">
+                                    {{ float_amount_with_currency_symbol($order->paymentMeta?->total_amount) }}
+                                </span>
+                            </div>
                         </td>
                         <td class="table-btn">
                             <div class="btn-wrapper">

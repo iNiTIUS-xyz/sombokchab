@@ -105,7 +105,11 @@
                                                 </div>
                                             </td>
                                             <td class="price-td text-center" data-label="Unit Price">
-                                                {{ amount_with_currency_symbol($cart_item->price) }}
+                                                <div class="product__price ">
+                                                    <span class="product__price__current ">
+                                                        {{ amount_with_currency_symbol($cart_item->price) }}
+                                                    </span>
+                                                </div>
                                             </td>
                                             @if (!Route::is('frontend.products.wishlist'))
                                                 {{-- <td data-label="Quantity">
@@ -127,7 +131,7 @@
                                                             <i class="las la-minus"></i>
                                                         </span>
                                                         <!-- Hidden input to store the actual value -->
-                                                        <input class="quantity-input" type="hidden" 
+                                                        <input class="quantity-input" type="hidden"
                                                             value="{{ $cart_item->qty }}"
                                                             data-max="{{ $cart_item?->options['available_stock_qty'] }}"
                                                             data-min="1">
@@ -139,21 +143,26 @@
                                                     </div>
                                                 </td>
                                                 <td class="color-one price-td text-center" data-label="Total Price">
-                                                    {{ amount_with_currency_symbol($cart_item->price * $cart_item->qty ?? 0) }}
+                                                    <div class="product__price ">
+                                                        <span class="product__price__current ">
+                                                            {{ amount_with_currency_symbol($cart_item->price * $cart_item->qty ?? 0) }}
+                                                        </span>
+                                                    </div>
                                                 </td>
                                             @endif
                                             <td data-label="Close" class="text-center">
                                                 <div class="btn-group">
                                                     @if ($wishlist)
                                                         <a data-label="Move" data-type="tr"
-                                                            data-product_hash_id="{{ $cart_item->rowId }}" href="#1"
-                                                            class="ff-jost move-cart px-3 btn btn-info">
+                                                            data-product_hash_id="{{ $cart_item->rowId }}"
+                                                            href="#1" class="ff-jost move-cart px-3 btn btn-info">
                                                             <span class="icon-close text-light">
                                                                 <i class="las la-shopping-cart"></i>
                                                             </span>
                                                         </a>
                                                         <a data-label="Close" data-type="tr"
-                                                            data-product_hash_id="{{ $cart_item->rowId }}" href="#1"
+                                                            data-product_hash_id="{{ $cart_item->rowId }}"
+                                                            href="#1"
                                                             class="ff-jost remove-wishlist px-3 btn btn-danger">
                                                             <span class="icon-close text-light">
                                                                 <i class="las la-trash-alt"></i>
@@ -161,14 +170,16 @@
                                                         </a>
                                                     @else
                                                         <a data-label="Move" data-type="tr"
-                                                            data-product_hash_id="{{ $cart_item->rowId }}" href="#1"
+                                                            data-product_hash_id="{{ $cart_item->rowId }}"
+                                                            href="#1"
                                                             class="ff-jost move-wishlist px-3 btn btn-info">
                                                             <span class="icon-close text-light">
                                                                 <i class="lar la-save"></i>
                                                             </span>
                                                         </a>
                                                         <a data-label="Close" data-type="tr"
-                                                            data-product_hash_id="{{ $cart_item->rowId }}" href="#1"
+                                                            data-product_hash_id="{{ $cart_item->rowId }}"
+                                                            href="#1"
                                                             class="ff-jost remove-cart px-3 btn btn-danger">
                                                             <span class="icon-close">
                                                                 <i class="las la-trash-alt"></i>
