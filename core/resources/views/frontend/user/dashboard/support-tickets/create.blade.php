@@ -33,19 +33,19 @@
         }
 
         /* .support-ticket-wrapper button[type=submit]:hover {
-                background-color: var(--secondary-color);
-                color: #fff
-            }
+                    background-color: var(--secondary-color);
+                    color: #fff
+                }
 
-            .support-ticket-wrapper button[type=submit] {
-                display: inline-block;
-                border: none;
-                background-color: var(--main-color-two);
-                color: #fff;
-                padding: 10px 30px;
-                font-weight: 600;
-                transition: all .4s
-            } */
+                .support-ticket-wrapper button[type=submit] {
+                    display: inline-block;
+                    border: none;
+                    background-color: var(--main-color-two);
+                    color: #fff;
+                    padding: 10px 30px;
+                    font-weight: 600;
+                    transition: all .4s
+                } */
 
         .support-ticket-wrapper textarea:focus {
             outline: 0;
@@ -100,7 +100,10 @@
                                     @csrf
                                     <input type="hidden" name="via" value="{{ __('website') }}">
                                     <div class="form-group">
-                                        <label>{{ __('Subject') }}</label>
+                                        <label>
+                                            {{ __('Subject') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
                                         <input type="text" class="form-control" name="title"
                                             placeholder="{{ __('Enter Subject') }}">
                                         @error('title')
@@ -108,7 +111,10 @@
                                         @enderror
                                     </div>
                                     <div class="form-group">
-                                        <label>{{ __('Departments') }}</label>
+                                        <label>
+                                            {{ __('Departments') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
                                         <select name="departments" class="form-select">
                                             @foreach ($departments as $dep)
                                                 <option value="{{ $dep->id }}">{{ $dep->name }}</option>
@@ -119,12 +125,17 @@
                                         @enderror
                                     </div>
                                     <div class="form-group">
-                                        <label>{{ __('Order Number (No. - Date - Amount)') }}</label>
+                                        <label>
+                                            {{ __('Order Number (No. - Date - Amount)') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
                                         <select name="order_id" class="form-select">
                                             <option value="" selected>Select A Order No</option>
                                             @foreach ($user_orders as $order)
                                                 <option value="{{ $order->id }}">
-                                                    {{ $order->order_number }} - {{ $order->created_at->format('M d, Y') }} - {{ float_amount_with_currency_symbol($order->paymentMeta->total_amount ?? 0) }}
+                                                    {{ $order->order_number }} -
+                                                    {{ $order->created_at->format('M d, Y') }} -
+                                                    {{ float_amount_with_currency_symbol($order->paymentMeta->total_amount ?? 0) }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -133,7 +144,10 @@
                                         @enderror
                                     </div>
                                     <div class="form-group">
-                                        <label>{{ __('Description') }}</label>
+                                        <label>
+                                            {{ __('Description') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
                                         <textarea name="description" class="form-control" cols="30" rows="10"
                                             placeholder="{{ __('Enter Description') }}"></textarea>
                                         @error('description')

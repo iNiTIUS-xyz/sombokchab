@@ -21,15 +21,26 @@
                         <form action="{{ route('vendor.support.ticket.new') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
-                                <label>{{ __('Title') }}</label>
-                                <input type="text" class="form-control" name="title" placeholder="{{ __('Enter Title') }}">
+                                <label>
+                                    {{ __('Title') }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" name="title"
+                                    placeholder="{{ __('Enter Title') }}">
                             </div>
                             <div class="form-group">
-                                <label>{{ __('Subject') }}</label>
-                                <input type="text" class="form-control" name="subject" placeholder="{{ __('Enter Subject') }}">
+                                <label>
+                                    {{ __('Subject') }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" name="subject"
+                                    placeholder="{{ __('Enter Subject') }}">
                             </div>
                             <div class="form-group">
-                                <label>{{ __('Priority') }}</label>
+                                <label>
+                                    {{ __('Priority') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <select name="priority" class="form-select">
                                     <option value="low">{{ __('Low') }}</option>
                                     <option value="medium">{{ __('Medium') }}</option>
@@ -39,7 +50,10 @@
                             </div>
 
                             <div class="form-group">
-                                <label>{{ __('Departments') }}</label>
+                                <label>
+                                    {{ __('Departments') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <select name="departments" class="form-select">
                                     @foreach ($departments as $dep)
                                         <option value="{{ $dep->id }}">{{ $dep->name }}</option>
@@ -48,14 +62,19 @@
                             </div>
 
                             <div class="form-group">
-                                <label>{{ __('Description') }}</label>
-                                <textarea name="description" class="form-control" cols="30" rows="10" placeholder="{{ __('Enter Description') }}"></textarea>
+                                <label>
+                                    {{ __('Description') }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <textarea name="description" class="form-control" cols="30" rows="10"
+                                    placeholder="{{ __('Enter Description') }}"></textarea>
                             </div>
                             <div class="btn-wrapper">
                                 <button type="submit" class="cmn_btn btn_bg_1 btn-success">
                                     {{ get_static_option('support_ticket_button_text') }}
                                 </button>
-                                <a href="{{ route('vendor.support.ticket.all') }}" class="cmn_btn default-theme-btn" style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                                <a href="{{ route('vendor.support.ticket.all') }}" class="cmn_btn default-theme-btn"
+                                    style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
                                     {{ __('Back') }}
                                 </a>
                             </div>

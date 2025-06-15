@@ -21,9 +21,14 @@
                             @csrf
                             @method('PUT')
                             <div class="form-group">
-                                <label>{{ __('Select a gateway') }}</label>
+                                <label>
+                                    {{ __('Payment Method') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <select name="gateway_name" class="form-select gateway-name">
-                                    <option value="">{{ __('Select a gateway') }}</option>
+                                    <option value="" selected disabled>
+                                        {{ __('Select Payment Method') }}
+                                    </option>
                                     @foreach ($adminGateways as $gateway)
                                         <option
                                             {{ $savedGateway?->vendor_wallet_gateway_id === $gateway->id ? 'selected' : '' }}
@@ -36,18 +41,18 @@
                             <div class="form-group gateway-information-wrapper">
                                 @php
                                     $gatewayFields = $adminGateways->find($savedGateway?->vendor_wallet_gateway_id);
-                                    // now unserialize saved gateway fields
                                     $fileds = $savedGateway?->fileds ? unserialize($savedGateway?->fileds) : [];
                                 @endphp
                                 @foreach (($gatewayFields?->filed ? unserialize($gatewayFields?->filed) : []) ?? [] as $key => $filed)
                                     @php
-                                        // now create name as like "Gateway id" this to this "gateway_id"
-                                        $filed_name = $filed;
+                                        $filed_name = ucfirst($filed);
                                         $key = str_replace(' ', '_', strtolower($filed));
                                         $filed = $fileds[$key] ?? '';
                                     @endphp
                                     <div class="form-group">
-                                        <label>{{ $filed_name }}</label>
+                                        <label>
+                                            {{ ucfirst($filed_name) }}
+                                        </label>
                                         <input type="text" name="gateway_filed[{{ $key }}]"
                                             class="form-control" value="{{ $filed }}"
                                             placeholder="Enter {{ str_replace('_', ' ', $filed_name) }}" />
