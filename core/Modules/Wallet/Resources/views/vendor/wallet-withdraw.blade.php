@@ -88,13 +88,18 @@
                             <div class="col-lg-12">
                                 <div class="dashboard__card">
                                     <div class="dashboard__card__header">
-                                        <h2 class="dashboard__card__title">{{ __('Withdraw Information') }}</h2>
+                                        <h2 class="dashboard__card__title">
+                                            {{ __('Withdraw Information') }}
+                                        </h2>
                                     </div>
                                     <div class="dashboard__card__body custom__form mt-4">
                                         <form action="{{ route('vendor.wallet.withdraw') }}" method="post">
                                             @csrf
                                             <div class="form-group">
-                                                <label>{{ __('Input withdraw amount') }}</label>
+                                                <label>
+                                                    {{ __('Withdraw amount') }}
+                                                    <span class="text-danger">*</span>
+                                                </label>
                                                 <input name="withdraw_amount" type="number" id="withdraw_amount"
                                                     min="{{ get_static_option('minimum_withdraw_amount') }}"
                                                     max="{{ $current_balance }}" class="form-control"
@@ -102,9 +107,11 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <label>{{ __('Select an gateway') }}</label>
+                                                <label>{{ __('Payment Method') }}</label>
                                                 <select name="gateway_name" class="form-select gateway-name">
-                                                    <option value="">{{ __('Select a gateway') }}</option>
+                                                    <option value="" selected disabled>
+                                                        {{ __('Select payment method') }}
+                                                    </option>
                                                     @foreach ($adminGateways as $gateway)
                                                         <option
                                                             {{ $savedGateway?->vendor_wallet_gateway_id === $gateway->id ? 'selected' : '' }}
@@ -117,7 +124,9 @@
                                             <div class="form-group gateway-information-wrapper">
                                                 @foreach (($savedGateway?->fileds ? unserialize($savedGateway?->fileds) : []) ?? [] as $key => $filed)
                                                     <div class="form-group">
-                                                        <label>{{ $filed }}</label>
+                                                        <label>
+                                                            {{ ucfirst($filed) }}
+                                                        </label>
                                                         <input type="text" name="gateway_filed[{{ $key }}]"
                                                             class="form-control" value="{{ $filed }}"
                                                             placeholder="Enter {{ str_replace('_', ' ', $filed) }}" />
