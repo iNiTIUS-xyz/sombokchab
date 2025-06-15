@@ -3,387 +3,6 @@
         ->select(['id', 'name'])
         ->get();
 @endphp
-<!-- Header area Starts -->
-<header class="header-style-01 topbar-bg-4">
-    <div class="desktop-navbar">
-        <!-- Topbar area Starts -->
-        <div class="topbar-bottom-area topbar-bottom-four py-2">
-            <div class="" style="padding: 0px 10px">
-                <div class="row align-items-center">
-                    <div class="col-lg-1 d-none d-lg-block">
-                        <div class="topbar-logo">
-                            <a href="{{ route('homepage') }}">
-                                @if (!empty(filter_static_option_value('site_logo', $global_static_field_data)))
-                                    {!! render_image_markup_by_attachment_id(filter_static_option_value('site_logo', $global_static_field_data)) !!}
-                                @else
-                                    <h2 class="site-title">
-                                        {{ filter_static_option_value('site_title', $global_static_field_data) }}</h2>
-                                @endif
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-1 d-none d-lg-block">
-                        <div class="gtranslate_wrapper"></div>
-                    </div>
-                    <div class="col-lg-8 col-md-6">
-                        <div class="category-searchbar">
-                            <div class="category-searchbar">
-                                <form action="#"  method="GET" class="single-searchbar searchbar-suggetions formSubmitAction" >
-                                    <div class="input-group">
-                                        <select class="form--control category-select" id="search_category_id">
-                                            <option value="all">All Categories</option>
-                                            @foreach ($categories as $category)
-                                                <option value="{{ $category->id }}">
-                                                    {{ $category->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        <input autocomplete="off" class="form--control radius-5" id="search_form_input"
-                                            type="text" placeholder="{{ 'Search For Products' }}">
-
-                                        {{-- <button type="submit" class="right-position-button margin-2 radius-5">
-                                            <i class="las la-search"></i>
-                                        </button> --}}
-                                    </div>
-
-                                    <div class="search-suggestions" id="search_suggestions_wrap">
-                                        <div class="search-inner">
-                                            <div class="row">
-                                                <div class="col-md- text-end">
-                                                    <a href="javascript:;" class="dismissSearcSection text-danger">
-                                                        <i class="las la-times"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="product-suggestion item-suggestions">
-                                                <h6 class="item-title text-center">{{ __('Product Suggestions') }}</h6>
-                                                <ul id="search_result_products" class="product-suggestion-list my-4">
-                                                </ul>
-                                                <a href="" class="showMoreProduct"
-                                                    style="text-align: center; display: block;">
-                                                    See More
-                                                </a>
-                                            </div>
-                                            <div class="product-suggestion item-suggestions" style="display:none;"
-                                                id="no_product_found_div">
-                                                <h6 class="item-title  text-center">
-                                                    <span class="text-center">{{ __('No Product Found') }}</span>
-                                                </h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 d-none d-lg-block">
-                        <div class="single-right-content" style="display: flex; justify-content: center;">
-
-                            <div class="track-icon-list header-card-area-content-wrapper">
-                                <!-- Currency Selector with Dropdown Icon -->
-                                <div class="custom-dropdown" style="float: right; margin-left: 10px;">
-                                    <select id="currency-selector" class="form-control" style="width: 70px">
-                                        <option value="USD" selected>USD</option>
-                                        <option value="KHR">KHR</option>
-                                    </select>
-                                </div>
-
-                                @include('frontend.partials.header.navbar.card-and-wishlist-area')
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Topbar area Ends -->
-        <!-- Menu area Starts -->
-        <nav class="navbar navbar-area nav-five navbar-expand-lg py-1" style="background: rgb(57, 77, 72);">
-            <div class="container container_1608 nav-container  {{ $containerClass ?? '' }}"
-                style="max-width: 100%; width: 100%; margin: 0px">
-                <div class="navbar-inner-all">
-                    <div class="navbar-inner-all--left">
-                        <div class="nav-category category_bars">
-                            <span class="nav-category-bars"><i class="las la-bars"></i> {{ __('Categories') }}</span>
-                        </div>
-                        <div class="responsive-mobile-menu d-lg-none d-block">
-                            <div class="logo-wrapper">
-                                <a href="{{ route('homepage') }}">
-                                    @if (!empty(filter_static_option_value('site_logo', $global_static_field_data)))
-                                        {!! render_image_markup_by_attachment_id(filter_static_option_value('site_logo', $global_static_field_data)) !!}
-                                    @else
-                                        <h2 class="site-title">
-                                            {{ filter_static_option_value('site_title', $global_static_field_data) }}
-                                        </h2>
-                                    @endif
-                                </a>
-                            </div>
-                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#mares_main_menu">
-                                <span class="navbar-toggler-icon"></span>
-                            </button>
-                            <div class="show-nav-right-contents">
-                                <i class="las la-ellipsis-v"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="collapse navbar-collapse" id="mares_main_menu">
-                        <ul class="navbar-nav">
-                            {!! render_frontend_menu($primary_menu) !!}
-                        </ul>
-                    </div>
-                    <div class="navbar-right-content">
-                        <div class="topbar-bottom-right-flex">
-                            <div class="topbar-right-offer">
-                                <ul class="list">
-                                    @if (auth('web')->check())
-                                        <li class="me-2">
-                                            <a href="{{ route('frontend.products.track.order') }}"
-                                                class="track-icon-single text-white">
-                                                <span class="icon">
-                                                    <i class="las la-map-marker-alt text-white"></i>
-                                                </span>
-                                                {{ __('Order Tracking') }}
-                                            </a>
-                                        </li>
-                                    @endif
-                                    @if (auth('vendor')->check())
-                                        {{-- Vendor is logged in --}}
-                                    @else
-                                        @if (!auth('web')->check())
-                                            @if (get_static_option('enable_vendor_registration') === 'on')
-                                                <li class="me-2">
-                                                    <a class="btn btn-sm text-dark become-a-seller-button"
-                                                        href="{{ route('vendor.register') }}"
-                                                        style="background-color: var(--main-color-two);">
-                                                        {{ __('Become a Vendor') }}
-                                                    </a>
-                                                </li>
-                                            @endif
-
-                                            <li class="">
-                                                <a href="{{ route('vendor.login') }}">
-                                                    {{ __('Vendor Sign In') }}
-                                                </a>
-                                            </li>
-                                        @endif
-                                    @endif
-                                    {!! render_frontend_menu(get_static_option('topbar_menu')) !!}
-                                </ul>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </nav>
-        <!-- Menu area end -->
-    </div>
-
-    <div class="mobile-navbar">
-
-        <!-- Menu area Starts -->
-        <nav class="navbar navbar-area nav-five navbar-expand-lg py-1" style="background: rgb(57, 77, 72);">
-            <div class="container container_1608 nav-container  {{ $containerClass ?? '' }}"
-                style="max-width: 100%; width: 100%; margin: 0px">
-                <div class="navbar-inner-all">
-                    <div class="navbar-inner-all--left">
-
-                        <div class="responsive-mobile-menu d-lg-none d-block">
-                            <div class="logo-wrapper">
-                                <a href="{{ route('homepage') }}">
-                                    @if (!empty(filter_static_option_value('site_logo', $global_static_field_data)))
-                                        {!! render_image_markup_by_attachment_id(filter_static_option_value('site_logo', $global_static_field_data)) !!}
-                                    @else
-                                        <h2 class="site-title">
-                                            {{ filter_static_option_value('site_title', $global_static_field_data) }}
-                                        </h2>
-                                    @endif
-                                </a>
-                            </div>
-
-
-                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#mares_main_menu">
-                                <span class="">
-                                    <i class="las la-list-ul text-white" style="font-size: 36px;"></i>
-                                </span>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="collapse navbar-collapse" id="mares_main_menu">
-                        <div class="topbar-bottom-right-flex mt-3">
-                            <div class="topbar-right-offer">
-                                <ul class="list">
-                                    <li>
-                                        <div class="gtranslate_wrapper"></div>
-                                    </li>
-                                    <li>
-                                        <!-- Currency Selector with Dropdown Icon -->
-                                        <div class="custom-dropdown">
-                                            <select id="currency-selector">
-                                                <option value="USD" selected>USD</option>
-                                                <option value="KHR">KHR</option>
-                                            </select>
-                                        </div>
-                                    </li>
-                                    <div class="account d-flex">
-                                        @include('frontend.partials.header.navbar.card-and-wishlist-area')
-                                    </div>
-                                    {!! render_frontend_menu(get_static_option('topbar_menu')) !!}
-
-                                    <li class="me-2">
-                                        <a href="{{ route('frontend.products.track.order') }}"
-                                            class="track-icon-single text-white">
-                                            <span class="icon">
-                                                <i class="las la-map-marker-alt text-white"></i>
-                                            </span>
-                                            {{ __('Order Tracking') }}
-                                        </a>
-                                    </li>
-                                    @if (auth('vendor')->check())
-                                        {{-- Vendor is logged in --}}
-                                    @else
-                                        @if (!auth('web')->check())
-                                            @if (get_static_option('enable_vendor_registration') === 'on')
-                                                <li class="me-2">
-                                                    <a class="btn btn-sm text-dark become-a-seller-button"
-                                                        href="{{ route('vendor.register') }}"
-                                                        style="background-color: var(--main-color-two);">
-                                                        {{ __('Become a Vendor') }}
-                                                    </a>
-                                                </li>
-                                            @endif
-
-                                            <li class="">
-                                                <a href="{{ route('vendor.login') }}">
-                                                    {{ __('Vendor Sign In') }}
-                                                </a>
-                                            </li>
-                                        @endif
-                                    @endif
-
-                                </ul>
-                            </div>
-                        </div>
-                        <ul class="navbar-nav">
-                            {!! render_frontend_menu($primary_menu) !!}
-                        </ul>
-
-                    </div>
-
-                </div>
-            </div>
-        </nav>
-        <!-- Menu area end -->
-
-        <!-- Topbar area Starts -->
-        <div class="topbar-bottom-area topbar-bottom-four py-2">
-            <div class="" style="padding: 0px 10px">
-                <div class="row align-items-center">
-                    <div class="col-2">
-                        <div class="nav-category category_bars text-center">
-                            <span class="nav-category-bars"><i class="las la-bars"></i></span>
-                        </div>
-                    </div>
-                    <div class="col-10">
-                        <div class="category-searchbar">
-                            <form action="#" class="single-searchbar searchbar-suggetions">
-                                <div class="input-group">
-                                    <select class="form--control category-select" id="search_category_id">
-                                        <option value="all">All Categories</option>
-                                        @foreach ($categories as $category)
-                                            <option value="{{ $category->id }}">
-                                                {{ $category->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    <input autocomplete="off" class="form--control radius-5" id="search_form_input"
-                                        type="text" placeholder="{{ 'Search For Products' }}">
-
-                                    {{-- <button type="submit" class="right-position-button margin-2 radius-5">
-                                        <i class="las la-search"></i>
-                                    </button> --}}
-                                </div>
-                                <div class="search-suggestions" id="search_suggestions_wrap">
-                                    <div class="search-inner">
-                                        <div class="row">
-                                            <div class="col-md- text-end">
-                                                <a href="javascript:;" class="dismissSearcSection text-danger">
-                                                    <i class="las la-times"></i>
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="product-suggestion item-suggestions">
-                                            <h6 class="item-title text-center">{{ __('Product Suggestions') }}</h6>
-                                            <ul id="search_result_products" class="product-suggestion-list mt-4">
-
-                                            </ul>
-                                            <a href="" class="showMoreProduct"
-                                                style="text-align: center; display: block;">
-                                                See More
-                                            </a>
-                                        </div>
-
-                                        <div class="product-suggestion item-suggestions" style="display:none;"
-                                            id="no_product_found_div">
-                                            <h6 class="item-title  text-center">
-                                                <span class="text-center">
-                                                    {{ __('No Product Found') }}
-                                                </span>
-                                            </h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Topbar area Ends -->
-
-    </div>
-
-    <!-- Category nav wrapper  -->
-    <div class="categoryNav_overlay"></div>
-    <div class="categoryNav">
-        <div class="categoryNav__close"><i class="las la-times"></i></div>
-        <div class="categoryNav_sidebar">
-            <h3 class="categoryNav__title">{{ __('All Categories') }}</h3>
-            <div class="categoryNav__inner mt-3">
-                <ul class="categoryNav__list parent_menu menu_visible">
-                    <li>
-                        <a href="{{ route('frontend.dynamic.shop.page') }}">All Categories</a>
-                    </li>
-                    {!! render_frontend_menu(get_static_option('megamenu'), 'category_menu') !!}
-                </ul>
-            </div>
-        </div>
-    </div>
-</header>
-
-<!-- Image Search Modal -->
-<div class="modal fade" id="imageSearchModal" tabindex="-1" role="dialog" aria-labelledby="imageSearchModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Upload an Image for Search</h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body text-center">
-                <input type="file" id="imageSearchInput" accept="image/*" class="form-control">
-                <img id="imagePreview" src="#" alt="Image Preview" class="img-fluid mt-3"
-                    style="display:none; max-height: 200px;">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="uploadImageForSearch()">Search</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <style>
     /* Input Group Styles */
@@ -656,6 +275,389 @@
         /* Adjust size as needed */
     }
 </style>
+
+<!-- Header area Starts -->
+<header class="header-style-01 topbar-bg-4">
+    <div class="desktop-navbar">
+        <!-- Topbar area Starts -->
+        <div class="topbar-bottom-area topbar-bottom-four py-2">
+            <div class="" style="padding: 0px 10px">
+                <div class="row align-items-center">
+                    <div class="col-lg-1 d-none d-lg-block">
+                        <div class="topbar-logo">
+                            <a href="{{ route('homepage') }}">
+                                @if (!empty(filter_static_option_value('site_logo', $global_static_field_data)))
+                                    {!! render_image_markup_by_attachment_id(filter_static_option_value('site_logo', $global_static_field_data)) !!}
+                                @else
+                                    <h2 class="site-title">
+                                        {{ filter_static_option_value('site_title', $global_static_field_data) }}</h2>
+                                @endif
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-1 d-none d-lg-block">
+                        <div class="gtranslate_wrapper"></div>
+                    </div>
+                    <div class="col-lg-8 col-md-6">
+                        <div class="category-searchbar">
+                            <div class="category-searchbar">
+                                <form action="#" method="GET"
+                                    class="single-searchbar searchbar-suggetions formSubmitAction">
+                                    <div class="input-group">
+                                        <select class="form--control category-select" id="search_category_id">
+                                            <option value="all">All Categories</option>
+                                            @foreach ($categories as $category)
+                                                <option value="{{ $category->id }}">
+                                                    {{ $category->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <input autocomplete="off" class="form--control radius-5" id="search_form_input"
+                                            type="text" placeholder="{{ 'Search For Products' }}">
+
+                                        {{-- <button type="submit" class="right-position-button margin-2 radius-5">
+                                            <i class="las la-search"></i>
+                                        </button> --}}
+                                    </div>
+
+                                    <div class="search-suggestions" id="search_suggestions_wrap">
+                                        <div class="search-inner">
+                                            <div class="row">
+                                                <div class="col-md- text-end">
+                                                    <a href="javascript:;" class="dismissSearcSection text-danger">
+                                                        <i class="las la-times"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="product-suggestion item-suggestions">
+                                                {{-- <h6 class="item-title text-center">{{ __('Product Suggestions') }}</h6> --}}
+                                                <ul id="search_result_products" class="product-suggestion-list my-4">
+                                                </ul>
+                                                <a href="" class="showMoreProduct"
+                                                    style="text-align: center; display: block;">
+                                                    See More
+                                                </a>
+                                            </div>
+                                            <div class="product-suggestion item-suggestions" style="display:none;"
+                                                id="no_product_found_div">
+                                                <h6 class="item-title  text-center">
+                                                    <span class="text-center">{{ __('No Product Found') }}</span>
+                                                </h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 d-none d-lg-block">
+                        <div class="single-right-content" style="display: flex; justify-content: center;">
+
+                            <div class="track-icon-list header-card-area-content-wrapper">
+                                <!-- Currency Selector with Dropdown Icon -->
+                                <div class="custom-dropdown" style="float: right; margin-left: 10px;">
+                                    <select id="currency-selector" class="form-control" style="width: 70px">
+                                        <option value="USD" selected>USD</option>
+                                        <option value="KHR">KHR</option>
+                                    </select>
+                                </div>
+
+                                @include('frontend.partials.header.navbar.card-and-wishlist-area')
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Topbar area Ends -->
+        <!-- Menu area Starts -->
+        <nav class="navbar navbar-area nav-five navbar-expand-lg py-1" style="background: rgb(57, 77, 72);">
+            <div class="container container_1608 nav-container  {{ $containerClass ?? '' }}"
+                style="max-width: 100%; width: 100%; margin: 0px">
+                <div class="navbar-inner-all">
+                    <div class="navbar-inner-all--left">
+                        <div class="nav-category category_bars">
+                            <span class="nav-category-bars"><i class="las la-bars"></i> {{ __('Categories') }}</span>
+                        </div>
+                        <div class="responsive-mobile-menu d-lg-none d-block">
+                            <div class="logo-wrapper">
+                                <a href="{{ route('homepage') }}">
+                                    @if (!empty(filter_static_option_value('site_logo', $global_static_field_data)))
+                                        {!! render_image_markup_by_attachment_id(filter_static_option_value('site_logo', $global_static_field_data)) !!}
+                                    @else
+                                        <h2 class="site-title">
+                                            {{ filter_static_option_value('site_title', $global_static_field_data) }}
+                                        </h2>
+                                    @endif
+                                </a>
+                            </div>
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#mares_main_menu">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div class="show-nav-right-contents">
+                                <i class="las la-ellipsis-v"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collapse navbar-collapse" id="mares_main_menu">
+                        <ul class="navbar-nav">
+                            {!! render_frontend_menu($primary_menu) !!}
+                        </ul>
+                    </div>
+                    <div class="navbar-right-content">
+                        <div class="topbar-bottom-right-flex">
+                            <div class="topbar-right-offer">
+                                <ul class="list">
+                                    @if (auth('web')->check())
+                                        <li class="me-2">
+                                            <a href="{{ route('frontend.products.track.order') }}"
+                                                class="track-icon-single text-white">
+                                                <span class="icon">
+                                                    <i class="las la-map-marker-alt text-white"></i>
+                                                </span>
+                                                {{ __('Order Tracking') }}
+                                            </a>
+                                        </li>
+                                    @endif
+                                    @if (auth('vendor')->check())
+                                        {{-- Vendor is logged in --}}
+                                    @else
+                                        @if (!auth('web')->check())
+                                            @if (get_static_option('enable_vendor_registration') === 'on')
+                                                <li class="me-2">
+                                                    <a class="btn btn-sm text-dark become-a-seller-button"
+                                                        href="{{ route('vendor.register') }}"
+                                                        style="background-color: var(--main-color-two);">
+                                                        {{ __('Become a Vendor') }}
+                                                    </a>
+                                                </li>
+                                            @endif
+
+                                            <li class="">
+                                                <a href="{{ route('vendor.login') }}">
+                                                    {{ __('Vendor Sign In') }}
+                                                </a>
+                                            </li>
+                                        @endif
+                                    @endif
+                                    {!! render_frontend_menu(get_static_option('topbar_menu')) !!}
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <!-- Menu area end -->
+    </div>
+
+    <div class="mobile-navbar">
+
+        <!-- Menu area Starts -->
+        <nav class="navbar navbar-area nav-five navbar-expand-lg py-1" style="background: rgb(57, 77, 72);">
+            <div class="container container_1608 nav-container  {{ $containerClass ?? '' }}"
+                style="max-width: 100%; width: 100%; margin: 0px">
+                <div class="navbar-inner-all">
+                    <div class="navbar-inner-all--left">
+
+                        <div class="responsive-mobile-menu d-lg-none d-block">
+                            <div class="logo-wrapper">
+                                <a href="{{ route('homepage') }}">
+                                    @if (!empty(filter_static_option_value('site_logo', $global_static_field_data)))
+                                        {!! render_image_markup_by_attachment_id(filter_static_option_value('site_logo', $global_static_field_data)) !!}
+                                    @else
+                                        <h2 class="site-title">
+                                            {{ filter_static_option_value('site_title', $global_static_field_data) }}
+                                        </h2>
+                                    @endif
+                                </a>
+                            </div>
+
+
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#mares_main_menu">
+                                <span class="">
+                                    <i class="las la-list-ul text-white" style="font-size: 36px;"></i>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="collapse navbar-collapse" id="mares_main_menu">
+                        <div class="topbar-bottom-right-flex mt-3">
+                            <div class="topbar-right-offer">
+                                <ul class="list">
+                                    <li>
+                                        <div class="gtranslate_wrapper"></div>
+                                    </li>
+                                    <li>
+                                        <!-- Currency Selector with Dropdown Icon -->
+                                        <div class="custom-dropdown">
+                                            <select id="currency-selector">
+                                                <option value="USD" selected>USD</option>
+                                                <option value="KHR">KHR</option>
+                                            </select>
+                                        </div>
+                                    </li>
+                                    <div class="account d-flex">
+                                        @include('frontend.partials.header.navbar.card-and-wishlist-area')
+                                    </div>
+                                    {!! render_frontend_menu(get_static_option('topbar_menu')) !!}
+
+                                    <li class="me-2">
+                                        <a href="{{ route('frontend.products.track.order') }}"
+                                            class="track-icon-single text-white">
+                                            <span class="icon">
+                                                <i class="las la-map-marker-alt text-white"></i>
+                                            </span>
+                                            {{ __('Order Tracking') }}
+                                        </a>
+                                    </li>
+                                    @if (auth('vendor')->check())
+                                        {{-- Vendor is logged in --}}
+                                    @else
+                                        @if (!auth('web')->check())
+                                            @if (get_static_option('enable_vendor_registration') === 'on')
+                                                <li class="me-2">
+                                                    <a class="btn btn-sm text-dark become-a-seller-button"
+                                                        href="{{ route('vendor.register') }}"
+                                                        style="background-color: var(--main-color-two);">
+                                                        {{ __('Become a Vendor') }}
+                                                    </a>
+                                                </li>
+                                            @endif
+
+                                            <li class="">
+                                                <a href="{{ route('vendor.login') }}">
+                                                    {{ __('Vendor Sign In') }}
+                                                </a>
+                                            </li>
+                                        @endif
+                                    @endif
+
+                                </ul>
+                            </div>
+                        </div>
+                        <ul class="navbar-nav">
+                            {!! render_frontend_menu($primary_menu) !!}
+                        </ul>
+
+                    </div>
+
+                </div>
+            </div>
+        </nav>
+        <!-- Menu area end -->
+
+        <!-- Topbar area Starts -->
+        <div class="topbar-bottom-area topbar-bottom-four py-2">
+            <div class="" style="padding: 0px 10px">
+                <div class="row align-items-center">
+                    <div class="col-2">
+                        <div class="nav-category category_bars text-center">
+                            <span class="nav-category-bars"><i class="las la-bars"></i></span>
+                        </div>
+                    </div>
+                    <div class="col-10">
+                        <div class="category-searchbar">
+                            <form action="#" class="single-searchbar searchbar-suggetions">
+                                <div class="input-group">
+                                    <select class="form--control category-select" id="search_category_id">
+                                        <option value="all">All Categories</option>
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}">
+                                                {{ $category->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <input autocomplete="off" class="form--control radius-5" id="search_form_input"
+                                        type="text" placeholder="{{ 'Search For Products' }}">
+
+                                    {{-- <button type="submit" class="right-position-button margin-2 radius-5">
+                                        <i class="las la-search"></i>
+                                    </button> --}}
+                                </div>
+                                <div class="search-suggestions" id="search_suggestions_wrap">
+                                    <div class="search-inner">
+                                        <div class="row">
+                                            <div class="col-md- text-end">
+                                                <a href="javascript:;" class="dismissSearcSection text-danger">
+                                                    <i class="las la-times"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="product-suggestion item-suggestions">
+                                            {{-- <h6 class="item-title text-center">{{ __('Product Suggestions') }}</h6> --}}
+                                            <ul id="search_result_products" class="product-suggestion-list mt-4">
+
+                                            </ul>
+                                            <a href="" class="showMoreProduct"
+                                                style="text-align: center; display: block;">
+                                                See More
+                                            </a>
+                                        </div>
+
+                                        <div class="product-suggestion item-suggestions" style="display:none;"
+                                            id="no_product_found_div">
+                                            <h6 class="item-title  text-center">
+                                                <span class="text-center">
+                                                    {{ __('No Product Found') }}
+                                                </span>
+                                            </h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Topbar area Ends -->
+
+    </div>
+
+    <!-- Category nav wrapper  -->
+    <div class="categoryNav_overlay"></div>
+    <div class="categoryNav">
+        <div class="categoryNav__close"><i class="las la-times"></i></div>
+        <div class="categoryNav_sidebar">
+            <h3 class="categoryNav__title">{{ __('All Categories') }}</h3>
+            <div class="categoryNav__inner mt-3">
+                <ul class="categoryNav__list parent_menu menu_visible">
+                    <li>
+                        <a href="{{ route('frontend.dynamic.shop.page') }}">All Categories</a>
+                    </li>
+                    {!! render_frontend_menu(get_static_option('megamenu'), 'category_menu') !!}
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Image Search Modal -->
+<div class="modal fade" id="imageSearchModal" tabindex="-1" role="dialog" aria-labelledby="imageSearchModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Upload an Image for Search</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <input type="file" id="imageSearchInput" accept="image/*" class="form-control">
+                <img id="imagePreview" src="#" alt="Image Preview" class="img-fluid mt-3"
+                    style="display:none; max-height: 200px;">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="uploadImageForSearch()">Search</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
     window.gtranslateSettings = {

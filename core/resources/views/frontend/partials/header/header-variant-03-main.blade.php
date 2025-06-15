@@ -18,7 +18,7 @@
                     <div class="category-searchbar">
                         <form action="#" class="single-searchbar searchbar-suggetions">
                             <input autocomplete="off" class="form--control radius-5" id="search_form_input"
-                                type="text" placeholder="{{ 'Search For Products' }}">
+                                type="text" placeholder="{{ __('Search For Products') }}">
                             <button type="submit" class="right-position-button margin-2 radius-5"> <i
                                     class="las la-search"></i> </button>
                             <div class="search-suggestions" id="search_suggestions_wrap">
@@ -30,7 +30,7 @@
                                         </ul>
                                     </div>
                                     <div class="product-suggestion item-suggestions">
-                                        <h6 class="item-title text-center">{{ __('Product Suggestions') }}</h6>
+                                        {{-- <h6 class="item-title text-center">{{ __('Product Suggestions') }}</h6> --}}
                                         <ul id="search_result_products" class="product-suggestion-list mt-4">
 
                                         </ul>

@@ -18,7 +18,7 @@
                             <form action="{{ route('frontend.products.all') }}">
                                 <div class="form-group">
                                     <input type="text" name="q" class="form-control" id="search_form_input"
-                                        placeholder="Search..." autocomplete="off">
+                                        placeholder="{{ __('Search...') }}" autocomplete="off">
                                 </div>
                                 <button class="search-btn" type="submit">{{ __('search') }}</button>
                                 @include('frontend.partials.search-result')

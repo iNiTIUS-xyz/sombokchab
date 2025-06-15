@@ -10,9 +10,9 @@
             </div>
             <div class="product-suggestion item-suggestions">
                 <h6 class="item-title text-center">
-                    <span>
+                    {{-- <span>
                         {{ __('Product Suggestions') }}
-                    </span>
+                    </span> --}}
                     <a href="#1" target="_blank" id="search_result_all" class="showAll">{{ __('Show all') }}</a>
                 </h6>
                 <ul class="product-suggestion-list mt-4" id="search_result_products"></ul>

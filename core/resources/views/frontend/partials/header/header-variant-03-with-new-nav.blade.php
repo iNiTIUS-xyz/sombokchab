@@ -24,16 +24,6 @@
                         <form action="{{ route('frontend.search.results') }}"
                             class="single-searchbar searchbar-suggetions" method="GET">
                             @csrf
-                            {{-- <input autocomplete="off" class="form--control radius-5" id="search_form_input"
-                                type="text" placeholder="{{ 'Search For Products' }}">
-                            <div class="right-position-button margin-2 radius-5" style="top: 0px;">
-
-                                <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#imageSearchModal">
-                                    <i class="la la-camera la-2x text-light"></i>
-                                </button>
-                                <button type="submit" class="btn"> <i
-                                    class="las la-search la-2x text-light"></i> </button>
-                            </div> --}}
                             @php
                                 $all_category = Modules\Attributes\Entities\Category::where('status_id', '1')
                                     ->with('subcategory.childcategory') // Ensure child categories are loaded
@@ -87,7 +77,7 @@
                                         </ul>
                                     </div> --}}
                                     <div class="product-suggestion item-suggestions">
-                                        <h6 class="item-title text-center">{{ __('Product Suggestions') }}</h6>
+                                        {{-- <h6 class="item-title text-center">{{ __('Product Suggestions') }}</h6> --}}
                                         <ul id="search_result_products" class="product-suggestion-list mt-4">
 
                                         </ul>
