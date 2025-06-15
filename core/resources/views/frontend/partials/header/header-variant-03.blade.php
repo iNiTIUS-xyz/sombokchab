@@ -29,28 +29,28 @@
         background-position: right 10px center;
         background-size: 15px;
         order: 1;
-        /* Ensures it appears first */
     }
 
-    /* Search Input Styles */
     .category-searchbar #search_form_input {
         flex: 1;
         border: none;
         padding: 10px 200px;
         order: 2;
-        /* Appears after the select */
+
     }
 
-    /* Search Button Styles */
     .category-searchbar .right-position-button {
-        background: var(--main-color-one);
+        background: white;
         color: white;
         border: none;
         padding: 0 15px;
         cursor: pointer;
         transition: all 0.3s ease;
         order: 3;
-        /* Appears last */
+    }
+
+    .category-searchbar .right-position-button i {
+        margin-top: 16px;
     }
 
     /* Responsive Styles */
@@ -108,18 +108,6 @@
         }
 
     }
-
-    /* @media (min-width: 1510px) (min-width: 1670px) {
-
-        .category-searchbar .input-group {
-            display: flex;
-            width: 82%;
-            border-radius: 5px;
-            overflow: hidden;
-            border: 1px solid #A69D9D;
-        }
-
-    } */
 
     @media (min-width: 1400px) (min-width: 1460px) {
 
@@ -315,26 +303,21 @@
                                         <input autocomplete="off" class="form--control radius-5" id="search_form_input"
                                             type="text" placeholder="{{ 'Search For Products' }}">
 
-                                        {{-- <button type="submit" class="right-position-button margin-2 radius-5">
-                                            <i class="las la-search"></i>
-                                        </button> --}}
+                                        <span
+                                            class="right-position-button margin-2 radius-5 dismissSearcSection text-danger"
+                                            style="display: none;">
+                                            <i class="las la-times"></i>
+                                        </span>
                                     </div>
 
                                     <div class="search-suggestions" id="search_suggestions_wrap">
                                         <div class="search-inner">
-                                            <div class="row">
-                                                <div class="col-md- text-end">
-                                                    <a href="javascript:;" class="dismissSearcSection text-danger">
-                                                        <i class="las la-times"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
                                             <div class="product-suggestion item-suggestions">
                                                 {{-- <h6 class="item-title text-center">{{ __('Product Suggestions') }}</h6> --}}
                                                 <ul id="search_result_products" class="product-suggestion-list my-4">
                                                 </ul>
                                                 <a href="" class="showMoreProduct"
-                                                    style="text-align: center; display: block;">
+                                                    style="text-align: center; display: block; color: var(--main-color-one);">
                                                     See More
                                                 </a>
                                             </div>

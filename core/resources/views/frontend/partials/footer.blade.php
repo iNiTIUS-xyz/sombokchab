@@ -1367,6 +1367,8 @@
         </script>
         <script>
             $(".dismissSearcSection").on('click', function() {
+                $("#search_form_input").val('');
+                $(".dismissSearcSection").hide();
                 $("#search_suggestions_wrap").removeClass('show');
             });
         </script>
@@ -1412,6 +1414,7 @@
                             category: category_id,
                             search_category_id: search_category_id
                         }).then(function(data) {
+                            $(".dismissSearcSection").show();
                             $('#search_suggestions_wrap').show();
                             search_result_category.html('');
                             if (data['product_url']) {
@@ -1428,8 +1431,8 @@
                                 //check it ther category avialble or not
                                 Object.values(data['categories']).forEach(function(category) {
                                     search_result_category.append(`<li class="list">
-                            <a href="${category['url']}" class="item">${category['title']}</a>
-                        </li>`);
+                                        <a href="${category['url']}" class="item">${category['title']}</a>
+                                    </li>`);
                                 });
                             }
 

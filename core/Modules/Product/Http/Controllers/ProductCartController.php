@@ -73,6 +73,13 @@ class ProductCartController extends Controller
             'selected_color' => 'nullable',
         ]);
 
+        if (!Auth::guard('web')->check()) {
+            return response()->json([
+                'type' => 'error',
+                'msg' => __('Sign up or Sign in for add to cart items.'),
+            ]);
+        }
+
         $product = Product::where('id', $request->product_id)->first();
 
         // first find inside cart
