@@ -780,8 +780,7 @@ class FrontendController extends Controller
         $default_shipping_cost = CartAction::getDefaultShippingCost();
         $default_shipping = CartAction::getDefaultShipping();
         $user = getUserByGuard('web');
-        // dd($user);
-
+        
         $all_user_shipping = [];
 
         if (auth('web')->check()) {

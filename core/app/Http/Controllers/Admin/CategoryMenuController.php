@@ -57,8 +57,7 @@ class CategoryMenuController extends Controller
             'content' => $request->menu_content,
             'title' => $request->title,
         ]);
-        //dd($request->all());
-
+        
         return redirect()->back()->with([
             'msg' => __('Menu updated...'),
             'type' => 'success',

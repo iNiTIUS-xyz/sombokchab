@@ -101,7 +101,7 @@
                                                 <section id="drop_down_menu_builder_wrapper">
                                                     <div class="dd" id="nestable">
                                                         <ol class="dd-list">
-                                                            {{--                                                            @dd($page_post->content) --}}
+                                                            
                                                             @if (!empty($page_post->content))
                                                                 {!! render_draggable_category_menu($page_post->id) !!}
                                                             @else

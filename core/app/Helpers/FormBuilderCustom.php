@@ -45,7 +45,7 @@ class FormBuilderCustom
                 if ($value === 'select') {
                     $options = explode("\n", $fields->select_options[$select_index]);
                 }
-                // dd($fields);
+                
                 if(is_array($fields->field_required ?? '')){
                     $fields->field_required=(object) $fields->field_required;
                 }

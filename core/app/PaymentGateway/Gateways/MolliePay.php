@@ -78,7 +78,7 @@ class MolliePay extends PaymentGatewayBase
             ]);
 
         }catch(\Exception $e){
-            // dd($e);
+            
             $msg = '';
             switch($e->getCode()){
                 case(400):

@@ -74,7 +74,7 @@ class ProductCompareController extends Controller
         $cart_data = $request->all();
         $product = Product::withAvg('reviews', 'rating')->withCount('reviews')->findOrFail($cart_data['product_id']);
 
-        //            dd($product);
+        
         $sale_price = $product->sale_price;
         $additional_price = 0;
 

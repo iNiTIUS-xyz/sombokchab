@@ -109,7 +109,7 @@ class GeneralSettingsController extends Controller
                 'subject' => $request->subject,
                 'message' => $request->message,
             ]));
-            // dd($send);
+            
         } catch (\Exception $e) {
             if (Mail::fake()) {
                 $res_data = [

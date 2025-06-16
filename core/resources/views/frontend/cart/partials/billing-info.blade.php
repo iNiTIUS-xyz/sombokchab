@@ -1,7 +1,6 @@
 @php
     $modal = $modal ?? false;
     $states = DB::table('states')->where('country_id', 31)->get();
-    // dd($modal);
 @endphp
 
 <div class="checkout-inner mt-4">

@@ -223,7 +223,6 @@ class VendorProductController extends Controller
             ->where('vendor_id', Auth::guard('vendor')->user()->id)
             ->whereIn('id', $request->ids)
             ->get();
-        dd($products);
 
         foreach ($products as $product) {
             $updateProduct = Product::findOrFail($product->id);

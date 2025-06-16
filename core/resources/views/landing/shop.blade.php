@@ -68,7 +68,7 @@
                         </div>
                     </div>
                 </div>
-{{-- @dd($style) --}}
+                
                 @if (isset($style) && $style == 'list')
                 <div class="product-wrap">
                     @foreach ($all_products as $product)
