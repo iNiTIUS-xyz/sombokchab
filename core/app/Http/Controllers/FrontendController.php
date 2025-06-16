@@ -780,7 +780,7 @@ class FrontendController extends Controller
         $default_shipping_cost = CartAction::getDefaultShippingCost();
         $default_shipping = CartAction::getDefaultShipping();
         $user = getUserByGuard('web');
-        
+
         $all_user_shipping = [];
 
         if (auth('web')->check()) {
@@ -938,10 +938,7 @@ class FrontendController extends Controller
 
         return view('frontend.wishlist.all', compact('all_wishlist_items', 'products'));
     }
-
-    /** ======================================================================
-     *                  COMPARE FUNCTIONS
-     * ======================================================================*/
+    
     public function productsComparePage()
     {
         $all_compare_items = CompareHelper::getItems();
@@ -967,9 +964,6 @@ class FrontendController extends Controller
         ));
     }
 
-    /** ======================================================================
-     *                  PRODUCTS FILTER FUNCTIONS
-     * ======================================================================*/
     public function topRatedProducts(): View|Factory|string|Application
     {
         $products = Product::where('status_id', 1)
@@ -1203,12 +1197,6 @@ class FrontendController extends Controller
         ], 200);
     }
 
-    /**
-     * @return Application|Factory|View
-     *
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     */
     private function fallbackProductPage($page_post = null, $vendor = null)
     {
         $page_name = $page_post->name ?? 'Product';

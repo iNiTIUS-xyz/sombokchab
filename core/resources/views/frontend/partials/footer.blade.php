@@ -1373,7 +1373,7 @@
             });
         </script>
         <script>
-            const shopBaseUrl = "{{ route('frontend.dynamic.shop.page') }}";
+            const shopBaseUrl = "{{ route('frontend.dynamic.page', ['slug' => 'shop']) }}";
 
             $(document).ready(function() {
                 // Keyup event for search input
