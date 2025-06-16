@@ -143,22 +143,30 @@
             @endcan
 
             <div class="col-lg-12">
-                <div class="mb-4">
-                    @can('product-create')
-                        <div class="dashboard__card__header__right">
-                            <a class="cmn_btn btn_bg_profile"
-                                href="{{ route('admin.products.create') }}">{{ __('Add New Product') }}</a>
-                        </div>
-                    @endcan
+                <div class="row mx-2 mb-4">
+                    <div class="col-md-6">
+                        @can('product-create')
+                            <div class="dashboard__card__header__right">
+                                <a class="cmn_btn btn_bg_profile"
+                                    href="{{ route('admin.products.create') }}">{{ __('Add New Product') }}</a>
+                            </div>
+                        @endcan
+                    </div>
+                    <div class="col-md-6 text-end">
+                        @can('product-trash')
+                            <div class="btn-wrapper-trash margin-right-20">
+                                <a class="cmn_btn btn_bg_danger btn-sm" href="{{ route('admin.products.trash.all') }}">
+                                    {{ __('Trash') }}
+                                </a>
+                            </div>
+                        @endcan
+                    </div>
                 </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h3 class="dashboard__card__title">{{ __('Product list') }}</h3>
                     </div>
                     <div class="dashboard__card__header mt-4">
-                        @can('product-bulk-destroy')
-                            <x-product::table.bulk-action />
-                        @endcan
                         <div class="dashboard__card__header__right">
                             <div class="d-flex bulk-delete-wrapper gap-2">
                                 @can('product-search')
@@ -170,16 +178,11 @@
                                         <option value="100">{{ __('100') }}</option>
                                     </select>
                                 @endcan
-                                @can('product-trash')
-                                    <div class="btn-wrapper-trash margin-right-20">
-                                        <a class="cmn_btn btn_bg_danger btn-sm"
-                                            href="{{ route('admin.products.trash.all') }}">
-                                            {{ __('Trash') }}
-                                        </a>
-                                    </div>
-                                @endcan
                             </div>
                         </div>
+                        @can('product-bulk-destroy')
+                            <x-product::table.bulk-action />
+                        @endcan
                     </div>
                     <div class="dashboard-table table-wrap">
                         <div class="table-responsive mt-4" id="product-table-body">

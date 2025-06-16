@@ -6,23 +6,21 @@ use Illuminate\Support\Facades\Auth;
 
 trait ProductSearchTrait
 {
-    /**
-     * @throws \Exception
-     */
+
     public static function productSearch($request, $req_route = null, $queryType = "admin", $isCustomPagination = "custom")
     {
 
         $route = null;
 
-        if(Auth::guard('admin')->check()){
+        if (Auth::guard('admin')->check()) {
             $route = "admin";
-        }elseif (Auth::guard('vendor')->check()){
+        } elseif (Auth::guard('vendor')->check()) {
             $route = "vendor";
-        }else {
+        } else {
             $route = "api";
         }
 
-        if(!empty($req_route)){
+        if (!empty($req_route)) {
             $route = $req_route;
         }
 
