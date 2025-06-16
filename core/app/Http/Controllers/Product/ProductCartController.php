@@ -92,7 +92,7 @@ class ProductCartController extends Controller
             }
         }
 
-        $response_data = FlashMsg::explain('success', __('Item added to cart'));
+        $response_data = FlashMsg::explain('success', __('Item added to Cart'));
         $response_data['cart_info'] = CartAction::getCartInfo();
 
         if ($available_quantity != $remaining_quantity) {

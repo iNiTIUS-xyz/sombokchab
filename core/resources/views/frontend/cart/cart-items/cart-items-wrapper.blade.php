@@ -129,8 +129,8 @@
                             </div>
                         @endforeach
                     </div>
-                    {{-- <hr />
-                    <div class="checkout__card__footer__estimate d-flex justify-content-end">
+                    {{-- <hr /> --}}
+                    <div class="checkout__card__footer__estimate d-flex justify-content-end" style="display: none !important;">
                         <div class="checkout__card__footer__estimate__main">
                             <div class="checkout__card__footer__estimate__list">
                                 <div class="checkout__card__footer__estimate__item d-flex justify-content-between">
@@ -164,7 +164,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div> --}}
+                    </div>
                 </div>
             @endif
 

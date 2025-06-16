@@ -29,7 +29,7 @@ class ProductWishlistController extends Controller
 
         WishlistHelper::add($request->product_id, 1, $attributes);
 
-        return back()->with(FlashMsg::explain('success', __('Item added to wishlist')));
+        return back()->with(FlashMsg::explain('success', __('Item added to Save for later')));
     }
 
     public function addToWishlistAjax(Request $request)
@@ -44,7 +44,7 @@ class ProductWishlistController extends Controller
 
         WishlistHelper::add($request->product_id, 1, $attributes);
 
-        return response()->json(FlashMsg::explain('success', __('Item added to wishlist')), 200);
+        return response()->json(FlashMsg::explain('success', __('Item added to Save for later')), 200);
     }
 
     public function removeWishlistItem(Request $request)

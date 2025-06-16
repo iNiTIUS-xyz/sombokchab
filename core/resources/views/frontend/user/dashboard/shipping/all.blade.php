@@ -25,7 +25,7 @@
                                 <th>{{ __('Action') }}</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        {{-- <tbody>
                             @foreach ($all_shipping_address as $address)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
@@ -55,6 +55,34 @@
                                         </a>
                                         <x-table.btn.swal.delete :route="route('shipping.address.delete', $address->id)" title="Delete Address" />
                                         </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody> --}}
+                        <tbody>
+                            @foreach ($all_shipping_address as $address)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $address->name }}</td>
+                                    <td>{{ $address->address }}</td>
+                                    <td>
+                                        @if ($address->is_default == 1)
+                                            <span class="badge bg-primary text-white">Default</span>
+                                        @else
+                                            <a href="{{ route('user.shipping.address.make-default', $address->id) }}"
+                                            class="btn btn-secondary btn-xs mb-2 me-1" title="Make Default">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-check-fill" viewBox="0 0 16 16">
+                                                    <path fill-rule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5m8.854-9.646a.5.5 0 0 0-.708-.708L7.5 7.793 6.354 6.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z"/>
+                                                </svg>
+                                            </a>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('user.shipping.address.edit', $address->id) }}"
+                                        class="btn btn-sm btn-warning btn-xs mb-2 me-1" title="Edit Address">
+                                            <i class="las la-edit"></i>
+                                        </a>
+                                        <x-table.btn.swal.delete :route="route('shipping.address.delete', $address->id)" title="Delete Address" />
                                     </td>
                                 </tr>
                             @endforeach

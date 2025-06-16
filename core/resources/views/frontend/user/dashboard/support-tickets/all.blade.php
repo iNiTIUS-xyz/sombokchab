@@ -45,7 +45,7 @@
                     <tbody>
                         @foreach ($all_tickets as $data)
                             <tr>
-                                <td>{{ $data->id }}</td>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>{{ $data->order_id }}</td>
                                 <td>{{ $data->title }}</td>
                                 <td>

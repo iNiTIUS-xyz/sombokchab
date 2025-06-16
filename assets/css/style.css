@@ -28618,7 +28618,7 @@ select.form-control:not([size]):not([multiple]) {
 }
 
 .inventory_item .form-control {
-  height: 42px;
+  height: 48px;
   border-radius: 5px;
 }
 
@@ -38261,4 +38261,12 @@ input::placeholder {
 
 .media-upload-btn-wrapper{
   display: block !important;
+}
+
+.wrapper-container .form-select{
+  height: 48px !important;
+}
+
+.inventory_item .media_upload_form_btn.popup-modal{
+  margin-top: -25px;
 }

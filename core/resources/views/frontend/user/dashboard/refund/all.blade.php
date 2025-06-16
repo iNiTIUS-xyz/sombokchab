@@ -29,7 +29,7 @@
 
                                     <td>
                                         <span class="user-info">
-                                            <b>{{ $request->order?->id }}</b><br>
+                                            <b>{{ $request->order?->order_number }}</b><br>
                                             {{ __('Status') }}:
                                             @if ($request->order?->order_status == 'complete')
                                                 <span class="badge bg-primary px-2 py-1">{{ __('Complete') }}</span>
