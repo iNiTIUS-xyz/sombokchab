@@ -85,7 +85,7 @@
                             </div>
                         </div>
                         <div class="row mt-4">
-                            <div class="col-lg-12">
+                            <div class="col-lg-5 mx-auto">
                                 <div class="dashboard__card">
                                     <div class="dashboard__card__header">
                                         <h2 class="dashboard__card__title">
@@ -93,11 +93,11 @@
                                         </h2>
                                     </div>
                                     <div class="dashboard__card__body custom__form mt-4">
-                                        <form action="{{ route('vendor.wallet.withdraw') }}" method="post">
+                                        {{-- <form action="{{ route('vendor.wallet.withdraw') }}" method="post">
                                             @csrf
                                             <div class="form-group">
                                                 <label>
-                                                    {{ __('Withdraw amount') }}
+                                                    {{ __('Withdraw Amount') }}
                                                     <span class="text-danger">*</span>
                                                 </label>
                                                 <input name="withdraw_amount" type="number" id="withdraw_amount"
@@ -122,14 +122,17 @@
                                                 </select>
                                             </div>
                                             <div class="form-group gateway-information-wrapper">
-                                                @foreach (($savedGateway?->fileds ? unserialize($savedGateway?->fileds) : []) ?? [] as $key => $filed)
+                                                @php
+                                                    $gatewayFields = $savedGateway?->fileds ? unserialize($savedGateway?->fileds) : [];
+                                                @endphp
+                                                @foreach ($gatewayFields as $key => $value)
                                                     <div class="form-group">
                                                         <label>
-                                                            {{ ucfirst($filed) }}
+                                                            {{ ucwords(str_replace('_', ' ', $key)) }}
                                                         </label>
                                                         <input type="text" name="gateway_filed[{{ $key }}]"
-                                                            class="form-control" value="{{ $filed }}"
-                                                            placeholder="Enter {{ str_replace('_', ' ', $filed) }}" />
+                                                            class="form-control" value="{{ $value }}"
+                                                            placeholder="Enter {{ str_replace('_', ' ', $key) }}" />
                                                     </div>
                                                 @endforeach
                                             </div>
@@ -140,8 +143,72 @@
                                                         {{ __('Send Withdraw Request') }}
                                                     </button>
                                                     <a href="{{ route('vendor.wallet.home') }}"
-                                                        class="cmn_btn default-theme-btn"
-                                                        style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                                                    class="cmn_btn default-theme-btn"
+                                                    style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                                                        {{ __('Back') }}
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </form> --}}
+
+                                        <form action="{{ route('vendor.wallet.withdraw') }}" method="post">
+                                            @csrf
+                                            <div class="form-group">
+                                                <label>
+                                                    {{ __('Withdraw Amount') }}
+                                                    <span class="text-danger">*</span>
+                                                </label>
+                                                <input name="withdraw_amount" type="number" id="withdraw_amount"
+                                                    min="{{ get_static_option('minimum_withdraw_amount') }}"
+                                                    max="{{ $current_balance }}" class="form-control"
+                                                    placeholder="{{ __('Enter withdraw amount') }}" />
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>{{ __('Payment Method') }}</label>
+                                                <select name="gateway_name" class="form-select gateway-name">
+                                                    <option value="" selected disabled>
+                                                        {{ __('Select payment method') }}
+                                                    </option>
+                                                    @foreach ($adminGateways as $gateway)
+                                                        <option
+                                                            {{ $savedGateway?->vendor_wallet_gateway_id === $gateway->id ? 'selected' : '' }}
+                                                            value="{{ $gateway->id }}"
+                                                            data-fileds="{{ json_encode(unserialize($gateway->filed)) }}">
+                                                            {{ $gateway->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group gateway-information-wrapper">
+                                                @php
+                                                    $gatewayFields = $savedGateway?->fileds ? unserialize($savedGateway?->fileds) : [];
+                                                @endphp
+                                                @foreach ($gatewayFields as $key => $value)
+                                                    @php
+                                                        $label = ucwords(str_replace('_', ' ', $key));
+                                                        if ($label === 'Account Name') {
+                                                            $label = 'Account Holder Full Name';
+                                                        }
+                                                    @endphp
+                                                    <div class="form-group">
+                                                        <label>
+                                                            {{ $label }}
+                                                        </label>
+                                                        <input type="text" name="gateway_filed[{{ $key }}]"
+                                                            class="form-control" value="{{ $value }}"
+                                                            placeholder="Enter {{ str_replace('_', ' ', $key) }}" />
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                            <div class="form-group">
+                                                <hr>
+                                                <div class="btn-wrapper">
+                                                    <button class="cmn_btn btn_bg_profile" type="submit">
+                                                        {{ __('Send Withdraw Request') }}
+                                                    </button>
+                                                    <a href="{{ route('vendor.wallet.home') }}"
+                                                    class="cmn_btn default-theme-btn"
+                                                    style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
                                                         {{ __('Back') }}
                                                     </a>
                                                 </div>

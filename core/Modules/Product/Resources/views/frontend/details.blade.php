@@ -271,7 +271,7 @@
                                         </div>
                                         <a href="#1" data-id="{{ $product->id }}"
                                             class="btn-wishlist buy_now_single_page btn-details btn-buyNow">
-                                            <i class="lar la-save"></i> {{ __('Save for later') }}
+                                            <i class="lar la-save"></i> {{ __('Save for Later') }}
                                         </a>
                                     </div>
                                 </div>

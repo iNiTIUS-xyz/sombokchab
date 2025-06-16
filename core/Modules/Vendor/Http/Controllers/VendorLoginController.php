@@ -61,7 +61,7 @@ class VendorLoginController extends Controller
             // 'email.required_without' => __('Phone number or email is required.'),
             // 'email.email' => __('Invalid email format.'),
             'password.required' => __('Password is required.'),
-            'password.min' => __('Password must be at least 8 characters.'),
+            'password.min' => __('Account credentials do not match.'),
         ]);
 
         if ($validator->fails()) {

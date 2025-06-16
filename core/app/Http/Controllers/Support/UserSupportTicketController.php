@@ -78,7 +78,7 @@ class UserSupportTicketController extends Controller
             'title' => $request->title,
             'status' => 'open',
             'user_id' => auth('web')->user()->id,
-            'order_id' => $request->order_id,
+            'order_id' => $request->order_number,
             'admin_id' => null,
             'departments' => $request->departments
         ]);

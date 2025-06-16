@@ -76,7 +76,7 @@ class ProductCartController extends Controller
         if (!Auth::guard('web')->check()) {
             return response()->json([
                 'type' => 'error',
-                'msg' => __('Sign up or Sign in for add to cart items.'),
+                'msg' => __('Sign up or Sign in for adding items to cart.'),
             ]);
         }
 
@@ -222,7 +222,7 @@ class ProductCartController extends Controller
 
             return response()->json([
                 'type' => 'success',
-                'msg' => 'Item added to cart',
+                'msg' => 'Item added to Cart',
                 'header_area' => view('frontend.partials.header.navbar.card-and-wishlist-area')->render(),
                 'cart-content' => Cart::instance('default')->content(),
             ]);
@@ -347,7 +347,7 @@ class ProductCartController extends Controller
 
             return response()->json([
                 'type' => 'success',
-                'msg' => 'Item added to wishlist',
+                'msg' => 'Item added to Save for later',
             ]);
         } catch (\Exception $exception) {
             DB::rollBack();

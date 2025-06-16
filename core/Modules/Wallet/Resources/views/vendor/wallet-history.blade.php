@@ -37,7 +37,7 @@
                                 <tbody>
                                     @foreach ($histories as $history)
                                         <tr>
-                                            <td>{{ $history->id ?? '' }}</td>
+                                            <td>{{ $loop->iteration ?? '' }}</td>
                                             <td>{{ $history->sub_order_id ?? '' }}</td>
                                             <td>{{ $history->amount ? float_amount_with_currency_symbol($history->amount) : '' }}
                                             </td>

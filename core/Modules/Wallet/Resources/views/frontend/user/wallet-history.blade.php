@@ -72,7 +72,7 @@
                             <tbody>
                                 @foreach ($histories as $history)
                                     <tr>
-                                        <td>{{ $history->id ?? '' }}</td>
+                                        <td>{{ $loop->iteration ?? '' }}</td>
                                         <td>
                                             {{ $history->sub_order_id ? '#' . $history->sub_order_id : '' }}</td>
                                         <td>{{ $history->transaction_id ?? '' }}</td>

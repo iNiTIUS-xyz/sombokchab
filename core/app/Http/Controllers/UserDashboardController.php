@@ -416,7 +416,7 @@ class UserDashboardController extends Controller
         }
 
         $refundRequests = RefundRequest::withCount('requestProduct')
-            ->with('currentTrackStatus', 'user:id,name,email,phone', 'order:id,order_status,created_at', 'order.paymentMeta')
+            ->with('currentTrackStatus', 'user:id,name,email,phone', 'order:id,order_number,order_status,created_at', 'order.paymentMeta')
             ->where('user_id', auth('web')->user()->id)->orderByDesc('id')
             ->paginate(20);
 
@@ -579,7 +579,7 @@ class UserDashboardController extends Controller
      * =================================================================== */
     public function support_tickets()
     {
-        $all_tickets = SupportTicket::where('user_id', auth('web')->user()->id)->paginate(10);
+        $all_tickets = SupportTicket::where('user_id', auth('web')->user()->id)->orderBy('created_at', 'DESC')->paginate(10);
 
         return view(self::BASE_PATH . 'support-tickets.all')->with(['all_tickets' => $all_tickets]);
     }

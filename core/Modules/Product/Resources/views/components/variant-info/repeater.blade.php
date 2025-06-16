@@ -97,7 +97,7 @@
                     @endforeach
                 @endif
             </div>
-            <div class="row g-4 align-items-end">
+            <div class="row g-4">
                 <div class="col">
                     <div class="form-group">
                         <label>{{ __('Attribute Name') }}</label>
@@ -119,7 +119,7 @@
                     </div>
                 </div>
                 <div class="col-auto text-center">
-                    <button type="button" class="btn btn-primary add_item_attribute">
+                    <button type="button" class="btn btn-primary add_item_attribute"  style="margin-top: 35px">
                         <i class="las la-arrow-up"></i>
                     </button>
                 </div>
