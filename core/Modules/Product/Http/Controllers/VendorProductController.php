@@ -2,28 +2,29 @@
 
 namespace Modules\Product\Http\Controllers;
 
-use App\Helpers\FlashMsg;
-use App\Status;
 use Exception;
-use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
+use App\Status;
+use App\Helpers\FlashMsg;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Validator;
-use Modules\Attributes\Entities\Brand;
-use Modules\Attributes\Entities\Category;
-use Modules\Attributes\Entities\ChildCategory;
-use Modules\Attributes\Entities\DeliveryOption;
-use Modules\Attributes\Entities\SubCategory;
-use Modules\Attributes\Entities\Tag;
-use Modules\Attributes\Entities\Unit;
+use Illuminate\Http\JsonResponse;
 use Modules\Badge\Entities\Badge;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
+use Modules\Attributes\Entities\Tag;
+use Illuminate\Http\RedirectResponse;
+use Modules\Attributes\Entities\Unit;
 use Modules\Product\Entities\Product;
-use Modules\Product\Entities\ProductAttribute;
-use Modules\Attributes\Entities\Color as ProductColor;
+use Modules\Attributes\Entities\Brand;
+use Illuminate\Support\Facades\Validator;
+use Modules\Attributes\Entities\Category;
+use Illuminate\Contracts\Support\Renderable;
+use Modules\Attributes\Entities\SubCategory;
 use Modules\Product\Entities\ProductGallery;
+use Modules\Attributes\Entities\ChildCategory;
+use Modules\Product\Entities\ProductAttribute;
+use Modules\Attributes\Entities\DeliveryOption;
 use Modules\Attributes\Entities\Size as ProductSize;
+use Modules\Attributes\Entities\Color as ProductColor;
 use Modules\Product\Http\Requests\ProductStoreRequest;
 use Modules\Product\Http\Services\Admin\AdminProductServices;
 
@@ -213,5 +214,26 @@ class VendorProductController extends Controller
             "product_colors" => ProductColor::all(),
             "product_sizes" => ProductSize::all(),
         ];
+    }
+
+    public function bulkAction(Request $request)
+    {
+        $products = Product::query()
+            ->select(['id', 'status_id', 'vendor_id'])
+            ->where('vendor_id', Auth::guard('vendor')->user()->id)
+            ->whereIn('id', $request->ids)
+            ->get();
+        dd($products);
+
+        foreach ($products as $product) {
+            $updateProduct = Product::findOrFail($product->id);
+            $updateProduct->status_id = $request->status == 'active' ? 1 : 2;
+            $updateProduct->save();
+        }
+
+        return response()->json([
+            'status' => true,
+            'msg' => 'Product successfully updated',
+        ]);
     }
 }

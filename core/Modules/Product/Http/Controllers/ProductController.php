@@ -202,4 +202,23 @@ class ProductController extends Controller
         }
         return response()->json(['success' => false, 'type' => 'danger']);
     }
+
+    public function bulkAction(Request $request)
+    {
+        $products = Product::query()
+            ->select(['id', 'status_id'])
+            ->whereIn('id', $request->ids)
+            ->get();
+
+        foreach ($products as $product) {
+            $updateProduct = Product::findOrFail($product->id);
+            $updateProduct->status_id = $request->status == 'active' ? 1 : 2;
+            $updateProduct->save();
+        }
+
+        return response()->json([
+            'status' => true,
+            'msg' => 'Product successfully updated',
+        ]);
+    }
 }

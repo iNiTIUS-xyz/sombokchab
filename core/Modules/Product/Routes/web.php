@@ -124,6 +124,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
             Route::post('update/{id}', 'update')->permission('product-update');
             Route::get('destroy/{id}', 'destroy')->name('destroy')->permission('product-destroy');
             Route::post('bulk/destroy', 'bulk_destroy')->name('bulk.destroy')->permission('product-bulk-destroy');
+            Route::post('bulk/action', 'bulkAction')->name('bulk.action');
 
             Route::prefix('trash')->name('trash.')->group(function () {
                 Route::get('/', 'trash')->name('all')->permission('product-trash');
@@ -173,6 +174,7 @@ Route::prefix('vendor-home')->middleware(['setlang:backend', 'adminglobalVariabl
                 Route::post('update-image', 'updateImage')->name('update-image');
                 Route::get('destroy/{id}', 'destroy')->name('destroy');
                 Route::post('bulk/destroy', 'bulk_destroy')->name('bulk.destroy');
+                Route::post('bulk/action', 'bulkAction')->name('bulk.action');
 
                 Route::prefix('trash')->name('trash.')->group(function () {
                     Route::get('/', 'trash')->name('all');

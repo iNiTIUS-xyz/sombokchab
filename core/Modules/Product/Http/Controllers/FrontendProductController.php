@@ -936,4 +936,5 @@ class FrontendProductController extends Controller
             'product_url' => $product_url
         ]);
     }
+
 }
