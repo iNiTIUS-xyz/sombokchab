@@ -281,11 +281,8 @@
                 });
             });
 
-            /**
-             * Cart script
-             * */
-
             $(document).on('click', '.ff-jost[data-label=Close]', function(e) {
+
                 let el = $(this);
                 let product_hash_id = el.data('product_hash_id');
 
