@@ -7,9 +7,6 @@
     <h4 class="title"> {{ __('Billing Details') }} </h4>
     <div class="checkout-contents">
         <div class="checkout-form mt-2">
-
-            @if (!$modal)
-            @endif
             @if ($modal)
                 <div class="input-flex-item">
                     <div class="single-input mt-4">
