@@ -435,13 +435,9 @@
                 return return_val;
             }
 
-            /*
-             *
-             * todo:: Those line of code is only for without variant product
-             *
-             * */
             $(document).on('click', '.add_to_cart_ajax', function(e) {
                 e.preventDefault();
+
                 let pid_id = ''; //getQuickViewAttributesForCart();
 
                 let currentEl = $(this)
@@ -476,14 +472,12 @@
                         _token: '{{ csrf_token() }}'
                     },
                     success: function(data) {
-                        if (data.type ?? false) {
-                            toastr[data.type](data.msg);
+                        console.log(data);
+
+                        if (data.type == 'error') {
+                            toastr.error(data.msg);
                         } else {
                             toastr.success(data.msg);
-                        }
-
-                        if (data.quantity_msg) {
-                            toastr.warning(data.quantity_msg)
                         }
 
                         if (condition) {

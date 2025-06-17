@@ -99,7 +99,6 @@ class ProductCartController extends Controller
             return response()->json([
                 'type' => 'error',
                 'msg' => __("You already added maximum quantity of this product to cart."),
-                // 'msg' => __("This product is allowed you to add maximum quantity of $product->max_purchase"),
             ]);
         }
 
@@ -116,13 +115,13 @@ class ProductCartController extends Controller
 
         if ($product_inventory_details && $request->quantity > $product_inventory_details->stock_count) {
             return response()->json([
-                'type' => 'warning',
-                'quantity_msg' => __('Requested quantity is not available. Only available quantity is added to cart'),
+                'type' => 'error',
+                'msg' => __('Requested quantity is not available. Only available quantity is added to cart'),
             ]);
         } elseif ($product_inventory && $request->quantity > $product_inventory->stock_count) {
             return response()->json([
-                'type' => 'warning',
-                'quantity_msg' => __('Requested quantity is not available. Only available quantity is added to cart'),
+                'type' => 'error',
+                'msg' => __('Requested quantity is not available. Only available quantity is added to cart'),
             ]);
         }
 
@@ -140,8 +139,8 @@ class ProductCartController extends Controller
             // now we will check if a product left is equal or bigger than quantity than we will check
             if (!($request->quantity <= $product_left) && $sold_count) {
                 return response()->json([
-                    'type' => 'warning',
-                    'quantity_msg' => __('Requested amount can not be cart. Campaign product stock limit is over!'),
+                    'type' => 'error',
+                    'msg' => __('Requested amount can not be cart. Campaign product stock limit is over!'),
                 ]);
             }
         }
@@ -229,8 +228,7 @@ class ProductCartController extends Controller
         } catch (\Exception $exception) {
             return response()->json([
                 'type' => 'error',
-                'error_msg' => __('Something went wrong!'),
-                'msg' => $exception->getMessage(),
+                'msg' => __('Something went wrong!'),
             ]);
         }
     }
