@@ -16,7 +16,7 @@ class RefundSettingsController extends Controller
         update_static_option("courier_address", $request->courier_address);
 
         return back()->with([
-            "msg" => __("Successfully updated refund settings"),
+            "msg" => __("Refund settings updated successfully."),
             "type" => 'success'
         ]);
     }

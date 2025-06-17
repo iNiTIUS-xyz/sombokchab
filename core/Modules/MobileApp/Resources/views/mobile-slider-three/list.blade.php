@@ -1,65 +1,63 @@
 @extends('backend.admin-master')
 @section('site-title')
-    {{ __('Country') }}
+    {{ __('Mobile Sliders') }}
 @endsection
 @section('style')
     <x-datatable.css />
     <x-bulk-action.css />
 @endsection
 @section('content')
-    <div class="col-lg-12 col-ml-12">
-        <div class="row">
-            <div class="col-lg-12 mt-2">
-                <x-msg.error />
-                <x-msg.flash />
-                <div class="btn-wrapper mb-4">
-                    <a class="cmn_btn btn_bg_profile" href="{{ route('admin.mobile.slider.three.create') }}">
-                        Create
-                    </a>
+    <div class="row">
+        <div class="col-lg-12 mt-2">
+            <x-msg.error />
+            <x-msg.flash />
+            <div class="btn-wrapper mb-4">
+                <a class="cmn_btn btn_bg_profile" href="{{ route('admin.mobile.slider.three.create') }}">
+                    Create
+                </a>
+            </div>
+            <div class="dashboard__card">
+                <div class="dashboard__card__header">
+                    <h4 class="dashboard__card__title">{{ __('Mobile Sliders List') }}</h4>
                 </div>
-                <div class="dashboard__card">
-                    <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('List Mobile Slider') }}</h4>
-                    </div>
-                    <div class="dashboard__card__body mt-4">
-                        <div class="table-wrap table-responsive">
-                            <table class="table table-default">
-                                <thead>
-                                    <th>Sl NO</th>
-                                    <th>Title</th>
-                                    <th>Description</th>
-                                    <th>image</th>
-                                    <th>Button Text</th>
-                                    <th>Button URL</th>
-                                    <th>Action</th>
-                                </thead>
-                                <tbody>
-                                    @foreach ($mobileSliders as $slider)
-                                        <tr>
-                                            <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $slider->title }}</td>
-                                            <td>{{ $slider->description }}</td>
-                                            <td style="width: 120px">
-                                                {!! render_image_markup_by_attachment_id($slider->image_id) !!}
-                                            </td>
-                                            <td>{{ $slider->button_text }}</td>
-                                            <td>{{ $slider->url }}</td>
-                                            <td>
-                                                @can('state-edit')
-                                                    <a class="btn btn-primary btn-xs mb-2 me-1"
-                                                        href="{{ route('admin.mobile.slider.three.edit', $slider->id) }}">
-                                                        <i class="ti-pencil"></i>
-                                                    </a>
-                                                @endcan
-                                                @can('state-delete')
-                                                    <x-table.btn.swal.delete :route="route('admin.mobile.slider.three.delete', $slider->id)" />
-                                                @endcan
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                <div class="dashboard__card__body mt-4">
+                    <div class="table-wrap table-responsive">
+                        <table class="table table-default">
+                            <thead>
+                                <th>Serial No.</th>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th>Image</th>
+                                <th>Button Text</th>
+                                <th>Button URL</th>
+                                <th>Action</th>
+                            </thead>
+                            <tbody>
+                                @foreach ($mobileSliders as $slider)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $slider->title }}</td>
+                                        <td>{{ $slider->description }}</td>
+                                        <td style="width: 120px">
+                                            {!! render_image_markup_by_attachment_id($slider->image_id) !!}
+                                        </td>
+                                        <td>{{ $slider->button_text }}</td>
+                                        <td>{{ $slider->url }}</td>
+                                        <td>
+                                            @can('state-edit')
+                                                <a class="btn btn-warning btn-xs mb-2 me-1"
+                                                    href="{{ route('admin.mobile.slider.three.edit', $slider->id) }}">
+                                                    <i class="ti-pencil"></i>
+                                                </a>
+                                            @endcan
+                                            @can('state-delete')
+                                                <x-table.btn.swal.delete :route="route('admin.mobile.slider.three.delete', $slider->id)" />
+                                            @endcan
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

@@ -25,7 +25,7 @@ class UserController extends Controller
         $user = User::findOrFail($request->ch_user_id);
         $user->password = Hash::make($request->password);
         $user->save();
-        return redirect()->back()->with(['msg' => __('Password Change Success..'), 'type' => 'success']);
+        return redirect()->back()->with(['msg' => __('Password changed Successfully.'), 'type' => 'success']);
     }
     public function user_update(UpdateUserRequest $request) {
         User::find($request->user_id)->update([
@@ -38,12 +38,12 @@ class UserController extends Controller
             'country' => $request->country,
             'phone' => $request->phone,
         ]);
-        return redirect()->back()->with(['msg' => __('User profile updated successfully...'), 'type' => 'success']);
+        return redirect()->back()->with(['msg' => __('User profile updated successfully.'), 'type' => 'success']);
     }
     public function new_user_delete(Request $request, $id)
     {
         User::find($id)->delete();
-        return redirect()->back()->with(['msg' => __('User Profile Deleted..'), 'type' => 'danger']);
+        return redirect()->back()->with(['msg' => __('User profile deleted.'), 'type' => 'danger']);
     }
 
     public function new_user()
@@ -73,7 +73,7 @@ class UserController extends Controller
             WalletService::createWallet($user->id, "user");
         }
 
-        return redirect()->back()->with(['msg' => __('New User Created..'), 'type' => 'success']);
+        return redirect()->back()->with(['msg' => __('New user created successfully.'), 'type' => 'success']);
     }
 
     public function bulk_action(Request $request)
@@ -90,6 +90,6 @@ class UserController extends Controller
         User::where('id', $request->user_id)->update([
             'email_verified' => $request->email_verified == 0 ? 1 : 0
         ]);
-        return redirect()->back()->with(['msg' => __('Email Verify Status Changed..'), 'type' => 'success']);
+        return redirect()->back()->with(['msg' => __('Email verification status changed.'), 'type' => 'success']);
     }
 }

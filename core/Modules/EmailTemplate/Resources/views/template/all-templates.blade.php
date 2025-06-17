@@ -31,73 +31,73 @@
     $routes = [
         [
             'route' => route('admin.email-template.refund.request-send'),
-            'title' => 'request Send',
+            'title' => 'Request Send',
             'description' => __('This email will send when a new refund request created.'),
             'permission' => 'email-template-refund-request-send',
         ],
         [
             'route' => route('admin.email-template.refund.request-approved'),
-            'title' => 'refund Request Approved',
+            'title' => 'Refund Request Approved',
             'description' => __('This email will send when a new refund request created.'),
             'permission' => 'email-template-refund-request-approve',
         ],
         [
             'route' => route('admin.email-template.refund.request-declined'),
-            'title' => 'refund Request Declined',
+            'title' => 'Refund Request Declined',
             'description' => __('This email will send when a new refund request created.'),
             'permission' => 'email-template-refund-request-declined',
         ],
         [
             'route' => route('admin.email-template.refund.request-cancel'),
-            'title' => 'refund Request cancel',
+            'title' => 'Refund Request cancel',
             'description' => __('This email will send when a new refund request created.'),
             'permission' => 'email-template-refund-request-cancel',
         ],
         [
             'route' => route('admin.email-template.refund.request-ready-for-pickup'),
-            'title' => 'refund Request Ready For Pickup',
+            'title' => 'Refund Request Ready For Pickup',
             'description' => __('This email will send when a new refund request created.'),
             'permission' => 'email-template-refund-request-ready-for-pickup',
         ],
         [
             'route' => route('admin.email-template.refund.request-picked-up'),
-            'title' => 'refund Request PickedUp',
+            'title' => 'Refund Request PickedUp',
             'description' => __('This email will send when a new refund request created.'),
             'permission' => 'email-template-refund-request-picked-up',
         ],
         [
             'route' => route('admin.email-template.refund.request-on-the-way'),
-            'title' => 'refund Request On The Way',
+            'title' => 'Refund Request On The Way',
             'description' => __('This email will send when a new refund request created.'),
             'permission' => 'email-template-refund-request-on-the-way',
         ],
         [
             'route' => route('admin.email-template.refund.request-returned'),
-            'title' => 'refund Request Returned',
+            'title' => 'Refund Request Returned',
             'description' => __('This email will send when a new refund request created.'),
             'permission' => 'email-template-refund-request-returned',
         ],
         [
             'route' => route('admin.email-template.refund.refund-request-verify-product'),
-            'title' => 'refund Request Verify Product',
+            'title' => 'Refund Request Verify Product',
             'description' => __('This email will send when a new refund request created.'),
             'permission' => 'email-template-refund-request-verify-product',
         ],
         [
             'route' => route('admin.email-template.refund.refund-request-payment-processing'),
-            'title' => 'refund Request Payment Processing',
+            'title' => 'Refund Request Payment Processing',
             'description' => __('This email will send when a new refund request created.'),
             'permission' => 'email-template-refund-request-payment-processing',
         ],
         [
             'route' => route('admin.email-template.refund.refund-request-payment-transferred'),
-            'title' => 'refund Request Payment Transferred',
+            'title' => 'Refund Request Payment Transferred',
             'description' => __('This email will send when a new refund request created.'),
             'permission' => 'email-template-refund-request-payment-transferred',
         ],
         [
             'route' => route('admin.email-template.refund.refund-request-payment-completed'),
-            'title' => 'refund Request Payment Completed',
+            'title' => 'Refund Request Payment Completed',
             'description' => __('This email will send when a new refund request created.'),
             'permission' => 'email-template-refund-request-payment-completed',
         ],
@@ -137,7 +137,7 @@
                     <div class="tab-content-item active" id="refund_mail">
                         <div class="dashboard__card">
                             <div class="dashboard__card__header">
-                                <h4 class="dashboard__card__title">{{ __('Refund Mail List') }}</h4>
+                                {{-- <h4 class="dashboard__card__title">{{ __('Refund Mail List') }}</h4> --}}
                                 <x-bulk-action.bulk-action />
                             </div>
                             <div class="dashboard__card__body mt-4">
@@ -150,7 +150,7 @@
                     <div class="tab-content-item" id="delivery_man_mail">
                         <div class="dashboard__card">
                             <div class="dashboard__card__header">
-                                <h4 class="dashboard__card__title">{{ __('Delivery Man Mail List') }}</h4>
+                                {{-- <h4 class="dashboard__card__title">{{ __('Delivery Man Mail List') }}</h4> --}}
                                 <x-bulk-action.bulk-action />
                             </div>
                             <div class="dashboard__card__body mt-4">

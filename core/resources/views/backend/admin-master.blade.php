@@ -57,6 +57,9 @@
                 flex-direction: column !important;
                 align-items: flex-start !important;
             }
+            .swal2-confirm.swal2-styled.swal2-default-outline{
+                background-color: var(--danger-color) !important;
+            }
         </style>
 
         @yield('style')

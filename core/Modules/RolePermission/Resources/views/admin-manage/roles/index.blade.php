@@ -4,6 +4,11 @@
 
 @section('style')
     <style>
+        .swal2-confirm.swal2-styled.swal2-default-outline{
+            background-color: var(--danger-color) !important;
+        }
+    </style>
+    {{-- <style>
         :root {
             --paragraph-color-one: #73777D;
             --bs-dropdown-item-padding-y: 0.25rem;
@@ -185,7 +190,7 @@
         }
 
         .table-responsive.custom-dataTable {}
-    </style>
+    </style> --}}
 @endsection
 
 @section('content')
@@ -202,16 +207,15 @@
                     </div>
                 </div>
                 <div class="col-12">
-                    <div class="dashboard__card simplePresentCart-one">
+                    <div class="dashboard__card">
                         <div class="dashboard__card__header">
                             <h3 class="dashboard__card__title">{{ __('Staff Roles') }}</h3>
                         </div>
                         <div class="dashboard__card__body mt-4">
                             <x-error-msg />
                             <x-flash-msg />
-                            <div class="table-wrap">
-                                <div class="table-responsive custom-dataTable">
-                                    @if ($roles->isNotEmpty())
+                            <div class="data-tables datatable-primary">
+                                @if ($roles->isNotEmpty())
                                         <table class="table table-striped">
                                             <thead>
                                                 <tr>
@@ -223,11 +227,37 @@
                                             <tbody>
                                                 @foreach ($roles as $value)
                                                     <tr>
-                                                        <td> {{ $value->id }} </td>
+                                                        <td> {{ $loop->iteration }} </td>
                                                         <td> {{ $value->name }} </td>
                                                         <td>
                                                             @if ($value->name != 'Super Admin')
-                                                                <div class="dropdown custom-dropdown mb-10">
+                                                                <a class="btn btn-secondary btn-sm me-1 user_edit_btn"
+                                                                    href="{{ route('admin.roles.permissions', $value->id) }}">
+                                                                    <i class="ti-lock"></i> 
+                                                                </a>
+
+                                                                <a class="btn btn-warning btn-sm me-1 edit_role"
+                                                                    data-id="{{ $value->id }}"
+                                                                    data-name="{{ $value->name }}"
+                                                                    data-bs-toggle="modal" href="#0"
+                                                                    data-action="{{ route('admin.roles.update', $value->id) }}"
+                                                                    data-bs-target="#editRoles">
+                                                                    <i class="ti-pencil"></i> </a>
+                                                                    
+                                                                <x-delete-popover type="role"
+                                                                                :url="route(
+                                                                                    'admin.roles.destroy',
+                                                                                    $value->id,
+                                                                                )" />
+                                                                {{-- <x-delete-popover type="role"
+                                                                                :url="route(
+                                                                                    'admin.roles.destroy',
+                                                                                    $value->id,
+                                                                                )" /> --}}
+
+                                                                
+                                                                
+                                                                {{-- <div class="dropdown custom-dropdown mb-10">
                                                                     <button class="dropdown-toggle" type="button"
                                                                         id="dropdownMenuButton1" data-bs-toggle="dropdown"
                                                                         aria-expanded="false">
@@ -236,20 +266,10 @@
                                                                     <ul class="dropdown-menu"
                                                                         aria-labelledby="dropdownMenuButton1">
                                                                         <li>
-                                                                            <x-delete-popover type="role"
-                                                                                :url="route(
-                                                                                    'admin.roles.destroy',
-                                                                                    $value->id,
-                                                                                )" />
+                                                                            
                                                                         </li>
                                                                         <li>
-                                                                            <a class="dropdown-item edit_role"
-                                                                                data-id="{{ $value->id }}"
-                                                                                data-name="{{ $value->name }}"
-                                                                                data-bs-toggle="modal" href="#0"
-                                                                                data-action="{{ route('admin.roles.update', $value->id) }}"
-                                                                                data-bs-target="#editRoles">
-                                                                                <i class="ti-notepad"></i> Edit </a>
+                                                                            
                                                                         </li>
                                                                         <li>
                                                                             <a class="dropdown-item"
@@ -257,11 +277,9 @@
                                                                                 <i class="ti-lock"></i> Permissions </a>
                                                                         </li>
                                                                     </ul>
-                                                                </div>
+                                                                </div> --}}
                                                             @else
-                                                                <a href="#0" class="btn btn-xs btn-danger">
-                                                                    Not Allowed
-                                                                </a>
+                                                                --
                                                             @endif
                                                         </td>
                                                     </tr>
@@ -272,7 +290,6 @@
                                     @else
                                         <span class="text-warning">You have no role yet.</span>
                                     @endif
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -301,7 +318,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"
                             data-bs-dismiss="modal">{{ __('Close') }}</button>
-                        <button type="submit" class="btn btn-primary">{{ __('Save Changes') }}</button>
+                        <button type="submit" class="btn btn-primary">{{ __('Add') }}</button>
                     </div>
                 </form>
             </div>
@@ -327,7 +344,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"
                             data-bs-dismiss="modal">{{ __('Close') }}</button>
-                        <button type="submit" class="btn btn-primary">{{ __('Save Changes') }}</button>
+                        <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                     </div>
                 </form>
             </div>

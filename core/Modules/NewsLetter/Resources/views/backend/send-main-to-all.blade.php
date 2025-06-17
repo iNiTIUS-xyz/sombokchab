@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="{{ asset('assets/backend/css/dropzone.css') }}">
 @endsection
 @section('site-title')
-    {{ __('Send Mail To All Newsletter Subscriber') }}
+    {{ __('Send Mail to All Subscribers') }}
 @endsection
 @section('content')
     <div class="col-lg-12 col-ml-12">
@@ -26,7 +26,7 @@
             <div class="col-lg-12">
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Send Mail To All Newsletter Subscriber') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('Send Mail to All Subscribers') }}</h4>
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
                         <form action="{{ route('admin.newsletter.mail') }}" method="post" enctype="multipart/form-data">

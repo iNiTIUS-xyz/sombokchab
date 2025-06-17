@@ -109,7 +109,7 @@
                             @can('newsletter')
                                 <li class="{{ active_menu('admin-home/newsletter') }}">
                                     <a href="{{ route('admin.newsletter') }}">
-                                        {{ __('All Subscriber') }}
+                                        {{ __('All Subscribers') }}
 
                                     </a>
                                 </li>
@@ -117,7 +117,7 @@
                             @can('newsletter-all')
                                 <li class="{{ active_menu('admin-home/newsletter/all') }}">
                                     <a href="{{ route('admin.newsletter.mail') }}">
-                                        {{ __('Send Mail To All') }}
+                                        {{ __('Send Mail to All') }}
 
                                     </a>
                                 </li>
@@ -191,12 +191,12 @@
                             <ul class="collapse">
                                 <li class="{{ active_menu('admin-home/mobile-intro/list') }}">
                                     <a href="{{ route('admin.mobile.intro.all') }}">
-                                        {{ __('Buyer Intro List') }}
+                                        {{ __('Customer Intro List') }}
                                     </a>
                                 </li>
                                 <li class="{{ active_menu('admin-home/mobile-intro/new') }}">
                                     <a href="{{ route('admin.mobile.intro.create') }}">
-                                        {{ __('Buyer Intro Create') }}
+                                        {{ __('Customer Intro Create') }}
                                     </a>
                                 </li>
                                 <li class="{{ active_menu('admin-home/vendor-intro/list') }}">
@@ -240,22 +240,22 @@
                                 </li>
                                 <li class="{{ active_menu('admin-home/mobile-slider-two/new') }}">
                                     <a href="{{ route('admin.mobile.slider.two.create') }}">
-                                        {{ __('Slider two Create') }}
+                                        {{ __('Slider Two Create') }}
                                     </a>
                                 </li>
                                 <li class="{{ active_menu('admin-home/mobile-slider-two/list') }}">
                                     <a href="{{ route('admin.mobile.slider.two.all') }}">
-                                        {{ __('Slider two List') }}
+                                        {{ __('Slider Two List') }}
                                     </a>
                                 </li>
                                 <li class="{{ active_menu('admin-home/mobile-slider-three/new') }}">
                                     <a href="{{ route('admin.mobile.slider.three.create') }}">
-                                        {{ __('Slider three Create') }}
+                                        {{ __('Slider Three Create') }}
                                     </a>
                                 </li>
                                 <li class="{{ active_menu('admin-home/mobile-slider-three/list') }}">
                                     <a href="{{ route('admin.mobile.slider.three.all') }}">
-                                        {{ __('Slider three List') }}
+                                        {{ __('Slider Three List') }}
                                     </a>
                                 </li>
                                 <li class="{{ active_menu('admin-home/mobile-campaign/create') }}">
@@ -270,12 +270,12 @@
                                 </li>
                                 <li class="{{ active_menu('admin-home/mobile-settings/terms-and-controller') }}">
                                     <a href="{{ route('admin.mobile.settings.terms_and_condition') }}">
-                                        {{ __('Terms and condition page') }}
+                                        {{ __('Terms and Condition') }}
                                     </a>
                                 </li>
                                 <li class="{{ active_menu('admin-home/mobile-settings/privacy-policy') }}">
                                     <a href="{{ route('admin.mobile.settings.privacy.policy') }}">
-                                        {{ __('Privacy and policy page') }}
+                                        {{ __('Privacy and Policy') }}
                                     </a>
                                 </li>
 
@@ -456,7 +456,7 @@
                             @can('refund-request')
                                 <li class="{{ active_menu('admin-home/refund/request') }}">
                                     <a href="{{ route('admin.refund.request') }}">
-                                        {{ __('Refund Request') }}
+                                        {{ __('Refund Requests') }}
 
                                     </a>
                                 </li>
@@ -464,14 +464,14 @@
                             @can('refund-reason')
                                 <li class="{{ active_menu('admin-home/refund/reason') }}">
                                     <a href="{{ route('admin.refund.reason.index') }}">
-                                        {{ __('Refund Reason') }}
+                                        {{ __('Refund Reasons') }}
                                     </a>
                                 </li>
                             @endcan
                             @can('refund-preferred-option')
                                 <li class="{{ active_menu('admin-home/refund/preferred-option') }}">
                                     <a href="{{ route('admin.refund.preferred-option.index') }}">
-                                        {{ __('Refund preferred') }}
+                                        {{ __('Refund Preferred') }}
                                     </a>
                                 </li>
                             @endcan
@@ -505,7 +505,7 @@
                         <ul class="collapse">
                             <li class="{{ active_menu('admin-home/email-template/all-templates') }}">
                                 <a href="{{ route('admin.email-template.email.template.all') }}">
-                                    {{ __('All Email Template') }}
+                                    {{ __('All Email Templates') }}
                                 </a>
                             </li>
                         </ul>
@@ -533,7 +533,7 @@
                             @can('invoice-note')
                                 <li class="{{ active_menu('admin-home/invoice-note') }}">
                                     <a href="{{ route('admin.shop-manage.invoice-note') }}">
-                                        {{ __('Invoice Note') }}
+                                        {{ __('Invoice Notes') }}
                                     </a>
                                 </li>
                             @endcan
@@ -569,7 +569,7 @@
                             @can('orders-vendor-list')
                                 <li class="{{ active_menu('admin-home/orders/vendor/list') }}">
                                     <a href="{{ route('admin.orders.vendor.list') }}">
-                                        {{ __('All vendors') }}
+                                        {{ __('All Vendors') }}
                                     </a>
                                 </li>
                             @endcan
@@ -620,7 +620,7 @@
                                 </li>
                             @endcan
                             @if (auth('admin')->user()->hasRole('Super Admin'))
-                                <li class="{{ active_menu('admin-home/pos/update-plugin') }}">
+                                <li class="{{ active_menu('admin-home/pos/update-plugin') }}" style="display: none">
                                     <a href="{{ route('admin.pos.pos_plugin_license_update') }}">
                                         <span>{{ __('Update Plugin') }}</span>
                                     </a>
@@ -643,7 +643,7 @@
                         @can('country')
                             <li class="{{ active_menu('admin-home/plugin-manage/all') }}">
                                 <a href="{{ route('admin.plugin.manage.all') }}">
-                                    {{ __('All Plugin') }}
+                                    {{ __('All Plugins') }}
 
                                 </a>
                             </li>
@@ -932,7 +932,7 @@
                         @can('vendor-commission-settings')
                             <li class="{{ active_menu('admin-home/vendor/commission-settings') }}">
                                 <a href="{{ route('admin.vendor.commission-settings') }}">
-                                    <i class="las la-cog pl-0"></i>{{ __('Vendor commission') }}
+                                    <i class="las la-cog pl-0"></i>{{ __('Vendor Commission') }}
                                 </a>
                             </li>
                         @endcan

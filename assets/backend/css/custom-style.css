@@ -1155,10 +1155,10 @@ input[type="checkbox"] {
 }
 
 .select-box-wrap select {
-    height: 38px;
+    height: 40px;
     border: none;
     position: relative;
-    top: 2px;
+    top: 1px;
     width: 150px;
 }
 

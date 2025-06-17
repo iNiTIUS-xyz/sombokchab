@@ -33,7 +33,7 @@
 
                 @can('refund-settings-update')
                     <div class="form-group">
-                        <button class="cmn_btn btn_bg_profile">{{ __('Update settings') }}</button>
+                        <button class="cmn_btn btn_bg_profile">{{ __('Update Settings') }}</button>
                     </div>
                 </form>
             @endcan

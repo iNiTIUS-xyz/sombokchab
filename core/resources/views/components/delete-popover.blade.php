@@ -7,9 +7,9 @@
         <i class="ti-trash"></i>
     </a>
 @else
-    <a class="dropdown-item swal_delete_button">
+    <a class="btn btn-sm btn-danger btn-xs me-1 swal_delete_button">
+    {{-- <a class="dropdown-item swal_delete_button"> --}}
         <i class="ti-trash"></i>
-        {{ __('Delete') }}
     </a>
 @endif
 

@@ -20,7 +20,7 @@
                 </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('All Admin Created By Super Admin') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('Admin Accounts') }} <small>(create by Super Admin)</small></h4>
                     </div>
                     <div class="dashboard__card__body mt-4">
                         <div class="data-tables datatable-primary">

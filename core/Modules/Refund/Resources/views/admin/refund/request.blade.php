@@ -1,6 +1,6 @@
 @extends('backend.admin-master')
 
-@section('site-title', __('Refund Request list'))
+@section('site-title', __('Refund Requests'))
 
 @section('style')
 
@@ -9,7 +9,7 @@
 @section('content')
     <div class="dashboard__card">
         <div class="dashboard__card__header">
-            <h3 class="dashboard__card__title">{{ __('Refund Request list') }}</h3>
+            <h3 class="dashboard__card__title">{{ __('Refund Requests') }}</h3>
         </div>
         <div class="dashboard__card__body mt-4">
             <div class="table-wrap table-responsive all-user-campaign-table">
@@ -17,7 +17,7 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>{{ __('SL NO') }}</th>
+                                <th>{{ __('Serial No.') }}</th>
                                 <th>{{ __('User Info') }}</th>
                                 <th>{{ __('Order Info') }}</th>
                                 <th>{{ __('Refund Info') }}</th>
@@ -60,7 +60,7 @@
 
                                     <td>
                                         @can('refund-request')
-                                            <a class="cmn_btn btn_bg_profile btn-sm" title="{{ __('View') }}"
+                                            <a class="cmn_btn btn btn-primary btn_bg_profile btn-sm" title="{{ __('View') }}"
                                                 href="{{ route('admin.refund.view-request', $request->id) }}">
                                                 <i class="ti-eye"></i>
                                             </a>

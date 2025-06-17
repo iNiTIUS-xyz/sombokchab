@@ -55,7 +55,7 @@ class AdminRoleManageController extends Controller
             "name" => $request->name
         ]);
 
-        return back()->with(["msg" => __("role added."),"type" => "success"]);
+        return back()->with(["msg" => __("Role added successfully."),"type" => "success"]);
     }
 
     /**
@@ -74,7 +74,7 @@ class AdminRoleManageController extends Controller
             "name" => $request->name
         ]);
 
-        return back()->with(["msg" => __("role update."),"type" => "success"]);
+        return back()->with(["msg" => __("Role name updated successfully."),"type" => "success"]);
     }
 
     /**
@@ -87,7 +87,7 @@ class AdminRoleManageController extends Controller
     {
         Role::find($id)->delete();
 
-        return back()->with(["msg" => "delete success","type" => "danger"]);
+        return back()->with(["msg" => "Role deleted.","type" => "danger"]);
     }
 
     public function storePermissions(Request $request,$id)
@@ -95,7 +95,7 @@ class AdminRoleManageController extends Controller
         $role = Role::find($id);
         $role->syncPermissions($request->permission);
 
-        return back()->with(["msg" => "permission synced with role","type" => "success"]);
+        return back()->with(["msg" => "Permission synced with the role.","type" => "success"]);
     }
 
     public function createPermission(Request $request){
@@ -121,7 +121,7 @@ class AdminRoleManageController extends Controller
         $permission = Permission::insert($permissions);
 
         return response()->json([
-            "msg" => $permission ? __("Successfully inserted new permission") : __("Failed to insert new permission"),
+            "msg" => $permission ? __("New permission added successfully.") : __("Failed to insert new permission."),
             "type" => $permission ? "success" : "danger"
         ]);
     }

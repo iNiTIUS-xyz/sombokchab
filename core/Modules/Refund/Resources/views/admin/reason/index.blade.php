@@ -1,6 +1,6 @@
 @extends('backend.admin-master')
 
-@section('site-title', __('Refund Reason list'))
+@section('site-title', __('Refund Reasons'))
 
 @section('style')
 
@@ -12,14 +12,15 @@
             <div class="col-md-12">
                 <x-msg.error />
                 <x-msg.flash />
+                @can('refund-reason-store')
+                    <button data-bs-toggle="modal" data-bs-target="#refundReasonModal" class="cmn_btn btn_bg_profile mb-4">
+                        {{ __('Add Reason') }}
+                    </button>
+                @endcan
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h3 class="dashboard__card__title">{{ __('Refund Reason list') }}</h3>
-                        @can('refund-reason-store')
-                            <button data-bs-toggle="modal" data-bs-target="#refundReasonModal" class="cmn_btn btn_bg_profile">
-                                {{ __('Add Reason') }}
-                            </button>
-                        @endcan
+                        <h3 class="dashboard__card__title">{{ __('Refund Reasons') }}</h3>
+                        
                     </div>
                     <div class="dashboard__card__body mt-4">
                         <div class="table-wrap table-responsive all-user-campaign-table">
@@ -27,7 +28,7 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>{{ __('SL NO') }}</th>
+                                            <th>{{ __('Serial No.') }}</th>
                                             <th>{{ __('Name') }}</th>
                                             <th>{{ __('Action') }}</th>
                                         </tr>
@@ -41,7 +42,7 @@
                                                     @can('refund-reason-update')
                                                         <button data-id="{{ $reason->id }}" data-name="{{ $reason->name }}"
                                                             data-bs-toggle="modal" data-bs-target="#editRefundReasonModal"
-                                                            class="btn btn-success btn-sm" title="{{ __('Edit') }}">
+                                                            class="btn btn-warning btn-sm" title="{{ __('Edit') }}">
                                                             <i class="ti-pencil"></i>
                                                         </button>
                                                     @endcan

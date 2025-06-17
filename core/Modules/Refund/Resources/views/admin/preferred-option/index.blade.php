@@ -22,17 +22,17 @@
                 <x-flash-msg />
                 <div class="dashboard__card card__two">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Refund preferred options') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('Refund Preferred Options') }}</h4>
                     </div>
                     <div class="dashboard__card__body">
                         <div class="table-wrap">
                             <table class="table-responsive table">
                                 <thead>
                                     <tr>
-                                        <th>{{ __('Serial No:') }}</th>
-                                        <th>{{ __('Payment Method:') }}</th>
-                                        <th>{{ __('Payment Method Details:') }}</th>
-                                        <th>{{ __('Payment Method Status:') }}</th>
+                                        <th>{{ __('Serial No.') }}</th>
+                                        <th>{{ __('Payment Method') }}</th>
+                                        <th>{{ __('Details') }}</th>
+                                        <th>{{ __('Status') }}</th>
                                         <th>{{ __('Action') }}</th>
                                     </tr>
                                 </thead>
@@ -77,7 +77,7 @@
                 @can('refund-preferred-option-store')
                     <div class="dashboard__card card__two">
                         <div class="dashboard__card__header">
-                            <h4 class="dashboard__card__title">{{ __('Refund preferred option create') }}</h4>
+                            <h4 class="dashboard__card__title">{{ __('Refund Preferred Option Create') }}</h4>
                         </div>
                         <div class="dashboard__card__body custom__form">
                             <form class="" method="POST" action="{{ route('admin.refund.preferred-option.store') }}">

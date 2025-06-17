@@ -4,6 +4,11 @@
     <x-media.css />
     <x-datatable.css />
     <link rel="stylesheet" href="{{ asset('assets/backend/css/dropzone.css') }}">
+    <style>
+        .swal2-confirm.swal2-styled.swal2-default-outline{
+            background-color: var(--danger-color) !important;
+        }
+    </style>
 @endsection
 
 @section('site-title')
@@ -26,9 +31,10 @@
             </div>
             <div class="dashboard__card__body mt-4">
                 <div class="data-tables datatable-primary table-wrap">
-                    <table class="text-center">
+                    <table class="text-left">
                         <thead class="text-capitalize">
                             <tr>
+                                {{-- <th>{{ __('Serial No.') }}</th> --}}
                                 <th>{{ __('Name') }}</th>
                                 <th>{{ __('Email') }}</th>
                                 <th>{{ __('Action') }}</th>
@@ -37,7 +43,8 @@
                         <tbody>
                             @foreach ($all_user as $data)
                                 <tr>
-                                    <td>{{ $data->name }} ({{ $data->username }})</td>
+                                    {{-- <td>{{ $loop->iteration }}</td> --}}
+                                    <td class="text-left" style="text-align: left;">{{ $data->name }} ({{ $data->username }})</td>
                                     <td>
                                         {{ $data->email }}
                                         @if ($data->email_verified == 1)
@@ -46,18 +53,26 @@
                                     </td>
 
                                     <td>
-                                        @can('frontend-user-update')
-                                            <a href="#1" data-id="{{ $data->id }}"
-                                                data-username="{{ $data->username }}" data-name="{{ $data->name }}"
-                                                data-email="{{ $data->email }}" data-phone="{{ $data->phone }}"
-                                                data-address="{{ $data->address }}" data-state="{{ $data->state }}"
-                                                data-city="{{ $data->city }}" data-zipcode="{{ $data->zipcode }}"
-                                                data-country="{{ $data->country }}"
-                                                data-email_verified="{{ $data->email_verified }}" data-bs-toggle="modal"
-                                                data-bs-target="#user_edit_modal"
-                                                class="btn btn-primary btn-sm mb-2 me-1 user_edit_btn">
-                                                <i class="ti-pencil"></i>
-                                            </a>
+                                        
+                                        @can('frontend-all-user-email-status')
+                                            <form action="{{ route('admin.all.frontend.user.email.status') }}" method="post"
+                                                style="display: inline">
+                                                @csrf
+                                                <input type="hidden" value="{{ $data->id }}" name="user_id">
+                                                <input type="hidden" value="{{ $data->email_verified }}"
+                                                    name="email_verified">
+                                                @if ($data->email_verified == 1)
+                                                    <button type="submit" class="btn btn-sm btn-xs mb-2 me-1 btn-success"
+                                                        title="Enable Email Verif">
+                                                        <i class="ti-email"></i>
+                                                    </button>
+                                                @else
+                                                    <button type="submit" class="btn btn-sm btn-xs mb-2 me-1 btn-dark"
+                                                        title="Disable Email Verify">
+                                                        <i class="ti-email"></i>
+                                                    </button>
+                                                @endif
+                                            </form>
                                         @endcan
 
                                         @can('frontend-user-password-change')
@@ -68,29 +83,25 @@
                                                 <i class="ti-unlock"></i>
                                             </a>
                                         @endcan
+
+                                        @can('frontend-user-update')
+                                            <a href="#1" data-id="{{ $data->id }}"
+                                                data-username="{{ $data->username }}" data-name="{{ $data->name }}"
+                                                data-email="{{ $data->email }}" data-phone="{{ $data->phone }}"
+                                                data-address="{{ $data->address }}" data-state="{{ $data->state }}"
+                                                data-city="{{ $data->city }}" data-zipcode="{{ $data->zipcode }}"
+                                                data-country="{{ $data->country }}"
+                                                data-email_verified="{{ $data->email_verified }}" data-bs-toggle="modal"
+                                                data-bs-target="#user_edit_modal"
+                                                class="btn btn-warning btn-sm mb-2 me-1 user_edit_btn">
+                                                <i class="ti-pencil"></i>
+                                            </a>
+                                        @endcan
+
                                         @can('frontend-delete-user')
                                             <x-delete-popover :url="route('admin.frontend.delete.user', $data->id)" />
                                         @endcan
-                                        @can('frontend-all-user-email-status')
-                                            <form action="{{ route('admin.all.frontend.user.email.status') }}" method="post"
-                                                style="display: inline">
-                                                @csrf
-                                                <input type="hidden" value="{{ $data->id }}" name="user_id">
-                                                <input type="hidden" value="{{ $data->email_verified }}"
-                                                    name="email_verified">
-                                                @if ($data->email_verified == 1)
-                                                    <button type="submit" class="btn btn-sm btn-xs mb-2 me-1 btn-dark"
-                                                        title="Enable Email Verif">
-                                                        <i class="ti-email"></i>
-                                                    </button>
-                                                @else
-                                                    <button type="submit" class="btn btn-sm btn-xs mb-2 me-1 btn-warning"
-                                                        title="Disable Email Verify">
-                                                        <i class="ti-email"></i>
-                                                    </button>
-                                                @endif
-                                            </form>
-                                        @endcan
+                                        
                                     </td>
                                 </tr>
                             @endforeach
@@ -167,7 +178,7 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"
                                 data-bs-dismiss="modal">{{ __('Close') }}</button>
-                            <button id="update" type="submit" class="btn btn-primary">{{ __('Save Changes') }}</button>
+                            <button id="update" type="submit" class="btn btn-primary">{{ __('Add') }}</button>
                         </div>
                     </form>
                 </div>

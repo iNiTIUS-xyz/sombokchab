@@ -44,19 +44,19 @@ class AdminNewsLetterController extends Controller
             //throw $th;
         }
 
-        return redirect()->back()->with(['msg' => __('Mail Send Success...'), 'type' => 'danger']);
+        return redirect()->back()->with(['msg' => __('Mail sent successfully.'), 'type' => 'success']);
     }
 
     public function newsletter_unsubscribe($id){
         Newsletter::where('id',$id)->update(['subscribe_status'=> 0]);
-        return redirect()->back()->with(['msg' => __('You have been unsubscribed..!'), 'type' => 'danger']);
+        return redirect()->back()->with(['msg' => __('Successfully unsubscribed.'), 'type' => 'danger']);
     }
 
     public function delete($id)
     {
         Newsletter::find($id)->delete();
 
-        return redirect()->back()->with(['msg' => __('Subscriber Delete Success....'), 'type' => 'danger']);
+        return redirect()->back()->with(['msg' => __('Subscriber deleted successfully.'), 'type' => 'danger']);
     }
 
     public function send_mail_all_index()
@@ -136,7 +136,7 @@ class AdminNewsLetterController extends Controller
         }
 
         return redirect()->back()->with([
-            'msg' => __('verify mail send success'),
+            'msg' => __('Email verification mail sent successfully.'),
             'type' => 'success',
         ]);
     }

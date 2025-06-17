@@ -38270,3 +38270,7 @@ input::placeholder {
 .inventory_item .media_upload_form_btn.popup-modal{
   margin-top: -25px;
 }
+
+table.table-default.data-table-style tr td{
+  text-align: left !important;
+}

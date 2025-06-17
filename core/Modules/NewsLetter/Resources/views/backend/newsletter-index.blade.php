@@ -5,7 +5,7 @@
     <x-datatable.css />
 @endsection
 @section('site-title')
-    {{ __('All Newsletter') }}
+    {{ __('Newsletter Subscribers') }}
 @endsection
 @section('content')
     <div class="col-lg-12 col-ml-12">
@@ -22,7 +22,7 @@
                 @endcan
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('All Newsletter Subscriber') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('Newsletter Subscribers') }}</h4>
                         <div class="btn-wrapper d-flex">
                             @can('newsletter-bulk-action')
                                 <div class="bulk-delete-wrapper">
@@ -87,7 +87,7 @@
 
                                                     @if ($data->verified < 1)
                                                         <form class="mb-2 me-2"
-                                                            style="display: inline;float: left;margin-right: 7px"
+                                                            style="display: inline;float: left;"
                                                             action="{{ route('admin.newsletter.verify.mail.send') }}"
                                                             method="post" enctype="multipart/form-data">
                                                             @csrf
