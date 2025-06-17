@@ -12,13 +12,15 @@ use Modules\User\Http\Requests\UpdatePasswordRequest;
 use Modules\User\Http\Requests\UpdateUserRequest;
 use Modules\Wallet\Http\Services\WalletService;
 use Modules\CountryManage\Entities\Country;
+use Modules\CountryManage\Entities\State;
+
 class UserController extends Controller
 {
     public function all_user()
     {
         $all_user = User::all();
-        $country=Country::select("id","name")->orderBy("name","ASC")->get();
-        return view('user::backend.all-user')->with(['all_user' => $all_user,'country'=>$country]);
+        $country = Country::select("id", "name")->orderBy("name", "ASC")->get();
+        return view('user::backend.all-user')->with(['all_user' => $all_user, 'country' => $country]);
     }
     public function user_password_change(UpdatePasswordRequest $request)
     {
@@ -27,7 +29,8 @@ class UserController extends Controller
         $user->save();
         return redirect()->back()->with(['msg' => __('Password changed Successfully.'), 'type' => 'success']);
     }
-    public function user_update(UpdateUserRequest $request) {
+    public function user_update(UpdateUserRequest $request)
+    {
         User::find($request->user_id)->update([
             'name' => $request->name,
             'email' => $request->email,
@@ -49,12 +52,13 @@ class UserController extends Controller
     public function new_user()
     {
         $data = [
-            "country" => Country::select("id","name")->orderBy("name","ASC")->get(),
+            "country" => Country::select("id", "name")->orderBy("name", "ASC")->get(),
         ];
         return view('user::backend.add-new-user', with($data));
     }
 
-    public function new_user_add(StoreUserRequest $request){
+    public function new_user_add(StoreUserRequest $request)
+    {
         $user = User::create([
             'username' => $request->username,
             'name' => $request->name,
@@ -69,7 +73,7 @@ class UserController extends Controller
         ]);
 
         // create wallet fot this user if module exists
-        if (moduleExists("Wallet")){
+        if (moduleExists("Wallet")) {
             WalletService::createWallet($user->id, "user");
         }
 

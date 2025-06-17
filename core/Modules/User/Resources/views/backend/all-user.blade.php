@@ -5,7 +5,7 @@
     <x-datatable.css />
     <link rel="stylesheet" href="{{ asset('assets/backend/css/dropzone.css') }}">
     <style>
-        .swal2-confirm.swal2-styled.swal2-default-outline{
+        .swal2-confirm.swal2-styled.swal2-default-outline {
             background-color: var(--danger-color) !important;
         }
     </style>
@@ -34,7 +34,6 @@
                     <table class="text-left">
                         <thead class="text-capitalize">
                             <tr>
-                                {{-- <th>{{ __('Serial No.') }}</th> --}}
                                 <th>{{ __('Name') }}</th>
                                 <th>{{ __('Email') }}</th>
                                 <th>{{ __('Action') }}</th>
@@ -43,17 +42,14 @@
                         <tbody>
                             @foreach ($all_user as $data)
                                 <tr>
-                                    {{-- <td>{{ $loop->iteration }}</td> --}}
-                                    <td class="text-left" style="text-align: left;">{{ $data->name }} ({{ $data->username }})</td>
+                                    <td class="text-left">{{ $data->name }} ({{ $data->username }})</td>
                                     <td>
                                         {{ $data->email }}
                                         @if ($data->email_verified == 1)
                                             <i class="las la-check-circle text-success"></i>
                                         @endif
                                     </td>
-
                                     <td>
-                                        
                                         @can('frontend-all-user-email-status')
                                             <form action="{{ route('admin.all.frontend.user.email.status') }}" method="post"
                                                 style="display: inline">
@@ -76,7 +72,7 @@
                                         @endcan
 
                                         @can('frontend-user-password-change')
-                                            <a href="#1" data-id="{{ $data->id }}" data-bs-toggle="modal"
+                                            <a href="#" data-id="{{ $data->id }}" data-bs-toggle="modal"
                                                 data-bs-target="#user_change_password_modal"
                                                 class="btn btn-secondary btn-sm mb-2 me-1 user_change_password_btn"
                                                 title="Change Password">
@@ -85,13 +81,12 @@
                                         @endcan
 
                                         @can('frontend-user-update')
-                                            <a href="#1" data-id="{{ $data->id }}"
+                                            <a href="#" data-id="{{ $data->id }}"
                                                 data-username="{{ $data->username }}" data-name="{{ $data->name }}"
                                                 data-email="{{ $data->email }}" data-phone="{{ $data->phone }}"
                                                 data-address="{{ $data->address }}" data-state="{{ $data->state }}"
                                                 data-city="{{ $data->city }}" data-zipcode="{{ $data->zipcode }}"
-                                                data-country="{{ $data->country }}"
-                                                data-email_verified="{{ $data->email_verified }}" data-bs-toggle="modal"
+                                                data-country="{{ $data->country }}" data-bs-toggle="modal"
                                                 data-bs-target="#user_edit_modal"
                                                 class="btn btn-warning btn-sm mb-2 me-1 user_edit_btn">
                                                 <i class="ti-pencil"></i>
@@ -101,7 +96,6 @@
                                         @can('frontend-delete-user')
                                             <x-delete-popover :url="route('admin.frontend.delete.user', $data->id)" />
                                         @endcan
-                                        
                                     </td>
                                 </tr>
                             @endforeach
@@ -125,11 +119,15 @@
                         @csrf
                         <div class="modal-body">
                             <input type="hidden" name="user_id" id="user_id">
-                            @csrf
                             <div class="form-group">
                                 <label for="name">{{ __('Name') }}</label>
                                 <input type="text" class="form-control" id="name" name="name"
                                     placeholder="{{ __('Enter name') }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="username">{{ __('Username') }}</label>
+                                <input type="text" class="form-control" id="username" name="username"
+                                    placeholder="{{ __('Username') }}">
                             </div>
                             <div class="form-group">
                                 <label for="email">{{ __('Email') }}</label>
@@ -143,7 +141,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="country">{{ __('Country') }}</label>
-                                <select id="country" name="country">
+                                <select id="country" name="country" class="form-control">
                                     <option value="">{{ __('Select Country') }}</option>
                                     @foreach ($country as $item)
                                         <option value="{{ $item->id }}">
@@ -153,21 +151,21 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="state">{{ __('City') }}</label>
-                                <select id="state_id" name="state">
-                                    <option value="">{{ __('Select City') }}</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="city">{{ __('State') }}</label>
-                                <select id="city_id" name="city">
+                                <label for="state">{{ __('State') }}</label>
+                                <select id="state_id" name="state" class="form-control">
                                     <option value="">{{ __('Select State') }}</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="zipcode">{{ __('Zipcode') }}</label>
+                                <label for="city">{{ __('City') }}</label>
+                                <select id="city_id" name="city" class="form-control">
+                                    <option value="">{{ __('Select City') }}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="zipcode">{{ __('Postal Code') }}</label>
                                 <input type="text" class="form-control" id="zipcode" name="zipcode"
-                                    placeholder="{{ __('Zipcode') }}">
+                                    placeholder="{{ __('Postal Code') }}">
                             </div>
                             <div class="form-group">
                                 <label for="address">{{ __('Address') }}</label>
@@ -178,7 +176,7 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"
                                 data-bs-dismiss="modal">{{ __('Close') }}</button>
-                            <button id="update" type="submit" class="btn btn-primary">{{ __('Add') }}</button>
+                            <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                         </div>
                     </form>
                 </div>
@@ -191,7 +189,7 @@
             <div class="modal-dialog">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
-                        <h5 class="modal-title">{{ __('Change Admin Password') }}</h5>
+                        <h5 class="modal-title">{{ __('Change User Password') }}</h5>
                         <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
                     </div>
                     @if ($errors->any())
@@ -222,8 +220,7 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"
                                 data-bs-dismiss="modal">{{ __('Close') }}</button>
-                            <button id="update" type="submit"
-                                class="btn btn-primary">{{ __('Change Password') }}</button>
+                            <button type="submit" class="btn btn-primary">{{ __('Change Password') }}</button>
                         </div>
                     </form>
                 </div>
@@ -235,111 +232,154 @@
 
 @section('script')
     <x-datatable.js />
+    <script src="{{ asset('assets/backend/js/dropzone.js') }}"></script>
+    <x-media.js />
+
     <script>
         (function($) {
             "use strict";
+
             $(document).ready(function() {
-                <
-                x - btn.submit / >
-                    <
-                    x - btn.update / >
-                    $(document).on('click', '#bulk_delete_btn', function(e) {
-                        e.preventDefault();
+                // Initialize modals
+                var userEditModal = new bootstrap.Modal(document.getElementById('user_edit_modal'));
+                var passwordChangeModal = new bootstrap.Modal(document.getElementById(
+                    'user_change_password_modal'));
 
-                        var bulkOption = $('#bulk_option').val();
-                        var allCheckbox = $('.bulk-checkbox:checked');
-                        var allIds = [];
-                        allCheckbox.each(function(index, value) {
-                            allIds.push($(this).val());
-                        });
-                        if (allIds != '' && bulkOption == 'delete') {
-                            $(this).html(
-                                '<i class="fas fa-spinner fa-spin mr-1"></i>{{ __('Deleting') }}');
-                            $.ajax({
-                                'type': "POST",
-                                'url': "{{ route('admin.all.frontend.user.bulk.action') }}",
-                                'data': {
-                                    _token: "{{ csrf_token() }}",
-                                    ids: allIds
-                                },
-                                success: function(data) {
-                                    location.reload();
-                                }
-                            });
-                        }
-                    });
-
-                $('.all-checkbox').on('change', function(e) {
-                    e.preventDefault();
-                    var value = $('.all-checkbox').is(':checked');
-                    var allChek = $(this).parent().parent().parent().parent().parent().find(
-                        '.bulk-checkbox');
-                    //have write code here fr
-                    if (value == true) {
-                        allChek.prop('checked', true);
-                    } else {
-                        allChek.prop('checked', false);
-                    }
-                });
-
+                // Password change button handler
                 $(document).on('click', '.user_change_password_btn', function(e) {
                     e.preventDefault();
+                    var userId = $(this).data('id');
+                    $('#user_password_change_modal_form').find('#ch_user_id').val(userId);
+                });
+
+                // User edit button handler
+                $(document).on('click', '.user_edit_btn', function(e) {
+                    e.preventDefault();
                     var el = $(this);
-                    var form = $('#user_password_change_modal_form');
-                    form.find('#ch_user_id').val(el.data('id'));
+                    var form = $('#user_edit_modal_form');
+
+                    // Set basic user info
+                    form.find('#user_id').val(el.data('id'));
+                    form.find('#name').val(el.data('name'));
+                    form.find('#username').val(el.data('username'));
+                    form.find('#email').val(el.data('email'));
+                    form.find('#phone').val(el.data('phone'));
+                    form.find('#zipcode').val(el.data('zipcode'));
+                    form.find('#address').val(el.data('address'));
+
+                    // Set country and trigger change to load states
+                    var countryId = el.data('country');
+
+                    form.find('#country').val(countryId).trigger('change');
+
+                    // After a delay (to allow states to load), set the state
+                    setTimeout(function() {
+                        var stateId = el.data('state');
+                        if (stateId) {
+                            form.find('#state_id').val(stateId).trigger('change');
+                        }
+
+                        // After another delay (to allow cities to load), set the city
+                        setTimeout(function() {
+                            var cityId = el.data('city');
+                            if (cityId) {
+                                form.find('#city_id').val(cityId);
+                            }
+                        }, 500);
+                    }, 500);
+                });
+
+
+                $(document).on("change", "#country", function() {
+                    var countryId = $(this).val();
+                    var stateSelect = $("#state_id");
+
+                    if (!countryId) {
+                        stateSelect.html('<option value="">{{ __('Select State') }}</option>');
+                        return;
+                    }
+
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ route('admin.vendor.get.state') }}",
+                        data: {
+                            country_id: countryId,
+                            _token: "{{ csrf_token() }}"
+                        },
+                        success: function(response) {
+                            console.log(response); // For debugging
+
+                            // First clear the current options
+                            stateSelect.html(
+                                '<option value="">{{ __('Select State') }}</option>');
+
+                            // Check if response has the pre-formatted options
+                            if (response.success && response.option) {
+                                // Directly append the pre-formatted options
+                                stateSelect.append(response.option);
+
+                                // If you need to select a specific value after loading
+                                // var selectedStateId = stateSelect.attr('data-state-id');
+                                // if (selectedStateId) {
+                                //     stateSelect.val(selectedStateId);
+                                // }
+                            }
+                        },
+                        error: function(xhr) {
+                            console.error(xhr.responseText);
+                            stateSelect.html(
+                                '<option value="">{{ __('Error loading states') }}</option>'
+                            );
+                        }
+                    });
+                });
+
+                $(document).on("change", "#state_id", function() {
+                    var stateId = $(this).val();
+                    var countryId = $("#country").val();
+                    var citySelect = $("#city_id");
+
+                    if (!stateId || !countryId) {
+                        citySelect.html('<option value="">{{ __('Select City') }}</option>');
+                        return;
+                    }
+
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ route('admin.vendor.get.city') }}",
+                        data: {
+                            country_id: countryId,
+                            state_id: stateId,
+                            _token: "{{ csrf_token() }}"
+                        },
+                        success: function(response) {
+                            console.log(response); // For debugging
+
+                            // First clear the current options
+                            citySelect.html(
+                                '<option value="">{{ __('Select City') }}</option>');
+
+                            // Check if response has the pre-formatted options
+                            if (response.success && response.option) {
+                                // Directly append the pre-formatted options
+                                citySelect.append(response.option);
+
+                                // If you need to select a specific value after loading
+                                // var selectedCityId = citySelect.attr('data-city-id');
+                                // if (selectedCityId) {
+                                //     citySelect.val(selectedCityId);
+                                // }
+                            }
+                        },
+                        error: function(xhr) {
+                            console.error(xhr.responseText);
+                            citySelect.html(
+                                '<option value="">{{ __('Error loading cities') }}</option>'
+                            );
+                        }
+                    });
                 });
             });
-
-            $(document).on('click', '.user_edit_btn', function(e) {
-                e.preventDefault();
-                const form = $('#user_edit_modal_form');
-                const el = $(this);
-
-                form.find('#user_id').val(el.data('id'));
-                form.find('#name').val(el.data('name'));
-                form.find('#username').val(el.data('username'));
-                form.find('#email').val(el.data('email'));
-                form.find('#phone').val(el.data('phone'));
-                form.find('#state_id').attr("data-state-id", el.data('state'));
-                form.find('#city_id').attr("data-city-id", el.data('city'));
-                form.find('#zipcode').val(el.data('zipcode'));
-                form.find('#address').val(el.data('address'));
-                form.find('#country option[value="' + el.data('country') + '"]').attr('selected', true).trigger(
-                    'change');
-            });
-
-            $(document).on("change", "#country", function() {
-                let data = new FormData();
-                data.append("country_id", $(this).val());
-                data.append("_token", "{{ csrf_token() }}");
-
-                send_ajax_request("post", data, "{{ route('admin.vendor.get.state') }}", function() {}, (
-                    data) => {
-                    $("#state_id").html("<option value=''>{{ __('Select City') }}</option>" + data
-                        .option);
-                    $("#state_id").val($("#state_id").attr('data-state-id')).trigger('change');
-                    $(".state_wrapper .list").html(data.li);
-                }, (data) => {
-                    prepare_errors(data);
-                })
-            });
-            $(document).on("change", "#state_id", function() {
-                let data = new FormData();
-                data.append("country_id", $("#country").val());
-                data.append("state_id", $(this).val());
-                data.append("_token", "{{ csrf_token() }}");
-                send_ajax_request("post", data, "{{ route('admin.vendor.get.city') }}", function() {}, (
-                    data) => {
-                    $("#city_id").html("<option value=''>{{ __('Select Province') }}</option>" + data
-                        .option);
-                    $("#city_id").val($("#city_id").attr('data-city-id')).trigger('change');
-                    $(".city_wrapper .list").html(data.li);
-                }, (data) => {
-                    prepare_errors(data);
-                })
-            });
-        })(jQuery)
+        })(jQuery);
     </script>
-    <script src="{{ asset('assets/backend/js/dropzone.js') }}"></script>
-    <x-media.js />
 @endsection
