@@ -21,11 +21,6 @@ class ProductCategoryController extends Controller
         $this->middleware('permission:product-category-delete', ['only', ['destroy', 'bulk_action']]);
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
     public function index()
     {
         $all_category = ProductCategory::all();

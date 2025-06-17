@@ -166,8 +166,9 @@
                                                                         @foreach ($sub_cat->childcategory as $child_cat)
                                                                             <li data-val="{{ $child_cat->name }}"
                                                                                 data-type="child_category" class="list">
-                                                                                <a
-                                                                                    href="#1">{{ $child_cat->name ?? '' }}</a>
+                                                                                <a href="#1">
+                                                                                    {{ $child_cat->name ?? '' }}
+                                                                                </a>
                                                                             </li>
                                                                         @endforeach
                                                                     </ul>

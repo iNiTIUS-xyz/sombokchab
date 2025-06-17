@@ -594,12 +594,18 @@ class FrontendProductController extends Controller
 
     public function products_category(Request $request, $slug, $any = "")
     {
+
         $default_item_count = get_static_option('default_item_count');
 
         $all_products = Product::query()
             ->when(!empty($slug), function ($query) use ($slug) {
                 $query->whereHas("category", function ($cat_query) use ($slug) {
                     $cat_query->where("slug", $slug);
+                });
+            })
+            ->when(!empty($request->sub_cat_id), function ($query) use ($request) {
+                $query->whereHas("subCategory", function ($sub_cat_query) use ($request) {
+                    $sub_cat_query->where("sub_categories.id", $request->sub_cat_id);
                 });
             })
             ->with([

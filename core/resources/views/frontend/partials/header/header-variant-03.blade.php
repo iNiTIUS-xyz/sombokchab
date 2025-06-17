@@ -1,7 +1,11 @@
 @php
     $categories = Modules\Attributes\Entities\Category::where('status_id', 1)
-        ->select(['id', 'name'])
+        ->select(['id', 'name', 'slug'])
+        ->with([
+            'subcategory' => fn($q) => $q->select(['id', 'category_id', 'name', 'slug']),
+        ])
         ->get();
+
 @endphp
 
 <style>
@@ -261,6 +265,28 @@
         /* Match the text color */
         font-size: 12px;
         /* Adjust size as needed */
+    }
+
+    .dropdown-menu {
+        position: relative;
+        float: none;
+        border: none;
+    }
+
+    .dropdown-toggle[aria-expanded="true"]::after {
+        transform: rotate(180deg);
+    }
+
+    .dropdown-toggle::after {
+        display: inline-block;
+        margin-left: 0.255em;
+        vertical-align: 0.255em;
+        content: "";
+        border-top: 0.3em solid;
+        border-right: 0.3em solid transparent;
+        border-bottom: 0;
+        border-left: 0.3em solid transparent;
+        transition: transform 0.3s ease;
     }
 </style>
 
@@ -608,11 +634,37 @@
         <div class="categoryNav_sidebar">
             <h3 class="categoryNav__title">{{ __('All Categories') }}</h3>
             <div class="categoryNav__inner mt-3">
-                <ul class="categoryNav__list parent_menu menu_visible">
+                {{-- <ul class="categoryNav__list parent_menu menu_visible">
                     <li>
                         <a href="{{ route('frontend.dynamic.shop.page') }}">All Categories</a>
                     </li>
                     {!! render_frontend_menu(get_static_option('megamenu'), 'category_menu') !!}
+                </ul> --}}
+                <ul class="categoryNav__list parent_menu menu_visible">
+                    <li>
+                        <a href="{{ route('frontend.dynamic.shop.page') }}">All Categories</a>
+                    </li>
+                    @foreach ($categories as $category)
+                        <li class="nav-item dropdown">
+                            <a href="{{ route('frontend.products.category', [$category->slug, 'id' => $category->id]) }}"
+                                class="nav-link dropdown-toggle" data-bs-toggle="collapse"
+                                data-bs-target="#submenu-{{ $category->id }}" aria-expanded="false">
+                                {{ $category->name }}
+                            </a>
+                            @if ($category->subcategory->count() > 0)
+                                <ul class="collapse dropdown-menu" id="submenu-{{ $category->id }}">
+                                    @foreach ($category->subcategory as $sub_cat)
+                                        <li>
+                                            <a class="dropdown-item"
+                                                href="{{ route('frontend.products.category', [$category->slug, 'sub_cat_id' => $sub_cat->id]) }}">
+                                                {{ $sub_cat->name }}
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            @endif
+                        </li>
+                    @endforeach
                 </ul>
             </div>
         </div>
