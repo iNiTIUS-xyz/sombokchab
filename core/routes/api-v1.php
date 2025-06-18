@@ -56,6 +56,7 @@ Route::group(['prefix' => 'category'], function () {
 });
 /* sub category */
 Route::group(['prefix' => 'subcategory'], function () {
+    Route::get('/{category_id}', [SubCategoryController::class, 'allSubCategory']);
     Route::get('/{country_id}', [SubCategoryController::class, 'allSubCategory']);
     Route::get('/{country_id}/{id}', [SubCategoryController::class, 'singleSubCategory']);
 });
