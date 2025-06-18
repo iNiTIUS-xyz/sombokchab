@@ -13,35 +13,39 @@ use Modules\Product\Entities\Product;
 
 class FeaturedProductController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $product = MobileFeaturedProductService::get_product();
 
         return MobileFeatureProductResource::collection($product);
     }
 
     #[ArrayShape(["products" => "array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable", "campaign_info" => "array"])]
-    public function campaign($id = null){
+    
+    public function campaign($id = null)
+    {
         // fetch all product id from a selected campaign
-        if(!empty($id)){
+        if (!empty($id)) {
             $campaignId = $id;
-        }else{
+        } else {
             $mobileCampaign = MobileCampaign::first();
             $campaignId = $mobileCampaign->campaign_id;
         }
 
-        $campaign = Campaign::where("id" , $campaignId)->first();
+        $campaign = Campaign::where("id", $campaignId)->first();
         $selectedCampaignProductId = CampaignProduct::select("product_id")
             ->where("campaign_id", $campaignId)->get()->pluck("product_id")->toArray();
         // get all products from this campaign
         $products = addonProductInstance()
-            ->whereIn('id',$selectedCampaignProductId)->paginate(20);
+            ->whereIn('id', $selectedCampaignProductId)->paginate(20);
 
         $products = MobileFeatureProductResource::collection($products)->response()->getData();
 
-        return ["products" => $products ,"campaign_info" => optional($campaign)->toArray()];
+        return ["products" => $products, "campaign_info" => optional($campaign)->toArray()];
     }
 
-    public function homepageCamapaign(){
+    public function homepageCamapaign()
+    {
         $campaignId = MobileCampaign::first();
 
         return $campaignId;
