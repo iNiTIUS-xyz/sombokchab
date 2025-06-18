@@ -20,7 +20,9 @@
         $campaignSoldCount = \Modules\Campaign\Entities\CampaignSoldProduct::where('product_id', $product->id)->first();
 
         //remove it if manage it from inventory from listener
-        $stock_count = $campaign_product ? $campaign_product->units_for_sale - optional($campaignSoldCount)->sold_count ?? 0 : optional($product->inventory)->stock_count;
+        $stock_count = $campaign_product
+            ? $campaign_product->units_for_sale - optional($campaignSoldCount)->sold_count ?? 0
+            : optional($product->inventory)->stock_count;
         $stock_count = $stock_count > (int) get_static_option('product_in_stock_limit_set') ? $stock_count : 0;
         if ($campaign_product) {
             $campaign_title = \Modules\Campaign\Entities\Campaign::select('id', 'title')
@@ -63,7 +65,11 @@
                                             </a>
                                         </div>
                                         @php
-                                            $product_image_gallery = $product->product_image_gallery && $product->product_image_gallery != 'null' ? $product->product_image_gallery : [];
+                                            $product_image_gallery =
+                                                $product->product_image_gallery &&
+                                                $product->product_image_gallery != 'null'
+                                                    ? $product->product_image_gallery
+                                                    : [];
                                         @endphp
                                         @if ($product_image_gallery && count($product_image_gallery))
                                             @foreach ($product_image_gallery as $gallery_image)
@@ -138,12 +144,14 @@
                                     <h3 class="product-title">{{ $product->title }}</h3>
 
                                     @if ($stock_count > 0)
-                                        <span
-                                            class="availability">{{ filter_static_option_value('product_in_stock_text', $setting_text, __('In stock')) }}
-                                            ({{ $stock_count }})</span>
+                                        <span class="availability">
+                                            {{ filter_static_option_value('product_in_stock_text', $setting_text, __('In stock')) }}
+                                            ({{ $stock_count }})
+                                        </span>
                                     @else
-                                        <span
-                                            class="availability text-danger">{{ filter_static_option_value('product_out_of_stock_text', $setting_text, __('Out of stock')) }}</span>
+                                        <span class="availability text-danger">
+                                            {{ filter_static_option_value('product_out_of_stock_text', $setting_text, __('Out of stock')) }}
+                                        </span>
                                     @endif
 
                                     @if ($product->ratingCount() > 0)
@@ -789,7 +797,9 @@
                                     '</div>');
                             } else {
                                 formContainer.find('.error-wrap').html('');
-                                el.text('{{ __('Sign in successfully... Redirecting...') }}');
+                                el.text(
+                                    '{{ __('Sign in successfully... Redirecting...') }}'
+                                    );
                                 location.reload();
                             }
                         },
