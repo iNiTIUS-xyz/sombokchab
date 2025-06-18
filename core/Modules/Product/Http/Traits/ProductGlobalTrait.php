@@ -684,6 +684,12 @@ trait ProductGlobalTrait
             });
         });
 
+        $all_products->when(!empty($request->sub_cat_id), function ($query) use ($request) {
+            $query->whereHas("subCategory", function ($sub_cat_query) use ($request) {
+                $sub_cat_query->where("sub_categories.id", $request->sub_cat_id);
+            });
+        });
+
         $all_products->when(Auth::guard("vendor")->check(), function ($query) use ($request) {
             $query->where("vendor_id", \Auth::guard("vendor")->id());
         })
@@ -816,9 +822,6 @@ trait ProductGlobalTrait
         return CustomPaginationService::pagination_type($all_products, $display_item_count, $isCustomPagination, route($route . ".products.search") . '?' . $create_query);
     }
 
-    /**
-     * @throws Exception
-     */
     private function is_date_range_multiple(): array
     {
         $date = explode(" to ", request()->date_range);
