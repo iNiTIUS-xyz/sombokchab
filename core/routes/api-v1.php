@@ -82,6 +82,7 @@ Route::get("campaign/product/{id?}", [FeaturedProductController::class, 'campaig
 Route::get("campaign", [CampaignController::class, 'index']); // done
 Route::get("product", [ProductController::class, 'search'])->name("api.products.search");
 Route::get("product/{id}", [ProductController::class, 'productDetail']);
+Route::get("product/subcategory", [ProductController::class, 'productBySubcategory']);
 Route::get("product/price-range", [ProductController::class, 'priceRange']);
 Route::get("search-items", [ProductController::class, 'searchItems']);
 Route::get("terms-and-condition-page", [MobileController::class, 'termsAndCondition']);
