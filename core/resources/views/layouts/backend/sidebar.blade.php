@@ -978,7 +978,7 @@
                         @can('product-create')
                             <li class="{{ active_menu('admin-home/product/create') }}">
                                 <a href="{{ route('admin.products.create') }}">
-                                    {{ __('Create Product') }}
+                                    {{ __('Add New Product') }}
 
                                 </a>
                             </li>
