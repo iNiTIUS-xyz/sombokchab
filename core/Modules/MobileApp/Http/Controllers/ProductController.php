@@ -494,16 +494,78 @@ class ProductController extends Controller
     {
         return FrontendProductServices::shopPageSearchContent();
     }
-    public function productBySubcategory(Request $request)
-    {
-        $subcategory = $request->input('subcategory');
+    // public function productBySubcategory($subcategoryId, Request $request)
+    // {
+    //     $query = Product::where('status_id', 1);
+    //     $query->whereHas('subCategories', function ($q) use ($subcategoryId) {
+    //         $q->where('sub_categories.id', $subcategoryId); // Qualify the id column
+    //     });
 
-        $query = Product::where('status_id', 1);
-        if ($subcategory) {
-            $query->whereHas('subCategories', function ($q) use ($subcategory) {
-                $q->where('name', 'like', "%$subcategory%"); // Case-insensitive partial match
+    //     $products = $query->with([
+    //         'category',
+    //         'subCategories',
+    //         'childCategory',
+    //         'image',
+    //         'badge',
+    //         'uom',
+    //         'ratings'
+    //     ])->withAvg('ratings', 'rating')
+    //         ->withCount('ratings')
+    //         ->withSum('taxOptions', 'rate')
+    //         ->paginate(10);
+
+    //     $data = $products->items();
+    //     foreach ($data as $product) {
+    //         $campaign_product = getCampaignProductById($product->id);
+    //         $sale_price = $campaign_product ? $campaign_product->campaign_price : $product->sale_price;
+    //         $deleted_price = $campaign_product ? $product->sale_price : $product->price;
+    //         $campaign_percentage = $campaign_product ? getPercentage($product->sale_price, $sale_price) : false;
+    //         $product->campaign_percentage = $campaign_percentage;
+    //         $product->random_key = random_int(11111111, 99999999) . $product->tax_options_sum_rate . random_int(111111111111111, 999999999999999);
+    //         $product->random_secret = random_int(111111111111111, 999999999999999) . round($sale_price, 0) . random_int(11111111, 99999999);
+    //         $product->sale_price = calculatePrice($sale_price, $product);
+    //         $product->price = calculatePrice($deleted_price, $product);
+
+    //         unset($product->tax_options_sum_rate);
+
+    //         if ($product->subCategories->isNotEmpty()) {
+    //             $subCategory = $product->subCategories->first();
+    //             $subCategory->categoryImage = render_image($subCategory->image ?? 0, render_type: 'path');
+    //             if (isset($subCategory->image_id)) unset($subCategory->image_id);
+    //             if (isset($subCategory->laravel_through_key)) unset($subCategory->laravel_through_key);
+    //             if (isset($subCategory->image)) unset($subCategory->image);
+    //         }
+
+    //         $productImage = $product->image ?? 0;
+    //         if ($product->image ?? false) unset($product->image);
+    //         $product->image = render_image($productImage, render_type: 'path');
+
+    //         $product->prd_id = $product->id;
+    //         $product->title = $product->name;
+    //         $product->img_url = $product->image ? render_image($product->image, render_type: 'path') : null;
+    //         $product->discount_price = $product->sale_price;
+    //         $product->sub_category_id = $product->subCategories->isNotEmpty() ? $product->subCategories->first()->id : null;
+    //         $product->child_category_ids = $product->childCategory->isNotEmpty() ? [$product->childCategory->id] : [];
+    //         $product->avg_ratting = $product->ratings_avg_rating ?? 0;
+    //         $product->stock_count = 0; // Add inventory mapping if available
+    //         $product->is_cart_able = true; // Derive from inventory if available
+    //         $product->vendor_id = $product->vendor_id;
+    //         $product->vendor_name = $product->vendor_name ?? ($product->vendor ? $product->vendor->name : null);
+    //         $product->category_id = $product->category->id;
+    //         $product->end_date = $product->end_date;
+    //     }
+
+    //     return response()->json([
+    //         'data' => $data,
+    //         'next_page_url' => $products->nextPageUrl(),
+    //     ]);
+    // }
+    public function productBySubcategory($subcategoryId, Request $request)
+    {
+        $query = Product::where('status_id', 1)
+            ->whereHas('subCategories', function ($q) use ($subcategoryId) {
+                $q->where('sub_categories.id', $subcategoryId);
             });
-        }
 
         $products = $query->with([
             'category',
@@ -512,39 +574,68 @@ class ProductController extends Controller
             'image',
             'badge',
             'uom',
-            'ratings'
-        ])->withAvg('ratings', 'rating')
+            'ratings',
+            'vendor'
+        ])
+            ->withAvg('ratings', 'rating')
             ->withCount('ratings')
             ->withSum('taxOptions', 'rate')
-            ->paginate(10); // Adjust pagination as needed
+            ->paginate(10);
 
         $data = $products->items();
+
+        // Optional: Pre-fetch campaign products if getCampaignProductById() is DB-heavy
+        $campaignProducts = collect($data)
+            ->pluck('id')
+            ->mapWithKeys(function ($id) {
+                return [$id => getCampaignProductById($id)];
+            });
+
         foreach ($data as $product) {
-            $campaign_product = getCampaignProductById($product->id);
-            $sale_price = $campaign_product ? $campaign_product->campaign_price : $product->sale_price;
-            $deleted_price = $campaign_product ? $product->sale_price : $product->price;
-            $campaign_percentage = $campaign_product ? getPercentage($product->sale_price, $sale_price) : false;
-            $product->campaign_percentage = $campaign_percentage;
-            $product->random_key = random_int(11111111, 99999999) . $product->tax_options_sum_rate . random_int(111111111111111, 999999999999999);
-            $product->random_secret = random_int(111111111111111, 999999999999999) . round($sale_price, 0) . random_int(11111111, 99999999);
-            $product->sale_price = calculatePrice($sale_price, $product);
-            $product->price = calculatePrice($deleted_price, $product);
+            $campaignProduct = $campaignProducts[$product->id] ?? null;
+
+            $salePrice = $campaignProduct ? $campaignProduct->campaign_price : $product->sale_price;
+            $originalPrice = $campaignProduct ? $product->sale_price : $product->price;
+            $campaignPercentage = $campaignProduct ? getPercentage($product->sale_price, $salePrice) : 0;
+
+            $product->campaign_percentage = $campaignPercentage;
+            $product->random_key = random_int(11111111, 99999999) . ($product->tax_options_sum_rate ?? 0) . random_int(111111111111111, 999999999999999);
+            $product->random_secret = random_int(111111111111111, 999999999999999) . round($salePrice, 0) . random_int(11111111, 99999999);
+
+            $product->sale_price = calculatePrice($salePrice, $product);
+            $product->price = calculatePrice($originalPrice, $product);
 
             unset($product->tax_options_sum_rate);
 
-            // Add subcategory image if available
+            // Subcategory image rendering and cleanup
             if ($product->subCategories->isNotEmpty()) {
-                $subCategory = $product->subCategories->first(); // Take the first subcategory for simplicity
+                $subCategory = $product->subCategories->first();
                 $subCategory->categoryImage = render_image($subCategory->image ?? 0, render_type: 'path');
-                if (isset($subCategory->image_id)) unset($subCategory->image_id);
-                if (isset($subCategory->laravel_through_key)) unset($subCategory->laravel_through_key);
-                if (isset($subCategory->image)) unset($subCategory->image);
+                unset($subCategory->image_id, $subCategory->laravel_through_key, $subCategory->image);
             }
 
-            // Add product image
-            $productImage = $product->image ?? 0;
-            if ($product->image ?? false) unset($product->image);
-            $product->image = render_image($productImage, render_type: 'path');
+            // Handle product image
+            $originalImage = $product->image ?? 0;
+            $renderedImage = render_image($originalImage, render_type: 'path');
+            $product->image = $renderedImage;
+
+            // Flatten structure for frontend
+            $product->prd_id = $product->id;
+            $product->title = $product->name;
+            $product->img_url = $renderedImage;
+            $product->discount_price = $product->sale_price;
+            $product->sub_category_id = optional($product->subCategories->first())->id;
+            $product->child_category_ids = $product->childCategory->pluck('id')->toArray();
+            $product->avg_ratting = $product->ratings_avg_rating ?? 0;
+
+            // TODO: Add real stock mapping if available
+            $product->stock_count = 0;
+            $product->is_cart_able = true;
+
+            $product->vendor_id = $product->vendor_id;
+            $product->vendor_name = $product->vendor_name ?? optional($product->vendor)->name;
+            $product->category_id = optional($product->category)->id;
+            $product->end_date = $product->end_date;
         }
 
         return response()->json([
