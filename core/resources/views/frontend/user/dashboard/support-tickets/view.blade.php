@@ -1,6 +1,6 @@
 @extends('frontend.frontend-page-master')
 @section('page-title')
-    {{ __('Ticket View') }}
+    {{ __('Support Ticket Details') }}
 @endsection
 @section('style')
     <link rel="stylesheet" href="{{ asset('assets/backend/css/summernote-bs4.css') }}">
