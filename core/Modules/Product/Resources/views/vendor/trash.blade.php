@@ -103,11 +103,13 @@
                                         <td data-label="Actions">
                                             <div class="action-icon">
                                                 <a href="{{ route('vendor.products.trash.restore', $product->id) }}"
-                                                    class="product-restore btn btn-success btn-sm"> {{ __('Restore') }}
+                                                    class="product-restore btn btn-success btn-sm">
+                                                    {{ __('Restore') }}
                                                 </a>
                                                 <a data-product-delete-url="{{ route('vendor.products.trash.delete', $product->id) }}"
                                                     href="#1" class="product-delete btn btn-danger btn-sm">
-                                                    {{ __('Delete') }} </a>
+                                                    <i class="las la-trash-alt"></i>
+                                                </a>
                                             </div>
                                         </td>
                                     </tr>

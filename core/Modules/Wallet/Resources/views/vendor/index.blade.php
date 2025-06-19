@@ -20,7 +20,7 @@
                 @endif
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Your Wallet') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('Wallet Dashboard') }}</h4>
                     </div>
                     <div class="dashboard__card__body mt-4">
                         <div class="row g-4 justify-content-center">
