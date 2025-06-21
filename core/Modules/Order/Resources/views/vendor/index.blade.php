@@ -11,8 +11,8 @@
             <h3 class="dashboard__card__title">{{ __('My Orders') }}</h3>
         </div>
         <div class="dashboard__card__body mt-4">
-            <div class="table-wrap table-responsive all-user-campaign-table">
-                <div class="order-history-inner">
+            <div class="all-user-campaign-table">
+                <div class="table-wrap table-responsive order-history-inner">
                     <table class="table">
                         <thead>
                             <tr>
@@ -75,9 +75,6 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
-            <div class="pagination">
-                {!! $all_orders->links() !!}
             </div>
         </div>
     </div>

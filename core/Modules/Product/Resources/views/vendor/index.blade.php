@@ -107,19 +107,19 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="label-1"
-                                                    for="search-from_price">{{ __('From Price') }}</label>
+                                                    for="search-from_price">{{ __('Min Price') }}</label>
                                                 <input name="from_price" class="form--control input-height-1"
                                                     id="search-from_price" value="{{ old('from_price') }}"
-                                                    placeholder="{{ __('Enter Form Price') }}" />
+                                                    placeholder="{{ __('Enter Min Price') }}" />
                                             </div>
                                         </div>
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="label-1" for="search-to_price">{{ __('To Price') }}</label>
+                                                <label class="label-1" for="search-to_price">{{ __('Max Price') }}</label>
                                                 <input name="to_price" class="form--control input-height-1"
                                                     id="search-to_price" value="{{ old('to_price') }}"
-                                                    placeholder="{{ __('Enter To Price') }}" />
+                                                    placeholder="{{ __('Enter Max Price') }}" />
                                             </div>
                                         </div>
                                     </div>

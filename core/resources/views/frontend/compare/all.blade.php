@@ -17,15 +17,15 @@
 
 @php
     $setting_text = \App\StaticOption::whereIn('option_name', [
-            'product_in_stock_text',
-            'product_out_of_stock_text',
-            'details_tab_text',
-            'additional_information_text',
-            'reviews_text',
-            'your_reviews_text',
-            'write_your_feedback_text',
-            'post_your_feedback_text',
-        ])
+        'product_in_stock_text',
+        'product_out_of_stock_text',
+        'details_tab_text',
+        'additional_information_text',
+        'reviews_text',
+        'your_reviews_text',
+        'write_your_feedback_text',
+        'post_your_feedback_text',
+    ])
         ->get()
         ->mapWithKeys(fn($item) => [$item->option_name => $item->option_value])
         ->toArray();
@@ -74,16 +74,16 @@
                         )->first();
                         $campaign_product = $product->campaign_product ?? null;
                         $campaignSoldCount = $product?->campaign_sold_product ?? null;
-                         $stock_count = $campaign_product
-                                ? $campaign_product->units_for_sale - (optional($campaignSoldCount)->sold_count ?? 0)
-                                : optional($product->inventory)->stock_count;
+                        $stock_count = $campaign_product
+                            ? $campaign_product->units_for_sale - (optional($campaignSoldCount)->sold_count ?? 0)
+                            : optional($product->inventory)->stock_count;
                         // // Check if product has variants
                         // if ($product->options->variant_id ?? false) {
                         //     $product_inventory_details = \Modules\Product\Entities\ProductInventoryDetail::where(
                         //         'id',
                         //         $product->options->variant_id,
                         //     )->first();
-                            
+
                         //     // For variant products, use variant stock count (not campaign units)
                         //     $stock_count = $campaign_product
                         //         ? $campaign_product->units_for_sale - (optional($campaignSoldCount)->sold_count ?? 0)
@@ -95,9 +95,10 @@
                         //         ? $campaign_product->units_for_sale - (optional($campaignSoldCount)->sold_count ?? 0)
                         //         : optional($product->inventory)->stock_count;
                         // }
-                        
+
                         // Apply stock limit check
-                        $stock_count = $stock_count > (int) get_static_option('product_in_stock_limit_set') ? $stock_count : 0;
+                        $stock_count =
+                            $stock_count > (int) get_static_option('product_in_stock_limit_set') ? $stock_count : 0;
                     @endphp
                     <div class="col-lg-4 col-md-6">
                         <div class="single-compare text-center">
@@ -107,7 +108,7 @@
                                 @endif
                             </div>
                             <div class="compare-contents mt-2">
-                                <h5 >
+                                <h5>
                                     <a href="{{ route('frontend.products.single', $product->options->slug ?? '') }}">
                                         {{-- {{ $product->name }} --}}
                                         {{ Str::limit($product->name, 100, '...') }}
@@ -156,15 +157,26 @@
                                     @endif
                                     @if ($product->options->attributes ?? null)
                                         @foreach ($product->options->attributes as $key => $value)
-                                            <li class="list">{{ $key }}: <b class=""> {{ $value }}
-                                                </b> </li>
+                                            <li class="list">
+                                                {{ $key }}:
+                                                <b class="">
+                                                    {{ $value }}
+                                                </b>
+                                            </li>
                                         @endforeach
                                     @endif
-
                                 </ul>
                                 <div class="btn-wrapper mt-2">
+                                    <a href="javascript:;" data-id="{{ $product->id }}"
+                                        class="btn btn-info add_to_cart_ajax">
+                                        <span class="icon-close text-light">
+                                            <i class="las la-shopping-cart"></i>
+                                        </span>
+                                    </a>
                                     <a href="#1" data-product_hash_id="{{ $product->rowId }}"
-                                        class="btn btn-danger px-5 py-2 remove_compare_item_ajax">{{ __('Remove') }} </a>
+                                        class="btn btn-danger remove_compare_item_ajax" title="Remove">
+                                        <i class="la la-times"></i>
+                                    </a>
                                 </div>
                             </div>
                         </div>

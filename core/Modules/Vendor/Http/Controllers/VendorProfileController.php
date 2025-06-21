@@ -2,16 +2,18 @@
 
 namespace Modules\Vendor\Http\Controllers;
 
-use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
-use Modules\CountryManage\Entities\Country;
-use Modules\Vendor\Entities\BusinessType;
-use Modules\Vendor\Entities\Vendor;
-use Modules\Vendor\Http\Requests\Backend\UpdateVendorRequest;
-use Modules\Vendor\Http\Services\VendorServices;
 use Auth;
 use Hash;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
+use Modules\Vendor\Entities\Vendor;
+use Modules\Vendor\Entities\BusinessType;
+use Modules\CountryManage\Entities\Country;
+use Illuminate\Contracts\Support\Renderable;
+use Modules\Vendor\Http\Services\VendorServices;
+use Modules\Vendor\Http\Requests\Backend\UpdateVendorRequest;
+
 class VendorProfileController extends Controller
 {
     function vendor_profile()
@@ -60,7 +62,7 @@ class VendorProfileController extends Controller
 
         $data = array_merge($request->validated(), ['colors' => $colors]);
 
-        \DB::beginTransaction();
+        DB::beginTransaction();
 
         try {
             // store vendor
@@ -72,12 +74,18 @@ class VendorProfileController extends Controller
             // store vendor bank
             VendorServices::store_vendor_bank_info(VendorServices::prepare_data_for_update($data, "vendor_bank_info"), "update");
             // Database Commit
-            \DB::commit();
+            DB::commit();
 
             return response()->json(["success" => true, "type" => "success"]);
         } catch (\Exception $e) {
-            \DB::rollBack();
-            return response()->json(["msg" => $e, "custom_msg" => "Failed to create vendor account..", "success" => false, "type" => "danger"])->setStatusCode(422);
+            dd($e);
+            DB::rollBack();
+            return response()->json([
+                "msg" => $e,
+                "custom_msg" => "Failed to create vendor account..",
+                "success" => false,
+                "type" => "danger"
+            ])->setStatusCode(422);
         }
     }
 

@@ -283,9 +283,8 @@
                                                                 <label class="label-title color-light mb-2">
                                                                     {{ __('Phone Number') }}
                                                                 </label>
-                                                                <input value="{{ $vendor?->vendor_shop_info?->number }}"
-                                                                    name="number" type="tel"
-                                                                    class="form--control radius-10"
+                                                                <input value="{{ $vendor?->phone }}" name="number"
+                                                                    type="tel" class="form--control radius-10"
                                                                     placeholder="{{ __('Enter Phone Number') }}">
                                                             </div>
                                                         </div>
@@ -392,7 +391,9 @@
                                                     <div class="row g-4">
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title color-light mb-2"> Name </label>
+                                                                <label class="label-title color-light mb-2">
+                                                                    Name <span>*</span>
+                                                                </label>
                                                                 <input
                                                                     value="{{ $vendor?->vendor_bank_info?->bank_name }}"
                                                                     name="bank_name" type="text"
@@ -402,7 +403,8 @@
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title color-light mb-2"> Email </label>
+                                                                <label class="label-title color-light mb-2"> Email
+                                                                    <span>*</span> </label>
                                                                 <input
                                                                     value="{{ $vendor?->vendor_bank_info?->bank_email }}"
                                                                     name="bank_email" type="text"
@@ -413,6 +415,7 @@
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
                                                                 <label class="label-title color-light mb-2"> Bank Code
+                                                                    <span>*</span>
                                                                 </label>
                                                                 <input
                                                                     value="{{ $vendor?->vendor_bank_info?->bank_code }}"
@@ -424,6 +427,7 @@
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
                                                                 <label class="label-title color-light mb-2"> Account Number
+                                                                    <span>*</span>
                                                                 </label>
                                                                 <input
                                                                     value="{{ $vendor?->vendor_bank_info?->account_number }}"
