@@ -36,7 +36,7 @@
                         <tr>
                             <th>{{ __('Serial No.') }}</th>
                             <th>{{ __('Order No.') }}</th>
-                            <th>{{ __('Subject') }}</th>
+                            <th>{{ __('Title') }}</th>
                             <th>{{ __('Date Created') }}</th>
                             <th>{{ __('Status') }}</th>
                             <th>{{ __('Action') }}</th>
@@ -59,7 +59,7 @@
                                 </td>
                                 <td>
                                     <a href="{{ route('user.dashboard.support.ticket.view', $data->id) }}"
-                                        class="btn btn-secondary btn-sm rounded-btn" target="_blank" class="View Support Ticket">
+                                        class="btn btn-secondary btn-sm rounded-btn" class="View Support Ticket">
                                         <i class="las la-file-alt"></i>
                                     </a>
                                     @if ($data->status == 'open')

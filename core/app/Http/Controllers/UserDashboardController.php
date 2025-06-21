@@ -622,6 +622,10 @@ class UserDashboardController extends Controller
         //send mail to user
         event(new SupportMessage($ticket_info));
 
+        // if (isset($request->send_notify_mail) && $request->send_notify_mail == 'on') {
+
+        // }
+
         return back()->with(FlashMsg::settings_update(__('Message sent successfully.')));
     }
 
