@@ -1,6 +1,6 @@
 @extends('tenant.frontend.user.dashboard.user-master')
 @section('site-title')
-    {{ __('Ticket View') }}
+    {{ __('Support Ticket Details') }}
 @endsection
 @section('style')
     <x-summernote.css />

@@ -15,13 +15,13 @@
                 @can('support-tickets-create')
                     <div class="btn-wrapper d-flex mb-4">
                         <a href="{{ route('admin.support.ticket.new') }}" class="cmn_btn btn_bg_profile">
-                            {{ __('New Ticket') }}
+                            {{ __('Add New Ticket') }}
                         </a>
                     </div>
                 @endcan
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('All Tickets') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('All Support Tickets') }}</h4>
                         <div class="dashboard__card__header__right d-flex">
                             @can('support-tickets-bulk-action')
                                 <x-bulk-action.dropdown />

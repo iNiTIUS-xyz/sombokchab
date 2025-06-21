@@ -87,7 +87,7 @@
                             id="product-create-form">
                             @csrf
                             <div class="form-button">
-                                <button class="cmn_btn btn_bg_profile">{{ __('Create Product') }}</button>
+                                <button class="cmn_btn btn_bg_profile">{{ __('Add New Product') }}</button>
                             </div>
 
                             <div class="tab-content margin-top-10" id="v-pills-tabContent">

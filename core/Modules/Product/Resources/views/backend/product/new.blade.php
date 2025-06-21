@@ -201,7 +201,7 @@
                                         </select>
                                     </div>
                                     <div class="text-center mt-5">
-                                        <button class="btn btn-primary">{{ __('Create Product') }}</button>
+                                        <button class="btn btn-primary">{{ __('Add New Product') }}</button>
                                     </div>
                                 </div>
                             </div>

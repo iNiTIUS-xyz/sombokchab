@@ -39,7 +39,7 @@
                             </li>
 
                             <li class="{{ active_menu('vendor-home/product/create') }}">
-                                <a href="{{ route('vendor.products.create') }}">{{ __('Create Product') }}</a>
+                                <a href="{{ route('vendor.products.create') }}">{{ __('Add New Product') }}</a>
                             </li>
                         </ul>
                     </li>
