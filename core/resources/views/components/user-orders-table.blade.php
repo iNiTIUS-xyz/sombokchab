@@ -30,7 +30,7 @@
                             {{ $order->order_number }}
                         </td>
                         <td class="order-numb">
-                            {{ $order->order_number }}
+                            {{ $order->tracking_code }}
                         </td>
                         <td class="date">
                             {{ $order->created_at->format('M j, Y') }}

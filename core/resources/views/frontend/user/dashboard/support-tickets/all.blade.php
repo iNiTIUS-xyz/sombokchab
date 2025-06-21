@@ -36,7 +36,7 @@
                         <tr>
                             <th>{{ __('Serial No.') }}</th>
                             <th>{{ __('Order No.') }}</th>
-                            <th>{{ __('Title') }}</th>
+                            <th>{{ __('Subject') }}</th>
                             <th>{{ __('Date Created') }}</th>
                             <th>{{ __('Status') }}</th>
                             <th>{{ __('Action') }}</th>

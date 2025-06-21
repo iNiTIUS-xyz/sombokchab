@@ -186,10 +186,6 @@
                                                                         value="{{ $campaign_product->units_for_sale }}">
                                                                 </div>
 
-                                                                @if (!$campaign->start_date || !$campaign->end_date)
-                                                                    style="display: none"
-                                                                @endif>
-
                                                                 <div class="form-group">
                                                                     <label for="start_date">{{ __('Start Date') }}</label>
                                                                     <input type="text" name="start_date[]"
@@ -217,7 +213,7 @@
                                             <hr>
                                             <div class="btn-wrapper">
                                                 <button type="submit" class="cmn_btn btn_bg_profile">
-                                                    {{ __('Create Campaign') }}
+                                                    {{ __('Update') }}
                                                 </button>
                                                 <a href="{{ route('vendor.campaigns.all') }}"
                                                     class="cmn_btn default-theme-btn"
