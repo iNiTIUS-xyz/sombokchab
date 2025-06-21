@@ -87,6 +87,19 @@ class ProductWishlistController extends Controller
             ]);
         }
 
+        $wishlistItems = Cart::instance('wishlist')->content();
+
+        $alreadyInWishlist = $wishlistItems->contains(function ($item) use ($request) {
+            return $item->id == $request->product_id;
+        });
+
+        if ($alreadyInWishlist) {
+            return response()->json([
+                'type' => 'error',
+                'msg' => __('Product is already in your save for later.'),
+            ]);
+        }
+
         if ($product_inventory_details && $request->quantity > $product_inventory_details->stock_count) {
             return response()->json([
                 'type' => 'warning',

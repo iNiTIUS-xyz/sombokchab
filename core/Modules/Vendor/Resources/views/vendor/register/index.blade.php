@@ -128,12 +128,13 @@
                                     <div class="box-wrap form-check">
                                         <input type="checkbox" class="form-check-input" id="toc_and_privacy"
                                             name="agree_terms" required />
-                                        <label class="form-check-label" for="toc_and_privacy"  style="font-weight: bold !important;">
+                                        <label class="form-check-label" for="toc_and_privacy"
+                                            style="font-weight: bold !important;">
                                             {{ __('Accept all') }}
-                                            <a href="{{ url(get_static_option('toc_page_link')) }}"
-                                                class="text-active">{{ __('Terms and Conditions') }}</a> &amp;
+                                            <a href="{{ url(get_static_option('toc_page_link')) }}" class="text-active"
+                                                target="__blank">{{ __('Terms and Conditions') }}</a> &amp;
                                             <a href="{{ url(get_static_option('privacy_policy_link')) }}"
-                                                class="text-active">{{ __('Privacy Policy') }}</a>
+                                                class="text-active" target="__blank">{{ __('Privacy Policy') }}</a>
                                         </label>
                                     </div>
                                     <small class="text-danger" id="termsError"></small>
