@@ -252,7 +252,7 @@ class UserDashboardController extends Controller
             'address' => 'nullable|string|max:191',
             'is_default' => 'nullable',
         ], [
-            'phone.required' => 'Phone Number is Required.'
+            'phone.required' => 'Phone number is required.'
         ]);
 
         $existShippingAddress = ShippingAddress::query()
