@@ -21,7 +21,7 @@
             <div class="col-12">
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h3 class="dashboard__card__title">{{ __('Staff Roles') }}</h3>
+                        <h3 class="dashboard__card__title">{{ __('Admin Roles') }}</h3>
                     </div>
                     <div class="dashboard__card__body mt-4">
                         <x-error-msg />
