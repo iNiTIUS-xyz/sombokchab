@@ -21,8 +21,6 @@ class VendorServices
 
         if (isset($request->is_vendor_verified) && $request->is_vendor_verified == 1) {
             $data['verified_at'] = date('Y-m-d H:i:s');
-        } else {
-            $data['verified_at'] = null;
         }
 
         $data['phone'] = $request->number;
