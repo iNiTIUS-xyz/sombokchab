@@ -212,13 +212,13 @@ class Product extends Model
     }
 
 
-    public function categories()
-    {
-        return $this->belongsToMany(Category::class, 'product_category', 'product_id', 'category_id');
-    }
+    // public function categories()
+    // {
+    //     return $this->belongsToMany(Category::class, 'product_category', 'product_id', 'category_id');
+    // }
 
-    public function subcategories()
-    {
-        return $this->belongsToMany(ProductSubCategory::class, 'product_sub_category', 'product_id', 'sub_category_id');
-    }
+    // public function subcategories()
+    // {
+    //     return $this->belongsToMany(ProductSubCategory::class, 'product_sub_category', 'product_id', 'sub_category_id');
+    // }
 }
