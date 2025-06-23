@@ -83,7 +83,7 @@
                             </del>
 
                             <b
-                                class="checkout__card__price__main checkout-cart-price color-heading fw-500 font-weight-bold">
+                                class="checkout__card__price__main checkout-cart-price color-heading" style="font-weight: bold; color: var(--main-color-one)">
                                 {{ amount_with_currency_symbol($price) }}
                             </b>
                         </div>

@@ -73,7 +73,7 @@
                                             <div class="form-group">
                                                 <label class="label-title text-bold mb-2">{{ __('Username *') }}</label>
                                                 <input type="text" name="username" id="username"
-                                                    class="form--control radius-10" placeholder="{{ __('Username *') }}"
+                                                    class="form--control radius-10" maxlength="20" placeholder="{{ __('Username *') }}"
                                                     required>
                                                 <small class="text-danger" id="usernameError"></small>
                                             </div>
@@ -211,7 +211,7 @@
         function validateUsername(value) {
             if (!value.trim()) return 'Username is required';
 
-            const re = /^[A-Za-z0-9_]{3,20}$/; // Removed '.' from the character set
+            const re = /^[A-Za-z0-9_]{3,20}$/;
             if (!re.test(value)) {
                 return 'Username must be 3–20 characters (letters, numbers, underscore( _ )) with no spaces';
             }

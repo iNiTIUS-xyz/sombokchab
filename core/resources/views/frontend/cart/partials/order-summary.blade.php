@@ -150,10 +150,10 @@
         flex: 1;
     }
 
-    .billing-form.checkout-billing-form {
+    /* .billing-form.checkout-billing-form {
         display: flex;
         align-items: flex-start;
-    }
+    } */
 </style>
 <script>
     document.addEventListener('DOMContentLoaded', function() {

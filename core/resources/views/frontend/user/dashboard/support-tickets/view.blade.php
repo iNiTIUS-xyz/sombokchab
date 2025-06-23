@@ -114,6 +114,11 @@
             color: #000 !important;
         }
 
+        .single-message-item .message-content a {
+            text-decoration: underline !important;
+            color: var(--blue-color) !important;
+        }
+
         .reply-message-wrap .title {
             font-size: 22px;
             line-height: 32px;
@@ -194,10 +199,11 @@
         }
 
 
-        .anchor-btn {
-            border-bottom: 1px solid var(--main-color-one);
-            color: var(--main-color-one);
+        .single-message-item .message-content .anchor-btn {
+            /* border-bottom: 1px solid var(--main-color-one); */
+            /* color: var(--main-color-one); */
             display: inline-block;
+            text-decoration: underline !important;
         }
 
         .all-message-wrap.msg-row-reverse {
@@ -232,11 +238,11 @@
             padding-left: 15px;
         }
 
-        .anchor-btn {
+        /* .anchor-btn {
             color: #345990;
             text-decoration: underline;
             margin: 5px 0;
-        }
+        } */
     </style>
 @endsection
 @section('content')
@@ -314,9 +320,17 @@
                                                 </div>
                                                 <div class="content">
                                                     <div class="message-content">
-                                                        {!! $msg->message !!}
+                                                        {{-- {!! $msg->message !!} --}}
+                                                        @if (!empty($msg->attachment) && file_exists(public_path('assets/uploads/ticket/' . $msg->attachment)))
+                                                            <a href="{{ asset('assets/uploads/ticket/' . $msg->attachment) }}" download class="anchor-btn text-info">
+                                                                <strong class="text-info">File:</strong>
+                                                                <span class="text-info">{{ $msg->attachment }}</span>
+                                                            </a>
+                                                        @else
+                                                            <span>{!! $msg->message ?: 'No message provided' !!}</span>
+                                                        @endif
                                                     </div>
-                                                    @if (file_exists('assets/uploads/ticket/' . $msg->attachment))
+                                                    {{-- @if (file_exists('assets/uploads/ticket/' . $msg->attachment))
                                                         <a href="{{ asset('assets/uploads/ticket/' . $msg->attachment) }}"
                                                             download class="anchor-btn">
                                                             <strong class="text-info">File :</strong>
@@ -324,7 +338,8 @@
                                                                 {{ $msg->attachment }}
                                                             </span>
                                                         </a>
-                                                    @endif
+                                                    @endif --}}
+                                                    
                                                 </div>
                                             </div>
                                         @empty

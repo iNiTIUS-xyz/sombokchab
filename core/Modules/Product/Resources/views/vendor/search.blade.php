@@ -5,7 +5,7 @@
         $route ?? ($route = 'admin');
     }
 @endphp
-<table class="customs-tables pt-4 position-relative" id="myTable">
+<table class="customs-tables pt-4 position-relative" id="myTable" style="text-align: left !important;">
     <div class="load-ajax-data"></div>
     <thead class="head-bg">
         <tr>
@@ -14,7 +14,7 @@
                     <input type="checkbox" class="all-checkbox">
                 </div>
             </th>
-            <th> {{ __('ID') }} </th>
+            <th> {{ __('Serial No.') }} </th>
             <th> {{ __('Name') }} </th>
             <th> {{ __('Brand') }} </th>
             <th> {{ __('Categories') }} </th>
@@ -30,7 +30,7 @@
                     <x-product::table.bulk-delete-checkbox :id="$product->id" />
                 </td>
                 <td data-label="Check All">
-                    {{ $product->id }}
+                    {{ $loop->iteration }}
                 </td>
                 <td class="product-name-info ">
                     <div class="d-flex gap-2">

@@ -24,6 +24,7 @@
         "mdzahid-pro/shoppingcart": "^5.0",
         "mews/purifier": "^3.3",
         "nwidart/laravel-modules": "^9.0.5",
+        "pear/http_request2": "^2.7",
         "php-http/message": "^1.16",
         "php-http/message-factory": "^1.1",
         "pion/laravel-chunk-upload": "^1.5",
