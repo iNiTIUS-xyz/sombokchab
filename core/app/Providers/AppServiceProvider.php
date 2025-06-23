@@ -47,7 +47,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // this method will prevent if somewhere is calling n+ query if calling then it will show error to user if script environment is local
-        Model::preventLazyLoading(! app()->isProduction());
+        // Model::preventLazyLoading(! app()->isProduction());
         // this method will set varchar length 191 when new table or column added to system
         Schema::defaultStringLength(191);
         // this method will load bootstrap pagination for paginate collection

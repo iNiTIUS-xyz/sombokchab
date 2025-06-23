@@ -49,10 +49,9 @@
                                                 <div class="d-flex">
                                                     <x-table.btn.edit :route="route('vendor.products.inventory.edit', $inventory->id)" />
                                                     <x-table.btn.swal.delete :route="route('vendor.products.inventory.delete', [
-                                                    'id' => $inventory->id,
-                                                ])" />
+                                                        'id' => $inventory->id,
+                                                    ])" />
                                                 </div>
-                                                
                                             </td>
                                         </tr>
                                     @endforeach

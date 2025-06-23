@@ -14,10 +14,7 @@ use Modules\Wallet\Http\Services\WalletService;
 
 class VendorOrderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     * @return Renderable
-     */
+    
     public function index()
     {
         // first of all we need to get all sub order for login user
@@ -36,9 +33,6 @@ class VendorOrderController extends Controller
         return OrderService::subOrderDetails($id, "vendor");
     }
 
-    /**
-     * @throws \Exception
-     */
     public function updateOrderStatus(Request $request, SubOrder $subOrder)
     {
         // validate data here

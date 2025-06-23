@@ -1,11 +1,11 @@
 @extends('frontend.frontend-page-master')
 
 @section('site-title')
-    {{ __('Track Order') }}
+    {{ __('Order Tracking') }}
 @endsection
 
 @section('page-title')
-    {{ __('Track Order') }}
+    {{ __('Order Tracking') }}
 @endsection
 
 @section('content')

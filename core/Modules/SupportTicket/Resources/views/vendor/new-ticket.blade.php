@@ -51,7 +51,7 @@
 
                             <div class="form-group">
                                 <label>
-                                    {{ __('Departments') }}
+                                    {{ __('Support Category') }}
                                     <span class="text-danger">*</span>
                                 </label>
                                 <select name="departments" class="form-select">

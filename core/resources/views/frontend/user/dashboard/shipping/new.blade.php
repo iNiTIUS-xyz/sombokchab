@@ -9,7 +9,7 @@
     @endphp
     <div class="dashboard__card">
         <div class="dashboard__card__header">
-            <h5 class="dashboard__card__title">{{ __('Add Shipping Address') }}</h5>
+            <h5 class="dashboard__card__title">{{ __('Add New Shipping Address') }}</h5>
             {{-- <div class="btn-wrapper">
                 <a href="{{ route('user.shipping.address.all') }}"
                     class="cmn_btn btn_bg_2">{{ __('All Shipping Address') }}</a>
@@ -22,29 +22,34 @@
                     <div class="col-md-6">
                         <div class="single-input">
                             <label class="label-title">
-                                {{ __("Shipping Address Name") }}
+                                {{ __('Shipping Address Name') }}
                                 <span class="text-danger">*</span>
                             </label>
-                            <input class="form--control" type="text" name="shipping_address_name" value="{{ old("shipping_address_name") ?? "" }}" required placeholder="{{ __("Shipping Address Name.") }}">
+                            <input class="form--control" type="text" name="shipping_address_name"
+                                value="{{ old('shipping_address_name') ?? '' }}" required
+                                placeholder="{{ __('Shipping Address Name.') }}">
                         </div>
                     </div>
 
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="name">{{ __('Full Name') }} <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="name" id="name" placeholder="{{ __('Enter Full Name') }}">
+                            <input type="text" class="form-control" name="name" id="name"
+                                placeholder="{{ __('Enter Full Name') }}">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="email">{{ __('Email') }} </label>
-                            <input type="text" class="form-control" name="email" id="email" placeholder="{{__('Enter Email')}}">
+                            <input type="text" class="form-control" name="email" id="email"
+                                placeholder="{{ __('Enter Email') }}">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="phone">{{ __('Phone Number') }} <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control" name="phone" id="phone" placeholder="{{__('Enter Phone Number')}}">
+                            <input type="number" class="form-control" name="phone" id="phone"
+                                placeholder="{{ __('Enter Phone Number') }}">
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -76,7 +81,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for='city'> {{ __("Province")  }}  </label>
+                            <label for='city'> {{ __('Province') }} </label>
                             <select id="city" class='form-select select-state' name="city">
                                 <option value="">{{ __('Select City First...') }}</option>
                             </select>
@@ -84,8 +89,9 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="zipcode">{{ __('Postal Code') }}  </label>
-                            <input type="text" class="form-control" name="zipcode" id="zipcode" placeholder="{{__('Enter Postal Code')}}">
+                            <label for="zipcode">{{ __('Postal Code') }} </label>
+                            <input type="text" class="form-control" name="zipcode" id="zipcode"
+                                placeholder="{{ __('Enter Postal Code') }}">
                         </div>
                     </div>
 
@@ -101,7 +107,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="address">{{ __('Address') }}<span class="text-danger">*</span></label>
-                            <textarea class="form-control" name="address" id="address" rows="3" placeholder="{{__('Enter Address')}}"></textarea>
+                            <textarea class="form-control" name="address" id="address" rows="3" placeholder="{{ __('Enter Address') }}"></textarea>
                         </div>
                     </div>
                     <div class="col-md-12">

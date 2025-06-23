@@ -203,47 +203,51 @@
         </div>
     </div>
     <div class="dashboard-inner-contents-wrapper">
-        <div class="dashboard-flex-item-two">
-            <div class="single-flex-dashbaord mt-4">
-                <div class="dashboard-single-profile dashboard-profile-padding bg-white radius-10">
-                    <div class="profile-single-contents">
-                        <div class="seller-title-flex-contents">
-                            <h2 class="dashboard-common-title"> {{ __('Yearly Income Statement') }} </h2>
-                            {{-- <span class="seller-title-right chart-icon radius-5"> <i class="las la-chart-bar"></i> </span> --}}
+        <div class="row">
+            <div class="col-md-8">
+                <div class="single-flex-dashbaord mt-4">
+                    <div class="dashboard-single-profile dashboard-profile-padding bg-white radius-10">
+                        <div class="profile-single-contents">
+                            <div class="seller-title-flex-contents">
+                                <h2 class="dashboard-common-title"> {{ __('Yearly Income Statement') }} </h2>
+                                {{-- <span class="seller-title-right chart-icon radius-5"> <i class="las la-chart-bar"></i> </span> --}}
+                            </div>
+                            <h3 class="dashboard-earning-price mt-3">
+                                @if (isset($yearly_income_statement))
+                                    {{ float_amount_with_currency_symbol(array_sum($yearly_income_statement->toArray())) }}
+                                @endif
+                            </h3>
                         </div>
-                        <h3 class="dashboard-earning-price mt-3">
-                            @if (isset($yearly_income_statement))
-                                {{ float_amount_with_currency_symbol(array_sum($yearly_income_statement->toArray())) }}
-                            @endif
-                        </h3>
-                    </div>
-                    <div class="bar-charts chart-height mt-4">
-                        <canvas id="bar-chart"></canvas>
+                        <div class="bar-charts chart-height mt-4">
+                            <canvas id="bar-chart"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="single-flex-dashbaord">
-                <div class="dashboard-flex-row-profile">
-                    <div class="single-flex-dashbaord-two dashboard-profile-padding center-text bg-white radius-10 mt-4">
-                        <div class="dashboard-single-profile">
-                            <div class="profile-single-contents">
-                                <span class="dashboard-week-earning"> {{ __('This Week Earnings') }} </span>
-                                <h3 class="dashboard-earning-price mt-3">
-                                    @if (isset($weekly_statement))
-                                        {{ float_amount_with_currency_symbol(array_sum($weekly_statement->toArray())) }}
-                                    @endif
-                                </h3>
-                            </div>
-                            <div class="line-charts mt-3">
-                                <canvas id="line-chart"></canvas>
+            <div class="col-md-4">
+                <div class="single-flex-dashbaord">
+                    <div class="dashboard-flex-row-profile">
+                        <div class=" dashboard-profile-padding center-text bg-white radius-10 mt-4">
+                            <div class="dashboard-single-profile">
+                                <div class="profile-single-contents">
+                                    <span class="dashboard-week-earning"> {{ __('This Week Earnings') }} </span>
+                                    <h3 class="dashboard-earning-price mt-3">
+                                        @if (isset($weekly_statement))
+                                            {{ float_amount_with_currency_symbol(array_sum($weekly_statement->toArray())) }}
+                                        @endif
+                                    </h3>
+                                </div>
+                                <div class="line-charts mt-3">
+                                    <canvas id="line-chart"></canvas>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="single-flex-dashbaord-two dashboard-profile-padding center-text bg-white radius-10 mt-4">
+                        {{-- <div class=" dashboard-profile-padding center-text bg-white radius-10 mt-4">
                         <div class="dashboard-single-profile">
                             <div id="custom-color-calendar"></div>
                         </div>
+                    </div> --}}
                     </div>
                 </div>
             </div>
