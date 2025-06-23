@@ -47,9 +47,9 @@
                                                     href="{{ route('frontend.products.campaign', ['id' => $campaign->id, 'slug' => $campaign->slug]) }}">
                                                     <i class="ti-eye"></i>
                                                 </a>
-                                                
+
                                                 <x-table.btn.edit :route="route('vendor.campaigns.edit', $campaign->id)" />
-                                                
+
                                                 <x-delete-popover :url="route('vendor.campaigns.delete', $campaign->id)" />
                                             </td>
                                         </tr>

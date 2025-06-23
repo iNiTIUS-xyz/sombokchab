@@ -53,7 +53,6 @@
                                             <input type="checkbox" class="all-checkbox">
                                         </div>
                                     </th>
-
                                     <th> {{ __('Name') }} </th>
                                     <th> {{ __('Brand') }} </th>
                                     <th> {{ __('Categories') }} </th>
@@ -95,16 +94,14 @@
                                                 <b> {{ __('Sub Category') }}: </b>
                                             @endif{{ $product?->subCategory?->name }} <br>
                                         </td>
-
                                         <td class="price-td" data-label="Quantity">
                                             <span class="quantity-number"> {{ $product?->inventory?->stock_count }}</span>
                                         </td>
-
-                                        <td data-label="Actions">
-                                            <div class="action-icon">
+                                    <td>
+                                            <div class="btn-group">
                                                 <a href="{{ route('vendor.products.trash.restore', $product->id) }}"
                                                     class="product-restore btn btn-success btn-sm">
-                                                    {{ __('Restore') }}
+                                                    <i class="las la-sync-alt"></i>
                                                 </a>
                                                 <a data-product-delete-url="{{ route('vendor.products.trash.delete', $product->id) }}"
                                                     href="#1" class="product-delete btn btn-danger btn-sm">

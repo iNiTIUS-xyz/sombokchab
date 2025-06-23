@@ -28,29 +28,18 @@ class VendorCampaignController extends Controller
         $this->middleware('auth:vendor');
     }
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index(): Application|Factory|View
     {
         $all_campaigns = GlobalCampaignService::fetch_campaigns();
 
-        return view(self::BASE_URL.'all', compact('all_campaigns'));
+        return view(self::BASE_URL . 'all', compact('all_campaigns'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create(): View|Factory|Application
     {
         return GlobalCampaignService::renderCampaignProduct(self::BASE_URL);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @throws Throwable
-     */
     public function store(CampaignValidationRequest $request): RedirectResponse
     {
         $data = $request->validated();
@@ -73,19 +62,11 @@ class VendorCampaignController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit($item): Application|Factory|View
     {
         return GlobalCampaignService::renderCampaignProduct(self::BASE_URL, $item);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @throws Throwable
-     */
     public function update(CampaignValidationRequest $request): RedirectResponse
     {
         $data = $request->validated();
@@ -105,25 +86,24 @@ class VendorCampaignController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @throws Throwable
-     */
-    public function destroy(Campaign $item): Response|bool
+    public function destroy(Campaign $item)
     {
         try {
             DB::beginTransaction();
+
             $products = $item->products;
+
             if ($products->count()) {
                 foreach ($products as $product) {
                     $product->delete();
                 }
             }
+
             $item_deleted = $item->delete();
+
             DB::commit();
 
-            return (bool) $item_deleted;
+            return back()->with(FlashMsg::delete_succeed('Campaign'));
         } catch (Throwable $th) {
             DB::rollBack();
 

@@ -44,6 +44,11 @@ class SubCategory extends Model
         return $this->hasManyThrough(Product::class, ProductSubCategory::class,"sub_category_id","id", "id","product_id");
     }
 
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'product_sub_categories', 'sub_category_id', 'product_id');
+    }
+
     protected static function newFactory()
     {
         return \Modules\Attributes\Database\factories\SubCategoryFactory::new();

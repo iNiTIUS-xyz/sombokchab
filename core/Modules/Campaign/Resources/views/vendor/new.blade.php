@@ -60,7 +60,7 @@
                                                 </p>
                                                 <div id="fixe_price_cut_container" style="display: none">
                                                     <input type="number" id="fixed_percentage_amount"
-                                                        class="form-control mb-2"
+                                                        class="form-control mb-2" step="0.01"
                                                         placeholder="{{ __('Enter Price Cut Percentage') }}">
                                                     <button type="button" class="btn btn-sm btn-primary mb-2"
                                                         id="fixed_price_sync_all">{{ __('Sync Price') }}</button>
@@ -320,5 +320,22 @@
                 product_repeater_container.find('.nice-select').niceSelect();
             });
         })(jQuery)
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#fixed_percentage_amount').on('input', function() {
+                const value = parseFloat($(this).val());
+
+                if (!isNaN(value) && value >= 0 && value <= 100) {
+                    $('#fixed_price_sync_all').prop('disabled', false);
+                } else {
+                    $('#fixed_price_sync_all').prop('disabled', true);
+                }
+            });
+
+            // Initially disable the button
+            $('#fixed_price_sync_all').prop('disabled', true);
+        });
     </script>
 @endsection

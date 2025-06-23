@@ -40,14 +40,19 @@ class Product extends Model
         return $this->hasOneThrough(Category::class,ProductCategory::class,'product_id','id','id','category_id');
     }
 
-    public function taxOptions() : HasManyThrough
-    {
-        return $this->hasManyThrough(TaxClassOption::class,TaxClass::class,'id','class_id','tax_class_id','id');
-    }
-
     public function subCategory(): HasOneThrough
     {
         return $this->hasOneThrough(SubCategory::class,ProductSubCategory::class,"product_id","id","id","sub_category_id");
+    }
+
+    public function subCategories()
+    {
+        return $this->belongsToMany(SubCategory::class, 'product_sub_categories', 'product_id', 'sub_category_id');
+    }
+    
+    public function taxOptions() : HasManyThrough
+    {
+        return $this->hasManyThrough(TaxClassOption::class,TaxClass::class,'id','class_id','tax_class_id','id');
     }
 
     public function manySubCategory(): HasManyThrough
@@ -206,4 +211,14 @@ class Product extends Model
         });
     }
 
+
+    // public function categories()
+    // {
+    //     return $this->belongsToMany(Category::class, 'product_category', 'product_id', 'category_id');
+    // }
+
+    // public function subcategories()
+    // {
+    //     return $this->belongsToMany(ProductSubCategory::class, 'product_sub_category', 'product_id', 'sub_category_id');
+    // }
 }

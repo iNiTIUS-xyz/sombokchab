@@ -339,7 +339,7 @@
                                                             </span>
                                                         </a>
                                                     @endif --}}
-                                                    
+
                                                 </div>
                                             </div>
                                         @empty
