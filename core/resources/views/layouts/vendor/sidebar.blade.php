@@ -142,11 +142,11 @@
                     </a>
                     <ul class="collapse">
                         <li class="{{ active_menu('admin-home/support-tickets') }}">
-                            <a href="{{ route('vendor.support.ticket.all') }}">{{ __('All Tickets') }}</a>
+                            <a href="{{ route('vendor.support.ticket.all') }}">{{ __('All Support Tickets') }}</a>
                         </li>
 
                         <li class="{{ active_menu('admin-home/support-tickets/new') }}">
-                            <a href="{{ route('vendor.support.ticket.new') }}">{{ __('Add New Ticket') }}</a>
+                            <a href="{{ route('vendor.support.ticket.new') }}">{{ __('Add New Support Tickets') }}</a>
                         </li>
                     </ul>
                 </li>

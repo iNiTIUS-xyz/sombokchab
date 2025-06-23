@@ -41,12 +41,12 @@
                 <x-msg.flash />
                 <x-msg.error />
                 <div class="btn-wrapper mb-4">
-                    <a href="{{ route('vendor.support.ticket.new') }}" class="cmn_btn btn_bg_profile">{{ __('New Ticket') }}
+                    <a href="{{ route('vendor.support.ticket.new') }}" class="cmn_btn btn_bg_profile">{{ __('Add New Support Tickets') }}
                     </a>
                 </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('All Tickets') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('All Support Tickets') }}</h4>
                         <div class="dashboard__card__header__right">
                             <x-bulk-action.dropdown />
                         </div>

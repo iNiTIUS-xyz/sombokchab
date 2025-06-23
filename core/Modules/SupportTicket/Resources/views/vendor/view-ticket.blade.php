@@ -93,7 +93,7 @@
                                     </li>
                                     <li><strong>{{ __('User:') }}</strong>
                                         {{ $ticket_details->user->name ?? __('anonymous') }}</li>
-                                    <li><strong>{{ __('Department:') }}</strong>
+                                    <li><strong>{{ __('Support Category:') }}</strong>
                                         {{ $ticket_details->department->name ?? __('anonymous') }}</li>
                                     @if ($ticket_details->admin_id)
                                         <li><strong>{{ __('Admin:') }}</strong>
@@ -102,7 +102,7 @@
                                 </ul>
                             </div>
                             <div class="gig-message-start-wrap">
-                                <h2 class="title">{{ __('All Conversation') }}</h2>
+                                <h2 class="title">{{ __('Conversation') }}</h2>
                                 <div class="all-message-wrap @if ($q == 'all') msg-row-reverse @endif">
                                     @if ($q == 'all' && count($all_messages) > 1)
                                         <form action="" method="get">
@@ -166,7 +166,7 @@
                                 </div>
                             </div>
                             <div class="reply-message-wrap ">
-                                <h5 class="title">{{ __('Reply To Message') }}</h5>
+                                <h5 class="title">{{ __('Reply') }}</h5>
                                 <form action="{{ route('vendor.support.ticket.send.message') }}" method="post"
                                     enctype="multipart/form-data">
                                     @csrf
