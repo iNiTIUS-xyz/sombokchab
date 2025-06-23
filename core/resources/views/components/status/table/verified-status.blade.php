@@ -18,7 +18,7 @@
 </style>
 
 @if($status == 0)
-    <span class="alert alert-danger" >{{__('Not Verified')}}</span>
+    <span class="badge bg-danger" >{{__('Not Verified')}}</span>
 @elseif($status == 1)
-    <span class="alert alert-success" >{{__('Verified')}}</span>
+    <span class="badge bg-success" >{{__('Verified')}}</span>
 @endif

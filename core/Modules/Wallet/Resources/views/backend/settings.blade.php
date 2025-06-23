@@ -15,7 +15,7 @@
 @section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row">
-            <div class="col-lg-5">
+            <div class="col-lg-5 mx-auto">
                 <x-error-msg />
                 <x-flash-msg />
                 <div class="dashboard__card">

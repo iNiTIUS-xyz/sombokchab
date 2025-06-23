@@ -337,7 +337,7 @@
                                 <table class="table table-responsive">
                                     <thead>
                                         <tr>
-                                            <th>{{ __('Serial No:') }}</th>
+                                            <th>{{ __('Serial No.') }}</th>
                                             <th style="width: 60px">{{ __('Image') }}</th>
                                             <th>{{ __('Info') }}</th>
                                             <th>{{ __('QTY') }}</th>

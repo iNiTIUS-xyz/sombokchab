@@ -13,14 +13,14 @@
         </div>
         <div class="dashboard__card__body mt-4">
             <div class="table-wrap table-responsive all-user-campaign-table">
-                <div class="order-history-inner text-center">
-                    <table class="table">
+                <div class="table-wrap">
+                    <table id="dataTable" class="table-responsive table">
                         <thead>
                             <tr>
                                 <th>{{ __('Serial No.') }}</th>
-                                <th>{{ __('User Info') }}</th>
-                                <th>{{ __('Order Info') }}</th>
-                                <th>{{ __('Refund Info') }}</th>
+                                <th>{{ __('User Details') }}</th>
+                                <th>{{ __('Order Details') }}</th>
+                                <th>{{ __('Refund Details') }}</th>
                                 <th>{{ __('Action') }}</th>
                             </tr>
                         </thead>
@@ -42,27 +42,27 @@
 
                                     <td>
                                         <span class="user-info text-left">
-                                            <b>#{{ $request->order?->id }}</b><br>
+                                            {{ __('No.') }}: <b>{{ $request->order?->order_number }}</b><br>
                                             {{ __('Status') }}:
-                                            {{ __(ucwords(str_replace('_', ' ', $request->currentTrackStatus?->name))) }}<br>
-                                            {{ __('Amount') }}
+                                            <span class="badge bg-secondary">{{ __(ucwords(str_replace('_', ' ', $request->currentTrackStatus?->name))) }}</span> <br>
+                                            {{ __('Amount') }}:
                                             {{ float_amount_with_currency_symbol($request->order?->paymentMeta?->total_amount) }}<br>
                                         </span>
                                     </td>
 
                                     <td>
                                         <span class="user-info text-left">
-                                            <b>#{{ $request->id }}</b><br>
-                                            {{ __('Status') }} {{ $request->status }}<br>
+                                            {{ __('No.') }}: <b>{{ $request->id }}</b><br>
+                                            {{ __('Status') }}: <span class="badge bg-secondary">{{ $request->status }}</span> <br>
                                             {{ __('Total Product:') }} {{ $request->request_product_count }}<br>
                                         </span>
                                     </td>
 
                                     <td>
                                         @can('refund-request')
-                                            <a class="cmn_btn btn btn-primary btn_bg_profile btn-sm" title="{{ __('View') }}"
+                                            <a class="btn btn-secondary btn-sm" title="{{ __('View') }}"
                                                 href="{{ route('admin.refund.view-request', $request->id) }}">
-                                                <i class="ti-eye"></i>
+                                                <i class="ti-receipt"></i>
                                             </a>
                                         @endcan
                                     </td>

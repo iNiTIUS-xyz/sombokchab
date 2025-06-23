@@ -62,6 +62,7 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Throwable;
 use Intervention\Image\Facades\Image;
+use Modules\TaxModule\Entities\StateTax;
 
 ini_set('max_execution_time', 300);
 
@@ -1328,8 +1329,19 @@ class FrontendController extends Controller
 
         $all_products = FrontendProductServices::productSearch($request, 'frontend.ajax');
 
-        if (count($all_products['items'] ?? []) <= $display_item_count) {
-            request()->page = 1;
+        // if (count($all_products['items'] ?? []) <= $display_item_count) {
+        //     request()->page = 1;
+        // }
+
+        //  $all_products = FrontendProductServices::productSearch($request, 'frontend.ajax');
+        // For AJAX requests, return JSON response
+        if ($request->ajax()) {
+            return response()->json([
+                'grid' => view('product::frontend.grid-style-07', ['all_products' => $all_products])->render(),
+                'list' => view('product::frontend.list-style-02', ['all_products' => $all_products])->render(),
+                'showing_items' => __('Showing') . ' ' . $all_products['from'] . '-' . $all_products['to'] . ' ' . __('of') . ' ' . $all_products['total_items'] . ' ' . __('results'),
+                'total_page' => $all_products['total_page']
+            ]);
         }
 
         return view('frontend.dynamic-redirect.product', compact(

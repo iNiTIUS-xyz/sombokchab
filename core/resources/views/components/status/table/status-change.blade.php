@@ -1,5 +1,5 @@
-<a tabindex="0" class="btn dropdown-item status_dropdown__list__link swal_status_change_button">
-    <i class="ti-arrows-horizontal"></i>
+<a tabindex="0" class="btn btn-warning swal_status_change_button p-1">
+    <i class="las la-sync"></i>
     {{ $title }}
 </a>
 <form method='post' action='{{$url}}' class="d-none">

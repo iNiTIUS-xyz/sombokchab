@@ -26,7 +26,7 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>{{ __('Serial No:') }}</th>
+                            <th>{{ __('Serial No.') }}</th>
                             <th>{{ __('Name') }}</th>
                             <th>{{ __('Zone') }}</th>
                             <th>{{ __('Vendor') }}</th>

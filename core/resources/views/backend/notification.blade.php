@@ -19,7 +19,7 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th>{{ __("Serial No:") }}</th>
+                        <th>{{ __("Serial No.") }}</th>
                         <th>{{ __("Message") }}</th>
                     </tr>
                     </thead>

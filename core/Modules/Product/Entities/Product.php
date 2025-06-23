@@ -210,4 +210,15 @@ class Product extends Model
             \Log::info("Product model update event triggered");
         });
     }
+
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'product_category', 'product_id', 'category_id');
+    }
+
+    public function subcategories()
+    {
+        return $this->belongsToMany(ProductSubCategory::class, 'product_sub_category', 'product_id', 'sub_category_id');
+    }
 }

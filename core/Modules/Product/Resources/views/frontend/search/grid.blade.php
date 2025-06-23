@@ -1,8 +1,9 @@
 <div class="row mt-4">
     @forelse($all_products["items"] ?? [] as $product)
-        <div class="col-xl-3 col-lg-4 col-sm-6 mt-4">
-            <x-product::frontend.grid-style-03 :$product :$loop />
-        </div>
+        {{-- <div class="row mt-4"> --}}
+        {{-- <div class="col-xl-3 col-lg-4 col-sm-6 mt-4"> --}}
+            <x-product::frontend.grid-style-07 :$product :$loop />
+        {{-- </div> --}}
     @empty
         <div class="col-md-12">
             <div class="w-50 m-auto padding-top-100 padding-bottom-100">

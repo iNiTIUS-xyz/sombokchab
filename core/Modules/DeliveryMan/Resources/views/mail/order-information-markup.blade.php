@@ -1,6 +1,6 @@
 <table>
     <tr>
-        <th>{{ __("Serial No:") }}</th>
+        <th>{{ __("Serial No.") }}</th>
         <th>{{ __("Name:") }}</th>
         <th>{{ __("Quantity") }}</th>
     </tr>

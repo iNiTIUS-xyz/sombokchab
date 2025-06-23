@@ -1,4 +1,4 @@
-<a tabindex="0" class="btn btn-success btn-xs mr-1 swal_status_change">
+<a tabindex="0" class="btn btn-secondary btn-xs mr-1 swal_status_change">
 {{--    <i class="mdi mdi-swap-horizontal"></i>--}}
     <i class="las la-sync"></i>
 </a>

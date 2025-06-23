@@ -25,6 +25,9 @@
         <link rel=icon href="{{ asset('assets/favicon-dashboard.png') }}" sizes="16x16" type="icon/png">
         <!-- bootstrap -->
         <link rel="stylesheet" href="{{ asset('assets/css/bootstrap5.min.css') }}">
+
+        <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap4.min.css') }}">
+        {{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css"> --}}
         <!-- animate -->
         <link rel="stylesheet" href="{{ asset('assets/css/animate.css') }}">
         <!-- slick carousel  -->
@@ -59,6 +62,34 @@
             }
             .swal2-confirm.swal2-styled.swal2-default-outline{
                 background-color: var(--danger-color) !important;
+            }
+
+            #dataTable{
+                width: 100%;
+                text-align: left !important
+            }
+
+            #dataTable thead{
+                height: 50px;
+            }
+
+            #dataTable thead,
+            #dataTable thead tr,
+            #dataTable thead tr th,
+            #dataTable tbody,
+            #dataTable tbody tr,
+            #dataTable tbody tr td{
+                text-align: left !important
+            }
+
+            #dataTable tbody tr td{
+                padding: 5px;
+            }
+            .alert-success, .alert-danger {
+                text-transform: lowercase;
+            }
+            .alert-success:first-letter, .alert-danger:first-letter {
+                text-transform: uppercase;
             }
         </style>
 
@@ -125,6 +156,11 @@
         <script src="{{ asset('assets/js/chart.js') }}"></script>
         <script src="{{ asset('assets/backend/js/fontawesome-iconpicker.min.js') }}"></script>
         <script src="{{ asset('assets/js/select2.min.js') }}"></script>
+
+        <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('assets/js/dataTables.bootstrap4.min.js') }}"></script>
+        {{-- <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script> --}}
+    {{-- <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script> --}}
         <!-- main js -->
         <script src="{{ asset('assets/js/main.js') }}"></script>
 
@@ -136,6 +172,23 @@
         <script src="{{ asset('assets/frontend/js/jquery-ui.js') }}"></script>
 
         <x-notification.js />
+
+        <script>
+            $(document).ready(function () {
+                // Initialize DataTable only if the table exists
+                if ($('#dataTable').length) {
+                    $('#dataTable').DataTable({
+                        paging: true,
+                        lengthChange: true,
+                        searching: true,
+                        ordering: true,
+                        info: true,
+                        autoWidth: false,
+                        responsive: true
+                    });
+                }
+            });
+        </script>
 
         <script>
             $(document).on('click', '.swal_delete_button', function(e) {
@@ -218,7 +271,7 @@
             });
         })
         </script>
-
+        
         @yield('script')
         @yield('pwa-footer')
     </body>

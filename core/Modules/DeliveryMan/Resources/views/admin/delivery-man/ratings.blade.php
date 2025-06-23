@@ -61,7 +61,7 @@
                                 <table class="custom--table">
                                     <thead class="head-bg">
                                         <tr>
-                                            <th>{{ __('Serial No:') }}</th>
+                                            <th>{{ __('Serial No.') }}</th>
                                             <th>{{ __('Rating') }}</th>
                                             <th>{{ __('Comment') }}</th>
                                             <th>{{ __('Customer') }}</th>
