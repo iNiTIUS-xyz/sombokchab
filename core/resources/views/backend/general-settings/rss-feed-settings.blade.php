@@ -23,21 +23,25 @@
                             <div class="form-group">
                                 <label for="site_rss_feed_url">{{ __('RSS Feed URL') }}</label>
                                 <input type="text" name="site_rss_feed_url" id="site_rss_feed_url" class="form-control"
+                                    placeholder="{{ __('Enter RSS feed URL') }}"
                                     value="{{ get_static_option('site_rss_feed_url') }}">
                                 <p class="info-text">{{ __('this url will be add after. www.youdomain.com/') }}</p>
                             </div>
                             <div class="form-group">
                                 <label for="site_rss_feed_title">{{ __('RSS Feed Title') }}</label>
                                 <input type="text" name="site_rss_feed_title" id="site_rss_feed_title"
-                                    class="form-control" value="{{ get_static_option('site_rss_feed_title') }}">
+                                    class="form-control" placeholder="{{ __('Enter RSS feed title') }}"
+                                    value="{{ get_static_option('site_rss_feed_title') }}">
                             </div>
                             <div class="form-group">
                                 <label for="site_rss_feed_description">{{ __('RSS Feed Description') }}</label>
                                 <textarea name="site_rss_feed_description" id="site_rss_feed_description" cols="30" rows="5"
-                                    class="form-control">{{ get_static_option('site_rss_feed_description') }}</textarea>
+                                    class="form-control" placeholder="{{ __('Enter RSS Feed Description') }}">{{ get_static_option('site_rss_feed_description') }}</textarea>
                             </div>
                             <div class="form-group">
-                                <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Update Changes') }}</button>
+                                <button type="submit" class="cmn_btn btn_bg_profile">
+                                    {{ __('Update') }}
+                                </button>
                             </div>
                         </form>
                     </div>

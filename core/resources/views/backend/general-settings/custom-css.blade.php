@@ -23,11 +23,12 @@
                         <form action="{{ route('admin.general.custom.css') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
-                                <textarea name="custom_css_area" id="custom_css_area" cols="30" rows="10">{{ $custom_css }}</textarea>
+                                <textarea name="custom_css_area" id="custom_css_area" cols="30" rows="10"
+                                    placeholder="{{ __('Custom CSS') }}">{{ $custom_css }}</textarea>
                             </div>
                             <div class="form-group">
                                 <button id="update" type="submit"
-                                    class="cmn_btn btn_bg_profile">{{ __('Update Changes') }}</button>
+                                    class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
                             </div>
                         </form>
                     </div>

@@ -1,11 +1,14 @@
 @extends('backend.admin-master')
+
 @section('style')
     <link rel="stylesheet" href="{{ asset('assets/backend/css/codemirror.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/backend/css/show-hint.css') }}">
 @endsection
+
 @section('site-title')
     {{ __('Custom Js') }}
 @endsection
+
 @section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row">
@@ -23,11 +26,11 @@
                         <form action="{{ route('admin.general.custom.js') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
-                                <textarea name="custom_js_area" id="custom_js_area" cols="30" rows="10">{{ $custom_js }}</textarea>
+                                <textarea name="custom_js_area" id="custom_js_area" cols="30" rows="10" placeholder="{{ __('Custom JS') }}">{{ $custom_js }}</textarea>
                             </div>
                             <div class="form-group">
                                 <button id="update" type="submit"
-                                    class="cmn_btn btn_bg_profile">{{ __('Update Changes') }}</button>
+                                    class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
                             </div>
                         </form>
                     </div>
@@ -36,6 +39,7 @@
         </div>
     </div>
 @endsection
+
 @section('script')
     <script src="{{ asset('assets/backend/js/codemirror.js') }}"></script>
     <script src="{{ asset('assets/backend/js/javascript.js') }}"></script>

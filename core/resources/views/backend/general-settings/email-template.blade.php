@@ -28,7 +28,8 @@
                                     <div class="form-group">
                                         <label for="site_global_email">{{ __('Global Email') }}</label>
                                         <input type="text" name="site_global_email" class="form-control"
-                                            value="{{ get_static_option('site_global_email') }}" id="site_global_email">
+                                            value="{{ get_static_option('site_global_email') }}" id="site_global_email"
+                                            placeholder="{{ __('Enter global email') }}">
                                         <small class="form-text text-muted">use your web mail here</small>
                                     </div>
                                 </div>
@@ -47,8 +48,9 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
-                                    <button type="submit"
-                                        class="cmn_btn btn_bg_profile">{{ __('Update Changes') }}</button>
+                                    <button type="submit" class="cmn_btn btn_bg_profile">
+                                        {{ __('Update') }}
+                                    </button>
                                 </div>
                             </div>
                         </form>
@@ -72,8 +74,9 @@
                     onChange: function(contents, $editable) {
                         $(this).prev('input').val(contents);
                     },
-                    onPaste: function (e) {
-                        let bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('text/plain');
+                    onPaste: function(e) {
+                        let bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData)
+                            .getData('text/plain');
                         e.preventDefault();
                         document.execCommand('insertText', false, bufferText);
                     }

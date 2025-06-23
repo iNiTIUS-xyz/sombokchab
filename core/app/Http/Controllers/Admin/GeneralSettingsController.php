@@ -2,27 +2,27 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Helpers\FlashMsg;
+use App\Page;
 use App\Language;
 use App\Mail\BasicMail;
-use App\Page;
 use App\PaymentGateway;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Mail;
+use App\Helpers\FlashMsg;
 use Illuminate\Support\Str;
-use Modules\Product\Entities\ProductCategory;
-use Modules\Product\Entities\ProductSubCategory;
+use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Routing\Controller;
+use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Http\RedirectResponse;
 use Spatie\Sitemap\SitemapGenerator;
-use Xgenious\XgApiClient\Facades\XgApiClient;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Support\Facades\Artisan;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Xgenious\XgApiClient\Facades\XgApiClient;
+use Modules\Product\Entities\ProductCategory;
+use Illuminate\Contracts\Foundation\Application;
+use Modules\Product\Entities\ProductSubCategory;
+
 class GeneralSettingsController extends Controller
 {
     private $base_path = 'backend.general-settings.';
@@ -46,7 +46,7 @@ class GeneralSettingsController extends Controller
 
     public function smtp_settings()
     {
-        return view($this->base_path.'smtp-settings');
+        return view($this->base_path . 'smtp-settings');
     }
 
     public function others()
@@ -86,11 +86,11 @@ class GeneralSettingsController extends Controller
             'MAIL_HOST' => $request->site_smtp_mail_host,
             'MAIL_PORT' => $request->site_smtp_mail_port,
             'MAIL_USERNAME' => $request->site_smtp_mail_username,
-            'MAIL_PASSWORD' => '"'.$request->site_smtp_mail_password.'"',
+            'MAIL_PASSWORD' => '"' . $request->site_smtp_mail_password . '"',
             'MAIL_ENCRYPTION' => $request->site_smtp_mail_encryption,
         ]);
 
-        return redirect()->back()->with(['msg' => __('SMTP Settings Updated.'), 'type' => 'success']);
+        return redirect()->back()->with(['msg' => __('SMTP settings updated successfully.'), 'type' => 'success']);
     }
 
     public function test_smtp_settings(Request $request)
@@ -105,11 +105,11 @@ class GeneralSettingsController extends Controller
             'type' => 'success',
         ];
         try {
-           $send= Mail::to($request->email)->send(new BasicMail([
+            $send = Mail::to($request->email)->send(new BasicMail([
                 'subject' => $request->subject,
                 'message' => $request->message,
             ]));
-            
+
         } catch (\Exception $e) {
             if (Mail::fake()) {
                 $res_data = [
@@ -134,19 +134,19 @@ class GeneralSettingsController extends Controller
             $custom_js = file_get_contents('assets/frontend/js/dynamic-script.js');
         }
 
-        return view($this->base_path.'custom-js')->with(['custom_js' => $custom_js]);
+        return view($this->base_path . 'custom-js')->with(['custom_js' => $custom_js]);
     }
 
     public function update_custom_js_settings(Request $request)
     {
         file_put_contents('assets/frontend/js/dynamic-script.js', $request->custom_js_area);
 
-        return redirect()->back()->with(['msg' => __('Custom Script Added Success.'), 'type' => 'success']);
+        return redirect()->back()->with(['msg' => __('Custom script updated successfully.'), 'type' => 'success']);
     }
 
     public function gdpr_settings()
     {
-        return view($this->base_path.'gdpr');
+        return view($this->base_path . 'gdpr');
     }
 
     public function update_gdpr_cookie_settings(Request $request)
@@ -187,12 +187,12 @@ class GeneralSettingsController extends Controller
         update_static_option('site_gdpr_cookie_enabled', $request->site_gdpr_cookie_enabled);
         update_static_option('site_gdpr_cookie_expire', $request->site_gdpr_cookie_expire);
 
-        return redirect()->back()->with(['msg' => __('GDPR Cookie Settings Updated.'), 'type' => 'success']);
+        return redirect()->back()->with(['msg' => __('GDPR cookie settings updated successfully.'), 'type' => 'success']);
     }
 
     public function cache_settings()
     {
-        return view($this->base_path.'cache-settings');
+        return view($this->base_path . 'cache-settings');
     }
 
     public function update_cache_settings(Request $request)
@@ -202,14 +202,14 @@ class GeneralSettingsController extends Controller
             'cache_type' => 'required|string',
         ]);
         Cart::instance("default")->destroy();
-        Artisan::call($request->cache_type.':clear');
+        Artisan::call($request->cache_type . ':clear');
 
         return redirect()->back()->with(['msg' => __('Cache Cleaned.'), 'type' => 'success']);
     }
 
     public function license_settings()
     {
-        return view($this->base_path.'license-settings');
+        return view($this->base_path . 'license-settings');
     }
 
     public function update_license_settings(Request $request)
@@ -219,10 +219,10 @@ class GeneralSettingsController extends Controller
             'envato_username' => 'required|string|max:191',
         ]);
 
-        $result = XgApiClient::activeLicense($request->site_license_key,$request->envato_username);
+        $result = XgApiClient::activeLicense($request->site_license_key, $request->envato_username);
         $type = "danger";
         $msg = __("could not able to verify your license key, please try after sometime, if you still face this issue, contact support");
-        if (!empty($result["success"]) && $result["success"]){
+        if (!empty($result["success"]) && $result["success"]) {
             update_static_option('site_license_key', $request->site_license_key);
             update_static_option('item_license_status', $result['success'] ? 'verified' : "");
             update_static_option('item_license_msg', $result['message']);
@@ -240,21 +240,21 @@ class GeneralSettingsController extends Controller
             $custom_css = file_get_contents('assets/frontend/css/dynamic-style.css');
         }
 
-        return view($this->base_path.'custom-css')->with(['custom_css' => $custom_css]);
+        return view($this->base_path . 'custom-css')->with(['custom_css' => $custom_css]);
     }
 
     public function update_custom_css_settings(Request $request)
     {
         file_put_contents('assets/frontend/css/dynamic-style.css', $request->custom_css_area);
 
-        return redirect()->back()->with(['msg' => __('Custom Style Added Success.'), 'type' => 'success']);
+        return redirect()->back()->with(['msg' => __('Custom style update Successfully.'), 'type' => 'success']);
     }
 
     public function typography_settings()
     {
         $all_google_fonts = file_get_contents('assets/frontend/fonts/google-fonts.json');
 
-        return view($this->base_path.'typograhpy')->with(['google_fonts' => json_decode($all_google_fonts)]);
+        return view($this->base_path . 'typograhpy')->with(['google_fonts' => json_decode($all_google_fonts)]);
     }
 
     public function get_single_font_variant(Request $request): JsonResponse
@@ -286,9 +286,9 @@ class GeneralSettingsController extends Controller
         foreach ($save_data as $item) {
             update_static_option($item, $request->$item);
         }
-        $body_font_variant = ! empty($request->body_font_variant) ? $request->body_font_variant : ['regular'];
-        $heading_font_variant = ! empty($request->heading_font_variant) ? $request->heading_font_variant : ['regular'];
-        $extra_font_variant = ! empty($request->extra_font_variant) ? $request->extra_font_variant : ['regular'];
+        $body_font_variant = !empty($request->body_font_variant) ? $request->body_font_variant : ['regular'];
+        $heading_font_variant = !empty($request->heading_font_variant) ? $request->heading_font_variant : ['regular'];
+        $extra_font_variant = !empty($request->extra_font_variant) ? $request->extra_font_variant : ['regular'];
 
         update_static_option('heading_font', $request->heading_font);
         update_static_option('extra_font', $request->extra_font);
@@ -296,12 +296,12 @@ class GeneralSettingsController extends Controller
         update_static_option('heading_font_variant', serialize($heading_font_variant));
         update_static_option('extra_font_variant', serialize($extra_font_variant));
 
-        return redirect()->back()->with(['msg' => __('Typography Settings Updated.'), 'type' => 'success']);
+        return redirect()->back()->with(['msg' => __('Typography settings updated successfully.'), 'type' => 'success']);
     }
 
     public function page_settings(): Factory|View|Application
     {
-        return view($this->base_path.'page-settings');
+        return view($this->base_path . 'page-settings');
     }
 
     public function update_page_settings(Request $request): RedirectResponse
@@ -316,28 +316,28 @@ class GeneralSettingsController extends Controller
         ];
 
         foreach ($all_page_slug_settings as $slug) {
-            $request->validate([$slug.'_slug' => 'required|string|max:191']);
-            if ($request->has($slug.'_slug')) {
-                $fi = $slug.'_slug';
-                update_static_option($slug.'_slug', Str::slug($request->$fi));
+            $request->validate([$slug . '_slug' => 'required|string|max:191']);
+            if ($request->has($slug . '_slug')) {
+                $fi = $slug . '_slug';
+                update_static_option($slug . '_slug', Str::slug($request->$fi));
             }
         }
 
         foreach ($all_page_slug_settings as $slug) {
-            $page_name = $slug.'_name';
-            $meta_tags = $slug.'_meta_tags';
-            $meta_description = $slug.'_meta_description';
+            $page_name = $slug . '_name';
+            $meta_tags = $slug . '_meta_tags';
+            $meta_description = $slug . '_meta_description';
             update_static_option($page_name, $request->$page_name);
             update_static_option($meta_tags, $request->$meta_tags);
             update_static_option($meta_description, $request->$meta_description);
         }
 
-        return redirect()->back()->with(['msg' => __('Settings Updated.'), 'type' => 'success']);
+        return redirect()->back()->with(['msg' => __('settings updated successfully.'), 'type' => 'success']);
     }
 
     public function basic_settings(): Factory|View|Application
     {
-        return view($this->base_path.'basic');
+        return view($this->base_path . 'basic');
     }
 
     public function update_basic_settings(Request $request): RedirectResponse
@@ -383,12 +383,12 @@ class GeneralSettingsController extends Controller
             update_static_option($field, $request->$field);
         }
 
-        return redirect()->back()->with(['msg' => __('Basic Settings Update Success.'), 'type' => 'success']);
+        return redirect()->back()->with(['msg' => __('Basic settings updated successfully.'), 'type' => 'success']);
     }
 
     public function color_settings()
     {
-        return view($this->base_path.'color-settings');
+        return view($this->base_path . 'color-settings');
     }
 
     public function update_color_settings(Request $request)
@@ -417,17 +417,16 @@ class GeneralSettingsController extends Controller
             update_static_option($field, $request->$field);
         }
 
-        return redirect()->back()->with(['msg' => __('Color Settings Update Success.'), 'type' => 'success']);
+        return redirect()->back()->with(['msg' => __('Color settings updated successfully.'), 'type' => 'success']);
     }
 
     public function seo_settings(): Factory|View|Application
     {
-        return view($this->base_path.'seo');
+        return view($this->base_path . 'seo');
     }
 
     public function update_seo_settings(Request $request): RedirectResponse
     {
-
         $request->validate([
             'site_meta_tags' => 'required|string',
             'site_meta_description' => 'required|string',
@@ -439,12 +438,12 @@ class GeneralSettingsController extends Controller
         update_static_option($site_tags, $request->$site_tags);
         update_static_option($site_description, $request->$site_description);
 
-        return redirect()->back()->with(['msg' => __('SEO Settings Update Success.'), 'type' => 'success']);
+        return redirect()->back()->with(['msg' => __('SEO settings updated successfully.'), 'type' => 'success']);
     }
 
     public function scripts_settings()
     {
-        return view($this->base_path.'thid-party');
+        return view($this->base_path . 'thid-party');
     }
 
     public function update_scripts_settings(Request $request)
@@ -493,12 +492,12 @@ class GeneralSettingsController extends Controller
             'GOOGLE_CALLBACK_URL' => route('google.callback'),
         ]);
 
-        return redirect()->back()->with(['msg' => __('Third Party Scripts Settings Updated.'), 'type' => 'success']);
+        return redirect()->back()->with(['msg' => __('Third party scripts settings updated successfully.'), 'type' => 'success']);
     }
 
     public function email_template_settings()
     {
-        return view($this->base_path.'email-template');
+        return view($this->base_path . 'email-template');
     }
 
     public function update_email_template_settings(Request $request)
@@ -512,12 +511,12 @@ class GeneralSettingsController extends Controller
         update_static_option('site_global_email', $request->site_global_email);
         update_static_option('site_global_email_template', $request->site_global_email_template);
 
-        return redirect()->back()->with(['msg' => __('Email Settings Updated.'), 'type' => 'success']);
+        return redirect()->back()->with(['msg' => __('Email settings updated successfully.'), 'type' => 'success']);
     }
 
     public function site_identity()
     {
-        return view($this->base_path.'site-identity');
+        return view($this->base_path . 'site-identity');
     }
 
     public function update_site_identity(Request $request)
@@ -534,7 +533,7 @@ class GeneralSettingsController extends Controller
         update_static_option('site_white_logo', $request->site_white_logo);
 
         return redirect()->back()->with([
-            'msg' => __('Site Identity Has Been Updated.'),
+            'msg' => __('Site identity has been updated successfully.'),
             'type' => 'success',
         ]);
     }
@@ -568,11 +567,11 @@ class GeneralSettingsController extends Controller
             'site_default_payment_gateway',
             'amount_format_by',
 
-            'site_'.strtolower($global_currency).'_to_idr_exchange_rate',
-            'site_'.strtolower($global_currency).'_to_inr_exchange_rate',
-            'site_'.strtolower($global_currency).'_to_ngn_exchange_rate',
-            'site_'.strtolower($global_currency).'_to_zar_exchange_rate',
-            'site_'.strtolower($global_currency).'_to_brl_exchange_rate',
+            'site_' . strtolower($global_currency) . '_to_idr_exchange_rate',
+            'site_' . strtolower($global_currency) . '_to_inr_exchange_rate',
+            'site_' . strtolower($global_currency) . '_to_ngn_exchange_rate',
+            'site_' . strtolower($global_currency) . '_to_zar_exchange_rate',
+            'site_' . strtolower($global_currency) . '_to_brl_exchange_rate',
         ];
 
         foreach ($save_data as $item) {
@@ -582,14 +581,14 @@ class GeneralSettingsController extends Controller
         $all_gateway = PaymentGateway::all();
         foreach ($all_gateway as $gateway) {
             //  if manual payament gatewya then save description into database
-            $image_name = $gateway->name.'_logo';
-            $status_name = $gateway->name.'_gateway';
-            $test_mode_name = $gateway->name.'_test_mode';
+            $image_name = $gateway->name . '_logo';
+            $status_name = $gateway->name . '_gateway';
+            $test_mode_name = $gateway->name . '_test_mode';
 
-            $credentials = ! empty($gateway->credentials) ? json_decode($gateway->credentials) : [];
+            $credentials = !empty($gateway->credentials) ? json_decode($gateway->credentials) : [];
             $update_credentials = [];
             foreach ($credentials as $cred_name => $cred_val) {
-                $crd_req_name = $gateway->name.'_'.$cred_name;
+                $crd_req_name = $gateway->name . '_' . $cred_name;
                 $update_credentials[$cred_name] = $request->$crd_req_name;
             }
 
@@ -604,7 +603,7 @@ class GeneralSettingsController extends Controller
         Artisan::call('cache:clear');
 
         return redirect()->back()->with([
-            'msg' => __('Payment Settings Updated.'),
+            'msg' => __('Payment settings updated successfully.'),
             'type' => 'success',
         ]);
     }
@@ -613,7 +612,7 @@ class GeneralSettingsController extends Controller
     {
         $all_sitemap = glob('sitemap/*');
 
-        return view($this->base_path.'sitemap-settings')->with(['all_sitemap' => $all_sitemap]);
+        return view($this->base_path . 'sitemap-settings')->with(['all_sitemap' => $all_sitemap]);
     }
 
     public function update_sitemap_settings(Request $request)
@@ -625,10 +624,10 @@ class GeneralSettingsController extends Controller
 
         $title = $request->title ? $request->title : time();
 
-        SitemapGenerator::create(Str::slug($request->site_url))->writeToFile('sitemap/sitemap-'.$title.'.xml');
+        SitemapGenerator::create(Str::slug($request->site_url))->writeToFile('sitemap/sitemap-' . $title . '.xml');
 
         return redirect()->back()->with([
-            'msg' => __('Sitemap Generated.'),
+            'msg' => __('Sitemap generated successfully.'),
             'type' => 'success',
         ]);
     }
@@ -644,7 +643,7 @@ class GeneralSettingsController extends Controller
 
     public function rss_feed_settings()
     {
-        return view($this->base_path.'rss-feed-settings');
+        return view($this->base_path . 'rss-feed-settings');
     }
 
     public function update_rss_feed_settings(Request $request)
@@ -658,9 +657,9 @@ class GeneralSettingsController extends Controller
         update_static_option('site_rss_feed_title', $request->site_rss_feed_title);
         update_static_option('site_rss_feed_url', $request->site_rss_feed_url);
 
-        $env_val['RSS_FEED_URL'] = $request->site_rss_feed_url ? '"'.$request->site_rss_feed_url.'"' : '"rss-feeds"';
-        $env_val['RSS_FEED_TITLE'] = $request->site_rss_feed_title ? '"'.$request->site_rss_feed_title.'"' : '"'.get_static_option('site_title').'"';
-        $env_val['RSS_FEED_DESCRIPTION'] = $request->site_rss_feed_description ? '"'.$request->site_rss_feed_description.'"' : '"'.get_static_option('site_tag_line').'"';
+        $env_val['RSS_FEED_URL'] = $request->site_rss_feed_url ? '"' . $request->site_rss_feed_url . '"' : '"rss-feeds"';
+        $env_val['RSS_FEED_TITLE'] = $request->site_rss_feed_title ? '"' . $request->site_rss_feed_title . '"' : '"' . get_static_option('site_title') . '"';
+        $env_val['RSS_FEED_DESCRIPTION'] = $request->site_rss_feed_description ? '"' . $request->site_rss_feed_description . '"' : '"' . get_static_option('site_tag_line') . '"';
 
         setEnvValue([
             'RSS_FEED_URL' => $env_val['RSS_FEED_URL'],
@@ -670,7 +669,7 @@ class GeneralSettingsController extends Controller
         ]);
 
         return redirect()->back()->with([
-            'msg' => __('RSS Settings Update.'),
+            'msg' => __('RSS settings updated successfully.'),
             'type' => 'success',
         ]);
     }
@@ -680,7 +679,7 @@ class GeneralSettingsController extends Controller
         $all_languages = Language::orderBy('default', 'desc')->get();
         $all_popup = PopupBuilder::all()->groupBy('lang');
 
-        return view($this->base_path.'popup-settings')->with(['all_popup' => $all_popup, 'all_languages' => $all_languages]);
+        return view($this->base_path . 'popup-settings')->with(['all_popup' => $all_popup, 'all_languages' => $all_languages]);
     }
 
     public function update_popup_settings(Request $request)
@@ -694,23 +693,20 @@ class GeneralSettingsController extends Controller
         $all_languages = Language::orderBy('default', 'desc')->get();
         foreach ($all_languages as $lang) {
             $request->validate([
-                'popup_selected_'.$lang->slug.'_id' => 'nullable|string',
+                'popup_selected_' . $lang->slug . '_id' => 'nullable|string',
             ]);
-            $field = 'popup_selected_'.$lang->slug.'_id';
+            $field = 'popup_selected_' . $lang->slug . '_id';
             update_static_option($field, $request->$field);
         }
 
-        return redirect()->back()->with(['msg' => __('Settings Updated.'), 'type' => 'success']);
+        return redirect()->back()->with(['msg' => __('settings updated successfully.'), 'type' => 'success']);
     }
 
     public function update_script_settings()
     {
-        return view($this->base_path.'update-script');
+        return view($this->base_path . 'update-script');
     }
 
-    /* ==============================================
-     *          Dynamic page functions
-     * ============================================== */
     public function reading()
     {
         $all_pages = Page::where(['status' => 'publish'])->get();
@@ -754,13 +750,13 @@ class GeneralSettingsController extends Controller
 
         if ($navbar_categories) {
             foreach ($navbar_categories as $navbar_category) {
-                if (! empty($navbar_category['subcategories'])) {
+                if (!empty($navbar_category['subcategories'])) {
                     $sub_category_ids = array_merge($sub_category_ids, $sub_category_ids);
                 }
             }
         }
 
-        if (! empty($sub_category_ids)) {
+        if (!empty($sub_category_ids)) {
             $selected_sub_categories = ProductSubCategory::whereIn('id', $sub_category_ids)->get();
         }
 
@@ -772,13 +768,6 @@ class GeneralSettingsController extends Controller
         ));
     }
 
-    /**
-     * Saved data structure
-     * categories = [
-     *                  1:  [ subcategories: [2, 5, 6...], style: 'list' ],
-     *                  2:  [ subcategories: [7, 9, 12...], style: 'thumbnail' ],
-     *              ]
-     */
     public function update_navbar_category_dropdown(Request $request): RedirectResponse
     {
         $request->validate([
@@ -793,14 +782,14 @@ class GeneralSettingsController extends Controller
             $store_data[$category_id] = [];
 
             // if category details selected
-            if (! empty($request->navbar_sub_categories) && ! empty($request->navbar_sub_categories[$category_id])) {
+            if (!empty($request->navbar_sub_categories) && !empty($request->navbar_sub_categories[$category_id])) {
                 // list subcategory ids under category
                 foreach ($request->navbar_sub_categories[$category_id] as $sub_category_id) {
                     $store_data[$category_id]['subcategories'][] = $sub_category_id;
                 }
 
                 // set style for this category
-                if (! empty($request->navbar_sub_category_styles) && ! empty($request->navbar_sub_category_styles[$category_id])) {
+                if (!empty($request->navbar_sub_category_styles) && !empty($request->navbar_sub_category_styles[$category_id])) {
                     $store_data[$category_id]['style'] = $request->navbar_sub_category_styles[$category_id];
                 }
             } else {
@@ -814,9 +803,6 @@ class GeneralSettingsController extends Controller
         return redirect()->back()->with(FlashMsg::settings_update());
     }
 
-    /**
-     * Validate and update static settings
-     */
     private function update_fields(Request $request, array $field_rules): RedirectResponse
     {
         $request->validate($field_rules);

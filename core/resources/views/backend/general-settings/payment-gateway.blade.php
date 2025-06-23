@@ -27,7 +27,7 @@
                                 </div>
                             </div>
                             <div class="btn-wrapper mt-4">
-                                <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Update Changes') }}</button>
+                                <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
                             </div>
                         </form>
                     </div>
@@ -54,8 +54,9 @@
                         onChange: function(contents, $editable) {
                             $(this).prev('input').val(contents);
                         },
-                        onPaste: function (e) {
-                            let bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('text/plain');
+                        onPaste: function(e) {
+                            let bufferText = ((e.originalEvent || e).clipboardData || window
+                                .clipboardData).getData('text/plain');
                             e.preventDefault();
                             document.execCommand('insertText', false, bufferText);
                         }

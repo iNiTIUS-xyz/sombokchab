@@ -21,7 +21,9 @@
                             <div class="row g-4">
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label for="site_meta_tags">{{ __('Site Meta Tags') }}</label>
+                                        <label for="site_meta_tags">
+                                            {{ __('Site Meta Tags') }}
+                                        </label>
                                         <input type="text" name="site_meta_tags" class="form-control"
                                             data-role="tagsinput" value="{{ get_static_option('site_meta_tags') }}"
                                             id="site_meta_tags">
@@ -29,14 +31,18 @@
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label for="site_meta_description">{{ __('Site Meta Description') }}</label>
-                                        <textarea name="site_meta_description" class="form-control" id="site_meta_description">{{ get_static_option('site_meta_description') }}</textarea>
+                                        <label for="site_meta_description">
+                                            {{ __('Site Meta Description') }}
+                                        </label>
+                                        <textarea name="site_meta_description" class="form-control" id="site_meta_description"
+                                            placeholder="{{ __('Enter site meta description') }}">{{ get_static_option('site_meta_description') }}</textarea>
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="btn-wrapper">
-                                        <button type="submit"
-                                            class="cmn_btn btn_bg_profile">{{ __('Update Changes') }}</button>
+                                        <button type="submit" class="cmn_btn btn_bg_profile">
+                                            {{ __('Update') }}
+                                        </button>
                                     </div>
                                 </div>
                             </div>
