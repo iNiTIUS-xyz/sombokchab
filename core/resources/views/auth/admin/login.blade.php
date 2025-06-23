@@ -2,7 +2,7 @@
 
 
 @section('content')
-    <div class="login-area">
+    <div class="signin-area">
         <div class="container">
             <div class="login-box-wrapper ptb--100">
                 <form method="POST" action="{{ route('admin.login') }}">
@@ -11,7 +11,7 @@
                         <div class="logo-wrapper" style="margin-bottom: 20px;">
                             {!! render_image_markup_by_attachment_id(get_static_option('site_logo')) !!}
                         </div>
-                        <h4 class="main-title center-text fw-500 mt-3">{{ __('Admin Login') }}</h4>
+                        <h4 class="main-title center-text fw-500 mt-3">{{ __('Admin Sign In') }}</h4>
                         <p class="main-para mt-2">{{ __('Hello there, Sign in and start managing your website') }}</p>
                     </div>
                     @include('backend.partials.message')
@@ -19,11 +19,11 @@
                     <div class="login-form-wrap mt-4">
                         <div class="dashboard-input">
                             <label for="username" class="dashboard-label">{{ __('Email or username') }}</label>
-                            <input type="text" class="form--control" id="username" name="username" @if(request()->host() == 'safecart.bytesed.com') value="super_admin" @endif autofocus>
+                            <input type="text" class="form--control" id="username" name="username" placeholder="{{ __('Enter your email or username') }}" autofocus>
                         </div>
                         <div class="dashboard-input mt-4">
                             <label for="password" class="dashboard-label">{{ __('Password') }}</label>
-                            <input type="password" class="form--control" id="password" name="password" @if(request()->host() == 'safecart.bytesed.com') value="12345678" @endif>
+                            <input type="password" class="form--control" id="password" name="password" placeholder="{{ __('Enter password') }}" >
                         </div>
                         <div class="row mb-4 rmber-area mt-4">
                             <div class="col-6">
@@ -39,7 +39,7 @@
                         </div>
                         <div class="dashboard-btn-wrapper mt-4">
                             <button id="form_submit" type="submit"
-                                class="btn-submit dashboard-bg w-100">{{ __('Login') }}</button>
+                                class="btn-submit dashboard-bg w-100">{{ __('Sign In') }}</button>
                         </div>
                         @if (preg_match('/(xgenious)/', url('/')))
                             <div class="adminlogin-info">

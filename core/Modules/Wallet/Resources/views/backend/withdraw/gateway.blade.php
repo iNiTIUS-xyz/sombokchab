@@ -1,5 +1,5 @@
 @extends('backend.admin-master')
-@section('site-title', __('Vendor withdraw gateway page'))
+@section('site-title', __('Vendor wallet payment methods'))
 
 @section('style')
     <style>
@@ -22,17 +22,17 @@
                 <div class="dashboard__card card__two">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">
-                            {{ __('Vendor wallet payment gateway list') }}
+                            {{ __('Vendor wallet payment methods') }}
                         </h4>
                     </div>
                     <div class="dashboard__card__body">
                         <div class="table-wrap">
-                            <table class="table-responsive table">
+                            <table class="table-responsive table" id="dataTable">
                                 <thead>
                                     <tr>
-                                        <th>{{ __('Serial No:') }}</th>
+                                        <th>{{ __('Serial No.') }}</th>
                                         <th>{{ __('Payment Method:') }}</th>
-                                        <th>{{ __('Gateway Filed:') }}</th>
+                                        <th>{{ __('Gateway Field/s') }}</th>
                                         <th>{{ __('Gateway Status:') }}</th>
                                         <th>{{ __('Action') }}</th>
                                     </tr>
@@ -51,7 +51,7 @@
                                                     <button type="button" data-name="{{ $gateway->name }}"
                                                         data-id="{{ $gateway->id }}" data-status="{{ $gateway->status_id }}"
                                                         data-blog-filed="{{ json_encode(unserialize($gateway->filed)) }}"
-                                                        class="btn btn-sm btn-success mb-2 me-1 update-gateway"
+                                                        class="btn btn-sm btn-warning mb-2 me-1 update-gateway"
                                                         data-bs-toggle="modal" data-bs-target="#edit-gateway-modal">
                                                         <i class="ti-pencil"></i>
                                                     </button>
@@ -87,7 +87,7 @@
                             </div>
                             <div class="dashboard__card card__two">
                                 <div class="dashboard__card__header">
-                                    <h4 class="dashboard__card__title">{{ __('Gateway required filed.') }}</h4>
+                                    <h4 class="dashboard__card__title">{{ __('Gateway field') }}</h4>
                                 </div>
                                 <div class="dashboard__card__body">
                                     <div class="form-group row">
@@ -96,7 +96,7 @@
                                         </div>
                                         <div
                                             class="col-md-1 d-flex flex-column align-items-center justify-content-center pb-2 gap-2">
-                                            <button type="button" class="btn btn-info btn-sm gateway-filed-add">
+                                            <button type="button" class="btn btn-primary btn-sm gateway-filed-add">
                                                 <i class="las la-plus"></i>
                                             </button>
                                             <button type="button" class="btn btn-danger btn-sm gateway-filed-remove">
@@ -147,7 +147,7 @@
                             </div>
                             <div class="dashboard__card">
                                 <div class="dashboard__card__header">
-                                    <h4 class="dashboard__card__title">{{ __('Gateway required filed.') }}</h4>
+                                    <h4 class="dashboard__card__title">{{ __('Gateway field') }}</h4>
                                 </div>
                                 <div class="card-body gateway-filed-body">
 
@@ -195,7 +195,7 @@
                                 <input class="form-control" value="${value}" name="filed[]" placeholder="Enter filed name">
                             </div>
                             <div class="col-md-1 d-flex flex-column align-items-center justify-content-center pb-2 gap-2">
-                                <button type="button" class="btn btn-info btn-sm gateway-filed-add">
+                                <button type="button" class="btn btn-primary btn-sm gateway-filed-add">
                                     <i class="las la-plus"></i>
                                 </button>
                                 <button type="button" class="btn btn-danger btn-sm gateway-filed-remove">
@@ -213,7 +213,7 @@
                         <input class="form-control" name="filed[]" placeholder="Enter filed name">
                     </div>
                     <div class="col-md-1 d-flex flex-column align-items-center justify-content-center pb-2 gap-2">
-                        <button type="button" class="btn btn-info btn-sm gateway-filed-add">
+                        <button type="button" class="btn btn-primary btn-sm gateway-filed-add">
                             <i class="las la-plus"></i>
                         </button>
                         <button type="button" class="btn btn-danger btn-sm gateway-filed-remove">

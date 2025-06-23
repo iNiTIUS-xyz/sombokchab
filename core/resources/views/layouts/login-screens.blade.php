@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="{{ asset('assets/backend/css/default-css.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/line-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/backend/css/styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/backend/css/responsive.css') }}">
     <style>
         .adminlogin-info {
@@ -39,10 +40,11 @@
             margin: auto;
             width: 450px;
             max-width: 100%;
-            background: #41695A;
-            border-radius: 3px;
             padding: 30px;
             color: #fff;
+            background: var(--gray-two);
+            border-radius: 10px;
+            box-shadow: 0 0 10px var(--gray-two);
         }
         @media screen and (max-width: 375px) {
             .login-box-wrapper form {
@@ -51,24 +53,20 @@
         }
 
         .login-form-header .logo-wrapper {
-            max-width: 220px;
-            margin-inline: auto
+            width: 100%;
+            margin-inline: auto;
+            background: var(--main-color-one);
+            border-radius: 10px;
+            padding: 20px;
+
         }
 
         .main-title {
-            font-size: 28px;
-            font-weight: 700;
-            line-height: 1.2;
-            color: #fff;
+            color: var(--heading-color);
+            font-family: var(--heading-font);
+            font-size: 2rem;
         }
-
-        .main-para {
-            font-size: 16px;
-            font-weight: 400;
-            line-height: 24px;
-            color: #FFF;
-        }
-
+        
         .dashboard-input {
             position: relative;
             display: inline-block;
@@ -92,6 +90,10 @@
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
             font-size: 15px;
             padding: 0 15px;
+        }
+
+        .dashboard-input .form--control::placeholder {
+            text-transform: inherit !important
         }
 
         .dashboard-input .form--control:focus {
@@ -167,9 +169,9 @@
 
         .dashboard_checkbox .check_input:checked,
         .dashboard-checkbox .check-input:checked {
-            background: #E0BB20;
-            border-color: #E0BB20;
-            background: #E0BB20;
+            background: var(--main-color-one);
+            border-color: var(--main-color-one);
+            background: var(--main-color-one);
         }
 
         .dashboard_checkbox .check_input:checked::after,
@@ -188,21 +190,21 @@
             text-align: center;
             -webkit-transition: all 0.3s;
             transition: all 0.3s;
-            background: #E0BB20;
+            background: var(--main-color-one);
             color: var(--white);
-            border: 2px solid #E0BB20;
+            border: 2px solid var(--main-color-one);
         }
 
         .btn-submit:hover {
             background: none;
-            color: #E0BB20;
+            color: var(--main-color-one);
         }
 
         .forgot-password {
             font-size: 16px;
             font-weight: 500;
             line-height: 20px;
-            color: #FFF;
+            color:  var(--main-color-one);
             transition: all .3s
         }
 
@@ -212,7 +214,7 @@
         }
 
         .forgot-password:hover {
-            color: #E0BB20;
+            color: var(--main-color-one);
         }
 
         .login-area{

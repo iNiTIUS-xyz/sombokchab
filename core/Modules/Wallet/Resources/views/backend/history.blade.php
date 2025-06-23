@@ -24,12 +24,12 @@
                     </div>
                     <div class="dashboard__card__body mt-4">
                         <div class="table-wrap">
-                            <table class="table table-responsive">
+                            <table class="table table-responsive" id="dataTable">
                                 <thead>
                                     <tr>
-                                        <th>{{ __('ID') }}</th>
+                                        <th>{{ __('Serial No.') }}</th>
                                         <th>{{ __('User Details') }}</th>
-                                        <th>{{ __('Payment Gateway') }}</th>
+                                        <th>{{ __('Payment Method') }}</th>
                                         <th>{{ __('Payment Status') }}</th>
                                         <th>{{ __('Deposit Amount') }}</th>
                                         <th>{{ __('Manual Payment Image') }}</th>
@@ -40,7 +40,7 @@
                                 <tbody>
                                     @foreach ($wallet_history_lists as $history)
                                         <tr>
-                                            <td>{{ $history->id }}</td>
+                                            <td>{{ $loop->iteration }}</td>
                                             <td>
                                                 <p><strong>{{ __('Name: ') }}</strong>{{ $history->user?->name }}</p>
                                                 <p><strong>{{ __('Email: ') }}</strong>{{ $history->user?->email }}</p>
@@ -54,22 +54,17 @@
                                                 @if ($history->payment_gateway == 'manual_payment')
                                                     {{ ucfirst(str_replace('_', ' ', $history->payment_gateway)) }}
                                                 @else
-                                                    {{ $history->payment_gateway == 'authorize_dot_net' ? __('Authorize.Net') : ucfirst($history->payment_gateway) }}
+                                                    {{ $history->payment_gateway == 'authorize_dot_net' ? __('Authorize.Net') : ucfirst(str_replace('_', ' ', $history->payment_gateway)) }}
                                                 @endif
                                             </td>
                                             <td>
                                                 @if ($history->payment_status == '' || $history->payment_status == 'cancel')
-                                                    <span class="btn btn-danger btn-sm">{{ __('Cancel') }}</span>
+                                                    <span class="badge bg-danger">{{ __('Cancel') }}</span>
+                                                @elseif ($history->payment_status == '' || $history->payment_status == 'complete')
+                                                    <span class="badge bg-success">{{ ucfirst($history->payment_status) }}</span>
                                                 @else
                                                     <span
-                                                        class="btn btn-success btn-sm">{{ ucfirst($history->payment_status) }}</span>
-                                                    @if ($history->payment_status == 'pending')
-                                                        <x-status.table.status-change :title="__('Change Status')" :class="'btn btn-danger wallet_history_status_change'"
-                                                            :url="route(
-                                                                'admin.wallet.history.status',
-                                                                $history->id,
-                                                            )" />
-                                                    @endif
+                                                        class="badge bg-warning">{{ ucfirst($history->payment_status) }}</span>
                                                 @endif
                                             </td>
                                             <td>{{ float_amount_with_currency_symbol($history->amount) }}</td>
@@ -86,10 +81,17 @@
                                             </td>
                                             <td>{{ $history->created_at }}</td>
                                             <td>
-                                                <a class="btn btn-sm btn-primary"
+                                                @if ($history->payment_status == 'pending')
+                                                    <x-status.table.status-change :title="__('')" :class="'btn btn-warning'"
+                                                        :url="route(
+                                                            'admin.wallet.history.status',
+                                                            $history->id,
+                                                        )" />
+                                                @endif        
+                                                <a class="btn btn-sm btn-secondary"
                                                     href="{{ route('admin.wallet.history.details', $history->id) }}"
                                                     title="{{ __('View Details') }}">
-                                                    <i class="ti-book"></i>
+                                                    <i class="ti-receipt"></i>
                                                 </a>
                                             </td>
                                         </tr>

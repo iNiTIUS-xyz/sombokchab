@@ -27,7 +27,7 @@
                                 <table class="custom--table pt-4" id="myTable">
                                     <thead class="head-bg">
                                         <tr>
-                                            <th> {{ __('Serial No:') }} </th>
+                                            <th> {{ __('Serial No.') }} </th>
                                             <th class="min-width-100"> {{ __('Vendor Info') }} </th>
                                             <th class="min-width-250"> {{ __('Shop Info') }} </th>
                                             <th class="min-width-100"> {{ __('Status') }} </th>

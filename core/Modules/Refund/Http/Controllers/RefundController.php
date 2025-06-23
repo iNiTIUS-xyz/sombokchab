@@ -25,7 +25,7 @@ class RefundController extends Controller
     public function index()
     {
         $refundRequests = RefundRequest::withCount("requestProduct")
-            ->with("currentTrackStatus","user:id,name,email,phone","order:id,order_status,created_at","order.paymentMeta")
+            ->with("currentTrackStatus","user:id,name,email,phone","order:id,order_number,order_status,created_at","order.paymentMeta")
             ->paginate(20);
 
         return view('refund::admin.refund.request', compact('refundRequests'));

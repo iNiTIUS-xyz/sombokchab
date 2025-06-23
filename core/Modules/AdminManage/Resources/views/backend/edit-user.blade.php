@@ -16,7 +16,7 @@
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Edit Admin') }}</h4>
                         <div class="btn-wrapper">
-                            <a class="cmn_btn btn_bg_profile" href="{{ route('admin.all.user') }}">{{ __('All Admin') }}</a>
+                            <a class="cmn_btn btn_bg_profile" href="{{ route('admin.all.user') }}">{{ __('All Admin Accounts') }}</a>
                         </div>
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
@@ -27,7 +27,7 @@
                             <div class="form-group">
                                 <label for="email">{{ __('Name') }}</label>
                                 <input type="text" class="form-control" value="{{ $admin->name }}" name="name"
-                                    placeholder="{{ __('Email') }}">
+                                    placeholder="{{ __('Enter email') }}">
                             </div>
                             <div class="form-group">
                                 <label for="name">{{ __('Email') }}</label>
@@ -37,7 +37,7 @@
                             <div class="form-group">
                                 <label for="role">{{ 'Role' }}</label>
                                 <select name="role" class="form-control">
-                                    <option value="">{{ __('Select Role') }}</option>
+                                    <option value="">{{ __('Select role') }}</option>
                                     @foreach ($roles as $role)
                                         <option value="{{ $role }}"
                                             @if (in_array($role, $adminRole)) selected @endif>{{ $role }}</option>
@@ -76,7 +76,7 @@
                             </div>
                             <div class="form-group">
                                 <button type="submit" class="cmn_btn btn_bg_profile">
-                                    {{ __('Submit') }}
+                                    {{ __('Update') }}
                                 </button>
                                 <a href="{{ route('admin.all.user') }}" class="cmn_btn default-theme-btn"
                                     style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">

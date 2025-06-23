@@ -140,7 +140,7 @@
         </div>
     </div>
     <div class="modal fade" id="editUser" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Edit Staff</h5>
@@ -171,7 +171,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">{{ __('Save Changes') }}</button>
+                        <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
                     </div>
                 </form>
             </div>
@@ -191,12 +191,12 @@
                         @csrf
                         <div class="form-grup">
                             <label for="#">Password</label>
-                            <input type="password" name="password" class="form-control" placeholder="enter password">
+                            <input type="password" name="password" class="form-control" placeholder="Enter password">
                         </div>
                         <div class="form-grup">
-                            <label for="#">Password Confirm</label>
+                            <label for="#">Confirm Password</label>
                             <input type="password" name="password_confirmation" class="form-control"
-                                placeholder="enter confirm password">
+                                placeholder="Enter confirm password">
                         </div>
                     </div>
                     <div class="modal-footer">

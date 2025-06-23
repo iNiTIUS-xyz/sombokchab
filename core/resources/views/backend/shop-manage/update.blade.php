@@ -77,7 +77,7 @@
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="single-input">
-                                                <label class="label-title"> {{ __('State') }} </label>
+                                                <label class="label-title"> {{ __('Province') }} </label>
                                                 <div class="nice-select-two city_wrapper">
                                                     <select id="city_id" class="form-control" name="city">
                                                         <option value="">{{ __('Select State') }}</option>
@@ -99,10 +99,10 @@
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="single-input">
-                                                <label class="label-title"> {{ __('Zip Code') }} </label>
+                                                <label class="label-title"> {{ __('Postal Code') }} </label>
                                                 <input value="{{ $shopManage->zipcode ?? null }}" type="text"
                                                     name="zipcode" class="form--control radius-10"
-                                                    placeholder="{{ __('Zip Code') }}">
+                                                    placeholder="{{ __('Postal Code') }}">
                                             </div>
                                         </div>
                                         <div class="col-sm-6">

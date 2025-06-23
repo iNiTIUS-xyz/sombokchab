@@ -1,4 +1,4 @@
-<table class="table table-responsive">
+<table class="table table-responsive" id="dataTable">
     <thead>
         <tr>
             <th>{{ __('Serial No.') }}</th>
@@ -17,7 +17,7 @@
                             <p><small class="text-info">{{ $route['description'] }}</small></p>
                         </td>
                         <td>
-                            <a href="{{ $route['route'] }}" class="btn btn-primary btn-xs mb-2 me-1" title="{{ __('Edit Template') }}">
+                            <a href="{{ $route['route'] }}" class="btn btn-warning btn-xs mb-2 me-1" title="{{ __('Edit Template') }}">
                                 <i class="ti-pencil"></i>
                             </a>
                         </td>

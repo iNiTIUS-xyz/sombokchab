@@ -3,7 +3,7 @@
     {{ __('Product Brand Manage') }}
 @endsection
 @section('style')
-    <x-datatable.css />
+    {{-- <x-datatable.css /> --}}
     <x-bulk-action.css />
     <x-media.css />
 @endsection
@@ -34,12 +34,12 @@
                     </div>
                     <div class="dashboard__card__body mt-4">
                         <div class="table-wrap table-responsive">
-                            <table class="table table-default">
+                            <table class="table table-default" id="dataTable">
                                 <thead>
                                     @can('brand-manage-bulk-action')
                                         <x-bulk-action.th />
                                     @endcan
-                                    <th>{{ __('Serial No:') }}</th>
+                                    <th>{{ __('Serial No.') }}</th>
                                     <th>{{ __('Logo') }}</th>
                                     <th>{{ __('Banner') }}</th>
                                     <th>{{ __('Name') }}</th>

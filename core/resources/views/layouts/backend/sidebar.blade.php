@@ -36,7 +36,7 @@
                         <ul class="collapse">
                             <li class="{{ active_menu('admin-home/admin/all-user') }}">
                                 <a href="{{ route('admin.all.user') }}">
-                                    {{ __('All Admin') }}
+                                    {{ __('All Admin Accounts') }}
 
                                 </a>
                             </li>
@@ -352,7 +352,7 @@
                                     </li>
                                 @endcan
                                 @if (auth('admin')->user()->hasRole('Super Admin'))
-                                    <li class="{{ active_menu('admin-home/delivery-man/update') }}">
+                                    <li class="{{ active_menu('admin-home/delivery-man/update') }}" style="display: none;">
                                         <a href="{{ route('admin.delivery-man.license_update') }}">
                                             <span>{{ __('Update Plugin') }}</span>
                                         </a>
@@ -483,7 +483,7 @@
                                 </li>
                             @endcan
                             @if (auth('admin')->user()->hasRole('Super Admin'))
-                                <li class="{{ active_menu('admin-home/refund/update-plugin') }}">
+                                <li class="{{ active_menu('admin-home/refund/update-plugin') }}" style="display: none;">
                                     <a href="{{ route('admin.refund.refund_plugin_license_update') }}">
                                         <span>{{ __('Update Plugin') }}</span>
                                     </a>
@@ -1103,7 +1103,7 @@
                             </li>
                         @endcan
                         @if (auth('admin')->user()->hasRole('Super Admin'))
-                            <li class="{{ active_menu('admin-home/livechat/update-plugin') }}">
+                            <li class="{{ active_menu('admin-home/livechat/update-plugin') }}" style="display: none;">
                                 <a href="{{ route('admin.livechat.chat_plugin_license_update') }}">
                                     <span>{{ __('Update Plugin') }}</span>
                                 </a>

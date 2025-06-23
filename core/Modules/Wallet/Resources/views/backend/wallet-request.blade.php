@@ -26,9 +26,10 @@
                     </div>
                     <div class="dashboard__card__body">
                         <div class="table-wrap">
-                            <table class="table-responsive table">
+                            <table id="dataTable" class="table-responsive table">
                                 <thead>
                                     <tr>
+                                        <th>Serial No.</th>
                                         <th>{{ __('Vendor Info') }}</th>
                                         <th>{{ __('Amount') }}</th>
                                         <th>{{ __('Payment Method') }}</th>
@@ -52,7 +53,11 @@
                                                 }
                                             @endphp
                                         @endforeach
+                                        
                                         <tr>
+                                            <td>
+                                                {{ $loop->iteration }}
+                                            </td>
                                             <td>
                                                 <div class="table-owner">
                                                     <span>{{ __('Vendor Name:') }}
@@ -95,8 +100,8 @@
                                                         data-id="{{ $request->id }}"
                                                         data-request-status="{{ $request->request_status }}"
                                                         id="update-wallet-request" data-bs-target="#updateWalletStatus"
-                                                        data-bs-toggle="modal" class="cmn_btn btn_bg_profile">
-                                                        <i class="las la-pen-alt"></i>
+                                                        data-bs-toggle="modal" class="btn btn-warning">
+                                                        <i class="ti-pencil"></i>
                                                     </button>
                                                 @endif
                                             </td>
@@ -156,7 +161,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"
                             data-bs-dismiss="modal">{{ __('Close') }}</button>
-                        <button type="submit" class="btn btn-primary">{{ __('Update withdraw request') }}</button>
+                        <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                     </div>
                 </form>
             </div>

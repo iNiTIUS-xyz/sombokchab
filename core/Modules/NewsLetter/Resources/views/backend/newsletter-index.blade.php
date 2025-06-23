@@ -49,6 +49,7 @@
                                             </div>
                                         </th>
                                     @endcan
+                                    <th>{{ __('Serial No.') }}</th>
                                     <th>{{ __('Email') }}</th>
                                     <th>{{ __('Subscribe Status') }}</th>
                                     <th>{{ __('Action') }}</th>
@@ -64,6 +65,7 @@
                                                     </div>
                                                 </td>
                                             @endcan
+                                            <td>{{ $loop->iteration }} </td>
                                             <td>{{ $data->email }} @if ($data->verified > 0)
                                                     <i class="las la-check-circle text-primary"></i>
                                                 @endif
@@ -77,7 +79,7 @@
                                             </td>
                                             <td>
                                                 @can('newsletter-newsletter-verify-mail-send')
-                                                    <a class="btn btn-lg btn-primary btn-sm mb-2 me-2 send_mail_modal_btn"
+                                                    <a class="btn btn-lg btn-dark btn-sm mb-2 me-2 send_mail_modal_btn"
                                                         href="#1" data-bs-toggle="modal"
                                                         data-bs-target="#send_mail_to_subscriber_modal"
                                                         data-email="{{ $data->email }}" data-id="{{ $data->id }}"
@@ -135,7 +137,7 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"
                                 data-bs-dismiss="modal">{{ __('Close') }}</button>
-                            <button id="submit" type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
+                            <button id="submit" type="submit" class="btn btn-primary">{{ __('Add') }}</button>
                         </div>
                     </form>
                 </div>

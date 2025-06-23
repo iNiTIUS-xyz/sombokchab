@@ -2,7 +2,7 @@
 
 @section('style')
     <x-media.css />
-    <x-datatable.css />
+    {{-- <x-datatable.css /> --}}
     <link rel="stylesheet" href="{{ asset('assets/backend/css/dropzone.css') }}">
     <style>
         .swal2-confirm.swal2-styled.swal2-default-outline {
@@ -31,21 +31,23 @@
             </div>
             <div class="dashboard__card__body mt-4">
                 <div class="data-tables datatable-primary table-wrap">
-                    <table class="text-left">
+                    <table id="dataTable">
                         <thead class="text-capitalize">
                             <tr>
+                                <th>{{ __('Serial No.') }}</th>
                                 <th>{{ __('Name') }}</th>
                                 <th>{{ __('Email') }}</th>
                                 <th>{{ __('Action') }}</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($all_user as $data)
+                            @foreach ($all_user as $user)
                                 <tr>
-                                    <td class="text-left">{{ $data->name }} ({{ $data->username }})</td>
-                                    <td>
-                                        {{ $data->email }}
-                                        @if ($data->email_verified == 1)
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td class="text-left">{{ $user->name }} ({{ $user->username }})</td>
+                                    <td class="text-left">
+                                        {{ $user->email }}
+                                        @if ($user->email_verified == 1)
                                             <i class="las la-check-circle text-success"></i>
                                         @endif
                                     </td>
@@ -54,10 +56,10 @@
                                             <form action="{{ route('admin.all.frontend.user.email.status') }}" method="post"
                                                 style="display: inline">
                                                 @csrf
-                                                <input type="hidden" value="{{ $data->id }}" name="user_id">
-                                                <input type="hidden" value="{{ $data->email_verified }}"
+                                                <input type="hidden" value="{{ $user->id }}" name="user_id">
+                                                <input type="hidden" value="{{ $user->email_verified }}"
                                                     name="email_verified">
-                                                @if ($data->email_verified == 1)
+                                                @if ($user->email_verified == 1)
                                                     <button type="submit" class="btn btn-sm btn-xs mb-2 me-1 btn-success"
                                                         title="Enable Email Verif">
                                                         <i class="ti-email"></i>
@@ -72,7 +74,7 @@
                                         @endcan
 
                                         @can('frontend-user-password-change')
-                                            <a href="#" data-id="{{ $data->id }}" data-bs-toggle="modal"
+                                            <a href="#" data-id="{{ $user->id }}" data-bs-toggle="modal"
                                                 data-bs-target="#user_change_password_modal"
                                                 class="btn btn-secondary btn-sm mb-2 me-1 user_change_password_btn"
                                                 title="Change Password">
@@ -81,12 +83,12 @@
                                         @endcan
 
                                         @can('frontend-user-update')
-                                            <a href="#" data-id="{{ $data->id }}"
-                                                data-username="{{ $data->username }}" data-name="{{ $data->name }}"
-                                                data-email="{{ $data->email }}" data-phone="{{ $data->phone }}"
-                                                data-address="{{ $data->address }}" data-state="{{ $data->state }}"
-                                                data-city="{{ $data->city }}" data-zipcode="{{ $data->zipcode }}"
-                                                data-country="{{ $data->country }}" data-bs-toggle="modal"
+                                            <a href="#" data-id="{{ $user->id }}"
+                                                data-username="{{ $user->username }}" data-name="{{ $user->name }}"
+                                                data-email="{{ $user->email }}" data-phone="{{ $user->phone }}"
+                                                data-address="{{ $user->address }}" data-state="{{ $user->state }}"
+                                                data-city="{{ $user->city }}" data-zipcode="{{ $user->zipcode }}"
+                                                data-country="{{ $user->country }}" data-bs-toggle="modal"
                                                 data-bs-target="#user_edit_modal"
                                                 class="btn btn-warning btn-sm mb-2 me-1 user_edit_btn">
                                                 <i class="ti-pencil"></i>
@@ -94,7 +96,7 @@
                                         @endcan
 
                                         @can('frontend-delete-user')
-                                            <x-delete-popover :url="route('admin.frontend.delete.user', $data->id)" />
+                                            <x-delete-popover :url="route('admin.frontend.delete.user', $user->id)" />
                                         @endcan
                                     </td>
                                 </tr>
@@ -111,7 +113,7 @@
             <div class="modal-dialog">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
-                        <h5 class="modal-title">{{ __('User Details Edit') }}</h5>
+                        <h5 class="modal-title">{{ __('Edit User Details') }}</h5>
                         <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
                     </div>
                     <form action="{{ route('admin.frontend.user.update') }}" id="user_edit_modal_form" method="post"
@@ -151,17 +153,18 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="state">{{ __('State') }}</label>
-                                <select id="state_id" name="state" class="form-control">
-                                    <option value="">{{ __('Select State') }}</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
                                 <label for="city">{{ __('City') }}</label>
                                 <select id="city_id" name="city" class="form-control">
                                     <option value="">{{ __('Select City') }}</option>
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label for="state">{{ __('Province') }}</label>
+                                <select id="state_id" name="state" class="form-control">
+                                    <option value="">{{ __('Select province') }}</option>
+                                </select>
+                            </div>
+                            
                             <div class="form-group">
                                 <label for="zipcode">{{ __('Postal Code') }}</label>
                                 <input type="text" class="form-control" id="zipcode" name="zipcode"
@@ -186,7 +189,7 @@
 
     @can('frontend-user-password-change')
         <div class="modal fade" id="user_change_password_modal" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
                         <h5 class="modal-title">{{ __('Change User Password') }}</h5>
@@ -231,7 +234,7 @@
 @endsection
 
 @section('script')
-    <x-datatable.js />
+    {{-- <x-datatable.js /> --}}
     <script src="{{ asset('assets/backend/js/dropzone.js') }}"></script>
     <x-media.js />
 

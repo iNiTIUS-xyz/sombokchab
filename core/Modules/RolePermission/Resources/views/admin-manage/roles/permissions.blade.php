@@ -210,7 +210,7 @@
 
 @section('content')
     <div class="bodyContent">
-        <div class="container-fluid">
+        <div class="">
             <div class="row">
                 <div class="col-12">
                     <div class="dashboard__card">
@@ -279,7 +279,7 @@
                                         </div>
                                         <div class="col-sm-12">
                                             <button type="submit" class="cmn_btn btn_bg_profile">
-                                                {{ __('Submit Now') }}
+                                                {{ __('Update') }}
                                             </button>
                                             <a href="{{ route('admin.roles.index') }}" class="cmn_btn default-theme-btn"
                                                 style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">

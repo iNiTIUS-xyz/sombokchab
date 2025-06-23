@@ -58,13 +58,13 @@
                             <div class="dashboard-input">
                                 <label class="dashboard-label color-light mb-2"> {{ __('Phone Number / Email') }} </label>
                                 <input class="form--control" type="text" name="username"
-                                    placeholder="{{ __('Type Your Phone Number or Email') }}" @if(request()->host() == 'safecart.bytesed.com') value="test_vendor" @endif>
+                                    placeholder="{{ __('Type Your Phone Number or Email') }}">
                             </div>
 
                             <div class="dashboard-input mt-4">
                                 <label class="dashboard-label color-light mb-2"> {{ __('Password') }} </label>
                                 <input class="form--control" name="password" type="password"
-                                    placeholder="{{ __('Type Password') }}" @if(request()->host() == 'safecart.bytesed.com') value="12345678" @endif>
+                                    placeholder="{{ __('Type Password') }}">
                                 <div class="toggle-password">
                                     <span class="show-icon"> <i class="las la-eye-slash"></i> </span>
                                     <span class="hide-icon"> <i class="las la-eye"></i> </span>

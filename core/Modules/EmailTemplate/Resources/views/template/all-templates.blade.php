@@ -136,10 +136,10 @@
                     <!-- Tab Start -->
                     <div class="tab-content-item active" id="refund_mail">
                         <div class="dashboard__card">
-                            <div class="dashboard__card__header">
-                                {{-- <h4 class="dashboard__card__title">{{ __('Refund Mail List') }}</h4> --}}
+                            {{-- <div class="dashboard__card__header">
+                                <h4 class="dashboard__card__title">{{ __('Refund Mail List') }}</h4>
                                 <x-bulk-action.bulk-action />
-                            </div>
+                            </div> --}}
                             <div class="dashboard__card__body mt-4">
                                 <div class="custom_table style-04 search_result">
                                     <x-emailtemplate::tamplates.tamplate-table :routes="$routes" />

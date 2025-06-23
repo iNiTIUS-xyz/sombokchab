@@ -2,7 +2,7 @@
 @section('style')
     <link rel="stylesheet" href="{{ asset('assets/backend/css/dropzone.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/backend/css/media-uploader.css') }}">
-    @include('backend.partials.datatable.style-enqueue')
+    {{-- @include('backend.partials.datatable.style-enqueue') --}}
 @endsection
 @section('site-title')
     {{ __('All Admins') }}
@@ -20,11 +20,11 @@
                 </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Admin Accounts') }} <small>(create by Super Admin)</small></h4>
+                        <h4 class="dashboard__card__title">{{ __('Admin Accounts') }} <small>(created by Super Admin)</small></h4>
                     </div>
                     <div class="dashboard__card__body mt-4">
                         <div class="data-tables datatable-primary">
-                            <table id="all_user_table" class="text-center">
+                            <table id="dataTable" class="text-left">
                                 <thead class="text-capitalize">
                                     <tr>
                                         <th>{{ __('Serial No.') }}</th>
@@ -37,7 +37,7 @@
                                 <tbody>
                                     @foreach ($all_user as $data)
                                         <tr>
-                                            <td>{{ $data->id }}</td>
+                                            <td>{{ $loop->iteration }}</td>
                                             <td>{{ $data->name }} ({{ $data->username }})</td>
                                             <td>
                                                 @php
@@ -63,18 +63,20 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @can('admin-user-edit')
-                                                    <a href="{{ route('admin.user.edit', $data->id) }}"
-                                                        class="btn btn-lg btn-primary btn-sm mb-2 me-1 user_edit_btn">
-                                                        <i class="ti-pencil"></i>
-                                                    </a>
-                                                @endcan
+                                                
 
                                                 @can('admin-user-password-change')
                                                     <a href="#1" data-id="{{ $data->id }}" data-bs-toggle="modal"
                                                         title="Change Password" data-bs-target="#user_change_password_modal"
                                                         class="btn btn-sm btn-secondary mb-2 me-1 user_change_password_btn">
                                                         <i class="ti-unlock"></i>
+                                                    </a>
+                                                @endcan
+
+                                                @can('admin-user-edit')
+                                                    <a href="{{ route('admin.user.edit', $data->id) }}"
+                                                        class="btn btn-lg btn-warning btn-sm mb-2 me-1 user_edit_btn">
+                                                        <i class="ti-pencil"></i>
                                                     </a>
                                                 @endcan
 
@@ -95,7 +97,7 @@
 
     @can('admin-user-password-change')
         <div class="modal fade" id="user_change_password_modal" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
                         <h5 class="modal-title">{{ __('Change Admin Password') }}</h5>
@@ -133,7 +135,7 @@
 @endsection
 @section('script')
     <!-- Start datatable js -->
-    @include('backend.partials.datatable.script-enqueue')
+    {{-- @include('backend.partials.datatable.script-enqueue') --}}
     <script src="{{ asset('assets/backend/js/dropzone.js') }}"></script>
     @include('backend.partials.media-upload.media-js')
     <script>

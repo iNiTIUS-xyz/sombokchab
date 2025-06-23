@@ -12,7 +12,7 @@
     $isAllowBuyNow = $isAllowBuyNow ?? false;
 @endphp
 
-<div class="slick-slider-items radius-10">
+<div class="slick-slider-items radius-10 border-1 mt-4">
     <div class="single-flash-item">
         <div class="flash-flex-item">
             <div class="flash-item-image radius-5">
@@ -32,7 +32,7 @@
                     {!! view('product::components.frontend.common.rating-markup', compact('product','attributes')) !!}
                 </div>
                 <div class="price-update-through margin-top-15">
-                    <span class="fs-20 fw-500 ff-rubik flash-prices color-two"> {{ float_amount_with_currency_symbol(calculatePrice($sale_price, $product)) }} </span>
+                    <span class="fs-20 fw-500 ff-rubik flash-prices color-one"> {{ float_amount_with_currency_symbol(calculatePrice($sale_price, $product)) }} </span>
                     <span class="fs-16 flash-old-prices"> {{ float_amount_with_currency_symbol(calculatePrice($deleted_price, $product)) }} </span>
                 </div>
             </div>

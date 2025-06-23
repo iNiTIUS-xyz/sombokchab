@@ -62,7 +62,7 @@ class WalletController extends Controller
         $job = Wallet::find($id);
         $job->status === 1 ? $status = 0 : $status = 1;
         Wallet::where('id',$id)->update(['status'=>$status]);
-        return redirect()->back()->with(FlashMsg::item_new('Status Changed Success'));
+        return redirect()->back()->with(FlashMsg::item_new('Status changed successfully.'));
     }
 
     public function wallet_history()
@@ -86,7 +86,7 @@ class WalletController extends Controller
             'balance'=>$wallet->balance+$wallet_history->amount,
         ]);
 
-        return redirect()->back()->with(FlashMsg::item_new('Status Changed Success'));
+        return redirect()->back()->with(FlashMsg::item_new('Status changed successfully.'));
     }
 
     public function settings(){

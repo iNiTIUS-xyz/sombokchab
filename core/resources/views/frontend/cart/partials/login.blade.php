@@ -16,15 +16,13 @@
                 <div class="single-input mt-4">
                     <label class="label-title mb-3"> {{ __("Phone Number / Email") }} </label>
                     <input class="form--control" type="text" id="login_phone" name="phone"
-                        placeholder="{{ __("Phone Number / Email") }}"
-                        @if(request()->host() == 'safecart.bytesed.com') value="test_user" @endif>
+                        placeholder="{{ __("Phone Number / Email") }}">
                     <small id="login_phone_error" class="text-danger"></small>
                 </div>
                 <div class="single-input mt-4">
                     <label class="label-title mb-3"> {{ __("Password") }} </label>
                     <input class="form--control" type="password" id="login_password" name="password"
-                        placeholder="{{ __('Password') }}"
-                        @if(request()->host() == 'safecart.bytesed.com') value="12345678" @endif>
+                        placeholder="{{ __('Password') }}">
                     <small id="login_password_error" class="text-danger"></small>
                 </div>
                 <button class="btn-submit w-100" type="submit" id="login_btn"> {{ __("Sign In") }} </button>

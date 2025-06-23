@@ -19,30 +19,30 @@
                             <div class="form-group">
                                 <label for="name">{{ __('Name') }}</label>
                                 <input type="text" class="form-control" id="name" name="name"
-                                    placeholder="{{ __('Enter name') }}">
+                                    placeholder="{{ __('Enter full name') }}">
                             </div>
                             <div class="form-group">
                                 <label for="username">{{ __('Username') }}</label>
                                 <input type="text" class="form-control" id="username" name="username"
-                                    placeholder="{{ __('Username') }}">
+                                    placeholder="{{ __('Enter username') }}">
                                 <small
                                     class="text text-danger">{{ __('Remember this username, user will login using this username') }}</small>
                             </div>
                             <div class="form-group">
                                 <label for="email">{{ __('Email') }}</label>
                                 <input type="text" class="form-control" id="email" name="email"
-                                    placeholder="{{ __('Email') }}">
+                                    placeholder="{{ __('Enter email') }}">
                             </div>
                             <div class="form-group">
                                 <label for="phone">{{ __('Phone') }}</label>
                                 <input type="text" class="form-control" id="phone" name="phone"
-                                    placeholder="{{ __('Phone') }}">
+                                    placeholder="{{ __('Enter phone') }}">
                             </div>
                             <div class="form-group">
                                 <label for="country">{{ __('Country') }}</label>
                                 {{-- {!! get_country_field('country', 'country', 'form-control') !!} --}}
                                 <select id="country" name="country">
-                                    <option value="">{{ __('Select Country') }}</option>
+                                    <option value="">{{ __('Select country') }}</option>
                                     @foreach ($country as $item)
                                         <option value="{{ $item->id }}">
                                             {{ $item->name }}
@@ -53,37 +53,37 @@
                             <div class="form-group">
                                 <label for="state">{{ __('City') }}</label>
                                 <select id="state_id" name="state">
-                                    <option value="">{{ __('Select City') }}</option>
+                                    <option value="">{{ __('Select city') }}</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="city">{{ __('State') }}</label>
+                                <label for="city">{{ __('Province') }}</label>
                                 <select id="city_id" name="city">
-                                    <option value="">{{ __('Select State') }}</option>
+                                    <option value="">{{ __('Select province') }}</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="zipcode">{{ __('Zipcode') }}</label>
+                                <label for="zipcode">{{ __('Postal code') }}</label>
                                 <input type="text" class="form-control" id="zipcode" name="zipcode"
-                                    placeholder="{{ __('Zipcode') }}">
+                                    placeholder="{{ __('Enter postal code') }}">
                             </div>
                             <div class="form-group">
                                 <label for="address">{{ __('Address') }}</label>
                                 <input type="text" class="form-control" id="address" name="address"
-                                    placeholder="{{ __('Address') }}">
+                                    placeholder="{{ __('Enter address') }}">
                             </div>
                             <div class="form-group">
                                 <label for="password">{{ __('Password') }}</label>
                                 <input type="password" class="form-control" id="password" name="password"
-                                    placeholder="{{ __('Password') }}">
+                                    placeholder="{{ __('Enter password') }}">
                             </div>
                             <div class="form-group">
-                                <label for="password_confirmation">{{ __('Password Confirm') }}</label>
+                                <label for="password_confirmation">{{ __('Confirm Password') }}</label>
                                 <input type="password" class="form-control" id="password_confirmation"
-                                    name="password_confirmation" placeholder="{{ __('Password Confirmation') }}">
+                                    name="password_confirmation" placeholder="{{ __('Enter password confirmation') }}">
                             </div>
                             <button type="submit" class="cmn_btn btn_bg_profile mt-4">
-                                {{ __('Add New User') }}
+                                {{ __('Add') }}
                             </button>
                             <a href="{{ route('admin.all.frontend.user') }}" class="cmn_btn default-theme-btn"
                                 style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">

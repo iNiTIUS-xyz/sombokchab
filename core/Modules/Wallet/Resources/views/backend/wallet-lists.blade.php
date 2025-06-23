@@ -1,7 +1,7 @@
 @extends('backend.admin-master')
 
 @section('site-title')
-    {{ __('Wallet Lists') }}
+    {{ __('Vendor Wallets List') }}
 @endsection
 
 @section('style')
@@ -19,17 +19,17 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <div class="dashboard__card__header__left">
-                            <h4 class="dashboard__card__title">{{ __('Wallet Lists') }}</h4>
+                            <h4 class="dashboard__card__title">{{ __('Vendor Wallets Lists') }}</h4>
                             <p class="dashboard__card__para text-primary mt-2">
-                                {{ __('You can active inactive status from here. If status is inactive user will not be able to use his/her wallet balance.') }}
+                                {{ __('You can active/inactive status from here. If status is inactive user will not be able to use his/her wallet balance.') }}
                             </p>
                         </div>
                     </div>
                     <div class="dashboard__card__body mt-4">
                         <div class="table-wrap table-responsive">
-                            <table class="table table-default" id="all_jobs">
+                            <table class="table table-default" id="dataTable">
                                 <thead>
-                                    <th>{{ __('#No') }}</th>
+                                    <th>{{ __('Serial No.') }}</th>
                                     @if ($type == 'vendor')
                                         <th>{{ __('Store Name') }}</th>
                                     @endif
@@ -76,9 +76,9 @@
                                             <td>{{ float_amount_with_currency_symbol($data?->balance ?? 0) }}</td>
                                             <td>
                                                 @php
-                                                    $status = ['text-danger', 'text-success'];
+                                                    $status = ['bg-danger', 'bg-success'];
                                                 @endphp
-                                                <span class="{{ $status[$data->status] }}">
+                                                <span class="badge {{ $status[$data->status] }} ">
                                                     {{ $data->status == 0 ? __('Inactive') : __('Active') }}
                                                 </span>
 

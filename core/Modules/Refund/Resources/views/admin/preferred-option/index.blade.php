@@ -22,16 +22,16 @@
                 <x-flash-msg />
                 <div class="dashboard__card card__two">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Refund Preferred Options') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('Refund Options') }}</h4>
                     </div>
                     <div class="dashboard__card__body">
                         <div class="table-wrap">
-                            <table class="table-responsive table">
+                            <table class="table-responsive table" id="dataTable">
                                 <thead>
                                     <tr>
                                         <th>{{ __('Serial No.') }}</th>
                                         <th>{{ __('Payment Method') }}</th>
-                                        <th>{{ __('Details') }}</th>
+                                        <th>{{ __('Payment Method Fields') }}</th>
                                         <th>{{ __('Status') }}</th>
                                         <th>{{ __('Action') }}</th>
                                     </tr>
@@ -96,7 +96,7 @@
                                 <div class="form-group">
                                     <div class="dashboard__card card__two">
                                         <div class="dashboard__card__header">
-                                            <h4 class="dashboard__card__title">{{ __('Gateway required filed.') }}</h4>
+                                            <h4 class="dashboard__card__title">{{ __('Gateway field') }}</h4>
                                         </div>
                                         <div class="dashboard__card__body">
                                             <div class="form-group row">
@@ -106,7 +106,7 @@
                                                 </div>
                                                 <div
                                                     class="col-md-1 d-flex flex-column align-items-center justify-content-center pb-2 gap-2">
-                                                    <button type="button" class="btn btn-info btn-sm gateway-filed-add">
+                                                    <button type="button" class="btn btn-primary btn-sm gateway-filed-add">
                                                         <i class="las la-plus"></i>
                                                     </button>
                                                     <button type="button" class="btn btn-danger btn-sm gateway-filed-remove">
@@ -122,7 +122,7 @@
                                     <select name="status_id" class="form-control">
                                         <option value="">{{ __('Select Status') }}</option>
                                         <option value="1">{{ __('Active') }}</option>
-                                        <option value="2">{{ __('inactive') }}</option>
+                                        <option value="2">{{ __('Inactive') }}</option>
                                     </select>
                                 </div>
 
@@ -167,7 +167,7 @@
                             </div>
                             <div class="dashboard__card">
                                 <div class="dashboard__card__header">
-                                    <h4 class="dashboard__card__title">{{ __('Gateway required filed.') }}</h4>
+                                    <h4 class="dashboard__card__title">{{ __('Gateway field') }}</h4>
                                 </div>
                                 <div class="card-body gateway-filed-body">
 
@@ -215,7 +215,7 @@
                                 <input class="form-control" value="${value}" name="filed[]" placeholder="Enter filed name">
                             </div>
                             <div class="col-md-1 d-flex flex-column align-items-center justify-content-center pb-2 gap-2">
-                                <button type="button" class="btn btn-info btn-sm gateway-filed-add">
+                                <button type="button" class="btn btn-primary btn-sm gateway-filed-add">
                                     <i class="las la-plus"></i>
                                 </button>
                                 <button type="button" class="btn btn-danger btn-sm gateway-filed-remove">
@@ -233,7 +233,7 @@
                         <input class="form-control" name="filed[]" placeholder="Enter filed name">
                     </div>
                     <div class="col-md-1 d-flex flex-column align-items-center justify-content-center pb-2 gap-2">
-                        <button type="button" class="btn btn-info btn-sm gateway-filed-add">
+                        <button type="button" class="btn btn-primary btn-sm gateway-filed-add">
                             <i class="las la-plus"></i>
                         </button>
                         <button type="button" class="btn btn-danger btn-sm gateway-filed-remove">
