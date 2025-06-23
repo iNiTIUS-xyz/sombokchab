@@ -22,23 +22,33 @@
                                 <div class="row g-4">
                                     <div class="col-sm-12">
                                         <div class="form-group">
-                                            <label for="error_404_page_title">{{ __('Title') }}</label>
+                                            <label for="error_404_page_title">
+                                                {{ __('Title') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <input type="text" name="error_404_page_title" class="form-control"
+                                                placeholder="{{ __('Enter title') }}"
                                                 value="{{ get_static_option('error_404_page_title') }}"
                                                 id="error_404_page_title">
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
                                         <div class="form-group">
-                                            <label for="error_404_page_button_text">{{ __('Button Text') }}</label>
+                                            <label for="error_404_page_button_text">
+                                                {{ __('Button Text') }}
+                                                <span class="text-dagner">*</span>
+                                            </label>
                                             <input type="text" name="error_404_page_button_text" class="form-control"
+                                                placeholder="{{ __('Enter button text') }}"
                                                 value="{{ get_static_option('error_404_page_button_text') }}"
                                                 id="error_404_page_button_text">
                                             <x-media-upload :title="__('Error image')" :name="'error_404_page_image'" />
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
-                                        <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Update Settings') }}</button>
+                                        <button type="submit" class="cmn_btn btn_bg_profile">
+                                            {{ __('Update') }}
+                                        </button>
                                     </div>
                                 </div>
                             </form>

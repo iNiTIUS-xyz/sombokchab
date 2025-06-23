@@ -22,24 +22,27 @@
                                     <div class="form-group">
                                         <x-media-upload :title="__('Site Logo')" name="site_logo" :oldimage="get_static_option('site_logo')" />
 
-                                        <small
-                                            class="form-text text-muted">{{ __('allowed image format: jpg,jpeg,png. Recommended image size 160x50') }}</small>
+                                        <small class="form-text text-muted">
+                                            {{ __('allowed image format: jpg,jpeg,png. Recommended image size 160x50') }}
+                                        </small>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <x-media-upload name="site_white_logo" :oldimage="get_static_option('site_white_logo')" :title="__('White Site Logo')" />
 
-                                        <small
-                                            class="form-text text-muted">{{ __('allowed image format: jpg,jpeg,png. Recommended image size 160x50') }}</small>
+                                        <small class="form-text text-muted">
+                                            {{ __('allowed image format: jpg,jpeg,png. Recommended image size 160x50') }}
+                                        </small>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <x-media-upload :title="__('Favicon')" name="site_favicon" :oldimage="get_static_option('site_favicon')" />
 
-                                        <small
-                                            class="form-text text-muted">{{ __('allowed image format: jpg,jpeg,png. Recommended image size 40x40') }}</small>
+                                        <small class="form-text text-muted">
+                                            {{ __('allowed image format: jpg,jpeg,png. Recommended image size 40x40') }}
+                                        </small>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
@@ -50,13 +53,15 @@
 
                                         <x-media-upload :oldimage="get_static_option('site_breadcrumb_bg')" :title="$site_breadcrumb_bg_btn_label" name="site_breadcrumb_bg" />
 
-                                        <small
-                                            class="form-text text-muted">{{ __('allowed image format: jpg,jpeg,png, Recommended image size 1920x600') }}</small>
+                                        <small class="form-text text-muted">
+                                            {{ __('allowed image format: jpg,jpeg,png, Recommended image size 1920x600') }}
+                                        </small>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
-                                    <button type="submit"
-                                        class="cmn_btn btn_bg_profile">{{ __('Update Changes') }}</button>
+                                    <button type="submit" class="cmn_btn btn_bg_profile">
+                                        {{ __('Update') }}
+                                    </button>
                                 </div>
                             </div>
                         </form>

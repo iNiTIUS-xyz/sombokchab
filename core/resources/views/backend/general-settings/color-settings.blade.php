@@ -24,8 +24,12 @@
                             <div class="row g-4">
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label for="site_color">{{ __('Site Main Color Settings') }}</label>
-                                        <input type="text" name="site_color"
+                                        <label for="site_color">
+                                            {{ __('Site Main Color Settings') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" placeholder="{{ __('Enter site main color settings') }}"
+                                            name="site_color"
                                             style="background-color: {{ get_static_option('site_color') }};color: #fff;"
                                             class="form-control" value="{{ get_static_option('site_color') }}"
                                             id="site_color">
@@ -34,8 +38,12 @@
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label for="site_secondary_color">{{ __('Site Secondary Color Settings') }}</label>
-                                        <input type="text" name="site_secondary_color"
+                                        <label for="site_secondary_color">
+                                            {{ __('Site Secondary Color Settings') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" placeholder="{{ __('Enter stie secondary color settings') }}"
+                                            name="site_secondary_color"
                                             style="background-color: {{ get_static_option('site_secondary_color') }};color: #fff;"
                                             class="form-control" value="{{ get_static_option('site_secondary_color') }}"
                                             id="site_secondary_color">
@@ -44,8 +52,12 @@
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label for="site_heading_color">{{ __('Site Heading Color') }}</label>
-                                        <input type="text" name="site_heading_color"
+                                        <label for="site_heading_color">
+                                            {{ __('Site Heading Color') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" placeholder="{{ __('Enter site heading color') }}"
+                                            name="site_heading_color"
                                             style="background-color: {{ get_static_option('site_heading_color') }};color: #fff;"
                                             class="form-control" value="{{ get_static_option('site_heading_color') }}"
                                             id="site_heading_color">
@@ -54,8 +66,13 @@
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label for="site_special_color">{{ __('Customer profile Color Settings') }}</label>
-                                        <input type="text" name="site_special_color"
+                                        <label for="site_special_color">
+                                            {{ __('Customer profile Color Settings') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text"
+                                            placeholder="{{ __('Enter customer profile color settings') }}"
+                                            name="site_special_color"
                                             style="background-color: {{ get_static_option('site_special_color') }}; color: #fff;"
                                             class="form-control" value="{{ get_static_option('site_special_color') }}"
                                             id="site_special_color">
@@ -64,8 +81,12 @@
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label for="site_paragraph_color">{{ __('Site Paragraph Color') }}</label>
-                                        <input type="text" name="site_paragraph_color"
+                                        <label for="site_paragraph_color">
+                                            {{ __('Site Paragraph Color') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" placeholder="{{ __('Enter site paragraph color') }}"
+                                            name="site_paragraph_color"
                                             style="background-color: {{ get_static_option('site_paragraph_color') }};color: #fff;"
                                             class="form-control" value="{{ get_static_option('site_paragraph_color') }}"
                                             id="site_paragraph_color">
@@ -74,8 +95,12 @@
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label for="site_form_bg_color">{{ __('Site Form Background Color') }}</label>
-                                        <input type="text" name="site_form_bg_color"
+                                        <label for="site_form_bg_color">
+                                            {{ __('Site Form Background Color') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" placeholder="{{ __('Enter site form background color') }}"
+                                            name="site_form_bg_color"
                                             style="background-color: {{ get_static_option('site_form_bg_color') }};color: #fff;"
                                             class="form-control" value="{{ get_static_option('site_form_bg_color') }}"
                                             id="site_form_bg_color">
@@ -84,8 +109,12 @@
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label for="site_footer_bg_color">{{ __('Site Footer Background Color') }}</label>
-                                        <input type="text" name="site_footer_bg_color"
+                                        <label for="site_footer_bg_color">
+                                            {{ __('Site Footer Background Color') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" placeholder="{{ __('Enter site footer background color') }}"
+                                            name="site_footer_bg_color"
                                             style="background-color: {{ get_static_option('site_footer_bg_color') }};color: #fff;"
                                             class="form-control" value="{{ get_static_option('site_footer_bg_color') }}"
                                             id="site_footer_bg_color">
@@ -93,8 +122,9 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
-                                    <button type="submit"
-                                        class="cmn_btn btn_bg_profile">{{ __('Update Changes') }}</button>
+                                    <button type="submit" class="cmn_btn btn_bg_profile">
+                                        {{ __('Update') }}
+                                    </button>
                                 </div>
                             </div>
                         </form>

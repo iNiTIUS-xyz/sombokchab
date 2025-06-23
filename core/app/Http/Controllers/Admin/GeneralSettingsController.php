@@ -393,31 +393,36 @@ class GeneralSettingsController extends Controller
 
     public function update_color_settings(Request $request)
     {
-        $request->validate([
-            'site_color' => 'required|string',
-            'site_secondary_color' => 'required|string',
-            'site_heading_color' => 'required|string',
-            'site_special_color' => 'required|string',
-            'site_paragraph_color' => 'required|string',
-            'site_form_bg_color' => 'required|string',
-            'site_footer_bg_color' => 'required|string',
-        ]);
+        try {
+            $request->validate([
+                'site_color' => 'required|string',
+                'site_secondary_color' => 'required|string',
+                'site_heading_color' => 'required|string',
+                'site_special_color' => 'required|string',
+                'site_paragraph_color' => 'required|string',
+                'site_form_bg_color' => 'required|string',
+                'site_footer_bg_color' => 'required|string',
+            ]);
 
-        $all_fields = [
-            'site_color',
-            'site_secondary_color',
-            'site_heading_color',
-            'site_special_color',
-            'site_paragraph_color',
-            'site_form_bg_color',
-            'site_footer_bg_color',
-        ];
+            $all_fields = [
+                'site_color',
+                'site_secondary_color',
+                'site_heading_color',
+                'site_special_color',
+                'site_paragraph_color',
+                'site_form_bg_color',
+                'site_footer_bg_color',
+            ];
 
-        foreach ($all_fields as $field) {
-            update_static_option($field, $request->$field);
+            foreach ($all_fields as $field) {
+                update_static_option($field, $request->$field);
+            }
+
+            return redirect()->back()->with(['msg' => __('Color settings updated successfully.'), 'type' => 'success']);
+        } catch (\Throwable $e) {
+            dd($e);
+            return redirect()->back()->with(['msg' => __('Something went worng. Please try again.'), 'type' => 'warning']);
         }
-
-        return redirect()->back()->with(['msg' => __('Color settings updated successfully.'), 'type' => 'success']);
     }
 
     public function seo_settings(): Factory|View|Application

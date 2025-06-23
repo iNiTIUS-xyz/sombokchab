@@ -4,6 +4,9 @@
     {{ __('Typography Settings') }}
 @endsection
 
+@section('style')
+    <link rel="stylesheet" href="{{ asset('assets/css/select2.min.css') }}">
+@endsection
 @section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row">
@@ -24,7 +27,7 @@
                                             {{ __('Font Family') }}
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <select class="form-control wide" name="body_font_family" id="body_font_family">
+                                        <select class="form-control " name="body_font_family" id="body_font_family">
                                             @foreach ($google_fonts as $font_family => $font_variant)
                                                 <option value="{{ $font_family }}"
                                                     @if ($font_family == get_static_option('body_font_family')) selected @endif>{{ $font_family }}
@@ -50,7 +53,7 @@
                                                 ? (array) $google_fonts->$font_family_selected
                                                 : ['variants' => ['regular']];
                                         @endphp
-                                        <select class="form-control wide" multiple id="body_font_variant"
+                                        <select class="form-control select2" multiple id="body_font_variant"
                                             name="body_font_variant[]">
                                             @foreach ($get_font_family_variants['variants'] as $variant)
                                                 @php
@@ -86,8 +89,7 @@
                                             {{ __('Font Family') }}
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <select class="form-control wide" name="heading_font_family"
-                                            id="heading_font_family">
+                                        <select class="form-control " name="heading_font_family" id="heading_font_family">
                                             @foreach ($google_fonts as $font_family => $font_variant)
                                                 <option value="{{ $font_family }}"
                                                     @if ($font_family == get_static_option('heading_font_family')) selected @endif>{{ $font_family }}
@@ -111,7 +113,7 @@
                                                 ? (array) $google_fonts->$font_family_selected
                                                 : ['variants' => ['regular']];
                                         @endphp
-                                        <select class="form-control wide" multiple name="heading_font_variant[]"
+                                        <select class="form-control select2" multiple name="heading_font_variant[]"
                                             id="heading_font_variant">
                                             @foreach ($get_font_family_variants['variants'] as $variant)
                                                 @php
@@ -149,7 +151,7 @@
                                             {{ __('Font Family') }}
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <select class="form-control wide" name="extra_font_family" id="extra_font_family">
+                                        <select class="form-control " name="extra_font_family" id="extra_font_family">
                                             @foreach ($google_fonts as $font_family => $font_variant)
                                                 <option value="{{ $font_family }}"
                                                     @if ($font_family == get_static_option('extra_font_family')) selected @endif>{{ $font_family }}
@@ -173,7 +175,7 @@
                                                 ? (array) $google_fonts->$font_family_selected
                                                 : ['variants' => ['regular']];
                                         @endphp
-                                        <select class="form-control wide" multiple name="extra_font_variant[]"
+                                        <select class="form-control select2" multiple name="extra_font_variant[]"
                                             id="extra_font_variant">
                                             @foreach ($get_font_family_variants['variants'] as $variant)
                                                 @php
@@ -203,6 +205,7 @@
 @endsection
 
 @section('script')
+    <script src="{{ asset('assets/js/select2.min.js') }}"></script>
     <script>
         (function($) {
             "use strict";
@@ -309,5 +312,8 @@
                 });
             });
         }(jQuery));
+    </script>
+    <script>
+        $(".select2").select2();
     </script>
 @endsection

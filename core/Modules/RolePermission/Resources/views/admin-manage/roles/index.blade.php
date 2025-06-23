@@ -45,30 +45,25 @@
                                                     @if ($value->name != 'Super Admin')
                                                         <a class="btn btn-secondary btn-sm me-1 user_edit_btn"
                                                             href="{{ route('admin.roles.permissions', $value->id) }}">
-                                                            <i class="ti-lock"></i> 
+                                                            <i class="ti-lock"></i>
                                                         </a>
 
                                                         <a class="btn btn-warning btn-sm me-1 edit_role"
-                                                            data-id="{{ $value->id }}"
-                                                            data-name="{{ $value->name }}"
+                                                            data-id="{{ $value->id }}" data-name="{{ $value->name }}"
                                                             data-bs-toggle="modal" href="#0"
                                                             data-action="{{ route('admin.roles.update', $value->id) }}"
                                                             data-bs-target="#editRoles">
                                                             <i class="ti-pencil"></i> </a>
-                                                            
-                                                        <x-delete-popover type="role"
-                                                                        :url="route(
-                                                                            'admin.roles.destroy',
-                                                                            $value->id,
-                                                                        )" />
+
+                                                        <x-delete-popover type="role" :url="route('admin.roles.destroy', $value->id)" />
                                                         {{-- <x-delete-popover type="role"
                                                                         :url="route(
                                                                             'admin.roles.destroy',
                                                                             $value->id,
                                                                         )" /> --}}
 
-                                                        
-                                                        
+
+
                                                         {{-- <div class="dropdown custom-dropdown mb-10">
                                                             <button class="dropdown-toggle" type="button"
                                                                 id="dropdownMenuButton1" data-bs-toggle="dropdown"
@@ -179,5 +174,35 @@
 
             })
         })(jQuery);
+    </script>
+    <script>
+        $(document).ready(function() {
+            // Function to get URL parameter by name
+            function getUrlParameter(name) {
+                name = name.replace(/[\[\]]/g, '\\$&');
+                var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                    results = regex.exec(window.location.href);
+                if (!results) return null;
+                if (!results[2]) return '';
+                return decodeURIComponent(results[2].replace(/\+/g, ' '));
+            }
+
+            // Check if create=add_new_role exists in URL
+            var createParam = getUrlParameter('create');
+            if (createParam === 'add_new_role') {
+                // Open your modal here
+                // Replace '#yourModalId' with your actual modal's ID
+                $('#createNewRoles').modal('show');
+
+                // Optional: Remove the parameter from URL without reloading
+                if (history.pushState) {
+                    var newurl = window.location.protocol + "//" + window.location.host +
+                        window.location.pathname;
+                    window.history.pushState({
+                        path: newurl
+                    }, '', newurl);
+                }
+            }
+        });
     </script>
 @endsection

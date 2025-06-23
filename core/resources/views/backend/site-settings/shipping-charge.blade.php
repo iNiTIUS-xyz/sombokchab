@@ -24,27 +24,37 @@
                                     <div class="form-group">
                                         <label>
                                             {{ __('Select Shipping Charge Type') }}
-                                            <select name="shipping_charge_type"
-                                                class="form-select form-control shipping-charge-type">
-                                                <option value="">{{ __('Select Type') }}</option>
-                                                <option
-                                                    {{ get_static_option('shipping_charge_type') == 'global' ? 'selected' : '' }}
-                                                    value="global">{{ __('Global') }}</option>
-                                                <option
-                                                    {{ get_static_option('shipping_charge_type') == 'vendor' ? 'selected' : '' }}
-                                                    value="vendor">{{ __('Vendor') }}</option>
-                                            </select>
+                                            <span class="text-danger">*</span>
                                         </label>
+                                        <select name="shipping_charge_type"
+                                            class="form-select form-control shipping-charge-type">
+                                            <option value="">
+                                                {{ __('Select Type') }}
+                                            </option>
+                                            <option
+                                                {{ get_static_option('shipping_charge_type') == 'global' ? 'selected' : '' }}
+                                                value="global">
+                                                {{ __('Global') }}
+                                            </option>
+                                            <option
+                                                {{ get_static_option('shipping_charge_type') == 'vendor' ? 'selected' : '' }}
+                                                value="vendor">
+                                                {{ __('Vendor') }}
+                                            </option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group shipping-charge-wrapper"
                                         style="{{ get_static_option('shipping_charge_type') !== 'global' ? 'display: none' : '' }}">
                                         <label>
-                                            {{ __('Select Shipping Charge Type') }}
-                                            <input value="{{ get_static_option('global_shipping_charge_amount') }}"
-                                                name="global_shipping_charge_amount" type="number" class="form-control" />
+                                            {{ __('Shipping Charge Type') }}
+                                            <span class="text-danger">*</span>
                                         </label>
+                                        <input value="{{ get_static_option('global_shipping_charge_amount') }}"
+                                            name="global_shipping_charge_amount" type="number" class="form-control"
+                                            placeholder="{{ __('Enter shipping charge type') }}" />
+
                                     </div>
                                 </div>
                                 <div class="col-sm-6">

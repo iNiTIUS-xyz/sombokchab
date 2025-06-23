@@ -22,17 +22,24 @@
                                 <div class="row g-4">
                                     <div class="col-sm-12">
                                         <div class="form-group">
-                                            <label for="product_in_stock_limit_set">{{ __('Product Out of Stock Limit') }}</label>
+                                            <label for="product_in_stock_limit_set">
+                                                {{ __('Product Out of Stock Limit') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <input type="text" name="product_in_stock_limit_set" class="form-control"
+                                                placeholder="{{ __('Enter product out of stock limit') }}"
                                                 value="{{ get_static_option('product_in_stock_limit_set') }}">
-                                            <span class="mt-2 text-warning">{{__('if product stock is low, add stock limit for all products.')}}</span>
+                                            <span class="mt-2 text-warning">
+                                                {{ __('if product stock is low, add stock limit for all products.') }}
+                                            </span>
                                         </div>
                                     </div>
 
                                     <div class="col-sm-12">
-                                        <button class="cmn_btn btn_bg_profile">{{ __('Save Settings') }}</button>
+                                        <button class="cmn_btn btn_bg_profile">
+                                            {{ __('Update') }}
+                                        </button>
                                     </div>
-
                                 </div>
                             </form>
                         </div>

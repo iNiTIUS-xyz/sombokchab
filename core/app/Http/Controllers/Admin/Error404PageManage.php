@@ -28,7 +28,7 @@ class Error404PageManage extends Controller
         }
 
         return redirect()->back()->with([
-            'msg' => __('Settings Updated ...'),
+            'msg' => __('Settings updated successfully.'),
             'type' => 'success'
         ]);
     }

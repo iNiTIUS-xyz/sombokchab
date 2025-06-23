@@ -25,22 +25,31 @@
                             <div class="row g-4">
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label for="maintain_page_title">{{ __('Title') }}</label>
+                                        <label for="maintain_page_title">
+                                            {{ __('Title') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
                                         <input type="text" class="form-control" id="maintain_page_title"
                                             value="{{ get_static_option('maintain_page_title') }}"
-                                            name="maintain_page_title" placeholder="{{ __('Title') }}">
+                                            name="maintain_page_title" placeholder="{{ __('Enter title') }}">
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label for="maintain_page_description">{{ __('Description') }}</label>
+                                        <label for="maintain_page_description">
+                                            {{ __('Description') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
                                         <textarea name="maintain_page_description" id="maintain_page_description" class="form-control max-height-150"
-                                            cols="30" rows="10">{{ get_static_option('maintain_page_description') }}</textarea>
+                                            cols="30" rows="10" placeholder="{{ __('Enter description') }}">{{ get_static_option('maintain_page_description') }}</textarea>
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label for="maintain_page_datepicker">{{ __('Date') }}</label>
+                                        <label for="maintain_page_datepicker">
+                                            {{ __('Date') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
                                         <input type="date" class="form-control flatpickr" id="maintain_page_datepicker"
                                             value="{{ get_static_option('maintain_page_datepicker') }}"
                                             name="maintain_page_datepicker" placeholder="{{ __('Date') }}">
@@ -52,7 +61,11 @@
                                         <div class="media-upload-btn-wrapper">
                                             <div class="img-wrap">
                                                 @php
-                                                    $blog_img = get_attachment_image_by_id(get_static_option('maintain_page_logo'), null, true);
+                                                    $blog_img = get_attachment_image_by_id(
+                                                        get_static_option('maintain_page_logo'),
+                                                        null,
+                                                        true,
+                                                    );
                                                     $blog_image_btn_label = __('Upload Image');
                                                 @endphp
                                                 @if (!empty($blog_img))
@@ -76,18 +89,26 @@
                                                 {{ __($blog_image_btn_label) }}
                                             </button>
                                         </div>
-                                        <small
-                                            class="form-text text-muted">{{ __('allowed image format: jpg,jpeg,png. Recommended image size 300x100') }}</small>
+                                        <small class="form-text text-muted">
+                                            {{ __('allowed image format: jpg,jpeg,png. RecommeDFnded image size 300x100') }}
+                                        </small>
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label
-                                            for="maintain_page_background_image"><strong>{{ __('Background Image') }}</strong></label>
+                                        <label for="maintain_page_background_image">
+                                            <strong>
+                                                {{ __('Background Image') }}
+                                            </strong>
+                                        </label>
                                         <div class="media-upload-btn-wrapper">
                                             <div class="img-wrap">
                                                 @php
-                                                    $maintain_page_background_image = get_attachment_image_by_id(get_static_option('maintain_page_background_image'), null, true);
+                                                    $maintain_page_background_image = get_attachment_image_by_id(
+                                                        get_static_option('maintain_page_background_image'),
+                                                        null,
+                                                        true,
+                                                    );
                                                     $maintain_page_background_image_btn_label = __('Upload Image');
                                                 @endphp
                                                 @if (!empty($maintain_page_background_image))
@@ -107,18 +128,20 @@
                                                 name="maintain_page_background_image" value="">
                                             <button type="button" class="btn btn-info media_upload_form_btn"
                                                 data-btntitle="{{ __('Select Background Image') }}"
-                                                data-modaltitle="{{ __('Upload Background Image') }}" data-bs-toggle="modal"
-                                                data-bs-target="#media_upload_modal">
+                                                data-modaltitle="{{ __('Upload Background Image') }}"
+                                                data-bs-toggle="modal" data-bs-target="#media_upload_modal">
                                                 {{ __($maintain_page_background_image_btn_label) }}
                                             </button>
                                         </div>
-                                        <small
-                                            class="form-text text-muted">{{ __('allowed image format: jpg,jpeg,png. Recommended image size 1920x1000') }}</small>
+                                        <small class="form-text text-muted">
+                                            {{ __('allowed image format: jpg,jpeg,png. Recommended image size 1920x1000') }}
+                                        </small>
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
-                                    <button type="submit"
-                                        class="cmn_btn btn_bg_profile">{{ __('Update Settings') }}</button>
+                                    <button type="submit" class="cmn_btn btn_bg_profile">
+                                        {{ __('Update') }}
+                                    </button>
                                 </div>
                             </div>
                         </form>
