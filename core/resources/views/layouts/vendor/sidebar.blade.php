@@ -122,12 +122,30 @@
                 </li>
 
                 {{-- Campaign route wrapper --}}
-                <li class="{{ active_menu('vendor-home/campaigns') }}">
+                {{-- <li class="{{ active_menu('vendor-home/campaigns') }}">
                     <a href="{{ route('vendor.campaigns.all') }}">
                         <i class="ti-announcement"></i>
                         <span>{{ __('Campaigns') }}</span>
                     </a>
+                </li> --}}
+
+                <li
+                    class="main_dropdown {{ active_menu('vendor-home/campaigns') }} @if (request()->is('vendor-home/campaigns/*')) active open @endif">
+                    <a href="#1" aria-expanded="true">
+                        <i class="ti-announcement"></i>
+                        <span>{{ __('Campaigns') }}</span>
+                    </a>
+                    <ul class="collapse">
+                        <li class="{{ Route::is('vendor.campaigns.all') ? 'active' : '' }}">
+                            <a href="{{ route('vendor.campaigns.all') }}">{{ __('Campaigns') }}</a>
+                        </li>
+
+                        <li class="{{ Route::is('vendor.campaigns.new') ? 'active' : '' }}">
+                            <a href="{{ route('vendor.campaigns.new') }}">{{ __('Add New Campaigns') }}</a>
+                        </li>
+                    </ul>
                 </li>
+
                 <li class="list {{ Route::is('vendor.profile.update') ? 'active' : '' }}">
                     <a href="{{ route('vendor.profile.update') }}">
                         <i class="ti-user"></i> {{ __('Profile') }}

@@ -21,11 +21,12 @@
         </div>
         <div class="form-group">
             <label for="original_price">{{ __('Original Price') }}</label>
-            <input type="number" class="form-control original_price" disabled >
+            <input type="number" class="form-control original_price" disabled>
         </div>
         <div class="form-group">
             <label for="campaign_price">{{ __('Price for Campaign') }}</label>
-            <input type="number" name="campaign_price[]" class="form-control campaign_price" step="0.01" placeholder="{{ __('Enter Price For Campaign') }}">
+            <input type="number" name="campaign_price[]" class="form-control campaign_price" step="0.01"
+                placeholder="{{ __('Enter Price For Campaign') }}">
         </div>
         <div class="form-group">
             <label for="available_num_of_units">{{ __('No. of Units Available') }}</label>
@@ -33,15 +34,18 @@
         </div>
         <div class="form-group">
             <label for="units_for_sale">{{ __('No. of Units for Sale') }}</label>
-            <input type="number" name="units_for_sale[]" class="form-control units_for_sale" placeholder="Enter No. of Units for Sale">
+            <input type="number" name="units_for_sale[]" class="form-control units_for_sale"
+                placeholder="Enter No. of Units for Sale">
         </div>
         <div class="form-group">
             <label for="start_date">{{ __('Start Date') }}</label>
-            <input type="text" name="start_date[]" class="form-control flatpickr start_date" placeholder="Enter Start Date">
+            <input type="text" name="start_date[]" class="form-control flatpickr start_date"
+                placeholder="Enter Start Date">
         </div>
         <div class="form-group">
             <label for="end_date">{{ __('End Date') }}</label>
-            <input type="text" name="end_date[]" id="end_date" class="form-control flatpickr end_date" placeholder="Enter End State">
+            <input type="text" name="end_date[]" id="end_date" class="form-control flatpickr end_date"
+                placeholder="Enter End State">
         </div>
     </div>
 </div>
