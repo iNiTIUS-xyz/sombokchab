@@ -82,8 +82,8 @@
                                 {{ amount_with_currency_symbol($regular_price) }}
                             </del>
 
-                            <b
-                                class="checkout__card__price__main checkout-cart-price color-heading" style="font-weight: bold; color: var(--main-color-one)">
+                            <b class="checkout__card__price__main checkout-cart-price color-heading"
+                                style="font-weight: bold; color: var(--main-color-one)">
                                 {{ amount_with_currency_symbol($price) }}
                             </b>
                         </div>
@@ -99,7 +99,7 @@
 
             @if (!empty($c_vendor))
                 <div class="card-footer checkout__card__footer">
-                    <h6 class="card-title py-2">{{ __('Select shipping option') }}</h6>
+                    <h6 class="card-title py-2">{{ __('Select payment method option') }}</h6>
                     <input type="hidden" class="shipping_cost" name="shipping_cost[{{ $c_vendor->id }}]" />
                     <div class="shippingMethod__wrapper shipping-method-wrapper d-flex gap-2 justify-content-start">
                         @foreach ($c_vendor?->shippingMethod ?? [] as $method)
@@ -130,7 +130,8 @@
                         @endforeach
                     </div>
                     {{-- <hr /> --}}
-                    <div class="checkout__card__footer__estimate d-flex justify-content-end" style="display: none !important;">
+                    <div class="checkout__card__footer__estimate d-flex justify-content-end"
+                        style="display: none !important;">
                         <div class="checkout__card__footer__estimate__main">
                             <div class="checkout__card__footer__estimate__list">
                                 <div class="checkout__card__footer__estimate__item d-flex justify-content-between">
