@@ -20,34 +20,34 @@
                         <form action="{{ route('admin.new.user') }}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
-                                <label for="name">{{ __('Name') }}</label>
+                                <label for="name">{{ __('Name') }}  <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="name" name="name"
                                     placeholder="{{ __('Enter name') }}">
                             </div>
                             <div class="form-group">
-                                <label for="username">{{ __('Username') }}</label>
+                                <label for="username">{{ __('Username') }} <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="username" name="username"
                                     placeholder="{{ __('Username') }}">
                                 <small
                                     class="text text-danger">{{ __('Remember this username, user will login using this username') }}</small>
                             </div>
                             <div class="form-group">
-                                <label for="email">{{ __('Email') }}</label>
+                                <label for="email">{{ __('Email') }} <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="email" name="email"
                                     placeholder="{{ __('Email') }}">
                             </div>
                             <div class="form-group">
-                                <label for="password">{{ __('Password') }}</label>
+                                <label for="password">{{ __('Password') }} <span class="text-danger">*</span></label>
                                 <input type="password" class="form-control" id="password" name="password"
                                     placeholder="{{ __('Password') }}">
                             </div>
                             <div class="form-group">
-                                <label for="password_confirmation">{{ __('Password Confirm') }}</label>
+                                <label for="password_confirmation">{{ __('Password Confirm') }} <span class="text-danger">*</span></label>
                                 <input type="password" class="form-control" id="password_confirmation"
                                     name="password_confirmation" placeholder="{{ __('Password Confirmation') }}">
                             </div>
                             <div class="form-group">
-                                <label for="role">{{ 'Role' }}</label>
+                                <label for="role">{{ 'Role' }} <span class="text-danger">*</span></label>
                                 <select name="role" class="form-control">
                                     <option value="">{{ __('Select Role') }}</option>
                                     @foreach ($roles as $role)
@@ -56,7 +56,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="site_favicon">{{ __('Image') }}</label>
+                                <label for="site_favicon">{{ __('Image') }} <span class="text-danger">*</span></label>
                                 <div class="media-upload-btn-wrapper">
                                     <div class="img-wrap">
                                         @php

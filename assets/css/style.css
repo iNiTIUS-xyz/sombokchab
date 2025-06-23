@@ -5542,6 +5542,7 @@ textarea {
 .searchbar-suggetions .search-suggestions.show {
   visibility: visible;
   opacity: 1;
+  border-radius: 6px;
 }
 
 .item-suggestions:not(:last-child) {

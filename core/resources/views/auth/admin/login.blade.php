@@ -1,7 +1,52 @@
 @extends('layouts.login-screens')
 
-
 @section('content')
+    <style>
+        .input-group {
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: stretch;
+            width: 100%;
+        }
+
+        .input-group-append {
+            margin-left: -1px;
+            display: flex;
+        }
+
+        .input-group .form--control {
+            position: relative;
+            flex: 1 1 auto;
+            width: 1%;
+            min-width: 0;
+            margin-bottom: 0;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        .toggle-password {
+            height: 50px;
+            border: 1px solid #ddd;
+            border-left: none;
+            background: #fff;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .toggle-password:hover {
+            background: #f5f5f5;
+        }
+
+        .toggle-password i {
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+        }
+    </style>
     <div class="login-area">
         <div class="container">
             <div class="login-box-wrapper ptb--100">
@@ -19,11 +64,20 @@
                     <div class="login-form-wrap mt-4">
                         <div class="dashboard-input">
                             <label for="username" class="dashboard-label">{{ __('Email or username') }}</label>
-                            <input type="text" class="form--control" id="username" name="username" @if(request()->host() == 'safecart.bytesed.com') value="super_admin" @endif autofocus>
+                            <input type="text" class="form--control" id="username" name="username"
+                                @if (request()->host() == 'safecart.bytesed.com') value="super_admin" @endif autofocus>
                         </div>
                         <div class="dashboard-input mt-4">
                             <label for="password" class="dashboard-label">{{ __('Password') }}</label>
-                            <input type="password" class="form--control" id="password" name="password" @if(request()->host() == 'safecart.bytesed.com') value="12345678" @endif>
+                            <div class="input-group">
+                                <input type="password" class="form--control" id="password" name="password"
+                                    @if (request()->host() == 'safecart.bytesed.com') value="12345678" @endif>
+                                <div class="input-group-append">
+                                    <button class="p-2 toggle-password" type="button">
+                                        <i class="la la-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                         <div class="row mb-4 rmber-area mt-4">
                             <div class="col-6">
@@ -62,13 +116,25 @@
     </div>
 @endsection
 
-
 @section('script')
     <script>
         (function($) {
             "use strict";
 
             $(document).ready(function($) {
+                // Toggle password visibility
+                $('.toggle-password').click(function() {
+                    var passwordInput = $('#password');
+                    var icon = $(this).find('i');
+
+                    if (passwordInput.attr('type') === 'password') {
+                        passwordInput.attr('type', 'text');
+                        icon.removeClass('la-eye').addClass('la-eye-slash');
+                    } else {
+                        passwordInput.attr('type', 'password');
+                        icon.removeClass('la-eye-slash').addClass('la-eye');
+                    }
+                });
 
                 $(document).on('click', '#form_submit', function(e) {
                     e.preventDefault();
@@ -109,7 +175,6 @@
                         }
                     });
                 });
-
             });
         })(jQuery);
     </script>

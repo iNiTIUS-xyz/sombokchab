@@ -168,9 +168,15 @@
                                 </ul>
                                 <div class="btn-wrapper mt-2">
                                     <a href="javascript:;" data-id="{{ $product->id }}"
-                                        class="btn btn-info add_to_cart_ajax">
+                                        class="btn btn-success add_to_cart_ajax">
                                         <span class="icon-close text-light">
                                             <i class="las la-shopping-cart"></i>
+                                        </span>
+                                    </a>
+                                    <a href="javascript:;" data-id="{{ $product->id }}"
+                                        class="btn btn-info add_to_wishlist_ajax">
+                                        <span class="icon-close text-light">
+                                            <i class="lar la-save"></i>
                                         </span>
                                     </a>
                                     <a href="#1" data-product_hash_id="{{ $product->rowId }}"
