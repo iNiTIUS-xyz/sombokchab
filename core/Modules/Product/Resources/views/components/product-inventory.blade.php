@@ -52,9 +52,6 @@
                         </option>
                     @endforeach
                 </select>
-                <small class="mt-2 mb-0 d-block">
-                    {{ __('Select Unit') }}
-                </small>
             </div>
         </div>
         <div class="@if (isset($inventoryPage)) col-md-2 @else dashboard-input @endif">
