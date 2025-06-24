@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="{{ asset('assets/backend/css/dropzone.css') }}">
     <x-media.css />
     <x-summernote.css />
-    {{-- <x-datatable.css /> --}}
 @endsection
 @section('content')
     <div class="col-lg-12 col-ml-12">
@@ -27,9 +26,10 @@
                                         </select>
                                     </div>
                                 </div>
-
                                 <div class="btn-wrapper">
-                                    <button class="btn btn-primary" id="bulk_delete_btn">{{ __('Apply') }}</button>
+                                    <button class="btn btn-primary" id="bulk_delete_btn">
+                                        {{ __('Apply') }}
+                                    </button>
                                 </div>
                             @endcan
                         </div>
@@ -78,7 +78,7 @@
                                                         data-id="{{ $data->id }}" data-title="{{ $data->title }}"
                                                         data-lang="{{ $data->lang }}" data-is_open="{{ $data->is_open }}"
                                                         data-description="{{ $data->description }}"
-                                                        data-status="{{ $data->status }}">
+                                                        data-status="{{ $data->status }}" title="{{ __('Edit Data') }}">
                                                         <i class="ti-pencil"></i>
                                                     </a>
                                                 @endcan
@@ -87,7 +87,7 @@
                                                         style="display: inline-block">
                                                         @csrf
                                                         <input type="hidden" name="item_id" value="{{ $data->id }}">
-                                                        <button type="submit" title="{{ __('clone this to new draft') }}"
+                                                        <button type="submit" title="{{ __('Clone this to new draft') }}"
                                                             class="btn btn-xs btn-secondary btn-sm mb-2 me-1">
                                                             <i class="las la-copy"></i>
                                                         </button>
@@ -102,7 +102,6 @@
                                 </tbody>
                             </table>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -135,7 +134,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label for="description">{{ __('Description') }}</label>
-                                            <textarea name="description" class="summernote"> </textarea>
+                                            <textarea name="description" class="summernote"></textarea>
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
@@ -167,11 +166,11 @@
                         <h5 class="modal-title">{{ __('Edit FAQ Item') }}</h5>
                         <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
                     </div>
-                    <form action="{{ route('admin.faq.update') }}" id="faq_edit_modal_form" enctype="multipart/form-data"
-                        method="post">
+                    <form action="{{ route('admin.faq.update') }}" id="faq_edit_modal_form" method="post">
                         <div class="modal-body">
                             @csrf
                             <input type="hidden" name="id" id="faq_id" value="">
+                            <input type="hidden" name="lang" id="faq_lang" value="">
 
                             <div class="form-group">
                                 <label for="edit_title">{{ __('Title') }}</label>
@@ -187,8 +186,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="edit_description">{{ __('Description') }}</label>
-                                <input type="hidden" id="edit_description" name="description">
-                                <div class="summernote"></div>
+                                <textarea name="description" id="edit_description" class="summernote"></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="edit_status">{{ __('Status') }}</label>
@@ -217,36 +215,59 @@
     @endcan
     <script>
         (function($) {
+            "use strict";
+
             $(document).ready(function() {
-                <
-                x - btn.submit / >
-                    <
-                    x - btn.update / >
-
-                    $(document).on('click', '.faq_edit_btn', function() {
-                        var el = $(this);
-                        var id = el.data('id');
-                        var title = el.data('title');
-                        var form = $('#faq_edit_modal_form');
-                        form.find('#faq_id').val(id);
-                        form.find('#edit_title').val(title);
-                        form.find('#edit_description').val(el.data('description'));
-                        form.find('#edit_status option[value="' + el.data('status') + '"]').attr('selected',
-                            true);
-                        if (el.data('is_open') != '') {
-                            form.find('#edit_is_open').attr('checked', true);
-                        } else {
-                            form.find('#edit_is_open').attr('checked', false);
+                // Initialize summernote
+                $('.summernote').summernote({
+                    height: 250, //set editable area's height
+                    codemirror: { // codemirror options
+                        theme: 'monokai'
+                    },
+                    callbacks: {
+                        onChange: function(contents, $editable) {
+                            $(this).val(contents);
                         }
-                        form.find('.summernote').summernote('code', el.data('description'));
-                    });
+                    }
+                });
 
+                // Edit FAQ button click handler
+                $(document).on('click', '.faq_edit_btn', function() {
+                    var el = $(this);
+                    var id = el.data('id');
+                    var title = el.data('title');
+                    var description = el.data('description');
+                    var status = el.data('status');
+                    var is_open = el.data('is_open');
+                    var lang = el.data('lang');
+
+                    var form = $('#faq_edit_modal_form');
+
+                    form.find('#faq_id').val(id);
+                    form.find('#edit_title').val(title);
+                    form.find('#faq_lang').val(lang);
+                    form.find('#edit_status').val(status);
+
+                    // Set the summernote content
+                    form.find('.summernote').summernote('code', description);
+
+                    // Set the checkbox state
+                    if (is_open == 1) {
+                        form.find('#edit_is_open').prop('checked', true);
+                    } else {
+                        form.find('#edit_is_open').prop('checked', false);
+                    }
+                });
+
+                // Handle form submission to include summernote content
+                $('#faq_edit_modal_form').on('submit', function() {
+                    var description = $(this).find('.summernote').summernote('code');
+                    $(this).find('#edit_description').val(description);
+                    return true;
+                });
             });
-        })(jQuery)
+        })(jQuery);
     </script>
-
-
     <script src="{{ asset('assets/backend/js/dropzone.js') }}"></script>
-    {{-- <x-datatable.js /> --}}
     <x-media.js />
 @endsection
