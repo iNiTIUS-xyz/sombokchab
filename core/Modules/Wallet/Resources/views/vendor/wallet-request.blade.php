@@ -5,6 +5,7 @@
 @endsection
 
 @section('style')
+    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap4.min.css') }}">
     <style>
         .payment_attachment {
             width: 100px;
@@ -27,7 +28,7 @@
                     </div>
                     <div class="dashboard__card__body">
                         <div class="table-responsive ">
-                            <table class="table">
+                            <table class="table" id="dataTable">
                                 <thead>
                                     <tr>
                                         <th>{{ __('Amount') }}</th>
@@ -90,4 +91,23 @@
 @endsection
 
 @section('script')
+    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/dataTables.bootstrap4.min.js') }}"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Initialize DataTable only if the table exists
+            if ($('#dataTable').length) {
+                $('#dataTable').DataTable({
+                    paging: true,
+                    lengthChange: true,
+                    searching: true,
+                    ordering: true,
+                    info: true,
+                    autoWidth: false,
+                    responsive: true
+                });
+            }
+        });
+    </script>
 @endsection

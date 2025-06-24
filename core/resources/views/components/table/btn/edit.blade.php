@@ -1,3 +1,4 @@
-<a class="btn btn-warning btn-sm btn-xs mb-2 me-1 {{ $class ?? '' }}" href="{{ $route }}">
+<a class="btn btn-warning text-dark btn-sm btn-xs mb-2 me-1 {{ $class ?? '' }}" href="{{ $route }}"
+    title="{{ __('Edit Data') }}">
     <i class="ti-pencil"></i>
 </a>

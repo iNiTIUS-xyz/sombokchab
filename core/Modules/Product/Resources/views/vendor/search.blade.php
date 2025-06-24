@@ -95,17 +95,19 @@
                             <i class="las la-eye"></i>
                         </a> --}}
                         <a href="{{ route($route . '.products.clone', $product->id) }}"
-                            class="icon clone btn-sm text-white btn btn-secondary" title="Create Duplicate">
+                            class="icon clone btn-sm text-white btn btn-secondary"
+                            title="{{ __('Create Duplicate') }}">
                             <i class="las la-copy"></i>
                         </a>
 
                         <a href="{{ route($route . '.products.edit', $product->id) }}"
-                            class="icon edit btn-sm text-white btn btn-warning" title="Edit Product">
+                            class="icon edit btn-sm text-dark btn btn-warning" title="{{ __('Edit Data') }}">
                             <i class="las la-pencil-alt"></i>
                         </a>
 
                         <a data-product-url="{{ route($route . '.products.destroy', $product->id) }}" href="#1"
-                            class="delete-row icon deleted btn-sm text-white btn btn-danger" title="Delete Product">
+                            class="delete-row icon deleted btn-sm text-white btn btn-danger"
+                            title="{{ __('Delete Data') }}">
                             <i class="las la-trash-alt"></i>
                         </a>
                     </div>

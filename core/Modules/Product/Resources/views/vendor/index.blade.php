@@ -116,7 +116,8 @@
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="label-1" for="search-to_price">{{ __('Max Price') }}</label>
+                                                <label class="label-1"
+                                                    for="search-to_price">{{ __('Max Price') }}</label>
                                                 <input name="to_price" class="form--control input-height-1"
                                                     id="search-to_price" value="{{ old('to_price') }}"
                                                     placeholder="{{ __('Enter Max Price') }}" />
