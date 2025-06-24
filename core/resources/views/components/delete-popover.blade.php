@@ -8,11 +8,9 @@
     </a>
 @else
     <a class="btn btn-sm btn-danger btn-xs me-1 swal_delete_button" title="{{ __('Delete Data') }}">
-        {{-- <a class="dropdown-item swal_delete_button"> --}}
         <i class="ti-trash"></i>
     </a>
 @endif
-
 
 <form method='post' action='{{ $url }}' class="d-none">
     @if ($type != '')

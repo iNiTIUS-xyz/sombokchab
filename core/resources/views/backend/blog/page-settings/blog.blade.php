@@ -22,7 +22,7 @@
                                         <input type="text" class="form-control" id="blog_page_read_more_btn_text"
                                             name="blog_page_read_more_btn_text"
                                             value="{{ get_static_option('blog_page_read_more_btn_text') }}"
-                                            placeholder="{{ __('Blog Read More Text') }}">
+                                            placeholder="{{ __('Enter blog read more text') }}">
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
@@ -30,14 +30,16 @@
                                         <label for="blog_page_item">{{ __('Post Items') }}</label>
                                         <input type="text" class="form-control" id="blog_page_item"
                                             value="{{ get_static_option('blog_page_item') }}" name="blog_page_item"
-                                            placeholder="{{ __('Post Items') }}">
-                                        <small
-                                            class="text-danger">{{ __('Enter how many post you want to show in blog page') }}</small>
+                                            placeholder="{{ __('Enter post items') }}">
+                                        <small class="text-danger">
+                                            {{ __('Enter how many post you want to show in blog page') }}
+                                        </small>
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
-                                    <button id="update" type="submit"
-                                        class="cmn_btn btn_bg_profile">{{ __('Update Blog Page Settings') }}</button>
+                                    <button id="update" type="submit" class="cmn_btn btn_bg_profile">
+                                        {{ __('Update') }}
+                                    </button>
                                 </div>
                             </div>
                         </form>

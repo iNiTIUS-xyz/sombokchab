@@ -17,7 +17,7 @@ class BlogController extends Controller
     {
         $all_blog = Blog::all();
 
-        return view($this->base_path.'index')->with([
+        return view($this->base_path . 'index')->with([
             'all_blog' => $all_blog,
         ]);
     }
@@ -26,7 +26,7 @@ class BlogController extends Controller
     {
         $all_category = BlogCategory::all();
 
-        return view($this->base_path.'new')->with([
+        return view($this->base_path . 'new')->with([
             'all_category' => $all_category,
         ]);
     }
@@ -51,9 +51,9 @@ class BlogController extends Controller
             'image' => 'nullable|string|max:191',
         ]);
 
-        $store=Blog::create([
+        $store = Blog::create([
             'blog_categories_id' => $request->category,
-            'slug' => ! empty($request->slug) ? \Str::slug($request->slug) : \Str::slug($request->title),
+            'slug' => !empty($request->slug) ? \Str::slug($request->slug) : \Str::slug($request->title),
             'blog_content' => purify_html_raw($request->blog_content),
             'tags' => purify_html($request->tags),
             'title' => purify_html($request->title),
@@ -80,7 +80,7 @@ class BlogController extends Controller
         $blog_details = Blog::findOrFail($request->item_id);
         Blog::create([
             'blog_categories_id' => $blog_details->blog_categories_id,
-            'slug' => ! empty($blog_details->slug) ? \Str::slug($blog_details->slug) : \Str::slug($blog_details->title),
+            'slug' => !empty($blog_details->slug) ? \Str::slug($blog_details->slug) : \Str::slug($blog_details->title),
             'blog_content' => $blog_details->blog_content,
             'tags' => $blog_details->tags,
             'title' => $blog_details->title,
@@ -108,7 +108,7 @@ class BlogController extends Controller
         $blog_post = Blog::findOrFail($id);
         $all_category = BlogCategory::all();
 
-        return view($this->base_path.'edit')->with([
+        return view($this->base_path . 'edit')->with([
             'all_category' => $all_category,
             'blog_post' => $blog_post,
         ]);
@@ -135,7 +135,7 @@ class BlogController extends Controller
         ]);
         Blog::where('id', $id)->update([
             'blog_categories_id' => $request->category,
-            'slug' => ! empty($request->slug) ? \Str::slug($request->slug) : \Str::slug($request->title),
+            'slug' => !empty($request->slug) ? \Str::slug($request->slug) : \Str::slug($request->title),
             'blog_content' => $request->blog_content,
             'tags' => $request->tags,
             'title' => $request->title,
@@ -172,7 +172,7 @@ class BlogController extends Controller
     {
         $all_category = BlogCategory::all();
 
-        return view($this->base_path.'category')->with([
+        return view($this->base_path . 'category')->with([
             'all_category' => $all_category,
         ]);
     }
@@ -230,14 +230,14 @@ class BlogController extends Controller
     {
         $all_languages = Language::orderBy('default', 'desc')->get();
 
-        return view($this->base_path.'page-settings.blog')->with(['all_languages' => $all_languages]);
+        return view($this->base_path . 'page-settings.blog')->with(['all_languages' => $all_languages]);
     }
 
     public function blog_single_page_settings()
     {
         $all_languages = Language::orderBy('default', 'desc')->get();
 
-        return view($this->base_path.'page-settings.blog-single')->with(['all_languages' => $all_languages]);
+        return view($this->base_path . 'page-settings.blog-single')->with(['all_languages' => $all_languages]);
     }
 
     public function update_blog_single_page_settings(Request $request)

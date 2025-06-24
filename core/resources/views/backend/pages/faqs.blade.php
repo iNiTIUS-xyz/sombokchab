@@ -74,7 +74,7 @@
                                                 @can('faq-edit-faq')
                                                     <a href="#1" data-bs-toggle="modal"
                                                         data-bs-target="#faq_item_edit_modal"
-                                                        class="btn btn-warning btn-xs mb-2 me-1 faq_edit_btn"
+                                                        class="btn btn-warning btn-xs text-dark mb-2 me-1 faq_edit_btn"
                                                         data-id="{{ $data->id }}" data-title="{{ $data->title }}"
                                                         data-lang="{{ $data->lang }}" data-is_open="{{ $data->is_open }}"
                                                         data-description="{{ $data->description }}"

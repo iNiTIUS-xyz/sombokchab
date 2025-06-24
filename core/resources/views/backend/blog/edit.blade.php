@@ -28,55 +28,55 @@
                                     <div class="form-group">
                                         <label for="title">{{ __('Title') }}</label>
                                         <input type="text" class="form-control" name="title"
-                                            value="{{ $blog_post->title }}">
+                                            placeholder="{{ __('Enter title') }}" value="{{ $blog_post->title }}">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>{{ __('Blog Content') }}</label>
-                                        <textarea class="summernote" name="blog_content" value="{{ $blog_post->blog_content }}">
-                                            {!! $blog_post->blog_content !!}
-                                        </textarea>
+                                        <textarea class="summernote" name="blog_content" value="{{ $blog_post->blog_content }}">{!! $blog_post->blog_content !!}</textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="author">{{ __('Author') }}</label>
                                         <input type="text" class="form-control" name="author"
-                                            value="{{ $blog_post->author }}">
+                                            placeholder="{{ __('Enter author') }}" value="{{ $blog_post->author }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="slug">{{ __('Slug') }}</label>
                                         <input type="text" class="form-control" name="slug"
-                                            value="{{ $blog_post->slug }}">
+                                            placeholder="{{ __('Enter slug') }}" value="{{ $blog_post->slug }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="title">{{ __('Blog Tags') }}</label>
                                         <input type="text" class="form-control" name="tags" data-role="tagsinput"
-                                            value="{{ $blog_post->tags }}">
+                                            placeholder="{{ __('Enter blog tags') }}" value="{{ $blog_post->tags }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="meta_tags">{{ __('Meta Tags') }}</label>
                                         <input type="text" class="form-control" name="meta_tags" data-role="tagsinput"
-                                            value="{{ $blog_post->meta_tags }}">
+                                            placeholder="{{ __('Enter meta tags') }}" value="{{ $blog_post->meta_tags }}">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="title">{{ __('Excerpt') }}</label>
-                                        <textarea name="excerpt" id="excerpt" class="form-control max-height-150" cols="30" rows="10">{{ $blog_post->excerpt }}</textarea>
+                                        <textarea name="excerpt" id="excerpt" class="form-control max-height-150" cols="30" rows="10"
+                                            placeholder="{{ __('Enter excerpt') }}">{{ $blog_post->excerpt }}</textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="meta_title">{{ __('Meta Title') }}</label>
                                         <input type="text" class="form-control" name="meta_title"
+                                            placeholder="{{ __('Enter meta title') }}"
                                             value="{{ $blog_post->meta_title }}">
                                     </div>
                                 </div>
@@ -84,26 +84,31 @@
                                     <div class="form-group">
                                         <label for="og_meta_title">{{ __('Og Meta Title') }}</label>
                                         <input type="text" class="form-control" name="og_meta_title"
+                                            placeholder="{{ __('Enter og meta title') }}"
                                             value="{{ $blog_post->og_meta_title }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="meta_description">{{ __('Meta Description') }}</label>
-                                        <textarea type="text" class="form-control" name="meta_description" rows="5" cols="10">{{ $blog_post->meta_description }}</textarea>
+                                        <textarea type="text" class="form-control" name="meta_description" rows="5" cols="10"
+                                            placeholder="{{ __('Enter meta description') }}">{{ $blog_post->meta_description }}</textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="og_meta_description">{{ __('Og Meta Description') }}</label>
-                                        <textarea type="text" class="form-control" name="og_meta_description" rows="5" cols="10">{{ $blog_post->og_meta_description }} </textarea>
+                                        <textarea type="text" class="form-control" name="og_meta_description" rows="5" cols="10"
+                                            placeholder="{{ __('Enter og meta description') }}">{{ $blog_post->og_meta_description }} </textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <x-media-upload :title="__('Blog Image')" name="image" id="image" :oldimage="$blog_post->image" />
-                                        <small
-                                            class="form-text text-muted">{{ __('allowed image format: jpg,jpeg,png') }}</small>
+                                        <x-media-upload :title="__('Blog Image')" name="image" id="image"
+                                            :oldimage="$blog_post->image" />
+                                        <small class="form-text text-muted">
+                                            {{ __('allowed image format: jpg,jpeg,png') }}
+                                        </small>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -111,8 +116,9 @@
                                         <x-media-upload :title="__('Og Meta Image')" :oldimage="$blog_post->og_meta_image" name="og_meta_image"
                                             id="og_meta_image" />
 
-                                        <small
-                                            class="form-text text-muted">{{ __('allowed image format: jpg,jpeg,png') }}</small>
+                                        <small class="form-text text-muted">
+                                            {{ __('allowed image format: jpg,jpeg,png') }}
+                                        </small>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -142,11 +148,11 @@
                                 </div>
                                 <div class="col-md-12">
                                     <button type="submit" id="update" class="cmn_btn btn_bg_profile">
-                                        {{ __('Update Post') }}
+                                        {{ __('Update') }}
                                     </button>
                                     <a href="{{ route('admin.blog') }}" class="cmn_btn default-theme-btn"
                                         style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
-                                        Back
+                                        {{ __('Back') }}
                                     </a>
                                 </div>
                             </div>

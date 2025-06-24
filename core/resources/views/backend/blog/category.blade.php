@@ -13,8 +13,10 @@
                 <x-msg.success />
                 @can('blog-category-create')
                     <div class="btn-wrapper mb-4">
-                        <a data-bs-toggle="modal" data-bs-target="#new_category_modal"
-                            class="cmn_btn btn_bg_profile pull-right">{{ __('New Category') }}</a>
+                        <a data-bs-toggle="modal" data-bs-target="#new_category_modal" class="cmn_btn btn_bg_profile pull-right"
+                            title="{{ __('New category') }}">
+                            {{ __('New Category') }}
+                        </a>
                     </div>
                 @endcan
                 <div class="dashboard__card">
@@ -44,7 +46,6 @@
                                             <td>
                                                 <x-bulk-delete-checkbox :id="$data->id" />
                                             </td>
-
                                             <td>{{ $data->id }}</td>
                                             <td>{{ $data->name }}</td>
                                             <td>
@@ -52,9 +53,9 @@
                                             </td>
                                             <td>
                                                 @can('blog-category-edit')
-                                                    <a href="#1" data-bs-toggle="modal"
-                                                        data-bs-target="#category_edit_modal"
-                                                        class="btn btn-warning btn-xs mb-2 me-1 category_edit_btn"
+                                                    <a href="javascript;;" data-bs-toggle="modal"
+                                                        data-bs-target="#category_edit_modal" title="{{ __('Edit Data') }}"
+                                                        class="btn btn-warning btn-xs text-dark mb-2 me-1 category_edit_btn"
                                                         data-id="{{ $data->id }}" data-name="{{ $data->name }}"
                                                         data-lang="{{ $data->lang }}" data-status="{{ $data->status }}">
                                                         <i class="ti-pencil"></i>
@@ -86,11 +87,10 @@
                     <form action="{{ route('admin.blog.category') }}" method="post">
                         <div class="modal-body">
                             @csrf
-
                             <div class="form-group">
                                 <label for="name">{{ __('Name') }}</label>
                                 <input type="text" class="form-control" id="name" name="name"
-                                    placeholder="{{ __('Name') }}">
+                                    placeholder="{{ __('Enter name') }}">
                             </div>
                             <div class="form-group">
                                 <label for="status">{{ __('Status') }}</label>
@@ -101,9 +101,12 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-sm btn-secondary"
-                                data-bs-dismiss="modal">{{ __('Close') }}</button>
-                            <button id="submit" type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
+                            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">
+                                {{ __('Close') }}
+                            </button>
+                            <button id="submit" type="submit" class="btn btn-primary">
+                                {{ __('Add') }}
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -125,7 +128,7 @@
                             <div class="form-group">
                                 <label for="edit_name">{{ __('Name') }}</label>
                                 <input type="text" class="form-control" id="edit_name" name="name"
-                                    placeholder="{{ __('Name') }}">
+                                    placeholder="{{ __('Enter name') }}">
                             </div>
                             <div class="form-group">
                                 <label for="edit_status">{{ __('Status') }}</label>
@@ -136,9 +139,12 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">{{ __('Close') }}</button>
-                            <button id="update" type="submit" class="btn btn-primary">{{ __('Save Change') }}</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                {{ __('Close') }}
+                            </button>
+                            <button id="update" type="submit" class="btn btn-primary">
+                                {{ __('Update') }}
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -146,31 +152,27 @@
         </div>
     @endcan
 @endsection
+
 @section('script')
     <script>
         (function($) {
             "use strict";
             $(document).ready(function() {
-                <
-                x - bulk - action - js: url = "route('admin.blog.category.bulk.action')" / >
-                    <
-                    x - btn.submit / >
-                    <
-                    x - btn.update / >
-                    $(document).on('click', '.category_edit_btn', function() {
-                        var el = $(this);
-                        var id = el.data('id');
-                        var name = el.data('name');
-                        var status = el.data('status');
-                        var modal = $('#category_edit_modal');
-                        modal.find('#category_id').val(id);
-                        modal.find('#edit_status option[value="' + status + '"]').attr('selected', true);
-                        modal.find('#edit_name').val(name);
-                        modal.find('#edit_language option[value="' + el.data('lang') + '"]').attr(
-                            'selected', true);
-                    });
+                // Edit button click
+                $(document).on('click', '.category_edit_btn', function() {
+                    let el = $(this);
+                    let id = el.data('id');
+                    let name = el.data('name');
+                    let status = el.data('status');
+
+                    let modal = $('#category_edit_modal');
+                    modal.find('#category_id').val(id);
+                    modal.find('#edit_name').val(name);
+                    modal.find('#edit_status').val(status);
+                });
             });
         })(jQuery);
     </script>
+
     @include('backend.partials.datatable.script-enqueue')
 @endsection
