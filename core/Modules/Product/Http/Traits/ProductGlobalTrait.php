@@ -814,7 +814,9 @@ trait ProductGlobalTrait
             ->when(!empty($request->rating), function ($query) use ($request) {
                 $query->having('ratings_avg_rating', '>=', $request->rating);
                 $query->having('ratings_avg_rating', '>=', ($request->rating - 1));
-            });
+            })
+            ->latest();
+
         $display_item_count = request()->count ?? get_static_option('default_item_count', 10);
         $current_query = request()->all();
         $create_query = http_build_query($current_query);

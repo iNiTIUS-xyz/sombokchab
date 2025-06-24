@@ -165,14 +165,13 @@
                 </div>
             </div>
         </div>
-        <x-media.markup type="vendor"/>
+        <x-media.markup type="vendor" />
     @endsection
     @section('script')
         <script src="{{ asset('assets/common/js/jquery-ui.min.js') }}" rel="stylesheet"></script>
-         <x-media.js type="vendor" />
-        <x-summernote.js/>
+        <x-media.js type="vendor" />
+        <x-summernote.js />
         <x-product::variant-info.js :colors="$data['product_colors']" :sizes="$data['product_sizes']" :all-attributes="$data['all_attribute']" />
-
         <script>
             $('#product-slug').on('keyup', function() {
                 let title_text = $(this).val();
@@ -218,8 +217,8 @@
                 data.append("category_id", $(this).val());
 
                 send_ajax_request("post", data, '{{ route('vendor.product.category.sub-category') }}', function() {
-                    $("#sub_category").html("<option value=''>{{ __("Select Sub Category")}}</option>");
-                    $("#child_category").html("<option value=''>{{ __("Select Child Category") }}</option>");
+                    $("#sub_category").html("<option value=''>{{ __('Select Sub Category') }}</option>");
+                    $("#child_category").html("<option value=''>{{ __('Select Child Category') }}</option>");
                     $("#select2-child_category-container").html('');
                 }, function(data) {
                     $("#sub_category").html(data.html);
@@ -234,7 +233,7 @@
                 data.append("sub_category_id", $(this).val());
 
                 send_ajax_request("post", data, '{{ route('vendor.product.category.child-category') }}', function() {
-                    $("#child_category").html("<option value=''>{{ __("Select Child Category")}}</option>");
+                    $("#child_category").html("<option value=''>{{ __('Select Child Category') }}</option>");
                     $("#select2-child_category-container").html('');
                 }, function(data) {
                     $("#child_category").html(data.html);

@@ -13,7 +13,7 @@
             <div class="col-sm-12">
                 <div class="form-group">
                     <label for="min_purchase">{{ __('Minimum quantity of Purchase') }}</label>
-                    <input id="min_purchase" name="min_purchase" class="form--control"
+                    <input type="number" id="min_purchase" name="min_purchase" class="form--control"
                         value="{{ $product?->min_purchase }}" placeholder="{{ __('Minimum quantity of purchase') }}">
                 </div>
             </div>

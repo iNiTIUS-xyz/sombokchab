@@ -7,7 +7,6 @@
     <x-summernote.css />
     <x-product::variant-info.css />
     <x-select2.select2-css />
-    
 @endsection
 @section('content')
     <div class="dashboard-top-contents">
@@ -90,7 +89,6 @@
                             <div class="form-button">
                                 <button class="cmn_btn btn_bg_profile">{{ __('Add New Product') }}</button>
                             </div>
-
                             <div class="tab-content mt-4" id="v-pills-tabContent">
                                 <div class="tab-pane fade show active" id="v-general-info-tab" role="tabpanel"
                                     aria-labelledby="v-general-info-tab">
@@ -148,9 +146,9 @@
         <x-product::variant-info.js :colors="$data['product_colors']" :sizes="$data['product_sizes']" :all-attributes="$data['all_attribute']" />
 
         <script>
-            $(document).ready(function(){
+            $(document).ready(function() {
                 $('#child_category').select2({
-                    placeholder:"{{__('Select Child Category')}}"
+                    placeholder: "{{ __('Select Child Category') }}"
                 });
             })
 
@@ -255,8 +253,8 @@
                 data.append("category_id", $(this).val());
 
                 send_ajax_request("post", data, '{{ route('admin.product.category.sub-category') }}', function() {
-                    $("#sub_category").html("<option value=''>{{ __("Select Sub Category") }}</option>");
-                    $("#child_category").html("<option value=''>{{ __("Select Child Category") }}</option>");
+                    $("#sub_category").html("<option value=''>{{ __('Select Sub Category') }}</option>");
+                    $("#child_category").html("<option value=''>{{ __('Select Child Category') }}</option>");
                     $("#select2-child_category-container").html('');
                 }, function(data) {
                     $("#sub_category").html(data.html);

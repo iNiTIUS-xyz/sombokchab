@@ -6,7 +6,7 @@
         $tag_name_arr = $tag->pluck('tag_name')?->toArray();
         $tag_name = implode(',', $tag_name_arr ?? []);
     }
-    
+
     if (!isset($singlebadge)) {
         $singlebadge = null;
     }
@@ -27,7 +27,9 @@
             </div>
             <div class="col-sm-12">
                 <div class="dashboard-input">
-                    <label class="dashboard-label"> {{ __('Labels') }} </label>
+                    <label class="dashboard-label">
+                        {{ __('Labels') }}
+                    </label>
                     <div class="d-flex flex-wrap gap-2 justify-content-start">
                         <input type="hidden" name="badge_id" value="{{ $singlebadge }}" id="badge_id_input" />
                         @foreach ($badges as $badge)
@@ -39,7 +41,9 @@
                                 <div class="content">
                                     <h6 class="title">{{ $badge->name }}</h6>
                                     <span
-                                        class="badge badge-{{ $badge->type ? 'success bg-success' : 'warning bg-warning' }}">{{ $badge->type ? __('Permanent') : __('Temporary') }}</span>
+                                        class="badge badge-{{ $badge->type ? 'success bg-success' : 'warning bg-warning' }}">
+                                        {{ $badge->type ? __('Permanent') : __('Temporary') }}
+                                    </span>
                                 </div>
                             </div>
                         @endforeach
