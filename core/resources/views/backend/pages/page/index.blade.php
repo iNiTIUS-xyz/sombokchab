@@ -17,12 +17,16 @@
                 <x-msg.flash />
                 @can('page-new')
                     <div class="btn-wrapper mb-4">
-                        <a href="{{ route('admin.page.new') }}" class="cmn_btn btn_bg_profile">{{ __('Add New Page') }}</a>
+                        <a href="{{ route('admin.page.new') }}" class="cmn_btn btn_bg_profile" title="{{ __('Add New Page') }}">
+                            {{ __('Add New Page') }}
+                        </a>
                     </div>
                 @endcan
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('All Pages') }}</h4>
+                        <h4 class="dashboard__card__title">
+                            {{ __('All Pages') }}
+                        </h4>
                         <div class="dashboard__card__header__right">
                             @can('page-bulk-action')
                                 <x-bulk-action.dropdown />
@@ -53,11 +57,14 @@
                                                 {{ $page->title }}
                                                 @if (isset($dynamic_page_ids[$page->id]))
                                                     @if ($dynamic_page_ids[$page->id] == 'home_page')
-                                                        <strong class="text-primary"> - {{ __('Current Home Page') }}</strong>
+                                                        <strong class="text-primary"> -
+                                                            {{ __('Current Home Page') }}</strong>
                                                     @elseif($dynamic_page_ids[$page->id] == 'blog_page')
-                                                        <strong class="text-primary"> - {{ __('Current Blog Page') }}</strong>
+                                                        <strong class="text-primary"> -
+                                                            {{ __('Current Blog Page') }}</strong>
                                                     @elseif($dynamic_page_ids[$page->id] == 'product_page')
-                                                        <strong class="text-primary"> - {{ __('Current Product Page') }}</strong>
+                                                        <strong class="text-primary"> -
+                                                            {{ __('Current Product Page') }}</strong>
                                                     @endif
                                                 @endif
                                             </td>
@@ -72,12 +79,14 @@
                                             <td>
                                                 @if (empty($dynamic_page_ids[$page->id]))
                                                     <a class="btn btn-xs btn-primary btn-sm mb-2 me-1" target="_blank"
+                                                        title="{{ __('View Data') }}"
                                                         href="{{ route('frontend.dynamic.page', ['slug' => $page->slug, 'id' => $page->id]) }}">
                                                         <i class="ti-eye"></i>
                                                     </a>
                                                 @endif
                                                 @can('page-edit')
-                                                    <a class="btn btn-xs btn-warning btn-sm mb-2 me-1"
+                                                    <a class="btn btn-xs btn-warning text-dark btn-sm mb-2 me-1"
+                                                        title="{{ __('Edit Data') }}"
                                                         href="{{ route('admin.page.edit', $page->id) }}">
                                                         <i class="ti-pencil"></i>
                                                     </a>

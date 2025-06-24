@@ -21,7 +21,8 @@
                 <x-msg.flash />
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Edit Page') }}</h4>
+                        <h4 class="dashboard__card__title">
+                            {{ __('Edit Page') }}</h4>
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
                         <form action="{{ route('admin.page.update', $page_post->id) }}" method="post"
@@ -30,13 +31,18 @@
                             <div class="row">
                                 <div class="col-lg-8">
                                     <div class="form-group">
-                                        <label for="title">{{ __('Title') }}</label>
+                                        <label for="title">
+                                            {{ __('Title') }}
+                                        </label>
                                         <input type="text" class="form-control" id="title" name="title"
-                                            value="{{ $page_post->title }}">
+                                            placeholder="{{ __('Enter title') }}" value="{{ $page_post->title }}">
                                     </div>
                                     <div class="form-group mt-5">
-                                        <label
-                                            for="page_builder_status"><strong>{{ __('Page Builder Enable/Disable') }}</strong></label>
+                                        <label for="page_builder_status">
+                                            <strong>
+                                                {{ __('Page Builder Enable/Disable') }}
+                                            </strong>
+                                        </label>
                                         <label class="switch">
                                             <input type="checkbox" name="page_builder_status"
                                                 @if (!empty($page_post->page_builder_status)) checked @endif>
@@ -45,7 +51,9 @@
                                     </div>
                                     <div
                                         class="form-group classic-editor-wrapper @if (!empty($page_post->page_builder_status)) d-none @endif ">
-                                        <label>{{ __('Content') }}</label>
+                                        <label>{{ __('Content') }}
+
+                                        </label>
                                         <textarea class="summernote" type="hidden" name="page_content">{!! $page_post->content !!}</textarea>
                                     </div>
                                     <div
@@ -75,9 +83,12 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
-                                    {{-- ===============================================START======================================================== --}}
                                     <div class="form-group">
-                                        <label><strong>{{ __('Breadcrumb Show/Hide') }}</strong></label>
+                                        <label>
+                                            <strong>
+                                                {{ __('Breadcrumb Show/Hide') }}
+                                            </strong>
+                                        </label>
                                         <label class="switch role">
                                             <input type="checkbox" name="breadcrumb_status"
                                                 @if (!empty($page_post->breadcrumb_status)) checked @endif>
@@ -85,7 +96,11 @@
                                         </label>
                                     </div>
                                     <div class="form-group">
-                                        <label><strong>{{ __('Full Page Width') }}</strong></label>
+                                        <label>
+                                            <strong>
+                                                {{ __('Full Page Width') }}
+                                            </strong>
+                                        </label>
                                         <label class="switch role">
                                             <input type="checkbox" name="page_container_option"
                                                 @if (!empty($page_post->page_container_option)) checked @endif>
@@ -93,63 +108,85 @@
                                         </label>
                                     </div>
                                     <div class="form-group">
-                                        <label><strong>{{ __('Navbar Category Dropdown Open') }}</strong></label>
+                                        <label>
+                                            <strong>
+                                                {{ __('Navbar Category Dropdown Open') }}
+                                            </strong>
+                                        </label>
                                         <label class="switch role">
                                             <input type="checkbox" name="navbar_category_dropdown_open"
                                                 @if (!empty($page_post->navbar_category_dropdown_open)) checked @endif>
                                             <span class="slider-yes-no"></span>
                                         </label>
                                     </div>
-                                    {{-- =================================================END====================================================== --}}
                                     <div class="form-group">
-                                        <label for="slug">{{ __('Slug') }}</label>
+                                        <label for="slug">
+                                            {{ __('Slug') }}
+                                        </label>
                                         <input type="text" class="form-control" id="slug" name="slug"
-                                            value="{{ $page_post->slug }}">
+                                            placeholder="{{ __('Enter slug') }}" value="{{ $page_post->slug }}">
                                     </div>
                                     <div class="form-group">
-                                        <label>{{ __('Status') }}</label>
+                                        <label>
+                                            {{ __('Status') }}
+                                        </label>
                                         <select name="status" id="status" class="form-control">
-                                            <option value="publish">{{ __('Publish') }}</option>
-                                            <option value="draft">{{ __('Draft') }}</option>
+                                            <option value="publish">
+                                                {{ __('Publish') }}
+                                            </option>
+                                            <option value="draft">
+                                                {{ __('Draft') }}
+                                            </option>
                                         </select>
                                     </div>
                                     <div class="form-group" id="megamenu">
-                                        <label>{{ __('Select Mega Menu') }}</label>
+                                        <label>{{ __('Select Mega Menu') }}
+
+                                        </label>
                                         <select name="megamenu" class="form-control">
                                             @foreach ($mega_menu_categories as $key => $value)
                                                 <option value="{{ $key }}"
                                                     {{ $key == $selected_megamenu ? 'selected' : '' }}>
-                                                    {{ html_entity_decode($value) }}</option>
+                                                    {{ html_entity_decode($value) }}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label>{{ __('Visibility') }}</label>
+                                        <label>
+                                            {{ __('Visibility') }}
+                                        </label>
                                         <select name="visibility" class="form-control">
                                             <option @if ($page_post->visibility === 'all') selected @endif value="all">
-                                                {{ __('All') }}</option>
+                                                {{ __('All') }}
+                                            </option>
                                             <option @if ($page_post->visibility === 'user') selected @endif value="user">
-                                                {{ __('Only Logged In User') }}</option>
+                                                {{ __('Only Logged In User') }}
+                                            </option>
                                         </select>
                                     </div>
-
                                     <div class="form-group">
-                                        <label for="meta_tags">{{ __('Page Meta Tags') }}</label>
+                                        <label for="meta_tags">
+                                            {{ __('Page Meta Tags') }}
+                                        </label>
                                         <input type="text" name="meta_tags" class="form-control"
+                                            placeholder="{{ __('Enter page meta tags') }}"
                                             value="{{ $page_post->meta_tags }}" data-role="tagsinput" id="meta_tags">
                                     </div>
-
                                     <div class="form-group">
-                                        <label for="meta_description">{{ __('Page Meta Description') }}</label>
-                                        <textarea name="meta_description" class="form-control" id="meta_description">{{ $page_post->meta_description }}</textarea>
+                                        <label for="meta_description">
+                                            {{ __('Page Meta Description') }}
+                                        </label>
+                                        <textarea name="meta_description" class="form-control" id="meta_description"
+                                            placeholder="{{ __('Enter page meta description') }}">{{ $page_post->meta_description }}</textarea>
                                     </div>
                                     <div class="col-sm-12">
                                         <button type="submit" class="cmn_btn btn_bg_profile">
-                                            {{ __('Add New Page') }}
+                                            {{ __('Update') }}
                                         </button>
                                         <a href="{{ route('admin.page') }}" class="cmn_btn default-theme-btn"
                                             style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
-                                            Back
+                                            {{ __('Back') }}
                                         </a>
                                     </div>
                                 </div>

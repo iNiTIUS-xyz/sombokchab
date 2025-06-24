@@ -25,9 +25,12 @@
                                     <div class="row g-4">
                                         <div class="col-sm-12">
                                             <div class="form-group">
-                                                <label for="title">{{ __('Title') }}</label>
+                                                <label for="title">
+                                                    {{ __('Title') }}
+                                                    <span class="text-danger">*</span>
+                                                </label>
                                                 <input type="text" class="form-control" id="title" name="title"
-                                                    placeholder="{{ __('Title') }}">
+                                                    placeholder="{{ __('Enter title') }}">
                                             </div>
                                         </div>
                                         <div class="col-sm-12">
@@ -58,7 +61,8 @@
                                                         <div class="navbar_variants">
                                                             <div class="form-group">
                                                                 <input type="hidden" class="form-control"
-                                                                    id="navbar_variant" value="2" name="navbar_variant">
+                                                                    id="navbar_variant" value="2"
+                                                                    name="navbar_variant">
                                                             </div>
 
                                                             @for ($i = 1; $i <= 3; $i++)
@@ -118,7 +122,7 @@
                                             <div class="form-group">
                                                 <label for="slug">{{ __('Slug') }}</label>
                                                 <input type="text" class="form-control" id="slug" name="slug"
-                                                    placeholder="{{ __('slug') }}">
+                                                    placeholder="{{ __('Enter slug') }}">
                                             </div>
                                         </div>
                                         <div class="col-sm-12">
@@ -143,22 +147,24 @@
                                             <div class="form-group">
                                                 <label for="meta_tags">{{ __('Page Meta Tags') }}</label>
                                                 <input type="text" name="meta_tags" class="form-control"
-                                                    data-role="tagsinput" id="meta_tags">
+                                                    data-role="tagsinput" id="meta_tags"
+                                                    placeholder="{{ __('Enter page meta tags') }}">
                                             </div>
                                         </div>
                                         <div class="col-sm-12">
                                             <div class="form-group">
                                                 <label for="meta_description">{{ __('Page Meta Description') }}</label>
-                                                <textarea name="meta_description" class="form-control" id="meta_description"></textarea>
+                                                <textarea name="meta_description" class="form-control" id="meta_description"
+                                                    placeholder="{{ __('Enter page meta description') }}"></textarea>
                                             </div>
                                         </div>
                                         <div class="col-sm-12">
                                             <button type="submit" class="cmn_btn btn_bg_profile">
-                                                {{ __('Add New Page') }}
+                                                {{ __('Add') }}
                                             </button>
                                             <a href="{{ route('admin.page') }}" class="cmn_btn default-theme-btn"
                                                 style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
-                                                Back
+                                                {{ __('Back') }}
                                             </a>
                                         </div>
                                     </div>

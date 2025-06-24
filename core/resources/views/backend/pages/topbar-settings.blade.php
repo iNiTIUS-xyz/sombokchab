@@ -50,7 +50,7 @@
                         @can('appearance-settings-topbar-new-social-item')
                             <div class="right-cotnent">
                                 <a class="cmn_btn btn_bg_profile" data-bs-target="#add_social_icon" data-bs-toggle="modal"
-                                    href="#1">
+                                    href="javascript:;" title="{{ __('Add New Social Item') }}">
                                     {{ __('Add New Social Item') }}
                                 </a>
                             </div>
@@ -75,9 +75,9 @@
                                                 @can('appearance-settings-topbar-update-social-item')
                                                     <a href="#1" data-bs-toggle="modal"
                                                         data-bs-target="#social_item_edit_modal"
-                                                        class="btn btn-xs btn-warning  mb-2 me-1 social_item_edit_btn"
+                                                        class="btn btn-xs btn-warning text-dark mb-2 me-1 social_item_edit_btn"
                                                         data-id="{{ $data->id }}" data-url="{{ $data->url }}"
-                                                        data-icon="{{ $data->icon }}">
+                                                        data-icon="{{ $data->icon }}" title="{{ __('Edit Data') }}">
                                                         <i class="ti-pencil"></i>
                                                     </a>
                                                 @endcan
@@ -109,13 +109,17 @@
                             <x-backend.icon-picker />
                             <div class="form-group">
                                 <label for="social_item_link">{{ __('URL') }}</label>
-                                <input type="text" name="url" id="social_item_link" class="form-control">
+                                <input type="text" name="url" id="social_item_link" class="form-control"
+                                    placeholder="{{ __('Enter URL') }}">
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">{{ __('Close') }}</button>
-                            <button id="submit" type="submit" class="btn btn-primary">{{ __('Add') }}</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                {{ __('Close') }}
+                            </button>
+                            <button id="submit" type="submit" class="btn btn-primary">
+                                {{ __('Add') }}
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -135,18 +139,20 @@
                         <div class="modal-body">
                             @csrf
                             <input type="hidden" name="id" id="social_item_id" value="">
-
                             <x-backend.icon-picker />
                             <div class="form-group">
                                 <label for="social_item_edit_url">{{ __('Url') }}</label>
                                 <input type="text" class="form-control" id="social_item_edit_url" name="url"
-                                    placeholder="{{ __('Url') }}">
+                                    placeholder="{{ __('Enter Url') }}">
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">{{ __('Close') }}</button>
-                            <button id="update" type="submit" class="btn btn-primary">{{ __('Save Changes') }}</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                {{ __('Close') }}
+                            </button>
+                            <button id="update" type="submit" class="btn btn-primary">
+                                {{ __('Update') }}
+                            </button>
                         </div>
                     </form>
                 </div>
