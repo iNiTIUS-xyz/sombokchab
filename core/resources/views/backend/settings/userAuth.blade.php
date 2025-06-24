@@ -44,7 +44,7 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
-                                        <button class="cmn_btn btn_bg_profile">{{ __('Save Settings') }}</button>
+                                        <button class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
                                     </div>
                                 </div>
                             </form>

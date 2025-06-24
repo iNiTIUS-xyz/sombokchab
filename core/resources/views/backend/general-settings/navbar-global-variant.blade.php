@@ -42,7 +42,7 @@
                                 </div>
                                 <div class="btn-wrapper mt-4">
                                     <button type="submit" id="update"
-                                        class="cmn_btn btn_bg_profile">{{ __('Update Changes') }}</button>
+                                        class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
                                 </div>
                             </form>
                         </div>

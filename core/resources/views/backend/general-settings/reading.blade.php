@@ -57,7 +57,7 @@
                                     </div>
                                     <div class="col-sm-4">
                                         <button type="submit" id="update"
-                                            class="cmn_btn btn_bg_profile">{{ __('Update Changes') }}</button>
+                                            class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
                                     </div>
                                 </div>
                             </form>

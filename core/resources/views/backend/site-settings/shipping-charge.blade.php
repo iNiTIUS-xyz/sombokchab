@@ -48,12 +48,12 @@
                                     <div class="form-group shipping-charge-wrapper"
                                         style="{{ get_static_option('shipping_charge_type') !== 'global' ? 'display: none' : '' }}">
                                         <label>
-                                            {{ __('Shipping Charge Type') }}
-                                            <span class="text-danger">*</span>
+                                            {{ __('Shipping Charge Amount') }}
+                                            {{-- <span class="text-danger">*</span> --}}
                                         </label>
                                         <input value="{{ get_static_option('global_shipping_charge_amount') }}"
                                             name="global_shipping_charge_amount" type="number" class="form-control"
-                                            placeholder="{{ __('Enter shipping charge type') }}" />
+                                            placeholder="{{ __('Enter shipping charge amount') }}" />
 
                                     </div>
                                 </div>

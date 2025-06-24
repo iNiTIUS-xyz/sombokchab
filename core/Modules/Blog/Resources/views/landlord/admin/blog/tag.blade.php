@@ -51,7 +51,7 @@
                                     @can('blog-tag-edit')
                                         <a href="#1" data-bs-toggle="modal"
                                             data-bs-target="#tag_item_edit_modal"
-                                            class="btn btn-primary btn-xs mb-2 me-1 tag_edit_btn" data-bs-placement="top"
+                                            class="btn btn-warning btn-xs mb-2 me-1 tag_edit_btn" data-bs-placement="top"
                                             title="{{ __('Edit') }}" data-id="{{ $data->id }}"
                                             data-action="{{ route(route_prefix() . 'admin.blog.tag.update') }}"
                                             data-title="{{ $data->title }}" data-slug="{{ $data->slug }}">

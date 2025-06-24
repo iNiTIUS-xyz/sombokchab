@@ -42,7 +42,7 @@
                                                 @endcan
                                                 @can('country-tax-edit')
                                                     <a href="#1" data-bs-toggle="modal" data-bs-target="#country_tax_edit_modal"
-                                                        class="btn btn-primary btn-xs mb-2 me-1 country_tax_edit_btn"
+                                                        class="btn btn-warning btn-xs mb-2 me-1 country_tax_edit_btn"
                                                         data-id="{{ $tax->id }}" data-country_id="{{ $tax->country_id }}"
                                                         data-tax_percentage="{{ $tax->tax_percentage }}">
                                                         <i class="ti-pencil"></i>

@@ -38,7 +38,7 @@
                                     class="form-text text-muted">{{ __('this message will show when any one contact you via get in touch form.') }}</small>
                             </div>
 
-                            <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Update Changes') }}</button>
+                            <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
                         </form>
                     </div>
                 </div>

@@ -45,7 +45,7 @@
                                             value="{{ get_static_option('site_gdpr_cookie_more_info_link') }}"
                                             id="site_gdpr_cookie_more_info_link">
                                         <small
-                                            class="form-text text-muted">{{ __('enter more info link user {url} to point the site address, example: {url}/about , it will be converted to www.yoursite.com/about') }}</small>
+                                            class="form-text text-muted">{{ __('Enter more info link user {url} to point the site address, example: {url}/about , it will be converted to www.yoursite.com/about') }}</small>
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
@@ -87,7 +87,7 @@
                                             value="{{ get_static_option('site_gdpr_cookie_expire') }}"
                                             id="site_gdpr_cookie_expire">
                                         <small
-                                            class="form-text text-muted">{{ __('set cookie expire time, eg: 30, means 30days') }}</small>
+                                            class="form-text text-muted">{{ __('Set cookie expire time, eg: 30, means 30days') }}</small>
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
@@ -97,12 +97,12 @@
                                             value="{{ get_static_option('site_gdpr_cookie_delay') }}"
                                             id="site_gdpr_cookie_delay">
                                         <small
-                                            class="form-text text-muted">{{ __('set GDPR cookie delay time, it mean the notification will show after this time. number count as mili seconds. eg: 5000, means 5seconds') }}</small>
+                                            class="form-text text-muted">{{ __('Set GDPR cookie delay time, it mean the notification will show after this time. number count as mili seconds. eg: 5000, means 5seconds') }}</small>
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <button type="submit"
-                                        class="cmn_btn btn_bg_profile">{{ __('Update Changes') }}</button>
+                                        class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
                                 </div>
                             </div>
                         </form>

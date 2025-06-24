@@ -2,9 +2,9 @@
 @section('site-title')
     {{ __('All Pages') }}
 @endsection
-@section('style')
+{{-- @section('style')
     <x-datatable.css />
-@endsection
+@endsection --}}
 @section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row">
@@ -28,14 +28,14 @@
                     </div>
                     <div class="dashboard__card__body mt-4">
                         <div class="table-wrap table-responsive">
-                            <table class="table table-default">
+                            <table class="table table-default" id="dataTable">
                                 <thead>
                                     <th class="no-sort">
                                         <div class="mark-all-checkbox">
                                             <input type="checkbox" class="all-checkbox">
                                         </div>
                                     </th>
-                                    <th>{{ __('ID') }}</th>
+                                    <th>{{ __('Serial No.') }}</th>
                                     <th>{{ __('Title') }}</th>
                                     <th>{{ __('Date') }}</th>
                                     <th>{{ __('Status') }}</th>
@@ -75,7 +75,7 @@
 @endsection
 
 @section('script')
-    @include('backend.partials.datatable.script-enqueue')
+    {{-- @include('backend.partials.datatable.script-enqueue') --}}
     <script>
         (function($) {
             "use strict";

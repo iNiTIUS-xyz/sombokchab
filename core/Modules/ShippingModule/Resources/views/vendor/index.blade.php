@@ -67,7 +67,7 @@
                                                     </button>
                                                 @endif
                                                 <a href="{{ route('vendor.shipping-method.edit', $method->id) }}"
-                                                    class="btn btn-primary btn-xs mb-2 me-1" title="Edit Data">
+                                                    class="btn btn-warning btn-xs mb-2 me-1" title="Edit Data">
                                                     <i class="mdi mdi-pencil"></i>
                                                 </a>
 

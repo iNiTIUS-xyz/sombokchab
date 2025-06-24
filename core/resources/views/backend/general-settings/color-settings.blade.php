@@ -28,12 +28,12 @@
                                             {{ __('Site Main Color Settings') }}
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <input type="text" placeholder="{{ __('Enter site main color settings') }}"
+                                        <input type="text" placeholder="{{ __('Select - site main color') }}"
                                             name="site_color"
                                             style="background-color: {{ get_static_option('site_color') }};color: #fff;"
                                             class="form-control" value="{{ get_static_option('site_color') }}"
                                             id="site_color">
-                                        <small>{{ __('you change site main color from here, it will replace website main color') }}</small>
+                                        <small>{{ __('You change site main color from here, it will replace website main color') }}</small>
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
@@ -42,12 +42,12 @@
                                             {{ __('Site Secondary Color Settings') }}
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <input type="text" placeholder="{{ __('Enter stie secondary color settings') }}"
+                                        <input type="text" placeholder="{{ __('Select - site secondary color') }}"
                                             name="site_secondary_color"
                                             style="background-color: {{ get_static_option('site_secondary_color') }};color: #fff;"
                                             class="form-control" value="{{ get_static_option('site_secondary_color') }}"
                                             id="site_secondary_color">
-                                        <small>{{ __('you change site secondary color from here, it will replace website secondary color') }}</small>
+                                        <small>{{ __('You change site secondary color from here, it will replace website secondary color') }}</small>
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
@@ -56,12 +56,12 @@
                                             {{ __('Site Heading Color') }}
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <input type="text" placeholder="{{ __('Enter site heading color') }}"
+                                        <input type="text" placeholder="{{ __('Select - site heading color') }}"
                                             name="site_heading_color"
                                             style="background-color: {{ get_static_option('site_heading_color') }};color: #fff;"
                                             class="form-control" value="{{ get_static_option('site_heading_color') }}"
                                             id="site_heading_color">
-                                        <small>{{ __('you can change site heading color from there , when you chnage this color it will reflect the color in all the heading like (h1,h2,h3,h4.h5.h6)') }}</small>
+                                        <small>{{ __('You can change site heading color from there , when you chnage this color it will reflect the color in all the heading like (h1,h2,h3,h4.h5.h6)') }}</small>
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
@@ -71,7 +71,7 @@
                                             <span class="text-danger">*</span>
                                         </label>
                                         <input type="text"
-                                            placeholder="{{ __('Enter customer profile color settings') }}"
+                                            placeholder="{{ __('Select - customer profile color') }}"
                                             name="site_special_color"
                                             style="background-color: {{ get_static_option('site_special_color') }}; color: #fff;"
                                             class="form-control" value="{{ get_static_option('site_special_color') }}"
@@ -85,12 +85,12 @@
                                             {{ __('Site Paragraph Color') }}
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <input type="text" placeholder="{{ __('Enter site paragraph color') }}"
+                                        <input type="text" placeholder="{{ __('Select - site paragraph color') }}"
                                             name="site_paragraph_color"
                                             style="background-color: {{ get_static_option('site_paragraph_color') }};color: #fff;"
                                             class="form-control" value="{{ get_static_option('site_paragraph_color') }}"
                                             id="site_paragraph_color">
-                                        <small>{{ __('you can change site paragraph color from there') }}</small>
+                                        <small>{{ __('You can change site paragraph color from there') }}</small>
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
@@ -99,12 +99,12 @@
                                             {{ __('Site Form Background Color') }}
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <input type="text" placeholder="{{ __('Enter site form background color') }}"
+                                        <input type="text" placeholder="{{ __('Select - site form background color') }}"
                                             name="site_form_bg_color"
                                             style="background-color: {{ get_static_option('site_form_bg_color') }};color: #fff;"
                                             class="form-control" value="{{ get_static_option('site_form_bg_color') }}"
                                             id="site_form_bg_color">
-                                        <small>{{ __('you can change site form background color from there') }}</small>
+                                        <small>{{ __('You can change site form background color from there') }}</small>
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
@@ -113,12 +113,12 @@
                                             {{ __('Site Footer Background Color') }}
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <input type="text" placeholder="{{ __('Enter site footer background color') }}"
+                                        <input type="text" placeholder="{{ __('Select - site footer background color') }}"
                                             name="site_footer_bg_color"
                                             style="background-color: {{ get_static_option('site_footer_bg_color') }};color: #fff;"
                                             class="form-control" value="{{ get_static_option('site_footer_bg_color') }}"
                                             id="site_footer_bg_color">
-                                        <small>{{ __('you can change site paragraph color from there') }}</small>
+                                        <small>{{ __('You can change site paragraph color from there') }}</small>
                                     </div>
                                 </div>
                                 <div class="col-sm-12">

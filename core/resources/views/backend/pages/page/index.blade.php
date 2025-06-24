@@ -36,7 +36,7 @@
                                     @can('page-bulk-action')
                                         <x-bulk-action.th />
                                     @endcan
-                                    <th>{{ __('ID') }}</th>
+                                    <th>{{ __('Serial No.') }}</th>
                                     <th>{{ __('Title') }}</th>
                                     <th>{{ __('Date') }}</th>
                                     <th>{{ __('Status') }}</th>
@@ -48,36 +48,36 @@
                                             @can('page-bulk-action')
                                                 <x-bulk-action.td :id="$page->id" />
                                             @endcan
-                                            <td>{{ $page->id }}</td>
+                                            <td>{{ $loop->iteration }}</td>
                                             <td>
                                                 {{ $page->title }}
                                                 @if (isset($dynamic_page_ids[$page->id]))
                                                     @if ($dynamic_page_ids[$page->id] == 'home_page')
-                                                        <strong class="text-info"> - {{ __('Home Page') }}</strong>
+                                                        <strong class="text-primary"> - {{ __('Current Home Page') }}</strong>
                                                     @elseif($dynamic_page_ids[$page->id] == 'blog_page')
-                                                        <strong class="text-info"> - {{ __('Blog Page') }}</strong>
+                                                        <strong class="text-primary"> - {{ __('Current Blog Page') }}</strong>
                                                     @elseif($dynamic_page_ids[$page->id] == 'product_page')
-                                                        <strong class="text-info"> - {{ __('Product Page') }}</strong>
+                                                        <strong class="text-primary"> - {{ __('Current Product Page') }}</strong>
                                                     @endif
                                                 @endif
                                             </td>
                                             <td>{{ $page->created_at->diffForHumans() }}</td>
                                             <td>
                                                 @if ($page->status === 'publish')
-                                                    <span class="alert alert-success">{{ __('Publish') }}</span>
+                                                    <span class="badge bg-success">{{ __('Published') }}</span>
                                                 @else
-                                                    <span class="alert alert-warning">{{ __('Draft') }}</span>
+                                                    <span class="badge bg-warning">{{ __('Draft') }}</span>
                                                 @endif
                                             </td>
                                             <td>
                                                 @if (empty($dynamic_page_ids[$page->id]))
-                                                    <a class="btn btn-xs btn-info btn-sm mb-2 me-1" target="_blank"
+                                                    <a class="btn btn-xs btn-primary btn-sm mb-2 me-1" target="_blank"
                                                         href="{{ route('frontend.dynamic.page', ['slug' => $page->slug, 'id' => $page->id]) }}">
                                                         <i class="ti-eye"></i>
                                                     </a>
                                                 @endif
                                                 @can('page-edit')
-                                                    <a class="btn btn-xs btn-primary btn-sm mb-2 me-1"
+                                                    <a class="btn btn-xs btn-warning btn-sm mb-2 me-1"
                                                         href="{{ route('admin.page.edit', $page->id) }}">
                                                         <i class="ti-pencil"></i>
                                                     </a>

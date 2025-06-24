@@ -34,7 +34,7 @@
                                 @endfor
                             </div>
                             <button type="submit" id="update"
-                                class="cmn_btn btn_bg_profile">{{ __('Update Changes') }}</button>
+                                class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
                         </form>
                     </div>
                 </div>

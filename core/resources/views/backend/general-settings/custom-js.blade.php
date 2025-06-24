@@ -19,7 +19,7 @@
                         <div class="dashboard__card__header__left">
                             <h4 class="dashboard__card__title">{{ __('Custom Js') }}</h4>
                             <p class="dashboard__card__para mt-2">
-                                {{ __('you can only add js code here. no other code work here.') }}</p>
+                                {{ __('You can only add js code here. No other code works here.') }}</p>
                         </div>
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">

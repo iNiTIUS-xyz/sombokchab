@@ -38,7 +38,7 @@
                                         value="{{ get_static_option('support_ticket_success_message') }}">
                                 </div>
                                 <div class="btn-wrapper mt-4">
-                                    <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Update Changes') }}</button>
+                                    <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
                                 </div>
                             </form>
                         </div>

@@ -14,9 +14,9 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <div class="dashboard__card__header__left">
-                            <h4 class="dashboard__card__title">{{ __('Custom Css') }}</h4>
+                            <h4 class="dashboard__card__title">{{ __('Custom CSS') }}</h4>
                             <p class="dashboard__card__para mt-2">
-                                {{ __('you can only add css style here. no other code work here.') }}</p>
+                                {{ __('You can only add css style here. No other code works here.') }}</p>
                         </div>
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">

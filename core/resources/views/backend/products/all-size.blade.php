@@ -44,7 +44,7 @@
                                                 @endcan
                                                 @can('product-size-edit')
                                                     <a href="#1" data-bs-toggle="modal" data-bs-target="#size_edit_modal"
-                                                        class="btn btn-primary btn-xs mb-2 me-1 size_edit_btn"
+                                                        class="btn btn-warning btn-xs mb-2 me-1 size_edit_btn"
                                                         data-id="{{ $product_size->id }}"
                                                         data-name="{{ $product_size->name }}"
                                                         data-size_code="{{ $product_size->size_code }}"

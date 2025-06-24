@@ -54,7 +54,7 @@
                                                 @can('blog-category-edit')
                                                     <a href="#1" data-bs-toggle="modal"
                                                         data-bs-target="#category_edit_modal"
-                                                        class="btn btn-primary btn-xs mb-2 me-1 category_edit_btn"
+                                                        class="btn btn-warning btn-xs mb-2 me-1 category_edit_btn"
                                                         data-id="{{ $data->id }}" data-name="{{ $data->name }}"
                                                         data-lang="{{ $data->lang }}" data-status="{{ $data->status }}">
                                                         <i class="ti-pencil"></i>

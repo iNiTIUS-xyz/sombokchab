@@ -70,7 +70,7 @@ class BlogController extends Controller
             'og_meta_image' => $request->og_meta_image,
         ]);
         return redirect()->back()->with([
-            'msg' => __('New Item Added...'),
+            'msg' => __('Blog post added successfully.'),
             'type' => 'success',
         ]);
     }
@@ -98,7 +98,7 @@ class BlogController extends Controller
         ]);
 
         return redirect()->back()->with([
-            'msg' => __('Blog Post cloned success...'),
+            'msg' => __('Blog post cloned successfully.'),
             'type' => 'success',
         ]);
     }
@@ -153,7 +153,7 @@ class BlogController extends Controller
         ]);
 
         return redirect()->back()->with([
-            'msg' => __('Item updated...'),
+            'msg' => __('Blog post updated successfully.'),
             'type' => 'success',
         ]);
     }
@@ -163,7 +163,7 @@ class BlogController extends Controller
         Blog::findOrFail($id)->delete();
 
         return redirect()->back()->with([
-            'msg' => __('Delete Success...'),
+            'msg' => __('Blog post deleted successfully.'),
             'type' => 'danger',
         ]);
     }
@@ -187,7 +187,7 @@ class BlogController extends Controller
         BlogCategory::create($request->all());
 
         return redirect()->back()->with([
-            'msg' => __('New Category Added...'),
+            'msg' => __('New category added successfully.'),
             'type' => 'success',
         ]);
     }
@@ -205,7 +205,7 @@ class BlogController extends Controller
         ]);
 
         return redirect()->back()->with([
-            'msg' => __('Category Update Success...'),
+            'msg' => __('Category updated successfully.'),
             'type' => 'success',
         ]);
     }
@@ -221,7 +221,7 @@ class BlogController extends Controller
         BlogCategory::findOrFail($id)->delete();
 
         return redirect()->back()->with([
-            'msg' => __('Category Delete Success...'),
+            'msg' => __('Category deleted successfully.'),
             'type' => 'danger',
         ]);
     }
@@ -269,7 +269,7 @@ class BlogController extends Controller
         update_static_option('blog_single_page_recent_post_item', $request->blog_single_page_recent_post_item);
 
         return redirect()->back()->with([
-            'msg' => __('Settings Update Success...'),
+            'msg' => __('Settings updated successfully.'),
             'type' => 'success',
         ]);
     }
@@ -292,7 +292,7 @@ class BlogController extends Controller
         update_static_option('blog_page_recent_post_widget_items', $request->blog_page_recent_post_widget_items);
 
         return redirect()->back()->with([
-            'msg' => __('Settings Update Success...'),
+            'msg' => __('Settings updated successfully.'),
             'type' => 'success',
         ]);
     }

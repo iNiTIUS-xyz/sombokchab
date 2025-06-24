@@ -39,7 +39,7 @@ HTML;
     public static function editIcon($url)
     {
         return <<<HTML
-<a class="btn btn-primary btn-xs mb-2 me-1" href="{$url}">
+<a class="btn btn-warning btn-xs mb-2 me-1" href="{$url}">
     <i class="ti-pencil"></i>
 </a>
 HTML;
@@ -75,29 +75,29 @@ HTML;
         $output = '';
 
         if ($status === 'draft') {
-            $output .= '<span class="alert alert-primary" >'.__('Draft').'</span>';
+            $output .= '<span class="badge bg-primary" >'.__('Draft').'</span>';
         } elseif ($status === 'archive') {
-            $output .= '<span class="alert alert-warning" >'.__('Archive').'</span>';
+            $output .= '<span class="badge bg-warning" >'.__('Archive').'</span>';
         } elseif ($status === 'pending') {
-            $output .= '<span class="alert alert-warning" >'.__('Pending').'</span>';
+            $output .= '<span class="badge bg-warning" >'.__('Pending').'</span>';
         } elseif ($status === 'complete') {
-            $output .= '<span class="alert alert-success" >'.__('Complete').'</span>';
+            $output .= '<span class="badge bg-success" >'.__('Complete').'</span>';
         } elseif ($status === 'close') {
-            $output .= '<span class="alert alert-danger" >'.__('Close').'</span>';
+            $output .= '<span class="badge bg-danger" >'.__('Close').'</span>';
         } elseif ($status === 'in_progress') {
-            $output .= '<span class="alert alert-info" >'.__('In Progress').'</span>';
+            $output .= '<span class="badge bg-info" >'.__('In Progress').'</span>';
         } elseif ($status === 'publish') {
-            $output .= '<span class="alert alert-success" >'.__('Publish').'</span>';
+            $output .= '<span class="badge bg-success" >'.__('Published').'</span>';
         } elseif ($status === 'approved') {
-            $output .= '<span class="alert alert-success" >'.__('Approved').'</span>';
+            $output .= '<span class="badge bg-success" >'.__('Approved').'</span>';
         } elseif ($status === 'confirm') {
-            $output .= '<span class="alert alert-success" >'.__('Confirm').'</span>';
+            $output .= '<span class="badge bg-success" >'.__('Confirm').'</span>';
         } elseif ($status === 'yes') {
-            $output .= '<span class="alert alert-success" >'.__('Yes').'</span>';
+            $output .= '<span class="badge bg-success" >'.__('Yes').'</span>';
         } elseif ($status === 'no') {
-            $output .= '<span class="alert alert-danger" >'.__('No').'</span>';
+            $output .= '<span class="badge bg-danger" >'.__('No').'</span>';
         } elseif ($status === 'cancel') {
-            $output .= '<span class="alert alert-danger" >'.__('Cancel').'</span>';
+            $output .= '<span class="badge bg-danger" >'.__('Cancel').'</span>';
         }
 
         return $output;

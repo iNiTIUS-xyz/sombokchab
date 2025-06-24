@@ -39,7 +39,7 @@
 
                             <button type="submit"
                                 class="btn btn-primary mt-4 pr-4 pl-4">
-                                {{ __('Update Changes') }}
+                                {{ __('Update') }}
                             </button>
                         </form>
                     </div>

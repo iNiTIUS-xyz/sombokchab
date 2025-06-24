@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="{{ asset('assets/backend/css/dropzone.css') }}">
     <x-media.css />
     <x-summernote.css />
-    <x-datatable.css />
+    {{-- <x-datatable.css /> --}}
 @endsection
 @section('content')
     <div class="col-lg-12 col-ml-12">
@@ -16,7 +16,7 @@
                 <x-msg.success />
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Faq Items') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('FAQ Items') }}</h4>
                         <div class="dashboard__card__header__right">
                             @can('faq-faq-bulk-action')
                                 <div class="bulk-delete-wrapper">
@@ -29,14 +29,14 @@
                                 </div>
 
                                 <div class="btn-wrapper">
-                                    <button class="btn btn-primary btn-sm" id="bulk_delete_btn">{{ __('Apply') }}</button>
+                                    <button class="btn btn-primary" id="bulk_delete_btn">{{ __('Apply') }}</button>
                                 </div>
                             @endcan
                         </div>
                     </div>
                     <div class="dashboard__card__body mt-4">
                         <div class="table-wrap table-responsive">
-                            <table class="table table-default">
+                            <table class="table table-default" id="dataTable">
                                 <thead>
                                     @can('faq-faq-bulk-action')
                                         <th class="no-sort">
@@ -45,7 +45,7 @@
                                             </div>
                                         </th>
                                     @endcan
-                                    <th>{{ __('ID') }}</th>
+                                    <th>{{ __('Serial No.') }}</th>
                                     <th>{{ __('Title') }}</th>
                                     <th>{{ __('Status') }}</th>
                                     <th>{{ __('Action') }}</th>
@@ -61,20 +61,20 @@
                                                     </div>
                                                 </td>
                                             @endcan
-                                            <td>{{ $data->id }}</td>
+                                            <td>{{ $loop->iteration }}</td>
                                             <td>{{ $data->title }}</td>
                                             <td>
                                                 @if ($data->status == 'publish')
-                                                    <span class="alert alert-success">{{ __('Publish') }}</span>
+                                                    <span class="badge bg-success">{{ __('Published') }}</span>
                                                 @else
-                                                    <span class="alert alert-warning">{{ __('Draft') }}</span>
+                                                    <span class="badge bg-warning">{{ __('Draft') }}</span>
                                                 @endif
                                             </td>
                                             <td>
                                                 @can('faq-edit-faq')
                                                     <a href="#1" data-bs-toggle="modal"
                                                         data-bs-target="#faq_item_edit_modal"
-                                                        class="btn btn-primary btn-xs mb-2 me-1 faq_edit_btn"
+                                                        class="btn btn-warning btn-xs mb-2 me-1 faq_edit_btn"
                                                         data-id="{{ $data->id }}" data-title="{{ $data->title }}"
                                                         data-lang="{{ $data->lang }}" data-is_open="{{ $data->is_open }}"
                                                         data-description="{{ $data->description }}"
@@ -110,7 +110,7 @@
                 <div class="col-lg-5">
                     <div class="dashboard__card">
                         <div class="dashboard__card__header">
-                            <h4 class="dashboard__card__title">{{ __('New Faq') }}</h4>
+                            <h4 class="dashboard__card__title">{{ __('New FAQ') }}</h4>
                         </div>
                         <div class="dashboard__card__body custom__form mt-4">
                             <form action="{{ route('admin.faq') }}" method="post" enctype="multipart/form-data">
@@ -125,7 +125,7 @@
                                     </div>
                                     <div class="col-sm-12">
                                         <div class="form-group">
-                                            <label for="is_open">{{ __('Is Open') }}</label>
+                                            <label for="is_open">{{ __('Is Open by Default') }}</label>
                                             <label class="switch">
                                                 <input type="checkbox" name="is_open" id="is_open">
                                                 <span class="slider"></span>
@@ -149,7 +149,7 @@
                                     </div>
                                     <div class="col-sm-12">
                                         <button id="submit" type="submit"
-                                            class="cmn_btn btn_bg_profile">{{ __('Add New Faq') }}</button>
+                                            class="cmn_btn btn_bg_profile">{{ __('Add') }}</button>
                                     </div>
                                 </div>
                             </form>
@@ -161,10 +161,10 @@
     </div>
     @can('faq-edit-faq')
         <div class="modal fade" id="faq_item_edit_modal" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
-                        <h5 class="modal-title">{{ __('Edit Faq Item') }}</h5>
+                        <h5 class="modal-title">{{ __('Edit FAQ Item') }}</h5>
                         <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
                     </div>
                     <form action="{{ route('admin.faq.update') }}" id="faq_edit_modal_form" enctype="multipart/form-data"
@@ -179,7 +179,7 @@
                                     placeholder="{{ __('Title') }}">
                             </div>
                             <div class="form-group">
-                                <label for="edit_is_open">{{ __('Is Open') }}</label>
+                                <label for="edit_is_open">{{ __('Is Open by Default') }}</label>
                                 <label class="switch">
                                     <input type="checkbox" name="is_open" id="edit_is_open">
                                     <span class="slider"></span>
@@ -201,7 +201,7 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"
                                 data-bs-dismiss="modal">{{ __('Close') }}</button>
-                            <button id="update" type="submit" class="btn btn-primary">{{ __('Save Changes') }}</button>
+                            <button id="update" type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                         </div>
                     </form>
                 </div>
@@ -247,6 +247,6 @@
 
 
     <script src="{{ asset('assets/backend/js/dropzone.js') }}"></script>
-    <x-datatable.js />
+    {{-- <x-datatable.js /> --}}
     <x-media.js />
 @endsection

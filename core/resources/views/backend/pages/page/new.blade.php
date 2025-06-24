@@ -47,7 +47,7 @@
                                             </div>
                                         </div>
                                         <div class="row g-4 mt-1">
-                                            <div class="col-lg-12">
+                                            <div class="col-lg-12" style="display: none">
                                                 <div class="dashboard__card">
                                                     <div class="dashboard__card__header">
                                                         <h4 class="mb-3 lead dashboard__card__title">
@@ -58,7 +58,7 @@
                                                         <div class="navbar_variants">
                                                             <div class="form-group">
                                                                 <input type="hidden" class="form-control"
-                                                                    id="navbar_variant" name="navbar_variant">
+                                                                    id="navbar_variant" value="2" name="navbar_variant">
                                                             </div>
 
                                                             @for ($i = 1; $i <= 3; $i++)

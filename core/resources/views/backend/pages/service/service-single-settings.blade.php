@@ -47,7 +47,7 @@
                                     value="{{ get_static_option('service_single_page_query_form_email') }}"
                                     id="service_single_page_query_form_email">
                             </div>
-                            <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Update Changes') }}</button>
+                            <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
                         </form>
                     </div>
                 </div>

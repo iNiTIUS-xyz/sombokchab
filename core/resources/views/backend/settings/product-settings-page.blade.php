@@ -29,9 +29,9 @@
                                             <input type="text" name="product_in_stock_limit_set" class="form-control"
                                                 placeholder="{{ __('Enter product out of stock limit') }}"
                                                 value="{{ get_static_option('product_in_stock_limit_set') }}">
-                                            <span class="mt-2 text-warning">
-                                                {{ __('if product stock is low, add stock limit for all products.') }}
-                                            </span>
+                                            <small class="mt-2 text-primary">
+                                                {{ __('Add a global stock limit for all products when the stock item is low.') }}
+                                            </small>
                                         </div>
                                     </div>
 

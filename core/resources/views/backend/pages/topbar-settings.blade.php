@@ -16,7 +16,7 @@
             <div class="col-lg-6">
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Top-bar Menu') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('Topbar Menu') }}</h4>
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
                         @can('appearance-settings-topbar-update-social-item')
@@ -35,7 +35,7 @@
                                 </div>
                                 <div class="btn-wrapper mt-4">
                                     <button class="cmn_btn btn_bg_profile" type="submit">
-                                        {{ __('Update Top-bar Menu') }}
+                                        {{ __('Update') }}
                                     </button>
                                 </div>
                             </form>
@@ -58,9 +58,9 @@
                     </div>
                     <div class="dashboard__card__body mt-4">
                         @can('appearance-settings-topbar-all')
-                            <table class="table table-default">
+                            <table class="table table-default" id="dataTable">
                                 <thead>
-                                    <th>{{ __('ID') }}</th>
+                                    <th>{{ __('Serial No.') }}</th>
                                     <th>{{ __('Icon') }}</th>
                                     <th>{{ __('URL') }}</th>
                                     <th>{{ __('Action') }}</th>
@@ -75,7 +75,7 @@
                                                 @can('appearance-settings-topbar-update-social-item')
                                                     <a href="#1" data-bs-toggle="modal"
                                                         data-bs-target="#social_item_edit_modal"
-                                                        class="btn btn-xs btn-primary  mb-2 me-1 social_item_edit_btn"
+                                                        class="btn btn-xs btn-warning  mb-2 me-1 social_item_edit_btn"
                                                         data-id="{{ $data->id }}" data-url="{{ $data->url }}"
                                                         data-icon="{{ $data->icon }}">
                                                         <i class="ti-pencil"></i>
@@ -97,7 +97,7 @@
     </div>
     @can('appearance-settings-topbar-new-social-item')
         <div class="modal fade" id="add_social_icon" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
                         <h5 class="modal-title">{{ __('Add Social Item') }}</h5>
@@ -115,7 +115,7 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"
                                 data-bs-dismiss="modal">{{ __('Close') }}</button>
-                            <button id="submit" type="submit" class="btn btn-primary">{{ __('Add Social Item') }}</button>
+                            <button id="submit" type="submit" class="btn btn-primary">{{ __('Add') }}</button>
                         </div>
                     </form>
                 </div>

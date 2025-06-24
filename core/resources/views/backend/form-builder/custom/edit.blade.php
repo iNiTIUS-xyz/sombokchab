@@ -14,14 +14,14 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Edit Form') }}</h4>
-                        <div class="dashboard__card__header__right">
+                        {{-- <div class="dashboard__card__header__right">
                             @can('form-builder-custom-new')
                                 <a href="#1" data-bs-toggle="modal" data-bs-target="#create_new_custom_form"
                                     class="cmn_btn btn_bg_2">
                                     {{ __('New Form') }}
                                 </a>
                             @endcan
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
                         <form action="{{ route('admin.form.builder.update') }}" method="Post">
@@ -51,7 +51,7 @@
                                 {!! \App\Helpers\FormBuilderCustom::render_drag_drop_form_builder($form->fields) !!}
                             </div>
                             <div class="form-group">
-                                <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Save Change') }}</button>
+                                <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
                                 <a href="{{ route('admin.form.builder.all') }}" class="cmn_btn default-theme-btn"
                                     style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
                                     Back

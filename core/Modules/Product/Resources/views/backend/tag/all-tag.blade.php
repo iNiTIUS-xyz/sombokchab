@@ -40,7 +40,7 @@
                                                 @endcan
                                                 @can('product-tag-edit')
                                                     <a href="#1" data-bs-toggle="modal" data-bs-target="#tag_edit_modal"
-                                                        class="btn btn-primary btn-xs mb-2 me-1 tag_edit_btn"
+                                                        class="btn btn-warning btn-xs mb-2 me-1 tag_edit_btn"
                                                         data-id="{{ $tag->id }}" data-name="{{ $tag->tag_text }}">
                                                         <i class="ti-pencil"></i>
                                                     </a>

@@ -30,7 +30,7 @@ class FaqController extends Controller
             'is_open' => ! empty($request->is_open) ? 'on' : '',
         ]);
 
-        return redirect()->back()->with(['msg' => __('New Faq Added...'), 'type' => 'success']);
+        return redirect()->back()->with(['msg' => __('FAQ added successfully.'), 'type' => 'success']);
     }
 
     public function update(Request $request)
@@ -49,14 +49,14 @@ class FaqController extends Controller
             'is_open' => ! empty($request->is_open) ? 'on' : '',
         ]);
 
-        return redirect()->back()->with(['msg' => __('Faq Updated...'), 'type' => 'success']);
+        return redirect()->back()->with(['msg' => __('FAQ updated successfully.'), 'type' => 'success']);
     }
 
     public function delete($id)
     {
         Faq::find($id)->delete();
 
-        return redirect()->back()->with(['msg' => __('Delete Success...'), 'type' => 'danger']);
+        return redirect()->back()->with(['msg' => __('FAQ deleted successfully.'), 'type' => 'danger']);
     }
 
     public function clone(Request $request)
@@ -69,7 +69,7 @@ class FaqController extends Controller
             'is_open' => ! empty($faq_item->is_open) ? 'on' : '',
         ]);
 
-        return redirect()->back()->with(['msg' => __('Clone Success...'), 'type' => 'success']);
+        return redirect()->back()->with(['msg' => __('FAQ clone successfully.'), 'type' => 'success']);
     }
 
     public function bulk_action(Request $request)

@@ -30,7 +30,7 @@ class TopBarController extends Controller
         $request->validate(['topbar_menu' => 'exists:menus,id']);
         update_static_option('topbar_menu', $request->topbar_menu);
 
-        return back()->with(FlashMsg::explain('success', __('Top-bar menu updated')));
+        return back()->with(FlashMsg::explain('success', __('Topbar menu updated')));
     }
 
     /** ===================================================================

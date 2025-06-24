@@ -42,7 +42,7 @@
                                                 @endcan
                                                 @can('product-unit-edit')
                                                     <a href="#1" data-bs-toggle="modal" data-bs-target="#unit_edit_modal"
-                                                        class="btn btn-primary btn-xs mb-2 me-1 unit_edit_btn"
+                                                        class="btn btn-warning btn-xs mb-2 me-1 unit_edit_btn"
                                                         data-id="{{ $unit->id }}" data-name="{{ $unit->name }}">
                                                         <i class="ti-pencil"></i>
                                                     </a>

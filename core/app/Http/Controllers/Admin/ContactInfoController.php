@@ -29,7 +29,7 @@ class ContactInfoController extends Controller
         ]);
         ContactInfoItem::create($request->all());
 
-        return redirect()->back()->with(['msg' => __('New Contact Info Item Added...'), 'type' => 'success']);
+        return redirect()->back()->with(['msg' => __('Contact info added successfully.'), 'type' => 'success']);
     }
 
     public function update(Request $request)
@@ -42,14 +42,14 @@ class ContactInfoController extends Controller
         ]);
         ContactInfoItem::find($request->id)->update($request->all());
 
-        return redirect()->back()->with(['msg' => __('Contact Info Item Updated...'), 'type' => 'success']);
+        return redirect()->back()->with(['msg' => __('Contact info updated successfully.'), 'type' => 'success']);
     }
 
     public function delete($id)
     {
         ContactInfoItem::find($id)->delete();
 
-        return redirect()->back()->with(['msg' => __('Delete Success...'), 'type' => 'danger']);
+        return redirect()->back()->with(['msg' => __('Contact info deleted successfully.'), 'type' => 'danger']);
     }
 
     public function bulk_action(Request $request)
