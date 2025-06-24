@@ -1,7 +1,7 @@
 @extends('backend.admin-master')
 @section('style')
-    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
-    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css">
+    {{-- <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css"> --}}
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/responsive/2.2.3/css/responsive.jqueryui.min.css">
     <style>
@@ -29,8 +29,8 @@
                 @can('form-builder-custom-new')
                     <div class="btn-wrapper mb-4">
                         <a href="#1" data-bs-toggle="modal" data-bs-target="#create_new_custom_form"
-                            class="btn btn-primary text-light">
-                            {{ __('New Form') }}
+                            class="btn btn-primary btn-lg text-light">
+                            {{ __('Add New Form') }}
                         </a>
                     </div>
                 @endcan
@@ -53,7 +53,7 @@
                     </div>
                     <div class="dashboard__card-body mt-4">
                         <div class="table-wrap table-responsive">
-                            <table class="table table-default" id="all_blog_table">
+                            <table class="table table-default" id="all_blog_table dataTable">
                                 <thead>
                                     @can('form-builder-custom-bulk-action')
                                         <th class="no-sort">
@@ -62,7 +62,7 @@
                                             </div>
                                         </th>
                                     @endcan
-                                    <th>{{ __('ID') }}</th>
+                                    <th>{{ __('Serial No.') }}</th>
                                     <th>{{ __('Title') }}</th>
                                     <th>{{ __('Action') }}</th>
                                 </thead>

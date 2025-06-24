@@ -15,22 +15,22 @@
 
                     <div class="dashboard__card__body mt-4">
                         <div class="table-wrap">
-                            <table class="table table-default">
+                            <table class="table table-default" id="dataTable">
                                 <thead>
-                                    <th>{{ __('ID') }}</th>
+                                    <th>{{ __('Serial No.') }}</th>
                                     <th>{{ __('Title') }}</th>
-                                    <th>{{ __('Created At') }}</th>
+                                    {{-- <th>{{ __('Created At') }}</th> --}}
                                     <th>{{ __('Action') }}</th>
                                 </thead>
                                 <tbody>
                                     @foreach ($all_menu as $data)
                                         <tr>
-                                            <td>{{ $data->id }}</td>
+                                            <td>{{ $loop->iteration }}</td>
                                             <td>{{ $data->title }}</td>
-                                            <td>{{ $data->created_at->diffForHumans() }}</td>
+                                            {{-- <td>{{ $data->created_at->diffForHumans() }}</td> --}}
                                             <td>
                                                 @can('category-menu-edit')
-                                                    <a class="btn btn-lg btn-primary btn-sm mb-2 me-1"
+                                                    <a class="btn btn-lg btn-warning btn-sm mb-2 me-1"
                                                         href="{{ route('admin.category.menu.edit', $data->id) }}">
                                                         <i class="ti-pencil"></i>
                                                     </a>
@@ -69,7 +69,7 @@
                                     <div class="col-lg-12">
                                         <div class="form-group">
                                             <button id="submit" type="submit"
-                                                class="cmn_btn btn_bg_profile">{{ __('Create Category Menu') }}</button>
+                                                class="cmn_btn btn_bg_profile">{{ __('Create') }}</button>
                                         </div>
                                     </div>
                                 </div>

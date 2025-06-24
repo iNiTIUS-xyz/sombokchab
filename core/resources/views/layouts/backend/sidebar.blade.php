@@ -19,7 +19,7 @@
             </div>
         </div>
         <div class="dashboard-bottom custom__form mt-4" id="sidbar-menu-wrap">
-            <ul class="dashboard-list">
+            <ul class="dashboard-list pb-5">
                 <li class="{{ active_menu('admin-home') }}">
                     <a href="{{ route('admin.home') }}" aria-expanded="true">
                         <i class="ti-layout-grid2"></i>
@@ -1197,7 +1197,7 @@
                         @endcan
 
                         @can('category-menu')
-                            <li class="{{ active_menu('admin-home/category-menu') }}">
+                            <li class="{{ active_menu('admin-home/category-menu') }}" style="display: none">
                                 <a href="{{ route('admin.category.menu.settings') }}" aria-expanded="true">
                                     {{ __('Category Menu Manage') }}
                                 </a>
@@ -1241,7 +1241,7 @@
                             <li class="{{ active_menu('admin-home/media-upload/page') }}">
                                 <a href="{{ route('admin.upload.media.images.page') }}"
                                     class="{{ active_menu('admin-home/form-builder/custom/all') }}">
-                                    {{ __('Media Upload Page') }}
+                                    {{ __('Uploaded Media Files') }}
                                 </a>
                             </li>
                         @endcan
@@ -1359,7 +1359,7 @@
                         @can('maintains-page-settings')
                             <li class="{{ active_menu('admin-home/maintains-page/settings') }}">
                                 <a href="{{ route('admin.maintains.page.settings') }}" aria-expanded="true">
-                                    {{ __('Maintain Page Manage') }}
+                                    {{ __('Maintenance Page Manage') }}
                                 </a>
                             </li>
                         @endcan
@@ -1505,14 +1505,14 @@
                             </li>
                         @endcan
                         @can('general-settings-sitemap-settings')
-                            <li class="{{ active_menu('admin-home/general-settings/sitemap-settings') }}">
+                            <li class="{{ active_menu('admin-home/general-settings/sitemap-settings') }}" style="display: none;">
                                 <a href="{{ route('admin.general.sitemap.settings') }}">
                                     {{ __('Sitemap Settings') }}
                                 </a>
                             </li>
                         @endcan
                         @can('general-settings-rss-settings')
-                            <li class="{{ active_menu('admin-home/general-settings/rss-settings') }}">
+                            <li class="{{ active_menu('admin-home/general-settings/rss-settings') }}" style="display: none;">
                                 <a href="{{ route('admin.general.rss.feed.settings') }}">
                                     {{ __('RSS Feed Settings') }}
                                 </a>
@@ -1546,7 +1546,7 @@
             @endcanany
 
             @can('languages')
-                <li class="@if (request()->is('admin-home/languages/*') || request()->is('admin-home/languages')) active @endif">
+                <li class="@if (request()->is('admin-home/languages/*') || request()->is('admin-home/languages')) active @endif" style="display: none;">
                     <a href="{{ route('admin.languages') }}" aria-expanded="true">
                         <i class="ti-signal"></i>
                         <span>{{ __('Languages') }}</span>

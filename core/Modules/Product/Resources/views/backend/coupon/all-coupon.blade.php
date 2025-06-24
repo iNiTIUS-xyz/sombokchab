@@ -138,7 +138,7 @@
                                                 @can('coupons-update')
                                                     <a href="#1" data-bs-toggle="modal"
                                                         data-bs-target="#category_edit_modal"
-                                                        class="btn btn-primary btn-xs mb-2 me-1 category_edit_btn"
+                                                        class="btn btn-warning btn-xs mb-2 me-1 category_edit_btn"
                                                         data-id="{{ $data->id }}" data-title="{{ $data->title }}"
                                                         data-code="{{ $data->code }}"
                                                         data-discount_on="{{ $data->discount_on }}"

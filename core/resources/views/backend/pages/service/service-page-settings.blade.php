@@ -24,7 +24,7 @@
                                     value="{{ get_static_option('service_page_service_items') }}"
                                     id="service_page_service_items">
                             </div>
-                            <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Update Changes') }}</button>
+                            <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
                         </form>
                     </div>
                 </div>

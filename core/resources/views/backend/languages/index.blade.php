@@ -77,7 +77,7 @@
                                                 @can('languages-words-update')
                                                     <a href="#1" data-bs-toggle="modal"
                                                         data-bs-target="#language_item_edit_modal"
-                                                        class="btn btn-primary btn-xs mb-2 me-1 lang_edit_btn"
+                                                        class="btn btn-warning btn-xs mb-2 me-1 lang_edit_btn"
                                                         data-id="{{ $data->id }}" data-name="{{ $data->name }}"
                                                         data-slug="{{ $data->slug }}" data-status="{{ $data->status }}"
                                                         data-direction="{{ $data->direction }}">

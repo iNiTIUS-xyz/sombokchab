@@ -42,7 +42,7 @@
                                                 @can('shipping-zone-edit')
                                                     <a href="#1" data-bs-toggle="modal"
                                                         data-bs-target="#shipping_zone_edit_modal"
-                                                        class="btn btn-primary btn-xs mb-2 me-1 shipping_zone_edit_btn"
+                                                        class="btn btn-warning btn-xs mb-2 me-1 shipping_zone_edit_btn"
                                                         data-id="{{ $zone->id }}" data-name="{{ $zone->name }}"
                                                         data-country="{{ optional($zone->region)->country }}"
                                                         data-state="{{ optional($zone->region)->state }}"

@@ -33,7 +33,7 @@ class CategoryMenuController extends Controller
         ]);
 
         return redirect()->back()->with([
-            'msg' => __('New Menu Created...'),
+            'msg' => __('New menu created successfully.'),
             'type' => 'success',
         ]);
     }
@@ -59,7 +59,7 @@ class CategoryMenuController extends Controller
         ]);
         
         return redirect()->back()->with([
-            'msg' => __('Menu updated...'),
+            'msg' => __('Menu updated successfully.'),
             'type' => 'success',
         ]);
     }
@@ -69,7 +69,7 @@ class CategoryMenuController extends Controller
         CategoryMenu::find($id)->delete();
 
         return redirect()->back()->with([
-            'msg' => __('Menu Delete Success...'),
+            'msg' => __('Menu deleted successfully.'),
             'type' => 'danger',
         ]);
     }

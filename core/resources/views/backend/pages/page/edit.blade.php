@@ -55,7 +55,7 @@
                                                 class="fas fa-external-link-alt "></i> {{ __('Open Page Builder') }}
                                         </a>
                                     </div>
-                                    <div class="navbar_variants mt-5">
+                                    <div class="navbar_variants mt-5" style="display: none">
                                         <p class="mb-3 lead">
                                             {{ __('Navbar Variant') }}
                                         </p>

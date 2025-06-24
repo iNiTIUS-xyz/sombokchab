@@ -61,7 +61,7 @@
                                 <td>
                                     @can('blog-category-edit')
                                         <a href="#1" data-bs-toggle="modal" data-bs-target="#category_item_edit_modal"
-                                            class="btn btn-primary btn-xs mb-2 me-1 category_edit_btn" data-bs-placement="top"
+                                            class="btn btn-warning btn-xs mb-2 me-1 category_edit_btn" data-bs-placement="top"
                                             title="{{ __('Edit') }}" data-id="{{ $data->id }}"
                                             data-action="{{ route(route_prefix() . 'admin.blog.category.update') }}"
                                             data-title="{{ $data->title }}" data-slug="{{ $data->slug }}"

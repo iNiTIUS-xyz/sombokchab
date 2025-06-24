@@ -50,7 +50,7 @@
                                             <td>
                                                 @can('colors-delete')
                                                     <a href="#1" data-bs-toggle="modal" data-bs-target="#color_edit_modal"
-                                                        class="btn btn-primary btn-xs mb-2 me-1 color_edit_btn"
+                                                        class="btn btn-warning btn-xs mb-2 me-1 color_edit_btn"
                                                         data-id="{{ $product_color->id }}"
                                                         data-name="{{ $product_color->name }}"
                                                         data-color_code="{{ $product_color->color_code }}"

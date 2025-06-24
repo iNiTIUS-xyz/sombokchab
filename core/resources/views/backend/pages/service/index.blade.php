@@ -145,7 +145,7 @@
                                                         <i class="ti-pencil"></i>
                                                     </a>
                                                     <br>
-                                                    <a target="_blank" href="{{route('frontend.services.single',$data->slug)}}" class="btn btn-xs btn-info btn-sm mb-2 me-1">
+                                                    <a target="_blank" href="{{route('frontend.services.single',$data->slug)}}" class="btn btn-xs btn-primary btn-sm mb-2 me-1">
                                                         <i class="ti-eye"></i>
                                                     </a>
                                                     <form action="{{route('admin.services.clone')}}" method="post" style="display: inline-block">

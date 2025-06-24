@@ -1,6 +1,6 @@
 @extends('backend.admin-master')
 @section('site-title')
-    {{ __('Maintain Page Settings') }}
+    {{ __('Maintenance Page Settings') }}
 @endsection
 @section('style')
     <link rel="stylesheet" href="{{ asset('assets/backend/css/bootstrap-tagsinput.css') }}">
@@ -16,7 +16,7 @@
                 <x-msg.flash />
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Maintain Page Settings') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('Maintenance Page Settings') }}</h4>
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
                         <form action="{{ route('admin.maintains.page.settings') }}" method="post"
@@ -82,7 +82,7 @@
                                             </div>
                                             <input type="hidden" id="maintain_page_logo" name="maintain_page_logo"
                                                 value="">
-                                            <button type="button" class="btn btn-info media_upload_form_btn"
+                                            <button type="button" class="btn btn-secondary media_upload_form_btn"
                                                 data-btntitle="Select Maintains Logo Image"
                                                 data-modaltitle="Upload Maintains Logo Image" data-bs-toggle="modal"
                                                 data-bs-target="#media_upload_modal">
@@ -90,7 +90,7 @@
                                             </button>
                                         </div>
                                         <small class="form-text text-muted">
-                                            {{ __('allowed image format: jpg,jpeg,png. RecommeDFnded image size 300x100') }}
+                                            {{ __('Allowed image format: jpg,jpeg,png. RecommeDFnded image size 300x100') }}
                                         </small>
                                     </div>
                                 </div>
@@ -126,7 +126,7 @@
                                             </div>
                                             <input type="hidden" id="maintain_page_background_image"
                                                 name="maintain_page_background_image" value="">
-                                            <button type="button" class="btn btn-info media_upload_form_btn"
+                                            <button type="button" class="btn btn-secondary media_upload_form_btn"
                                                 data-btntitle="{{ __('Select Background Image') }}"
                                                 data-modaltitle="{{ __('Upload Background Image') }}"
                                                 data-bs-toggle="modal" data-bs-target="#media_upload_modal">
@@ -134,7 +134,7 @@
                                             </button>
                                         </div>
                                         <small class="form-text text-muted">
-                                            {{ __('allowed image format: jpg,jpeg,png. Recommended image size 1920x1000') }}
+                                            {{ __('Allowed image format: jpg,jpeg,png. Recommended image size 1920x1000') }}
                                         </small>
                                     </div>
                                 </div>

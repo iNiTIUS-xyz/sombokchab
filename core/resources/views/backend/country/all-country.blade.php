@@ -42,7 +42,7 @@
                                                 @endcan
                                                 @can('country-edit')
                                                     <a href="#1" data-bs-toggle="modal" data-bs-target="#country_edit_modal"
-                                                        class="btn btn-primary btn-xs mb-2 me-1 country_edit_btn"
+                                                        class="btn btn-warning btn-xs mb-2 me-1 country_edit_btn"
                                                         data-id="{{ $country->id }}" data-name="{{ $country->name }}"
                                                         data-status="{{ $country->status }}">
                                                         <i class="ti-pencil"></i>

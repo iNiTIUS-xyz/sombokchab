@@ -18,29 +18,29 @@
 </style>
 
 @if($status === 0)
-    <span class="alert alert-danger" >{{__('Inactive')}}</span>
+    <span class="badge bg-danger" >{{__('Inactive')}}</span>
 @elseif($status === 1)
-    <span class="alert alert-success" >{{__('Active')}}</span>
+    <span class="badge bg-success" >{{__('Active')}}</span>
 @elseif($status === 'complete')
-    <span class="alert alert-success" >{{__('Complete')}}</span>
+    <span class="badge bg-success" >{{__('Complete')}}</span>
 @elseif($status === 'close')
-    <span class="alert alert-danger" >{{__('Close')}}</span>
+    <span class="badge bg-danger" >{{__('Close')}}</span>
 @elseif($status === 'draft')
-    <span class="alert alert-danger" >{{__('Draft')}}</span>
+    <span class="badge bg-danger" >{{__('Draft')}}</span>
 @elseif($status === 'in_progress')
-    <span class="alert alert-info" >{{__('In Progress')}}</span>
+    <span class="badge bg-info" >{{__('In Progress')}}</span>
 @elseif($status === 'archive')
-    <span class="alert alert-info" >{{__('Archive')}}</span>
+    <span class="badge bg-info" >{{__('Archive')}}</span>
 @elseif($status === 'schedule')
-    <span class="alert alert-warning" >{{__('Schedule')}}</span>
+    <span class="badge bg-warning" >{{__('Schedule')}}</span>
 @elseif($status === 'publish')
-    <span class="alert alert-success" >{{__('Publish')}}</span>
+    <span class="badge bg-success" >{{__('Published')}}</span>
 @elseif($status === 'confirm')
-    <span class="alert alert-success" >{{__('Confirm')}}</span>
+    <span class="badge bg-success" >{{__('Confirm')}}</span>
 @elseif($status === 'yes')
-    <span class="alert alert-success" >{{__('Yes')}}</span>
+    <span class="badge bg-success" >{{__('Yes')}}</span>
 @elseif($status === 'no')
-    <span class="alert alert-danger" >{{__('No')}}</span>
+    <span class="badge bg-danger" >{{__('No')}}</span>
 @elseif($status === 'cancel')
-    <span class="alert alert-danger" >{{__('Cancel')}}</span>
+    <span class="badge bg-danger" >{{__('Cancel')}}</span>
 @endif

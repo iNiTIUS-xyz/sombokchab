@@ -67,7 +67,7 @@
                                                 @endcan
                                                 @can('shipping-method-edit')
                                                     <a href="{{ route('admin.shipping.method.edit', $method->id) }}"
-                                                        class="btn btn-primary btn-xs mb-2 me-1">
+                                                        class="btn btn-warning btn-xs mb-2 me-1">
                                                         <i class="ti-pencil"></i>
                                                     </a>
                                                 @endcan

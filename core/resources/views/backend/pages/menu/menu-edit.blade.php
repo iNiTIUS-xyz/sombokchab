@@ -118,7 +118,7 @@
                                             </section><!-- END #demo -->
                                             <div class="form-group mt-4">
                                                 <button type="submit" id="menu_structure_submit_btn"
-                                                    class="cmn_btn btn_bg_profile">{{ __('Update Changes') }}</button>
+                                                    class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
                                             </div>
                                         </div>
                                     </div>

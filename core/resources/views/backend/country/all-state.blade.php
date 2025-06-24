@@ -44,7 +44,7 @@
                                                 @endcan
                                                 @can('state-edit')
                                                     <a href="#1" data-bs-toggle="modal" data-bs-target="#state_edit_modal"
-                                                        class="btn btn-primary btn-xs mb-2 me-1 state_edit_btn"
+                                                        class="btn btn-warning btn-xs mb-2 me-1 state_edit_btn"
                                                         data-id="{{ $state->id }}" data-name="{{ $state->name }}"
                                                         data-country_id="{{ $state->country_id }}"
                                                         data-status="{{ $state->status }}">
