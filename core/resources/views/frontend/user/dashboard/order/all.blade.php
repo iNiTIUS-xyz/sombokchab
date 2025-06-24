@@ -1,10 +1,13 @@
 @extends('frontend.user.dashboard.user-master')
+
 @section('style')
-    <x-datatable.css />
+    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap4.min.css') }}">
 @endsection
+
 @section('site-title')
     {{ __('My Orders') }}
 @endsection
+
 @section('section')
     <div class="dashboard__card__order">
         <div class="dashboard__card__header">
@@ -12,16 +15,12 @@
         </div>
         <div class="dashboard__card__table mt-4">
             <x-user-orders-table :allOrders="$all_orders" />
-            <div class="pagination">
-                {!! $all_orders->links() !!}
-            </div>
         </div>
     </div>
 @endsection
 
 @section('script')
     <script src="{{ asset('assets/backend/js/sweetalert2.js') }}"></script>
-
     <script>
         (function($) {
             "use strict";
@@ -54,6 +53,4 @@
             })
         })(jQuery)
     </script>
-
-    <x-datatable.js />
 @endsection

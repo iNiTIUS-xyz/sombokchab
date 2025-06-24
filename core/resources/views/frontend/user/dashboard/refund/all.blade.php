@@ -1,87 +1,78 @@
 @extends('frontend.user.dashboard.user-master')
+
 @section('style')
-    <x-datatable.css />
+    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap4.min.css') }}">
 @endsection
+
 @section('site-title')
     {{ __('My Orders') }}
 @endsection
+
 @section('section')
     <div class="dashboard__card__refund">
         <div class="dashboard__card__header">
             <h3 class="dashboard__card__title">{{ __('My Refund Requests') }}</h3>
         </div>
-        <div class="dashboard__card__body mt-4">
-            <div class="table-wrap table-responsive all-user-campaign-table">
-                <div class="order-history-inner">
-                    <table class="table">
-                        <thead>
+        <div class="dashboard__card__body">
+            <div class="table-responsive">
+                <table class="table" id="dataTable">
+                    <thead>
+                        <tr>
+                            <th>{{ __('Serial No.') }}</th>
+                            <th>{{ __('Order Details') }}</th>
+                            <th>{{ __('Refund Details') }}</th>
+                            <th>{{ __('Refund Request Date') }}</th>
+                            <th>{{ __('Action') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($refundRequests as $request)
                             <tr>
-                                <th>{{ __('Serial No.') }}</th>
-                                <th>{{ __('Order Details') }}</th>
-                                <th>{{ __('Refund Details') }}</th>
-                                <th>{{ __('Refund Request Date') }}</th>
-                                <th>{{ __('Action') }}</th>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>
+                                    <span class="user-info">
+                                        <b>{{ $request->order?->order_number }}</b><br>
+                                        {{ __('Status') }}:
+                                        @if ($request->order?->order_status == 'complete')
+                                            <span class="badge bg-primary px-2 py-1">{{ __('Complete') }}</span>
+                                        @elseif ($request->order?->order_status == 'pending')
+                                            <span class="badge bg-warning px-2 py-1">{{ __('Pending') }}</span>
+                                        @elseif ($request->order?->order_status == 'failed')
+                                            <span class="badge bg-danger px-2 py-1">{{ __('Failed') }}</span>
+                                        @elseif ($request->order?->order_status == 'canceled')
+                                            <span class="badge bg-danger px-2 py-1">{{ __('Canceled') }}</span>
+                                        @elseif ($request->order?->order_status == 'rejected')
+                                            <span class="badge px-2 py-1"
+                                                style="background: rgb(138, 1, 14) !important;">{{ __('Rejected') }}</span>
+                                        @endif
+                                        <br>
+                                        {{-- <span class="text-capitalize badge bg-light text-dark">{{ $request->order?->order_status }}</span> <br> --}}
+                                        {{ __('Amount') }}
+                                        {{ float_amount_with_currency_symbol($request->order?->paymentMeta?->total_amount) }}<br>
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="user-info ">
+                                        <b>{{ $request->id }}</b><br>
+                                        {{ __('Status') }}:
+                                        <span
+                                            class="badge bg-light text-dark">{{ __(ucwords(str_replace('_', ' ', $request->currentTrackStatus?->name))) }}</span>
+                                        <br>
+                                        {{ __('Total Product:') }} {{ $request->request_product_count }}<br>
+                                    </span>
+                                </td>
+                                <td>{{ $request->created_at->format('M j, Y') }}</td>
+                                <td>
+                                    <a href="{{ route('user.product.refund-request.view', $request->id) }}"
+                                        class="btn btn-secondary btn-sm rounded-btn" title="{{ __('View Details') }}"
+                                        style="width: 40px;">
+                                        <i class="las la-file-alt"></i>
+                                    </a>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($refundRequests as $request)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-
-                                    <td>
-                                        <span class="user-info">
-                                            <b>{{ $request->order?->order_number }}</b><br>
-                                            {{ __('Status') }}:
-                                            @if ($request->order?->order_status == 'complete')
-                                                <span class="badge bg-primary px-2 py-1">{{ __('Complete') }}</span>
-                                            @elseif ($request->order?->order_status == 'pending')
-                                                <span class="badge bg-warning px-2 py-1">{{ __('Pending') }}</span>
-                                            @elseif ($request->order?->order_status == 'failed')
-                                                <span class="badge bg-danger px-2 py-1">{{ __('Failed') }}</span>
-                                            @elseif ($request->order?->order_status == 'canceled')
-                                                <span class="badge bg-danger px-2 py-1">{{ __('Canceled') }}</span>
-                                            @elseif ($request->order?->order_status == 'rejected')
-                                                <span class="badge px-2 py-1"
-                                                    style="background: rgb(138, 1, 14) !important;">{{ __('Rejected') }}</span>
-                                            @endif
-                                            <br>
-                                            {{-- <span class="text-capitalize badge bg-light text-dark">{{ $request->order?->order_status }}</span> <br> --}}
-                                            {{ __('Amount') }}
-                                            {{ float_amount_with_currency_symbol($request->order?->paymentMeta?->total_amount) }}<br>
-                                        </span>
-                                    </td>
-
-                                    <td>
-                                        <span class="user-info ">
-                                            <b>{{ $request->id }}</b><br>
-                                            {{ __('Status') }}:
-                                            <span
-                                                class="badge bg-light text-dark">{{ __(ucwords(str_replace('_', ' ', $request->currentTrackStatus?->name))) }}</span>
-                                            <br>
-                                            {{ __('Total Product:') }} {{ $request->request_product_count }}<br>
-                                        </span>
-                                    </td>
-                                    <td>{{ $request->created_at->format('M j, Y') }}</td>
-                                    <td>
-                                        <a href="{{ route('user.product.refund-request.view', $request->id) }}"
-                                            class="btn btn-secondary btn-sm rounded-btn" title="View Details"
-                                            style="width: 40px;">
-                                            {{-- {{ __('View Details') }} --}}
-                                            <i class="las la-file-alt"></i>
-                                        </a>
-                                        {{-- <a class="btn btn-secondary btn-sm rounded-btn"
-                                            href="{{ route('user.product.refund-request.view', $request->id) }}">
-                                            {{ __('View Details') }}
-                                        </a> --}}
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="pagination">
-                {!! $refundRequests->links() !!}
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -89,6 +80,25 @@
 
 @section('script')
     <script src="{{ asset('assets/backend/js/sweetalert2.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/dataTables.bootstrap4.min.js') }}"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Initialize DataTable only if the table exists
+            if ($('#dataTable').length) {
+                $('#dataTable').DataTable({
+                    paging: true,
+                    lengthChange: true,
+                    searching: true,
+                    ordering: true,
+                    info: true,
+                    autoWidth: false,
+                    responsive: true
+                });
+            }
+        });
+    </script>
 
     <script>
         (function($) {

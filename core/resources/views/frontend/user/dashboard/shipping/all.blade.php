@@ -1,5 +1,9 @@
 @extends('frontend.user.dashboard.user-master')
 
+@section('style')
+    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap4.min.css') }}">
+@endsection
+
 @section('section')
     <div class="btn-wrapper">
         <a href="{{ route('user.shipping.address.new') }}" class="cmn_btn btn_bg_1">
@@ -14,8 +18,8 @@
                 </h4>
             </div>
             <div class="dashboard__card__body mt-4">
-                <div class="table-responsive table-wrap">
-                    <table class="table">
+                <div class="table-responsive">
+                    <table class="table" id="dataTable">
                         <thead>
                             <tr>
                                 <th>{{ __('Serial No.') }}</th>
@@ -25,40 +29,6 @@
                                 <th>{{ __('Action') }}</th>
                             </tr>
                         </thead>
-                        {{-- <tbody>
-                            @foreach ($all_shipping_address as $address)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $address->name }}</td>
-                                    <td>{{ $address->address }}</td>
-                                    <td>{{ $address->is_default == 1 ? 'Yes' : 'No' }}</td>
-                                    <td>
-                                        @if ($address->is_default != 1)
-                                            <a href="{{ route('user.shipping.address.make-default', $address->id) }}"
-                                                class="btn btn-success btn-xs mb-2 me-1" title="Make Default">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    fill="currentColor" viewBox="0 0 24 24">
-                                                    <path
-                                                        d="M6 2a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V8l-6-6H6zm7 1.5L18.5 9H13V3.5z">
-                                                    </path>
-                                                </svg>
-                                            </a>
-                                        @else
-                                            <button class="btn btn-success bg-success text-white btn-xs px-4 mb-2 me-1"
-                                                type="button" title="Default shipping">
-                                                {{ __('Default') }}
-                                            </button>
-                                        @endif
-                                        <a href="{{ route('user.shipping.address.edit', $address->id) }}"
-                                            class="btn btn-sm btn-warning btn-xs mb-2 me-1" title="Edit Address">
-                                            <i class="las la-edit"></i>
-                                        </a>
-                                        <x-table.btn.swal.delete :route="route('shipping.address.delete', $address->id)" title="Delete Address" />
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody> --}}
                         <tbody>
                             @foreach ($all_shipping_address as $address)
                                 <tr>
@@ -74,27 +44,26 @@
                                     </td>
                                     <td>
                                         @if ($address->is_default != 1)
-                                            
                                             <a href="{{ route('user.shipping.address.make-default', $address->id) }}"
-                                            class="btn btn-secondary btn-xs mb-2 me-1" title="Make Default">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-check-fill" viewBox="0 0 16 16">
-                                                    <path fill-rule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5m8.854-9.646a.5.5 0 0 0-.708-.708L7.5 7.793 6.354 6.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z"/>
+                                                class="btn btn-secondary btn-xs mb-2 me-1" title="Make Default">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    fill="currentColor" class="bi bi-bookmark-check-fill"
+                                                    viewBox="0 0 16 16">
+                                                    <path fill-rule="evenodd"
+                                                        d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5m8.854-9.646a.5.5 0 0 0-.708-.708L7.5 7.793 6.354 6.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z" />
                                                 </svg>
                                             </a>
                                         @endif
                                         <a href="{{ route('user.shipping.address.edit', $address->id) }}"
-                                        class="btn btn-sm btn-warning btn-xs mb-2 me-1" title="Edit Address">
+                                            class="btn btn-sm btn-warning btn-xs mb-2 me-1" title="{{ __('Edit Data') }}">
                                             <i class="las la-edit"></i>
                                         </a>
-                                        <x-table.btn.swal.delete :route="route('shipping.address.delete', $address->id)" title="Delete Address" />
+                                        <x-table.btn.swal.delete :route="route('shipping.address.delete', $address->id)" />
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
-                </div>
-                <div class="pagination">
-                    {!! $all_shipping_address->links() !!}
                 </div>
             </div>
         </div>
@@ -107,7 +76,27 @@
 
 @section('script')
     <script src="{{ asset('assets/backend/js/sweetalert2.js') }}"></script>
+
     <x-table.btn.swal.js />
+    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/dataTables.bootstrap4.min.js') }}"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Initialize DataTable only if the table exists
+            if ($('#dataTable').length) {
+                $('#dataTable').DataTable({
+                    paging: true,
+                    lengthChange: true,
+                    searching: true,
+                    ordering: true,
+                    info: true,
+                    autoWidth: false,
+                    responsive: true
+                });
+            }
+        });
+    </script>
 
     <script>
         $(document).ready(function() {

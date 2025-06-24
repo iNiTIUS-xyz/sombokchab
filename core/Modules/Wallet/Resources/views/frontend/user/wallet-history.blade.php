@@ -1,7 +1,7 @@
 @extends('frontend.user.dashboard.user-master')
 
 @section('style')
-    <x-datatable.css />
+    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap4.min.css') }}">
     <style>
         @media (min-width: 576px) {
             .modal-dialog {
@@ -17,7 +17,6 @@
 @endsection
 
 @section('section')
-    <!-- Dashboard area Starts -->
     <div class="wallet__history">
         <x-msg.error />
         <div class="row g-4">
@@ -27,9 +26,6 @@
                         <img src="{{ asset('assets/frontend/img/static/orders-shapes3.png') }}" alt="">
                     </div>
                     <div class="orders-flex-content">
-                        {{-- <div class="icon">
-                            <i class="las la-dollar-sign"></i>
-                        </div> --}}
                         <div class="contents">
                             <h2 class="order-titles">
                                 {{ float_amount_with_currency_symbol($total_wallet_balance) }}
@@ -58,7 +54,7 @@
             <div class="col-lg-12">
                 <div class="single-dashboard-order table-wrap">
                     <div class="table-responsive table-responsive--md">
-                        <table class="table-responsive table">
+                        <table class="table-responsive table" id="dataTable">
                             <thead>
                                 <tr>
                                     <th>{{ __('Serial No.') }}</th>
@@ -101,15 +97,11 @@
                                 @endforeach
                             </tbody>
                         </table>
-
-                        {!! $histories->links() !!}
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
-
     <!--Status Modal -->
     <div class="modal fade" id="payoutRequestModal" tabindex="-1" role="dialog" aria-labelledby="editModal"
         aria-hidden="true">
@@ -148,7 +140,26 @@
 
 @section('script')
     <script src="{{ asset('assets/backend/js/sweetalert2.js') }}"></script>
-    {{--    <x-payment-gateway-js/> --}}
+    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/dataTables.bootstrap4.min.js') }}"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Initialize DataTable only if the table exists
+            if ($('#dataTable').length) {
+                $('#dataTable').DataTable({
+                    paging: true,
+                    lengthChange: true,
+                    searching: true,
+                    ordering: true,
+                    info: true,
+                    autoWidth: false,
+                    responsive: true
+                });
+            }
+        });
+    </script>
+
     <script>
         (function($) {
             "use strict";

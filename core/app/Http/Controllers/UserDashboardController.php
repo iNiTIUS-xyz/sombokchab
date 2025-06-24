@@ -45,7 +45,7 @@ class UserDashboardController extends Controller
         $all_orders = Order::with(['paymentMeta', 'refundRequest.currentTrackStatus'])->withCount('isDelivered')
             ->where('user_id', auth('web')->user()->id)
             ->orderBy('id', 'DESC')
-            ->paginate(5);
+            ->get();
 
         return view(self::BASE_PATH . 'user-home', compact('all_orders', 'product_count', 'support_ticket_count'));
     }
@@ -220,7 +220,7 @@ class UserDashboardController extends Controller
             return redirect()->route('homepage');
         }
         $all_country = Country::where('status', 'publish')->get();
-        $all_shipping_address = ShippingAddress::where('user_id', getUserByGuard('web')->id)->paginate(10);
+        $all_shipping_address = ShippingAddress::where('user_id', getUserByGuard('web')->id)->get();
 
         return view(self::BASE_PATH . 'shipping.all', compact('all_shipping_address', 'all_country'));
     }
@@ -388,37 +388,28 @@ class UserDashboardController extends Controller
         return back()->with(FlashMsg::delete_failed('Shipping address'));
     }
 
-    /** ============================================================================
-     *                  ORDER PAGE FUNCTIONS
-     * ============================================================================ */
     public function allOrdersPage(): Factory|View|Application
     {
-        // $all_orders = Order::with('paymentMeta')->withCount('isDelivered')
-        //     ->where('user_id', auth('web')->user()->id)
-        //     ->orderBy('id', 'DESC')
-        //     ->paginate(10);
+
         $all_orders = Order::with(['paymentMeta', 'refundRequest.currentTrackStatus'])->withCount('isDelivered')
             ->where('user_id', auth('web')->user()->id)
             ->orderBy('id', 'DESC')
-            ->paginate(10);
-
+            ->get();
 
         return view(self::BASE_PATH . 'order.all', compact('all_orders'));
     }
 
-    /** ============================================================================
-     *                  ORDER PAGE FUNCTIONS
-     * ============================================================================ */
     public function allRefundsPage(): Factory|View|Application
     {
         if (!moduleExists("Refund")) {
             abort(404);
         }
 
-        $refundRequests = RefundRequest::withCount('requestProduct')
+        $refundRequests = RefundRequest::query()
+            ->withCount('requestProduct')
             ->with('currentTrackStatus', 'user:id,name,email,phone', 'order:id,order_number,order_status,created_at', 'order.paymentMeta')
             ->where('user_id', auth('web')->user()->id)->orderByDesc('id')
-            ->paginate(20);
+            ->get();
 
         return view(self::BASE_PATH . 'refund.all', compact('refundRequests'));
     }
@@ -574,12 +565,12 @@ class UserDashboardController extends Controller
         throw new \Exception('Delivery man not assigned for this order');
     }
 
-    /** ===================================================================
-     *                  SUPPORT TICKETS
-     * =================================================================== */
     public function support_tickets()
     {
-        $all_tickets = SupportTicket::where('user_id', auth('web')->user()->id)->orderBy('created_at', 'DESC')->paginate(10);
+        $all_tickets = SupportTicket::query()
+            ->where('user_id', auth('web')->user()->id)
+            ->orderBy('created_at', 'DESC')
+            ->get();
 
         return view(self::BASE_PATH . 'support-tickets.all')->with(['all_tickets' => $all_tickets]);
     }

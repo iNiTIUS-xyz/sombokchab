@@ -1,4 +1,9 @@
 @extends('frontend.user.dashboard.user-master')
+
+@section('style')
+    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap4.min.css') }}">
+@endsection
+
 @section('site-title')
     {{ __('Customer Dashboard') }}
 @endsection
@@ -23,7 +28,6 @@
                 </div>
             </div>
         </div>
-
         <div class="col-lg-12">
             <x-user-orders-table :allOrders="$all_orders" />
         </div>

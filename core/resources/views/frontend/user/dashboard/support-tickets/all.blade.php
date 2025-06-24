@@ -1,6 +1,7 @@
 @extends('frontend.user.dashboard.user-master')
 
 @section('style')
+    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap4.min.css') }}">
     <style>
         .badge.status-open {
             display: inline-block;
@@ -8,7 +9,6 @@
             padding: 3px 10px;
             border-radius: 4px;
             color: #fff;
-            /* text-transform: capitalize; */
             border: none;
             font-weight: 600;
         }
@@ -19,7 +19,6 @@
             padding: 3px 10px;
             border-radius: 4px;
             color: #fff;
-            /* text-transform: capitalize; */
             border: none;
             font-weight: 600;
         }
@@ -29,9 +28,9 @@
 @section('section')
     <a href="{{ route('frontend.support.ticket') }}" class="cmn_btn btn_bg_1">{{ __('Create New Ticket') }}</a>
     @if (count($all_tickets) > 0)
-        <div class="table-wrap mt-4">
+        <div class="mt-4">
             <div class="table-responsive" style="overflow-x: unset !important;">
-                <table class="table">
+                <table class="table" id="dataTable">
                     <thead>
                         <tr>
                             <th>{{ __('Serial No.') }}</th>
@@ -59,12 +58,14 @@
                                 </td>
                                 <td>
                                     <a href="{{ route('user.dashboard.support.ticket.view', $data->id) }}"
-                                        class="btn btn-secondary btn-sm rounded-btn" class="View Support Ticket">
+                                        class="btn btn-secondary btn-sm rounded-btn"
+                                        title="{{ __('View Support Ticket') }}">
                                         <i class="las la-file-alt"></i>
                                     </a>
                                     @if ($data->status == 'open')
                                         <a href="javascript:;" class="status_change btn btn-danger btn-xs"
-                                            data-id="{{ $data->id }}" data-val="close" title="Close Ticket">
+                                            data-id="{{ $data->id }}" data-val="close"
+                                            title="{{ __('Close Ticket') }}">
                                             <i class="las la-times"></i>
                                         </a>
                                     @endif
@@ -73,9 +74,6 @@
                         @endforeach
                     </tbody>
                 </table>
-            </div>
-            <div class="blog-pagination">
-                {{ $all_tickets->links() }}
             </div>
         </div>
     @else
@@ -92,6 +90,26 @@
     <script src="{{ asset('assets/frontend/js/popper.min.js') }}"></script>
     <script src="{{ asset('assets/common/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('assets/backend/js/sweetalert2.js') }}"></script>
+
+    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/dataTables.bootstrap4.min.js') }}"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Initialize DataTable only if the table exists
+            if ($('#dataTable').length) {
+                $('#dataTable').DataTable({
+                    paging: true,
+                    lengthChange: true,
+                    searching: true,
+                    ordering: true,
+                    info: true,
+                    autoWidth: false,
+                    responsive: true
+                });
+            }
+        });
+    </script>
 
     <script>
         (function($) {
