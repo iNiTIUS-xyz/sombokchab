@@ -54,7 +54,9 @@
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Media Images') }}</h4>
                         <a href="#1" class="cmn_btn btn_bg_profile" data-bs-toggle="modal"
-                            data-bs-target="#media_image_upload_modal">{{ __('Add New Image') }}</a>
+                            data-bs-target="#media_image_upload_modal" title="{{ __('Add New Image') }}">
+                            {{ __('Add New Image') }}
+                        </a>
                     </div>
                 </div>
             </div>

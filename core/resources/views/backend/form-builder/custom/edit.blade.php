@@ -29,29 +29,34 @@
                             <input type="hidden" name="id" value="{{ $form->id }}">
                             <div class="form-group">
                                 <label for="text">{{ __('Title') }}</label>
-                                <input type="text" class="form-control" name="title" value="{{ $form->title }}">
+                                <input type="text" placeholder="{{ __('Enter title') }}" class="form-control"
+                                    name="title" value="{{ $form->title }}">
                             </div>
                             <div class="form-group">
                                 <label for="text">{{ __('Receiving Email') }}</label>
-                                <input type="email" class="form-control" name="email" value="{{ $form->email }}">
-                                <span
-                                    class="info-text">{{ __('your will get mail with all info of from to this email') }}</span>
+                                <input type="email" class="form-control" name="email"
+                                    placeholder="{{ __('Enter receiving email') }}" value="{{ $form->email }}">
+                                <span class="info-text">
+                                    {{ __('your will get mail with all info of from to this email') }}
+                                </span>
                             </div>
                             <div class="form-group">
                                 <label for="text">{{ __('Button Title') }}</label>
-                                <input type="text" class="form-control" name="button_title"
-                                    value="{{ $form->button_text }}">
+                                <input type="text" placeholder="{{ __('Enter button title') }}" class="form-control"
+                                    name="button_title" value="{{ $form->button_text }}">
                             </div>
                             <div class="form-group">
                                 <label for="success_message">{{ __('Success Message') }}</label>
-                                <input type="text" class="form-control" name="success_message"
-                                    value="{{ $form->success_message }}">
+                                <input type="text" placeholder="{{ __('Enter success message') }}" class="form-control"
+                                    name="success_message" value="{{ $form->success_message }}">
                             </div>
                             <div class="form-group">
                                 {!! \App\Helpers\FormBuilderCustom::render_drag_drop_form_builder($form->fields) !!}
                             </div>
                             <div class="form-group">
-                                <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
+                                <button type="submit" class="cmn_btn btn_bg_profile">
+                                    {{ __('Update') }}
+                                </button>
                                 <a href="{{ route('admin.form.builder.all') }}" class="cmn_btn default-theme-btn"
                                     style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
                                     Back

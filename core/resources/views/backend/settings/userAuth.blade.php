@@ -22,7 +22,10 @@
                                 <div class="row g-4">
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <label for="toc_page_link">{{ __('Terms of Service and Conditions Link') }}</label>
+                                            <label for="toc_page_link">
+                                                {{ __('Terms of Service and Conditions Link') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <select class="form-control form-select" id="toc_page_link" name="toc_page_link">
                                                 <option value="">{{ __('Select Terms and condition page') }}</option>
                                                 @foreach ($pages as $page)
@@ -33,8 +36,12 @@
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <label for="privacy_policy_link">{{ __('Privacy Policy Link') }}</label>
-                                            <select class="form-control form-select" id="privacy_policy_link" name="privacy_policy_link"
+                                            <label for="privacy_policy_link">
+                                                {{ __('Privacy Policy Link') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <select class="form-control form-select" id="privacy_policy_link"
+                                                name="privacy_policy_link"
                                                 value="{{ get_static_option('privacy_policy_link') }}">
                                                 <option value="">{{ __('Select privacy policy page') }}</option>
                                                 @foreach ($pages as $page)

@@ -1,7 +1,5 @@
 @extends('backend.admin-master')
 @section('style')
-    {{-- <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
-    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css"> --}}
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/responsive/2.2.3/css/responsive.jqueryui.min.css">
     <style>
@@ -16,9 +14,11 @@
     </style>
     <link rel="stylesheet" href="{{ asset('assets/backend/css/media-uploader.css') }}">
 @endsection
+
 @section('site-title')
     {{ __('All Custom Form') }}
 @endsection
+
 @section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row">
@@ -29,23 +29,31 @@
                 @can('form-builder-custom-new')
                     <div class="btn-wrapper mb-4">
                         <a href="#1" data-bs-toggle="modal" data-bs-target="#create_new_custom_form"
-                            class="btn btn-primary btn-lg text-light">
+                            class="btn btn-primary btn-lg text-light" title="{{ __('Add New Form') }}">
                             {{ __('Add New Form') }}
                         </a>
                     </div>
                 @endcan
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('All Custom Form') }}</h4>
+                        <h4 class="dashboard__card__title">
+                            {{ __('All Custom Form') }}
+                        </h4>
                         <div class="dashboard__card__header__right">
                             @can('form-builder-custom-bulk-action')
                                 <div class="bulk-delete-wrapper">
                                     <div class="select-box-wrap">
                                         <select name="bulk_option" id="bulk_option">
-                                            <option value="">{{ __('Bulk Action') }}</option>
-                                            <option value="delete">{{ __('Delete') }}</option>
+                                            <option value="">
+                                                {{ __('Bulk Action') }}
+                                            </option>
+                                            <option value="delete">
+                                                {{ __('Delete') }}
+                                            </option>
                                         </select>
-                                        <button class="btn btn-primary btn-sm" id="bulk_delete_btn">{{ __('Apply') }}</button>
+                                        <button class="btn btn-primary btn-sm" id="bulk_delete_btn">
+                                            {{ __('Apply') }}
+                                        </button>
                                     </div>
                                 </div>
                             @endcan
@@ -115,25 +123,32 @@
                             </div>
                             <div class="form-group">
                                 <label for="text">{{ __('Receiving Email') }}</label>
-                                <input type="email" class="form-control" name="email" placeholder="{{ __('Email') }}">
-                                <span
-                                    class="info-text">{{ __('your will get mail with all info of from to this email') }}</span>
+                                <input type="email" class="form-control" name="email"
+                                    placeholder="{{ __('Enter email') }}">
+                                <span class="info-text">
+                                    {{ __('your will get mail with all info of from to this email') }}
+                                </span>
                             </div>
                             <div class="form-group">
                                 <label for="text">{{ __('Button Title') }}</label>
                                 <input type="text" class="form-control" name="button_title"
-                                    placeholder="{{ __('Enter Button Title') }}">
+                                    placeholder="{{ __('Enter button title') }}">
                             </div>
                             <div class="form-group">
-                                <label for="success_message">{{ __('Success Message') }}</label>
+                                <label for="success_message">
+                                    {{ __('Success Message') }}
+                                </label>
                                 <input type="text" class="form-control" name="success_message"
-                                    placeholder="{{ __('form submit success message') }}">
+                                    placeholder="{{ __('Enter form submit success message') }}">
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">{{ __('Close') }}</button>
-                            <button type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                {{ __('Close') }}
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                {{ __('Add') }}
+                            </button>
                         </div>
                     </form>
                 </div>

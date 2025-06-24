@@ -37,8 +37,12 @@
                                                             @csrf
                                                             <button type="submit" title="{{ __('Set Default') }}"
                                                                 class="btn btn-secondary btn-sm set_default_menu">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-check-fill" viewBox="0 0 16 16">
-                                                                    <path fill-rule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5m8.854-9.646a.5.5 0 0 0-.708-.708L7.5 7.793 6.354 6.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z"></path>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                                    height="16" fill="currentColor"
+                                                                    class="bi bi-bookmark-check-fill" viewBox="0 0 16 16">
+                                                                    <path fill-rule="evenodd"
+                                                                        d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5m8.854-9.646a.5.5 0 0 0-.708-.708L7.5 7.793 6.354 6.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z">
+                                                                    </path>
                                                                 </svg> {{ __('Set Default') }}
                                                             </button>
                                                         </form>
@@ -47,9 +51,10 @@
                                             </td>
                                             {{-- <td>{{ $data->created_at->diffForHumans() }}</td> --}}
                                             <td>
-                                                
+
                                                 @can('menu-edit')
-                                                    <a class="btn btn-lg btn-warning btn-sm mb-2 me-1"
+                                                    <a class="btn btn-lg btn-warning text-dark btn-sm mb-2 me-1"
+                                                        title="{{ __('Edit Data') }}"
                                                         href="{{ route('admin.menu.edit', $data->id) }}">
                                                         <i class="ti-pencil"></i>
                                                     </a>
@@ -82,11 +87,12 @@
                                         <div class="form-group">
                                             <label for="title">{{ __('Title') }}</label>
                                             <input type="text" class="form-control" id="title" name="title"
-                                                placeholder="{{ __('Title') }}">
+                                                placeholder="{{ __('Enter title') }}">
                                         </div>
                                         <div class="form-group mt-4">
-                                            <button id="submit" type="submit"
-                                                class="cmn_btn btn_bg_profile">{{ __('Create Menu') }}</button>
+                                            <button id="submit" type="submit" class="cmn_btn btn_bg_profile">
+                                                {{ __('Add') }}
+                                            </button>
                                         </div>
                                     </div>
                                 </div>

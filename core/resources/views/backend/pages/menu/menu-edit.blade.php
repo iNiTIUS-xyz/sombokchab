@@ -13,8 +13,9 @@
                 <x-msg.success />
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Edit Menu') }}</h4>
-
+                        <h4 class="dashboard__card__title">
+                            {{ __('Edit Menu') }}
+                        </h4>
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
                         @can('menu-update')
@@ -30,101 +31,99 @@
                                         $menu_content = '[{"ptype":"custom","pname":"Home","purl":"@url","id":1}]';
                                     }
                                 @endphp
-                            @endcan
-                            <textarea id="menu_content" name="menu_content" class="form-control d-none">{{ $menu_content }}</textarea>
-                            <div class="row g-4">
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label for="title">{{ __('Title') }}</label>
-                                        <input type="text" class="form-control" id="title" name="title"
-                                            value="{{ $page_post->title }}">
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="dashboard__card menu-left-side-content">
-                                        <div class="dashboard__card__header">
-                                            <h3 class="dashboard__card__title">{{ __('Add menu items') }}</h3>
+                                <textarea id="menu_content" name="menu_content" class="form-control d-none">{{ $menu_content }}</textarea>
+                                <div class="row g-4">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label for="title">{{ __('Title') }}</label>
+                                            <input type="text" class="form-control" id="title" name="title"
+                                                placeholder="{{ __('Enter title') }}" value="{{ $page_post->title }}">
                                         </div>
-                                        <div class="dashboard__card__body mt-4">
-                                            <div class="accordion accordion-wrapper" id="add_menu_item_accordion">
-                                                {!! render_dynamic_pages_list($page_post->lang ?? '') !!}
-                                                {{-- {!! render_mega_menu_list($page_post->lang ?? '') !!} --}}
-                                                <div id="custom-links">
-                                                    <button class="btn btn-link collapsed" type="button"
-                                                        data-bs-toggle="collapse" data-bs-target="#custom-links-content"
-                                                        aria-expanded="false" aria-controls="custom-links-content">
-                                                        {{ __('Custom Links') }}
-                                                    </button>
-                                                </div>
-                                                <div id="custom-links-content" class="collapse"
-                                                    aria-labelledby="custom-links" data-parent="#add_menu_item_accordion">
-                                                    <div class="dashboard__card__body custom__form">
-                                                        <p>If you want to use root url of your site <br> For that use this
-                                                            <b>@url</b>
-                                                        </p><br>
-                                                        <div class="form-group">
-                                                            <label
-                                                                for="custom_url"><strong>{{ __('URL') }}</strong></label>
-                                                            <input type="text" name="custom_url" id="custom_url"
-                                                                class="form-control" placeholder="{{ __('https://') }}">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label
-                                                                for="custom_label_text"><strong>{{ __('Link Text') }}</strong></label>
-                                                            <input type="text" name="custom_label_text"
-                                                                id="custom_label_text" class="form-control"
-                                                                placeholder="{{ __('label text') }}">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <button type="button" id="add_custom_links"
-                                                                class="cmn_btn btn_bg_profile">
-                                                                {{ __('Add To Menu') }}
-                                                            </button>
-                                                            <a href="{{ route('admin.menu') }}"
-                                                                class="cmn_btn default-theme-btn"
-                                                                style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
-                                                                Back
-                                                            </a>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="dashboard__card menu-left-side-content">
+                                            <div class="dashboard__card__header">
+                                                <h3 class="dashboard__card__title">{{ __('Add menu items') }}</h3>
+                                            </div>
+                                            <div class="dashboard__card__body mt-4">
+                                                <div class="accordion accordion-wrapper" id="add_menu_item_accordion">
+                                                    {!! render_dynamic_pages_list($page_post->lang ?? '') !!}
+                                                    <div id="custom-links">
+                                                        <button class="btn btn-link collapsed" type="button"
+                                                            data-bs-toggle="collapse" data-bs-target="#custom-links-content"
+                                                            aria-expanded="false" aria-controls="custom-links-content">
+                                                            {{ __('Custom Links') }}
+                                                        </button>
+                                                    </div>
+                                                    <div id="custom-links-content" class="collapse"
+                                                        aria-labelledby="custom-links" data-parent="#add_menu_item_accordion">
+                                                        <div class="dashboard__card__body custom__form">
+                                                            <p>If you want to use root url of your site <br> For that use this
+                                                                <b>@url</b>
+                                                            </p><br>
+                                                            <div class="form-group">
+                                                                <label
+                                                                    for="custom_url"><strong>{{ __('URL') }}</strong></label>
+                                                                <input type="text" name="custom_url" id="custom_url"
+                                                                    class="form-control" placeholder="{{ __('https://') }}">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label
+                                                                    for="custom_label_text"><strong>{{ __('Link Text') }}</strong></label>
+                                                                <input type="text" name="custom_label_text"
+                                                                    id="custom_label_text" class="form-control"
+                                                                    placeholder="{{ __('label text') }}">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <button type="button" id="add_custom_links"
+                                                                    class="cmn_btn btn_bg_profile">
+                                                                    {{ __('Add To Menu') }}
+                                                                </button>
+                                                                <a href="{{ route('admin.menu') }}"
+                                                                    class="cmn_btn default-theme-btn"
+                                                                    style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                                                                    Back
+                                                                </a>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-8">
-                                    <div class="dashboard__card menu-structure-wrapper">
-
-                                        <div class="dashboard__card__header">
-                                            <h3 class="dashboard__card__title">{{ __('Menu Structure') }}</h3>
-                                        </div>
-                                        <div class="dashboard__card__body mt-4">
-                                            <section id="drop_down_menu_builder_wrapper">
-                                                <div class="dd" id="nestable">
-                                                    <ol class="dd-list">
-                                                        @if (!empty($page_post->content))
-                                                            {!! render_draggable_menu($page_post->id) !!}
-                                                        @else
-                                                            <li class="dd-item" data-id="1" data-purl="@url"
-                                                                data-pname="{{ __('Home') }}" data-ptype="custom">
-                                                                <div class="dd-handle">
-                                                                    {{ __('Home') }}
-                                                                </div>
-                                                                <span class="remove_item">x</span>
-                                                            </li>
-                                                        @endif
-                                                    </ol>
+                                    <div class="col-lg-8">
+                                        <div class="dashboard__card menu-structure-wrapper">
+                                            <div class="dashboard__card__header">
+                                                <h3 class="dashboard__card__title">{{ __('Menu Structure') }}</h3>
+                                            </div>
+                                            <div class="dashboard__card__body mt-4">
+                                                <section id="drop_down_menu_builder_wrapper">
+                                                    <div class="dd" id="nestable">
+                                                        <ol class="dd-list">
+                                                            @if (!empty($page_post->content))
+                                                                {!! render_draggable_menu($page_post->id) !!}
+                                                            @else
+                                                                <li class="dd-item" data-id="1" data-purl="@url"
+                                                                    data-pname="{{ __('Home') }}" data-ptype="custom">
+                                                                    <div class="dd-handle">
+                                                                        {{ __('Home') }}
+                                                                    </div>
+                                                                    <span class="remove_item">x</span>
+                                                                </li>
+                                                            @endif
+                                                        </ol>
+                                                    </div>
+                                                </section>
+                                                <div class="form-group mt-4">
+                                                    <button type="submit" id="menu_structure_submit_btn"
+                                                        class="cmn_btn btn_bg_profile">
+                                                        {{ __('Update') }}
+                                                    </button>
                                                 </div>
-                                            </section><!-- END #demo -->
-                                            <div class="form-group mt-4">
-                                                <button type="submit" id="menu_structure_submit_btn"
-                                                    class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            @can('menu-update')
                             </form>
                         @endcan
                     </div>
@@ -137,8 +136,6 @@
     <script src="{{ asset('assets/backend/js/jquery.nestable.js') }}"></script>
     <script>
         $(document).ready(function() {
-
-
             $('#nestable').nestable({
                 group: 1,
                 maxDepth: 5
@@ -151,7 +148,6 @@
                 str = str.toString();
                 return str.replace(/(<([^>]+)>)/ig, '');
             }
-
 
             $(document).on('click', '.add_mega_menu_to_menu', function(e) {
                 e.preventDefault();
@@ -196,13 +192,11 @@
                             }, 1000);
                         }
                     });
-
                 });
-
             });
+
             $(document).on('click', '.add_page_to_menu', function(e) {
                 e.preventDefault();
-                //nestable
                 var allList = $(this).parent().prev().find('input[type="checkbox"]:checked');
                 var draggAbleMenuWrap = $('#nestable > ol');
                 $.each(allList, function(index, value) {
@@ -212,32 +206,23 @@
                     var menuType = $(this).parent().parent().data('ptype');
 
                     if (menuType == 'static') {
-
                         var menuPslug = $(this).parent().parent().data('pslug');
                         var menuPname = $(this).parent().parent().data('pname');
-
                         allDataAttr += 'data-pname="' + menuPname + '"';
                         allDataAttr += ' data-pslug="' + menuPslug + '"';
                         allDataAttr += ' data-ptype="' + menuType + '"';
-
                     } else if (menuType == 'dynamic') {
-
                         var menuPid = $(this).parent().parent().data('pid');
-
                         allDataAttr += 'data-pid="' + menuPid + '"';
                         allDataAttr += ' data-ptype="' + menuType + '"';
-
                     } else if (menuType == 'custom') {
-
                         var menuPurl = $(this).parent().parent().data('purl');
                         var menuPName = $(this).parent().parent().data('pname');
-
                         allDataAttr += 'data-purl="' + menuPurl + '"';
                         allDataAttr += 'data-pname="' + menuPName + '"';
                         allDataAttr += ' data-ptype="' + menuType + '"';
                     } else {
                         var menuPid = $(this).parent().parent().data('pid');
-
                         allDataAttr += 'data-pid="' + menuPid + '"';
                         allDataAttr += ' data-ptype="' + menuType + '"';
                     }
@@ -255,15 +240,10 @@
 
             $(document).on('click', '#add_custom_links', function(e) {
                 e.preventDefault();
-
                 var draggAbleMenuWrap = $('#nestable > ol');
-
                 var draggAbleMenuLength = $('#nestable ol li').length + 1;
-
-                var menuType = $(this).parent().parent().data('ptype');
-                var menuName = $('#custom_label_text').val(); //custom_label_text
-                var menuSlug = $('#custom_url').val(); //custom_url
-
+                var menuName = $('#custom_label_text').val();
+                var menuSlug = $('#custom_url').val();
 
                 draggAbleMenuWrap.append('<li class="dd-item" data-id="' + draggAbleMenuLength +
                     '" data-ptype="custom" data-purl="' + removeTags(menuSlug) + '" data-pname="' +
@@ -276,30 +256,30 @@
                 $('#custom_label_text').val('');
                 $('#custom_url').val('');
             });
+
             $(document).on('input', '.icon_picker', function(e) {
                 var el = $(this);
                 var value = el.val();
-
                 if (value != '') {
                     el.parent().parent().attr('data-icon', value);
                 } else {
                     el.parent().parent().removeAttr('data-icon');
                 }
             });
+
             $(document).on('input', '.anchor_target', function(e) {
                 var el = $(this);
                 var value = el.val();
-
                 if (value != '') {
                     el.parent().parent().attr('data-antarget', value);
                 } else {
                     el.parent().parent().removeAttr('data-antarget');
                 }
             });
+
             $(document).on('input', '.static_pname', function(e) {
                 var el = $(this);
                 var value = el.val();
-
                 if (value != '') {
                     el.parent().parent().attr('data-pname', value);
                 } else {
@@ -329,8 +309,7 @@
                 $(this).addClass("disabled")
                 $(this).html('<i class="fas fa-spinner fa-spin mr-1"></i> {{ __('Updating') }}');
                 $('#menu_update_form').trigger("submit");
-            })
-
+            });
         });
     </script>
 @endsection
