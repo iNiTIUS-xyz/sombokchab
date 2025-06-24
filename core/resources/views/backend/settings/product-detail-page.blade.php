@@ -156,6 +156,7 @@
                                         <div class="form-group">
                                             <label for="sidebar_position">
                                                 {{ __('Sidebar Position') }}
+                                                <span class="text-danger">*</span>
                                             </label>
                                             <select class="form-control" name="sidebar_position" id="sidebar_position">
                                                 <option value="left" @if (get_static_option('sidebar_position') == 'left') selected @endif>

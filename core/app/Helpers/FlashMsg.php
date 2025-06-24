@@ -2,92 +2,74 @@
 
 namespace App\Helpers;
 
-/**
- * this class will contain all Flash Message helper method
- *
- * */
 class FlashMsg
 {
-    /*------------------------------------------
-    *              Create
-    *-----------------------------------------*/
-    public static function create_succeed(String $item) : array
+
+    public static function create_succeed(string $item): array
     {
         return [
             'type' => 'success',
-            'msg' => __( ucfirst($item) . " created successfully.")
+            'msg' => __(ucfirst($item) . " created successfully.")
         ];
     }
 
-    public static function create_failed(String $item) : array
+    public static function create_failed(string $item): array
     {
         return [
             'type' => 'danger',
-            'msg' => __( ucfirst($item) . " creation failed.")
+            'msg' => __(ucfirst($item) . " creation failed.")
         ];
     }
 
-    /*------------------------------------------
-    *              Update
-    *-----------------------------------------*/
-    public static function update_succeed(String $item) : array
+    public static function update_succeed(string $item): array
     {
         return [
             'type' => 'success',
-            'msg' => __( ucfirst($item) . " updated successfully.")
+            'msg' => __(ucfirst($item) . " updated successfully.")
         ];
     }
 
-    public static function update_failed(String $item) : array
+    public static function update_failed(string $item): array
     {
         return [
             'type' => 'danger',
-            'msg' => __( ucfirst($item) . " updating failed.")
+            'msg' => __(ucfirst($item) . " updating failed.")
         ];
     }
 
-    /*------------------------------------------
-    *              Delete
-    *-----------------------------------------*/
-    public static function delete_succeed(String $item) : array
+    public static function delete_succeed(string $item): array
     {
         return [
             'type' => 'danger',
-            'msg' => __( ucfirst($item) . " deleted successfully.")
+            'msg' => __(ucfirst($item) . " deleted successfully.")
         ];
     }
 
-    public static function delete_failed(String $item) : array
+    public static function delete_failed(string $item): array
     {
         return [
             'type' => 'danger',
-            'msg' => __( ucfirst($item) . " deleting failed.")
+            'msg' => __(ucfirst($item) . " deleting failed.")
         ];
     }
 
-    /*------------------------------------------
-    *              Clone
-    *-----------------------------------------*/
-    public static function clone_succeed(String $item) : array
+    public static function clone_succeed(string $item): array
     {
         return [
             'type' => 'success',
-            'msg' => __( ucfirst($item) . " cloned successfully")
+            'msg' => __(ucfirst($item) . " cloned successfully")
         ];
     }
 
-    public static function clone_failed(String $item) : array
+    public static function clone_failed(string $item): array
     {
         return [
             'type' => 'success',
-            'msg' => __( ucfirst($item) . " cloning failed.")
+            'msg' => __(ucfirst($item) . " cloning failed.")
         ];
     }
 
-    /*------------------------------------------
-    *              Signup
-    *-----------------------------------------*/
-    public static function signup_succeed($item = null) : array
+    public static function signup_succeed($item = null): array
     {
         if ($item && $item === 'teacher') {
             return [
@@ -102,7 +84,7 @@ class FlashMsg
         ];
     }
 
-    public static function signup_failed() : array
+    public static function signup_failed(): array
     {
         return [
             'type' => 'danger',
@@ -110,10 +92,7 @@ class FlashMsg
         ];
     }
 
-    /*------------------------------------------
-    *              Teacher approve
-    *-----------------------------------------*/
-    public static function teacherApproveSucceed() : array
+    public static function teacherApproveSucceed(): array
     {
         return [
             'type' => 'success',
@@ -121,7 +100,7 @@ class FlashMsg
         ];
     }
 
-    public static function teacherApproveFailed() : array
+    public static function teacherApproveFailed(): array
     {
         return [
             'type' => 'danger',
@@ -129,14 +108,7 @@ class FlashMsg
         ];
     }
 
-    /*------------------------------------------
-    *              Custom
-    *-----------------------------------------*/
-    /**
-     * @param string $type CSS alert class
-     * @param string $msg Message to display
-     */
-    public static function explain($type, $msg) : array
+    public static function explain($type, $msg): array
     {
         return [
             'type' => $type ?? 'danger',
@@ -144,9 +116,6 @@ class FlashMsg
         ];
     }
 
-    /*------------------------------------------
-    *              Prev - f($msg)
-    *-----------------------------------------*/
     public static function item_cloned($msg = null)
     {
         return [
@@ -203,19 +172,19 @@ class FlashMsg
             'msg' => $msg ?? __('Settings Deleted Successfully.')
         ];
     }
-    public static function restore_succeed(String $item) : array
+    public static function restore_succeed(string $item): array
     {
         return [
             'type' => 'success',
-            'msg' => __( ucfirst($item) . " Restore Successfully.")
+            'msg' => __(ucfirst($item) . " Restore Successfully.")
         ];
     }
 
-    public static function restore_failed(String $item) : array
+    public static function restore_failed(string $item): array
     {
         return [
             'type' => 'danger',
-            'msg' => __( ucfirst($item) . " Restore Failed.")
+            'msg' => __(ucfirst($item) . " Restore Failed.")
         ];
     }
 
