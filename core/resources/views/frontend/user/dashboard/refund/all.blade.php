@@ -19,6 +19,7 @@
                                 <th>{{ __('Serial No.') }}</th>
                                 <th>{{ __('Order Details') }}</th>
                                 <th>{{ __('Refund Details') }}</th>
+                                <th>{{ __('Refund Request Date') }}</th>
                                 <th>{{ __('Action') }}</th>
                             </tr>
                         </thead>

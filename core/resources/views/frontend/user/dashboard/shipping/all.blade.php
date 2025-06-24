@@ -67,8 +67,14 @@
                                     <td>{{ $address->address }}</td>
                                     <td>
                                         @if ($address->is_default == 1)
-                                            <span class="badge bg-primary text-white">Default</span>
+                                            <span class="badge bg-primary text-white">Yes</span>
                                         @else
+                                            <span class="badge bg-danger text-white">No</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($address->is_default != 1)
+                                            
                                             <a href="{{ route('user.shipping.address.make-default', $address->id) }}"
                                             class="btn btn-secondary btn-xs mb-2 me-1" title="Make Default">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-check-fill" viewBox="0 0 16 16">
@@ -76,8 +82,6 @@
                                                 </svg>
                                             </a>
                                         @endif
-                                    </td>
-                                    <td>
                                         <a href="{{ route('user.shipping.address.edit', $address->id) }}"
                                         class="btn btn-sm btn-warning btn-xs mb-2 me-1" title="Edit Address">
                                             <i class="las la-edit"></i>
