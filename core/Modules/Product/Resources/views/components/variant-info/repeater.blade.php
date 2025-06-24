@@ -5,13 +5,14 @@
     $key = $key ?? 'none';
 @endphp
 
-<div class="inventory_item shadow-sm rounded" @if (isset($key)) data-id="{{ $key }}" @endif>
+<div class="inventory_item shadow-sm rounded dataRemove"
+    @if (isset($key)) data-id="{{ $key }}" @endif>
     @if (isset($inventoryDetail) && !is_null($inventoryDetail))
         <input type="hidden" name="inventory_details_id[]" value="{{ $inventoryDetail->id }}" />
     @endif
     <div class="row g-4">
         <div class="col">
-            <div class="form-row  row g-4 row-cols-1 row-cols-sm-2 row-cols-lg-2 row-cols-xxl-6">
+            <div class="form-row row g-4 row-cols-1 row-cols-sm-2 row-cols-lg-2 row-cols-xxl-6">
                 <div class="col">
                     <div class="form-group">
                         <label for="item_size">{{ __('Item Size') }}</label>
@@ -19,7 +20,8 @@
                             <option value="">{{ __('Select Size') }}</option>
                             @foreach ($sizes as $size)
                                 <option value="{{ $size->id }}" @if (isset($detail) && $detail->size == $size->id) selected @endif>
-                                    {{ $size->name }}</option>
+                                    {{ $size->name }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
@@ -31,7 +33,8 @@
                             <option value="">{{ __('Select Color') }}</option>
                             @foreach ($colors as $color)
                                 <option value="{{ $color->id }}" @if (isset($detail) && $detail->color == $color->id) selected @endif>
-                                    {{ $color->name }}</option>
+                                    {{ $color->name }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
@@ -40,7 +43,7 @@
                     <div class="form-group">
                         <label for="item_additional_price">{{ __('Additional Price') }}</label>
                         <input type="number" step="0.01" name="item_additional_price[]" id="item_additional_price"
-                            class="form-control" min="0" placeholder="{{ __('Enter Additional price') }}"
+                            class="form-control" min="0" placeholder="{{ __('Enter additional price') }}"
                             value="{{ $detail?->additional_price ?? 0 }}">
                     </div>
                 </div>
@@ -48,7 +51,8 @@
                     <div class="form-group">
                         <label for="item_stock_count">{{ __('Extra cost') }} </label>
                         <input type="number" name="item_extra_cost[]" id="item_stock_count" class="form-control"
-                            min="0" placeholder="{{ __('Enter Extra cost') }}" value="{{ $detail?->add_cost ?? 0 }}">
+                            min="0" placeholder="{{ __('Enter Extra cost') }}"
+                            value="{{ $detail?->add_cost ?? 0 }}">
                     </div>
                 </div>
                 <div class="col">
@@ -56,7 +60,7 @@
                         <label for="item_stock_count">{{ __('Stock Count') }} <i
                                 class="las la-star required-filed"></i></label>
                         <input type="number" name="item_stock_count[]" id="item_stock_count" class="form-control"
-                            min="0" placeholder="{{ __('Enter Stock Count') }}"
+                            min="0" placeholder="{{ __('Enter stock Count') }}"
                             value="{{ $detail->stock_count ?? 0 }}">
                     </div>
                 </div>
@@ -119,7 +123,7 @@
                     </div>
                 </div>
                 <div class="col-auto text-center">
-                    <button type="button" class="btn btn-primary add_item_attribute"  style="margin-top: 35px">
+                    <button type="button" class="btn btn-primary add_item_attribute" style="margin-top: 35px">
                         <i class="las la-arrow-up"></i>
                     </button>
                 </div>
@@ -132,7 +136,6 @@
                         <i class="las la-plus"></i>
                     </button>
                 </div>
-
                 @if (!isset($isFirst) || !$isFirst)
                     <div class="repeater_button mt-2">
                         <button type="button" class="btn btn-danger btn-xs remove">
@@ -144,7 +147,8 @@
         </div>
         <div class="col-sm-12">
             <p class="mt-2">
-                {{ __('Click on the up arrow button beside attribute select after selecting the attribute.') }}</p>
+                {{ __('Click on the up arrow button beside attribute select after selecting the attribute.') }}
+            </p>
             <p class="attribute-warning">
                 {{ __('In a variant, you cannot select the same attribute more than once, so please create a new variant if you need to do so.') }}
             </p>
@@ -152,13 +156,14 @@
     </div>
 </div>
 
-{{-- NOT NEEDED - ONLY KEPT FOR REFERENCE --}}
 @if (isset($not_needed))
     <div class="variant_variant_info_repeater">
         <div class="form-row">
             <div class="col">
                 <div class="form-group">
-                    <label for="variant_color">{{ __('Color') }}</label>
+                    <label for="variant_color">
+                        {{ __('Color') }}
+                    </label>
                     @isset($variantId)
                         <input type="hidden" class="variant_id" name="variant_id[]" value="{{ $variantId }}">
                     @endisset
@@ -186,8 +191,9 @@
             <div class="col">
                 <div class="form-group">
                     <label for="variant_stock_count">{{ __('Quantity') }}</label>
-                    <input type="number" name="variant_stock_count[]" id="variant_stock_count" class="form-control" placeholder="{{ __('Enter Quantity') }}"
-                        step="0.01" @if (isset($quantity)) value="{{ $quantity }}" @endif>
+                    <input type="number" name="variant_stock_count[]" id="variant_stock_count" class="form-control"
+                        placeholder="{{ __('Enter Quantity') }}" step="0.01"
+                        @if (isset($quantity)) value="{{ $quantity }}" @endif>
                 </div>
             </div>
             <div class="col-auto">

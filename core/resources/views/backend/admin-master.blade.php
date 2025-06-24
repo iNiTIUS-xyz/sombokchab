@@ -212,11 +212,11 @@
             // Calendar js
             // https://www.cssscript.com/demo/event-calendar-color
 
-            if($('#custom-color-calendar').length > 0){
-                new Calendar({
-                    id: '#custom-color-calendar',
-                })
-            }
+            // if($('#custom-color-calendar').length > 0){
+            //     new Calendar({
+            //         id: '#custom-color-calendar',
+            //     })
+            // }
 
             function convertToSlug(text) {
                 return text

@@ -115,7 +115,9 @@
         <div class="col-auto">
             <div class="item_repeater_add_remove">
                 <div class="repeater_button">
-                    <button type="button" class="btn btn-primary btn-xs add"> +</button>
+                    <button type="button" class="btn btn-primary btn-xs add">
+                        +
+                    </button>
                 </div>
                 @if (!isset($isFirst) || !$isFirst)
                     <div class="repeater_button">
@@ -126,8 +128,6 @@
         </div>
     </div>
 </div>
-
-
 
 {{-- NOT NEEDED - ONLY KEPT FOR REFERENCE --}}
 @if (isset($not_needed))

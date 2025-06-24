@@ -96,9 +96,9 @@
         // Calendar js
         // https://www.cssscript.com/demo/event-calendar-color
 
-        new Calendar({
-            id: '#custom-color-calendar',
-        })
+        // new Calendar({
+        //     id: '#custom-color-calendar',
+        // })
 
         /* Line Charts */
         new Chart(document.getElementById("line-chart"), {
