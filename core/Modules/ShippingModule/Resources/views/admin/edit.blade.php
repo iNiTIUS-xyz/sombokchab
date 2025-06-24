@@ -39,14 +39,12 @@
                                     <tbody>
                                         @forelse($zone->country as $zoneCountry)
                                             @php
-                                                // this variable is needed for rendering tr block here and initialize select two
                                                 $rand = random_int(9999999, 11111111);
                                             @endphp
 
                                             @include('shippingmodule::admin.shipping-zone-tr')
                                         @empty
                                             @php
-                                                // this variable is needed for rendering tr block here and initialize select two
                                                 $rand = random_int(9999999, 11111111);
                                             @endphp
 
@@ -56,10 +54,12 @@
                                 </table>
                             </div>
                             <div class="form-group">
-                                <button class="cmn_btn btn_bg_profile">{{ __('Create Shipping Zone') }}</button>
+                                <button class="cmn_btn btn_bg_profile">
+                                    {{ __('Update') }}
+                                </button>
                                 <a href="{{ route('admin.shipping.zone.all') }}" class="cmn_btn default-theme-btn"
                                     style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
-                                    Back
+                                    {{ __('Back') }}
                                 </a>
                             </div>
                         </form>
@@ -69,6 +69,7 @@
         </div>
     </div>
 @endsection
+
 @section('script')
     <script>
         $(document).on("change", "#country_select", function() {
@@ -103,17 +104,12 @@
         });
 
         $(document).on("click", "#shipping_zone_plus_btn", function() {
-            // this variable is needed for rendering tr block here and initialize select two
-            // let random = Math.floor((Math.random() * 99999999) + 1);
 
             let data = `@include('shippingmodule::admin.shipping-zone-tr')`;
             $(this).parent().parent().parent().append(data);
 
             let row = $("#shipping-zone-create-form tbody tr")[$("#shipping-zone-create-form tbody tr").length - 1];
             let x = $(row).find('#states_select').attr("data-current-data");
-
-            // $(row).find('#states_select').attr("data-current-data",x)
-            // $(row).find('#states_select').attr("name",'states['+ $(row).find('#states_select').attr("name") +'][]')
 
             $("#shipping-zone-wrapper-box select").niceSelect();
         });

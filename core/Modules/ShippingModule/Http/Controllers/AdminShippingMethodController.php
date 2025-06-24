@@ -19,33 +19,27 @@ class AdminShippingMethodController extends Controller
     public function index()
     {
         $data = [
-            "all_shipping_methods" => AdminShippingMethod::with("zone","status")->get(),
+            "all_shipping_methods" => AdminShippingMethod::with("zone", "status")->get(),
         ];
 
-        return view('shippingmodule::admin.shipping-method.index',$data);
+        return view('shippingmodule::admin.shipping-method.index', $data);
     }
-    /**
-     * Display a listing of the resource.
-     * @return Renderable
-     */
+
     public function create()
     {
         $all_zones = Zone::all();
-        $all_publish_status = Status::all()->pluck("name","id")->toArray();
+        $all_publish_status = Status::all()->pluck("name", "id")->toArray();
 
         return view('shippingmodule::admin.shipping-method.create', compact(
             'all_zones',
             'all_publish_status',
         ));
     }
-    /**
-     * Display a listing of the resource.
-     * @return Renderable
-     */
+
     public function edit($id)
     {
         $all_zones = Zone::all();
-        $all_publish_status = Status::all()->pluck("name","id")->toArray();
+        $all_publish_status = Status::all()->pluck("name", "id")->toArray();
         $method = AdminShippingMethod::where("id", $id)->first();
 
         return view('shippingmodule::admin.shipping-method.edit', compact(
@@ -54,39 +48,33 @@ class AdminShippingMethodController extends Controller
             'method',
         ));
     }
-    /**
-     * Display a listing of the resource.
-     * @return RedirectResponse
-     */
+
     public function store(StoreShippingMethodRequest $request)
     {
         $query = AdminShippingMethod::create($request->validated());
 
         return redirect(route("admin.shipping-method.index"))->with([
-            "msg" => $query ? "Successfully created shipping method" : "Failed to create shipping method",
+            "msg" => $query ? "Shipping method created successfully." : "Shipping method failed to create.",
             "type" => $query ? "success" : "danger"
         ]);
     }
 
-    /**
-     * Display a listing of the resource.
-     * @return RedirectResponse
-     */
     public function update(StoreShippingMethodRequest $request, $id)
     {
         $query = AdminShippingMethod::where("id", $id)->update($request->validated());
 
         return redirect(route("admin.shipping-method.index"))->with([
-            "msg" => $query ? "Successfully created shipping method" : "Failed to create shipping method",
+            "msg" => $query ? "Shipping method created Successfully." : "Shipping method failed to create.",
             "type" => $query ? "success" : "danger"
         ]);
     }
 
-    public function makeDefault(){
-        // First I need to check requested id is valid or not if valid then update all methods as not default after that update requested id row with value 1
-        $vendor = AdminShippingMethod::where("id",request()->id)->first();
-        if(!empty($vendor)){
-            AdminShippingMethod::where("id","!=",request()->id)->update([
+    public function makeDefault()
+    {
+
+        $vendor = AdminShippingMethod::where("id", request()->id)->first();
+        if (!empty($vendor)) {
+            AdminShippingMethod::where("id", "!=", request()->id)->update([
                 "is_default" => 0
             ]);
 
@@ -94,18 +82,19 @@ class AdminShippingMethodController extends Controller
                 "is_default" => 1
             ]);
 
-            return back()->with(["msg" => "Updated successfully", "type" => "success"]);
+            return back()->with(["msg" => "Shipping method updated successfully.", "type" => "success"]);
         }
 
-        return back()->with(["msg" => "Failed to update"]);
+        return back()->with(["msg" => "Shipping method failed to update."]);
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
         // delete method
-        $delete = AdminShippingMethod::where("id",$id)->delete();
+        $delete = AdminShippingMethod::where("id", $id)->delete();
 
         return back()->with([
-            "msg" => $delete ? "Successfully deleted shipping method" : "Failed to delete shipping method",
+            "msg" => $delete ? "Shipping method deleted Successfully." : "Shipping method failed to delete.",
             "type" => $delete ? "success" : "danger"
         ]);
     }

@@ -51,10 +51,12 @@
                                 </tbody>
                             </table>
                             <div class="form-group">
-                                <button class="cmn_btn btn_bg_profile">{{ __('Create Shipping Zone') }}</button>
+                                <button class="cmn_btn btn_bg_profile">
+                                    {{ __('Add') }}
+                                </button>
                                 <a href="{{ route('admin.shipping.zone.all') }}" class="cmn_btn default-theme-btn"
                                     style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
-                                    Back
+                                    {{ __('Back') }}
                                 </a>
                             </div>
                         </form>

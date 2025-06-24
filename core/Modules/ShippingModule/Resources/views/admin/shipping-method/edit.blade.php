@@ -27,16 +27,19 @@
                                         <select name="zone_id" id="zone_id" class="form-control">
                                             @foreach ($all_zones as $zone)
                                                 <option {{ $method->zone_id == $zone->id ? 'selected' : '' }}
-                                                    value="{{ $zone->id }}">{{ $zone->name }}</option>
+                                                    value="{{ $zone->id }}">
+                                                    {{ $zone->name }}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="title">{{ __('Title') }}
-                                            <input value="{{ $method->title }}" name="title" class="form-control"
-                                                placeholder="{{ __('Enter shipping method title') }}" />
+                                        <label for="title">
+                                            {{ __('Title') }}
                                         </label>
+                                        <input value="{{ $method->title }}" name="title" class="form-control"
+                                            placeholder="{{ __('Enter title') }}" />
                                     </div>
 
                                     <div class="form-group">
@@ -48,21 +51,22 @@
                                             @endforeach
                                         </select>
                                     </div>
-
                                     <div class="form-group">
-                                        <label for="cost">{{ __('Cost') }}</label>
+                                        <label for="cost">
+                                            {{ __('Cost') }}
+                                        </label>
                                         <input value="{{ $method->cost }}" type="number" id="cost" name="cost"
-                                            class="form-control" placeholder="{{ __('Cost') }}">
+                                            class="form-control" placeholder="{{ __('Enter cost') }}">
                                     </div>
 
                                     <div class="form-group">
                                         <button type="submit" class="cmn_btn btn_bg_profile">
-                                            {{ __('Update Shipping Method') }}
+                                            {{ __('Update') }}
                                         </button>
                                         <a href="{{ route('admin.shipping-method.index') }}"
                                             class="cmn_btn default-theme-btn"
                                             style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
-                                            Back
+                                            {{ __('Back') }}
                                         </a>
                                     </div>
                                 </div>

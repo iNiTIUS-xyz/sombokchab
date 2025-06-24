@@ -34,8 +34,7 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label for="title">{{ __('Title') }}
-                                            <input name="title" class="form-control"
-                                                placeholder="{{ __('Enter shipping method title') }}"
+                                            <input name="title" class="form-control" placeholder="{{ __('Enter title') }}"
                                                 value="{{ old('title') ?? '' }}" />
                                         </label>
                                     </div>
@@ -45,7 +44,9 @@
                                         <label for="status">{{ __('Status') }}</label>
                                         <select name="status" id="status" class="form-control">
                                             @foreach ($all_publish_status as $key => $status)
-                                                <option value="{{ $key }}">{{ $status }}</option>
+                                                <option value="{{ $key }}">
+                                                    {{ $status }}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -54,19 +55,19 @@
                                     <div class="form-group">
                                         <label for="cost">{{ __('Cost') }}</label>
                                         <input type="number" id="cost" name="cost" class="form-control"
-                                            placeholder="{{ __('Cost') }}" value="{{ old('cost') ?? '' }}">
+                                            placeholder="{{ __('Enter cost') }}" value="{{ old('cost') ?? '' }}">
                                     </div>
                                 </div>
 
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <button type="submit" class="cmn_btn btn_bg_profile">
-                                            {{ __('Create Shipping Method') }}
+                                            {{ __('Add') }}
                                         </button>
                                         <a href="{{ route('admin.shipping-method.index') }}"
                                             class="cmn_btn default-theme-btn"
                                             style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
-                                            Back
+                                            {{ __('Back') }}
                                         </a>
                                     </div>
                                 </div>

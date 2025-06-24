@@ -43,26 +43,33 @@
                                     @foreach ($zones as $zone)
                                         <tr>
                                             <td>{{ $zone->name }}</td>
-                                            <td><b>{!! $zone?->country?->pluck('name')?->implode('</b>,<b> ') !!}</b></td>
+                                            <td>
+                                                <b>
+                                                    {!! $zone?->country?->pluck('name')?->implode('</b>,<b> ') !!}
+                                                </b>
+                                            </td>
                                             <td>
                                                 @foreach ($zone?->country as $country)
-                                                    <b>{{ $country->name }} @if (!empty($country->zoneStates))
+                                                    <b>
+                                                        {{ $country->name }}
+                                                        @if (!empty($country->zoneStates))
                                                             ->
-                                                        @endif </b>
+                                                        @endif
+                                                    </b>
                                                     {{ $country->zoneStates?->pluck('name')?->implode(', ') }}
                                                     <br />
                                                 @endforeach
                                             </td>
                                             <td>
                                                 @can('shipping-zone-edit')
-                                                    <a class="btn btn-sm btn-success"
+                                                    <a class="btn btn-sm btn-warning text-dark" title="{{ __('Edit Data') }}"
                                                         href="{{ route('admin.shipping.zone.edit', $zone->id) }}">
                                                         <i class="las la-pen"></i>
                                                     </a>
                                                 @endcan
 
                                                 @can('shipping-zone-delete')
-                                                    <a class="btn btn-sm btn-danger"
+                                                    <a class="btn btn-sm btn-danger" title="{{ __('Delete Data') }}"
                                                         href="{{ route('admin.shipping.zone.delete', $zone->id) }}">
                                                         <i class="las la-trash"></i>
                                                     </a>
