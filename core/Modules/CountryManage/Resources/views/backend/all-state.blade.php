@@ -3,7 +3,6 @@
     {{ __('Cities') }}
 @endsection
 @section('style')
-    <x-datatable.css />
     <x-bulk-action.css />
 @endsection
 @section('content')
@@ -29,8 +28,8 @@
                         </div>
                     </div>
                     <div class="dashboard__card__body mt-4">
-                        <div class="table-wrap table-responsive">
-                            <table class="table table-default">
+                        <div class="table-responsive">
+                            <table class="table table-default" id="dataTable">
                                 <thead>
                                     @can('state-bulk-action')
                                         <x-bulk-action.th />
@@ -53,8 +52,9 @@
                                             <td><x-status-span :status="$state->status" /></td>
                                             <td>
                                                 @can('state-update')
-                                                    <a href="#1" data-bs-toggle="modal" data-bs-target="#state_edit_modal"
-                                                        class="btn btn-primary btn-sm btn-xs mb-2 me-1 state_edit_btn"
+                                                    <a href="javascript:;" title="{{ __('Edit Data') }}" data-bs-toggle="modal"
+                                                        data-bs-target="#state_edit_modal"
+                                                        class="btn btn-warning text-dark btn-sm btn-xs mb-2 me-1 state_edit_btn"
                                                         data-id="{{ $state->id }}" data-name="{{ $state->name }}"
                                                         data-country_id="{{ $state->country_id }}"
                                                         data-status="{{ $state->status }}">
@@ -69,9 +69,6 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                        </div>
-                        <div class="pagination">
-                            {!! $all_states->links() !!}
                         </div>
                     </div>
                 </div>
@@ -93,7 +90,7 @@
                             <div class="form-group">
                                 <label for="edit_name">{{ __('Name') }}</label>
                                 <input type="text" class="form-control" id="edit_name" name="name"
-                                    placeholder="{{ __('Name') }}">
+                                    placeholder="{{ __('Enter name') }}">
                             </div>
                             <div class="form-group">
                                 <label for="edit_country_id">{{ __('Country') }}</label>
@@ -114,7 +111,7 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-sm btn-secondary"
                                 data-bs-dismiss="modal">{{ __('Close') }}</button>
-                            <button type="submit" class="btn btn-sm btn-primary">{{ __('Save Change') }}</button>
+                            <button type="submit" class="btn btn-sm btn-primary">{{ __('Update') }}</button>
                         </div>
                     </form>
                 </div>
@@ -135,7 +132,7 @@
                             <div class="form-group">
                                 <label for="name">{{ __('Name') }}</label>
                                 <input type="text" class="form-control" id="name" name="name"
-                                    placeholder="{{ __('Name') }}">
+                                    placeholder="{{ __('Enter name') }}">
                             </div>
 
                             <div class="form-group">
@@ -154,7 +151,7 @@
                                     <option value="draft">{{ __('Draft') }}</option>
                                 </select>
                             </div>
-                            <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4">{{ __('Add New') }}</button>
+                            <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4">{{ __('Add') }}</button>
                         </div>
                     </form>
                 </div>
@@ -164,7 +161,6 @@
 @endsection
 @section('script')
     <x-table.btn.swal.js />
-
     @can('state-bulk-action')
         <x-bulk-action.js :route="route('admin.state.bulk.action')" />
     @endcan

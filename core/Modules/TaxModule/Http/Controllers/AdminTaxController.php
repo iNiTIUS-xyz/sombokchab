@@ -15,11 +15,12 @@ class AdminTaxController extends Controller
 {
     public function settings()
     {
-        $taxClasses = TaxClass::select("id","name")->get();
+        $taxClasses = TaxClass::select("id", "name")->get();
         return view("taxmodule::backend.settings", compact('taxClasses'));
     }
 
-    public function handleSettings(Request $request){
+    public function handleSettings(Request $request)
+    {
         update_static_option("prices_include_tax", $request->prices_include_tax ?? "");
         update_static_option("calculate_tax_based_on", $request->calculate_tax_based_on ?? "");
         update_static_option("shipping_tax_class", $request->shipping_tax_class ?? "");
@@ -41,36 +42,39 @@ class AdminTaxController extends Controller
         return view("taxmodule::backend.class.index", compact('classes'));
     }
 
-    public function handlePostTaxClass(Request $request){
+    public function handlePostTaxClass(Request $request)
+    {
         // validate tax class
         // after validation store data
         $data = $request->validate(["name" => "required|unique:tax_classes"]);
         $taxClass = TaxClass::create($data);
 
         return back()->with([
-            'msg' => $taxClass ? __('Successfully created tax class') : __('Something went wrong. failed to create tax class'),
+            'msg' => $taxClass ? __('Tax created successfully.') : __('Something went wrong. failed to create tax class'),
             'type' => $taxClass ? 'success' : 'danger'
         ]);
     }
 
-    public function handleTaxClass(Request $request){
-        $data = $request->validate(["name" => "required|unique:tax_classes,id," . $request->id,"id" => "required|exists:tax_classes"]);
+    public function handleTaxClass(Request $request)
+    {
+        $data = $request->validate(["name" => "required|unique:tax_classes,id," . $request->id, "id" => "required|exists:tax_classes"]);
 
         $taxClass = TaxClass::where("id", $data['id'])->update($data);
 
         return back()->with([
-            'msg' => $taxClass ? __('Successfully updated tax class') : __('Something went wrong. failed to update tax class'),
+            'msg' => $taxClass ? __('Tax updated Successfully.') : __('Something went wrong. failed to update tax class'),
             'type' => $taxClass ? 'success' : 'danger'
         ]);
     }
 
-    public function deleteTaxClass(Request $request){
+    public function deleteTaxClass(Request $request)
+    {
         // first need to check class option are have or not if have then delete all first and if not then delete only tax class
         TaxClassOption::where("class_id", $request->id)->delete();
         TaxClass::where("id", $request->id)->delete();
 
         return response()->json([
-            'msg' => __("Successfully deleted tax class"),
+            'msg' => __("Tax deleted successfully"),
             'type' => "success",
             'success' => true
         ]);
@@ -78,13 +82,14 @@ class AdminTaxController extends Controller
 
     public function taxClassOption($id)
     {
-        $taxClass = TaxClass::with(["classOption","classOption.states","classOption.cities"])->where("id", $id)->first();
-        $countries = Country::select("id","name")->get();
+        $taxClass = TaxClass::with(["classOption", "classOption.states", "classOption.cities"])->where("id", $id)->first();
+        $countries = Country::select("id", "name")->get();
 
-        return view("taxmodule::backend.class-option.index", compact('taxClass','countries'));
+        return view("taxmodule::backend.class-option.index", compact('taxClass', 'countries'));
     }
 
-    public function handleTaxClassOption(StoreTaxOptionPostRequest $request, $id){
+    public function handleTaxClassOption(StoreTaxOptionPostRequest $request, $id)
+    {
         try {
             \DB::beginTransaction();
 
@@ -97,10 +102,10 @@ class AdminTaxController extends Controller
             \DB::commit();
 
             return back()->with([
-                "msg" => __("Successfully stored tax class options"),
+                "msg" => __("tax stored successfully"),
                 "type" => "success"
             ]);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return back()->with([
                 "msg" => __("Something went wrong. Failed to store tax class options"),
                 "message" => $e->getMessage(),
@@ -109,10 +114,11 @@ class AdminTaxController extends Controller
         }
     }
 
-    private function prepareTaxClassOptions($request, $id){
+    private function prepareTaxClassOptions($request, $id)
+    {
         $arr = [];
 
-        foreach($request["tax_name"] as $key => $value){
+        foreach ($request["tax_name"] as $key => $value) {
             $arr[] = [
                 'class_id' => $id,
                 'tax_name' => $value,
@@ -130,25 +136,27 @@ class AdminTaxController extends Controller
         return $arr;
     }
 
-    public function getCountryStateInfo(Request $request){
+    public function getCountryStateInfo(Request $request)
+    {
         $request->validate(["id" => "required"]);
 
         $states = State::select('id', 'name')->where('country_id', $request->id)->get();
-        $html = "<option value=''>".__('Select State')."</option>";
-        foreach($states as $state){
-            $html .= "<option value='". $state->id ."'>" . $state->name . "</option>";
+        $html = "<option value=''>" . __('Select State') . "</option>";
+        foreach ($states as $state) {
+            $html .= "<option value='" . $state->id . "'>" . $state->name . "</option>";
         }
 
         return $html;
     }
 
-    public function getCountryCityInfo(Request $request){
+    public function getCountryCityInfo(Request $request)
+    {
         $request->validate(["id" => "required"]);
 
         $cities = City::select('id', 'name')->where('state_id', $request->id)->get();
-        $html = "<option value=''>". __("Select City") ."</option>";
-        foreach($cities as $city){
-            $html .= "<option value='". $city->id ."'>" . $city->name . "</option>";
+        $html = "<option value=''>" . __("Select City") . "</option>";
+        foreach ($cities as $city) {
+            $html .= "<option value='" . $city->id . "'>" . $city->name . "</option>";
         }
 
         return $html;

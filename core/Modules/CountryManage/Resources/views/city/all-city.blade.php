@@ -1,5 +1,7 @@
 @extends('backend.admin-master')
+
 @section('site-title', __('All States'))
+
 @section('style')
     <x-select2.select2-css />
     <style>
@@ -13,6 +15,12 @@
     </style>
 @endsection
 @section('content')
+    <div class="row">
+        <div class="col-md-12">
+            <x-msg.error />
+            <x-msg.flash />
+        </div>
+    </div>
     <div class="row g-4">
         <div class="col-lg-12">
             <div class="mb-4">

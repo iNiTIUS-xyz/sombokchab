@@ -14,14 +14,15 @@ class ChildCategoryUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
+
         return [
             "id" => "required",
-            'name' => ['required','string','max:191', Rule::unique('child_categories')->ignore($this->id)],
-            'slug' => ['required','string','max:191', Rule::unique('child_categories')->ignore($this->id)],
+            'name' => ['required', 'string', 'max:191', Rule::unique('child_categories')->ignore($this->id)],
+            'slug' => ['required', 'string', 'max:191', Rule::unique('child_categories')->ignore($this->id)],
             'description' => 'nullable',
             'status_id' => 'required|string|max:191',
             'image_id' => 'nullable|string|max:191',
-            'category_id' => 'required|max:191',
+            'category_id' => 'required|integer|max:191',
             'sub_category_id' => 'required|max:191',
         ];
     }

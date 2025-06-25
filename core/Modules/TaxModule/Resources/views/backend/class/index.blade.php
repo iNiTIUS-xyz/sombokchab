@@ -23,8 +23,8 @@
                     </div>
                 </div>
                 <div class="dashboard__card__body mt-4">
-                    <div class="table-wrap">
-                        <table class="table table-responsive">
+                    <div class="table-responsive">
+                        <table class="table" id="dataTable">
                             <thead>
                                 <tr>
                                     <th>{{ __('SL NO') }}</th>
@@ -38,21 +38,21 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $class->name }}</td>
                                         <td>
-                                            <a class="btn btn-info btn-sm"
+                                            <a class="btn btn-success btn-sm"
                                                 href="{{ route('admin.tax-module.tax-class-option', $class->id) }}"
                                                 title="{{ __('View') }}">
                                                 <i class="ti-eye"></i>
                                             </a>
                                             <button data-id="{{ $class->id }}" data-name="{{ $class->name }}"
-                                                id="updateTaxClassButton" class="btn btn-primary btn-sm"
+                                                id="updateTaxClassButton" class="btn btn-warning text-dark btn-sm"
                                                 data-bs-target="#updateTaxClass" data-bs-toggle="modal"
-                                                title="{{ __('Edit') }}">
+                                                title="{{ __('Edit Data') }}">
                                                 <i class="ti-pencil"></i>
                                             </button>
                                             <button id="deleteTaxClassButton" data-id="{{ $class->id }}"
                                                 data-option-count="{{ $class->class_option_count }}"
                                                 data-href="{{ route('admin.tax-module.tax-class-delete', $class->id) }}"
-                                                class="btn btn-danger btn-sm" title="{{ __('Delete') }}">
+                                                class="btn btn-danger btn-sm" title="{{ __('Delete Data') }}">
                                                 <i class="ti-trash"></i>
                                             </button>
                                         </td>
@@ -75,11 +75,11 @@
                         <div class="form-group">
                             <label for="#tax-class-name" class="form-label">{{ __('Name') }}</label>
                             <input name="name" type="text" class="form-control"
-                                placeholder="{{ __('Enter tax class name') }}" />
+                                placeholder="{{ __('Enter tax name') }}" />
                         </div>
 
                         <div class="form-group">
-                            <button class="cmn_btn btn_bg_profile">{{ __('Create') }}</button>
+                            <button class="cmn_btn btn_bg_profile">{{ __('Add') }}</button>
                         </div>
                     </form>
                 </div>
@@ -102,14 +102,14 @@
                         <div class="form-group">
                             <label for="#update-tax-class-name" class="form-label">{{ __('Name') }}</label>
                             <input id="update-tax-class-name" name="name" type="text" class="form-control"
-                                placeholder="{{ __('Enter tax class name') }}" />
+                                placeholder="{{ __('Enter name') }}" />
                         </div>
                     </div>
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"
                             data-bs-dismiss="modal">{{ __('Close') }}</button>
-                        <button type="submit" class="btn btn-primary">{{ __('Save Changes') }}</button>
+                        <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                     </div>
                 </form>
             </div>

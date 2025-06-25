@@ -4,7 +4,6 @@
 @endsection
 @section('style')
     <x-media.css />
-    <x-datatable.css />
     <x-bulk-action.css />
 @endsection
 
@@ -36,8 +35,8 @@
                         </div>
                     </div>
                     <div class="dashboard__card__body mt-4">
-                        <div class="table-wrap table-responsive">
-                            <table class="table table-default">
+                        <div class="table-responsive">
+                            <table class="table table-default" id="dataTable">
                                 <thead>
                                     @can('child-categories-bulk-action')
                                         <x-bulk-action.th />
@@ -77,7 +76,7 @@
                                             </td>
                                             <td>
                                                 @can('child-categories-update')
-                                                    <a href="#1" data-bs-toggle="modal"
+                                                    <a href="#1" title="{{ __('Edit Data') }}" data-bs-toggle="modal"
                                                         data-bs-target="#child-category_edit_modal"
                                                         class="btn btn-sm btn-primary btn-xs mb-2 me-1 child-category_edit_btn"
                                                         data-id="{{ $child_category->id }}"
@@ -116,7 +115,7 @@
             <div class="modal-dialog">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
-                        <h5 class="modal-title">{{ __('Update Child-Category') }}</h5>
+                        <h5 class="modal-title">{{ __('Update Child Category') }}</h5>
                         <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
                     </div>
                     <form action="{{ route('admin.child-category.update') }}" method="post">
@@ -126,7 +125,7 @@
                             <div class="form-group">
                                 <label for="edit_name">{{ __('Name') }}</label>
                                 <input type="text" class="form-control" id="edit_name" name="name"
-                                    placeholder="{{ __('Name') }}">
+                                    placeholder="{{ __('Enter name') }}">
                             </div>
                             <div class="form-group">
                                 <label for="edit_slug">{{ __('Name') }}</label>
@@ -167,7 +166,7 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"
                                 data-bs-dismiss="modal">{{ __('Close') }}</button>
-                            <button type="submit" class="btn btn-primary">{{ __('Save Change') }}</button>
+                            <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                         </div>
                     </form>
                 </div>
@@ -180,7 +179,7 @@
             <div class="modal-dialog">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
-                        <h5 class="modal-title">{{ __('Add Child-Category') }}</h5>
+                        <h5 class="modal-title">{{ __('Add Child Category') }}</h5>
                         <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
                     </div>
                     <form action="{{ route('admin.child-category.new') }}" method="post" enctype="multipart/form-data">
@@ -189,7 +188,7 @@
                             <div class="form-group">
                                 <label for="create-name">{{ __('Name') }}</label>
                                 <input type="text" class="form-control" id="create-name" name="name"
-                                    placeholder="{{ __('Name') }}">
+                                    placeholder="{{ __('Enter name') }}">
                             </div>
 
                             <div class="form-group">
@@ -229,7 +228,7 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"
                                 data-bs-dismiss="modal">{{ __('Close') }}</button>
-                            <button type="submit" class="btn btn-primary">{{ __('Add New') }}</button>
+                            <button type="submit" class="btn btn-primary">{{ __('Add') }}</button>
                         </div>
                     </form>
                 </div>
@@ -238,18 +237,30 @@
     @endcan
     <x-media.markup />
 @endsection
+
 @section('script')
     <script>
         $(document).ready(function() {
 
+            // Auto-slug generator
+            $('#create-name, #create-slug').on('keyup', function() {
+                let title_text = $(this).val();
+                $('#create-slug').val(convertToSlug(title_text));
+            });
+
+            $('#edit_name, #edit_slug').on('keyup', function() {
+                let title_text = $(this).val();
+                $('#edit_slug').val(convertToSlug(title_text));
+            });
+
+            // Load Sub Categories on Create Modal
             $(document).on("change", "#create_category_id", function() {
                 let category_id = $(this).val();
-
                 $.ajax({
                     url: '{{ route('admin.subcategory.all') }}/of-category/select/' + category_id,
                     type: 'GET',
                     data: {
-                        _token: '<?php echo csrf_token(); ?>',
+                        _token: '{{ csrf_token() }}',
                         "category_id": category_id
                     },
                     success: function(data) {
@@ -257,21 +268,18 @@
                         $(".create-sub-category-wrapper .list").html(data.list);
                         $(".create-sub-category-wrapper span.current").html(
                             "Select Sub Category");
-                    },
-                    error: function(err) {
-                        {{-- toastr.error('<?php echo __('An error occurred'); ?>'); --}}
                     }
                 });
             });
 
-            $(document).on("change", "#edit_sub_category_id", function() {
+            // Load Sub Categories on Edit Modal when category changes
+            $(document).on("change", "#edit_category_id", function() {
                 let category_id = $(this).val();
-
                 $.ajax({
                     url: '{{ route('admin.subcategory.all') }}/of-category/select/' + category_id,
                     type: 'GET',
                     data: {
-                        _token: '<?php echo csrf_token(); ?>',
+                        _token: '{{ csrf_token() }}',
                         "category_id": category_id
                     },
                     success: function(data) {
@@ -279,77 +287,63 @@
                         $(".edit-sub-category-wrapper .list").html(data.list);
                         $(".edit-sub-category-wrapper span.current").html(
                             "Select Sub Category");
-                    },
-                    error: function(err) {
-                        toastr.error('<?php echo __('An error occurred'); ?>');
                     }
                 });
             });
 
-            $('#create-name , #create-slug').on('keyup', function() {
-                let title_text = $(this).val();
-                $('#create-slug').val(convertToSlug(title_text))
-            });
-
-            $('#edit_name , #edit_slug').on('keyup', function() {
-                let title_text = $(this).val();
-                $('#edit_slug').val(convertToSlug(title_text))
-            });
-
+            // Open Edit Modal with data
             $(document).on('click', '.child-category_edit_btn', function() {
-                $("#edit_sub_category_id").attr("id", "edit_category_id");
                 let el = $(this);
+                let modal = $('#child-category_edit_modal');
+
+                // Get data
                 let id = el.data('id');
                 let name = el.data('name');
                 let slug = el.data('slug');
                 let status = el.data('status');
                 let category_id = el.data('category-id');
                 let sub_category_id = el.data('sub-category-id');
-                let modal = $('#child-category_edit_modal');
+                let image = el.data('image');
+                let imageid = el.data('imageid');
 
+                // Fill basic fields
+                modal.find('#child-category_id').val(id);
+                modal.find('#edit_name').val(name);
+                modal.find('#edit_slug').val(slug);
+                modal.find('#edit_category_id').val(category_id);
+                modal.find('#edit_status').val(status);
+
+                // Load sub categories for selected category and set sub_category_id
                 $.ajax({
                     url: '{{ route('admin.subcategory.all') }}/of-category/select/' + category_id,
                     type: 'GET',
                     data: {
-                        _token: '<?php echo csrf_token(); ?>',
+                        _token: '{{ csrf_token() }}',
                         "category_id": category_id
                     },
                     success: function(data) {
                         $("#edit_sub_category").html(data.option);
                         $(".edit-sub-category-wrapper .list").html(data.list);
 
-                        modal.find(".edit-sub-category-wrapper .list li[data-value='" +
-                            sub_category_id + "']").trigger("click");
-                        modal.find(".modal-footer").trigger("click");
-                        $("#edit_category_id").attr("id", "edit_sub_category_id");
-                    },
-                    error: function(err) {
-                        {{-- toastr.error('<?php echo __('An error occurred'); ?>'); --}}
+                        // Set selected sub category
+                        $("#edit_sub_category").val(sub_category_id);
                     }
                 });
 
-                modal.find('#child-category_id').val(id);
-                modal.find('#edit_status option[value="' + status + '"]').attr('selected', true);
-                modal.find('#edit_name').val(name);
-                modal.find('#edit_slug').val(slug);
-                modal.find('#edit_category').val(category_id);
-                modal.find(".edit-category-wrapper .list li[data-value='" + category_id + "']").trigger(
-                    "click");
-                modal.find(".edit-status-wrapper .list li[data-value='" + status + "']").trigger("click");
-
-                modal.find(".modal-footer").trigger("click");
-
-                let image = el.data('image');
-                let imageid = el.data('imageid');
-
+                // Image preview
                 if (imageid != '') {
                     modal.find('.media-upload-btn-wrapper .img-wrap').html(
                         '<div class="attachment-preview"><div class="thumbnail"><div class="centered"><img class="avatar user-thumb" src="' +
-                        image + '" > </div></div></div>');
+                        image + '" > </div></div></div>'
+                    );
                     modal.find('.media-upload-btn-wrapper input').val(imageid);
                     modal.find('.media-upload-btn-wrapper .media_upload_form_btn').text('Change Image');
                 }
+
+                // Finally, show the modal
+                modal.modal('show');
             });
+
         });
     </script>
 

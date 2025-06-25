@@ -17,25 +17,15 @@ use Modules\Attributes\Http\Requests\ChildCategoryUpdateRequest;
 
 class ChildCategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Application|Factory|View
-     */
+
     public function index(): View|Factory|Application
     {
         $all_category = Category::all();
-        $all_child_category = ChildCategory::with("sub_category","category","image","status")->paginate(20);
+        $all_child_category = ChildCategory::with("sub_category", "category", "image", "status")->paginate(20);
 
         return view('attributes::backend.child-category.all', compact('all_category', 'all_child_category'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param ChildCategoryStoreRequest $request
-     * @return RedirectResponse
-     */
     public function store(ChildCategoryStoreRequest $request): RedirectResponse
     {
         $product_category = ChildCategory::create($request->validated());
@@ -45,27 +35,16 @@ class ChildCategoryController extends Controller
             : back()->with(FlashMsg::create_failed(__('Product Child-Category')));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param ChildCategoryUpdateRequest $request
-     * @return RedirectResponse
-     */
     public function update(ChildCategoryUpdateRequest $request)
     {
-        $updated = ChildCategory::where("id", $request->id)->update($request->validated());
 
-        return $updated
-            ? back()->with(FlashMsg::update_succeed(__('Product Child-Category')))
-            : back()->with(FlashMsg::update_failed(__('Product Child-Category')));
+        $updated = ChildCategory::query()
+            ->where("id", $request->id)
+            ->update($request->validated());
+
+        return $updated ? back()->with(FlashMsg::update_succeed(__('Product Child Category'))) : back()->with(FlashMsg::update_failed(__('Product Child-Category')));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param ChildCategory $item
-     * @return bool|null
-     */
     public function destroy(ChildCategory $item): ?bool
     {
         return $item->delete();
@@ -80,7 +59,7 @@ class ChildCategoryController extends Controller
     public function getSubcategoriesOfCategory($id): JsonResponse
     {
         $all_subcategory = ChildCategory::where('category_id', $id)
-            ->select("id","name")->get();
+            ->select("id", "name")->get();
         return response()->json($all_subcategory);
     }
 }

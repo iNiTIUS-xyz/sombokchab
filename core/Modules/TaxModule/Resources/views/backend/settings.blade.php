@@ -2,11 +2,12 @@
 
 @section('site-title', __('Tax module settings'))
 
-@section('style')
-
-@endsection
-
 @section('content')
+    <div>
+        <x-msg.flash />
+        <x-msg.error />
+    </div>
+
     <div class="dashboard__card">
         <div class="dashboard__card__header">
             <h3 class="dashboard__card__title">
@@ -169,7 +170,7 @@
                     </div>
                     <div class="form-group">
                         <button type="submit" class="cmn_btn btn_bg_profile">
-                            {{ __('Update Tax Settings') }}
+                            {{ __('Update') }}
                         </button>
                     </div>
                 </div>

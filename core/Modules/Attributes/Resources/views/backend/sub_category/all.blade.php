@@ -4,7 +4,6 @@
 @endsection
 @section('style')
     <x-media.css />
-    <x-datatable.css />
     <x-bulk-action.css />
 @endsection
 
@@ -34,8 +33,8 @@
                         </div>
                     </div>
                     <div class="dashboard__card__body mt-4">
-                        <div class="table-wrap table-responsive">
-                            <table class="table table-default">
+                        <div class="table-responsive">
+                            <table class="table table-default" id="dataTable">
                                 <thead>
                                     <x-bulk-action.th />
                                     <th>{{ __('ID') }}</th>
@@ -65,9 +64,9 @@
                                             </td>
                                             <td>
                                                 @can('sub-categories-update')
-                                                    <a href="#1" data-bs-toggle="modal"
+                                                    <a href="#1" title="{{ __('Edit Data') }}" data-bs-toggle="modal"
                                                         data-bs-target="#category_edit_modal"
-                                                        class="btn btn-sm btn-primary btn-xs mb-2 me-1 category_edit_btn"
+                                                        class="btn btn-sm btn-warning text-dark btn-xs mb-2 me-1 category_edit_btn"
                                                         data-id="{{ $category->id }}"
                                                         data-category="{{ $category->category?->id }}"
                                                         data-name="{{ $category->name }}"
@@ -87,8 +86,6 @@
                                     @endforeach
                                 </tbody>
                             </table>
-
-                            <div class="sub-category-pagination">{{ $all_sub_category->links() }}</div>
                         </div>
                     </div>
                 </div>
@@ -110,13 +107,13 @@
                             <div class="form-group">
                                 <label for="edit_name">{{ __('Name') }}</label>
                                 <input type="text" class="form-control" id="edit_name" name="name"
-                                    placeholder="{{ __('Name') }}">
+                                    placeholder="{{ __('Enter name') }}">
                             </div>
 
                             <div class="form-group">
                                 <label for="edit_slug">{{ __('Slug') }}</label>
                                 <input type="text" class="form-control" id="edit_slug" name="slug"
-                                    placeholder="{{ __('Slug') }}">
+                                    placeholder="{{ __('Enter slug') }}">
                             </div>
 
                             <div class="form-group edit-category-wrapper">
@@ -149,7 +146,7 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"
                                 data-bs-dismiss="modal">{{ __('Close') }}</button>
-                            <button type="submit" class="btn btn-primary">{{ __('Save Change') }}</button>
+                            <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                         </div>
                     </form>
                 </div>
@@ -171,13 +168,13 @@
                             <div class="form-group">
                                 <label for="name">{{ __('Name') }}</label>
                                 <input type="text" class="form-control" id="create-name" name="name"
-                                    placeholder="{{ __('Name') }}">
+                                    placeholder="{{ __('Enter name') }}">
                             </div>
 
                             <div class="form-group">
                                 <label for="slug">{{ __('Slug') }}</label>
                                 <input type="text" class="form-control" id="create-slug" name="slug"
-                                    placeholder="{{ __('Slug') }}">
+                                    placeholder="{{ __('Enter slug') }}">
                             </div>
 
                             <div class="form-group">
@@ -206,7 +203,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Add New') }}</button>
+                            <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Add') }}</button>
                         </form>
                     </div>
                 </div>
@@ -216,6 +213,7 @@
     <div class="body-overlay-desktop"></div>
     <x-media.markup />
 @endsection
+
 @section('script')
     <x-media.js />
     <x-table.btn.swal.js />

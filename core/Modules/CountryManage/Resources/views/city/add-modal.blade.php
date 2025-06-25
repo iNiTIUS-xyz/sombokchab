@@ -38,7 +38,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary mt-4"
                         data-bs-dismiss="modal">{{ __('Close') }}</button>
-                    <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4 add_city">{{ __('Save') }}</button>
+                    <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4 add_city">{{ __('Add') }}</button>
                 </div>
             </form>
         </div>

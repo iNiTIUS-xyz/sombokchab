@@ -18,24 +18,17 @@ use Modules\CountryManage\Http\Requests\UpdateStateRequest;
 class StateController extends Controller
 {
     private const BASE_URL = "countrymanage::backend.";
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Application|Factory|View
-     */
+
+    // note city make state , and state make city. that why this change you see.
+
     public function index()
     {
         $all_countries = Country::all();
-        $all_states = State::with('country')->paginate(20);
-        return view(self::BASE_URL.'all-state', compact('all_countries', 'all_states'));
+        $all_states = State::where('country_id', 31)->with('country')->get();
+
+        return view(self::BASE_URL . 'all-state', compact('all_countries', 'all_states'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return Response
-     */
     public function store(Request $request)
     {
         $state = State::create([
@@ -45,17 +38,10 @@ class StateController extends Controller
         ]);
 
         return $state->id
-            ? back()->with(FlashMsg::create_succeed('State'))
-            : back()->with(FlashMsg::create_failed('State'));
+            ? back()->with(FlashMsg::create_succeed('City'))
+            : back()->with(FlashMsg::create_failed('City'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Modules\CountryManage\Entities\State  $state
-     * @return Response
-     */
     public function update(UpdateStateRequest $request, State $state)
     {
         $updated = State::findOrFail($request->id)->update([
@@ -65,21 +51,15 @@ class StateController extends Controller
         ]);
 
         return $updated
-            ? back()->with(FlashMsg::create_succeed('State'))
-            : back()->with(FlashMsg::create_failed('State'));
+            ? back()->with(FlashMsg::create_succeed('City'))
+            : back()->with(FlashMsg::create_failed('City'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \Modules\CountryManage\Entities\State  $state
-     * @return Response
-     */
     public function destroy(State $item)
     {
         return $item->delete()
-            ? back()->with(FlashMsg::delete_succeed('State'))
-            : back()->with(FlashMsg::delete_failed('State'));
+            ? back()->with(FlashMsg::delete_succeed('City'))
+            : back()->with(FlashMsg::delete_failed('City'));
     }
 
     public function bulk_action(Request $request)
@@ -110,7 +90,7 @@ class StateController extends Controller
 
     public function import_settings()
     {
-        return view(self::BASE_URL.'import-state');
+        return view(self::BASE_URL . 'import-state');
     }
 
     public function update_import_settings(Request $request)
@@ -143,7 +123,7 @@ class StateController extends Controller
 
                 Session::put('import_csv_file_name', $file_tmp_name);
 
-                return view(self::BASE_URL.'import-state', [
+                return view(self::BASE_URL . 'import-state', [
                     'import_data' => $csv_data,
                 ]);
             }
@@ -169,14 +149,14 @@ class StateController extends Controller
         $state = array_search($request->state, $csv_data, true);
 
         foreach ($data as $index => $item) {
-            if($x == 0){
+            if ($x == 0) {
                 $x++;
-                continue ;
+                continue;
             }
             if ($index === 0) {
                 continue;
             }
-            if (empty($item[$state])){
+            if (empty($item[$state])) {
                 continue;
             }
 
@@ -196,7 +176,7 @@ class StateController extends Controller
         }
 
         return redirect()->route('admin.state.import.csv.settings')->with([
-            'msg' => __('States imported successfully'),
+            'msg' => __('City imported successfully'),
             'type' => 'success',
         ]);
     }
