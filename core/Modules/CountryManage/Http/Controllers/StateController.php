@@ -51,15 +51,15 @@ class StateController extends Controller
         ]);
 
         return $updated
-            ? back()->with(FlashMsg::create_succeed('City'))
-            : back()->with(FlashMsg::create_failed('City'));
+            ? back()->with(['msg' => __('New City updated successfully.'), 'type' => 'success'])
+            : back()->with(['msg' => __('Something went wrong. Please try again.'), 'type' => 'error']);
     }
 
     public function destroy(State $item)
     {
         return $item->delete()
-            ? back()->with(FlashMsg::delete_succeed('City'))
-            : back()->with(FlashMsg::delete_failed('City'));
+            ? back()->with(['msg' => __('New City deleted successfully.'), 'type' => 'success'])
+            : back()->with(['msg' => __('Something went wrong. Please try again.'), 'type' => 'error']);
     }
 
     public function bulk_action(Request $request)

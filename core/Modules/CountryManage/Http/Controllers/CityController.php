@@ -33,10 +33,7 @@ class CityController extends Controller
                 'status' => $request->status,
             ]);
 
-            return back()->with([
-                'msg' => __('New City created successfully.'),
-                'type' => 'success',
-            ]);
+            return back()->with(['msg' => __('New state created successfully.'), 'type' => 'success',]);
         }
 
         $all_countries = Country::get();
