@@ -27,6 +27,7 @@ class VendorStoreRequest extends FormRequest
             "city_id" => "required",
             "zip_code" => "required",
             "address" => "nullable",
+            "is_vendor_verified" => "nullable",
             "location" => "nullable",
             "email" => "nullable",
             "shop_email" => "required",
@@ -40,11 +41,6 @@ class VendorStoreRequest extends FormRequest
         ];
     }
 
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
     public function authorize()
     {
         return true;

@@ -1,11 +1,13 @@
 @extends('backend.admin-master')
+
 @section('site-title')
     {{ __('Product Inventory') }}
 @endsection
+
 @section('style')
-    <x-datatable.css />
     <x-bulk-action.css />
 @endsection
+
 @section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row">
@@ -20,8 +22,8 @@
                         @endcan
                     </div>
                     <div class="dashboard__card__body mt-4">
-                        <div class="table-wrap table-responsive">
-                            <table class="table table-default">
+                        <div class="table-responsive">
+                            <table class="table" id="dataTable">
                                 <thead>
                                     @can('product-inventory-bulk-action')
                                         <x-bulk-action.th />
@@ -49,14 +51,15 @@
                                                     <x-table.btn.edit :route="route('admin.products.inventory.edit', $inventory->id)" />
                                                 @endcan
                                                 @can('product-inventory-delete')
-                                                    <x-table.btn.swal.delete :route="route('admin.products.inventory.delete', ['id'=>$inventory->id])" />
+                                                    <x-table.btn.swal.delete :route="route('admin.products.inventory.delete', [
+                                                        'id' => $inventory->id,
+                                                    ])" />
                                                 @endcan
                                             </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
                             </table>
-                            {!! $all_inventory_products->links() !!}
                         </div>
                     </div>
                 </div>

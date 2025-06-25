@@ -3,6 +3,7 @@
 @section('site-title', __('Vendor settings page'))
 
 @section('style')
+
 @endsection
 
 @section('content')
@@ -19,13 +20,11 @@
                         <form action="{{ route('admin.vendor.settings') }}" class="action" method="post">
                             @csrf
                             @method('PUT')
-
                             <div class="form-group">
                                 <label class="row">
                                     <span class="col-md-2">
                                         {{ __('Vendor Enable') }}
                                     </span>
-
                                     <span class="col-md-9">
                                         <input type="checkbox"
                                             {{ get_static_option('vendor_enable') == 'on' ? 'checked' : '' }}
@@ -38,7 +37,6 @@
                                     <span class="col-md-2">
                                         {{ __('Enable vendor registration') }}
                                     </span>
-
                                     <span class="col-md-9">
                                         <input type="checkbox"
                                             {{ get_static_option('enable_vendor_registration') == 'on' ? 'checked' : '' }}
@@ -65,35 +63,31 @@
                                     <span class="col-md-2">
                                         {{ __('Vendor order items list item limit') }}
                                     </span>
-
                                     <span class="col-md-9">
                                         <input value="{{ get_static_option('order_vendor_list') }}" type="number"
-                                           {{ get_static_option('order_vendor_list') == 'on' ? 'checked' : '' }}
-                                           class="form-control w-50" name="order_vendor_list"
-                                               placeholder="{{ __("Order vendor list limit") }}..." />
+                                            {{ get_static_option('order_vendor_list') == 'on' ? 'checked' : '' }}
+                                            class="form-control w-50" name="order_vendor_list"
+                                            placeholder="{{ __('Enter order vendor list limit') }}" />
                                     </span>
                                 </label>
                             </div>
-
-
                             <div class="form-group">
                                 <label class="row">
                                     <span class="col-md-2">
-                                        {{ __("Firebase Server key") }}
+                                        {{ __('Firebase Server key') }}
                                     </span>
                                     <span class="col-md-9">
                                         <input type="text" name="vendor_firebase_server_key"
-                                           value="{{ get_static_option("vendor_firebase_server_key") }}"
-                                               placeholder="{{ __("Vendor firebase server key....") }}"
-                                           class="form-control w-50"
-                                        />
+                                            value="{{ get_static_option('vendor_firebase_server_key') }}"
+                                            placeholder="{{ __('Enter Vendor firebase server key') }}"
+                                            class="form-control w-50" />
                                     </span>
                                 </label>
                             </div>
-
                             <div class="form-group">
-                                <button type="submit"
-                                    class="cmn_btn btn_bg_profile">{{ __('Update vendor settings') }}</button>
+                                <button type="submit" class="cmn_btn btn_bg_profile">
+                                    {{ __('Update') }}
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -104,5 +98,5 @@
 @endsection
 
 @section('script')
-    <script></script>
+
 @endsection

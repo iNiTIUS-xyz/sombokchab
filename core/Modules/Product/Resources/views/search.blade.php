@@ -88,25 +88,28 @@
 
                 <td data-label="Actions">
                     <div class="action-icon">
-                        <a href="{{ route('frontend.products.single', $product->slug) }}" class="btn btn-info btn-sm">
+                        <a href="{{ route('frontend.products.single', $product->slug) }}"
+                            class="btn btn-success btn-sm" title="{{ __('View Data') }}">
                             <i class="las la-eye"></i>
                         </a>
 
                         @can('product-update')
-                            <a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-success btn-sm">
+                            <a href="{{ route('admin.products.edit', $product->id) }}"
+                                class="btn btn-warning text-dark btn-sm" title="{{ __('Edit Data') }}">
                                 <i class="las la-pen-alt"></i>
                             </a>
                         @endcan
 
                         @can('product-clone')
-                            <a href="{{ route('admin.products.clone', $product->id) }}" class="btn btn-warning btn-sm">
+                            <a href="{{ route('admin.products.clone', $product->id) }}" class="btn btn-secondary btn-sm"
+                                title="{{ __('Clone Data') }}">
                                 <i class="las la-copy"></i>
                             </a>
                         @endcan
 
                         @can('product-destroy')
                             <a data-product-url="{{ route('admin.products.destroy', $product->id) }}" href="#1"
-                                class="delete-row btn btn-danger btn-sm deleted">
+                                class="delete-row btn btn-danger btn-sm deleted" title="{{ __('Delete Data') }}">
                                 <i class="las la-trash-alt"></i>
                             </a>
                         @endcan
@@ -115,7 +118,9 @@
             </tr>
         @empty
             <tr>
-                <td colspan="7" class="text-warning text-center">{{ __('No Product Found') }}</td>
+                <td colspan="7" class="text-warning text-center">
+                    {{ __('No Product Found') }}
+                </td>
             </tr>
         @endforelse
     </tbody>

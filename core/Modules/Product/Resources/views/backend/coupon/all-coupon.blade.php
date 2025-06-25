@@ -96,7 +96,8 @@
                 <x-msg.flash />
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('All  Coupon') }}</h4>
+                        <h4 class="dashboard__card__title">
+                            {{ __('All  Coupon') }}</h4>
                         @can('coupons-bulk-action')
                             <x-bulk-action.dropdown />
                         @endcan
@@ -136,9 +137,9 @@
                                             </td>
                                             <td>
                                                 @can('coupons-update')
-                                                    <a href="#1" data-bs-toggle="modal"
+                                                    <a href="#1" data-bs-toggle="modal" title="{{ __('Edit Data') }}"
                                                         data-bs-target="#category_edit_modal"
-                                                        class="btn btn-warning btn-xs mb-2 me-1 category_edit_btn"
+                                                        class="btn btn-warning btn-xs text-dark mb-2 me-1 category_edit_btn"
                                                         data-id="{{ $data->id }}" data-title="{{ $data->title }}"
                                                         data-code="{{ $data->code }}"
                                                         data-discount_on="{{ $data->discount_on }}"
@@ -167,45 +168,64 @@
                 <div class="col-lg-5">
                     <div class="dashboard__card">
                         <div class="dashboard__card__header">
-                            <h4 class="dashboard__card__title">{{ __('Add New Coupon') }}</h4>
+                            <h4 class="dashboard__card__title">
+                                {{ __('Add New Coupon') }}</h4>
                         </div>
                         <div class="dashboard__card__body custom__form mt-4">
                             <form action="{{ route('admin.products.coupon.new') }}" method="post"
                                 enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
-                                    <label for="title">{{ __('Coupon Title') }}</label>
+                                    <label for="title">
+                                        {{ __('Coupon Title') }}
+                                        <span class="text-danger">*</span>
+                                    </label>
                                     <input type="text" class="form-control" id="title" name="title"
                                         placeholder="{{ __('Title') }}" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="code">{{ __('Coupon Code') }}</label>
+                                    <label for="code">
+                                        {{ __('Coupon Code') }}
+                                        <span class="text-danger">*</span>
+                                    </label>
                                     <input type="text" class="form-control" id="code" name="code"
                                         placeholder="{{ __('Code') }}" required>
                                     <span id="status_text" class="text-danger" style="display: none"></span>
                                 </div>
                                 <div class="form-group">
-                                    <label for="discount_on">{{ __('Discount On') }}</label>
+                                    <label for="discount_on">
+                                        {{ __('Discount On') }}
+                                    </label>
                                     <select name="discount_on" id="discount_on" class="form-control">
-                                        <option value="">{{ __('Select an option') }}</option>
+                                        <option value="">
+                                            {{ __('Select an option') }}
+                                        </option>
                                         @foreach ($coupon_apply_options as $key => $value)
                                             <option value="{{ $key }}">{{ $value }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group" id="form_category">
-                                    <label for="category">{{ __('Category') }}</label>
+                                    <label for="category">
+                                        {{ __('Category') }}
+                                    </label>
                                     <select name="category" id="category" class="form-control">
-                                        <option value="">{{ __('Select a Category') }}</option>
+                                        <option value="">
+                                            {{ __('Select a Category') }}
+                                        </option>
                                         @foreach ($all_categories as $key => $category)
                                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group" id="form_subcategory">
-                                    <label for="subcategory">{{ __('Subcategory') }}</label>
+                                    <label for="subcategory">
+                                        {{ __('Subcategory') }}
+                                    </label>
                                     <select name="subcategory" id="subcategory" class="form-control">
-                                        <option value="">{{ __('Select a Subcategory') }}</option>
+                                        <option value="">
+                                            {{ __('Select a Subcategory') }}
+                                        </option>
                                         @foreach ($all_subcategories as $key => $subcategory)
                                             <option value="{{ $subcategory->id }}">{{ $subcategory->name }}
                                             </option>
@@ -213,9 +233,13 @@
                                     </select>
                                 </div>
                                 <div class="form-group" id="form_childcategory">
-                                    <label for="childcategory">{{ __('Child Category') }}</label>
+                                    <label for="childcategory">
+                                        {{ __('Child Category') }}
+                                    </label>
                                     <select name="childcategory" id="childcategory" class="form-control">
-                                        <option value="">{{ __('Select a child category') }}</option>
+                                        <option value="">
+                                            {{ __('Select a child category') }}
+                                        </option>
                                         @foreach ($all_child_categories as $key => $child_category)
                                             <option value="{{ $child_category->id }}">{{ $child_category->name }}
                                             </option>
@@ -223,36 +247,59 @@
                                     </select>
                                 </div>
                                 <div class="form-group" id="form_products">
-                                    <label for="products">{{ __('Products') }}</label>
+                                    <label for="products">
+                                        {{ __('Products') }}
+                                    </label>
                                     <select name="products[]" id="products" class="form-control wide" multiple>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="discount">{{ __('Discount') }}</label>
+                                    <label for="discount">
+                                        {{ __('Discount') }}
+                                        <span class="text-danger">*</span>
+                                    </label>
                                     <input type="number" class="form-control" id="discount" name="discount"
                                         placeholder="{{ __('Discount') }}" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="discount_type">{{ __('Coupon Type') }}</label>
+                                    <label for="discount_type">
+                                        {{ __('Coupon Type') }}
+                                        <span class="text-danger">*</span>
+                                    </label>
                                     <select name="discount_type" class="form-control" id="discount_type" required>
-                                        <option value="percentage">{{ __('Percentage') }}</option>
-                                        <option value="amount">{{ __('Amount') }}</option>
+                                        <option value="percentage">
+                                            {{ __('Percentage') }}
+                                        </option>
+                                        <option value="amount">
+                                            {{ __('Amount') }}
+                                        </option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="expire_date">{{ __('Expire Date') }}</label>
+                                    <label for="expire_date">
+                                        {{ __('Expire Date') }}
+                                        <span class="text-danger">*</span>
+                                    </label>
                                     <input type="date" class="form-control flatpickr" id="expire_date" name="expire_date"
                                         placeholder="{{ __('Expire Date') }}" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="status">{{ __('Status') }}</label>
+                                    <label for="status">
+                                        {{ __('Status') }}
+                                        <span class="text-danger">*</span>
+                                    </label>
                                     <select name="status" class="form-control" id="status" required>
-                                        <option value="publish">{{ __('Publish') }}</option>
-                                        <option value="draft">{{ __('Draft') }}</option>
+                                        <option value="publish">
+                                            {{ __('Publish') }}
+                                        </option>
+                                        <option value="draft">
+                                            {{ __('Draft') }}
+                                        </option>
                                     </select>
                                 </div>
-                                <button type="submit" id="coupon_create_btn"
-                                    class="btn btn-primary mt-4 pr-4 pl-4">{{ __('Add New Coupon') }}</button>
+                                <button type="submit" id="coupon_create_btn" class="btn btn-primary mt-4 pr-4 pl-4">
+                                    {{ __('Add') }}
+                                </button>
                             </form>
                         </div>
                     </div>
@@ -264,7 +311,8 @@
                     <div class="modal-dialog">
                         <div class="modal-content custom__form">
                             <div class="modal-header">
-                                <h5 class="modal-title">{{ __('Update Coupon') }}</h5>
+                                <h5 class="modal-title">
+                                    {{ __('Update Coupon') }}</h5>
                                 <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
                             </div>
                             <form action="{{ route('admin.products.coupon.update') }}" method="post">
@@ -272,87 +320,140 @@
                                 <div class="modal-body">
                                     @csrf
                                     <div class="form-group">
-                                        <label for="title">{{ __('Coupon Title') }}</label>
+                                        <label for="title">
+                                            {{ __('Coupon Title') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
                                         <input type="text" class="form-control" id="edit_title" name="title"
                                             placeholder="{{ __('Title') }}" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="edit_code">{{ __('Coupon Code') }}</label>
+                                        <label for="edit_code">
+                                            {{ __('Coupon Code') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
                                         <input type="text" class="form-control" id="edit_code" name="code"
                                             placeholder="{{ __('Code') }}">
                                         <span id="status_text" class="text-danger" style="display: none"></span>
                                     </div>
                                     <div class="form-group">
-                                        <label for="discount_on">{{ __('Discount On') }}</label>
+                                        <label for="discount_on">
+                                            {{ __('Discount On') }}
+                                        </label>
                                         <select name="discount_on" id="edit_discount_on" class="form-control">
-                                            <option value="">{{ __('Select an option') }}</option>
+                                            <option value="">
+                                                {{ __('Select an option') }}
+                                            </option>
                                             @foreach ($coupon_apply_options as $key => $value)
                                                 <option value="{{ $key }}">{{ $value }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="form-group" id="edit_form_category">
-                                        <label for="category">{{ __('Category') }}</label>
+                                        <label for="category">
+                                            {{ __('Category') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
                                         <select name="category" id="edit_category" class="form-control">
-                                            <option value="">{{ __('Select a Category') }}</option>
+                                            <option value="">
+                                                {{ __('Select a Category') }}
+                                            </option>
                                             @foreach ($all_categories as $key => $category)
-                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                <option value="{{ $category->id }}">
+                                                    {{ $category->name }}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="form-group" id="edit_form_subcategory">
-                                        <label for="subcategory">{{ __('Subcategory') }}</label>
+                                        <label for="subcategory">
+                                            {{ __('Subcategory') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
                                         <select name="subcategory" id="edit_subcategory" class="form-control">
-                                            <option value="">{{ __('Select a Subcategory') }}</option>
+                                            <option value="">
+                                                {{ __('Select a Subcategory') }}
+                                            </option>
                                             @foreach ($all_subcategories as $key => $subcategory)
-                                                <option value="{{ $subcategory->id }}">{{ $subcategory->name }}</option>
+                                                <option value="{{ $subcategory->id }}">
+                                                    {{ $subcategory->name }}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="form-group" id="edit_form_childcategory">
-                                        <label for="childcategory">{{ __('Child Category') }}</label>
+                                        <label for="childcategory">
+                                            {{ __('Child Category') }}
+                                        </label>
                                         <select name="childcategory" id="edit_childcategory" class="form-control">
-                                            <option value="">{{ __('Select a child category') }}</option>
+                                            <option value="">
+                                                {{ __('Select a child category') }}
+                                            </option>
                                             @foreach ($all_child_categories as $key => $child_category)
-                                                <option value="{{ $child_category->id }}">{{ $child_category->name }}
+                                                <option value="{{ $child_category->id }}">
+                                                    {{ $child_category->name }}
                                                 </option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="form-group" id="edit_form_products">
-                                        <label for="products">{{ __('Products') }}</label>
+                                        <label for="products">
+                                            {{ __('Products') }}
+                                        </label>
                                         <select name="products[]" id="products" class="form-control wide" multiple>
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="edit_discount">{{ __('Discount') }}</label>
+                                        <label for="edit_discount">
+                                            {{ __('Discount') }}
+                                        </label>
                                         <input type="number" class="form-control" id="edit_discount" name="discount"
                                             placeholder="{{ __('Discount') }}">
                                     </div>
                                     <div class="form-group">
-                                        <label for="edit_discount_type">{{ __('Coupon Type') }}</label>
+                                        <label for="edit_discount_type">
+                                            {{ __('Coupon Type') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
                                         <select name="discount_type" class="form-control" id="edit_discount_type">
-                                            <option value="percentage">{{ __('Percentage') }}</option>
-                                            <option value="amount">{{ __('Amount') }}</option>
+                                            <option value="percentage">
+                                                {{ __('Percentage') }}
+                                            </option>
+                                            <option value="amount">
+                                                {{ __('Amount') }}
+                                            </option>
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="edit_expire_date">{{ __('Expire Date') }}</label>
+                                        <label for="edit_expire_date">
+                                            {{ __('Expire Date') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
                                         <input type="date" class="form-control flatpickr" id="edit_expire_date"
                                             name="expire_date" placeholder="{{ __('Expire Date') }}">
                                     </div>
                                     <div class="form-group">
-                                        <label for="edit_status">{{ __('Status') }}</label>
+                                        <label for="edit_status">
+                                            {{ __('Status') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
                                         <select name="status" class="form-control" id="edit_status">
-                                            <option value="draft">{{ __('Draft') }}</option>
-                                            <option value="publish">{{ __('Publish') }}</option>
+                                            <option value="draft">
+                                                {{ __('Draft') }}
+                                            </option>
+                                            <option value="publish">
+                                                {{ __('Publish') }}
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">{{ __('Close') }}</button>
-                                    <button type="submit" class="btn btn-primary">{{ __('Save Change') }}</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                        {{ __('Close') }}
+                                    </button>
+                                    <button type="submit" class="btn btn-primary">
+                                        {{ __('Update') }}
+                                    </button>
                                 </div>
                             </form>
                         </div>

@@ -210,12 +210,16 @@
                                                 @endif
                                             </div>
                                             <div class="btn-wrapper mt-4">
-                                                <button type="button" class="cmn_btn btn_bg_profile" id="add_product_btn">{{ __('Add Product') }}</button>
+                                                <button type="button" class="cmn_btn btn_bg_profile"
+                                                    id="add_product_btn">
+                                                    {{ __('Add Product') }}
+                                                </button>
                                             </div>
                                         </div>
                                         <div class="col-sm-12">
-                                            <button type="submit"
-                                                class="cmn_btn btn_bg_profile w-100">{{ __('Update Campaign') }}</button>
+                                            <button type="submit" class="cmn_btn btn_bg_profile w-100">
+                                                {{ __('Update') }}
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -351,7 +355,7 @@
                 });
             });
 
-            $(document).on('click','#add_product_btn', function() {
+            $(document).on('click', '#add_product_btn', function() {
                 let product_repeater_container = $('#product_repeater_container');
                 let remove_button_selector = '.delete-campaign';
                 let from_date = undefined;
@@ -396,7 +400,7 @@
             });
 
 
-            $(document).on('click','#fixed_price_sync_all', function() {
+            $(document).on('click', '#fixed_price_sync_all', function() {
                 let fixed_percentage = $('#fixed_percentage_amount').val().trim();
 
                 if (!fixed_percentage.length) {

@@ -125,23 +125,26 @@
                                                 <td data-label="Actions">
                                                     <div class="action-icon">
                                                         @can('vendor-details')
-                                                            <a href="#1" class="btn btn-info btn-sm"
+                                                            <a href="#1" class="btn btn-success btn-sm"
                                                                 data-id="{{ $vendor->id }}" class="icon vendor-detail"
-                                                                data-bs-toggle="modal" data-bs-target="#vendor-details">
+                                                                data-bs-toggle="modal" data-bs-target="#vendor-details"
+                                                                title="{{ __('Details') }}">
                                                                 <i class="las la-eye"></i>
                                                             </a>
                                                         @endcan
 
                                                         @can('vendor-edit')
                                                             <a href="{{ route('admin.vendor.edit', $vendor->id) }}"
-                                                                class="btn btn-sm btn-success">
+                                                                class="btn btn-sm btn-warning text-dark"
+                                                                title="{{ __('Edit Data') }}">
                                                                 <i class="las la-pen-alt"></i>
                                                             </a>
                                                         @endcan
 
                                                         @can('vendor-delete')
                                                             <a data-vendor-url="{{ route('admin.vendor.delete', $vendor->id) }}"
-                                                                href="#1" class="btn btn-danger btn-sm delete-row">
+                                                                href="#1" class="btn btn-danger btn-sm delete-row"
+                                                                title="{{ __('Delete Data') }}">
                                                                 <i class="las la-trash-alt"></i>
                                                             </a>
                                                         @endcan

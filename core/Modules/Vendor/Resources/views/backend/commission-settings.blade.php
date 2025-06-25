@@ -13,7 +13,9 @@
             <div class="col-lg-12">
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Global Vendor commission Settings') }}</h4>
+                        <h4 class="dashboard__card__title">
+                            {{ __('Global Vendor commission Settings') }}
+                        </h4>
                     </div>
                     <div class="dashboard__card__body custom__form dashboard-recent-order mt-4">
                         <form action="{{ route('admin.vendor.commission-settings') }}" class="action" method="post"
@@ -22,36 +24,53 @@
                             @method('PUT')
 
                             <div class="form-group">
-                                <label for="system_type">{{ __('Select system type') }}</label>
+                                <label for="system_type">
+                                    {{ __('Select system type') }}
+                                </label>
                                 <select name="system_type" id="system_type" class="form-control">
                                     <option {{ get_static_option('system_type') == 'commission' ? 'selected' : '' }}
-                                        value="commission">{{ __('Commission') }}</option>
+                                        value="commission">
+                                        {{ __('Commission') }}
+                                    </option>
                                     <option disabled
                                         {{ get_static_option('system_type') == 'subscription' ? 'selected' : '' }}
-                                        value="subscription">{{ __('Subscription') }}</option>
+                                        value="subscription">
+                                        {{ __('Subscription') }}
+                                    </option>
                                 </select>
                             </div>
 
                             <div class="form-group">
-                                <label for="commission_type">{{ __('Select commission type') }}</label>
+                                <label for="commission_type">
+                                    {{ __('Select commission type') }}
+                                </label>
                                 <select name="commission_type" id="commission_type" class="form-control">
-                                    <option value="">{{ __('Select an option') }}</option>
+                                    <option value="">
+                                        {{ __('Select an option') }}
+                                    </option>
                                     <option {{ get_static_option('commission_type') == 'fixed_amount' ? 'selected' : '' }}
-                                        value="fixed_amount">{{ __('Fixed amount') }}</option>
+                                        value="fixed_amount">
+                                        {{ __('Fixed amount') }}
+                                    </option>
                                     <option {{ get_static_option('commission_type') == 'percentage' ? 'selected' : '' }}
-                                        value="percentage">{{ __('Percentage') }}</option>
+                                        value="percentage">
+                                        {{ __('Percentage') }}
+                                    </option>
                                 </select>
                             </div>
 
                             <div class="form-group">
-                                <label for="amount">{{ __('Amount') }}</label>
+                                <label for="amount">
+                                    {{ __('Amount') }}
+                                </label>
                                 <input value="{{ get_static_option('commission_amount') }}" type="number"
                                     class="form-control form-control-sm" name="commission_amount" id="amount"
-                                    placeholder="{{ __('Enter amount here') }}" />
+                                    placeholder="{{ __('Enter amount') }}" />
                             </div>
-
                             <div class="form-group">
-                                <button class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
+                                <button class="cmn_btn btn_bg_profile">
+                                    {{ __('Update') }}
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -60,7 +79,9 @@
             <div class="col-lg-12">
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Individual Vendor commission Settings') }}</h4>
+                        <h4 class="dashboard__card__title">
+                            {{ __('Individual Vendor commission Settings') }}
+                        </h4>
                     </div>
                     <div class="dashboard__card__body custom__form dashboard-recent-order mt-4">
                         <form action="{{ route('admin.vendor.individual-commission-settings') }}" method="POST"
@@ -69,9 +90,13 @@
                             @method('PUT')
 
                             <div class="form-group">
-                                <label for="commission_type">{{ __('Select a vendor') }}</label>
+                                <label for="commission_type">
+                                    {{ __('Select a vendor') }}
+                                </label>
                                 <select name="vendor_id" id="vendor_id" class="form-control select2">
-                                    <option value="">{{ __('Select an vendor') }}</option>
+                                    <option value="">
+                                        {{ __('Select an vendor') }}
+                                    </option>
                                     @foreach ($vendor as $v_item)
                                         <option value="{{ $v_item->id }}">
                                             {{ $v_item->owner_name . ' , ' . $v_item->username }}</option>
@@ -80,22 +105,34 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="commission_type">{{ __('Select commission type') }}</label>
+                                <label for="commission_type">
+                                    {{ __('Select commission type') }}
+                                </label>
                                 <select name="commission_type" id="commission_type" class="form-control">
-                                    <option value="">{{ __('Select an option') }}</option>
-                                    <option value="fixed_amount">{{ __('Fixed amount') }}</option>
-                                    <option value="percentage">{{ __('Percentage') }}</option>
+                                    <option value="">
+                                        {{ __('Select an option') }}
+                                    </option>
+                                    <option value="fixed_amount">
+                                        {{ __('Fixed amount') }}
+                                    </option>
+                                    <option value="percentage">
+                                        {{ __('Percentage') }}
+                                    </option>
                                 </select>
                             </div>
 
                             <div class="form-group">
-                                <label for="amount">{{ __('Percentage') }}</label>
+                                <label for="amount">
+                                    {{ __('Percentage') }}
+                                </label>
                                 <input class="form-control form-control-sm" type="number" name="commission_amount"
-                                    id="amount" placeholder="{{ __('Enter percentage here') }}" />
+                                    id="amount" placeholder="{{ __('Enter percentage') }}" />
                             </div>
 
                             <div class="form-group">
-                                <button class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
+                                <button class="cmn_btn btn_bg_profile">
+                                    {{ __('Update') }}
+                                </button>
                             </div>
                         </form>
                     </div>

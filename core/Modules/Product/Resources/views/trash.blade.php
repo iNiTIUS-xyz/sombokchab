@@ -123,13 +123,16 @@
                                                 <div class="action-icon">
                                                     @can('product-trash-restore')
                                                         <a href="{{ route('admin.products.trash.restore', $product->id) }}"
-                                                            class="product-restore btn btn-success btn-sm"> {{ __('Restore') }}
+                                                            class="product-restore btn btn-success btn-sm"
+                                                            title="{{ __('Restore') }}">
+                                                            <i class="las la-sync-alt"></i>
                                                         </a>
                                                     @endcan
                                                     @can('product-trash-delete')
                                                         <a data-product-delete-url="{{ route('admin.products.trash.delete', $product->id) }}"
-                                                            href="#1" class="product-delete btn btn-danger btn-sm">
-                                                            {{ __('Delete') }}
+                                                            href="#1" class="product-delete btn btn-danger btn-sm"
+                                                            title="{{ __('Permanent Delete') }}">
+                                                            <i class="las la-trash-alt"></i>
                                                         </a>
                                                     @endcan
                                                 </div>

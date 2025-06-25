@@ -3,79 +3,81 @@
 namespace Modules\Vendor\Http\Controllers;
 
 use App\City;
-use App\StaticOption;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
-use Modules\CountryManage\Entities\Country;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Contracts\View\View;
+use Modules\Vendor\Entities\Vendor;
+use Illuminate\Contracts\View\Factory;
 use Modules\CountryManage\Entities\State;
 use Modules\Vendor\Entities\BusinessType;
-use Modules\Vendor\Entities\Vendor;
-use Modules\Vendor\Http\Requests\Backend\UpdateVendorRequest;
-use Modules\Vendor\Http\Requests\Backend\VendorStoreRequest;
-use Modules\Vendor\Http\Services\VendorServices;
+use Modules\CountryManage\Entities\Country;
 use Modules\Wallet\Http\Services\WalletService;
+use Illuminate\Contracts\Foundation\Application;
+use Modules\Vendor\Http\Services\VendorServices;
 use Modules\Vendor\Http\Services\DummyVendorDeleteServices;
-use DB;
+use Modules\Vendor\Http\Requests\Backend\VendorStoreRequest;
+use Modules\Vendor\Http\Requests\Backend\UpdateVendorRequest;
+
 class VendorBackendController extends Controller
 {
-    public function index(): Factory|View|Application
+    public function index()
     {
-        $vendors = Vendor::with(["vendor_address","vendor_shop_info","business_type:id,name"])
-            ->latest()->paginate(20);
-            $ids = DummyVendorDeleteServices::dummyVendorId();
-            $dummyCount = DB::table('vendors')->whereIn('id',$ids)->count();
-        return view("vendor::backend.index",compact("vendors",'dummyCount'));
+        $vendors = Vendor::query()
+            ->with(["vendor_address", "vendor_shop_info", "business_type:id,name"])
+            ->latest()
+            ->paginate(20);
+        $ids = DummyVendorDeleteServices::dummyVendorId();
+        $dummyCount = DB::table('vendors')->whereIn('id', $ids)->count();
+        return view("vendor::backend.index", compact("vendors", 'dummyCount'));
     }
 
     public function show(Request $request): string
     {
         $id = $request->validate(["id" => "required"]);
-        $vendor = Vendor::with(["vendor_address","vendor_shop_info","business_type","vendor_bank_info"])
+        $vendor = Vendor::with(["vendor_address", "vendor_shop_info", "business_type", "vendor_bank_info"])
             ->where($id)->first();
 
-        return view("vendor::backend.details",compact("vendor"))->render();
+        return view("vendor::backend.details", compact("vendor"))->render();
     }
 
-    public function update_status(Request $request): JsonResponse
+    public function update_status(Request $request)
     {
         $data = $request->validate([
             "status_id" => "required",
             "vendor_id" => "required",
         ]);
 
-        Vendor::where("id",$data["vendor_id"])->update([
+        Vendor::where("id", $data["vendor_id"])->update([
             "status_id" => $data["status_id"]
         ]);
 
-        return response()->json(["success" => true,"type" => "success"]);
+        return response()->json(["success" => true, "type" => "success"]);
     }
 
-    public function create(): Factory | View | Application
+    public function create()
     {
         $data = [
-            "country" => Country::select("id","name")->orderBy("name","ASC")->get(),
+            "country" => Country::select("id", "name")->orderBy("name", "ASC")->get(),
             "business_type" => BusinessType::select()->get()
         ];
 
-        return view("vendor::backend.create",with($data));
+        return view("vendor::backend.create", with($data));
     }
 
-    public function store(VendorStoreRequest $request): JsonResponse
+    public function store(VendorStoreRequest $request)
     {
         $data = $request->validated();
         $data["password"] = \Hash::make($data["password"]);
 
-        \DB::beginTransaction();
+        DB::beginTransaction();
 
         try {
             // store vendor
             $vendor = VendorServices::store_vendor($data + ["status_id" => 1]);
             // create wallet for this vendor if wallet module is exists
-            if(moduleExists("Wallet")){
+            if (moduleExists("Wallet")) {
                 WalletService::createWallet($vendor->id, "vendor");
             }
 
@@ -89,20 +91,20 @@ class VendorBackendController extends Controller
             // store vendor bank
             VendorServices::store_vendor_bank_info($data + $vendor_id);
             // Database Commit
-            \DB::commit();
+            DB::commit();
 
-            return response()->json(["success" => true,"type" => "success"]);
-        }catch(\Exception $e){
-            \DB::rollBack();
-            return response()->json(["msg" => $e,"custom_msg" => "Failed to create vendor account..","success" => false,"type" => "danger"])->setStatusCode(422);
+            return response()->json(["success" => true, "type" => "success"]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(["msg" => $e, "custom_msg" => "Failed to create vendor account..", "success" => false, "type" => "danger"])->setStatusCode(422);
         }
 
     }
 
-    public function edit($vendor): Factory|View|Application
+    public function edit($vendor)
     {
         $data = [
-            "country" => Country::select("id","name")->orderBy("name","ASC")->get(),
+            "country" => Country::select("id", "name")->orderBy("name", "ASC")->get(),
             "business_type" => BusinessType::select()->get(),
             "vendor" => Vendor::with([
                 "vendor_address",
@@ -114,47 +116,47 @@ class VendorBackendController extends Controller
             ])->findOrFail($vendor)
         ];
 
-        return view("vendor::backend.edit",with($data));
+        return view("vendor::backend.edit", with($data));
     }
 
-    public function update($vendor,UpdateVendorRequest $request): JsonResponse
+    public function update($vendor, UpdateVendorRequest $request)
     {
         $data = $request->validated();
 
-        \DB::beginTransaction();
+        DB::beginTransaction();
 
         try {
             // store vendor
-            VendorServices::store_vendor(VendorServices::prepare_data_for_update($data + ["status_id" => 1],"vendor") + ["id" => $data["id"]],"update");
+            VendorServices::store_vendor(VendorServices::prepare_data_for_update($data + ["status_id" => 1], "vendor") + ["id" => $data["id"]], "update");
             // store vendor address
-            VendorServices::store_vendor_address(VendorServices::prepare_data_for_update($data,"vendor_address"),"update");
+            VendorServices::store_vendor_address(VendorServices::prepare_data_for_update($data, "vendor_address"), "update");
             // store Shop Info
-            VendorServices::store_vendor_shop_info(VendorServices::prepare_data_for_update($data,"vendor_shop_info"),"update");
+            VendorServices::store_vendor_shop_info(VendorServices::prepare_data_for_update($data, "vendor_shop_info"), "update");
             // store vendor bank
-            VendorServices::store_vendor_bank_info(VendorServices::prepare_data_for_update($data,"vendor_bank_info"),"update");
+            VendorServices::store_vendor_bank_info(VendorServices::prepare_data_for_update($data, "vendor_bank_info"), "update");
             // Database Commit
-            \DB::commit();
-            return response()->json(["success" => true,"type" => "success"]);
-        }catch(\Exception $e){
-            \DB::rollBack();
-            return response()->json(["msg" => $e,"custom_msg" => "Failed to create vendor account..","success" => false,"type" => "danger"])->setStatusCode(422);
+            DB::commit();
+            return response()->json(["success" => true, "type" => "success"]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(["msg" => $e, "custom_msg" => "Failed to create vendor account", "success" => false, "type" => "danger"])->setStatusCode(422);
         }
     }
 
-    public function get_state(Request $request): JsonResponse
+    public function get_state(Request $request)
     {
         $id = $request->validate(["country_id" => "required"]);
-        $states = State::where("country_id",$id)->get();
+        $states = State::where("country_id", $id)->get();
 
-        return response()->json(["success" => true,"type" => "success"] + render_view_for_nice_select($states));
+        return response()->json(["success" => true, "type" => "success"] + render_view_for_nice_select($states));
     }
 
-    public function get_city(Request $request): JsonResponse
+    public function get_city(Request $request)
     {
-        $id = $request->validate(["country_id" => "required","state_id" => "required"]);
+        $id = $request->validate(["country_id" => "required", "state_id" => "required"]);
         $states = City::where($id)->get();
 
-        return response()->json(["success" => true,"type" => "success"] + render_view_for_nice_select($states));
+        return response()->json(["success" => true, "type" => "success"] + render_view_for_nice_select($states));
     }
 
     public function destroy(Vendor $vendor): ?bool
@@ -162,14 +164,14 @@ class VendorBackendController extends Controller
         return $vendor->delete();
     }
 
-    public function settings(){
-        // add vendor registration settings is active or not
-        // render a view file from
+    public function settings()
+    {
 
         return view("vendor::backend.settings");
     }
 
-    public function updateSettings(Request $req){
+    public function updateSettings(Request $req)
+    {
         // update all vendor settings in
         $reqSettings = $req->validate([
             "vendor_enable" => "nullable",
@@ -193,13 +195,15 @@ class VendorBackendController extends Controller
         ]);
     }
 
-    public function commissionSettings(){
-        $vendor = Vendor::select(["id","owner_name","username"])->get();
+    public function commissionSettings()
+    {
+        $vendor = Vendor::select(["id", "owner_name", "username"])->get();
 
         return view("vendor::backend.commission-settings", compact("vendor"));
     }
-    public function updateCommissionSettings(Request $request){
-        // step one is validation
+
+    public function updateCommissionSettings(Request $request)
+    {
         $data = $request->validate([
             "system_type" => "required",
             "commission_type" => "nullable",
@@ -213,10 +217,12 @@ class VendorBackendController extends Controller
         //todo:: step three is send response with message
         return response()->json([
             "msg" => __("Global vendor commission settings updated."),
-            "success" => true,"type" => "success"
+            "success" => true,
+            "type" => "success"
         ]);
     }
-    public function updateIndividualCommissionSettings(Request $request){
+    public function updateIndividualCommissionSettings(Request $request)
+    {
         // step one is need to validate vendor commission data
         $data = $request->validate([
             "vendor_id" => "required|exists:vendors,id",
@@ -236,17 +242,18 @@ class VendorBackendController extends Controller
         ]);
     }
 
-    public function getVendorCommissionInformation($id){
+    public function getVendorCommissionInformation($id)
+    {
         // this method will send vendor commission type and vendor commission amount
         return Vendor::select("commission_type", "commission_amount")
             ->without('status')->where("id", $id)->first();
     }
     public function delete_dummy_vendor()
     {
-        $delete=DummyVendorDeleteServices::destroy();
-        if($delete){
-            return response()->json(['success'=>true,'type'=>'success']);
+        $delete = DummyVendorDeleteServices::destroy();
+        if ($delete) {
+            return response()->json(['success' => true, 'type' => 'success']);
         }
-        return response()->json(['success'=>false,'type'=>'danger']);
+        return response()->json(['success' => false, 'type' => 'danger']);
     }
 }

@@ -28,29 +28,19 @@ use Throwable;
 
 class InventoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Application|Factory|View
-     */
+
     public function index()
     {
-        $all_inventory_products = InventoryServices::fetch_inventory_product()->paginate();
+        $all_inventory_products = InventoryServices::fetch_inventory_product()->get();
         return view('inventory::backend.all', compact('all_inventory_products'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param ProductInventory $item
-     * @return Application|Factory|View
-     */
     public function edit(ProductInventory $item)
     {
 
         $data = [
             "brands" => Brand::select("id", "name")->get(),
-            "badges" => Badge::where("status","active")->get(),
+            "badges" => Badge::where("status", "active")->get(),
             "units" => Unit::select("id", "name")->get(),
             "tags" => Tag::select("id", "tag_text as name")->get(),
             "categories" => Category::select("id", "name")->get(),
@@ -78,36 +68,15 @@ class InventoryController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param UpdateInventoryRequest $request
-     * @return JsonResponse
-     * @throws Throwable
-     */
     public function update(UpdateInventoryRequest $request)
     {
 
-//        return $request->validated();
-//        try {
-//            Db::beginTransaction();
+        (new InventoryServices)->update($request->validated());
 
-            (new InventoryServices)->update($request->validated());
+        return response()->json(FlashMsg::update_succeed(__('Product Inventory')));
 
-//            DB::commit();
-            return response()->json(FlashMsg::update_succeed(__('Product Inventory')));
-//        } catch (Throwable $th) {
-//            DB::rollBack();
-//            return response()->json(FlashMsg::update_failed(__('Product Inventory')), 400);
-//        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param Request $request
-     * @return bool
-     */
     public function destroy(Request $request)
     {
         $id = $request->query('id');
@@ -128,9 +97,6 @@ class InventoryController extends Controller
         return back()->with(FlashMsg::delete_failed(__('Product Inventory')));
     }
 
-    /** =========================================================================
-     *                          HELPER FUNCTIONS
-    ========================================================================= */
     private function insertInventoryDetails($inventory_id, $inventory_details)
     {
         foreach ($inventory_details as $details) {

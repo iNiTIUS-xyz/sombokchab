@@ -82,24 +82,32 @@
                                                 <div class="dashboard__card__body custom__form mt-4 single-reg-form">
 
                                                     <div class="form-group">
-                                                        <label class="label-title color-light mb-2"> {{ __('Vendor Name') }}
+                                                        <label class="label-title color-light mb-2">
+                                                            {{ __('Vendor Name') }}
+                                                            <span class="text-danger">*</span>
                                                         </label>
                                                         <input name="owner_name" type="text"
+                                                            placeholder="{{ __('Enter vendor name') }}"
                                                             class="form--control radius-10"
                                                             value="{{ $vendor->owner_name }}">
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="label-title color-light mb-2">
-                                                            {{ __('Business Name') }} </label>
+                                                            {{ __('Business Name') }}
+                                                            <span class="text-danger">*</span>
+                                                        </label>
                                                         <input name="business_name" type="text"
                                                             class="form--control radius-10"
+                                                            placeholder="{{ __('Enter business name') }}"
                                                             value="{{ $vendor->business_name }}">
                                                     </div>
-
                                                     <div class="form-group">
                                                         <label class="label-title color-light mb-2">
-                                                            {{ __('Username') }}</label>
+                                                            {{ __('Username') }}
+                                                            <span class="text-danger">*</span>
+                                                        </label>
                                                         <input name="username" type="text"
+                                                            placeholder="{{ __('Enter username') }}"
                                                             class="form--control radius-10"
                                                             value="{{ $vendor->username }}">
                                                     </div>
@@ -107,33 +115,42 @@
 
                                                     <div class="form-group">
                                                         <label class="label-title color-light mb-2">
-                                                            {{ __('Email') }}</label>
-                                                        <input name="email" type="text" class="form--control radius-10"
-                                                            value="{{ $vendor->email }}">
+                                                            {{ __('Email') }}
+                                                            <span class="text-danger">*</span>
+                                                        </label>
+                                                        <input name="email" type="text"
+                                                            placeholder="{{ __('Enter email') }}"
+                                                            class="form--control radius-10" value="{{ $vendor->email }}">
                                                     </div>
 
                                                     <div class="form-group">
                                                         <label class="label-title color-light mb-2">
-                                                            {{ __('Business Category') }} </label>
+                                                            {{ __('Business Category') }}
+                                                            <span class="text-danger">*</span>
+                                                        </label>
                                                         <div class="nice-select-two">
                                                             <select id="business_type" name="business_type_id"
                                                                 style="display: none;">
                                                                 @foreach ($business_type as $item)
                                                                     <option value="{{ $item->id }}"
                                                                         {{ $item->id == $vendor->business_type_id ? 'selected' : '' }}>
-                                                                        {{ $item->name }}</option>
+                                                                        {{ $item->name }}
+                                                                    </option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="label-title color-light mb-2">
-                                                            {{ __('Description') }} </label>
-                                                        <textarea name="description" class="form--control form--message radius-10" style="height: 100px">{{ $vendor->description }}</textarea>
+                                                            {{ __('Description') }}
+                                                        </label>
+                                                        <textarea name="description" class="form--control form--message radius-10" style="height: 100px"
+                                                            placeholder="{{ __('Enter description') }}">{{ $vendor->description }}</textarea>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="label-title color-light mb-2">
                                                             {{ __('Is Verified') }}
+                                                            <span class="text-danger">*</span>
                                                         </label>
                                                         <select name="is_vendor_verified" class="form--control">
                                                             <option value="1"
@@ -149,7 +166,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="col-lg-6">
                                             <x-media.media-upload :old-image="$vendor?->vendor_shop_info?->logo" :title="__('Logo')" :name="'logo_id'"
                                                 :dimentions="'200x200'" />
@@ -166,16 +182,21 @@
                                                 <div class="dashboard__card__body custom__form mt-4 single-reg-form">
 
                                                     <div class="form-group">
-                                                        <label class="label-title color-light mb-2"> {{ __('Country') }}
+                                                        <label class="label-title color-light mb-2">
+                                                            {{ __('Country') }}
+                                                            <span class="text-danger">*</span>
                                                         </label>
                                                         <div class="nice-select-two country_wrapper">
                                                             <select class="form-control" id="country_id"
                                                                 name="country_id">
-                                                                <option value="">{{ __('Select Country') }}</option>
+                                                                <option value="">
+                                                                    {{ __('Select Country') }}
+                                                                </option>
                                                                 @foreach ($country as $item)
                                                                     <option value="{{ $item->id }}"
                                                                         {{ $vendor?->vendor_address?->country_id == $item->id ? 'selected' : '' }}>
-                                                                        {{ $item->name }}</option>
+                                                                        {{ $item->name }}
+                                                                    </option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
@@ -189,15 +210,20 @@
                                                             : [];
                                                     @endphp
                                                     <div class="form-group">
-                                                        <label class="label-title color-light mb-2"> {{ __('State') }}
+                                                        <label class="label-title color-light mb-2">
+                                                            {{ __('State') }}
+                                                            <span class="text-danger">*</span>
                                                         </label>
                                                         <div class="nice-select-two state_wrapper">
                                                             <select class="form-control" id="state_id" name="state_id">
-                                                                <option value="">{{ __('Select State') }}</option>
+                                                                <option value="">
+                                                                    {{ __('Select State') }}
+                                                                </option>
                                                                 @foreach ($states as $state)
                                                                     <option value="{{ $state->id }}"
                                                                         {{ $vendor?->vendor_address?->state_id == $state->id ? 'selected' : '' }}>
-                                                                        {{ $state->name }}</option>
+                                                                        {{ $state->name }}
+                                                                    </option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
@@ -213,33 +239,39 @@
                                                     @endphp
 
                                                     <div class="form-group">
-                                                        <label class="label-title color-light mb-2"> {{ __('City') }}
+                                                        <label class="label-title color-light mb-2">
+                                                            {{ __('City') }}
+                                                            <span class="text-danger">*</span>
                                                         </label>
                                                         <div class="nice-select-two city_wrapper">
                                                             <select id="city_id" name="city_id" class="form-control">
-                                                                <option value="">{{ __('Select City') }}</option>
+                                                                <option value="">
+                                                                    {{ __('Select City') }}
+                                                                </option>
                                                                 @foreach ($cities as $city)
                                                                     <option value="{{ $city->id }}"
                                                                         {{ $vendor?->vendor_address?->city_id == $city->id ? 'selected' : '' }}>
-                                                                        {{ $city->name }}</option>
+                                                                        {{ $city->name }}
+                                                                    </option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
                                                     </div>
-
                                                     <div class="form-group">
-                                                        <label class="label-title color-light mb-2"> {{ __('Zip Code') }}
+                                                        <label class="label-title color-light mb-2">
+                                                            {{ __('Zip Code') }}
+                                                            <span class="text-danger">*</span>
                                                         </label>
                                                         <input type="text" name="zip_code"
                                                             class="form--control radius-10"
                                                             value="{{ $vendor?->vendor_address?->zip_code }}">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="label-title color-light mb-2"> {{ __('Address') }}
+                                                        <label class="label-title color-light mb-2">
+                                                            {{ __('Address') }}
                                                         </label>
-                                                        <textarea name="address" type="text" class="form--control radius-10">{{ $vendor?->vendor_address?->address }}</textarea>
+                                                        <textarea name="address" type="text" placeholder="{{ __('Enter address') }}" class="form--control radius-10">{{ $vendor?->vendor_address?->address }}</textarea>
                                                     </div>
-
                                                 </div>
                                             </div>
                                         </div>
@@ -249,10 +281,13 @@
                                     <div class="row g-4 mt-1">
                                         <div class="col-lg-12">
                                             <div class="dashboard__card">
-                                                <h4 class="dashboard__card__title"> {{ __('Shop Info') }} </h4>
+                                                <h4 class="dashboard__card__title">
+                                                    {{ __('Shop Info') }}
+                                                </h4>
                                                 <div class="dashboard__card__body custom__form mt-4 single-reg-form">
                                                     <div class="form-group">
-                                                        <label class="label-title color-light mb-2"> {{ __('Location') }}
+                                                        <label class="label-title color-light mb-2">
+                                                            {{ __('Location') }}
                                                         </label>
                                                         <input value="{{ $vendor?->vendor_shop_info?->location }}"
                                                             name="location" type="text"
@@ -260,35 +295,40 @@
                                                             placeholder="{{ __('Set Location From Map') }}">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="label-title color-light mb-2"> {{ __('Number') }}
+                                                        <label class="label-title color-light mb-2">
+                                                            {{ __('Number') }}
+                                                            <span class="text-danger">*</span>
                                                         </label>
-                                                        <input value="{{ $vendor?->vendor_shop_info?->number }}"
-                                                            name="number" type="tel" class="form--control radius-10"
-                                                            placeholder="{{ __('Type Number') }}">
+                                                        <input value="{{ $vendor?->phone }}" name="number"
+                                                            type="tel" class="form--control radius-10"
+                                                            placeholder="{{ __('Enter Number') }}">
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="label-title color-light mb-2">
-                                                            {{ __('Email Address') }} </label>
+                                                            {{ __('Email Address') }}
+                                                        </label>
                                                         <input value="{{ $vendor?->vendor_shop_info?->email }}"
                                                             type="text" name="shop_email"
                                                             class="form--control radius-10"
-                                                            placeholder="{{ __('Type Email') }}">
+                                                            placeholder="{{ __('Enter email') }}">
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="label-title color-light mb-2">
-                                                            {{ __('Facebook Link') }} </label>
+                                                            {{ __('Facebook Link') }}
+                                                        </label>
                                                         <input value="{{ $vendor?->vendor_shop_info?->facebook_url }}"
                                                             type="text" name="facebook_url"
                                                             class="form--control radius-10"
-                                                            placeholder="Type Facebook Link">
+                                                            placeholder="{{ __('Enter facebook link') }}">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="label-title color-light mb-2"> {{ __('Website') }}
+                                                        <label class="label-title color-light mb-2">
+                                                            {{ __('Website') }}
                                                         </label>
                                                         <input value="{{ $vendor?->vendor_shop_info?->website_url }}"
                                                             type="text" name="website_url"
                                                             class="form--control radius-10"
-                                                            placeholder="{{ __('Type Website') }}">
+                                                            placeholder="{{ __('Enter Website') }}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -316,34 +356,38 @@
                                                 </div>
                                                 <div class="dashboard__card__body custom__form mt-4 single-reg-form">
                                                     <div class="form-group">
-                                                        <label class="label-title color-light mb-2"> {{ __('Name') }}
+                                                        <label class="label-title color-light mb-2">
+                                                            {{ __('Name') }}
                                                         </label>
                                                         <input value="{{ $vendor?->vendor_bank_info?->bank_name }}"
                                                             name="bank_name" type="text"
                                                             class="form--control radius-10"
-                                                            placeholder="{{ __('Type Name') }}">
+                                                            placeholder="{{ __('Enter name') }}">
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="label-title color-light mb-2"> {{ __('Email') }}
                                                         </label>
                                                         <input value="{{ $vendor?->vendor_bank_info?->bank_email }}"
                                                             name="bank_email" type="text"
-                                                            class="form--control radius-10" placeholder="Type Email">
+                                                            class="form--control radius-10"
+                                                            placeholder="{{ __('Enter email') }}">
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="label-title color-light mb-2"> {{ __('Bank Code') }}
                                                         </label>
                                                         <input value="{{ $vendor?->vendor_bank_info?->bank_code }}"
                                                             name="bank_code" type="tel"
-                                                            class="form--control radius-10" placeholder="Type Code">
+                                                            class="form--control radius-10"
+                                                            placeholder="{{ __('Enter bank code') }}">
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="label-title color-light mb-2">
-                                                            {{ __('Account Number') }} </label>
+                                                            {{ __('Account Number') }}
+                                                        </label>
                                                         <input value="{{ $vendor?->vendor_bank_info?->account_number }}"
                                                             name="account_number" type="tel"
                                                             class="form--control radius-10"
-                                                            placeholder="Type Account Number">
+                                                            placeholder="{{ __('Enter account number') }}">
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="label-title color-light mb-2">
@@ -414,37 +458,50 @@
             });
         });
 
+
         $(document).on("change", "#country_id", function() {
             let data = new FormData();
-
             data.append("country_id", $(this).val());
             data.append("_token", "{{ csrf_token() }}");
 
-            send_ajax_request("post", data, "{{ route('admin.vendor.get.state') }}", function() {}, (data) => {
-                $("#state_id").html("<option value=''>{{ __('Select an state') }}</option>" + data.option);
-                $(".state_wrapper .list").html(data.li);
-            }, (data) => {
-                prepare_errors(data);
-            })
+            send_ajax_request(
+                "post",
+                data,
+                "{{ route('admin.vendor.get.state') }}",
+                function() {},
+                (data) => {
+                    $("#state_id").html("<option value=''>{{ __('Select a state') }}</option>" + data.option);
+                    $(".state_wrapper .list").html(data.li);
+                },
+                (data) => {
+                    prepare_errors(data);
+                }
+            );
         });
 
         $(document).on("change", "#state_id", function() {
             let data = new FormData();
-
             data.append("country_id", $("#country_id").val());
             data.append("state_id", $(this).val());
             data.append("_token", "{{ csrf_token() }}");
 
-            send_ajax_request("post", data, "{{ route('admin.vendor.get.city') }}", function() {}, (data) => {
-                $("#city_id").html("<option value=''>{{ __('Select an city') }}</option>" + data.option);
-                $(".city_wrapper .list").html(data.li);
-            }, (data) => {
-                prepare_errors(data);
-            })
+            send_ajax_request(
+                "post",
+                data,
+                "{{ route('admin.vendor.get.city') }}",
+                function() {},
+                (data) => {
+                    $("#city_id").html("<option value=''>{{ __('Select a city') }}</option>" + data.option);
+                    $(".city_wrapper .list").html(data.li);
+                },
+                (data) => {
+                    prepare_errors(data);
+                }
+            );
         });
 
         $(document).on("keyup keydown click change", "input[name=username]", function() {
-            $(this).val(convertToSlug($(this).val()))
+            $(this).val(convertToSlug($(this).val()));
         });
     </script>
 @endsection

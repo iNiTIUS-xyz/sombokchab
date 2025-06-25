@@ -53,6 +53,7 @@
                                             <td><x-status-span :status="$campaign->status" /></td>
                                             <td>
                                                 <a target="_blank" class="btn btn-success btn-xs mb-2 me-1"
+                                                    title="{{ __('View Campaign') }}"
                                                     href="{{ route('frontend.products.campaign', ['id' => $campaign->id, 'slug' => $campaign->slug]) }}">
                                                     <i class="ti-eye"></i>
                                                 </a>
