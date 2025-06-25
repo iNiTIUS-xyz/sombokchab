@@ -1,4 +1,5 @@
 @extends('backend.admin-master')
+
 @section('site-title')
     {{ __('Shop Manage') }}
 @endsection
@@ -25,23 +26,32 @@
                                     <div class="row g-4">
                                         <div class="col-sm-12">
                                             <div class="single-input">
-                                                <label class="label-title">{{ __('Store Name') }} </label>
+                                                <label class="label-title">
+                                                    {{ __('Store Name') }}
+                                                    <span class="text-danger">*</span>
+                                                </label>
                                                 <input value="{{ $shopManage->store_name ?? null }}" name="store_name"
                                                     type="text" class="form--control radius-10"
-                                                    placeholder="{{ __('Business Name') }}">
+                                                    placeholder="{{ __('Enter business name') }}">
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="single-input">
-                                                <label class="label-title"> {{ __('Email') }} </label>
+                                                <label class="label-title">
+                                                    {{ __('Email') }}
+                                                    <span class="text-danger">*</span>
+                                                </label>
                                                 <input value="{{ $shopManage->email ?? null }}" name="email"
                                                     type="email" class="form--control radius-10"
-                                                    placeholder="{{ __('Type Email') }}">
+                                                    placeholder="{{ __('Enter type email') }}">
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="single-input">
-                                                <label class="label-title"> {{ __('Country') }} </label>
+                                                <label class="label-title">
+                                                    {{ __('Country') }}
+                                                    <span class="text-danger">*</span>
+                                                </label>
                                                 <div class="nice-select-two country_wrapper">
                                                     <select id="country_id" class="form--control" name="country_id">
                                                         <option value="">{{ __('Select Country') }}</option>
@@ -102,7 +112,7 @@
                                                 <label class="label-title"> {{ __('Postal Code') }} </label>
                                                 <input value="{{ $shopManage->zipcode ?? null }}" type="text"
                                                     name="zipcode" class="form--control radius-10"
-                                                    placeholder="{{ __('Postal Code') }}">
+                                                    placeholder="{{ __('Enter postal code') }}">
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
@@ -110,13 +120,13 @@
                                                 <label class="label-title"> {{ __('Number') }} </label>
                                                 <input value="{{ $shopManage->number ?? null }}" name="number"
                                                     type="tel" class="form--control radius-10"
-                                                    placeholder="{{ __('Type Number') }}">
+                                                    placeholder="{{ __('Enter number') }}">
                                             </div>
                                         </div>
                                         <div class="col-sm-12">
                                             <div class="single-input">
                                                 <label class="label-title"> {{ __('Address') }} </label>
-                                                <textarea name="address" type="text" class="form--control radius-10" placeholder="{{ __('Type Address') }}">{{ $shopManage->address ?? null }}</textarea>
+                                                <textarea name="address" type="text" class="form--control radius-10" placeholder="{{ __('Enter address') }}">{{ $shopManage->address ?? null }}</textarea>
                                             </div>
                                         </div>
                                         <div class="col-sm-12">
@@ -124,7 +134,7 @@
                                                 <label class="label-title"> {{ __('Location') }} </label>
                                                 <input value="{{ $shopManage->location ?? null }}" name="location"
                                                     type="text" class="form--control radius-10"
-                                                    placeholder="{{ __('Set Location From Map') }}">
+                                                    placeholder="{{ __('Enter location') }}">
                                             </div>
                                         </div>
                                         <div class="col-sm-12">
@@ -132,7 +142,7 @@
                                                 <label class="label-title"> {{ __('Facebook Link') }} </label>
                                                 <input value="{{ $shopManage->facebook_url ?? null }}" type="url"
                                                     name="facebook_url" class="form--control radius-10"
-                                                    placeholder="{{ __('Type Facebook Link') }}">
+                                                    placeholder="{{ __('Enter Facebook link') }}">
                                             </div>
                                         </div>
                                     </div>
@@ -145,7 +155,7 @@
                                 </div>
                                 <div class="btn-wrapper mt-4">
                                     <button type="submit" class="cmn_btn btn_bg_profile">
-                                        {{ __('Update Shop') }}
+                                        {{ __('Update') }}
                                     </button>
                                 </div>
                             </div>

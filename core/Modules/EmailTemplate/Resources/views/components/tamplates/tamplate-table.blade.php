@@ -17,7 +17,8 @@
                             <p><small class="text-info">{{ $route['description'] }}</small></p>
                         </td>
                         <td>
-                            <a href="{{ $route['route'] }}" class="btn btn-warning btn-xs mb-2 me-1" title="{{ __('Edit Template') }}">
+                            <a href="{{ $route['route'] }}" class="btn btn-warning btn-xs mb-2 me-1"
+                                title="{{ __('Edit Data') }}">
                                 <i class="ti-pencil"></i>
                             </a>
                         </td>

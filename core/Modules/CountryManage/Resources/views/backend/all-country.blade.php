@@ -3,7 +3,6 @@
     {{ __('Country') }}
 @endsection
 @section('style')
-    <x-datatable.css />
     <x-bulk-action.css />
 @endsection
 @section('content')
@@ -28,8 +27,8 @@
                         </div>
                     </div>
                     <div class="dashboard__card__body mt-4">
-                        <div class="table-wrap table-responsive">
-                            <table class="table table-default">
+                        <div class="table-responsive">
+                            <table class="table table-default" id="dataTable">
                                 <thead>
                                     @can('country-bulk-action')
                                         <x-bulk-action.th />
@@ -50,9 +49,9 @@
                                             <td><x-status-span :status="$country->status" /></td>
                                             <td>
                                                 @can('country-update')
-                                                    <a href="#1" data-bs-toggle="modal"
+                                                    <a href="javascript:;" title="{{ __('Edit Data') }}" data-bs-toggle="modal"
                                                         data-bs-target="#country_edit_modal"
-                                                        class="btn btn-primary btn-sm btn-xs mb-2 me-1 country_edit_btn"
+                                                        class="btn btn-warning text-dark btn-sm btn-xs mb-2 me-1 country_edit_btn"
                                                         data-id="{{ $country->id }}" data-name="{{ $country->name }}"
                                                         data-status="{{ $country->status }}">
                                                         <i class="ti-pencil"></i>
@@ -87,7 +86,7 @@
                             <div class="form-group">
                                 <label for="edit_name">{{ __('Name') }}</label>
                                 <input type="text" class="form-control" id="edit_name" name="name"
-                                    placeholder="{{ __('Name') }}">
+                                    placeholder="{{ __('Enter name') }}">
                             </div>
                             <div class="form-group">
                                 <label for="edit_status">{{ __('Status') }}</label>
@@ -100,7 +99,7 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"
                                 data-bs-dismiss="modal">{{ __('Close') }}</button>
-                            <button type="submit" class="btn btn-primary">{{ __('Save Change') }}</button>
+                            <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                         </div>
                     </form>
                 </div>
@@ -123,7 +122,7 @@
                             <div class="form-group">
                                 <label for="name">{{ __('Name') }}</label>
                                 <input type="text" class="form-control" id="name" name="name"
-                                    placeholder="{{ __('Name') }}">
+                                    placeholder="{{ __('Enter name') }}">
                             </div>
                             <div class="form-group">
                                 <label for="status">{{ __('Status') }}</label>
@@ -133,7 +132,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Add New') }}</button>
+                                <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Add') }}</button>
                             </div>
                         </form>
                     </div>
@@ -143,7 +142,6 @@
     @endcan
 @endsection
 @section('script')
-    <x-datatable.js />
     <x-table.btn.swal.js />
     @can('country-bulk-action')
         <x-bulk-action.js :route="route('admin.country.bulk.action')" />

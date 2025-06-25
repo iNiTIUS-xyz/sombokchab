@@ -1,71 +1,65 @@
 @extends('backend.admin-master')
-@section('style')
-    <x-datatable.css />
-@endsection
+
 @section('site-title')
     {{ __('My Orders') }}
 @endsection
+
 @section('content')
     <div class="dashboard__card">
         <div class="dashboard__card__header">
             <h4 class="dashboard__card__title">{{ __('My Orders') }}</h4>
         </div>
         <div class="dashboard__card__body mt-4">
-            <div class="table-wrap table-responsive all-user-campaign-table">
-                <div class="order-history-inner text-center">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>{{ __('#') }}</th>
-                                <th>{{ __('Tracking Number') }}</th>
-                                <th>{{ __('Date') }}</th>
-                                <th>{{ __('Status') }}</th>
-                                <th>{{ __('Amount') }}</th>
-                                <th>{{ __('Action') }}</th>
+            <div class="table-responsive">
+                <table class="table" id="dataTable">
+                    <thead>
+                        <tr>
+                            <th>{{ __('Serial No.') }}</th>
+                            <th>{{ __('Tracking Number') }}</th>
+                            <th>{{ __('Date') }}</th>
+                            <th>{{ __('Status') }}</th>
+                            <th>{{ __('Amount') }}</th>
+                            <th>{{ __('Action') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($all_orders as $order)
+                            <tr class="completed">
+                                <td class="order-numb">
+                                    #{{ $order->id }}
+                                </td>
+                                <td class="order-numb">
+                                    {{ $order->order_number }}
+                                </td>
+                                <td class="date">
+                                    {{ $order->order->created_at->format('F d, Y') }}
+                                </td>
+                                <td class="status">
+                                    @if ($order->order_status == 'complete')
+                                        <span class="badge bg-primary px-2 py-1">{{ __('Complete') }}</span>
+                                    @elseif ($order->order_status == 'pending')
+                                        <span class="badge bg-warning px-2 py-1">{{ __('Pending') }}</span>
+                                    @elseif ($order->order_status == 'canceled')
+                                        <span class="badge bg-danger px-2 py-1">{{ __('Canceled') }}</span>
+                                    @endif
+                                </td>
+                                <td class="amount">
+                                    {{ float_amount_with_currency_symbol($order->total_amount) }}
+                                </td>
+                                <td class="table-btn">
+                                    @can('orders-details')
+                                        <div class="btn-wrapper">
+                                            <a href="{{ route('admin.orders.details', $order->id) }}"
+                                                class="btn btn-secondary rounded-btn" title="{{ __('view details') }}">
+                                                <i class="ti-info"></i>
+                                            </a>
+                                        </div>
+                                    @endcan
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($all_orders as $order)
-                                <tr class="completed">
-                                    <td class="order-numb">
-                                        #{{ $order->id }}
-                                    </td>
-                                    <td class="order-numb">
-                                        {{ $order->order_number }}
-                                    </td>
-                                    <td class="date">
-                                        {{ $order->order->created_at->format('F d, Y') }}
-                                    </td>
-                                    <td class="status">
-                                        @if ($order->order_status == 'complete')
-                                            <span class="badge bg-primary px-2 py-1">{{ __('Complete') }}</span>
-                                        @elseif ($order->order_status == 'pending')
-                                            <span class="badge bg-warning px-2 py-1">{{ __('Pending') }}</span>
-                                        @elseif ($order->order_status == 'canceled')
-                                            <span class="badge bg-danger px-2 py-1">{{ __('Canceled') }}</span>
-                                        @endif
-                                    </td>
-                                    <td class="amount">
-                                        {{ float_amount_with_currency_symbol($order->total_amount) }}
-                                    </td>
-                                    <td class="table-btn">
-                                        @can('orders-details')
-                                            <div class="btn-wrapper">
-                                                <a href="{{ route('admin.orders.details', $order->id) }}"
-                                                    class="btn btn-secondary rounded-btn" title="{{ __('view details') }}">
-                                                    <i class="ti-info"></i>
-                                                </a>
-                                            </div>
-                                        @endcan
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="pagination">
-                {!! $all_orders->links() !!}
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -73,7 +67,6 @@
 
 @section('script')
     <script src="{{ asset('assets/backend/js/sweetalert2.js') }}"></script>
-
     <script>
         (function($) {
             "use strict";
@@ -106,6 +99,4 @@
             })
         })(jQuery)
     </script>
-
-    <x-datatable.js />
 @endsection

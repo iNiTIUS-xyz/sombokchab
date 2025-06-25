@@ -23,17 +23,18 @@
                     <label for="how-long" class="form-label">{{ __('How long customer will be eligible for refund') }}</label>
                     <input type="number" id="how-long" class="form-control form-control-sm"
                         name="how_long_user_will_eligible_for_refund"
+                        placeholder="{{ __('Enter how long customer will be eligible for efund') }}"
                         value="{{ get_static_option('how_long_user_will_eligible_for_refund') }}">
                 </div>
 
                 <div class="form-group">
                     <label for="courier_address" class="form-label">{{ __('Courier address') }}</label>
-                    <textarea type="number" name="courier_address" id="courier_address">{{ get_static_option('courier_address') }}</textarea>
+                    <textarea type="number" name="courier_address" id="courier_address" placeholder="{{ __('Enter courier address') }}">{{ get_static_option('courier_address') }}</textarea>
                 </div>
 
                 @can('refund-settings-update')
                     <div class="form-group">
-                        <button class="cmn_btn btn_bg_profile">{{ __('Update Settings') }}</button>
+                        <button class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
                     </div>
                 </form>
             @endcan

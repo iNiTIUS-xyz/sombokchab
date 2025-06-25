@@ -1,6 +1,6 @@
 @extends('backend.admin-master')
+
 @section('style')
-    <x-datatable.css />
     <style>
         .card img {
             height: 110px;
@@ -11,17 +11,19 @@
         }
     </style>
 @endsection
+
 @section('site-title')
     {{ __('All vendors list') }}
 @endsection
+
 @section('content')
     <div class="dashboard__card">
         <div class="dashboard__card__header">
             <h3 class="dashboard__card__title">{{ __('All Vendors Order Profile') }}</h3>
         </div>
         <div class="dashboard__card__body mt-4">
-            <div class="table-wrap">
-                <table class="table table-responsive">
+            <div class="table-responsive">
+                <table class="table" id="dataTable">
                     <thead>
                         <tr>
                             <th>{{ __('Serial No.') }}</th>

@@ -1,19 +1,18 @@
 @extends('backend.admin-master')
-@section('style')
-    <x-datatable.css />
-@endsection
+
 @section('site-title')
     {{ __('My Orders') }}
 @endsection
+
 @section('content')
     <div class="dashboard__card">
         <div class="dashboard__card__header">
             <h4 class="dashboard__card__title">{{ __('My Orders') }}</h4>
         </div>
         <div class="dashboard__card__body mt-4">
-            <div class="table-wrap table-responsive all-user-campaign-table">
-                <div class="order-history-inner text-center">
-                    <table class="table">
+            <div class="all-user-campaign-table">
+                <div class="table-responsive">
+                    <table class="table" id="dataTable">
                         <thead>
                             <tr>
                                 <th>{{ __('#') }}</th>
@@ -43,9 +42,11 @@
                                         @elseif ($order->order_status == 'canceled')
                                             <span class="badge bg-danger px-2 py-1">{{ __('Canceled') }}</span>
                                         @elseif ($order->order_status == 'rejected')
-                                            <span class="badge px-2 py-1" style="background: rgb(138, 1, 14) !important;">{{ __('Rejected') }}</span>
+                                            <span class="badge px-2 py-1"
+                                                style="background: rgb(138, 1, 14) !important;">{{ __('Rejected') }}</span>
                                         @else
-                                            <span class="badge bg-secondary px-2 py-1 text-capitalize">{{ $order->orderTrack?->first()->name ?? "pending" }}</span>
+                                            <span
+                                                class="badge bg-secondary px-2 py-1 text-capitalize">{{ $order->orderTrack?->first()->name ?? 'pending' }}</span>
                                         @endif
                                     </td>
                                     <td class="status">
@@ -64,20 +65,21 @@
                                         <div class="btn-wrapper d-flex flex-wrap gap-2">
                                             @can('orders-generate-invoice')
                                                 <a href="{{ route('admin.orders.generate.invoice', $order->id) }}"
-                                                    class="btn btn-info rounded-btn">
+                                                    class="btn btn-info rounded-btn" title="{{ __('View Invoice') }}">
                                                     <i class="las la-file-invoice"></i>
                                                 </a>
                                             @endcan
                                             @can('orders-download-invoice')
                                                 <a href="{{ route('admin.orders.download.invoice', $order->id) }}"
-                                                    class="btn btn-warning rounded-btn">
+                                                    class="btn btn-primary rounded-btn" title="{{ __('Download Data') }}">
                                                     <i class="las la-download"></i>
                                                 </a>
                                             @endcan
                                             @can('orders-update')
                                                 <a href="{{ route('admin.orders.edit', $order->id) }}"
-                                                    class="btn btn-primary rounded-btn">
-                                                    <i class="las la-pen-nib"></i>
+                                                    class="btn btn-warning text-dark rounded-btn"
+                                                    title="{{ __('Edit Data') }}">
+                                                    <i class="ti-pencil"></i>
                                                 </a>
                                             @endcan
                                             @can('orders-details')
@@ -93,9 +95,6 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
-            <div class="pagination">
-                {!! $all_orders->links() !!}
             </div>
         </div>
     </div>
@@ -136,6 +135,4 @@
             })
         })(jQuery)
     </script>
-
-    <x-datatable.js />
 @endsection

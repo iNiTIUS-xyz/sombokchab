@@ -48,14 +48,15 @@
                                             </td>
                                             <td>
                                                 @can('refund-preferred-option-update')
-                                                    <button type="button" data-name="{{ $preferredOption->name }}"
+                                                    <a href="javascript:;" title="{{ __('Edit Data') }}"
+                                                        data-name="{{ $preferredOption->name }}"
                                                         data-id="{{ $preferredOption->id }}"
                                                         data-status="{{ $preferredOption->status_id }}"
                                                         data-blog-filed="{{ json_encode(unserialize($preferredOption->fields)) }}"
-                                                        class="btn btn-sm btn-info mb-2 me-1 update-gateway"
+                                                        class="btn btn-sm btn-warning text-dark mb-2 me-1 update-gateway"
                                                         data-bs-toggle="modal" data-bs-target="#edit-gateway-modal">
                                                         <i class="ti-pencil"></i>
-                                                    </button>
+                                                    </a>
                                                 @endcan
 
                                                 @can('refund-preferred-option-update')
@@ -127,7 +128,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <button class="cmn_btn btn_bg_profile">{{ __('Create gateway') }}</button>
+                                    <button class="cmn_btn btn_bg_profile">{{ __('Add') }}</button>
                                 </div>
                             </form>
                         </div>
@@ -157,8 +158,7 @@
                             @csrf
                             <div class="form-group">
                                 <label class="w-100">{{ __('Name') }}</label>
-                                <input class="form-control" name="gateway_name"
-                                    placeholder="{{ __('Enter gateway name') }}">
+                                <input class="form-control" name="gateway_name" placeholder="{{ __('Enter gateway name') }}">
 
                                 <small class="info">
                                     {{ __('If you want to merge refund value to user wallet, then use Wallet like this') }} .
@@ -186,7 +186,7 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"
                                 data-bs-dismiss="modal">{{ __('Close') }}</button>
-                            <button type="submit" class="btn btn-primary">{{ __('Save Changes') }}</button>
+                            <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                         </div>
                     </form>
                 @endcan

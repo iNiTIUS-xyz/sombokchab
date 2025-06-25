@@ -29,7 +29,7 @@ class AdminShopManageController extends Controller
 
         return back()->with([
             'type' => $update ? 'success' : 'danger',
-            'msg' => $update ? __('Shop Manage Updated successfully') : __('Something is going wrong.'),
+            'msg' => $update ? __('Shop Manage Updated successfully.') : __('Something is going wrong.'),
         ]);
     }
 
@@ -44,7 +44,7 @@ class AdminShopManageController extends Controller
 
         return back()->with([
             'type' => 'success',
-            'msg' => __('Successfully invoice note'),
+            'msg' => __('Invoice note updated Successfully.'),
         ]);
     }
 }

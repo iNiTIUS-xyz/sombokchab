@@ -49,10 +49,12 @@
             background-color: #fff;
             border-bottom: 1px solid rgba(0, 0, 0, 0.1)
         }
+
         .track-wrapper {
             height: 100%;
             display: block;
         }
+
         .track {
             position: relative;
             background-color: #ddd;
@@ -63,6 +65,7 @@
             margin-bottom: 60px;
             margin-top: 50px;
         }
+
         @media screen and (max-width: 480px) {
             .track {
                 margin-bottom: 80px;
@@ -210,7 +213,7 @@
                                             <div class="form-group">
                                                 <label for="">{{ __('Order Status') }}</label>
                                                 <select
-                                                    {{ $order->order_status == 'complete' ||  $order->order_status == 'canceled' || $order->order_status == 'rejected' ? 'readonly' : '' }}
+                                                    {{ $order->order_status == 'complete' || $order->order_status == 'canceled' || $order->order_status == 'rejected' ? 'readonly' : '' }}
                                                     name="order_status" class="form-control">
                                                     <option {{ $order->order_status == 'pending' ? 'selected' : '' }}
                                                         value="pending">{{ __('Pending') }}</option>
@@ -239,7 +242,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <button class="cmn_btn btn_bg_profile"
-                                                    {{ ($order->order_status == 'complete' || $order->order_status == 'rejected') ? 'disabled' : '' }}>
+                                                    {{ $order->order_status == 'complete' || $order->order_status == 'rejected' ? 'disabled' : '' }}>
                                                     {{ __('Update') }}
                                                 </button>
                                             </div>
@@ -272,7 +275,8 @@
                     </div>
                     <div class="request__item">
                         <span class="request__left">{{ __('Payment Gateway') }}</span>
-                        <span class="request__right">{{ ucwords(str_replace(['_', '-'], ' ', $order->payment_gateway)) }}</span>
+                        <span
+                            class="request__right">{{ ucwords(str_replace(['_', '-'], ' ', $order->payment_gateway)) }}</span>
                     </div>
                     <div class="request__item">
                         <span class="request__left">{{ __('Payment Status') }}</span>
@@ -296,11 +300,14 @@
                     </div>
                     <div class="request__item">
                         <span class="request__left">{{ __('Cost Summary') }}</span>
-                        <span class="request__right">{{ float_amount_with_currency_symbol($order?->paymentMeta?->shipping_cost) }} </span>
+                        <span
+                            class="request__right">{{ float_amount_with_currency_symbol($order?->paymentMeta?->shipping_cost) }}
+                        </span>
                     </div>
                     <div class="request__item">
                         <span class="request__left">{{ __('Tax Amount') }}</span>
-                        <span class="request__right">{{ float_amount_with_currency_symbol($order?->paymentMeta?->tax_amount) }}</span>
+                        <span
+                            class="request__right">{{ float_amount_with_currency_symbol($order?->paymentMeta?->tax_amount) }}</span>
                     </div>
                     <div class="d-flex justify-content-between py-2">
                         <span class="request__left">{{ __('Total Amount') }}</span>
@@ -313,7 +320,14 @@
         </div>
 
         @php
-            $addr = $order?->address?->cityInfo?->name . ' , ' . $order?->address?->state?->name . ' , ' . $order?->address?->country?->name . ' , ' . $order?->address?->zipcode;
+            $addr =
+                $order?->address?->cityInfo?->name .
+                ' , ' .
+                $order?->address?->state?->name .
+                ' , ' .
+                $order?->address?->country?->name .
+                ' , ' .
+                $order?->address?->zipcode;
         @endphp
 
         <div class="col-md-6">
@@ -483,7 +497,8 @@
                                                         {{ ucwords($subOrders->payment_status) }}</h6>
                                                 </div>
                                                 <div class="subOrder__single__item">
-                                                    <span class="subOrder__single__item__left">{{ __('Order Amount') }}</span>
+                                                    <span
+                                                        class="subOrder__single__item__left">{{ __('Order Amount') }}</span>
                                                     <h6 class="badge badge-sm bg-success subOrder__single__item__right">
                                                         {{ float_amount_with_currency_symbol($subOrders->total_amount) }}
                                                     </h6>
@@ -503,8 +518,9 @@
 
                                         <div class="d-flex justify-content-between gap-1">
                                             <b>{{ __('This order status') }} </b>
-                                            <b class="badge {{ $subOrders->order_status === 'order_cancelled' ? 'bg-danger' : 'bg-dark' }}">
-                                                {{ ucfirst(str_replace(["_","-"], " ", $subOrders->order_status)) }}</b>
+                                            <b
+                                                class="badge {{ $subOrders->order_status === 'order_cancelled' ? 'bg-danger' : 'bg-dark' }}">
+                                                {{ ucfirst(str_replace(['_', '-'], ' ', $subOrders->order_status)) }}</b>
                                         </div>
 
                                         <div class="d-flex justify-content-between gap-1">
@@ -591,14 +607,20 @@
                                                     </h6>
                                                 </div>
                                                 <div class="subOrder__single__item">
-                                                    <span class="subOrder__single__item__left">{{ __('Payment Status') }}</span>
+                                                    <span
+                                                        class="subOrder__single__item__left">{{ __('Payment Status') }}</span>
 
                                                     @if ($subOrders->order->payment_status == 'complete')
-                                                        <h6 class="badge badge-sm bg-success subOrder__single__item__right">{{ __('Complete') }}</h6>
+                                                        <h6
+                                                            class="badge badge-sm bg-success subOrder__single__item__right">
+                                                            {{ __('Complete') }}</h6>
                                                     @elseif ($subOrders->order->payment_status == 'pending')
-                                                        <h6 class="badge badge-sm bg-warning subOrder__single__item__right">{{ __('Pending') }}</h6>
+                                                        <h6
+                                                            class="badge badge-sm bg-warning subOrder__single__item__right">
+                                                            {{ __('Pending') }}</h6>
                                                     @elseif ($subOrders->order->payment_status == 'failed')
-                                                        <h6 class="badge badge-sm bg-danger subOrder__single__item__right">{{ __('Failed') }}</h6>
+                                                        <h6 class="badge badge-sm bg-danger subOrder__single__item__right">
+                                                            {{ __('Failed') }}</h6>
                                                     @endif
 
                                                 </div>

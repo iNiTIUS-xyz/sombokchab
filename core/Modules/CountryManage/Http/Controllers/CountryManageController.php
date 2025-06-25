@@ -19,23 +19,13 @@ use Modules\CountryManage\Http\Requests\UpdateCountryManageRequest;
 class CountryManageController extends Controller
 {
     const BASE_URL = 'backend.country.';
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Application|Factory|View
-     */
+
     public function index(): Application|Factory|View
     {
         $all_countries = Country::all();
         return view('countrymanage::backend.all-country', compact('all_countries'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param StoreCountryManageRequest $request
-     * @return RedirectResponse
-     */
     public function store(StoreCountryManageRequest $request): RedirectResponse
     {
         $country = Country::create([
@@ -43,17 +33,9 @@ class CountryManageController extends Controller
             'status' => $request->sanitize_html('status'),
         ]);
 
-        return $country->id
-            ? back()->with(FlashMsg::create_succeed('Country'))
-            : back()->with(FlashMsg::create_failed('Country'));
+        return $country->id ? back()->with(FlashMsg::create_succeed('Country')) : back()->with(FlashMsg::create_failed('Country'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param UpdateCountryManageRequest $request
-     * @return RedirectResponse
-     */
     public function update(UpdateCountryManageRequest $request): RedirectResponse
     {
         $updated = Country::findOrFail($request->id)->update([
@@ -61,22 +43,12 @@ class CountryManageController extends Controller
             'status' => $request->sanitize_html('status'),
         ]);
 
-        return $updated
-            ? back()->with(FlashMsg::update_succeed('Country'))
-            : back()->with(FlashMsg::update_failed('Country'));
+        return $updated ? back()->with(FlashMsg::update_succeed('Country')) : back()->with(FlashMsg::update_failed('Country'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param Country $item
-     * @return RedirectResponse
-     */
     public function destroy(Country $item): RedirectResponse
     {
-        return $item->delete()
-            ? back()->with(FlashMsg::delete_succeed('Country'))
-            : back()->with(FlashMsg::delete_failed('Country'));
+        return $item->delete() ? back()->with(FlashMsg::delete_succeed('Country')) : back()->with(FlashMsg::delete_failed('Country'));
     }
 
     public function bulk_action(Request $request)
@@ -148,11 +120,11 @@ class CountryManageController extends Controller
         $country = array_search($request->country, $csv_data, true);
 
         foreach ($data as $index => $item) {
-            if($x == 0){
+            if ($x == 0) {
                 $x++;
-                continue ;
+                continue;
             }
-            $find_country = Country::where('name', $item[$country] )->count();
+            $find_country = Country::where('name', $item[$country])->count();
 
             if ($find_country < 1) {
                 $country_data = [

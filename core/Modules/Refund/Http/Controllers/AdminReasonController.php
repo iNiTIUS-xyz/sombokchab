@@ -28,13 +28,24 @@ class AdminReasonController extends Controller
 
     public function update(UpdateReasonRequest $request)
     {
-        $reason = RefundReason::where("id", $request->id ?? 0)
-            ->update($request->validated());
+        try {
+            $reason = RefundReason::query()
+                ->where("id", $request->id ?? 0)
+                ->update([
+                    'name' => $request->name,
+                ]);
 
-        return response()->json([
-            "msg" => $reason ? __("Successfully updated reason") : __("Failed to update reason"),
-            "success" => (bool) $reason,
-        ]);
+            return response()->json([
+                "msg" => $reason ? __("Successfully updated reason") : __("Failed to update reason"),
+                "success" => (bool) $reason,
+            ]);
+
+        } catch (\Throwable $e) {
+            return response()->json([
+                "msg" => __("Failed to update reason"),
+                "success" => false
+            ]);
+        }
     }
 
     public function destroy(RefundReason $reason)
