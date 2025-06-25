@@ -214,7 +214,7 @@ class VendorBackendController extends Controller
         update_static_option("commission_type", $data["commission_type"]);
         update_static_option("commission_amount", $data["commission_amount"]);
 
-        //todo:: step three is send response with message
+
         return response()->json([
             "msg" => __("Global vendor commission settings updated."),
             "success" => true,
@@ -230,7 +230,6 @@ class VendorBackendController extends Controller
             "commission_amount" => "required"
         ]);
 
-        //todo:: step two is now update vendor information
         $query = Vendor::where("id", $data["vendor_id"])->update([
             "commission_type" => $data["commission_type"],
             "commission_amount" => $data["commission_amount"],
