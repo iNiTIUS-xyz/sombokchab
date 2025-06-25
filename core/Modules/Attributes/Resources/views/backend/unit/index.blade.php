@@ -3,7 +3,6 @@
     {{ __('Product Unit') }}
 @endsection
 @section('style')
-    <x-datatable.css />
     <x-bulk-action.css />
 @endsection
 @section('content')
@@ -22,8 +21,8 @@
                         </div>
                     </div>
                     <div class="dashboard__card__body mt-4">
-                        <div class="table-wrap table-responsive">
-                            <table class="table table-default">
+                        <div class="table-responsive">
+                            <table class="table table-default" id="dataTable">
                                 <thead>
                                     @can('units-bulk-action')
                                         <x-bulk-action.th />
@@ -42,8 +41,9 @@
                                             <td>{{ $unit->name }}</td>
                                             <td>
                                                 @can('units-update')
-                                                    <a href="#1" data-bs-toggle="modal" data-bs-target="#unit_edit_modal"
-                                                        class="btn btn-primary btn-sm btn-xs mb-2 me-1 unit_edit_btn"
+                                                    <a href="#1" title="{{ __('Edit Data') }}" data-bs-toggle="modal"
+                                                        data-bs-target="#unit_edit_modal"
+                                                        class="btn btn-warning text-dark btn-sm btn-xs mb-2 me-1 unit_edit_btn"
                                                         data-id="{{ $unit->id }}" data-name="{{ $unit->name }}">
                                                         <i class="ti-pencil"></i>
                                                     </a>
@@ -72,10 +72,10 @@
                                 <div class="form-group">
                                     <label for="name">{{ __('Name') }}</label>
                                     <input type="text" class="form-control" id="name" name="name"
-                                        placeholder="{{ __('Name') }}">
+                                        placeholder="{{ __('Enter name') }}">
                                 </div>
                                 <div class="form-group">
-                                    <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Add New') }}</button>
+                                    <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Add') }}</button>
                                 </div>
                             </form>
                         </div>
@@ -100,13 +100,13 @@
                             <div class="form-group">
                                 <label for="edit_name">{{ __('Name') }}</label>
                                 <input type="text" class="form-control" id="edit_name" name="name"
-                                    placeholder="{{ __('Name') }}">
+                                    placeholder="{{ __('Enter name') }}">
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"
                                 data-bs-dismiss="modal">{{ __('Close') }}</button>
-                            <button type="submit" class="btn btn-primary">{{ __('Save Change') }}</button>
+                            <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                         </div>
                     </form>
                 </div>
@@ -115,7 +115,6 @@
     @endcan
 @endsection
 @section('script')
-    <x-datatable.js />
     <x-table.btn.swal.js />
     @can('units-delete')
         <x-bulk-action.js :route="route('admin.units.bulk.action')" />

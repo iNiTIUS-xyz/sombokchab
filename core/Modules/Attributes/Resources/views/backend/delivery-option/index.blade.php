@@ -1,11 +1,13 @@
 @extends('backend.admin-master')
+
 @section('site-title')
     {{ __('Product Delivery Manage') }}
 @endsection
+
 @section('style')
-    <x-datatable.css />
     <x-bulk-action.css />
 @endsection
+
 @section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row g-4">
@@ -20,8 +22,8 @@
                         @endcan
                     </div>
                     <div class="dashboard__card__body mt-4">
-                        <div class="table-wrap table-responsive">
-                            <table class="table table-default">
+                        <div class="table-responsive">
+                            <table class="table table-default" id="dataTable">
                                 <thead>
                                     <th>{{ __('ID') }}</th>
                                     <th>{{ __('Icon') }}</th>
@@ -40,9 +42,9 @@
                                             <td>{{ $item->sub_title }}</td>
                                             <td>
                                                 @can('product-delivery_manage-edit')
-                                                    <a href="#1" data-bs-toggle="modal"
+                                                    <a href="#1" data-bs-toggle="modal" title="{{ __('Edit Data') }}"
                                                         data-bs-target="#delivery_manage_edit_modal"
-                                                        class="btn btn-primary btn-sm btn-xs mb-2 me-1 delivery_manage_edit_btn"
+                                                        class="btn btn-warning btn-sm btn-xs mb-2 me-1 text-dark delivery_manage_edit_btn"
                                                         data-id="{{ $item->id }}" data-title="{{ $item->title }}"
                                                         data-sub-title="{{ $item->sub_title }}"
                                                         data-icon="{{ $item->icon }}">
@@ -74,20 +76,18 @@
                                 <div class="form-group">
                                     <label for="name">{{ __('Title') }}</label>
                                     <input type="text" class="form-control" id="title" name="title"
-                                        placeholder="{{ __('Title') }}">
+                                        placeholder="{{ __('Enter tfitle') }}">
                                 </div>
                                 <div class="form-group">
                                     <label for="name">{{ __('Sub Title') }}</label>
                                     <input type="text" class="form-control" id="sub_title" name="sub_title"
-                                        placeholder="{{ __('Sub Title') }}">
+                                        placeholder="{{ __('Enter sub title') }}">
                                 </div>
                                 <div class="form-group">
-                                    {{--                                    <label for="name">{{__('Icon')}}</label> --}}
-                                    {{--                                    <input type="text" class="form-control"  id="iconicon" name="icon" placeholder="{{__('Icon')}}"> --}}
                                     <x-backend.icon-picker />
                                 </div>
                                 <div class="btn-wrapper mt-4">
-                                    <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Add New') }}</button>
+                                    <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Add') }}</button>
                                 </div>
                             </form>
                         </div>
@@ -112,19 +112,19 @@
                             <div class="form-group">
                                 <label for="name">{{ __('Title') }}</label>
                                 <input type="text" class="form-control" id="edit-title" name="title"
-                                    placeholder="{{ __('Title') }}">
+                                    placeholder="{{ __('Enter title') }}">
                             </div>
                             <div class="form-group">
                                 <label for="name">{{ __('Name') }}</label>
                                 <input type="text" class="form-control" id="edit-sub-title" name="sub_title"
-                                    placeholder="{{ __('Sub Title') }}">
+                                    placeholder="{{ __('Enter sub title') }}">
                             </div>
                             <x-backend.icon-picker />
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"
                                 data-bs-dismiss="modal">{{ __('Close') }}</button>
-                            <button type="submit" class="btn btn-primary">{{ __('Save Change') }}</button>
+                            <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                         </div>
                     </form>
                 </div>
@@ -132,8 +132,8 @@
         </div>
     @endcan
 @endsection
+
 @section('script')
-    <x-datatable.js />
     <x-table.btn.swal.js />
     <x-backend.icon-picker-js />
 

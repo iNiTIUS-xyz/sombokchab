@@ -3,7 +3,6 @@
     {{ __('Product Brand Manage') }}
 @endsection
 @section('style')
-    {{-- <x-datatable.css /> --}}
     <x-bulk-action.css />
     <x-media.css />
 @endsection
@@ -75,7 +74,7 @@
                                                 @can('brand-manage-update')
                                                     <a href="#1" data-bs-toggle="modal"
                                                         data-bs-target="#brand_manage_edit_modal"
-                                                        class="btn btn-info btn-sm brand_manage_edit_btn"
+                                                        class="btn  btn-warning text-dark btn-sm brand_manage_edit_btn"
                                                         data-id="{{ $item->id }}" data-name="{{ $item->name }}"
                                                         data-slug="{{ $item->slug }}" data-title="{{ $item->title }}"
                                                         data-description="{{ $item->description }}"
@@ -115,31 +114,31 @@
                             <div class="form-group">
                                 <label for="name">{{ __('Name') }}</label>
                                 <input type="text" class="form-control" id="edit-name" name="name"
-                                    placeholder="{{ __('Brand Name') }}">
+                                    placeholder="{{ __('Enter brand name') }}">
                             </div>
 
                             <div class="form-group">
                                 <label for="name">{{ __('Slug') }}</label>
                                 <input type="text" class="form-control" id="edit-slug" name="slug"
-                                    placeholder="{{ __('Brand Slug') }}">
+                                    placeholder="{{ __('Enter brand slug') }}">
                             </div>
 
                             <div class="form-group">
                                 <label for="name">{{ __('Title') }}</label>
                                 <input type="text" class="form-control" id="edit-title" name="title"
-                                    placeholder="{{ __('Title') }}">
+                                    placeholder="{{ __('Enter Title') }}">
                             </div>
 
                             <div class="form-group">
                                 <label for="name">{{ __('Description') }}</label>
                                 <input type="text" class="form-control" id="edit-description" name="description"
-                                    placeholder="{{ __('Brand Description Optional') }}">
+                                    placeholder="{{ __('Enter brand Description Optional') }}">
                             </div>
 
                             <x-media-upload :title="__('Logo')" :name="'image_id'" :dimentions="'200x200'" />
                             <x-media-upload :title="__('Banner')" :name="'banner_id'" :dimentions="'200x200'" />
 
-                            <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Update Brand') }}</button>
+                            <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
                         </form>
                     </div>
                 </div>
@@ -161,31 +160,31 @@
                             <div class="form-group">
                                 <label for="name">{{ __('Name') }}</label>
                                 <input type="text" class="form-control" id="create-name" name="name"
-                                    placeholder="{{ __('Brand Name') }}">
+                                    placeholder="{{ __('Enter brand name') }}">
                             </div>
 
                             <div class="form-group">
                                 <label for="name">{{ __('Slug') }}</label>
                                 <input type="text" class="form-control" id="create-slug" name="slug"
-                                    placeholder="{{ __('Brand Slug') }}">
+                                    placeholder="{{ __('Enter brand Slug') }}">
                             </div>
 
                             <div class="form-group">
                                 <label for="name">{{ __('Title') }}</label>
                                 <input type="text" class="form-control" id="title" name="title"
-                                    placeholder="{{ __('Title') }}">
+                                    placeholder="{{ __('Enter Title') }}">
                             </div>
 
                             <div class="form-group">
                                 <label for="name">{{ __('Description') }}</label>
                                 <input type="text" class="form-control" id="description" name="description"
-                                    placeholder="{{ __('Brand Description Optional') }}">
+                                    placeholder="{{ __('Enter brand Description Optional') }}">
                             </div>
 
                             <x-media-upload :title="__('Logo')" :name="'image_id'" :dimentions="'200x200'" />
                             <x-media-upload :title="__('Banner')" :name="'banner_id'" :dimentions="'200x200'" />
 
-                            <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Add New') }}</button>
+                            <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Add') }}</button>
                         </form>
                     </div>
                 </div>

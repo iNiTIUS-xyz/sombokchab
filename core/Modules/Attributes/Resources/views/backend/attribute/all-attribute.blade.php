@@ -1,8 +1,9 @@
 @extends('backend.admin-master')
+
 @section('style')
-    <x-datatable.css />
     <x-bulk-action.css />
 @endsection
+
 @section('site-title')
     {{ __('All Product Attributes') }}
 @endsection
@@ -30,8 +31,8 @@
                         </div>
                     </div>
                     <div class="dashboard__card__body mt-4">
-                        <div class="table-wrap table-responsive">
-                            <table class="table table-default" id="all_blog_table">
+                        <div class="table-responsive">
+                            <table class="table table-default" id="dataTable">
                                 <thead>
                                     <x-bulk-action.th />
                                     <th>{{ __('ID') }}</th>
@@ -76,7 +77,6 @@
 @endsection
 
 @section('script')
-    <x-datatable.js />
     @can('attributes-delete')
         <x-bulk-action.js :route="route('admin.products.attributes.bulk.action')" />
     @endcan

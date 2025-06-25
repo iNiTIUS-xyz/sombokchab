@@ -27,7 +27,7 @@
                                         <div class="form-group">
                                             <label for="title">{{ __('Title') }}</label>
                                             <input type="text" class="form-control" name="title"
-                                                value="{{ $attribute->title }}" placeholder="{{ __('Title') }}">
+                                                value="{{ $attribute->title }}" placeholder="{{ __('Enter title') }}">
                                         </div>
                                         <div class="form-group attributes-field attributess">
                                             <label for="attributes">{{ __('Terms') }}</label>
@@ -55,8 +55,14 @@
                                                 </div>
                                             @endforelse
                                         </div>
-                                        <button type="submit"
-                                            class="cmn_btn btn_bg_profile">{{ __('Update Attribute') }}</button>
+                                        <button type="submit" class="cmn_btn btn_bg_profile">
+                                            {{ __('Update') }}
+                                        </button>
+                                        <a href="{{ route('admin.products.attributes.all') }}"
+                                            class="cmn_btn default-theme-btn"
+                                            style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                                            {{ __('Back') }}
+                                        </a>
                                     </div>
                                 </div>
                             </form>

@@ -3,7 +3,6 @@
     {{ __('All Product Size') }}
 @endsection
 @section('style')
-    <x-datatable.css />
     <x-bulk-action.css />
 @endsection
 @section('content')
@@ -19,8 +18,8 @@
                         @endcan
                     </div>
                     <div class="dashboard__card__body mt-4">
-                        <div class="table-wrap table-responsive">
-                            <table class="table table-default">
+                        <div class="table-responsive">
+                            <table class="table table-default" id="dataTable">
                                 <thead>
                                     @can('sizes-bulk-action')
                                         <x-bulk-action.th />
@@ -44,7 +43,7 @@
                                             <td>
                                                 @can('sizes-update')
                                                     <a href="#1" data-bs-toggle="modal" data-bs-target="#size_edit_modal"
-                                                        class="btn btn-warning btn-xs mb-2 me-1 size_edit_btn"
+                                                        class="btn btn-warning text-dark btn-xs mb-2 me-1 size_edit_btn"
                                                         data-id="{{ $product_size->id }}"
                                                         data-name="{{ $product_size->name }}"
                                                         data-size_code="{{ $product_size->size_code }}"
@@ -76,20 +75,22 @@
                                 <div class="form-group">
                                     <label for="name">{{ __('Name') }}</label>
                                     <input type="text" class="form-control" id="name" name="name"
-                                        placeholder="{{ __('Name') }}">
+                                        placeholder="{{ __('Enter name') }}">
                                 </div>
                                 <div class="form-group">
                                     <label for="size_code">{{ __('Size Code') }}</label>
                                     <input type="text" class="form-control" id="size_code" name="size_code"
-                                        placeholder="{{ __('Size Code') }}">
+                                        placeholder="{{ __('Enter size code') }}">
                                 </div>
                                 <div class="form-group">
                                     <label for="slug">{{ __('Slug') }}</label>
                                     <input type="text" class="form-control" id="slug" name="slug"
-                                        placeholder="{{ __('Slug') }}">
+                                        placeholder="{{ __('Enter slug') }}">
                                 </div>
                                 <div class="btn-wrapper mt-3">
-                                    <button class="cmn_btn btn_bg_profile">{{ __('Save Size') }}</button>
+                                    <button class="cmn_btn btn_bg_profile">
+                                        {{ __('Add') }}
+                                    </button>
                                 </div>
                             </form>
                         </div>
@@ -113,23 +114,26 @@
                             <div class="form-group">
                                 <label for="edit_name">{{ __('Name') }}</label>
                                 <input type="text" class="form-control" id="edit_name" name="name"
-                                    placeholder="{{ __('Name') }}">
+                                    placeholder="{{ __('Enter name') }}">
                             </div>
                             <div class="form-group">
                                 <label for="edit_size_code">{{ __('size_code') }}</label>
                                 <input type="text" class="form-control" id="edit_size_code" name="size_code"
-                                    placeholder="{{ __('Size Code') }}">
+                                    placeholder="{{ __('Enter size code') }}">
                             </div>
                             <div class="form-group">
                                 <label for="edit_slug">{{ __('Slug') }}</label>
                                 <input type="text" class="form-control" id="edit_slug" name="slug"
-                                    placeholder="{{ __('Slug') }}">
+                                    placeholder="{{ __('Enter slug') }}">
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">{{ __('Close') }}</button>
-                            <button type="submit" class="btn btn-primary">{{ __('Save Change') }}</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                {{ __('Close') }}
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                {{ __('Save') }}
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -138,7 +142,6 @@
     @endcan
 @endsection
 @section('script')
-    <x-datatable.js />
     <x-table.btn.swal.js />
     @can('sizes-bulk-action')
         <x-bulk-action.js :route="route('admin.product.sizes.bulk.action')" />

@@ -11,10 +11,6 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Add New Variant') }}</h4>
-                        @can('product-attribute-list')
-                            <a href="{{ route('admin.products.attributes.all') }}"
-                                class="cmn_btn btn_bg_profile">{{ __('All Variants') }}</a>
-                        @endcan
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
                         @can('product-attribute-create')
@@ -26,7 +22,7 @@
                                         <div class="form-group">
                                             <label for="title">{{ __('Title') }}</label>
                                             <input type="text" class="form-control" name="title"
-                                                value="{{ old('title') }}" placeholder="{{ __('Title') }}">
+                                                value="{{ old('title') }}" placeholder="{{ __('Enter title') }}">
                                         </div>
                                         <div class="form-group attributes-field product-variants">
                                             <label for="attributes">{{ __('Terms') }}</label>
@@ -38,8 +34,14 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <button type="submit" class="cmn_btn btn_bg_profile">
+                                            {{ __('Add') }}
+                                        </button>
 
-                                        <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Save Changes') }}</button>
+                                        <a href="{{ route('admin.products.attributes.all') }}" class="cmn_btn default-theme-btn"
+                                            style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                                            {{ __('Back') }}
+                                        </a>
                                     </div>
                                 </div>
                             </form>

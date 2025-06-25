@@ -4,7 +4,6 @@
     {{ __('Badges') }}
 @endsection
 @section('style')
-    <x-datatable.css />
     <x-bulk-action.css />
     <x-media.css />
 
@@ -38,8 +37,8 @@
                         </div>
                     </div>
                     <div class="dashboard__card__body mt-4">
-                        <div class="table-wrap table-responsive">
-                            <table class="table table-default">
+                        <div class="table-responsive">
+                            <table class="table table-default" id="dataTable">
                                 <thead>
                                     <x-bulk-action.th />
                                     <th>{{ __('ID') }}</th>
@@ -64,8 +63,9 @@
                                                         $img = get_attachment_image_by_id($badge->image);
                                                         $img_url = !empty($img) ? $img['img_url'] : '';
                                                     @endphp
-                                                    <a href="#1" data-bs-toggle="modal" data-bs-target="#badge_edit_modal"
-                                                        class="btn btn-primary btn-sm btn-xs mb-2 me-1 badge_edit_btn"
+                                                    <a href="#1" title="{{ __('Edit Data') }}" data-bs-toggle="modal"
+                                                        data-bs-target="#badge_edit_modal"
+                                                        class="btn btn-warning btn-sm text-dark btn-xs mb-2 me-1 badge_edit_btn"
                                                         data-id="{{ $badge->id }}" data-name="{{ $badge->name }}"
                                                         data-status="{{ $badge->status }}" data-image_id="{{ $badge->image }}"
                                                         data-image_url="{{ $img_url }}"
@@ -98,7 +98,7 @@
                                 <div class="form-group">
                                     <label for="name">{{ __('Name') }}</label>
                                     <input type="text" class="form-control" id="name" name="name"
-                                        placeholder="{{ __('Name') }}">
+                                        placeholder="{{ __('Enter name') }}">
                                 </div>
 
                                 <div class="form-group">
@@ -113,7 +113,9 @@
                                 <x-media.media-upload :name="'image'" :title="'Badge Image'" />
 
                                 <div class="btn-wrapper mt-3">
-                                    <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Add New') }}</button>
+                                    <button type="submit" class="cmn_btn btn_bg_profile">
+                                        {{ __('Add') }}
+                                    </button>
                                 </div>
                             </form>
                         </div>
@@ -138,7 +140,7 @@
                             <div class="form-group">
                                 <label for="edit_name">{{ __('Name') }}</label>
                                 <input type="text" class="form-control" id="edit_name" name="name"
-                                    placeholder="{{ __('Name') }}">
+                                    placeholder="{{ __('Enter name') }}">
                             </div>
 
                             <div class="form-group">
@@ -155,7 +157,9 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"
                                 data-bs-dismiss="modal">{{ __('Close') }}</button>
-                            <button type="submit" class="btn btn-primary">{{ __('Save Change') }}</button>
+                            <button type="submit" class="btn btn-primary">
+                                {{ __('Update') }}
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -166,7 +170,6 @@
     <x-media.markup />
 @endsection
 @section('script')
-    <x-datatable.js />
     <x-table.btn.swal.js />
 
     <x-media.js />

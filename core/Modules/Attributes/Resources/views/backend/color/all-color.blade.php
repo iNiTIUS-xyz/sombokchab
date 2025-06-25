@@ -3,7 +3,6 @@
     {{ __('All Product Color') }}
 @endsection
 @section('style')
-    <x-datatable.css />
     <x-bulk-action.css />
 @endsection
 @section('content')
@@ -20,8 +19,8 @@
                         @endcan
                     </div>
                     <div class="dashboard__card__body mt-4">
-                        <div class="table-wrap table-responsive">
-                            <table class="table table-default">
+                        <div class="table-responsive">
+                            <table class="table table-default" id="dataTable">
                                 <thead>
                                     @can('colors-bulk-action')
                                         <x-bulk-action.th />
@@ -49,8 +48,9 @@
                                             <td>{{ $product_color->slug }}</td>
                                             <td>
                                                 @can('colors-delete')
-                                                    <a href="#1" data-bs-toggle="modal" data-bs-target="#color_edit_modal"
-                                                        class="btn btn-warning btn-xs mb-2 me-1 color_edit_btn"
+                                                    <a href="#1" title="{{ __('Edit Data') }}" data-bs-toggle="modal"
+                                                        data-bs-target="#color_edit_modal"
+                                                        class="btn btn-warning text-dark btn-xs mb-2 me-1 color_edit_btn"
                                                         data-id="{{ $product_color->id }}"
                                                         data-name="{{ $product_color->name }}"
                                                         data-color_code="{{ $product_color->color_code }}"
@@ -82,20 +82,21 @@
                                 <div class="form-group">
                                     <label for="name">{{ __('Name') }}</label>
                                     <input type="text" class="form-control" id="name" name="name"
-                                        placeholder="{{ __('Name') }}">
+                                        placeholder="{{ __('Enter name') }}">
                                 </div>
                                 <div class="form-group">
                                     <label for="color_code">{{ __('Color Code') }}</label>
-                                    <input type="color" class="form-control w-25 p-1" id="color_code" name="color_code"
-                                        placeholder="{{ __('Color Code') }}">
+                                    <input type="color" class="form-control w-25 p-1" id="color_code" name="color_code">
                                 </div>
                                 <div class="form-group">
                                     <label for="slug">{{ __('Slug') }}</label>
                                     <input type="text" class="form-control" id="slug" name="slug"
-                                        placeholder="{{ __('Slug') }}">
+                                        placeholder="{{ __('Enter slug') }}">
                                 </div>
                                 <div class="btn-wrapper mt-3">
-                                    <button class="cmn_btn btn_bg_profile">{{ __('Save Color') }}</button>
+                                    <button class="cmn_btn btn_bg_profile">
+                                        {{ __('Add') }}
+                                    </button>
                                 </div>
                             </form>
                         </div>
@@ -119,23 +120,24 @@
                             <div class="form-group">
                                 <label for="name">{{ __('Name') }}</label>
                                 <input type="text" class="form-control" id="edit_name" name="name"
-                                    placeholder="{{ __('Name') }}">
+                                    placeholder="{{ __('Enter name') }}">
                             </div>
                             <div class="form-group">
-                                <label for="color_code">{{ __('color_code') }}</label>
-                                <input type="color" class="form-control w-25 p-1" id="edit_color_code" name="color_code"
-                                    placeholder="{{ __('Color Code') }}">
+                                <label for="color_code">{{ __('Color Code') }}</label>
+                                <input type="color" class="form-control w-25 p-1" id="edit_color_code" name="color_code">
                             </div>
                             <div class="form-group">
                                 <label for="slug">{{ __('Slug') }}</label>
                                 <input type="text" class="form-control" id="edit_slug" name="slug"
-                                    placeholder="{{ __('Slug') }}">
+                                    placeholder="{{ __('Enter slug') }}">
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"
                                 data-bs-dismiss="modal">{{ __('Close') }}</button>
-                            <button type="submit" class="btn btn-primary">{{ __('Save Change') }}</button>
+                            <button type="submit" class="btn btn-primary">
+                                {{ __('Update') }}
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -143,8 +145,8 @@
         </div>
     @endcan
 @endsection
+
 @section('script')
-    <x-datatable.js />
     <x-table.btn.swal.js />
     @can('colors-bulk-action')
         <x-bulk-action.js :route="route('admin.product.colors.bulk.action')" />

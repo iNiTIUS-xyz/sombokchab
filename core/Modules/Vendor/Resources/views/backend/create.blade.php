@@ -17,7 +17,8 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">
-                            {{ __('Create Vendor') }}</h4>
+                            {{ __('Create Vendor') }}
+                        </h4>
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
                         <form id="vendor-create-form" data-action-url="{{ route('admin.vendor.create') }}">

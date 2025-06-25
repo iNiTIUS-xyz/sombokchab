@@ -5,7 +5,6 @@
 
 @section('style')
     <x-media.css />
-    <x-datatable.css />
     <x-bulk-action.css />
 @endsection
 
@@ -54,9 +53,11 @@
                                 <div class="submit_button">
                                     <a href="{{ route('admin.vendor.all') }}" class="cmn_btn default-theme-btn"
                                         style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
-                                        Back
+                                        {{ __('Back') }}
                                     </a>
-                                    <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Submit') }}</button>
+                                    <button type="submit" class="cmn_btn btn_bg_profile">
+                                        {{ __('Update') }}
+                                    </button>
                                 </div>
                             </div>
                             <div class="tab-content" id="myTabContent">
@@ -425,7 +426,6 @@
     <x-media.markup />
 @endsection
 @section('script')
-    <x-datatable.js />
     <x-media.js />
     <x-table.btn.swal.js />
 
