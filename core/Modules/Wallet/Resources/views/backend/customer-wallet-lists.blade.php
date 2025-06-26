@@ -26,8 +26,8 @@
                         </div>
                     </div>
                     <div class="dashboard__card__body mt-4">
-                        <div class="table-wrap table-responsive">
-                            <table class="table table-default"  id="dataTable">
+                        <div class="table-responsive">
+                            <table class="table table-default" id="dataTable">
                                 <thead>
                                     <th>Serial No.</th>
                                     @if ($type == 'vendor')
@@ -82,7 +82,9 @@
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td class="text-center py-4" colspan="4">{{ __('No Data Available') }}</td>
+                                            <td class="text-center py-4" colspan="4">
+                                                {{ __('No Data Available') }}
+                                            </td>
                                         </tr>
                                     @endforelse
                                 </tbody>

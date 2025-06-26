@@ -10,7 +10,6 @@
             width: 100px;
         }
     </style>
-
     <x-media.css />
 @endsection
 
@@ -53,7 +52,6 @@
                                                 }
                                             @endphp
                                         @endforeach
-                                        
                                         <tr>
                                             <td>
                                                 {{ $loop->iteration }}
@@ -66,8 +64,12 @@
                                                     <span>{{ __('Shop Name:') }}
                                                         <strong>{{ $request->vendor->business_name ?? '' }}</strong></span>
                                                     <br />
-                                                    <span>{{ __('Account Balance:') }}
-                                                        <strong>{{ float_amount_with_currency_symbol($request->wallet?->balance) ?? '' }}</strong></span>
+                                                    <span>
+                                                        {{ __('Account Balance:') }}
+                                                        <strong>
+                                                            {{ float_amount_with_currency_symbol($request->wallet?->balance) ?? '' }}
+                                                        </strong>
+                                                    </span>
                                                 </div>
                                             </td>
                                             <td><strong>{{ float_amount_with_currency_symbol($request->amount) ?? '' }}</strong>
@@ -96,11 +98,11 @@
                                             </td>
                                             <td>
                                                 @if ($request->request_status == 'pending' || $request->request_status == 'processing')
-                                                    <button data-fields="{{ $fields }}"
-                                                        data-id="{{ $request->id }}"
+                                                    <button title="{{ __('Edit Data') }}"
+                                                        data-fields="{{ $fields }}" data-id="{{ $request->id }}"
                                                         data-request-status="{{ $request->request_status }}"
                                                         id="update-wallet-request" data-bs-target="#updateWalletStatus"
-                                                        data-bs-toggle="modal" class="btn btn-warning">
+                                                        data-bs-toggle="modal" class="btn btn-warning text-dark">
                                                         <i class="ti-pencil"></i>
                                                     </button>
                                                 @endif
@@ -109,7 +111,6 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                            {{ $withdrawRequests->links() }}
                         </div>
                     </div>
                 </div>
@@ -155,13 +156,15 @@
 
                         <div class="form-group">
                             <label>{{ __('Enter note for wallet request') }}</label>
-                            <textarea name="note" rows="4" placeholder="Enter note for wallet request"></textarea>
+                            <textarea name="note" rows="4" placeholder="{{ __('Enter note') }}"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"
                             data-bs-dismiss="modal">{{ __('Close') }}</button>
-                        <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
+                        <button type="submit" class="btn btn-primary">
+                            {{ __('Update') }}
+                        </button>
                     </div>
                 </form>
             </div>

@@ -20,36 +20,55 @@
                     <form action="{{ route('admin.mobile.slider.three.create') }}" method="post">
                         @csrf
                         <div class="form-group">
-                            <label for="title">Title</label>
+                            <label for="title">
+                                Title
+                                <span class="text-danger">*</span>
+                            </label>
                             <input class="form-control" id="title" name="title"
-                                placeholder="Mobile Slider Title..." />
+                                placeholder="{{ __('Enter mobile slider title') }}" />
                         </div>
                         <div class="form-group">
-                            <label for="description">Description</label>
-                            <textarea class="form-control" id="description" name="description" placeholder="Mobile Slider Description..."></textarea>
+                            <label for="description">
+                                Description
+                                <span class="text-danger">*</span>
+                            </label>
+                            <textarea class="form-control" id="description" name="description"
+                                placeholder="{{ __('Enter mobile slider description') }}"></textarea>
                         </div>
 
                         <x-media-upload :title="__('Image')" :name="'image'" :dimentions="'1280x1280'" />
 
                         <div class="form-group">
-                            <label for="button_text">Button Text</label>
+                            <label for="button_text">
+                                Button Text
+                                <span class="text-danger">*</span>
+                            </label>
                             <input class="form-control" id="button_text" name="button_text"
-                                placeholder="Mobile Slider Button Text..." />
+                                placeholder="{{ __('Enter mobile slider button text') }}" />
                         </div>
 
                         <div class="form-group">
-                            <label for="button_url">Button URL</label>
+                            <label for="button_url">
+                                Button URL
+                                <span class="text-danger">*</span>
+                            </label>
                             <input class="form-control" id="button_url" name="button_url"
-                                placeholder="Mobile Slider Button URL..." />
+                                placeholder="{{ __('Enter mobile slider button URL') }}" />
                         </div>
 
                         <div class="form-group">
-                            <label for="category">Enable Category</label>
+                            <label for="category">
+                                Enable Category
+                                <span class="text-danger">*</span>
+                            </label>
                             <input type="checkbox" id="category" name="category_type" />
                         </div>
 
                         <div class="form-group" id="campaign-list">
-                            <label for="campaigns">Select Campaign</label>
+                            <label for="campaigns">
+                                Select Campaign
+                                <span class="text-danger">*</span>
+                            </label>
                             <select id="campaigns" name="campaign" class="form-control wide">
                                 <option value="">Select Campaign</option>
                                 @foreach ($campaigns as $campaign)
@@ -59,7 +78,10 @@
                         </div>
 
                         <div class="form-group" id="category-list" style="display: none">
-                            <label for="products">Select Category</label>
+                            <label for="products">
+                                Select Category
+                                <span class="text-danger">*</span>
+                            </label>
                             <select id="products" name="category" class="form-control">
                                 <option value="">Select Category</option>
                                 @foreach ($categories as $category)
@@ -69,10 +91,10 @@
                         </div>
 
                         <div class="form-group">
-                            <button class="cmn_btn btn_bg_profile">Create</button>
+                            <button class="cmn_btn btn_bg_profile">{{ __('Add') }}</button>
                             <a href="{{ route('admin.mobile.slider.three.all') }}" class="cmn_btn default-theme-btn"
                                 style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
-                                Back
+                                {{ __('Back') }}
                             </a>
                         </div>
                     </form>

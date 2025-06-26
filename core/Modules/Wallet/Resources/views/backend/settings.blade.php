@@ -28,12 +28,13 @@
                             <div class="form-group">
                                 <label>{{ __('Minimum withdraw amount') }}</label>
                                 <input class="form-control" name="minimum_withdraw_amount"
-                                    value="{{ get_static_option('minimum_withdraw_amount') ?? 1 }}" />
+                                    value="{{ get_static_option('minimum_withdraw_amount') ?? 1 }}"
+                                    placeholder="{{ __('Enter minimum withdraw amount') }}" />
                             </div>
 
                             <div class="form-group">
                                 <button type="submit" class="cmn_btn btn_bg_profile">
-                                    {{ __('Update wallet settings') }}
+                                    {{ __('Update') }}
                                 </button>
                             </div>
                         </form>
@@ -45,10 +46,5 @@
 @endsection
 
 @section('script')
-    <script>
-        (function($) {
-            "use strict";
 
-        })(jQuery)
-    </script>
 @endsection

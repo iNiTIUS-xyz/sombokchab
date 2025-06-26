@@ -9,68 +9,71 @@
 @section('content')
     <div class="dashboard__card">
         <div class="dashboard__card__header">
-            <h3 class="dashboard__card__title">{{ __('Refund Requests') }}</h3>
+            <h3 class="dashboard__card__title">
+                {{ __('Refund Requests') }}
+            </h3>
         </div>
         <div class="dashboard__card__body mt-4">
-            <div class="table-wrap table-responsive all-user-campaign-table">
-                <div class="table-wrap">
-                    <table id="dataTable" class="table-responsive table">
-                        <thead>
+            <div class="table-responsive">
+                <table id="dataTable" class="table">
+                    <thead>
+                        <tr>
+                            <th>{{ __('Serial No.') }}</th>
+                            <th>{{ __('User Details') }}</th>
+                            <th>{{ __('Order Details') }}</th>
+                            <th>{{ __('Refund Details') }}</th>
+                            <th>{{ __('Action') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($refundRequests as $request)
                             <tr>
-                                <th>{{ __('Serial No.') }}</th>
-                                <th>{{ __('User Details') }}</th>
-                                <th>{{ __('Order Details') }}</th>
-                                <th>{{ __('Refund Details') }}</th>
-                                <th>{{ __('Action') }}</th>
+                                <td>{{ $loop->iteration }}</td>
+
+                                <td>
+                                    <span class="user-info text-left">
+                                        {{ $request->user?->name }}<br>
+                                        {{ $request->user?->email }}
+                                        @if ($request->user?->phone)
+                                            <br>
+                                            {{ $request->user?->phone }}
+                                        @endif
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span class="user-info text-left">
+                                        {{ __('No.') }}: <b>{{ $request->order?->order_number }}</b><br>
+                                        {{ __('Status') }}:
+                                        <span
+                                            class="badge bg-secondary">{{ __(ucwords(str_replace('_', ' ', $request->currentTrackStatus?->name))) }}</span>
+                                        <br>
+                                        {{ __('Amount') }}:
+                                        {{ float_amount_with_currency_symbol($request->order?->paymentMeta?->total_amount) }}<br>
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span class="user-info text-left">
+                                        {{ __('No.') }}: <b>{{ $request->id }}</b><br>
+                                        {{ __('Status') }}: <span
+                                            class="badge bg-secondary">{{ $request->status }}</span> <br>
+                                        {{ __('Total Product:') }} {{ $request->request_product_count }}<br>
+                                    </span>
+                                </td>
+
+                                <td>
+                                    @can('refund-request')
+                                        <a class="btn btn-secondary btn-sm" title="{{ __('View') }}"
+                                            href="{{ route('admin.refund.view-request', $request->id) }}">
+                                            <i class="ti-receipt"></i>
+                                        </a>
+                                    @endcan
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($refundRequests as $request)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-
-                                    <td>
-                                        <span class="user-info text-left">
-                                            {{ $request->user?->name }}<br>
-                                            {{ $request->user?->email }}
-                                            @if ($request->user?->phone)
-                                                <br>
-                                                {{ $request->user?->phone }}
-                                            @endif
-                                        </span>
-                                    </td>
-
-                                    <td>
-                                        <span class="user-info text-left">
-                                            {{ __('No.') }}: <b>{{ $request->order?->order_number }}</b><br>
-                                            {{ __('Status') }}:
-                                            <span class="badge bg-secondary">{{ __(ucwords(str_replace('_', ' ', $request->currentTrackStatus?->name))) }}</span> <br>
-                                            {{ __('Amount') }}:
-                                            {{ float_amount_with_currency_symbol($request->order?->paymentMeta?->total_amount) }}<br>
-                                        </span>
-                                    </td>
-
-                                    <td>
-                                        <span class="user-info text-left">
-                                            {{ __('No.') }}: <b>{{ $request->id }}</b><br>
-                                            {{ __('Status') }}: <span class="badge bg-secondary">{{ $request->status }}</span> <br>
-                                            {{ __('Total Product:') }} {{ $request->request_product_count }}<br>
-                                        </span>
-                                    </td>
-
-                                    <td>
-                                        @can('refund-request')
-                                            <a class="btn btn-secondary btn-sm" title="{{ __('View') }}"
-                                                href="{{ route('admin.refund.view-request', $request->id) }}">
-                                                <i class="ti-receipt"></i>
-                                            </a>
-                                        @endcan
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -88,7 +91,9 @@
                         <input id="reason_id" name="id" value="" type="hidden" />
 
                         <div class="modal-header">
-                            <h5 class="modal-title" id="editRefundReasonModal">{{ __('Add new reason') }}</h5>
+                            <h5 class="modal-title" id="editRefundReasonModal">
+                                {{ __('Edit reason') }}
+                            </h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
 
@@ -97,15 +102,18 @@
                                 <label for="reason_name" class="form-label">
                                     {{ __('Reason Name') }}
                                     <input type="text" name="name" class="form-control" id="reason_name"
-                                        placeholder="{{ __('Write reason name.') }}">
+                                        placeholder="{{ __('Enter reason name.') }}">
                                 </label>
                             </div>
                         </div>
 
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">{{ __('Close') }}</button>
-                            <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                {{ __('Close') }}
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                {{ __('Update') }}
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -121,7 +129,9 @@
                     <form action="#" method="post" id="new-refund-reason-form">
                         @csrf
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">{{ __('Add new reason') }}</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">
+                                {{ __('Add new reason') }}
+                            </h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -129,14 +139,17 @@
                                 <label for="reason_name" class="form-label">
                                     {{ __('Reason Name') }}
                                     <input type="text" name="name" class="form-control" id="reason_name"
-                                        placeholder="{{ __('Write reason name.') }}">
+                                        placeholder="{{ __('Enter reason name.') }}">
                                 </label>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">{{ __('Close') }}</button>
-                            <button type="submit" class="btn btn-primary">{{ __('Create') }}</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                {{ __('Close') }}
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                {{ __('Add') }}
+                            </button>
                         </div>
                     </form>
                 </div>

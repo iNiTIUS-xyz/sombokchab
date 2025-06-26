@@ -3,7 +3,6 @@
     {{ __('Mobile Sliders') }}
 @endsection
 @section('style')
-    <x-datatable.css />
     <x-bulk-action.css />
 @endsection
 @section('content')
@@ -21,8 +20,8 @@
                     <h4 class="dashboard__card__title">{{ __('Mobile Sliders List') }}</h4>
                 </div>
                 <div class="dashboard__card__body mt-4">
-                    <div class="table-wrap table-responsive">
-                        <table class="table table-default">
+                    <div class="table-responsive">
+                        <table class="table table-default" id="dataTable">
                             <thead>
                                 <th>Serial No.</th>
                                 <th>Title</th>
@@ -45,7 +44,8 @@
                                         <td>{{ $slider->url }}</td>
                                         <td>
                                             @can('state-edit')
-                                                <a class="btn btn-warning btn-xs mb-2 me-1"
+                                                <a title="{{ __('Edit Data') }}"
+                                                    class="btn btn-warning text-dark btn-xs mb-2 me-1"
                                                     href="{{ route('admin.mobile.slider.two.edit', $slider->id) }}">
                                                     <i class="ti-pencil"></i>
                                                 </a>

@@ -4,14 +4,7 @@
 @endsection
 @section('style')
     <x-media.css />
-    <x-datatable.css />
     <x-bulk-action.css />
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <style>
-        .select2-container--default .select2-selection--multiple {
-            padding-bottom: 20px !important;
-        }
-    </style>
 @endsection
 @section('content')
     <div class="col-lg-12 col-ml-12">
@@ -35,7 +28,7 @@
                             <div class="form-group" id="product-list"
                                 {{ optional($selectedProduct)->type == 'category' ? 'style=display:none' : '' }}>
                                 <label for="products">Select Product</label>
-                                <select id="products" name="featured_product[]" multiple class="form-control select2">
+                                <select id="products" name="featured_product[]" multiple class="form-control">
                                     <option value="">
                                         Select Product
                                     </option>
@@ -53,7 +46,7 @@
                                 {{ optional($selectedProduct)->type == 'category' ? '' : 'style=display:none' }}
                                 id="category-list">
                                 <label for="products">Select Category</label>
-                                <select id="products" name="featured_category[]" multiple class="form-control">
+                                <select id="products" name="featured_category[]" multiple class="form-control select2">
                                     <option value="">Select Category</option>
                                     @foreach ($categories as $category)
                                         <option
@@ -67,8 +60,8 @@
                         </div>
                         <div class="card-footer mt-5">
                             <div class="form-group">
-                                <button class="cmn_btn btn_bg_profile">
-                                    Update Featured Product
+                                <button type="submit" class="cmn_btn btn_bg_profile">
+                                    {{ __('Update') }}
                                 </button>
                             </div>
                         </div>
@@ -82,9 +75,6 @@
 @endsection
 @section('script')
     <x-media.js />
-
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
     <script>
         $(document).ready(function() {
             // Initialize on page load

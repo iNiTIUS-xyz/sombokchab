@@ -28,13 +28,14 @@
                                     @foreach ($campaigns as $item)
                                         <option value="{{ $item->id }}"
                                             {{ $item->id == optional($selectedCampaign)->campaign_id ?? '' ? 'selected' : '' }}>
-                                            {{ $item->name }}</option>
+                                            {{ $item->name }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
 
                             <div class="form-group">
-                                <button class="cmn_btn btn_bg_profile">Update Campaign</button>
+                                <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
                             </div>
                         </form>
                     </div>

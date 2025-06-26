@@ -1,4 +1,5 @@
 @extends('backend.admin-master')
+
 @section('site-title', __('Vendor wallet payment methods'))
 
 @section('style')
@@ -26,8 +27,8 @@
                         </h4>
                     </div>
                     <div class="dashboard__card__body">
-                        <div class="table-wrap">
-                            <table class="table-responsive table" id="dataTable">
+                        <div class="table-responsive">
+                            <table class="table" id="dataTable">
                                 <thead>
                                     <tr>
                                         <th>{{ __('Serial No.') }}</th>
@@ -48,10 +49,11 @@
                                             </td>
                                             <td>
                                                 @can('wallet-withdraw-gateway-update')
-                                                    <button type="button" data-name="{{ $gateway->name }}"
-                                                        data-id="{{ $gateway->id }}" data-status="{{ $gateway->status_id }}"
+                                                    <button type="button" title="{{ __('Edit Data') }}"
+                                                        data-name="{{ $gateway->name }}" data-id="{{ $gateway->id }}"
+                                                        data-status="{{ $gateway->status_id }}"
                                                         data-blog-filed="{{ json_encode(unserialize($gateway->filed)) }}"
-                                                        class="btn btn-sm btn-warning mb-2 me-1 update-gateway"
+                                                        class="btn btn-sm btn-warning text-dark mb-2 me-1 update-gateway"
                                                         data-bs-toggle="modal" data-bs-target="#edit-gateway-modal">
                                                         <i class="ti-pencil"></i>
                                                     </button>
@@ -87,19 +89,24 @@
                             </div>
                             <div class="dashboard__card card__two">
                                 <div class="dashboard__card__header">
-                                    <h4 class="dashboard__card__title">{{ __('Gateway field') }}</h4>
+                                    <h4 class="dashboard__card__title">
+                                        {{ __('Gateway field') }}
+                                    </h4>
                                 </div>
                                 <div class="dashboard__card__body">
                                     <div class="form-group row">
                                         <div class="w-90 d-flex align-items-center">
-                                            <input class="form-control" name="filed[]" placeholder="Enter filed name">
+                                            <input class="form-control" name="filed[]"
+                                                placeholder="{{ __('Enter filed name') }}">
                                         </div>
                                         <div
                                             class="col-md-1 d-flex flex-column align-items-center justify-content-center pb-2 gap-2">
-                                            <button type="button" class="btn btn-primary btn-sm gateway-filed-add">
+                                            <button type="button" class="btn btn-primary btn-sm gateway-filed-add"
+                                                title="{{ __('Add') }}">
                                                 <i class="las la-plus"></i>
                                             </button>
-                                            <button type="button" class="btn btn-danger btn-sm gateway-filed-remove">
+                                            <button type="button" class="btn btn-danger btn-sm gateway-filed-remove"
+                                                title="{{ __('Remove') }}">
                                                 <i class="las la-trash-alt"></i>
                                             </button>
                                         </div>
@@ -114,9 +121,10 @@
                                     <option value="2">{{ __('Inactive') }}</option>
                                 </select>
                             </div>
-
                             <div class="form-group">
-                                <button class="cmn_btn btn_bg_profile">{{ __('Create gateway') }}</button>
+                                <button class="cmn_btn btn_bg_profile">
+                                    {{ __('Add') }}
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -143,7 +151,7 @@
                             @csrf
                             <div class="form-group">
                                 <label class="w-100">{{ __('Name:') }}</label>
-                                <input class="form-control" name="gateway_name" placeholder="Enter gateway name">
+                                <input class="form-control" name="gateway_name" placeholder="{{ __('Enter gateway name') }}">
                             </div>
                             <div class="dashboard__card">
                                 <div class="dashboard__card__header">
@@ -166,7 +174,7 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"
                                 data-bs-dismiss="modal">{{ __('Close') }}</button>
-                            <button type="submit" class="btn btn-primary">{{ __('Save Changes') }}</button>
+                            <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                         </div>
                     </form>
                 </div>
@@ -192,7 +200,7 @@
                     list_filed += `
                         <div class="form-group row">
                             <div class="w-90 d-flex align-items-center">
-                                <input class="form-control" value="${value}" name="filed[]" placeholder="Enter filed name">
+                                <input class="form-control" value="${value}" name="filed[]" placeholder="{{ __('Enter filed name') }}">
                             </div>
                             <div class="col-md-1 d-flex flex-column align-items-center justify-content-center pb-2 gap-2">
                                 <button type="button" class="btn btn-primary btn-sm gateway-filed-add">

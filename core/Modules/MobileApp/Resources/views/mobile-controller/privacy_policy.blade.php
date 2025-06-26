@@ -24,13 +24,14 @@
                                     @foreach ($pages as $item)
                                         <option value="{{ $item->id }}"
                                             {{ get_static_option('mobile_privacy_and_policy') == $item->id ? 'selected' : '' }}>
-                                            {{ $item->title }}</option>
+                                            {{ $item->title }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
 
                             <div class="form-group">
-                                <button class="cmn_btn btn_bg_profile">Update Page</button>
+                                <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
                             </div>
                         </form>
                     </div>

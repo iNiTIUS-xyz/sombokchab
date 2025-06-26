@@ -3,6 +3,7 @@
 @section('site-title')
     {{ __('History Lists') }}
 @endsection
+
 @section('style')
     <x-media.css />
     <style>
@@ -23,8 +24,8 @@
                         <h4 class="dashboard__card__title">{{ __('Customer Deposit History') }}</h4>
                     </div>
                     <div class="dashboard__card__body mt-4">
-                        <div class="table-wrap">
-                            <table class="table table-responsive" id="dataTable">
+                        <div class="table-responsive">
+                            <table class="table" id="dataTable">
                                 <thead>
                                     <tr>
                                         <th>{{ __('Serial No.') }}</th>
@@ -61,7 +62,8 @@
                                                 @if ($history->payment_status == '' || $history->payment_status == 'cancel')
                                                     <span class="badge bg-danger">{{ __('Cancel') }}</span>
                                                 @elseif ($history->payment_status == '' || $history->payment_status == 'complete')
-                                                    <span class="badge bg-success">{{ ucfirst($history->payment_status) }}</span>
+                                                    <span
+                                                        class="badge bg-success">{{ ucfirst($history->payment_status) }}</span>
                                                 @else
                                                     <span
                                                         class="badge bg-warning">{{ ucfirst($history->payment_status) }}</span>
@@ -82,12 +84,8 @@
                                             <td>{{ $history->created_at }}</td>
                                             <td>
                                                 @if ($history->payment_status == 'pending')
-                                                    <x-status.table.status-change :title="__('')" :class="'btn btn-warning'"
-                                                        :url="route(
-                                                            'admin.wallet.history.status',
-                                                            $history->id,
-                                                        )" />
-                                                @endif        
+                                                    <x-status.table.status-change :title="__('')" :url="route('admin.wallet.history.status', $history->id)" />
+                                                @endif
                                                 <a class="btn btn-sm btn-secondary"
                                                     href="{{ route('admin.wallet.history.details', $history->id) }}"
                                                     title="{{ __('View Details') }}">
@@ -99,7 +97,6 @@
                                 </tbody>
                             </table>
                         </div>
-                        <x-pagination.laravel-paginate :allData="$wallet_history_lists" />
                     </div>
                 </div>
             </div>

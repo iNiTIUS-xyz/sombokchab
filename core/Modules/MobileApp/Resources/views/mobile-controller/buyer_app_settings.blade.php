@@ -25,7 +25,7 @@
                             </div>
 
                             <div class="form-group">
-                                <button class="cmn_btn btn_bg_profile">{{ __('Update Settings') }}</button>
+                                <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
                             </div>
                         </form>
                     </div>

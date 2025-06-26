@@ -26,7 +26,7 @@
                         </div>
                     </div>
                     <div class="dashboard__card__body mt-4">
-                        <div class="table-wrap table-responsive">
+                        <div class="table-responsive">
                             <table class="table table-default" id="dataTable">
                                 <thead>
                                     <th>{{ __('Serial No.') }}</th>
