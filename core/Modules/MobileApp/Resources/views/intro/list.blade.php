@@ -5,7 +5,6 @@
 @endsection
 
 @section('style')
-    <x-datatable.css />
     <x-bulk-action.css />
 @endsection
 
@@ -27,8 +26,8 @@
                         </h4>
                     </div>
                     <div class="dashboard__card__body mt-4">
-                        <div class="table-wrap table-responsive">
-                            <table class="table table-default">
+                        <div class="table-responsive">
+                            <table class="table table-default" id="dataTable">
                                 <thead>
                                     <th>{{ __('Sl NO') }}</th>
                                     <th>{{ __('Title') }}</th>
@@ -48,7 +47,8 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <a class="btn btn-primary btn-sm btn-xs mb-2 me-1"
+                                                <a class="btn btn-warning text-dark btn-sm btn-xs mb-2 me-1"
+                                                    title="{{ __('Edit Data') }}"
                                                     href="{{ route('admin.mobile.intro.edit', $slider->id) }}">
                                                     <i class="ti-pencil"></i>
                                                 </a>
@@ -65,6 +65,7 @@
         </div>
     </div>
 @endsection
+
 @section('script')
     <x-media.js />
     <x-table.btn.swal.js />

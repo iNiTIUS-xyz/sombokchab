@@ -1,7 +1,9 @@
 @extends('backend.admin-master')
+
 @section('site-title')
     {{ __('Page Settings') }}
 @endsection
+
 @section('content')
     @can('support-ticket-page-settings')
         <div class="col-lg-12 col-ml-12">
@@ -18,27 +20,45 @@
                                 enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
-                                    <label for="support_ticket_login_notice">{{ __('Login Notice') }}</label>
-                                    <input type="text" name="support_ticket_login_notice" class="form-control"
+                                    <label for="support_ticket_login_notice">
+                                        {{ __('Login Notice') }}
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" placeholder="{{ __('Enter logn notices') }}"
+                                        name="support_ticket_login_notice" class="form-control"
                                         value="{{ get_static_option('support_ticket_login_notice') }}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="support_ticket_form_title">{{ __('Form Title') }}</label>
-                                    <input type="text" name="support_ticket_form_title" class="form-control"
+                                    <label for="support_ticket_form_title">
+                                        {{ __('Form Title') }}
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" placeholder="{{ __('Enter form title') }}"
+                                        name="support_ticket_form_title" class="form-control"
                                         value="{{ get_static_option('support_ticket_form_title') }}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="support_ticket_button_text">{{ __('Button Text') }}</label>
-                                    <input type="text" name="support_ticket_button_text" class="form-control"
+                                    <label for="support_ticket_button_text">
+                                        {{ __('Button Text') }}
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" placeholder="{{ __('Enter button text') }}"
+                                        name="support_ticket_button_text" class="form-control"
                                         value="{{ get_static_option('support_ticket_button_text') }}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="support_ticket_success_message">{{ __('Success Message') }}</label>
-                                    <input type="text" name="support_ticket_success_message" class="form-control"
+                                    <label for="support_ticket_success_message">
+                                        {{ __('Success Message') }}
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" title="{{ __('Enter success message') }}"
+                                        name="support_ticket_success_message" class="form-control"
                                         value="{{ get_static_option('support_ticket_success_message') }}">
                                 </div>
                                 <div class="btn-wrapper mt-4">
-                                    <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
+                                    <button type="submit" class="cmn_btn btn_bg_profile">
+                                        {{ __('Update') }}
+                                    </button>
                                 </div>
                             </form>
                         </div>

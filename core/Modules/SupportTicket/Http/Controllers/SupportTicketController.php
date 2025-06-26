@@ -56,7 +56,7 @@ class SupportTicketController extends Controller
         $all_tickets = SupportTicket::with('department', 'vendor')
             ->whereNot('vendor_id', null)
             ->orderBy('id', 'desc')
-            ->paginate(20);
+            ->get();
 
         return view('supportticket::backend.vendor-tickets')->with(['all_tickets' => $all_tickets]);
     }
@@ -140,16 +140,19 @@ class SupportTicketController extends Controller
             'notify' => $request->send_notify_mail ? 'on' : 'off',
         ]);
         $imageExtensions = [
-            'png','gif','jpg','jpeg'
+            'png',
+            'gif',
+            'jpg',
+            'jpeg'
         ];
         if ($request->hasFile('file')) {
             $uploaded_file = $request->file;
             $file_extension = $uploaded_file->extension();
-            $file_name=Str::uuid().'-'.time().'.'.$file_extension;
-            if(in_array($file_extension,$imageExtensions)){
+            $file_name = Str::uuid() . '-' . time() . '.' . $file_extension;
+            if (in_array($file_extension, $imageExtensions)) {
                 $image = Image::make($uploaded_file);
-                Storage::disk('asset_path')->put('assets/uploads/ticket/'.$file_name, (string) $image->encode());
-            }else{
+                Storage::disk('asset_path')->put('assets/uploads/ticket/' . $file_name, (string) $image->encode());
+            } else {
                 $uploaded_file->move('assets/uploads/ticket', $file_name);
             }
             $ticket_info->attachment = $file_name;

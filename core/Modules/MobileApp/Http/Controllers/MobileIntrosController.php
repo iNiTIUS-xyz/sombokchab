@@ -11,7 +11,9 @@ class MobileIntrosController extends Controller
     public function index()
     {
         // first i need to get all intros those i have created
-        $mobileIntros = MobileIntro::with("image")->where("type", "admin")->get();
+        $mobileIntros = MobileIntro::with("image")
+            ->where("type", "admin")
+            ->get();
 
         return view("mobileapp::intro.list", compact("mobileIntros"));
     }
@@ -29,7 +31,9 @@ class MobileIntrosController extends Controller
             "success" => true,
             "msg" => "Mobile Intro created successfully",
             "type" => "success"
-        ] : ["success" => false,"type" => "danger",
+        ] : [
+            "success" => false,
+            "type" => "danger",
             "msg" => "failed to create mobile intro",
             "type" => "danger"
         ]);

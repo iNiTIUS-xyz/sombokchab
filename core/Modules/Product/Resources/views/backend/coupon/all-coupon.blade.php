@@ -1,7 +1,8 @@
 @extends('backend.admin-master')
+
 @section('site-title', __('Manage Coupon'))
+
 @section('style')
-    <x-datatable.css />
     <x-bulk-action.css />
     <x-niceselect.css />
 
@@ -103,8 +104,8 @@
                         @endcan
                     </div>
                     <div class="dashboard__card__body mt-4">
-                        <div class="table-wrap table-responsive">
-                            <table class="table table-default">
+                        <div class="table-responsive">
+                            <table class="table table-default" id="dataTable">
                                 <thead>
                                     @can('coupons-bulk-action')
                                         <x-bulk-action.th />
@@ -472,7 +473,6 @@
 @endsection
 
 @section('script')
-    <x-datatable.js />
     <x-table.btn.swal.js />
     @can('coupons-bulk-action')
         <x-bulk-action.js :route="route('admin.products.coupon.bulk.action')" />

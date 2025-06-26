@@ -5,17 +5,17 @@
 <script src="{{asset('assets/backend/js/dataTables.responsive.min.js')}}"></script>
 <script src="{{asset('assets/backend/js/responsive.bootstrap.min.js')}}"></script>
 @if(!isset($only_js))
-<script>
-    (function($){
-    "use strict";
-    $('.table-wrap > table').DataTable( {
-        "order": [[ 1, "desc" ]],
-        'columnDefs' : [{
-            'targets' : 'no-sort',
-            'orderable' : false
-        }]
-    } );
-            
-    })(jQuery);
-</script>
+    <script>
+        (function ($) {
+            "use strict";
+            $('.table-wrap > table').DataTable({
+                "order": [[1, "desc"]],
+                'columnDefs': [{
+                    'targets': 'no-sort',
+                    'orderable': false
+                }]
+            });
+
+        })(jQuery);
+    </script>
 @endif

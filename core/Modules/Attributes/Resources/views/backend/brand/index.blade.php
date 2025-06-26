@@ -1,11 +1,14 @@
 @extends('backend.admin-master')
+
 @section('site-title')
     {{ __('Product Brand Manage') }}
 @endsection
+
 @section('style')
     <x-bulk-action.css />
     <x-media.css />
 @endsection
+
 @section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row">
@@ -32,7 +35,7 @@
                         </div>
                     </div>
                     <div class="dashboard__card__body mt-4">
-                        <div class="table-wrap table-responsive">
+                        <div class="table-responsive">
                             <table class="table table-default" id="dataTable">
                                 <thead>
                                     @can('brand-manage-bulk-action')
@@ -72,8 +75,7 @@
                                             <td class="w-40">{{ $item->description }}</td>
                                             <td>
                                                 @can('brand-manage-update')
-                                                    <a href="#1" data-bs-toggle="modal"
-                                                        data-bs-target="#brand_manage_edit_modal"
+                                                    <a href="#1" data-bs-toggle="modal" data-bs-target="#brand_manage_edit_modal"
                                                         class="btn  btn-warning text-dark btn-sm brand_manage_edit_btn"
                                                         data-id="{{ $item->id }}" data-name="{{ $item->name }}"
                                                         data-slug="{{ $item->slug }}" data-title="{{ $item->title }}"
@@ -86,7 +88,8 @@
                                                     </a>
                                                 @endcan
                                                 @can('brand-manage-delete')
-                                                    <x-table.btn.swal.delete class="margin-bottom-0" :route="route('admin.brand.manage.delete', $item->id)" />
+                                                    <x-table.btn.swal.delete class="margin-bottom-0"
+                                                        :route="route('admin.brand.manage.delete', $item->id)" />
                                                 @endcan
                                             </td>
                                         </tr>
@@ -193,8 +196,9 @@
     @endcan
     <x-media.markup />
 @endsection
+
 @section('script')
-    <x-datatable.js />
+
     <x-table.btn.swal.js />
     <x-backend.icon-picker-js />
     <x-media.js />
@@ -204,8 +208,8 @@
     @endcan
 
     <script>
-        $(document).ready(function() {
-            $(document).on('click', '.brand_manage_edit_btn', function() {
+        $(document).ready(function () {
+            $(document).on('click', '.brand_manage_edit_btn', function () {
                 let el = $(this);
                 let id = el.data('id');
                 let name = el.data('name');
@@ -247,12 +251,12 @@
             });
         });
 
-        $('#create-name , #create-slug').on('keyup', function() {
+        $('#create-name , #create-slug').on('keyup', function () {
             let title_text = $(this).val();
             $('#create-slug').val(convertToSlug(title_text))
         });
 
-        $('#edit-name , #edit-slug').on('keyup', function() {
+        $('#edit-name , #edit-slug').on('keyup', function () {
             let title_text = $(this).val();
             $('#edit-slug').val(convertToSlug(title_text))
         });

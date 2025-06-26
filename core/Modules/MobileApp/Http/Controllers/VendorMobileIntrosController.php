@@ -10,7 +10,6 @@ class VendorMobileIntrosController extends Controller
 {
     public function index()
     {
-        // first i need to get all intros those i have created
         $mobileIntros = MobileIntro::with("image")
             ->where("type", "vendor")
             ->get();
@@ -28,8 +27,9 @@ class VendorMobileIntrosController extends Controller
         $mobileIntro = MobileIntro::create($request->validated());
 
         return redirect(route("admin.mobile.vendor.intro.all"))
-            ->with($mobileIntro ? ["success" => true,
-                "msg" => "Mobile Intro created successfully",
+            ->with($mobileIntro ? [
+                "success" => true,
+                "msg" => "Mobile Intro created successfully.",
                 "type" => "success"
             ] : [
                 "success" => false,
@@ -50,17 +50,17 @@ class VendorMobileIntrosController extends Controller
         return redirect(route("admin.mobile.vendor.intro.all"))
             ->with(
                 $update ?
-                    [
-                        "success" => true,
-                        "msg" => "Mobile Intro updated successfully",
-                        "type" => "success"
-                    ]
-                    :
-                    [
-                        "success" => false,
-                        "msg" => "failed to update mobile intro",
-                        "type" => "danger"
-                    ]
+                [
+                    "success" => true,
+                    "msg" => "Mobile Intro updated successfully.",
+                    "type" => "success"
+                ]
+                :
+                [
+                    "success" => false,
+                    "msg" => "failed to update mobile intro",
+                    "type" => "danger"
+                ]
             );
     }
 
@@ -69,6 +69,6 @@ class VendorMobileIntrosController extends Controller
         $delete = $mobileIntro
             ->delete();
 
-        return response()->json(["type" => $delete ? "success" : "danger" ,"success" => (bool) $delete ?? false, "msg" => $delete ? "Successfully delete mobile intro.vendor." : "Failed to delete mobile intro.vendor."]);
+        return response()->json(["type" => $delete ? "success" : "danger", "success" => (bool) $delete ?? false, "msg" => $delete ? "Mobile intro vendor delete successfully." : "Failed to delete mobile intro.vendor."]);
     }
 }

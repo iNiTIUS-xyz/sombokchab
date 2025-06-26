@@ -25,23 +25,29 @@
                         <form action="{{ route('admin.mobile.intro.edit', $mobileIntro->id) }}" method="post">
                             @csrf
                             <div class="form-group">
-                                <label for="title">{{ __('Title') }}</label>
+                                <label for="title">
+                                    {{ __('Title') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input class="form-control" id="title" name="title"
-                                    placeholder="{{ __('Mobile intro Title...') }}" value="{{ $mobileIntro->title }}" />
+                                    placeholder="{{ __('Enter mobile intro title') }}" value="{{ $mobileIntro->title }}" />
                             </div>
                             <div class="form-group">
-                                <label for="description">{{ __('Description') }}</label>
+                                <label for="description">
+                                    {{ __('Description') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <textarea class="form-control" id="description" name="description"
-                                    placeholder="{{ __('Mobile intro Description...') }}">{{ $mobileIntro->description }}</textarea>
+                                    placeholder="{{ __('Enter mobile intro description...') }}">{{ $mobileIntro->description }}</textarea>
                             </div>
 
                             <x-media-upload :title="__('Image')" :name="'image_id'" :oldimage="$mobileIntro->image" :dimentions="'1280x1280'" />
 
                             <div class="form-group">
-                                <button class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
+                                <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
                                 <a href="{{ route('admin.mobile.intro.all') }}" class="cmn_btn default-theme-btn"
                                     style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
-                                    Back
+                                    {{ __('Back') }}
                                 </a>
                             </div>
                         </form>

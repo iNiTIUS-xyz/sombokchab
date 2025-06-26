@@ -27,7 +27,7 @@ class MobileSliderController extends Controller
     public function create()
     {
         // first i need to get all campaigns first
-        $campaigns = Campaign::select("id", "title as name")->get();
+        $campaigns = Campaign::select(["id", "title as name"])->get();
         // now fetch all category
         $categories = Category::select("id", "name")->get();
 
@@ -51,7 +51,7 @@ class MobileSliderController extends Controller
 
     public function edit(MobileSlider $mobileSlider)
     {
-        $campaigns = Campaign::select("id", "title as name")->get();
+        $campaigns = Campaign::select(["id", "title as name"])->get();
         $categories = Category::select("id", "name")->get();
 
         return view("mobileapp::mobile-slider.edit", compact("mobileSlider", "campaigns", "categories"));
@@ -74,7 +74,7 @@ class MobileSliderController extends Controller
 
     public function two_create()
     {
-        $campaigns = Campaign::select("id", "title as name")->get();
+        $campaigns = Campaign::select(["id", "title as name"])->get();
         $categories = Category::select("id", "name")->get();
 
         return view("mobileapp::mobile-slider-two.create", compact("campaigns", "categories"));
@@ -97,7 +97,7 @@ class MobileSliderController extends Controller
 
     public function two_edit(MobileSlider $mobileSlider)
     {
-        $campaigns = Campaign::select("id", "title as name")->get();
+        $campaigns = Campaign::select(["id", "title as name"])->get();
         $categories = Category::select("id", "name")->get();
 
         return view("mobileapp::mobile-slider-two.edit", compact("mobileSlider", "campaigns", "categories"));
@@ -120,7 +120,7 @@ class MobileSliderController extends Controller
 
     public function three_create()
     {
-        $campaigns = Campaign::select("id", "title as name")->get();
+        $campaigns = Campaign::select(["id", "title as name"])->get();
         $categories = Category::select("id", "name")->get();
 
         return view("mobileapp::mobile-slider-three.create", compact("campaigns", "categories"));
@@ -143,7 +143,7 @@ class MobileSliderController extends Controller
 
     public function three_edit(MobileSlider $mobileSlider)
     {
-        $campaigns = Campaign::select("id", "title as name")->get();
+        $campaigns = Campaign::select(["id", "title as name"])->get();
         $categories = Category::select("id", "name")->get();
 
         return view("mobileapp::mobile-slider-three.edit", compact("mobileSlider", "campaigns", "categories"));

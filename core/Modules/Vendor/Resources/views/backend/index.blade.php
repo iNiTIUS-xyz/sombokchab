@@ -1,8 +1,7 @@
 @extends('backend.admin-master')
+
 @section('site-title')
     {{ __('Vendor List') }}
-@endsection
-@section('style')
 @endsection
 
 @section('content')
@@ -18,13 +17,14 @@
                 </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Vendor List') }}</h4>
-
+                        <h4 class="dashboard__card__title">
+                            {{ __('Vendor List') }}
+                        </h4>
                     </div>
                     <div class="dashboard__card__body dashboard-recent-order mt-4">
                         <div class="table-wrap dashboard-table">
-                            <div class="table-responsive table-responsive--md">
-                                <table class="custom--table pt-4" id="myTable">
+                            <div class="table-responsive">
+                                <table class="table" id="dataTable">
                                     <thead class="head-bg">
                                         <tr>
                                             <th> {{ __('Serial No.') }} </th>
@@ -223,9 +223,9 @@
             </div>
         </div>
     @endcan
-
     <div class="body-overlay-desktop"></div>
 @endsection
+
 @section('script')
     <script>
         $(document).on("click", ".vendor-detail", function(e) {

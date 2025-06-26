@@ -20,11 +20,16 @@
                 </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Admin Accounts') }} <small>(created by Super Admin)</small></h4>
+                        <h4 class="dashboard__card__title">
+                            {{ __('Admin Accounts') }}
+                            <small>
+                                (created by SuperAdmin)
+                            </small>
+                        </h4>
                     </div>
                     <div class="dashboard__card__body mt-4">
-                        <div class="data-tables datatable-primary">
-                            <table id="dataTable" class="text-left">
+                        <div class="table-responsive">
+                            <table id="dataTable" class="table">
                                 <thead class="text-capitalize">
                                     <tr>
                                         <th>{{ __('Serial No.') }}</th>
@@ -47,12 +52,11 @@
                                                     <div class="attachment-preview">
                                                         <div class="thumbnail">
                                                             <div class="centered">
-                                                                <img class="avatar user-thumb" src="{{ $img['img_url'] }}"
-                                                                    alt="">
+                                                                <img class="avatar user-thumb" src="{{ $img['img_url'] }}" alt="">
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    @php  $img_url = $img['img_url']; @endphp
+                                                    @php $img_url = $img['img_url']; @endphp
                                                 @endif
                                             </td>
                                             <td>
@@ -63,11 +67,10 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                
-
                                                 @can('admin-user-password-change')
                                                     <a href="#1" data-id="{{ $data->id }}" data-bs-toggle="modal"
-                                                        title="Change Password" data-bs-target="#user_change_password_modal"
+                                                        title="{{ __('Change Password') }}"
+                                                        data-bs-target="#user_change_password_modal"
                                                         class="btn btn-sm btn-secondary mb-2 me-1 user_change_password_btn">
                                                         <i class="ti-unlock"></i>
                                                     </a>
@@ -75,7 +78,7 @@
 
                                                 @can('admin-user-edit')
                                                     <a href="{{ route('admin.user.edit', $data->id) }}"
-                                                        class="btn btn-lg btn-warning btn-sm mb-2 me-1 user_edit_btn">
+                                                        class="btn btn-lg btn-warning text-dark btn-sm mb-2 me-1 user_edit_btn">
                                                         <i class="ti-pencil"></i>
                                                     </a>
                                                 @endcan
@@ -104,8 +107,8 @@
                         <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
                     </div>
                     @include('backend/partials/error')
-                    <form action="{{ route('admin.user.password.change') }}" id="user_password_change_modal_form"
-                        method="post" enctype="multipart/form-data">
+                    <form action="{{ route('admin.user.password.change') }}" id="user_password_change_modal_form" method="post"
+                        enctype="multipart/form-data">
                         @csrf
                         <div class="modal-body">
                             <input type="hidden" name="ch_user_id" id="ch_user_id">
@@ -117,12 +120,11 @@
                             <div class="form-group">
                                 <label for="password_confirmation">{{ __('Confirm Password') }}</label>
                                 <input type="password" class="form-control" id="password_confirmation"
-                                    name="password_confirmation" placeholder="{{ __('Confirm Password') }}">
+                                    name="password_confirmation" placeholder="{{ __('Enter confirm Password') }}">
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">{{ __('Close') }}</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
                             <button type="submit" class="btn btn-primary">{{ __('Change Password') }}</button>
                         </div>
                     </form>
@@ -139,10 +141,10 @@
     <script src="{{ asset('assets/backend/js/dropzone.js') }}"></script>
     @include('backend.partials.media-upload.media-js')
     <script>
-        (function($) {
+        (function ($) {
             "use strict";
-            $(document).ready(function() {
-                $(document).on('click', '.user_change_password_btn', function(e) {
+            $(document).ready(function () {
+                $(document).on('click', '.user_change_password_btn', function (e) {
                     e.preventDefault();
                     var el = $(this);
                     var form = $('#user_password_change_modal_form');

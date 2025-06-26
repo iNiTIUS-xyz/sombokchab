@@ -2,9 +2,7 @@
 @section('site-title')
     {{ __('Category Page') }}
 @endsection
-@section('style')
-    @include('backend.partials.datatable.style-enqueue')
-@endsection
+
 @section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row">
@@ -31,8 +29,8 @@
                         </div>
                     </div>
                     <div class="dashboard__card__body mt-4">
-                        <div class="table-wrap table-responsive">
-                            <table class="table table-default">
+                        <div class="table-responsive">
+                            <table class="table table-default" id="dataTable">
                                 <thead>
                                     <x-bulk-th />
                                     <th>{{ __('ID') }}</th>
@@ -155,11 +153,11 @@
 
 @section('script')
     <script>
-        (function($) {
+        (function ($) {
             "use strict";
-            $(document).ready(function() {
+            $(document).ready(function () {
                 // Edit button click
-                $(document).on('click', '.category_edit_btn', function() {
+                $(document).on('click', '.category_edit_btn', function () {
                     let el = $(this);
                     let id = el.data('id');
                     let name = el.data('name');
@@ -174,5 +172,4 @@
         })(jQuery);
     </script>
 
-    @include('backend.partials.datatable.script-enqueue')
 @endsection

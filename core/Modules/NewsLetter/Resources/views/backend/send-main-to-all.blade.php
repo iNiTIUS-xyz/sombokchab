@@ -1,11 +1,14 @@
 @extends('backend.admin-master')
+
 @section('style')
     <x-summernote.css />
     <link rel="stylesheet" href="{{ asset('assets/backend/css/dropzone.css') }}">
 @endsection
+
 @section('site-title')
     {{ __('Send Mail to All Subscribers') }}
 @endsection
+
 @section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row">
@@ -34,7 +37,7 @@
                             <div class="form-group">
                                 <label for="edit_icon">{{ __('Subject') }}</label>
                                 <input type="text" class="form-control" id="subject" name="subject"
-                                    placeholder="{{ __('Subject') }}">
+                                    placeholder="{{ __('Enter subject') }}">
                             </div>
                             <div class="form-group">
                                 <label for="message">{{ __('Message') }}</label>
@@ -45,7 +48,7 @@
                                 <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Send Mail') }}</button>
                                 <a href="{{ route('admin.newsletter') }}" class="cmn_btn default-theme-btn"
                                     style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
-                                    Back
+                                    {{ __('Back') }}
                                 </a>
                             </div>
                         </form>

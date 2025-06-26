@@ -1,9 +1,7 @@
 @extends('backend.admin-master')
+
 @section('site-title')
     {{ __('Shipping Method List') }}
-@endsection
-
-@section('style')
 @endsection
 
 @section('content')
@@ -25,8 +23,8 @@
                         <h4 class="dashboard__card__title">{{ __('Shipping Methods List') }}</h4>
                     </div>
                     <div class="dashboard__card__body dashboard-recent-order mt-4">
-                        <div class="table-wrap table-responsive">
-                            <table class="table table-default">
+                        <div class="table-responsive">
+                            <table class="table table-default" id="dataTable">
                                 <thead>
                                     <th>{{ __('ID') }}</th>
                                     <th>{{ __('Title') }}</th>
@@ -57,8 +55,8 @@
 
                                                 @can('shipping-method-make-default')
                                                     @if (!$method->is_default)
-                                                        <form action="{{ route('admin.shipping-method.make-default') }}"
-                                                            method="post" style="display: inline">
+                                                        <form action="{{ route('admin.shipping-method.make-default') }}" method="post"
+                                                            style="display: inline">
                                                             @csrf
                                                             <input type="hidden" name="id" value="{{ $method->id }}">
                                                             <button class="btn btn-info btn-xs mb-2 me-1">
@@ -74,8 +72,7 @@
                                                 @can('shipping-method-delete')
                                                     @if (!$method->is_default)
                                                         <a href="{{ route('admin.shipping-method.destroy', $method->id) }}"
-                                                            class="btn btn-danger btn-xs mb-2 me-1"
-                                                            title="{{ __('Delete Data') }}">
+                                                            class="btn btn-danger btn-xs mb-2 me-1" title="{{ __('Delete Data') }}">
                                                             <i class="las la-trash"></i>
                                                         </a>
                                                     @endif
@@ -91,7 +88,4 @@
             </div>
         </div>
     </div>
-@endsection
-
-@section('script')
 @endsection

@@ -17,30 +17,45 @@
                         <form action="{{ route('admin.frontend.new.user') }}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
-                                <label for="name">{{ __('Name') }}</label>
+                                <label for="name">
+                                    {{ __('Name') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input type="text" class="form-control" id="name" name="name"
                                     placeholder="{{ __('Enter full name') }}">
                             </div>
                             <div class="form-group">
-                                <label for="username">{{ __('Username') }}</label>
+                                <label for="username">
+                                    {{ __('Username') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input type="text" class="form-control" id="username" name="username"
                                     placeholder="{{ __('Enter username') }}">
-                                <small
-                                    class="text text-danger">{{ __('Remember this username, user will login using this username') }}</small>
+                                <small class="text text-danger">
+                                    {{ __('Remember this username, user will login using this username') }}
+                                </small>
                             </div>
                             <div class="form-group">
-                                <label for="email">{{ __('Email') }}</label>
+                                <label for="email">
+                                    {{ __('Email') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input type="text" class="form-control" id="email" name="email"
                                     placeholder="{{ __('Enter email') }}">
                             </div>
                             <div class="form-group">
-                                <label for="phone">{{ __('Phone') }}</label>
+                                <label for="phone">
+                                    {{ __('Phone') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input type="text" class="form-control" id="phone" name="phone"
                                     placeholder="{{ __('Enter phone') }}">
                             </div>
                             <div class="form-group">
-                                <label for="country">{{ __('Country') }}</label>
-                                {{-- {!! get_country_field('country', 'country', 'form-control') !!} --}}
+                                <label for="country">
+                                    {{ __('Country') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <select id="country" name="country">
                                     <option value="">{{ __('Select country') }}</option>
                                     @foreach ($country as $item)
@@ -51,34 +66,52 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="state">{{ __('City') }}</label>
+                                <label for="state">
+                                    {{ __('City') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <select id="state_id" name="state">
                                     <option value="">{{ __('Select city') }}</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="city">{{ __('Province') }}</label>
+                                <label for="city">
+                                    {{ __('Province') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <select id="city_id" name="city">
                                     <option value="">{{ __('Select province') }}</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="zipcode">{{ __('Postal code') }}</label>
+                                <label for="zipcode">
+                                    {{ __('Postal code') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input type="text" class="form-control" id="zipcode" name="zipcode"
                                     placeholder="{{ __('Enter postal code') }}">
                             </div>
                             <div class="form-group">
-                                <label for="address">{{ __('Address') }}</label>
+                                <label for="address">
+                                    {{ __('Address') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input type="text" class="form-control" id="address" name="address"
                                     placeholder="{{ __('Enter address') }}">
                             </div>
                             <div class="form-group">
-                                <label for="password">{{ __('Password') }}</label>
+                                <label for="password">
+                                    {{ __('Password') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input type="password" class="form-control" id="password" name="password"
                                     placeholder="{{ __('Enter password') }}">
                             </div>
                             <div class="form-group">
-                                <label for="password_confirmation">{{ __('Confirm Password') }}</label>
+                                <label for="password_confirmation">
+                                    {{ __('Confirm Password') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input type="password" class="form-control" id="password_confirmation"
                                     name="password_confirmation" placeholder="{{ __('Enter password confirmation') }}">
                             </div>
@@ -87,7 +120,7 @@
                             </button>
                             <a href="{{ route('admin.all.frontend.user') }}" class="cmn_btn default-theme-btn"
                                 style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
-                                Back
+                                {{ __('Back') }}
                             </a>
                         </form>
                     </div>
@@ -98,13 +131,13 @@
 @endsection
 @section('script')
     <script>
-        $(document).on("change", "#country", function() {
+        $(document).on("change", "#country", function () {
             let data = new FormData();
 
             data.append("country_id", $(this).val());
             data.append("_token", "{{ csrf_token() }}");
 
-            send_ajax_request("post", data, "{{ route('admin.vendor.get.state') }}", function() {}, (data) => {
+            send_ajax_request("post", data, "{{ route('admin.vendor.get.state') }}", function () { }, (data) => {
                 $("#state_id").html("<option value=''>{{ __('Select City') }}</option>" + data.option);
                 $(".state_wrapper .list").html(data.li);
             }, (data) => {
@@ -112,14 +145,14 @@
             })
         });
 
-        $(document).on("change", "#state_id", function() {
+        $(document).on("change", "#state_id", function () {
             let data = new FormData();
 
             data.append("country_id", $("#country").val());
             data.append("state_id", $(this).val());
             data.append("_token", "{{ csrf_token() }}");
 
-            send_ajax_request("post", data, "{{ route('admin.vendor.get.city') }}", function() {}, (data) => {
+            send_ajax_request("post", data, "{{ route('admin.vendor.get.city') }}", function () { }, (data) => {
                 $("#city_id").html("<option value=''>{{ __('Select Province') }}</option>" + data.option);
                 $(".city_wrapper .list").html(data.li);
             }, (data) => {

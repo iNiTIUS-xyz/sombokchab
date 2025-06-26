@@ -1,11 +1,13 @@
 @extends('backend.admin-master')
+
 @section('site-title')
     {{ __('All Pages') }}
 @endsection
+
 @section('style')
-    <x-datatable.css />
     <x-bulk-action.css />
 @endsection
+
 @section('content')
     @php
         $pages = [];
@@ -34,8 +36,8 @@
                         </div>
                     </div>
                     <div class="dashboard__card__body mt-4">
-                        <div class="table-wrap table-responsive">
-                            <table class="table table-default">
+                        <div class="table-responsive">
+                            <table class="table table-default" id="dataTable">
                                 <thead>
                                     @can('page-bulk-action')
                                         <x-bulk-action.th />
@@ -118,7 +120,6 @@
 @endsection
 
 @section('script')
-    <x-datatable.js />
     @can('page-bulk-action')
         <x-bulk-action.js :route="route('admin.page.bulk.action')" />
     @endcan

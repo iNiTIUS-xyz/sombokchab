@@ -24,23 +24,29 @@
                             <input type="hidden" value="vendor" name="type" />
 
                             <div class="form-group">
-                                <label for="title">{{ __('Title') }}</label>
+                                <label for="title">
+                                    {{ __('Title') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input class="form-control" id="title" name="title"
-                                    placeholder="{{ __('Mobile intro Title...') }}" />
+                                    placeholder="{{ __('Enter mobile intro title') }}" />
                             </div>
                             <div class="form-group">
-                                <label for="description">{{ __('Description') }}</label>
+                                <label for="description">
+                                    {{ __('Description') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <textarea class="form-control" id="description" name="description"
-                                    placeholder="{{ __('Mobile intro Description...') }}"></textarea>
+                                    placeholder="{{ __('Enter mobile intro description') }}"></textarea>
                             </div>
 
                             <x-media-upload :title="__('Image')" :name="'image_id'" :dimentions="__('1280x1280')" />
 
                             <div class="form-group">
-                                <button class="cmn_btn btn_bg_profile">{{ __('Create') }}</button>
+                                <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Add') }}</button>
                                 <a href="{{ route('admin.mobile.vendor.intro.all') }}" class="cmn_btn default-theme-btn"
                                     style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
-                                    Back
+                                    {{ __('Back') }}
                                 </a>
                             </div>
                         </form>

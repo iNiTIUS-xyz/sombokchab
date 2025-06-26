@@ -7,9 +7,6 @@
     {{ __('Shipping Zones') }}
 @endsection
 
-@section('style')
-@endsection
-
 @section('content')
     <div class="col-lg-12 col-ml-12" id="shipping-zone-wrapper-box">
         <div class="row g-4">
@@ -28,9 +25,8 @@
                         <h4 class="dashboard__card__title">{{ __('Shipping Zone List') }}</h4>
                     </div>
                     <div class="dashboard__card__body mt-4">
-                        <div id="shipping-zone-create-form table-wrap">
-                            @csrf
-                            <table class="table table-responsive">
+                        <div class="table-responsive">
+                            <table class="table" id="dataTable">
                                 <thead>
                                     <tr>
                                         <th>{{ __('Zone Name') }}</th>
@@ -85,6 +81,4 @@
             </div>
         </div>
     </div>
-@endsection
-@section('script')
 @endsection

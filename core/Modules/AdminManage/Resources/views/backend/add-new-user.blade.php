@@ -20,7 +20,7 @@
                         <form action="{{ route('admin.new.user') }}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
-                                <label for="name">{{ __('Name') }}  <span class="text-danger">*</span></label>
+                                <label for="name">{{ __('Name') }} <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="name" name="name"
                                     placeholder="{{ __('Enter full name') }}">
                             </div>
@@ -42,7 +42,8 @@
                                     placeholder="{{ __('Enter password') }}">
                             </div>
                             <div class="form-group">
-                                <label for="password_confirmation">{{ __('Confirm Password') }}</label>
+                                <label for="password_confirmation">{{ __('Confirm Password') }} <span
+                                        class="text-danger">*</span></label>
                                 <input type="password" class="form-control" id="password_confirmation"
                                     name="password_confirmation" placeholder="{{ __('Enter password confirmation') }}">
                             </div>
@@ -67,20 +68,17 @@
                                             <div class="attachment-preview">
                                                 <div class="thumbnail">
                                                     <div class="centered">
-                                                        <img class="avatar user-thumb" src="{{ $image['img_url'] }}"
-                                                            alt="">
+                                                        <img class="avatar user-thumb" src="{{ $image['img_url'] }}" alt="">
                                                     </div>
                                                 </div>
                                             </div>
-                                            @php  $image_btn_label = __('Change image'); @endphp
+                                            @php $image_btn_label = __('Change image'); @endphp
                                         @endif
                                     </div>
-                                    <input type="hidden" id="image" name="image"
-                                        value="{{ get_static_option('image') }}">
+                                    <input type="hidden" id="image" name="image" value="{{ get_static_option('image') }}">
                                     <button type="button" class="btn btn-secondary media_upload_form_btn"
-                                        data-btntitle="{{ __('Select Image') }}"
-                                        data-modaltitle="{{ __('Upload Image') }}" data-bs-toggle="modal"
-                                        data-bs-target="#media_upload_modal">
+                                        data-btntitle="{{ __('Select Image') }}" data-modaltitle="{{ __('Upload Image') }}"
+                                        data-bs-toggle="modal" data-bs-target="#media_upload_modal">
                                         {{ __($image_btn_label) }}
                                     </button>
                                 </div>

@@ -3,8 +3,6 @@
 namespace Modules\ShippingModule\Http\Controllers;
 
 use App\Status;
-use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controller;
 use Modules\ShippingModule\Entities\AdminShippingMethod;
 use Modules\ShippingModule\Entities\Zone;
@@ -12,10 +10,7 @@ use Modules\ShippingModule\Http\Requests\StoreShippingMethodRequest;
 
 class AdminShippingMethodController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     * @return Renderable
-     */
+
     public function index()
     {
         $data = [

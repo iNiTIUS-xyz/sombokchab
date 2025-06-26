@@ -937,7 +937,7 @@
                         @can('vendor-commission-settings')
                             <li class="{{ active_menu('admin-home/vendor/commission-settings') }}">
                                 <a href="{{ route('admin.vendor.commission-settings') }}">
-                                    <i class="las la-cog pl-0"></i>{{ __('Vendor Commission') }}
+                                    {{ __('Vendor Commission') }}
                                 </a>
                             </li>
                         @endcan

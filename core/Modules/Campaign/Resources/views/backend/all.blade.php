@@ -1,11 +1,13 @@
 @extends('backend.admin-master')
+
 @section('site-title')
     {{ __('All Campaigns') }}
 @endsection
+
 @section('style')
-    <x-datatable.css />
     <x-bulk-action.css />
 @endsection
+
 @section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row">
@@ -29,8 +31,8 @@
                         </div>
                     </div>
                     <div class="dashboard__card__body mt-4">
-                        <div class="table-wrap table-responsive">
-                            <table class="table table-default">
+                        <div class="table-responsive">
+                            <table class="table table-default" id="dataTable">
                                 <thead>
                                     @can('campaigns-bulk-action')
                                         <x-bulk-action.th />
@@ -76,16 +78,16 @@
         </div>
     </div>
 @endsection
+
 @section('script')
-    <x-datatable.js />
     <x-table.btn.swal.js />
     @can('campaigns-bulk-action')
         <x-bulk-action.js :route="route('admin.campaigns.bulk.action')" />
     @endcan
 
     <script>
-        $(document).ready(function() {
-            $(document).on('click', '.campaign_edit_btn', function() {
+        $(document).ready(function () {
+            $(document).on('click', '.campaign_edit_btn', function () {
                 let el = $(this);
                 let id = el.data('id');
                 let name = el.data('name');

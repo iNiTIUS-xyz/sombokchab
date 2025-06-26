@@ -2,7 +2,6 @@
 
 @section('style')
     <x-media.css />
-    {{-- <x-datatable.css /> --}}
     <link rel="stylesheet" href="{{ asset('assets/backend/css/dropzone.css') }}">
     <style>
         .swal2-confirm.swal2-styled.swal2-default-outline {
@@ -30,8 +29,8 @@
                 <h4 class="dashboard__card__title">{{ __('All Users') }}</h4>
             </div>
             <div class="dashboard__card__body mt-4">
-                <div class="data-tables datatable-primary table-wrap">
-                    <table id="dataTable">
+                <div class="table-responsive">
+                    <table class="table" id="dataTable">
                         <thead class="text-capitalize">
                             <tr>
                                 <th>{{ __('Serial No.') }}</th>
@@ -57,16 +56,15 @@
                                                 style="display: inline">
                                                 @csrf
                                                 <input type="hidden" value="{{ $user->id }}" name="user_id">
-                                                <input type="hidden" value="{{ $user->email_verified }}"
-                                                    name="email_verified">
+                                                <input type="hidden" value="{{ $user->email_verified }}" name="email_verified">
                                                 @if ($user->email_verified == 1)
                                                     <button type="submit" class="btn btn-sm btn-xs mb-2 me-1 btn-success"
-                                                        title="Enable Email Verif">
+                                                        title="{{ __('Enable Email Verif') }}">
                                                         <i class="ti-email"></i>
                                                     </button>
                                                 @else
                                                     <button type="submit" class="btn btn-sm btn-xs mb-2 me-1 btn-dark"
-                                                        title="Disable Email Verify">
+                                                        title="{{ __('Disable Email Verify') }}">
                                                         <i class="ti-email"></i>
                                                     </button>
                                                 @endif
@@ -83,14 +81,14 @@
                                         @endcan
 
                                         @can('frontend-user-update')
-                                            <a href="#" data-id="{{ $user->id }}"
+                                            <a href="javascript:;" title="{{ __('Edit Data') }}" data-id="{{ $user->id }}"
                                                 data-username="{{ $user->username }}" data-name="{{ $user->name }}"
                                                 data-email="{{ $user->email }}" data-phone="{{ $user->phone }}"
                                                 data-address="{{ $user->address }}" data-state="{{ $user->state }}"
                                                 data-city="{{ $user->city }}" data-zipcode="{{ $user->zipcode }}"
                                                 data-country="{{ $user->country }}" data-bs-toggle="modal"
                                                 data-bs-target="#user_edit_modal"
-                                                class="btn btn-warning btn-sm mb-2 me-1 user_edit_btn">
+                                                class="btn btn-warning btn-sm text-dark mb-2 me-1 user_edit_btn">
                                                 <i class="ti-pencil"></i>
                                             </a>
                                         @endcan
@@ -133,13 +131,11 @@
                             </div>
                             <div class="form-group">
                                 <label for="email">{{ __('Email') }}</label>
-                                <input type="text" class="form-control" id="email" name="email"
-                                    placeholder="{{ __('Email') }}">
+                                <input type="text" class="form-control" id="email" name="email" placeholder="{{ __('Email') }}">
                             </div>
                             <div class="form-group">
                                 <label for="phone">{{ __('Phone') }}</label>
-                                <input type="text" class="form-control" id="phone" name="phone"
-                                    placeholder="{{ __('Phone') }}">
+                                <input type="text" class="form-control" id="phone" name="phone" placeholder="{{ __('Phone') }}">
                             </div>
                             <div class="form-group">
                                 <label for="country">{{ __('Country') }}</label>
@@ -164,7 +160,7 @@
                                     <option value="">{{ __('Select province') }}</option>
                                 </select>
                             </div>
-                            
+
                             <div class="form-group">
                                 <label for="zipcode">{{ __('Postal Code') }}</label>
                                 <input type="text" class="form-control" id="zipcode" name="zipcode"
@@ -177,8 +173,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">{{ __('Close') }}</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
                             <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                         </div>
                     </form>
@@ -221,8 +216,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">{{ __('Close') }}</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
                             <button type="submit" class="btn btn-primary">{{ __('Change Password') }}</button>
                         </div>
                     </form>
@@ -239,24 +233,24 @@
     <x-media.js />
 
     <script>
-        (function($) {
+        (function ($) {
             "use strict";
 
-            $(document).ready(function() {
+            $(document).ready(function () {
                 // Initialize modals
                 var userEditModal = new bootstrap.Modal(document.getElementById('user_edit_modal'));
                 var passwordChangeModal = new bootstrap.Modal(document.getElementById(
                     'user_change_password_modal'));
 
                 // Password change button handler
-                $(document).on('click', '.user_change_password_btn', function(e) {
+                $(document).on('click', '.user_change_password_btn', function (e) {
                     e.preventDefault();
                     var userId = $(this).data('id');
                     $('#user_password_change_modal_form').find('#ch_user_id').val(userId);
                 });
 
                 // User edit button handler
-                $(document).on('click', '.user_edit_btn', function(e) {
+                $(document).on('click', '.user_edit_btn', function (e) {
                     e.preventDefault();
                     var el = $(this);
                     var form = $('#user_edit_modal_form');
@@ -276,14 +270,14 @@
                     form.find('#country').val(countryId).trigger('change');
 
                     // After a delay (to allow states to load), set the state
-                    setTimeout(function() {
+                    setTimeout(function () {
                         var stateId = el.data('state');
                         if (stateId) {
                             form.find('#state_id').val(stateId).trigger('change');
                         }
 
                         // After another delay (to allow cities to load), set the city
-                        setTimeout(function() {
+                        setTimeout(function () {
                             var cityId = el.data('city');
                             if (cityId) {
                                 form.find('#city_id').val(cityId);
@@ -293,7 +287,7 @@
                 });
 
 
-                $(document).on("change", "#country", function() {
+                $(document).on("change", "#country", function () {
                     var countryId = $(this).val();
                     var stateSelect = $("#state_id");
 
@@ -309,7 +303,7 @@
                             country_id: countryId,
                             _token: "{{ csrf_token() }}"
                         },
-                        success: function(response) {
+                        success: function (response) {
                             console.log(response); // For debugging
 
                             // First clear the current options
@@ -328,7 +322,7 @@
                                 // }
                             }
                         },
-                        error: function(xhr) {
+                        error: function (xhr) {
                             console.error(xhr.responseText);
                             stateSelect.html(
                                 '<option value="">{{ __('Error loading states') }}</option>'
@@ -337,7 +331,7 @@
                     });
                 });
 
-                $(document).on("change", "#state_id", function() {
+                $(document).on("change", "#state_id", function () {
                     var stateId = $(this).val();
                     var countryId = $("#country").val();
                     var citySelect = $("#city_id");
@@ -355,7 +349,7 @@
                             state_id: stateId,
                             _token: "{{ csrf_token() }}"
                         },
-                        success: function(response) {
+                        success: function (response) {
                             console.log(response); // For debugging
 
                             // First clear the current options
@@ -374,7 +368,7 @@
                                 // }
                             }
                         },
-                        error: function(xhr) {
+                        error: function (xhr) {
                             console.error(xhr.responseText);
                             citySelect.html(
                                 '<option value="">{{ __('Error loading cities') }}</option>'

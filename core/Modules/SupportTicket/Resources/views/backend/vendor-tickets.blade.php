@@ -1,11 +1,13 @@
 @extends('backend.admin-master')
+
 @section('site-title')
     {{ __('All Tickets') }}
 @endsection
+
 @section('style')
-    <x-datatable.css />
     <x-bulk-action.css />
 @endsection
+
 @section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row">
@@ -22,17 +24,16 @@
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('All Tickets') }}</h4>
                         <div class="dashboard__card__header__right d-flex">
-                            @can("support-tickets-bulk-action")
+                            @can('support-tickets-bulk-action')
                                 <x-bulk-action.dropdown />
                             @endcan
-                            
                         </div>
                     </div>
                     <div class="dashboard__card__body mt-4">
-                        <div class="table-wrap table-responsive">
-                            <table class="table table-default">
+                        <div class="table-responsive">
+                            <table class="table table-default" id="dataTable">
                                 <thead>
-                                    @can("support-tickets-bulk-action")
+                                    @can('support-tickets-bulk-action')
                                         <x-bulk-action.th />
                                     @endcan
                                     <th>{{ __('ID') }}</th>
@@ -46,7 +47,7 @@
                                 <tbody>
                                     @foreach ($all_tickets as $data)
                                         <tr>
-                                            @can("support-tickets-bulk-action")
+                                            @can('support-tickets-bulk-action')
                                                 <x-bulk-action.td :id="$data->id" />
                                             @endcan
                                             <td>#{{ $data->id }}</td>
@@ -55,7 +56,7 @@
                                             <td>
                                                 {{ __('Vendor:') }}
                                                 {{ $data->vendor?->owner_name ?? __('anonymous') }},<br>
-                                                @if($data->vendor?->business_name)
+                                                @if ($data->vendor?->business_name)
                                                     {{ __('Business Name') }} : {{ $data->vendor?->business_name }}
                                                 @endif
                                             </td>
@@ -105,18 +106,17 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                @can('support-tickets-delete')
-                                                    <x-delete-popover :url="route('admin.support.ticket.delete', $data->id)" />
-                                                @endcan
                                                 @can('support-tickets-view')
                                                     <x-view-icon :url="route('admin.support.ticket.view', $data->id)" />
+                                                @endcan
+                                                @can('support-tickets-delete')
+                                                    <x-delete-popover :url="route('admin.support.ticket.delete', $data->id)" />
                                                 @endcan
                                             </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
                             </table>
-                            {!! $all_tickets->links() !!}
                         </div>
                     </div>
                 </div>
@@ -126,10 +126,9 @@
 @endsection
 
 @section('script')
-    @can("support-tickets-bulk-action")
+    @can('support-tickets-bulk-action')
         <x-bulk-action.js :route="route('admin.support.ticket.bulk.action')" />
     @endcan
-
     <script>
         (function() {
             "use strict";
@@ -182,7 +181,6 @@
                     }
                 })
             });
-
 
         })(jQuery);
     </script>

@@ -1,9 +1,10 @@
 @extends('backend.admin-master')
+
 @section('site-title')
     {{ __('Support Department') }}
 @endsection
+
 @section('style')
-    <x-datatable.css />
     <x-bulk-action.css />
 @endsection
 @section('content')
@@ -20,8 +21,8 @@
                         @endcan
                     </div>
                     <div class="dashboard__card__body mt-4">
-                        <div class="table-wrap table-responsive">
-                            <table class="table table-default">
+                        <div class="table-responsive">
+                            <table class="table table-default" id="dataTable">
                                 <thead>
                                     @can('support-tickets-department-bulk-action')
                                         <x-bulk-action.th />
@@ -50,9 +51,9 @@
                                             </td>
                                             <td>
                                                 @can('support-tickets-department-update')
-                                                    <a href="#1" data-bs-toggle="modal"
+                                                    <a href="#1" title="{{ __('Edit Data') }}" data-bs-toggle="modal"
                                                         data-bs-target="#category_edit_modal"
-                                                        class="btn btn-lg btn-primary btn-sm mb-2 me-1 category_edit_btn"
+                                                        class="btn btn-lg btn-warning text-dark btn-sm mb-2 me-1 category_edit_btn"
                                                         data-id="{{ $data->id }}" data-name="{{ $data->name }}"
                                                         data-status="{{ $data->status }}">
                                                         <i class="ti-pencil"></i>
@@ -61,7 +62,7 @@
                                                 @can('support-tickets-department-delete')
                                                     <a tabindex="0" class="btn btn-lg btn-danger btn-sm mb-2 me-1"
                                                         role="button" data-bs-toggle="popover" data-bs-trigger="focus"
-                                                        data-bs-html="true" title=""
+                                                        data-bs-html="true" title="{{ __('Delete Data') }}"
                                                         data-content="<h6>{{ __('Are you sure to delete this category item?') }}</h6><form method='post' action='{{ route('admin.support.ticket.department.delete', $data->id) }}'><input type='hidden' name='_token' value='{{ csrf_token() }}'><br><input type='submit' class='btn btn-danger btn-sm' value='{{ __('Yes, Please') }}'></form>">
                                                         <i class="ti-trash"></i>
                                                     </a>
@@ -86,19 +87,25 @@
                                 enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
-                                    <label for="name">{{ __('Name') }}</label>
+                                    <label for="name">
+                                        {{ __('Name') }}
+                                        <span class="text-danger">*</span>
+                                    </label>
                                     <input type="text" class="form-control" id="name" name="name"
-                                        placeholder="{{ __('Name') }}">
+                                        placeholder="{{ __('Enter name') }}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="status">{{ __('Status') }}</label>
+                                    <label for="status">
+                                        {{ __('Status') }}
+                                        <span class="text-danger">*</span>
+                                    </label>
                                     <select name="status" class="form-control" id="status">
                                         <option value="publish">{{ __('Publish') }}</option>
                                         <option value="draft">{{ __('Draft') }}</option>
                                     </select>
                                 </div>
                                 <div class="btn-wrapper mt-4">
-                                    <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Add New') }}</button>
+                                    <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Add') }}</button>
                                 </div>
                             </form>
                         </div>
@@ -121,12 +128,18 @@
                         <div class="modal-body">
                             @csrf
                             <div class="form-group">
-                                <label for="edit_name">{{ __('Name') }}</label>
+                                <label for="edit_name">
+                                    {{ __('Name') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input type="text" class="form-control" id="edit_name" name="name"
-                                    placeholder="{{ __('Name') }}">
+                                    placeholder="{{ __('Enter name') }}">
                             </div>
                             <div class="form-group">
-                                <label for="edit_status">{{ __('Status') }}</label>
+                                <label for="edit_status">
+                                    {{ __('Status') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <select name="status" class="form-control" id="edit_status">
                                     <option value="draft">{{ __('Draft') }}</option>
                                     <option value="publish">{{ __('Publish') }}</option>
@@ -136,7 +149,7 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"
                                 data-bs-dismiss="modal">{{ __('Close') }}</button>
-                            <button type="submit" class="btn btn-primary">{{ __('Save Change') }}</button>
+                            <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                         </div>
                     </form>
                 </div>
@@ -144,8 +157,8 @@
         </div>
     @endcan
 @endsection
+
 @section('script')
-    <x-datatable.js />
     @can('support-tickets-department-bulk-action')
         <x-bulk-action.js :route="route('admin.support.ticket.department.bulk.action')" />
     @endcan

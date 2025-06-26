@@ -1,9 +1,10 @@
 @extends('backend.admin-master')
+
 @section('style')
     <link rel="stylesheet" href="{{ asset('assets/backend/css/dropzone.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/backend/css/media-uploader.css') }}">
-    {{-- @include('backend.partials.datatable.style-enqueue') --}}
 @endsection
+
 @section('site-title', __('Role list'))
 
 @section('content')
@@ -14,7 +15,6 @@
                     <a data-bs-toggle="modal" data-bs-target="#createNewRoles" href="#1" class="cmn_btn btn_bg_profile"
                         data-text="Create New Role">
                         {{ __('Add New Role') }}
-
                     </a>
                 </div>
             </div>
@@ -43,55 +43,25 @@
                                                 <td> {{ $value->name }} </td>
                                                 <td>
                                                     @if ($value->name != 'Super Admin')
-                                                        <a class="btn btn-secondary btn-sm me-1 user_edit_btn"
+                                                        <a title="{{ __('Permission') }}"
+                                                            class="btn btn-secondary btn-sm me-1 user_edit_btn"
                                                             href="{{ route('admin.roles.permissions', $value->id) }}">
                                                             <i class="ti-lock"></i>
                                                         </a>
-
-                                                        <a class="btn btn-warning btn-sm me-1 edit_role"
+                                                        <a title="{{ __('Edit Data') }}"
+                                                            class="btn btn-warning text-dark btn-sm me-1 edit_role"
                                                             data-id="{{ $value->id }}" data-name="{{ $value->name }}"
                                                             data-bs-toggle="modal" href="#0"
                                                             data-action="{{ route('admin.roles.update', $value->id) }}"
                                                             data-bs-target="#editRoles">
                                                             <i class="ti-pencil"></i> </a>
-
                                                         <x-delete-popover type="role" :url="route('admin.roles.destroy', $value->id)" />
-                                                        {{-- <x-delete-popover type="role"
-                                                                        :url="route(
-                                                                            'admin.roles.destroy',
-                                                                            $value->id,
-                                                                        )" /> --}}
-
-
-
-                                                        {{-- <div class="dropdown custom-dropdown mb-10">
-                                                            <button class="dropdown-toggle" type="button"
-                                                                id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                                                                aria-expanded="false">
-                                                                <i class="las la-ellipsis-h"></i>
-                                                            </button>
-                                                            <ul class="dropdown-menu"
-                                                                aria-labelledby="dropdownMenuButton1">
-                                                                <li>
-                                                                    
-                                                                </li>
-                                                                <li>
-                                                                    
-                                                                </li>
-                                                                <li>
-                                                                    <a class="dropdown-item"
-                                                                        href="{{ route('admin.roles.permissions', $value->id) }}">
-                                                                        <i class="ti-lock"></i> Permissions </a>
-                                                                </li>
-                                                            </ul>
-                                                        </div> --}}
                                                     @else
                                                         --
                                                     @endif
                                                 </td>
                                             </tr>
                                         @endforeach
-
                                     </tbody>
                                 </table>
                             @else
@@ -122,8 +92,7 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">{{ __('Close') }}</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
                         <button type="submit" class="btn btn-primary">{{ __('Add') }}</button>
                     </div>
                 </form>
@@ -148,8 +117,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">{{ __('Close') }}</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
                         <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                     </div>
                 </form>
@@ -161,10 +129,10 @@
 @section('script')
 
     <script>
-        (function($) {
+        (function ($) {
             "use strict";
 
-            $(document).on("click", ".edit_role", function(e) {
+            $(document).on("click", ".edit_role", function (e) {
                 e.preventDefault();
 
                 let modalContainer = $("#editRoles");
@@ -176,7 +144,7 @@
         })(jQuery);
     </script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             // Function to get URL parameter by name
             function getUrlParameter(name) {
                 name = name.replace(/[\[\]]/g, '\\$&');

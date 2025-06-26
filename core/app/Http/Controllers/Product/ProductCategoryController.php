@@ -8,7 +8,6 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Attributes\Http\Requests\StoreCategoryRequest;
 use Modules\Product\Entities\ProductCategory;
-use Modules\Product\Http\Requests\StoreCategoryRequest;
 
 class ProductCategoryController extends Controller
 {
@@ -28,20 +27,13 @@ class ProductCategoryController extends Controller
         return view('backend.products.category.all')->with(['all_category' => $all_category]);
     }
 
-    public function store(StoreCategoryRequest $request): Response
+    public function store(StoreCategoryRequest $request)
     {
         $product_category = ProductCategory::create($request->validated());
 
-        return $product_category->id
-            ? back()->with(FlashMsg::create_succeed(__('Product Category')))
-            : back()->with(FlashMsg::create_failed(__('Product Category')));
+        return $product_category->id ? back()->with(FlashMsg::create_succeed(__('Product Category'))) : back()->with(FlashMsg::create_failed(__('Product Category')));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @return Response
-     */
     public function update(Request $request, ProductCategory $productCategory)
     {
         $request->validate([
@@ -61,12 +53,6 @@ class ProductCategoryController extends Controller
             : back()->with(FlashMsg::update_failed(__('Product Category')));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \Modules\Product\Entities\ProductCategory  $productCategory
-     * @return Response
-     */
     public function destroy(ProductCategory $item)
     {
         return $item->delete();

@@ -1,6 +1,5 @@
 @extends('backend.admin-master')
 @section('style')
-    @include('backend.partials.datatable.style-enqueue')
     <x-media.css />
 @endsection
 @section('site-title')
@@ -31,8 +30,8 @@
                         </div>
                     </div>
                     <div class="dashboard__card__body mt-4">
-                        <div class="table-wrap table-responsive">
-                            <table class="table table-default" id="all_blog_table">
+                        <div class="table-responsive">
+                            <table class="table table-default" id="dataTable">
                                 <thead>
                                     <x-bulk-th />
                                     <th>{{ __('ID') }}</th>
@@ -96,6 +95,4 @@
     @can('blog-bulk-action')
         <x-bulk-action.js :route="route('admin.blog.bulk.action')" />
     @endcan
-
-    @include('backend.partials.datatable.script-enqueue')
 @endsection

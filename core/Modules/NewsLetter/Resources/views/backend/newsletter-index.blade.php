@@ -1,12 +1,14 @@
 @extends('backend.admin-master')
+
 @section('style')
     <x-summernote.css />
     <link rel="stylesheet" href="{{ asset('assets/backend/css/dropzone.css') }}">
-    <x-datatable.css />
 @endsection
+
 @section('site-title')
     {{ __('Newsletter Subscribers') }}
 @endsection
+
 @section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row g-4">
@@ -31,16 +33,17 @@
                                             <option value="">{{ __('Bulk Action') }}</option>
                                             <option value="delete">{{ __('Delete') }}</option>
                                         </select>
-                                        <button class="btn btn-primary btn-sm px-5"
-                                            id="bulk_delete_btn">{{ __('Apply') }}</button>
+                                        <button class="btn btn-primary btn-sm px-5" id="bulk_delete_btn">
+                                            {{ __('Apply') }}
+                                        </button>
                                     </div>
                                 </div>
                             @endcan
                         </div>
                     </div>
                     <div class="dashboard__card__body mt-4">
-                        <div class="table-wrap">
-                            <table class="table table-default data-table-style newsLetterTable">
+                        <div class="table-responsive">
+                            <table class="table" id="dataTable">
                                 <thead>
                                     @can('newsletter-bulk-action')
                                         <th class="no-sort">
@@ -67,8 +70,8 @@
                                             @endcan
                                             <td>{{ $loop->iteration }} </td>
                                             <td>{{ $data->email }} @if ($data->verified > 0)
-                                                    <i class="las la-check-circle text-primary"></i>
-                                                @endif
+                                                <i class="las la-check-circle text-primary"></i>
+                                            @endif
                                             </td>
                                             <td>
                                                 @if ($data->subscribe_status == 0)
@@ -79,19 +82,17 @@
                                             </td>
                                             <td>
                                                 @can('newsletter-newsletter-verify-mail-send')
-                                                    <a class="btn btn-lg btn-dark btn-sm mb-2 me-2 send_mail_modal_btn"
-                                                        href="#1" data-bs-toggle="modal"
-                                                        data-bs-target="#send_mail_to_subscriber_modal"
+                                                    <a class="btn btn-lg btn-success btn-sm mb-2 me-2 send_mail_modal_btn" href="#1"
+                                                        data-bs-toggle="modal" data-bs-target="#send_mail_to_subscriber_modal"
                                                         data-email="{{ $data->email }}" data-id="{{ $data->id }}"
-                                                        title="Send Mail">
+                                                        title="{{ __('Send Mail') }}">
                                                         <i class="ti-email"></i>
                                                     </a>
 
                                                     @if ($data->verified < 1)
-                                                        <form class="mb-2 me-2"
-                                                            style="display: inline;float: left;"
-                                                            action="{{ route('admin.newsletter.verify.mail.send') }}"
-                                                            method="post" enctype="multipart/form-data">
+                                                        <form class="mb-2 me-2" style="display: inline;float: left;"
+                                                            action="{{ route('admin.newsletter.verify.mail.send') }}" method="post"
+                                                            enctype="multipart/form-data">
                                                             @csrf
                                                             <input type="hidden" name="id" value="{{ $data->id }}">
                                                             <button class="btn btn-sm btn-secondary" type="submit"
@@ -131,12 +132,11 @@
                             <div class="form-group">
                                 <label for="email">{{ __('Email') }}</label>
                                 <input type="text" class="form-control" id="email" name="email"
-                                    placeholder="{{ __('Email') }}">
+                                    placeholder="{{ __('Enter email') }}">
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">{{ __('Close') }}</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
                             <button id="submit" type="submit" class="btn btn-primary">{{ __('Add') }}</button>
                         </div>
                     </form>
@@ -160,12 +160,12 @@
                             <div class="d-none form-group">
                                 <label for="email">{{ __('Email') }}</label>
                                 <input type="email" class="form-control" id="email" name="email"
-                                    placeholder="{{ __('Email') }}">
+                                    placeholder="{{ __('Enter email') }}">
                             </div>
                             <div class="form-group">
                                 <label for="edit_icon">{{ __('Subject') }}</label>
                                 <input type="text" class="form-control" id="subject" name="subject"
-                                    placeholder="{{ __('Subject') }}">
+                                    placeholder="{{ __('Enter subject') }}">
                             </div>
                             <div class="form-group">
                                 <label for="message">{{ __('Message') }}</label>
@@ -174,8 +174,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">{{ __('Close') }}</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
                             <button id="submit" type="submit" class="btn btn-primary">{{ __('Send Mail') }}</button>
                         </div>
                     </form>
@@ -185,21 +184,21 @@
     @endcan
     <x-media.markup />
 @endsection
+
 @section('script')
-    <x-datatable.js />
     <script src="{{ asset('assets/backend/js/summernote-bs4.js') }}"></script>
     <script src="{{ asset('assets/backend/js/dropzone.js') }}"></script>
     @can('newsletter-bulk-action')
         <x-bulk-action-js :url="route('admin.newsletter.bulk.action')" />
     @endcan
     <script>
-        (function($) {
+        (function ($) {
             "use strict";
-            $(document).ready(function() {
+            $(document).ready(function () {
                 <
-                x - btn.submit / >
+                    x - btn.submit / >
 
-                    $(document).on('click', '.send_mail_modal_btn', function() {
+                    $(document).on('click', '.send_mail_modal_btn', function () {
                         var el = $(this);
                         var id = el.data('id');
                         var email = el.data('email');
@@ -208,7 +207,7 @@
                         form.find('#newsletter_id').val(id);
                     });
 
-                $(document).on('click', '.swal_delete_button', function(e) {
+                $(document).on('click', '.swal_delete_button', function (e) {
                     e.preventDefault();
                     Swal.fire({
                         title: '{{ __('Are you sure?') }}',
@@ -232,10 +231,10 @@
                         theme: 'monokai'
                     },
                     callbacks: {
-                        onChange: function(contents, $editable) {
+                        onChange: function (contents, $editable) {
                             $(this).prev('input').val(contents);
                         },
-                        onPaste: function(e) {
+                        onPaste: function (e) {
                             let bufferText = ((e.originalEvent || e).clipboardData || window
                                 .clipboardData).getData('text/plain');
                             e.preventDefault();

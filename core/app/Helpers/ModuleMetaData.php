@@ -150,8 +150,7 @@ class ModuleMetaData
             $paymentMeta = $this->getPaymentMetaInfo($metaInfo);
             if (!empty($paymentMeta)) {
                 foreach ($paymentMeta as $key => $meta) {
-                    if (tenant() && property_exists($meta, 'tenant') && !$meta->tenant)
-                    {
+                    if (tenant() && property_exists($meta, 'tenant') && !$meta->tenant) {
                         continue;
                     }
 
@@ -189,11 +188,10 @@ class ModuleMetaData
         }
 
         foreach ($allDirectories as $dire) {
-            //todo scan all the json file
+
             $currFolderName = pathinfo($dire, PATHINFO_BASENAME);
-            try {
-                $metaInformation = $this->getIndividualModuleMetaData($currFolderName);
-            }catch ()
+
+            $metaInformation = $this->getIndividualModuleMetaData($currFolderName);
 
             //did not collect  meta info of the module which is disabled from module_status.json file
             if (!array_key_exists($currFolderName, $modules_status_data)) {
@@ -337,11 +335,11 @@ class ModuleMetaData
     private function addonPath($widgetBuilderAddon)
     {
         $addonNames = "";
-//        foreach ($widgetBuilderAddon as $addon) {
+        //        foreach ($widgetBuilderAddon as $addon) {
         if (file_exists(str_replace('\\', '/', base_path($widgetBuilderAddon)) . '.php')) {
             $addonNames = $widgetBuilderAddon;
         }
-//        }
+        //        }
 
         return $addonNames;
     }
@@ -358,7 +356,7 @@ class ModuleMetaData
         if (!empty($allModuleMeta)) {
             foreach ($allModuleMeta ?? [] as $metaData) {
                 $adminSettings = $this->getAdminSettings($metaData);
-                $adminSettings = is_array($adminSettings) ? (object)$adminSettings : $adminSettings;
+                $adminSettings = is_array($adminSettings) ? (object) $adminSettings : $adminSettings;
 
                 if (tenant() && property_exists($metaData, "show_admin_tenant") && $metaData->show_admin_tenant === false) {
                     continue;
@@ -367,7 +365,7 @@ class ModuleMetaData
                     continue;
                 }
                 $menuItem = $this->getAdminMenuSettings($adminSettings);
-                if (!empty((array)$menuItem)) {
+                if (!empty((array) $menuItem)) {
                     //if it is tenant then load route param as tenant route param
                     if (tenant() && property_exists(current($menuItem), 'tenantRoute')) {
                         current($menuItem)->route = current($menuItem)?->tenantRoute;
@@ -394,10 +392,10 @@ class ModuleMetaData
         if (!empty($allModuleMeta)) {
             foreach ($allModuleMeta ?? [] as $metaData) {
                 $adminSettings = $this->getAdminSettings($metaData);
-                $adminSettings = is_array($adminSettings) ? (object)$adminSettings : $adminSettings;
+                $adminSettings = is_array($adminSettings) ? (object) $adminSettings : $adminSettings;
 
                 $menuItem = $this->getAdminMenuSettings($adminSettings);
-                if (!empty((array)$menuItem)) {
+                if (!empty((array) $menuItem)) {
                     if (property_exists(current($menuItem), "permissions") && !empty(current($menuItem)->permissions)) {
                         continue;
                     }
@@ -423,7 +421,7 @@ class ModuleMetaData
     public function getAdminMenuSettings($adminSettings)
     {
         $menuItem = [];
-        $adminSettings = is_array($adminSettings) ? (object)$adminSettings : $adminSettings;
+        $adminSettings = is_array($adminSettings) ? (object) $adminSettings : $adminSettings;
         if (property_exists($adminSettings, 'menu_item') && !empty($adminSettings->menu_item)) {
             $menuItem = $adminSettings->menu_item;
         }
@@ -493,7 +491,7 @@ class ModuleMetaData
 
                 $menuBuilder = $this->getMenuBuilder($metaData);
                 if (!empty($menuBuilder)) {
-                    $eachMenuItems = is_array($menuBuilder) ? (object)$menuBuilder : $menuBuilder;
+                    $eachMenuItems = is_array($menuBuilder) ? (object) $menuBuilder : $menuBuilder;
                     if (!empty($eachMenuItems) && property_exists($eachMenuItems, 'megaMenu')) {
                         $eachMenuItems = $eachMenuItems->megaMenu;
                         foreach ($eachMenuItems ?? [] as $menuItem) {
@@ -504,8 +502,7 @@ class ModuleMetaData
                                 continue;
                             }
 
-                            if (property_exists($menuItem, "menu") && !empty($menuItem->menu))
-                            {
+                            if (property_exists($menuItem, "menu") && !empty($menuItem->menu)) {
                                 $menuList[] = $menuItem->menu;
                             }
                         }
@@ -652,12 +649,9 @@ class ModuleMetaData
         $allMetaData = $this->getAllMetaData();
 
         $allExternalPlugins = [];
-        foreach ($allMetaData ?? [] as $key => $metaData)
-        {
-            if (property_exists($metaData, 'plugin_type') && !empty($metaData->plugin_type))
-            {
-                if ($metaData->plugin_type == 'external')
-                {
+        foreach ($allMetaData ?? [] as $key => $metaData) {
+            if (property_exists($metaData, 'plugin_type') && !empty($metaData->plugin_type)) {
+                if ($metaData->plugin_type == 'external') {
                     $allExternalPlugins[$key] = $this->getIndividualModuleMetaData($key);
                 }
             }
@@ -671,12 +665,9 @@ class ModuleMetaData
         $externalPlugins = $this->getAllExternalPlugins();
 
         $pluginInfo = [];
-        foreach ($externalPlugins ?? [] as $key => $plugin)
-        {
-            if (!empty($plugin))
-            {
-                if (!property_exists($plugin, 'name') || !property_exists($plugin, 'alias'))
-                {
+        foreach ($externalPlugins ?? [] as $key => $plugin) {
+            if (!empty($plugin)) {
+                if (!property_exists($plugin, 'name') || !property_exists($plugin, 'alias')) {
                     continue;
                 }
 
