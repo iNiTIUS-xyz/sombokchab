@@ -186,7 +186,7 @@
                                         </a>
                                         <a href="javascript:;" data-plugintype="{{ $plugin->category }}"
                                             data-plugin="{{ $plugin->name }}" class="pl-btn pl_delete"
-                                            title="{{ __('Delete data') }}">
+                                            title="{{ __('Delete Data') }}">
                                             <i class="las la-trash-alt"></i>
                                         </a>
                                     </div>

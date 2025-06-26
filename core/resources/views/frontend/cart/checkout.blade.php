@@ -142,9 +142,15 @@
                                         </div>
                                     @endif
                                     <div class="row mt-3" style="flex-wrap: unset !important;">
-                                        @foreach ($all_user_shipping ?? [] as $shipping_address)
-                                            @include('frontend.cart.partials.shipping-address-option')
-                                        @endforeach
+                                        {{-- <h6 class="payment-label fw-500 mb-3">
+                                            {{ __('Select shipping address') }}
+                                        </h6> --}}
+                                        <ul>
+                                            @foreach ($all_user_shipping ?? [] as $shipping_address)
+                                                @include('frontend.cart.partials.shipping-address-option')
+                                            @endforeach
+                                        </ul>
+                                        
                                     </div>
                                     {{-- <div class="flex-start mt-4 user-shipping-address-wrapper d-flex position-relative">
                                         @foreach ($all_user_shipping ?? [] as $shipping_address)
