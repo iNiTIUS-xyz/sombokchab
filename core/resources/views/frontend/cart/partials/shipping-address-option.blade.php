@@ -68,6 +68,8 @@
         min-height: 40px !important;
         text-align: left !important;
         margin: 5px 0px;
+        display: flex;
+        align-items: center;
     }
     .user-shipping-address-item .before-hover span.checkbox {
         height: 20px !important;
