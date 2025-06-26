@@ -58,13 +58,11 @@ class ZoneController extends Controller
     {
         $data = $request->validated();
 
-        $this->deleteAllCountryStatesAndZone($id);
-
         Zone::where("id", $id)->update(["name" => $data["zone_name"]]);
 
         $zone = Zone::where("id", $id)->first();
 
-        $this->insertAllCountryAndStates($request, $zone);
+        $this->editAllCountryAndStates($request, $zone);
 
         return response()->json([
             "success" => true,
@@ -95,26 +93,58 @@ class ZoneController extends Controller
 
     private function insertAllCountryAndStates($data, $zone): bool
     {
-
         $states = [];
 
-        foreach ($data["country"] as $countryInt) {
+        foreach ($data["country"] as $key => $countryInt) {
 
-            $country = ZoneCountry::create([
+            $country = ZoneCountry::firstOrCreate([
                 "zone_id" => $zone->id,
                 "country_id" => $countryInt
             ]);
 
-            foreach ($data["states"][$countryInt] ?? [] as $state) {
-                $states[] = [
+            foreach ($data["states"] ?? [] as $key => $state) {
+                $states[$key] = [
                     "zone_country_id" => $country->id,
                     "state_id" => $state
                 ];
             }
         }
 
-        !empty($states) ? ZoneState::insert($states) : '';
+        !empty($states) ? ZoneState::insert($states) : null;
 
         return true;
     }
+
+    private function editAllCountryAndStates($data, $zone): bool
+    {
+        $states = [];
+
+        $zoneCountry = ZoneCountry::where('zone_id', $zone->id)->get();
+
+        foreach ($zoneCountry as $zoneCou) {
+            ZoneState::where('zone_country_id', $zoneCou->zone_country_id)->delete();
+        }
+
+        ZoneCountry::where('zone_id', $zone->id)->delete();
+
+        foreach ($data["country"] as $key => $countryInt) {
+
+            $country = ZoneCountry::firstOrCreate([
+                "zone_id" => $zone->id,
+                "country_id" => $countryInt
+            ]);
+
+            foreach ($data["states"] ?? [] as $key => $state) {
+                $states[$key] = [
+                    "zone_country_id" => $country->id,
+                    "state_id" => $state
+                ];
+            }
+        }
+
+        !empty($states) ? ZoneState::insert($states) : null;
+
+        return true;
+    }
+
 }

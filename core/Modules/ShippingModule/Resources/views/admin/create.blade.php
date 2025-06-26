@@ -72,6 +72,7 @@
                 (data) => {
                     ajax_toastr_success_message(data)
                     setTimeout(() => {
+                        // window.location.reload();
                         window.location.href = "{{ route('admin.shipping.zone.all') }}";
                     }, 1000);
                 }, (err) => {
@@ -85,9 +86,7 @@
             $(this).parent().parent().parent().append(data);
 
             let row = $("#shipping-zone-create-form tbody tr")[$("#shipping-zone-create-form tbody tr").length - 1];
-            let x = $(row).find('#states_select').attr("data-current-data");
 
-            $(".select2").select2();
         });
 
         $(document).on("click", "#shipping_zone_minus_btn", function () {
@@ -98,8 +97,5 @@
             }
         });
 
-        $(document).ready(function () {
-            $(".select2").select2();
-        })
     </script>
 @endsection

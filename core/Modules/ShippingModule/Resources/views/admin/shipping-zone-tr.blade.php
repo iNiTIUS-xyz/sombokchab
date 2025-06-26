@@ -7,20 +7,19 @@
         <td style="width: 30%">
             <select class="form-control" name="country[]">
                 @foreach($countries as $country)
-                    <option value="{{ $country->id }}" {{ $zoneCountry?->id == $country->id ? "selected" : "" }}>
+                    <option value="{{ $country->id }}">
                         {{ $country->name }}
                     </option>
                 @endforeach
             </select>
         </td>
         <td style="width: 60%">
-            <select class="form-control select2 select-two-{{ $rand }}" name="states[{{ $zoneCountry?->id ?? "" }}][]"
-                id="states_select" multiple>
-                @if(isset($zoneCountry?->states))
-                    @foreach($zoneCountry?->states ?? [] as $state)
-                        <option value="{{ $state->id }}" {{ in_array($state?->id, $zoneCountry->zoneStates->pluck("id")->toArray()) && !empty($zoneCountry) ? "selected" : "" }}>{{ $state->name }}</option>
-                    @endforeach
-                @endif
+            <select class="form-control select-two-{{ $rand }}" name="states[{{ $zoneCountry?->id ?? "" }}]">
+                @foreach ($states as $state)
+                    <option value="{{ $state->id }}" @if($zoneCountry->state_id == $state->id) selected @endif>
+                        {{ $state->name }}
+                    </option>
+                @endforeach
             </select>
         </td>
         <td style="width: 10%">
@@ -44,9 +43,11 @@
             </select>
         </td>
         <td style="width: 60%">
-            <select class="form-control select2 select-two-{{ $rand }}" name="states[][]" multiple id="states_select">
+            <select class="form-control select-two-{{ $rand }}" name="states[]">
                 @foreach ($states as $state)
-                    <option value="{{ $state->id }}">{{ $state->name }}</option>
+                    <option value="{{ $state->id }}">
+                        {{ $state->name }}
+                    </option>
                 @endforeach
             </select>
         </td>

@@ -1,13 +1,13 @@
 @extends('backend.admin-master')
-@section('site-title')
-    {{ __('Shipping Zones') }}
-@endsection
+
 @section('site-title')
     {{ __('Shipping Zones') }}
 @endsection
 
-@section('style')
+@section('site-title')
+    {{ __('Shipping Zones') }}
 @endsection
+
 @section('content')
     <div class="col-lg-12 col-ml-12" id="shipping-zone-wrapper-box">
         <div class="row g-4">
@@ -37,11 +37,22 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($zone->country as $zoneCountry)
+                                        @php
+                                            use Modules\ShippingModule\Entities\ZoneState;
+
+                                            $zoneStates = ZoneState::query()
+                                                ->whereHas('zoneCountry', function ($query) use ($zone) {
+                                                    $query->where('zone_id', $zone->id);
+                                                })
+                                                ->with('zoneCountry')
+                                                ->get();
+
+                                        @endphp
+
+                                        @foreach($zoneStates as $zoneCountry)
                                             @php
                                                 $rand = random_int(9999999, 11111111);
                                             @endphp
-
                                             @include('shippingmodule::admin.shipping-zone-tr')
                                         @endforeach
                                     </tbody>
@@ -109,9 +120,7 @@
             $(this).parent().parent().parent().append(data);
 
             let row = $("#shipping-zone-create-form tbody tr")[$("#shipping-zone-create-form tbody tr").length - 1];
-            let x = $(row).find('#states_select').attr("data-current-data");
 
-            $(".select2").select2();
         });
 
         $(document).on("click", "#shipping_zone_minus_btn", function () {
@@ -122,8 +131,5 @@
             }
         });
 
-        $(document).ready(function () {
-            $(".select2").select2();
-        })
     </script>
 @endsection
