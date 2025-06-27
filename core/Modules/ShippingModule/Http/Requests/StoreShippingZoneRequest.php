@@ -13,7 +13,7 @@ class StoreShippingZoneRequest extends FormRequest
      */
     public function rules(): array
     {
-    
+
         return [
             "zone_name" => "required",
             "country.*" => "required",

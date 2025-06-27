@@ -1,4 +1,5 @@
 @extends('backend.admin-master')
+
 @section('site-title')
     {{ __('Shipping Zones') }}
 @endsection

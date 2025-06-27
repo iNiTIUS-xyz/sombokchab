@@ -1,24 +1,28 @@
+@php
+    $states = DB::table('states')->where('country_id', 31)->get();
+@endphp
+
 @if(isset($zoneCountry))
     <tr>
-        <td>
-            <select class="form-control" name="country[]" id="country_select">
-                <option value="">{{ __("Select a country") }}</option>
+        <td style="width: 30%">
+            <select class="form-control" name="country[]">
                 @foreach($countries as $country)
-                    <option value="{{ $country->id }}" {{ $zoneCountry?->id == $country->id ? "selected" : "" }}>{{ $country->name }}</option>
+                    <option value="{{ $country->id }}">
+                        {{ $country->name }}
+                    </option>
                 @endforeach
             </select>
         </td>
-        <td>
-            <select class="form-control select-two select-two-{{ $rand }}" name="states[{{ $zoneCountry?->id ?? "" }}][]" multiple id="states_select">
-                <option value="">{{ __("Select a country first") }}</option>
-                @if(isset($zoneCountry?->states))
-                    @foreach($zoneCountry?->states ?? [] as $state)
-                        <option value="{{ $state->id }}"  {{ in_array($state?->id, $zoneCountry->zoneStates->pluck("id")->toArray()) && !empty($zoneCountry) ? "selected" : "" }}>{{ $state->name }}</option>
-                    @endforeach
-                @endif
+        <td style="width: 60%">
+            <select class="form-control select-two-{{ $rand }}" name="states[{{ $zoneCountry?->id ?? "" }}]">
+                @foreach ($states as $state)
+                    <option value="{{ $state->id }}" @if($zoneCountry->state_id == $state->id) selected @endif>
+                        {{ $state->name }}
+                    </option>
+                @endforeach
             </select>
         </td>
-        <td>
+        <td style="width: 10%">
             <button type="button" id="shipping_zone_minus_btn" class="btn btn-danger btn-sm">
                 <i class="las la-minus"></i>
             </button>
@@ -29,20 +33,25 @@
     </tr>
 @else
     <tr>
-        <td>
-            <select class="form-control" name="country[]" id="country_select">
-                <option value="">{{ __("Select a country") }}</option>
+        <td style="width: 30%">
+            <select class="form-control" name="country[]">
                 @foreach($countries as $country)
-                    <option value="{{ $country->id }}">{{ $country->name }}</option>
+                    <option value="{{ $country->id }}">
+                        {{ $country->name }}
+                    </option>
                 @endforeach
             </select>
         </td>
-        <td>
-            <select class="form-control select-two select-two-{{ $rand }}" name="states[][]" multiple id="states_select">
-                <option value="">{{ __("Select a country first") }}</option>
+        <td style="width: 60%">
+            <select class="form-control select-two-{{ $rand }}" name="states[]">
+                @foreach ($states as $state)
+                    <option value="{{ $state->id }}">
+                        {{ $state->name }}
+                    </option>
+                @endforeach
             </select>
         </td>
-        <td>
+        <td style="width: 10%">
             <button type="button" id="shipping_zone_minus_btn" class="btn btn-danger btn-sm">
                 <i class="las la-minus"></i>
             </button>
