@@ -22,6 +22,6 @@ class Zone extends Model
 
     public function country(): HasManyThrough
     {
-        return $this->hasManyThrough(Country::class, ZoneCountry::class,"zone_id","id","id", "country_id");
+        return $this->hasManyThrough(Country::class, ZoneCountry::class, "zone_id", "id", "id", "country_id");
     }
 }
