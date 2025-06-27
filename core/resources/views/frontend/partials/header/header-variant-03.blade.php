@@ -634,7 +634,7 @@
         <div class="categoryNav_sidebar">
             <h3 class="categoryNav__title">{{ __('All Categories') }}</h3>
             <div class="categoryNav__inner mt-3">
-                <ul class="categoryNav__list parent_menu menu_visible">
+                {{-- <ul class="categoryNav__list parent_menu menu_visible">
                     <li>
                         <a href="{{ route('frontend.dynamic.page', ['slug' => 'shop']) }}">All Categories</a>
                     </li>
@@ -662,6 +662,51 @@
                                         </li>
                                     @endforeach
                                 </ul>
+                            @endif
+                        </li>
+                    @endforeach
+                </ul> --}}
+                <ul class="categoryNav__list parent_menu menu_visible">
+                    <li>
+                        <a href="{{ route('frontend.dynamic.page', ['slug' => 'shop']) }}">All Categories</a>
+                    </li>
+                    @foreach ($categories as $category)
+                        <li class="nav-item dropdown">
+                            @if ($category->subcategory->count() > 0)
+                                <!-- Separate link for navigation and toggle for submenu -->
+                                <a href="{{ route('frontend.dynamic.page', ['slug' => 'shop', 'id' => $category->id]) }}"
+                                class="nav-link"
+                                data-filter-type="category"
+                                data-filter-value="{{ $category->name }}">
+                                    {{ $category->name }}
+                                </a>
+                                <a href="javascript:void(0)"
+                                class="dropdown-toggle"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#submenu-{{ $category->id }}"
+                                aria-expanded="false">
+                                    <span class="toggle-icon"></span> <!-- Optional: Add an icon for toggle -->
+                                </a>
+                                <ul class="collapse dropdown-menu" id="submenu-{{ $category->id }}">
+                                    @foreach ($category->subcategory as $sub_cat)
+                                        <li>
+                                            <a class="dropdown-item"
+                                            href="{{ route('frontend.dynamic.page', ['slug' => 'shop', 'sub_cat_id' => $sub_cat->id]) }}"
+                                            data-filter-type="sub_category"
+                                            data-filter-value="{{ $sub_cat->name }}">
+                                                {{ $sub_cat->name }}
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            @else
+                                <!-- Direct link for categories without subcategories -->
+                                <a href="{{ route('frontend.dynamic.page', ['slug' => 'shop', 'id' => $category->id]) }}"
+                                class="nav-link"
+                                data-filter-type="category"
+                                data-filter-value="{{ $category->name }}">
+                                    {{ $category->name }}
+                                </a>
                             @endif
                         </li>
                     @endforeach
@@ -916,4 +961,11 @@
         // Optionally navigate to the URL
         window.location.href = url;
     });
+    $(document).ready(function () {
+        $('.categoryNav__list .nav-link').on('click', function (e) {
+            // Allow navigation without triggering collapse
+            window.location.href = $(this).attr('href');
+        });
+    });
+    
 </script>

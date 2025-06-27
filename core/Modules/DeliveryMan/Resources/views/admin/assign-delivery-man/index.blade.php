@@ -16,8 +16,8 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>{{ __('Order') }}</th>
-                                <th>{{ __('Date') }}</th>
+                                <th>{{ __('Order No.') }}</th>
+                                <th>{{ __('Order Date') }}</th>
                                 <th>{{ __('Status') }}</th>
                                 <th>{{ __('Amount') }}</th>
                                 <th>{{ __('Action') }}</th>
@@ -27,7 +27,7 @@
                             @foreach ($all_orders as $order)
                                 <tr class="completed">
                                     <td class="order-numb">
-                                        #{{ $order->id }}
+                                        {{ $order->id }}
                                     </td>
                                     <td class="date">
                                         {{ $order->created_at->format('M j, Y') }}

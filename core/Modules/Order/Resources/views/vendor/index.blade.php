@@ -16,10 +16,10 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>{{ __('Serial No.') }}</th>
-                                <th>{{ __('Tracking Number') }}</th>
+                                <th>{{ __('Order No.') }}</th>
+                                {{-- <th>{{ __('Tracking Number') }}</th> --}}
                                 <th>
-                                    {{ __('Date') }}
+                                    {{ __('Order Date') }}
                                 </th>
                                 <th>
                                     {{ __('Status') }}
@@ -35,9 +35,9 @@
                         <tbody>
                             @foreach ($all_orders as $order)
                                 <tr class="completed">
-                                    <td class="order-numb">
+                                    {{-- <td class="order-numb">
                                         {{ $order->id }}
-                                    </td>
+                                    </td> --}}
                                     <td class="order-numb">
                                         {{ $order->order_number }}
                                     </td>

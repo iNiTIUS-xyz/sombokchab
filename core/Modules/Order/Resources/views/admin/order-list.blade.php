@@ -15,9 +15,9 @@
                     <table class="table" id="dataTable">
                         <thead>
                             <tr>
-                                <th>{{ __('#') }}</th>
-                                <th>{{ __('Tracking Number') }}</th>
-                                <th>{{ __('Date') }}</th>
+                                <th>{{ __('Order No.') }}</th>
+                                {{-- <th>{{ __('Tracking Number') }}</th> --}}
+                                <th>{{ __('Order Date') }}</th>
                                 <th>{{ __('Order Status') }}</th>
                                 <th>{{ __('Payment Status') }}</th>
                                 <th>{{ __('Amount') }}</th>
@@ -27,9 +27,9 @@
                         <tbody>
                             @foreach ($all_orders as $order)
                                 <tr class="completed">
-                                    <td class="order-numb">
-                                        #{{ $order->id }}
-                                    </td>
+                                    {{-- <td class="order-numb">
+                                        {{ $order->id }}
+                                    </td> --}}
                                     <td class="order-numb">
                                         {{ $order->order_number }}
                                     </td>

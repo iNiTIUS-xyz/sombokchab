@@ -5,11 +5,11 @@
             <th>
                 {{ __('Order No.') }}
             </th>
-            <th>
+            {{-- <th>
                 {{ __('Tracking Number') }}
-            </th>
+            </th> --}}
             <th>
-                {{ __('Date') }}
+                {{ __('Order Date') }}
             </th>
             <th>
                 {{ __('Status') }}
@@ -28,9 +28,9 @@
                     <td class="order-numb">
                         {{ $order->order_number }}
                     </td>
-                    <td class="order-numb">
+                    {{-- <td class="order-numb">
                         {{ $order->tracking_code }}
-                    </td>
+                    </td> --}}
                     <td class="date">
                         {{ $order->created_at->format('M j, Y') }}
                     </td>

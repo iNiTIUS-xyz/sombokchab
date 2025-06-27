@@ -153,14 +153,14 @@
                                             <td data-label="Close" class="text-center">
                                                 <div class="btn-group">
                                                     @if ($wishlist)
-                                                        <a data-label="Move" data-type="tr"
+                                                        <a data-label="Move" title="Add to cart" data-type="tr"
                                                             data-product_hash_id="{{ $cart_item->rowId }}"
                                                             href="#1" class="ff-jost move-cart px-3 btn btn-info">
                                                             <span class="icon-close text-light">
                                                                 <i class="las la-shopping-cart"></i>
                                                             </span>
                                                         </a>
-                                                        <a data-label="Close" data-type="tr"
+                                                        <a data-label="Close" title="Remove" data-type="tr"
                                                             data-product_hash_id="{{ $cart_item->rowId }}"
                                                             href="#1"
                                                             class="ff-jost remove-wishlist px-3 btn btn-danger">
@@ -169,7 +169,7 @@
                                                             </span>
                                                         </a>
                                                     @else
-                                                        <a data-label="Move" data-type="tr"
+                                                        <a data-label="Move" title="Add to save for later" data-type="tr"
                                                             data-product_hash_id="{{ $cart_item->rowId }}"
                                                             href="#1"
                                                             class="ff-jost move-wishlist px-3 btn btn-info">
@@ -177,7 +177,7 @@
                                                                 <i class="lar la-save"></i>
                                                             </span>
                                                         </a>
-                                                        <a data-label="Close" data-type="tr"
+                                                        <a data-label="Close" title="Remove" data-type="tr"
                                                             data-product_hash_id="{{ $cart_item->rowId }}"
                                                             href="#1"
                                                             class="ff-jost remove-cart px-3 btn btn-danger">
