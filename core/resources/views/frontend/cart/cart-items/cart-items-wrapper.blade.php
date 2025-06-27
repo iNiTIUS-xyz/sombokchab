@@ -1,4 +1,4 @@
-<div class="checkout-page-content-wrapper mt-4">
+<div class="checkout-page-content-wrapper mt-4"  style="display: none !important;">
     @foreach ($carts as $key => $vendor)
         <div class="card checkout__card mb-3">
             @php
@@ -98,7 +98,7 @@
             </div>
 
             @if (!empty($c_vendor))
-                <div class="card-footer checkout__card__footer" style="display: none !important;">
+                <div class="card-footer checkout__card__footer">
                     <h6 class="card-title py-2">{{ __('Select delivery option') }}</h6>
                     <input type="hidden" class="shipping_cost" name="shipping_cost[{{ $c_vendor->id }}]" />
                     <ul class="shippingMethod__wrapper shipping-method-wrapper">
@@ -374,7 +374,7 @@
                 <h6 class="checkout__card__title card-title py-2">{{ __('Cost Summary') }}</h6>
                 <input type="hidden" class="shipping_cost" name="shipping_cost[{{ empty($key) ? 'admin' : $c_vendor->id }}]" />
 
-                <div class="shippingMethod__wrapper shipping-method-wrapper d-flex gap-2 justify-content-start">
+                <ul class="shippingMethod__wrapper shipping-method-wrapper">
                     {{-- Commented out vendor shipping methods
                     @if (!empty($c_vendor))
                         @foreach ($c_vendor?->shippingMethod ?? [] as $method)
@@ -407,10 +407,27 @@
                             }
                         @endphp
 
-                        <div data-shipping-cost-id="{{ $method->id }}" data-shipping-cost="{{ $method->cost }}"
+                        <li data-shipping-cost-id="{{ $method->id }}" data-shipping-cost="{{ $method->cost }}"
                              data-shipping-percentage="{{ $shippingTaxClass }}"
-                             class="shippingMethod__wrapper__item checkout-shipping-method align-items-center gap-3 border-1 d-flex justify-content-between py-2 px-4 {{ $method->is_default ? 'active' : '' }}">
-                            <div class="shippingMethod__wrapper__item__left w-90">
+                             class="shippingMethod__wrapper__item checkout-shipping-method align-items-center border-1 py-2 px-4 {{ $method->is_default ? 'active' : '' }}">
+                            
+                            <span class="checkbox">
+                                <span class="inner"></span>
+                            </span>
+
+                            <span class="title">
+                                {{ $method?->title }}
+                            </span>
+                            <span class="zone">
+                                ( {{ __('Zone: ') }} {{ $method?->zone?->name }} )
+                            </span>
+                            <span class="title">
+                                -
+                            </span>
+                            <span class="amount">
+                                  {{ amount_with_currency_symbol(round($method->cost)) }}
+                            </span>
+                             {{-- <div class="shippingMethod__wrapper__item__left w-90">
                                 <b>{{ $method?->title }}</b>
                                 <p>{{ __('Zone: ') }} {{ $method?->zone?->name }}</p>
                             </div>
@@ -418,10 +435,10 @@
                                 <h6 class="shippingMethod__wrapper__item__right__price">
                                     {{ amount_with_currency_symbol(round($method->cost)) }}
                                 </h6>
-                            </div>
-                        </div>
+                            </div> --}}
+                        </li>
                     @endforeach
-                </div>
+                </ul>
 
                 {{-- <hr /> --}}
 
