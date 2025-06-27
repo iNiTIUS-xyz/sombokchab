@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{ asset('assets/frontend/css/payment.css') }}">
     <x-loader.css />
     <style>
-        .user-shipping-address-item.active .btn-outline-primary {
+        .shippingMethod__wrapper__item.active .btn-outline-primary {
             color: #fff !important;
             background-color: #0d6efd;
             border-color: #0d6efd;
@@ -19,14 +19,88 @@
             cursor: pointer;
         }
 
-        .shippingMethod__wrapper {
+        /* .shippingMethod__wrapper {
             display: flex;
             align-items: flex-start;
             gap: 12px;
             flex-wrap: wrap;
+        } */
+
+
+
+        .shippingMethod__wrapper__item {
+            min-height: 45px !important;
+            text-align: left !important;
+            margin: 5px 0px;
+            display: flex;
+            align-items: center;
+            border: 1px solid #ccc;
+            width: 100%;
+            border-radius: 3px;
         }
 
-        /* .shippingMethod__wrapper__item {
+
+        .shippingMethod__wrapper__item span{
+            margin-right: 5px;
+        }
+        .shippingMethod__wrapper__item span.title {
+            color: var(--main-color-one) !important;
+            font-weight: bold;
+        }
+        .shippingMethod__wrapper__item span.checkbox {
+            height: 20px !important;
+            width: 20px !important;
+            background: var(--white);
+            border: 2px solid var(--paragraph-color);
+            border-radius: 50%;
+            position: relative;
+        }
+        .shippingMethod__wrapper__item span.checkbox .inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+        }
+
+        .shippingMethod__wrapper__item span.amount {
+            font-weight: bold;
+        }
+
+
+        /* Hover + Active States */
+        .shippingMethod__wrapper__item.active,
+        .shippingMethod__wrapper__item:hover {
+            color: var(--white) !important;
+            border: 1px solid var(--main-color-one) !important;
+            background: var(--main-color-one) !important;
+        }
+        
+        .shippingMethod__wrapper__item.active span.title,
+        .shippingMethod__wrapper__item:hover span.title {
+            color: var(--main-color-two) !important;
+            font-weight: bold;
+        }
+        .shippingMethod__wrapper__item.active span.other_text,
+        .shippingMethod__wrapper__item:hover span.other_text {
+            color: var(--white) !important;
+        }
+
+        .shippingMethod__wrapper__item.active span.checkbox,
+        .shippingMethod__wrapper__item:hover span.checkbox {
+            border: 2px solid var(--white);
+        }
+
+        .shippingMethod__wrapper__item.active span.checkbox .inner,
+        .shippingMethod__wrapper__item:hover span.checkbox .inner {
+            background: var(--main-color-two) !important;
+            border: 2px solid var(--main-color-one) !important;
+            margin-bottom: 2px;
+        }
+
+
+/* 
+
+
+        .shippingMethod__wrapper__item {
             min-height: 45px !important;
             width: 100%;
             text-align: left !important;
@@ -81,73 +155,6 @@
             margin-top: 8px;
             display: inline-block;
         } */
-        .shippingMethod__wrapper__item {
-            min-height: 45px !important;
-            text-align: left !important;
-            /* margin: 5px 0px; */
-            display: flex;
-            align-items: center;
-            border: 1px solid #ccc;
-            width: 100%;
-            border-radius: 3px;
-        }
-
-
-        .shippingMethod__wrapper__item span{
-            margin-right: 5px;
-        }
-        .shippingMethod__wrapper__item span.title {
-            color: var(--black) !important;
-            font-weight: bold;
-        }
-        .shippingMethod__wrapper__item span.checkbox {
-            height: 20px !important;
-            width: 20px !important;
-            background: var(--white);
-            border: 2px solid var(--paragraph-color);
-            border-radius: 50%;
-            position: relative;
-        }
-        .shippingMethod__wrapper__item span.checkbox .inner {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-        }
-
-        .shippingMethod__wrapper__item span.amount {
-            font-weight: bold;
-        }
-
-
-        /* Hover + Active States */
-        .shippingMethod__wrapper__item.active,
-        .shippingMethod__wrapper__item:hover {
-            color: var(--white) !important;
-            border: 1px solid var(--main-color-one) !important;
-            background: var(--main-color-one) !important;
-        }
-        
-        .shippingMethod__wrapper__item.active span.title,
-        .shippingMethod__wrapper__item:hover span.title {
-            color: var(--main-color-two) !important;
-            font-weight: bold;
-        }
-        .shippingMethod__wrapper__item.active span.other_text,
-        .shippingMethod__wrapper__item:hover span.other_text {
-            color: var(--white) !important;
-        }
-
-        .shippingMethod__wrapper__item.active span.checkbox,
-        .shippingMethod__wrapper__item:hover span.checkbox {
-            border: 2px solid var(--white);
-        }
-
-        .shippingMethod__wrapper__item.active span.checkbox .inner,
-        .shippingMethod__wrapper__item:hover span.checkbox .inner {
-            background: var(--main-color-two) !important;
-            border: 2px solid var(--main-color-one) !important;
-            margin-bottom: 2px;
-        }
     </style>
 @endsection
 
@@ -215,9 +222,7 @@
                                     @endif
                                     
                                     <div class="row mt-3" style="flex-wrap: unset !important;">
-                                        {{-- <h6 class="payment-label fw-500 mb-3">
-                                            {{ __('Select shipping address') }}
-                                        </h6> --}}
+
                                         <ul>
                                             @foreach ($all_user_shipping ?? [] as $shipping_address)
                                                 @include('frontend.cart.partials.shipping-address-option')
@@ -656,7 +661,7 @@
             $('.payment_gateway_passing_clicking_name').val($(this).data('gateway'));
         });
 
-        $(document).on("click", ".user-shipping-address-item", function(e) {
+        $(document).on("click", ".shippingMethod__wrapper__item", function(e) {
             e.preventDefault();
             e.stopPropagation();
 
@@ -755,13 +760,13 @@
             calculateOrderSummary();
 
             // Toggle active class
-            $(".user-shipping-address-item").removeClass("active");
+            $(".shippingMethod__wrapper__item").removeClass("active");
             $this.addClass("active");
         });
 
         $(document).ready(function() {
             // Select default shipping address and auto-fill billing form
-            const defaultAddress = $('.user-shipping-address-item.active');
+            const defaultAddress = $('.shippingMethod__wrapper__item.active');
             if (defaultAddress.length > 0) {
                 defaultAddress.trigger('click'); // Simulate click to populate billing form
             }

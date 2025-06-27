@@ -2325,7 +2325,7 @@ function render_payment_gateway_for_form($cash_on_delivery = false): string
         $display_name = ucwords(str_replace('_', ' ', $gateway->name));
 
         $output .= <<<HTML
-        <label class="gateway_option" for="{$id}" style="width: 100%; display: flex; align-items: center; gap: 8px; border: 1px solid #ccc; border-radius: 5px; padding: 10px; cursor: pointer; min-width: 180px; color: var(--black); font-weight: bold;">
+        <label class="gateway_option" for="{$id}">
             <input type="radio" name="payment_gateway" value="{$gateway->name}" id="{$id}" {$checked} style="margin-right: 6px;">
             <!-- {$image} -->
             <span>{$display_name}</span>

@@ -601,6 +601,14 @@
                                 <ul class="payment-list payment-list-two margin-top-30">
                                     <li>
                                         <span class="payment-list-left list-bold">
+                                            {{ __('Order No.:') }}
+                                        </span>
+                                        <span class="payment-list-right payment-bold">
+                                            {{ ucfirst($payment_details->order_number) }}
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="payment-list-left list-bold">
                                             {{ __('Total Amount:') }}
                                         </span>
                                         <span class="payment-list-right payment-bold">
@@ -642,14 +650,7 @@
                                             {{ ucfirst(str_replace(['-', '_'], ' ', $orderTrack->name)) }}
                                         </span>
                                     </li> --}}
-                                    <li>
-                                        <span class="payment-list-left list-bold">
-                                            {{ __('Order Track ID:') }}
-                                        </span>
-                                        <span class="payment-list-right payment-bold">
-                                            {{ ucfirst($payment_details->order_number) }}
-                                        </span>
-                                    </li>
+                                    
                                     {{-- <li>
                                         <span class="payment-list-left">
                                             {{ __('Transaction ID:') }}

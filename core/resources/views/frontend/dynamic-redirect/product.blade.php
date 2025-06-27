@@ -148,7 +148,7 @@
                         <div class="close-bars">
                             <i class="las la-times"></i>
                         </div>
-                        <div class="single-shop-left border-1">
+                        {{-- <div class="single-shop-left border-1">
                             <div class="shop-left-title open">
                                 <h5 class="title"> {{ __('Category') }} </h5>
                                 <div class="shop-left-list margin-top-15">
@@ -186,7 +186,48 @@
                                     </ul>
                                 </div>
                             </div>
+                        </div> --}}
+
+                        <div class="single-shop-left border-1">
+                            <div class="shop-left-title">
+                                <h5 class="title"> {{ __('Category') }} </h5>
+                                <div class="shop-left-list margin-top-15">
+                                    <ul class="shop-lists active-list">
+                                        @foreach ($all_category as $category)
+                                            <li data-val="{{ $category->name }}" data-type="category"
+                                                class="list @if (!empty($category?->subcategory?->count())) menu-item-has-children @endif @if (request()->id && Modules\Attributes\Entities\Category::find(request()->id)->name === $category->name || (request()->sub_cat_id && Modules\Attributes\Entities\SubCategory::find(request()->sub_cat_id)->category->id == $category->id)) active open @endif">
+                                                <a href="#1"
+                                                data-action="{{ route('frontend.products.category', $category->slug) }}">
+                                                    {{ $category->name }} </a>
+                                                @if (!empty($category->subcategory))
+                                                    <ul class="submenu @if (request()->sub_cat_id && Modules\Attributes\Entities\SubCategory::find(request()->sub_cat_id)->category->id == $category->id) show @endif">
+                                                        @foreach ($category->subcategory as $sub_cat)
+                                                            <li data-val="{{ $sub_cat->name }}" data-type="sub_category"
+                                                                class="list @if ($sub_cat?->childcategory?->count() > 0) menu-item-has-children @endif @if (request()->sub_cat_id && Modules\Attributes\Entities\SubCategory::find(request()->sub_cat_id)->name === $sub_cat->name) active @endif">
+                                                                <a href="#1">{{ $sub_cat->name }}</a>
+                                                                @if (!empty($sub_cat->childcategory))
+                                                                    <ul class="submenu @if (request()->sub_cat_id && Modules\Attributes\Entities\SubCategory::find(request()->sub_cat_id)->name === $sub_cat->name) show @endif" style="display: @if (request()->sub_cat_id && Modules\Attributes\Entities\SubCategory::find(request()->sub_cat_id)->name === $sub_cat->name) block @endif">
+                                                                        @foreach ($sub_cat->childcategory as $child_cat)
+                                                                            <li data-val="{{ $child_cat->name }}"
+                                                                                data-type="child_category" class="list @if (request()->child_category && $child_cat->name === request()->child_category) active @endif">
+                                                                                <a href="#1">
+                                                                                    {{ $child_cat->name ?? '' }}
+                                                                                </a>
+                                                                            </li>
+                                                                        @endforeach
+                                                                    </ul>
+                                                                @endif
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                @endif
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
+
 
                         <div class="single-shop-left border-1 margin-top-40">
                             <div class="shop-left-title open">
@@ -456,6 +497,21 @@
 @section('script')
 @include('frontend.partials.product.product-filter-script')
 <script>
+
+   $(document).ready(function () {
+        // Trigger form submission if category, subcategory, or child category is selected
+        if ($('#category').val() || $('#sub_category').val() || $('#child_category').val()) {
+            submitForm();
+        }
+
+        // Ensure submenu is expanded for active parent category
+        $('.shop-lists .list.active').each(function () {
+            $(this).parents('.submenu').addClass('show');
+            $(this).parents('.shop-left-title').addClass('open');
+        });
+    });
+
+
     $(document).on("submit", "#search_product", function(e) {
         e.preventDefault();
 

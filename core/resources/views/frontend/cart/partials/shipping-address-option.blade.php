@@ -1,75 +1,20 @@
-{{-- <style>
-    .user-shipping-address-item .before-hover{
-        min-height: 100px !important;
-    }
-    .user-shipping-address-item .before-hover p span{
-        height: 20px !important;
-        width: 20px !important;
-        background: var(--white);
-        border: 2px solid var(--paragraph-color);
-        border-radius: 50%;
-    }
-    
-
-    .user-shipping-address-item .before-hover h6 .badge{
-         background: var(--main-color-one) !important;
-    }
-
-    .user-shipping-address-item .before-hover:hover{
-        color: var(--white) !important;
-        border: 1px solid var(--main-color-one) !important;
-        background: var(--main-color-one) !important;
-    }
-    
-    .user-shipping-address-item .before-hover:hover h6{
-        color: var(--main-color-two) !important;
-    }
-    .user-shipping-address-item .before-hover:hover p{
-        color: var(--white) !important;
-    }
-
-    .user-shipping-address-item .before-hover:hover p span{
-        background: var(--main-color-two);
-        border: 2px solid var(--white);
-    }
-
-    .user-shipping-address-item .before-hover:hover h6 .badge{
-         background: var(--main-color-two) !important;
-    }
-
-
-    .user-shipping-address-item.active .before-hover{
-        color: var(--white) !important;
-        border: 1px solid var(--main-color-one) !important;
-        background: var(--main-color-one) !important;
-    }
-    
-    .user-shipping-address-item.active .before-hover h6{
-        color: var(--main-color-two) !important;
-    }
-    .user-shipping-address-item.active .before-hover p{
-        color: var(--white) !important;
-    }
-
-    .user-shipping-address-item.active .before-hover h6 .badge{
-        background: var(--white) !important;
-        color: var(--main-color-one) !important;
-    }
-
-    .user-shipping-address-item.active .before-hover p span{
-        background: var(--main-color-two);
-        border: 2px solid var(--white);
-    }
-
-</style> --}}
-
 <style>
     .user-shipping-address-item .before-hover {
-        min-height: 40px !important;
+        min-height: 45px !important;
         text-align: left !important;
         margin: 5px 0px;
         display: flex;
         align-items: center;
+        border: 1px solid #ccc;
+    }
+
+
+    .user-shipping-address-item .before-hover span{
+        margin-right: 5px;
+    }
+    .user-shipping-address-item .before-hover span.title {
+        color: var(--black) !important;
+        font-weight: bold;
     }
     .user-shipping-address-item .before-hover span.checkbox {
         height: 20px !important;
@@ -79,38 +24,63 @@
         border-radius: 50%;
         position: relative;
     }
-
+    .user-shipping-address-item .before-hover span.checkbox .inner {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+    }
     .user-shipping-address-item .before-hover span.badge {
         background: var(--main-color-one) !important;
     }
 
+
+    /* Hover + Active States */
+    .user-shipping-address-item.active .before-hover,
     .user-shipping-address-item .before-hover:hover {
         color: var(--white) !important;
         border: 1px solid var(--main-color-one) !important;
         background: var(--main-color-one) !important;
     }
     
+    .user-shipping-address-item.active .before-hover span.title,
     .user-shipping-address-item .before-hover:hover span.title {
         color: var(--main-color-two) !important;
         font-weight: bold;
     }
+    .user-shipping-address-item.active .before-hover span.other_text,
     .user-shipping-address-item .before-hover:hover span.other_text {
         color: var(--white) !important;
     }
 
-    .user-shipping-address-item .before-hover:hover span.checkbox {
+    /* .user-shipping-address-item .before-hover:hover span.checkbox {
         background: var(--main-color-two);
+        border: 2px solid var(--white);
+    } */
+
+    .user-shipping-address-item.active .before-hover span.checkbox,
+    .user-shipping-address-item .before-hover:hover span.checkbox {
         border: 2px solid var(--white);
     }
 
+    .user-shipping-address-item.active .before-hover span.checkbox .inner,
+    .user-shipping-address-item .before-hover:hover span.checkbox .inner {
+        background: var(--main-color-two) !important; /* Yellow circle */
+        border: 2px solid var(--main-color-one) !important; /* White border */
+        margin-bottom: 2px;
+    }
+
+    .user-shipping-address-item.active .before-hover span.badge,
     .user-shipping-address-item .before-hover:hover span.badge {
         background: var(--main-color-two) !important;
+        color: var(--black) !important;
     }
+
+/* 
 
     .user-shipping-address-item.active .before-hover {
         color: var(--white) !important;
-        border: 1px solid var(--main-color-one) !important; /* Dark green border */
-        background: var(--main-color-one) !important; /* Dark green background */
+        border: 1px solid var(--main-color-one) !important;
+        background: var(--main-color-one) !important;
     }
     
     .user-shipping-address-item.active .before-hover span.title {
@@ -122,34 +92,26 @@
 
     .user-shipping-address-item.active .before-hover span.badge {
         background: var(--white) !important;
-        color: var(--main-color-one) !important; /* Match the green background */
+        color: var(--main-color-one) !important;
     }
 
     .user-shipping-address-item.active .before-hover span.checkbox {
-        background: var(--main-color-two) !important; /* Yellow circle */
-        border: 2px solid var(--white) !important; /* White border */
-        position: relative;
+        border: 2px solid var(--white);
     }
 
-    .user-shipping-address-item.active .before-hover span.checkbox::after {
-        content: '';
-        width: 12px;
-        height: 12px;
-        background: var(--main-color-two); /* Yellow fill */
-        border-radius: 50%;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
+    .user-shipping-address-item.active .before-hover span.checkbox .inner {
+        background: var(--main-color-two) !important; 
+        border: 2px solid var(--main-color-one) !important; 
+        margin-bottom: 2px;
+    } */
+
 </style>
 
 @php
     $isDefault = $shipping_address->is_default ?? false;
 @endphp
 
-<li class="">
-    <div class="user-shipping-address-item @if ($isDefault) active @endif" data-name="{{ $shipping_address->name }}"
+    <li class="user-shipping-address-item @if ($isDefault) active @endif" data-name="{{ $shipping_address->name }}"
         data-email="{{ $shipping_address->email }}" data-address="{{ $shipping_address->address }}"
         data-country="{{ $shipping_address->country_id }}" data-state="{{ $shipping_address->state_id }}"
         data-city="{{ $shipping_address->city }}" data-phone="{{ $shipping_address->phone }}"
@@ -159,13 +121,15 @@
         data-country-tax="{{ json_encode($shipping_address?->country_taxs?->toArray() ?? []) }}"
         data-state-tax="{{ json_encode($shipping_address?->state_taxs?->toArray() ?? []) }}">
         <div class="before-hover btn btn-outline-secondary" style="margin-right: 10px; width: 100%;">
-            <span class="checkbox"></span>
+            <span class="checkbox">
+                <span class="inner"></span>
+            </span>
 
             <span class="title">
                 {{ $shipping_address->shipping_address_name ?? $shipping_address->name }}
                 
             </span>
-            <span class="other_text">( {{ $shipping_address->address }}</span>; 
+            <span class="other_text">( {{ $shipping_address->address }};</span> 
             <span class="other_text">{{ $shipping_address->phone }} )</span>  
             
             @if ($isDefault)
@@ -184,8 +148,8 @@
             <p>{{ __('Mobile') }}: <b>{{ $shipping_address->phone }}</b></p>
             <p>{{ __('Zip Code') }}: <b>{{ $shipping_address->zip_code }}</b></p>
         </div>
-    </div>
-</li>
+    </li>
+
 
 
 

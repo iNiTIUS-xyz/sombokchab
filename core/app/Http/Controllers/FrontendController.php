@@ -62,6 +62,7 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Throwable;
 use Intervention\Image\Facades\Image;
+use Modules\Attributes\Entities\SubCategory;
 use Modules\TaxModule\Entities\StateTax;
 
 ini_set('max_execution_time', 300);
@@ -1301,7 +1302,7 @@ class FrontendController extends Controller
     private function fallbackProductPage($page_post = null, $vendor = null)
     {
         $page_name = $page_post->name ?? 'Product';
-        $display_item_count = request()->get('count') ?? 15;
+        $display_item_count = request()->get('count') ?? get_static_option('default_item_count', 16);
         $all_category = Category::where('status_id', '1')->with('subcategory', 'subcategory.childcategory')->withCount('product')->get();
         $all_attributes = ProductAttribute::all();
         $all_tags = [];
@@ -1311,7 +1312,6 @@ class FrontendController extends Controller
         $all_brands = Brand::whereHas('product')->get();
 
         $maximum_available_price = Product::query()->max('price');
-
         $min_price = request()->get('pr_min') ?? Product::query()->min('sale_price');
         $max_price = request()->get('pr_max') ?? $maximum_available_price;
 
@@ -1323,18 +1323,18 @@ class FrontendController extends Controller
             $request->vendor_username = $vendor->username;
         }
 
-        if ($request->count ?? true) {
-            $request->count = get_static_option('default_item_count', 16);
+        // Set category or subcategory from query parameters
+        if ($request->id) {
+            $category = Category::find($request->id);
+            $request->category = $category ? $category->name : '';
+        }
+        if ($request->sub_cat_id) {
+            $sub_category = SubCategory::find($request->sub_cat_id);
+            $request->sub_category = $sub_category ? $sub_category->name : '';
         }
 
         $all_products = FrontendProductServices::productSearch($request, 'frontend.ajax');
 
-        // if (count($all_products['items'] ?? []) <= $display_item_count) {
-        //     request()->page = 1;
-        // }
-
-        //  $all_products = FrontendProductServices::productSearch($request, 'frontend.ajax');
-        // For AJAX requests, return JSON response
         if ($request->ajax()) {
             return response()->json([
                 'grid' => view('product::frontend.grid-style-07', ['all_products' => $all_products])->render(),
@@ -1365,6 +1365,73 @@ class FrontendController extends Controller
         ));
     }
 
+    // private function fallbackProductPage($page_post = null, $vendor = null)
+    // {
+    //     $page_name = $page_post->name ?? 'Product';
+    //     $display_item_count = request()->get('count') ?? 15;
+    //     $all_category = Category::where('status_id', '1')->with('subcategory', 'subcategory.childcategory')->withCount('product')->get();
+    //     $all_attributes = ProductAttribute::all();
+    //     $all_tags = [];
+    //     $all_units = Unit::all();
+    //     $all_colors = Color::whereHas('product')->get();
+    //     $all_sizes = Size::whereHas('product')->get();
+    //     $all_brands = Brand::whereHas('product')->get();
+
+    //     $maximum_available_price = Product::query()->max('price');
+
+    //     $min_price = request()->get('pr_min') ?? Product::query()->min('sale_price');
+    //     $max_price = request()->get('pr_max') ?? $maximum_available_price;
+
+    //     $item_style = request()->get('s') ?? 'grid';
+    //     $sort_by = request()->get('sort');
+
+    //     $request = request();
+    //     if (!empty($vendor)) {
+    //         $request->vendor_username = $vendor->username;
+    //     }
+
+    //     if ($request->count ?? true) {
+    //         $request->count = get_static_option('default_item_count', 16);
+    //     }
+
+    //     $all_products = FrontendProductServices::productSearch($request, 'frontend.ajax');
+
+    //     // if (count($all_products['items'] ?? []) <= $display_item_count) {
+    //     //     request()->page = 1;
+    //     // }
+
+    //     //  $all_products = FrontendProductServices::productSearch($request, 'frontend.ajax');
+    //     // For AJAX requests, return JSON response
+    //     if ($request->ajax()) {
+    //         return response()->json([
+    //             'grid' => view('product::frontend.grid-style-07', ['all_products' => $all_products])->render(),
+    //             'list' => view('product::frontend.list-style-02', ['all_products' => $all_products])->render(),
+    //             'showing_items' => __('Showing') . ' ' . $all_products['from'] . '-' . $all_products['to'] . ' ' . __('of') . ' ' . $all_products['total_items'] . ' ' . __('results'),
+    //             'total_page' => $all_products['total_page']
+    //         ]);
+    //     }
+
+    //     return view('frontend.dynamic-redirect.product', compact(
+    //         'all_category',
+    //         'all_attributes',
+    //         'all_tags',
+    //         'all_colors',
+    //         'all_sizes',
+    //         'all_units',
+    //         'all_products',
+    //         'all_brands',
+    //         'min_price',
+    //         'max_price',
+    //         'display_item_count',
+    //         'sort_by',
+    //         'maximum_available_price',
+    //         'item_style',
+    //         'page_post',
+    //         'page_name',
+    //         'vendor'
+    //     ));
+    // }
+
     private function fallbackBlogPage($page_post = null)
     {
         $page_name = $page_post->name ?? 'Blog';
@@ -1380,22 +1447,142 @@ class FrontendController extends Controller
         ]);
     }
 
-    public function search(Request $request)
-    {
-        $all_products = FrontendProductServices::productSearch($request, 'frontend.ajax');
+    // public function search(Request $request)
+    // {
+    //     $all_products = FrontendProductServices::productSearch($request, 'frontend.ajax');
 
-        $selected_search = view('product::frontend.search.selected-search-item')->render();
-        $grid = view('product::frontend.search.grid', compact('all_products'))->render();
-        $list = view('product::frontend.search.list', compact(['all_products']))->render();
-        $paginationList = view('components.search-product-list-pagination', compact('all_products'))->render();
-        $showing_items = ' Showing ' . $all_products['from'] . '-' . $all_products['to'] . ' of ' . $all_products['total_items'] . ' results ';
+    //     $selected_search = view('product::frontend.search.selected-search-item')->render();
+    //     $grid = view('product::frontend.search.grid', compact('all_products'))->render();
+    //     $list = view('product::frontend.search.list', compact(['all_products']))->render();
+    //     $paginationList = view('components.search-product-list-pagination', compact('all_products'))->render();
+    //     $showing_items = ' Showing ' . $all_products['from'] . '-' . $all_products['to'] . ' of ' . $all_products['total_items'] . ' results ';
+
+    //     return [
+    //         'pagination_list' => $paginationList,
+    //         'grid' => $grid,
+    //         'list' => $list,
+    //         'selected_search' => $selected_search,
+    //         'showing_items' => $showing_items,
+    //     ];
+    // }
+
+  public function search($request, $route, $type): array
+    {
+        $query = Product::query();
+
+        // Filter by vendor if provided
+        if ($request->vendor_username) {
+            $query->whereHas('vendor', function ($q) use ($request) {
+                $q->where('username', $request->vendor_username);
+            });
+        }
+
+        // Filter by category
+        if ($request->category) {
+            $query->whereHas('category', function ($q) use ($request) {
+                $q->where('name', $request->category);
+            });
+        }
+
+        // Filter by subcategory
+        if ($request->sub_category) {
+            $query->whereHas('subcategory', function ($q) use ($request) {
+                $q->where('name', $request->sub_category);
+            });
+        }
+
+        // Filter by child category
+        if ($request->child_category) {
+            $query->whereHas('childcategory', function ($q) use ($request) {
+                $q->where('name', $request->child_category);
+            });
+        }
+
+        // Filter by brand
+        if ($request->brand) {
+            $query->whereHas('brand', function ($q) use ($request) {
+                $q->where('name', $request->brand);
+            });
+        }
+
+        // Filter by color
+        if ($request->color) {
+            $query->whereHas('colors', function ($q) use ($request) {
+                $q->where('name', $request->color);
+            });
+        }
+
+        // Filter by size
+        if ($request->size) {
+            $query->whereHas('sizes', function ($q) use ($request) {
+                $q->where('name', $request->size);
+            });
+        }
+
+        // Filter by price range
+        if ($request->min_price && $request->max_price) {
+            $query->whereBetween('sale_price', [$request->min_price, $request->max_price]);
+        }
+
+        // Filter by rating
+        if ($request->rating) {
+            $query->where('average_rating', '>=', $request->rating);
+        }
+
+        // Filter by location
+        if ($request->country) {
+            $query->whereHas('vendor', function ($q) use ($request) {
+                $q->where('country_id', $request->country);
+            });
+        }
+        if ($request->state) {
+            $query->whereHas('vendor', function ($q) use ($request) {
+                $q->where('state_id', $request->state);
+            });
+        }
+        if ($request->city) {
+            $query->whereHas('vendor', function ($q) use ($request) {
+                $q->where('city_id', $request->city);
+            });
+        }
+
+        // Sorting
+        if ($request->order_by) {
+            switch ($request->order_by) {
+                case 'asc':
+                    $query->orderBy('created_at', 'asc');
+                    break;
+                case 'desc':
+                    $query->orderBy('created_at', 'desc');
+                    break;
+                case 'a-z':
+                    $query->orderBy('title', 'asc');
+                    break;
+                case 'z-a':
+                    $query->orderBy('title', 'desc');
+                    break;
+                case 'price_low_to_high':
+                    $query->orderBy('sale_price', 'asc');
+                    break;
+                case 'price_high_to_low':
+                    $query->orderBy('sale_price', 'desc');
+                    break;
+                default:
+                    $query->orderBy('created_at', 'desc');
+                    break;
+            }
+        }
+
+        // Pagination
+        $perPage = $request->count ?? get_static_option('default_item_count', 16);
+        $products = $query->paginate($perPage);
 
         return [
-            'pagination_list' => $paginationList,
-            'grid' => $grid,
-            'list' => $list,
-            'selected_search' => $selected_search,
-            'showing_items' => $showing_items,
+            'items' => $products->items(),
+            'from' => $products->firstItem(),
+            'to' => $products->lastItem(),
+            'total_items' => $products->total(),
+            'total_page' => $products->lastPage(),
         ];
     }
 
