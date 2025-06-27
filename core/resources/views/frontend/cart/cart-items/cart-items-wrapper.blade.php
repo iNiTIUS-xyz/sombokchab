@@ -186,7 +186,7 @@
                             <li data-shipping-cost-id="{{ $method->id }}" data-shipping-cost="{{ $method->cost }}"
                                 data-shipping-percentage="{{ $shippingTaxClass }}"
                                 class="shippingMethod__wrapper__item checkout-shipping-method py-2 px-4 {{ $method->is_default ? 'active' : '' }}">
-                                {{-- <div class="shippingMethod__wrapper__item__left w-90">
+                                <div class="shippingMethod__wrapper__item__left w-90">
                                     <b>
                                         {{ $method?->title }}
                                     </b>
@@ -199,7 +199,7 @@
                                     <h6 class="shippingMethod__wrapper__item__right__price">
                                         {{ amount_with_currency_symbol(round($method->cost)) }}
                                     </h6>
-                                </div> --}}
+                                </div>
                                 <span class="checkbox">
                                     <span class="inner"></span>
                                 </span>
@@ -220,7 +220,6 @@
                         @endforeach
                     </ul>
 
-                    {{-- <hr /> --}}
 
                     <div class="checkout__card__footer__estimate d-flex justify-content-end" style="display: none !important;">
                         <div class="checkout__card__footer__estimate__main">
