@@ -1,4 +1,4 @@
-{{-- <div class="checkout-page-content-wrapper mt-4">
+<div class="checkout-page-content-wrapper mt-4">
     @foreach ($carts as $key => $vendor)
         <div class="card checkout__card mb-3">
             @php
@@ -98,7 +98,7 @@
             </div>
 
             @if (!empty($c_vendor))
-                <div class="card-footer checkout__card__footer">
+                <div class="card-footer checkout__card__footer" style="display: none !important;">
                     <h6 class="card-title py-2">{{ __('Select delivery option') }}</h6>
                     <input type="hidden" class="shipping_cost" name="shipping_cost[{{ $c_vendor->id }}]" />
                     <ul class="shippingMethod__wrapper shipping-method-wrapper">
@@ -268,7 +268,7 @@
             @endif
         </div>
     @endforeach
-</div> --}}
+</div>
 <div class="checkout-page-content-wrapper mt-4">
     @foreach ($carts as $key => $vendor)
         <div class="card checkout__card mb-3">
