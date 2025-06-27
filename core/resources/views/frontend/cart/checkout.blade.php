@@ -85,8 +85,8 @@
             min-height: 45px !important;
             text-align: left !important;
             /* margin: 5px 0px; */
-            display: flex;
-            align-items: center;
+            display: flex !important;
+            align-items: center !important;
             border: 1px solid #ccc;
             width: 100%;
             border-radius: 3px;
