@@ -14,27 +14,16 @@ use Modules\Order\Entities\Order;
 
 class InvoiceController extends Controller
 {
-    /**
-     * @throws BindingResolutionException
-     * @throws Exception
-     */
     public function generateInvoice($orderId)
     {
         return $this->invoiceMethod($orderId);
     }
 
-    /**
-     * @throws BindingResolutionException
-     */
     public function downloadInvoice($orderId)
     {
         return $this->invoiceMethod($orderId, 'download');
     }
 
-    /**
-     * @throws BindingResolutionException
-     * @throws Exception
-     */
     private function invoiceMethod($orderId, $type = 'stream')
     {
         $order = Order::with(['SubOrders', 'orderItems', 'orderItems.product', 'orderItems.variant', 'orderItems.variant.productColor', 'orderItems.variant.productSize', 'paymentMeta', 'address', 'address.country', 'address.state'])
@@ -42,8 +31,8 @@ class InvoiceController extends Controller
             ->where('id', $orderId)->firstOrFail();
         $adminShop = AdminShopManage::with('logo', 'cover_photo')->find(1);
 
-        $shopAddress = $adminShop->country?->name.' , '.$adminShop->state?->name.' , '.$adminShop->city.' , '.$adminShop->address;
-        $buyer_address = $order->address?->country?->name.' , '.$order->address?->state?->name.' , '.$order->address?->city.' , '.$order->address?->address;
+        $shopAddress = $adminShop->country?->name . ' , ' . $adminShop->state?->name . ' , ' . $adminShop->city . ' , ' . $adminShop->address;
+        $buyer_address = $order->address?->country?->name . ' , ' . $order->address?->state?->name . ' , ' . $order->address?->city . ' , ' . $order->address?->address;
 
         $client = new Party([
             'name' => $adminShop->store_name,
@@ -86,16 +75,16 @@ class InvoiceController extends Controller
             if ($orderItem->variant) {
                 $title .= PHP_EOL;
                 if ($orderItem->variant?->productSize) {
-                    $title .= ' : '.$orderItem->variant?->productSize?->name;
+                    $title .= ' : ' . $orderItem->variant?->productSize?->name;
                 }
 
                 if ($orderItem->variant?->productColor) {
-                    $title .= ' , '.$orderItem->variant?->productColor?->name;
+                    $title .= ' , ' . $orderItem->variant?->productColor?->name;
                 }
 
                 if ($orderItem->variant->attribute) {
                     foreach ($orderItem->variant->attribute as $attribute) {
-                        $title .= ' , '.$attribute->attribute_name.': '.$attribute->attribute_value;
+                        $title .= ' , ' . $attribute->attribute_name . ': ' . $attribute->attribute_value;
                     }
                 }
             }
@@ -129,11 +118,11 @@ class InvoiceController extends Controller
             ->currencyFormat($currencyPosition)
             ->currencyThousandsSeparator(',')
             ->currencyDecimalPoint('.')
-            ->filename($client->name.' '.$customer->name)
+            ->filename($client->name . ' ' . $customer->name)
             ->addItems($items);
 
         if ($taxType == 'Inclusive Tax') {
-            $notes .= '<b>'.__('All product price tax are inclusive').'</b>';
+            $notes .= '<b>' . __('All product price tax are inclusive') . '</b>';
         } else {
             $invoice->taxRate($taxPercentage);
         }
