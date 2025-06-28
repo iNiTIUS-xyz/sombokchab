@@ -702,7 +702,7 @@
                                                                         class="order__item__product__contents checkout-cart-img-contents">
                                                                         <h6 class="order__item__product__name checkout-cart-title">
                                                                             <a href="javascript:;">
-                                                                                {{ Str::words($productInfo->name) }}
+                                                                                {{ Str::limit(Str::words($productInfo->name), 50, '...') }}
                                                                             </a>
                                                                             <p>
                                                                                 {{ $orderItem?->variant?->productColor ? __('Color:') . $orderItem?->variant?->productColor?->name . ' , ' : '' }}

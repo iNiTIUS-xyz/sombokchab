@@ -25,8 +25,7 @@
 
                         <div class="d-flex justify-content-between gap-2">
                             <b>{{ __('This order status') }}</b>
-                            <span
-                                class="badge {{ $subOrders?->order_status === 'order_cancelled' ? 'bg-danger' : 'bg-dark' }}">
+                            <span class="badge {{ $subOrders?->order_status === 'order_cancelled' ? 'bg-danger' : 'bg-dark' }}">
                                 {{ ucfirst(str_replace(['_', '-'], ' ', $subOrders?->order_status)) }}
                             </span>
                         </div>
@@ -211,6 +210,7 @@
                                     @php
                                         $product = $subOrders?->product->find($item->product_id);
                                         $variant = $subOrders?->productVariant->find($item->variant_id);
+                                        $productInfo = DB::table('products')->where('id', $item->product_id)->first();
                                     @endphp
 
                                     <tr>
@@ -219,7 +219,9 @@
                                             <div class="table-image">{!! render_image($product?->image) !!}</div>
                                         </td>
                                         <td>
-                                            <p>{{ $product?->name }}</p>
+                                            <p>
+                                                {{ $productInfo?->name }}
+                                            </p>
                                             @if ($variant)
                                                 <p>
                                                     @if ($variant->productColor)
