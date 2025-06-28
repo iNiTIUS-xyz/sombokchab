@@ -36,11 +36,11 @@
 
 @section('script')
     <script>
-        $(document).ready(function() {
-            $(document).on('click', '.bodyUser_overlay', function() {
+        $(document).ready(function () {
+            $(document).on('click', '.bodyUser_overlay', function () {
                 $('.user-dashboard-wrapper, .bodyUser_overlay').removeClass('show');
             });
-            $(document).on('click', '.mobile_nav', function() {
+            $(document).on('click', '.mobile_nav', function () {
                 $('.user-dashboard-wrapper, .bodyUser_overlay').addClass('show');
             });
         });

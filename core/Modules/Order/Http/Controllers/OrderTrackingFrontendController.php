@@ -15,7 +15,7 @@ class OrderTrackingFrontendController extends Controller
     {
         if ($request->has("order_id") && $request->has("phone")) {
             // Find the order by order_number instead of using orderDetailsMethod
-            $order = Order::where("tracking_code", $request->order_id)->first();
+            $order = Order::where("order_number", $request->order_id)->first();
 
             // Check if order exists and the phone number matches
             // abort_if(!$order || ($order->address?->phone ?? '') !== $request->phone, 403);
