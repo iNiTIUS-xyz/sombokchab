@@ -502,7 +502,8 @@ class UserDashboardController extends Controller
 
     public function orderDetailsPage($item)
     {
-        $payment_details = Order::with('address', 'paymentMeta')
+        $payment_details = Order::query()
+            ->with(['address', 'paymentMeta'])
             ->when(moduleExists("DeliveryMan"), function ($query) {
                 $query->with("deliveryMan");
             })
@@ -516,8 +517,18 @@ class UserDashboardController extends Controller
             ]);
         }
 
-        $orders = SubOrder::with(['order', 'vendor', 'orderItem', 'orderItem.product', 'orderItem.variant', 'orderItem.variant.productColor', 'orderItem.variant.productSize'])
-            ->where('order_id', $payment_details->id)->get();
+        $orders = SubOrder::query()
+            ->with([
+                'order',
+                'vendor',
+                'orderItem',
+                'orderItem.product',
+                'orderItem.variant',
+                'orderItem.variant.productColor',
+                'orderItem.variant.productSize'
+            ])
+            ->where('order_id', $payment_details->id)
+            ->get();
 
         $orderTrack = OrderTrack::where('order_id', $payment_details->id)->orderByDesc('id')->first();
 

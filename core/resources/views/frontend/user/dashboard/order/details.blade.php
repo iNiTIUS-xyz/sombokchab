@@ -1,4 +1,5 @@
 @extends('frontend.frontend-master')
+
 @section('style')
     <style>
         /* End Contract Css */
@@ -381,8 +382,9 @@
     <div class="patment-success-area padding-top-100 padding-bottom-100">
         @if (moduleExists('DeliveryMan'))
             @if (
-                !empty($payment_details->deliveryMan) &&
-                    DeliveryManRating::where('delivery_man_id', $payment_details->deliveryMan?->delivery_man_id)->count() < 1)
+                    !empty($payment_details->deliveryMan) &&
+                    DeliveryManRating::where('delivery_man_id', $payment_details->deliveryMan?->delivery_man_id)->count() < 1
+                )
                 <!-- End Contract area Starts -->
                 <div class="end-contract-area section-bg-2">
                     <div class="container">
@@ -390,16 +392,18 @@
                             <div class="col-lg-8">
                                 <div class="end-contract">
                                     <div class="end-contract-feedback mt-4 padding-bottom-50">
-                                        <h4 class="end-contract-feedback-title">{{ __('Provide Feedback') }}</h4>
+                                        <h4 class="end-contract-feedback-title">
+                                            {{ __('Provide Feedback') }}
+                                        </h4>
                                         <div class="end-contract-feedback-contents mt-4">
                                             <div data-reaction-type="communication" class="end-contract-feedback-single">
                                                 <div class="end-contract-feedback-single-title-flex">
                                                     <h4 class="end-contract-feedback-single-title">
-                                                        {{ __('Rate delivery man service') }} </h4>
+                                                        {{ __('Rate delivery man service') }}
+                                                    </h4>
                                                 </div>
                                                 <div class="end-contract-feedback-single-contents profile-border-top">
-                                                    <form
-                                                        action="{{ route('user.product.order.delivery-man-ratting', $item) }}"
+                                                    <form action="{{ route('user.product.order.delivery-man-ratting', $item) }}"
                                                         method="post">
                                                         @csrf
                                                         <input id="delivery-man-ratting-input" type="hidden" name="ratting"
@@ -408,8 +412,8 @@
                                                         <div class="end-contract-reaction">
                                                             <div class="end-contract-reaction-item reaction-list"
                                                                 data-ratting-number="1">
-                                                                <span
-                                                                    class="end-contract-reaction-item-tooltip">{{ __('Very sad') }}
+                                                                <span class="end-contract-reaction-item-tooltip">
+                                                                    {{ __('Very sad') }}
                                                                 </span>
                                                                 <div class="end-contract-reaction-item-flex">
                                                                     <div class="end-contract-reaction-icon">
@@ -425,8 +429,8 @@
                                                             </div>
                                                             <div class="end-contract-reaction-item reaction-list"
                                                                 data-ratting-number="2">
-                                                                <span
-                                                                    class="end-contract-reaction-item-tooltip">{{ __('Not Good') }}
+                                                                <span class="end-contract-reaction-item-tooltip">
+                                                                    {{ __('Not Good') }}
                                                                 </span>
                                                                 <div class="end-contract-reaction-item-flex">
                                                                     <div class="end-contract-reaction-icon">
@@ -494,8 +498,8 @@
                                                             </div>
                                                             <div class="end-contract-reaction-item reaction-list"
                                                                 data-ratting-number="5">
-                                                                <span
-                                                                    class="end-contract-reaction-item-tooltip">{{ __('Very Happy') }}
+                                                                <span class="end-contract-reaction-item-tooltip">
+                                                                    {{ __('Very Happy') }}
                                                                 </span>
                                                                 <div class="end-contract-reaction-item-flex">
                                                                     <div class="end-contract-reaction-icon">
@@ -545,7 +549,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- End Contract area end -->
             @endif
         @endif
 
@@ -558,7 +561,8 @@
                                 <h4 class="title__two"> {{ __('Payment Details') }} </h4>
                                 <ul class="payment-list margin-top-40">
                                     <li>
-                                        <span class="payment-list-left">{{ __('Payment Gateway:') }}
+                                        <span class="payment-list-left">
+                                            {{ __('Payment Gateway:') }}
 
                                         </span>
                                         <span class="payment-list-right text-capitalize">
@@ -566,7 +570,8 @@
                                         </span>
                                     </li>
                                     <li>
-                                        <span class="payment-list-left">{{ __('Phone Number:') }}
+                                        <span class="payment-list-left">
+                                            {{ __('Phone Number:') }}
                                         </span>
                                         <span class="payment-list-right">
                                             {{ $payment_details->address->phone }}
@@ -650,15 +655,14 @@
                                             {{ ucfirst(str_replace(['-', '_'], ' ', $orderTrack->name)) }}
                                         </span>
                                     </li> --}}
-                                    
                                     {{-- <li>
                                         <span class="payment-list-left">
                                             {{ __('Transaction ID:') }}
                                         </span>
-                                        <span class="payment-list-right">{{ $payment_details->transaction_id }}</span>
+                                        <span class="payment-list-right">
+                                            {{ $payment_details->transaction_id }}</span>
                                     </li> --}}
                                 </ul>
-
                             </div>
                         </div>
                     </div>
@@ -666,7 +670,9 @@
                 @if ($orders->count() > 0)
                     <div class="col-lg-12 padding-top-60">
                         <div class="order__details__single">
-                            <h4 class="title__two">{{ __('Order Details View') }}</h4>
+                            <h4 class="title__two">
+                                {{ __('Order Details View') }}
+                            </h4>
                             <div class="order__details__wrap checkout-page-content-wrapper margin-top-20">
                                 @php
                                     $adminShopManage = \App\AdminShopManage::first();
@@ -679,6 +685,7 @@
                                                 <div class="order__item">
                                                     @foreach ($order?->orderItem as $orderItem)
                                                         @php
+                                                            $productInfo = DB::table('products')->where('id', $orderItem->product_id)->first();
                                                             $prd_image = $orderItem->product?->image;
 
                                                             if (!empty($orderItem->variant?->attr_image)) {
@@ -688,17 +695,14 @@
                                                         <div class="order__item__single">
                                                             <div class="order__item__single__flex">
                                                                 <div class="order__item__product">
-                                                                    <div
-                                                                        class="order__item__product__thumb checkout-cart-thumb">
+                                                                    <div class="order__item__product__thumb checkout-cart-thumb">
                                                                         {!! render_image($prd_image, class: 'w-100') !!}
                                                                     </div>
                                                                     <div
                                                                         class="order__item__product__contents checkout-cart-img-contents">
-                                                                        <h6
-                                                                            class="order__item__product__name checkout-cart-title">
-                                                                            <a href="#1">
-                                                                                {{ Str::words($orderItem->product?->name) }}
-                                                                                {{-- {{$orderItem->product?->name}} --}}
+                                                                        <h6 class="order__item__product__name checkout-cart-title">
+                                                                            <a href="javascript:;">
+                                                                                {{ Str::words($productInfo->name) }}
                                                                             </a>
                                                                             <p>
                                                                                 {{ $orderItem?->variant?->productColor ? __('Color:') . $orderItem?->variant?->productColor?->name . ' , ' : '' }}
@@ -719,20 +723,21 @@
                                                                         @endphp
 
                                                                         <p class="order__item__product__span mt-2">
-                                                                            <span
-                                                                                class="order__item__product__span__left">{{ __('Sold By:') }}
+                                                                            <span class="order__item__product__span__left">
+                                                                                {{ __('Sold By:') }}
                                                                             </span>
-                                                                            <span
-                                                                                class="order__item__product__span__right">{{ $order->vendor?->business_name ?? $adminShopManage?->store_name }}</span>
+                                                                            <span class="order__item__product__span__right">
+                                                                                {{ $order->vendor?->business_name ?? $adminShopManage?->store_name }}
+                                                                            </span>
                                                                         </p>
                                                                     </div>
                                                                 </div>
                                                                 <p class="d-block product-items">
-                                                                    <span>{{ __('QTY:') }}
-
+                                                                    <span>
+                                                                        {{ __('QTY:') }}
                                                                     </span>
-                                                                    <strong
-                                                                        class="color-heading">{{ $orderItem->quantity ?? '0' }}</strong>
+                                                                    <strong class="color-heading">
+                                                                        {{ $orderItem->quantity ?? '0' }}</strong>
                                                                 </p>
                                                                 <div class="d-flex gap-2">
                                                                     <s class="checkout-cart-price">
@@ -743,12 +748,9 @@
                                                                     </strong>
                                                                 </div>
                                                             </div>
-
                                                             @php
-                                                                $subtotal +=
-                                                                    $orderItem->sale_price * $orderItem->quantity;
-                                                                $itemsTotal +=
-                                                                    $orderItem->sale_price * $orderItem->quantity;
+                                                                $subtotal += $orderItem->sale_price * $orderItem->quantity;
+                                                                $itemsTotal += $orderItem->sale_price * $orderItem->quantity;
                                                             @endphp
                                                         </div>
                                                     @endforeach
@@ -756,49 +758,49 @@
                                                 <div class="order__item__footer">
                                                     @if ($order->order_status === 'order_cancelled')
                                                         <h4 class="py-2 text-danger text-center pt-4">
-                                                            {{ __('This order is cancelled by the seller') }}</h4>
+                                                            {{ __('This order is cancelled by the seller') }}
+                                                        </h4>
                                                     @else
                                                         <div class="order__item__estimate">
-                                                            <div
-                                                                class="order__item__estimate__single d-flex justify-content-between">
-                                                                <span>{{ __('Sub Total') }}
-
+                                                            <div class="order__item__estimate__single d-flex justify-content-between">
+                                                                <span>
+                                                                    {{ __('Sub Total') }}
                                                                 </span>
                                                                 <strong id="vendor_subtotal">
                                                                     {{ float_amount_with_currency_symbol($payment_details->paymentMeta?->sub_total) }}
                                                                 </strong>
                                                             </div>
-                                                            <div
-                                                                class="order__item__estimate__single d-flex justify-content-between">
-                                                                <span>{{ __('Discount Amount') }}
-
+                                                            <div class="order__item__estimate__single d-flex justify-content-between">
+                                                                <span>
+                                                                    {{ __('Discount Amount') }}
                                                                 </span>
-                                                                <strong
-                                                                    id="vendor_tax_amount">{{ float_amount_with_currency_symbol($payment_details->paymentMeta?->coupon_amount) }}</strong>
+                                                                <strong id="vendor_tax_amount">
+                                                                    {{ float_amount_with_currency_symbol($payment_details->paymentMeta?->coupon_amount) }}
+                                                                </strong>
                                                             </div>
-                                                            <div
-                                                                class="order__item__estimate__single d-flex justify-content-between">
-                                                                <span>{{ __('Tax Amount') }}
-
+                                                            <div class="order__item__estimate__single d-flex justify-content-between">
+                                                                <span>
+                                                                    {{ __('Tax Amount') }}
                                                                 </span>
-                                                                <strong
-                                                                    id="vendor_tax_amount">{{ float_amount_with_currency_symbol($payment_details->paymentMeta?->tax_amount) }}</strong>
+                                                                <strong id="vendor_tax_amount">
+                                                                    {{ float_amount_with_currency_symbol($payment_details->paymentMeta?->tax_amount) }}
+                                                                </strong>
                                                             </div>
-                                                            <div
-                                                                class="order__item__estimate__single d-flex justify-content-between">
-                                                                <span>{{ __('Cost Summary') }}
-
+                                                            <div class="order__item__estimate__single d-flex justify-content-between">
+                                                                <span>
+                                                                    {{ __('Cost Summary') }}
                                                                 </span>
-                                                                <strong
-                                                                    id="vendor_shipping_cost">{{ float_amount_with_currency_symbol($payment_details->paymentMeta?->shipping_cost) }}</strong>
+                                                                <strong id="vendor_shipping_cost">
+                                                                    {{ float_amount_with_currency_symbol($payment_details->paymentMeta?->shipping_cost) }}
+                                                                </strong>
                                                             </div>
-                                                            <div
-                                                                class="order__item__estimate__single d-flex justify-content-between">
-                                                                <span>{{ __('Total') }}
-
+                                                            <div class="order__item__estimate__single d-flex justify-content-between">
+                                                                <span>
+                                                                    {{ __('Total') }}
                                                                 </span>
-                                                                <strong
-                                                                    id="vendor_total">{{ float_amount_with_currency_symbol($payment_details->paymentMeta?->total_amount) }}</strong>
+                                                                <strong id="vendor_total">
+                                                                    {{ float_amount_with_currency_symbol($payment_details->paymentMeta?->total_amount) }}
+                                                                </strong>
                                                             </div>
                                                         </div>
                                                     @endif
@@ -824,16 +826,16 @@
 
 @section('script')
     <script>
-        $(document).ready(function() {
-            $(document).on('click', '.bodyUser_overlay', function() {
+        $(document).ready(function () {
+            $(document).on('click', '.bodyUser_overlay', function () {
                 $('.user-dashboard-wrapper, .bodyUser_overlay').removeClass('show');
             });
-            $(document).on('click', '.mobile_nav', function() {
+            $(document).on('click', '.mobile_nav', function () {
                 $('.user-dashboard-wrapper, .bodyUser_overlay').addClass('show');
             });
         });
 
-        $(document).on('click', '.reaction-list', function() {
+        $(document).on('click', '.reaction-list', function () {
             $(this).siblings().removeClass("active");
             $(this).addClass("active");
 
@@ -845,7 +847,7 @@
             $('#delivery-man-ratting-input').val($(this).attr("data-ratting-number"));
         });
 
-        $(document).on('click', '.click-skip', function() {
+        $(document).on('click', '.click-skip', function () {
             $(this).parent().parent().find(".reaction-list.active").removeClass("active");
         });
     </script>

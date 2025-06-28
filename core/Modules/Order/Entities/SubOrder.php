@@ -30,40 +30,41 @@ class SubOrder extends Model
 
     public function commission(): HasOne
     {
-        return $this->hasOne(SubOrderCommission::class, "sub_order_id","id");
+        return $this->hasOne(SubOrderCommission::class, "sub_order_id", "id");
     }
 
     public function order(): HasOne
     {
-        return $this->hasOne(Order::class, "id","order_id");
+        return $this->hasOne(Order::class, "id", "order_id");
     }
 
     public function vendor(): HasOne
     {
-        return $this->hasOne(Vendor::class, "id","vendor_id");
+        return $this->hasOne(Vendor::class, "id", "vendor_id");
     }
 
     public function orderTrack(): HasMany
     {
-        return $this->hasMany(OrderTrack::class,"order_id","order_id");
+        return $this->hasMany(OrderTrack::class, "order_id", "order_id");
     }
 
     public function orderItem(): HasMany
     {
-        return $this->hasMany(SubOrderItem::class,"sub_order_id","id");
+        return $this->hasMany(SubOrderItem::class, "sub_order_id", "id");
     }
 
     public function product(): HasManyThrough
     {
-        return $this->hasManyThrough(Product::class, SubOrderItem::class,"sub_order_id","id","id","product_id");
+        return $this->hasManyThrough(Product::class, SubOrderItem::class, "sub_order_id", "id", "id", "product_id");
     }
 
     public function productVariant(): HasManyThrough
     {
-        return $this->hasManyThrough(ProductInventoryDetail::class,SubOrderItem::class, "sub_order_id","id","id","variant_id");
+        return $this->hasManyThrough(ProductInventoryDetail::class, SubOrderItem::class, "sub_order_id", "id", "id", "variant_id");
     }
 
-//    public function isDelivered(){
-//        return
-//    }
+    // public function isDelivered()
+    // {
+    //     return;
+    // }
 }

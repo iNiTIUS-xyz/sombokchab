@@ -105,8 +105,6 @@ class InvoiceController extends Controller
         }
 
         $invoice = Invoice::make('receipt')
-            // ability to include translated invoice status
-            // in case it was paid
             ->status($order->payment_status == 'complete' ? 'paid' : 'unpaid')
             ->sequence($order->invoice_number)
             ->serialNumberFormat('{SEQUENCE}/{SERIES}')
@@ -131,12 +129,9 @@ class InvoiceController extends Controller
             ->logo(get_attachment_image_by_id(get_static_option('site_logo'))['img_url'])
             ->shipping($order->paymentMeta->shipping_cost ?? 0)
             ->discountByPercent($discountPercentage);
-        // You can additionally save generated invoice to configured disk
 
         $link = $invoice->url();
-        // Then email a party with link
 
-        // And return invoice itself to the browser or have a different view
         if ($type == 'stream') {
             return $invoice->stream();
         }

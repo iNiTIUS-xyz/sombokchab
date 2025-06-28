@@ -643,6 +643,7 @@
         </div>
     </div>
 @endsection
+
 @section('script')
     <script
         src="https://maps.googleapis.com/maps/api/js?key={{ get_static_option('map_api_key_client') }}&libraries=drawing,places&v=3.45.8">
