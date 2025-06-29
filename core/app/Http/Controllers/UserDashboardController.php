@@ -2,32 +2,34 @@
 
 namespace App\Http\Controllers;
 
-use Modules\CountryManage\Entities\Country;
-use App\Events\SupportMessage;
-use App\Helpers\FlashMsg;
-use App\Mail\BasicMail;
-use App\Shipping\ShippingAddress;
-use App\Support\SupportTicket;
-use App\Support\SupportTicketMessage;
+use Str;
+use mail;
 use App\User;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
+use App\Mail\BasicMail;
+use App\Helpers\FlashMsg;
 use Illuminate\Http\Request;
+use App\Events\SupportMessage;
+use App\Support\SupportTicket;
+use App\Shipping\ShippingAddress;
+use Modules\Order\Entities\Order;
+use App\Mail\SentSupportTicketMail;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Modules\DeliveryMan\Entities\DeliveryManRating;
-use Modules\Order\Entities\Order;
-use Modules\Order\Entities\OrderTrack;
 use Modules\Order\Entities\SubOrder;
-use Modules\Product\Entities\ProductSellInfo;
-use Modules\Refund\Entities\RefundPreferredOption;
+use App\Support\SupportTicketMessage;
+use Illuminate\Contracts\View\Factory;
+use Modules\Order\Entities\OrderTrack;
 use Modules\Refund\Entities\RefundReason;
 use Modules\Refund\Entities\RefundRequest;
-use Modules\Refund\Http\Requests\HandleUserRefundRequest;
+use Modules\CountryManage\Entities\Country;
+use Modules\Product\Entities\ProductSellInfo;
+use Illuminate\Contracts\Foundation\Application;
 use Modules\Refund\Http\Services\RefundServices;
-use Str;
+use Modules\Refund\Entities\RefundPreferredOption;
+use Modules\DeliveryMan\Entities\DeliveryManRating;
+use Modules\Refund\Http\Requests\HandleUserRefundRequest;
 
 class UserDashboardController extends Controller
 {
@@ -626,6 +628,12 @@ class UserDashboardController extends Controller
 
         // if (isset($request->send_notify_mail) && $request->send_notify_mail == 'on') {
 
+        //     $details = [
+        //         'title' => "You have a new support ticket message. Please check and reply.",
+        //         'url' => ,
+        //     ];
+
+        //     Mail::to($request->email)->send(new SentSupportTicketMail($details));
         // }
 
         return back()->with(FlashMsg::settings_update(__('Message sent successfully.')));
