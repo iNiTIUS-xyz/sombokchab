@@ -308,7 +308,7 @@
                                         @if ($product?->category)
                                             <li class="category-list">
                                                 <strong> {{ __('Category:') }} </strong>
-                                                <a class="list-item"
+                                                <a class="list-item text-success"
                                                     href="{{ route('frontend.products.category', $product?->category?->slug) }}">
                                                     {{ $product?->category?->name }}
                                                 </a>
@@ -317,7 +317,7 @@
                                         @if ($product?->subCategory)
                                             <li class="category-list">
                                                 <strong> {{ __('Sub Category:') }} </strong>
-                                                <a class="list-item"
+                                                <a class="list-item text-success"
                                                     href="{{ route('frontend.products.subcategory', $product?->subCategory?->slug) }}">
                                                     {{ $product?->subCategory?->name }}
                                                 </a>
