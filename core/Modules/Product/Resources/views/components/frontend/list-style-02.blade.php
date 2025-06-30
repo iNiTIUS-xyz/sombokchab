@@ -12,7 +12,7 @@
     $isAllowBuyNow = $isAllowBuyNow ?? false;
 @endphp
 
-<div class="slick-slider-items radius-10 border-1 mt-4">
+<div class="slick-slider-items border-1 mt-4">
     <div class="single-flash-item">
         <div class="flash-flex-item">
             <div class="flash-item-image radius-5">

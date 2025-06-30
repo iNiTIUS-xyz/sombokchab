@@ -44,7 +44,7 @@
     }
 
     .category-searchbar .right-position-button {
-        background: white;
+        background: var(--main-color-one);
         color: white;
         border: none;
         padding: 0 15px;
@@ -53,9 +53,9 @@
         order: 3;
     }
 
-    .category-searchbar .right-position-button i {
+    /* .category-searchbar .right-position-button i {
         margin-top: 16px;
-    }
+    } */
 
     /* Responsive Styles */
     @media (max-width: 768px) {
@@ -314,49 +314,66 @@
                     </div>
                     <div class="col-lg-8 col-md-6">
                         <div class="category-searchbar">
-                            <div class="category-searchbar">
-                                <form action="#" method="GET"
-                                    class="single-searchbar searchbar-suggetions formSubmitAction">
-                                    <div class="input-group">
-                                        <select class="form--control category-select" id="search_category_id">
-                                            <option value="all">All Categories</option>
-                                            @foreach ($categories as $category)
-                                                <option value="{{ $category->id }}">
-                                                    {{ $category->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        <input autocomplete="off" class="form--control radius-5" id="search_form_input"
-                                            type="text" placeholder="{{ 'Search For Products' }}">
+                            <form action="#" method="GET"
+                                class="single-searchbar searchbar-suggetions formSubmitAction">
+                                <div class="input-group">
+                                    <select class="form--control category-select" id="search_category_id">
+                                        <option value="all">All Categories</option>
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}">
+                                                {{ $category->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <input autocomplete="off" class="form--control radius-5" id="search_form_input"
+                                        type="text" placeholder="{{ 'Search For Products' }}">
 
-                                        <span
-                                            class="right-position-button margin-2 radius-5 dismissSearcSection text-danger"
-                                            style="display: none;">
-                                            <i class="las la-times"></i>
-                                        </span>
-                                    </div>
+                                    
 
-                                    <div class="search-suggestions" id="search_suggestions_wrap">
-                                        <div class="search-inner">
-                                            <div class="product-suggestion item-suggestions">
-                                                {{-- <h6 class="item-title text-center">{{ __('Product Suggestions') }}</h6> --}}
-                                                <ul id="search_result_products" class="product-suggestion-list my-4">
-                                                </ul>
-                                                <a href="" class="showMoreProduct"
-                                                    style="text-align: center; display: block; color: var(--main-color-one);">
-                                                    See More
-                                                </a>
-                                            </div>
-                                            <div class="product-suggestion item-suggestions" style="display:none;"
-                                                id="no_product_found_div">
-                                                <h6 class="item-title  text-center">
-                                                    <span class="text-center">{{ __('No Product Found') }}</span>
-                                                </h6>
-                                            </div>
+                                    <span
+                                        class="margin-2 radius-5 dismissSearcSection text-danger"
+                                        style="display: none;">
+                                        <i class="las la-times"></i>
+                                    </span>
+
+                                    <button type="submit" class="right-position-button margin-2 radius-5">
+                                        <i class="las la-search"></i>
+                                    </button> 
+                                </div>
+
+                                <div class="search-suggestions" id="search_suggestions_wrap">
+                                    <div class="search-inner">
+
+                                        <ul class="selected-suggestions-filters list-inline mb-2"></ul>
+
+
+                                        <div class="product-suggestion item-suggestions">
+                                            <ul id="search_result_products" class="product-suggestion-list my-4">
+                                            </ul>
+                                            
+                                        </div>
+                                        <div class="product-suggestion item-suggestions" style="display:none;"
+                                            id="no_product_found_div">
+                                            <h6 class="item-title  text-center">
+                                                <span class="text-center">{{ __('No Product Found') }}</span>
+                                            </h6>
+                                        </div>
+                                        <div class="show-more-products" style="display:none;"
+                                            id="show-more-products">
+                                            <h6 class="item-title text-center">
+                                                <span class="text-center">
+                                                    
+                                                    <a href="" id="showMoreProduct" class="showMoreProduct btn btn-primary"
+                                                        style="border-radius: 30px">
+                                                        See More
+                                                    </a>
+
+                                                </span>
+                                            </h6>
                                         </div>
                                     </div>
-                                </form>
-                            </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                     <div class="col-lg-2 d-none d-lg-block">
@@ -666,51 +683,71 @@
                         </li>
                     @endforeach
                 </ul> --}}
-                <ul class="categoryNav__list parent_menu menu_visible">
-                    <li>
-                        <a href="{{ route('frontend.dynamic.page', ['slug' => 'shop']) }}">All Categories</a>
+               <ul class="categoryNav__list parent_menu menu_visible">
+                    {{-- “All Categories” --}}
+                    <li class="nav-item d-flex align-items-center justify-content-between">
+                        <a 
+                        href="{{ route('frontend.dynamic.page', ['slug'=>'shop']) }}" 
+                        class="nav-link {{ !request('category') ? 'active' : '' }}"
+                        >
+                        {{ __('All Categories') }}
+                        </a>
+                        {{-- no toggle here for “All Categories” --}}
                     </li>
-                    @foreach ($categories as $category)
-                        <li class="nav-item dropdown">
-                            @if ($category->subcategory->count() > 0)
-                                <!-- Separate link for navigation and toggle for submenu -->
-                                <a href="{{ route('frontend.dynamic.page', ['slug' => 'shop', 'id' => $category->id]) }}"
-                                class="nav-link"
-                                data-filter-type="category"
-                                data-filter-value="{{ $category->name }}">
-                                    {{ $category->name }}
+
+                    @foreach($categories as $category)
+                        <li class="nav-item d-flex align-items-center justify-content-between">
+                        {{-- 1) Category‐name link --}}
+                        <a 
+                            href="{{ route('frontend.dynamic.page', [
+                            'slug'     => 'shop',
+                            'category' => $category->name
+                            ]) }}"
+                            class="nav-link {{ request('category') === $category->name ? 'active' : '' }}"
+                        >
+                            {{ $category->name }}
+                        </a>
+
+                        @if($category->subcategory->count())
+                            {{-- 2) Icon‐only toggle link --}}
+                            <a 
+                            href="#submenu-{{ $category->id }}" 
+                            class="toggle-icon"
+                            data-bs-toggle="collapse"
+                            role="button"
+                            aria-expanded="{{ request('category') === $category->name ? 'true' : 'false' }}"
+                            aria-controls="submenu-{{ $category->id }}"
+                            >
+                            <i class="las la-plus"></i>
+                            </a>
+                        @endif
+
+                        {{-- 3) The in-flow submenu (collapsed by default) --}}
+                        @if($category->subcategory->count())
+                            <ul
+                            id="submenu-{{ $category->id }}"
+                            class="collapse submenu-list {{ request('category') === $category->name ? 'show' : '' }}"
+                            >
+                            @foreach($category->subcategory as $sub_cat)
+                                <li class="{{ request('sub_category') === $sub_cat->name ? 'active' : '' }}">
+                                <a 
+                                    href="{{ route('frontend.dynamic.page', [
+                                    'slug'         => 'shop',
+                                    'category'     => $category->name,
+                                    'sub_category' => $sub_cat->name
+                                    ]) }}"
+                                >
+                                    {{ $sub_cat->name }}
                                 </a>
-                                <a href="javascript:void(0)"
-                                class="dropdown-toggle"
-                                data-bs-toggle="collapse"
-                                data-bs-target="#submenu-{{ $category->id }}"
-                                aria-expanded="false">
-                                    <span class="toggle-icon"></span> <!-- Optional: Add an icon for toggle -->
-                                </a>
-                                <ul class="collapse dropdown-menu" id="submenu-{{ $category->id }}">
-                                    @foreach ($category->subcategory as $sub_cat)
-                                        <li>
-                                            <a class="dropdown-item"
-                                            href="{{ route('frontend.dynamic.page', ['slug' => 'shop', 'sub_cat_id' => $sub_cat->id]) }}"
-                                            data-filter-type="sub_category"
-                                            data-filter-value="{{ $sub_cat->name }}">
-                                                {{ $sub_cat->name }}
-                                            </a>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            @else
-                                <!-- Direct link for categories without subcategories -->
-                                <a href="{{ route('frontend.dynamic.page', ['slug' => 'shop', 'id' => $category->id]) }}"
-                                class="nav-link"
-                                data-filter-type="category"
-                                data-filter-value="{{ $category->name }}">
-                                    {{ $category->name }}
-                                </a>
-                            @endif
+                                </li>
+                            @endforeach
+                            </ul>
+                        @endif
                         </li>
                     @endforeach
                 </ul>
+
+
             </div>
         </div>
     </div>

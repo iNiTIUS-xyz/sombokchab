@@ -148,82 +148,45 @@
                         <div class="close-bars">
                             <i class="las la-times"></i>
                         </div>
-                        {{-- <div class="single-shop-left border-1">
+                        <div class="single-shop-left border-1">
                             <div class="shop-left-title open">
                                 <h5 class="title"> {{ __('Category') }} </h5>
                                 <div class="shop-left-list margin-top-15">
-                                    <ul class="shop-lists active-list">
-                                        @foreach ($all_category as $category)
-                                            <li data-val="{{ $category->name }}" data-type="category"
-                                                class="list @if (!empty($category?->subcategory?->count())) menu-item-has-children @endif ">
-                                                <a href="#1"
-                                                    data-action="{{ route('frontend.products.category', $category->slug) }}">
-                                                    {{ $category->name }} </a>
-                                                @if (!empty($category->subcategory))
-                                                    <ul class="submenu">
-                                                        @foreach ($category->subcategory as $sub_cat)
-                                                            <li data-val="{{ $sub_cat->name }}" data-type="sub_category"
-                                                                class="list @if ($sub_cat?->childcategory?->count() > 0) menu-item-has-children @endif">
-                                                                <a href="#1">{{ $sub_cat->name }}</a>
-                                                                @if (!empty($sub_cat->childcategory))
-                                                                    <ul class="submenu">
-                                                                        @foreach ($sub_cat->childcategory as $child_cat)
-                                                                            <li data-val="{{ $child_cat->name }}"
-                                                                                data-type="child_category" class="list">
-                                                                                <a href="#1">
-                                                                                    {{ $child_cat->name ?? '' }}
-                                                                                </a>
-                                                                            </li>
-                                                                        @endforeach
-                                                                    </ul>
-                                                                @endif
-                                                            </li>
-                                                        @endforeach
-                                                    </ul>
-                                                @endif
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            </div>
-                        </div> --}}
+                                    <ul class="shop-lists">
+                                        @foreach($all_category as $category)
+                                            <li 
+                                            data-val="{{ $category->name }}" 
+                                            data-type="category"
+                                            class="
+                                                list
+                                                menu-item-has-children
+                                                {{ request('category') === $category->name ? 'active open' : '' }}
+                                            "
+                                            >
+                                            <a href="javascript:void(0)">
+                                                {{ $category->name }}
+                                            </a>
 
-                        <div class="single-shop-left border-1">
-                            <div class="shop-left-title">
-                                <h5 class="title"> {{ __('Category') }} </h5>
-                                <div class="shop-left-list margin-top-15">
-                                    <ul class="shop-lists active-list">
-                                        @foreach ($all_category as $category)
-                                            <li data-val="{{ $category->name }}" data-type="category"
-                                                class="list @if (!empty($category?->subcategory?->count())) menu-item-has-children @endif @if (request()->id && Modules\Attributes\Entities\Category::find(request()->id)->name === $category->name || (request()->sub_cat_id && Modules\Attributes\Entities\SubCategory::find(request()->sub_cat_id)->category->id == $category->id)) active open @endif">
-                                                <a href="#1"
-                                                data-action="{{ route('frontend.products.category', $category->slug) }}">
-                                                    {{ $category->name }} </a>
-                                                @if (!empty($category->subcategory))
-                                                    <ul class="submenu @if (request()->sub_cat_id && Modules\Attributes\Entities\SubCategory::find(request()->sub_cat_id)->category->id == $category->id) show @endif">
-                                                        @foreach ($category->subcategory as $sub_cat)
-                                                            <li data-val="{{ $sub_cat->name }}" data-type="sub_category"
-                                                                class="list @if ($sub_cat?->childcategory?->count() > 0) menu-item-has-children @endif @if (request()->sub_cat_id && Modules\Attributes\Entities\SubCategory::find(request()->sub_cat_id)->name === $sub_cat->name) active @endif">
-                                                                <a href="#1">{{ $sub_cat->name }}</a>
-                                                                @if (!empty($sub_cat->childcategory))
-                                                                    <ul class="submenu @if (request()->sub_cat_id && Modules\Attributes\Entities\SubCategory::find(request()->sub_cat_id)->name === $sub_cat->name) show @endif" style="display: @if (request()->sub_cat_id && Modules\Attributes\Entities\SubCategory::find(request()->sub_cat_id)->name === $sub_cat->name) block @endif">
-                                                                        @foreach ($sub_cat->childcategory as $child_cat)
-                                                                            <li data-val="{{ $child_cat->name }}"
-                                                                                data-type="child_category" class="list @if (request()->child_category && $child_cat->name === request()->child_category) active @endif">
-                                                                                <a href="#1">
-                                                                                    {{ $child_cat->name ?? '' }}
-                                                                                </a>
-                                                                            </li>
-                                                                        @endforeach
-                                                                    </ul>
-                                                                @endif
-                                                            </li>
-                                                        @endforeach
-                                                    </ul>
-                                                @endif
+                                            <ul 
+                                                class="submenu {{ request('category') === $category->name ? 'show' : 'none' }}" 
+                                                style="display: {{ request('category') === $category->name ? 'block' : 'none' }};"
+                                            >
+                                                @foreach($category->subcategory as $sub_cat)
+                                                <li 
+                                                    data-val="{{ $sub_cat->name }}" 
+                                                    data-type="sub_category"
+                                                    class="list {{ request('sub_category') === $sub_cat->name ? 'active' : '' }}"
+                                                >
+                                                    <a href="javascript:void(0)">
+                                                    {{ $sub_cat->name }}
+                                                    </a>
+                                                </li>
+                                                @endforeach
+                                            </ul>
                                             </li>
                                         @endforeach
                                     </ul>
+
                                 </div>
                             </div>
                         </div>
@@ -431,8 +394,10 @@
                         </div>
                         <div class="col-lg-12">
                             <div class="selectder-filter-contents click-hide-filter mt-4">
+                                <p> {{ __('Filter Terms:') }} </p>
                                 <ul class="selected-flex-list">
-                                    <li> {{ __('Selected Filter:') }} </li>
+                                    
+                                    @include('product::frontend.search.selected-search-item')
                                 </ul>
                             </div>
                         </div>

@@ -1357,13 +1357,41 @@
             @endif
         </script>
         <script>
-            $(".dismissSearcSection").on('click', function() {
-                $("#search_form_input").val('');
-                $(".dismissSearcSection").hide();
-                $("#search_suggestions_wrap").removeClass('show');
+            // $(".dismissSearcSection").on('click', function() {
+            //     $("#search_form_input").val('');
+            //     $(".dismissSearcSection").hide();
+            //     $("#search_suggestions_wrap").removeClass('show');
+            // });
+
+            // on input change
+            $('#search_form_input').on('input', function() {
+                const $dismiss = $('.dismissSearcSection');
+
+                if ($(this).val().length) {
+                    // apply your styles and show it
+                    $dismiss
+                    .css({
+                        position: 'absolute',
+                        right:  '60px',
+                        top:    '15px'
+                    })
+                    .show();
+                } else {
+                    // hide and reset suggestions
+                    $dismiss.hide();
+                    $('#search_suggestions_wrap').removeClass('show');
+                }
             });
+
+            // your existing click handler stays the same
+            $('.dismissSearcSection').on('click', function() {
+                $('#search_form_input').val('');
+                $(this).hide();
+                $('#search_suggestions_wrap').removeClass('show');
+            });
+
         </script>
-        <script>
+        {{-- <script>
             const shopBaseUrl = "{{ route('frontend.dynamic.page', ['slug' => 'shop']) }}";
 
             $(document).ready(function() {
@@ -1388,7 +1416,7 @@
                     let search_result_products = $('#search_result_products');
                     let sppinnerHtml = '<i class="las la-spinner la-spin"></i>';
                     let btnIns = $('#search_form_input').parent().find('button');
-                    let btnOldText = `<i class="las la-search text-light la-2x"></i>`;
+                    let btnOldText = `<i class="las la-search"></i>`;
                     let site_currency_symbol = "{{ site_currency_symbol() }}";
 
                     const routeUrl = `${shopBaseUrl}?keyword=${input_values}&category_id=${search_category_id}`;
@@ -1468,6 +1496,14 @@
                                 $('#no_product_found_div').show();
                             }
 
+                            if (data['products']) {
+                                // either
+                                $('#show-more-products').css('display', 'block');
+                                // or to both restore jQuery’s show logic and force block:
+                                // $('#showMoreProduct').show().css('display', 'block');
+                            }
+
+
                             // disable preloader
                             btnIns.html(btnOldText);
 
@@ -1477,7 +1513,155 @@
                     }
                 }
             });
+        </script> --}}
+
+        <script>
+            $(document).ready(function() {
+                const shopBaseUrl = "{{ route('frontend.dynamic.page', ['slug' => 'shop']) }}";
+
+                // Keyup event for search input
+                $(document).on('keyup', '#search_form_input', function(e) {
+                    handleSearch();
+                });
+
+                // Change event for category select
+                $(document).on('change', '#search_category_id', function() {
+                    if ($('#search_form_input').val().length > 0) {
+                        handleSearch();
+                    }
+                });
+
+                // **TWEAKED**: make the search-icon button navigate to the same URL as “See More”
+                $('#search_form_input').parent().find('button').on('click', function(e) {
+                    e.preventDefault();
+                    const kw       = $('#search_form_input').val().trim();
+                    const catValue = $('#search_category_id').val();
+                    if (!kw) return;
+
+                    // build URL: always include keyword, only include category name if not "all"
+                    let url = `${shopBaseUrl}?keyword=${encodeURIComponent(kw)}`;
+                    if (catValue !== 'all') {
+                        const catName = $('#search_category_id option:selected').text();
+                        url += `&category=${encodeURIComponent(catName)}`;
+                    }
+                    window.location = url;
+                });
+
+                function handleSearch() {
+                    let input_values        = $('#search_form_input').val().trim();
+                    let search_category_id  = $('#search_category_id').val();
+                    let category_id         = $('#search_selected_category').val();
+                    let search_result_category = $('#search_result_categories');
+                    let search_result_products = $('#search_result_products');
+                    let spinnerHtml         = '<i class="las la-spinner la-spin"></i>';
+                    let $btn                = $('#search_form_input').parent().find('button');
+                    let btnOldHtml          = `<i class="las la-search"></i>`;
+                    let site_currency_symbol = "{{ site_currency_symbol() }}";
+
+                    // **TWEAKED**: build routeUrl with category name (omit if "all")
+                    let routeUrl = `${shopBaseUrl}?keyword=${encodeURIComponent(input_values)}`;
+                    if (search_category_id !== 'all') {
+                        const catName = $('#search_category_id option:selected').text();
+                        routeUrl += `&category=${encodeURIComponent(catName)}`;
+                    }
+
+                    if (!input_values.length) {
+                        search_result_category.html('');
+                        search_result_products.html('');
+                        $('#search_suggestions_wrap').hide();
+                    } else {
+                        // enable preloader
+                        $btn.html(spinnerHtml);
+
+                        $.get('{{ route('frontend.products.search') }}', {
+                            name:               input_values,
+                            category:           category_id,
+                            search_category_id: search_category_id
+                        }).then(function(data) {
+                            $(".dismissSearcSection").show();
+                            $('#search_suggestions_wrap').show();
+                            search_result_category.html('');
+
+                            if (data['product_url']) {
+                                $('#search_result_all').attr('href', data['product_url']);
+                            }
+
+                            // update See More link + form action
+                            $('.showMoreProduct').attr('href', routeUrl);
+                            $('.formSubmitAction').attr('action', routeUrl);
+
+                            // categories suggestions (if any)
+                            let fetchedCategory = data['categories'] || [];
+                            if (fetchedCategory.length) {
+                                search_result_category.parent().show();
+                                $('#no_product_found_div').hide();
+                                Object.values(fetchedCategory).forEach(function(category) {
+                                    search_result_category.append(`
+                                    <li class="list">
+                                        <a href="${category.url}" class="item">${category.title}</a>
+                                    </li>`);
+                                });
+                            } else {
+                                $('#search_result_categories').parent().hide();
+                            }
+
+                            // product suggestions
+                            let fetchedProducts = data['products'] || [];
+                            search_result_products.html('');
+                            if (fetchedProducts.length) {
+                                $('#search_result_products').parent().show();
+                                $('#no_product_found_div').hide();
+
+                                let html = '';
+                                fetchedProducts.forEach(function(product) {
+                                    html += `
+                                    <li class="list">
+                                        <a href="${product.url}" class="item">
+                                        <div class="product-image">
+                                            <img src="${product.img_url}" alt="img">
+                                        </div>
+                                        <div class="product-info">
+                                            <div class="product-info-top">
+                                            <h6 class="product-name">${product.title}</h6>
+                                            </div>
+                                            <div class="product-price mt-2">
+                                            <div class="price-update-through">
+                                                <span class="flash-price fw-500">${site_currency_symbol + product.discount_price}</span>
+                                                <span class="flash-old-prices">${site_currency_symbol + product.price}</span>
+                                            </div>
+                                            <span class="${product.stock_count > 0 ? 'stock-in' : 'stock-out'}">
+                                                ${product.stock_count > 0 ? 'In Stock' : 'Stock Out'}
+                                            </span>
+                                            </div>
+                                        </div>
+                                        </a>
+                                    </li>`;
+                                });
+                                $("#search_result_products").html(html);
+
+                                // show See More
+                                $('#no_product_found_div').hide();
+                                $('#show-more-products').css('display', 'block');
+                            } else {
+                                // no matches: hide See More, show “no results”
+                                $('#show-more-products').css('display', 'none');
+                                $('#no_product_found_div').show();
+                            }
+
+                            // restore button icon
+                            $btn.html(btnOldHtml);
+
+                            // keep suggestions area shown
+                            $('#search_suggestions_wrap').addClass("show");
+                        });
+                    }
+                }
+            });
         </script>
+
+
+
+
         <script src="{{ asset('assets/frontend/js/dynamic-script.js') }}"></script>
         </body>
 
