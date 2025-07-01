@@ -100,7 +100,7 @@
             @if (!empty($c_vendor))
                 <div class="card-footer checkout__card__footer">
                     <h6 class="card-title py-2">{{ __('Select delivery option') }}</h6>
-                    <input type="hidden" class="shipping_cost" name="shipping_cost[{{ $c_vendor->id }}]" />
+                    <input type="hidden" class="shipping_cost" name="shipping_cost[{{ $c_vendor?->id }}]" />
                     <ul class="shippingMethod__wrapper shipping-method-wrapper">
                         @foreach ($c_vendor?->shippingMethod ?? [] as $method)
                             @php
@@ -371,7 +371,7 @@
 
             <div class="card-footer checkout__card__footer">
                 <h6 class="checkout__card__title card-title py-2">{{ __('Cost Summary') }}</h6>
-                <input type="hidden" class="shipping_cost" name="shipping_cost[{{ empty($key) ? 'admin' : $c_vendor->id }}]" />
+                <input type="hidden" class="shipping_cost" name="shipping_cost[{{ empty($key) ? 'admin' : $c_vendor?->id }}]" />
 
                 <ul class="shippingMethod__wrapper shipping-method-wrapper">
                     {{-- Commented out vendor shipping methods
