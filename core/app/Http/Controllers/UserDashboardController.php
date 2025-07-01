@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Str;
-use mail;
 use App\User;
 use App\Mail\BasicMail;
 use App\Helpers\FlashMsg;
