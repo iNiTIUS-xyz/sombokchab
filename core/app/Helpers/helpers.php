@@ -567,28 +567,42 @@ function getAllCurrency(): array
     ];
 }
 
+// function site_currency_symbol($text = false)
+// {
+//     // dd(Session::get('currency_symbol'));
+
+//     $all_currency = getAllCurrency();
+
+//     $symbol = Session::get('new_currency_symbol') == 'USD' ? '$' : 'KHR';
+
+
+//     $sapce = get_static_option('add_remove_sapce_between_amount_and_symbol') === 'yes' ? true : false;
+//     return $sapce ? ' ' . $symbol . ' ' : $symbol;
+// }
+
 function site_currency_symbol($text = false)
 {
-    // dd(Session::get('currency_symbol'));
+    $symbol = '$'; // default symbol
 
-    $all_currency = getAllCurrency();
+    // Check if session has the currency symbol
+    if (Session::has('new_currency_symbol')) {
+        $currency = Session::get('new_currency_symbol');
 
-    $symbol = Session::get('new_currency_symbol') == 'USD' ? '$' : 'KHR';
+        if ($currency == 'USD') {
+            $symbol = '$';
+        } elseif ($currency == 'KHR') {
+            $symbol = 'KHR'; // Correct symbol for Cambodian Riel
+        } else {
+            $symbol = $currency; // fallback for other currencies
+        }
+    }
 
-    // $global_currency = get_static_option('site_global_currency');
+    // Space between symbol and amount
+    $space = get_static_option('add_remove_sapce_between_amount_and_symbol') === 'yes' ? true : false;
 
-    // foreach ($all_currency as $currency => $sym) {
-    //     if ($global_currency == $currency) {
-    //         $symbol = $text ? $currency : $sym;
-    //         break;
-    //     }
-    // }
-
-    // dd($symbol, Session::get('new_currency_symbol'), $global_currency);
-
-    $sapce = get_static_option('add_remove_sapce_between_amount_and_symbol') === 'yes' ? true : false;
-    return $sapce ? ' ' . $symbol . ' ' : $symbol;
+    return $space ? ' ' . $symbol . ' ' : $symbol;
 }
+
 
 function amount_with_currency_symbol($amount, $text = false): string
 {
