@@ -72,13 +72,17 @@
                                         @endif
                                     </p>
                                 </h6>
-                                <div class="price-updates mt-2">
-                                    <span class="price-title fs-16 fw-500">
-                                        {{ amount_with_currency_symbol(calculatePrice($cart_item->price, $cart_item?->options)) }}
-                                    </span>
-                                    <del class="del-price fs-16 fw-500 color-heading">
-                                        {{ amount_with_currency_symbol(calculatePrice($cart_item?->options?->regular_price ?? $cart_item->price, $cart_item?->options)) }}
-                                    </del>
+                                <div class="price-updates product__price mt-2">
+                                    <div class="product__price">
+                                        <span class="price-title fs-16 fw-500 product__price__current">
+                                            {{ amount_with_currency_symbol(calculatePrice($cart_item->price, $cart_item?->options)) }}
+                                        </span>
+                                    </div>
+                                    <div class="product__price">
+                                        <del class="del-price fs-16 fw-500 product__price__current color-heading">
+                                            {{ amount_with_currency_symbol(calculatePrice($cart_item?->options?->regular_price ?? $cart_item->price, $cart_item?->options)) }}
+                                        </del>
+                                    </div>
                                 </div>
                             </div>
                         </div>
