@@ -2,68 +2,69 @@
 
 namespace App\Http\Controllers;
 
-use App\Action\CartAction;
-use App\Action\CompareAction;
-use App\Admin;
-use App\Blog;
-use App\BlogCategory;
-use App\ContactInfoItem;
-use App\Exceptions\NotArrayObjectException;
 use App\Faq;
-use App\HeaderSlider;
-use App\Helpers\CartHelper;
-use App\Helpers\CompareHelper;
-use App\Helpers\FlashMsg;
-use App\Helpers\HomePageStaticSettings;
-use App\Helpers\WishlistHelper;
-use App\Http\Services\CartService;
-use App\Language;
-use App\Mail\AdminResetEmail;
-use App\Mail\BasicMail;
-use App\Newsletter;
+use App\Blog;
 use App\Page;
-use App\Shipping\ShippingAddress;
-use App\Shipping\UserShippingAddress;
-use App\StaticOption;
 use App\User;
+use App\Admin;
 use Exception;
-use Gloudemans\Shoppingcart\Facades\Cart;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
+use Throwable;
+use App\Language;
+use App\Newsletter;
+use App\BlogCategory;
+use App\HeaderSlider;
+use App\StaticOption;
+use App\Mail\BasicMail;
+use App\ContactInfoItem;
+use App\Helpers\FlashMsg;
+use App\Action\CartAction;
+use App\Helpers\CartHelper;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
+use App\Action\CompareAction;
+use App\Mail\AdminResetEmail;
+use App\Helpers\CompareHelper;
+use App\Helpers\WishlistHelper;
+use App\Shipping\ShippingAddress;
+use App\Http\Services\CartService;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Contracts\View\View;
+use Modules\Vendor\Entities\Vendor;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
-use Modules\Attributes\Entities\Brand;
-use Modules\Attributes\Entities\Category;
-use Modules\Attributes\Entities\Color;
+use App\Shipping\UserShippingAddress;
+use Illuminate\Support\Facades\Cache;
+use Intervention\Image\Facades\Image;
 use Modules\Attributes\Entities\Size;
 use Modules\Attributes\Entities\Unit;
+use Modules\Product\Entities\Product;
+use Illuminate\Contracts\View\Factory;
+use Modules\Attributes\Entities\Brand;
+use Modules\Attributes\Entities\Color;
+use App\Helpers\HomePageStaticSettings;
+use Illuminate\Support\Facades\Session;
 use Modules\Campaign\Entities\Campaign;
 use Modules\CountryManage\Entities\City;
-use Modules\CountryManage\Entities\Country;
+use Modules\TaxModule\Entities\StateTax;
+use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Support\Facades\Validator;
+use Modules\Attributes\Entities\Category;
 use Modules\CountryManage\Entities\State;
-use Modules\Product\Entities\Product;
+use Modules\TaxModule\Entities\CountryTax;
+use App\Exceptions\NotArrayObjectException;
+use Modules\CountryManage\Entities\Country;
+use Modules\Attributes\Entities\SubCategory;
+use Psr\Container\NotFoundExceptionInterface;
 use Modules\Product\Entities\ProductAttribute;
+use Modules\TaxModule\Entities\TaxClassOption;
+use Psr\Container\ContainerExceptionInterface;
+use Illuminate\Contracts\Foundation\Application;
 use Modules\Product\Entities\ProductSubCategory;
+use Modules\TaxModule\Services\CalculateTaxServices;
 use Modules\Product\Services\FrontendProductServices;
 use Modules\ShippingModule\Http\ShippingZoneServices;
-use Modules\TaxModule\Entities\CountryTax;
-use Modules\TaxModule\Entities\TaxClassOption;
 use Modules\TaxModule\Services\CalculateTaxBasedOnCustomerAddress;
-use Modules\TaxModule\Services\CalculateTaxServices;
-use Modules\Vendor\Entities\Vendor;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
-use Throwable;
-use Intervention\Image\Facades\Image;
-use Modules\Attributes\Entities\SubCategory;
-use Modules\TaxModule\Entities\StateTax;
 
 ini_set('max_execution_time', 300);
 
@@ -1040,7 +1041,7 @@ class FrontendController extends Controller
 
         return view('frontend.wishlist.all', compact('all_wishlist_items', 'products'));
     }
-    
+
     public function productsComparePage()
     {
         $all_compare_items = CompareHelper::getItems();
@@ -1328,7 +1329,7 @@ class FrontendController extends Controller
             $request->count = get_static_option('default_item_count', 16);
         }
 
-         // turn ?id=12 into ?category=Shoes
+        // turn ?id=12 into ?category=Shoes
         if ($request->filled('id')) {
             if ($cat = \Modules\Attributes\Entities\Category::find($request->id)) {
                 $request->merge(['category' => $cat->name]);
@@ -1574,4 +1575,11 @@ class FrontendController extends Controller
         }
         return $dist;
     }
+
+    public function changeCurrencySymbol(Request $request)
+    {
+        Session::put('new_currency_symbol', $request->currency);
+        return true;
+    }
+
 }

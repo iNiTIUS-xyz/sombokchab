@@ -507,7 +507,8 @@ function getAllCurrency(): array
         'ISK' => 'kr',
         'JMD' => '$',
         'KGS' => 'Лв',
-        'KHR' => '៛',
+        // 'KHR' => '៛',
+        'KHR' => 'KHR',
         'KMF' => 'CF',
         'KYD' => '$',
         'KZT' => '₸',
@@ -568,17 +569,22 @@ function getAllCurrency(): array
 
 function site_currency_symbol($text = false)
 {
+    // dd(Session::get('currency_symbol'));
+
     $all_currency = getAllCurrency();
 
-    $symbol = '$';
-    $global_currency = get_static_option('site_global_currency');
+    $symbol = Session::get('new_currency_symbol') == 'USD' ? '$' : 'KHR';
 
-    foreach ($all_currency as $currency => $sym) {
-        if ($global_currency == $currency) {
-            $symbol = $text ? $currency : $sym;
-            break;
-        }
-    }
+    // $global_currency = get_static_option('site_global_currency');
+
+    // foreach ($all_currency as $currency => $sym) {
+    //     if ($global_currency == $currency) {
+    //         $symbol = $text ? $currency : $sym;
+    //         break;
+    //     }
+    // }
+
+    // dd($symbol, Session::get('new_currency_symbol'), $global_currency);
 
     $sapce = get_static_option('add_remove_sapce_between_amount_and_symbol') === 'yes' ? true : false;
     return $sapce ? ' ' . $symbol . ' ' : $symbol;

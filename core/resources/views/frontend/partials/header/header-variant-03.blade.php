@@ -800,6 +800,20 @@
             localStorage.setItem("lastActivityTime", Date.now());
 
             await applyCurrencyChange(selectedCurrency);
+
+            $.ajax({
+                url: '{{ route('changeCurrency') }}',
+                type: 'GET',
+                data: {
+                    currency: selectedCurrency
+                },
+                success: function (data) {
+                    if (data == 1) {
+                        window.location.reload();
+                    }
+                }
+            });
+
         });
 
         async function applyCurrencyChange(selectedCurrency) {
@@ -858,8 +872,7 @@
 
             // Fetch conversion rate if not USD
             try {
-                const url =
-                    `https://api.currencyfreaks.com/latest?apikey=${CURRENCYFREAKS_API_KEY}&symbols=KHR`;
+                const url = `https://api.currencyfreaks.com/latest?apikey=${CURRENCYFREAKS_API_KEY}&symbols=KHR`;
                 const response = await fetch(url);
                 const data = await response.json();
 
