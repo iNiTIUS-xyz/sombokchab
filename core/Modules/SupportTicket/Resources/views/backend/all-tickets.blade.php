@@ -6,6 +6,27 @@
 
 @section('style')
     <x-bulk-action.css />
+    <style>
+        .badge.status-open {
+            display: inline-block;
+            background-color: #41695A;
+            padding: 3px 10px;
+            border-radius: 4px;
+            color: #fff;
+            border: none;
+            font-weight: 600;
+        }
+
+        .badge.status-close {
+            display: inline-block;
+            background-color: #dd0303;
+            padding: 3px 10px;
+            border-radius: 4px;
+            color: #fff;
+            border: none;
+            font-weight: 600;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -61,7 +82,7 @@
                                                 <div class="btn-group">
                                                     <button type="button" class="{{ $data->priority }} dropdown-toggle"
                                                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        {{ $data->priority }}
+                                                        {{ ucfirst($data->priority) }}
                                                     </button>
                                                     @can('support-tickets-priority-change')
                                                         <div class="dropdown-menu">
@@ -78,20 +99,10 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <div class="btn-group">
-                                                    <button type="button" class="status-{{ $data->status }} dropdown-toggle"
-                                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        {{ $data->status }}
-                                                    </button>
-                                                    @can('support-tickets-status-change')
-                                                        <div class="dropdown-menu">
-                                                            <a class="dropdown-item status_change" data-id="{{ $data->id }}"
-                                                                data-val="open" href="#1">{{ __('Open') }}</a>
-                                                            <a class="dropdown-item status_change" data-id="{{ $data->id }}"
-                                                                data-val="close" href="#1">{{ __('Close') }}</a>
-                                                        </div>
-                                                    @endcan
-                                                </div>
+                                                <span
+                                                    class="text-capitalize badge {{ $data->status == 'close' ? 'status-close' : 'status-open' }}">
+                                                    {{ $data->status == 'close' ? __('Closed') : __($data->status) }}
+                                                </span>
                                             </td>
                                             <td>
                                                 @can('support-tickets-view')
@@ -130,7 +141,15 @@
                 var id = $(this).data('id');
                 var currentPriority = $(this).parent().prev('button').text();
                 currentPriority = currentPriority.trim();
-                $(this).parent().prev('button').removeClass(currentPriority).addClass(priority).text(priority);
+
+                // Capitalize first letter of the new priority
+                var capitalizedPriority = priority.charAt(0).toUpperCase() + priority.slice(1);
+
+                $(this).parent().prev('button')
+                    .removeClass(currentPriority.toLowerCase())
+                    .addClass(priority)
+                    .text(capitalizedPriority);
+
                 //ajax call
                 $.ajax({
                     'type': 'post',
@@ -141,11 +160,11 @@
                         id: id,
                     },
                     success: function (data) {
-                        $(this).parent().find('button.' + currentPriority).removeClass(
-                            currentPriority).addClass(priority).text(priority);
+                        // Success callback if needed
                     }
                 })
             });
+
             $(document).on('click', '.status_change', function (e) {
                 e.preventDefault();
                 //get value
@@ -153,8 +172,15 @@
                 var id = $(this).data('id');
                 var currentStatus = $(this).parent().prev('button').text();
                 currentStatus = currentStatus.trim();
-                $(this).parent().prev('button').removeClass('status-' + currentStatus).addClass('status-' +
-                    status).text(status);
+
+                // Capitalize first letter of the new status
+                var capitalizedStatus = status.charAt(0).toUpperCase() + status.slice(1);
+
+                $(this).parent().prev('button')
+                    .removeClass('status-' + currentStatus.toLowerCase())
+                    .addClass('status-' + status)
+                    .text(capitalizedStatus);
+
                 //ajax call
                 $.ajax({
                     'type': 'post',
@@ -165,8 +191,7 @@
                         id: id,
                     },
                     success: function (data) {
-                        $(this).parent().prev('button').removeClass(currentStatus).addClass(status)
-                            .text(status);
+                        // Success callback if needed
                     }
                 })
             });

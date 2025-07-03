@@ -28403,7 +28403,7 @@ button.submit-btn.gd-bg.pay-now {
 }
 
 .btn-group button.dropdown-toggle.low {
-  background-color: var(--delete-color);
+  background-color: var(--stock-color);
 }
 
 .btn-group button.dropdown-toggle.medium {
@@ -28415,12 +28415,12 @@ button.submit-btn.gd-bg.pay-now {
 }
 
 .btn-group button.dropdown-toggle.urgent {
-  background-color: var(--main-color-three);
+  background-color: var(--delete-color);
 }
 
 .btn-group button.dropdown-toggle.status-close,
 .btn-group button.dropdown-toggle.close {
-  background-color: var(--delete-color);
+  background-color: var(--success-color);
 }
 .note-btn-group.btn-group button.dropdown-toggle {
   background-color: #fff;
