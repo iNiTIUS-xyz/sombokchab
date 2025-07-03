@@ -16,7 +16,7 @@ class AdminStoreSupportTicketRequest extends FormRequest
         return [
             'title' => 'required|string|max:191',
             'subject' => 'required|string|max:191',
-            'priority' => 'required|string|max:191',
+            'priority' => 'nullable|string|max:191',
             'description' => 'required|string',
             'departments' => 'required|string',
         ];
@@ -26,8 +26,8 @@ class AdminStoreSupportTicketRequest extends FormRequest
     {
         return [
             'title.required' => __('title required'),
-            'subject.required' =>  __('subject required'),
-            'priority.required' =>  __('priority required'),
+            'subject.required' => __('subject required'),
+            // 'priority.required' => __('priority required'),
             'description.required' => __('description required'),
             'departments.required' => __('departments required'),
         ];
