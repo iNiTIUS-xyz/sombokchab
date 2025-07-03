@@ -35,7 +35,7 @@
                                 <input type="text" class="form-control" name="subject"
                                     placeholder="{{ __('Enter subject') }}">
                             </div>
-                            {{-- <div class="form-group">
+                            <div class="form-group">
                                 <label>
                                     {{ __('Priority') }}
                                     <span class="text-danger">*</span>
@@ -46,8 +46,7 @@
                                     <option value="high">{{ __('High') }}</option>
                                     <option value="urgent">{{ __('Urgent') }}</option>
                                 </select>
-                            </div> --}}
-
+                            </div>
                             <div class="form-group">
                                 <label>
                                     {{ __('Departments') }}
