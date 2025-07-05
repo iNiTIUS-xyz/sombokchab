@@ -1,11 +1,39 @@
 @extends('vendor.vendor-master')
+
 @section('site-title')
+
     {{ __('All Campaigns') }}
 @endsection
+
 @section('style')
     <x-datatable.css />
     <x-bulk-action.css />
+
+    <style>
+        #DataTables_Table_0_wrapper>.row:first-child {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        #DataTables_Table_0_wrapper>.row:first-child .col-12 {
+            flex: 1 1 50%;
+            max-width: 50%;
+        }
+
+        /* Optional: Align content inside each column */
+        #DataTables_Table_0_length {
+            text-align: left;
+        }
+
+        #DataTables_Table_0_filter {
+            text-align: right;
+        }
+    </style>
 @endsection
+
 @section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row">
@@ -70,8 +98,8 @@
     <x-bulk-action.js :route="route('vendor.campaigns.bulk.action')" />
 
     <script>
-        $(document).ready(function() {
-            $(document).on('click', '.campaign_edit_btn', function() {
+        $(document).ready(function () {
+            $(document).on('click', '.campaign_edit_btn', function () {
                 let el = $(this);
                 let id = el.data('id');
                 let name = el.data('name');

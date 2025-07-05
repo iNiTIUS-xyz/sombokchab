@@ -1,10 +1,37 @@
 @extends('vendor.vendor-master')
+
 @section('style')
     <x-datatable.css />
+
+    <style>
+        #DataTables_Table_0_wrapper>.row:first-child {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        #DataTables_Table_0_wrapper>.row:first-child .col-12 {
+            flex: 1 1 50%;
+            max-width: 50%;
+        }
+
+        /* Optional: Align content inside each column */
+        #DataTables_Table_0_length {
+            text-align: left;
+        }
+
+        #DataTables_Table_0_filter {
+            text-align: right;
+        }
+    </style>
 @endsection
+
 @section('site-title')
     {{ __('My Orders') }}
 @endsection
+
 @section('content')
     <div class="dashboard__card">
         <div class="dashboard__card__header">
@@ -84,18 +111,18 @@
     <script src="{{ asset('assets/backend/js/sweetalert2.js') }}"></script>
 
     <script>
-        (function($) {
+        (function ($) {
             "use strict";
-            $(document).ready(function() {
+            $(document).ready(function () {
 
-                $(document).on('click', '.bodyUser_overlay', function() {
+                $(document).on('click', '.bodyUser_overlay', function () {
                     $('.user-dashboard-wrapper, .bodyUser_overlay').removeClass('show');
                 });
-                $(document).on('click', '.mobile_nav', function() {
+                $(document).on('click', '.mobile_nav', function () {
                     $('.user-dashboard-wrapper, .bodyUser_overlay').addClass('show');
                 });
 
-                $(document).on('click', '.swal_delete_button', function(e) {
+                $(document).on('click', '.swal_delete_button', function (e) {
                     e.preventDefault();
                     Swal.fire({
                         title: '{{ __('Are you sure?') }}',
