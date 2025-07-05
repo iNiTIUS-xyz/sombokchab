@@ -77,8 +77,8 @@
                     </div>
                     <div class="dashboard__card__body mt-4">
                         @if (count($all_tickets) > 0)
-                            <div class="table-wrap">
-                                <div class="table-responsive">
+                            <div class="table-wrap mt-4">
+                                <div class="table-responsive" style="overflow-x: unset !important;">
                                     <table class="table">
                                         <thead>
                                             <tr>

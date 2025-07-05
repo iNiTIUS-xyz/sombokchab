@@ -1,12 +1,15 @@
 @extends('backend.admin-master')
+
 @section('site-title')
     {{ __('Faq') }}
 @endsection
+
 @section('style')
     <link rel="stylesheet" href="{{ asset('assets/backend/css/dropzone.css') }}">
     <x-media.css />
     <x-summernote.css />
 @endsection
+
 @section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row g-4">
@@ -72,8 +75,7 @@
                                             </td>
                                             <td>
                                                 @can('faq-edit-faq')
-                                                    <a href="#1" data-bs-toggle="modal"
-                                                        data-bs-target="#faq_item_edit_modal"
+                                                    <a href="#1" data-bs-toggle="modal" data-bs-target="#faq_item_edit_modal"
                                                         class="btn btn-warning btn-xs text-dark mb-2 me-1 faq_edit_btn"
                                                         data-id="{{ $data->id }}" data-title="{{ $data->title }}"
                                                         data-lang="{{ $data->lang }}" data-is_open="{{ $data->is_open }}"
@@ -197,8 +199,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">{{ __('Close') }}</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
                             <button id="update" type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                         </div>
                     </form>
@@ -214,10 +215,10 @@
         <x-bulk-action-js :url="route('admin.faq.bulk.action')" />
     @endcan
     <script>
-        (function($) {
+        (function ($) {
             "use strict";
 
-            $(document).ready(function() {
+            $(document).ready(function () {
                 // Initialize summernote
                 $('.summernote').summernote({
                     height: 250, //set editable area's height
@@ -225,14 +226,14 @@
                         theme: 'monokai'
                     },
                     callbacks: {
-                        onChange: function(contents, $editable) {
+                        onChange: function (contents, $editable) {
                             $(this).val(contents);
                         }
                     }
                 });
 
                 // Edit FAQ button click handler
-                $(document).on('click', '.faq_edit_btn', function() {
+                $(document).on('click', '.faq_edit_btn', function () {
                     var el = $(this);
                     var id = el.data('id');
                     var title = el.data('title');
@@ -260,7 +261,7 @@
                 });
 
                 // Handle form submission to include summernote content
-                $('#faq_edit_modal_form').on('submit', function() {
+                $('#faq_edit_modal_form').on('submit', function () {
                     var description = $(this).find('.summernote').summernote('code');
                     $(this).find('#edit_description').val(description);
                     return true;

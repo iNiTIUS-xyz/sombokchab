@@ -10,7 +10,9 @@ class FaqController extends Controller
 {
     public function index()
     {
-        $all_faqs = Faq::latest()->get();
+        $all_faqs = Faq::query()
+            ->latest()
+            ->get();
 
         return view('backend.pages.faqs')->with('all_faqs', $all_faqs);
     }
@@ -27,7 +29,7 @@ class FaqController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'status' => $request->status,
-            'is_open' => ! empty($request->is_open) ? 'on' : '',
+            'is_open' => !empty($request->is_open) ? 'on' : '',
         ]);
 
         return redirect()->back()->with(['msg' => __('FAQ added successfully.'), 'type' => 'success']);
@@ -46,7 +48,7 @@ class FaqController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'status' => $request->status,
-            'is_open' => ! empty($request->is_open) ? 'on' : '',
+            'is_open' => !empty($request->is_open) ? 'on' : '',
         ]);
 
         return redirect()->back()->with(['msg' => __('FAQ updated successfully.'), 'type' => 'success']);
@@ -66,7 +68,7 @@ class FaqController extends Controller
             'title' => $faq_item->title,
             'description' => $faq_item->description,
             'status' => 'draft',
-            'is_open' => ! empty($faq_item->is_open) ? 'on' : '',
+            'is_open' => !empty($faq_item->is_open) ? 'on' : '',
         ]);
 
         return redirect()->back()->with(['msg' => __('FAQ clone successfully.'), 'type' => 'success']);
