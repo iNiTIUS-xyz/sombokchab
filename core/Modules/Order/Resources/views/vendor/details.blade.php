@@ -230,28 +230,28 @@
 
                                     <tr class="text-center">
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{!! render_image($product->image, class: 'w-100 h-100') !!}</td>
+                                        <td>{!! render_image($product?->image, class: 'w-100 h-100') !!}</td>
                                         <td>
-                                            <h6>{{ $product->name }}</h6>
+                                            <h6>{{ $product?->name }}</h6>
                                             @if ($variant)
                                                 <p>
-                                                    @if ($variant->productColor)
-                                                        {{ $variant->productColor->name }},
+                                                    @if ($variant?->productColor)
+                                                        {{ $variant?->productColor->name }},
                                                     @endif
-                                                    @if ($variant->productSize)
-                                                        {{ $variant->productSize->name }}
+                                                    @if ($variant?->productSize)
+                                                        {{ $variant?->productSize->name }}
                                                     @endif
 
-                                                    @foreach ($variant->attribute as $attr)
-                                                        , {{ $attr->attribute_name }}: {{ $attr->attribute_value }}
+                                                    @foreach ($variant?->attribute as $attr)
+                                                        , {{ $attr?->attribute_name }}: {{ $attr?->attribute_value }}
                                                     @endforeach
                                                 </p>
                                             @endif
                                         </td>
                                         <td>
-                                            {{ $item->quantity }}
+                                            {{ $item?->quantity }}
                                         </td>
-                                        <td>{{ float_amount_with_currency_symbol($item->price) }}</td>
+                                        <td>{{ float_amount_with_currency_symbol($item?->price) }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
