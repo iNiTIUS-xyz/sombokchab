@@ -1,6 +1,6 @@
 @extends('backend.admin-master')
 @section('site-title')
-    {{ __('Add New User') }}
+    {{ __('Add New Customer') }}
 @endsection
 @section('content')
     <div class="col-lg-12 col-ml-12">
@@ -9,7 +9,7 @@
             <div class="col-12">
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('New User') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('Add New Customer') }}</h4>
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
                         @include('backend/partials/message')
@@ -72,7 +72,7 @@
                                 <input type="password" class="form-control" id="password_confirmation"
                                     name="password_confirmation" placeholder="{{ __('Password Confirmation') }}">
                             </div>
-                            <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Add New User') }}</button>
+                            <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Add New Customer') }}</button>
                         </form>
                     </div>
                 </div>

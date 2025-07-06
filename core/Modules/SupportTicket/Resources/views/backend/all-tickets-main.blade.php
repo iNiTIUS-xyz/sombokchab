@@ -1,6 +1,6 @@
 @extends('backend.admin-master')
 @section('site-title')
-    {{ __('All Tickets') }}
+    {{ __('Customer Support Tickets') }}
 @endsection
 @section('style')
     {{-- <x-datatable.css /> --}}
@@ -21,7 +21,7 @@
                 @endcan
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('All Support Tickets') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('Customer Support Tickets') }}</h4>
                         <div class="dashboard__card__header__right d-flex">
                             @can('support-tickets-bulk-action')
                                 <x-bulk-action.dropdown />

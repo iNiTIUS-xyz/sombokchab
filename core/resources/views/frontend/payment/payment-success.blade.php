@@ -248,12 +248,12 @@
                                         {{ $payment_details->order_number }}
                                     </span>
                                 </li>
-                                <li>
+                                {{-- <li>
                                     {{ __('Tracking No.') }}:&nbsp;
                                     <span class="payment-strong">
                                         {{ $payment_details->tracking_code }}
                                     </span>
-                                </li>
+                                </li> --}}
                             </ul>
 
                             {{-- <div class="btn-wrapper margin-top-40">

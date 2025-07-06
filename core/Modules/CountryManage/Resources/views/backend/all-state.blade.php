@@ -34,7 +34,7 @@
                                     @can('state-bulk-action')
                                         <x-bulk-action.th />
                                     @endcan
-                                    <th>{{ __('ID') }}</th>
+                                    <th>{{ __('Serial No.') }}</th>
                                     <th>{{ __('Name') }}</th>
                                     <th>{{ __('Country') }}</th>
                                     <th>{{ __('Status') }}</th>

@@ -2318,7 +2318,7 @@ table.dataTable thead td {
 
 .login-form-head {
     text-align: center;
-    background: #8655FC;
+    background: var(--main-color-one);
     padding: 50px;
 }
 
@@ -2356,7 +2356,7 @@ table.dataTable thead td {
 
 .form-gp.focused label {
     top: -15px;
-    color: #7e74ff;
+    color: var(--main-color-one);
 }
 
 .form-gp input {
@@ -2385,7 +2385,7 @@ table.dataTable thead td {
 .form-gp i {
     position: absolute;
     right: 5px;
-    color: #7e74ff;
+    color: var(--main-color-one);
     font-size: 16px;
 }
 
@@ -2418,7 +2418,7 @@ table.dataTable thead td {
 }
 
 .submit-btn-area button:hover {
-    background: #2c71da;
+    background: var(--main-color-one);
     color: #ffffff;
 }
 

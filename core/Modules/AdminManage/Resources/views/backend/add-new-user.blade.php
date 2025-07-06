@@ -57,7 +57,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="site_favicon">{{ __('Image') }} <span class="text-danger">*</span></label>
+                                <label for="site_favicon">{{ __('Profile Image') }} <span class="text-danger">*</span></label>
                                 <div class="media-upload-btn-wrapper">
                                     <div class="img-wrap">
                                         @php

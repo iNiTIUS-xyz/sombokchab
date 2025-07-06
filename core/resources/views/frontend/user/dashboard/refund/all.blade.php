@@ -28,7 +28,7 @@
                     <tbody>
                         @foreach ($refundRequests as $request)
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
+                                <td style="text-align: left !important;">{{ $loop->iteration }}</td>
                                 <td>
                                     <span class="user-info">
                                         <b>{{ $request->order?->order_number }}</b><br>

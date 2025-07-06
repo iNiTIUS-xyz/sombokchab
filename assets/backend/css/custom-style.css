@@ -605,7 +605,7 @@ small {
 
 .modal-content {
     max-height: calc(100vh - 50px);
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
 }
 
 .view-quote-details-info .title,

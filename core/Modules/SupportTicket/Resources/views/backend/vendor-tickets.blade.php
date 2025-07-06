@@ -1,7 +1,7 @@
 @extends('backend.admin-master')
 
 @section('site-title')
-    {{ __('All Tickets') }}
+    {{ __('Vendor Support Tickets') }}
 @endsection
 
 @section('style')
@@ -17,12 +17,12 @@
                 @can('support-tickets-new')
                     <div class="btn-wrapper">
                         <a href="{{ route('admin.support.ticket.new') }}"
-                            class="cmn_btn btn_bg_profile">{{ __('New Ticket') }}</a>
+                            class="cmn_btn btn_bg_profile">{{ __('Add New Ticket') }}</a>
                     </div>
                 @endcan
-                <div class="dashboard__card">
+                <div class="dashboard__card mt-4">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('All Tickets') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('Vendor Support Tickets') }}</h4>
                         <div class="dashboard__card__header__right d-flex">
                             @can('support-tickets-bulk-action')
                                 <x-bulk-action.dropdown />
@@ -36,7 +36,7 @@
                                     @can('support-tickets-bulk-action')
                                         <x-bulk-action.th />
                                     @endcan
-                                    <th>{{ __('ID') }}</th>
+                                    <th>{{ __('Ticket ID') }}</th>
                                     <th>{{ __('Title') }}</th>
                                     <th>{{ __('Department') }}</th>
                                     <th>{{ __('Vendor') }}</th>
@@ -50,7 +50,7 @@
                                             @can('support-tickets-bulk-action')
                                                 <x-bulk-action.td :id="$data->id" />
                                             @endcan
-                                            <td>#{{ $data->id }}</td>
+                                            <td>{{ $data->id }}</td>
                                             <td>{{ $data->title }}</td>
                                             <td>{{ $data->department->name ?? __('anonymous') }}</td>
                                             <td>

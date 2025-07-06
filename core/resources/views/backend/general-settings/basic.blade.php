@@ -52,7 +52,7 @@
                                         <input type="text" name="site_footer_copyright" class="form-control"
                                             value="{{ get_static_option('site_footer_copyright') }}"
                                             id="site_footer_copyright" placeholder="{{ __('Enter footer copyright') }}">
-                                        <small class="form-text text-muted">{copy}
+                                        <small class="form-text text-danger">
                                             {{ __('Will replace by &copy; and {year} will be replaced by current year.') }}
                                         </small>
                                     </div>
@@ -61,7 +61,7 @@
                                     <div class="form-group">
                                         <x-media-upload name="og_meta_image_for_site" :title="__('Og Meta Image For Site')" :oldimage="get_static_option('og_meta_image_for_site')" />
 
-                                        <small class="form-text text-muted">
+                                        <small class="form-text text-danger">
                                             {{ __('Allowed image format: jpg,jpeg,png. Recommended image size 1200x900') }}
                                         </small>
                                     </div>

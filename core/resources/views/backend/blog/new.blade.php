@@ -109,17 +109,13 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <x-media-upload :title="__('Blog Image')" name="image" id="image" />
-                                        <small class="form-text text-muted">
-                                            {{ __('allowed image format: jpg,jpeg,png') }}
-                                        </small>
+                                        <small class="form-text text-danger">{{ __('Allowed image formats: jpg,jpeg,png') }}</small>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <x-media-upload :title="__('Og Meta Image')" name="og_meta_image" id="og_meta_image" />
-                                        <small class="form-text text-muted">
-                                            {{ __('allowed image format: jpg,jpeg,png') }}
-                                        </small>
+                                        <small class="form-text text-danger">{{ __('Allowed image formats: jpg,jpeg,png') }}</small>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">

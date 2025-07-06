@@ -61,7 +61,7 @@
                 <div class="col-lg-5">
                     <div class="dashboard__card">
                         <div class="dashboard__card__header">
-                            <h4 class="dashboard__card__title">{{ __('Add New country') }}</h4>
+                            <h4 class="dashboard__card__title">{{ __('Add New Country') }}</h4>
                         </div>
                         <div class="dashboard__card__body custom__form">
                             <form action="{{ route('admin.country.new') }}" method="post" enctype="multipart/form-data">

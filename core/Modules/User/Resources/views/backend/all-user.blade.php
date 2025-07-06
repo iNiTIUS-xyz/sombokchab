@@ -11,7 +11,7 @@
 @endsection
 
 @section('site-title')
-    {{ __('All Users') }}
+    {{ __('Customer Accounts') }}
 @endsection
 
 @section('content')
@@ -21,12 +21,12 @@
     <div class="col-12">
         <div class="btn-wrapper mb-4">
             <a href="{{ route('admin.frontend.new.user') }}" class="cmn_btn btn_bg_profile">
-                Add New User
+                Add New Customer
             </a>
         </div>
         <div class="dashboard__card">
             <div class="dashboard__card__header">
-                <h4 class="dashboard__card__title">{{ __('All Users') }}</h4>
+                <h4 class="dashboard__card__title">{{ __('Customer Accounts') }}</h4>
             </div>
             <div class="dashboard__card__body mt-4">
                 <div class="table-responsive">
@@ -76,7 +76,7 @@
                                                 data-bs-target="#user_change_password_modal"
                                                 class="btn btn-secondary btn-sm mb-2 me-1 user_change_password_btn"
                                                 title="Change Password">
-                                                <i class="ti-unlock"></i>
+                                                <i class="ti-key"></i>
                                             </a>
                                         @endcan
 

@@ -20,10 +20,10 @@
                     @method('PUT')
                 @endcan
                 <div class="form-group">
-                    <label for="how-long" class="form-label">{{ __('How long customer will be eligible for refund') }}</label>
+                    <label for="how-long" class="form-label">{{ __('How long customer will be eligible for refund - Number of days') }}</label>
                     <input type="number" id="how-long" class="form-control form-control-sm"
                         name="how_long_user_will_eligible_for_refund"
-                        placeholder="{{ __('Enter how long customer will be eligible for efund') }}"
+                        placeholder="{{ __('Enter number of days') }}"
                         value="{{ get_static_option('how_long_user_will_eligible_for_refund') }}">
                 </div>
 

@@ -72,7 +72,7 @@
                                                         title="{{ __('Change Password') }}"
                                                         data-bs-target="#user_change_password_modal"
                                                         class="btn btn-sm btn-secondary mb-2 me-1 user_change_password_btn">
-                                                        <i class="ti-unlock"></i>
+                                                        <i class="ti-key"></i>
                                                     </a>
                                                 @endcan
 

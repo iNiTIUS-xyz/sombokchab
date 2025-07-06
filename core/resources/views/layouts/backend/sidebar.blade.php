@@ -36,7 +36,7 @@
                         <ul class="collapse">
                             <li class="{{ active_menu('admin-home/admin/all-user') }}">
                                 <a href="{{ route('admin.all.user') }}">
-                                    {{ __('All Admin Accounts') }}
+                                    {{ __('Admin Accounts') }}
 
                                 </a>
                             </li>
@@ -59,12 +59,12 @@
                         <ul class="collapse">
                             <li class="{{ active_menu('admin-home/admin/roles') }}">
                                 <a href="{{ route('admin.roles.index') }}">
-                                    {{ __('Roles') }}
+                                    {{ __('Admin Roles') }}
                                 </a>
                             </li>
                             <li class="{{ active_menu('admin-home/admin/roles') }}">
                                 <a href="{{ route('admin.roles.index', ['create' => 'add_new_role']) }}">
-                                    {{ __('Create New Role') }}
+                                    {{ __('Add New Role') }}
                                 </a>
                             </li>
                         </ul>
@@ -82,20 +82,20 @@
                             ])) active open @endif ">
                         <a href="#1" aria-expanded="true">
                             <i class="ti-user"></i>
-                            <span>{{ __('Users Manage') }}</span>
+                            <span>{{ __('Customers Manage') }}</span>
                         </a>
                         <ul class="collapse">
                             @can('frontend-all-user')
                                 <li class="{{ active_menu('admin-home/frontend/all-user') }}">
                                     <a href="{{ route('admin.all.frontend.user') }}">
-                                        {{ __('All Users') }}
+                                        {{ __('Customer Accounts') }}
                                     </a>
                                 </li>
                             @endcan
                             @can('frontend-new-user')
                                 <li class="{{ active_menu('admin-home/frontend/new-user') }}">
                                     <a href="{{ route('admin.frontend.new.user') }}">
-                                        {{ __('Add New User') }}
+                                        {{ __('Add New Customer') }}
                                     </a>
                                 </li>
                             @endcan
@@ -113,7 +113,7 @@
                             @can('newsletter')
                                 <li class="{{ active_menu('admin-home/newsletter') }}">
                                     <a href="{{ route('admin.newsletter') }}">
-                                        {{ __('All Subscribers') }}
+                                        {{ __('Newsletter Subscribers') }}
 
                                     </a>
                                 </li>
@@ -121,7 +121,7 @@
                             @can('newsletter-all')
                                 <li class="{{ active_menu('admin-home/newsletter/all') }}">
                                     <a href="{{ route('admin.newsletter.mail') }}">
-                                        {{ __('Send Mail to All') }}
+                                        {{ __('Send Mail to All Subscribers') }}
 
                                     </a>
                                 </li>
@@ -142,7 +142,7 @@
                             @can('support-tickets')
                                 <li class="{{ active_menu('admin-home/support-tickets') }}">
                                     <a href="{{ route('admin.support.ticket.all') }}">
-                                        {{ __('All Tickets') }}
+                                        {{ __('Customer Support Tickets') }}
 
                                     </a>
                                 </li>
@@ -151,7 +151,7 @@
                             @can('support-tickets-vendor-tickets')
                                 <li class="{{ active_menu('admin-home/support-tickets/vendor-tickets') }}">
                                     <a href="{{ route('admin.support.ticket.all.vendor') }}">
-                                        {{ __('All Vendors Tickets') }}
+                                        {{ __('Vendors Support Tickets') }}
                                     </a>
                                 </li>
                             @endcan
@@ -168,13 +168,13 @@
                             @can('support-tickets-department')
                                 <li class="{{ active_menu('admin-home/support-tickets/department') }}">
                                     <a href="{{ route('admin.support.ticket.department') }}">
-                                        {{ __('Departments') }}
+                                        {{ __('Support Departments') }}
                                     </a>
                                 </li>
                             @endcan
 
                             @can('support-tickets-page-settings')
-                                <li class="{{ active_menu('admin-home/support-tickets/page-settings') }}">
+                                <li class="{{ active_menu('admin-home/support-tickets/page-settings') }}" style="display: none;">
                                     <a href="{{ route('admin.support.ticket.page.settings') }}">
                                         {{ __('Page Settings') }}
                                     </a>
@@ -501,7 +501,7 @@
             @if (moduleExists('EmailTemplate'))
                 @can('email-template-all-templates')
                     {{--                Wallet Manage                 --}}
-                    <li class="main_dropdown @if (request()->is(['admin-home/email-template/*'])) active open @endif ">
+                    <li class="main_dropdown @if (request()->is(['admin-home/email-template/*'])) active open @endif " style="display: none">
                         <a href="#1" aria-expanded="true">
                             <i class="ti-email"></i>
                             <span>{{ __('Email Template') }}</span>
@@ -520,7 +520,7 @@
             @if (moduleExists('Wallet'))
                 @canany(['shop-manage', 'invoice-note'])
                     {{--                Shop Manage Manage                 --}}
-                    <li class="main_dropdown @if (request()->is(['admin-home/shop-manage/*', 'admin-home/shop-manage', 'admin-home/invoice-note'])) active open @endif ">
+                    <li class="main_dropdown @if (request()->is(['admin-home/shop-manage/*', 'admin-home/shop-manage', 'admin-home/invoice-note'])) active open @endif " style="display: none">
                         <a href="#1" aria-expanded="true">
                             <i class="ti-shopping-cart"></i>
                             <span>{{ __('Shop Manage') }}</span>
@@ -573,7 +573,7 @@
                             @can('orders-vendor-list')
                                 <li class="{{ active_menu('admin-home/orders/vendor/list') }}">
                                     <a href="{{ route('admin.orders.vendor.list') }}">
-                                        {{ __('All Vendors') }}
+                                        {{ __('All Stores') }}
                                     </a>
                                 </li>
                             @endcan
@@ -636,35 +636,7 @@
                 @endcanany
             @endif
 
-            @if (moduleExists('PluginManage') && auth('admin')->user()->hasRole('Super Admin'))
-                <li
-                    class="main_dropdown
-                     @if (request()->is(['admin-home/plugin-manage', 'admin-home/plugin-manage/*'])) active @endif ">
-                    <a href="#1" aria-expanded="true">
-                        <i class="ti-clipboard"></i>
-                        <span>{{ __('Plugin Manage') }}</span>
-                    </a>
-                    <ul class="collapse">
-                        @can('country')
-                            <li class="{{ active_menu('admin-home/plugin-manage/all') }}">
-                                <a href="{{ route('admin.plugin.manage.all') }}">
-                                    {{ __('All Plugins') }}
-
-                                </a>
-                            </li>
-                        @endcan
-
-                        @can('state')
-                            <li class="{{ active_menu('admin-home/plugin-manage/new') }}">
-                                <a href="{{ route('admin.plugin.manage.new') }}">
-                                    {{ __('Add New Plugin') }}
-
-                                </a>
-                            </li>
-                        @endcan
-                    </ul>
-                </li>
-            @endif
+            
 
             @canany(['country', 'state', 'city'])
                 <li class="main_dropdown @if (request()->is([
@@ -683,7 +655,7 @@
                         @can('country')
                             <li class="{{ active_menu('admin-home/country') }}">
                                 <a href="{{ route('admin.country.all') }}">
-                                    {{ __('Country') }}
+                                    {{ __('All Countries') }}
                                 </a>
                             </li>
                         @endcan
@@ -699,7 +671,7 @@
                         @can('state')
                             <li class="{{ active_menu('admin-home/state') }}">
                                 <a href="{{ route('admin.state.all') }}">
-                                    {{ __('City') }}
+                                    {{ __('All Cities') }}
                                 </a>
                             </li>
                         @endcan
@@ -715,7 +687,7 @@
                         @can('city')
                             <li class="{{ active_menu('admin-home/city') }}">
                                 <a href="{{ route('admin.city.all') }}">
-                                    {{ __('State') }}
+                                    {{ __('All Provinces') }}
                                 </a>
                             </li>
                         @endcan
@@ -723,7 +695,7 @@
                         @can('city')
                             <li class="{{ active_menu('admin-home/city/csv/import') }}">
                                 <a href="{{ route('admin.city.import.csv.settings') }}">
-                                    {{ __('Import State') }}
+                                    {{ __('Import Province') }}
 
                                 </a>
                             </li>
@@ -1553,6 +1525,36 @@
                     </a>
                 </li>
             @endcan
+
+            @if (moduleExists('PluginManage') && auth('admin')->user()->hasRole('Super Admin'))
+                <li
+                    class="main_dropdown
+                     @if (request()->is(['admin-home/plugin-manage', 'admin-home/plugin-manage/*'])) active @endif ">
+                    <a href="#1" aria-expanded="true">
+                        <i class="ti-clipboard"></i>
+                        <span>{{ __('Plugin Manage') }}</span>
+                    </a>
+                    <ul class="collapse">
+                        @can('country')
+                            <li class="{{ active_menu('admin-home/plugin-manage/all') }}">
+                                <a href="{{ route('admin.plugin.manage.all') }}">
+                                    {{ __('All Plugins') }}
+
+                                </a>
+                            </li>
+                        @endcan
+
+                        @can('state')
+                            <li class="{{ active_menu('admin-home/plugin-manage/new') }}">
+                                <a href="{{ route('admin.plugin.manage.new') }}">
+                                    {{ __('Add New Plugin') }}
+
+                                </a>
+                            </li>
+                        @endcan
+                    </ul>
+                </li>
+            @endif
     </ul>
 </div>
 </div>

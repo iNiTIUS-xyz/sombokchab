@@ -17,7 +17,7 @@
             <div class="col-lg-12">
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Import Country (only csv file)') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('Import Country') }} <small>(only csv file)</small></h4>
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
                         @if ($errors->any())
@@ -36,9 +36,9 @@
                                 <div class="form-group">
                                     <label for="#" class="label-title">{{__('File')}}</label>
                                     <input type="file" name="csv_file" accept=".csv" class="form-control" required>
-                                    <small class="text-info">{{__('only csv file are allowed with separate by (,) comma.')}}</small>
+                                    <small class="text-primary">{{__('Only csv file are allowed with separate by (,) comma.')}}</small>
                                 </div>
-                                <button type="submit" class="cmn_btn btn_bg_profile mt-4 loading-btn">{{__('Submit')}}</button>
+                                <button type="submit" class="cmn_btn btn_bg_profile loading-btn">{{__('Submit')}}</button>
                             </form>
                         @else
                             @php

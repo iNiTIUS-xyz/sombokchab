@@ -33,7 +33,7 @@
                                     @can('country-bulk-action')
                                         <x-bulk-action.th />
                                     @endcan
-                                    <th>{{ __('ID') }}</th>
+                                    <th>{{ __('Serial No.') }}</th>
                                     <th>{{ __('Name') }}</th>
                                     <th>{{ __('Status') }}</th>
                                     <th>{{ __('Action') }}</th>
@@ -73,10 +73,10 @@
     </div>
     @can('country-update')
         <div class="modal fade" id="country_edit_modal" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
-                        <h5 class="modal-title">{{ __('Update country') }}</h5>
+                        <h5 class="modal-title">{{ __('Update Country') }}</h5>
                         <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
                     </div>
                     <form action="{{ route('admin.country.update') }}" method="post">
@@ -110,15 +110,15 @@
 
     @can('country-new')
         <div class="modal fade" id="country_new_modal" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
-                        <h5 class="modal-title">{{ __('Add new country') }}</h5>
+                        <h5 class="modal-title">{{ __('Add New Country') }}</h5>
                         <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
                     </div>
-                    <div class="model-body p-4">
-                        <form action="{{ route('admin.country.new') }}" method="post" enctype="multipart/form-data">
-                            @csrf
+                    <form action="{{ route('admin.country.new') }}" method="post" enctype="multipart/form-data">
+                        @csrf
+                        <div class="model-body p-4">
                             <div class="form-group">
                                 <label for="name">{{ __('Name') }}</label>
                                 <input type="text" class="form-control" id="name" name="name"
@@ -131,11 +131,13 @@
                                     <option value="draft">{{ __('Draft') }}</option>
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Add') }}</button>
-                            </div>
-                        </form>
-                    </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">{{ __('Close') }}</button>
+                            <button type="submit" class="btn btn-primary">{{ __('Add') }}</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

@@ -14,7 +14,7 @@
                 <x-msg.flash />
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('All States') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('All Provinces') }}</h4>
                         <div class="dashboard__card__header__right">
                             @can('state-delete')
                                 <x-bulk-action.dropdown />
@@ -30,7 +30,7 @@
                             <table class="table table-default">
                                 <thead>
                                     <x-bulk-action.th />
-                                    <th>{{ __('ID') }}</th>
+                                    <th>{{ __('Serial No.') }}</th>
                                     <th>{{ __('Name') }}</th>
                                     <th>{{ __('Country') }}</th>
                                     <th>{{ __('Status') }}</th>

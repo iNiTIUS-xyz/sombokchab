@@ -16,7 +16,7 @@
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Edit Admin') }}</h4>
                         <div class="btn-wrapper">
-                            <a class="cmn_btn btn_bg_profile" href="{{ route('admin.all.user') }}">{{ __('All Admin Accounts') }}</a>
+                            <a class="cmn_btn btn_bg_profile" href="{{ route('admin.all.user') }}">{{ __('Admin Accounts') }}</a>
                         </div>
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
@@ -45,7 +45,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="site_favicon">{{ __('Image') }}</label>
+                                <label for="site_favicon">{{ __('Profile Image') }}</label>
                                 <div class="media-upload-btn-wrapper">
                                     <div class="img-wrap">
                                         @php
@@ -65,14 +65,14 @@
                                         @endif
                                     </div>
                                     <input type="hidden" id="image" name="image" value="{{ $admin->image }}">
-                                    <button type="button" class="btn btn-info media_upload_form_btn"
+                                    <button type="button" class="btn btn-secondary media_upload_form_btn"
                                         data-btntitle="{{ __('Select Image') }}"
                                         data-modaltitle="{{ __('Upload Image') }}" data-bs-toggle="modal"
                                         data-bs-target="#media_upload_modal">
                                         {{ __($image_btn_label) }}
                                     </button>
                                 </div>
-                                <small class="form-text text-muted">{{ __('allowed image format: jpg,jpeg,png') }}</small>
+                                <small class="form-text text-danger">{{ __('Allowed image formats: jpg,jpeg,png') }}</small>
                             </div>
                             <div class="form-group">
                                 <button type="submit" class="cmn_btn btn_bg_profile">

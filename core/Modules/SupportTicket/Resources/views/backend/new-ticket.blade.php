@@ -1,7 +1,7 @@
 @extends('backend.admin-master')
 
 @section('site-title')
-    {{ __('New Ticket') }}
+    {{ __('Add New Ticket') }}
 @endsection
 
 @section('style')
@@ -17,7 +17,7 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">
-                            {{ __('New Ticket') }}
+                            {{ __('Add New Ticket') }}
                         </h4>
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
@@ -69,8 +69,6 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <br>
-                            <br>
                             <div class="form-group">
                                 <label>
                                     {{ __('Description') }}

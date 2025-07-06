@@ -180,7 +180,7 @@
 @section('section')
     <div class="dashboard__card">
         <div class="dashboard__card__header">
-            <h3 class="dashboard__card__title">{{ __('Request Details') }}</h3>
+            <h3 class="dashboard__card__title">{{ __('Refund Request Details') }}</h3>
         </div>
         <div class="dashboard__card__body mt-4">
             <div class="row g-4">
@@ -191,8 +191,8 @@
                         </div>
                         <div class="dashboard__card__body">
                             <div class="orderRequest__item">
-                                <span class="orderRequest__item__left">{{ __('Order ID') }}</span>
-                                <p class="orderRequest__item__right">#{{ $order->id }}</p>
+                                <span class="orderRequest__item__left">{{ __('Order Number') }}</span>
+                                <p class="orderRequest__item__right">{{ $order->order_number }}</p>
                             </div>
                             <div class="orderRequest__item">
                                 <span class="orderRequest__item__left">{{ __('Transaction ID') }}</span>
@@ -371,6 +371,17 @@
                             </div>
                             <div class="stepDetails">
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 mt-4">
+                    <div class="dashboard__card">
+                        <div class="dashboard__card__header">
+                            <h5 class="">{{ __('Courier Address') }}</h5>
+                        </div>
+                        <div class="dashboard__card__body mt-2">
+                            <p>{{ get_static_option('courier_address') }}</p>
                         </div>
                     </div>
                 </div>

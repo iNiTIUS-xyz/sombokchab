@@ -33,7 +33,7 @@
                             <thead>
                                 <tr>
                                     <th>{{ __('Serial No.') }}</th>
-                                    <th>{{ __('Name') }}</th>
+                                    <th>{{ __('Reason Title') }}</th>
                                     <th>{{ __('Action') }}</th>
                                 </tr>
                             </thead>
@@ -80,15 +80,15 @@
                             <input id="reason_id" name="id" value="" type="hidden" />
 
                             <div class="modal-header">
-                                <h5 class="modal-title" id="editRefundReasonModal">{{ __('Add new reason') }}</h5>
+                                <h5 class="modal-title" id="editRefundReasonModal">{{ __('Update Reason') }}</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
 
                             <div class="modal-body">
                                 <div class="form-group">
-                                    <label for="reason_name" class="form-label">{{ __('Reason Name') }}</label>
+                                    <label for="reason_name" class="form-label">{{ __('Reason Title') }}</label>
                                     <input type="text" name="name" class="form-control" id="reason_name"
-                                        placeholder="{{ __('Enter reason name.') }}">
+                                        placeholder="{{ __('Enter reason title') }}">
                                 </div>
                             </div>
 
@@ -112,15 +112,15 @@
                         <form action="#" method="post" id="new-refund-reason-form">
                             @csrf
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">{{ __('Add new reason') }}</h5>
+                                <h5 class="modal-title" id="exampleModalLabel">{{ __('Add New Reason') }}</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                                 <div class="form-group">
                                     <label for="reason_name" class="form-label">
-                                        {{ __('Reason Name') }}
+                                        {{ __('Reason Title') }}
                                         <input type="text" name="name" class="form-control" id="reason_name"
-                                            placeholder="{{ __('Enter reason name.') }}">
+                                            placeholder="{{ __('Enter reason title') }}">
                                     </label>
                                 </div>
                             </div>
