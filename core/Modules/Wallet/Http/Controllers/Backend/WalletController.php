@@ -2,18 +2,18 @@
 
 namespace Modules\Wallet\Http\Controllers\Backend;
 
-use App\Helpers\FlashMsg;
 use Exception;
-use Illuminate\Http\RedirectResponse;
+use App\Helpers\FlashMsg;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Modules\DeliveryMan\Entities\DeliveryManWithdrawRequest;
+use Modules\Wallet\Entities\Wallet;
+use Illuminate\Http\RedirectResponse;
+use Modules\Wallet\Entities\WalletHistory;
+use Modules\Wallet\Http\Services\WalletService;
 use Modules\Wallet\Entities\VendorWalletGateway;
 use Modules\Wallet\Entities\VendorWithdrawRequest;
-use Modules\Wallet\Entities\Wallet;
-use Modules\Wallet\Entities\WalletHistory;
 use Modules\Wallet\Http\Requests\AdminUpdateWithdrawRequest;
-use Modules\Wallet\Http\Services\WalletService;
+use Modules\DeliveryMan\Entities\DeliveryManWithdrawRequest;
 
 class WalletController extends Controller
 {
@@ -222,7 +222,7 @@ class WalletController extends Controller
 
         return back()->with([
             "success" => (bool) $query ?? false,
-            "msg" => $query ? __("Successfully updated withdraw request.") : __("Failed to update"),
+            "msg" => $query ? __("withdraw request updated successfully.") : __("Failed to update"),
             "type" => $query ? "success" : "danger"
         ]);
     }
@@ -234,8 +234,6 @@ class WalletController extends Controller
         return view('wallet::backend.history-details', compact('history_details'));
     }
 
-
-    //todo: search category
     public function search_history(Request $request)
     {
         $all_histories = WalletHistory::where('created_at', 'LIKE', "%" . strip_tags($request->string_search) . "%")
