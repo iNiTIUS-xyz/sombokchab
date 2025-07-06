@@ -63,7 +63,7 @@ class AssignDeliveryManEmailListener
             "<br>"
         ], get_static_option("assign_delivery_man_mail_body"));
 
-        $orderTrackingLink = '<a href="'. route("order.order-tracking", $order->id) .'" target="_blank">' . route("order.order-tracking", $order->id) . '</a>';
+        $orderTrackingLink = '<a href="'. route("order.order-tracking", $order->id) .'">' . route("order.order-tracking", $order->id) . '</a>';
 
         $message2 = str_replace(["@username", "@deliveryManInformation","@break","@orderTrackingLink"],[
             "<b>". $order->address->name ."</b>",

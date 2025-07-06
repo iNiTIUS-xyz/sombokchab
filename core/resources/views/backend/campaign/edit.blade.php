@@ -20,7 +20,7 @@
                             <div class="btn-wrapper">
                                 <a href="{{ route('admin.campaigns.all') }}"
                                     class="cmn_btn btn_bg_profile">{{ __('All Campaigns') }}</a>
-                                <a href="{{ route('frontend.products.campaign', $campaign->id) }}" target="_blank"
+                                <a href="{{ route('frontend.products.campaign', $campaign->id) }}"
                                     class="cmn_btn btn-primary">{{ __('View Campaign') }}</a>
                             </div>
                         @endcan

@@ -59,7 +59,7 @@
                                             @endphp
                                             <td>
                                                 <a href="{{ $url }}"
-                                                    target="_blank">{{ $data->comment_content }}</a>
+                                                   >{{ $data->comment_content }}</a>
                                             </td>
 
                                             <td>

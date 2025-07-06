@@ -71,19 +71,19 @@
             <div class="buy-now-wrap">
                 <ul class="buy-list">
                     <li>
-                        <a target="_blank" href="https://xgenious.com/docs/grenmart-organic-grocery-laravel-ecommerce/"
+                        <a href="https://xgenious.com/docs/grenmart-organic-grocery-laravel-ecommerce/"
                             data-container="body" data-bs-toggle="popover" data-placement="left"
                             data-content="{{ __('Documentation') }}">
                             <i class="lar la-file-alt"></i>
                         </a>
                     </li>
                     <li>
-                        <a target="_blank" href="https://1.envato.market/kj2GdL">
+                        <a href="https://1.envato.market/kj2GdL">
                             <i class="las la-shopping-cart"></i>
                         </a>
                     </li>
                     <li>
-                        <a target="_blank" href="https://xgenious51.freshdesk.com/">
+                        <a href="https://xgenious51.freshdesk.com/">
                             <i class="las la-headset"></i>
                         </a>
                     </li>

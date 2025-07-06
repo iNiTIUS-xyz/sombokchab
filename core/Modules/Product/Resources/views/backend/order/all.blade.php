@@ -96,7 +96,7 @@
                                                 <x-table.btn.swal.delete :route="route('admin.product.order.payment.delete', $data->id)" />
                                             @endcan
                                             @can('product-order-view-details')
-                                                <a href="{{ route('admin.product.order.view', $data->id) }}" target="_blank"
+                                                <a href="{{ route('admin.product.order.view', $data->id) }}"
                                                     class="btn btn-xs btn-primary btn-sm mb-2 me-1">
                                                     <i class="ti-eye"></i>
                                                 </a>
@@ -116,7 +116,7 @@
                                                 <a href="{{ route('frontend.product.invoice.generate') }}"
                                                     data-id="{{ $data->id }}"
                                                     class="btn btn-xs btn-secondary download_invoice mb-2 me-1"
-                                                    target="_blank">{{ __('Invoice') }}</a>
+                                                   >{{ __('Invoice') }}</a>
                                             @endcan
                                             @can('product-order-update-status')
                                                 <a href="#1" data-id="{{ $data->id }}"

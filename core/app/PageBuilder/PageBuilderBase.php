@@ -273,7 +273,7 @@ abstract class PageBuilderBase
     public function get_preview_image($image_name): string
     {
         if (empty($image_name)){return '';}
-        return '<a href="'.$this->base_preview_image_path.'/'.$image_name.'" title="'.__('preview of this addon').'" class="preview-image" target="_blank"><i class="fas fa-image"></i></a>';
+        return '<a href="'.$this->base_preview_image_path.'/'.$image_name.'" title="'.__('preview of this addon').'" class="preview-image"><i class="fas fa-image"></i></a>';
     }
     
         private function format_widget_content($data)

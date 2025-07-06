@@ -83,7 +83,7 @@
                             <label for="envato_purchase_code">{{__('Envato Purchase code')}}</label>
                             <input type="text" class="form-control" name="envato_purchase_code" value="{{get_static_option("license_purchase_code")}}">
                             <small>{{__('follow this article to know how you will get your envato purchase code for this script')}}
-                                <a href="https://xgenious.com/where-can-i-find-my-purchase-code-at-codecanyon/" target="_blank">{{__('how to get envato purchase code')}}</a></small>
+                                <a href="https://xgenious.com/where-can-i-find-my-purchase-code-at-codecanyon/">{{__('how to get envato purchase code')}}</a></small>
                         </div>
                     </div>
                     <div class="modal-footer">

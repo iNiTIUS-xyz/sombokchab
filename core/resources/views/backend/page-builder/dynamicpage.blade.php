@@ -25,7 +25,7 @@
                             </a>
                         @endcan
 
-                        <a class="btn btn-lg btn-info btn-sm mb-2 me-1" target="_blank"
+                        <a class="btn btn-lg btn-info btn-sm mb-2 me-1"
                             href="{{ route('frontend.dynamic.page', ['slug' => $page->slug, 'id' => $page->id]) }}">
                             <i class="fas fa-external-link-alt"></i> {{ __('View Page') }}
                         </a>

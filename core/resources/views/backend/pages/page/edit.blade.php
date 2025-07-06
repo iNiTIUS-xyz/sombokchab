@@ -59,7 +59,7 @@
                                     <div
                                         class="btn-wrapper page-builder-btn-wrapper @if (empty($page_post->page_builder_status)) d-none @endif ">
                                         <a href="{{ route('admin.dynamic.page.builder', ['type' => 'dynamic-page', 'id' => $page_post->id]) }}"
-                                            target="_blank" class="cmn_btn btn_bg_profile"> <i
+                                            class="cmn_btn btn_bg_profile"> <i
                                                 class="fas fa-external-link-alt "></i> {{ __('Open Page Builder') }}
                                         </a>
                                     </div>

@@ -334,7 +334,7 @@ class ProductOrderController extends Controller
     </td>
     <td>
         <h4 class="product-title">
-            <a target="_blank" href="{$route}">{$title}</a>
+            <a href="{$route}">{$title}</a>
         </h4>
         {$product_variant_markup}
          <input type="hidden" name="product[{$id}]" value="{$id}">
