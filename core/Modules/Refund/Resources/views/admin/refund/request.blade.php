@@ -43,10 +43,21 @@
 
                                 <td>
                                     <span class="user-info text-left">
-                                        {{ __('No.') }}: <b>{{ $request->order?->order_number }}</b><br>
+                                        <b>{{ $request->order?->order_number }}</b>
+                                        <br>
                                         {{ __('Status') }}:
-                                        <span
-                                            class="badge bg-secondary">{{ __(ucwords(str_replace('_', ' ', $request->currentTrackStatus?->name))) }}</span>
+                                        @if ($request->order?->order_status == 'complete')
+                                            <span class="badge bg-primary px-2 py-1">{{ __('Complete') }}</span>
+                                        @elseif ($request->order?->order_status == 'pending')
+                                            <span class="badge bg-warning px-2 py-1">{{ __('Pending') }}</span>
+                                        @elseif ($request->order?->order_status == 'failed')
+                                            <span class="badge bg-danger px-2 py-1">{{ __('Failed') }}</span>
+                                        @elseif ($request->order?->order_status == 'canceled')
+                                            <span class="badge bg-danger px-2 py-1">{{ __('Canceled') }}</span>
+                                        @elseif ($request->order?->order_status == 'rejected')
+                                            <span class="badge px-2 py-1"
+                                                style="background: rgb(138, 1, 14) !important;">{{ __('Rejected') }}</span>
+                                        @endif
                                         <br>
                                         {{ __('Amount') }}:
                                         {{ float_amount_with_currency_symbol($request->order?->paymentMeta?->total_amount) }}<br>
@@ -55,9 +66,11 @@
 
                                 <td>
                                     <span class="user-info text-left">
-                                        {{ __('No.') }}: <b>{{ $request->id }}</b><br>
-                                        {{ __('Status') }}: <span
-                                            class="badge bg-secondary">{{ $request->status }}</span> <br>
+                                        <b>{{ $request->id }}</b><br>
+                                        {{ __('Status') }}: 
+                                        <span class="badge bg-secondary">{{ __(ucwords(str_replace('_', ' ', $request->currentTrackStatus?->name))) }}</span>
+                                        {{-- <span class="badge bg-secondary">{{ __(ucwords($request->status)) }}</span>  --}}
+                                        <br>
                                         {{ __('Total Product:') }} {{ $request->request_product_count }}<br>
                                     </span>
                                 </td>
@@ -130,7 +143,7 @@
                         @csrf
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">
-                                {{ __('Add new reason') }}
+                                {{ __('Add New Reason') }}
                             </h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>

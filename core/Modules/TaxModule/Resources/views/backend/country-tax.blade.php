@@ -22,7 +22,7 @@
                             @can('tax-country-new')
                                 <div class="btn-wrapper">
                                     <a href="#1" data-bs-toggle="modal" data-bs-target="#country_tax_new_modal"
-                                        class="cmn_btn btn_bg_profile">{{ __('Add new country tax') }}</a>
+                                        class="cmn_btn btn_bg_profile">{{ __('Add New Country Tax') }}</a>
                                 </div>
                             @endcan
                         </div>

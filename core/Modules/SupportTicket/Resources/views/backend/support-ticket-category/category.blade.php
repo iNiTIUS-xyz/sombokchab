@@ -1,7 +1,7 @@
 @extends('backend.admin-master')
 
 @section('site-title')
-    {{ __('Support Department') }}
+    {{ __('Support Departments') }}
 @endsection
 
 @section('style')
@@ -9,111 +9,126 @@
 @endsection
 @section('content')
     <div class="col-lg-12 col-ml-12">
-        <div class="row g-4">
-            <div class="col-lg-7">
-                <x-msg.flash />
-                <x-msg.error />
-                <div class="dashboard__card">
-                    <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('All Departments') }}</h4>
-                        @can('support-tickets-department-bulk-action')
-                            <x-bulk-action.dropdown />
-                        @endcan
-                    </div>
-                    <div class="dashboard__card__body mt-4">
-                        <div class="table-responsive">
-                            <table class="table table-default" id="dataTable">
-                                <thead>
+
+        <x-msg.flash />
+        <x-msg.error />
+        <div class="btn-wrapper mb-4">
+            <button class="cmn_btn btn_bg_profile" data-bs-toggle="modal" data-bs-target="#new_support_modal">
+                {{ __('Add New Department') }}
+            </button>
+        </div>
+        <div class="dashboard__card">
+            <div class="dashboard__card__header">
+                <h4 class="dashboard__card__title">{{ __('Support Departments') }}</h4>
+                @can('support-tickets-department-bulk-action')
+                    <x-bulk-action.dropdown />
+                @endcan
+            </div>
+            <div class="dashboard__card__body mt-4">
+                <div class="table-responsive">
+                    <table class="table table-default" id="dataTable">
+                        <thead>
+                            @can('support-tickets-department-bulk-action')
+                                <x-bulk-action.th />
+                            @endcan
+                            <th>{{ __('Serial No.') }}</th>
+                            <th>{{ __('Name') }}</th>
+                            <th>{{ __('Status') }}</th>
+                            <th>{{ __('Action') }}</th>
+                        </thead>
+                        <tbody>
+                            @foreach ($all_category as $data)
+                                <tr>
                                     @can('support-tickets-department-bulk-action')
-                                        <x-bulk-action.th />
+                                        <x-bulk-action.td :id="$data->id" />
                                     @endcan
-                                    <th>{{ __('ID') }}</th>
-                                    <th>{{ __('Name') }}</th>
-                                    <th>{{ __('Status') }}</th>
-                                    <th>{{ __('Action') }}</th>
-                                </thead>
-                                <tbody>
-                                    @foreach ($all_category as $data)
-                                        <tr>
-                                            @can('support-tickets-department-bulk-action')
-                                                <x-bulk-action.td :id="$data->id" />
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $data->name }}</td>
+                                    <td>
+                                        @if ('publish' == $data->status)
+                                            <span
+                                                class="badge bg-success">{{ ucfirst(__($data->status)) }}</span>
+                                        @else
+                                            <span
+                                                class="badge bg-warning">{{ ucfirst(__($data->status)) }}</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @can('support-tickets-department-update')
+                                            <a href="#1" title="{{ __('Edit Data') }}" data-bs-toggle="modal"
+                                                data-bs-target="#category_edit_modal"
+                                                class="btn btn-lg btn-warning text-dark btn-sm mb-2 me-1 category_edit_btn"
+                                                data-id="{{ $data->id }}" data-name="{{ $data->name }}"
+                                                data-status="{{ $data->status }}">
+                                                <i class="ti-pencil"></i>
+                                            </a>
+                                        @endcan
+                                        @can('support-tickets-department-delete')
+                                            @can('newsletter-delete')
+                                                <x-delete-popover :url="route('admin.support.ticket.department.delete', $data->id)" />
                                             @endcan
-                                            <td>{{ $data->id }}</td>
-                                            <td>{{ $data->name }}</td>
-                                            <td>
-                                                @if ('publish' == $data->status)
-                                                    <span
-                                                        class="btn btn-success btn-sm">{{ ucfirst(__($data->status)) }}</span>
-                                                @else
-                                                    <span
-                                                        class="btn btn-warning btn-sm">{{ ucfirst(__($data->status)) }}</span>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @can('support-tickets-department-update')
-                                                    <a href="#1" title="{{ __('Edit Data') }}" data-bs-toggle="modal"
-                                                        data-bs-target="#category_edit_modal"
-                                                        class="btn btn-lg btn-warning text-dark btn-sm mb-2 me-1 category_edit_btn"
-                                                        data-id="{{ $data->id }}" data-name="{{ $data->name }}"
-                                                        data-status="{{ $data->status }}">
-                                                        <i class="ti-pencil"></i>
-                                                    </a>
-                                                @endcan
-                                                @can('support-tickets-department-delete')
-                                                    <a tabindex="0" class="btn btn-lg btn-danger btn-sm mb-2 me-1"
-                                                        role="button" data-bs-toggle="popover" data-bs-trigger="focus"
-                                                        data-bs-html="true" title="{{ __('Delete Data') }}"
-                                                        data-content="<h6>{{ __('Are you sure to delete this category item?') }}</h6><form method='post' action='{{ route('admin.support.ticket.department.delete', $data->id) }}'><input type='hidden' name='_token' value='{{ csrf_token() }}'><br><input type='submit' class='btn btn-danger btn-sm' value='{{ __('Yes, Please') }}'></form>">
-                                                        <i class="ti-trash"></i>
-                                                    </a>
-                                                @endcan
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                                            {{-- <a tabindex="0" class="btn btn-lg btn-danger btn-sm mb-2 me-1"
+                                                role="button" data-bs-toggle="popover" data-bs-trigger="focus"
+                                                data-bs-html="true" title="{{ __('Delete Data') }}"
+                                                data-content="<h6>{{ __('Are you sure to delete this category item?') }}</h6><form method='post' action='{{ route('admin.support.ticket.department.delete', $data->id) }}'><input type='hidden' name='_token' value='{{ csrf_token() }}'><br><input type='submit' class='btn btn-danger btn-sm' value='{{ __('Yes, Please') }}'></form>">
+                                                <i class="ti-trash"></i>
+                                            </a> --}}
+                                        @endcan
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            @can('support-tickets-department')
-                <div class="col-lg-5">
-                    <div class="dashboard__card">
-                        <div class="dashboard__card__header">
-                            <h4 class="dashboard__card__title">{{ __('Add New Department') }}</h4>
-                        </div>
-                        <div class="dashboard__card__body custom__form mt-4">
-                            <form action="{{ route('admin.support.ticket.department') }}" method="post"
-                                enctype="multipart/form-data">
-                                @csrf
-                                <div class="form-group">
-                                    <label for="name">
-                                        {{ __('Name') }}
-                                        <span class="text-danger">*</span>
-                                    </label>
-                                    <input type="text" class="form-control" id="name" name="name"
-                                        placeholder="{{ __('Enter name') }}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="status">
-                                        {{ __('Status') }}
-                                        <span class="text-danger">*</span>
-                                    </label>
-                                    <select name="status" class="form-control" id="status">
-                                        <option value="publish">{{ __('Publish') }}</option>
-                                        <option value="draft">{{ __('Draft') }}</option>
-                                    </select>
-                                </div>
-                                <div class="btn-wrapper mt-4">
-                                    <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Add') }}</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            @endcan
         </div>
     </div>
+
+    @can('support-tickets-department')
+        <div class="modal fade" id="new_support_modal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content custom__form">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{{ __('Add New Department') }}</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
+                    </div>
+
+                    <form action="{{ route('admin.support.ticket.department') }}" method="post"
+                    enctype="multipart/form-data">
+                        @csrf
+                        <input type="hidden" name="id" id="category_id">
+                        <div class="modal-body">
+                            @csrf
+                            <div class="form-group">
+                                <label for="name">
+                                    {{ __('Name') }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="name" name="name"
+                                    placeholder="{{ __('Enter name') }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="status">
+                                    {{ __('Status') }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <select name="status" class="form-control" id="status">
+                                    <option value="publish">{{ __('Publish') }}</option>
+                                    <option value="draft">{{ __('Draft') }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">{{ __('Close') }}</button>
+                            <button type="submit" class="btn btn-primary">{{ __('Add') }}</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    @endcan
 
     @can('support-tickets-department-update')
         <div class="modal fade" id="category_edit_modal" aria-hidden="true">

@@ -106,9 +106,7 @@
                                     <div class="form-group">
                                         <x-media-upload :title="__('Blog Image')" name="image" id="image"
                                             :oldimage="$blog_post->image" />
-                                        <small class="form-text text-muted">
-                                            {{ __('allowed image format: jpg,jpeg,png') }}
-                                        </small>
+                                        <small class="form-text text-danger">{{ __('Allowed image formats: jpg,jpeg,png') }}</small>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -116,9 +114,7 @@
                                         <x-media-upload :title="__('Og Meta Image')" :oldimage="$blog_post->og_meta_image" name="og_meta_image"
                                             id="og_meta_image" />
 
-                                        <small class="form-text text-muted">
-                                            {{ __('allowed image format: jpg,jpeg,png') }}
-                                        </small>
+                                        <small class="form-text text-danger">{{ __('Allowed image formats: jpg,jpeg,png') }}</small>
                                     </div>
                                 </div>
                                 <div class="col-md-6">

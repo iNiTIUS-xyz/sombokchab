@@ -1,7 +1,7 @@
 @extends('backend.admin-master')
 
 @section('site-title')
-    {{ __('All Tickets') }}
+    {{ __('AAdd New Ticket') }}
 @endsection
 
 @section('style')
@@ -44,7 +44,7 @@
                 @endcan
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('All Support Tickets') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('Customer Support Tickets') }}</h4>
                         <div class="dashboard__card__header__right d-flex">
                             @can('support-tickets-bulk-action')
                                 <x-bulk-action.dropdown />
@@ -58,7 +58,7 @@
                                     @can('support-tickets-bulk-action')
                                         <x-bulk-action.th />
                                     @endcan
-                                    <th class="text-center">{{ __('Serial No.') }}</th>
+                                    <th class="text-center">{{ __('Ticket ID') }}</th>
                                     <th class="text-center">{{ __('Title') }}</th>
                                     <th class="text-center">{{ __('Department') }}</th>
                                     <th class="text-center">{{ __('User') }}</th>
@@ -72,7 +72,7 @@
                                             @can('support-tickets-bulk-action')
                                                 <x-bulk-action.td :id="$data->id" />
                                             @endcan
-                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $data->id }}</td>
                                             <td>{{ $data->title }}</td>
                                             <td>{{ $data->department->name ?? __('anonymous') }}</td>
                                             <td>

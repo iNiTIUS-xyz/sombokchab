@@ -89,7 +89,7 @@
                                                         <i class="ti-email"></i>
                                                     </a>
 
-                                                    @if ($data->verified < 1)
+                                                    {{-- @if ($data->verified < 1)
                                                         <form class="mb-2 me-2" style="display: inline;float: left;"
                                                             action="{{ route('admin.newsletter.verify.mail.send') }}" method="post"
                                                             enctype="multipart/form-data">
@@ -101,7 +101,7 @@
                                                                 <i class="ti-receipt"></i>
                                                             </button>
                                                         </form>
-                                                    @endif
+                                                    @endif --}}
                                                 @endcan
 
                                                 @can('newsletter-delete')
@@ -149,7 +149,7 @@
             <div class="modal-dialog">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
-                        <h5 class="modal-title">{{ __('Send Mail To Subscriber') }}</h5>
+                        <h5 class="modal-title">{{ __('Send Mail to Subscriber') }}</h5>
                         <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
                     </div>
                     <form action="{{ route('admin.newsletter.single.mail') }}" id="send_mail_to_subscriber_edit_modal_form"
@@ -185,8 +185,10 @@
     <x-media.markup />
 @endsection
 
+
 @section('script')
     <script src="{{ asset('assets/backend/js/summernote-bs4.js') }}"></script>
+    <x-summernote.js />
     <script src="{{ asset('assets/backend/js/dropzone.js') }}"></script>
     @can('newsletter-bulk-action')
         <x-bulk-action-js :url="route('admin.newsletter.bulk.action')" />

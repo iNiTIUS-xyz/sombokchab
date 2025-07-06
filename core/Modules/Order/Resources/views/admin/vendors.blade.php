@@ -13,13 +13,13 @@
 @endsection
 
 @section('site-title')
-    {{ __('All vendors list') }}
+    {{ __('All Store Orders') }}
 @endsection
 
 @section('content')
     <div class="dashboard__card">
         <div class="dashboard__card__header">
-            <h3 class="dashboard__card__title">{{ __('All Vendors Order Profile') }}</h3>
+            <h3 class="dashboard__card__title">{{ __('All Store Orders') }}</h3>
         </div>
         <div class="dashboard__card__body mt-4">
             <div class="table-responsive">

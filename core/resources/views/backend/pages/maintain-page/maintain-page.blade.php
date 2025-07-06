@@ -89,7 +89,7 @@
                                                 {{ __($blog_image_btn_label) }}
                                             </button>
                                         </div>
-                                        <small class="form-text text-muted">
+                                        <small class="form-text text-danger">
                                             {{ __('Allowed image format: jpg,jpeg,png. RecommeDFnded image size 300x100') }}
                                         </small>
                                     </div>
@@ -133,7 +133,7 @@
                                                 {{ __($maintain_page_background_image_btn_label) }}
                                             </button>
                                         </div>
-                                        <small class="form-text text-muted">
+                                        <small class="form-text text-danger">
                                             {{ __('Allowed image format: jpg,jpeg,png. Recommended image size 1920x1000') }}
                                         </small>
                                     </div>

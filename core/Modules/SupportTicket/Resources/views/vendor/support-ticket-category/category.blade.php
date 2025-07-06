@@ -1,6 +1,6 @@
 @extends('vendor.vendor-master')
 @section('site-title')
-    {{ __('Support Department') }}
+    {{ __('Support Departments') }}
 @endsection
 @section('style')
     <x-datatable.css />
@@ -16,7 +16,7 @@
             <div class="col-lg-7">
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('All Departments') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('Support Departments') }}</h4>
                         <x-bulk-action.dropdown />
                     </div>
                     <div class="dashboard__card__body mt-4">
@@ -33,7 +33,7 @@
                                     @foreach ($all_category as $data)
                                         <tr>
                                             <x-bulk-action.td :id="$data->id" />
-                                            <td>{{ $data->id }}</td>
+                                            <td>{{ $loop->iteration }}</td>
                                             <td>{{ $data->name }}</td>
                                             <td>
                                                 @if ('publish' == $data->status)

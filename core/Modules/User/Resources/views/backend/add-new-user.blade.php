@@ -1,6 +1,6 @@
 @extends('backend.admin-master')
 @section('site-title')
-    {{ __('Add New User') }}
+    {{ __('Add New Customer') }}
 @endsection
 @section('content')
     <div class="col-lg-12 col-ml-12">
@@ -11,7 +11,7 @@
             <div class="col-12">
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('New User') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('Add New Customer') }}</h4>
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
                         <form action="{{ route('admin.frontend.new.user') }}" method="post" enctype="multipart/form-data">

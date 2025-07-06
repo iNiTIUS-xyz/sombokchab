@@ -56,7 +56,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="site_favicon">{{ __('Image') }}</label>
+                                <label for="site_favicon">{{ __('Profile Image') }}</label>
                                 <div class="media-upload-btn-wrapper">
                                     <div class="img-wrap">
                                         @php
@@ -77,14 +77,14 @@
                                     </div>
                                     <input type="hidden" id="image" name="image"
                                         value="{{ get_static_option('image') }}">
-                                    <button type="button" class="btn btn-info media_upload_form_btn"
+                                    <button type="button" class="btn btn-secondary media_upload_form_btn"
                                         data-btntitle="{{ __('Select Image') }}"
                                         data-modaltitle="{{ __('Upload Image') }}" data-bs-toggle="modal"
                                         data-bs-target="#media_upload_modal">
                                         {{ __($image_btn_label) }}
                                     </button>
                                 </div>
-                                <small class="form-text text-muted">{{ __('allowed image format: jpg,jpeg,png') }}</small>
+                                <small class="form-text text-danger">{{ __('Allowed image formats: jpg,jpeg,png') }}</small>
                             </div>
                             <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Add New Admin') }}</button>
                         </form>

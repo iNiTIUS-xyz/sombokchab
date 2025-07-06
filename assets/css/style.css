@@ -286,6 +286,14 @@ span {
   display: inline-block;
 }
 
+label{
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: var(--heading-color);
+  margin-bottom: 8px;
+}
+
 .desktop-center {
   text-align: center;
 }
@@ -16855,7 +16863,7 @@ textarea {
   font-size: 16px;
   font-weight: 500;
   border: 1px solid transparent;
-  top: 50%;
+  top: 44%;
   -webkit-transform: translateY(-50%);
   transform: translateY(-50%);
   background: var(--main-color-one);
@@ -22569,6 +22577,8 @@ table.dataTable.no-footer {
 
 .dashboard-profile-padding {
   padding: 40px 30px;
+  min-height: 400px;
+  width: 100%;
 }
 
 @media (min-width: 1600px) and (max-width: 1849.98px) {

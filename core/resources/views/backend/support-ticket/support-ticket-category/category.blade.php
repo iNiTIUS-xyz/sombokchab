@@ -1,6 +1,6 @@
 @extends('backend.admin-master')
 @section('site-title')
-    {{ __('Support Department') }}
+    {{ __('Support Departments') }}
 @endsection
 @section('style')
     <x-datatable.css />
@@ -14,7 +14,7 @@
                 <x-msg.error />
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title mb-4">{{ __('All Departments') }}</h4>
+                        <h4 class="dashboard__card__title mb-4">{{ __('Support Departments') }}</h4>
                         @can('support-ticket-department-delete')
                             <x-bulk-action.dropdown />
                         @endcan
