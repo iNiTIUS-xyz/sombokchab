@@ -2,13 +2,13 @@
 
 namespace Modules\Refund\Http\Traits;
 
-use Illuminate\Database\Eloquent\Collection;
-use LaravelIdea\Helper\Modules\Order\Entities\_IH_SubOrderItem_C;
+use Illuminate\Support\Facades\DB;
 use Modules\Order\Entities\SubOrderItem;
 use Modules\Refund\Entities\RefundRequest;
+use Illuminate\Database\Eloquent\Collection;
 use Modules\Refund\Entities\RefundRequestFile;
-use Modules\Refund\Entities\RefundRequestProduct;
 use Modules\Refund\Entities\RefundRequestTrack;
+use Modules\Refund\Entities\RefundRequestProduct;
 
 trait RefundRequestData
 {
@@ -22,7 +22,7 @@ trait RefundRequestData
     private function validatedRefundRequest(): bool
     {
         try {
-            \DB::beginTransaction();
+            DB::beginTransaction();
 
             // first need to get all products from request data
             $this->prepareRequestItemData();
@@ -33,15 +33,15 @@ trait RefundRequestData
             // now store refund Request product items with validation
             $this->storeRefundProductItems();
             // now store refund request track
-            $this->storeRefundRequestTrack($this->refundRequest->id,'Request sent',auth()->id());
+            $this->storeRefundRequestTrack($this->refundRequest->id, 'Request sent', auth()->id());
             // save files into the server
             $this->storeFile();
             // store file information into database
             $this->saveRefundRequestFiles();
 
-            \DB::commit();
+            DB::commit();
             return true;
-        }catch(\Exception $exception){
+        } catch (\Exception $exception) {
             \DB::rollBack();
             return false;
         }
@@ -54,8 +54,8 @@ trait RefundRequestData
 
     private function storeFile()
     {
-        foreach($this->data["files"] ?? [] as $file){
-            $filename = time() . rand(1111,9999);
+        foreach ($this->data["files"] ?? [] as $file) {
+            $filename = time() . rand(1111, 9999);
             $extension = $file->extension();
             $filename = $filename . '.' . $extension;
             $this->fileNames[] = [
@@ -78,7 +78,7 @@ trait RefundRequestData
     private function refundProductsValidation(): array
     {
         $refundRequestProducts = [];
-        foreach($this->items as $item){
+        foreach ($this->items as $item) {
             $item = (object) $item;
             $productItem = $this->products->find($item->item_id);
 
@@ -99,7 +99,8 @@ trait RefundRequestData
 
     // create a method for storing refund request tracks
     // method visibility will be public
-    public function storeRefundRequestTrack(int $id,string $name,int $userId,string $type = 'create'){
+    public function storeRefundRequestTrack(int $id, string $name, int $userId, string $type = 'create')
+    {
         $timestamp = $type === 'create' ? ["created_at" => now()] : ["updated_at" => now()];
 
         return RefundRequestTrack::create([
@@ -110,7 +111,8 @@ trait RefundRequestData
         ] + $timestamp);
     }
 
-    private function storeRefundRequest(){
+    private function storeRefundRequest()
+    {
         $this->refundRequest = RefundRequest::create($this->storeRefundRequestData());
 
         return $this->refundRequest;
@@ -128,7 +130,7 @@ trait RefundRequestData
         ];
     }
 
-    private function requestItemProduct(): Collection|array|_IH_SubOrderItem_C
+    private function requestItemProduct()
     {
         $this->products = SubOrderItem::with($this->with)
             ->whereRelation("product", "is_refundable", 1)
@@ -140,7 +142,7 @@ trait RefundRequestData
     // this method will prepare your data for fetching product and prepare item array
     private function prepareRequestItemData(): array
     {
-        foreach($this->data["request_item_id"] ?? [] as $item){
+        foreach ($this->data["request_item_id"] ?? [] as $item) {
             $this->itemIds[] = $item;
 
             $this->items[] = [

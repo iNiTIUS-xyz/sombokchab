@@ -1,4 +1,5 @@
 @extends('frontend.user.dashboard.user-master')
+
 @section('style')
     <x-datatable.css />
     <style>
@@ -7,9 +8,11 @@
         }
     </style>
 @endsection
+
 @section('site-title')
     {{ __('My Orders') }}
 @endsection
+
 @section('section')
     @if ($order->refund_request_count < 1)
         <div class="form-header-wrap d-flex justify-content-between">
@@ -170,17 +173,17 @@
                                             class="textarea-form">{{ get_static_option('courier_address') }}</textarea>
                                     </div>
                                 </div>
-                                {{-- @dd(json_encode($refundPreferredOptions->toArray())) --}}
                                 <div class="col-md-6">
                                     <div class="form-group preferred-option-wrapper">
                                         <label class="form-label"
                                             for="#additional-info">{{ __('Payment Option') }}</label>
                                         <select class="form-control" name="preferred_option" id="preferred_option">
-                                            <option value="">{{ __('Select Payment Option') }}
-                                            </option>
+                                            <option value="">{{ __('Select Payment Option') }}</option>
                                             @foreach ($refundPreferredOptions as $option)
-                                                <option data-fields="{{ json_encode(unserialize($option->fields)) }}"
-                                                    value="{{ $option->id }}">{{ $option->name }}</option>
+                                                <option data-fields="{{ json_encode(unserialize($option->fields)) }}" data-is-file="{{ $option->is_file }}"
+                                                    value="{{ $option->id }}">
+                                                    {{ $option->name }}
+                                                </option>
                                             @endforeach
                                         </select>
                                         <p class="error-info text-danger"></p>
@@ -189,7 +192,9 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="form-label"
-                                            for="#additional-info">{{ __('Upload Images') }}</label>
+                                            for="#additional-info">
+                                            {{ __('Upload Images') }}
+                                        </label>
                                         <input type="file" name="files[]" id="" multiple max="6"
                                             class="form-control-file" />
                                     </div>
@@ -198,7 +203,9 @@
                                 <div class="col-md-12">
                                     <div class="form-group d-flex justify-content-end">
                                         <button type="submit"
-                                            class="cmn_btn btn_bg_profile refund_request_button">{{ __('Request Refund') }}</button>
+                                            class="cmn_btn btn_bg_profile refund_request_button">
+                                            {{ __('Request Refund') }}
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -225,25 +232,40 @@
                 $('.user-dashboard-wrapper, .bodyUser_overlay').addClass('show');
             });
         });
-        $(document).on("change", "#preferred_option", function() {
-            let preferredMethods = '',
-                fields = JSON.parse($(this).find("option:selected").attr("data-fields"));
 
-            fields.forEach(function(value, key) {
-                let name = value.replace(" ", "_");
+       $(document).on("change", "#preferred_option", function () {
+            let preferredMethods = '';
+            let $selectedOption = $(this).find("option:selected");
+            let isFile = $selectedOption.attr("data-is-file");
+            let fields = $selectedOption.attr("data-fields");
 
-                if (name != 'undefined') {
-                    preferredMethods = preferredMethods + `
+            // If isFile is yes, add only one file input
+            if (isFile === 'yes') {
+                preferredMethods += `
+                    <div class="form-group">
+                        <label class="form-label">QR Code File</label>
+                        <input class="form-control-file" name="qr_code_file" type="file" />
+                    </div>
+                `;
+            }
+            // If isFile is no, loop through fields and add text inputs
+            else if (isFile === 'no' && fields && fields !== "false") {
+                fields = JSON.parse(fields);
+
+                fields.forEach(function (value) {
+                    let name = value.replace(/\s+/g, "_");
+                    preferredMethods += `
                         <div class="form-group">
-                            <label class="form-label">${value.capitalize()}</label>
-                            <input class="form-control" name="fields[${name}]" />
+                            <label class="form-label">${value}</label>
+                            <input class="form-control" name="fields[${name}]" type="text" />
                         </div>
                     `;
-                }
-            })
+                });
+            }
 
             $(".preferred-method-fields").html(preferredMethods);
         });
+
 
         // $(document).on("click", ".request-product-checkbox", function() {
         //     if ($(this).prop('checked')) {

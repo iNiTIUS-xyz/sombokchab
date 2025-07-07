@@ -28,10 +28,10 @@ class HandleUserRefundRequest extends FormRequest
         ]);
     }
 
-    private function reasonValidation():array
+    private function reasonValidation(): array
     {
         $validation = [];
-        foreach($this->request_item_id as $item){
+        foreach ($this->request_item_id as $item) {
             $validation["refund_reason." . $item] = "required|exists:refund_reasons,id";
             $validation["refund_quantity." . $item] = "required|integer";
             $this->validationMessage["refund_reason." . $item] = "Please select a refund reason for " . $this->product_name[$item] ?? "";

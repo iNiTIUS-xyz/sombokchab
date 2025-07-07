@@ -20,31 +20,34 @@ class RefundServices extends RefundRequestWithable
         $self->orderId = $orderId;
 
 
-        if(!is_null($self->instance)){
+        if (!is_null($self->instance)) {
             return $self->instance;
         }
 
         return $self;
     }
 
-    public static function prepareRefundRequestData($data,$orderId){
+    public static function prepareRefundRequestData($data, $orderId)
+    {
         return self::instance($data, $orderId)->validatedRefundRequest();
     }
 
-    public static function getProduct(int $orderId){
-        // check product is refund available for refund or not
-        // check order are eligible for requesting for refund
-        // check order is delivered or not if delivered then go forward
+    public static function getProduct(int $orderId)
+    {
+        $order = Order::query()
+            ->where("id", $orderId)
+            ->with([
+                "orderItems" => function ($query) {
+                    $query->whereRelation("product", "is_refundable", 1);
+                    $query->with("product", "variant");
+                }
+            ])
+            ->withWhereHas("isDelivered")
+            ->firstOrFail();
 
-        $order = Order::where("id", $orderId)->with(["orderItems" => function ($query){
-            $query->whereRelation("product", "is_refundable", 1);
-            $query->with("product","variant");
-        }])->withWhereHas("isDelivered")->firstOrFail();
-
-        // check order delivered date
         $addDay = get_static_option("how_long_user_will_eligible_for_refund");
 
-        if($order->isDelivered?->created_at?->addDay($addDay) < Carbon::now()){
+        if ($order->isDelivered?->created_at?->addDay($addDay) < Carbon::now()) {
             return false;
         }
 

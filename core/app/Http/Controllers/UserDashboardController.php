@@ -466,23 +466,9 @@ class UserDashboardController extends Controller
         return view(self::BASE_PATH . 'order.refund', compact('id', 'order', 'subOrders', 'refundable_items', 'refundReasons', 'refundPreferredOptions'));
     }
 
-    // public function handleRefundRequest(HandleUserRefundRequest $request, $id)
-    // {
-    //     if (!moduleExists("Refund")) {
-    //         abort(404);
-    //     }
-
-    //     // get prepare for product data for request refund
-    //     $refundProducts = RefundServices::prepareRefundRequestData($request->validated(), $id);
-
-    //     return back()->with([
-    //         'msg' => $refundProducts ? __('Your request has been sent') : __('Failed to send request something went wrong.'),
-    //         'type' => $refundProducts ? 'success' : 'danger',
-    //     ]);
-    // }
-
     public function handleRefundRequest(HandleUserRefundRequest $request, $id)
     {
+        // dd(1);
         if (!moduleExists("Refund")) {
             abort(404);
         }
