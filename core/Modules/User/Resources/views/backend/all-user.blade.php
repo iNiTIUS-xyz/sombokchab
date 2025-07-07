@@ -108,76 +108,134 @@
 
     @can('frontend-user-update')
         <div class="modal fade" id="user_edit_modal" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content custom__form">
-                    <div class="modal-header">
-                        <h5 class="modal-title">{{ __('Edit User Details') }}</h5>
-                        <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
-                    </div>
-                    <form action="{{ route('admin.frontend.user.update') }}" id="user_edit_modal_form" method="post"
-                        enctype="multipart/form-data">
-                        @csrf
+            <div class="modal-dialog modal-lg">
+                <form action="{{ route('admin.frontend.user.update') }}" id="user_edit_modal_form" method="post"
+                    enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" name="user_id" id="user_id">
+                    <div class="modal-content custom__form">
+                        <div class="modal-header">
+                            <h5 class="modal-title">{{ __('Edit User Details') }}</h5>
+                            <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
+                        </div>
                         <div class="modal-body">
-                            <input type="hidden" name="user_id" id="user_id">
-                            <div class="form-group">
-                                <label for="name">{{ __('Name') }}</label>
-                                <input type="text" class="form-control" id="name" name="name"
-                                    placeholder="{{ __('Enter name') }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="username">{{ __('Username') }}</label>
-                                <input type="text" class="form-control" id="username" name="username"
-                                    placeholder="{{ __('Username') }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="email">{{ __('Email') }}</label>
-                                <input type="text" class="form-control" id="email" name="email" placeholder="{{ __('Email') }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="phone">{{ __('Phone') }}</label>
-                                <input type="text" class="form-control" id="phone" name="phone" placeholder="{{ __('Phone') }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="country">{{ __('Country') }}</label>
-                                <select id="country" name="country" class="form-control">
-                                    <option value="">{{ __('Select Country') }}</option>
-                                    @foreach ($country as $item)
-                                        <option value="{{ $item->id }}">
-                                            {{ $item->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="city">{{ __('City') }}</label>
-                                <select id="city_id" name="city" class="form-control">
-                                    <option value="">{{ __('Select City') }}</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="state">{{ __('Province') }}</label>
-                                <select id="state_id" name="state" class="form-control">
-                                    <option value="">{{ __('Select province') }}</option>
-                                </select>
-                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
 
-                            <div class="form-group">
-                                <label for="zipcode">{{ __('Postal Code') }}</label>
-                                <input type="text" class="form-control" id="zipcode" name="zipcode"
-                                    placeholder="{{ __('Postal Code') }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="address">{{ __('Address') }}</label>
-                                <input type="text" class="form-control" id="address" name="address"
-                                    placeholder="{{ __('Address') }}">
+                                    <div class="form-group">
+                                        <label for="name">
+                                            {{ __('Name') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" id="name" name="name"
+                                            placeholder="{{ __('Enter name') }}">
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6">
+
+                                    <div class="form-group">
+                                        <label for="username">
+                                            {{ __('Username') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" id="username" name="username"
+                                            placeholder="{{ __('Username') }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+
+                                    <div class="form-group">
+                                        <label for="email">
+                                            {{ __('Email') }}
+                                        </label>
+                                        <input type="text" class="form-control" id="email" name="email"
+                                            placeholder="{{ __('Email') }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+
+                                    <div class="form-group">
+                                        <label for="phone">
+                                            {{ __('Phone') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" id="phone" name="phone"
+                                            placeholder="{{ __('Phone') }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+
+                                    <div class="form-group">
+                                        <label for="country">
+                                            {{ __('Country') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <select id="country" name="country" class="form-control">
+                                            <option value="">{{ __('Select Country') }}</option>
+                                            @foreach ($country as $item)
+                                                <option value="{{ $item->id }}">
+                                                    {{ $item->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+
+                                    <div class="form-group">
+                                        <label for="city">
+                                            {{ __('City') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <select id="city_id" name="city" class="form-control">
+                                            <option value="">{{ __('Select City') }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+
+                                    <div class="form-group">
+                                        <label for="state">
+                                            {{ __('Province') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <select id="state_id" name="state" class="form-control">
+                                            <option value="">{{ __('Select province') }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+
+
+                                    <div class="form-group">
+                                        <label for="zipcode">
+                                            {{ __('Postal Code') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" id="zipcode" name="zipcode"
+                                            placeholder="{{ __('Postal Code') }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+
+                                    <div class="form-group">
+                                        <label for="address">
+                                            {{ __('Address') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" id="address" name="address"
+                                            placeholder="{{ __('Address') }}">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
                             <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
     @endcan
