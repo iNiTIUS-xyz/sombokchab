@@ -32,17 +32,28 @@
                                         <th>{{ __('Serial No.') }}</th>
                                         <th>{{ __('Payment Method') }}</th>
                                         <th>{{ __('Payment Method Fields') }}</th>
+                                        <th>{{ __('Is File') }}</th>
                                         <th>{{ __('Status') }}</th>
                                         <th>{{ __('Action') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-
                                     @foreach ($preferredOptions as $preferredOption)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $preferredOption->name }}</td>
-                                            <td>{{ implode(' , ', unserialize($preferredOption->fields)) }}</td>
+                                            <td>
+                                                @if($preferredOption->is_file == 'yes')
+                                                    {{ __('File Upload Required') }}
+                                                @else
+                                                    @if($preferredOption->fields)
+                                                        {{ implode(' , ', unserialize($preferredOption->fields)) }}
+                                                    @endif
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <x-status-span :status="$preferredOption->is_file" />
+                                            </td>
                                             <td>
                                                 <x-status-span :status="$preferredOption->status?->name" />
                                             </td>
@@ -52,7 +63,8 @@
                                                         data-name="{{ $preferredOption->name }}"
                                                         data-id="{{ $preferredOption->id }}"
                                                         data-status="{{ $preferredOption->status_id }}"
-                                                        data-blog-filed="{{ json_encode(unserialize($preferredOption->fields)) }}"
+                                                        data-is-file="{{ $preferredOption->is_file }}"
+                                                        data-blog-filed="{{ json_encode($preferredOption->is_file ? [] : unserialize($preferredOption->fields)) }}"
                                                         class="btn btn-sm btn-warning text-dark mb-2 me-1 update-gateway"
                                                         data-bs-toggle="modal" data-bs-target="#edit-gateway-modal">
                                                         <i class="ti-pencil"></i>
@@ -60,7 +72,7 @@
                                                 @endcan
 
                                                 @can('refund-preferred-option-update')
-                                                    <x-table.btn.swal.delete :route="route(
+                                                                                <x-table.btn.swal.delete :route="route(
                                                         'admin.refund.preferred-option.delete',
                                                         $preferredOption->id,
                                                     )" />
@@ -95,9 +107,18 @@
                                 </div>
 
                                 <div class="form-group">
+                                    <label>
+                                        <input type="checkbox" name="is_file" id="is_file_checkbox" value="yes">
+                                        {{ __('Is File') }}
+                                    </label>
+                                </div>
+
+                                <div class="form-group overflow-auto" id="fields_container" style="max-height: 400px;">
                                     <div class="dashboard__card card__two">
                                         <div class="dashboard__card__header">
-                                            <h4 class="dashboard__card__title">{{ __('Gateway field') }}</h4>
+                                            <h4 class="dashboard__card__title">
+                                                {{ __('Gateway field') }}
+                                            </h4>
                                         </div>
                                         <div class="dashboard__card__body">
                                             <div class="form-group row">
@@ -118,6 +139,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="form-group">
                                     <label>{{ __('Select Status') }}</label>
                                     <select name="status_id" class="form-control">
@@ -141,36 +163,44 @@
     <!-- Modal -->
     <div class="modal fade" id="edit-gateway-modal" tabindex="-1" aria-labelledby="edit-gateway-modalLabel"
         aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content custom__form">
-                @can('refund-preferred-option-update')
-                    <form class="" method="POST" action="{{ route('admin.refund.preferred-option.update') }}">
-                        @method('PUT')
-                        @csrf
+        <form class="" method="POST" action="{{ route('admin.refund.preferred-option.update') }}">
+            @method('PUT')
+            @csrf
+            <div class="modal-dialog">
+                <div class="modal-content custom__form">
+                    @can('refund-preferred-option-update')
                         <input type="hidden" value="" name="id" />
 
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">{{ __('Refund preferred option update') }}</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">
+                                {{ __('Refund preferred option update') }}
+                            </h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
 
-                        <div class="modal-body">
-                            @csrf
+                        <div class="modal-body overflow-auto" style="max-height: 550px;">
                             <div class="form-group">
                                 <label class="w-100">{{ __('Name') }}</label>
                                 <input class="form-control" name="gateway_name" placeholder="{{ __('Enter gateway name') }}">
-
                                 <small class="info">
                                     {{ __('If you want to merge refund value to user wallet, then use Wallet like this') }} .
                                     {{ __('Only for wallet') }}
                                 </small>
                             </div>
-                            <div class="dashboard__card">
+
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" name="is_file" id="edit_is_file_checkbox" value="yes">
+                                    {{ __('Is File') }}
+                                </label>
+                            </div>
+
+                            <div class="dashboard__card" id="edit_fields_container">
                                 <div class="dashboard__card__header">
                                     <h4 class="dashboard__card__title">{{ __('Gateway field') }}</h4>
                                 </div>
                                 <div class="card-body gateway-filed-body">
-
+                                    <!-- Fields will be added here dynamically -->
                                 </div>
                             </div>
 
@@ -184,73 +214,105 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">{{ __('Close') }}</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
                             <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                         </div>
-                    </form>
-                @endcan
+                    @endcan
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 @endsection
 
 @section('script')
     <x-table.btn.swal.js />
     <script>
-        $(document).on("click", ".update-gateway", function() {
+        $(document).ready(function () {
+            // Toggle fields container based on checkbox
+            $('#is_file_checkbox').change(function () {
+                if ($(this).is(':checked')) {
+                    $('#fields_container').hide();
+                } else {
+                    $('#fields_container').show();
+                }
+            });
+
+            // Toggle fields container in edit modal
+            $('#edit_is_file_checkbox').change(function () {
+                if ($(this).is(':checked')) {
+                    $('#edit_fields_container').hide();
+                } else {
+                    $('#edit_fields_container').show();
+                }
+            });
+        });
+
+        $(document).on("click", ".update-gateway", function () {
             let fileds = JSON.parse($(this).attr("data-blog-filed"));
+            let isFile = $(this).attr("data-is-file") == 'yes';
+
             $("#edit-gateway-modal input[name='gateway_name']").val($(this).attr("data-name"))
             $("#edit-gateway-modal select[name='status_id'] option[value='" + $(this).attr("data-status") + "']")
                 .attr("selected", true);
             $("#edit-gateway-modal input[name='id']").val($(this).attr("data-id"));
 
-            if (fileds.length > 0) {
+            // Set is_file checkbox
+            if (isFile) {
+                $("#edit_is_file_checkbox").prop('checked', true);
+                $("#edit_fields_container").hide();
+            } else {
+                $("#edit_is_file_checkbox").prop('checked', false);
+                $("#edit_fields_container").show();
+            }
+
+            if (fileds.length > 0 && !isFile) {
                 let list_filed = "";
 
-                fileds.forEach(function(value, index, array) {
+                fileds.forEach(function (value, index, array) {
                     list_filed += `
-                        <div class="form-group row">
-                            <div class="w-90 d-flex align-items-center">
-                                <input class="form-control" value="${value}" name="filed[]" placeholder="Enter filed name">
-                            </div>
-                            <div class="col-md-1 d-flex flex-column align-items-center justify-content-center pb-2 gap-2">
-                                <button type="button" class="btn btn-primary btn-sm gateway-filed-add">
-                                    <i class="las la-plus"></i>
-                                </button>
-                                <button type="button" class="btn btn-danger btn-sm gateway-filed-remove">
-                                    <i class="las la-trash-alt"></i>
-                                </button>
-                            </div>
+                    <div class="form-group row">
+                        <div class="w-90 d-flex align-items-center">
+                            <input class="form-control" value="${value}" name="filed[]" placeholder="Enter filed name">
                         </div>
-                    `;
+                        <div class="col-md-1 d-flex flex-column align-items-center justify-content-center pb-2 gap-2">
+                            <button type="button" class="btn btn-primary btn-sm gateway-filed-add">
+                                <i class="las la-plus"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm gateway-filed-remove">
+                                <i class="las la-trash-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
                 })
 
                 $(".gateway-filed-body").html(list_filed);
+            } else if (!isFile) {
+                $(".gateway-filed-body").html(`
+                    <div class="form-group row">
+                        <div class="w-90 d-flex align-items-center">
+                            <input class="form-control" name="filed[]" placeholder="Enter filed name">
+                        </div>
+                        <div class="col-md-1 d-flex flex-column align-items-center justify-content-center pb-2 gap-2">
+                            <button type="button" class="btn btn-primary btn-sm gateway-filed-add">
+                                <i class="las la-plus"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm gateway-filed-remove">
+                                <i class="las la-trash-alt"></i>
+                            </button>
+                        </div>
+                    </div>`);
             } else {
-                $(".gateway-filed-body").html(`<div class="form-group row">
-                    <div class="w-90 d-flex align-items-center">
-                        <input class="form-control" name="filed[]" placeholder="Enter filed name">
-                    </div>
-                    <div class="col-md-1 d-flex flex-column align-items-center justify-content-center pb-2 gap-2">
-                        <button type="button" class="btn btn-primary btn-sm gateway-filed-add">
-                            <i class="las la-plus"></i>
-                        </button>
-                        <button type="button" class="btn btn-danger btn-sm gateway-filed-remove">
-                            <i class="las la-trash-alt"></i>
-                        </button>
-                    </div>
-                </div>`);
+                $(".gateway-filed-body").html('');
             }
-
         });
 
-        $(document).on("click", ".gateway-filed-add", function() {
+        $(document).on("click", ".gateway-filed-add", function () {
             let elem = $(this).parent().parent();
             elem.parent().append(elem.clone());
         });
 
-        $(document).on("click", ".gateway-filed-remove", function() {
+        $(document).on("click", ".gateway-filed-remove", function () {
             if ($(".gateway-filed-remove").length == 1) {
                 return null;
             }
@@ -259,11 +321,9 @@
             });
         });
 
-        $(document).on("click", ".update-withdraw-gateway", function(e) {
+        $(document).on("click", ".update-withdraw-gateway", function (e) {
             e.preventDefault();
-
-
             send_ajax_request("PUT")
-        })
+        });
     </script>
 @endsection
