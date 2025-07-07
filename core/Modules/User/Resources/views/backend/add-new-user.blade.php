@@ -38,7 +38,6 @@
                             <div class="form-group">
                                 <label for="email">
                                     {{ __('Email') }}
-                                    <span class="text-danger">*</span>
                                 </label>
                                 <input type="text" class="form-control" id="email" name="email"
                                     placeholder="{{ __('Enter email') }}">

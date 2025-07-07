@@ -1,4 +1,5 @@
 @extends('backend.admin-master')
+
 @section('site-title', __('Tax Class'))
 
 @section('style')
@@ -70,14 +71,14 @@
 @section('script')
     <script>
         // if user clicked on this button then trigger tax class option form to submit
-        $(document).on("click", ".store-tax-option", function() {
+        $(document).on("click", ".store-tax-option", function () {
             $("#tax-class-option-form").trigger("submit");
         })
 
-        $(document).on("click", "#select-all-text-class-option", function() {
+        $(document).on("click", "#select-all-text-class-option", function () {
             let isSelected = $(this).is(":checked");
 
-            $(".tax-option-row-check").each(function() {
+            $(".tax-option-row-check").each(function () {
                 if (isSelected) {
                     $(this).attr("checked", true);
                 } else {
@@ -87,24 +88,24 @@
         })
 
         // fetch all states according to selected country
-        $(document).on("change", "#country_id", function() {
+        $(document).on("change", "#country_id", function () {
             let el = $(this);
             let country_id = el.val();
 
             // send request for fetching tax class option data
-            send_ajax_request("get", '', "{{ route('country.state.info.ajax') }}?id=" + country_id, () => {}, (
+            send_ajax_request("get", '', "{{ route('country.state.info.ajax') }}?id=" + country_id, () => { }, (
                 data) => {
                 el.parent().parent().find("#state_id").html(data);
             }, (errors) => prepare_errors(errors))
         });
 
         // fetch all cities according to selected state
-        $(document).on("change", "#state_id", function() {
+        $(document).on("change", "#state_id", function () {
             let el = $(this);
             let state_id = el.val();
 
             // send request for fetching tax class option data
-            send_ajax_request("get", '', "{{ route('state.city.info.ajax') }}?id=" + state_id, () => {}, (
+            send_ajax_request("get", '', "{{ route('state.city.info.ajax') }}?id=" + state_id, () => { }, (
                 data) => {
                 el.parent().parent().find("#city_id").html(data);
             }, (errors) => prepare_errors(errors))
@@ -112,16 +113,16 @@
 
 
         // this method will add new row on tax class option
-        $(document).on("click", ".add-tax-option", function() {
+        $(document).on("click", ".add-tax-option", function () {
             let tr = `<x-taxmodule::tax-class-option-row :$countries />`;
 
             $('#tax-option-table tbody').append(tr);
         });
 
         // this method will remove a row from table tbody
-        $(document).on("click", ".remove-tax-option", function() {
+        $(document).on("click", ".remove-tax-option", function () {
             // first need to get all selected tax option first
-            $("#tax-option-row-check:checked").each(function() {
+            $("#tax-option-row-check:checked").each(function () {
                 $(this).parent().parent().remove();
             });
         });
