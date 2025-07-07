@@ -29,7 +29,7 @@
     <td>
         <div class="table__input">
             <select class="table__input__select" name="state_id[]" id="state_id">
-                <option value="">{{ __('Select State') }}</option>
+                <option value="">{{ __('Select City') }}</option>
                 @foreach ($classOption?->states ?? [] as $state)
                     <option {{ $state->id == $classOption->state_id ? 'selected' : '' }} value="{{ $state->id ?? '' }}">
                         {{ $state->name }}</option>
@@ -40,7 +40,7 @@
     <td>
         <div class="table__input">
             <select class="table__input__select" name="city_id[]" id="city_id">
-                <option value="">{{ __('Select City') }}</option>
+                <option value="">{{ __('Select Province') }}</option>
                 @foreach ($classOption?->cities ?? [] as $city)
                     <option {{ $city->id == $classOption->city_id ? 'selected' : '' }} value="{{ $city->id ?? '' }}">
                         {{ $city->name }}</option>

@@ -35,7 +35,7 @@
                                         <x-bulk-action.th />
                                     @endcan
                                     <th>{{ __('Serial No.') }}</th>
-                                    <th>{{ __('Name') }}</th>
+                                    <th>{{ __('City') }}</th>
                                     <th>{{ __('Country') }}</th>
                                     <th>{{ __('Status') }}</th>
                                     <th>{{ __('Action') }}</th>
@@ -88,9 +88,9 @@
                         <div class="modal-body">
                             @csrf
                             <div class="form-group">
-                                <label for="edit_name">{{ __('Name') }}</label>
+                                <label for="edit_name">{{ __('City Name') }}</label>
                                 <input type="text" class="form-control" id="edit_name" name="name"
-                                    placeholder="{{ __('Enter name') }}">
+                                    placeholder="{{ __('Enter city name') }}">
                             </div>
                             <div class="form-group">
                                 <label for="edit_country_id">{{ __('Country') }}</label>
@@ -130,9 +130,9 @@
                         @csrf
                         <div class="modal-body p-4">
                             <div class="form-group">
-                                <label for="name">{{ __('Name') }}</label>
+                                <label for="name">{{ __('City Name') }}</label>
                                 <input type="text" class="form-control" id="name" name="name"
-                                    placeholder="{{ __('Enter name') }}">
+                                    placeholder="{{ __('Enter city Name') }}">
                             </div>
 
                             <div class="form-group">

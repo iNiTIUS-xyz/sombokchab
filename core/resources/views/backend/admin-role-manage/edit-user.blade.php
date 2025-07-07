@@ -24,18 +24,18 @@
                             @csrf
                             <input type="hidden" name="user_id" value="{{ $admin->id }}">
                             <div class="form-group">
-                                <label for="name">{{ __('Name') }}</label>
+                                <label for="name">{{ __('Name') }} <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" value="{{ $admin->name }}" name="name"
                                     placeholder="{{ __('Enter name') }}">
                             </div>
 
                             <div class="form-group">
-                                <label for="email">{{ __('Email') }}</label>
+                                <label for="email">{{ __('Email') }} <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" value="{{ $admin->email }}" name="email"
                                     placeholder="{{ __('Email') }}">
                             </div>
                             <div class="form-group">
-                                <label for="role">{{ 'Role' }}</label>
+                                <label for="role">{{ 'Role' }} <span class="text-danger">*</span></label>
                                 <select name="role" class="form-control">
                                     <option value="">{{ __('Select Role') }}</option>
                                     @foreach ($roles as $role)
@@ -45,7 +45,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="site_favicon">{{ __('Profile Image') }}</label>
+                                <label for="site_favicon">{{ __('Profile Image') }} <span class="text-danger">*</span></label>
                                 <div class="media-upload-btn-wrapper">
                                     <div class="img-wrap">
                                         @php

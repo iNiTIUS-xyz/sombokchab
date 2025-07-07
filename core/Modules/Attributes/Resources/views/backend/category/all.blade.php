@@ -21,13 +21,13 @@
                     @can('categories-new')
                         <a href="#1" data-bs-toggle="modal" data-bs-target="#category_create_modal"
                             class="cmn_btn btn_bg_profile">
-                            {{ __('New Category') }}
+                            {{ __('Add New Category') }}
                         </a>
                     @endcan
                 </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h3 class="dashboard__card__title">{{ __('All Products Categories') }}</h3>
+                        <h3 class="dashboard__card__title">{{ __('Product Categories') }}</h3>
                         <div class="dashboard__card__header__right">
                             @can('categories-bulk-action')
                                 <x-bulk-action.dropdown />
@@ -41,7 +41,7 @@
                                     @can('categories-bulk-action')
                                         <x-bulk-action.th />
                                     @endcan
-                                    <th>{{ __('ID') }}</th>
+                                    <th>{{ __('Serial No.') }}</th>
                                     <th>{{ __('Name') }}</th>
                                     <th>{{ __('Image') }}</th>
                                     <th>{{ __('Status') }}</th>
@@ -142,7 +142,7 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"
                                 data-bs-dismiss="modal">{{ __('Close') }}</button>
-                            <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
+                            <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                         </div>
                     </form>
                 </div>
@@ -187,9 +187,15 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Add') }}</button>
-                        </form>
+                            {{-- <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Add') }}</button> --}}
+                        
                     </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">{{ __('Close') }}</button>
+                        <button type="submit" class="btn btn-primary">{{ __('Add') }}</button>
+                    </div>
+                    </form>
                 </div>
             </div>
         </div>

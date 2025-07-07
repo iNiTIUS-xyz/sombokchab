@@ -474,7 +474,7 @@
                     }
                     if (data === 'ok') {
                         form.append(
-                            '<span class="text-success">{{ __('data saved success') }}</span>');
+                            '<span class="text-success">{{ __('Saved successfully') }}</span>');
                     }
                     if (data.msg != undefined) {
                         form.append('<span class="d-block text-' + data.type + '">' + data.msg +
@@ -487,7 +487,7 @@
                 }
             });
 
-            parent.text('saved..');
+            parent.text('Saving..');
             setTimeout(function() {
                 parent.text('{{ __('Save Changes') }}').attr('disabled', false);
             }, 1000);

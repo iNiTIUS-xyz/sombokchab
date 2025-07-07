@@ -146,7 +146,7 @@
 
 
         <div class="modal fade" id="send_mail_to_subscriber_modal" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
                         <h5 class="modal-title">{{ __('Send Mail to Subscriber') }}</h5>

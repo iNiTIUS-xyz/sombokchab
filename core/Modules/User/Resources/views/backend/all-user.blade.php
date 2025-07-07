@@ -35,6 +35,7 @@
                             <tr>
                                 <th>{{ __('Serial No.') }}</th>
                                 <th>{{ __('Name') }}</th>
+                                <th>{{ __('Phone') }}</th>
                                 <th>{{ __('Email') }}</th>
                                 <th>{{ __('Action') }}</th>
                             </tr>
@@ -44,6 +45,7 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td class="text-left">{{ $user->name }} ({{ $user->username }})</td>
+                                    <td class="text-left">{{ $user->phone }}</td>
                                     <td class="text-left">
                                         {{ $user->email }}
                                         @if ($user->email_verified == 1)
@@ -108,7 +110,7 @@
 
     @can('frontend-user-update')
         <div class="modal fade" id="user_edit_modal" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-scrollable">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
                         <h5 class="modal-title">{{ __('Edit User Details') }}</h5>

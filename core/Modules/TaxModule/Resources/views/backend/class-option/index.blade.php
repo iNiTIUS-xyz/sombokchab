@@ -14,16 +14,13 @@
         <div class="dashboard__card__header">
             <h5 class="dashboard__card__title">{{ __('Tax Class Options') }}</h5>
             <div class="dashboard__card__header__right tax-class-options">
-                <button class="btn btn-success btn-sm btn_sm add-tax-option" title="{{ __('Add') }}">
+                <button class="btn btn-primary btn-sm btn_sm add-tax-option" title="{{ __('Add') }}">
                     <i class="ti-plus"></i>
                 </button>
                 <button class="btn btn-danger btn-sm btn_sm remove-tax-option" title="{{ __('Delete') }}">
                     <i class="ti-trash"></i>
                 </button>
-                <button class="btn btn-success btn-sm btn_sm store-tax-option">
-                    <i class="ti-save"></i>
-                    {{ __('Update') }}
-                </button>
+                
             </div>
         </div>
 
@@ -46,8 +43,8 @@
                                 </th>
                                 <th>* {{ __('Name') }}</th>
                                 <th>{{ __('Country') }}</th>
-                                <th>{{ __('State') }}</th>
                                 <th>{{ __('City') }}</th>
+                                <th>{{ __('Province') }}</th>
                                 <th>{{ __('Postal Code') }}</th>
                                 <th>{{ __('Rate') }}</th>
                                 <th class="d-none">{{ __('Compound') }}</th>
@@ -62,6 +59,10 @@
                         </tbody>
                     </table>
                 </div>
+
+                <button class="cmn_btn btn_bg_profile store-tax-option mt-4">
+                    {{ __('Update') }}
+                </button>
             </form>
         </div>
     </div>

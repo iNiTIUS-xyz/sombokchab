@@ -92,9 +92,13 @@
                                     <td class="table-btn">
                                         <div class="btn-wrapper">
                                             <a href="{{ route('vendor.orders.details', $order->id) }}"
+                                                class="btn btn-secondary rounded-btn" title="{{ __('View details') }}">
+                                                <i class="las la-file-invoice"></i>
+                                            </a>
+                                            {{-- <a href="{{ route('vendor.orders.details', $order->id) }}"
                                                 class="btn btn-success btn-sm rounded-btn" title="Order Details">
                                                 <i class="las la-eye"></i>
-                                            </a>
+                                            </a> --}}
                                         </div>
                                     </td>
                                 </tr>

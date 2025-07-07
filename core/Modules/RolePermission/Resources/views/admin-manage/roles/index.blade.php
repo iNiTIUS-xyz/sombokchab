@@ -28,7 +28,7 @@
                         <x-flash-msg />
                         <div class="data-tables datatable-primary">
                             @if ($roles->isNotEmpty())
-                                <table id="dataTable" class="table">
+                                <table id="dataTable" class="table dataTable no-footer">
                                     <thead>
                                         <tr>
                                             <th>{{ __('Serial No.') }}</th>

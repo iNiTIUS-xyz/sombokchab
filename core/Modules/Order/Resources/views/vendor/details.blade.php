@@ -61,7 +61,7 @@
                                         @if ($subOrders->order_status == 'pending')
                                             <div class="d-flex gap-2 mt-2">
                                                 <button
-                                                    class="btn btn-sm btn-primary approve-order-for-delivery">{{ __('Approve order for delivery') }}</button>
+                                                    class="btn btn-sm btn-primary approve-order-for-delivery">{{ __('Approve Order for Delivery') }}</button>
                                                 <button
                                                     class="btn btn-sm btn-danger cancel-order">{{ __('Cancel Order') }}</button>
                                             </div>
@@ -70,13 +70,13 @@
                                         @if ($subOrders->order_status !== 'pending' && $subOrders->order_status !== 'product_sent_to_admin')
                                             <div class="d-flex gap-2 mt-2">
                                                 <button
-                                                    class="btn btn-sm btn-primary product-sent-to-admin">{{ __('Product sent to admin') }}</button>
+                                                    class="btn btn-sm btn-primary product-sent-to-admin">{{ __('Product Sent to Admin') }}</button>
                                             </div>
                                         @endif
                                     @else
                                         <div class="d-flex gap-2 mt-2">
                                             <button disabled
-                                                class="btn btn-sm btn-danger">{{ __("You've cancelled this order") }}</button>
+                                                class="badge bg-danger">{{ __("You've cancelled this order") }}</button>
                                         </div>
                                     @endif
                                 @endif
@@ -99,11 +99,11 @@
                                     <b>{{ __('Complete Orders') }}</b>
                                     <h6>{{ $subOrders?->vendor?->complete_order }}</h6>
                                 </div>
-                                <div class="d-flex justify-content-between mb-1">
+                                {{-- <div class="d-flex justify-content-between mb-1">
                                     <h4 class="my-3 dashboard__card__title">{{ __('Order Status') }}</h4>
-                                </div>
+                                </div> --}}
                                 <div class="d-flex justify-content-between mb-1">
-                                    <b>{{ __('Your Last order status') }}</b>
+                                    <b>{{ __('Order status') }}</b>
                                     <h6 @class([
                                         $subOrders->order_status === 'order_cancelled' => 'text-danger',
                                     ])>
@@ -133,7 +133,7 @@
                 <div class="dashboard__card__body mt-4">
                     <div class="d-flex justify-content-between mb-2">
                         <b>{{ __('Sub Order ID') }}</b>
-                        <h6>#{{ $subOrders->id }}</h6>
+                        <h6>{{ $subOrders->order_number }}</h6>
                     </div>
                     <div class="d-flex justify-content-between mb-2">
                         <b>{{ __('Transaction ID') }}</b>

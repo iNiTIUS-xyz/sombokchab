@@ -7,60 +7,34 @@
     <link rel="stylesheet" href="{{ asset('assets/backend/css/media-uploader.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/backend/css/summernote-bs4.css') }}">
     <style>
-        span.low,
-        span.status-open {
-            display: inline-block;
-            background-color: #6bb17b;
-            padding: 3px 10px;
-            border-radius: 4px;
-            color: #fff;
-            /* text-transform: capitalize; */
-            border: none;
-            font-weight: 600;
-            font-size: 10px;
-            margin: 3px;
+        .priority-status.bg-low{
+
         }
 
-        span.high,
-        span.status-close {
-            display: inline-block;
-            background-color: #c66060;
-            padding: 3px 10px;
-            border-radius: 4px;
-            color: #fff;
-            /* text-transform: capitalize; */
-            border: none;
-            font-weight: 600;
-            font-size: 10px;
-            margin: 3px;
+        .priority-status.bg-low {
+        background-color: var(--updatedOffer-bg-1);
+        border:1px solid var(--updatedOffer-bg-1);
+        color: var(--black);
         }
 
-        span.medium {
-            display: inline-block;
-            background-color: #70b9ae;
-            padding: 3px 10px;
-            border-radius: 4px;
-            color: #fff;
-            /* text-transform: capitalize; */
-            border: none;
-            font-weight: 600;
-            ,
-            font-size: 10px;
-            margin: 3px;
+        .priority-status.bg-medium {
+        background-color: var(--section-bg);
+        border:1px solid var(--section-bg);
+        color: var(--black);
         }
 
-        span.urgent {
-            display: inline-block;
-            background-color: #bfb55a;
-            padding: 3px 10px;
-            border-radius: 4px;
-            color: #fff;
-            /* text-transform: capitalize; */
-            border: none;
-            font-weight: 600;
-            font-size: 10px;
-            margin: 3px;
+        .priority-status.bg-high {
+        background-color: var(--main-color-two);
+        border:1px solid var(--main-color-two);
+        color: var(--black);
         }
+
+        .priority-status.bg-urgent {
+        background-color: var(--delete-color);
+        border:1px solid var(--delete-color);
+        color: var(--white);
+        }
+
     </style>
 @endsection
 @section('content')
@@ -81,11 +55,16 @@
                                     <li><strong>{{ __('Title:') }}</strong> {{ $ticket_details->title }}</li>
                                     <li><strong>{{ __('Subject:') }}</strong> {{ $ticket_details->subject }}</li>
                                     <li><strong>{{ __('Description:') }}</strong> {{ $ticket_details->description }}</li>
-                                    <li><strong>{{ __('Status:') }}</strong> <span
-                                            class="status-{{ $ticket_details->status }}">{{ $ticket_details->status }}</span>
+                                    <li><strong>{{ __('Status:') }}</strong> 
+                                        <span
+                                            class="badge status-{{ $ticket_details->status }} {{ $ticket_details->status == 'close' ? __('bg-danger') : __('bg-primary') }}">
+                                            {{ ucfirst($ticket_details->status == 'close' ? __('Closed') : __($ticket_details->status)) }}
+                                        </span>
                                     </li>
-                                    <li><strong>{{ __('Priority:') }}</strong> <span
-                                            class="{{ $ticket_details->priority }}">{{ $ticket_details->priority }}</span>
+                                    <li><strong>{{ __('Priority:') }}</strong> 
+                                        <span class="badge priority-status {{ $ticket_details->priority }} bg-{{ $ticket_details->priority }}">
+                                            {{ ucfirst($ticket_details->priority) }}
+                                        </span>
                                     </li>
                                     <li><strong>{{ __('User:') }}</strong>
                                         {{ $ticket_details->user->name ?? __('anonymous') }}</li>
@@ -152,7 +131,7 @@
                             </div>
                             @can('support-ticket-send-message')
                                 <div class="reply-message-wrap custom__form">
-                                    <h5 class="dashboard__card__title mb-3">{{ __('Reply To Message') }}</h5>
+                                    {{-- <h5 class="dashboard__card__title mb-3">{{ __('Reply To Message') }}</h5> --}}
                                     <x-msg.flash />
                                     <x-msg.error />
                                     <form action="{{ route('admin.support.ticket.send.message') }}" method="post"
@@ -161,7 +140,7 @@
                                         <input type="hidden" value="{{ $ticket_details->id }}" name="ticket_id">
                                         <input type="hidden" value="admin" name="user_type">
                                         <div class="form-group">
-                                            <label for="">{{ __('Message') }}</label>
+                                            <label for="">{{ __('Type your message here') }}</label>
                                             <textarea name="message" class="form-control d-none" cols="30" rows="5"></textarea>
                                             <div class="summernote"></div>
                                         </div>
@@ -169,7 +148,7 @@
                                             <label for="file">{{ __('File') }}</label>
                                             <input type="file" name="file">
                                             <small class="info-text d-block text-danger">
-                                                {{ __('max file size 200mb, only zip,png,gif,jpg,jpeg,pdf,docx,doc,odd file is allowed') }}
+                                                {{ __('Max file size 200mb, only zip, png, gif, jpg, jpeg, pdf, docx, doc, odd file is allowed') }}
                                             </small>
                                         </div>
                                         <div class="form-group d-flex align-items-baseline gap-3">

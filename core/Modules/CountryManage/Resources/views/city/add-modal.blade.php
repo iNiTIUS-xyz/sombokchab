@@ -19,7 +19,7 @@
                         </select>
                     </div>
 
-                    <div class="single-input mb-3">
+                    <div class="single-input">
                         <label class="label-title mt-3">{{ __('Select City') }}</label>
                         <select name="state" id="state" class="form-control get_country_state select2-state">
                             <option value="">{{ __('Select City') }}</option>
@@ -27,13 +27,17 @@
                         <span class="info_msg"></span>
                     </div>
 
-                    <x-form.text :title="__('State')" :type="__('text')" :name="'city'" :id="'city'"
+                    <x-form.text :title="__('Province')" :type="__('text')" :name="'city'" :id="'city'"
                         :placeholder="__('Enter Province Name')" />
 
-                    <select name="status" id="status" class="form-control">
-                        <option value="publish">{{ __('Active') }}</option>
-                        <option value="draft">{{ __('Inactive') }}</option>
-                    </select>
+                    <div class="form-group">
+                        <label class="label-title mt-2">{{ __('Status') }}</label>
+                        <select name="status" id="status" class="form-control">
+                            <option value="publish">{{ __('Active') }}</option>
+                            <option value="draft">{{ __('Inactive') }}</option>
+                        </select>
+                    </div>
+                    
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary mt-4"

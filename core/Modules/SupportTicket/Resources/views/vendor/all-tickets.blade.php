@@ -98,7 +98,7 @@
                                                     <td>{{ $data->title }}</td>
                                                     <td>{{ $data->department->name ?? __('anonymous') }}</td>
                                                     <td><small>{{ $data->created_at->format('M j, Y') }}</small></td>
-                                                    <td class="text-capitalize">{{ ucfirst($data->priority) }}</td>
+                                                    <td class="">{{ ucfirst($data->priority) }}</td>
                                                     <td>
                                                         <span
                                                             class="text-capitalize badge {{ $data->status == 'close' ? 'status-close' : 'status-open' }}">

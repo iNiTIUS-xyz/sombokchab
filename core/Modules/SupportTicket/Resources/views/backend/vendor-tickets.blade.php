@@ -61,11 +61,14 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <div class="btn-group">
+                                                <div class="btn-group badge">
                                                     <button type="button" class="{{ $data->priority }} dropdown-toggle"
                                                         data-bs-toggle="dropdown" aria-haspopup="true"
-                                                        aria-expanded="false">
-                                                        {{ $data->priority }}
+                                                        aria-expanded="false" style="width: 90px; text-align: left;">
+                                                        {{ $data->priority
+                                                            ? ucfirst($data->priority)
+                                                            : 'Set Priority'
+                                                        }}
                                                     </button>
                                                     @can('support-tickets-priority-change')
                                                         <div class="dropdown-menu">
@@ -73,11 +76,11 @@
                                                                 data-id="{{ $data->id }}" data-val="low"
                                                                 href="#1">{{ __('Low') }}</a>
                                                             <a class="dropdown-item change_priority"
-                                                                data-id="{{ $data->id }}" data-val="high"
-                                                                href="#1">{{ __('High') }}</a>
-                                                            <a class="dropdown-item change_priority"
                                                                 data-id="{{ $data->id }}" data-val="medium"
                                                                 href="#1">{{ __('Medium') }}</a>
+                                                            <a class="dropdown-item change_priority"
+                                                                data-id="{{ $data->id }}" data-val="high"
+                                                                href="#1">{{ __('High') }}</a>
                                                             <a class="dropdown-item change_priority"
                                                                 data-id="{{ $data->id }}" data-val="urgent"
                                                                 href="#1">{{ __('Urgent') }}</a>
@@ -86,12 +89,12 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <div class="btn-group">
+                                                <div class="btn-group badge">
                                                     <button type="button"
-                                                        class="status-{{ $data->status }} dropdown-toggle"
+                                                        class="status-{{ $data->status }} {{ $data->status == 'close' ? __('bg-danger status-close') : __('bg-primary status-open') }} dropdown-toggle"
                                                         data-bs-toggle="dropdown" aria-haspopup="true"
                                                         aria-expanded="false">
-                                                        {{ $data->status }}
+                                                         {{ ucfirst($data->status == 'close' ? __('Closed') : __($data->status)) }}
                                                     </button>
                                                     @can('support-tickets-status-change')
                                                         <div class="dropdown-menu">
