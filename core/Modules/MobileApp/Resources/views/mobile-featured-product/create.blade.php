@@ -24,7 +24,6 @@
                                 <input type="checkbox" id="category" name="category"
                                     {{ optional($selectedProduct)->type == 'category' ? 'checked' : '' }} />
                             </div>
-
                             <div class="form-group" id="product-list"
                                 {{ optional($selectedProduct)->type == 'category' ? 'style=display:none' : '' }}>
                                 <label for="products">Select Product</label>
@@ -47,7 +46,7 @@
                                 id="category-list">
                                 <label for="products">Select Category</label>
                                 <select id="products" name="featured_category[]" multiple class="form-control select2">
-                                    <option value="">Select Category</option>
+                                    <option value="" disabled>Select Category</option>
                                     @foreach ($categories as $category)
                                         <option
                                             {{ in_array($category->id, json_decode(optional($selectedProduct)->ids) ?? []) ? 'selected' : '' }}

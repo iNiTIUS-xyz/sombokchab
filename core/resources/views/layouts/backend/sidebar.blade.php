@@ -34,16 +34,14 @@
                             <span>{{ __('Admin Manage') }}</span>
                         </a>
                         <ul class="collapse">
-                            <li class="{{ active_menu('admin-home/admin/all-user') }}">
+                            <li class="{{ active_menu('admin-home/admin/all') }}">
                                 <a href="{{ route('admin.all.user') }}">
                                     {{ __('Admin Accounts') }}
-
                                 </a>
                             </li>
                             <li class="{{ active_menu('admin-home/admin/new-user') }}">
                                 <a href="{{ route('admin.new.user') }}">
                                     {{ __('Add New Admin') }}
-
                                 </a>
                             </li>
                         </ul>
@@ -57,7 +55,7 @@
                             <span>{{ __('Manage Role Permission') }}</span>
                         </a>
                         <ul class="collapse">
-                            <li class="{{ active_menu('admin-home/admin/roles') }}">
+                            <li class="{{ active_menu('admin-home/roles') }}">
                                 <a href="{{ route('admin.roles.index') }}">
                                     {{ __('Admin Roles') }}
                                 </a>
@@ -231,7 +229,7 @@
                                 <span>{{ __('Buyer App Manages') }}</span>
                             </a>
                             <ul class="collapse">
-                                <li class="{{ active_menu('admin-home/mobile-slider/create') }}">
+                                <li class="{{ active_menu('admin-home/mobile-slider/new') }}">
                                     <a href="{{ route('admin.mobile.slider.create') }}">
                                         {{ __('Slider Create') }}
                                     </a>
@@ -239,7 +237,6 @@
                                 <li class="{{ active_menu('admin-home/mobile-slider/list') }}">
                                     <a href="{{ route('admin.mobile.slider.all') }}">
                                         {{ __('Slider List') }}
-
                                     </a>
                                 </li>
                                 <li class="{{ active_menu('admin-home/mobile-slider-two/new') }}">
@@ -1347,7 +1344,7 @@
                 'general-settings-custom-js', 'general-settings-cache-settings', 'general-settings-gdpr-settings',
                 'general-settings-sitemap-settings', 'general-settings-rss-settings',
                 'general-settings-license-setting'])
-                <li class="main_dropdown @if (request()->is('admin-home/general-settings/*')) active open @endif ">
+                <li class="main_dropdown @if (request()->is('admin-home/general-settings/*') || request()->is('admin-home/shipping-charge-settings')) active open @endif ">
                     <a href="#1" aria-expanded="true">
                         <i class="ti-new-window"></i>
                         <span>{{ __('General Settings') }}</span>

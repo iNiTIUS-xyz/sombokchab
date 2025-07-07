@@ -27,7 +27,8 @@
                     </a>
                 </li>
                 @if (auth('vendor')->user()->is_vendor_verified && auth('vendor')->user()->verified_at)
-                    <li class="main_dropdown @if (request()->is(['vendor-home/product', 'vendor-home/product/*'])) active open @endif">
+                    <li
+                        class="main_dropdown @if (request()->is(['vendor-home/product', 'vendor-home/product/*'])) active open @endif">
                         <a href="#1" aria-expanded="true">
                             <i class="ti-layout-tab"></i> <span>{{ __('Product') }}
                             </span>
@@ -67,7 +68,8 @@
                             <span>{{ __('Orders List') }}</span>
                         </a>
                     </li>
-                    {{-- <li class="main_dropdown @if (request()->is(['vendor-home/orders', 'vendor-home/orders/*'])) active open @endif">
+                    {{-- <li
+                        class="main_dropdown @if (request()->is(['vendor-home/orders', 'vendor-home/orders/*'])) active open @endif">
                         <a href="#1" aria-expanded="true">
                             <i class="ti-view-list-alt"></i>
                             <span>{{ __('Order') }}</span>
@@ -81,7 +83,8 @@
                     </li> --}}
                 @endif
 
-                <li class="main_dropdown @if (request()->is(['vendor-home/wallet', 'vendor-home/wallet/*'])) active open @endif">
+                <li
+                    class="main_dropdown @if (request()->is(['vendor-home/wallet', 'vendor-home/wallet/*'])) active open @endif">
                     <a href="#1" aria-expanded="true">
                         <i class="ti-wallet"></i> <span>{{ __('Wallet') }}
                         </span>
@@ -159,11 +162,11 @@
                         <span>{{ __('Support Tickets') }}</span>
                     </a>
                     <ul class="collapse">
-                        <li class="{{ active_menu('admin-home/support-tickets') }}">
+                        <li class="{{ active_menu('vendor-home/support-tickets') }}">
                             <a href="{{ route('vendor.support.ticket.all') }}">{{ __('All Support Tickets') }}</a>
                         </li>
 
-                        <li class="{{ active_menu('admin-home/support-tickets/new') }}">
+                        <li class="{{ active_menu('vendor-home/support-tickets/new') }}">
                             <a href="{{ route('vendor.support.ticket.new') }}">{{ __('Add New Support Tickets') }}</a>
                         </li>
                     </ul>
