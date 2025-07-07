@@ -64,7 +64,7 @@
                                                         data-id="{{ $preferredOption->id }}"
                                                         data-status="{{ $preferredOption->status_id }}"
                                                         data-is-file="{{ $preferredOption->is_file }}"
-                                                        data-blog-filed="{{ json_encode($preferredOption->is_file ? [] : unserialize($preferredOption->fields)) }}"
+                                                        data-blog-filed="{{ json_encode(unserialize($preferredOption->fields)) }}"
                                                         class="btn btn-sm btn-warning text-dark mb-2 me-1 update-gateway"
                                                         data-bs-toggle="modal" data-bs-target="#edit-gateway-modal">
                                                         <i class="ti-pencil"></i>
@@ -223,107 +223,85 @@
         </form>
     </div>
 @endsection
-
 @section('script')
     <x-table.btn.swal.js />
     <script>
         $(document).ready(function () {
-            // Toggle fields container based on checkbox
+            // Create section: Show/hide field group
             $('#is_file_checkbox').change(function () {
-                if ($(this).is(':checked')) {
-                    $('#fields_container').hide();
-                } else {
-                    $('#fields_container').show();
-                }
+                $('#fields_container').toggle(!this.checked);
             });
 
-            // Toggle fields container in edit modal
+            // Edit Modal: Show/hide field group
             $('#edit_is_file_checkbox').change(function () {
-                if ($(this).is(':checked')) {
+                if (this.checked) {
                     $('#edit_fields_container').hide();
+                    $('.gateway-filed-body').html('');
                 } else {
                     $('#edit_fields_container').show();
+                    if ($('.gateway-filed-body').children().length === 0) {
+                        $('.gateway-filed-body').html(getGatewayFieldRow(''));
+                    }
+                }
+            });
+
+            // Add dynamic field row
+            $(document).on("click", ".gateway-filed-add", function () {
+                $(this).closest('.form-group.row').parent().append(getGatewayFieldRow(''));
+            });
+
+            // Remove dynamic field row
+            $(document).on("click", ".gateway-filed-remove", function () {
+                const rows = $(this).closest('.gateway-filed-body').find('.form-group.row');
+                if (rows.length > 1) {
+                    $(this).closest('.form-group.row').remove();
+                }
+            });
+
+            // When clicking edit button
+            $(document).on("click", ".update-gateway", function () {
+                let fileds = JSON.parse($(this).attr("data-blog-filed"));
+                let isFile = $(this).attr("data-is-file") === 'yes';
+
+                $("#edit-gateway-modal input[name='gateway_name']").val($(this).attr("data-name"));
+                $("#edit-gateway-modal select[name='status_id']").val($(this).attr("data-status"));
+                $("#edit-gateway-modal input[name='id']").val($(this).attr("data-id"));
+                $("#edit_is_file_checkbox").prop('checked', isFile);
+
+                if (isFile) {
+                    $('#edit_fields_container').hide();
+                    $('.gateway-filed-body').html('');
+                } else {
+                    $('#edit_fields_container').show();
+                    let fieldsHtml = '';
+                    if (fileds.length > 0) {
+                        fileds.forEach(field => {
+                            fieldsHtml += getGatewayFieldRow(field);
+                        });
+                    } else {
+                        fieldsHtml = getGatewayFieldRow('');
+                    }
+                    $('.gateway-filed-body').html(fieldsHtml);
                 }
             });
         });
 
-        $(document).on("click", ".update-gateway", function () {
-            let fileds = JSON.parse($(this).attr("data-blog-filed"));
-            let isFile = $(this).attr("data-is-file") == 'yes';
-
-            $("#edit-gateway-modal input[name='gateway_name']").val($(this).attr("data-name"))
-            $("#edit-gateway-modal select[name='status_id'] option[value='" + $(this).attr("data-status") + "']")
-                .attr("selected", true);
-            $("#edit-gateway-modal input[name='id']").val($(this).attr("data-id"));
-
-            // Set is_file checkbox
-            if (isFile) {
-                $("#edit_is_file_checkbox").prop('checked', true);
-                $("#edit_fields_container").hide();
-            } else {
-                $("#edit_is_file_checkbox").prop('checked', false);
-                $("#edit_fields_container").show();
-            }
-
-            if (fileds.length > 0 && !isFile) {
-                let list_filed = "";
-
-                fileds.forEach(function (value, index, array) {
-                    list_filed += `
-                    <div class="form-group row">
-                        <div class="w-90 d-flex align-items-center">
-                            <input class="form-control" value="${value}" name="filed[]" placeholder="Enter filed name">
-                        </div>
-                        <div class="col-md-1 d-flex flex-column align-items-center justify-content-center pb-2 gap-2">
-                            <button type="button" class="btn btn-primary btn-sm gateway-filed-add">
-                                <i class="las la-plus"></i>
-                            </button>
-                            <button type="button" class="btn btn-danger btn-sm gateway-filed-remove">
-                                <i class="las la-trash-alt"></i>
-                            </button>
-                        </div>
+        // Helper: Generate input row
+        function getGatewayFieldRow(value = '') {
+            return `
+                <div class="form-group row">
+                    <div class="w-90 d-flex align-items-center">
+                        <input class="form-control" name="filed[]" value="${value}" placeholder="Enter field name">
                     </div>
-                `;
-                })
-
-                $(".gateway-filed-body").html(list_filed);
-            } else if (!isFile) {
-                $(".gateway-filed-body").html(`
-                    <div class="form-group row">
-                        <div class="w-90 d-flex align-items-center">
-                            <input class="form-control" name="filed[]" placeholder="Enter filed name">
-                        </div>
-                        <div class="col-md-1 d-flex flex-column align-items-center justify-content-center pb-2 gap-2">
-                            <button type="button" class="btn btn-primary btn-sm gateway-filed-add">
-                                <i class="las la-plus"></i>
-                            </button>
-                            <button type="button" class="btn btn-danger btn-sm gateway-filed-remove">
-                                <i class="las la-trash-alt"></i>
-                            </button>
-                        </div>
-                    </div>`);
-            } else {
-                $(".gateway-filed-body").html('');
-            }
-        });
-
-        $(document).on("click", ".gateway-filed-add", function () {
-            let elem = $(this).parent().parent();
-            elem.parent().append(elem.clone());
-        });
-
-        $(document).on("click", ".gateway-filed-remove", function () {
-            if ($(".gateway-filed-remove").length == 1) {
-                return null;
-            }
-            let elem = $(this).parent().parent().fadeOut(250, () => {
-                $(this).parent().parent().remove();
-            });
-        });
-
-        $(document).on("click", ".update-withdraw-gateway", function (e) {
-            e.preventDefault();
-            send_ajax_request("PUT")
-        });
+                    <div class="col-md-1 d-flex flex-column align-items-center justify-content-center pb-2 gap-2">
+                        <button type="button" class="btn btn-primary btn-sm gateway-filed-add">
+                            <i class="las la-plus"></i>
+                        </button>
+                        <button type="button" class="btn btn-danger btn-sm gateway-filed-remove">
+                            <i class="las la-trash-alt"></i>
+                        </button>
+                    </div>
+                </div>`;
+        }
     </script>
 @endsection
