@@ -2,6 +2,29 @@
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap4.min.css') }}">
+    <style>
+        #dataTable_wrapper>.row:first-child {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        #dataTable_wrapper>.row:first-child .col-12 {
+            flex: 1 1 50%;
+            max-width: 50%;
+        }
+
+        /* Optional: Align content inside each column */
+        #DataTables_Table_0_length {
+            text-align: left;
+        }
+
+        #DataTables_Table_0_filter {
+            text-align: right;
+        }
+    </style>
 @endsection
 
 @section('site-title')
@@ -46,7 +69,8 @@
                                                 style="background: rgb(138, 1, 14) !important;">{{ __('Rejected') }}</span>
                                         @endif
                                         <br>
-                                        {{-- <span class="text-capitalize badge bg-light text-dark">{{ $request->order?->order_status }}</span> <br> --}}
+                                        {{-- <span class="text-capitalize badge bg-light text-dark">{{
+                                            $request->order?->order_status }}</span> <br> --}}
                                         {{ __('Amount') }}
                                         {{ float_amount_with_currency_symbol($request->order?->paymentMeta?->total_amount) }}<br>
                                     </span>
@@ -84,7 +108,7 @@
     <script src="{{ asset('assets/js/dataTables.bootstrap4.min.js') }}"></script>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             // Initialize DataTable only if the table exists
             if ($('#dataTable').length) {
                 $('#dataTable').DataTable({
@@ -101,18 +125,18 @@
     </script>
 
     <script>
-        (function($) {
+        (function ($) {
             "use strict";
-            $(document).ready(function() {
+            $(document).ready(function () {
 
-                $(document).on('click', '.bodyUser_overlay', function() {
+                $(document).on('click', '.bodyUser_overlay', function () {
                     $('.user-dashboard-wrapper, .bodyUser_overlay').removeClass('show');
                 });
-                $(document).on('click', '.mobile_nav', function() {
+                $(document).on('click', '.mobile_nav', function () {
                     $('.user-dashboard-wrapper, .bodyUser_overlay').addClass('show');
                 });
 
-                $(document).on('click', '.swal_delete_button', function(e) {
+                $(document).on('click', '.swal_delete_button', function (e) {
                     e.preventDefault();
                     Swal.fire({
                         title: '{{ __('Are you sure?') }}',
@@ -132,6 +156,4 @@
             })
         })(jQuery)
     </script>
-
-    <x-datatable.js />
 @endsection
