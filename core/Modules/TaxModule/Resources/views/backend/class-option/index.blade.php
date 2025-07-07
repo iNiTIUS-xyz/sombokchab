@@ -47,8 +47,8 @@
                                 </th>
                                 <th>* {{ __('Name') }}</th>
                                 <th>{{ __('Country') }}</th>
-                                <th>{{ __('State') }}</th>
                                 <th>{{ __('City') }}</th>
+                                <th>{{ __('Province') }}</th>
                                 <th>{{ __('Postal Code') }}</th>
                                 <th>{{ __('Rate') }}</th>
                                 <th class="d-none">{{ __('Compound') }}</th>
