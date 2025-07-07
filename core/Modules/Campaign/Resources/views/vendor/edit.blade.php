@@ -17,7 +17,7 @@
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Update Campaign') }}</h4>
                         <div class="dashboard__card__header__right">
-                            <a href="{{ route('frontend.products.campaign', $campaign->id) }}" target="_blank"
+                            <a href="{{ route('frontend.products.campaign', $campaign->id) }}"
                                 class="btn btn-info">
                                 {{ __('View Campaign') }}
                             </a>

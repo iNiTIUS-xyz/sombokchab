@@ -13,7 +13,7 @@
                     {{-- <span>
                         {{ __('Product Suggestions') }}
                     </span> --}}
-                    <a href="#1" target="_blank" id="search_result_all" class="showAll">{{ __('Show all') }}</a>
+                    <a href="#1" id="search_result_all" class="showAll">{{ __('Show all') }}</a>
                 </h6>
                 <ul class="product-suggestion-list mt-4" id="search_result_products"></ul>
             </div>

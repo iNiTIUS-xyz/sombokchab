@@ -113,7 +113,7 @@
                                                             </a>
                                                         @endif
                                                         <a href="{{ route('vendor.support.ticket.view', $data->id) }}"
-                                                            class="btn btn-primary btn-xs" target="_blank"
+                                                            class="btn btn-primary btn-xs"
                                                             title="View Support Ticket">
                                                             <i class="las la-eye"></i>
                                                         </a>

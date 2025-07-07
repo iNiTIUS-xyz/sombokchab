@@ -89,7 +89,7 @@
                             <li id="full-view"><i class="ti-fullscreen"></i></li>
                             <li id="full-view-exit"><i class="ti-zoom-out"></i></li>
                             <li><a class="btn @if (get_static_option('site_admin_dark_mode') == 'off') btn-primary @else btn-dark @endif"
-                                    target="_blank" href="{{ url('/') }}"><i
+                                    href="{{ url('/') }}"><i
                                         class="fas fa-external-link-alt mr-1"></i> {{ __('View Site') }} </a></li>
                         </ul>
                     </div>

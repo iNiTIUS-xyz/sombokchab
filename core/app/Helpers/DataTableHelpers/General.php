@@ -49,7 +49,7 @@ HTML;
     public static function viewIcon($url)
     {
         return <<<HTML
-<a class="btn btn-info btn-xs mb-2 me-1" target="_blank" href="{$url}">
+<a class="btn btn-info btn-xs mb-2 me-1" href="{$url}">
     <i class="ti-eye"></i>
 </a>
 HTML;

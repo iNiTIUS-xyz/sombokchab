@@ -1,7 +1,7 @@
 @extends('backend.admin-master')
 
 @section('site-title')
-    {{ __('AAdd New Ticket') }}
+    {{ __('Customer Support Tickets') }}
 @endsection
 
 @section('style')

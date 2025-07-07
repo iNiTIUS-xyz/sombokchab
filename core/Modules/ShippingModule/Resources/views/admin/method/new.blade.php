@@ -90,7 +90,7 @@
                                         <button type="submit" class="btn btn-primary my-4 px-4">
                                             {{ __('Create Shipping Method') }}
                                         </button>
-                                        <a target="_blank" class="btn btn-info btn-xs mb-2 me-1"
+                                        <a class="btn btn-info btn-xs mb-2 me-1"
                                             href="{{ route('admin.shipping.method.all', ['id' => $campaign->id, 'slug' => $campaign->slug]) }}">
                                             <i class="ti-eye"></i>
                                         </a>

@@ -80,7 +80,7 @@
                                             </td>
                                             <td>
                                                 @if (empty($dynamic_page_ids[$page->id]))
-                                                    <a class="btn btn-xs btn-primary btn-sm mb-2 me-1" target="_blank"
+                                                    <a class="btn btn-xs btn-primary btn-sm mb-2 me-1"
                                                         title="{{ __('View Data') }}"
                                                         href="{{ route('frontend.dynamic.page', ['slug' => $page->slug, 'id' => $page->id]) }}">
                                                         <i class="ti-eye"></i>
@@ -101,7 +101,7 @@
                                                 @can('page-builder-dynamic-page')
                                                     @if (!empty($page->page_builder_status))
                                                         <a href="{{ route('admin.dynamic.page.builder', ['type' => 'dynamic-page', 'id' => $page->id]) }}"
-                                                            target="_blank" class="btn btn-xs btn-secondary mb-2 me-1">
+                                                            class="btn btn-xs btn-secondary mb-2 me-1">
                                                             {{ __('Open Page Builder') }}
                                                         </a>
                                                     @endif

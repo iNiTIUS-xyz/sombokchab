@@ -24,7 +24,7 @@
                             <table class="table table-default">
                                 <thead>
                                     <x-bulk-action.th />
-                                    <th>{{ __('ID') }}</th>
+                                    <th>{{ __('Serial No.') }}</th>
                                     <th>{{ __('Name') }}</th>
                                     <th>{{ __('Status') }}</th>
                                     <th>{{ __('Action') }}</th>
@@ -33,7 +33,7 @@
                                     @foreach ($all_category as $data)
                                         <tr>
                                             <x-bulk-action.td :id="$data->id" />
-                                            <td>{{ $data->id }}</td>
+                                            <td>{{ $loop->iteration }}</td>
                                             <td>{{ $data->name }}</td>
                                             <td>
                                                 @if ('publish' == $data->status)

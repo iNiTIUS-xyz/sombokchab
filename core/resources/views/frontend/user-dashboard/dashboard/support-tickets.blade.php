@@ -108,7 +108,7 @@
                                 </td>
                                 <td>
                                     <a href="{{ route('tenant.user.dashboard.support.ticket.view', $data->id) }}"
-                                        class="btn btn-info btn-xs" target="_blank"><i class="fas fa-eye"></i></a>
+                                        class="btn btn-info btn-xs"><i class="fas fa-eye"></i></a>
                                 </td>
                             </tr>
                         @endforeach

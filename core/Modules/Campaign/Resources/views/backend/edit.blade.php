@@ -22,7 +22,7 @@
                                     {{ __('All Campaigns') }}
                                 </a>
                             @endcan
-                            <a href="{{ route('frontend.products.campaign', $campaign->id) }}" target="_blank"
+                            <a href="{{ route('frontend.products.campaign', $campaign->id) }}"
                                 class="cmn_btn btn_bg_profile">
                                 {{ __('View Campaign') }}
                             </a>
