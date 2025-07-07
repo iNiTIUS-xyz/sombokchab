@@ -7,9 +7,9 @@
                         <input type="checkbox" class="all-checkbox">
                     </div>
                 </th>
-                <th>{{ __('ID') }}</th>
+                <th>{{ __('Serial No.') }}</th>
+                <th>{{ __('Province') }}</th>
                 <th>{{ __('City') }}</th>
-                <th>{{ __('State') }}</th>
                 <th>{{ __('Country') }}</th>
                 <th>{{ __('Status') }}</th>
                 <th>{{ __('Action') }}</th>
@@ -21,7 +21,7 @@
                     <td>
                         <x-bulk-action.bulk-delete-checkbox :id="$city->id" />
                     </td>
-                    <td>{{ $city->id }}</td>
+                    <td>{{ $loop->iteration }}</td>
                     <td>{{ $city->name }}</td>
                     <td>{{ $city->state?->name }}</td>
                     <td>{{ $city->country?->name }}</td>

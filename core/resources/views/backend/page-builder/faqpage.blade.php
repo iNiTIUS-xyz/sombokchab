@@ -266,7 +266,7 @@
 
                             if (data === 'ok') {
                                 form.append(
-                                    '<span class="text-success">{{ __('data saved success') }}</span>'
+                                    '<span class="text-success">{{ __('Saved successfully') }}</span>'
                                 );
                             }
                             setTimeout(function() {

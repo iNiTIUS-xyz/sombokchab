@@ -714,7 +714,7 @@
                         @can('tax-module-settings')
                             <li class="{{ active_menu('admin-home/tax-module/settings') }}">
                                 <a href="{{ route('admin.tax-module.settings') }}">
-                                    {{ __('Tax Manage Settings') }}
+                                    {{ __('Tax Settings') }}
                                 </a>
                             </li>
                         @endcan
@@ -723,7 +723,7 @@
                             @can('tax-module-tax-class')
                                 <li class="{{ active_menu('admin-home/tax-module/tax-class') }}">
                                     <a href="{{ route('admin.tax-module.tax-class') }}">
-                                        {{ __('Tax Class') }}
+                                        {{ __('Manage Tax Class') }}
 
                                     </a>
                                 </li>
@@ -778,7 +778,7 @@
                         @can('categories')
                             <li class="{{ active_menu('admin-home/categories') }}">
                                 <a href="{{ route('admin.category.all') }}">
-                                    {{ __('Category') }}
+                                    {{ __('Product Categories') }}
 
                                 </a>
                             </li>
@@ -787,14 +787,14 @@
                         @can('sub-categories')
                             <li class="{{ active_menu('admin-home/sub-categories') }}">
                                 <a href="{{ route('admin.subcategory.all') }}">
-                                    {{ __('Sub-Category') }}
+                                    {{ __('Product Sub-Categories') }}
 
                                 </a>
                             </li>
                         @endcan
 
                         @can('child-categories')
-                            <li class="{{ active_menu('admin-home/child-categories') }}">
+                            <li class="{{ active_menu('admin-home/child-categories') }}" style="display: none">
                                 <a href="{{ route('admin.child-category.all') }}">
                                     {{ __('Child-Category') }}
 

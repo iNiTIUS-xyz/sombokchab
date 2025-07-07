@@ -3,7 +3,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">{{ __('Edit State') }}</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">{{ __('Edit Province') }}</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="{{ route('admin.city.edit') }}" method="POST" enctype="multipart/form-data">
@@ -11,8 +11,8 @@
                 <input type="hidden" name="city_id" id="city_id" value="">
 
                 <div class="modal-body">
-                    <x-form.text :title="__('State')" :type="__('text')" :name="'city'" :id="'city_name'"
-                        :placeholder="__('Enter State name')" />
+                    <x-form.text :title="__('Province')" :type="__('text')" :name="'city'" :id="'city_name'"
+                        :placeholder="__('Enter province name')" />
                     <div class="single-input">
                         <label class="label-title mt-3">{{ __('Select Country') }}</label>
                         <select name="country" id="country_id" class="form-control select22-country">

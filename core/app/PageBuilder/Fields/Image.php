@@ -32,7 +32,7 @@ class Image extends PageBuilderField
         }
         $output .= '</div><br>';
         $output .= '<input type="hidden" value="'.$this->value().'" name="'.$this->name().'" />';
-        $output .= ' <button type="button" class="btn btn-info media_upload_form_btn media_upload_form_btn popup-modal" data-btntitle="'.__('Select Image').'" data-modaltitle="'.__('Upload Image').'" data-imgid="'.$this->value().'" data-bs-toggle="modal" data-bs-target="#media_upload_modal">'.$image_upload_btn_label.'</button>';
+        $output .= ' <button type="button" class="btn btn-secondary media_upload_form_btn media_upload_form_btn popup-modal" data-btntitle="'.__('Select Image').'" data-modaltitle="'.__('Upload Image').'" data-imgid="'.$this->value().'" data-bs-toggle="modal" data-bs-target="#media_upload_modal">'.$image_upload_btn_label.'</button>';
         $output .= '</div>';
 
         if (isset( $this->args['dimensions'])){

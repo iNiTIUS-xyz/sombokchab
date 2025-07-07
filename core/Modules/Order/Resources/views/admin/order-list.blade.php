@@ -1,13 +1,13 @@
 @extends('backend.admin-master')
 
 @section('site-title')
-    {{ __('My Orders') }}
+    {{ __('Orders List') }}
 @endsection
 
 @section('content')
     <div class="dashboard__card">
         <div class="dashboard__card__header">
-            <h4 class="dashboard__card__title">{{ __('My Orders') }}</h4>
+            <h4 class="dashboard__card__title">{{ __('Orders List') }}</h4>
         </div>
         <div class="dashboard__card__body mt-4">
             <div class="all-user-campaign-table">
@@ -66,15 +66,22 @@
                                             @can('orders-generate-invoice')
                                                 <a href="{{ route('admin.orders.generate.invoice', $order->id) }}"
                                                     class="btn btn-info rounded-btn" title="{{ __('View Invoice') }}">
+                                                    
+                                                    <i class="ti-info"></i>
+                                                </a>
+                                            @endcan
+                                            @can('orders-details')
+                                                <a href="{{ route('admin.orders.order.details', $order->id) }}"
+                                                    class="btn btn-secondary rounded-btn" title="{{ __('View details') }}">
                                                     <i class="las la-file-invoice"></i>
                                                 </a>
                                             @endcan
-                                            @can('orders-download-invoice')
+                                            {{-- @can('orders-download-invoice')
                                                 <a href="{{ route('admin.orders.download.invoice', $order->id) }}"
                                                     class="btn btn-primary rounded-btn" title="{{ __('Download Data') }}">
                                                     <i class="las la-download"></i>
                                                 </a>
-                                            @endcan
+                                            @endcan --}}
                                             @can('orders-update')
                                                 <a href="{{ route('admin.orders.edit', $order->id) }}"
                                                     class="btn btn-warning text-dark rounded-btn"
@@ -82,12 +89,7 @@
                                                     <i class="ti-pencil"></i>
                                                 </a>
                                             @endcan
-                                            @can('orders-details')
-                                                <a href="{{ route('admin.orders.order.details', $order->id) }}"
-                                                    class="btn btn-secondary rounded-btn" title="{{ __('view details') }}">
-                                                    <i class="ti-info"></i>
-                                                </a>
-                                            @endcan
+                                            
                                         </div>
                                     </td>
                                 </tr>

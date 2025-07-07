@@ -20,12 +20,12 @@
                 <div class="mb-4">
                     @can('sub-categories-new')
                         <a href="#1" data-bs-toggle="modal" data-bs-target="#category_create_modal"
-                            class="cmn_btn btn_bg_profile">{{ __('New Sub Category') }}</a>
+                            class="cmn_btn btn_bg_profile">{{ __('Add New Sub Category') }}</a>
                     @endcan
                 </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h3 class="dashboard__card__title">{{ __('All Sub Categories') }}</h3>
+                        <h3 class="dashboard__card__title">{{ __('Product Sub-Categories') }}</h3>
                         <div class="dashboard__card__header__right">
                             @can('sub-categories-delete')
                                 <x-bulk-action.dropdown />
@@ -37,7 +37,7 @@
                             <table class="table table-default" id="dataTable">
                                 <thead>
                                     <x-bulk-action.th />
-                                    <th>{{ __('ID') }}</th>
+                                    <th>{{ __('Serial No.') }}</th>
                                     <th>{{ __('Name') }}</th>
                                     <th>{{ __('Image') }}</th>
                                     <th>{{ __('Status') }}</th>
@@ -94,60 +94,60 @@
     </div>
     @can('sub-categories-update')
         <div class="modal fade" id="category_edit_modal" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-scrollable">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
                         <h5 class="modal-title">{{ __('Update Sub Category') }}</h5>
                         <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
                     </div>
-                    <form action="{{ route('admin.subcategory.update') }}" method="post">
+                    <div class="modal-body">
+                        <form action="{{ route('admin.subcategory.update') }}" method="post">
                         <input type="hidden" name="id" id="sub_category_id">
-                        <div class="modal-body">
-                            @csrf
-                            <div class="form-group">
-                                <label for="edit_name">{{ __('Name') }}</label>
-                                <input type="text" class="form-control" id="edit_name" name="name"
-                                    placeholder="{{ __('Enter name') }}">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="edit_slug">{{ __('Slug') }}</label>
-                                <input type="text" class="form-control" id="edit_slug" name="slug"
-                                    placeholder="{{ __('Enter slug') }}">
-                            </div>
-
-                            <div class="form-group edit-category-wrapper">
-                                <label for="name">{{ __('Category') }}</label>
-                                <select type="text" class="form-control" id="category_id" name="category_id">
-                                    <option value="">{{ __('Select Category') }}</option>
-                                    @foreach ($all_category as $category)
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="edit_description">{{ __('Description') }}</label>
-                                <textarea type="text" class="form-control" id="edit_description" name="description"
-                                    placeholder="{{ __('Description') }}"></textarea>
-                            </div>
-
-                            <x-media-upload :title="__('Image')" name="image_id" :dimentions="'200x200'" />
-
-                            <div class="form-group edit-status-wrapper">
-                                <label for="edit_status">{{ __('Status') }}</label>
-                                <select name="status_id" class="form-control" id="edit_status">
-                                    @foreach ($statuses as $status)
-                                        <option value="{{ $status->id }}">{{ $status->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                        @csrf
+                        <div class="form-group">
+                            <label for="edit_name">{{ __('Name') }}</label>
+                            <input type="text" class="form-control" id="edit_name" name="name"
+                                placeholder="{{ __('Enter name') }}">
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">{{ __('Close') }}</button>
-                            <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
+
+                        <div class="form-group">
+                            <label for="edit_slug">{{ __('Slug') }}</label>
+                            <input type="text" class="form-control" id="edit_slug" name="slug"
+                                placeholder="{{ __('Enter slug') }}">
                         </div>
+
+                        <div class="form-group edit-category-wrapper">
+                            <label for="name">{{ __('Category') }}</label>
+                            <select type="text" class="form-control" id="category_id" name="category_id">
+                                <option value="">{{ __('Select Category') }}</option>
+                                @foreach ($all_category as $category)
+                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="edit_description">{{ __('Description') }}</label>
+                            <textarea type="text" class="form-control" id="edit_description" name="description"
+                                placeholder="{{ __('Description') }}"></textarea>
+                        </div>
+
+                        <x-media-upload :title="__('Image')" name="image_id" :dimentions="'200x200'" />
+
+                        <div class="form-group edit-status-wrapper">
+                            <label for="edit_status">{{ __('Status') }}</label>
+                            <select name="status_id" class="form-control" id="edit_status">
+                                @foreach ($statuses as $status)
+                                    <option value="{{ $status->id }}">{{ $status->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">{{ __('Close') }}</button>
+                        <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
+                    </div> 
                     </form>
                 </div>
             </div>
@@ -156,7 +156,7 @@
 
     @can('sub-categories-new')
         <div class="modal fade" id="category_create_modal" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-scrollable">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
                         <h5 class="modal-title">{{ __('Create Sub Category') }}</h5>
@@ -203,9 +203,14 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Add') }}</button>
-                        </form>
+                            {{-- <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Add') }}</button> --}}
                     </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">{{ __('Close') }}</button>
+                        <button type="submit" class="btn btn-primary">{{ __('Add') }}</button>
+                    </div> 
+                    </form>
                 </div>
             </div>
         </div>

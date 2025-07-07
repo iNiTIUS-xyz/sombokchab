@@ -33,7 +33,7 @@
                                 <div class="form-group">
                                     <label for="#" class="label-title">{{__('File')}}</label>
                                     <input type="file" name="csv_file" accept=".csv" class="form-control radius-5" required>
-                                    <small class="text-primary">{{__('Only csv file are allowed with separate by (,) comma.')}}</small>
+                                    <small class="text-primary">{{__('Only csv files are allowed.')}}</small>
                                 </div>
                                 <button type="submit" class="cmn_btn btn_bg_profile loading-btn">{{__('Submit')}}</button>
                             </form>

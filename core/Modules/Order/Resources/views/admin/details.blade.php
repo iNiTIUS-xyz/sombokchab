@@ -263,12 +263,12 @@
             <div class="dashboard__card">
                 <div class="dashboard__card__header">
                     <h4 class="dashboard__card__title">{{ __('Orders Details') }}</h4>
-                    <div class="d-flex justify-content-between">
-                        <b>{{ __('Order ID') }}</b>
-                        <h6>#{{ $order->id }}</h6>
-                    </div>
                 </div>
                 <div class="dashboard__card__body mt-4">
+                    <div class="request__item">
+                        <span class="request__left">{{ __('Order Number') }}</span>
+                        <span class="request__right">{{ $order->order_number }}</span>
+                    </div>
                     <div class="request__item">
                         <span class="request__left">{{ __('Transaction ID') }}</span>
                         <span class="request__right">{{ $order->transaction_id }}</span>
@@ -309,7 +309,7 @@
                         <span
                             class="request__right">{{ float_amount_with_currency_symbol($order?->paymentMeta?->tax_amount) }}</span>
                     </div>
-                    <div class="d-flex justify-content-between py-2">
+                    <div class="request__item">
                         <span class="request__left">{{ __('Total Amount') }}</span>
                         <span
                             class="request__right">{{ float_amount_with_currency_symbol($order?->paymentMeta?->total_amount) }}
@@ -353,22 +353,22 @@
                         <span class="request__right">{{ $order?->address?->country?->name }}</span>
                     </div>
                     <div class="request__item">
-                        <span class="request__left">{{ __('State') }}</span>
+                        <span class="request__left">{{ __('City') }}</span>
                         <span class="request__right">{{ $order?->address?->state?->name }}</span>
                     </div>
                     <div class="request__item">
-                        <span class="request__left">{{ __('City') }}</span>
+                        <span class="request__left">{{ __('Province') }}</span>
                         <span class="request__right">{{ $order?->address?->cityInfo?->name }}</span>
                     </div>
-                    <div class="d-flex justify-content-between pt-2">
-                        <span class="request__left">{{ __('Zip Code') }}</span>
+                    <div class="request__item">
+                        <span class="request__left">{{ __('Postal Code') }}</span>
                         <span class="request__right">{{ $order?->address?->zipcode }}</span>
                     </div>
-                    <div class="d-flex justify-content-between pt-2">
+                    <div class="request__item">
                         <span class="request__left">{{ __('Address') }}</span>
                         <span class="request__right">{{ $order?->address?->address }}</span>
                     </div>
-                    <div class="d-flex justify-content-between pt-2">
+                    <div class="request__item">
                         <span class="request__left">{{ __('Note') }}</span>
                         <span class="request__right">{{ $order?->note }}</span>
                     </div>

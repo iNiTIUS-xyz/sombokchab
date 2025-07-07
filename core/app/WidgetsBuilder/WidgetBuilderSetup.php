@@ -40,18 +40,49 @@ class WidgetBuilderSetup
         return $output;
     }
 
+    // public static function get_admin_panel_widgets()
+    // {
+    //     $widgets_markup = '';
+    //     $widget_list = self::registerd_widgets();
+    //     foreach ($widget_list as $widget) {
+    //         $namespace = __NAMESPACE__ . "\Widgets\\" . $widget;
+    //         $widget_instance = new  $namespace();
+    //         $widgets_markup .= self::render_admin_widget_item([
+    //             'widget_name' => $widget_instance->widget_name(),
+    //             'widget_title' => $widget_instance->widget_title()
+    //         ]);
+    //     }
+    //     return $widgets_markup;
+    // }
+
     public static function get_admin_panel_widgets()
     {
+        // 1) Collect widget name/title pairs
+        $widgets = [];
+        foreach (self::registerd_widgets() as $widgetClass) {
+            $fqcn = __NAMESPACE__ . "\\Widgets\\{$widgetClass}";
+            $inst = new $fqcn();
+
+            $widgets[] = [
+                'name'  => $inst->widget_name(),
+                'title' => $inst->widget_title(),
+            ];
+        }
+
+        // 2) Sort by title ascending
+        usort($widgets, function($a, $b) {
+            return strcmp($a['title'], $b['title']);
+        });
+
+        // 3) Render sorted widgets
         $widgets_markup = '';
-        $widget_list = self::registerd_widgets();
-        foreach ($widget_list as $widget) {
-            $namespace = __NAMESPACE__ . "\Widgets\\" . $widget;
-            $widget_instance = new  $namespace();
+        foreach ($widgets as $w) {
             $widgets_markup .= self::render_admin_widget_item([
-                'widget_name' => $widget_instance->widget_name(),
-                'widget_title' => $widget_instance->widget_title()
+                'widget_name'  => $w['name'],
+                'widget_title' => $w['title'],
             ]);
         }
+
         return $widgets_markup;
     }
 

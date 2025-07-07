@@ -192,7 +192,7 @@ abstract class PageBuilderBase
     public function admin_form_submit_button($text = null): string
     {
         $button_text = $text ?? __('Save Changes');
-        return '<button class="btn btn-success btn-md widget_save_change_button">' . $button_text . '</button>';
+        return '<button class="btn btn-primary btn-lg btn-md widget_save_change_button">' . $button_text . '</button>';
     }
 
     /**

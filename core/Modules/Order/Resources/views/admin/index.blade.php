@@ -1,13 +1,13 @@
 @extends('backend.admin-master')
 
 @section('site-title')
-    {{ __('My Orders') }}
+    {{ __('Sub Orders List') }}
 @endsection
 
 @section('content')
     <div class="dashboard__card">
         <div class="dashboard__card__header">
-            <h4 class="dashboard__card__title">{{ __('My Orders') }}</h4>
+            <h4 class="dashboard__card__title">{{ __('Sub Orders List') }}</h4>
         </div>
         <div class="dashboard__card__body mt-4">
             <div class="table-responsive">
@@ -50,8 +50,8 @@
                                     @can('orders-details')
                                         <div class="btn-wrapper">
                                             <a href="{{ route('admin.orders.details', $order->id) }}"
-                                                class="btn btn-secondary rounded-btn" title="{{ __('view details') }}">
-                                                <i class="ti-info"></i>
+                                                class="btn btn-secondary rounded-btn" title="{{ __('View details') }}">
+                                                <i class="las la-file-invoice"></i>
                                             </a>
                                         </div>
                                     @endcan
