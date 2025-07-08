@@ -11,6 +11,7 @@ use App\Events\SupportMessage;
 use App\Support\SupportTicket;
 use App\Shipping\ShippingAddress;
 use Modules\Order\Entities\Order;
+use Illuminate\Support\Facades\DB;
 use App\Mail\SentSupportTicketMail;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
@@ -468,24 +469,31 @@ class UserDashboardController extends Controller
 
     public function handleRefundRequest(HandleUserRefundRequest $request, $id)
     {
-        // dd($request->all(), 1);
         if (!moduleExists("Refund")) {
             abort(404);
         }
 
-        // Get prepared product data for the refund request
-        $refundProducts = RefundServices::prepareRefundRequestData($request->validated(), $id);
+        try {
 
-        return $refundProducts
-            ? redirect()->route('user.product.refund-request')->with([
-                'msg' => __('Your refund request has been sent successfully.'),
-                'type' => 'success',
-            ])
-            : back()->with([
-                'msg' => __('Failed to send refund request, something went wrong.'),
+            $refundProducts = RefundServices::prepareRefundRequestData($request->validated(), $id);
+
+
+            if ($refundProducts) {
+                return redirect()->route('user.product.refund-request')->with([
+                    'msg' => __('Your refund request has been sent successfully.'),
+                    'type' => 'success',
+                ]);
+            }
+
+        } catch (\Throwable $e) {
+
+            return back()->with([
+                'msg' => __('An error occurred while processing your refund request. Please try again later.'),
                 'type' => 'danger',
             ]);
+        }
     }
+
 
     public function orderDetailsPage($item)
     {

@@ -42,7 +42,7 @@ trait RefundRequestData
             DB::commit();
             return true;
         } catch (\Exception $exception) {
-            \DB::rollBack();
+            DB::rollBack();
             return false;
         }
     }
@@ -97,8 +97,6 @@ trait RefundRequestData
         return $refundRequestProducts;
     }
 
-    // create a method for storing refund request tracks
-    // method visibility will be public
     public function storeRefundRequestTrack(int $id, string $name, int $userId, string $type = 'create')
     {
         $timestamp = $type === 'create' ? ["created_at" => now()] : ["updated_at" => now()];
@@ -113,9 +111,8 @@ trait RefundRequestData
 
     private function storeRefundRequest()
     {
-        $this->refundRequest = RefundRequest::create($this->storeRefundRequestData());
+        return $this->refundRequest = RefundRequest::create($this->storeRefundRequestData());
 
-        return $this->refundRequest;
     }
 
     private function storeRefundRequestData(): array
@@ -132,14 +129,15 @@ trait RefundRequestData
 
     private function requestItemProduct()
     {
-        $this->products = SubOrderItem::with($this->with)
+
+        $this->products = SubOrderItem::query()
+            ->with($this->with)
             ->whereRelation("product", "is_refundable", 1)
             ->whereIn('id', $this->itemIds)->get();
 
         return $this->products;
     }
 
-    // this method will prepare your data for fetching product and prepare item array
     private function prepareRequestItemData(): array
     {
         foreach ($this->data["request_item_id"] ?? [] as $item) {
