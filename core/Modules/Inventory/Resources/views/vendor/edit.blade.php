@@ -325,7 +325,7 @@
 
                 <div class="form-group">
                     <button class="cmn_btn btn_bg_profile my-3">
-                        {{ __('Update Inventory') }}
+                        {{ __('Update') }}
                     </button>
                     <a href="{{ route('vendor.products.inventory.all') }}" class="cmn_btn default-theme-btn"
                         style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
