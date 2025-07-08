@@ -65,11 +65,12 @@ class WalletController extends Controller
         return view('wallet::backend.customer-wallet-lists', compact('wallet_lists', 'type'));
     }
 
-    public function change_status($id)
+    public function change_status(Request $request, $id)
     {
-        $job = Wallet::find($id);
-        $job->status === 1 ? $status = 0 : $status = 1;
-        Wallet::where('id', $id)->update(['status' => $status]);
+        $wallet = Wallet::findOrFail($id);
+        $wallet->status = $request->input('status', $wallet->status);
+        $wallet->save();
+
         return redirect()->back()->with(FlashMsg::item_new('Status changed successfully.'));
     }
 
@@ -83,11 +84,11 @@ class WalletController extends Controller
         return view('wallet::backend.history', compact('wallet_history_lists'));
     }
 
-    public function wallet_history_status($id)
+    public function wallet_history_status(Request $request, $id)
     {
         $wallet_history = WalletHistory::find($id);
-        $status = $wallet_history->payment_status === 'pending' ? 'complete' : '';
-        WalletHistory::where('id', $id)->update(['payment_status' => $status]);
+
+        WalletHistory::where('id', $id)->update(['payment_status' => $request->status]);
 
         $wallet = Wallet::select(['id', 'user_id', 'balance'])->where('user_id', $wallet_history->user_id)->first();
         Wallet::where('user_id', $wallet->user_id)->update([

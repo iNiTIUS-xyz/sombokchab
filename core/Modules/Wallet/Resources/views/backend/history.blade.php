@@ -10,6 +10,10 @@
         .payment_attachment {
             width: 100px;
         }
+
+        .btn-group button.dropdown-toggle {
+            border: none !important;
+        }
     </style>
 @endsection
 
@@ -31,10 +35,10 @@
                                         <th>{{ __('Serial No.') }}</th>
                                         <th>{{ __('User Details') }}</th>
                                         <th>{{ __('Payment Method') }}</th>
-                                        <th>{{ __('Payment Status') }}</th>
                                         <th>{{ __('Deposit Amount') }}</th>
                                         <th>{{ __('Manual Payment Image') }}</th>
                                         <th>{{ __('Deposit Date') }}</th>
+                                        <th>{{ __('Payment Status') }}</th>
                                         <th>{{ __('Action') }}</th>
                                     </tr>
                                 </thead>
@@ -48,7 +52,8 @@
                                                 <p><strong>{{ __('Phone: ') }}</strong>{{ $history->user?->phone }}</p>
                                                 <p>
                                                     <strong>{{ __('Email Verified Status: ') }}</strong>
-                                                    <x-status.table.verified-status :status="$history->user?->user_verified_status" />
+                                                    <x-status.table.verified-status
+                                                        :status="$history->user?->user_verified_status" />
                                                 </p>
                                             </td>
                                             <td>
@@ -58,23 +63,11 @@
                                                     {{ $history->payment_gateway == 'authorize_dot_net' ? __('Authorize.Net') : ucfirst(str_replace('_', ' ', $history->payment_gateway)) }}
                                                 @endif
                                             </td>
-                                            <td>
-                                                @if ($history->payment_status == '' || $history->payment_status == 'cancel')
-                                                    <span class="badge bg-danger">{{ __('Cancel') }}</span>
-                                                @elseif ($history->payment_status == '' || $history->payment_status == 'complete')
-                                                    <span
-                                                        class="badge bg-success">{{ ucfirst($history->payment_status) }}</span>
-                                                @else
-                                                    <span
-                                                        class="badge bg-warning">{{ ucfirst($history->payment_status) }}</span>
-                                                @endif
-                                            </td>
                                             <td>{{ float_amount_with_currency_symbol($history->amount) }}</td>
                                             <td>
                                                 <span class="img_100">
                                                     @if (empty($history->manual_payment_image))
-                                                        <img src="{{ asset('assets/static/img/no_image.png') }}"
-                                                            alt="">
+                                                        <img src="{{ asset('assets/static/img/no_image.png') }}" alt="">
                                                     @else
                                                         <img src="{{ asset('assets/uploads/manual-payment/' . $history->manual_payment_image) }}"
                                                             alt="">
@@ -83,9 +76,42 @@
                                             </td>
                                             <td>{{ $history->created_at }}</td>
                                             <td>
-                                                @if ($history->payment_status == 'pending')
-                                                    <x-status.table.status-change :title="__('')" :url="route('admin.wallet.history.status', $history->id)" />
-                                                @endif
+                                                <div class="btn-group badge">
+                                                    <button type="button"
+                                                        class="status-{{ $history->payment_status }} {{ $history->payment_status == 'pending' ? 'bg-danger status-close' : '' }} {{ $history->payment_status === 'complete' ? 'bg-primary status-open' : '' }} {{ $history->payment_status === 'cancel' ? 'bg-warning status-open' : '' }} dropdown-toggle"
+                                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        {{ ucfirst($history->payment_status) }}
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        <form action="{{ route('admin.wallet.history.status', $history->id) }}"
+                                                            method="POST" id="status-form-activate-{{ $history->id }}">
+                                                            @csrf
+                                                            <input type="hidden" name="status" value="pending">
+                                                            <button type="submit" class="dropdown-item">
+                                                                {{ __('Pending') }}
+                                                            </button>
+                                                        </form>
+
+                                                        <form action="{{ route('admin.wallet.history.status', $history->id) }}"
+                                                            method="POST" id="status-form-deactivate-{{ $history->id }}">
+                                                            @csrf
+                                                            <input type="hidden" name="status" value="complete">
+                                                            <button type="submit" class="dropdown-item">
+                                                                {{ __('Complete') }}
+                                                            </button>
+                                                        </form>
+                                                        <form action="{{ route('admin.wallet.history.status', $history->id) }}"
+                                                            method="POST" id="status-form-deactivate-{{ $history->id }}">
+                                                            @csrf
+                                                            <input type="hidden" name="status" value="cancel">
+                                                            <button type="submit" class="dropdown-item">
+                                                                {{ __('Cancel') }}
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
                                                 <a class="btn btn-sm btn-secondary"
                                                     href="{{ route('admin.wallet.history.details', $history->id) }}"
                                                     title="{{ __('View Details') }}">
@@ -108,10 +134,10 @@
     <x-media.js />
     @can('wallet-history-records-status')
         <script>
-            (function($) {
+            (function ($) {
                 "use strict";
 
-                $(document).on('click', '.swal_status_change_button', function(e) {
+                $(document).on('click', '.swal_status_change_button', function (e) {
                     e.preventDefault();
 
                     Swal.fire({
