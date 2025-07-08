@@ -2247,9 +2247,6 @@ function moduleExists($name): bool
     return false;
 }
 
-/**
- * @return void
- */
 function common_route(): void
 {
     Route::get('/', 'index')->name('all');

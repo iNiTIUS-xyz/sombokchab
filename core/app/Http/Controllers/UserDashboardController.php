@@ -468,7 +468,7 @@ class UserDashboardController extends Controller
 
     public function handleRefundRequest(HandleUserRefundRequest $request, $id)
     {
-        // dd(1);
+        // dd($request->all(), 1);
         if (!moduleExists("Refund")) {
             abort(404);
         }
