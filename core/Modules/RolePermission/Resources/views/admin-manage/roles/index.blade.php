@@ -31,7 +31,7 @@
                                 <table id="dataTable" class="table dataTable no-footer">
                                     <thead>
                                         <tr>
-                                            <th>{{ __('Serial No.') }}</th>
+                                            <th>{{ __('Hierarchy') }}</th>
                                             <th>{{ __('Role') }}</th>
                                             <th>{{ __('Action') }}</th>
                                         </tr>

@@ -18,7 +18,6 @@
                 <table id="dataTable" class="table">
                     <thead>
                         <tr>
-                            <th>{{ __('Serial No.') }}</th>
                             <th>{{ __('User Details') }}</th>
                             <th>{{ __('Order Details') }}</th>
                             <th>{{ __('Refund Details') }}</th>
@@ -28,8 +27,6 @@
                     <tbody>
                         @foreach ($refundRequests as $request)
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
-
                                 <td>
                                     <span class="user-info text-left">
                                         {{ $request->user?->name }}<br>
@@ -67,9 +64,10 @@
                                 <td>
                                     <span class="user-info text-left">
                                         <b>{{ $request->id }}</b><br>
-                                        {{ __('Status') }}: 
-                                        <span class="badge bg-secondary">{{ __(ucwords(str_replace('_', ' ', $request->currentTrackStatus?->name))) }}</span>
-                                        {{-- <span class="badge bg-secondary">{{ __(ucwords($request->status)) }}</span>  --}}
+                                        {{ __('Status') }}:
+                                        <span
+                                            class="badge bg-secondary">{{ __(ucwords(str_replace('_', ' ', $request->currentTrackStatus?->name))) }}</span>
+                                        {{-- <span class="badge bg-secondary">{{ __(ucwords($request->status)) }}</span> --}}
                                         <br>
                                         {{ __('Total Product:') }} {{ $request->request_product_count }}<br>
                                     </span>
@@ -173,7 +171,7 @@
 
 @section('script')
     <script>
-        $(document).on("click", ".edit-reason", function() {
+        $(document).on("click", ".edit-reason", function () {
             let id = $(this).attr("data-id");
             let name = $(this).attr("data-name");
             let form = $("#edit-refund-reason-form");
@@ -182,14 +180,14 @@
             form.find("#reason_id").val(id);
         });
 
-        $(document).on("submit", "#new-refund-reason-form", function(e) {
+        $(document).on("submit", "#new-refund-reason-form", function (e) {
             e.preventDefault();
 
-            send_ajax_request("POST", new FormData(e.target), "{{ route('admin.refund.reason.store') }}", () => {},
+            send_ajax_request("POST", new FormData(e.target), "{{ route('admin.refund.reason.store') }}", () => { },
                 (response) => {
                     ajax_toastr_success_message(response);
                     if (response.success) {
-                        setTimeout(function() {
+                        setTimeout(function () {
                             window.location.reload();
                         }, 1000);
                     }
@@ -198,14 +196,14 @@
                 })
         });
 
-        $(document).on("submit", "#edit-refund-reason-form", function(e) {
+        $(document).on("submit", "#edit-refund-reason-form", function (e) {
             e.preventDefault();
 
             send_ajax_request("POST", new FormData(e.target), "{{ route('admin.refund.reason.update') }}",
-                () => {}, (response) => {
+                () => { }, (response) => {
                     ajax_toastr_success_message(response);
                     if (response.success) {
-                        setTimeout(function() {
+                        setTimeout(function () {
                             window.location.reload();
                         }, 1000);
                     }

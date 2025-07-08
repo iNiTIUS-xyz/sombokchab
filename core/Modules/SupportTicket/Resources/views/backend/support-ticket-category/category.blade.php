@@ -31,7 +31,6 @@
                             @can('support-tickets-department-bulk-action')
                                 <x-bulk-action.th />
                             @endcan
-                            <th>{{ __('Serial No.') }}</th>
                             <th>{{ __('Name') }}</th>
                             <th>{{ __('Status') }}</th>
                             <th>{{ __('Action') }}</th>
@@ -42,15 +41,12 @@
                                     @can('support-tickets-department-bulk-action')
                                         <x-bulk-action.td :id="$data->id" />
                                     @endcan
-                                    <td>{{ $loop->iteration }}</td>
                                     <td>{{ $data->name }}</td>
                                     <td>
                                         @if ('publish' == $data->status)
-                                            <span
-                                                class="badge bg-success">{{ ucfirst(__($data->status)) }}</span>
+                                            <span class="badge bg-success">{{ ucfirst(__($data->status)) }}</span>
                                         @else
-                                            <span
-                                                class="badge bg-warning">{{ ucfirst(__($data->status)) }}</span>
+                                            <span class="badge bg-warning">{{ ucfirst(__($data->status)) }}</span>
                                         @endif
                                     </td>
                                     <td>
@@ -67,9 +63,9 @@
                                             @can('newsletter-delete')
                                                 <x-delete-popover :url="route('admin.support.ticket.department.delete', $data->id)" />
                                             @endcan
-                                            {{-- <a tabindex="0" class="btn btn-lg btn-danger btn-sm mb-2 me-1"
-                                                role="button" data-bs-toggle="popover" data-bs-trigger="focus"
-                                                data-bs-html="true" title="{{ __('Delete Data') }}"
+                                            {{-- <a tabindex="0" class="btn btn-lg btn-danger btn-sm mb-2 me-1" role="button"
+                                                data-bs-toggle="popover" data-bs-trigger="focus" data-bs-html="true"
+                                                title="{{ __('Delete Data') }}"
                                                 data-content="<h6>{{ __('Are you sure to delete this category item?') }}</h6><form method='post' action='{{ route('admin.support.ticket.department.delete', $data->id) }}'><input type='hidden' name='_token' value='{{ csrf_token() }}'><br><input type='submit' class='btn btn-danger btn-sm' value='{{ __('Yes, Please') }}'></form>">
                                                 <i class="ti-trash"></i>
                                             </a> --}}
@@ -93,8 +89,7 @@
                         <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
                     </div>
 
-                    <form action="{{ route('admin.support.ticket.department') }}" method="post"
-                    enctype="multipart/form-data">
+                    <form action="{{ route('admin.support.ticket.department') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="id" id="category_id">
                         <div class="modal-body">
@@ -119,8 +114,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
                             <button type="submit" class="btn btn-primary">{{ __('Add') }}</button>
                         </div>
                     </form>
@@ -162,8 +156,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
                             <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                         </div>
                     </form>
@@ -178,7 +171,7 @@
         <x-bulk-action.js :route="route('admin.support.ticket.department.bulk.action')" />
     @endcan
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('.table-wrap > table').DataTable({
                 "order": [
                     [1, "desc"]
@@ -189,7 +182,7 @@
                 }]
             });
 
-            $('.all-checkbox').on('change', function(e) {
+            $('.all-checkbox').on('change', function (e) {
                 e.preventDefault();
                 var value = $('.all-checkbox').is(':checked');
                 var allChek = $(this).parent().parent().parent().parent().parent().find('.bulk-checkbox');
@@ -201,7 +194,7 @@
                 }
             });
 
-            $(document).on('click', '.category_edit_btn', function() {
+            $(document).on('click', '.category_edit_btn', function () {
                 var el = $(this);
                 var id = el.data('id');
                 var name = el.data('name');

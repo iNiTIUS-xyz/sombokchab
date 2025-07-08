@@ -32,7 +32,6 @@
                             <table id="dataTable" class="table">
                                 <thead class="text-capitalize">
                                     <tr>
-                                        <th>{{ __('Serial No.') }}</th>
                                         <th>{{ __('Name') }}</th>
                                         <th>{{ __('Image') }}</th>
                                         <th>{{ __('Role') }}</th>
@@ -42,7 +41,6 @@
                                 <tbody>
                                     @foreach ($all_user as $data)
                                         <tr>
-                                            <td>{{ $loop->iteration }}</td>
                                             <td>{{ $data->name }} ({{ $data->username }})</td>
                                             <td>
                                                 @php

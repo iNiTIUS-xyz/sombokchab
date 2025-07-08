@@ -52,7 +52,6 @@
                                             </div>
                                         </th>
                                     @endcan
-                                    <th>{{ __('Serial No.') }}</th>
                                     <th>{{ __('Email') }}</th>
                                     <th>{{ __('Subscribe Status') }}</th>
                                     <th>{{ __('Action') }}</th>
@@ -68,7 +67,6 @@
                                                     </div>
                                                 </td>
                                             @endcan
-                                            <td>{{ $loop->iteration }} </td>
                                             <td>{{ $data->email }} @if ($data->verified > 0)
                                                 <i class="las la-check-circle text-primary"></i>
                                             @endif
@@ -89,24 +87,24 @@
                                                         <i class="ti-email"></i>
                                                     </a>
 
-                                                    {{-- @if ($data->verified < 1)
-                                                        <form class="mb-2 me-2" style="display: inline;float: left;"
-                                                            action="{{ route('admin.newsletter.verify.mail.send') }}" method="post"
-                                                            enctype="multipart/form-data">
-                                                            @csrf
-                                                            <input type="hidden" name="id" value="{{ $data->id }}">
-                                                            <button class="btn btn-sm btn-secondary" type="submit"
-                                                                data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                title="{{ __('Send Verify Mail') }}">
-                                                                <i class="ti-receipt"></i>
-                                                            </button>
+                                                    {{-- @if ($data->verified < 1) <form class="mb-2 me-2"
+                                                        style="display: inline;float: left;"
+                                                        action="{{ route('admin.newsletter.verify.mail.send') }}" method="post"
+                                                        enctype="multipart/form-data">
+                                                        @csrf
+                                                        <input type="hidden" name="id" value="{{ $data->id }}">
+                                                        <button class="btn btn-sm btn-secondary" type="submit"
+                                                            data-bs-toggle="tooltip" data-bs-placement="top"
+                                                            title="{{ __('Send Verify Mail') }}">
+                                                            <i class="ti-receipt"></i>
+                                                        </button>
                                                         </form>
-                                                    @endif --}}
+                                                        @endif --}}
                                                 @endcan
 
-                                                @can('newsletter-delete')
-                                                    <x-delete-popover :url="route('admin.newsletter.delete', $data->id)" />
-                                                @endcan
+                                                    @can('newsletter-delete')
+                                                        <x-delete-popover :url="route('admin.newsletter.delete', $data->id)" />
+                                                    @endcan
                                             </td>
                                         </tr>
                                     @endforeach
