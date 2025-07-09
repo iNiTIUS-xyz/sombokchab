@@ -46,7 +46,7 @@ class SupportTicketController extends Controller
         $all_tickets = SupportTicket::with('department', 'user')
             ->where('vendor_id', null)
             ->orderBy('id', 'desc')
-            ->paginate(20);
+            ->get();
 
         return view('supportticket::backend.all-tickets')->with(['all_tickets' => $all_tickets]);
     }

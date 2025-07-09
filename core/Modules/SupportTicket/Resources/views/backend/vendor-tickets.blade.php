@@ -17,7 +17,8 @@
                 @can('support-tickets-new')
                     <div class="btn-wrapper">
                         <a href="{{ route('admin.support.ticket.new') }}"
-                            class="cmn_btn btn_bg_profile">{{ __('Add New Ticket') }}</a>
+                            class="cmn_btn btn_bg_profile">{{ __('Add New Ticket') }}
+                        </a>
                     </div>
                 @endcan
                 <div class="dashboard__card mt-4">
@@ -63,27 +64,28 @@
                                             <td>
                                                 <div class="btn-group badge">
                                                     <button type="button" class="{{ $data->priority }} dropdown-toggle"
-                                                        data-bs-toggle="dropdown" aria-haspopup="true"
-                                                        aria-expanded="false" style="width: 90px; text-align: left;">
-                                                        {{ $data->priority
-                                                            ? ucfirst($data->priority)
-                                                            : 'Set Priority'
-                                                        }}
+                                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                                        style="width: 90px; text-align: left;">
+                                                        {{ $data->priority ? ucfirst($data->priority) : 'Set Priority'}}
                                                     </button>
                                                     @can('support-tickets-priority-change')
                                                         <div class="dropdown-menu">
-                                                            <a class="dropdown-item change_priority"
-                                                                data-id="{{ $data->id }}" data-val="low"
-                                                                href="#1">{{ __('Low') }}</a>
-                                                            <a class="dropdown-item change_priority"
-                                                                data-id="{{ $data->id }}" data-val="medium"
-                                                                href="#1">{{ __('Medium') }}</a>
-                                                            <a class="dropdown-item change_priority"
-                                                                data-id="{{ $data->id }}" data-val="high"
-                                                                href="#1">{{ __('High') }}</a>
-                                                            <a class="dropdown-item change_priority"
-                                                                data-id="{{ $data->id }}" data-val="urgent"
-                                                                href="#1">{{ __('Urgent') }}</a>
+                                                            <a class="dropdown-item change_priority" data-id="{{ $data->id }}"
+                                                                data-val="low" href="#1">
+                                                                {{ __('Low') }}
+                                                            </a>
+                                                            <a class="dropdown-item change_priority" data-id="{{ $data->id }}"
+                                                                data-val="medium" href="#1">
+                                                                {{ __('Medium') }}
+                                                            </a>
+                                                            <a class="dropdown-item change_priority" data-id="{{ $data->id }}"
+                                                                data-val="high" href="#1">
+                                                                {{ __('High') }}
+                                                            </a>
+                                                            <a class="dropdown-item change_priority" data-id="{{ $data->id }}"
+                                                                data-val="urgent" href="#1">
+                                                                {{ __('Urgent') }}
+                                                            </a>
                                                         </div>
                                                     @endcan
                                                 </div>
@@ -92,18 +94,19 @@
                                                 <div class="btn-group badge">
                                                     <button type="button"
                                                         class="status-{{ $data->status }} {{ $data->status == 'close' ? __('bg-danger status-close') : __('bg-primary status-open') }} dropdown-toggle"
-                                                        data-bs-toggle="dropdown" aria-haspopup="true"
-                                                        aria-expanded="false">
-                                                         {{ ucfirst($data->status == 'close' ? __('Closed') : __($data->status)) }}
+                                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        {{ ucfirst($data->status == 'close' ? __('Closed') : __($data->status)) }}
                                                     </button>
                                                     @can('support-tickets-status-change')
                                                         <div class="dropdown-menu">
-                                                            <a class="dropdown-item status_change"
-                                                                data-id="{{ $data->id }}" data-val="open"
-                                                                href="#1">{{ __('Open') }}</a>
-                                                            <a class="dropdown-item status_change"
-                                                                data-id="{{ $data->id }}" data-val="close"
-                                                                href="#1">{{ __('Close') }}</a>
+                                                            <a class="dropdown-item status_change" data-id="{{ $data->id }}"
+                                                                data-val="open" href="#1">
+                                                                {{ __('Open') }}
+                                                            </a>
+                                                            <a class="dropdown-item status_change" data-id="{{ $data->id }}"
+                                                                data-val="close" href="#1">
+                                                                {{ __('Close') }}
+                                                            </a>
                                                         </div>
                                                     @endcan
                                                 </div>
@@ -133,11 +136,9 @@
         <x-bulk-action.js :route="route('admin.support.ticket.bulk.action')" />
     @endcan
     <script>
-        (function() {
+        (function () {
             "use strict";
-
-
-            $(document).on('click', '.change_priority', function(e) {
+            $(document).on('click', '.change_priority', function (e) {
                 e.preventDefault();
                 //get value
                 var priority = $(this).data('val');
@@ -154,13 +155,16 @@
                         priority: priority,
                         id: id,
                     },
-                    success: function(data) {
-                        $(this).parent().find('button.' + currentPriority).removeClass(
-                            currentPriority).addClass(priority).text(priority);
+                    success: function (data) {
+
+                        if (data == 'ok') {
+                            toastr.success('Support ticket priotity changed successfully.');
+                        }
+                        $(this).parent().find('button.' + currentPriority).removeClass(currentPriority).addClass(priority).text(priority);
                     }
                 })
             });
-            $(document).on('click', '.status_change', function(e) {
+            $(document).on('click', '.status_change', function (e) {
                 e.preventDefault();
                 //get value
                 var status = $(this).data('val');
@@ -178,9 +182,12 @@
                         status: status,
                         id: id,
                     },
-                    success: function(data) {
-                        $(this).parent().prev('button').removeClass(currentStatus).addClass(status)
-                            .text(status);
+                    success: function (data) {
+
+                        if (data == 'ok') {
+                            toastr.success('Support ticket status changed successfully.');
+                        }
+                        $(this).parent().prev('button').removeClass(currentStatus).addClass(status).text(status);
                     }
                 })
             });
