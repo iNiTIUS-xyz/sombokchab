@@ -14,6 +14,7 @@ use Modules\SupportTicket\Entities\SupportTicketMessage;
 use Modules\SupportTicket\Http\Requests\AdminStoreSendMessageRequest;
 use Modules\SupportTicket\Http\Requests\AdminStoreSupportTicketRequest;
 use Modules\User\Entities\User;
+use Modules\Vendor\Entities\Vendor;
 use Str;
 use Storage;
 class SupportTicketController extends Controller
@@ -43,7 +44,8 @@ class SupportTicketController extends Controller
 
     public function all_tickets()
     {
-        $all_tickets = SupportTicket::with('department', 'user')
+        $all_tickets = SupportTicket::query()
+            ->with('department', 'user')
             ->where('vendor_id', null)
             ->orderBy('id', 'desc')
             ->get();
@@ -53,7 +55,8 @@ class SupportTicketController extends Controller
 
     public function all_vendor_tickets()
     {
-        $all_tickets = SupportTicket::with('department', 'vendor')
+        $all_tickets = SupportTicket::query()
+            ->with('department', 'vendor')
             ->whereNot('vendor_id', null)
             ->orderBy('id', 'desc')
             ->get();
@@ -64,9 +67,10 @@ class SupportTicketController extends Controller
     public function new_ticket()
     {
         $all_users = User::all();
+        $all_vendors = Vendor::all();
         $all_departments = SupportDepartment::where(['status' => 'publish'])->get();
 
-        return view('supportticket::backend.new-ticket')->with(['all_users' => $all_users, 'departments' => $all_departments]);
+        return view('supportticket::backend.new-ticket')->with(['all_users' => $all_users, 'departments' => $all_departments, 'all_vendors' => $all_vendors]);
     }
 
     public function store_ticket(AdminStoreSupportTicketRequest $request)
@@ -81,6 +85,7 @@ class SupportTicketController extends Controller
             'status' => 'open',
             'priority' => $request->priority,
             'user_id' => $request->user_id,
+            'vendor_id' => $request->vendor_id,
             'departments' => $request->departments,
             'admin_id' => Auth::guard('admin')->user()->id,
         ]);

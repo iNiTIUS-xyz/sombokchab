@@ -56,7 +56,7 @@
                         <div class="orders-shapes"></div>
                         <div class="orders-flex-content">
                             <div class="contents">
-                                <span class="order-para"> {{ __('Total Users') }} </span>
+                                <span class="order-para"> {{ __('Total Customers') }} </span>
                                 <h2 class="order-titles"> {{ $total_user }} </h2>
                             </div>
                             <div class="icon">

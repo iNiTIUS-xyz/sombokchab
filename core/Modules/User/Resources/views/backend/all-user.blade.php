@@ -115,7 +115,7 @@
                     <input type="hidden" name="user_id" id="user_id">
                     <div class="modal-content custom__form">
                         <div class="modal-header">
-                            <h5 class="modal-title">{{ __('Edit User Details') }}</h5>
+                            <h5 class="modal-title">{{ __('Edit Customer Details') }}</h5>
                             <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
                         </div>
                         <div class="modal-body">

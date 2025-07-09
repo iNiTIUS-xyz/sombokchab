@@ -33,7 +33,7 @@
                                     @if ($type == 'vendor')
                                         <th>{{ __('Store Name') }}</th>
                                     @endif
-                                    <th>{{ __('User Details') }}</th>
+                                    <th>{{ __('Customer Details') }}</th>
                                     <th>{{ __('Wallet Balance') }}</th>
                                     <th>{{ __('Status') }}</th>
                                 </thead>

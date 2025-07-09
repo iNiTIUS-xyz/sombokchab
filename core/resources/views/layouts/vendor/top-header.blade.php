@@ -4,8 +4,7 @@
             <div class="top-inner-contents search-area top-searchbar-wrapper">
                 <div class="dashboard-flex-contetns">
                     <div class="dashboard-left-flex">
-                        <span class="date-text"> 20 Jan, 2022 07:20pm </span>
-
+                        <span class="date-text"></span>
                         @if (auth('vendor')->user()->is_vendor_verified && auth('vendor')->user()->verified_at)
                             <h3 class="text-success">
                                 <i class="las la-user-check"></i>
@@ -42,7 +41,7 @@
                                 <ul class="author-account-list">
                                     <li class="list">
                                         <a href="#" class="vendor_active_sidebar">
-                                           Welcome, {{ $vendor->username }}
+                                            Welcome, {{ $vendor->username }}
                                         </a>
                                     </li>
                                     <li class="list">

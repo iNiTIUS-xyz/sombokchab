@@ -110,7 +110,7 @@
         <div class="modal-dialog">
             <div class="modal-content custom__form">
                 <div class="modal-header">
-                    <h5 class="modal-title">{{__('Edit User Details ')}}</h5>
+                    <h5 class="modal-title">{{__('Edit Customer Details')}}</h5>
                     <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
                 </div>
                 <form action="{{route('admin.frontend.user.update')}}" id="user_edit_modal_form" method="post" enctype="multipart/form-data">

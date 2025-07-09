@@ -33,7 +33,7 @@
                                 <thead>
                                     <tr>
                                         <th>{{ __('Serial No.') }}</th>
-                                        <th>{{ __('User Details') }}</th>
+                                        <th>{{ __('Customer Details') }}</th>
                                         <th>{{ __('Payment Method') }}</th>
                                         <th>{{ __('Deposit Amount') }}</th>
                                         <th>{{ __('Manual Payment Image') }}</th>

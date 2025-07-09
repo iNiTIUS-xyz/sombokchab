@@ -61,7 +61,7 @@
                                     <th class="text-center">{{ __('Ticket ID') }}</th>
                                     <th class="text-center">{{ __('Title') }}</th>
                                     <th class="text-center">{{ __('Department') }}</th>
-                                    <th class="text-center">{{ __('User') }}</th>
+                                    <th class="text-center">{{ __('Customer') }}</th>
                                     <th class="text-center">{{ __('Priority') }}</th>
                                     <th class="text-center">{{ __('Status') }}</th>
                                     <th class="text-center">{{ __('Action') }}</th>
@@ -74,9 +74,9 @@
                                             @endcan
                                             <td>{{ $data->id }}</td>
                                             <td>{{ $data->title }}</td>
-                                            <td>{{ $data->department->name ?? __('anonymous') }}</td>
+                                            <td>{{ $data->department?->name }}</td>
                                             <td>
-                                                {{ $data->user->name ?? __('anonymous') }}
+                                                {{ $data->user?->name }}
                                             </td>
                                             <td>
                                                 <div class="btn-group badge">

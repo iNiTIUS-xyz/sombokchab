@@ -4,12 +4,14 @@
             <div class="top-inner-contents search-area top-searchbar-wrapper">
                 <div class="dashboard-flex-contetns">
                     <div class="dashboard-left-flex">
-                        <span class="date-text dashboard-left-date"> 20 Jan, 2022 07:20pm </span>
+                        <span class="date-text dashboard-left-date"></span>
                         <div class="d-flex align-items-center">
-                            <h2 class="heading-two dashboard-left-heading mt-2"> Welcome, Happy Hour </h2><h2 class="dashboard-left-heading mt-2 fw-500">&nbsp;- {{auth('admin')->user()->name}}</h2>
+                            <h2 class="heading-two dashboard-left-heading mt-2"></h2>
+                            <h2 class="dashboard-left-heading mt-2 fw-500">
+                                &nbsp;- {{auth('admin')->user()->name}}
+                            </h2>
                         </div>
                     </div>
-                    
                     <div class="dashboard-right-flex">
                         <div class="author-flex-contents">
                             <div class="author-icon">
@@ -27,8 +29,10 @@
                                 </div>
 
                                 <ul class="author-account-list">
-                                    <li class="list"><a href="{{route('admin.profile.update')}}">{{__('Edit Profile')}}</a></li>
-                                    <li class="list"><a href="{{route('admin.password.change')}}">{{__('Password Change')}}</a></li>
+                                    <li class="list"><a
+                                            href="{{route('admin.profile.update')}}">{{__('Edit Profile')}}</a></li>
+                                    <li class="list"><a
+                                            href="{{route('admin.password.change')}}">{{__('Password Change')}}</a></li>
                                     <li class="list"><a href="{{ route('admin.logout') }}">{{ __('Sign Out') }}</a></li>
                                 </ul>
                             </div>

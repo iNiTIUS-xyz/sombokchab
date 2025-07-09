@@ -18,7 +18,7 @@
                 <table id="dataTable" class="table">
                     <thead>
                         <tr>
-                            <th>{{ __('User Details') }}</th>
+                            <th>{{ __('Customer Details') }}</th>
                             <th>{{ __('Order Details') }}</th>
                             <th>{{ __('Refund Details') }}</th>
                             <th>{{ __('Action') }}</th>
