@@ -7,6 +7,7 @@ use Modules\User\Entities\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
+use Modules\CountryManage\Entities\City;
 use Modules\User\Http\Requests\StoreUserRequest;
 use Modules\User\Http\Requests\UpdatePasswordRequest;
 use Modules\User\Http\Requests\UpdateUserRequest;
@@ -20,7 +21,9 @@ class UserController extends Controller
     {
         $all_user = User::all();
         $country = Country::select("id", "name")->orderBy("name", "ASC")->get();
-        return view('user::backend.all-user')->with(['all_user' => $all_user, 'country' => $country]);
+        $states = State::where("country_id", 31)->orderBy("name", "ASC")->get();
+        $cities = City::orderBy("name", "ASC")->get();
+        return view('user::backend.all-user')->with(['all_user' => $all_user, 'country' => $country, 'states' => $states, 'cities' => $cities]);
     }
     public function user_password_change(UpdatePasswordRequest $request)
     {
@@ -53,7 +56,10 @@ class UserController extends Controller
     {
         $data = [
             "country" => Country::select("id", "name")->orderBy("name", "ASC")->get(),
+            "states" => State::where("country_id", 31)->orderBy("name", "ASC")->get(),
+            "cities" => City::orderBy("name", "ASC")->get(),
         ];
+
         return view('user::backend.add-new-user', with($data));
     }
 

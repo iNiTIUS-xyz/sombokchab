@@ -120,8 +120,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="row">
-                                <div class="col-md-6">
-
+                                <div class="col-md-6 mb-3">
                                     <div class="form-group">
                                         <label for="name">
                                             {{ __('Name') }}
@@ -130,10 +129,8 @@
                                         <input type="text" class="form-control" id="name" name="name"
                                             placeholder="{{ __('Enter name') }}">
                                     </div>
-
                                 </div>
-                                <div class="col-md-6">
-
+                                <div class="col-md-6 mb-3">
                                     <div class="form-group">
                                         <label for="username">
                                             {{ __('Username') }}
@@ -143,8 +140,7 @@
                                             placeholder="{{ __('Username') }}">
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-
+                                <div class="col-md-6 mb-3">
                                     <div class="form-group">
                                         <label for="email">
                                             {{ __('Email') }}
@@ -153,8 +149,7 @@
                                             placeholder="{{ __('Email') }}">
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-
+                                <div class="col-md-6 mb-3">
                                     <div class="form-group">
                                         <label for="phone">
                                             {{ __('Phone') }}
@@ -164,8 +159,7 @@
                                             placeholder="{{ __('Phone') }}">
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-
+                                <div class="col-md-6 mb-3">
                                     <div class="form-group">
                                         <label for="country">
                                             {{ __('Country') }}
@@ -181,8 +175,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-
+                                <div class="col-md-6 mb-3">
                                     <div class="form-group">
                                         <label for="city">
                                             {{ __('City') }}
@@ -190,11 +183,15 @@
                                         </label>
                                         <select id="city_id" name="city" class="form-control">
                                             <option value="">{{ __('Select City') }}</option>
+                                            @foreach ($states as $item)
+                                                <option value="{{ $item->id }}">
+                                                    {{ $item->name }}
+                                                </option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-
+                                <div class="col-md-6 mb-3">
                                     <div class="form-group">
                                         <label for="state">
                                             {{ __('Province') }}
@@ -202,12 +199,15 @@
                                         </label>
                                         <select id="state_id" name="state" class="form-control">
                                             <option value="">{{ __('Select province') }}</option>
+                                            @foreach ($cities as $item)
+                                                <option value="{{ $item->id }}">
+                                                    {{ $item->name }}
+                                                </option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-
-
+                                <div class="col-md-6 mb-3">
                                     <div class="form-group">
                                         <label for="zipcode">
                                             {{ __('Postal Code') }}
@@ -217,8 +217,7 @@
                                             placeholder="{{ __('Postal Code') }}">
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-
+                                <div class="col-md-6 mb-3">
                                     <div class="form-group">
                                         <label for="address">
                                             {{ __('Address') }}
@@ -342,97 +341,6 @@
                             }
                         }, 500);
                     }, 500);
-                });
-
-
-                $(document).on("change", "#country", function () {
-                    var countryId = $(this).val();
-                    var stateSelect = $("#state_id");
-
-                    if (!countryId) {
-                        stateSelect.html('<option value="">{{ __('Select State') }}</option>');
-                        return;
-                    }
-
-                    $.ajax({
-                        type: "POST",
-                        url: "{{ route('admin.vendor.get.state') }}",
-                        data: {
-                            country_id: countryId,
-                            _token: "{{ csrf_token() }}"
-                        },
-                        success: function (response) {
-                            console.log(response); // For debugging
-
-                            // First clear the current options
-                            stateSelect.html(
-                                '<option value="">{{ __('Select State') }}</option>');
-
-                            // Check if response has the pre-formatted options
-                            if (response.success && response.option) {
-                                // Directly append the pre-formatted options
-                                stateSelect.append(response.option);
-
-                                // If you need to select a specific value after loading
-                                // var selectedStateId = stateSelect.attr('data-state-id');
-                                // if (selectedStateId) {
-                                //     stateSelect.val(selectedStateId);
-                                // }
-                            }
-                        },
-                        error: function (xhr) {
-                            console.error(xhr.responseText);
-                            stateSelect.html(
-                                '<option value="">{{ __('Error loading states') }}</option>'
-                            );
-                        }
-                    });
-                });
-
-                $(document).on("change", "#state_id", function () {
-                    var stateId = $(this).val();
-                    var countryId = $("#country").val();
-                    var citySelect = $("#city_id");
-
-                    if (!stateId || !countryId) {
-                        citySelect.html('<option value="">{{ __('Select City') }}</option>');
-                        return;
-                    }
-
-                    $.ajax({
-                        type: "POST",
-                        url: "{{ route('admin.vendor.get.city') }}",
-                        data: {
-                            country_id: countryId,
-                            state_id: stateId,
-                            _token: "{{ csrf_token() }}"
-                        },
-                        success: function (response) {
-                            console.log(response); // For debugging
-
-                            // First clear the current options
-                            citySelect.html(
-                                '<option value="">{{ __('Select City') }}</option>');
-
-                            // Check if response has the pre-formatted options
-                            if (response.success && response.option) {
-                                // Directly append the pre-formatted options
-                                citySelect.append(response.option);
-
-                                // If you need to select a specific value after loading
-                                // var selectedCityId = citySelect.attr('data-city-id');
-                                // if (selectedCityId) {
-                                //     citySelect.val(selectedCityId);
-                                // }
-                            }
-                        },
-                        error: function (xhr) {
-                            console.error(xhr.responseText);
-                            citySelect.html(
-                                '<option value="">{{ __('Error loading cities') }}</option>'
-                            );
-                        }
-                    });
                 });
             });
         })(jQuery);

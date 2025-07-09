@@ -60,7 +60,9 @@ class VendorBackendController extends Controller
     {
         $data = [
             "country" => Country::select("id", "name")->orderBy("name", "ASC")->get(),
-            "business_type" => BusinessType::select()->get()
+            "business_type" => BusinessType::select()->get(),
+            'states' => State::where("country_id", 31)->orderBy("name", "ASC")->get(),
+            'cities' => City::orderBy("name", "ASC")->get(),
         ];
 
         return view("vendor::backend.create", with($data));
@@ -113,7 +115,9 @@ class VendorBackendController extends Controller
                 "vendor_bank_info",
                 "vendor_shop_info.cover_photo",
                 "vendor_shop_info.logo"
-            ])->findOrFail($vendor)
+            ])->findOrFail($vendor),
+            'states' => State::where("country_id", 31)->orderBy("name", "ASC")->get(),
+            'cities' => City::orderBy("name", "ASC")->get(),
         ];
 
         return view("vendor::backend.edit", with($data));

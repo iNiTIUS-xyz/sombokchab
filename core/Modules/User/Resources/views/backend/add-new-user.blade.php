@@ -16,103 +16,138 @@
                     <div class="dashboard__card__body custom__form mt-4">
                         <form action="{{ route('admin.frontend.new.user') }}" method="post" enctype="multipart/form-data">
                             @csrf
-                            <div class="form-group">
-                                <label for="name">
-                                    {{ __('Name') }}
-                                    <span class="text-danger">*</span>
-                                </label>
-                                <input type="text" class="form-control" id="name" name="name"
-                                    placeholder="{{ __('Enter full name') }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="username">
-                                    {{ __('Username') }}
-                                    <span class="text-danger">*</span>
-                                </label>
-                                <input type="text" class="form-control" id="username" name="username"
-                                    placeholder="{{ __('Enter username') }}">
-                                <small class="text text-danger">
-                                    {{ __('Remember this username, user will login using this username') }}
-                                </small>
-                            </div>
-                            <div class="form-group">
-                                <label for="email">
-                                    {{ __('Email') }}
-                                </label>
-                                <input type="text" class="form-control" id="email" name="email"
-                                    placeholder="{{ __('Enter email') }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="phone">
-                                    {{ __('Phone') }}
-                                    <span class="text-danger">*</span>
-                                </label>
-                                <input type="text" class="form-control" id="phone" name="phone"
-                                    placeholder="{{ __('Enter phone') }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="country">
-                                    {{ __('Country') }}
-                                    <span class="text-danger">*</span>
-                                </label>
-                                <select id="country" name="country">
-                                    <option value="">{{ __('Select country') }}</option>
-                                    @foreach ($country as $item)
-                                        <option value="{{ $item->id }}">
-                                            {{ $item->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="state">
-                                    {{ __('City') }}
-                                    <span class="text-danger">*</span>
-                                </label>
-                                <select id="state_id" name="state">
-                                    <option value="">{{ __('Select city') }}</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="city">
-                                    {{ __('Province') }}
-                                    <span class="text-danger">*</span>
-                                </label>
-                                <select id="city_id" name="city">
-                                    <option value="">{{ __('Select province') }}</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="zipcode">
-                                    {{ __('Postal code') }}
-                                    <span class="text-danger">*</span>
-                                </label>
-                                <input type="text" class="form-control" id="zipcode" name="zipcode"
-                                    placeholder="{{ __('Enter postal code') }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="address">
-                                    {{ __('Address') }}
-                                    <span class="text-danger">*</span>
-                                </label>
-                                <input type="text" class="form-control" id="address" name="address"
-                                    placeholder="{{ __('Enter address') }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="password">
-                                    {{ __('Password') }}
-                                    <span class="text-danger">*</span>
-                                </label>
-                                <input type="password" class="form-control" id="password" name="password"
-                                    placeholder="{{ __('Enter password') }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="password_confirmation">
-                                    {{ __('Confirm Password') }}
-                                    <span class="text-danger">*</span>
-                                </label>
-                                <input type="password" class="form-control" id="password_confirmation"
-                                    name="password_confirmation" placeholder="{{ __('Enter password confirmation') }}">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <div class="form-group">
+                                        <label for="name">
+                                            {{ __('Name') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" id="name" name="name"
+                                            placeholder="{{ __('Enter full name') }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="form-group">
+                                        <label for="username">
+                                            {{ __('Username') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" id="username" name="username"
+                                            placeholder="{{ __('Enter username') }}">
+                                        <small class="text text-danger">
+                                            {{ __('Remember this username, user will login using this username') }}
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="form-group">
+                                        <label for="email">
+                                            {{ __('Email') }}
+                                        </label>
+                                        <input type="text" class="form-control" id="email" name="email"
+                                            placeholder="{{ __('Enter email') }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="form-group">
+                                        <label for="phone">
+                                            {{ __('Phone') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" id="phone" name="phone"
+                                            placeholder="{{ __('Enter phone') }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="form-group">
+                                        <label for="country">
+                                            {{ __('Country') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <select name="country">
+                                            <option value="" disabled selected>{{ __('Select One') }}</option>
+                                            @foreach ($country as $item)
+                                                <option value="{{ $item->id }}">
+                                                    {{ $item->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="form-group">
+                                        <label for="state">
+                                            {{ __('City') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <select name="state">
+                                            <option value="" disabled selected>{{ __('Select One') }}</option>
+                                            @foreach ($states as $item)
+                                                <option value="{{ $item->id }}">
+                                                    {{ $item->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="form-group">
+                                        <label for="city">
+                                            {{ __('Province') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <select name="city">
+                                            <option value="" disabled selected>{{ __('Select One') }}</option>
+                                            @foreach ($cities as $item)
+                                                <option value="{{ $item->id }}">
+                                                    {{ $item->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="form-group">
+                                        <label for="zipcode">
+                                            {{ __('Postal code') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" id="zipcode" name="zipcode"
+                                            placeholder="{{ __('Enter postal code') }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="form-group">
+                                        <label for="address">
+                                            {{ __('Address') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" id="address" name="address"
+                                            placeholder="{{ __('Enter address') }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="form-group">
+                                        <label for="password">
+                                            {{ __('Password') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="password" class="form-control" id="password" name="password"
+                                            placeholder="{{ __('Enter password') }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="form-group">
+                                        <label for="password_confirmation">
+                                            {{ __('Confirm Password') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="password" class="form-control" id="password_confirmation"
+                                            name="password_confirmation"
+                                            placeholder="{{ __('Enter password confirmation') }}">
+                                    </div>
+                                </div>
                             </div>
                             <button type="submit" class="cmn_btn btn_bg_profile mt-4">
                                 {{ __('Add') }}

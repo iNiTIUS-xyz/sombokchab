@@ -202,23 +202,16 @@
                                                             </select>
                                                         </div>
                                                     </div>
-                                                    @php
-                                                        $states = $vendor?->vendor_address?->country_id
-                                                            ? \Modules\CountryManage\Entities\State::where(
-                                                                'country_id',
-                                                                $vendor?->vendor_address?->country_id,
-                                                            )->get()
-                                                            : [];
-                                                    @endphp
+
                                                     <div class="form-group">
                                                         <label class="label-title color-light mb-2">
-                                                            {{ __('State') }}
+                                                            {{ __('City') }}
                                                             <span class="text-danger">*</span>
                                                         </label>
                                                         <div class="nice-select-two state_wrapper">
                                                             <select class="form-control" id="state_id" name="state_id">
-                                                                <option value="">
-                                                                    {{ __('Select State') }}
+                                                                <option value="" disabled>
+                                                                    {{ __('Select City') }}
                                                                 </option>
                                                                 @foreach ($states as $state)
                                                                     <option value="{{ $state->id }}"
@@ -230,24 +223,15 @@
                                                         </div>
                                                     </div>
 
-                                                    @php
-                                                        $cities = $vendor?->vendor_address?->state_id
-                                                            ? \App\City::where(
-                                                                'state_id',
-                                                                $vendor?->vendor_address?->state_id,
-                                                            )->get()
-                                                            : [];
-                                                    @endphp
-
                                                     <div class="form-group">
                                                         <label class="label-title color-light mb-2">
-                                                            {{ __('City') }}
+                                                            {{ __('Province') }}
                                                             <span class="text-danger">*</span>
                                                         </label>
                                                         <div class="nice-select-two city_wrapper">
                                                             <select id="city_id" name="city_id" class="form-control">
-                                                                <option value="">
-                                                                    {{ __('Select City') }}
+                                                                <option value="" disabled>
+                                                                    {{ __('Select Province') }}
                                                                 </option>
                                                                 @foreach ($cities as $city)
                                                                     <option value="{{ $city->id }}"
@@ -260,7 +244,7 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="label-title color-light mb-2">
-                                                            {{ __('Zip Code') }}
+                                                            {{ __('Postal Code') }}
                                                             <span class="text-danger">*</span>
                                                         </label>
                                                         <input type="text" name="zip_code"
@@ -459,46 +443,46 @@
         });
 
 
-        $(document).on("change", "#country_id", function() {
-            let data = new FormData();
-            data.append("country_id", $(this).val());
-            data.append("_token", "{{ csrf_token() }}");
+        // $(document).on("change", "#country_id", function() {
+        //     let data = new FormData();
+        //     data.append("country_id", $(this).val());
+        //     data.append("_token", "{{ csrf_token() }}");
 
-            send_ajax_request(
-                "post",
-                data,
-                "{{ route('admin.vendor.get.state') }}",
-                function() {},
-                (data) => {
-                    $("#state_id").html("<option value=''>{{ __('Select a state') }}</option>" + data.option);
-                    $(".state_wrapper .list").html(data.li);
-                },
-                (data) => {
-                    prepare_errors(data);
-                }
-            );
-        });
+        //     send_ajax_request(
+        //         "post",
+        //         data,
+        //         "{{ route('admin.vendor.get.state') }}",
+        //         function() {},
+        //         (data) => {
+        //             $("#state_id").html("<option value=''>{{ __('Select a state') }}</option>" + data.option);
+        //             $(".state_wrapper .list").html(data.li);
+        //         },
+        //         (data) => {
+        //             prepare_errors(data);
+        //         }
+        //     );
+        // });
 
-        $(document).on("change", "#state_id", function() {
-            let data = new FormData();
-            data.append("country_id", $("#country_id").val());
-            data.append("state_id", $(this).val());
-            data.append("_token", "{{ csrf_token() }}");
+        // $(document).on("change", "#state_id", function() {
+        //     let data = new FormData();
+        //     data.append("country_id", $("#country_id").val());
+        //     data.append("state_id", $(this).val());
+        //     data.append("_token", "{{ csrf_token() }}");
 
-            send_ajax_request(
-                "post",
-                data,
-                "{{ route('admin.vendor.get.city') }}",
-                function() {},
-                (data) => {
-                    $("#city_id").html("<option value=''>{{ __('Select a city') }}</option>" + data.option);
-                    $(".city_wrapper .list").html(data.li);
-                },
-                (data) => {
-                    prepare_errors(data);
-                }
-            );
-        });
+        //     send_ajax_request(
+        //         "post",
+        //         data,
+        //         "{{ route('admin.vendor.get.city') }}",
+        //         function() {},
+        //         (data) => {
+        //             $("#city_id").html("<option value=''>{{ __('Select a city') }}</option>" + data.option);
+        //             $(".city_wrapper .list").html(data.li);
+        //         },
+        //         (data) => {
+        //             prepare_errors(data);
+        //         }
+        //     );
+        // });
 
         $(document).on("keyup keydown click change", "input[name=username]", function() {
             $(this).val(convertToSlug($(this).val()));

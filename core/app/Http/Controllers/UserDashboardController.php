@@ -484,8 +484,11 @@ class UserDashboardController extends Controller
                     'type' => 'success',
                 ]);
             }
+            dd(2, $refundProducts);
 
         } catch (\Throwable $e) {
+
+            dd($e);
 
             return back()->with([
                 'msg' => __('An error occurred while processing your refund request. Please try again later.'),
