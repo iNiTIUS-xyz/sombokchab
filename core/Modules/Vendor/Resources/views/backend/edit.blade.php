@@ -343,6 +343,7 @@
                                                     <div class="form-group">
                                                         <label class="label-title color-light mb-2">
                                                             {{ __('Name') }}
+                                                            <span class="text-danger">*</span>
                                                         </label>
                                                         <input value="{{ $vendor?->vendor_bank_info?->bank_name }}"
                                                             name="bank_name" type="text"
@@ -350,7 +351,9 @@
                                                             placeholder="{{ __('Enter name') }}">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="label-title color-light mb-2"> {{ __('Email') }}
+                                                        <label class="label-title color-light mb-2">
+                                                            {{ __('Email') }}
+                                                            <span class="text-danger">*</span>
                                                         </label>
                                                         <input value="{{ $vendor?->vendor_bank_info?->bank_email }}"
                                                             name="bank_email" type="text"
@@ -358,7 +361,9 @@
                                                             placeholder="{{ __('Enter email') }}">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="label-title color-light mb-2"> {{ __('Bank Code') }}
+                                                        <label class="label-title color-light mb-2">
+                                                            {{ __('Bank Code') }}
+                                                            <span class="text-danger">*</span>
                                                         </label>
                                                         <input value="{{ $vendor?->vendor_bank_info?->bank_code }}"
                                                             name="bank_code" type="tel"
@@ -368,6 +373,7 @@
                                                     <div class="form-group">
                                                         <label class="label-title color-light mb-2">
                                                             {{ __('Account Number') }}
+                                                            <span class="text-danger">*</span>
                                                         </label>
                                                         <input value="{{ $vendor?->vendor_bank_info?->account_number }}"
                                                             name="account_number" type="tel"
@@ -376,7 +382,8 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="label-title color-light mb-2">
-                                                            {{ __('Verify Stauts') }}
+                                                            {{ __('Verification Status') }}
+                                                            <span class="text-danger">*</span>
                                                         </label>
                                                         <select name="is_varify" class="form-control">
                                                             <option value="" selected disabled>

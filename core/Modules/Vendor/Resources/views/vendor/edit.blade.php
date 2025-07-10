@@ -71,7 +71,8 @@
                                                     <div class="row g-4">
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title color-light mb-2"> Vendor Name *
+                                                                <label class="label-title color-light mb-2">
+                                                                    Vendor Name *
                                                                 </label>
                                                                 <input name="owner_name" type="text"
                                                                     class="form--control radius-10"
@@ -377,50 +378,53 @@
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
                                                                 <label class="label-title color-light mb-2">
-                                                                    Name <span>*</span>
+                                                                    Name
+                                                                    <span class="text-danger">*</span>
                                                                 </label>
                                                                 <input
                                                                     value="{{ $vendor?->vendor_bank_info?->bank_name }}"
                                                                     name="bank_name" type="text"
                                                                     class="form--control radius-10"
-                                                                    placeholder="Enter Name">
+                                                                    placeholder="{{ __('Enter name') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
                                                                 <label class="label-title color-light mb-2">
                                                                     Email
-                                                                    <span>*</span>
+                                                                    <span class="text-danger">*</span>
                                                                 </label>
                                                                 <input
                                                                     value="{{ $vendor?->vendor_bank_info?->bank_email }}"
                                                                     name="bank_email" type="text"
                                                                     class="form--control radius-10"
-                                                                    placeholder="{{ __('Enter Email') }}">
+                                                                    placeholder="{{ __('Enter email') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title color-light mb-2"> Bank Code
-                                                                    <span>*</span>
+                                                                <label class="label-title color-light mb-2">
+                                                                    Bank Code
+                                                                    <span class="text-danger">*</span>
                                                                 </label>
                                                                 <input
                                                                     value="{{ $vendor?->vendor_bank_info?->bank_code }}"
                                                                     name="bank_code" type="tel"
                                                                     class="form--control radius-10"
-                                                                    placeholder="Enter Code">
+                                                                    placeholder="{{ __('Enter code') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title color-light mb-2"> Account Number
-                                                                    <span>*</span>
+                                                                <label class="label-title color-light mb-2">
+                                                                    Account Number
+                                                                    <span class="text-danger">*</span>
                                                                 </label>
                                                                 <input
                                                                     value="{{ $vendor?->vendor_bank_info?->account_number }}"
                                                                     name="account_number" type="tel"
                                                                     class="form--control radius-10"
-                                                                    placeholder="Enter Account Number">
+                                                                    placeholder="{{ __('Enter account number') }}">
                                                             </div>
                                                         </div>
                                                     </div>
