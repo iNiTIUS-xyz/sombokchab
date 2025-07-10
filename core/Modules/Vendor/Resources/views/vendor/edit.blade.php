@@ -1,6 +1,6 @@
 @extends('vendor.vendor-master')
 @section('site-title')
-    {{ __('Vendor Create') }}
+    {{ __('Vendor Profile Update') }}
 @endsection
 
 @section('style')
@@ -388,13 +388,15 @@
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title color-light mb-2"> Email
-                                                                    <span>*</span> </label>
+                                                                <label class="label-title color-light mb-2">
+                                                                    Email
+                                                                    <span>*</span>
+                                                                </label>
                                                                 <input
                                                                     value="{{ $vendor?->vendor_bank_info?->bank_email }}"
                                                                     name="bank_email" type="text"
                                                                     class="form--control radius-10"
-                                                                    placeholder="Enter Email">
+                                                                    placeholder="{{ __('Enter Email') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
