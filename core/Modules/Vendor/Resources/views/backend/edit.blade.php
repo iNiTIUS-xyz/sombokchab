@@ -4,6 +4,7 @@
 @endsection
 
 @section('style')
+    <link rel="stylesheet" href="{{ asset('assets/backend/css/colorpicker.css') }}">
     <x-media.css />
     <x-bulk-action.css />
 @endsection
@@ -68,7 +69,8 @@
                                             <div class="dashboard__card">
                                                 <div class="dashboard__card__header">
                                                     <h4 class="dashboard__card__title">
-                                                        {{ __('Basic Info*') }}
+                                                        {{ __('Basic Info') }}
+                                                        <span class="text-danger">*</span>
                                                     </h4>
                                                     @if ($vendor->is_vendor_verified && $vendor->verified_at)
                                                         <p class="text-success">
@@ -281,7 +283,7 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="label-title color-light mb-2">
-                                                            {{ __('Number') }}
+                                                            {{ __('Phone Number') }}
                                                             <span class="text-danger">*</span>
                                                         </label>
                                                         <input value="{{ $vendor?->phone }}" name="number"
@@ -290,7 +292,7 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="label-title color-light mb-2">
-                                                            {{ __('Email Address') }}
+                                                            {{ __('Email') }}
                                                         </label>
                                                         <input value="{{ $vendor?->vendor_shop_info?->email }}"
                                                             type="text" name="shop_email"
@@ -314,6 +316,59 @@
                                                             type="text" name="website_url"
                                                             class="form--control radius-10"
                                                             placeholder="{{ __('Enter Website') }}">
+                                                    </div>
+                                                    <div class="row mt-4">
+                                                        <!--color settings start -->
+                                                        <span class="label-title color-light mt-3">
+                                                            {{ __('Store Color Settings') }}
+                                                        </span>
+                                                        <div class="col-sm-3">
+                                                            <div class="form-group">
+                                                                <label for="store_color">
+                                                                    {{ __('Main Color') }}
+                                                                </label>
+                                                                <input type="text" name="store_color"
+                                                                    style="background-color: {{ $vendor?->vendor_shop_info?->colors['store_color'] ?? '' }};color: #fff;"
+                                                                    class="form-control"
+                                                                    value="{{ $vendor?->vendor_shop_info?->colors['store_color'] ?? '' }}"
+                                                                    id="store_color">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <div class="form-group">
+                                                                <label
+                                                                    for="store_secondary_color">{{ __('Secondary Color') }}</label>
+                                                                <input type="text" name="store_secondary_color"
+                                                                    style="background-color: {{ $vendor?->vendor_shop_info?->colors['store_secondary_color'] ?? '' }};color: #fff;"
+                                                                    class="form-control"
+                                                                    value="{{ $vendor?->vendor_shop_info?->colors['store_secondary_color'] ?? '' }}"
+                                                                    id="store_secondary_color">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <div class="form-group">
+                                                                <label
+                                                                    for="store_heading_color">{{ __('Heading Color') }}</label>
+                                                                <input type="text" name="store_heading_color"
+                                                                    style="background-color: {{ $vendor?->vendor_shop_info?->colors['store_heading_color'] ?? '' }};color: #fff;"
+                                                                    class="form-control"
+                                                                    value="{{ $vendor?->vendor_shop_info?->colors['store_heading_color'] ?? '' }}"
+                                                                    id="store_heading_color">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <div class="form-group">
+                                                                <label
+                                                                    for="store_paragraph_color">{{ __('Paragraph Color') }}</label>
+                                                                <input type="text" name="store_paragraph_color"
+                                                                    style="background-color: {{ $vendor?->vendor_shop_info?->colors['store_paragraph_color'] ?? '' }};color: #fff;"
+                                                                    class="form-control"
+                                                                    value="{{ $vendor?->vendor_shop_info?->colors['store_paragraph_color'] ?? '' }}"
+                                                                    id="store_paragraph_color">
+                                                                <small>{{ __('you can change site paragraph color from there') }}</small>
+                                                            </div>
+                                                        </div>
+                                                        <!--color settings end -->
                                                     </div>
                                                 </div>
                                             </div>
@@ -416,10 +471,11 @@
 
     <x-media.markup />
 @endsection
+
 @section('script')
+    <script src="{{ asset('assets/backend/js/colorpicker.js') }}"></script>
     <x-media.js />
     <x-table.btn.swal.js />
-
     <script>
         $(document).ready(function() {
             $("#business_type").select2();
@@ -494,5 +550,39 @@
         $(document).on("keyup keydown click change", "input[name=username]", function() {
             $(this).val(convertToSlug($(this).val()));
         });
+    </script>
+
+    <script>
+        (function($) {
+            "use strict";
+            $(document).ready(function() {
+
+                initColorPicker('#store_color');
+                initColorPicker('#store_secondary_color');
+                initColorPicker('#store_main_color_two');
+                initColorPicker('#store_heading_color');
+                initColorPicker('#store_paragraph_color');
+                initColorPicker('input[name="portfolio_home_color"');
+                initColorPicker('input[name="logistics_home_color"');
+
+                function initColorPicker(selector) {
+                    $(selector).ColorPicker({
+                        color: '#852aff',
+                        onShow: function(colpkr) {
+                            $(colpkr).fadeIn(500);
+                            return false;
+                        },
+                        onHide: function(colpkr) {
+                            $(colpkr).fadeOut(500);
+                            return false;
+                        },
+                        onChange: function(hsb, hex, rgb) {
+                            $(selector).css('background-color', '#' + hex);
+                            $(selector).val('#' + hex);
+                        }
+                    });
+                }
+            });
+        }(jQuery));
     </script>
 @endsection

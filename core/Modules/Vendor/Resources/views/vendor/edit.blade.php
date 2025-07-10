@@ -54,7 +54,9 @@
                                 </ul>
 
                                 <div class="submit_button">
-                                    <button type="submit" class="cmn_btn btn_bg_profile">Submit</button>
+                                    <button type="submit" class="cmn_btn btn_bg_profile">
+                                        {{ __('Update') }}
+                                    </button>
                                 </div>
                             </div>
 
@@ -72,7 +74,8 @@
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
                                                                 <label class="label-title color-light mb-2">
-                                                                    Vendor Name *
+                                                                    Vendor Name
+                                                                    <span class="text-danger">*</span>
                                                                 </label>
                                                                 <input name="owner_name" type="text"
                                                                     class="form--control radius-10"
@@ -82,7 +85,9 @@
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title color-light mb-2"> Business Name *
+                                                                <label class="label-title color-light mb-2">
+                                                                    Business Name
+                                                                    <span class="text-danger">*</span>
                                                                 </label>
                                                                 <input name="business_name" type="text"
                                                                     class="form--control radius-10"
@@ -93,7 +98,9 @@
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
                                                                 <label class="label-title color-light mb-2">
-                                                                    Username *</label>
+                                                                    Username
+                                                                    <span class="text-danger">*</span>
+                                                                </label>
                                                                 <input name="username" type="text"
                                                                     class="form--control radius-10"
                                                                     value="{{ $vendor->username }}" required
@@ -103,7 +110,9 @@
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
                                                                 <label class="label-title color-light mb-2"> Business
-                                                                    Category *</label>
+                                                                    Category
+                                                                    <span class="text-danger">*</span>
+                                                                </label>
                                                                 <div class="nice-select-two">
                                                                     <select id="business_type" name="business_type_id"
                                                                         style="" class="form--control radius-10">
@@ -150,7 +159,8 @@
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
                                                                 <label class="label-title color-light mb-2">
-                                                                    {{ __('Country *') }}
+                                                                    {{ __('Country') }}
+                                                                    <span class="text-danger">*</span>
                                                                 </label>
                                                                 <div class="nice-select-two country_wrapper">
                                                                     <select class="form-control" id="country_id"
@@ -168,7 +178,9 @@
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
                                                                 <label class="label-title color-light mb-2">
-                                                                    {{ __('City *') }} </label>
+                                                                    {{ __('City') }}
+                                                                    <span class="text-danger">*</span>
+                                                                </label>
                                                                 <div class="nice-select-two state_wrapper">
                                                                     <select class="form-control" id="state_id"
                                                                         name="state_id">
@@ -187,7 +199,9 @@
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
                                                                 <label class="label-title color-light mb-2">
-                                                                    {{ __('Province') }} </label>
+                                                                    {{ __('Province') }}
+                                                                    <span class="text-danger">*</span>
+                                                                </label>
                                                                 <div class="nice-select-two city_wrapper">
                                                                     <select class="form-control" id="city_id"
                                                                         name="city_id">
@@ -205,6 +219,7 @@
                                                             <div class="single-input">
                                                                 <label class="label-title color-light mb-2">
                                                                     {{ __('Postal Code') }}
+                                                                    <span class="text-danger">*</span>
                                                                 </label>
                                                                 <input type="text" name="zip_code"
                                                                     class="form--control radius-10"
@@ -268,6 +283,7 @@
                                                             <div class="single-input">
                                                                 <label class="label-title color-light mb-2">
                                                                     {{ __('Phone Number') }}
+                                                                    <span class="text-danger">*</span>
                                                                 </label>
                                                                 <input value="{{ $vendor?->phone }}" name="number"
                                                                     type="tel" class="form--control radius-10"
@@ -311,7 +327,8 @@
                                                         </div>
                                                         <!--color settings start -->
                                                         <span class="label-title color-light mt-3">
-                                                            {{ __('Store Color Settings') }}</span>
+                                                            {{ __('Store Color Settings') }}
+                                                        </span>
                                                         <div class="col-sm-3">
                                                             <div class="form-group">
                                                                 <label for="store_color">
@@ -359,7 +376,6 @@
                                                             </div>
                                                         </div>
                                                         <!--color settings end -->
-
                                                     </div>
                                                 </div>
                                             </div>

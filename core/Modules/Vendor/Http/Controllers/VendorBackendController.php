@@ -129,6 +129,16 @@ class VendorBackendController extends Controller
 
         DB::beginTransaction();
 
+        // colors set
+        $colors = [
+            'store_color' => $request->store_color ?? null,
+            'store_heading_color' => $request->store_heading_color ?? null,
+            'store_secondary_color' => $request->store_secondary_color ?? null,
+            'store_paragraph_color' => $request->store_paragraph_color ?? null,
+        ];
+
+        $data = array_merge($request->validated(), ['colors' => $colors]);
+
         try {
             // store vendor
             VendorServices::store_vendor(VendorServices::prepare_data_for_update($data + ["status_id" => 1], "vendor") + ["id" => $data["id"]], "update");
