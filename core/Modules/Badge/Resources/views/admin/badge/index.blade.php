@@ -3,6 +3,7 @@
 @section('site-title')
     {{ __('Badges') }}
 @endsection
+
 @section('style')
     <x-bulk-action.css />
     <x-media.css />
@@ -14,6 +15,7 @@
         }
     </style>
 @endsection
+
 @section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row">
@@ -126,7 +128,7 @@
     </div>
     @can('badge-update')
         <div class="modal fade" id="badge_edit_modal" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
                         <h5 class="modal-title">{{ __('Update Unit') }}</h5>
@@ -136,27 +138,31 @@
                         @csrf
                         <input type="hidden" name="id" id="badge_id">
                         <div class="modal-body">
-                            @csrf
-                            <div class="form-group">
-                                <label for="edit_name">{{ __('Name') }}</label>
-                                <input type="text" class="form-control" id="edit_name" name="name"
-                                    placeholder="{{ __('Enter name') }}">
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-group">
+                                        <label for="edit_name">{{ __('Name') }}</label>
+                                        <input type="text" class="form-control" id="edit_name" name="name"
+                                            placeholder="{{ __('Enter name') }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-group">
+                                        <label for="status">{{ __('Status') }}</label>
+                                        <select class="form-control" name="status" id="edit-status">
+                                            <option value="" selected disabled>{{ __('Select a badge type') }}</option>
+                                            <option value="active">{{ __('Active') }}</option>
+                                            <option value="in_active">{{ __('In Active') }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <x-media.media-upload :name="'image'" :title="'Badge Image'" />
+                                </div>
                             </div>
-
-                            <div class="form-group">
-                                <label for="status">{{ __('Status') }}</label>
-                                <select class="form-control" name="status" id="edit-status">
-                                    <option value="" selected disabled>{{ __('Select a badge type') }}</option>
-                                    <option value="active">{{ __('Active') }}</option>
-                                    <option value="in_active">{{ __('In Active') }}</option>
-                                </select>
-                            </div>
-
-                            <x-media.media-upload :name="'image'" :title="'Badge Image'" />
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
                             <button type="submit" class="btn btn-primary">
                                 {{ __('Update') }}
                             </button>
@@ -179,8 +185,8 @@
     @endcan
 
     <script>
-        $(function() {
-            $(document).on('click', '.badge_edit_btn', function() {
+        $(function () {
+            $(document).on('click', '.badge_edit_btn', function () {
                 var el = $(this);
                 var id = el.data('id');
                 var name = el.data('name');

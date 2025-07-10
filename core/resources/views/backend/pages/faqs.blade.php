@@ -162,7 +162,7 @@
     </div>
     @can('faq-edit-faq')
         <div class="modal fade" id="faq_item_edit_modal" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
                         <h5 class="modal-title">{{ __('Edit FAQ Item') }}</h5>

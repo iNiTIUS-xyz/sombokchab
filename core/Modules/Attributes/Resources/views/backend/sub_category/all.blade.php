@@ -67,10 +67,8 @@
                                                     <a href="#1" title="{{ __('Edit Data') }}" data-bs-toggle="modal"
                                                         data-bs-target="#category_edit_modal"
                                                         class="btn btn-sm btn-warning text-dark btn-xs mb-2 me-1 category_edit_btn"
-                                                        data-id="{{ $category->id }}"
-                                                        data-category="{{ $category->category?->id }}"
-                                                        data-name="{{ $category->name }}"
-                                                        data-status="{{ $category->status_id }}"
+                                                        data-id="{{ $category->id }}" data-category="{{ $category->category?->id }}"
+                                                        data-name="{{ $category->name }}" data-status="{{ $category->status_id }}"
                                                         data-slug="{{ $category->slug }}"
                                                         data-description="{{ $category->description }}"
                                                         data-imageid="{{ $category->image?->id }}"
@@ -94,60 +92,68 @@
     </div>
     @can('sub-categories-update')
         <div class="modal fade" id="category_edit_modal" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-dialog modal-dialog-scrollable modal-lg">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
                         <h5 class="modal-title">{{ __('Update Sub Category') }}</h5>
                         <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
                     </div>
-                    <div class="modal-body">
-                        <form action="{{ route('admin.subcategory.update') }}" method="post">
+                    <form action="{{ route('admin.subcategory.update') }}" method="post">
                         <input type="hidden" name="id" id="sub_category_id">
                         @csrf
-                        <div class="form-group">
-                            <label for="edit_name">{{ __('Name') }}</label>
-                            <input type="text" class="form-control" id="edit_name" name="name"
-                                placeholder="{{ __('Enter name') }}">
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-group">
+                                        <label for="edit_name">{{ __('Name') }}</label>
+                                        <input type="text" class="form-control" id="edit_name" name="name"
+                                            placeholder="{{ __('Enter name') }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-group">
+                                        <label for="edit_slug">{{ __('Slug') }}</label>
+                                        <input type="text" class="form-control" id="edit_slug" name="slug"
+                                            placeholder="{{ __('Enter slug') }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-group edit-category-wrapper">
+                                        <label for="name">{{ __('Category') }}</label>
+                                        <select type="text" class="form-control" id="category_id" name="category_id">
+                                            <option value="">{{ __('Select Category') }}</option>
+                                            @foreach ($all_category as $category)
+                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-group edit-status-wrapper">
+                                        <label for="edit_status">{{ __('Status') }}</label>
+                                        <select name="status_id" class="form-control" id="edit_status">
+                                            @foreach ($statuses as $status)
+                                                <option value="{{ $status->id }}">{{ $status->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mb-4">
+                                    <div class="form-group">
+                                        <label for="edit_description">{{ __('Description') }}</label>
+                                        <textarea type="text" class="form-control" id="edit_description" name="description"
+                                            placeholder="{{ __('Description') }}"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mb-4">
+                                    <x-media-upload :title="__('Image')" name="image_id" :dimentions="'200x200'" />
+                                </div>
+                            </div>
                         </div>
-
-                        <div class="form-group">
-                            <label for="edit_slug">{{ __('Slug') }}</label>
-                            <input type="text" class="form-control" id="edit_slug" name="slug"
-                                placeholder="{{ __('Enter slug') }}">
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                            <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                         </div>
-
-                        <div class="form-group edit-category-wrapper">
-                            <label for="name">{{ __('Category') }}</label>
-                            <select type="text" class="form-control" id="category_id" name="category_id">
-                                <option value="">{{ __('Select Category') }}</option>
-                                @foreach ($all_category as $category)
-                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="edit_description">{{ __('Description') }}</label>
-                            <textarea type="text" class="form-control" id="edit_description" name="description"
-                                placeholder="{{ __('Description') }}"></textarea>
-                        </div>
-
-                        <x-media-upload :title="__('Image')" name="image_id" :dimentions="'200x200'" />
-
-                        <div class="form-group edit-status-wrapper">
-                            <label for="edit_status">{{ __('Status') }}</label>
-                            <select name="status_id" class="form-control" id="edit_status">
-                                @foreach ($statuses as $status)
-                                    <option value="{{ $status->id }}">{{ $status->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">{{ __('Cancel') }}</button>
-                        <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
-                    </div> 
                     </form>
                 </div>
             </div>
@@ -156,60 +162,67 @@
 
     @can('sub-categories-new')
         <div class="modal fade" id="category_create_modal" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-dialog modal-dialog-scrollable modal-lg">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
                         <h5 class="modal-title">{{ __('Create Sub Category') }}</h5>
                         <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
                     </div>
-                    <div class="modal-body">
-                        <form action="{{ route('admin.subcategory.new') }}" method="post" enctype="multipart/form-data">
-                            @csrf
-                            <div class="form-group">
-                                <label for="name">{{ __('Name') }}</label>
-                                <input type="text" class="form-control" id="create-name" name="name"
-                                    placeholder="{{ __('Enter name') }}">
+                    <form action="{{ route('admin.subcategory.new') }}" method="post" enctype="multipart/form-data">
+                        @csrf
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-group">
+                                        <label for="name">{{ __('Name') }}</label>
+                                        <input type="text" class="form-control" id="create-name" name="name"
+                                            placeholder="{{ __('Enter name') }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-group">
+                                        <label for="slug">{{ __('Slug') }}</label>
+                                        <input type="text" class="form-control" id="create-slug" name="slug"
+                                            placeholder="{{ __('Enter slug') }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-group">
+                                        <label for="name">{{ __('Category') }}</label>
+                                        <select type="text" class="form-control" id="create_category_id" name="category_id">
+                                            <option value="">Select Category</option>
+                                            @foreach ($all_category as $category)
+                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-group">
+                                        <label for="status">{{ __('Status') }}</label>
+                                        <select name="status_id" class="form-control" id="status">
+                                            @foreach ($statuses as $status)
+                                                <option value="{{ $status->id }}">{{ $status->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mb-4">
+                                    <div class="form-group">
+                                        <label for="description">{{ __('Description') }}</label>
+                                        <textarea type="text" class="form-control" id="description" name="description"
+                                            placeholder="{{ __('Description') }}"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mb-4">
+                                    <x-media-upload :title="__('Image')" :name="'image_id'" :dimentions="'200x200'" />
+                                </div>
                             </div>
-
-                            <div class="form-group">
-                                <label for="slug">{{ __('Slug') }}</label>
-                                <input type="text" class="form-control" id="create-slug" name="slug"
-                                    placeholder="{{ __('Enter slug') }}">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="name">{{ __('Category') }}</label>
-                                <select type="text" class="form-control" id="create_category_id" name="category_id">
-                                    <option value="">Select Category</option>
-                                    @foreach ($all_category as $category)
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="description">{{ __('Description') }}</label>
-                                <textarea type="text" class="form-control" id="description" name="description"
-                                    placeholder="{{ __('Description') }}"></textarea>
-                            </div>
-
-                            <x-media-upload :title="__('Image')" :name="'image_id'" :dimentions="'200x200'" />
-
-                            <div class="form-group">
-                                <label for="status">{{ __('Status') }}</label>
-                                <select name="status_id" class="form-control" id="status">
-                                    @foreach ($statuses as $status)
-                                        <option value="{{ $status->id }}">{{ $status->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            {{-- <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Add') }}</button> --}}
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">{{ __('Cancel') }}</button>
-                        <button type="submit" class="btn btn-primary">{{ __('Add') }}</button>
-                    </div> 
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                            <button type="submit" class="btn btn-primary">{{ __('Add') }}</button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -227,8 +240,8 @@
     @endcan
 
     <script>
-        $(document).ready(function() {
-            $(document).on('click', '.category_edit_btn', function() {
+        $(document).ready(function () {
+            $(document).on('click', '.category_edit_btn', function () {
                 let el = $(this);
                 let id = el.data('id');
                 let name = el.data('name');
@@ -271,12 +284,12 @@
 
             });
 
-            $('#create-name , #create-slug').on('keyup', function() {
+            $('#create-name , #create-slug').on('keyup', function () {
                 let title_text = $(this).val();
                 $('#create-slug').val(convertToSlug(title_text))
             });
 
-            $('#edit_name , #edit_slug').on('keyup', function() {
+            $('#edit_name , #edit_slug').on('keyup', function () {
                 let title_text = $(this).val();
                 $('#edit_slug').val(convertToSlug(title_text))
             });

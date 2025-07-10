@@ -309,7 +309,7 @@
 
             @can('coupons-update')
                 <div class="modal fade" id="category_edit_modal" aria-hidden="true">
-                    <div class="modal-dialog">
+                    <div class="modal-dialog modal-lg">
                         <div class="modal-content custom__form">
                             <div class="modal-header">
                                 <h5 class="modal-title">

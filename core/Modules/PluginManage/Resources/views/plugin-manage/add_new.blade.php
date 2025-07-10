@@ -1,5 +1,6 @@
 @extends('backend.admin-master')
-@section('title')
+
+@section('site-title')
     {{ __('Add New Plugin') }}
 @endsection
 

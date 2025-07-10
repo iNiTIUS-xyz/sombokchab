@@ -72,8 +72,7 @@
                                                         data-bs-target="#category_edit_modal"
                                                         class="btn btn-sm btn-warning text-dark btn-xs mb-2 me-1 category_edit_btn"
                                                         data-id="{{ $category->id }}" data-name="{{ $category->name }}"
-                                                        data-status="{{ $category->status }}"
-                                                        data-slug="{{ $category->slug }}"
+                                                        data-status="{{ $category->status }}" data-slug="{{ $category->slug }}"
                                                         data-description="{{ $category->description }}"
                                                         data-imageid="{{ $category->image_id }}"
                                                         data-image="{{ \App\Http\Services\Media::render_image($category->image, render_type: 'path') }}">
@@ -100,7 +99,7 @@
     </div>
     @can('categories-update')
         <div class="modal fade" id="category_edit_modal" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
                         <h5 class="modal-title">{{ __('Update Category') }}</h5>
@@ -115,21 +114,17 @@
                                 <input type="text" class="form-control" id="edit_name" name="name"
                                     placeholder="{{ __('Enter name') }}">
                             </div>
-
                             <div class="form-group">
                                 <label for="edit_slug">{{ __('Slug') }}</label>
                                 <input type="text" class="form-control" id="edit_slug" name="slug"
                                     placeholder="{{ __('Enter slug') }}">
                             </div>
-
                             <div class="form-group">
                                 <label for="edit_description">{{ __('Description') }}</label>
                                 <textarea type="text" class="form-control" id="edit_description" name="description"
                                     placeholder="{{ __('Enter description') }}"></textarea>
                             </div>
-
                             <x-media-upload :title="__('Image')" :name="'image_id'" :dimentions="'200x200'" />
-
                             <div class="form-group edit-status-wrapper">
                                 <label for="edit_status">{{ __('Status') }}</label>
                                 <select name="status_id" class="form-control" id="edit_status">
@@ -140,8 +135,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
                             <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                         </div>
                     </form>
@@ -151,7 +145,7 @@
     @endcan
     @can('categories-new')
         <div class="modal fade" id="category_create_modal" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
                         <h5 class="modal-title">{{ __('Create Category') }}</h5>
@@ -188,11 +182,10 @@
                                 </select>
                             </div>
                             {{-- <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Add') }}</button> --}}
-                        
+
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
                         <button type="submit" class="btn btn-primary">{{ __('Add') }}</button>
                     </div>
                     </form>
@@ -212,8 +205,8 @@
     @endcan
 
     <script>
-        $(document).ready(function() {
-            $(document).on('click', '.category_edit_btn', function() {
+        $(document).ready(function () {
+            $(document).on('click', '.category_edit_btn', function () {
                 let el = $(this);
                 let id = el.data('id');
                 let name = el.data('name');
@@ -243,12 +236,12 @@
 
             });
 
-            $('#create-name , #create-slug').on('keyup', function() {
+            $('#create-name , #create-slug').on('keyup', function () {
                 let title_text = $(this).val();
                 $('#create-slug').val(convertToSlug(title_text))
             });
 
-            $('#edit_name , #edit_slug').on('keyup', function() {
+            $('#edit_name , #edit_slug').on('keyup', function () {
                 let title_text = $(this).val();
                 $('#edit_slug').val(convertToSlug(title_text))
             });
