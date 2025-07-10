@@ -58,14 +58,12 @@
                                 </td>
                                 <td>
                                     <a href="{{ route('user.dashboard.support.ticket.view', $data->id) }}"
-                                        class="btn btn-secondary btn-sm rounded-btn"
-                                        title="{{ __('View Support Ticket') }}">
+                                        class="btn btn-secondary btn-sm rounded-btn" title="{{ __('View Support Ticket') }}">
                                         <i class="las la-file-alt"></i>
                                     </a>
                                     @if ($data->status == 'open')
-                                        <a href="javascript:;" class="status_change btn btn-danger btn-xs"
-                                            data-id="{{ $data->id }}" data-val="close"
-                                            title="{{ __('Close Ticket') }}">
+                                        <a href="javascript:;" class="status_change btn btn-danger btn-xs" data-id="{{ $data->id }}"
+                                            data-val="close" title="{{ __('Close Ticket') }}">
                                             <i class="las la-times"></i>
                                         </a>
                                     @endif
@@ -95,7 +93,7 @@
     <script src="{{ asset('assets/js/dataTables.bootstrap4.min.js') }}"></script>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             // Initialize DataTable only if the table exists
             if ($('#dataTable').length) {
                 $('#dataTable').DataTable({
@@ -105,27 +103,30 @@
                     ordering: true,
                     info: true,
                     autoWidth: false,
-                    responsive: true
+                    responsive: true,
+                    language: {
+                        search: "Keyword:"
+                    }
                 });
             }
         });
     </script>
 
     <script>
-        (function($) {
+        (function ($) {
             "use strict";
 
-            $(document).ready(function() {
+            $(document).ready(function () {
                 // Mobile navigation toggle
-                $(document).on('click', '.bodyUser_overlay', function() {
+                $(document).on('click', '.bodyUser_overlay', function () {
                     $('.user-dashboard-wrapper, .bodyUser_overlay').removeClass('show');
                 });
-                $(document).on('click', '.mobile_nav', function() {
+                $(document).on('click', '.mobile_nav', function () {
                     $('.user-dashboard-wrapper, .bodyUser_overlay').addClass('show');
                 });
 
                 // Priority change handler
-                $(document).on('click', '.change_priority', function(e) {
+                $(document).on('click', '.change_priority', function (e) {
                     e.preventDefault();
                     var priority = $(this).data('val');
                     var id = $(this).data('id');
@@ -150,17 +151,17 @@
                                     priority: priority,
                                     id: id,
                                 },
-                                success: function(data) {
+                                success: function (data) {
                                     if (data.success) {
                                         Swal.fire('Updated!',
                                             'Priority changed successfully.',
                                             'success');
-                                        setTimeout(function() {
+                                        setTimeout(function () {
                                             location.reload();
                                         }, 1000);
                                     }
                                 }.bind(this),
-                                error: function() {
+                                error: function () {
                                     Swal.fire('Error!',
                                         'Failed to change priority.', 'error');
                                 }
@@ -170,7 +171,7 @@
                 });
 
                 // Status change handler with SweetAlert2
-                $(document).on('click', '.status_change', function(e) {
+                $(document).on('click', '.status_change', function (e) {
                     e.preventDefault();
                     var status = $(this).data('val');
                     var id = $(this).data('id');
@@ -194,15 +195,15 @@
                                     status: status,
                                     id: id,
                                 },
-                                success: function(data) {
+                                success: function (data) {
                                     if (data.success) {
                                         Swal.fire('Closed!', '', 'success');
-                                        setTimeout(function() {
+                                        setTimeout(function () {
                                             location.reload();
                                         }, 1000);
                                     }
                                 },
-                                error: function() {
+                                error: function () {
                                     Swal.fire('Error!', 'Failed to change status.',
                                         'error');
                                 }

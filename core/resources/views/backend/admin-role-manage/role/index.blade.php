@@ -58,7 +58,7 @@
 @section('script')
     @include('backend.partials.datatable.script-enqueue', ['onlyjs' => true])
     <script>
-        (function($) {
+        (function ($) {
             "use strict";
             $('.table-wrap > table').DataTable({
                 "order": [
@@ -67,7 +67,10 @@
                 'columnDefs': [{
                     'targets': 'no-sort',
                     'orderable': false
-                }]
+                }],
+                language: {
+                    search: "Keyword:"
+                }
             });
 
         })(jQuery);

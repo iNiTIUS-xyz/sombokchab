@@ -37,26 +37,23 @@
                                             <td>{{ $data->name }}</td>
                                             <td>
                                                 @if ('publish' == $data->status)
-                                                    <span
-                                                        class="btn btn-success btn-sm">{{ ucfirst(__($data->status)) }}</span>
+                                                    <span class="btn btn-success btn-sm">{{ ucfirst(__($data->status)) }}</span>
                                                 @else
-                                                    <span
-                                                        class="btn btn-warning btn-sm">{{ ucfirst(__($data->status)) }}</span>
+                                                    <span class="btn btn-warning btn-sm">{{ ucfirst(__($data->status)) }}</span>
                                                 @endif
                                             </td>
                                             <td>
                                                 @can('support-ticket-department-delete')
-                                                    <a tabindex="0" class="btn btn-lg btn-danger btn-sm mb-2 me-1"
-                                                        role="button" data-bs-toggle="popover" data-trigger="focus"
-                                                        data-html="true" title=""
+                                                    <a tabindex="0" class="btn btn-lg btn-danger btn-sm mb-2 me-1" role="button"
+                                                        data-bs-toggle="popover" data-trigger="focus" data-html="true" title=""
                                                         data-content="
-                                                    <h6>{{ __('Are you sure to delete this category item?') }}</h6>
-                                                    <form method='post' action='{{ route('admin.support.ticket.department.delete', $data->id) }}'>
-                                                    <input type='hidden' name='_token' value='{{ csrf_token() }}'>
-                                                    <br>
-                                                        <input type='submit' class='btn btn-danger btn-sm' value='{{ __('Yes, Please') }}'>
-                                                        </form>
-                                                ">
+                                                                            <h6>{{ __('Are you sure to delete this category item?') }}</h6>
+                                                                            <form method='post' action='{{ route('admin.support.ticket.department.delete', $data->id) }}'>
+                                                                            <input type='hidden' name='_token' value='{{ csrf_token() }}'>
+                                                                            <br>
+                                                                                <input type='submit' class='btn btn-danger btn-sm' value='{{ __('Yes, Please') }}'>
+                                                                                </form>
+                                                                        ">
                                                         <i class="ti-trash"></i>
                                                     </a>
                                                 @endcan
@@ -146,7 +143,7 @@
     <x-bulk-action.js :route="route('admin.support.ticket.department.bulk.action')" />
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('.table-wrap > table').DataTable({
                 "order": [
                     [1, "desc"]
@@ -154,10 +151,13 @@
                 'columnDefs': [{
                     'targets': 'no-sort',
                     'orderable': false
-                }]
+                }],
+                language: {
+                    search: "Keyword:"
+                }
             });
 
-            $('.all-checkbox').on('change', function(e) {
+            $('.all-checkbox').on('change', function (e) {
                 e.preventDefault();
                 var value = $('.all-checkbox').is(':checked');
                 var allChek = $(this).parent().parent().parent().parent().parent().find('.bulk-checkbox');
@@ -169,7 +169,7 @@
                 }
             });
 
-            $(document).on('click', '.category_edit_btn', function() {
+            $(document).on('click', '.category_edit_btn', function () {
                 var el = $(this);
                 var id = el.data('id');
                 var name = el.data('name');

@@ -118,13 +118,11 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="text">{{ __('Title') }}</label>
-                                <input type="text" class="form-control" name="title"
-                                    placeholder="{{ __('Enter Title') }}">
+                                <input type="text" class="form-control" name="title" placeholder="{{ __('Enter Title') }}">
                             </div>
                             <div class="form-group">
                                 <label for="text">{{ __('Receiving Email') }}</label>
-                                <input type="email" class="form-control" name="email"
-                                    placeholder="{{ __('Enter email') }}">
+                                <input type="email" class="form-control" name="email" placeholder="{{ __('Enter email') }}">
                                 <span class="info-text">
                                     {{ __('your will get mail with all info of from to this email') }}
                                 </span>
@@ -165,15 +163,15 @@
     <script src="//cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
     <script src="//cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
 
-            $(document).on('click', '#bulk_delete_btn', function(e) {
+            $(document).on('click', '#bulk_delete_btn', function (e) {
                 e.preventDefault();
 
                 var bulkOption = $('#bulk_option').val();
                 var allCheckbox = $('.bulk-checkbox:checked');
                 var allIds = [];
-                allCheckbox.each(function(index, value) {
+                allCheckbox.each(function (index, value) {
                     allIds.push($(this).val());
                 });
                 if (allIds != '' && bulkOption == 'delete') {
@@ -185,7 +183,7 @@
                             _token: "{{ csrf_token() }}",
                             ids: allIds
                         },
-                        success: function(data) {
+                        success: function (data) {
                             location.reload();
                         }
                     });
@@ -193,7 +191,7 @@
 
             });
 
-            $('.all-checkbox').on('change', function(e) {
+            $('.all-checkbox').on('change', function (e) {
                 e.preventDefault();
                 var value = $('.all-checkbox').is(':checked');
                 var allChek = $(this).parent().parent().parent().parent().parent().find('.bulk-checkbox');
@@ -212,7 +210,10 @@
                 'columnDefs': [{
                     'targets': 'no-sort',
                     'orderable': false
-                }]
+                }],
+                language: {
+                    search: "Keyword:"
+                }
             });
         });
     </script>

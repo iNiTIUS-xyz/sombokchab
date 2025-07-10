@@ -179,7 +179,10 @@
                 'columnDefs': [{
                     'targets': 'no-sort',
                     'orderable': false
-                }]
+                }],
+                language: {
+                    search: "Keyword:"
+                }
             });
 
             $('.all-checkbox').on('change', function (e) {

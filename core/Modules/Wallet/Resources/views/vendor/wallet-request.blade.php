@@ -95,7 +95,7 @@
     <script src="{{ asset('assets/js/dataTables.bootstrap4.min.js') }}"></script>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             // Initialize DataTable only if the table exists
             if ($('#dataTable').length) {
                 $('#dataTable').DataTable({
@@ -105,7 +105,10 @@
                     ordering: true,
                     info: true,
                     autoWidth: false,
-                    responsive: true
+                    responsive: true,
+                    language: {
+                        search: "Keyword:"
+                    }
                 });
             }
         });
