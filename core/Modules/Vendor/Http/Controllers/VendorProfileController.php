@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Modules\Vendor\Entities\Vendor;
+use Modules\CountryManage\Entities\City;
+use Modules\CountryManage\Entities\State;
 use Modules\Vendor\Entities\BusinessType;
 use Modules\CountryManage\Entities\Country;
 use Illuminate\Contracts\Support\Renderable;
@@ -24,7 +26,9 @@ class VendorProfileController extends Controller
         $data = [
             "country" => Country::select("id", "name")->orderBy("name", "ASC")->get(),
             "business_type" => BusinessType::select()->get(),
-            "vendor" => Vendor::with(["vendor_address", "vendor_shop_info", "business_type", "vendor_bank_info", "vendor_shop_info.cover_photo", "vendor_shop_info.logo"])->where("id", $vendor)->first()
+            "vendor" => Vendor::with(["vendor_address", "vendor_shop_info", "business_type", "vendor_bank_info", "vendor_shop_info.cover_photo", "vendor_shop_info.logo"])->where("id", $vendor)->first(),
+            'states' => State::where("country_id", 31)->orderBy("name", "ASC")->get(),
+            'cities' => City::orderBy("name", "ASC")->get(),
         ];
 
         $location = $data['vendor']->vendor_address?->google_map_location;

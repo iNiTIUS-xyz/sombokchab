@@ -164,13 +164,6 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        @php
-                                                            $states = \Modules\CountryManage\Entities\State::where(
-                                                                'country_id',
-                                                                31,
-                                                            )->get();
-                                                            // $states = $vendor?->vendor_address?->country_id ? \Modules\CountryManage\Entities\State::where('country_id', $vendor?->vendor_address?->country_id)->get() : [];
-                                                        @endphp
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
                                                                 <label class="label-title color-light mb-2">
@@ -182,21 +175,13 @@
                                                                         @foreach ($states as $state)
                                                                             <option value="{{ $state->id }}"
                                                                                 {{ $vendor?->vendor_address?->state_id == $state->id ? 'selected' : '' }}>
-                                                                                {{ $state->name }}</option>
+                                                                                {{ $state->name }}
+                                                                            </option>
                                                                         @endforeach
                                                                     </select>
                                                                 </div>
                                                             </div>
                                                         </div>
-
-                                                        @php
-                                                            $cities = $vendor?->vendor_address?->state_id
-                                                                ? \App\City::where(
-                                                                    'state_id',
-                                                                    $vendor?->vendor_address?->state_id,
-                                                                )->get()
-                                                                : [];
-                                                        @endphp
 
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
@@ -205,7 +190,7 @@
                                                                 <div class="nice-select-two city_wrapper">
                                                                     <select class="form-control" id="city_id"
                                                                         name="city_id">
-                                                                        <option value="">Select State</option>
+                                                                        <option value="">Select Province</option>
                                                                         @foreach ($cities as $city)
                                                                             <option value="{{ $city->id }}"
                                                                                 {{ $vendor?->vendor_address?->city_id == $city->id ? 'selected' : '' }}>
@@ -242,8 +227,8 @@
                                                                 <textarea name="google_map_location" type="text" class="form--control radius-10"
                                                                     placeholder="{{ __('Enter Google Map Location') }}">
                                                                     @if (!empty($vendor?->vendor_address?->google_map_location))
-{!! $location_iframeHtml !!}
-@endif
+                                                                        {!! $location_iframeHtml !!}
+                                                                    @endif
                                                                 </textarea>
                                                                 <span class="mt-3">
                                                                     {{ __('Example: Google Map Embed Code.') }}
@@ -484,39 +469,39 @@
             });
         });
 
-        $(document).on("change", "#country_id", function() {
-            let data = new FormData();
+        // $(document).on("change", "#country_id", function() {
+        //     let data = new FormData();
 
-            data.append("country_id", $(this).val());
-            data.append("_token", "{{ csrf_token() }}");
+        //     data.append("country_id", $(this).val());
+        //     data.append("_token", "{{ csrf_token() }}");
 
-            send_ajax_request("post", data, "{{ route('vendor.get.state') }}", function() {}, (data) => {
-                option = "<option value=''>Select an state</option>";
-                option += data.option;
-                $("#state_id").html(option);
-                $(".state_wrapper .list").html(data.li);
-            }, (data) => {
-                prepare_errors(data);
-            })
-        });
+        //     send_ajax_request("post", data, "{{ route('vendor.get.state') }}", function() {}, (data) => {
+        //         option = "<option value=''>Select an state</option>";
+        //         option += data.option;
+        //         $("#state_id").html(option);
+        //         $(".state_wrapper .list").html(data.li);
+        //     }, (data) => {
+        //         prepare_errors(data);
+        //     })
+        // });
 
-        $(document).on("change", "#state_id", function() {
-            let data = new FormData();
+        // $(document).on("change", "#state_id", function() {
+        //     let data = new FormData();
 
-            data.append("country_id", $("#country_id").val());
-            data.append("state_id", $(this).val());
-            data.append("_token", "{{ csrf_token() }}");
+        //     data.append("country_id", $("#country_id").val());
+        //     data.append("state_id", $(this).val());
+        //     data.append("_token", "{{ csrf_token() }}");
 
-            send_ajax_request("post", data, "{{ route('vendor.get.city') }}", function() {}, (data) => {
-                option = "<option value=''>Select an city</option>";
-                option += data.option;
+        //     send_ajax_request("post", data, "{{ route('vendor.get.city') }}", function() {}, (data) => {
+        //         option = "<option value=''>Select an city</option>";
+        //         option += data.option;
 
-                $("#city_id").html(option);
-                $(".city_wrapper .list").html(data.li);
-            }, (data) => {
-                prepare_errors(data);
-            })
-        });
+        //         $("#city_id").html(option);
+        //         $(".city_wrapper .list").html(data.li);
+        //     }, (data) => {
+        //         prepare_errors(data);
+        //     })
+        // });
 
         $(document).on("keyup keydown click change", "input[name=username]", function() {
             $(this).val(convertToSlug($(this).val()))
