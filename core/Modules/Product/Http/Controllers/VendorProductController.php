@@ -148,11 +148,16 @@ class VendorProductController extends Controller
         ])->validated();
     }
 
-    public function update_status(Request $request): JsonResponse
+    public function update_status(Request $request)
     {
         $data = $this->validateUpdateStatus($request->all());
 
-        return (new AdminProductServices)->updateStatus($data["id"], $data["status_id"]);
+
+        $product = Product::findOrFail($data['id']);
+        $product->status_id = $data['status_id'];
+        $product->save();
+
+        return redirect()->back()->with(FlashMsg::item_new('Status changed successfully.'));
     }
 
     public function destroy($id)

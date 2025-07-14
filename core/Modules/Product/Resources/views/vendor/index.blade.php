@@ -95,19 +95,16 @@
                                             class="checkbox_label">{{ __('Inventory Warning') }}</label>
                                     </div>
                                     <div class="form-group dashboard_checkbox">
-                                        <input type="checkbox" name="refundable" class="check_input"
-                                            id="search-refundable" value="{{ old('refundable') }}"
-                                            placeholder="{{ __('Enter Refundable') }}" />
-                                        <label for="search-refundable"
-                                            class="checkbox_label">{{ __('Refundable') }}</label>
+                                        <input type="checkbox" name="refundable" class="check_input" id="search-refundable"
+                                            value="{{ old('refundable') }}" placeholder="{{ __('Enter Refundable') }}" />
+                                        <label for="search-refundable" class="checkbox_label">{{ __('Refundable') }}</label>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="label-1"
-                                                    for="search-from_price">{{ __('Min Price') }}</label>
+                                                <label class="label-1" for="search-from_price">{{ __('Min Price') }}</label>
                                                 <input name="from_price" class="form--control input-height-1"
                                                     id="search-from_price" value="{{ old('from_price') }}"
                                                     placeholder="{{ __('Enter Min Price') }}" />
@@ -116,8 +113,7 @@
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="label-1"
-                                                    for="search-to_price">{{ __('Max Price') }}</label>
+                                                <label class="label-1" for="search-to_price">{{ __('Max Price') }}</label>
                                                 <input name="to_price" class="form--control input-height-1"
                                                     id="search-to_price" value="{{ old('to_price') }}"
                                                     placeholder="{{ __('Enter Max Price') }}" />
@@ -130,9 +126,8 @@
                                     <div class="form-group">
                                         <label class="label-1"
                                             for="search-date_range">{{ __('Created Date Range') }}</label>
-                                        <input name="date_range" class="form--control input-height-1"
-                                            id="search-date_range" value="{{ old('date_range') }}"
-                                            placeholder="{{ __('Eneter Date ') }}" />
+                                        <input name="date_range" class="form--control input-height-1" id="search-date_range"
+                                            value="{{ old('date_range') }}" placeholder="{{ __('Eneter Date ') }}" />
                                     </div>
                                 </div>
 
@@ -202,26 +197,26 @@
     <x-product::product-image-js :route="route('vendor.products.update-image')" />
     <x-media.js type="vendor" />
     <script>
-        $(function() {
+        $(function () {
             $("#search-date_range").flatpickr({
                 mode: "range",
                 dateFormat: "Y-m-d",
             });
 
             $("#product-search-form").fadeOut();
-            $(document).on("click", "#product-list-title-flex h3", function() {
+            $(document).on("click", "#product-list-title-flex h3", function () {
                 $("#product-search-form").fadeToggle();
             })
 
-            $(document).ready(function() {
+            $(document).ready(function () {
                 $(".load-ajax-data").fadeOut();
             })
 
-            $(document).on("click", "#product-search-button", function() {
+            $(document).on("click", "#product-search-button", function () {
                 $("#product-search-form").trigger("submit");
             });
 
-            $(document).on("submit", "#product-search-form", function(e) {
+            $(document).on("submit", "#product-search-form", function (e) {
                 e.preventDefault();
                 let form_data = $("#product-search-form").serialize().toString();
                 form_data += "&count=" + $("#number-of-item").val();
@@ -238,7 +233,7 @@
                 });
             });
 
-            $(document).on("change", "#number-of-item", function(e) {
+            $(document).on("change", "#number-of-item", function (e) {
                 e.preventDefault();
                 let form_data = $("#product-search-form").serialize().toString()
                 form_data += "&count=" + $(this).val();
@@ -261,7 +256,7 @@
                 Row Remove Click Delete
             ========================================
             */
-            $(document).on("click", ".pagination-list li a", function(e) {
+            $(document).on("click", ".pagination-list li a", function (e) {
                 e.preventDefault();
 
                 $(".pagination-list li a").removeClass("current");
@@ -279,7 +274,7 @@
                 });
             });
 
-            $(document).on("click", ".delete-row", function(e) {
+            $(document).on("click", ".delete-row", function (e) {
                 e.preventDefault();
                 Swal.fire({
                     title: 'Are you sure?',

@@ -19,6 +19,7 @@
             <th> {{ __('Categories') }} </th>
             <th> {{ __('Stock Qty') }} </th>
             <th> {{ __('Status') }} </th>
+            <th> {{ __('Publish Status') }} </th>
             <th> {{ __('Action') }} </th>
         </tr>
     </thead>
@@ -49,7 +50,6 @@
                         </div>
                     </div>
                 </td>
-
                 <td data-label="Image" class="text-left">
                     <div class="d-flex gap-2">
                         @if ($product?->brand?->image_id)
@@ -62,7 +62,6 @@
                         </b>
                     </div>
                 </td>
-
                 <td class="price-td " data-label="Name">
                     <span class="category-field">
                         @if ($product?->category?->name)
@@ -75,15 +74,47 @@
                         @endif{{ $product?->subCategory?->name }}
                     </span><br>
                 </td>
-
                 <td class="price-td" data-label="Quantity">
                     <span class="quantity-number"> {{ $product?->inventory?->stock_count }}</span>
                 </td>
-
                 <td data-label="Status">
-                    <x-product::table.status :statuses="$statuses" :statusId="$product?->status_id" :id="$product->id" />
+                    {{-- <x-product::table.status :statuses="$statuses" :statusId="$product?->status_id"
+                        :id="$product->id" /> --}}
+                    <div class="btn-group badge">
+                        <button type="button"
+                            class="status-{{ $product?->status_id }} {{ $product?->status_id == 1 ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ ucfirst($product->status_id == 1 ? __('Active') : __('Inactive')) }}
+                        </button>
+                        <div class="dropdown-menu">
+                            {{-- Form for activating --}}
+                            <form action="{{ route('vendor.products.update.status') }}" method="POST"
+                                id="status-form-activate-{{ $product->id }}">
+                                @csrf
+                                <input type="hidden" name="id" value="{{ $product->id }}">
+                                <input type="hidden" name="status_id" value="1">
+                                <button type="submit" class="dropdown-item">
+                                    {{ __('Active') }}
+                                </button>
+                            </form>
+                            <form action="{{ route('vendor.products.update.status') }}" method="POST"
+                                id="status-form-deactivate-{{ $product->id }}">
+                                @csrf
+                                <input type="hidden" name="id" value="{{ $product->id }}">
+                                <input type="hidden" name="status_id" value="2">
+                                <button type="submit" class="dropdown-item">
+                                    {{ __('Inactive') }}
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                 </td>
-
+                <td>
+                    <span
+                        class="badge {{ $product?->product_status == 'publish' ? 'bg-primary status-open' : 'bg-danger status-close' }}">
+                        {{ ucfirst($product?->product_status) }}
+                    </span>
+                </td>
                 <td data-label="Actions">
                     <div class="action-icon">
                         {{-- <a href="{{ route('frontend.products.single', $product->slug) }}"

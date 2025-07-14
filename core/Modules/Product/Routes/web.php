@@ -119,6 +119,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
             Route::get('destroy-dummy-product', 'delete_dummy_product')->name('delete_dummy_product')->permission('product-all');
             Route::get('clone/{id}', 'clone')->name('clone')->permission('product-clone');
             Route::post('status-update', 'update_status')->name('update.status')->permission('product-status-update');
+            Route::post('publish-publish/{id}', 'productStatusChange')->name('status.change');
             Route::get('update/{id}', 'edit')->name('edit')->permission('product-update');
             Route::post('update-image', 'updateImage')->name('update-image')->permission('product-update');
             Route::post('update/{id}', 'update')->permission('product-update');
