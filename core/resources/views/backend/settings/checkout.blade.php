@@ -25,9 +25,10 @@
                             <form action="{{ route('admin.page.settings.checkout') }}" method="POST">
                                 @csrf
                                 <div class="chekout__items mt-4">
-                                    <h6 class="chekout__items__title">
+                                    <h6 class="mb-2 border-bottom-1 text-primary">
                                         {{ __('Empty checkout page') }}
                                     </h6>
+                                    
                                     <div class="row g-4">
                                         <div class="col-sm-12">
                                             <div class="form-group">
@@ -43,8 +44,9 @@
                                         </div>
                                     </div>
                                 </div>
+                                <hr>
                                 <div class="chekout__items mt-4">
-                                    <h6 class="chekout__items__title">
+                                    <h6 class="mb-2 border-bottom-1 text-primary">
                                         {{ __('Login Section') }}
                                     </h6>
                                     <div class="row g-4">
@@ -125,8 +127,9 @@
                                         </div>
                                     </div>
                                 </div>
+                                <hr>
                                 <div class="chekout__items mt-4">
-                                    <h6 class="chekout__items__title">
+                                    <h6 class="mb-2 border-bottom-1 text-primary">
                                         {{ __('Coupon Section') }}
                                     </h6>
                                     <div class="row g-4">
@@ -174,8 +177,9 @@
                                         </div>
                                     </div>
                                 </div>
+                                <hr>
                                 <div class="chekout__items mt-4">
-                                    <h6 class="chekout__items__title">
+                                    <h6 class="mb-2 border-bottom-1 text-primary">
                                         {{ __('Billing Info Section') }}
                                     </h6>
                                     <div class="row g-4">
@@ -259,8 +263,9 @@
                                         </div>
                                     </div>
                                 </div>
+                                <hr>
                                 <div class="chekout__items mt-4">
-                                    <h6 class="chekout__items__title">
+                                    <h6 class="mb-2 border-bottom-1 text-primary">
                                         {{ __('Create Account Section') }}
                                     </h6>
                                     <div class="row g-4">
@@ -310,8 +315,9 @@
                                         </div>
                                     </div>
                                 </div>
+                                <hr>
                                 <div class="chekout__items mt-4">
-                                    <h6 class="chekout__items__title">
+                                    <h6 class="mb-2 border-bottom-1 text-primary">
                                         {{ __('Shipping Address Section') }}
                                     </h6>
                                     <div class="row g-4">
@@ -408,8 +414,9 @@
                                         </div>
                                     </div>
                                 </div>
+                                <hr>
                                 <div class="chekout__items mt-4">
-                                    <h6 class="chekout__items__title">
+                                    <h6 class="mb-2 border-bottom-1 text-primary">
                                         {{ __('Order Summary Section') }}
                                     </h6>
                                     <div class="row g-4">

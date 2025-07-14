@@ -14,7 +14,7 @@
                     <x-msg.error />
                     <div class="dashboard__card">
                         <div class="dashboard__card__header">
-                            <h4 class="dashboard__card__title">{{ __('404 Error Pagte Settings') }}</h4>
+                            <h4 class="dashboard__card__title">{{ __('404 Error Page Settings') }}</h4>
                         </div>
                         <div class="dashboard__card__body custom__form mt-4">
                             <form action="{{ route('admin.404.page.settings') }}" method="post" enctype="multipart/form-data">
@@ -42,6 +42,11 @@
                                                 placeholder="{{ __('Enter button text') }}"
                                                 value="{{ get_static_option('error_404_page_button_text') }}"
                                                 id="error_404_page_button_text">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
                                             <x-media-upload :title="__('Error image')" :name="'error_404_page_image'" />
                                         </div>
                                     </div>

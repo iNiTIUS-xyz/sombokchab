@@ -81,19 +81,19 @@ HTML;
         } elseif ($status === 'pending') {
             $output .= '<span class="badge bg-warning" >'.__('Pending').'</span>';
         } elseif ($status === 'complete') {
-            $output .= '<span class="badge bg-success" >'.__('Complete').'</span>';
+            $output .= '<span class="badge bg-primary" >'.__('Complete').'</span>';
         } elseif ($status === 'close') {
             $output .= '<span class="badge bg-danger" >'.__('Close').'</span>';
         } elseif ($status === 'in_progress') {
             $output .= '<span class="badge bg-info" >'.__('In Progress').'</span>';
         } elseif ($status === 'publish') {
-            $output .= '<span class="badge bg-success" >'.__('Published').'</span>';
+            $output .= '<span class="badge bg-primary" >'.__('Published').'</span>';
         } elseif ($status === 'approved') {
-            $output .= '<span class="badge bg-success" >'.__('Approved').'</span>';
+            $output .= '<span class="badge bg-primary" >'.__('Approved').'</span>';
         } elseif ($status === 'confirm') {
-            $output .= '<span class="badge bg-success" >'.__('Confirm').'</span>';
+            $output .= '<span class="badge bg-primary" >'.__('Confirm').'</span>';
         } elseif ($status === 'yes') {
-            $output .= '<span class="badge bg-success" >'.__('Yes').'</span>';
+            $output .= '<span class="badge bg-primary" >'.__('Yes').'</span>';
         } elseif ($status === 'no') {
             $output .= '<span class="badge bg-danger" >'.__('No').'</span>';
         } elseif ($status === 'cancel') {

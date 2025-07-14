@@ -36,7 +36,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="role">{{ 'Role' }} <span class="text-danger">*</span></label>
-                                <select name="role" class="form-control">
+                                <select name="role" class="form-select">
                                     <option value="">{{ __('Select role') }}</option>
                                     @foreach ($roles as $role)
                                         <option value="{{ $role }}"

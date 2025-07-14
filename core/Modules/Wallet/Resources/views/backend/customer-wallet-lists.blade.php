@@ -29,7 +29,6 @@
                         <div class="table-responsive">
                             <table class="table table-default" id="dataTable">
                                 <thead>
-                                    <th>Serial No.</th>
                                     @if ($type == 'vendor')
                                         <th>{{ __('Store Name') }}</th>
                                     @endif
@@ -40,8 +39,6 @@
                                 <tbody>
                                     @forelse($wallet_lists ?? [] as $data)
                                         <tr>
-                                            <td>{{ $loop->iteration }}</td>
-
                                             @if ($type == 'vendor')
                                                 <td>{{ $data?->vendor?->business_name }}</td>
                                             @endif

@@ -12,7 +12,7 @@
     <div class="col-lg-12 col-ml-12" id="shipping-zone-wrapper-box">
         <div class="row g-4">
             <div class="col-lg-12">
-                <div class="margin-top-40">
+                <div class="">
                     <x-flash-msg />
                     <x-error-msg />
                 </div>
@@ -27,10 +27,10 @@
                             @csrf
                             <div class="form-group">
                                 <label>
-                                    {{ __('Zone Name') }}
+                                    {{ __('Shipping Zone') }}
                                 </label>
                                 <input class="form-control" name="zone_name"
-                                    placeholder="{{ __('Enter shipping zone') }}" />
+                                    placeholder="{{ __('Enter shipping zone name') }}" />
                             </div>
                             <table class="table table-responsive">
                                 <thead>

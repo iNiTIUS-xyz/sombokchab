@@ -84,8 +84,10 @@ class AdminTaxController extends Controller
     {
         $taxClass = TaxClass::with(["classOption", "classOption.states", "classOption.cities"])->where("id", $id)->first();
         $countries = Country::select("id", "name")->get();
+        $states = State::where('country_id', 31)->get();
+        $cities = City::with("state", "country")->where('country_id', 31)->get();
 
-        return view("taxmodule::backend.class-option.index", compact('taxClass', 'countries'));
+        return view("taxmodule::backend.class-option.index", compact('taxClass', 'countries', 'states', 'cities'));
     }
 
     public function handleTaxClassOption(StoreTaxOptionPostRequest $request, $id)

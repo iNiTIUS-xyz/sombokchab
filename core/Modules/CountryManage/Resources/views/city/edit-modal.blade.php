@@ -11,23 +11,43 @@
                 <input type="hidden" name="city_id" id="city_id" value="">
 
                 <div class="modal-body">
-                    <x-form.text :title="__('Province')" :type="__('text')" :name="'city'" :id="'city_name'"
-                        :placeholder="__('Enter province name')" />
-                    <div class="single-input">
-                        <label class="label-title mt-3">{{ __('Select Country') }}</label>
-                        <select name="country" id="country_id" class="form-control select22-country">
+                    {{-- <x-form.text :title="__('City')" :type="__('text')" :name="'city'" :id="'city_name'"
+                        :placeholder="__('Enter city name')" /> --}}
+
+                    <div class="form-group">
+                        <label class="label-title mt-3">{{ __('City') }}</label>
+                        <input type="text" class="form-control" name="city" id="city_name" placeholder="Enter city name">
+                         <span class="info_msg"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="label-title">{{ __('Country') }}</label>
+                        <select name="country" id="country_id" class="form-select">
                             <option value="">{{ __('Select Country') }}</option>
                             @foreach ($all_countries as $data)
                                 <option value="{{ $data->id }}">{{ $data->name }}</option>
                             @endforeach
                         </select>
+                         <span class="info_msg"></span>
                     </div>
-                    <div class="single-input mb-3">
-                        <label class="label-title mt-3">{{ __('Select City') }}</label>
-                        <select name="state" id="state_id" class="form-control get_country_state select22-state">
-                            <option value="">{{ __('Select City') }}</option>
+                    <div class="form-group">
+                        <label class="label-title">{{ __('Province') }}</label>
+                        <select name="state" id="state_id" class="form-select">
+                            <option value="">{{ __('Select Province') }}</option>
+                            @foreach ($all_states as $state)
+                                <option value="{{ $state->id }}">{{ $state->name }}</option>
+                            @endforeach
                         </select>
+                        
                         <span class="info_msg"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="label-title">{{ __('Status') }}</label>
+                        <select name="status" id="city_status" class="form-select">
+                            <option value="publish">{{ __('Publish') }}</option>
+                            <option value="draft">{{ __('Unpublish') }}</option>
+                        </select>
                     </div>
 
                 </div>

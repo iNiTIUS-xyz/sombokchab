@@ -8,9 +8,17 @@
 @section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row g-4">
-            <div class="col-lg-7">
+            <div class="col-lg-12">
                 <x-msg.error />
                 <x-msg.flash />
+                <div class="mb-4">
+                    @can('units-new')
+                        <a href="#1" data-bs-toggle="modal" data-bs-target="#unit_add_modal"
+                            class="cmn_btn btn_bg_profile">
+                            {{ __('Add New Unit') }}
+                        </a>
+                    @endcan
+                </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h3 class="dashboard__card__title">{{ __('All Units') }}</h3>
@@ -27,7 +35,7 @@
                                     @can('units-bulk-action')
                                         <x-bulk-action.th />
                                     @endcan
-                                    <th>{{ __('ID') }}</th>
+                                    {{-- <th>{{ __('ID') }}</th> --}}
                                     <th>{{ __('Name') }}</th>
                                     <th>{{ __('Action') }}</th>
                                 </thead>
@@ -37,7 +45,7 @@
                                             @can('units-bulk-action')
                                                 <x-bulk-action.td :id="$unit->id" />
                                             @endcan
-                                            <td>{{ $loop->iteration }}</td>
+                                            {{-- <td>{{ $loop->iteration }}</td> --}}
                                             <td>{{ $unit->name }}</td>
                                             <td>
                                                 @can('units-update')
@@ -60,7 +68,7 @@
                     </div>
                 </div>
             </div>
-            @can('units-new')
+            {{-- @can('units-new')
                 <div class="col-lg-5">
                     <div class="dashboard__card">
                         <div class="dashboard__card__header">
@@ -81,12 +89,39 @@
                         </div>
                     </div>
                 </div>
-            @endcan
+            @endcan --}}
         </div>
     </div>
+    @can('units-new')
+    <div class="modal fade" id="unit_add_modal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content custom__form">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ __('Add Unit') }}</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
+                </div>
+                <form action="{{ route('admin.units.store') }}" method="post" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        @csrf
+                        <div class="form-group">
+                            <label for="name">{{ __('Name') }}</label>
+                            <input type="text" class="form-control" id="name" name="name"
+                                placeholder="{{ __('Enter name') }}">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                        <button type="submit" class="btn btn-primary">{{ __('Add') }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    @endcan
     @can('units-update')
         <div class="modal fade" id="unit_edit_modal" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
                         <h5 class="modal-title">{{ __('Update Unit') }}</h5>

@@ -33,7 +33,6 @@
                     <table class="table" id="dataTable">
                         <thead class="text-capitalize">
                             <tr>
-                                <th>{{ __('Serial No.') }}</th>
                                 <th>{{ __('Name') }}</th>
                                 <th>{{ __('Email') }}</th>
                                 <th>{{ __('Action') }}</th>
@@ -42,16 +41,15 @@
                         <tbody>
                             @foreach ($all_user as $user)
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
                                     <td class="text-left">{{ $user->name }} ({{ $user->username }})</td>
                                     <td class="text-left">
                                         {{ $user->email }}
-                                        @if ($user->email_verified == 1)
+                                        {{-- @if ($user->email_verified == 1)
                                             <i class="las la-check-circle text-success"></i>
-                                        @endif
+                                        @endif --}}
                                     </td>
                                     <td>
-                                        @can('frontend-all-user-email-status')
+                                        {{-- @can('frontend-all-user-email-status')
                                             <form action="{{ route('admin.all.frontend.user.email.status') }}" method="post"
                                                 style="display: inline">
                                                 @csrf
@@ -69,7 +67,7 @@
                                                     </button>
                                                 @endif
                                             </form>
-                                        @endcan
+                                        @endcan --}}
 
                                         @can('frontend-user-password-change')
                                             <a href="#" data-id="{{ $user->id }}" data-bs-toggle="modal"
@@ -165,8 +163,8 @@
                                             {{ __('Country') }}
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <select id="country" name="country" class="form-control">
-                                            <option value="">{{ __('Select Country') }}</option>
+                                        <select id="country" name="country" class="form-select">
+                                            <option value="">{{ __('Select country') }}</option>
                                             @foreach ($country as $item)
                                                 <option value="{{ $item->id }}">
                                                     {{ $item->name }}
@@ -175,29 +173,14 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-6 mb-3">
-                                    <div class="form-group">
-                                        <label for="city">
-                                            {{ __('City') }}
-                                            <span class="text-danger">*</span>
-                                        </label>
-                                        <select id="city_id" name="city" class="form-control">
-                                            <option value="">{{ __('Select City') }}</option>
-                                            @foreach ($states as $item)
-                                                <option value="{{ $item->id }}">
-                                                    {{ $item->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
+
                                 <div class="col-md-6 mb-3">
                                     <div class="form-group">
                                         <label for="state">
                                             {{ __('Province') }}
-                                            <span class="text-danger">*</span>
+                                            {{-- <span class="text-danger">*</span> --}}
                                         </label>
-                                        <select id="state_id" name="state" class="form-control">
+                                        <select id="state_id" name="state" class="form-select">
                                             <option value="">{{ __('Select province') }}</option>
                                             @foreach ($cities as $item)
                                                 <option value="{{ $item->id }}">
@@ -207,6 +190,24 @@
                                         </select>
                                     </div>
                                 </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <div class="form-group">
+                                        <label for="city">
+                                            {{ __('City') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <select id="city_id" name="city" class="form-select">
+                                            <option value="">{{ __('Select city') }}</option>
+                                            @foreach ($states as $item)
+                                                <option value="{{ $item->id }}">
+                                                    {{ $item->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                
                                 <div class="col-md-6 mb-3">
                                     <div class="form-group">
                                         <label for="zipcode">

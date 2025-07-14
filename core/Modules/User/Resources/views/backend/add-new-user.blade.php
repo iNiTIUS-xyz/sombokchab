@@ -35,9 +35,9 @@
                                         </label>
                                         <input type="text" class="form-control" id="username" name="username"
                                             placeholder="{{ __('Enter username') }}">
-                                        <small class="text text-danger">
+                                        {{-- <small class="text text-danger">
                                             {{ __('Remember this username, user will login using this username') }}
-                                        </small>
+                                        </small> --}}
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-3">
@@ -65,40 +65,25 @@
                                             {{ __('Country') }}
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <select name="country">
-                                            <option value="" disabled selected>{{ __('Select One') }}</option>
+                                        <select name="country" class="form-select">
+                                            <option value="" disabled selected>{{ __('Select country') }}</option>
                                             @foreach ($country as $item)
-                                                <option value="{{ $item->id }}">
+                                                <option value="{{ $item->id }}" @if ($item->id == 31) selected @endif>
                                                     {{ $item->name }}
                                                 </option>
                                             @endforeach
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-6 mb-3">
-                                    <div class="form-group">
-                                        <label for="state">
-                                            {{ __('City') }}
-                                            <span class="text-danger">*</span>
-                                        </label>
-                                        <select name="state">
-                                            <option value="" disabled selected>{{ __('Select One') }}</option>
-                                            @foreach ($states as $item)
-                                                <option value="{{ $item->id }}">
-                                                    {{ $item->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
+
                                 <div class="col-md-6 mb-3">
                                     <div class="form-group">
                                         <label for="city">
                                             {{ __('Province') }}
-                                            <span class="text-danger">*</span>
+                                            {{-- <span class="text-danger">*</span> --}}
                                         </label>
-                                        <select name="city">
-                                            <option value="" disabled selected>{{ __('Select One') }}</option>
+                                        <select name="city" class="form-select">
+                                            <option value="" disabled selected>{{ __('Select province') }}</option>
                                             @foreach ($cities as $item)
                                                 <option value="{{ $item->id }}">
                                                     {{ $item->name }}
@@ -107,6 +92,24 @@
                                         </select>
                                     </div>
                                 </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <div class="form-group">
+                                        <label for="state">
+                                            {{ __('City') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <select name="state" class="form-select">
+                                            <option value="" disabled selected>{{ __('Select city') }}</option>
+                                            @foreach ($states as $item)
+                                                <option value="{{ $item->id }}">
+                                                    {{ $item->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                
                                 <div class="col-md-6 mb-3">
                                     <div class="form-group">
                                         <label for="zipcode">

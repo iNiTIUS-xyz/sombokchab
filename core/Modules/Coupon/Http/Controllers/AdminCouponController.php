@@ -24,7 +24,7 @@ class AdminCouponController extends Controller
      */
     public function index()
     {
-        $all_product_coupon = ProductCoupon::all();
+        $all_product_coupon = ProductCoupon::orderBy('created_at', 'desc')->get();
         $coupon_apply_options = CouponEnum::discountOptions();
         $all_categories = Category::where('status_id', '1')->get();
         $all_subcategories = SubCategory::where('status_id', '1')->get();

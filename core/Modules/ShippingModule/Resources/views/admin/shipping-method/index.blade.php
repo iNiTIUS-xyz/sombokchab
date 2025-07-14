@@ -20,13 +20,13 @@
                 </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Shipping Methods List') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('Shipping Methods') }}</h4>
                     </div>
                     <div class="dashboard__card__body dashboard-recent-order mt-4">
                         <div class="table-responsive">
                             <table class="table table-default" id="dataTable">
                                 <thead>
-                                    <th>{{ __('ID') }}</th>
+                                    {{-- <th>{{ __('ID') }}</th> --}}
                                     <th>{{ __('Title') }}</th>
                                     <th>{{ __('Zone') }}</th>
                                     <th>{{ __('Status') }}</th>
@@ -36,7 +36,7 @@
                                 <tbody>
                                     @foreach ($all_shipping_methods as $method)
                                         <tr>
-                                            <td>{{ $loop->iteration }}</td>
+                                            {{-- <td>{{ $loop->iteration }}</td> --}}
                                             <td>{{ optional($method)->title }}</td>
                                             <td>{{ optional($method->zone)->name }}</td>
                                             <td>

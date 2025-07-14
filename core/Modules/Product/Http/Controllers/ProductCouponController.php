@@ -30,7 +30,7 @@ class ProductCouponController extends Controller
      */
     public function index()
     {
-        $all_product_coupon = ProductCoupon::all();
+        $all_product_coupon = ProductCoupon::orderBy('created_at', 'desc')->get();
         $coupon_apply_options = CouponEnum::discountOptions();
         $all_categories = Category::select('id', 'name')->get();
         $all_subcategories = SubCategory::select('id', 'name')->get();

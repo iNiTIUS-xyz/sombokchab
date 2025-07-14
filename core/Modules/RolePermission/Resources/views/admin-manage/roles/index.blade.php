@@ -31,7 +31,7 @@
                                 <table id="dataTable" class="table dataTable no-footer">
                                     <thead>
                                         <tr>
-                                            <th>{{ __('Hierarchy') }}</th>
+                                            <th style="display: none;">{{ __('Hierarchy') }}</th>
                                             <th>{{ __('Role') }}</th>
                                             <th>{{ __('Action') }}</th>
                                         </tr>
@@ -39,18 +39,19 @@
                                     <tbody>
                                         @foreach ($roles as $value)
                                             <tr>
-                                                <td> {{ $value->hierarchy }} </td>
+                                                <td style="display: none;"> {{ $value->id }} </td>
                                                 <td> {{ $value->name }} </td>
                                                 <td>
                                                     @if ($value->name != 'Super Admin')
                                                         <a title="{{ __('Permission') }}"
                                                             class="btn btn-secondary btn-sm me-1 user_edit_btn"
                                                             href="{{ route('admin.roles.permissions', $value->id) }}">
-                                                            <i class="ti-key"></i>
+                                                            <i class="ti-lock"></i>
                                                         </a>
                                                         <a title="{{ __('Edit Data') }}"
                                                             class="btn btn-warning text-dark btn-sm me-1 edit_role"
-                                                            data-id="{{ $value->id }}" data-name="{{ $value->name }}" data-hierarchy="{{ $value->hierarchy }}"
+                                                            data-id="{{ $value->id }}" data-name="{{ $value->name }}"
+                                                            {{-- data-id="{{ $value->id }}" data-name="{{ $value->name }}" data-hierarchy="{{ $value->hierarchy }}" --}}
                                                             data-bs-toggle="modal" href="#0"
                                                             data-action="{{ route('admin.roles.update', $value->id) }}"
                                                             data-bs-target="#editRoles">
@@ -86,16 +87,16 @@
 
                         @csrf
 
-                        <div class="form-grup">
+                        {{-- <div class="form-grup">
                             <label for="#">{{ __('Hierarchy') }}</label>
                             <select name="hierarchy" id="" class="form-select">
                                 @for($i = 1; $i <= 50; $i++)
                                     <option value="{{ $i }}">{{ $i }}</option>
                                 @endfor
                             </select>
-                        </div>
+                        </div> --}}
 
-                        <div class="form-grup mt-4">
+                        <div class="form-grup">
                             <label for="#">{{ __('Name') }}</label>
                             <input type="text" name="name" class="form-control" placeholder="{{ __('Enter name') }}">
                         </div>
@@ -122,7 +123,7 @@
                         @csrf
                         @method('PUT')
 
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label for="hierarchy">{{ __('Hierarchy') }}</label>
                             <select name="hierarchy" id="hierarchy" class="form-select">
                                 <option value="">Select a value</option>
@@ -130,7 +131,7 @@
                                     <option value="{{ $i }}">{{ $i }}</option>
                                 @endfor
                             </select>
-                        </div>
+                        </div> --}}
 
                         <div class="form-grup mt-4">
                             <label for="#">{{ __('Name') }}</label>
@@ -201,8 +202,8 @@
                 modalContainer.find("input[name='id']").val($(this).data("id"));
 
                 // Set hierarchy select
-                let hierarchyValue = $(this).data("hierarchy");
-                modalContainer.find("select[name='hierarchy']").val(hierarchyValue);
+                // let hierarchyValue = $(this).data("hierarchy");
+                // modalContainer.find("select[name='hierarchy']").val(hierarchyValue);
 
                 // Set name
                 modalContainer.find("input[name='name']").val($(this).data("name"));

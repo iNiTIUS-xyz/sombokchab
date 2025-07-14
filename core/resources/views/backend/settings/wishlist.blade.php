@@ -41,7 +41,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label for="send_to_cart_text">
-                                                {{ __('Send To Cart Text') }}
+                                                {{ __('Send to Cart Text') }}
                                             </label>
                                             <input type="text" placeholder="{{ __('Enter send to cart text') }}"
                                                 class="form-control" id="send_to_cart_text" name="send_to_cart_text"

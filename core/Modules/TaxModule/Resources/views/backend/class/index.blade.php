@@ -17,7 +17,7 @@
 
                 <div class="btn-wrapper d-flex">
                     <a class="cmn_btn btn_bg_profile mb-4" data-bs-toggle="modal" data-bs-target="#add_tax_class">
-                        {{ __('Add Tax Class') }}
+                        {{ __('Add New Tax Class') }}
                     </a>
                 </div>
 
@@ -35,7 +35,7 @@
                             <table class="table" id="dataTable">
                                 <thead>
                                     <tr>
-                                        <th>{{ __('Serial No.') }}</th>
+                                        {{-- <th>{{ __('Serial No.') }}</th> --}}
                                         <th>{{ __('Name') }}</th>
                                         <th>{{ __('Action') }}</th>
                                     </tr>
@@ -43,7 +43,7 @@
                                 <tbody>
                                     @foreach ($classes as $class)
                                         <tr>
-                                            <td>{{ $loop->iteration }}</td>
+                                            {{-- <td>{{ $loop->iteration }}</td> --}}
                                             <td>{{ $class->name }}</td>
                                             <td>
                                                 <a class="btn btn-success btn-sm"

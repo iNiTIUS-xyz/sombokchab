@@ -99,6 +99,17 @@
         .alert-danger:first-letter {
             text-transform: uppercase;
         }
+
+        .form-select{
+            width: 100% !important;
+            font-size: 14px !important;
+            font-weight: 400 !important;
+            line-height: 20px !important;
+            color: var(--paragraph-color) !important;
+            height: 48px !important;
+            border: 1px solid var(--border-two) !important;
+            border-radius: 5px !important;
+        }
     </style>
 
     @yield('style')

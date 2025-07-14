@@ -14,7 +14,7 @@
                 @can('country-new')
                     <div class="btn-wrapper mb-4">
                         <button class="cmn_btn btn_bg_profile" data-bs-toggle="modal"
-                            data-bs-target="#country_new_modal">{{ __('Add Country') }}</button>
+                            data-bs-target="#country_new_modal">{{ __('Add New Country') }}</button>
                     </div>
                 @endcan
                 <div class="dashboard__card">
@@ -33,8 +33,8 @@
                                     @can('country-bulk-action')
                                         <x-bulk-action.th />
                                     @endcan
-                                    <th>{{ __('Serial No.') }}</th>
-                                    <th>{{ __('Name') }}</th>
+                                    {{-- <th>{{ __('Serial No.') }}</th> --}}
+                                    <th>{{ __('Country Name') }}</th>
                                     <th>{{ __('Status') }}</th>
                                     <th>{{ __('Action') }}</th>
                                 </thead>
@@ -44,7 +44,7 @@
                                             @can('country-bulk-action')
                                                 <x-bulk-action.td :id="$country->id" />
                                             @endcan
-                                            <td>{{ $loop->iteration }}</td>
+                                            {{-- <td>{{ $loop->iteration }}</td> --}}
                                             <td>{{ $country->name }}</td>
                                             <td><x-status-span :status="$country->status" /></td>
                                             <td>
@@ -92,7 +92,7 @@
                                 <label for="edit_status">{{ __('Status') }}</label>
                                 <select name="status" class="form-control" id="edit_status">
                                     <option value="publish">{{ __('Publish') }}</option>
-                                    <option value="draft">{{ __('Draft') }}</option>
+                                    <option value="draft">{{ __('Unpublish') }}</option>
                                 </select>
                             </div>
                         </div>
@@ -128,7 +128,7 @@
                                 <label for="status">{{ __('Status') }}</label>
                                 <select name="status" class="form-control" id="status">
                                     <option value="publish">{{ __('Publish') }}</option>
-                                    <option value="draft">{{ __('Draft') }}</option>
+                                    <option value="draft">{{ __('Unpublish') }}</option>
                                 </select>
                             </div>
                         </div>

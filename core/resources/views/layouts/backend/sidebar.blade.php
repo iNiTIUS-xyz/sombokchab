@@ -31,7 +31,7 @@
                     <li class="main_dropdown @if (request()->is(['admin-home/admin/*'])) active open @endif">
                         <a href="#1" aria-expanded="true">
                             <i class="ti-user"></i>
-                            <span>{{ __('Admin Manage') }}</span>
+                            <span>{{ __('Admin Management') }}</span>
                         </a>
                         <ul class="collapse">
                             <li class="{{ active_menu('admin-home/admin/all') }}">
@@ -52,7 +52,7 @@
                     <li class="main_dropdown @if (request()->is(['admin-home/roles', 'admin-home/roles/*'])) active open @endif">
                         <a href="#1" aria-expanded="true">
                             <i class="ti-user"></i>
-                            <span>{{ __('Manage Role Permission') }}</span>
+                            <span>{{ __('Role Permission Management') }}</span>
                         </a>
                         <ul class="collapse">
                             <li class="{{ active_menu('admin-home/roles') }}">
@@ -80,7 +80,7 @@
                             ])) active open @endif ">
                         <a href="#1" aria-expanded="true">
                             <i class="ti-user"></i>
-                            <span>{{ __('Customers Manage') }}</span>
+                            <span>{{ __('Customers Management') }}</span>
                         </a>
                         <ul class="collapse">
                             @can('frontend-all-user')
@@ -105,7 +105,7 @@
                     <li class="main_dropdown @if (request()->is(['admin-home/newsletter/*', 'admin-home/newsletter'])) active open @endif ">
                         <a href="#1" aria-expanded="true">
                             <i class="ti-email"></i>
-                            <span>{{ __('Newsletter Manage') }}</span>
+                            <span>{{ __('Newsletter Management') }}</span>
                         </a>
                         <ul class="collapse">
                             @can('newsletter')
@@ -134,7 +134,7 @@
                         class="main_dropdown {{ active_menu('admin-home/support-tickets') }} @if (request()->is('admin-home/support-tickets/*')) active open @endif">
                         <a href="#1" aria-expanded="true">
                             <i class="ti-headphone-alt"></i>
-                            <span>{{ __('Support Tickets') }}</span>
+                            <span>{{ __('Support Tickets Management') }}</span>
                         </a>
                         <ul class="collapse">
                             @can('support-tickets')
@@ -188,7 +188,7 @@
                         <li class="main_dropdown @if (request()->is(['admin-home/mobile-intro/*', 'admin-home/vendor-intro/*'])) active @endif">
                             <a href="#1" aria-expanded="true">
                                 <i class="ti-mobile"></i>
-                                <span>{{ __('Mobile Intro Manage') }}</span>
+                                <span>{{ __('Mobile Intro Management') }}</span>
                             </a>
                             <ul class="collapse">
                                 <li class="{{ active_menu('admin-home/mobile-intro/list') }}">
@@ -226,7 +226,7 @@
                             ])) active @endif">
                             <a href="#1" aria-expanded="true">
                                 <i class="ti-mobile"></i>
-                                <span>{{ __('Buyer App Manages') }}</span>
+                                <span>{{ __('Buyer App Management') }}</span>
                             </a>
                             <ul class="collapse">
                                 <li class="{{ active_menu('admin-home/mobile-slider/new') }}">
@@ -300,7 +300,7 @@
                             <a href="#1" aria-expanded="true">
                                 <i class="ti-truck"></i>
                                 <span>
-                                    {{ __('Delivery Man') }}
+                                    {{ __('Delivery Man Management') }}
                                     {{-- <span class="badge bg-danger ml-5-px">{{ __("Plugin") }}</span> --}}
                                 </span>
                             </a>
@@ -372,7 +372,7 @@
                         <li class="main_dropdown @if (request()->is(['admin-home/wallet/*'])) active open @endif ">
                             <a href="#1" aria-expanded="true">
                                 <i class="ti-wallet"></i>
-                                <span>{{ __('Wallet') }}</span>
+                                <span>{{ __('Wallet Management') }}</span>
                             </a>
                             <ul class="collapse">
                                 @can('wallet-withdraw-request')
@@ -427,7 +427,7 @@
                                 @can('wallet-withdraw-gateway')
                                     <li class="{{ active_menu('admin-home/wallet/withdraw/gateway') }}">
                                         <a href="{{ route('admin.wallet.withdraw.gateway') }}">
-                                            {{ __('Wallet Gateway') }}
+                                            {{ __('Wallet Payment Methods') }}
                                         </a>
                                     </li>
                                 @endcan
@@ -449,7 +449,7 @@
                     <li class="main_dropdown @if (request()->is(['admin-home/refund/*'])) active open @endif ">
                         <a href="#1" aria-expanded="true">
                             <i class="ti-control-backward"></i>
-                            <span>{{ __('Refund Manage') }}
+                            <span>{{ __('Refund Management') }}
                                 {{-- <span class="badge bg-danger ml-5-px">{{ __("Plugin") }}</span> --}}
                             </span>
                         </a>
@@ -472,7 +472,7 @@
                             @can('refund-preferred-option')
                                 <li class="{{ active_menu('admin-home/refund/preferred-option') }}">
                                     <a href="{{ route('admin.refund.preferred-option.index') }}">
-                                        {{ __('Refund Preferred') }}
+                                        {{ __('Refund Payment Methods') }}
                                     </a>
                                 </li>
                             @endcan
@@ -501,7 +501,7 @@
                     <li class="main_dropdown @if (request()->is(['admin-home/email-template/*'])) active open @endif " style="display: none">
                         <a href="#1" aria-expanded="true">
                             <i class="ti-email"></i>
-                            <span>{{ __('Email Template') }}</span>
+                            <span>{{ __('Email Template Management') }}</span>
                         </a>
                         <ul class="collapse">
                             <li class="{{ active_menu('admin-home/email-template/all-templates') }}">
@@ -520,7 +520,7 @@
                     <li class="main_dropdown @if (request()->is(['admin-home/shop-manage/*', 'admin-home/shop-manage', 'admin-home/invoice-note'])) active open @endif " style="display: none">
                         <a href="#1" aria-expanded="true">
                             <i class="ti-shopping-cart"></i>
-                            <span>{{ __('Shop Manage') }}</span>
+                            <span>{{ __('Shop Management') }}</span>
                         </a>
                         <ul class="collapse">
                             @can('shop-manage')
@@ -554,7 +554,7 @@
                         ])) active open @endif ">
                         <a href="#1" aria-expanded="true">
                             <i class="ti-view-list-alt"></i>
-                            <span>{{ __('Orders') }}</span>
+                            <span>{{ __('Order Management') }}</span>
                         </a>
 
                         <ul class="collapse">
@@ -599,7 +599,7 @@
                     <li class="main_dropdown @if (request()->is(['admin-home/pos/*'])) active open @endif ">
                         <a href="#1" aria-expanded="true">
                             <i class="ti-layout-sidebar-2"></i>
-                            <span>{{ __('Pos Manage') }}
+                            <span>{{ __('Pos Management') }}
                                 {{-- <span class="badge bg-danger ml-5-px">{{ __("Plugin") }}</span> --}}
                             </span>
                         </a>
@@ -646,7 +646,7 @@
                     ])) active @endif ">
                     <a href="#1" aria-expanded="true">
                         <i class="ti-clipboard"></i>
-                        <span>{{ __('Country Manage') }}</span>
+                        <span>{{ __('Country Management') }}</span>
                     </a>
                     <ul class="collapse">
                         @can('country')
@@ -668,7 +668,7 @@
                         @can('state')
                             <li class="{{ active_menu('admin-home/state') }}">
                                 <a href="{{ route('admin.state.all') }}">
-                                    {{ __('All Cities') }}
+                                    {{ __('All Provinces') }}
                                 </a>
                             </li>
                         @endcan
@@ -676,7 +676,7 @@
                         @can('state')
                             <li class="{{ active_menu('admin-home/state/csv/import') }}">
                                 <a href="{{ route('admin.state.import.csv.settings') }}">
-                                    {{ __('Import City') }}
+                                    {{ __('Import Province') }}
                                 </a>
                             </li>
                         @endcan
@@ -684,7 +684,7 @@
                         @can('city')
                             <li class="{{ active_menu('admin-home/city') }}">
                                 <a href="{{ route('admin.city.all') }}">
-                                    {{ __('All Provinces') }}
+                                    {{ __('All Cities') }}
                                 </a>
                             </li>
                         @endcan
@@ -692,7 +692,7 @@
                         @can('city')
                             <li class="{{ active_menu('admin-home/city/csv/import') }}">
                                 <a href="{{ route('admin.city.import.csv.settings') }}">
-                                    {{ __('Import Province') }}
+                                    {{ __('Import City') }}
 
                                 </a>
                             </li>
@@ -705,7 +705,7 @@
                 <li class="main_dropdown @if (request()->is(['admin-home/tax/*', 'admin-home/tax-module/*'])) active open @endif ">
                     <a href="#1" aria-expanded="true">
                         <i class="ti-money"></i>
-                        <span>{{ __('Tax Settings') }}</span>
+                        <span>{{ __('Tax Settings Management') }}</span>
                     </a>
                     <ul class="collapse">
                         @can('tax-module-settings')
@@ -769,7 +769,7 @@
                     ])) active open @endif ">
                     <a href="#1" aria-expanded="true">
                         <i class="ti-panel"></i>
-                        <span>{{ __('Attributes Manage') }}</span>
+                        <span>{{ __('Attributes Management') }}</span>
                     </a>
                     <ul class="collapse">
                         @can('categories')
@@ -828,7 +828,7 @@
                         @can('brand-manage')
                             <li class="{{ active_menu('admin-home/brand-manage') }}">
                                 <a href="{{ route('admin.brand.manage.all') }}">
-                                    {{ __('Brand Manage') }}
+                                    {{ __('Brands') }}
 
                                 </a>
                             </li>
@@ -837,7 +837,7 @@
                         @can('colors')
                             <li class="{{ active_menu('admin-home/colors') }}">
                                 <a href="{{ route('admin.product.colors.all') }}">
-                                    {{ __('Color Manage') }}
+                                    {{ __('Colors') }}
 
                                 </a>
                             </li>
@@ -846,7 +846,7 @@
                         @can('sizes')
                             <li class="{{ active_menu('admin-home/sizes') }}">
                                 <a href="{{ route('admin.product.sizes.all') }}">
-                                    {{ __('Size Manage') }}
+                                    {{ __('Sizes') }}
 
                                 </a>
                             </li>
@@ -855,14 +855,14 @@
                         @can('attributes')
                             <li class="{{ active_menu('admin-home/attributes') }}">
                                 <a href="{{ route('admin.products.attributes.all') }}">
-                                    {{ __('Custom Attribute') }} </a>
+                                    {{ __('Custom Attributes') }} </a>
                             </li>
                         @endcan
 
                         @can('badge')
                             <li class="{{ active_menu('admin-home/badge') }}">
                                 <a href="{{ route('admin.badge.all') }}">
-                                    {{ __('Badge List') }}
+                                    {{ __('Badges') }}
 
                                 </a>
                             </li>
@@ -876,7 +876,7 @@
                 <li class="main_dropdown @if (request()->is(['admin-home/vendor/*'])) active open @endif ">
                     <a href="#1" aria-expanded="true">
                         <i class="ti-user"></i>
-                        <span>{{ __('Vendor Manage') }}</span>
+                        <span>{{ __('Vendor Management') }}</span>
                     </a>
                     <ul class="collapse">
                         @can('vendor-index')
@@ -919,7 +919,7 @@
                 <li class="{{ active_menu('admin-home/product-inventory') }}">
                     <a href="{{ route('admin.products.inventory.all') }}">
                         <i class="ti-package"></i>
-                        <span>{{ __('Inventory') }}</span>
+                        <span>{{ __('Inventory Management') }}</span>
                     </a>
                 </li>
             @endcan
@@ -929,7 +929,7 @@
                 <li class="@if (request()->is(['admin-home/coupons', 'admin-home/coupons/*'])) active open @endif">
                     <a href="{{ route('admin.products.coupon.all') }}" aria-expanded="true">
                         <i class="ti-layout-tab"></i>
-                        <span>{{ __('Coupon Manage') }}</span>
+                        <span>{{ __('Coupon Management') }}</span>
                     </a>
                 </li>
             @endcanany
@@ -937,7 +937,7 @@
             @canany(['product-all', 'product-create'])
                 <li class="main_dropdown @if (request()->is(['admin-home/product', 'admin-home/product/*'])) active open @endif">
                     <a href="#1" aria-expanded="true">
-                        <i class="ti-layout-tab"></i><span>{{ __('Product Manage') }}</span>
+                        <i class="ti-layout-tab"></i><span>{{ __('Product Management') }}</span>
                     </a>
                     <ul class="collapse">
                         @can('product-all')
@@ -965,7 +965,7 @@
                 <li class="{{ active_menu('admin-home/campaigns') }}">
                     <a href="{{ route('admin.campaigns.all') }}" aria-expanded="true">
                         <i class="ti-announcement"></i>
-                        <span>{{ __('Campaign Manage') }}</span>
+                        <span>{{ __('Campaign Management') }}</span>
                     </a>
                 </li>
             @endcan
@@ -978,7 +978,7 @@
                         'admin-home/shipping',
                     ])) open active @endif ">
                     <a href="#1" aria-expanded="true">
-                        <i class="ti-truck"></i><span>{{ __('Shipping Manage') }}</span>
+                        <i class="ti-truck"></i><span>{{ __('Shipping Management') }}</span>
                     </a>
                     <ul class="collapse">
                         @can('shipping-zone')
@@ -1005,7 +1005,7 @@
                 <li class="main_dropdown @if (request()->is(['admin-home/blog/*', 'admin-home/blog'])) active open @endif ">
                     <a href="#1" aria-expanded="true">
                         <i class="ti-write"></i>
-                        <span>{{ __('Blogs') }}</span>
+                        <span>{{ __('Blogs Management') }}</span>
                     </a>
                     <ul class="collapse">
                         @can('blog')
@@ -1053,7 +1053,7 @@
                 <li class="{{ active_menu('admin-home/faq') }}">
                     <a href="{{ route('admin.faq') }}" aria-expanded="true">
                         <i class="ti-control-forward"></i>
-                        <span>{{ __('FAQ') }}</span>
+                        <span>{{ __('FAQ Management') }}</span>
                     </a>
                 </li>
             @endcan
@@ -1062,7 +1062,7 @@
                 <li class="main_dropdown @if (request()->is(['admin-home/livechat/*'])) open active @endif ">
                     <a href="#1" aria-expanded="true">
                         <i class="ti-write"></i>
-                        <span>{{ __('Livechat') }}</span>
+                        <span>{{ __('Livechat Management') }}</span>
                         {{-- <span class="badge bg-danger ml-5-px">
                                 {{ __("Plugin") }}
                             </span> --}}
@@ -1091,7 +1091,7 @@
                 <li class="main_dropdown @if (request()->is(['admin-home/page-edit/*', 'admin-home/page/edit/*', 'admin-home/page/all', 'admin-home/page/new'])) open active @endif ">
                     <a href="#1" aria-expanded="true">
                         <i class="ti-write"></i>
-                        <span>{{ __('Pages') }}</span>
+                        <span>{{ __('Pages Management') }}</span>
                     </a>
 
                     <ul class="collapse">
@@ -1136,7 +1136,7 @@
                             ])) active open @endif ">
                     <a href="#1" aria-expanded="true">
                         <i class="ti-stamp"></i>
-                        <span>{{ __('Appearance Settings') }}</span>
+                        <span>{{ __('Appearance Settings Management') }}</span>
                     </a>
                     <ul class="collapse ">
                         @can(['appearance-settings-topbar-all'])
@@ -1243,7 +1243,7 @@
                                                     ])) active open @endif">
                     <a href="#1" aria-expanded="true">
                         <i class="ti-settings"></i>
-                        <span>{{ __('All Page Settings') }}</span>
+                        <span>{{ __('All Page Settings Management') }}</span>
                     </a>
                     <ul class="collapse">
                         <li
@@ -1290,7 +1290,7 @@
                                 @can('page-settings-login-register')
                                     <li class="{{ active_menu('admin-home/page-settings/login-register') }}">
                                         <a href="{{ route('admin.page.settings.user.auth') }}">
-                                            {{ __('Login/Register Page') }}
+                                            {{ __('Sign In /Sign Up Page') }}
                                         </a>
                                     </li>
                                 @endcan
@@ -1321,14 +1321,14 @@
                         @can('404-page-manage')
                             <li class="{{ active_menu('admin-home/404-page-manage') }}">
                                 <a href="{{ route('admin.404.page.settings') }}" aria-expanded="true">
-                                    {{ __('404 Page Manage') }}
+                                    {{ __('404 Error Page Settings') }}
                                 </a>
                             </li>
                         @endcan
                         @can('maintains-page-settings')
                             <li class="{{ active_menu('admin-home/maintains-page/settings') }}">
                                 <a href="{{ route('admin.maintains.page.settings') }}" aria-expanded="true">
-                                    {{ __('Maintenance Page Manage') }}
+                                    {{ __('Maintenance Page Settings') }}
                                 </a>
                             </li>
                         @endcan
@@ -1347,7 +1347,7 @@
                 <li class="main_dropdown @if (request()->is('admin-home/general-settings/*') || request()->is('admin-home/shipping-charge-settings')) active open @endif ">
                     <a href="#1" aria-expanded="true">
                         <i class="ti-new-window"></i>
-                        <span>{{ __('General Settings') }}</span>
+                        <span>{{ __('General Settings Management') }}</span>
                     </a>
                     <ul class="collapse">
                         @can('shipping-charge-settings')
@@ -1518,7 +1518,7 @@
                 <li class="@if (request()->is('admin-home/languages/*') || request()->is('admin-home/languages')) active @endif" style="display: none;">
                     <a href="{{ route('admin.languages') }}" aria-expanded="true">
                         <i class="ti-signal"></i>
-                        <span>{{ __('Languages') }}</span>
+                        <span>{{ __('Languages Management') }}</span>
                     </a>
                 </li>
             @endcan
@@ -1529,7 +1529,7 @@
                      @if (request()->is(['admin-home/plugin-manage', 'admin-home/plugin-manage/*'])) active @endif ">
                     <a href="#1" aria-expanded="true">
                         <i class="ti-clipboard"></i>
-                        <span>{{ __('Plugin Manage') }}</span>
+                        <span>{{ __('Plugin Management') }}</span>
                     </a>
                     <ul class="collapse">
                         @can('country')

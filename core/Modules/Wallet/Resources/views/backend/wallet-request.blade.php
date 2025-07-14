@@ -28,8 +28,7 @@
                             <table id="dataTable" class="table-responsive table">
                                 <thead>
                                     <tr>
-                                        <th>Serial No.</th>
-                                        <th>{{ __('Vendor Info') }}</th>
+                                        <th>{{ __('Vendor Details') }}</th>
                                         <th>{{ __('Amount') }}</th>
                                         <th>{{ __('Payment Method') }}</th>
                                         <th style="width: 30%">{{ __('Payment Method Details') }}</th>
@@ -53,9 +52,6 @@
                                             @endphp
                                         @endforeach
                                         <tr>
-                                            <td>
-                                                {{ $loop->iteration }}
-                                            </td>
                                             <td>
                                                 <div class="table-owner">
                                                     <span>{{ __('Vendor Name:') }}
@@ -126,7 +122,7 @@
                     enctype="multipart/form-data">
                     @csrf
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">{{ __('Update Wallet') }}</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">{{ __('Update Withdraw Request') }}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -138,8 +134,8 @@
                         <input type="hidden" value="" name="id" />
 
                         <div class="form-group">
-                            <label>{{ __('Select Status') }}</label>
-                            <select name="request_status" class="form-control">
+                            <label>{{ __('Status') }}</label>
+                            <select name="request_status" class="form-select">
                                 <option value="pending">{{ __('Pending') }}</option>
                                 <option value="processing">{{ __('Processing') }}</option>
                                 <option value="completed">{{ __('Completed') }}</option>
@@ -150,13 +146,13 @@
                         </div>
 
                         <div class="form-group">
-                            <label>{{ __('Select image if needed') }}</label>
-                            <input name="request_image" type="file" />
+                            <label>{{ __('Image') }}</label>
+                            <input name="request_image" class="form-control" type="file" />
                         </div>
 
                         <div class="form-group">
-                            <label>{{ __('Enter note for wallet request') }}</label>
-                            <textarea name="note" rows="4" placeholder="{{ __('Enter note') }}"></textarea>
+                            <label>{{ __('Note') }}</label>
+                            <textarea name="note" class="form-control" rows="4" placeholder="{{ __('Enter note') }}"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">

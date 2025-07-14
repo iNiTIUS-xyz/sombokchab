@@ -92,13 +92,19 @@
 @section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row g-4">
-            <div class="col-lg-7">
-                <x-msg.error />
-                <x-msg.flash />
+            <div class="col-12">
+                <x-error-msg />
+                <x-flash-msg />
+                <div class="mb-4">
+                    @can('coupons-new')
+                        <a href="#1" data-bs-toggle="modal" data-bs-target="#coupon_add_modal"
+                            class="cmn_btn btn_bg_profile">{{ __('Add New Coupon') }}</a>
+                    @endcan
+                </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">
-                            {{ __('All  Coupon') }}</h4>
+                            {{ __('All Coupons') }}</h4>
                         @can('coupons-bulk-action')
                             <x-bulk-action.dropdown />
                         @endcan
@@ -110,7 +116,7 @@
                                     @can('coupons-bulk-action')
                                         <x-bulk-action.th />
                                     @endcan
-                                    <th>{{ __('ID') }}</th>
+                                    {{-- <th>{{ __('ID') }}</th> --}}
                                     <th>{{ __('Code') }}</th>
                                     <th>{{ __('Discount') }}</th>
                                     <th>{{ __('Expire Date') }}</th>
@@ -123,7 +129,7 @@
                                             @can('coupons-bulk-action')
                                                 <x-bulk-action.td :id="$data->id" />
                                             @endcan
-                                            <td>{{ $data->id }}</td>
+                                            {{-- <td>{{ $data->id }}</td> --}}
                                             <td>{{ $data->code }}</td>
                                             <td>
                                                 @if ($data->discount_type == 'percentage')
@@ -165,7 +171,7 @@
                 </div>
             </div>
 
-            @can('coupons-new')
+            {{-- @can('coupons-new')
                 <div class="col-lg-5">
                     <div class="dashboard__card">
                         <div class="dashboard__card__header">
@@ -301,6 +307,152 @@
                                 <button type="submit" id="coupon_create_btn" class="btn btn-primary mt-4 pr-4 pl-4">
                                     {{ __('Add') }}
                                 </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            @endcan --}}
+
+            @can('coupons-new')
+                <div class="modal fade" id="coupon_add_modal" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-scrollable">
+                        <div class="modal-content custom__form">
+                            <div class="modal-header">
+                                <h5 class="modal-title">{{ __('Add Coupon') }}</h5>
+                                <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
+                            </div>
+                             <form action="{{ route('admin.products.coupon.new') }}" method="post"
+                                enctype="multipart/form-data">
+                                @csrf
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="title">
+                                            {{ __('Coupon Title') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" id="title" name="title"
+                                            placeholder="{{ __('Title') }}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="code">
+                                            {{ __('Coupon Code') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" id="code" name="code"
+                                            placeholder="{{ __('Code') }}" required>
+                                        <span id="status_text" class="text-danger" style="display: none"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="discount_on">
+                                            {{ __('Discount On') }}
+                                        </label>
+                                        <select name="discount_on" id="discount_on" class="form-control">
+                                            <option value="">
+                                                {{ __('Select an option') }}
+                                            </option>
+                                            @foreach ($coupon_apply_options as $key => $value)
+                                                <option value="{{ $key }}">{{ $value }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group" id="form_category">
+                                        <label for="category">
+                                            {{ __('Category') }}
+                                        </label>
+                                        <select name="category" id="category" class="form-control">
+                                            <option value="">
+                                                {{ __('Select a Category') }}
+                                            </option>
+                                            @foreach ($all_categories as $key => $category)
+                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group" id="form_subcategory">
+                                        <label for="subcategory">
+                                            {{ __('Subcategory') }}
+                                        </label>
+                                        <select name="subcategory" id="subcategory" class="form-control">
+                                            <option value="">
+                                                {{ __('Select a Subcategory') }}
+                                            </option>
+                                            @foreach ($all_subcategories as $key => $subcategory)
+                                                <option value="{{ $subcategory->id }}">{{ $subcategory->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group" id="form_childcategory">
+                                        <label for="childcategory">
+                                            {{ __('Child Category') }}
+                                        </label>
+                                        <select name="childcategory" id="childcategory" class="form-control">
+                                            <option value="">
+                                                {{ __('Select a child category') }}
+                                            </option>
+                                            @foreach ($all_child_categories as $key => $child_category)
+                                                <option value="{{ $child_category->id }}">{{ $child_category->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group" id="form_products">
+                                        <label for="products">
+                                            {{ __('Products') }}
+                                        </label>
+                                        <select name="products[]" id="products" class="form-control wide" multiple>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="discount">
+                                            {{ __('Discount') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="number" class="form-control" id="discount" name="discount"
+                                            placeholder="{{ __('Discount') }}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="discount_type">
+                                            {{ __('Coupon Type') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <select name="discount_type" class="form-control" id="discount_type" required>
+                                            <option value="percentage">
+                                                {{ __('Percentage') }}
+                                            </option>
+                                            <option value="amount">
+                                                {{ __('Amount') }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="expire_date">
+                                            {{ __('Expire Date') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="date" class="form-control flatpickr" id="expire_date" name="expire_date"
+                                            placeholder="{{ __('Expire Date') }}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="status">
+                                            {{ __('Status') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <select name="status" class="form-control" id="status" required>
+                                            <option value="publish">
+                                                {{ __('Publish') }}
+                                            </option>
+                                            <option value="draft">
+                                                {{ __('Draft') }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                                    <button type="submit" class="btn btn-primary">{{ __('Add') }}</button>
+                                </div>
                             </form>
                         </div>
                     </div>

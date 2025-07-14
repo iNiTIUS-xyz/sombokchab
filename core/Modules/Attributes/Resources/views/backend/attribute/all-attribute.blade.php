@@ -5,7 +5,7 @@
 @endsection
 
 @section('site-title')
-    {{ __('All Product Attributes') }}
+    {{ __('All Attributes') }}
 @endsection
 @section('content')
     <div class="col-lg-12 col-ml-12">
@@ -23,7 +23,7 @@
                 </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('All Product Attributes') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('All Attributes') }}</h4>
                         <div class="dashboard__card__header__right">
                             @can('attributes-bulk-action')
                                 <x-bulk-action.dropdown />
@@ -35,7 +35,7 @@
                             <table class="table table-default" id="dataTable">
                                 <thead>
                                     <x-bulk-action.th />
-                                    <th>{{ __('ID') }}</th>
+                                    {{-- <th>{{ __('ID') }}</th> --}}
                                     <th>{{ __('Title') }}</th>
                                     <th>{{ __('Terms') }}</th>
                                     <th>{{ __('Action') }}</th>
@@ -44,7 +44,7 @@
                                     @foreach ($all_attributes as $attribute)
                                         <tr>
                                             <x-bulk-action.td :id="$attribute->id" />
-                                            <td>{{ $loop->iteration }}</td>
+                                            {{-- <td>{{ $loop->iteration }}</td> --}}
                                             <td>{{ $attribute->title }}</td>
                                             <td>
                                                 <ul>

@@ -57,6 +57,7 @@ class CityController extends Controller
                 'name' => $request->city,
                 'state_id' => $request->state,
                 'country_id' => $request->country,
+                'status' => $request->status,
             ]);
 
         return back()->with([

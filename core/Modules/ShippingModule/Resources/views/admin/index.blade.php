@@ -17,13 +17,13 @@
                 <div class="mb-4">
                     @can('shipping-zone-create')
                         <a href="{{ route('admin.shipping.zone.create') }}" class="cmn_btn btn_bg_profile">
-                            {{ __('Create Shipping Zone') }}
+                            {{ __('Add New Shipping Zone') }}
                         </a>
                     @endcan
                 </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Shipping Zone List') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('Shipping Zones') }}</h4>
                     </div>
                     <div class="dashboard__card__body mt-4">
                         <div class="table-responsive">

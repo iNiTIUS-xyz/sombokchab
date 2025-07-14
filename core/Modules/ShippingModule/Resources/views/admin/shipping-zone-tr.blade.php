@@ -26,7 +26,7 @@
             <button type="button" id="shipping_zone_minus_btn" class="btn btn-danger btn-sm">
                 <i class="las la-minus"></i>
             </button>
-            <button type="button" id="shipping_zone_plus_btn" data-select-two="{{$rand}}" class="btn btn-info btn-sm">
+            <button type="button" id="shipping_zone_plus_btn" data-select-two="{{$rand}}" class="btn btn-primary btn-sm">
                 <i class="las la-plus"></i>
             </button>
         </td>
@@ -55,7 +55,7 @@
             <button type="button" id="shipping_zone_minus_btn" class="btn btn-danger btn-sm">
                 <i class="las la-minus"></i>
             </button>
-            <button type="button" id="shipping_zone_plus_btn" data-select-two="{{$rand}}" class="btn btn-info btn-sm">
+            <button type="button" id="shipping_zone_plus_btn" data-select-two="{{$rand}}" class="btn btn-primary btn-sm">
                 <i class="las la-plus"></i>
             </button>
         </td>

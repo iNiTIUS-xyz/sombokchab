@@ -24,8 +24,8 @@
                             <table class="table table-default">
                                 <thead>
                                     <x-bulk-action.th />
-                                    <th>{{ __('ID') }}</th>
-                                    <th>{{ __('Name') }}</th>
+                                    {{-- <th>{{ __('ID') }}</th> --}}
+                                    <th>{{ __('Country Name') }}</th>
                                     <th>{{ __('Status') }}</th>
                                     <th>{{ __('Action') }}</th>
                                 </thead>
@@ -33,7 +33,7 @@
                                     @foreach ($all_countries as $country)
                                         <tr>
                                             <x-bulk-action.td :id="$country->id" />
-                                            <td>{{ $loop->iteration }}</td>
+                                            {{-- <td>{{ $loop->iteration }}</td> --}}
                                             <td>{{ $country->name }}</td>
                                             <td><x-status-span :status="$country->status" /></td>
                                             <td>

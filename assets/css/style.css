@@ -26809,13 +26809,13 @@ th.sorting_desc {
 }
 
 .form-control {
-  height: 55px;
+  height: 45px;
   font-size: 15px;
   border: 1px solid #DDD;
   width: 100%;
   padding: 0 100px 0 20px;
   color: var(--body-color);
-  border-radius: 10px;
+  /* border-radius: 10px; */
 }
 
 .form-control:focus {

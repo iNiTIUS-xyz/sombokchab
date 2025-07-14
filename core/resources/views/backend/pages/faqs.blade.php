@@ -13,9 +13,15 @@
 @section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row g-4">
-            <div class="col-lg-7">
-                <x-msg.error />
-                <x-msg.success />
+            <div class="col-lg-12">
+                <x-error-msg />
+                <x-flash-msg />
+                <div class="mb-4">
+                    @can('faq-create-faq')
+                        <a href="#1" data-bs-toggle="modal" data-bs-target="#faq_add_modal"
+                            class="cmn_btn btn_bg_profile">{{ __('Add New FAQ') }}</a>
+                    @endcan
+                </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('FAQ Items') }}</h4>
@@ -68,7 +74,7 @@
                                             <td>{{ $data->title }}</td>
                                             <td>
                                                 @if ($data->status == 'publish')
-                                                    <span class="badge bg-success">{{ __('Published') }}</span>
+                                                    <span class="badge bg-primary">{{ __('Published') }}</span>
                                                 @else
                                                     <span class="badge bg-warning">{{ __('Draft') }}</span>
                                                 @endif
@@ -107,7 +113,7 @@
                     </div>
                 </div>
             </div>
-            @can('faq-create-faq')
+            {{-- @can('faq-create-faq')
                 <div class="col-lg-5">
                     <div class="dashboard__card">
                         <div class="dashboard__card__header">
@@ -157,9 +163,64 @@
                         </div>
                     </div>
                 </div>
-            @endcan
+            @endcan --}}
         </div>
     </div>
+
+
+     @can('faq-edit-faq')
+        <div class="modal fade" id="faq_add_modal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content custom__form">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{{ __('Add FAQ Item') }}</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
+                    </div>
+                    <form action="{{ route('admin.faq') }}" method="post" enctype="multipart/form-data">
+                        <div class="modal-body">
+                            @csrf
+                            <div class="col-sm-12">
+                                <div class="form-group mt-3">
+                                    <label for="title">{{ __('Title') }}</label>
+                                    <input type="text" class="form-control" id="title" name="title"
+                                        placeholder="{{ __('Title') }}">
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group mt-3">
+                                    <label for="is_open">{{ __('Is Open by Default') }}</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="is_open" id="is_open">
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group mt-3">
+                                    <label for="description">{{ __('Description') }}</label>
+                                    <textarea name="description" class="summernote"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group mt-3">
+                                    <label for="status">{{ __('Status') }}</label>
+                                    <select name="status" id="status" class="form-control">
+                                        <option value="publish">{{ __('Publish') }}</option>
+                                        <option value="draft">{{ __('Draft') }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                            <button id="update" type="submit" class="btn btn-primary">{{ __('Add') }}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endcan
+
     @can('faq-edit-faq')
         <div class="modal fade" id="faq_item_edit_modal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">

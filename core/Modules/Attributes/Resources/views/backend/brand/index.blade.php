@@ -1,7 +1,7 @@
 @extends('backend.admin-master')
 
 @section('site-title')
-    {{ __('Product Brand Manage') }}
+    {{ __('Product Brand') }}
 @endsection
 
 @section('style')
@@ -22,12 +22,12 @@
                 <div class="mb-4">
                     @can('brand-manage-new')
                         <a href="#1" data-bs-toggle="modal" data-bs-target="#brand_manage_create_modal"
-                            class="cmn_btn btn_bg_profile">{{ __('Create Brand Manage') }}</a>
+                            class="cmn_btn btn_bg_profile">{{ __('Add New Brand') }}</a>
                     @endcan
                 </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('All Brand Manages') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('All Brands') }}</h4>
                         <div class="dashboard__card__header__right">
                             @can('brand-manage-bulk-action')
                                 <x-bulk-action.dropdown />
@@ -41,7 +41,7 @@
                                     @can('brand-manage-bulk-action')
                                         <x-bulk-action.th />
                                     @endcan
-                                    <th>{{ __('Serial No.') }}</th>
+                                    {{-- <th>{{ __('Serial No.') }}</th> --}}
                                     <th>{{ __('Logo') }}</th>
                                     <th>{{ __('Banner') }}</th>
                                     <th>{{ __('Name') }}</th>
@@ -55,7 +55,7 @@
                                             @can('brand-manage-bulk-action')
                                                 <x-bulk-action.td :id="$item->id" />
                                             @endcan
-                                            <td width="80px">{{ $loop->iteration }}</td>
+                                            {{-- <td width="80px">{{ $loop->iteration }}</td> --}}
                                             <td>
                                                 <div class="attachment-preview">
                                                     <div class="img-wrap">
@@ -113,7 +113,7 @@
                     <form action="{{ route('admin.brand.manage.update') }}" method="post">
                         @csrf
                         <input type="hidden" value="" id="edit-brand-id" name="id">
-                        <div class="card-body">
+                        <div class="modal-body">
                             <div class="row">
                                 <div class="col-md-6 mb-4">
                                     <div class="form-group">
@@ -159,12 +159,17 @@
 
                                 </div>
 
-                                <div class="col-md-6">
+                                {{-- <div class="col-md-6">
                                     <button type="submit" class="cmn_btn btn_bg_profile">
                                         {{ __('Update') }}
                                     </button>
-                                </div>
+                                </div> --}}
                             </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                            <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                         </div>
                     </form>
                 </div>
@@ -177,12 +182,12 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
-                        <h5 class="modal-title">{{ __('Create Delivery Manage') }}</h5>
+                        <h5 class="modal-title">{{ __('Create Brand') }}</h5>
                         <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
                     </div>
                     <form action="{{ route('admin.brand.manage.store') }}" method="post" enctype="multipart/form-data">
                         @csrf
-                        <div class="card-body">
+                        <div class="modal-body">
                             <div class="row">
                                 <div class="col-md-6 mb-4">
                                     <div class="form-group">
@@ -223,11 +228,16 @@
                                     <x-media-upload :title="__('Banner')" :name="'banner_id'" :dimentions="'200x200'" />
                                 </div>
 
-                                <div class="col-md-6 mb-4">
+                                {{-- <div class="col-md-6 mb-4">
 
                                     <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Add') }}</button>
-                                </div>
+                                </div> --}}
                             </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                            <button type="submit" class="btn btn-primary">{{ __('Add') }}</button>
                         </div>
                     </form>
                 </div>

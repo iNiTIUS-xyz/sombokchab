@@ -59,7 +59,7 @@
                                             @if ($history_details->payment_status == '' || $history_details->payment_status == 'cancel')
                                                 <span class="badge bg-danger">{{ __('Cancel') }}</span>
                                             @elseif ($history_details->payment_status == '' || $history_details->payment_status == 'complete')
-                                                <span class="badge bg-success">{{ ucfirst($history_details->payment_status) }}</span>
+                                                <span class="badge bg-primary">{{ ucfirst($history_details->payment_status) }}</span>
                                             @else
                                                 <span
                                                     class="badge bg-warning">{{ ucfirst($history_details->payment_status) }}</span>

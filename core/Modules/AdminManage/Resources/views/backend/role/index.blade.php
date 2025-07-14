@@ -25,7 +25,7 @@
                             <table class="text-center">
                                 <thead class="text-capitalize">
                                 <tr>
-                                    <th>{{__('ID')}}</th>
+                                    {{-- <th>{{__('ID')}}</th> --}}
                                     <th>{{__('Name')}}</th>
                                     <th>{{__('Action')}}</th>
                                 </tr>
@@ -33,7 +33,7 @@
                                 <tbody>
                                 @foreach($roles as $role)
                                     <tr>
-                                        <td>{{$role->id}}</td>
+                                        {{-- <td>{{$role->id}}</td> --}}
                                         <td>{{$role->name}}</td>
                                         <td>
                                             @if($role->name != 'Super Admin')

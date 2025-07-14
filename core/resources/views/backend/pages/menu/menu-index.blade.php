@@ -29,7 +29,7 @@
                                             <td>{{ $data->title }}</td>
                                             <td>
                                                 @if ($data->status == 'default')
-                                                    <span class="badge bg-success">{{ __('Default Menu') }}</span>
+                                                    <span class="badge bg-primary">{{ __('Default Menu') }}</span>
                                                 @else
                                                     @can('menu-default')
                                                         <form action="{{ route('admin.menu.default', $data->id) }}"

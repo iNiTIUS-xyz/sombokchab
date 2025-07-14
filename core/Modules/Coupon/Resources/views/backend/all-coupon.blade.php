@@ -95,13 +95,20 @@
 @section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row g-4">
-            <div class="col-lg-7">
-                <x-msg.error />
-                <x-msg.flash />
+            <div class="col-12">
+                <x-error-msg />
+                <x-flash-msg />
+                <div class="mb-4">
+                    @can('product-coupon-create')
+                        <a href="#1" data-bs-toggle="modal" data-bs-target="#coupon_add_modal"
+                            class="cmn_btn btn_bg_profile">{{ __('Add New Coupon') }}</a>
+                    @endcan
+                </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('All  Coupon') }}</h4>
-                        @can('product-coupon-delete')
+                        <h4 class="dashboard__card__title">
+                            {{ __('All Coupons') }}</h4>
+                        @can('coupons-bulk-action')
                             <x-bulk-action.dropdown />
                         @endcan
                     </div>
@@ -110,7 +117,7 @@
                             <table class="table table-default">
                                 <thead>
                                     <x-bulk-action.th />
-                                    <th>{{ __('ID') }}</th>
+                                    {{-- <th>{{ __('ID') }}</th> --}}
                                     <th>{{ __('Code') }}</th>
                                     <th>{{ __('Discount') }}</th>
                                     <th>{{ __('Expire Date') }}</th>
@@ -121,7 +128,7 @@
                                     @foreach ($all_product_coupon as $data)
                                         <tr>
                                             <x-bulk-action.td :id="$data->id" />
-                                            <td>{{ $data->id }}</td>
+                                            {{-- <td>{{ $data->id }}</td> --}}
                                             <td>{{ $data->code }}</td>
                                             <td>
                                                 @if ($data->discount_type == 'percentage')

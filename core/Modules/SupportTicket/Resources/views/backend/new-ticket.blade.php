@@ -47,7 +47,7 @@
                                             {{ __('Priority') }}
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <select name="priority" class="form-control">
+                                        <select name="priority" class="form-select">
                                             <option value="low">{{ __('Low') }}</option>
                                             <option value="medium">{{ __('Medium') }}</option>
                                             <option value="high">{{ __('High') }}</option>
@@ -61,7 +61,7 @@
                                             {{ __('Departments') }}
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <select name="departments" class="form-control">
+                                        <select name="departments" class="form-select">
                                             @foreach ($departments as $dep)
                                                 <option value="{{ $dep->id }}">{{ $dep->name }}</option>
                                             @endforeach
@@ -73,7 +73,7 @@
                                         <label>
                                             {{ __('Customer') }}
                                         </label>
-                                        <select name="user_id" class="form-control wide">
+                                        <select name="user_id" class="form-select wide">
                                             <option value="" disabled selected>{{ __('Select Customer') }}</option>
                                             @foreach ($all_users as $user)
                                                 <option value="{{ $user->id }}">{{ $user->username }}</option>
@@ -86,7 +86,7 @@
                                         <label>
                                             {{ __('Vendor') }}
                                         </label>
-                                        <select name="vendor_id" class="form-control wide">
+                                        <select name="vendor_id" class="form-select wide">
                                             <option value="" disabled selected>{{ __('Select Vendor') }}</option>
                                             @foreach ($all_vendors as $vendors)
                                                 <option value="{{ $vendors->id }}">

@@ -11,12 +11,20 @@
 @section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row g-4">
-            <div class="col-lg-8">
+            <div class="col-lg-12">
                 <x-msg.error />
                 <x-msg.flash />
+                <div class="mb-4">
+                    @can('units-new')
+                        <a href="#1" data-bs-toggle="modal" data-bs-target="#delivery_manage_add_modal"
+                            class="cmn_btn btn_bg_profile">
+                            {{ __('Add New Delivery Option') }}
+                        </a>
+                    @endcan
+                </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('All Delivery Manages') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('All Delivery Options') }}</h4>
                         @can('product-delivery-manage-delete')
                             <x-bulk-action.dropdown />
                         @endcan
@@ -25,7 +33,7 @@
                         <div class="table-responsive">
                             <table class="table table-default" id="dataTable">
                                 <thead>
-                                    <th>{{ __('ID') }}</th>
+                                    {{-- <th>{{ __('ID') }}</th> --}}
                                     <th>{{ __('Icon') }}</th>
                                     <th>{{ __('Title') }}</th>
                                     <th>{{ __('Sub Title') }}</th>
@@ -34,7 +42,7 @@
                                 <tbody>
                                     @foreach ($delivery_manages as $item)
                                         <tr>
-                                            <td>{{ $loop->iteration }}</td>
+                                            {{-- <td>{{ $loop->iteration }}</td> --}}
                                             <td>
                                                 <x-backend.preview-icon :class="$item->icon" />
                                             </td>
@@ -63,7 +71,7 @@
                     </div>
                 </div>
             </div>
-            @can('product-delivery_manage-create')
+            {{-- @can('product-delivery_manage-create')
                 <div class="col-lg-4">
                     <div class="dashboard__card">
                         <div class="dashboard__card__header">
@@ -93,15 +101,55 @@
                         </div>
                     </div>
                 </div>
-            @endcan
+            @endcan --}}
         </div>
     </div>
+
+    @can('product-delivery_manage-create')
+        <div class="modal fade" id="delivery_manage_add_modal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content custom__form">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{{ __('Add Delivery Option') }}</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
+                    </div>
+                    <form action="{{ route('admin.delivery.option.store') }}" method="post"
+                                enctype="multipart/form-data">
+                        @csrf
+                        <input type="hidden" name="id" id="delivery_manage_id">
+                        <div class="modal-body">
+                            @csrf
+                            <div class="form-group">
+                                <label for="name">{{ __('Title') }}</label>
+                                <input type="text" class="form-control" id="title" name="title"
+                                    placeholder="{{ __('Enter tfitle') }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="name">{{ __('Sub Title') }}</label>
+                                <input type="text" class="form-control" id="sub_title" name="sub_title"
+                                    placeholder="{{ __('Enter sub title') }}">
+                            </div>
+                            <div class="form-group">
+                                <x-backend.icon-picker />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                            <button type="submit" class="btn btn-primary">{{ __('Add') }}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endcan
+
     @can('product-delivery_manage-edit')
         <div class="modal fade" id="delivery_manage_edit_modal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
-                        <h5 class="modal-title">{{ __('Update Delivery Manage') }}</h5>
+                        <h5 class="modal-title">{{ __('Update Delivery Option') }}</h5>
                         <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
                     </div>
                     <form action="{{ route('admin.delivery.option.update') }}" method="post">

@@ -1,5 +1,7 @@
 @extends('backend.admin-master')
-@section('title', __('Import State'))
+@section('site-title')
+    {{ __('Import City') }}
+@endsection
 @section('style')
     <style>
         .form-control[type=file]:not(:disabled):not([readonly]) {
@@ -15,7 +17,7 @@
             <div class="col-lg-12">
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Import Province') }} <small>(only csv file)</small></h4>
+                        <h4 class="dashboard__card__title">{{ __('Import City') }} <small>(only csv file)</small></h4>
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
                         @if ($errors->any())

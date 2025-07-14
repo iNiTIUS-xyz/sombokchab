@@ -97,10 +97,18 @@
 @section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row g-4">
-            <div class="col-xl-7 col-lg-12">
+            <div class="col-12">
+                <x-error-msg />
+                <x-flash-msg />
+                <div class="mb-4">
+                    @can('product-coupon-create')
+                        <a href="#1" data-bs-toggle="modal" data-bs-target="#coupon_add_modal"
+                            class="cmn_btn btn_bg_profile">{{ __('Add New Coupon') }}</a>
+                    @endcan
+                </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('All  Coupon') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('All Coupons') }}</h4>
                         @can('product-coupon-delete')
                             <x-bulk-action.dropdown />
                         @endcan
@@ -110,7 +118,7 @@
                             <table class="table table-default">
                                 <thead>
                                     <x-bulk-action.th />
-                                    <th>{{ __('ID') }}</th>
+                                    {{-- <th>{{ __('ID') }}</th> --}}
                                     <th>{{ __('Code') }}</th>
                                     <th>{{ __('Discount') }}</th>
                                     <th>{{ __('Expire Date') }}</th>
@@ -121,7 +129,7 @@
                                     @foreach ($all_product_coupon as $data)
                                         <tr>
                                             <x-bulk-action.td :id="$data->id" />
-                                            <td>{{ $data->id }}</td>
+                                            {{-- <td>{{ $data->id }}</td> --}}
                                             <td>{{ $data->code }}</td>
                                             <td>
                                                 @if ($data->discount_type == 'percentage')
@@ -162,7 +170,7 @@
                     </div>
                 </div>
             </div>
-            @can('product-coupon-create')
+            {{-- @can('product-coupon-create')
                 <div class="col-xl-5 col-lg-12">
                     <div class="dashboard__card">
                         <div class="dashboard__card__header">
@@ -255,12 +263,115 @@
                         </div>
                     </div>
                 </div>
-            @endcan
+            @endcan --}}
         </div>
     </div>
+
+
+    @can('product-coupon-create')
+        <div class="modal fade" id="category_edit_modal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content custom__form">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{{ __('Add Coupon') }}</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
+                    </div>
+                    <form action="{{ route('admin.product.coupon.new') }}" method="post"
+                                enctype="multipart/form-data">
+                                @csrf
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="title">{{ __('Coupon Title') }}</label>
+                                <input type="text" class="form-control" id="title" name="title"
+                                    placeholder="{{ __('Title') }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="code">{{ __('Coupon Code') }}</label>
+                                <input type="text" class="form-control" id="code" name="code"
+                                    placeholder="{{ __('Code') }}" required>
+                                <span id="status_text" class="text-danger" style="display: none"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="discount_on">{{ __('Discount On') }}</label>
+                                <select name="discount_on" id="discount_on" class="form-control">
+                                    <option value="">{{ __('Select an option') }}</option>
+                                    @foreach ($coupon_apply_options as $key => $value)
+                                        <option value="{{ $key }}">{{ $value }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group" id="form_category">
+                                <label for="category">{{ __('Category') }}</label>
+                                <select name="category" id="category" class="form-control">
+                                    <option value="">{{ __('Select a Category') }}</option>
+                                    @foreach ($all_categories as $key => $category)
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group" id="form_subcategory">
+                                <label for="subcategory">{{ __('Subcategory') }}</label>
+                                <select name="subcategory" id="subcategory" class="form-control">
+                                    <option value="">{{ __('Select a Subcategory') }}</option>
+                                    @foreach ($all_subcategories as $key => $subcategory)
+                                        <option value="{{ $subcategory->id }}">{{ $subcategory->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group" id="form_childcategory">
+                                <label for="childcategory">{{ __('childcategory') }}</label>
+                                <select name="childcategory" id="childcategory" class="form-control">
+                                    <option value="">{{ __('Select a Child category') }}</option>
+                                    @foreach ($all_childcategories as $key => $childcategory)
+                                        <option value="{{ $childcategory->id }}">{{ $childcategory->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group" id="form_products">
+                                <label for="products">{{ __('Products') }}</label>
+                                <select name="products[]" id="products" class="form-control wide" multiple>
+                                </select>
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <label for="discount">{{ __('Discount') }}</label>
+                                <input type="number" class="form-control" id="discount" name="discount"
+                                    placeholder="{{ __('Discount') }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="discount_type">{{ __('Coupon Type') }}</label>
+                                <select name="discount_type" class="form-control" id="discount_type" required>
+                                    <option value="percentage">{{ __('Percentage') }}</option>
+                                    <option value="amount">{{ __('Amount') }}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="expire_date">{{ __('Expire Date') }}</label>
+                                <input type="date" class="form-control flatpickr" id="expire_date" name="expire_date"
+                                    placeholder="{{ __('Expire Date') }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="status">{{ __('Status') }}</label>
+                                <select name="status" class="form-control" id="status" required>
+                                    <option value="publish">{{ __('Publish') }}</option>
+                                    <option value="draft">{{ __('Draft') }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                            <button type="submit" class="btn btn-primary">{{ __('Add') }}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endcan
+
     @can('product-coupon-edit')
         <div class="modal fade" id="category_edit_modal" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-scrollable">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
                         <h5 class="modal-title">{{ __('Update Coupon') }}</h5>
@@ -351,7 +462,7 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"
                                 data-bs-dismiss="modal">{{ __('Cancel') }}</button>
-                            <button type="submit" class="btn btn-primary">{{ __('Save Change') }}</button>
+                            <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                         </div>
                     </form>
                 </div>

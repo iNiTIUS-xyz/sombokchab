@@ -1,6 +1,6 @@
 @extends('backend.admin-master')
 @section('site-title')
-    {{ __('State') }}
+    {{ __('Provinces') }}
 @endsection
 @section('style')
     <x-datatable.css />
@@ -30,7 +30,7 @@
                             <table class="table table-default">
                                 <thead>
                                     <x-bulk-action.th />
-                                    <th>{{ __('Serial No.') }}</th>
+                                    {{-- <th>{{ __('Serial No.') }}</th> --}}
                                     <th>{{ __('Name') }}</th>
                                     <th>{{ __('Country') }}</th>
                                     <th>{{ __('Status') }}</th>
@@ -40,7 +40,7 @@
                                     @foreach ($all_states as $state)
                                         <tr>
                                             <x-bulk-action.td :id="$state->id" />
-                                            <td>{{ $loop->iteration }}</td>
+                                            {{-- <td>{{ $loop->iteration }}</td> --}}
                                             <td>{{ $state->name }}</td>
                                             <td>{{ optional($state->country)->name }}</td>
                                             <td><x-status-span :status="$state->status" /></td>

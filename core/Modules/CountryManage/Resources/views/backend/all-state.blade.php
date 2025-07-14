@@ -1,6 +1,6 @@
 @extends('backend.admin-master')
 @section('site-title')
-    {{ __('Cities') }}
+    {{ __('Provinces') }}
 @endsection
 @section('style')
     <x-bulk-action.css />
@@ -14,13 +14,13 @@
                 @can('state-new')
                     <div class="btn-wrapper mb-4">
                         <button class="cmn_btn btn_bg_profile" data-bs-target="#state_create_modal" data-bs-toggle="modal">
-                            {{ __('New City') }}
+                            {{ __('Add New Province') }}
                         </button>
                     </div>
                 @endcan
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('All Cities') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('All Provinces') }}</h4>
                         <div class="dashboard__card__header__right">
                             @can('state-bulk-action')
                                 <x-bulk-action.dropdown />
@@ -34,8 +34,8 @@
                                     @can('state-bulk-action')
                                         <x-bulk-action.th />
                                     @endcan
-                                    <th>{{ __('Serial No.') }}</th>
-                                    <th>{{ __('City') }}</th>
+                                    {{-- <th>{{ __('Serial No.') }}</th> --}}
+                                    <th>{{ __('Province Name') }}</th>
                                     <th>{{ __('Country') }}</th>
                                     <th>{{ __('Status') }}</th>
                                     <th>{{ __('Action') }}</th>
@@ -46,7 +46,7 @@
                                             @can('state-bulk-action')
                                                 <x-bulk-action.td :id="$state->id" />
                                             @endcan
-                                            <td>{{ $loop->iteration }}</td>
+                                            {{-- <td>{{ $loop->iteration }}</td> --}}
                                             <td>{{ $state->name }}</td>
                                             <td>{{ optional($state->country)->name }}</td>
                                             <td><x-status-span :status="$state->status" /></td>
@@ -104,7 +104,7 @@
                                 <label for="edit_status">{{ __('Status') }}</label>
                                 <select name="status" class="form-control" id="edit_status">
                                     <option value="publish">{{ __('Publish') }}</option>
-                                    <option value="draft">{{ __('Draft') }}</option>
+                                    <option value="draft">{{ __('Unpublish') }}</option>
                                 </select>
                             </div>
                         </div>
@@ -148,7 +148,7 @@
                                 <label for="status">{{ __('Status') }}</label>
                                 <select name="status" class="form-control" id="status">
                                     <option value="publish">{{ __('Publish') }}</option>
-                                    <option value="draft">{{ __('Draft') }}</option>
+                                    <option value="draft">{{ __('Unpublish') }}</option>
                                 </select>
                             </div>
                             <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4">{{ __('Add') }}</button>

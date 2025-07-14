@@ -17,30 +17,38 @@
 @section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row g-4">
-            <div class="col-lg-7">
+            <div class="col-12">
+                <div class="btn-wrapper mb-4">
+                    <a data-bs-toggle="modal" data-bs-target="#add-refund-modal" href="#1" class="cmn_btn btn_bg_profile"
+                        data-text="Create New Role">
+                        {{ __('Add New Refund Payment Method') }}
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-12">
                 <x-msg.error />
                 <x-flash-msg />
                 <div class="dashboard__card card__two">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Refund Options') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('Refund Payment Methods') }}</h4>
                     </div>
                     <div class="dashboard__card__body">
                         <div class="table-wrap">
                             <table class="table-responsive table" id="dataTable">
                                 <thead>
                                     <tr>
-                                        <th>{{ __('Serial No.') }}</th>
+                                        {{-- <th>{{ __('Serial No.') }}</th> --}}
                                         <th>{{ __('Payment Method') }}</th>
-                                        <th>{{ __('Payment Method Fields') }}</th>
+                                        <th>{{ __('Method Fields') }}</th>
                                         <th>{{ __('Is File') }}</th>
-                                        <th>{{ __('Status') }}</th>
+                                        <th>{{ __('Payment Status') }}</th>
                                         <th>{{ __('Action') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($preferredOptions as $preferredOption)
                                         <tr>
-                                            <td>{{ $loop->iteration }}</td>
+                                            {{-- <td>{{ $loop->iteration }}</td> --}}
                                             <td>{{ $preferredOption->name }}</td>
                                             <td>
                                                 @if($preferredOption->is_file == 'yes')
@@ -86,11 +94,11 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-5">
+            {{-- <div class="col-lg-5">
                 @can('refund-preferred-option-store')
                     <div class="dashboard__card card__two">
                         <div class="dashboard__card__header">
-                            <h4 class="dashboard__card__title">{{ __('Refund Preferred Option Create') }}</h4>
+                            <h4 class="dashboard__card__title">{{ __('Create Refund Payment Method') }}</h4>
                         </div>
                         <div class="dashboard__card__body custom__form">
                             <form class="" method="POST" action="{{ route('admin.refund.preferred-option.store') }}">
@@ -98,7 +106,7 @@
                                 <div class="form-group">
                                     <label class="w-100">{{ __('Name:') }}</label>
                                     <input class="form-control" name="gateway_name"
-                                        placeholder="{{ __('Enter gateway name') }}">
+                                        placeholder="{{ __('Enter method name') }}">
 
                                     <small class="info">
                                         {{ __('If you want to merge refund value to user wallet, then use Wallet like this') }}<br>
@@ -117,7 +125,7 @@
                                     <div class="dashboard__card card__two">
                                         <div class="dashboard__card__header">
                                             <h4 class="dashboard__card__title">
-                                                {{ __('Gateway field') }}
+                                                {{ __('Method field') }}
                                             </h4>
                                         </div>
                                         <div class="dashboard__card__body">
@@ -156,6 +164,81 @@
                         </div>
                     </div>
                 @endcan
+            </div> --}}
+        </div>
+    </div>
+
+    <div class="modal fade" id="add-refund-modal" tabindex="-1" aria-hidden="true" aria-labelledby="add-refund-modalLabel">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content custom__form">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"> <b>{{ __('Create Refund Payment Method') }}</b> </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form class="" method="POST" action="{{ route('admin.refund.preferred-option.store') }}">
+                    <div class="modal-body">
+
+                        @csrf
+                        <div class="form-group">
+                            <label class="w-100">{{ __('Name') }}</label>
+                            <input class="form-control" name="gateway_name"
+                                placeholder="{{ __('Enter method name') }}">
+
+                            <small class="info">
+                                {{ __('If you want to merge refund value to user wallet, then use Wallet like this') }}<br>
+                                {{ __('Only for wallet') }}
+                            </small>
+                        </div>
+
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" name="is_file" id="is_file_checkbox" value="yes">
+                                {{ __('Is File') }}
+                            </label>
+                        </div>
+
+                        <div class="form-group overflow-auto" id="fields_container" style="max-height: 400px;">
+                            <div class="dashboard__card card__two">
+                                <div class="dashboard__card__header">
+                                    <h4 class="dashboard__card__title">
+                                        {{ __('Method field') }}
+                                    </h4>
+                                </div>
+                                <div class="dashboard__card__body">
+                                    <div class="form-group row">
+                                        <div class="w-90 d-flex align-items-center">
+                                            <input class="form-control" name="filed[]"
+                                                placeholder="{{ __('Enter filed name') }}">
+                                        </div>
+                                        <div
+                                            class="col-md-1 d-flex flex-column align-items-center justify-content-center pb-2 gap-2">
+                                            <button type="button" class="btn btn-primary btn-sm gateway-filed-add">
+                                                <i class="las la-plus"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-danger btn-sm gateway-filed-remove">
+                                                <i class="las la-trash-alt"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>{{ __('Select Status') }}</label>
+                            <select name="status_id" class="form-control">
+                                <option value="">{{ __('Select Status') }}</option>
+                                <option value="1">{{ __('Active') }}</option>
+                                <option value="2">{{ __('Inactive') }}</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                        <button type="submit" class="btn btn-primary">{{ __('Add') }}</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -173,7 +256,7 @@
 
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">
-                                {{ __('Refund preferred option update') }}
+                                {{ __('Refund Payment Method Update') }}
                             </h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>

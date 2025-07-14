@@ -19,7 +19,7 @@
         </div>
         <div class="dashboard__card">
             <div class="dashboard__card__header">
-                <h4 class="dashboard__card__title">{{ __('Support Departments') }}</h4>
+                <h4 class="dashboard__card__title">{{ __('Support Ticket Departments') }}</h4>
                 @can('support-tickets-department-bulk-action')
                     <x-bulk-action.dropdown />
                 @endcan
@@ -44,7 +44,7 @@
                                     <td>{{ $data->name }}</td>
                                     <td>
                                         @if ('publish' == $data->status)
-                                            <span class="badge bg-success">{{ ucfirst(__($data->status)) }}</span>
+                                            <span class="badge bg-primary">{{ ucfirst(__($data->status)) }}</span>
                                         @else
                                             <span class="badge bg-warning">{{ ucfirst(__($data->status)) }}</span>
                                         @endif
@@ -85,7 +85,7 @@
             <div class="modal-dialog">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
-                        <h5 class="modal-title">{{ __('Add New Department') }}</h5>
+                        <h5 class="modal-title">{{ __('Add New Support Ticket Department') }}</h5>
                         <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
                     </div>
 
@@ -107,7 +107,7 @@
                                     {{ __('Status') }}
                                     <span class="text-danger">*</span>
                                 </label>
-                                <select name="status" class="form-control" id="status">
+                                <select name="status" class="form-select" id="status">
                                     <option value="publish">{{ __('Publish') }}</option>
                                     <option value="draft">{{ __('Draft') }}</option>
                                 </select>
@@ -129,7 +129,7 @@
             <div class="modal-dialog">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
-                        <h5 class="modal-title">{{ __('Update Department') }}</h5>
+                        <h5 class="modal-title">{{ __('Update Support Ticket Department') }}</h5>
                         <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
                     </div>
                     <form action="{{ route('admin.support.ticket.department.update') }}" method="post">
@@ -149,7 +149,7 @@
                                     {{ __('Status') }}
                                     <span class="text-danger">*</span>
                                 </label>
-                                <select name="status" class="form-control" id="edit_status">
+                                <select name="status" class="form-select" id="edit_status">
                                     <option value="draft">{{ __('Draft') }}</option>
                                     <option value="publish">{{ __('Publish') }}</option>
                                 </select>

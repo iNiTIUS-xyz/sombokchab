@@ -37,7 +37,7 @@
                                     @can('campaigns-bulk-action')
                                         <x-bulk-action.th />
                                     @endcan
-                                    <th>{{ __('ID') }}</th>
+                                    {{-- <th>{{ __('ID') }}</th> --}}
                                     <th>{{ __('Name') }}</th>
                                     <th>{{ __('Image') }}</th>
                                     <th>{{ __('Status') }}</th>
@@ -49,7 +49,7 @@
                                             @can('campaigns-bulk-action')
                                                 <x-bulk-action.td :id="$campaign->id" />
                                             @endcan
-                                            <td>{{ $loop->iteration }}</td>
+                                            {{-- <td>{{ $loop->iteration }}</td> --}}
                                             <td>{{ $campaign->title }}</td>
                                             <x-table.td-image :image="$campaign->image" />
                                             <td><x-status-span :status="$campaign->status" /></td>

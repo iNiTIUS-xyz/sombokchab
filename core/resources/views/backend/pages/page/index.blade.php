@@ -73,7 +73,7 @@
                                             <td>{{ $page->created_at->diffForHumans() }}</td>
                                             <td>
                                                 @if ($page->status === 'publish')
-                                                    <span class="badge bg-success">{{ __('Published') }}</span>
+                                                    <span class="badge bg-primary">{{ __('Published') }}</span>
                                                 @else
                                                     <span class="badge bg-warning">{{ __('Draft') }}</span>
                                                 @endif

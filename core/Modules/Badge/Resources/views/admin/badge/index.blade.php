@@ -19,13 +19,15 @@
 @section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row">
-            <div class="col-lg-12">
-                <div class="">
-                    <x-error-msg />
-                    <x-flash-msg />
-                </div>
+            <x-error-msg />
+            <x-flash-msg />
+            <div class="mb-4">
+                @can('badge-new')
+                    <a href="#1" data-bs-toggle="modal" data-bs-target="#badge_add_modal"
+                        class="cmn_btn btn_bg_profile">{{ __('Add New Badge') }}</a>
+                @endcan
             </div>
-            <div class="col-lg-8">
+            <div class="col-lg-12">
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('All Badges') }}</h4>
@@ -43,7 +45,7 @@
                             <table class="table table-default" id="dataTable">
                                 <thead>
                                     <x-bulk-action.th />
-                                    <th>{{ __('ID') }}</th>
+                                    {{-- <th>{{ __('ID') }}</th> --}}
                                     <th>{{ __('Name') }}</th>
                                     <th>{{ __('Image') }}</th>
                                     <th>{{ __('Status') }}</th>
@@ -53,12 +55,17 @@
                                     @foreach ($badges as $badge)
                                         <tr>
                                             <x-bulk-action.td :id="$badge->id" />
-                                            <td>{{ $loop->iteration }}</td>
+                                            {{-- <td>{{ $loop->iteration }}</td> --}}
                                             <td>{{ $badge->name }}</td>
                                             <td>
                                                 {!! render_image_markup_by_attachment_id($badge->image, 'badge_image') !!}
                                             </td>
-                                            <td>{{ $badge->status }}</td>
+                                            <td>
+                                                <span class="badge {{ $badge->status == 'active' ? 'bg-primary' : 'bg-danger' }}">
+                                                    {{ ucfirst($badge->status) }}
+                                                </span>
+                                            </td>
+
                                             <td>
                                                 @can('badge-update')
                                                     @php
@@ -88,7 +95,7 @@
                     </div>
                 </div>
             </div>
-            @can('badge-new')
+            {{-- @can('badge-new')
                 <div class="col-lg-4">
                     <div class="dashboard__card">
                         <div class="dashboard__card__header">
@@ -123,15 +130,60 @@
                         </div>
                     </div>
                 </div>
-            @endcan
+            @endcan --}}
         </div>
     </div>
+
+
+     @can('badge-new')
+        <div class="modal fade" id="badge_add_modal" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content custom__form">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{{ __('Add Badge') }}</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
+                    </div>
+                    <form action="{{ route('admin.badge.store') }}" method="post" enctype="multipart/form-data">
+                            @csrf
+                        <div class="modal-body mx-3">
+                            <div class="row">
+                                <div class="form-group">
+                                    <label for="name">{{ __('Name') }}</label>
+                                    <input type="text" class="form-control" id="name" name="name"
+                                        placeholder="{{ __('Enter name') }}">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="status">{{ __('Status') }}</label>
+                                    <select class="form-control" name="status" id="status">
+                                        <option value="" selected disabled>Select a badge type</option>
+                                        <option value="active">{{ __('Active') }}</option>
+                                        <option value="in_active">{{ __('In Active') }}</option>
+                                    </select>
+                                </div>
+
+                                <x-media.media-upload :name="'image'" :title="'Badge Image'" />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                            <button type="submit" class="btn btn-primary">
+                                {{ __('Add') }}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endcan
+
+
     @can('badge-update')
         <div class="modal fade" id="badge_edit_modal" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
-                        <h5 class="modal-title">{{ __('Update Unit') }}</h5>
+                        <h5 class="modal-title">{{ __('Update Badge') }}</h5>
                         <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
                     </div>
                     <form action="" method="post" id="badge_edit_modal_form">

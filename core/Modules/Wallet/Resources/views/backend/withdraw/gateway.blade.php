@@ -19,11 +19,19 @@
         <div class="row">
             <x-msg.error />
             <x-flash-msg />
-            <div class="col-lg-7">
+            <div class="col-12">
+                <div class="btn-wrapper mb-4">
+                    <a data-bs-toggle="modal" data-bs-target="#add-gateway-modal" href="#1" class="cmn_btn btn_bg_profile"
+                        data-text="Create New Role">
+                        {{ __('Add New Payment Method') }}
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-12">
                 <div class="dashboard__card card__two">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">
-                            {{ __('Vendor wallet payment methods') }}
+                            {{ __('Vendor Wallet Payment Methods') }}
                         </h4>
                     </div>
                     <div class="dashboard__card__body">
@@ -31,17 +39,17 @@
                             <table class="table" id="dataTable">
                                 <thead>
                                     <tr>
-                                        <th>{{ __('Serial No.') }}</th>
-                                        <th>{{ __('Payment Method:') }}</th>
-                                        <th>{{ __('Gateway Field/s') }}</th>
-                                        <th>{{ __('Gateway Status:') }}</th>
+                                        {{-- <th>{{ __('Serial No.') }}</th> --}}
+                                        <th>{{ __('Payment Method') }}</th>
+                                        <th>{{ __('Method Field/s') }}</th>
+                                        <th>{{ __('Method Status') }}</th>
                                         <th>{{ __('Action') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($gateways as $gateway)
                                         <tr>
-                                            <td>{{ $loop->iteration }}</td>
+                                            {{-- <td>{{ $loop->iteration }}</td> --}}
                                             <td>{{ $gateway->name }}</td>
                                             <td>{{ implode(' , ', unserialize($gateway->filed)) }}</td>
                                             <td>
@@ -74,10 +82,10 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-5">
+            {{-- <div class="col-lg-5">
                 <div class="dashboard__card card__two">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Vendor wallet payment gateway create') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('Create Vendor Wallet Payment Method') }}</h4>
                     </div>
                     <div class="dashboard__card__body custom__form">
                         <form class="" method="POST" action="{{ route('admin.wallet.withdraw.gateway') }}">
@@ -85,12 +93,12 @@
                             <div class="form-group">
                                 <label class="w-100">{{ __('Name:') }}</label>
                                 <input class="form-control" name="gateway_name"
-                                    placeholder="{{ __('Enter gateway name') }}">
+                                    placeholder="{{ __('Enter method name') }}">
                             </div>
                             <div class="dashboard__card card__two">
                                 <div class="dashboard__card__header">
                                     <h4 class="dashboard__card__title">
-                                        {{ __('Gateway field') }}
+                                        {{ __('Method field') }}
                                     </h4>
                                 </div>
                                 <div class="dashboard__card__body">
@@ -129,6 +137,67 @@
                         </form>
                     </div>
                 </div>
+            </div> --}}
+        </div>
+    </div>
+
+    <div class="modal fade" id="add-gateway-modal" tabindex="-1" aria-hidden="true" aria-labelledby="add-gateway-modalLabel">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content custom__form">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"> <b>{{ __('Create Wallet Payment Method') }}</b> </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form class="" method="POST" action="{{ route('admin.wallet.withdraw.gateway') }}">
+                    <div class="modal-body">
+
+                        @csrf
+                        <div class="form-group">
+                            <label class="w-100">{{ __('Name:') }}</label>
+                            <input class="form-control" name="gateway_name"
+                                placeholder="{{ __('Enter method name') }}">
+                        </div>
+                        <div class="dashboard__card card__two">
+                            <div class="dashboard__card__header">
+                                <h4 class="dashboard__card__title">
+                                    {{ __('Method field') }}
+                                </h4>
+                            </div>
+                            <div class="dashboard__card__body">
+                                <div class="form-group row">
+                                    <div class="w-90 d-flex align-items-center">
+                                        <input class="form-control" name="filed[]"
+                                            placeholder="{{ __('Enter filed name') }}">
+                                    </div>
+                                    <div
+                                        class="col-md-1 d-flex flex-column align-items-center justify-content-center pb-2 gap-2">
+                                        <button type="button" class="btn btn-primary btn-sm gateway-filed-add"
+                                            title="{{ __('Add') }}">
+                                            <i class="las la-plus"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-sm gateway-filed-remove"
+                                            title="{{ __('Remove') }}">
+                                            <i class="las la-trash-alt"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>{{ __('Select Status') }}</label>
+                            <select name="status_id" class="form-control">
+                                <option value="">{{ __('Select Status') }}</option>
+                                <option value="1">{{ __('Active') }}</option>
+                                <option value="2">{{ __('Inactive') }}</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                        <button type="submit" class="btn btn-primary">{{ __('Add') }}</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

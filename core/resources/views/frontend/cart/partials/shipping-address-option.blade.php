@@ -174,7 +174,7 @@
         <p>{{ $shipping_address->email }}</p>
         <p>{{ $shipping_address->zip_code }}</p>
         @if ($isDefault)
-            <span class="badge bg-success">Default</span>
+            <span class="badge bg-primary">Default</span>
         @endif
     </div>
     <div class="btn-wrapper">

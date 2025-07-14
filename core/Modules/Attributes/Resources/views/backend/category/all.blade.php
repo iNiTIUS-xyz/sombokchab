@@ -41,7 +41,7 @@
                                     @can('categories-bulk-action')
                                         <x-bulk-action.th />
                                     @endcan
-                                    <th>{{ __('Serial No.') }}</th>
+                                    {{-- <th>{{ __('Serial No.') }}</th> --}}
                                     <th>{{ __('Name') }}</th>
                                     <th>{{ __('Image') }}</th>
                                     <th>{{ __('Status') }}</th>
@@ -54,7 +54,7 @@
                                             @can('categories-bulk-action')
                                                 <x-bulk-action.td :id="$category->id" />
                                             @endcan
-                                            <td>{{ $loop->iteration }}</td>
+                                            {{-- <td>{{ $loop->iteration }}</td> --}}
                                             <td>{{ $category->name }}</td>
                                             <td>
                                                 <div class="attachment-preview">

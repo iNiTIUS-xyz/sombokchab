@@ -1,6 +1,6 @@
 @extends('backend.admin-master')
 @section('site-title')
-    {{ __('All Product Size') }}
+    {{ __('All Sizes') }}
 @endsection
 @section('style')
     <x-bulk-action.css />
@@ -8,11 +8,18 @@
 @section('content')
     <div class="col-lg-12 col-ml-12 padding-bottom-20">
         <div class="row g-4">
-            <div class="col-lg-7">
+            <div class="col-lg-12">
+                <x-error-msg />
                 <x-flash-msg />
+                <div class="mb-4">
+                    @can('sizes-new')
+                        <a href="#1" data-bs-toggle="modal" data-bs-target="#size_add_modal"
+                            class="cmn_btn btn_bg_profile">{{ __('Add New Size') }}</a>
+                    @endcan
+                </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('All Product Sizes') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('All Sizes') }}</h4>
                         @can('sizes-bulk-action')
                             <x-bulk-action.dropdown />
                         @endcan
@@ -24,7 +31,7 @@
                                     @can('sizes-bulk-action')
                                         <x-bulk-action.th />
                                     @endcan
-                                    <th>{{ __('ID') }}</th>
+                                    {{-- <th>{{ __('ID') }}</th> --}}
                                     <th>{{ __('Name') }}</th>
                                     <th>{{ __('Size Code') }}</th>
                                     <th>{{ __('Slug') }}</th>
@@ -36,7 +43,7 @@
                                             @can('sizes-bulk-action')
                                                 <x-bulk-action.td :id="$product_size->id" />
                                             @endcan
-                                            <td>{{ $loop->iteration }}</td>
+                                            {{-- <td>{{ $loop->iteration }}</td> --}}
                                             <td>{{ $product_size->name }}</td>
                                             <td>{{ $product_size->size_code }}</td>
                                             <td>{{ $product_size->slug }}</td>
@@ -63,7 +70,7 @@
                     </div>
                 </div>
             </div>
-            @can('sizes-new')
+            {{-- @can('sizes-new')
                 <div class="col-md-5">
                     <div class="dashboard__card">
                         <div class="dashboard__card__header">
@@ -96,15 +103,57 @@
                         </div>
                     </div>
                 </div>
-            @endcan
+            @endcan --}}
         </div>
     </div>
+
+    @can('sizes-new')
+        <div class="modal fade" id="size_add_modal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content custom__form">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{{ __('Add Size') }}</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
+                    </div>
+                    <form action="{{ route('admin.product.sizes.new') }}" method="POST">
+                        <div class="modal-body">
+                            @csrf
+                            <div class="form-group">
+                                <label for="name">{{ __('Name') }}</label>
+                                <input type="text" class="form-control" id="name" name="name"
+                                    placeholder="{{ __('Enter name') }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="size_code">{{ __('Size Code') }}</label>
+                                <input type="text" class="form-control" id="size_code" name="size_code"
+                                    placeholder="{{ __('Enter size code') }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="slug">{{ __('Slug') }}</label>
+                                <input type="text" class="form-control" id="slug" name="slug"
+                                    placeholder="{{ __('Enter slug') }}">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                {{ __('Close') }}
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                {{ __('Add') }}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endcan
+
     @can('sizes-update')
         <div class="modal fade" id="size_edit_modal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
-                        <h5 class="modal-title">{{ __('Edit Product Size') }}</h5>
+                        <h5 class="modal-title">{{ __('Edit Size') }}</h5>
                         <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
                     </div>
                     <form action="{{ route('admin.product.sizes.update') }}" method="post">

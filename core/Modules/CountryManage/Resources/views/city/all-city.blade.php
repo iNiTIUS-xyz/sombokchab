@@ -1,6 +1,6 @@
 @extends('backend.admin-master')
 
-@section('site-title', __('All Provinces'))
+@section('site-title', __('All Cities'))
 
 @section('style')
     <x-select2.select2-css />
@@ -24,12 +24,12 @@
     <div class="row g-4">
         <div class="col-lg-12">
             <div class="mb-4">
-                <x-btn.add-modal :title="__('Add Province')" />
+                <x-btn.add-modal :title="__('Add City')" />
             </div>
             <div class="dashboard__card">
                 <div class="dashboard__card__header">
                     <h4 class="dashboard__card__title">
-                        {{ __('All Provinces') }}
+                        {{ __('All Cities') }}
                     </h4>
                     <div class="dashboard__card__header__right">
                         <x-bulk-action.bulk-action />

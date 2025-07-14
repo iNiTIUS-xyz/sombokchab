@@ -20,9 +20,9 @@
 @if($status === 0)
     <span class="badge bg-danger" >{{__('Inactive')}}</span>
 @elseif($status === 1)
-    <span class="badge bg-success" >{{__('Active')}}</span>
+    <span class="badge bg-primary" >{{__('Active')}}</span>
 @elseif($status === 'complete')
-    <span class="badge bg-success" >{{__('Complete')}}</span>
+    <span class="badge bg-primary" >{{__('Complete')}}</span>
 @elseif($status === 'close')
     <span class="badge bg-danger" >{{__('Close')}}</span>
 @elseif($status === 'draft')
@@ -34,11 +34,11 @@
 @elseif($status === 'schedule')
     <span class="badge bg-warning" >{{__('Schedule')}}</span>
 @elseif($status === 'publish')
-    <span class="badge bg-success" >{{__('Published')}}</span>
+    <span class="badge bg-primary" >{{__('Published')}}</span>
 @elseif($status === 'confirm')
-    <span class="badge bg-success" >{{__('Confirm')}}</span>
+    <span class="badge bg-primary" >{{__('Confirm')}}</span>
 @elseif($status === 'yes')
-    <span class="badge bg-success" >{{__('Yes')}}</span>
+    <span class="badge bg-primary" >{{__('Yes')}}</span>
 @elseif($status === 'no')
     <span class="badge bg-danger" >{{__('No')}}</span>
 @elseif($status === 'cancel')

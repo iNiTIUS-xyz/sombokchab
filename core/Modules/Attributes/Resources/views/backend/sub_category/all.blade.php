@@ -20,12 +20,12 @@
                 <div class="mb-4">
                     @can('sub-categories-new')
                         <a href="#1" data-bs-toggle="modal" data-bs-target="#category_create_modal"
-                            class="cmn_btn btn_bg_profile">{{ __('Add New Sub Category') }}</a>
+                            class="cmn_btn btn_bg_profile">{{ __('Add New Sub-category') }}</a>
                     @endcan
                 </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h3 class="dashboard__card__title">{{ __('Product Sub-Categories') }}</h3>
+                        <h3 class="dashboard__card__title">{{ __('Product Sub-categories') }}</h3>
                         <div class="dashboard__card__header__right">
                             @can('sub-categories-delete')
                                 <x-bulk-action.dropdown />
@@ -37,8 +37,9 @@
                             <table class="table table-default" id="dataTable">
                                 <thead>
                                     <x-bulk-action.th />
-                                    <th>{{ __('Serial No.') }}</th>
+                                    {{-- <th>{{ __('Serial No.') }}</th> --}}
                                     <th>{{ __('Name') }}</th>
+                                    <th>{{ __('Main Category') }}</th>
                                     <th>{{ __('Image') }}</th>
                                     <th>{{ __('Status') }}</th>
                                     <th>{{ __('Action') }}</th>
@@ -50,8 +51,9 @@
                                             @can('sub-categories-bulk-action')
                                                 <x-bulk-action.td :id="$category->id" />
                                             @endcan
-                                            <td>{{ $loop->iteration }}</td>
+                                            {{-- <td>{{ $loop->iteration }}</td> --}}
                                             <td>{{ $category->name }}</td>
+                                            <td>{{ $category->category->name }}</td>
                                             <td>
                                                 <div class="attachment-preview">
                                                     <div class="img-wrap">

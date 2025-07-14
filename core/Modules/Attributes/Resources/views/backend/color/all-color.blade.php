@@ -1,6 +1,6 @@
 @extends('backend.admin-master')
 @section('site-title')
-    {{ __('All Product Color') }}
+    {{ __('All Colors') }}
 @endsection
 @section('style')
     <x-bulk-action.css />
@@ -8,12 +8,18 @@
 @section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row g-4">
-            <div class="col-lg-7">
+            <div class="col-lg-12">
                 <x-error-msg />
                 <x-flash-msg />
+                <div class="mb-4">
+                    @can('colors-new')
+                        <a href="#1" data-bs-toggle="modal" data-bs-target="#color_add_modal"
+                            class="cmn_btn btn_bg_profile">{{ __('Add New Color') }}</a>
+                    @endcan
+                </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('All Product Colors') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('All Colors') }}</h4>
                         @can('colors-bulk-action')
                             <x-bulk-action.dropdown />
                         @endcan
@@ -25,7 +31,7 @@
                                     @can('colors-bulk-action')
                                         <x-bulk-action.th />
                                     @endcan
-                                    <th>{{ __('ID') }}</th>
+                                    {{-- <th>{{ __('ID') }}</th> --}}
                                     <th>{{ __('Name') }}</th>
                                     <th>{{ __('Color Code') }}</th>
                                     <th>{{ __('Slug') }}</th>
@@ -37,7 +43,7 @@
                                             @can('colors-bulk-action')
                                                 <x-bulk-action.td :id="$product_color->id" />
                                             @endcan
-                                            <td>{{ $loop->iteration }}</td>
+                                            {{-- <td>{{ $loop->iteration }}</td> --}}
                                             <td>{{ $product_color->name }}</td>
                                             <td>
                                                 <p class="mb-0">{{ $product_color->color_code }}</p>
@@ -70,7 +76,7 @@
                     </div>
                 </div>
             </div>
-            @can('colors-new')
+            {{-- @can('colors-new')
                 <div class="col-md-5">
                     <div class="dashboard__card">
                         <div class="dashboard__card__header">
@@ -102,9 +108,48 @@
                         </div>
                     </div>
                 </div>
-            @endcan
+            @endcan --}}
         </div>
     </div>
+
+    @can('colors-new')
+    <div class="modal fade" id="color_add_modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content custom__form">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ __('Add Color') }}</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
+                </div>
+                <form action="{{ route('admin.product.colors.new') }}" method="POST">
+                    <div class="modal-body">
+                        @csrf
+                        <div class="form-group">
+                            <label for="name">{{ __('Name') }}</label>
+                            <input type="text" class="form-control" id="name" name="name"
+                                placeholder="{{ __('Enter name') }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="color_code">{{ __('Color Code') }}</label>
+                            <input type="color" class="form-control w-25 p-1" id="color_code" name="color_code">
+                        </div>
+                        <div class="form-group">
+                            <label for="slug">{{ __('Slug') }}</label>
+                            <input type="text" class="form-control" id="slug" name="slug"
+                                placeholder="{{ __('Enter slug') }}">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                        <button type="submit" class="btn btn-primary">
+                            {{ __('Add') }}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    @endcan
     @can('colors-update')
         <div class="modal fade" id="color_edit_modal" aria-hidden="true">
             <div class="modal-dialog">

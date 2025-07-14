@@ -3,7 +3,7 @@
     <x-media.css />
 @endsection
 @section('site-title')
-    {{ __('Login/Register Page Settings') }}
+    {{ __('Sign In /Sign Up Page Settings') }}
 @endsection
 @section('content')
     @can('page-settings-login-register-page')
@@ -14,7 +14,7 @@
                     <x-msg.error />
                     <div class="dashboard__card">
                         <div class="dashboard__card__header">
-                            <h4 class="dashboard__card__title">{{ __('Login/Register Page Settings') }}</h4>
+                            <h4 class="dashboard__card__title">{{ __('Sign In /Sign Up Page Settings') }}</h4>
                         </div>
                         <div class="dashboard__card__body custom__form mt-4">
                             <form action="{{ route('admin.page.settings.user.auth') }}" method="POST">

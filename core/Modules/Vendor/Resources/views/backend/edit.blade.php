@@ -74,11 +74,11 @@
                                                     </h4>
                                                     @if ($vendor->is_vendor_verified && $vendor->verified_at)
                                                         <p class="text-success">
-                                                            The vandor is verified
+                                                            The vendor is verified
                                                         </p>
                                                     @else
                                                         <p class="text-warning">
-                                                            The vandor is not verified.
+                                                            The vendor is not verified.
                                                         </p>
                                                     @endif
                                                 </div>
@@ -386,11 +386,11 @@
                                                     <br>
                                                     @if ($vendor?->vendor_bank_info?->is_varify && $vendor?->vendor_bank_info?->varify_at)
                                                         <p class="text-success">
-                                                            The vandor bank information approved
+                                                            The vendor bank information approved
                                                         </p>
                                                     @else
                                                         <p class="text-warning">
-                                                            The vandor bank information is pending.
+                                                            The vendor bank information is pending.
                                                         </p>
                                                     @endif
                                                 </div>

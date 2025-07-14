@@ -22,7 +22,7 @@ class AdminRoleManageController extends Controller
      */
     public function index()
     {
-        $roles = Role::orderBy('hierarchy', 'asc')->get();
+        $roles = Role::get();
 
         return view("rolepermission::admin-manage.roles.index", compact("roles"));
     }
@@ -49,11 +49,11 @@ class AdminRoleManageController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            "hierarchy" => "required",
+            // "hierarchy" => "required",
             "name" => "required"
         ]);
         Role::create([
-            "hierarchy" => $request->hierarchy,
+            // "hierarchy" => $request->hierarchy,
             "name" => $request->name
         ]);
 
@@ -70,11 +70,11 @@ class AdminRoleManageController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            "hierarchy" => "required",
+            // "hierarchy" => "required",
             "name" => "required"
         ]);
         Role::find($id)->update([
-            "hierarchy" => $request->hierarchy,
+            // "hierarchy" => $request->hierarchy,
             "name" => $request->name
         ]);
 
