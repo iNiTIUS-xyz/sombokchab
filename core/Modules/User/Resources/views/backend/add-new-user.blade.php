@@ -84,7 +84,7 @@
                                         </label>
                                         <select name="city" class="form-select">
                                             <option value="" disabled selected>{{ __('Select province') }}</option>
-                                            @foreach ($cities as $item)
+                                            @foreach ($states as $item)
                                                 <option value="{{ $item->id }}">
                                                     {{ $item->name }}
                                                 </option>
@@ -101,7 +101,8 @@
                                         </label>
                                         <select name="state" class="form-select">
                                             <option value="" disabled selected>{{ __('Select city') }}</option>
-                                            @foreach ($states as $item)
+
+                                            @foreach ($cities as $item)
                                                 <option value="{{ $item->id }}">
                                                     {{ $item->name }}
                                                 </option>
@@ -109,7 +110,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                
+
                                 <div class="col-md-6 mb-3">
                                     <div class="form-group">
                                         <label for="zipcode">

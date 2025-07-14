@@ -29,7 +29,6 @@
                         <div class="table-responsive">
                             <table class="table table-default" id="dataTable">
                                 <thead>
-                                    <th>{{ __('Sl NO') }}</th>
                                     <th>{{ __('Title') }}</th>
                                     <th>{{ __('Description') }}</th>
                                     <th>{{ __('image') }}</th>
@@ -38,7 +37,6 @@
                                 <tbody>
                                     @foreach ($mobileIntros as $slider)
                                         <tr>
-                                            <td>{{ $loop->iteration }}</td>
                                             <td>{{ $slider->title }}</td>
                                             <td>{{ $slider->description }}</td>
                                             <td>

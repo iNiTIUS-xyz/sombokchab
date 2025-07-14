@@ -22,7 +22,6 @@
                     <table class="table" id="dataTable">
                         <thead>
                             <tr>
-                                <th>{{ __('Serial No.') }}</th>
                                 <th>{{ __('Full Name') }}</th>
                                 <th>{{ __('Address') }}</th>
                                 <th>{{ __('Is Default') }}</th>
@@ -32,7 +31,6 @@
                         <tbody>
                             @foreach ($all_shipping_address as $address)
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
                                     <td>{{ $address->name }}</td>
                                     <td>{{ $address->address }}</td>
                                     <td>
@@ -46,9 +44,8 @@
                                         @if ($address->is_default != 1)
                                             <a href="{{ route('user.shipping.address.make-default', $address->id) }}"
                                                 class="btn btn-secondary btn-xs mb-2 me-1" title="Make Default">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    fill="currentColor" class="bi bi-bookmark-check-fill"
-                                                    viewBox="0 0 16 16">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                                    class="bi bi-bookmark-check-fill" viewBox="0 0 16 16">
                                                     <path fill-rule="evenodd"
                                                         d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5m8.854-9.646a.5.5 0 0 0-.708-.708L7.5 7.793 6.354 6.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z" />
                                                 </svg>
@@ -82,7 +79,7 @@
     <script src="{{ asset('assets/js/dataTables.bootstrap4.min.js') }}"></script>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             // Initialize DataTable only if the table exists
             if ($('#dataTable').length) {
                 $('#dataTable').DataTable({
@@ -102,11 +99,11 @@
     </script>
 
     <script>
-        $(document).ready(function() {
-            $(document).on('click', '.bodyUser_overlay', function() {
+        $(document).ready(function () {
+            $(document).on('click', '.bodyUser_overlay', function () {
                 $('.user-dashboard-wrapper, .bodyUser_overlay').removeClass('show');
             });
-            $(document).on('click', '.mobile_nav', function() {
+            $(document).on('click', '.mobile_nav', function () {
                 $('.user-dashboard-wrapper, .bodyUser_overlay').addClass('show');
             });
         });

@@ -32,7 +32,6 @@
                         <table class="table" id="dataTable">
                             <thead>
                                 <tr>
-                                    <th>{{ __('Serial No.') }}</th>
                                     <th>{{ __('Reason Title') }}</th>
                                     <th>{{ __('Action') }}</th>
                                 </tr>
@@ -40,7 +39,6 @@
                             <tbody>
                                 @foreach ($reasons as $reason)
                                     <tr>
-                                        <td>{{ $loop->iteration }}</td>
                                         <td>{{ $reason->name }}</td>
                                         <td>
                                             @can('refund-reason-update')
