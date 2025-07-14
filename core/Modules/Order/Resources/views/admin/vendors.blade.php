@@ -26,7 +26,6 @@
                 <table class="table" id="dataTable">
                     <thead>
                         <tr>
-                            <th>{{ __('Serial No.') }}</th>
                             <th style="width:80px">{{ __('Image') }}</th>
                             <th>{{ __('Info') }}</th>
                             <th>{{ __('Total Product') }}</th>
@@ -40,7 +39,6 @@
                     <tbody>
                         @foreach ($vendors as $vendor)
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
                                 <td>
                                     <div class="table-image">{!! render_image($vendor->logo) !!}</div>
                                 </td>

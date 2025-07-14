@@ -14,7 +14,6 @@
                     <input type="checkbox" class="all-checkbox">
                 </div>
             </th>
-            <th> {{ __('Serial No.') }} </th>
             <th> {{ __('Name') }} </th>
             <th> {{ __('Brand') }} </th>
             <th> {{ __('Categories') }} </th>
@@ -28,9 +27,6 @@
             <tr class="table-cart-row">
                 <td data-label="Check All">
                     <x-product::table.bulk-delete-checkbox :id="$product->id" />
-                </td>
-                <td data-label="Check All">
-                    {{ $loop->iteration }}
                 </td>
                 <td class="product-name-info ">
                     <div class="d-flex gap-2">
@@ -95,8 +91,7 @@
                             <i class="las la-eye"></i>
                         </a> --}}
                         <a href="{{ route($route . '.products.clone', $product->id) }}"
-                            class="icon clone btn-sm text-white btn btn-secondary"
-                            title="{{ __('Create Duplicate') }}">
+                            class="icon clone btn-sm text-white btn btn-secondary" title="{{ __('Create Duplicate') }}">
                             <i class="las la-copy"></i>
                         </a>
 

@@ -28,9 +28,8 @@
                             <table class="table" id="dataTable">
                                 <thead>
                                     <tr>
-                                        <th>{{ __('Serial No.') }}</th>
-                                        <th>{{ __('Sub Order ID') }}</th>
                                         <th>{{ __('Amount') }}</th>
+                                        <th>{{ __('Sub Order ID') }}</th>
                                         <th>{{ __('Type') }}</th>
                                         <th>{{ __('Date Time') }}</th>
                                     </tr>
@@ -38,9 +37,8 @@
                                 <tbody>
                                     @foreach ($histories as $history)
                                         <tr>
-                                            <td>{{ $loop->iteration ?? '' }}</td>
-                                            <td>{{ $history->sub_order_id ?? '' }}</td>
                                             <td>{{ $history->amount ? float_amount_with_currency_symbol($history->amount) : '' }}
+                                            <td>{{ $history->sub_order_id ?? '' }}</td>
                                             </td>
                                             <td>
                                                 <span class="badge bg-{{ $history->type ? 'success' : 'warning' }}">

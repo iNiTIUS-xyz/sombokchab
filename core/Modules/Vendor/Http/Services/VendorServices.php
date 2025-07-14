@@ -29,7 +29,7 @@ class VendorServices
         if ($type == "create") {
             return Vendor::create($data);
         }
-        
+
         return Vendor::where("id", $data["id"])->update($data);
     }
 

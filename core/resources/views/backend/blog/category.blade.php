@@ -33,7 +33,6 @@
                             <table class="table table-default" id="dataTable">
                                 <thead>
                                     <x-bulk-th />
-                                    <th>{{ __('ID') }}</th>
                                     <th>{{ __('Name') }}</th>
                                     <th>{{ __('Status') }}</th>
                                     <th>{{ __('Action') }}</th>
@@ -44,7 +43,6 @@
                                             <td>
                                                 <x-bulk-delete-checkbox :id="$data->id" />
                                             </td>
-                                            <td>{{ $data->id }}</td>
                                             <td>{{ $data->name }}</td>
                                             <td>
                                                 <x-status-span :status="$data->status" />

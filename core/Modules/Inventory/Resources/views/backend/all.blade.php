@@ -28,7 +28,6 @@
                                     @can('product-inventory-bulk-action')
                                         <x-bulk-action.th />
                                     @endcan
-                                    <th>{{ __('ID') }}</th>
                                     <th>{{ __('Name') }}</th>
                                     <th>{{ __('SKU') }}</th>
                                     <th>{{ __('Stock') }}</th>
@@ -41,7 +40,6 @@
                                             @can('product-inventory-bulk-action')
                                                 <x-bulk-action.td :id="$inventory->id" />
                                             @endcan
-                                            <td>{{ $inventory->id }}</td>
                                             <td>{{ $inventory?->product?->name }}</td>
                                             <td>{{ $inventory->sku }}</td>
                                             <td>{{ $inventory->stock_count ?? 0 }}</td>
@@ -51,7 +49,7 @@
                                                     <x-table.btn.edit :route="route('admin.products.inventory.edit', $inventory->id)" />
                                                 @endcan
                                                 @can('product-inventory-delete')
-                                                    <x-table.btn.swal.delete :route="route('admin.products.inventory.delete', [
+                                                                                <x-table.btn.swal.delete :route="route('admin.products.inventory.delete', [
                                                         'id' => $inventory->id,
                                                     ])" />
                                                 @endcan

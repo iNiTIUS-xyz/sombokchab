@@ -42,7 +42,6 @@
                                     @can('page-bulk-action')
                                         <x-bulk-action.th />
                                     @endcan
-                                    <th>{{ __('Serial No.') }}</th>
                                     <th>{{ __('Title') }}</th>
                                     <th>{{ __('Date') }}</th>
                                     <th>{{ __('Status') }}</th>
@@ -54,7 +53,6 @@
                                             @can('page-bulk-action')
                                                 <x-bulk-action.td :id="$page->id" />
                                             @endcan
-                                            <td>{{ $loop->iteration }}</td>
                                             <td>
                                                 {{ $page->title }}
                                                 @if (isset($dynamic_page_ids[$page->id]))

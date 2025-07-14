@@ -7,7 +7,6 @@
                     <input type="checkbox" class="all-checkbox">
                 </div>
             </th>
-            <th> {{ __('id') }} </th>
             <th> {{ __('Name') }} </th>
             <th> {{ __('Brand') }} </th>
             <th> {{ __('Categories') }} </th>
@@ -24,10 +23,6 @@
                         <x-product::table.bulk-delete-checkbox :id="$product->id" />
                     @endcan
                 </td>
-                <td data-label="Check All" class="text-center">
-                    {{ $product->id }}
-                </td>
-
                 <td class="product-name-info">
                     <div class="d-flex gap-2">
                         <div class="logo-brand position-relative">

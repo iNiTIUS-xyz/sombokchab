@@ -53,7 +53,6 @@
                             <table class="table table-default">
                                 <thead>
                                     <x-bulk-action.th />
-                                    <th>{{ __('ID') }}</th>
                                     <th>{{ __('Name') }}</th>
                                     <th>{{ __('SKU') }}</th>
                                     <th>{{ __('Stock') }}</th>
@@ -64,7 +63,6 @@
                                     @foreach ($all_inventory_products as $inventory)
                                         <tr>
                                             <x-bulk-action.td :id="$inventory->id" />
-                                            <td>{{ $loop->iteration }}</td>
                                             <td>{{ $inventory?->product?->name }}</td>
                                             <td>{{ $inventory->sku }}</td>
                                             <td>{{ $inventory->stock_count ?? 0 }}</td>

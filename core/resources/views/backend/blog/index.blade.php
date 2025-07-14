@@ -34,7 +34,6 @@
                             <table class="table table-default" id="dataTable">
                                 <thead>
                                     <x-bulk-th />
-                                    <th>{{ __('ID') }}</th>
                                     <th>{{ __('Title') }}</th>
                                     <th>{{ __('Image') }}</th>
                                     <th>{{ __('Author') }}</th>
@@ -49,7 +48,6 @@
                                             <td>
                                                 <x-bulk-delete-checkbox :id="$data->id" />
                                             </td>
-                                            <td>{{ $data->id }}</td>
                                             <td>{{ $data->title }}</td>
                                             <td>
                                                 {!! render_attachment_preview_for_admin($data->image) !!}

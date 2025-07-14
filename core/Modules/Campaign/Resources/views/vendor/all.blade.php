@@ -56,7 +56,6 @@
                             <table class="table table-default">
                                 <thead>
                                     <x-bulk-action.th />
-                                    <th>{{ __('Campain No.') }}</th>
                                     <th>{{ __('Campaign Name') }}</th>
                                     <th>{{ __('Image') }}</th>
                                     <th>{{ __('Status') }}</th>
@@ -66,13 +65,11 @@
                                     @foreach ($all_campaigns as $campaign)
                                         <tr>
                                             <x-bulk-action.td :id="$campaign->id" />
-                                            <td>{{ $loop->iteration }}</td>
                                             <td>{{ $campaign->title }}</td>
                                             <x-table.td-image :image="$campaign->image" />
                                             <td><x-status-span :status="$campaign->status" /></td>
                                             <td>
-                                                <a class="btn btn-primary btn-xs mb-2 me-1"
-                                                    title="{{ __('View') }}"
+                                                <a class="btn btn-primary btn-xs mb-2 me-1" title="{{ __('View') }}"
                                                     href="{{ route('frontend.products.campaign', ['id' => $campaign->id, 'slug' => $campaign->slug]) }}">
                                                     <i class="ti-eye"></i>
                                                 </a>

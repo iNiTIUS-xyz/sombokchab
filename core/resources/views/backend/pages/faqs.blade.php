@@ -54,7 +54,6 @@
                                             </div>
                                         </th>
                                     @endcan
-                                    <th>{{ __('Serial No.') }}</th>
                                     <th>{{ __('Title') }}</th>
                                     <th>{{ __('Status') }}</th>
                                     <th>{{ __('Action') }}</th>
@@ -70,7 +69,6 @@
                                                     </div>
                                                 </td>
                                             @endcan
-                                            <td>{{ $loop->iteration }}</td>
                                             <td>{{ $data->title }}</td>
                                             <td>
                                                 @if ($data->status == 'publish')

@@ -27,7 +27,6 @@
                                 <table class="table" id="dataTable">
                                     <thead class="head-bg">
                                         <tr>
-                                            <th> {{ __('Serial No.') }} </th>
                                             <th class="min-width-100"> {{ __('Vendor Info') }} </th>
                                             <th class="min-width-250"> {{ __('Shop Info') }} </th>
                                             <th class="min-width-100"> {{ __('Status') }} </th>
@@ -37,10 +36,6 @@
                                     <tbody>
                                         @foreach ($vendors as $vendor)
                                             <tr class="table-cart-row">
-                                                <td>
-                                                    {{ $loop->iteration }}
-                                                </td>
-
                                                 <td class="price-td" data-label="Name">
                                                     <div class="vendorList__item">
                                                         <span class="vendorList__label vendor-label">{{ __('Name:') }}
