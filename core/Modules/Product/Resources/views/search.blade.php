@@ -7,7 +7,7 @@
                     <input type="checkbox" class="all-checkbox">
                 </div>
             </th>
-            <th> {{ __('id') }} </th>
+            <th> {{ __('Product ID') }} </th>
             <th> {{ __('Name') }} </th>
             <th> {{ __('Brand') }} </th>
             <th> {{ __('Categories') }} </th>
@@ -88,21 +88,21 @@
 
                 <td data-label="Actions">
                     <div class="action-icon">
-                        <a href="{{ route('frontend.products.single', $product->slug) }}"
+                        {{-- <a href="{{ route('frontend.products.single', $product->slug) }}"
                             class="btn btn-success btn-sm" title="{{ __('View Data') }}">
                             <i class="las la-eye"></i>
-                        </a>
+                        </a> --}}
 
                         @can('product-update')
                             <a href="{{ route('admin.products.edit', $product->id) }}"
                                 class="btn btn-warning text-dark btn-sm" title="{{ __('Edit Data') }}">
-                                <i class="las la-pen-alt"></i>
+                                <i class="las la-pencil-alt"></i>
                             </a>
                         @endcan
 
                         @can('product-clone')
                             <a href="{{ route('admin.products.clone', $product->id) }}" class="btn btn-secondary btn-sm"
-                                title="{{ __('Clone Data') }}">
+                                title="{{ __('Duplicate Data') }}">
                                 <i class="las la-copy"></i>
                             </a>
                         @endcan

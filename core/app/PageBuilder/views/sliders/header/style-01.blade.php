@@ -5,7 +5,7 @@
             {{-- <div class="col-lg-3 d-none d-lg-block">
             </div> --}}
             <div class="col-lg-12">
-                <div class="banner-middle-content bg-item-two radius-10">
+                <div class="banner-middle-content bg-item-two radius-10" style="height: 350px;">
                     <div class="global-slick-init dot-style-one banner-dots dot-color-two dot-absolute"
                          data-infinite="true" data-arrows="true" data-dots="true"
                          data-rtl="{{get_user_lang_direction() == 'rtl' ? 'true' : 'false'}}"

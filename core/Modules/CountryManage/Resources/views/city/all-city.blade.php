@@ -24,7 +24,7 @@
     <div class="row g-4">
         <div class="col-lg-12">
             <div class="mb-4">
-                <x-btn.add-modal :title="__('Add City')" />
+                <x-btn.add-modal :title="__('Add New City')" />
             </div>
             <div class="dashboard__card">
                 <div class="dashboard__card__header">

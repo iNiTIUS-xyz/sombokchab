@@ -28,7 +28,7 @@
                                     @can('product-inventory-bulk-action')
                                         <x-bulk-action.th />
                                     @endcan
-                                    <th>{{ __('ID') }}</th>
+                                    {{-- <th>{{ __('ID') }}</th> --}}
                                     <th>{{ __('Name') }}</th>
                                     <th>{{ __('SKU') }}</th>
                                     <th>{{ __('Stock') }}</th>
@@ -41,7 +41,7 @@
                                             @can('product-inventory-bulk-action')
                                                 <x-bulk-action.td :id="$inventory->id" />
                                             @endcan
-                                            <td>{{ $inventory->id }}</td>
+                                            {{-- <td>{{ $inventory->id }}</td> --}}
                                             <td>{{ $inventory?->product?->name }}</td>
                                             <td>{{ $inventory->sku }}</td>
                                             <td>{{ $inventory->stock_count ?? 0 }}</td>

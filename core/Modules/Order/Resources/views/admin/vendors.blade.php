@@ -13,20 +13,20 @@
 @endsection
 
 @section('site-title')
-    {{ __('All Store Orders') }}
+    {{ __('Store Order Summary') }}
 @endsection
 
 @section('content')
     <div class="dashboard__card">
         <div class="dashboard__card__header">
-            <h3 class="dashboard__card__title">{{ __('All Store Orders') }}</h3>
+            <h3 class="dashboard__card__title">{{ __('Store Order Summary') }}</h3>
         </div>
         <div class="dashboard__card__body mt-4">
             <div class="table-responsive">
                 <table class="table" id="dataTable">
                     <thead>
                         <tr>
-                            <th>{{ __('Serial No.') }}</th>
+                            {{-- <th>{{ __('Serial No.') }}</th> --}}
                             <th style="width:80px">{{ __('Image') }}</th>
                             <th>{{ __('Info') }}</th>
                             <th>{{ __('Total Product') }}</th>
@@ -40,7 +40,7 @@
                     <tbody>
                         @foreach ($vendors as $vendor)
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
+                                {{-- <td>{{ $loop->iteration }}</td> --}}
                                 <td>
                                     <div class="table-image">{!! render_image($vendor->logo) !!}</div>
                                 </td>

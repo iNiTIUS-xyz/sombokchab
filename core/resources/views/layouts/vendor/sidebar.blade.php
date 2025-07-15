@@ -65,7 +65,7 @@
                     <li class="{{ active_menu('vendor-home/orders') }}">
                         <a href="{{ route('vendor.orders.list') }}">
                             <i class="ti-view-list-alt"></i>
-                            <span>{{ __('Orders List') }}</span>
+                            <span>{{ __('All Store Orders') }}</span>
                         </a>
                     </li>
                     {{-- <li

@@ -1,13 +1,13 @@
 @extends('backend.admin-master')
 
 @section('site-title')
-    {{ __('Sub Orders List') }}
+    {{ __('All Store Sub Orders') }}
 @endsection
 
 @section('content')
     <div class="dashboard__card">
         <div class="dashboard__card__header">
-            <h4 class="dashboard__card__title">{{ __('Sub Orders List') }}</h4>
+            <h4 class="dashboard__card__title">{{ __('All Store Sub Orders') }}</h4>
         </div>
         <div class="dashboard__card__body mt-4">
             <div class="table-responsive">
@@ -16,6 +16,7 @@
                         <tr>
                             <th>{{ __('Order No.') }}</th>
                             {{-- <th>{{ __('Tracking Number') }}</th> --}}
+                            <th>{{ __('Store Name') }}</th>
                             <th>{{ __('Order Date') }}</th>
                             <th>{{ __('Status') }}</th>
                             <th>{{ __('Amount') }}</th>
@@ -31,6 +32,9 @@
                                 {{-- <td class="order-numb">
                                     {{ $order->order_number }}
                                 </td> --}}
+                                <td class="order-numb">
+                                    Store Name
+                                </td>
                                 <td class="date">
                                     {{ $order->order->created_at->format('F d, Y') }}
                                 </td>

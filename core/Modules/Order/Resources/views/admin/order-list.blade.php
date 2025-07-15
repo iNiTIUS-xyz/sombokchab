@@ -1,13 +1,13 @@
 @extends('backend.admin-master')
 
 @section('site-title')
-    {{ __('Orders List') }}
+    {{ __('All Store Orders') }}
 @endsection
 
 @section('content')
     <div class="dashboard__card">
         <div class="dashboard__card__header">
-            <h4 class="dashboard__card__title">{{ __('Orders List') }}</h4>
+            <h4 class="dashboard__card__title">{{ __('All Store Orders') }}</h4>
         </div>
         <div class="dashboard__card__body mt-4">
             <div class="all-user-campaign-table">
@@ -16,6 +16,7 @@
                         <thead>
                             <tr>
                                 <th>{{ __('Order No.') }}</th>
+                                <th>{{ __('Store Name') }}</th>
                                 {{-- <th>{{ __('Tracking Number') }}</th> --}}
                                 <th>{{ __('Order Date') }}</th>
                                 <th>{{ __('Order Status') }}</th>
@@ -32,6 +33,10 @@
                                     </td> --}}
                                     <td class="order-numb">
                                         {{ $order->order_number }}
+                                    </td>
+                                    <td class="order-numb">
+                                        <strong>{{ $order?->vendor?->owner_name }}</strong>
+                                            ({{ $order?->vendor?->username }})
                                     </td>
                                     <td class="date">
                                         {{ $order->created_at->format('F d, Y') }}

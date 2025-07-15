@@ -570,21 +570,21 @@
                             @can('orders-vendor-list')
                                 <li class="{{ active_menu('admin-home/orders/vendor/list') }}">
                                     <a href="{{ route('admin.orders.vendor.list') }}">
-                                        {{ __('All Stores') }}
+                                        {{ __('Store Order Summary') }}
                                     </a>
                                 </li>
                             @endcan
                             @can('orders')
                                 <li class="{{ active_menu('admin-home/orders') }}">
                                     <a href="{{ route('admin.orders.list') }}">
-                                        {{ __('All Orders') }}
+                                        {{ __('All Store Orders') }}
                                     </a>
                                 </li>
                             @endcan
                             @can('orders-sub-order')
                                 <li class="{{ active_menu('admin-home/orders/sub-order') }}">
                                     <a href="{{ route('admin.orders.sub_order.list') }}">
-                                        {{ __('All Sub Orders') }}
+                                        {{ __('All Store Sub Orders') }}
                                     </a>
                                 </li>
                             @endcan

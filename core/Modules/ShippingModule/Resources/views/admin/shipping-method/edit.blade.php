@@ -14,7 +14,7 @@
                 <x-msg.flash />
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Shipping Methods Edit') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('Edit Shipping Method') }}</h4>
                     </div>
                     <div class="dashboard__card__body custom__form dashboard-recent-order mt-4">
                         <form action="{{ route('admin.shipping-method.update', $method->id) }}" method="post"
