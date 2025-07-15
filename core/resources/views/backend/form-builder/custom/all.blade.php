@@ -70,7 +70,6 @@
                                             </div>
                                         </th>
                                     @endcan
-                                    <th>{{ __('Serial No.') }}</th>
                                     <th>{{ __('Title') }}</th>
                                     <th>{{ __('Action') }}</th>
                                 </thead>
@@ -85,7 +84,6 @@
                                                     </div>
                                                 </td>
                                             @endcan
-                                            <td>{{ $data->id }}</td>
                                             <td>{{ $data->title }}</td>
                                             <td>
                                                 @can('form-builder-custom-edit')

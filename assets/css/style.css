@@ -28437,6 +28437,7 @@ button.submit-btn.gd-bg.pay-now {
 }
 
 .btn-group button.dropdown-toggle.status-close,
+.btn-group button.dropdown-toggle.status-unpublish,
 .btn-group button.dropdown-toggle.close {
   background-color: var(--delete-color);
   border:1px solid var(--delete-color);
@@ -28444,6 +28445,7 @@ button.submit-btn.gd-bg.pay-now {
 }
 
 .btn-group button.dropdown-toggle.status-open,
+.btn-group button.dropdown-toggle.status-publish,
 .btn-group button.dropdown-toggle.open {
   background-color: var(--main-color-one);
   border:1px solid var(--main-color-one);

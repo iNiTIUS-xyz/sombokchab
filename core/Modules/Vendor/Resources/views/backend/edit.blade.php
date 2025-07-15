@@ -207,13 +207,13 @@
 
                                                     <div class="form-group">
                                                         <label class="label-title color-light mb-2">
-                                                            {{ __('City') }}
+                                                            {{ __('Province') }}
                                                             <span class="text-danger">*</span>
                                                         </label>
                                                         <div class="nice-select-two state_wrapper">
                                                             <select class="form-control" id="state_id" name="state_id">
                                                                 <option value="" disabled>
-                                                                    {{ __('Select City') }}
+                                                                    {{ __('Select Province') }}
                                                                 </option>
                                                                 @foreach ($states as $state)
                                                                     <option value="{{ $state->id }}"
@@ -227,13 +227,13 @@
 
                                                     <div class="form-group">
                                                         <label class="label-title color-light mb-2">
-                                                            {{ __('Province') }}
+                                                            {{ __('City') }}
                                                             <span class="text-danger">*</span>
                                                         </label>
                                                         <div class="nice-select-two city_wrapper">
                                                             <select id="city_id" name="city_id" class="form-control">
                                                                 <option value="" disabled>
-                                                                    {{ __('Select Province') }}
+                                                                    {{ __('Select City') }}
                                                                 </option>
                                                                 @foreach ($cities as $city)
                                                                     <option value="{{ $city->id }}"

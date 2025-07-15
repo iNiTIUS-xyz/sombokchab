@@ -225,14 +225,14 @@
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
                                                                 <label class="label-title">
-                                                                    {{ __('City') }}
+                                                                    {{ __('Province') }}
                                                                     <span class="text-danger">*</span>
                                                                 </label>
                                                                 <div class="nice-select-two state_wrapper">
                                                                     <select id="state_id" name="state_id"
                                                                         style="display: none;">
                                                                         <option value="">
-                                                                            {{ __('Select City') }}
+                                                                            {{ __('Select Province') }}
                                                                         </option>
                                                                         @foreach ($states as $state)
                                                                             <option value="{{ $state->id }}">
@@ -246,14 +246,14 @@
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
                                                                 <label class="label-title">
-                                                                    {{ __('Province') }}
+                                                                    {{ __('City') }}
                                                                     <span class="text-danger">*</span>
                                                                 </label>
                                                                 <div class="nice-select-two city_wrapper">
                                                                     <select id="city_id" name="city_id"
                                                                         style="display: none;">
                                                                         <option value="">
-                                                                            {{ __('Select Province') }}
+                                                                            {{ __('Select City') }}
                                                                         </option>
                                                                         @foreach ($cities as $city)
                                                                             <option value="{{ $city->id }}">

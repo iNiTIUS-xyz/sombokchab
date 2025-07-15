@@ -82,7 +82,6 @@
                                     <table class="table">
                                         <thead>
                                             <tr>
-                                                <th>{{ __('ID') }}</th>
                                                 <th>{{ __('Title') }}</th>
                                                 <th>{{ __('Department') }}</th>
                                                 <th>{{ __('Date Created') }}</th>
@@ -94,7 +93,6 @@
                                         <tbody>
                                             @foreach ($all_tickets as $data)
                                                 <tr>
-                                                    <td>{{ $data->id }}</td>
                                                     <td>{{ $data->title }}</td>
                                                     <td>{{ $data->department->name ?? __('anonymous') }}</td>
                                                     <td><small>{{ $data->created_at->format('M j, Y') }}</small></td>

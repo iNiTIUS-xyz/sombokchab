@@ -45,28 +45,28 @@
                                     <td class="text-left">
                                         {{ $user->email }}
                                         {{-- @if ($user->email_verified == 1)
-                                            <i class="las la-check-circle text-success"></i>
+                                        <i class="las la-check-circle text-success"></i>
                                         @endif --}}
                                     </td>
                                     <td>
                                         {{-- @can('frontend-all-user-email-status')
-                                            <form action="{{ route('admin.all.frontend.user.email.status') }}" method="post"
-                                                style="display: inline">
-                                                @csrf
-                                                <input type="hidden" value="{{ $user->id }}" name="user_id">
-                                                <input type="hidden" value="{{ $user->email_verified }}" name="email_verified">
-                                                @if ($user->email_verified == 1)
-                                                    <button type="submit" class="btn btn-sm btn-xs mb-2 me-1 btn-success"
-                                                        title="{{ __('Enable Email Verif') }}">
-                                                        <i class="ti-email"></i>
-                                                    </button>
-                                                @else
-                                                    <button type="submit" class="btn btn-sm btn-xs mb-2 me-1 btn-dark"
-                                                        title="{{ __('Disable Email Verify') }}">
-                                                        <i class="ti-email"></i>
-                                                    </button>
-                                                @endif
-                                            </form>
+                                        <form action="{{ route('admin.all.frontend.user.email.status') }}" method="post"
+                                            style="display: inline">
+                                            @csrf
+                                            <input type="hidden" value="{{ $user->id }}" name="user_id">
+                                            <input type="hidden" value="{{ $user->email_verified }}" name="email_verified">
+                                            @if ($user->email_verified == 1)
+                                            <button type="submit" class="btn btn-sm btn-xs mb-2 me-1 btn-success"
+                                                title="{{ __('Enable Email Verif') }}">
+                                                <i class="ti-email"></i>
+                                            </button>
+                                            @else
+                                            <button type="submit" class="btn btn-sm btn-xs mb-2 me-1 btn-dark"
+                                                title="{{ __('Disable Email Verify') }}">
+                                                <i class="ti-email"></i>
+                                            </button>
+                                            @endif
+                                        </form>
                                         @endcan --}}
 
                                         @can('frontend-user-password-change')
@@ -182,11 +182,13 @@
                                         </label>
                                         <select id="state_id" name="state" class="form-select">
                                             <option value="">{{ __('Select province') }}</option>
-                                            @foreach ($cities as $item)
+
+                                            @foreach ($states as $item)
                                                 <option value="{{ $item->id }}">
                                                     {{ $item->name }}
                                                 </option>
                                             @endforeach
+
                                         </select>
                                     </div>
                                 </div>
@@ -199,7 +201,7 @@
                                         </label>
                                         <select id="city_id" name="city" class="form-select">
                                             <option value="">{{ __('Select city') }}</option>
-                                            @foreach ($states as $item)
+                                            @foreach ($cities as $item)
                                                 <option value="{{ $item->id }}">
                                                     {{ $item->name }}
                                                 </option>
@@ -207,7 +209,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                
+
                                 <div class="col-md-6 mb-3">
                                     <div class="form-group">
                                         <label for="zipcode">

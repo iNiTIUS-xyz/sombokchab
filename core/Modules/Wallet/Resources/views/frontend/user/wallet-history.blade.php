@@ -57,7 +57,6 @@
                         <table class="table-responsive table" id="dataTable">
                             <thead>
                                 <tr>
-                                    <th>{{ __('Serial No.') }}</th>
                                     <th>{{ __('Sub Order ID') }}</th>
                                     <th>{{ __('Transaction ID') }}</th>
                                     <th>{{ __('Amount') }}</th>
@@ -68,7 +67,6 @@
                             <tbody>
                                 @foreach ($histories as $history)
                                     <tr>
-                                        <td>{{ $loop->iteration ?? '' }}</td>
                                         <td>
                                             {{ $history->sub_order_id ? '#' . $history->sub_order_id : '' }}</td>
                                         <td>{{ $history->transaction_id ?? '' }}</td>

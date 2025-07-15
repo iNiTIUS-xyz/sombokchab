@@ -13,6 +13,7 @@
             <th> {{ __('Categories') }} </th>
             <th> {{ __('Stock Qty') }} </th>
             <th> {{ __('Status') }} </th>
+            <th> {{ __('Publish Status') }} </th>
             <th> {{ __('Actions') }} </th>
         </tr>
     </thead>
@@ -24,10 +25,6 @@
                         <x-product::table.bulk-delete-checkbox :id="$product->id" />
                     @endcan
                 </td>
-                <td data-label="Check All" class="text-center">
-                    {{ $product->id }}
-                </td>
-
                 <td class="product-name-info">
                     <div class="d-flex gap-2">
                         <div class="logo-brand position-relative">
@@ -82,7 +79,64 @@
 
                 <td data-label="Status">
                     @can('product-status')
-                        <x-product::table.status :statuses="$statuses" :statusId="$product?->status_id" :id="$product->id" />
+                        <div class="btn-group badge">
+                            <button type="button"
+                                class="status-{{ $product?->status_id }} {{ $product?->status_id == 1 ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ ucfirst($product->status_id == 1 ? __('Active') : __('Inactive')) }}
+                            </button>
+                            <div class="dropdown-menu">
+                                {{-- Form for activating --}}
+                                <form action="{{ route('admin.products.update.status') }}" method="POST"
+                                    id="status-form-activate-{{ $product->id }}">
+                                    @csrf
+                                    <input type="hidden" name="id" value="{{ $product->id }}">
+                                    <input type="hidden" name="status_id" value="1">
+                                    <button type="submit" class="dropdown-item">
+                                        {{ __('Active') }}
+                                    </button>
+                                </form>
+                                <form action="{{ route('admin.products.update.status') }}" method="POST"
+                                    id="status-form-deactivate-{{ $product->id }}">
+                                    @csrf
+                                    <input type="hidden" name="id" value="{{ $product->id }}">
+                                    <input type="hidden" name="status_id" value="2">
+                                    <button type="submit" class="dropdown-item">
+                                        {{ __('Inactive') }}
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    @endcan
+                </td>
+                <td data-label="Status">
+                    @can('product-status')
+                        <div class="btn-group badge">
+                            <button type="button"
+                                class="status-{{ $product?->product_status }} {{ $product?->product_status == 'publish' ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ ucfirst($product->product_status == 'publish' ? __('Publish') : __('Unpublish')) }}
+                            </button>
+                            <div class="dropdown-menu">
+                                {{-- Form for activating --}}
+                                <form action="{{ route('admin.products.status.change', $product->id) }}" method="POST"
+                                    id="status-form-activate-{{ $product->id }}">
+                                    @csrf
+                                    <input type="hidden" name="product_status" value="publish">
+                                    <button type="submit" class="dropdown-item">
+                                        {{ __('Publish') }}
+                                    </button>
+                                </form>
+                                <form action="{{ route('admin.products.status.change', $product->id) }}" method="POST"
+                                    id="status-form-deactivate-{{ $product->id }}">
+                                    @csrf
+                                    <input type="hidden" name="product_status" value="unpublish">
+                                    <button type="submit" class="dropdown-item">
+                                        {{ __('Unpublish') }}
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
                     @endcan
                 </td>
 
@@ -151,8 +205,11 @@
     <div class="pagination">
         <ul class="pagination-list">
             @foreach ($products['links'] as $link)
-                <li><a href="{{ $link }}"
-                        class="page-number {{ $loop->iteration == $products['current_page'] ? 'current' : '' }}">{{ $loop->iteration }}</a>
+                <li>
+                    <a href="{{ $link }}"
+                        class="page-number {{ $loop->iteration == $products['current_page'] ? 'current' : '' }}">
+                        {{ $loop->iteration }}
+                    </a>
                 </li>
             @endforeach
         </ul>

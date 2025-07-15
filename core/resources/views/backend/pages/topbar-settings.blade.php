@@ -26,8 +26,8 @@
                                     <label for="topbar_menu">{{ __('Select Menu') }}</label>
                                     <select class="form-control" name="topbar_menu" id="topbar_menu">
                                         @foreach ($menus as $menu)
-                                            <option value="{{ $menu->id }}"
-                                                @if (get_static_option('topbar_menu') == $menu->id) selected @endif>
+                                            <option value="{{ $menu->id }}" @if (get_static_option('topbar_menu') == $menu->id)
+                                            selected @endif>
                                                 {{ $menu->title }}
                                             </option>
                                         @endforeach
@@ -60,21 +60,22 @@
                         @can('appearance-settings-topbar-all')
                             <table class="table table-default" id="dataTable">
                                 <thead>
-                                    <th>{{ __('Serial No.') }}</th>
-                                    <th>{{ __('Icon') }}</th>
                                     <th>{{ __('URL') }}</th>
+                                    <th>{{ __('Icon') }}</th>
                                     <th>{{ __('Action') }}</th>
                                 </thead>
                                 <tbody>
                                     @foreach ($all_social_icons as $data)
                                         <tr>
-                                            <td>{{ $data->id }}</td>
+                                            <td>
+                                                <a href="{{ $data->url }}" target="__blank">
+                                                    {{ $data->url }}
+                                                </a>
+                                            </td>
                                             <td><i class="{{ $data->icon }}"></i></td>
-                                            <td>{{ $data->url }}</td>
                                             <td>
                                                 @can('appearance-settings-topbar-update-social-item')
-                                                    <a href="#1" data-bs-toggle="modal"
-                                                        data-bs-target="#social_item_edit_modal"
+                                                    <a href="#1" data-bs-toggle="modal" data-bs-target="#social_item_edit_modal"
                                                         class="btn btn-xs btn-warning text-dark mb-2 me-1 social_item_edit_btn"
                                                         data-id="{{ $data->id }}" data-url="{{ $data->url }}"
                                                         data-icon="{{ $data->icon }}" title="{{ __('Edit Data') }}">
@@ -165,15 +166,15 @@
     <x-repeater />
     <x-iconpicker.js />
     <script>
-        (function($) {
+        (function ($) {
             "use strict";
-            $(document).ready(function() {
+            $(document).ready(function () {
                 <
-                x - btn.submit / >
+                    x - btn.submit / >
                     <
-                    x - btn.update / >
+                        x - btn.update / >
 
-                    $(document).on('click', '.social_item_edit_btn', function() {
+                    $(document).on('click', '.social_item_edit_btn', function () {
                         var el = $(this);
                         var id = el.data('id');
                         var url = el.data('url');

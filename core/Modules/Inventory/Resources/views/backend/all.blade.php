@@ -51,7 +51,7 @@
                                                     <x-table.btn.edit :route="route('admin.products.inventory.edit', $inventory->id)" />
                                                 @endcan
                                                 @can('product-inventory-delete')
-                                                    <x-table.btn.swal.delete :route="route('admin.products.inventory.delete', [
+                                                                                <x-table.btn.swal.delete :route="route('admin.products.inventory.delete', [
                                                         'id' => $inventory->id,
                                                     ])" />
                                                 @endcan

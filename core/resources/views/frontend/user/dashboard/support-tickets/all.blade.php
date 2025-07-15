@@ -33,7 +33,6 @@
                 <table class="table" id="dataTable">
                     <thead>
                         <tr>
-                            <th>{{ __('Serial No.') }}</th>
                             <th>{{ __('Order No.') }}</th>
                             <th>{{ __('Title') }}</th>
                             <th>{{ __('Date Created') }}</th>
@@ -44,7 +43,6 @@
                     <tbody>
                         @foreach ($all_tickets as $data)
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
                                 <td>{{ $data->order_id }}</td>
                                 <td>{{ $data->title }}</td>
                                 <td>

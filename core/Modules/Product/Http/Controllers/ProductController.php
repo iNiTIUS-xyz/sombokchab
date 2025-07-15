@@ -117,7 +117,7 @@ class ProductController extends Controller
         return (new AdminProductServices)->clone($id) ? back()->with(FlashMsg::clone_succeed('Product')) : back()->with(FlashMsg::clone_failed('Product'));
     }
 
-    private function validateUpdateStatus($req): array
+    private function validateUpdateStatus($req)
     {
         return Validator::make($req, [
             "id" => "required",
@@ -125,11 +125,24 @@ class ProductController extends Controller
         ])->validated();
     }
 
-    public function update_status(Request $request): JsonResponse
+    public function update_status(Request $request)
     {
         $data = $this->validateUpdateStatus($request->all());
 
-        return (new AdminProductServices)->updateStatus($data["id"], $data["status_id"]);
+        $product = Product::findOrFail($data['id']);
+        $product->status_id = $data['status_id'];
+        $product->save();
+
+        return redirect()->back()->with(FlashMsg::item_new('Status changed successfully.'));
+    }
+
+    public function productStatusChange(Request $request, $id)
+    {
+        $product = Product::findOrFail($id);
+        $product->product_status = $request->product_status;
+        $product->save();
+
+        return redirect()->back()->with(FlashMsg::item_new('Product Status changed successfully.'));
     }
 
     public function destroy($id)
