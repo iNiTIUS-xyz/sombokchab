@@ -32,6 +32,7 @@ Route::prefix('admin-home')->as("admin.")->middleware(['setlang:backend', 'admin
             Route::post('update', 'update')->name('update')->permission('country-update');
             Route::post('delete/{item}', 'destroy')->name('delete')->permission('country-delete');
             Route::post('bulk-action', 'bulk_action')->name('bulk.action')->permission('country-bulk-action');
+            Route::post('status-update/{id}', 'statusUpdate')->name('status.update');
 
             // import country
             Route::get('csv/import', 'import_settings')->name('import.csv.settings')->permission('country-csv-file-import');
@@ -79,7 +80,6 @@ Route::prefix('admin-home')->as("admin.")->middleware(['setlang:backend', 'admin
     });
 });
 
-//todo public routes for user and admin
 Route::controller(AdminUserController::class)->group(function () {
     Route::post('get-state', 'get_country_state')->name('au.state.all');
     Route::post('get-city', 'get_state_city')->name('au.city.all');

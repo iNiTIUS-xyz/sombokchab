@@ -417,7 +417,7 @@
                 $(".vendor_tax_amount").each(function() {
                     let st = $(this).text();
 
-                    if (st.includes("Inclusive Tax")) {
+                    if (st.includes("Tax Inclusive")) {
                         totalAmount += 0;
                     } else {
                         totalAmount += replaceSymbol(st);
@@ -439,8 +439,8 @@
                 $(".vendor_tax_amount").each(function() {
                     let st = $(this).text();
 
-                    if (st.includes("{{ __('Inclusive Tax') }}")) {
-                        vendorTaxAmount = "{{ __('Inclusive Tax') }}";
+                    if (st.includes("{{ __('Tax Inclusive') }}")) {
+                        vendorTaxAmount = "{{ __('Tax Inclusive') }}";
                     } else {
                         vendorTaxAmount = 0;
                     }
@@ -449,7 +449,7 @@
                 @if ($enableTaxAmount)
                     $("#checkout_tax_amount").text(amount_with_currency_symbol(totalTax.toFixed(decimalPoint)))
                 @else
-                    $("#checkout_tax_amount").text("{{ __('Inclusive Tax') }}")
+                    $("#checkout_tax_amount").text("{{ __('Tax Inclusive') }}")
                 @endif
 
                 $("#checkout_items_total").text(amount_with_currency_symbol(subTotal.toFixed(decimalPoint)))

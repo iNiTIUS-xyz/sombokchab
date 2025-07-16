@@ -64,7 +64,7 @@
                             {{ __('Tax amount') }}
                         </b>
                         <b id="checkout_tax_amount">
-                            {{ get_static_option('display_price_in_the_shop') == 'including' ? __('Inclusive Tax') : '' }}
+                            {{ get_static_option('display_price_in_the_shop') == 'including' ? __('Tax Inclusive') : '' }}
                         </b>
                     </li>
                 @endif

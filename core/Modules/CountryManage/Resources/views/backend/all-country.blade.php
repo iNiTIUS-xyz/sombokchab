@@ -46,7 +46,34 @@
                                             @endcan
                                             {{-- <td>{{ $loop->iteration }}</td> --}}
                                             <td>{{ $country->name }}</td>
-                                            <td><x-status-span :status="$country->status" /></td>
+                                            <td>
+                                                <div class="btn-group badge">
+                                                    <button type="button"
+                                                        class="status-{{ $country->status }} {{ $country->status == 'publish' ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
+                                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        {{ ucfirst($country->status == 'publish' ? __('Publish') : __('Draft')) }}
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        {{-- Form for activating --}}
+                                                        <form action="{{ route('admin.country.status.update', $country->id) }}"
+                                                            method="POST" id="status-form-activate-{{ $country->id }}">
+                                                            @csrf
+                                                            <input type="hidden" name="status" value="publish">
+                                                            <button type="submit" class="dropdown-item">
+                                                                {{ __('Publish') }}
+                                                            </button>
+                                                        </form>
+                                                        <form action="{{ route('admin.country.status.update', $country->id) }}"
+                                                            method="POST" id="status-form-deactivate-{{ $country->id }}">
+                                                            @csrf
+                                                            <input type="hidden" name="status" value="draft">
+                                                            <button type="submit" class="dropdown-item">
+                                                                {{ __('Draft') }}
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </td>
                                             <td>
                                                 @can('country-update')
                                                     <a href="javascript:;" title="{{ __('Edit Data') }}" data-bs-toggle="modal"
@@ -97,8 +124,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
                             <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                         </div>
                     </form>
@@ -133,8 +159,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
                             <button type="submit" class="btn btn-primary">{{ __('Add') }}</button>
                         </div>
                     </form>
@@ -150,8 +175,8 @@
     @endcan
 
     <script>
-        $(document).ready(function() {
-            $(document).on('click', '.country_edit_btn', function() {
+        $(document).ready(function () {
+            $(document).on('click', '.country_edit_btn', function () {
                 let el = $(this);
                 let id = el.data('id');
                 let name = el.data('name');

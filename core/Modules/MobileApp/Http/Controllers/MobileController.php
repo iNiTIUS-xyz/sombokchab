@@ -30,7 +30,7 @@ class MobileController extends Controller
             "currencyPosition" => get_static_option('site_currency_symbol_position'),
             "rtl" => $is_rtl_on_or_not,
             "currency_code" => get_static_option("site_global_currency"),
-            "tax_type" => get_static_option("prices_include_tax") == 'yes' && get_static_option("display_price_in_the_shop") == 'including' && get_static_option("tax_system") == 'advance_tax_system' ? __("Inclusive Tax") : null,
+            "tax_type" => get_static_option("prices_include_tax") == 'yes' && get_static_option("display_price_in_the_shop") == 'including' && get_static_option("tax_system") == 'advance_tax_system' ? __("Tax Inclusive") : null,
             "tax_system" => get_static_option("tax_system")
         ]);
     }

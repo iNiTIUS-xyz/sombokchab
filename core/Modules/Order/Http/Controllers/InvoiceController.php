@@ -3,8 +3,6 @@
 namespace Modules\Order\Http\Controllers;
 
 use App\AdminShopManage;
-use Exception;
-use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Routing\Controller;
 use LaravelDaily\Invoices\Classes\Buyer;
 use LaravelDaily\Invoices\Classes\InvoiceItem;
@@ -16,7 +14,12 @@ class InvoiceController extends Controller
 {
     public function generateInvoice($orderId)
     {
-        return $this->invoiceMethod($orderId);
+        try {
+            return $this->invoiceMethod($orderId);
+
+        } catch (\Throwable $e) {
+            return back()->with(['msg' => __('Something went wrong. Please try again.'), 'type' => 'warning']);
+        }
     }
 
     public function downloadInvoice($orderId)
@@ -26,9 +29,23 @@ class InvoiceController extends Controller
 
     private function invoiceMethod($orderId, $type = 'stream')
     {
-        $order = Order::with(['SubOrders', 'orderItems', 'orderItems.product', 'orderItems.variant', 'orderItems.variant.productColor', 'orderItems.variant.productSize', 'paymentMeta', 'address', 'address.country', 'address.state'])
+        $order = Order::query()
+            ->with([
+                'SubOrders',
+                'orderItems',
+                'orderItems.product',
+                'orderItems.variant',
+                'orderItems.variant.productColor',
+                'orderItems.variant.productSize',
+                'paymentMeta',
+                'address',
+                'address.country',
+                'address.state'
+            ])
             ->whereHas("orderItems")
-            ->where('id', $orderId)->firstOrFail();
+            ->where('id', $orderId)
+            ->firstOrFail();
+
         $adminShop = AdminShopManage::with('logo', 'cover_photo')->find(1);
 
         $shopAddress = $adminShop->country?->name . ' , ' . $adminShop->state?->name . ' , ' . $adminShop->city . ' , ' . $adminShop->address;
@@ -54,58 +71,62 @@ class InvoiceController extends Controller
 
         $items = [];
 
-        $subTotal = $order->paymentMeta?->sub_total;
-        $discountAmount = $order->paymentMeta?->coupon_amount;
+        $subTotal = $order->paymentMeta?->sub_total ?? 0;
+        $discountAmount = $order->paymentMeta?->coupon_amount ?? 0;
         $finalSubTotal = $subTotal - $discountAmount;
-        $taxPercentage = $order->paymentMeta?->tax_amount > 0 ? round(($order->paymentMeta?->tax_amount / $finalSubTotal) * 100, 0) : 0;
-        $discountPercentage = $order->paymentMeta?->coupon_amount > 0 ? ($order->paymentMeta?->coupon_amount / $order->paymentMeta?->sub_total) * 100 : 0;
+        $taxPercentage = $finalSubTotal > 0 && $order->paymentMeta?->tax_amount > 0
+            ? round(($order->paymentMeta->tax_amount / $finalSubTotal) * 100, 0)
+            : 0;
+        $discountPercentage = $subTotal > 0 && $discountAmount > 0
+            ? ($discountAmount / $subTotal) * 100
+            : 0;
 
         $taxType = '';
 
         foreach ($order->SubOrders as $subOrder) {
-            if ($subOrder->tax_type == 'inclusive_price') {
-                $taxType = 'Inclusive Tax';
+            if ($subOrder->tax_type === 'inclusive_price') {
+                $taxType = 'Tax Inclusive';
             }
         }
 
         foreach ($order->orderItems as $orderItem) {
-            $title = $orderItem->product->name;
+            // Default fallback title
+            $title = $orderItem->product?->name ?? 'Unnamed Product';
             $unit = $orderItem->product?->uom?->unit?->name ?? '';
 
             if ($orderItem->variant) {
-                $title .= PHP_EOL;
+                $variantText = '';
                 if ($orderItem->variant?->productSize) {
-                    $title .= ' : ' . $orderItem->variant?->productSize?->name;
+                    $variantText .= ' : ' . $orderItem->variant->productSize->name;
                 }
 
                 if ($orderItem->variant?->productColor) {
-                    $title .= ' , ' . $orderItem->variant?->productColor?->name;
+                    $variantText .= ' , ' . $orderItem->variant->productColor->name;
                 }
 
                 if ($orderItem->variant->attribute) {
                     foreach ($orderItem->variant->attribute as $attribute) {
-                        $title .= ' , ' . $attribute->attribute_name . ': ' . $attribute->attribute_value;
+                        $variantText .= ' , ' . $attribute->attribute_name . ': ' . $attribute->attribute_value;
                     }
                 }
+
+                $title .= PHP_EOL . $variantText;
             }
 
-            $items[] = (new InvoiceItem())->title($title)
-                ->pricePerUnit($orderItem->price)
-                ->quantity($orderItem->quantity)
+            $items[] = (new InvoiceItem())
+                ->title((string) $title) // Ensure it’s a string
+                ->pricePerUnit($orderItem->price ?? 0)
+                ->quantity($orderItem->quantity ?? 1)
                 ->units($unit);
         }
 
         $notes = str_replace('@break', '<br>', get_static_option('admin_invoice_note'));
 
         $position = get_static_option('site_currency_symbol_position');
-        if ($position == 'right') {
-            $currencyPosition = '{VALUE}{SYMBOL}';
-        } else {
-            $currencyPosition = '{SYMBOL}{VALUE}';
-        }
+        $currencyPosition = $position == 'right' ? '{VALUE}{SYMBOL}' : '{SYMBOL}{VALUE}';
 
         $invoice = Invoice::make('receipt')
-            ->status($order->payment_status == 'complete' ? 'paid' : 'unpaid')
+            ->status($order->payment_status === 'complete' ? 'paid' : 'unpaid')
             ->sequence($order->invoice_number)
             ->serialNumberFormat('{SEQUENCE}/{SERIES}')
             ->seller($client)
@@ -119,23 +140,22 @@ class InvoiceController extends Controller
             ->filename($client->name . ' ' . $customer->name)
             ->addItems($items);
 
-        if ($taxType == 'Inclusive Tax') {
+        if ($taxType === 'Tax Inclusive') {
             $notes .= '<b>' . __('All product price tax are inclusive') . '</b>';
         } else {
             $invoice->taxRate($taxPercentage);
         }
 
         $invoice->notes($notes)
-            ->logo(get_attachment_image_by_id(get_static_option('site_logo'))['img_url'])
+            ->logo(get_attachment_image_by_id(get_static_option('site_logo'))['img_url'] ?? '')
             ->shipping($order->paymentMeta->shipping_cost ?? 0)
             ->discountByPercent($discountPercentage);
 
-        $link = $invoice->url();
-
-        if ($type == 'stream') {
+        if ($type === 'stream') {
             return $invoice->stream();
         }
 
         return $invoice->download();
     }
+
 }

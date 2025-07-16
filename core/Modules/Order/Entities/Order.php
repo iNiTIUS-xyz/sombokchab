@@ -4,9 +4,6 @@ namespace Modules\Order\Entities;
 
 use App\Http\Traits\NotificationRelation;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Modules\DeliveryMan\Entities\DeliveryManOrder;
 use Modules\Refund\Entities\RefundRequest;
 use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
@@ -53,66 +50,56 @@ class Order extends Model
     }
 
 
-    public function deliveryMan(): HasOne
+    public function deliveryMan()
     {
         return $this->hasOne(DeliveryManOrder::class, 'order_id', 'id');
     }
 
-    public function paymentMeta(): HasOne
+    public function paymentMeta()
     {
         return $this->hasOne(OrderPaymentMeta::class, 'order_id', 'id');
     }
 
-    public function address(): HasOne
+    public function address()
     {
         return $this->hasOne(OrderAddress::class, 'order_id', 'id');
     }
 
-    public function orderTrack(): HasMany
+    public function orderTrack()
     {
         return $this->hasMany(OrderTrack::class, 'order_id', 'id');
     }
 
-    public function SubOrders(): HasMany
+    public function SubOrders()
     {
         return $this->hasMany(SubOrder::class, 'order_id', 'id');
     }
 
-    public function orderItems(): HasManyThrough
+    public function orderItems()
     {
         return $this->hasManyThrough(SubOrderItem::class, SubOrder::class, 'order_id', 'sub_order_id', 'id', 'id');
     }
 
-    public function isDelivered(): HasOne
+    public function isDelivered()
     {
         return $this->hasOne(OrderTrack::class, 'order_id', 'id')->where('name', 'delivered');
     }
 
-
-    /**
-     * Check if the order is delivered.
-     */
     public function isDeliveredStatus(): Attribute
     {
         return Attribute::get(fn() => $this->orderTrack()->where('name', 'delivered')->exists());
     }
 
-    /**
-     * Check if the order is cancelable.
-     */
     public function isCancelableStatus(): Attribute
     {
         return Attribute::get(function () {
             $orderTracks = $this->orderTrack()->pluck('name')->toArray();
 
-            // If 'ordered' exists and there are no other statuses, it is cancelable
             return in_array('ordered', $orderTracks) && count($orderTracks) === 1;
         });
     }
 
-
-
-    public function refundRequest(): HasOne
+    public function refundRequest()
     {
         return $this->hasOne(RefundRequest::class, 'order_id', 'id');
     }

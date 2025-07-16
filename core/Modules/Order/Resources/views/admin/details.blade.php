@@ -193,7 +193,9 @@
             <div class="col-md-12">
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Update Order') }}</h4>
+                        <h4 class="dashboard__card__title">
+                            {{ __('Update Order') }}
+                        </h4>
                     </div>
                     <div class="dashboard__card__body mt-4">
                         <div class="row g-4">
@@ -202,7 +204,9 @@
                                 {{-- If the payment status for an order is not complete, the admin can update it --}}
                                 <div class="dashboard__card">
                                     <div class="dashboard__card__header">
-                                        <h4 class="dashboard__card__title">{{ __('Order Status & Payment Status') }}</h4>
+                                        <h4 class="dashboard__card__title">
+                                            {{ __('Order Status & Payment Status') }}
+                                        </h4>
                                     </div>
                                     <div class="dashboard__card__body custom__form mt-4">
                                         <form id="updateOrder" method="post"
@@ -211,33 +215,53 @@
                                             @method('PUT')
                                             <input type="hidden" value="{{ $order->id }}" name="order_id">
                                             <div class="form-group">
-                                                <label for="">{{ __('Order Status') }}</label>
+                                                <label for="">
+                                                    {{ __('Order Status') }}
+                                                </label>
                                                 <select
                                                     {{ $order->order_status == 'complete' || $order->order_status == 'canceled' || $order->order_status == 'rejected' ? 'readonly' : '' }}
                                                     name="order_status" class="form-control">
                                                     <option {{ $order->order_status == 'pending' ? 'selected' : '' }}
-                                                        value="pending">{{ __('Pending') }}</option>
+                                                        value="pending">
+                                                        {{ __('Pending') }}
+                                                    </option>
                                                     <option {{ $order->order_status == 'complete' ? 'selected' : '' }}
-                                                        value="complete">{{ __('Complete') }}</option>
+                                                        value="complete">
+                                                        {{ __('Complete') }}
+                                                    </option>
                                                     <option {{ $order->order_status == 'failed' ? 'selected' : '' }}
-                                                        value="failed">{{ __('Failed') }}</option>
+                                                        value="failed">
+                                                        {{ __('Failed') }}
+                                                    </option>
                                                     <option {{ $order->order_status == 'rejected' ? 'selected' : '' }}
-                                                        value="rejected">{{ __('Rejected') }}</option>
+                                                        value="rejected">
+                                                        {{ __('Rejected') }}
+                                                    </option>
                                                     <option {{ $order->order_status == 'canceled' ? 'selected' : '' }}
-                                                        value="canceled">{{ __('Canceled') }}</option>
+                                                        value="canceled">
+                                                        {{ __('Canceled') }}
+                                                    </option>
                                                 </select>
                                             </div>
                                             <div class="form-group">
-                                                <label for="">{{ __('Payment Status') }}</label>
+                                                <label for="">
+                                                    {{ __('Payment Status') }}
+                                                </label>
                                                 <select
                                                     {{ $order->payment_status == 'complete' || $order->payment_status == 'rejected' ? 'readonly' : '' }}
                                                     name="payment_status" class="form-control">
                                                     <option {{ $order->payment_status == 'pending' ? 'selected' : '' }}
-                                                        value="pending">{{ __('Pending') }}</option>
+                                                        value="pending">
+                                                        {{ __('Pending') }}
+                                                    </option>
                                                     <option {{ $order->payment_status == 'complete' ? 'selected' : '' }}
-                                                        value="complete">{{ __('Complete') }}</option>
+                                                        value="complete">
+                                                        {{ __('Complete') }}
+                                                    </option>
                                                     <option {{ $order->payment_status == 'failed' ? 'selected' : '' }}
-                                                        value="failed">{{ __('Failed') }}</option>
+                                                        value="failed">
+                                                        {{ __('Failed') }}
+                                                    </option>
                                                 </select>
                                             </div>
                                             <div class="form-group">
@@ -262,57 +286,91 @@
         <div class="col-md-6">
             <div class="dashboard__card">
                 <div class="dashboard__card__header">
-                    <h4 class="dashboard__card__title">{{ __('Orders Details') }}</h4>
+                    <h4 class="dashboard__card__title">
+                        {{ __('Orders Details') }}
+                    </h4>
                 </div>
                 <div class="dashboard__card__body mt-4">
                     <div class="request__item">
-                        <span class="request__left">{{ __('Order Number') }}</span>
-                        <span class="request__right">{{ $order->order_number }}</span>
-                    </div>
-                    <div class="request__item">
-                        <span class="request__left">{{ __('Transaction ID') }}</span>
-                        <span class="request__right">{{ $order->transaction_id }}</span>
-                    </div>
-                    <div class="request__item">
-                        <span class="request__left">{{ __('Payment Gateway') }}</span>
-                        <span
-                            class="request__right">{{ ucwords(str_replace(['_', '-'], ' ', $order->payment_gateway)) }}</span>
-                    </div>
-                    <div class="request__item">
-                        <span class="request__left">{{ __('Payment Status') }}</span>
-                        <span class="request__right">{{ str($order->payment_status)->ucfirst() }}</span>
-                    </div>
-                    <div class="request__item">
-                        <span class="request__left">{{ __('Total Product') }}</span>
-                        <span class="request__right">{{ $order->order_items_count }}</span>
-                    </div>
-                    <div class="request__item">
-                        <span class="request__left">{{ __('Items Total') }}</span>
-                        <span
-                            class="request__right">{{ float_amount_with_currency_symbol($order?->paymentMeta?->sub_total) }}
+                        <span class="request__left">
+                            {{ __('Order Number') }}
+                        </span>
+                        <span class="request__right">
+                            {{ $order->order_number }}
                         </span>
                     </div>
                     <div class="request__item">
-                        <span class="request__left">{{ __('Discount Amount') }}</span>
-                        <span
-                            class="request__right">{{ float_amount_with_currency_symbol($order?->paymentMeta?->coupon_amount) }}
+                        <span class="request__left">
+                            {{ __('Transaction ID') }}
+                        </span>
+                        <span class="request__right">
+                            {{ $order->transaction_id }}
                         </span>
                     </div>
                     <div class="request__item">
-                        <span class="request__left">{{ __('Cost Summary') }}</span>
-                        <span
-                            class="request__right">{{ float_amount_with_currency_symbol($order?->paymentMeta?->shipping_cost) }}
+                        <span class="request__left">
+                            {{ __('Payment Gateway') }}
+                        </span>
+                        <span class="request__right">
+                            {{ ucwords(str_replace(['_', '-'], ' ', $order->payment_gateway)) }}
                         </span>
                     </div>
                     <div class="request__item">
-                        <span class="request__left">{{ __('Tax Amount') }}</span>
-                        <span
-                            class="request__right">{{ float_amount_with_currency_symbol($order?->paymentMeta?->tax_amount) }}</span>
+                        <span class="request__left">
+                            {{ __('Payment Status') }}
+                        </span>
+                        <span class="request__right">
+                            {{ str($order->payment_status)->ucfirst() }}
+                        </span>
                     </div>
                     <div class="request__item">
-                        <span class="request__left">{{ __('Total Amount') }}</span>
+                        <span class="request__left">
+                            {{ __('Total Product') }}
+                        </span>
+                        <span class="request__right">
+                            {{ $order->order_items_count }}
+                        </span>
+                    </div>
+                    <div class="request__item">
+                        <span class="request__left">
+                            {{ __('Items Total') }}
+                        </span>
                         <span
-                            class="request__right">{{ float_amount_with_currency_symbol($order?->paymentMeta?->total_amount) }}
+                            class="request__right">
+                            {{ float_amount_with_currency_symbol($order?->paymentMeta?->sub_total) }}
+                        </span>
+                    </div>
+                    <div class="request__item">
+                        <span class="request__left">
+                            {{ __('Discount Amount') }}
+                        </span>
+                        <span
+                            class="request__right">
+                            {{ float_amount_with_currency_symbol($order?->paymentMeta?->coupon_amount) }}
+                        </span>
+                    </div>
+                    <div class="request__item">
+                        <span class="request__left">
+                            {{ __('Cost Summary') }}
+                        </span>
+                        <span class="request__right">
+                            {{ float_amount_with_currency_symbol($order?->paymentMeta?->shipping_cost) }}
+                        </span>
+                    </div>
+                    <div class="request__item">
+                        <span class="request__left">
+                            {{ __('Tax Amount') }}
+                        </span>
+                        <span class="request__right">
+                            {{ float_amount_with_currency_symbol($order?->paymentMeta?->tax_amount) }}
+                        </span>
+                    </div>
+                    <div class="request__item">
+                        <span class="request__left">
+                            {{ __('Total Amount') }}
+                        </span>
+                        <span class="request__right">
+                            {{ float_amount_with_currency_symbol($order?->paymentMeta?->total_amount) }}
                         </span>
                     </div>
                 </div>
@@ -333,44 +391,82 @@
         <div class="col-md-6">
             <div class="dashboard__card">
                 <div class="dashboard__card__header">
-                    <h4 class="dashboard__card__title">{{ __('Billing Information') }}</h4>
+                    <h4 class="dashboard__card__title">
+                        {{ __('Billing Information') }}
+                    </h4>
                 </div>
                 <div class="dashboard__card__body mt-4">
                     <div class="request__item">
-                        <span class="request__left">{{ __('Name') }}</span>
-                        <span class="request__right">{{ $order?->address?->name }}</span>
+                        <span class="request__left">
+                            {{ __('Name') }}
+                        </span>
+                        <span class="request__right">
+                            {{ $order?->address?->name }}
+                        </span>
                     </div>
                     <div class="request__item">
-                        <span class="request__left">{{ __('Email') }}</span>
-                        <span class="request__right">{{ $order?->address?->email }}</span>
+                        <span class="request__left">
+                            {{ __('Email') }}
+                        </span>
+                        <span class="request__right">
+                            {{ $order?->address?->email }}
+                        </span>
                     </div>
                     <div class="request__item">
-                        <span class="request__left">{{ __('Mobile') }}</span>
-                        <span class="request__right">{{ $order?->address?->phone }}</span>
+                        <span class="request__left">
+                            {{ __('Mobile') }}
+                        </span>
+                        <span class="request__right">
+                            {{ $order?->address?->phone }}
+                        </span>
                     </div>
                     <div class="request__item">
-                        <span class="request__left">{{ __('Country') }}</span>
-                        <span class="request__right">{{ $order?->address?->country?->name }}</span>
+                        <span class="request__left">
+                            {{ __('Country') }}
+                        </span>
+                        <span class="request__right">
+                            {{ $order?->address?->country?->name }}
+                        </span>
                     </div>
                     <div class="request__item">
-                        <span class="request__left">{{ __('City') }}</span>
-                        <span class="request__right">{{ $order?->address?->state?->name }}</span>
+                        <span class="request__left">
+                            {{ __('City') }}
+                        </span>
+                        <span class="request__right">
+                            {{ $order?->address?->state?->name }}
+                        </span>
                     </div>
                     <div class="request__item">
-                        <span class="request__left">{{ __('Province') }}</span>
-                        <span class="request__right">{{ $order?->address?->cityInfo?->name }}</span>
+                        <span class="request__left">
+                            {{ __('Province') }}
+                        </span>
+                        <span class="request__right">
+                            {{ $order?->address?->cityInfo?->name }}
+                        </span>
                     </div>
                     <div class="request__item">
-                        <span class="request__left">{{ __('Postal Code') }}</span>
-                        <span class="request__right">{{ $order?->address?->zipcode }}</span>
+                        <span class="request__left">
+                            {{ __('Postal Code') }}
+                        </span>
+                        <span class="request__right">
+                            {{ $order?->address?->zipcode }}
+                        </span>
                     </div>
                     <div class="request__item">
-                        <span class="request__left">{{ __('Address') }}</span>
-                        <span class="request__right">{{ $order?->address?->address }}</span>
+                        <span class="request__left">
+                            {{ __('Address') }}
+                        </span>
+                        <span class="request__right">
+                            {{ $order?->address?->address }}
+                        </span>
                     </div>
                     <div class="request__item">
-                        <span class="request__left">{{ __('Note') }}</span>
-                        <span class="request__right">{{ $order?->note }}</span>
+                        <span class="request__left">
+                            {{ __('Note') }}
+                        </span>
+                        <span class="request__right">
+                            {{ $order?->note }}
+                        </span>
                     </div>
                 </div>
             </div>
@@ -378,7 +474,9 @@
     </div>
     <div class="dashboard__card mt-4">
         <div class="dashboard__card__header">
-            <h4 class="dashboard__card__title">{{ __('Sub Order Information') }}</h4>
+            <h4 class="dashboard__card__title">
+                {{ __('Sub Order Information') }}
+            </h4>
         </div>
         <div class="dashboard__card__body mt-4">
             <div class="row g-4">
@@ -408,15 +506,22 @@
                         <div class="col-md-12">
                             <div class="dashboard__card">
                                 <div class="dashboard__card__header">
-                                    <h5 class="dashboard__card__title">{{ $adminShop->store_name }}</h5>
+                                    <h5 class="dashboard__card__title">
+                                        {{ $adminShop->store_name }}
+                                    </h5>
                                     <div class="dashboard__card__header__right">
                                         <div class="d-flex justify-content-between gap-1">
                                             <b>{{ __('Sub Order ID') }} </b>
-                                            <b class="request__right">#{{ $subOrders->id }}</b>
+                                            <b class="request__right">
+                                                #{{ $subOrders->id }}
+                                            </b>
                                         </div>
                                         <a href="{{ route('admin.orders.details', $subOrders->id) }}"
                                             class="cmn_btn btn_bg_profile">
-                                            <i class="las la-eye"></i> <small>{{ __('View Sub Order') }}</small>
+                                            <i class="las la-eye"></i>
+                                            <small>
+                                                {{ __('View Sub Order') }}
+                                            </small>
                                         </a>
                                     </div>
                                 </div>
@@ -433,12 +538,16 @@
                                             <div class="subOrder__single">
                                                 <div class="subOrder__single__item">
                                                     <span class="subOrder__single__item__left">
-                                                        <h6>{{ $adminShop->store_name }}</h6>
+                                                        <h6>
+                                                            {{ $adminShop->store_name }}
+                                                        </h6>
                                                     </span>
                                                 </div>
                                                 <div class="subOrder__single__item">
                                                     <span
-                                                        class="subOrder__single__item__left">{{ __('Total Income') }}</span>
+                                                        class="subOrder__single__item__left">
+                                                        {{ __('Total Income') }}
+                                                    </span>
                                                     <h6 class="badge badge-sm bg-success subOrder__single__item__right">
                                                         {{ float_amount_with_currency_symbol($adminCompleteOrderIncome) }}
                                                     </h6>
@@ -449,27 +558,36 @@
                                             <div class="subOrder__single">
                                                 <div class="subOrder__single__item">
                                                     <span
-                                                        class="subOrder__single__item__left">{{ __('Total Product') }}</span>
+                                                        class="subOrder__single__item__left">
+                                                        {{ __('Total Product') }}
+                                                    </span>
                                                     <h6 class="badge badge-sm bg-success subOrder__single__item__right">
                                                         {{ $adminProductCount }}
                                                     </h6>
                                                 </div>
                                                 <div class="subOrder__single__item">
                                                     <span
-                                                        class="subOrder__single__item__left">{{ __('Total Orders') }}</span>
+                                                        class="subOrder__single__item__left">
+                                                        {{ __('Total Orders') }}
+                                                    </span>
                                                     <h6 class="badge badge-sm bg-success subOrder__single__item__right">
-                                                        {{ $adminTotalOrderCount }}</h6>
+                                                        {{ $adminTotalOrderCount }}
+                                                    </h6>
                                                 </div>
                                                 <div class="subOrder__single__item">
                                                     <span
-                                                        class="subOrder__single__item__left">{{ __('Pending Orders') }}</span>
+                                                        class="subOrder__single__item__left">
+                                                        {{ __('Pending Orders') }}
+                                                    </span>
                                                     <h6 class="badge badge-sm bg-success subOrder__single__item__right">
                                                         {{ $adminPendingOrderCount }}
                                                     </h6>
                                                 </div>
                                                 <div class="subOrder__single__item">
                                                     <span
-                                                        class="subOrder__single__item__left">{{ __('Complete Orders') }}</span>
+                                                        class="subOrder__single__item__left">
+                                                        {{ __('Complete Orders') }}
+                                                    </span>
                                                     <h6 class="badge badge-sm bg-success subOrder__single__item__right">
                                                         {{ $adminCompleteOrderCount }}
                                                     </h6>
@@ -480,25 +598,34 @@
                                             <div class="subOrder__single">
                                                 <div class="subOrder__single__item">
                                                     <span class="subOrder__single__item__left">
-                                                        <h6>{{ __('Order Information') }}</h6>
+                                                        <h6>{{ __('Order Information') }}
+
+                                                        </h6>
                                                     </span>
                                                 </div>
                                                 <div class="subOrder__single__item">
                                                     <span
-                                                        class="subOrder__single__item__left">{{ __('Order Product Count') }}</span>
+                                                        class="subOrder__single__item__left">
+                                                        {{ __('Order Product Count') }}
+                                                    </span>
                                                     <h6 class="badge badge-sm bg-success subOrder__single__item__right">
                                                         {{ $subOrders->order_item_count }}
                                                     </h6>
                                                 </div>
                                                 <div class="subOrder__single__item">
                                                     <span
-                                                        class="subOrder__single__item__left">{{ __('Payment Status') }}</span>
+                                                        class="subOrder__single__item__left">
+                                                        {{ __('Payment Status') }}
+                                                    </span>
                                                     <h6 class="badge badge-sm bg-success subOrder__single__item__right">
-                                                        {{ ucwords($subOrders->payment_status) }}</h6>
+                                                        {{ ucwords($subOrders->payment_status) }}
+                                                    </h6>
                                                 </div>
                                                 <div class="subOrder__single__item">
                                                     <span
-                                                        class="subOrder__single__item__left">{{ __('Order Amount') }}</span>
+                                                        class="subOrder__single__item__left">
+                                                        {{ __('Order Amount') }}
+                                                    </span>
                                                     <h6 class="badge badge-sm bg-success subOrder__single__item__right">
                                                         {{ float_amount_with_currency_symbol($subOrders->total_amount) }}
                                                     </h6>
@@ -513,23 +640,31 @@
                         <div class="col-md-12">
                             <div class="dashboard__card">
                                 <div class="dashboard__card__header">
-                                    <h5 class="title">{{ $subOrders->vendor?->business_name }}</h5>
+                                    <h5 class="title">
+                                        {{ $subOrders->vendor?->business_name }}
+                                    </h5>
                                     <div class="dashboard__card__header__right">
-
-                                        <div class="d-flex justify-content-between gap-1">
-                                            <b>{{ __('This order status') }} </b>
+                                        {{-- <div class="d-flex justify-content-between gap-1">
+                                            <b>
+                                                {{ __('This order status') }}
+                                            </b>
                                             <b
                                                 class="badge {{ $subOrders->order_status === 'order_cancelled' ? 'bg-danger' : 'bg-dark' }}">
-                                                {{ ucfirst(str_replace(['_', '-'], ' ', $subOrders->order_status)) }}</b>
-                                        </div>
-
+                                                {{ ucfirst(str_replace(['_', '-'], ' ', $subOrders->order_status)) }}
+                                            </b>
+                                        </div> --}}
                                         <div class="d-flex justify-content-between gap-1">
                                             <b>{{ __('Sub Order ID') }} </b>
-                                            <b class="request__right">#{{ $subOrders->id }}</b>
+                                            <b class="request__right">
+                                                #{{ $subOrders->id }}
+                                            </b>
                                         </div>
                                         <a href="{{ route('admin.orders.details', $subOrders->id) }}"
                                             class="cmn_btn btn_bg_profile">
-                                            <i class="las la-eye"></i> <small>{{ __('View Sub Order') }}</small>
+                                            <i class="las la-eye"></i>
+                                            <small>
+                                                {{ __('View Sub Order') }}
+                                            </small>
                                         </a>
                                     </div>
                                 </div>
@@ -546,18 +681,24 @@
                                             <div class="subOrder__single">
                                                 <div class="subOrder__single__item">
                                                     <span
-                                                        class="subOrder__single__item__left">{{ $subOrders->vendor->owner_name }}</span>
+                                                        class="subOrder__single__item__left">
+                                                        {{ $subOrders->vendor->owner_name }}
+                                                    </span>
                                                     <div class="subOrder__single__item__right">
                                                         <h6>({{ $subOrders->vendor->username }})</h6>
                                                     </div>
                                                 </div>
+                                                {{-- <div class="subOrder__single__item">
+                                                    <span
+                                                        class="subOrder__single__item__left">
+                                                        {{ strip_tags($subOrders->vendor->description) }}
+                                                    </span>
+                                                </div> --}}
                                                 <div class="subOrder__single__item">
                                                     <span
-                                                        class="subOrder__single__item__left">{{ strip_tags($subOrders->vendor->description) }}</span>
-                                                </div>
-                                                <div class="subOrder__single__item">
-                                                    <span
-                                                        class="subOrder__single__item__left">{{ __('Total Income') }}</span>
+                                                        class="subOrder__single__item__left">
+                                                        {{ __('Total Income') }}
+                                                    </span>
                                                     <h6 class="badge badge-sm bg-success subOrder__single__item__right">
                                                         {{ float_amount_with_currency_symbol($subOrders->vendor->total_earning) }}
                                                     </h6>
@@ -568,27 +709,39 @@
                                             <div class="subOrder__single">
                                                 <div class="subOrder__single__item">
                                                     <span
-                                                        class="subOrder__single__item__left">{{ __('Total Product') }}</span>
+                                                        class="subOrder__single__item__left">
+                                                        {{ __('Total Product') }}
+                                                    </span>
                                                     <h6 class="badge badge-sm bg-success subOrder__single__item__right">
-                                                        {{ $subOrders->vendor->product_count }}</h6>
+                                                        {{ $subOrders->vendor->product_count }}
+                                                    </h6>
                                                 </div>
                                                 <div class="subOrder__single__item">
                                                     <span
-                                                        class="subOrder__single__item__left">{{ __('Total Orders') }}</span>
+                                                        class="subOrder__single__item__left">
+                                                        {{ __('Total Orders') }}
+                                                    </span>
                                                     <h6 class="badge badge-sm bg-success subOrder__single__item__right">
-                                                        {{ $subOrders->vendor->pending_order }}</h6>
+                                                        {{ $subOrders->vendor->pending_order }}
+                                                    </h6>
                                                 </div>
                                                 <div class="subOrder__single__item">
                                                     <span
-                                                        class="subOrder__single__item__left">{{ __('Pending Orders') }}</span>
+                                                        class="subOrder__single__item__left">
+                                                        {{ __('Pending Orders') }}
+                                                    </span>
                                                     <h6 class="badge badge-sm bg-success subOrder__single__item__right">
-                                                        {{ $subOrders->vendor->pending_order }}</h6>
+                                                        {{ $subOrders->vendor->pending_order }}
+                                                    </h6>
                                                 </div>
                                                 <div class="subOrder__single__item">
                                                     <span
-                                                        class="subOrder__single__item__left">{{ __('Complete Orders') }}</span>
+                                                        class="subOrder__single__item__left">
+                                                        {{ __('Complete Orders') }}
+                                                    </span>
                                                     <h6 class="badge badge-sm bg-success subOrder__single__item__right">
-                                                        {{ $subOrders->vendor->complete_order }}</h6>
+                                                        {{ $subOrders->vendor->complete_order }}
+                                                    </h6>
                                                 </div>
                                             </div>
                                         </div>
@@ -596,37 +749,55 @@
                                             <div class="subOrder__single">
                                                 <div class="subOrder__single__item">
                                                     <span class="subOrder__single__item__left">
-                                                        <h6>{{ __('Order Information') }}</h6>
+                                                        <h6>
+                                                            {{ __('Order Information') }}
+                                                        </h6>
                                                     </span>
                                                 </div>
                                                 <div class="subOrder__single__item">
                                                     <span
-                                                        class="subOrder__single__item__left">{{ __('Order Product Count') }}</span>
+                                                        class="subOrder__single__item__left">
+                                                        {{ __('Order Product Count') }}
+                                                    </span>
                                                     <h6 class="badge badge-sm bg-success subOrder__single__item__right">
                                                         {{ $subOrders->order_item_count }}
                                                     </h6>
                                                 </div>
                                                 <div class="subOrder__single__item">
                                                     <span
-                                                        class="subOrder__single__item__left">{{ __('Payment Status') }}</span>
-
+                                                        class="subOrder__single__item__left">
+                                                        {{ __('Payment Status') }}
+                                                    </span>
                                                     @if ($subOrders->order->payment_status == 'complete')
                                                         <h6
                                                             class="badge badge-sm bg-success subOrder__single__item__right">
-                                                            {{ __('Complete') }}</h6>
+                                                            {{ __('Complete') }}
+                                                        </h6>
                                                     @elseif ($subOrders->order->payment_status == 'pending')
                                                         <h6
                                                             class="badge badge-sm bg-warning subOrder__single__item__right">
-                                                            {{ __('Pending') }}</h6>
+                                                            {{ __('Pending') }}
+                                                        </h6>
                                                     @elseif ($subOrders->order->payment_status == 'failed')
                                                         <h6 class="badge badge-sm bg-danger subOrder__single__item__right">
-                                                            {{ __('Failed') }}</h6>
+                                                            {{ __('Failed') }}
+                                                        </h6>
                                                     @endif
-
                                                 </div>
                                                 <div class="subOrder__single__item">
                                                     <span
-                                                        class="subOrder__single__item__left">{{ __('Order Amount') }}</span>
+                                                        class="subOrder__single__item__left">
+                                                        {{ __('Order Status') }}
+                                                    </span>
+                                                    <span class="badge {{ $subOrders->order_status === 'order_cancelled' ? 'bg-danger' : 'bg-dark' }}">
+                                                        {{ ucfirst(str_replace(['_', '-'], ' ', $subOrders->order_status)) }}
+                                                    </span>
+                                                </div>
+                                                <div class="subOrder__single__item">
+                                                    <span
+                                                        class="subOrder__single__item__left">
+                                                        {{ __('Order Amount') }}
+                                                    </span>
                                                     <h6 class="badge badge-sm bg-success subOrder__single__item__right">
                                                         {{ float_amount_with_currency_symbol($subOrders->total_amount) }}
                                                     </h6>

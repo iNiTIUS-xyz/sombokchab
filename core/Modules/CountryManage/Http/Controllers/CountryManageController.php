@@ -26,7 +26,7 @@ class CountryManageController extends Controller
         return view('countrymanage::backend.all-country', compact('all_countries'));
     }
 
-    public function store(StoreCountryManageRequest $request): RedirectResponse
+    public function store(StoreCountryManageRequest $request)
     {
         $country = Country::create([
             'name' => $request->sanitize_html('name'),
@@ -36,7 +36,7 @@ class CountryManageController extends Controller
         return $country->id ? back()->with(FlashMsg::create_succeed('Country')) : back()->with(FlashMsg::create_failed('Country'));
     }
 
-    public function update(UpdateCountryManageRequest $request): RedirectResponse
+    public function update(UpdateCountryManageRequest $request)
     {
         $updated = Country::findOrFail($request->id)->update([
             'name' => $request->sanitize_html('name'),
@@ -46,7 +46,7 @@ class CountryManageController extends Controller
         return $updated ? back()->with(FlashMsg::update_succeed('Country')) : back()->with(FlashMsg::update_failed('Country'));
     }
 
-    public function destroy(Country $item): RedirectResponse
+    public function destroy(Country $item)
     {
         return $item->delete() ? back()->with(FlashMsg::delete_succeed('Country')) : back()->with(FlashMsg::delete_failed('Country'));
     }
@@ -57,6 +57,17 @@ class CountryManageController extends Controller
         if ($deleted) {
             return 'ok';
         }
+    }
+
+    public function statusUpdate(Request $request, $id)
+    {
+        $updated = Country::findOrFail($request->id)->update([
+            'status' => $request->status,
+        ]);
+
+        return $updated
+            ? back()->with(['msg' => __('Country status changed successfully.'), 'type' => 'success'])
+            : back()->with(['msg' => __('Something went wrong. Please try again.'), 'type' => 'error']);
     }
 
 

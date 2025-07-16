@@ -32,7 +32,7 @@
                         <table class="table" id="dataTable">
                             <thead>
                                 <tr>
-                                    <th>{{ __('Reason Title') }}</th>
+                                    <th>{{ __('Refund Reasons') }}</th>
                                     <th>{{ __('Action') }}</th>
                                 </tr>
                             </thead>

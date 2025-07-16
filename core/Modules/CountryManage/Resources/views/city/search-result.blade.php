@@ -26,12 +26,11 @@
                     <td>{{ $city->state?->name }}</td>
                     <td>{{ $city->country?->name }}</td>
                     <td>
-
                         <div class="btn-group badge">
                             <button type="button"
                                 class="status-{{ $city->status }} {{ $city->status == 'publish' ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {{ ucfirst($city->status == 'publish' ? __('Publish') : __('Unpublish')) }}
+                                {{ ucfirst($city->status == 'publish' ? __('Publish') : __('Draft')) }}
                             </button>
                             <div class="dropdown-menu">
                                 {{-- Form for activating --}}
@@ -48,7 +47,7 @@
                                     @csrf
                                     <input type="hidden" name="status" value="draft">
                                     <button type="submit" class="dropdown-item">
-                                        {{ __('Unpublish') }}
+                                        {{ __('Draft') }}
                                     </button>
                                 </form>
                             </div>

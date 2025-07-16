@@ -128,7 +128,7 @@
                     <div class="subOrder__single__item">
                         <span class="subOrder__single__item__left">{{ __('Tax Amount') }}</span>
                         @if ($subOrders?->tax_type == 'inclusive_price')
-                            <span class="subOrder__single__item__left">{{ __('Inclusive Tax') }}</span>
+                            <span class="subOrder__single__item__left">{{ __('Tax Inclusive') }}</span>
                         @else
                             <span
                                 class="subOrder__single__item__right">{{ float_amount_with_currency_symbol($subOrders?->tax_amount) }}</span>

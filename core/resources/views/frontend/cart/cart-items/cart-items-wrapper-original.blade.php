@@ -149,7 +149,7 @@
                                     <div class="checkout__card__footer__estimate__item d-flex justify-content-between">
                                         <b>{{ __('Tax Amount') }}</b> <b id="vendor_tax_amount"
                                             class="vendor_tax_amount">
-                                            {{ get_static_option('display_price_in_the_shop') == 'including' ? __('Inclusive Tax') : '' }}
+                                            {{ get_static_option('display_price_in_the_shop') == 'including' ? __('Tax Inclusive') : '' }}
                                         </b>
                                     </div>
                                 @endif
@@ -225,7 +225,7 @@
                                     <div class="checkout__card__footer__estimate__item d-flex justify-content-between">
                                         <b>{{ __('Tax Amount') }}</b>
                                         <b id="vendor_tax_amount" class="vendor_tax_amount">
-                                            {{ get_static_option('display_price_in_the_shop') == 'including' ? __('Inclusive Tax') : '' }}
+                                            {{ get_static_option('display_price_in_the_shop') == 'including' ? __('Tax Inclusive') : '' }}
                                         </b>
                                     </div>
                                 @endif

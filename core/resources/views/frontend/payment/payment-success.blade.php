@@ -430,7 +430,7 @@
                                                         </b>
                                                         <b id="vendor_tax_amount">
                                                             @if ($order->tax_type == 'inclusive_price')
-                                                                {{ __('Inclusive Tax') }}
+                                                                {{ __('Tax Inclusive') }}
                                                             @else
                                                                 {{ float_amount_with_currency_symbol($order->tax_amount) }}
                                                             @endif

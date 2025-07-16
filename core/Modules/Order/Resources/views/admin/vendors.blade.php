@@ -28,11 +28,11 @@
                         <tr>
                             {{-- <th>{{ __('Serial No.') }}</th> --}}
                             <th style="width:80px">{{ __('Image') }}</th>
-                            <th>{{ __('Info') }}</th>
-                            <th>{{ __('Total Product') }}</th>
+                            <th>{{ __('Store Details') }}</th>
+                            <th>{{ __('Total Products') }}</th>
                             <th>{{ __('Total Orders') }}</th>
-                            <th>{{ __('Pending Order') }}</th>
-                            <th>{{ __('Complete Order') }}</th>
+                            <th>{{ __('Pending Orders') }}</th>
+                            <th>{{ __('Completed Orders') }}</th>
                             <th>{{ __('Total Earning') }}</th>
                             <th>{{ __('Action') }}</th>
                         </tr>
@@ -67,10 +67,10 @@
                                         class="btn btn-sm btn-primary" title="{{ __('See Orders') }}">
                                         <i class="ti-eye"></i>
                                     </a>
-                                    <a href="{{ route('admin.orders.vendor.order', $vendor->username) }}"
+                                    {{-- <a href="{{ route('admin.orders.vendor.order', $vendor->username) }}"
                                         class="btn btn-sm btn-secondary" title="{{ __('Vendor info') }}">
                                         <i class="ti-info"></i>
-                                    </a>
+                                    </a> --}}
                                 </td>
                             </tr>
                         @endforeach

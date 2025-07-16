@@ -5,6 +5,12 @@
 @endsection
 
 @section('content')
+    <div class="row">
+        <div class="col-md-12">
+            <x-msg.error />
+            <x-msg.flash />
+        </div>
+    </div>
     <div class="dashboard__card">
         <div class="dashboard__card__header">
             <h4 class="dashboard__card__title">{{ __('All Store Orders') }}</h4>
@@ -17,7 +23,6 @@
                             <tr>
                                 <th>{{ __('Order No.') }}</th>
                                 <th>{{ __('Store Name') }}</th>
-                                {{-- <th>{{ __('Tracking Number') }}</th> --}}
                                 <th>{{ __('Order Date') }}</th>
                                 <th>{{ __('Order Status') }}</th>
                                 <th>{{ __('Payment Status') }}</th>
@@ -28,15 +33,12 @@
                         <tbody>
                             @foreach ($all_orders as $order)
                                 <tr class="completed">
-                                    {{-- <td class="order-numb">
-                                        {{ $order->id }}
-                                    </td> --}}
                                     <td class="order-numb">
                                         {{ $order->order_number }}
                                     </td>
                                     <td class="order-numb">
                                         <strong>{{ $order?->vendor?->owner_name }}</strong>
-                                            ({{ $order?->vendor?->username }})
+                                        ({{ $order?->vendor?->username }})
                                     </td>
                                     <td class="date">
                                         {{ $order->created_at->format('F d, Y') }}
@@ -71,7 +73,7 @@
                                             @can('orders-generate-invoice')
                                                 <a href="{{ route('admin.orders.generate.invoice', $order->id) }}"
                                                     class="btn btn-info rounded-btn" title="{{ __('View Invoice') }}">
-                                                    
+
                                                     <i class="ti-info"></i>
                                                 </a>
                                             @endcan
@@ -82,19 +84,18 @@
                                                 </a>
                                             @endcan
                                             {{-- @can('orders-download-invoice')
-                                                <a href="{{ route('admin.orders.download.invoice', $order->id) }}"
-                                                    class="btn btn-primary rounded-btn" title="{{ __('Download Data') }}">
-                                                    <i class="las la-download"></i>
-                                                </a>
+                                            <a href="{{ route('admin.orders.download.invoice', $order->id) }}"
+                                                class="btn btn-primary rounded-btn" title="{{ __('Download Data') }}">
+                                                <i class="las la-download"></i>
+                                            </a>
                                             @endcan --}}
                                             @can('orders-update')
                                                 <a href="{{ route('admin.orders.edit', $order->id) }}"
-                                                    class="btn btn-warning text-dark rounded-btn"
-                                                    title="{{ __('Edit Data') }}">
+                                                    class="btn btn-warning text-dark rounded-btn" title="{{ __('Edit Data') }}">
                                                     <i class="ti-pencil"></i>
                                                 </a>
                                             @endcan
-                                            
+
                                         </div>
                                     </td>
                                 </tr>
@@ -111,18 +112,18 @@
     <script src="{{ asset('assets/backend/js/sweetalert2.js') }}"></script>
 
     <script>
-        (function($) {
+        (function ($) {
             "use strict";
-            $(document).ready(function() {
+            $(document).ready(function () {
 
-                $(document).on('click', '.bodyUser_overlay', function() {
+                $(document).on('click', '.bodyUser_overlay', function () {
                     $('.user-dashboard-wrapper, .bodyUser_overlay').removeClass('show');
                 });
-                $(document).on('click', '.mobile_nav', function() {
+                $(document).on('click', '.mobile_nav', function () {
                     $('.user-dashboard-wrapper, .bodyUser_overlay').addClass('show');
                 });
 
-                $(document).on('click', '.swal_delete_button', function(e) {
+                $(document).on('click', '.swal_delete_button', function (e) {
                     e.preventDefault();
                     Swal.fire({
                         title: '{{ __('Are you sure?') }}',

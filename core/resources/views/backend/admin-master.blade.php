@@ -100,7 +100,7 @@
             text-transform: uppercase;
         }
 
-        .form-select{
+        .form-select {
             width: 100% !important;
             font-size: 14px !important;
             font-weight: 400 !important;

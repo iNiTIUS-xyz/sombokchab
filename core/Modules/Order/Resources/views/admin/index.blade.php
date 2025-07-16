@@ -18,7 +18,7 @@
                             {{-- <th>{{ __('Tracking Number') }}</th> --}}
                             <th>{{ __('Store Name') }}</th>
                             <th>{{ __('Order Date') }}</th>
-                            <th>{{ __('Status') }}</th>
+                            <th>{{ __('Order Status') }}</th>
                             <th>{{ __('Amount') }}</th>
                             <th>{{ __('Action') }}</th>
                         </tr>

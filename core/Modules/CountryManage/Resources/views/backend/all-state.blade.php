@@ -53,7 +53,7 @@
                                                     <button type="button"
                                                         class="status-{{ $state->status }} {{ $state->status == 'publish' ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
                                                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        {{ ucfirst($state->status == 'publish' ? __('Publish') : __('Unpublish')) }}
+                                                        {{ ucfirst($state->status == 'publish' ? __('Publish') : __('Draft')) }}
                                                     </button>
                                                     <div class="dropdown-menu">
                                                         {{-- Form for activating --}}
@@ -70,7 +70,7 @@
                                                             @csrf
                                                             <input type="hidden" name="status" value="draft">
                                                             <button type="submit" class="dropdown-item">
-                                                                {{ __('Unpublish') }}
+                                                                {{ __('Draft') }}
                                                             </button>
                                                         </form>
                                                     </div>
