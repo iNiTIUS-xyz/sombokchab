@@ -31,6 +31,7 @@ class StateController extends Controller
 
     public function store(Request $request)
     {
+
         $state = State::create([
             'name' => $request->sanitize_html('name'),
             'country_id' => $request->sanitize_html('country_id'),
@@ -47,18 +48,29 @@ class StateController extends Controller
         $updated = State::findOrFail($request->id)->update([
             'name' => $request->sanitize_html('name'),
             'country_id' => $request->sanitize_html('country_id'),
-            'status' => $request->sanitize_html('status'),
+            // 'status' => $request->sanitize_html('status'),
         ]);
 
         return $updated
-            ? back()->with(['msg' => __('New City updated successfully.'), 'type' => 'success'])
+            ? back()->with(['msg' => __('Province updated successfully.'), 'type' => 'success'])
+            : back()->with(['msg' => __('Something went wrong. Please try again.'), 'type' => 'error']);
+    }
+
+    public function statusUpdate(Request $request, $id)
+    {
+        $updated = State::findOrFail($request->id)->update([
+            'status' => $request->status,
+        ]);
+
+        return $updated
+            ? back()->with(['msg' => __('Province status changed successfully.'), 'type' => 'success'])
             : back()->with(['msg' => __('Something went wrong. Please try again.'), 'type' => 'error']);
     }
 
     public function destroy(State $item)
     {
         return $item->delete()
-            ? back()->with(['msg' => __('New City deleted successfully.'), 'type' => 'success'])
+            ? back()->with(['msg' => __('Province deleted successfully.'), 'type' => 'success'])
             : back()->with(['msg' => __('Something went wrong. Please try again.'), 'type' => 'error']);
     }
 
@@ -176,7 +188,7 @@ class StateController extends Controller
         }
 
         return redirect()->route('admin.state.import.csv.settings')->with([
-            'msg' => __('City imported successfully'),
+            'msg' => __('Province imported successfully'),
             'type' => 'success',
         ]);
     }

@@ -41,11 +41,8 @@
                                     @can('brand-manage-bulk-action')
                                         <x-bulk-action.th />
                                     @endcan
-                                    {{-- <th>{{ __('Serial No.') }}</th> --}}
                                     <th>{{ __('Logo') }}</th>
-                                    <th>{{ __('Banner') }}</th>
                                     <th>{{ __('Name') }}</th>
-                                    <th>{{ __('Title') }}</th>
                                     <th>{{ __('Description') }}</th>
                                     <th>{{ __('Action') }}</th>
                                 </thead>
@@ -63,15 +60,7 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>
-                                                <div class="attachment-preview">
-                                                    <div class="img-wrap">
-                                                        {!! render_image($item->banner, size: 'full') !!}
-                                                    </div>
-                                                </div>
-                                            </td>
                                             <td>{{ $item->name }}</td>
-                                            <td>{{ $item->title }}</td>
                                             <td class="w-40">{{ $item->description }}</td>
                                             <td>
                                                 @can('brand-manage-update')
@@ -145,7 +134,7 @@
                                     <div class="form-group">
                                         <label for="name">{{ __('Description') }}</label>
                                         <textarea class="form-control" id="edit-description" name="description"
-                                            placeholder="{{ __('Enter brand Description Optional') }}"> </textarea>
+                                            placeholder="{{ __('Enter brand Description Optional') }}"></textarea>
                                     </div>
 
                                 </div>
@@ -156,19 +145,11 @@
                                 </div>
                                 <div class="col-md-6 mb-4">
                                     <x-media-upload :title="__('Banner')" :name="'banner_id'" :dimentions="'200x200'" />
-
                                 </div>
-
-                                {{-- <div class="col-md-6">
-                                    <button type="submit" class="cmn_btn btn_bg_profile">
-                                        {{ __('Update') }}
-                                    </button>
-                                </div> --}}
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
                             <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                         </div>
                     </form>
@@ -217,7 +198,7 @@
                                     <div class="form-group">
                                         <label for="name">{{ __('Description') }}</label>
                                         <textarea class="form-control" id="description" name="description"
-                                            placeholder="{{ __('Enter brand Description Optional') }}"> </textarea>
+                                            placeholder="{{ __('Enter brand Description Optional') }}"></textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-4">
@@ -227,16 +208,10 @@
                                 <div class="col-md-6 mb-4">
                                     <x-media-upload :title="__('Banner')" :name="'banner_id'" :dimentions="'200x200'" />
                                 </div>
-
-                                {{-- <div class="col-md-6 mb-4">
-
-                                    <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Add') }}</button>
-                                </div> --}}
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
                             <button type="submit" class="btn btn-primary">{{ __('Add') }}</button>
                         </div>
                     </form>

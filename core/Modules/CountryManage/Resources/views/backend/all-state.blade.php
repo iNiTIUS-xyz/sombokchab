@@ -46,10 +46,36 @@
                                             @can('state-bulk-action')
                                                 <x-bulk-action.td :id="$state->id" />
                                             @endcan
-                                            {{-- <td>{{ $loop->iteration }}</td> --}}
                                             <td>{{ $state->name }}</td>
                                             <td>{{ optional($state->country)->name }}</td>
-                                            <td><x-status-span :status="$state->status" /></td>
+                                            <td>
+                                                <div class="btn-group badge">
+                                                    <button type="button"
+                                                        class="status-{{ $state->status }} {{ $state->status == 'publish' ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
+                                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        {{ ucfirst($state->status == 'publish' ? __('Publish') : __('Unpublish')) }}
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        {{-- Form for activating --}}
+                                                        <form action="{{ route('admin.state.status.update', $state->id) }}"
+                                                            method="POST" id="status-form-activate-{{ $state->id }}">
+                                                            @csrf
+                                                            <input type="hidden" name="status" value="publish">
+                                                            <button type="submit" class="dropdown-item">
+                                                                {{ __('Publish') }}
+                                                            </button>
+                                                        </form>
+                                                        <form action="{{ route('admin.state.status.update', $state->id) }}"
+                                                            method="POST" id="status-form-deactivate-{{ $state->id }}">
+                                                            @csrf
+                                                            <input type="hidden" name="status" value="draft">
+                                                            <button type="submit" class="dropdown-item">
+                                                                {{ __('Unpublish') }}
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </td>
                                             <td>
                                                 @can('state-update')
                                                     <a href="javascript:;" title="{{ __('Edit Data') }}" data-bs-toggle="modal"
@@ -80,7 +106,7 @@
             <div class="modal-dialog">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
-                        <h5 class="modal-title">{{ __('Update City') }}</h5>
+                        <h5 class="modal-title">{{ __('Update Province') }}</h5>
                         <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
                     </div>
                     <form action="{{ route('admin.state.update') }}" method="post">
@@ -88,9 +114,9 @@
                         <div class="modal-body">
                             @csrf
                             <div class="form-group">
-                                <label for="edit_name">{{ __('City Name') }}</label>
+                                <label for="edit_name">{{ __('Province Name') }}</label>
                                 <input type="text" class="form-control" id="edit_name" name="name"
-                                    placeholder="{{ __('Enter city name') }}">
+                                    placeholder="{{ __('Enter province name') }}">
                             </div>
                             <div class="form-group">
                                 <label for="edit_country_id">{{ __('Country') }}</label>
@@ -100,17 +126,11 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label for="edit_status">{{ __('Status') }}</label>
-                                <select name="status" class="form-control" id="edit_status">
-                                    <option value="publish">{{ __('Publish') }}</option>
-                                    <option value="draft">{{ __('Unpublish') }}</option>
-                                </select>
-                            </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-sm btn-secondary"
-                                data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">
+                                {{ __('Cancel') }}
+                            </button>
                             <button type="submit" class="btn btn-sm btn-primary">{{ __('Update') }}</button>
                         </div>
                     </form>
@@ -123,16 +143,16 @@
             <div class="modal-dialog">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
-                        <h5 class="modal-title">{{ __('Create City') }}</h5>
+                        <h5 class="modal-title">{{ __('Create Province') }}</h5>
                         <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
                     </div>
                     <form action="{{ route('admin.state.new') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="modal-body p-4">
                             <div class="form-group">
-                                <label for="name">{{ __('City Name') }}</label>
+                                <label for="name">{{ __('Province Name') }}</label>
                                 <input type="text" class="form-control" id="name" name="name"
-                                    placeholder="{{ __('Enter city Name') }}">
+                                    placeholder="{{ __('Enter Province Name') }}">
                             </div>
 
                             <div class="form-group">
@@ -151,7 +171,13 @@
                                     <option value="draft">{{ __('Unpublish') }}</option>
                                 </select>
                             </div>
-                            <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4">{{ __('Add') }}</button>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">
+                                {{ __('Cancel') }}
+                            </button>
+                            <button type="submit" class="btn btn-sm btn-primary">{{ __('Add') }}</button>
                         </div>
                     </form>
                 </div>
@@ -166,8 +192,8 @@
     @endcan
 
     <script>
-        $(document).ready(function() {
-            $(document).on('click', '.state_edit_btn', function() {
+        $(document).ready(function () {
+            $(document).on('click', '.state_edit_btn', function () {
                 let el = $(this);
                 let id = el.data('id');
                 let name = el.data('name');

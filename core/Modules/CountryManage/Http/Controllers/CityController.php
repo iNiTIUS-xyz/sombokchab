@@ -33,7 +33,7 @@ class CityController extends Controller
                 'status' => $request->status,
             ]);
 
-            return back()->with(['msg' => __('New state created successfully.'), 'type' => 'success',]);
+            return back()->with(['msg' => __('City created successfully.'), 'type' => 'success',]);
         }
 
         $all_countries = Country::get();
@@ -48,7 +48,7 @@ class CityController extends Controller
         $request->validate([
             'city' => 'required|max:191|unique:cities,name,' . $request->city_id,
             'country' => 'required',
-            'state' => 'required',
+            'state' => 'nullable',
         ]);
 
 
@@ -57,11 +57,11 @@ class CityController extends Controller
                 'name' => $request->city,
                 'state_id' => $request->state,
                 'country_id' => $request->country,
-                'status' => $request->status,
+                // 'status' => $request->status,
             ]);
 
         return back()->with([
-            'msg' => __('New state updated successfully.'),
+            'msg' => __('City updated successfully.'),
             'type' => 'success',
         ]);
 
@@ -74,10 +74,21 @@ class CityController extends Controller
         City::where('id', $id)->update(['status' => $status]);
 
         return back()->with([
-            'msg' => __('Status changed successfully.'),
+            'msg' => __('City status changed successfully.'),
             'type' => 'success',
         ]);
 
+    }
+
+    public function statusUpdate(Request $request, $id)
+    {
+        $updated = City::findOrFail($request->id)->update([
+            'status' => $request->status,
+        ]);
+
+        return $updated
+            ? back()->with(['msg' => __('City status changed successfully.'), 'type' => 'success'])
+            : back()->with(['msg' => __('Something went wrong. Please try again.'), 'type' => 'error']);
     }
 
     public function delete_city($id)
@@ -85,7 +96,7 @@ class CityController extends Controller
         City::find($id)->delete();
 
         return back()->with([
-            'msg' => __('State deleted successfully.'),
+            'msg' => __('City deleted successfully.'),
             'type' => 'success',
         ]);
 
@@ -96,7 +107,7 @@ class CityController extends Controller
         City::whereIn('id', $request->ids)->delete();
 
         return back()->with([
-            'msg' => __('Selected state deleted successfully.'),
+            'msg' => __('Selected city deleted successfully.'),
             'type' => 'success',
         ]);
 
@@ -201,7 +212,7 @@ class CityController extends Controller
         }
 
         return back()->route('admin.city.import.csv.settings')->with([
-            'msg' => __('States imported successfully.'),
+            'msg' => __('City imported successfully.'),
             'type' => 'success',
         ]);
 

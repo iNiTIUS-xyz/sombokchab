@@ -26,15 +26,41 @@
                     <td>{{ $city->state?->name }}</td>
                     <td>{{ $city->country?->name }}</td>
                     <td>
-                        <x-status.table.active-inactive :status="$city->status" />
+
+                        <div class="btn-group badge">
+                            <button type="button"
+                                class="status-{{ $city->status }} {{ $city->status == 'publish' ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ ucfirst($city->status == 'publish' ? __('Publish') : __('Unpublish')) }}
+                            </button>
+                            <div class="dropdown-menu">
+                                {{-- Form for activating --}}
+                                <form action="{{ route('admin.city.status.update', $city->id) }}" method="POST"
+                                    id="status-form-activate-{{ $city->id }}">
+                                    @csrf
+                                    <input type="hidden" name="status" value="publish">
+                                    <button type="submit" class="dropdown-item">
+                                        {{ __('Publish') }}
+                                    </button>
+                                </form>
+                                <form action="{{ route('admin.city.status.update', $city->id) }}" method="POST"
+                                    id="status-form-deactivate-{{ $city->id }}">
+                                    @csrf
+                                    <input type="hidden" name="status" value="draft">
+                                    <button type="submit" class="dropdown-item">
+                                        {{ __('Unpublish') }}
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
                     </td>
                     <td>
                         {{-- <x-status.table.status-change :url="route('admin.city.status', $city->id)" /> --}}
                         <a href="javascript:;" title="{{ __('Edit Data') }}"
                             class="btn btn-warning btn-sm text-dark edit_city_modal" data-bs-toggle="modal"
-                            data-bs-target="#editCityModal" data-city="{{ $city->name }}"
-                            data-city_id="{{ $city->id }}" title="{{ __('Edit Data') }}"
-                            data-state_id="{{ $city->state_id }}" data-country_id="{{ $city->country_id }}" data-city_status="{{ $city->status }}">
+                            data-bs-target="#editCityModal" data-city="{{ $city->name }}" data-city_id="{{ $city->id }}"
+                            title="{{ __('Edit Data') }}" data-state_id="{{ $city->state_id }}"
+                            data-country_id="{{ $city->country_id }}" data-city_status="{{ $city->status }}">
                             <i class="ti-pencil"></i>
                         </a>
                         <x-popup.delete-popup :url="route('admin.city.delete', $city->id)" />

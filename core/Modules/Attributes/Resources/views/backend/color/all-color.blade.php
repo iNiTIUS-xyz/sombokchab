@@ -19,7 +19,7 @@
                 </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('All Colors') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('Product Variant Colors') }}</h4>
                         @can('colors-bulk-action')
                             <x-bulk-action.dropdown />
                         @endcan
@@ -57,8 +57,7 @@
                                                     <a href="#1" title="{{ __('Edit Data') }}" data-bs-toggle="modal"
                                                         data-bs-target="#color_edit_modal"
                                                         class="btn btn-warning text-dark btn-xs mb-2 me-1 color_edit_btn"
-                                                        data-id="{{ $product_color->id }}"
-                                                        data-name="{{ $product_color->name }}"
+                                                        data-id="{{ $product_color->id }}" data-name="{{ $product_color->name }}"
                                                         data-color_code="{{ $product_color->color_code }}"
                                                         data-slug="{{ $product_color->slug }}">
                                                         <i class="mdi mdi-pencil"></i>
@@ -76,79 +75,45 @@
                     </div>
                 </div>
             </div>
-            {{-- @can('colors-new')
-                <div class="col-md-5">
-                    <div class="dashboard__card">
-                        <div class="dashboard__card__header">
-                            <h4 class="dashboard__card__title">{{ __('New Color') }}</h4>
-                        </div>
-                        <div class="dashboard__card__body custom__form mt-4">
-                            <form action="{{ route('admin.product.colors.new') }}" method="POST">
-                                @csrf
-                                <div class="form-group">
-                                    <label for="name">{{ __('Name') }}</label>
-                                    <input type="text" class="form-control" id="name" name="name"
-                                        placeholder="{{ __('Enter name') }}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="color_code">{{ __('Color Code') }}</label>
-                                    <input type="color" class="form-control w-25 p-1" id="color_code" name="color_code">
-                                </div>
-                                <div class="form-group">
-                                    <label for="slug">{{ __('Slug') }}</label>
-                                    <input type="text" class="form-control" id="slug" name="slug"
-                                        placeholder="{{ __('Enter slug') }}">
-                                </div>
-                                <div class="btn-wrapper mt-3">
-                                    <button class="cmn_btn btn_bg_profile">
-                                        {{ __('Add') }}
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            @endcan --}}
         </div>
     </div>
 
     @can('colors-new')
-    <div class="modal fade" id="color_add_modal" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content custom__form">
-                <div class="modal-header">
-                    <h5 class="modal-title">{{ __('Add Color') }}</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
+        <div class="modal fade" id="color_add_modal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content custom__form">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{{ __('Add Color') }}</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
+                    </div>
+                    <form action="{{ route('admin.product.colors.new') }}" method="POST">
+                        <div class="modal-body">
+                            @csrf
+                            <div class="form-group">
+                                <label for="name">{{ __('Name') }}</label>
+                                <input type="text" class="form-control" id="name" name="name"
+                                    placeholder="{{ __('Enter name') }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="color_code">{{ __('Color Code') }}</label>
+                                <input type="color" class="form-control w-25 p-1" id="color_code" name="color_code">
+                            </div>
+                            <div class="form-group">
+                                <label for="slug">{{ __('Slug') }}</label>
+                                <input type="text" class="form-control" id="slug" name="slug"
+                                    placeholder="{{ __('Enter slug') }}">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                            <button type="submit" class="btn btn-primary">
+                                {{ __('Add') }}
+                            </button>
+                        </div>
+                    </form>
                 </div>
-                <form action="{{ route('admin.product.colors.new') }}" method="POST">
-                    <div class="modal-body">
-                        @csrf
-                        <div class="form-group">
-                            <label for="name">{{ __('Name') }}</label>
-                            <input type="text" class="form-control" id="name" name="name"
-                                placeholder="{{ __('Enter name') }}">
-                        </div>
-                        <div class="form-group">
-                            <label for="color_code">{{ __('Color Code') }}</label>
-                            <input type="color" class="form-control w-25 p-1" id="color_code" name="color_code">
-                        </div>
-                        <div class="form-group">
-                            <label for="slug">{{ __('Slug') }}</label>
-                            <input type="text" class="form-control" id="slug" name="slug"
-                                placeholder="{{ __('Enter slug') }}">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">{{ __('Cancel') }}</button>
-                        <button type="submit" class="btn btn-primary">
-                            {{ __('Add') }}
-                        </button>
-                    </div>
-                </form>
             </div>
         </div>
-    </div>
     @endcan
     @can('colors-update')
         <div class="modal fade" id="color_edit_modal" aria-hidden="true">
@@ -178,8 +143,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
                             <button type="submit" class="btn btn-primary">
                                 {{ __('Update') }}
                             </button>
@@ -197,8 +161,8 @@
         <x-bulk-action.js :route="route('admin.product.colors.bulk.action')" />
     @endcan
     <script>
-        $(document).ready(function() {
-            $(document).on('click', '.color_edit_btn', function() {
+        $(document).ready(function () {
+            $(document).on('click', '.color_edit_btn', function () {
                 let el = $(this);
                 let modal = $('#color_edit_modal');
 

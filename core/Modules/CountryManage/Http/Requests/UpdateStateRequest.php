@@ -16,7 +16,7 @@ class UpdateStateRequest extends FormRequest
         return [
             'name' => 'required|string|max:191',
             'country_id' => 'required|exists:countries,id',
-            'status' => 'required|string|max:191',
+            'status' => 'nullable|string|max:191',
         ];
     }
 

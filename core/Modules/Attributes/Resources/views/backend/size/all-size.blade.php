@@ -1,10 +1,13 @@
 @extends('backend.admin-master')
+
 @section('site-title')
     {{ __('All Sizes') }}
 @endsection
+
 @section('style')
     <x-bulk-action.css />
 @endsection
+
 @section('content')
     <div class="col-lg-12 col-ml-12 padding-bottom-20">
         <div class="row g-4">
@@ -13,8 +16,9 @@
                 <x-flash-msg />
                 <div class="mb-4">
                     @can('sizes-new')
-                        <a href="#1" data-bs-toggle="modal" data-bs-target="#size_add_modal"
-                            class="cmn_btn btn_bg_profile">{{ __('Add New Size') }}</a>
+                        <a href="#1" data-bs-toggle="modal" data-bs-target="#size_add_modal" class="cmn_btn btn_bg_profile">
+                            {{ __('Add New Size') }}
+                        </a>
                     @endcan
                 </div>
                 <div class="dashboard__card">
@@ -51,8 +55,7 @@
                                                 @can('sizes-update')
                                                     <a href="#1" data-bs-toggle="modal" data-bs-target="#size_edit_modal"
                                                         class="btn btn-warning text-dark btn-xs mb-2 me-1 size_edit_btn"
-                                                        data-id="{{ $product_size->id }}"
-                                                        data-name="{{ $product_size->name }}"
+                                                        data-id="{{ $product_size->id }}" data-name="{{ $product_size->name }}"
                                                         data-size_code="{{ $product_size->size_code }}"
                                                         data-slug="{{ $product_size->slug }}">
                                                         <i class="mdi mdi-pencil"></i>
@@ -70,40 +73,6 @@
                     </div>
                 </div>
             </div>
-            {{-- @can('sizes-new')
-                <div class="col-md-5">
-                    <div class="dashboard__card">
-                        <div class="dashboard__card__header">
-                            <h4 class="dashboard__card__title">{{ __('New Size') }}</h4>
-                        </div>
-                        <div class="dashboard__card__body custom__form mt-4">
-                            <form action="{{ route('admin.product.sizes.new') }}" method="POST">
-                                @csrf
-                                <div class="form-group">
-                                    <label for="name">{{ __('Name') }}</label>
-                                    <input type="text" class="form-control" id="name" name="name"
-                                        placeholder="{{ __('Enter name') }}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="size_code">{{ __('Size Code') }}</label>
-                                    <input type="text" class="form-control" id="size_code" name="size_code"
-                                        placeholder="{{ __('Enter size code') }}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="slug">{{ __('Slug') }}</label>
-                                    <input type="text" class="form-control" id="slug" name="slug"
-                                        placeholder="{{ __('Enter slug') }}">
-                                </div>
-                                <div class="btn-wrapper mt-3">
-                                    <button class="cmn_btn btn_bg_profile">
-                                        {{ __('Add') }}
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            @endcan --}}
         </div>
     </div>
 
@@ -166,7 +135,7 @@
                                     placeholder="{{ __('Enter name') }}">
                             </div>
                             <div class="form-group">
-                                <label for="edit_size_code">{{ __('size_code') }}</label>
+                                <label for="edit_size_code">{{ __('Size Code') }}</label>
                                 <input type="text" class="form-control" id="edit_size_code" name="size_code"
                                     placeholder="{{ __('Enter size code') }}">
                             </div>
@@ -196,8 +165,8 @@
         <x-bulk-action.js :route="route('admin.product.sizes.bulk.action')" />
     @endcan
     <script>
-        $(document).ready(function() {
-            $(document).on('click', '.size_edit_btn', function() {
+        $(document).ready(function () {
+            $(document).on('click', '.size_edit_btn', function () {
                 let el = $(this);
                 let modal = $('#size_edit_modal');
 

@@ -16,8 +16,9 @@
 
                     <div class="form-group">
                         <label class="label-title mt-3">{{ __('City') }}</label>
-                        <input type="text" class="form-control" name="city" id="city_name" placeholder="Enter city name">
-                         <span class="info_msg"></span>
+                        <input type="text" class="form-control" name="city" id="city_name"
+                            placeholder="Enter city name">
+                        <span class="info_msg"></span>
                     </div>
 
                     <div class="form-group">
@@ -28,7 +29,7 @@
                                 <option value="{{ $data->id }}">{{ $data->name }}</option>
                             @endforeach
                         </select>
-                         <span class="info_msg"></span>
+                        <span class="info_msg"></span>
                     </div>
                     <div class="form-group">
                         <label class="label-title">{{ __('Province') }}</label>
@@ -38,17 +39,17 @@
                                 <option value="{{ $state->id }}">{{ $state->name }}</option>
                             @endforeach
                         </select>
-                        
+
                         <span class="info_msg"></span>
                     </div>
 
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <label class="label-title">{{ __('Status') }}</label>
                         <select name="status" id="city_status" class="form-select">
                             <option value="publish">{{ __('Publish') }}</option>
                             <option value="draft">{{ __('Unpublish') }}</option>
                         </select>
-                    </div>
+                    </div> --}}
 
                 </div>
                 <div class="modal-footer">

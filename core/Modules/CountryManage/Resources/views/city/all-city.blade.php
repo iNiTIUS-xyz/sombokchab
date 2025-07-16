@@ -55,7 +55,7 @@
     <x-bulk-action.bulk-delete-js :url="route('admin.city.delete.bulk.action')" />
     @include('countrymanage::city.city-js')
     <script>
-        $(document).on('click', '.swal_status_change_button', function(e) {
+        $(document).on('click', '.swal_status_change_button', function (e) {
             e.preventDefault();
             Swal.fire({
                 title: '{{ __('Are you sure?') }}',
