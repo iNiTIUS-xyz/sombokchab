@@ -6,7 +6,8 @@
 @endsection
 
 @section('style')
-    <x-datatable.css />
+
+    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap4.min.css') }}">
     <x-bulk-action.css />
 
     <style>
@@ -52,8 +53,8 @@
                         </div>
                     </div>
                     <div class="dashboard__card__body mt-4">
-                        <div class="table-wrap table-responsive">
-                            <table class="table table-default">
+                        <div class="table-responsive">
+                            <table class="table" id="dataTable">
                                 <thead>
                                     <x-bulk-action.th />
                                     <th>{{ __('Campaign Name') }}</th>
@@ -90,7 +91,6 @@
     </div>
 @endsection
 @section('script')
-    <x-datatable.js />
     <x-table.btn.swal.js />
     <x-bulk-action.js :route="route('vendor.campaigns.bulk.action')" />
 
@@ -107,6 +107,29 @@
 
                 modal.show();
             });
+        });
+    </script>
+
+    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/dataTables.bootstrap4.min.js') }}"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Initialize DataTable only if the table exists
+            if ($('#dataTable').length) {
+                $('#dataTable').DataTable({
+                    paging: true,
+                    lengthChange: true,
+                    searching: true,
+                    ordering: true,
+                    info: true,
+                    autoWidth: false,
+                    responsive: true,
+                    language: {
+                        search: "Filter:"
+                    }
+                });
+            }
         });
     </script>
 @endsection

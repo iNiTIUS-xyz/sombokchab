@@ -1,8 +1,7 @@
 @extends('vendor.vendor-master')
 
 @section('style')
-    <x-datatable.css />
-
+    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap4.min.css') }}">
     <style>
         #DataTables_Table_0_wrapper>.row:first-child {
             display: flex;
@@ -39,8 +38,8 @@
         </div>
         <div class="dashboard__card__body mt-4">
             <div class="all-user-campaign-table">
-                <div class="table-wrap table-responsive order-history-inner">
-                    <table class="table">
+                <div class="table-responsive">
+                    <table class="table" id="dataTable">
                         <thead>
                             <tr>
                                 <th>{{ __('Order No.') }}</th>
@@ -147,5 +146,26 @@
         })(jQuery)
     </script>
 
-    <x-datatable.js />
+    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/dataTables.bootstrap4.min.js') }}"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Initialize DataTable only if the table exists
+            if ($('#dataTable').length) {
+                $('#dataTable').DataTable({
+                    paging: true,
+                    lengthChange: true,
+                    searching: true,
+                    ordering: true,
+                    info: true,
+                    autoWidth: false,
+                    responsive: true,
+                    language: {
+                        search: "Filter:"
+                    }
+                });
+            }
+        });
+    </script>
 @endsection

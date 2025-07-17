@@ -5,11 +5,8 @@
 @endsection
 
 @section('style')
-    <x-datatable.css />
+    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap4.min.css') }}">
     <x-bulk-action.css />
-@endsection
-
-@section('content')
     <style>
         .swal_delete_button {
             margin: 0px !important
@@ -58,6 +55,9 @@
         }
     </style>
 
+@endsection
+
+@section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row">
             <div class="col-lg-12">
@@ -76,81 +76,78 @@
                         </div>
                     </div>
                     <div class="dashboard__card__body mt-4">
-                        @if (count($all_tickets) > 0)
-                            <div class="table-wrap mt-4">
-                                <div class="table-responsive" style="overflow-x: unset !important;">
-                                    <table class="table">
-                                        <thead>
+                        <div class="table-wrap mt-4">
+                            <div class="table-responsive">
+                                <table class="table" id="dataTable">
+                                    <thead>
+                                        <tr>
+                                            <th>{{ __('Title') }}</th>
+                                            <th>{{ __('Department') }}</th>
+                                            <th>{{ __('Date Created') }}</th>
+                                            <th>{{ __('Priority') }}</th>
+                                            <th>{{ __('Status') }}</th>
+                                            <th>{{ __('Action') }}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($all_tickets as $data)
                                             <tr>
-                                                <th>{{ __('Title') }}</th>
-                                                <th>{{ __('Department') }}</th>
-                                                <th>{{ __('Date Created') }}</th>
-                                                <th>{{ __('Priority') }}</th>
-                                                <th>{{ __('Status') }}</th>
-                                                <th>{{ __('Action') }}</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($all_tickets as $data)
-                                                <tr>
-                                                    <td>{{ $data->title }}</td>
-                                                    <td>{{ $data->department->name ?? __('anonymous') }}</td>
-                                                    <td><small>{{ $data->created_at->format('M j, Y') }}</small></td>
-                                                    <td class="">{{ ucfirst($data->priority) }}</td>
-                                                    <td>
-                                                        <span
-                                                            class="text-capitalize badge {{ $data->status == 'close' ? 'status-close' : 'status-open' }}">
-                                                            {{ $data->status == 'close' ? __('Closed') : __($data->status) }}
-                                                        </span>
-                                                    </td>
-                                                    <td>
-                                                        @if ($data->status == 'open')
-                                                            <a href="#1" class="ticket_status_change btn btn-danger btn-xs"
-                                                                data-id="{{ $data->id }}" data-val="close" title="Close Ticket">
-                                                                <i class="las la-times"></i>
-                                                            </a>
-                                                        @endif
-                                                        <a href="{{ route('vendor.support.ticket.view', $data->id) }}"
-                                                            class="btn btn-primary btn-xs"
-                                                            title="View Support Ticket">
-                                                            <i class="las la-eye"></i>
+                                                <td>{{ $data->title }}</td>
+                                                <td>{{ $data->department->name ?? __('anonymous') }}</td>
+                                                <td><small>{{ $data->created_at->format('M j, Y') }}</small></td>
+                                                <td class="">{{ ucfirst($data->priority) }}</td>
+                                                <td>
+                                                    <span
+                                                        class="text-capitalize badge {{ $data->status == 'close' ? 'status-close' : 'status-open' }}">
+                                                        {{ $data->status == 'close' ? __('Closed') : __($data->status) }}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    @if ($data->status == 'open')
+                                                        <a href="#1" class="ticket_status_change btn btn-danger btn-xs"
+                                                            data-id="{{ $data->id }}" data-val="close" title="Close Ticket">
+                                                            <i class="las la-times"></i>
                                                         </a>
+                                                    @endif
+                                                    <a href="{{ route('vendor.support.ticket.view', $data->id) }}"
+                                                        class="btn btn-primary btn-xs" title="View Support Ticket">
+                                                        <i class="las la-eye"></i>
+                                                    </a>
 
-                                                        <x-delete-popover :url="route('vendor.support.ticket.delete', $data->id)"
-                                                            style="margin: 0px !important" />
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
+                                                    <x-delete-popover :url="route('vendor.support.ticket.delete', $data->id)"
+                                                        style="margin: 0px !important" />
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
-                        @else
-                            <div class="nothing-found mt-4">
-                                <div class="alert alert-warning">
-                                    {{ __('No support ticket found.') }}
-                                </div>
-                            </div>
-                        @endif
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    </div>
 @endsection
-
 @section('script')
-    <x-bulk-action.js :route="route('vendor.support.ticket.bulk.action')" />
-    <x-datatable.js />
-    <script src="{{ asset('assets/backend/js/sweetalert2.js') }}"></script>
+
+    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/dataTables.bootstrap4.min.js') }}"></script>
 
     <script>
-        (function ($) {
-            "use strict";
-
-            $(document).ready(function () {
-                $('.table-wrap table').DataTable({
+        $(document).ready(function () {
+            if ($('#dataTable').length) {
+                $('#dataTable').DataTable({
+                    paging: true,
+                    lengthChange: true,
+                    searching: true,
+                    ordering: true,
+                    info: true,
+                    autoWidth: false,
+                    responsive: true,
+                    language: {
+                        search: "Filter:"
+                    },
                     "order": [
                         [1, "desc"]
                     ],
@@ -159,49 +156,52 @@
                         'orderable': false
                     }]
                 });
+            }
 
-                // Status change handler with SweetAlert2
-                $(document).on('click', '.ticket_status_change', function (e) {
-                    e.preventDefault();
-                    var status = $(this).data('val');
-                    var id = $(this).data('id');
+            // Status change handler with SweetAlert2
+            $(document).on('click', '.ticket_status_change', function (e) {
+                e.preventDefault();
+                var status = $(this).data('val');
+                var id = $(this).data('id');
 
-                    Swal.fire({
-                        title: '{{ __('Are you sure?') }}',
-                        text: '{{ __('You would not be able to revert this item!') }}',
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#ee0000',
-                        cancelButtonColor: '#55545b',
-                        confirmButtonText: '{{ __('Yes, close it!') }}',
-                        cancelButtonText: "{{ __('No') }}"
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            $.ajax({
-                                type: 'post',
-                                url: "{{ route('vendor.support.ticket.status.change') }}",
-                                data: {
-                                    _token: "{{ csrf_token() }}",
-                                    status: status,
-                                    id: id,
-                                },
-                                success: function (data) {
-                                    if (data.success) {
-                                        Swal.fire('Closed!', '', 'success');
-                                        setTimeout(function () {
-                                            location.reload();
-                                        }, 1000);
-                                    }
-                                },
-                                error: function () {
-                                    Swal.fire('Error!', 'Failed to change status.',
-                                        'error');
+                Swal.fire({
+                    title: '{{ __('Are you sure?') }}',
+                    text: '{{ __('You would not be able to revert this item!') }}',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#ee0000',
+                    cancelButtonColor: '#55545b',
+                    confirmButtonText: '{{ __('Yes, close it!') }}',
+                    cancelButtonText: "{{ __('No') }}"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: 'post',
+                            url: "{{ route('vendor.support.ticket.status.change') }}",
+                            data: {
+                                _token: "{{ csrf_token() }}",
+                                status: status,
+                                id: id,
+                            },
+                            success: function (data) {
+                                if (data.success) {
+                                    Swal.fire('Closed!', '', 'success');
+                                    setTimeout(function () {
+                                        location.reload();
+                                    }, 1000);
                                 }
-                            });
-                        }
-                    });
+                            },
+                            error: function () {
+                                Swal.fire('Error!', 'Failed to change status.', 'error');
+                            }
+                        });
+                    }
                 });
             });
-        })(jQuery);
+        });
     </script>
+
+    <x-bulk-action.js :route="route('vendor.support.ticket.bulk.action')" />
+    <script src="{{ asset('assets/backend/js/sweetalert2.js') }}"></script>
+
 @endsection

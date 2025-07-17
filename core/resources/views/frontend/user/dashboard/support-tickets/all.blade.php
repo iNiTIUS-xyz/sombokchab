@@ -103,7 +103,7 @@
                     autoWidth: false,
                     responsive: true,
                     language: {
-                        search: "Keyword:"
+                        search: "Filter:"
                     }
                 });
             }
