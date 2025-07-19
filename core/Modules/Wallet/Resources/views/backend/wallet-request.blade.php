@@ -45,20 +45,25 @@
                                         @endphp
                                         @foreach (json_decode($request->gateway_fields) as $key => $value)
                                             @php
-                                                $fields .= ucwords(str_replace('_', ' ', $key)) . ' => ' . $value;
-                                                if (!$loop->last) {
-                                                    $fields .= ' , ';
-                                                }
+                                                $fields .= ucwords(str_replace('_', ' ', $key)) . ': <strong>' . $value . '</strong> <br>';
                                             @endphp
                                         @endforeach
                                         <tr>
                                             <td>
                                                 <div class="table-owner">
-                                                    <span>{{ __('Vendor Name:') }}
-                                                        <strong>{{ $request->vendor->owner_name ?? '' }}</strong></span>
+                                                    <span>
+                                                        {{ __('Vendor Name:') }}
+                                                        <strong>
+                                                            {{ $request->vendor->owner_name ?? '' }}
+                                                        </strong>
+                                                    </span>
                                                     <br />
-                                                    <span>{{ __('Shop Name:') }}
-                                                        <strong>{{ $request->vendor->business_name ?? '' }}</strong></span>
+                                                    <span>
+                                                        {{ __('Shop Name:') }}
+                                                        <strong>
+                                                            {{ $request->vendor->business_name ?? '' }}
+                                                        </strong>
+                                                    </span>
                                                     <br />
                                                     <span>
                                                         {{ __('Account Balance:') }}
@@ -68,7 +73,10 @@
                                                     </span>
                                                 </div>
                                             </td>
-                                            <td><strong>{{ float_amount_with_currency_symbol($request->amount) ?? '' }}</strong>
+                                            <td>
+                                                <strong>
+                                                    {{ float_amount_with_currency_symbol($request->amount) ?? '' }}
+                                                </strong>
                                             </td>
                                             <td>
                                                 <div class="table-paymentGateway">
@@ -76,7 +84,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <div class="table-fields">{{ $fields }}</div>
+                                                <div class="table-fields">{!! $fields !!}</div>
                                             </td>
                                             <td>
                                                 <div class="table-notes">{{ $request->note ?? '' }}</div>
@@ -157,7 +165,9 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                            data-bs-dismiss="modal">
+                            {{ __('Cancel') }}
+                        </button>
                         <button type="submit" class="btn btn-primary">
                             {{ __('Update') }}
                         </button>

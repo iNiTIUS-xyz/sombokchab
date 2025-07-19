@@ -48,19 +48,19 @@
                                                     @if ($type == 'vendor')
                                                         <li>
                                                             <strong>
-                                                                {{ __('Name') }}:
+                                                                {{ __('Customer Name') }}:
                                                             </strong>
                                                             {{ $data?->vendor?->owner_name }}
                                                         </li>
                                                         <li>
                                                             <strong>
-                                                                {{ __('Email') }}:
+                                                                {{ __('Customer Email') }}:
                                                             </strong>
                                                             {{ $data?->vendor?->vendor_shop_info?->email }}
                                                         </li>
                                                         <li>
                                                             <strong>
-                                                                {{ __('Phone') }}:
+                                                                {{ __('Customer Phone') }}:
                                                             </strong>
                                                             {{ $data?->vendor?->vendor_shop_info?->number }}
                                                         </li>
@@ -86,19 +86,19 @@
                                                     @else
                                                         <li>
                                                             <strong>
-                                                                {{ __('Name') }}:
+                                                                {{ __('Customer Name') }}:
                                                             </strong>
                                                             {{ $data?->user?->name }}
                                                         </li>
                                                         <li>
                                                             <strong>
-                                                                {{ __('Email') }}:
+                                                                {{ __('Customer Email') }}:
                                                             </strong>
                                                             {{ $data?->user?->email }}
                                                         </li>
                                                         <li>
                                                             <strong>
-                                                                {{ __('Phone') }}:
+                                                                {{ __('Customer Phone') }}:
                                                             </strong>
                                                             {{ $data?->user?->phone }}
                                                         </li>
