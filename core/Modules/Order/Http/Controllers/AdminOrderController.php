@@ -25,7 +25,7 @@ class AdminOrderController extends Controller
     public function index()
     {
         // first of all we need to get all sub order for login user
-        $all_orders = SubOrder::with("order:id,payment_status,created_at")
+        $all_orders = SubOrder::with("order:id,payment_status,created_at", "vendor")
             ->withCount("orderItem")
             ->orderByDesc("id")
             ->get();
@@ -98,7 +98,7 @@ class AdminOrderController extends Controller
         $vendor = Vendor::select("id", "username")->where("username", $username)->firstOrFail();
 
         // first of all we need to get all sub order for login user
-        $all_orders = SubOrder::with("order:id,payment_status,created_at")
+        $all_orders = SubOrder::with("order:id,payment_status,created_at", "vendor")
             ->withCount("orderItem")
             ->where("vendor_id", $vendor->id)
             ->orderByDesc("id")

@@ -116,7 +116,7 @@
                                                 <td data-label="Status">
                                                     <div class="status-dropdown">
                                                         <select data-vendor-id="{{ $vendor->id }}" name="status"
-                                                            id="vendor-status" class="form-control form-control-sm">
+                                                            id="vendor-status" class="badge @if($vendor->status_id == 1) bg-primary @else bg-danger @endif">
                                                             {!! status_option($type = 'option', $vendor->status_id) !!}
                                                         </select>
                                                     </div>
@@ -125,11 +125,11 @@
                                                 <td data-label="Actions">
                                                     <div class="action-icon">
                                                         @can('vendor-details')
-                                                            <a href="#1" class="btn btn-success btn-sm"
+                                                            <a href="#1" class="btn btn-secondary btn-sm"
                                                                 data-id="{{ $vendor->id }}" class="icon vendor-detail"
                                                                 data-bs-toggle="modal" data-bs-target="#vendor-details"
-                                                                title="{{ __('Details') }}">
-                                                                <i class="las la-eye"></i>
+                                                                title="{{ __('View Details') }}">
+                                                                <i class="las la-file-invoice"></i>
                                                             </a>
                                                         @endcan
 
@@ -137,7 +137,7 @@
                                                             <a href="{{ route('admin.vendor.edit', $vendor->id) }}"
                                                                 class="btn btn-sm btn-warning text-dark"
                                                                 title="{{ __('Edit Data') }}">
-                                                                <i class="las la-pen-alt"></i>
+                                                                <i class="las la-pencil-alt"></i>
                                                             </a>
                                                         @endcan
 

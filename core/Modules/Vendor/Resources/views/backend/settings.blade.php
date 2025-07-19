@@ -61,13 +61,13 @@
                             <div class="form-group">
                                 <label class="row">
                                     <span class="col-md-2">
-                                        {{ __('Vendor order items list item limit') }}
+                                        {{ __('Limit the number of orders a vendor can recieve') }}
                                     </span>
                                     <span class="col-md-9">
                                         <input value="{{ get_static_option('order_vendor_list') }}" type="number"
                                             {{ get_static_option('order_vendor_list') == 'on' ? 'checked' : '' }}
                                             class="form-control w-50" name="order_vendor_list"
-                                            placeholder="{{ __('Enter order vendor list limit') }}" />
+                                            placeholder="{{ __('Enter limit') }}" />
                                     </span>
                                 </label>
                             </div>

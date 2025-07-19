@@ -22,7 +22,7 @@
                         <thead>
                             <tr>
                                 <th>{{ __('Order No.') }}</th>
-                                <th>{{ __('Store Name') }}</th>
+                                {{-- <th>{{ __('Store Name') }}</th> --}}
                                 <th>{{ __('Order Date') }}</th>
                                 <th>{{ __('Order Status') }}</th>
                                 <th>{{ __('Payment Status') }}</th>
@@ -36,10 +36,10 @@
                                     <td class="order-numb">
                                         {{ $order->order_number }}
                                     </td>
-                                    <td class="order-numb">
-                                        <strong>{{ $order?->vendor?->owner_name }}</strong>
+                                    {{-- <td class="order-numb">
+                                        <strong>{{ $order?->vendor?->business_name }}</strong>
                                         ({{ $order?->vendor?->username }})
-                                    </td>
+                                    </td> --}}
                                     <td class="date">
                                         {{ $order->created_at->format('F d, Y') }}
                                     </td>

@@ -33,7 +33,7 @@
                                     {{ $order->order_number }}
                                 </td> --}}
                                 <td class="order-numb">
-                                    Store Name
+                                    {{ $order->vendor?->business_name }}
                                 </td>
                                 <td class="date">
                                     {{ $order->order->created_at->format('F d, Y') }}

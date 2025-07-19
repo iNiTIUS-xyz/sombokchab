@@ -68,7 +68,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-6 mb-3">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label>
                                             {{ __('Customer') }}
@@ -81,7 +81,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-6 mb-3">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label>
                                             {{ __('Vendor') }}
@@ -95,6 +95,9 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <small class="text-danger">Either Customer or Vendor must be selected.</small>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">

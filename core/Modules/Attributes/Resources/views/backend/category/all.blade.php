@@ -42,7 +42,7 @@
                                         <x-bulk-action.th />
                                     @endcan
                                     {{-- <th>{{ __('Serial No.') }}</th> --}}
-                                    <th>{{ __('Name') }}</th>
+                                    <th>{{ __('Category Name') }}</th>
                                     <th>{{ __('Image') }}</th>
                                     <th>{{ __('Status') }}</th>
                                     <th>{{ __('Action') }}</th>

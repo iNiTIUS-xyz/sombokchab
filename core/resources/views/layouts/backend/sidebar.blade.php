@@ -890,7 +890,7 @@
                         @can('vendor-create')
                             <li class="{{ active_menu('admin-home/vendor/create') }}">
                                 <a href="{{ route('admin.vendor.create') }}">
-                                    {{ __('Vendor Create') }}
+                                    {{ __('Create Vendor') }}
 
                                 </a>
                             </li>

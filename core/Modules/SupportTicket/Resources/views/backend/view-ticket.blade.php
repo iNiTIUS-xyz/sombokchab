@@ -71,8 +71,14 @@
                                             {{ ucfirst($ticket_details->priority) }}
                                         </span>
                                     </li>
-                                    <li><strong>{{ __('User:') }}</strong>
-                                        {{ $ticket_details->user->name ?? __('anonymous') }}</li>
+                                    @if($ticket_details->user_id)
+                                    <li><strong>{{ __('Customer:') }}</strong>
+                                        {{ $ticket_details->user->name }} - ({{ $ticket_details->user->phone }})</li>
+                                    @elseif($ticket_details->vendor_id)
+                                    <li><strong>{{ __('Vendor:') }}</strong>
+                                        {{ $ticket_details->vendor->owner_name }} - ({{ $ticket_details->vendor->phone }})</li>
+                                    @endif
+                                    
                                     <li><strong>{{ __('Department:') }}</strong>
                                         {{ $ticket_details->department->name ?? __('anonymous') }}</li>
                                     @if ($ticket_details->admin_id)

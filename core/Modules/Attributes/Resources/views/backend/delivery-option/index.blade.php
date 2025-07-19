@@ -24,7 +24,7 @@
                 </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('All Delivery Options') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('Delivery Options') }}</h4>
                         @can('product-delivery-manage-delete')
                             <x-bulk-action.dropdown />
                         @endcan
