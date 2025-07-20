@@ -29,11 +29,12 @@
                             <tr>
                                 <td>
                                     <span class="user-info text-left">
-                                        {{ $request->user?->name }}<br>
-                                        {{ $request->user?->email }}
+                                        Name: <strong> {{ $request->user?->name }} </strong>
+                                        <br>
+                                        Email: <strong> {{ $request->user?->email }} </strong>
                                         @if ($request->user?->phone)
                                             <br>
-                                            {{ $request->user?->phone }}
+                                            Phone : <strong> {{ $request->user?->phone }} </strong>
                                         @endif
                                     </span>
                                 </td>
@@ -63,7 +64,6 @@
 
                                 <td>
                                     <span class="user-info text-left">
-                                        <b>{{ $request->id }}</b><br>
                                         {{ __('Status') }}:
                                         <span
                                             class="badge bg-secondary">{{ __(ucwords(str_replace('_', ' ', $request->currentTrackStatus?->name))) }}</span>

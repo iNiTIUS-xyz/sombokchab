@@ -25,23 +25,39 @@ class RefundController extends Controller
     public function index()
     {
         $refundRequests = RefundRequest::withCount("requestProduct")
-            ->with("currentTrackStatus","user:id,name,email,phone","order:id,order_number,order_status,created_at","order.paymentMeta")
+            ->with("currentTrackStatus", "user:id,name,email,phone", "order:id,order_number,order_status,created_at", "order.paymentMeta")
             ->paginate(20);
 
         return view('refund::admin.refund.request', compact('refundRequests'));
     }
 
-    public function viewRequest($id){
+    public function viewRequest($id)
+    {
         // fetch all information about this request
-        $request = RefundRequest::with(["currentTrackStatus","preferredOption","products","user","order" => function ($query){
-            $query->withCount("orderItems");
-        },"order.paymentMeta","requestFile","requestTrack","requestProduct","productVariant","productVariant.productColor","productVariant.productSize"])
-        ->findOrFail($id);
+        $request = RefundRequest::query()
+            ->with([
+                "currentTrackStatus",
+                "preferredOption",
+                "products",
+                "user",
+                "order" => function ($query) {
+                    $query->withCount("orderItems");
+                },
+                "order.paymentMeta",
+                "requestFile",
+                "requestTrack",
+                "requestProduct",
+                "productVariant",
+                "productVariant.productColor",
+                "productVariant.productSize"
+            ])
+            ->findOrFail($id);
 
         return view("refund::admin.refund.request-view", compact('request'));
     }
 
-    public function updateTrackStatus($id, Request $request){
+    public function updateTrackStatus($id, Request $request)
+    {
         $data = $request->validate([
             "track_status" => "required|string",
             "reason" => "nullable|array",
@@ -58,11 +74,11 @@ class RefundController extends Controller
         $refundRequest = RefundRequest::with("preferredOption")->find($id);
 
         // now store refund request track
-        $trackId = $this->storeRefundRequestTrack($id,$data["track_status"],auth('admin')->id());
+        $trackId = $this->storeRefundRequestTrack($id, $data["track_status"], auth('admin')->id());
 
-        if(!empty($data["reason"]) && in_array($data["track_status"],["cancel","canceled_by_delivery_man"])){
+        if (!empty($data["reason"]) && in_array($data["track_status"], ["cancel", "canceled_by_delivery_man"])) {
             $reason = [];
-            foreach($data["reason"] as $item){
+            foreach ($data["reason"] as $item) {
                 $reason[] = [
                     "request_track_id" => $trackId->id,
                     "reason" => $item,
@@ -72,11 +88,11 @@ class RefundController extends Controller
             $mailableData["reasons"] = $reason;
 
             RefundTrackStatusReason::insert($reason);
-        }elseif ($data["track_status"] == "payment_returned" && !empty($data["deducted_amount_reason"] ?? []) && !empty($data["deducted_amount"] ?? [])){
+        } elseif ($data["track_status"] == "payment_returned" && !empty($data["deducted_amount_reason"] ?? []) && !empty($data["deducted_amount"] ?? [])) {
             $refund_deducted_amounts = [];
             $total_amount = RefundTransaction::get_refund_item_total_amount($id);
 
-            foreach($data["deducted_amount_reason"] as $key => $value){
+            foreach ($data["deducted_amount_reason"] as $key => $value) {
                 $deducted_amount = $data["deducted_amount"][$key] ?? 0;
                 $refund_deducted_amounts[] = [
                     "refund_request_track_id" => $trackId->id,
@@ -92,8 +108,8 @@ class RefundController extends Controller
             RefundDeductedAmount::insert($refund_deducted_amounts);
 
             // update refund_requests table column
-            if(!empty($data["refund_fee"])){
-                RefundRequest::where("id",$id)->update([
+            if (!empty($data["refund_fee"])) {
+                RefundRequest::where("id", $id)->update([
                     "refund_fee" => $data["refund_fee"]
                 ]);
 
@@ -106,14 +122,14 @@ class RefundController extends Controller
             WalletService::updateVendorWalletFromRefund($refundRequest);
 
             // check if preferred option is wallet than move forward
-            if($refundRequest->preferredOption?->name == "Wallet"){
+            if ($refundRequest->preferredOption?->name == "Wallet") {
                 // here update wallet
                 WalletService::updateRefundRequest($total_amount, $refundRequest);
             }
         }
 
         // send email from here
-        RefundMailServices::sendMail($refundRequest,$data["track_status"],$mailableData);
+        RefundMailServices::sendMail($refundRequest, $data["track_status"], $mailableData);
 
         return back()->with([
             "msg" => __("Successfully updated refund request status"),
