@@ -119,7 +119,6 @@
                                                     </div>
                                                 </td>
                                                 <td>
-
                                                     <div class="btn-group badge">
                                                         <button type="button"
                                                             class="status-{{ $vendor->is_vendor_verified }} {{ $vendor->is_vendor_verified == 0 ? 'bg-danger status-close' : 'bg-primary status-open' }} dropdown-toggle"
@@ -128,7 +127,6 @@
                                                             {{ ucfirst($vendor->is_vendor_verified == 0 ? __('Unverified') : __('Verifyed')) }}
                                                         </button>
                                                         <div class="dropdown-menu">
-                                                            {{-- Form for activating --}}
                                                             <form
                                                                 action="{{ route('admin.vendor.varify.status', $vendor->id) }}"
                                                                 method="POST" id="status-form-activate-{{ $vendor->id }}">
@@ -138,7 +136,6 @@
                                                                     {{ __('Verifyed') }}
                                                                 </button>
                                                             </form>
-
                                                             <form
                                                                 action="{{ route('admin.vendor.varify.status', $vendor->id) }}"
                                                                 method="POST" id="status-form-deactivate-{{ $vendor->id }}">
