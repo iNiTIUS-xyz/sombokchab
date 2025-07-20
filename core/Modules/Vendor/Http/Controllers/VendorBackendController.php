@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\View\View;
+use App\Helpers\FlashMsg;
 use Modules\Vendor\Entities\Vendor;
 use Illuminate\Contracts\View\Factory;
 use Modules\CountryManage\Entities\State;
@@ -27,7 +28,8 @@ class VendorBackendController extends Controller
         $vendors = Vendor::query()
             ->with(["vendor_address", "vendor_shop_info", "business_type:id,name"])
             ->latest()
-            ->paginate(20);
+            ->get();
+
         $ids = DummyVendorDeleteServices::dummyVendorId();
         $dummyCount = DB::table('vendors')->whereIn('id', $ids)->count();
         return view("vendor::backend.index", compact("vendors", 'dummyCount'));
@@ -121,6 +123,16 @@ class VendorBackendController extends Controller
         ];
 
         return view("vendor::backend.edit", with($data));
+    }
+
+    public function varifyStatus(Request $request, $id)
+    {
+        $vendor = Vendor::findOrFail($id);
+        $vendor->is_vendor_verified = $request->verify_status == 1 ? 1 : 0;
+        $vendor->verified_at = $request->verify_status == 1 ? now() : null;
+        $vendor->save();
+
+        return redirect()->back()->with(FlashMsg::item_new('Vendor verify status changed successfully.'));
     }
 
     public function update($vendor, UpdateVendorRequest $request)

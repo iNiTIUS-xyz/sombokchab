@@ -31,15 +31,13 @@
                                             <th class="min-width-100"> {{ __('Vendor Info') }} </th>
                                             <th class="min-width-250"> {{ __('Shop Info') }} </th>
                                             <th class="min-width-100"> {{ __('Status') }} </th>
+                                            <th class="min-width-100"> {{ __('Verify Status') }} </th>
                                             <th> {{ __('Actions') }} </th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($vendors as $vendor)
                                             <tr class="table-cart-row">
-                                                {{-- <td>
-                                                    {{ $loop->iteration }}
-                                                </td> --}}
 
                                                 <td class="price-td" data-label="Name">
                                                     <div class="vendorList__item">
@@ -57,8 +55,7 @@
                                                         </span>
                                                     </div>
                                                     <div class="vendorList__item">
-                                                        <span
-                                                            class="vendorList__label vendor-label">{{ __('Business Type:') }}
+                                                        <span class="vendorList__label vendor-label">{{ __('Business Type:') }}
                                                         </span>
                                                         <span class="vendorList__value vendor-value">
                                                             {{ $vendor->business_type?->name }}
@@ -104,8 +101,7 @@
                                                                     </b>
                                                                     <button data-vendor-id="{{ $vendor->id }}"
                                                                         class="btn btn-sm btn-info update-individual-commission"
-                                                                        data-bs-target="#vendor-commission"
-                                                                        data-bs-toggle="modal">
+                                                                        data-bs-target="#vendor-commission" data-bs-toggle="modal">
                                                                         <i class="las la-pen"></i>
                                                                     </button>
                                                                 </div>
@@ -116,12 +112,45 @@
                                                 <td data-label="Status">
                                                     <div class="status-dropdown">
                                                         <select data-vendor-id="{{ $vendor->id }}" name="status"
-                                                            id="vendor-status" class="badge @if($vendor->status_id == 1) bg-primary @else bg-danger @endif">
+                                                            id="vendor-status"
+                                                            class="badge @if($vendor->status_id == 1) bg-primary @else bg-danger @endif">
                                                             {!! status_option($type = 'option', $vendor->status_id) !!}
                                                         </select>
                                                     </div>
                                                 </td>
+                                                <td>
 
+                                                    <div class="btn-group badge">
+                                                        <button type="button"
+                                                            class="status-{{ $vendor->is_vendor_verified }} {{ $vendor->is_vendor_verified == 0 ? 'bg-danger status-close' : 'bg-primary status-open' }} dropdown-toggle"
+                                                            data-bs-toggle="dropdown" aria-haspopup="true"
+                                                            aria-expanded="false">
+                                                            {{ ucfirst($vendor->is_vendor_verified == 0 ? __('Unverified') : __('Verifyed')) }}
+                                                        </button>
+                                                        <div class="dropdown-menu">
+                                                            {{-- Form for activating --}}
+                                                            <form
+                                                                action="{{ route('admin.vendor.varify.status', $vendor->id) }}"
+                                                                method="POST" id="status-form-activate-{{ $vendor->id }}">
+                                                                @csrf
+                                                                <input type="hidden" name="verify_status" value="1">
+                                                                <button type="submit" class="dropdown-item">
+                                                                    {{ __('Verifyed') }}
+                                                                </button>
+                                                            </form>
+
+                                                            <form
+                                                                action="{{ route('admin.vendor.varify.status', $vendor->id) }}"
+                                                                method="POST" id="status-form-deactivate-{{ $vendor->id }}">
+                                                                @csrf
+                                                                <input type="hidden" name="verify_status" value="0">
+                                                                <button type="submit" class="dropdown-item">
+                                                                    {{ __('Unverified') }}
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </td>
                                                 <td data-label="Actions">
                                                     <div class="action-icon">
                                                         @can('vendor-details')
@@ -154,10 +183,6 @@
                                         @endforeach
                                     </tbody>
                                 </table>
-
-                                <div class="pagination">
-                                    {{ $vendors->links() }}
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -210,8 +235,8 @@
 
                             <div class="form-group">
                                 <label for="amount">{{ __('Enter percentage.') }}</label>
-                                <input class="form-control form-control-sm" type="number" name="commission_amount"
-                                    id="amount" placeholder="{{ __('Enter percentage') }}" />
+                                <input class="form-control form-control-sm" type="number" name="commission_amount" id="amount"
+                                    placeholder="{{ __('Enter percentage') }}" />
                             </div>
 
                             <div class="form-group">
@@ -228,7 +253,7 @@
 
 @section('script')
     <script>
-        $(document).on("click", ".vendor-detail", function(e) {
+        $(document).on("click", ".vendor-detail", function (e) {
             let data = new FormData(),
                 id = $(this).data("id");
             data.append("id", id);
@@ -247,11 +272,11 @@
 
         let previousValue;
         // Store the previous value when the select gains focus
-        $(document).on("focus", ".status-dropdown select", function() {
+        $(document).on("focus", ".status-dropdown select", function () {
             previousValue = $(this).val();
         });
         // Handle the change event
-        $(document).on("change", ".status-dropdown select", function() {
+        $(document).on("change", ".status-dropdown select", function () {
             let selectElement = $(this);
             let selectedValue = selectElement.val();
             if (!confirm("Are you sure to change this vendor status?")) {
@@ -276,7 +301,7 @@
         });
 
 
-        $(document).on("submit", "#individual_vendor_commission_settings", function(e) {
+        $(document).on("submit", "#individual_vendor_commission_settings", function (e) {
             e.preventDefault();
             let data = new FormData(e.target);
 
@@ -289,7 +314,7 @@
             });
         });
 
-        $(document).on("click", ".update-individual-commission", function() {
+        $(document).on("click", ".update-individual-commission", function () {
             let vendor_id = $(this).attr("data-vendor-id");
             $("#individual_vendor_commission_settings  #vendor_id").val(vendor_id)
 
@@ -305,7 +330,7 @@
                 });
         });
 
-        $(document).on("submit", "#individual_vendor_commission_settings", function(e) {
+        $(document).on("submit", "#individual_vendor_commission_settings", function (e) {
             e.preventDefault();
 
             send_ajax_request("post", new FormData(e.target), $(this).attr("action"), () => {

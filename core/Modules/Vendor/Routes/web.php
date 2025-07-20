@@ -33,6 +33,7 @@ Route::prefix('admin-home/vendor')->middleware(['setlang:backend', 'adminglobalV
         Route::get('delete/{vendor}', 'destroy')->name('delete')->permission('vendor-delete');
         Route::get('settings', 'settings')->name('settings')->permission('vendor-settings');
         Route::put('settings', 'updateSettings')->permission('vendor-settings');
+        Route::post('vendor/varify-status/{id}', 'varifyStatus')->name('varify.status');
         Route::get('commission-settings', 'commissionSettings')->name('commission-settings')->permission('vendor-commission-settings');
         Route::put('commission-settings', 'updateCommissionSettings')->permission('vendor-commission-settings');
         Route::put('individual-commission-settings', 'updateIndividualCommissionSettings')->name('individual-commission-settings')->permission('vendor-individual-commission-settings');
