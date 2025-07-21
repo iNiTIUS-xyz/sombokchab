@@ -97,11 +97,11 @@
                                 <input type="text" class="form-control" id="size_code" name="size_code"
                                     placeholder="{{ __('Enter size code') }}">
                             </div>
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <label for="slug">{{ __('Slug') }}</label>
                                 <input type="text" class="form-control" id="slug" name="slug"
                                     placeholder="{{ __('Enter slug') }}">
-                            </div>
+                            </div> --}}
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
@@ -139,11 +139,11 @@
                                 <input type="text" class="form-control" id="edit_size_code" name="size_code"
                                     placeholder="{{ __('Enter size code') }}">
                             </div>
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <label for="edit_slug">{{ __('Slug') }}</label>
                                 <input type="text" class="form-control" id="edit_slug" name="slug"
                                     placeholder="{{ __('Enter slug') }}">
-                            </div>
+                            </div> --}}
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">

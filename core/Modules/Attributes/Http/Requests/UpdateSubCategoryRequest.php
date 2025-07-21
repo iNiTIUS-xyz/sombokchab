@@ -14,12 +14,13 @@ class UpdateSubCategoryRequest extends FormRequest
      * @return array
      */
     #[ArrayShape(["id" => "string", 'name' => "string", 'slug' => "string", 'description' => "string", 'status_id' => "string", 'image_id' => "string", 'category_id' => "string"])]
+
     public function rules()
     {
         return [
             "id" => "required",
-            'name' => ['required','string','max:191', Rule::unique('sub_categories')->ignore($this->id)],
-            'slug' => ['required','string','max:191', Rule::unique('sub_categories')->ignore($this->id)],
+            'name' => ['required', 'string', 'max:191', Rule::unique('sub_categories')->ignore($this->id)],
+            // 'slug' => ['required','string','max:191', Rule::unique('sub_categories')->ignore($this->id)],
             'description' => 'nullable',
             'status_id' => 'required|string|max:191',
             'image_id' => 'nullable|string|max:191',

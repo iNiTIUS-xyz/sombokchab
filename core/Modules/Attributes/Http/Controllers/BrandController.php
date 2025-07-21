@@ -4,7 +4,6 @@ namespace Modules\Attributes\Http\Controllers;
 
 use App\Helpers\FlashMsg;
 use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Attributes\Entities\Brand;
@@ -13,10 +12,6 @@ use Modules\Attributes\Http\Requests\BrandStoreRequest;
 class BrandController extends Controller
 {
 
-    /**
-     * Display a listing of the resource.
-     * @return Renderable
-     */
     public function index(): Renderable
     {
         $brands = Brand::with(["logo", "banner"])->latest()->get();
@@ -24,14 +19,21 @@ class BrandController extends Controller
         return view('attributes::backend.brand.index', compact('brands'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     * @param BrandStoreRequest $request
-     * @return RedirectResponse
-     */
-    public function store(BrandStoreRequest $request): RedirectResponse
+    public function store(BrandStoreRequest $request)
     {
         $data = $request->validated();
+        $data['slug'] = strtolower(str_replace(' ', '-', $request->name));
+
+        $brandExit = Brand::query()
+            ->where('name', $request->name)
+            ->first();
+
+        if ($brandExit) {
+            return back()->with([
+                'type' => 'danger',
+                'msg' => __('Brand already exist with this name.')
+            ]);
+        }
 
         $brand = Brand::create($data);
         return $brand
@@ -39,37 +41,37 @@ class BrandController extends Controller
             : back()->with(FlashMsg::create_failed('Brand'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     * @param BrandStoreRequest $request
-     * @return RedirectResponse
-     */
-    public function update(BrandStoreRequest $request): RedirectResponse
+    public function update(BrandStoreRequest $request)
     {
-        $brand = Brand::findOrFail($request->id)->update($request->validated());
+        $data = $request->validated();
+        $data['slug'] = strtolower(str_replace(' ', '-', $request->name));
+
+        $brandExit = Brand::query()
+            ->where('id', '!=', $request->id)
+            ->where('name', $request->name)
+            ->first();
+
+        if ($brandExit) {
+            return back()->with([
+                'type' => 'danger',
+                'msg' => __('Brand already exist with this name.')
+            ]);
+        }
+
+        $brand = Brand::findOrFail($request->id)->update($data);
 
         return $brand
             ? back()->with(FlashMsg::update_succeed('Brand'))
             : back()->with(FlashMsg::update_failed('Brand'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     * @param Brand $item
-     * @return RedirectResponse
-     */
-    public function destroy(Brand $item): RedirectResponse
+    public function destroy(Brand $item)
     {
         return $item->delete()
             ? back()->with(FlashMsg::delete_succeed('Brand'))
             : back()->with(FlashMsg::delete_failed('Brand'));
     }
 
-    /**
-     * Remove all the specified resources from storage.
-     * @param Request $request
-     * @return boolean
-     */
     public function bulk_action(Request $request): bool
     {
         $units = Brand::whereIn('id', $request->ids)->get();

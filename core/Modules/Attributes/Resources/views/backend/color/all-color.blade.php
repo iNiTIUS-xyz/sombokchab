@@ -98,11 +98,11 @@
                                 <label for="color_code">{{ __('Color Code') }}</label>
                                 <input type="color" class="form-control w-25 p-1" id="color_code" name="color_code">
                             </div>
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <label for="slug">{{ __('Slug') }}</label>
                                 <input type="text" class="form-control" id="slug" name="slug"
                                     placeholder="{{ __('Enter slug') }}">
-                            </div>
+                            </div> --}}
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
@@ -136,11 +136,11 @@
                                 <label for="color_code">{{ __('Color Code') }}</label>
                                 <input type="color" class="form-control w-25 p-1" id="edit_color_code" name="color_code">
                             </div>
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <label for="slug">{{ __('Slug') }}</label>
                                 <input type="text" class="form-control" id="edit_slug" name="slug"
                                     placeholder="{{ __('Enter slug') }}">
-                            </div>
+                            </div> --}}
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>

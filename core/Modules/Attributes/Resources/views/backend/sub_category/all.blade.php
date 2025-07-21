@@ -112,13 +112,13 @@
                                             placeholder="{{ __('Enter name') }}">
                                     </div>
                                 </div>
-                                <div class="col-md-6 mb-4">
+                                {{-- <div class="col-md-6 mb-4">
                                     <div class="form-group">
                                         <label for="edit_slug">{{ __('Slug') }}</label>
                                         <input type="text" class="form-control" id="edit_slug" name="slug"
                                             placeholder="{{ __('Enter slug') }}">
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="col-md-6 mb-4">
                                     <div class="form-group edit-category-wrapper">
                                         <label for="name">{{ __('Category') }}</label>
@@ -181,13 +181,13 @@
                                             placeholder="{{ __('Enter name') }}">
                                     </div>
                                 </div>
-                                <div class="col-md-6 mb-4">
+                                {{-- <div class="col-md-6 mb-4">
                                     <div class="form-group">
                                         <label for="slug">{{ __('Slug') }}</label>
                                         <input type="text" class="form-control" id="create-slug" name="slug"
                                             placeholder="{{ __('Enter slug') }}">
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="col-md-6 mb-4">
                                     <div class="form-group">
                                         <label for="name">{{ __('Category') }}</label>

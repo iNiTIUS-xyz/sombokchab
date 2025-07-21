@@ -15,7 +15,7 @@ class StoreSubCategoryRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:191|unique:sub_categories',
-            'slug' => 'required|string|max:191|unique:sub_categories',
+            // 'slug' => 'required|string|max:191|unique:sub_categories',
             'description' => 'nullable',
             'status_id' => 'required|string|max:191',
             'image_id' => 'nullable|string|max:191',

@@ -104,44 +104,36 @@
                         <input type="hidden" value="" id="edit-brand-id" name="id">
                         <div class="modal-body">
                             <div class="row">
-                                <div class="col-md-6 mb-4">
+                                <div class="col-md-12 mb-4">
                                     <div class="form-group">
                                         <label for="name">{{ __('Name') }}</label>
                                         <input type="text" class="form-control" id="edit-name" name="name"
                                             placeholder="{{ __('Enter brand name') }}">
                                     </div>
-
                                 </div>
-                                <div class="col-md-6 mb-4">
+                                {{-- <div class="col-md-6 mb-4">
                                     <div class="form-group">
                                         <label for="name">{{ __('Slug') }}</label>
                                         <input type="text" class="form-control" id="edit-slug" name="slug"
                                             placeholder="{{ __('Enter brand slug') }}">
                                     </div>
-
-                                </div>
-                                <div class="col-md-12 mb-4">
-
+                                </div> --}}
+                                {{-- <div class="col-md-12 mb-4">
                                     <div class="form-group">
                                         <label for="name">{{ __('Title') }}</label>
                                         <input type="text" class="form-control" id="edit-title" name="title"
                                             placeholder="{{ __('Enter Title') }}">
                                     </div>
-
-                                </div>
+                                </div> --}}
                                 <div class="col-md-12 mb-4">
-
                                     <div class="form-group">
                                         <label for="name">{{ __('Description') }}</label>
                                         <textarea class="form-control" id="edit-description" name="description"
                                             placeholder="{{ __('Enter brand Description Optional') }}"></textarea>
                                     </div>
-
                                 </div>
                                 <div class="col-md-6 mb-4">
-
                                     <x-media-upload :title="__('Logo')" :name="'image_id'" :dimentions="'200x200'" />
-
                                 </div>
                                 <div class="col-md-6 mb-4">
                                     <x-media-upload :title="__('Banner')" :name="'banner_id'" :dimentions="'200x200'" />
@@ -170,30 +162,27 @@
                         @csrf
                         <div class="modal-body">
                             <div class="row">
-                                <div class="col-md-6 mb-4">
+                                <div class="col-md-12 mb-4">
                                     <div class="form-group">
                                         <label for="name">{{ __('Name') }}</label>
                                         <input type="text" class="form-control" id="create-name" name="name"
                                             placeholder="{{ __('Enter brand name') }}">
                                     </div>
                                 </div>
-
-                                <div class="col-md-6 mb-4">
+                                {{-- <div class="col-md-6 mb-4">
                                     <div class="form-group">
                                         <label for="name">{{ __('Slug') }}</label>
                                         <input type="text" class="form-control" id="create-slug" name="slug"
                                             placeholder="{{ __('Enter brand Slug') }}">
                                     </div>
-                                </div>
-
-                                <div class="col-md-12 mb-4">
+                                </div> --}}
+                                {{-- <div class="col-md-12 mb-4">
                                     <div class="form-group">
                                         <label for="name">{{ __('Title') }}</label>
                                         <input type="text" class="form-control" id="title" name="title"
                                             placeholder="{{ __('Enter Title') }}">
                                     </div>
-                                </div>
-
+                                </div> --}}
                                 <div class="col-md-12 mb-4">
                                     <div class="form-group">
                                         <label for="name">{{ __('Description') }}</label>
@@ -204,7 +193,6 @@
                                 <div class="col-md-6 mb-4">
                                     <x-media-upload :title="__('Logo')" :name="'image_id'" :dimentions="'200x200'" />
                                 </div>
-
                                 <div class="col-md-6 mb-4">
                                     <x-media-upload :title="__('Banner')" :name="'banner_id'" :dimentions="'200x200'" />
                                 </div>

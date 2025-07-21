@@ -16,37 +16,40 @@ class ColorController extends Controller
 {
     private const BASE_PATH = 'attributes::backend.color.';
 
-    /**
-     * Display a listing of the resource.
-     * @return View|Factory
-     */
+
     public function index(): Factory|View
     {
         $product_colors = Color::all();
-        return view(self::BASE_PATH.'all-color', compact('product_colors'));
+        return view(self::BASE_PATH . 'all-color', compact('product_colors'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return RedirectResponse
-     */
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'name' => 'required|string|max:191',
             'color_code' => 'required|string|max:191',
-            'slug' => 'nullable|string|max:191',
+            // 'slug' => 'nullable|string|max:191',
         ]);
 
+        $colorExit = Color::query()
+            ->where('name', $request->name)
+            ->first();
+
+        if ($colorExit) {
+            return back()->with([
+                'type' => 'danger',
+                'msg' => __('Color already exist with this name.')
+            ]);
+        }
+
         $sluggable_text = $request->slug == null ? Str::slug(trim($request->name)) : Str::slug($request->slug);
-        $slug = createslug($sluggable_text, model_name: 'Color',is_module: true, module_name: 'Attributes');
+        $slug = createslug($sluggable_text, model_name: 'Color', is_module: true, module_name: 'Attributes');
         $data['slug'] = $slug;
 
         $product_color = Color::create([
             'name' => $request->name,
             'color_code' => $request->color_code,
-            'slug' => $data['slug'] ?? "",
+            'slug' => strtolower(str_replace(' ', '-', $request->name)),
         ]);
 
         return $product_color
@@ -54,23 +57,30 @@ class ColorController extends Controller
             : back()->with(FlashMsg::create_failed('Product Color'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @return RedirectResponse
-     */
     public function update(Request $request): RedirectResponse
     {
         $request->validate([
             'name' => 'required|string|max:191',
             'color_code' => 'required|string|max:191',
-            'slug' => 'nullable|string|max:191',
+            // 'slug' => 'nullable|string|max:191',
         ]);
+
+        $colorExit = Color::query()
+            ->where('id', '!=', $request->id)
+            ->where('name', $request->name)
+            ->first();
+
+        if ($colorExit) {
+            return back()->with([
+                'type' => 'danger',
+                'msg' => __('Color already exist with this name.')
+            ]);
+        }
+
 
         $product_color = Color::findOrFail($request->id);
 
-        if ($product_color->slug != $request->slug)
-        {
+        if ($product_color->slug != $request->slug) {
             $sluggable_text = Str::slug($request->slug ?? $request->name);
             $new_slug = createslug($sluggable_text, 'Color', true, 'Attributes');
             $request['slug'] = $new_slug;
@@ -79,7 +89,7 @@ class ColorController extends Controller
         $product_color = $product_color->update([
             'name' => $request->name,
             'color_code' => $request->color_code,
-            'slug' => $request->slug,
+            'slug' => strtolower(str_replace(' ', '-', $request->name)),
         ]);
 
         return $product_color
@@ -87,11 +97,6 @@ class ColorController extends Controller
             : back()->with(FlashMsg::update_failed('Product Color'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     * @param Request $request
-     * @return RedirectResponse
-     */
     public function destroy($id): RedirectResponse
     {
         $product_color = Color::findOrFail($id);

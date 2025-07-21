@@ -27,18 +27,47 @@ class SubCategoryController extends Controller
         return view('attributes::backend.sub_category.all', compact(['all_category', "all_sub_category"]));
     }
 
-    public function store(StoreSubCategoryRequest $request): RedirectResponse
+    public function store(StoreSubCategoryRequest $request)
     {
-        $product_category = SubCategory::create($request->validated());
+        $data = $request->validated();
+        $data['slug'] = strtolower(str_replace(' ', '-', $request->name));
+
+        $subCategoryExit = SubCategory::query()
+            ->where('name', $request->name)
+            ->first();
+
+        if ($subCategoryExit) {
+            return back()->with([
+                'type' => 'danger',
+                'msg' => __('Sub Category already exist with this name.')
+            ]);
+        }
+
+        $product_category = SubCategory::create($data);
 
         return $product_category
             ? back()->with(FlashMsg::create_succeed(__('Product sub category')))
             : back()->with(FlashMsg::create_failed(__('Product sub category')));
     }
 
-    public function update(UpdateSubCategoryRequest $request): RedirectResponse
+    public function update(UpdateSubCategoryRequest $request)
     {
-        $updated = SubCategory::find($request->id)->update($request->validated());
+        $data = $request->validated();
+        $data['slug'] = strtolower(str_replace(' ', '-', $request->name));
+
+        $subCategoryExit = SubCategory::query()
+            ->where('id', '!=', $request->id)
+            ->where('name', $request->name)
+            ->first();
+
+        if ($subCategoryExit) {
+            return back()->with([
+                'type' => 'danger',
+                'msg' => __('Sub Category already exist with this name.')
+            ]);
+        }
+
+        $updated = SubCategory::find($request->id)->update($data);
 
         return $updated
             ? back()->with(FlashMsg::update_succeed(__('Product sub category')))

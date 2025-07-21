@@ -13,16 +13,18 @@ class BrandStoreRequest extends FormRequest
      *
      * @return array
      */
+
     #[ArrayShape(["name" => "string", "slug" => "string", "title" => "string", "description" => "string", "image_id" => "string", "banner_id" => "string"])]
+
     public function rules(): array
     {
         return [
-            "name" => ["required","string" , Rule::unique('brands')->ignore($this->id ?? 0)],
-            "slug" => ["required","string" , Rule::unique('brands')->ignore($this->id ?? 0)],
-            "title" => ["required","string"],
-            "description" => ["required","string"],
-            "image_id" => ["required","string"],
-            "banner_id" => ["required","string"],
+            "name" => ["required", "string", Rule::unique('brands')->ignore($this->id ?? 0)],
+            // "slug" => ["required", "string", Rule::unique('brands')->ignore($this->id ?? 0)],
+            // "title" => ["required","string"],
+            "description" => ["required", "string"],
+            "image_id" => ["required", "string"],
+            "banner_id" => ["required", "string"],
         ];
     }
 
