@@ -49,7 +49,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
             Route::controller("SupportDepartmentController")->group(function () {
                 Route::get('/', 'category')->name('admin.support.ticket.department')->permission('support-tickets-department');
                 Route::post('/', 'new_category')->permission('support-tickets-department');
-                Route::post('status-change/{id}', 'statusChange')->name('admin.support.ticket.status.change');
+                Route::post('status-change/{id}', 'statusChange')->name('admin.support.ticket.change.status');
                 Route::post('/delete/{id}', 'delete')->name('admin.support.ticket.department.delete')->permission('support-tickets-department-delete');
                 Route::post('/update', 'update')->name('admin.support.ticket.department.update')->permission('support-tickets-department-update');
                 Route::post('/bulk-action', 'bulk_action')->name('admin.support.ticket.department.bulk.action')->permission('support-tickets-department-bulk-action');

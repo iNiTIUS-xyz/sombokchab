@@ -51,7 +51,7 @@
                                             </button>
                                             <div class="dropdown-menu">
                                                 {{-- Form for activating --}}
-                                                <form action="{{ route('admin.support.ticket.status.change', $data->id) }}"
+                                                <form action="{{ route('admin.support.ticket.change.status', $data->id) }}"
                                                     method="POST" id="status-form-activate-{{ $data->id }}">
                                                     @csrf
                                                     <input type="hidden" name="status" value="publish">
@@ -59,7 +59,7 @@
                                                         {{ __('Publish') }}
                                                     </button>
                                                 </form>
-                                                <form action="{{ route('admin.support.ticket.status.change', $data->id) }}"
+                                                <form action="{{ route('admin.support.ticket.change.status', $data->id) }}"
                                                     method="POST" id="status-form-deactivate-{{ $data->id }}">
                                                     @csrf
                                                     <input type="hidden" name="status" value="draft">
