@@ -32,9 +32,9 @@
                             <tr>
                                 <th>{{ __('Order No.') }}</th>
                                 <th>{{ __('Order Date') }}</th>
+                                <th>{{ __('Amount') }}</th>
                                 <th>{{ __('Order Status') }}</th>
                                 <th>{{ __('Payment Status') }}</th>
-                                <th>{{ __('Amount') }}</th>
                                 <th>{{ __('Action') }}</th>
                             </tr>
                         </thead>
@@ -67,6 +67,9 @@
                                     </td>
                                     <td class="date">
                                         {{ $order->created_at->format('F d, Y') }}
+                                    </td>
+                                    <td class="amount">
+                                        {{ float_amount_with_currency_symbol($order->paymentMeta->total_amount ?? 0) }}
                                     </td>
                                     <td class="status">
                                         <div class="btn-group badge">
@@ -162,9 +165,6 @@
                                                 </form>
                                             </div>
                                         </div>
-                                    </td>
-                                    <td class="amount">
-                                        {{ float_amount_with_currency_symbol($order->paymentMeta->total_amount ?? 0) }}
                                     </td>
                                     <td class="table-btn">
                                         <div class="btn-wrapper d-flex flex-wrap gap-2">

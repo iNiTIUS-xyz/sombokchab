@@ -199,9 +199,7 @@
                     </div>
                     <div class="dashboard__card__body mt-4">
                         <div class="row g-4">
-                            <div class="col-md-6">
-                                {{-- Order status can be updated by the admin (When updating an order, two conditions must be met. Orders cannot be canceled or completed) --}}
-                                {{-- If the payment status for an order is not complete, the admin can update it --}}
+                            {{-- <div class="col-md-6">
                                 <div class="dashboard__card">
                                     <div class="dashboard__card__header">
                                         <h4 class="dashboard__card__title">
@@ -218,8 +216,8 @@
                                                 <label for="">
                                                     {{ __('Order Status') }}
                                                 </label>
-                                                <select
-                                                    {{ $order->order_status == 'complete' || $order->order_status == 'canceled' || $order->order_status == 'rejected' ? 'readonly' : '' }}
+                                                <select {{ $order->order_status == 'complete' || $order->order_status ==
+                                                    'canceled' || $order->order_status == 'rejected' ? 'readonly' : '' }}
                                                     name="order_status" class="form-control">
                                                     <option {{ $order->order_status == 'pending' ? 'selected' : '' }}
                                                         value="pending">
@@ -247,8 +245,8 @@
                                                 <label for="">
                                                     {{ __('Payment Status') }}
                                                 </label>
-                                                <select
-                                                    {{ $order->payment_status == 'complete' || $order->payment_status == 'rejected' ? 'readonly' : '' }}
+                                                <select {{ $order->payment_status == 'complete' || $order->payment_status ==
+                                                    'rejected' ? 'readonly' : '' }}
                                                     name="payment_status" class="form-control">
                                                     <option {{ $order->payment_status == 'pending' ? 'selected' : '' }}
                                                         value="pending">
@@ -265,17 +263,16 @@
                                                 </select>
                                             </div>
                                             <div class="form-group">
-                                                <button class="cmn_btn btn_bg_profile"
-                                                    {{ $order->order_status == 'complete' || $order->order_status == 'rejected' ? 'disabled' : '' }}>
+                                                <button class="cmn_btn btn_bg_profile" {{ $order->order_status == 'complete' ||
+                                                    $order->order_status == 'rejected' ? 'disabled' : '' }}>
                                                     {{ __('Update') }}
                                                 </button>
                                             </div>
                                         </form>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                {{-- Admin can update order track status --}}
+                            </div> --}}
+                            <div class="col-md-12">
                                 <x-order::order-track :order="$order" />
                             </div>
                         </div>
@@ -335,8 +332,7 @@
                         <span class="request__left">
                             {{ __('Items Total') }}
                         </span>
-                        <span
-                            class="request__right">
+                        <span class="request__right">
                             {{ float_amount_with_currency_symbol($order?->paymentMeta?->sub_total) }}
                         </span>
                     </div>
@@ -344,8 +340,7 @@
                         <span class="request__left">
                             {{ __('Discount Amount') }}
                         </span>
-                        <span
-                            class="request__right">
+                        <span class="request__right">
                             {{ float_amount_with_currency_symbol($order?->paymentMeta?->coupon_amount) }}
                         </span>
                     </div>
@@ -544,8 +539,7 @@
                                                     </span>
                                                 </div>
                                                 <div class="subOrder__single__item">
-                                                    <span
-                                                        class="subOrder__single__item__left">
+                                                    <span class="subOrder__single__item__left">
                                                         {{ __('Total Income') }}
                                                     </span>
                                                     <h6 class="badge badge-sm bg-success subOrder__single__item__right">
@@ -557,8 +551,7 @@
                                         <div class="col-xxl-3 col-xl-4 col-sm-6">
                                             <div class="subOrder__single">
                                                 <div class="subOrder__single__item">
-                                                    <span
-                                                        class="subOrder__single__item__left">
+                                                    <span class="subOrder__single__item__left">
                                                         {{ __('Total Product') }}
                                                     </span>
                                                     <h6 class="badge badge-sm bg-success subOrder__single__item__right">
@@ -566,8 +559,7 @@
                                                     </h6>
                                                 </div>
                                                 <div class="subOrder__single__item">
-                                                    <span
-                                                        class="subOrder__single__item__left">
+                                                    <span class="subOrder__single__item__left">
                                                         {{ __('Total Orders') }}
                                                     </span>
                                                     <h6 class="badge badge-sm bg-success subOrder__single__item__right">
@@ -575,8 +567,7 @@
                                                     </h6>
                                                 </div>
                                                 <div class="subOrder__single__item">
-                                                    <span
-                                                        class="subOrder__single__item__left">
+                                                    <span class="subOrder__single__item__left">
                                                         {{ __('Pending Orders') }}
                                                     </span>
                                                     <h6 class="badge badge-sm bg-success subOrder__single__item__right">
@@ -584,8 +575,7 @@
                                                     </h6>
                                                 </div>
                                                 <div class="subOrder__single__item">
-                                                    <span
-                                                        class="subOrder__single__item__left">
+                                                    <span class="subOrder__single__item__left">
                                                         {{ __('Complete Orders') }}
                                                     </span>
                                                     <h6 class="badge badge-sm bg-success subOrder__single__item__right">
@@ -604,8 +594,7 @@
                                                     </span>
                                                 </div>
                                                 <div class="subOrder__single__item">
-                                                    <span
-                                                        class="subOrder__single__item__left">
+                                                    <span class="subOrder__single__item__left">
                                                         {{ __('Order Product Count') }}
                                                     </span>
                                                     <h6 class="badge badge-sm bg-success subOrder__single__item__right">
@@ -613,8 +602,7 @@
                                                     </h6>
                                                 </div>
                                                 <div class="subOrder__single__item">
-                                                    <span
-                                                        class="subOrder__single__item__left">
+                                                    <span class="subOrder__single__item__left">
                                                         {{ __('Payment Status') }}
                                                     </span>
                                                     <h6 class="badge badge-sm bg-success subOrder__single__item__right">
@@ -622,8 +610,7 @@
                                                     </h6>
                                                 </div>
                                                 <div class="subOrder__single__item">
-                                                    <span
-                                                        class="subOrder__single__item__left">
+                                                    <span class="subOrder__single__item__left">
                                                         {{ __('Order Amount') }}
                                                     </span>
                                                     <h6 class="badge badge-sm bg-success subOrder__single__item__right">
@@ -680,8 +667,7 @@
                                         <div class="col-xxl-3 col-xl-4 col-sm-6">
                                             <div class="subOrder__single">
                                                 <div class="subOrder__single__item">
-                                                    <span
-                                                        class="subOrder__single__item__left">
+                                                    <span class="subOrder__single__item__left">
                                                         {{ $subOrders->vendor->owner_name }}
                                                     </span>
                                                     <div class="subOrder__single__item__right">
@@ -689,14 +675,12 @@
                                                     </div>
                                                 </div>
                                                 {{-- <div class="subOrder__single__item">
-                                                    <span
-                                                        class="subOrder__single__item__left">
+                                                    <span class="subOrder__single__item__left">
                                                         {{ strip_tags($subOrders->vendor->description) }}
                                                     </span>
                                                 </div> --}}
                                                 <div class="subOrder__single__item">
-                                                    <span
-                                                        class="subOrder__single__item__left">
+                                                    <span class="subOrder__single__item__left">
                                                         {{ __('Total Income') }}
                                                     </span>
                                                     <h6 class="badge badge-sm bg-success subOrder__single__item__right">
@@ -708,8 +692,7 @@
                                         <div class="col-xxl-3 col-xl-4 col-sm-6">
                                             <div class="subOrder__single">
                                                 <div class="subOrder__single__item">
-                                                    <span
-                                                        class="subOrder__single__item__left">
+                                                    <span class="subOrder__single__item__left">
                                                         {{ __('Total Product') }}
                                                     </span>
                                                     <h6 class="badge badge-sm bg-success subOrder__single__item__right">
@@ -717,8 +700,7 @@
                                                     </h6>
                                                 </div>
                                                 <div class="subOrder__single__item">
-                                                    <span
-                                                        class="subOrder__single__item__left">
+                                                    <span class="subOrder__single__item__left">
                                                         {{ __('Total Orders') }}
                                                     </span>
                                                     <h6 class="badge badge-sm bg-success subOrder__single__item__right">
@@ -726,8 +708,7 @@
                                                     </h6>
                                                 </div>
                                                 <div class="subOrder__single__item">
-                                                    <span
-                                                        class="subOrder__single__item__left">
+                                                    <span class="subOrder__single__item__left">
                                                         {{ __('Pending Orders') }}
                                                     </span>
                                                     <h6 class="badge badge-sm bg-success subOrder__single__item__right">
@@ -735,8 +716,7 @@
                                                     </h6>
                                                 </div>
                                                 <div class="subOrder__single__item">
-                                                    <span
-                                                        class="subOrder__single__item__left">
+                                                    <span class="subOrder__single__item__left">
                                                         {{ __('Complete Orders') }}
                                                     </span>
                                                     <h6 class="badge badge-sm bg-success subOrder__single__item__right">
@@ -755,8 +735,7 @@
                                                     </span>
                                                 </div>
                                                 <div class="subOrder__single__item">
-                                                    <span
-                                                        class="subOrder__single__item__left">
+                                                    <span class="subOrder__single__item__left">
                                                         {{ __('Order Product Count') }}
                                                     </span>
                                                     <h6 class="badge badge-sm bg-success subOrder__single__item__right">
@@ -764,18 +743,15 @@
                                                     </h6>
                                                 </div>
                                                 <div class="subOrder__single__item">
-                                                    <span
-                                                        class="subOrder__single__item__left">
+                                                    <span class="subOrder__single__item__left">
                                                         {{ __('Payment Status') }}
                                                     </span>
                                                     @if ($subOrders->order->payment_status == 'complete')
-                                                        <h6
-                                                            class="badge badge-sm bg-success subOrder__single__item__right">
+                                                        <h6 class="badge badge-sm bg-success subOrder__single__item__right">
                                                             {{ __('Complete') }}
                                                         </h6>
                                                     @elseif ($subOrders->order->payment_status == 'pending')
-                                                        <h6
-                                                            class="badge badge-sm bg-warning subOrder__single__item__right">
+                                                        <h6 class="badge badge-sm bg-warning subOrder__single__item__right">
                                                             {{ __('Pending') }}
                                                         </h6>
                                                     @elseif ($subOrders->order->payment_status == 'failed')
@@ -785,17 +761,16 @@
                                                     @endif
                                                 </div>
                                                 <div class="subOrder__single__item">
-                                                    <span
-                                                        class="subOrder__single__item__left">
+                                                    <span class="subOrder__single__item__left">
                                                         {{ __('Order Status') }}
                                                     </span>
-                                                    <span class="badge {{ $subOrders->order_status === 'order_cancelled' ? 'bg-danger' : 'bg-dark' }}">
+                                                    <span
+                                                        class="badge {{ $subOrders->order_status === 'order_cancelled' ? 'bg-danger' : 'bg-dark' }}">
                                                         {{ ucfirst(str_replace(['_', '-'], ' ', $subOrders->order_status)) }}
                                                     </span>
                                                 </div>
                                                 <div class="subOrder__single__item">
-                                                    <span
-                                                        class="subOrder__single__item__left">
+                                                    <span class="subOrder__single__item__left">
                                                         {{ __('Order Amount') }}
                                                     </span>
                                                     <h6 class="badge badge-sm bg-success subOrder__single__item__right">
@@ -818,7 +793,7 @@
 @section('script')
     <script
         src="https://maps.googleapis.com/maps/api/js?key={{ get_static_option('map_api_key_client') }}&libraries=drawing,places&v=3.45.8">
-    </script>
+        </script>
     <script src="{{ asset('assets/backend/js/sweetalert2.js') }}"></script>
     <script>
         function geocodeAddress(address) {
@@ -826,7 +801,7 @@
 
             geocoder.geocode({
                 address: address
-            }, function(results, status) {
+            }, function (results, status) {
                 if (status === google.maps.GeocoderStatus.OK) {
                     var latitude = results[0].geometry.location.lat();
                     var longitude = results[0].geometry.location.lng();
@@ -839,31 +814,31 @@
         // Call the function with your address
         var address = "Dhaka, Dhaka, Bangladesh, 24727";
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             console.log(geocodeAddress(address));
         });
 
 
-        (function($) {
+        (function ($) {
             "use strict";
-            $(document).on("change", ".order-track-input", function() {
+            $(document).on("change", ".order-track-input", function () {
                 let el = $(this);
                 $(".order-track-input").removeAttr("checked");
-                $(".order-track-input").each(function() {
+                $(".order-track-input").each(function () {
                     $(this).prop("checked", true);
                     if (el.val() == $(this).val()) {
                         return false;
                     }
                 })
             });
-            $(document).ready(function() {
-                $(document).on('click', '.bodyUser_overlay', function() {
+            $(document).ready(function () {
+                $(document).on('click', '.bodyUser_overlay', function () {
                     $('.user-dashboard-wrapper, .bodyUser_overlay').removeClass('show');
                 });
-                $(document).on('click', '.mobile_nav', function() {
+                $(document).on('click', '.mobile_nav', function () {
                     $('.user-dashboard-wrapper, .bodyUser_overlay').addClass('show');
                 });
-                $(document).on('click', '.swal_delete_button', function(e) {
+                $(document).on('click', '.swal_delete_button', function (e) {
                     e.preventDefault();
                     Swal.fire({
                         title: '{{ __('Are you sure?') }}',
