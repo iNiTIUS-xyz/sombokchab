@@ -43,11 +43,32 @@
                                     @endcan
                                     <td>{{ $data->name }}</td>
                                     <td>
-                                        @if ('publish' == $data->status)
-                                            <span class="badge bg-primary">{{ ucfirst(__($data->status)) }}</span>
-                                        @else
-                                            <span class="badge bg-warning">{{ ucfirst(__($data->status)) }}</span>
-                                        @endif
+                                        <div class="btn-group badge">
+                                            <button type="button"
+                                                class="status-{{ $data->status }} {{ $data->status == 'publish' ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
+                                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                {{ ucfirst($data->status == 'publish' ? __('Publish') : __('Draft')) }}
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                {{-- Form for activating --}}
+                                                <form action="{{ route('admin.support.ticket.status.change', $data->id) }}"
+                                                    method="POST" id="status-form-activate-{{ $data->id }}">
+                                                    @csrf
+                                                    <input type="hidden" name="status" value="publish">
+                                                    <button type="submit" class="dropdown-item">
+                                                        {{ __('Publish') }}
+                                                    </button>
+                                                </form>
+                                                <form action="{{ route('admin.support.ticket.status.change', $data->id) }}"
+                                                    method="POST" id="status-form-deactivate-{{ $data->id }}">
+                                                    @csrf
+                                                    <input type="hidden" name="status" value="draft">
+                                                    <button type="submit" class="dropdown-item">
+                                                        {{ __('Draft') }}
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </td>
                                     <td>
                                         @can('support-tickets-department-update')

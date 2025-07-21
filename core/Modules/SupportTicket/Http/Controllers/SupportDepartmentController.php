@@ -39,6 +39,18 @@ class SupportDepartmentController extends Controller
         return redirect()->back()->with(FlashMsg::item_update());
     }
 
+    public function statusChange(Request $request)
+    {
+        SupportDepartment::find($request->id)->update([
+            'status' => $request->status,
+        ]);
+
+        return redirect()->back()->with([
+            'type' => 'success',
+            'msg' => 'Satatus changed Successfully.',
+        ]);
+    }
+
     public function delete(Request $request, $id)
     {
         SupportDepartment::find($id)->delete();

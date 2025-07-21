@@ -19,12 +19,12 @@ use Modules\SupportTicket\Http\Controllers\SupportTicketController;
  *----------------------------------------------------------------------------------------------------------------------------------*/
 
 
-Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable','auth:admin'])->group(function () {
+Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable', 'auth:admin'])->group(function () {
     /*==============================================
                     SUPPORT TICKET MODULE
     ==============================================*/
     Route::prefix('support-tickets')->group(function () {
-        Route::controller(SupportTicketController::class)->group(function (){
+        Route::controller(SupportTicketController::class)->group(function () {
             Route::get('/', 'all_tickets')->name('admin.support.ticket.all')->permission("support-tickets");
             Route::get('/vendor-tickets/', 'all_vendor_tickets')->name('admin.support.ticket.all.vendor')->permission("support-tickets-vendor-tickets");
             Route::get('/new', 'new_ticket')->name('admin.support.ticket.new')->permission("support-tickets-new");
@@ -46,9 +46,10 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
             SUPPORT TICKET : DEPARTMENT ROUTES
         --------------------------------------------------*/
         Route::group(['prefix' => 'department'], function () {
-            Route::controller("SupportDepartmentController")->group(function (){
+            Route::controller("SupportDepartmentController")->group(function () {
                 Route::get('/', 'category')->name('admin.support.ticket.department')->permission('support-tickets-department');
                 Route::post('/', 'new_category')->permission('support-tickets-department');
+                Route::post('status-change/{id}', 'statusChange')->name('admin.support.ticket.status.change');
                 Route::post('/delete/{id}', 'delete')->name('admin.support.ticket.department.delete')->permission('support-tickets-department-delete');
                 Route::post('/update', 'update')->name('admin.support.ticket.department.update')->permission('support-tickets-department-update');
                 Route::post('/bulk-action', 'bulk_action')->name('admin.support.ticket.department.bulk.action')->permission('support-tickets-department-bulk-action');
@@ -60,7 +61,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
 /**--------------------------------------------------------------------------------------------------------------------------------
  *                          VENDOR PANEL ROUTES
  *----------------------------------------------------------------------------------------------------------------------------------*/
-Route::prefix('vendor-home')->middleware(['userEmailVerify','setlang:backend','setlang:backend', 'adminglobalVariable','auth:vendor'])->as("vendor.")->group(function () {
+Route::prefix('vendor-home')->middleware(['userEmailVerify', 'setlang:backend', 'setlang:backend', 'adminglobalVariable', 'auth:vendor'])->as("vendor.")->group(function () {
     /*==============================================
                     SUPPORT TICKET MODULE
     ==============================================*/
