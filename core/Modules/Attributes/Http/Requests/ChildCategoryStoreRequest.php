@@ -15,7 +15,7 @@ class ChildCategoryStoreRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:191|unique:child_categories',
-            'slug' => 'required|string|max:191|unique:child_categories',
+            // 'slug' => 'required|string|max:191|unique:child_categories',
             'description' => 'nullable',
             'status_id' => 'nullable|max:191',
             'image_id' => 'nullable|max:191',

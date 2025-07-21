@@ -28,7 +28,22 @@ class ChildCategoryController extends Controller
 
     public function store(ChildCategoryStoreRequest $request): RedirectResponse
     {
-        $product_category = ChildCategory::create($request->validated());
+
+        $data = $request->validated();
+        $data['slug'] = strtolower(str_replace(' ', '-', $request->name));
+
+        $subCategoryExit = ChildCategory::query()
+            ->where('name', $request->name)
+            ->first();
+
+        if ($subCategoryExit) {
+            return back()->with([
+                'type' => 'danger',
+                'msg' => __('Child category already exist with this name.')
+            ]);
+        }
+
+        $product_category = ChildCategory::create($data);
 
         return $product_category->id
             ? back()->with(FlashMsg::create_succeed(__('Product Child-Category')))
@@ -38,9 +53,24 @@ class ChildCategoryController extends Controller
     public function update(ChildCategoryUpdateRequest $request)
     {
 
+        $data = $request->validated();
+        $data['slug'] = strtolower(str_replace(' ', '-', $request->name));
+
+        $subCategoryExit = ChildCategory::query()
+            ->where('id', '!=', $request->id)
+            ->where('name', $request->name)
+            ->first();
+
+        if ($subCategoryExit) {
+            return back()->with([
+                'type' => 'danger',
+                'msg' => __('Child category already exist with this name.')
+            ]);
+        }
+
         $updated = ChildCategory::query()
             ->where("id", $request->id)
-            ->update($request->validated());
+            ->update($data);
 
         return $updated ? back()->with(FlashMsg::update_succeed(__('Product Child Category'))) : back()->with(FlashMsg::update_failed(__('Product Child-Category')));
     }

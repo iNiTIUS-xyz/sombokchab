@@ -41,7 +41,6 @@
                                     @can('categories-bulk-action')
                                         <x-bulk-action.th />
                                     @endcan
-                                    {{-- <th>{{ __('Serial No.') }}</th> --}}
                                     <th>{{ __('Category Name') }}</th>
                                     <th>{{ __('Image') }}</th>
                                     <th>{{ __('Status') }}</th>
@@ -54,7 +53,6 @@
                                             @can('categories-bulk-action')
                                                 <x-bulk-action.td :id="$category->id" />
                                             @endcan
-                                            {{-- <td>{{ $loop->iteration }}</td> --}}
                                             <td>{{ $category->name }}</td>
                                             <td>
                                                 <div class="attachment-preview">
@@ -114,11 +112,11 @@
                                 <input type="text" class="form-control" id="edit_name" name="name"
                                     placeholder="{{ __('Enter name') }}">
                             </div>
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <label for="edit_slug">{{ __('Slug') }}</label>
                                 <input type="text" class="form-control" id="edit_slug" name="slug"
                                     placeholder="{{ __('Enter slug') }}">
-                            </div>
+                            </div> --}}
                             <div class="form-group">
                                 <label for="edit_description">{{ __('Description') }}</label>
                                 <textarea type="text" class="form-control" id="edit_description" name="description"
@@ -160,11 +158,11 @@
                                     placeholder="{{ __('Enter name') }}">
                             </div>
 
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <label for="slug">{{ __('Slug') }}</label>
                                 <input type="text" class="form-control" id="create-slug" name="slug"
                                     placeholder="{{ __('Enter slug') }}">
-                            </div>
+                            </div> --}}
 
                             <div class="form-group">
                                 <label for="description">{{ __('Description') }}</label>
