@@ -105,7 +105,7 @@
                         @csrf
                         <div class="modal-body">
                             <div class="row">
-                                <div class="col-md-6 mb-4">
+                                <div class="col-md-12 mb-4">
                                     <div class="form-group">
                                         <label for="edit_name">{{ __('Name') }}</label>
                                         <input type="text" class="form-control" id="edit_name" name="name"
@@ -174,7 +174,7 @@
                         @csrf
                         <div class="modal-body">
                             <div class="row">
-                                <div class="col-md-6 mb-4">
+                                <div class="col-md-12 mb-4">
                                     <div class="form-group">
                                         <label for="name">{{ __('Name') }}</label>
                                         <input type="text" class="form-control" id="create-name" name="name"
