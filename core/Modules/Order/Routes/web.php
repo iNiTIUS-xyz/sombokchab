@@ -48,6 +48,8 @@ Route::prefix("admin-home/orders")->as("admin.orders.")
         Route::get("/", "orders")->name("list")->permission("orders");
         Route::put("/update/order-track", "updateOrderTrack")->name("update.order-track")->permission("orders-update-order-track");
         Route::put("/update/order-status", "updateOrderStatus")->name("update.order-status")->permission("orders-update-order-status");
+        Route::post("order-status-changed/{id}", "orderStatusChange")->name("change.status");
+        Route::post("order-payment-status-change/{id}", "paymentStatusChange")->name("payment.status.change");
         Route::get("/sub-order", "index")->name("sub_order.list")->permission("orders-sub-order");
         Route::get("/vendor/list", "orderVendorList")->name("vendor.list")->permission("orders-vendor-list");
         Route::get("/vendor/{username}", "vendorOrders")->name("vendor.order")->permission("orders-vendor");

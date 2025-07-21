@@ -2,19 +2,13 @@
 
 namespace Modules\Order\Http\Controllers;
 
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Modules\DeliveryMan\Entities\DeliveryMan;
-use Modules\DeliveryMan\Entities\DeliveryManZone;
-use Modules\DeliveryMan\Services\GoogleMapServices;
 use Modules\Order\Entities\Order;
 use Modules\Order\Entities\SubOrder;
 use Modules\Order\Services\OrderService;
 use Modules\Order\Services\OrderServices;
 use Modules\Order\Traits\OrderDetailsTrait;
-use Modules\Order\Traits\StoreOrderTrait;
-use Modules\ShippingModule\Entities\Zone;
 use Modules\Vendor\Entities\Vendor;
 use Modules\Wallet\Http\Services\WalletService;
 
@@ -35,7 +29,7 @@ class AdminOrderController extends Controller
 
     public function orders()
     {
-        // first of all we need to get all sub order for login user
+
         $all_orders = Order::query()
             ->with([
                 "paymentMeta",
@@ -81,15 +75,6 @@ class AdminOrderController extends Controller
     {
         $order = $this->orderDetailsMethod($id);
 
-        // let's check some condition if those condition are not matched then render blade file otherwise redirect to sub order details page
-        // first condition will be count sub orders if sub order is less then 2 order and bigger then 0
-        // second condition will be if sub order do not have any vendor id on this collection
-
-        // if ($order->SubOrders->count() == 1 && !empty($order->SubOrders->first()->vendor_id)) {
-        //     return "Working";
-        // }
-
-
         return view("order::admin.details", compact("order"));
     }
 
@@ -110,10 +95,6 @@ class AdminOrderController extends Controller
     public function edit($orderId)
     {
         $order = $this->orderDetailsMethod($orderId);
-
-        // let's check some condition if those condition are not matched then render blade file otherwise redirect to sub order details page
-        // first condition will be count sub orders if sub order is less then 2 order and bigger then 0
-        // second condition will be if sub order do not have any vendor id on this collection
 
         if ($order->SubOrders->count() == 1 && !empty($order->SubOrders->first()->vendor_id)) {
         }
@@ -158,5 +139,24 @@ class AdminOrderController extends Controller
         ]);
 
         return back()->with(["type" => "success", "msg" => __("Status updated successfully.")]);
+    }
+
+    public function orderStatusChange(Request $request, $id)
+    {
+        Order::where("id", $id)->update([
+            "order_status" => $request->order_status,
+        ]);
+
+        return back()->with(["type" => "success", "msg" => __("Order status changed successfully.")]);
+    }
+
+    public function paymentStatusChange(Request $request, $id)
+    {
+
+        Order::where("id", $id)->update([
+            "payment_status" => $request->payment_status,
+        ]);
+
+        return back()->with(["type" => "success", "msg" => __("Order payment status changed successfully.")]);
     }
 }

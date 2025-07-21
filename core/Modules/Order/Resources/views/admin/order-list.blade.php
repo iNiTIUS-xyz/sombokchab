@@ -4,6 +4,15 @@
     {{ __('All Store Orders') }}
 @endsection
 
+@section('style')
+    <style>
+        .btn-group button.dropdown-toggle {
+            border: 1px solid #ffffff !important;
+            color: #ffffff !important;
+        }
+    </style>
+@endsection
+
 @section('content')
     <div class="row">
         <div class="col-md-12">
@@ -22,7 +31,6 @@
                         <thead>
                             <tr>
                                 <th>{{ __('Order No.') }}</th>
-                                {{-- <th>{{ __('Store Name') }}</th> --}}
                                 <th>{{ __('Order Date') }}</th>
                                 <th>{{ __('Order Status') }}</th>
                                 <th>{{ __('Payment Status') }}</th>
@@ -32,38 +40,128 @@
                         </thead>
                         <tbody>
                             @foreach ($all_orders as $order)
+                                @php
+                                    $status = strtolower($order->order_status);
+                                    $statusClass = match ($status) {
+                                        'canceled' => 'bg-danger',
+                                        'pending' => 'bg-secondary',
+                                        'complete' => 'bg-success',
+                                        'failed' => 'bg-warning',
+                                        'rejected' => 'bg-info',
+                                        default => 'bg-secondary',
+                                    };
+
+                                    $paymentStatus = strtolower($order->payment_status);
+                                    $paymentStatusClass = match ($paymentStatus) {
+                                        'canceled' => 'bg-danger',
+                                        'pending' => 'bg-secondary',
+                                        'complete' => 'bg-success',
+                                        'failed' => 'bg-warning',
+                                        'rejected' => 'bg-info',
+                                        default => 'bg-secondary',
+                                    };
+                                @endphp
                                 <tr class="completed">
                                     <td class="order-numb">
                                         {{ $order->order_number }}
                                     </td>
-                                    {{-- <td class="order-numb">
-                                        <strong>{{ $order?->vendor?->business_name }}</strong>
-                                        ({{ $order?->vendor?->username }})
-                                    </td> --}}
                                     <td class="date">
                                         {{ $order->created_at->format('F d, Y') }}
                                     </td>
                                     <td class="status">
-                                        @if ($order->order_status == 'complete' && $order->orderTrack?->first()->name == 'delivered')
-                                            <span class="badge bg-primary px-2 py-1">{{ __('Complete') }}</span>
-                                        @elseif ($order->order_status == 'canceled')
-                                            <span class="badge bg-danger px-2 py-1">{{ __('Canceled') }}</span>
-                                        @elseif ($order->order_status == 'rejected')
-                                            <span class="badge px-2 py-1"
-                                                style="background: rgb(138, 1, 14) !important;">{{ __('Rejected') }}</span>
-                                        @else
-                                            <span
-                                                class="badge bg-secondary px-2 py-1 text-capitalize">{{ $order->orderTrack?->first()->name ?? 'pending' }}</span>
-                                        @endif
+                                        <div class="btn-group badge">
+                                            <button type="button"
+                                                class="status-{{ $status }} {{ $statusClass }} dropdown-toggle"
+                                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                {{ ucfirst($status) }}
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                {{-- Pending --}}
+                                                <form action="{{ route('admin.orders.change.status', $order->id) }}"
+                                                    method="POST" id="status-form-pending-{{ $order->id }}">
+                                                    @csrf
+                                                    <input type="hidden" name="order_status" value="pending">
+                                                    <button type="submit" class="dropdown-item">
+                                                        {{ __('Pending') }}
+                                                    </button>
+                                                </form>
+                                                {{-- Complete --}}
+                                                <form action="{{ route('admin.orders.change.status', $order->id) }}"
+                                                    method="POST" id="status-form-complete-{{ $order->id }}">
+                                                    @csrf
+                                                    <input type="hidden" name="order_status" value="complete">
+                                                    <button type="submit" class="dropdown-item">
+                                                        {{ __('Complete') }}
+                                                    </button>
+                                                </form>
+                                                {{-- Failed --}}
+                                                <form action="{{ route('admin.orders.change.status', $order->id) }}"
+                                                    method="POST" id="status-form-failed-{{ $order->id }}">
+                                                    @csrf
+                                                    <input type="hidden" name="order_status" value="failed">
+                                                    <button type="submit" class="dropdown-item">
+                                                        {{ __('Failed') }}
+                                                    </button>
+                                                </form>
+
+                                                {{-- Rejected --}}
+                                                <form action="{{ route('admin.orders.change.status', $order->id) }}"
+                                                    method="POST" id="status-form-rejected-{{ $order->id }}">
+                                                    @csrf
+                                                    <input type="hidden" name="order_status" value="rejected">
+                                                    <button type="submit" class="dropdown-item">
+                                                        {{ __('Rejected') }}
+                                                    </button>
+                                                </form>
+                                                {{-- Canceled --}}
+                                                <form action="{{ route('admin.orders.change.status', $order->id) }}"
+                                                    method="POST" id="status-form-canceled-{{ $order->id }}">
+                                                    @csrf
+                                                    <input type="hidden" name="order_status" value="canceled">
+                                                    <button type="submit" class="dropdown-item">
+                                                        {{ __('Canceled') }}
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </td>
                                     <td class="status">
-                                        @if ($order->payment_status == 'complete')
-                                            <span class="badge bg-primary px-2 py-1">{{ __('Complete') }}</span>
-                                        @elseif ($order->payment_status == 'pending')
-                                            <span class="badge bg-warning px-2 py-1">{{ __('Pending') }}</span>
-                                        @elseif ($order->payment_status == 'failed')
-                                            <span class="badge bg-danger px-2 py-1">{{ __('Failed') }}</span>
-                                        @endif
+                                        <div class="btn-group badge">
+                                            <button type="button"
+                                                class="status-{{ $paymentStatus }} {{ $paymentStatusClass }} dropdown-toggle"
+                                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                {{ ucfirst($paymentStatus) }}
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                {{-- Pending --}}
+                                                <form action="{{ route('admin.orders.payment.status.change', $order->id) }}"
+                                                    method="POST" id="status-form-pending-{{ $order->id }}">
+                                                    @csrf
+                                                    <input type="hidden" name="payment_status" value="pending">
+                                                    <button type="submit" class="dropdown-item">
+                                                        {{ __('Pending') }}
+                                                    </button>
+                                                </form>
+                                                {{-- Complete --}}
+                                                <form action="{{ route('admin.orders.payment.status.change', $order->id) }}"
+                                                    method="POST" id="status-form-complete-{{ $order->id }}">
+                                                    @csrf
+                                                    <input type="hidden" name="payment_status" value="complete">
+                                                    <button type="submit" class="dropdown-item">
+                                                        {{ __('Complete') }}
+                                                    </button>
+                                                </form>
+                                                {{-- Failed --}}
+                                                <form action="{{ route('admin.orders.payment.status.change', $order->id) }}"
+                                                    method="POST" id="status-form-failed-{{ $order->id }}">
+                                                    @csrf
+                                                    <input type="hidden" name="payment_status" value="failed">
+                                                    <button type="submit" class="dropdown-item">
+                                                        {{ __('Failed') }}
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </td>
                                     <td class="amount">
                                         {{ float_amount_with_currency_symbol($order->paymentMeta->total_amount ?? 0) }}
@@ -73,7 +171,6 @@
                                             @can('orders-generate-invoice')
                                                 <a href="{{ route('admin.orders.generate.invoice', $order->id) }}"
                                                     class="btn btn-info rounded-btn" title="{{ __('View Invoice') }}">
-
                                                     <i class="ti-info"></i>
                                                 </a>
                                             @endcan
@@ -95,7 +192,6 @@
                                                     <i class="ti-pencil"></i>
                                                 </a>
                                             @endcan
-
                                         </div>
                                     </td>
                                 </tr>
@@ -110,7 +206,6 @@
 
 @section('script')
     <script src="{{ asset('assets/backend/js/sweetalert2.js') }}"></script>
-
     <script>
         (function ($) {
             "use strict";

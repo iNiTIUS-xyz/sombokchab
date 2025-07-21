@@ -530,7 +530,7 @@
                                         <div class="col-xxl-3 col-xl-4 col-sm-6">
                                             <div class="subOrder__single">
                                                 <div class="subOrder__single__thumb">
-                                                    {!! render_image($adminShop->logo, class: 'w-50') !!}
+                                                    {!! render_image($adminShop->logo, 'w-50') !!}
                                                 </div>
                                             </div>
                                         </div>
