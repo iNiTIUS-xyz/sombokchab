@@ -514,6 +514,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
         Route::post('/update/{id}', 'BlogController@update_blog')->name('admin.blog.update')->permission('blog-update');
         Route::post('/delete/{id}', 'BlogController@delete_blog')->name('admin.blog.delete')->permission('blog-delete');
         Route::get('/category', 'BlogController@category')->name('admin.blog.category')->permission('blog-category');
+        Route::post('/blog-status-change/{id}', 'BlogController@blogStatusChange')->name('admin.blog.status.change');
         Route::post('/category', 'BlogController@new_category')->permission('blog-category');
         Route::post('/category/delete/{id}', 'BlogController@delete_category')->name('admin.blog.category.delete')->permission('blog-category-delete');
         Route::post('/category/update', 'BlogController@update_category')->name('admin.blog.category.update')->permission('blog-category-update');

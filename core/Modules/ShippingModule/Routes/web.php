@@ -12,23 +12,24 @@ use Modules\ShippingModule\Http\Controllers\ZoneController;
 
 
 Route::prefix('admin-home')->as("admin.")
-    ->middleware(['setlang:backend', 'adminglobalVariable','auth:admin'])->group(function () {
-    Route::prefix("shipping-method")->controller(AdminShippingMethodController::class)->as("shipping-method.")->group(function (){
-        Route::get("/", "index")->name("index")->permission("shipping-method");
-        Route::get("/create", "create")->name("create")->permission("shipping-method-create");
-        Route::post("/store", "store")->name("store")->permission("shipping-method-store");
-        Route::get("/delete/{id}", "destroy")->name("destroy")->permission("shipping-method-delete");
-        Route::get("/edit/{id}", "edit")->name("edit")->permission("shipping-method-edit");
-        Route::post("/update/{id}", "update")->name("update")->permission("shipping-method-update");
-        Route::post("/make-default", "makeDefault")->name("make-default")->permission("shipping-method-make-default");
+    ->middleware(['setlang:backend', 'adminglobalVariable', 'auth:admin'])->group(function () {
+        Route::prefix("shipping-method")->controller(AdminShippingMethodController::class)->as("shipping-method.")->group(function () {
+            Route::get("/", "index")->name("index")->permission("shipping-method");
+            Route::get("/create", "create")->name("create")->permission("shipping-method-create");
+            Route::post("/store", "store")->name("store")->permission("shipping-method-store");
+            Route::get("/delete/{id}", "destroy")->name("destroy")->permission("shipping-method-delete");
+            Route::get("/edit/{id}", "edit")->name("edit")->permission("shipping-method-edit");
+            Route::post("/update/{id}", "update")->name("update")->permission("shipping-method-update");
+            Route::post("/make-default", "makeDefault")->name("make-default")->permission("shipping-method-make-default");
+            Route::post("/status-change/{id}", "statusChange")->name("shipping-method.status.change");
+        });
     });
-});
 
-Route::prefix('admin-home/shipping')->as("admin.")->middleware(['setlang:backend', 'adminglobalVariable','auth:admin'])->group(function () {
+Route::prefix('admin-home/shipping')->as("admin.")->middleware(['setlang:backend', 'adminglobalVariable', 'auth:admin'])->group(function () {
     /*-----------------------------------
                 ZONE ROUTES
     ------------------------------------*/
-    Route::controller(ZoneController::class)->prefix('zone')->as('shipping.zone.')->group( function () {
+    Route::controller(ZoneController::class)->prefix('zone')->as('shipping.zone.')->group(function () {
         Route::get('/', 'index')->name('all')->permission("shipping-zone");
         Route::get('/create', 'create')->name('create')->permission("shipping-zone-create");
         Route::post('/store', 'store')->name('store')->permission("shipping-zone-store");
@@ -41,7 +42,7 @@ Route::prefix('admin-home/shipping')->as("admin.")->middleware(['setlang:backend
         METHOD ROUTES
     ------------------------------------*/
     Route::group(['prefix' => 'method', 'as' => 'shipping.method.'], function () {
-        Route::controller(ShippingMethodController::class)->group(function (){
+        Route::controller(ShippingMethodController::class)->group(function () {
             Route::get('/', 'index')->name('all')->permission("shipping-method");
             Route::get('new', 'create')->name('new')->permission("shipping-method-new");
             Route::post('new', 'store')->permission("shipping-method-new");
@@ -55,8 +56,8 @@ Route::prefix('admin-home/shipping')->as("admin.")->middleware(['setlang:backend
 });
 
 // all vendor user route
-Route::prefix("vendor-home")->as("vendor.")->middleware(['userEmailVerify','setlang:backend','adminglobalVariable','auth:vendor'])->group(callback: function () {
-    Route::prefix("shipping-method")->controller(VendorShippingMethodController::class)->as("shipping-method.")->group(function (){
+Route::prefix("vendor-home")->as("vendor.")->middleware(['userEmailVerify', 'setlang:backend', 'adminglobalVariable', 'auth:vendor'])->group(callback: function () {
+    Route::prefix("shipping-method")->controller(VendorShippingMethodController::class)->as("shipping-method.")->group(function () {
         Route::get("/", "index")->name("index");
         Route::get("/create", "create")->name("create");
         Route::post("/store", "store")->name("store");

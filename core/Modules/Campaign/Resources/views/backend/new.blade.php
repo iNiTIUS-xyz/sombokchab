@@ -38,19 +38,18 @@
                                                 <input type="text" class="form-control" id="campaign_name"
                                                     name="campaign_name" placeholder="Campaign Name">
                                             </div>
-
                                             <div class="form-group">
                                                 <label for="campaign_slug">{{ __('Campaign Slug') }}</label>
                                                 <input type="text" class="form-control" id="campaign_slug"
                                                     name="campaign_slug" placeholder="Campaign Slug">
                                             </div>
-
                                             <div class="form-group">
                                                 <label for="campaign_subtitle">{{ __('Campaign Subtitle') }}</label>
-                                                <textarea type="text" class="form-control" id="campaign_subtitle" name="campaign_subtitle"
-                                                    placeholder="Campaign Subtitle"></textarea>
+                                                <textarea type="text" class="form-control" id="campaign_subtitle"
+                                                    name="campaign_subtitle" placeholder="Campaign Subtitle"></textarea>
                                             </div>
-                                            <x-media-upload :title="__('Campaign Image')" name="image" :dimentions="'1920x1080'" />
+                                            <x-media-upload :title="__('Campaign Image')" name="image"
+                                                :dimentions="'1920x1080'" />
                                             <div class="form-group">
                                                 <label for="campaign_status">{{ __('Campaign Status') }}</label>
                                                 <select name="status" id="status" class="form-control">
@@ -123,7 +122,7 @@
     <script src="{{ asset('assets/backend/js/flatpickr.js') }}"></script>
     <x-niceselect.js />
     <script>
-        $(document).on('change', '.select_product select', function() {
+        $(document).on('change', '.select_product select', function () {
             let selected_product_id = $(this).val();
             let container = $(this).closest('.card');
 
@@ -147,13 +146,13 @@
             }
         });
 
-        (function() {
-            $('#campaign_name , #campaign_slug').on('keyup', function() {
+        (function () {
+            $('#campaign_name , #campaign_slug').on('keyup', function () {
                 let title_text = $(this).val();
                 $('#campaign_slug').val(convertToSlug(title_text))
             });
 
-            $(document).ready(function() {
+            $(document).ready(function () {
                 flatpickr(".flatpickr", {
                     altInput: true,
                     altFormat: "F j, Y",
@@ -164,7 +163,7 @@
                     $('.nice-select').niceSelect();
                 }
 
-                $(document).on('click', '.cross-btn', function() {
+                $(document).on('click', '.cross-btn', function () {
                     let container = $(this).closest('.card');
                     container.slideUp('slow');
                     setTimeout(() => {
@@ -172,13 +171,13 @@
                     }, 1000);
                 });
 
-                $(document).on('change', '.repeater_product_id', function() {
+                $(document).on('change', '.repeater_product_id', function () {
                     let stock = $(this).find('option:checked').data('stock');
                     $(this).closest('.card-body').find('.available_num_of_units').val(stock);
                 });
 
 
-                $(document).on('change', '.select_product select', function() {
+                $(document).on('change', '.select_product select', function () {
                     let selected_product_id = $(this).val();
                     let container = $(this).closest('.dashboard__card');
                     let original_price_field = container.find('.original_price');
@@ -198,29 +197,29 @@
                     }
                 });
 
-                $('#set_fixed_percentage').on('change', function() {
+                $('#set_fixed_percentage').on('change', function () {
                     if ($(this).is(':checked')) {
                         $('#fixe_price_cut_container').slideDown('500')
                     } else {
                         $('#fixe_price_cut_container').slideUp('500');
-                        setTimeout(function() {
+                        setTimeout(function () {
                             $('#fixed_percentage_amount').val('');
                         }, 500);
                     }
                 });
 
-                $('#set_fixed_date').on('change', function() {
+                $('#set_fixed_date').on('change', function () {
                     if ($(this).is(':checked')) {
                         $('#fixed_date_container').slideDown(500);
                     } else {
                         $('#fixed_date_container').slideUp(500);
-                        setTimeout(function() {
+                        setTimeout(function () {
                             $('#fixed_date_container input').val('');
                         }, 500);
                     }
                 });
 
-                $('#fixed_date_sync_all').on('click', function(e) {
+                $('#fixed_date_sync_all').on('click', function (e) {
                     e.preventDefault();
 
                     if ($('#set_fixed_date').is(':checked')) {
@@ -247,7 +246,7 @@
                 });
             });
 
-            $(document).on('click','#fixed_price_sync_all', function() {
+            $(document).on('click', '#fixed_price_sync_all', function () {
                 let fixed_percentage = $('#fixed_percentage_amount').val().trim();
 
                 if (!fixed_percentage.length) {
@@ -271,7 +270,7 @@
                 }
             });
 
-            $(document).on('click','#add_product_btn', function() {
+            $(document).on('click', '#add_product_btn', function () {
                 let product_repeater_container = $('#product_repeater_container');
                 let remove_button_selector = '.delete-campaign';
                 let from_date = undefined;

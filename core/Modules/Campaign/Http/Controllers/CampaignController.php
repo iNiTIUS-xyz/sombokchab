@@ -22,30 +22,19 @@ class CampaignController extends Controller
 {
     const BASE_URL = 'campaign::backend.';
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index(): Application|Factory|View
     {
         $all_campaigns = GlobalCampaignService::fetch_campaigns(); //Campaign::with("campaignImage")->get();
 
-        return view(self::BASE_URL.'all', compact('all_campaigns'));
+        return view(self::BASE_URL . 'all', compact('all_campaigns'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create(): View|Factory|Application
     {
         return GlobalCampaignService::renderCampaignProduct(self::BASE_URL);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @throws Throwable
-     */
-    public function store(CampaignValidationRequest $request): RedirectResponse
+    public function store(CampaignValidationRequest $request)
     {
         $data = $request->validated();
 
@@ -67,20 +56,12 @@ class CampaignController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit($item): Application|Factory|View
     {
         return GlobalCampaignService::renderCampaignProduct(self::BASE_URL, $item);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @throws Throwable
-     */
-    public function update(CampaignValidationRequest $request): RedirectResponse
+    public function update(CampaignValidationRequest $request)
     {
         $data = $request->validated();
 
@@ -99,12 +80,7 @@ class CampaignController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @throws Throwable
-     */
-    public function destroy(Campaign $item): RedirectResponse
+    public function destroy(Campaign $item)
     {
         try {
             DB::beginTransaction();
@@ -141,14 +117,14 @@ class CampaignController extends Controller
         }
     }
 
-    public function getProductPrice(Request $request): JsonResponse
+    public function getProductPrice(Request $request)
     {
         $price = Product::findOrFail($request->id)->price;
 
         return response()->json(['price' => $price], 200);
     }
 
-    public function deleteProductSingle(Request $request): bool
+    public function deleteProductSingle(Request $request)
     {
         $delete = (bool) CampaignProduct::findOrFail($request->id)->delete();
 

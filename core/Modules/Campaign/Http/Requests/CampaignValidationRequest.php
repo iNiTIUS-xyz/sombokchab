@@ -41,27 +41,28 @@ class CampaignValidationRequest extends FormRequest
 
     protected function prepareForValidation()
     {
-        return $this->merge([
-            'title' => $this->campaign_name,
-            'subtitle' => $this->campaign_subtitle,
-            'image' => $this->image,
-            'status' => $this->status,
-            'start_date' => $this->campaign_start_date,
-            'end_date' => $this->campaign_end_date,
-            'slug' => $this->campaign_slug,
-            'products' => [
-                'product_id' => $this->product_id,
-                'campaign_price' => $this->campaign_price,
-                'units_for_sale' => $this->units_for_sale,
-                'start_date' => $this->start_date,
-                'end_date' => $this->end_date,
-                'product_id.*' => $this->product_id,
-                'campaign_price.*' => $this->campaign_price,
-                'units_for_sale.*' => $this->units_for_sale,
-                'start_date.*' => $this->start_date,
-                'end_date.*' => $this->end_date,
-            ],
-        ] + $this->how_is_the_owner()
+        return $this->merge(
+            [
+                'title' => $this->campaign_name,
+                'subtitle' => $this->campaign_subtitle,
+                'image' => $this->image,
+                'status' => $this->status,
+                'start_date' => $this->campaign_start_date,
+                'end_date' => $this->campaign_end_date,
+                'slug' => $this->campaign_slug,
+                'products' => [
+                    'product_id' => $this->product_id,
+                    'campaign_price' => $this->campaign_price,
+                    'units_for_sale' => $this->units_for_sale,
+                    'start_date' => $this->start_date,
+                    'end_date' => $this->end_date,
+                    'product_id.*' => $this->product_id,
+                    'campaign_price.*' => $this->campaign_price,
+                    'units_for_sale.*' => $this->units_for_sale,
+                    'start_date.*' => $this->start_date,
+                    'end_date.*' => $this->end_date,
+                ],
+            ] + $this->how_is_the_owner()
         );
     }
 
