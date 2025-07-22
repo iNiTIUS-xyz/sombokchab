@@ -1,7 +1,6 @@
 <div class="form-group">
     <label for="site_global_currency">
         {{ __('Site Global Currency') }}
-        <span class="text-danger">*</span>
     </label>
     <select name="site_global_currency" class="form-control" id="site_global_currency">
         @foreach (script_currency_list() as $cur => $symbol)
@@ -14,9 +13,8 @@
 <div class="form-group">
     <label for="site_currency_symbol_position">
         {{ __('Currency Symbol Position') }}
-        <span class="text-danger">*</span>
     </label>
-    @php $all_currency_position = ['left','right']; @endphp
+    @php $all_currency_position = ['left', 'right']; @endphp
     <select name="site_currency_symbol_position" class="form-control" id="site_currency_symbol_position">
         @foreach ($all_currency_position as $cur)
             <option value="{{ $cur }}" @if (get_static_option('site_currency_symbol_position') == $cur) selected @endif>
@@ -29,7 +27,6 @@
 <div class="form-group">
     <label for="enable_disable_decimal_point">
         {{ __('Enable/Disable Decimal Point') }}
-        <span class="text-danger">*</span>
     </label>
     <select name="enable_disable_decimal_point" class="form-control" id="enable_disable_decimal_point">
         <option value="yes" {{ get_static_option('enable_disable_decimal_point') == 'yes' ? 'selected' : '' }}>
@@ -44,15 +41,12 @@
 <div class="form-group">
     <label for="add_remove_sapce_between_amount_and_symbol">
         {{ __('Add/Remove Space Between Currency Symbol and Amount') }}
-        <span class="text-danger">*</span>
     </label>
     <select name="add_remove_sapce_between_amount_and_symbol" class="form__control radius-5">
-        <option value="yes"
-            {{ get_static_option('add_remove_sapce_between_amount_and_symbol') == 'yes' ? 'selected' : '' }}>
+        <option value="yes" {{ get_static_option('add_remove_sapce_between_amount_and_symbol') == 'yes' ? 'selected' : '' }}>
             {{ __('Yes') }}
         </option>
-        <option value="no"
-            {{ get_static_option('add_remove_sapce_between_amount_and_symbol') == 'no' ? 'selected' : '' }}>
+        <option value="no" {{ get_static_option('add_remove_sapce_between_amount_and_symbol') == 'no' ? 'selected' : '' }}>
             {{ __('No') }}
         </option>
     </select>
@@ -60,7 +54,6 @@
 <div class="form-group">
     <label for="add_remove_comman_form_amount">
         {{ __('Add/Remove comma (,) from amount') }}
-        <span class="text-danger">*</span>
     </label>
     <select name="add_remove_comman_form_amount" class="form__control radius-5">
         <option value="yes" {{ get_static_option('add_remove_comman_form_amount') == 'yes' ? 'selected' : '' }}>
@@ -74,7 +67,6 @@
 <div class="form-group">
     <label for="add_remove_comman_form_amount">
         {{ __('Amount format by') }}
-        <span class="text-danger">*</span>
     </label>
     <select name="amount_format_by" class="form__control radius-5">
         <option value="," {{ get_static_option('amount_format_by') == ',' ? 'selected' : '' }}>
@@ -89,14 +81,14 @@
 <div class="form-group">
     <label for="site_default_payment_gateway">
         {{ __('Default Payment Gateway') }}
-        <span class="text-danger">*</span>
     </label>
     <select name="site_default_payment_gateway" class="form-control">
         @php
             $all_gateways = \App\PaymentGateway::select('id', 'name')->get()->pluck('name');
         @endphp
         @foreach ($all_gateways as $gateway)
-            <option value="{{ $gateway }}" @if (get_static_option('site_default_payment_gateway') == $gateway) selected @endif>
+            <option value="{{ $gateway }}" @if (get_static_option('site_default_payment_gateway') == $gateway) selected
+            @endif>
                 {{ ucwords(str_replace('_', ' ', $gateway)) }}
             </option>
         @endforeach
@@ -110,7 +102,6 @@
     <div class="form-group">
         <label for="site_{{ strtolower($global_currency) }}_to_usd_exchange_rate">
             {{ __($global_currency . ' to USD Exchange Rate') }}
-            <span class="text-danger">*</span>
         </label>
         <input type="text" class="form-control" name="site_{{ strtolower($global_currency) }}_to_usd_exchange_rate"
             value="{{ get_static_option('site_' . $global_currency . '_to_usd_exchange_rate') }}">
@@ -124,7 +115,6 @@
     <div class="form-group">
         <label for="site_{{ strtolower($global_currency) }}_to_idr_exchange_rate">
             {{ __($global_currency . ' to IDR Exchange Rate') }}
-            <span class="text-danger">*</span>
         </label>
         <input type="text" class="form-control" name="site_{{ strtolower($global_currency) }}_to_idr_exchange_rate"
             value="{{ get_static_option('site_' . $global_currency . '_to_idr_exchange_rate') }}">
@@ -138,7 +128,6 @@
     <div class="form-group">
         <label for="site_{{ strtolower($global_currency) }}_to_inr_exchange_rate">
             {{ __($global_currency . ' to INR Exchange Rate') }}
-            <span class="text-danger">*</span>
         </label>
         <input type="text" class="form-control" name="site_{{ strtolower($global_currency) }}_to_inr_exchange_rate"
             value="{{ get_static_option('site_' . $global_currency . '_to_inr_exchange_rate') }}">
@@ -152,7 +141,6 @@
     <div class="form-group">
         <label for="site_{{ strtolower($global_currency) }}_to_ngn_exchange_rate">
             {{ __($global_currency . ' to NGN Exchange Rate') }}
-            <span class="text-danger">*</span>
         </label>
         <input type="text" class="form-control" name="site_{{ strtolower($global_currency) }}_to_ngn_exchange_rate"
             value="{{ get_static_option('site_' . $global_currency . '_to_ngn_exchange_rate') }}">
@@ -166,7 +154,6 @@
     <div class="form-group">
         <label for="site_{{ strtolower($global_currency) }}_to_zar_exchange_rate">
             {{ __($global_currency . ' to ZAR Exchange Rate') }}
-            <span class="text-danger">*</span>
         </label>
         <input type="text" class="form-control" name="site_{{ strtolower($global_currency) }}_to_zar_exchange_rate"
             value="{{ get_static_option('site_' . $global_currency . '_to_zar_exchange_rate') }}">
@@ -180,7 +167,6 @@
     <div class="form-group">
         <label for="site_{{ strtolower($global_currency) }}_to_brl_exchange_rate">
             {{ __($global_currency . ' to BRL Exchange Rate') }}
-            <span class="text-danger">*</span>
         </label>
         <input type="text" class="form-control" name="site_{{ strtolower($global_currency) }}_to_brl_exchange_rate"
             value="{{ get_static_option('site_' . $global_currency . '_to_brl_exchange_rate') }}">

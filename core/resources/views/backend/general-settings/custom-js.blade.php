@@ -17,20 +17,25 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <div class="dashboard__card__header__left">
-                            <h4 class="dashboard__card__title">{{ __('Custom Js') }}</h4>
+                            <h4 class="dashboard__card__title">
+                                {{ __('Custom Js') }}
+                            </h4>
                             <p class="dashboard__card__para mt-2">
-                                {{ __('You can only add js code here. No other code works here.') }}</p>
+                                {{ __('You can only add js code here. No other code works here.') }}
+                            </p>
                         </div>
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
                         <form action="{{ route('admin.general.custom.js') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
-                                <textarea name="custom_js_area" id="custom_js_area" cols="30" rows="10" placeholder="{{ __('Custom JS') }}">{{ $custom_js }}</textarea>
+                                <textarea name="custom_js_area" id="custom_js_area" cols="30" rows="10"
+                                    placeholder="{{ __('Custom JS') }}">{{ $custom_js }}</textarea>
                             </div>
                             <div class="form-group">
-                                <button id="update" type="submit"
-                                    class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
+                                <button id="update" type="submit" class="cmn_btn btn_bg_profile">
+                                    {{ __('Update') }}
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -46,10 +51,10 @@
     <script src="{{ asset('assets/backend/js/show-hint.js') }}"></script>
     <script src="{{ asset('assets/backend/js/javascript-hint.js') }}"></script>
     <script>
-        (function($) {
+        (function ($) {
             "use strict"; <
-            x - btn.update / >
-                var editor = CodeMirror.fromTextArea(document.getElementById("custom_js_area"), {
+                x - btn.update / >
+                                        var editor = CodeMirror.fromTextArea(document.getElementById("custom_js_area"), {
                     lineNumbers: true,
                     mode: "text/javascript",
                     matchBrackets: true

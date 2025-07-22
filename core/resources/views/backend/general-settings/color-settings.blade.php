@@ -32,7 +32,7 @@
                                             name="site_color"
                                             style="background-color: {{ get_static_option('site_color') }};color: #fff;"
                                             class="form-control" value="{{ get_static_option('site_color') }}"
-                                            id="site_color">
+                                            id="site_color" required="">
                                         <small>{{ __('You change site main color from here, it will replace website main color') }}</small>
                                     </div>
                                 </div>
@@ -46,7 +46,7 @@
                                             name="site_secondary_color"
                                             style="background-color: {{ get_static_option('site_secondary_color') }};color: #fff;"
                                             class="form-control" value="{{ get_static_option('site_secondary_color') }}"
-                                            id="site_secondary_color">
+                                            id="site_secondary_color" required="">
                                         <small>{{ __('You change site secondary color from here, it will replace website secondary color') }}</small>
                                     </div>
                                 </div>
@@ -60,7 +60,7 @@
                                             name="site_heading_color"
                                             style="background-color: {{ get_static_option('site_heading_color') }};color: #fff;"
                                             class="form-control" value="{{ get_static_option('site_heading_color') }}"
-                                            id="site_heading_color">
+                                            id="site_heading_color" required="">
                                         <small>{{ __('You can change site heading color from there , when you chnage this color it will reflect the color in all the heading like (h1,h2,h3,h4.h5.h6)') }}</small>
                                     </div>
                                 </div>
@@ -70,12 +70,11 @@
                                             {{ __('Customer profile Color Settings') }}
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <input type="text"
-                                            placeholder="{{ __('Select - customer profile color') }}"
+                                        <input type="text" placeholder="{{ __('Select - customer profile color') }}"
                                             name="site_special_color"
                                             style="background-color: {{ get_static_option('site_special_color') }}; color: #fff;"
                                             class="form-control" value="{{ get_static_option('site_special_color') }}"
-                                            id="site_special_color">
+                                            id="site_special_color" required="">
                                         <small>{{ __('You change customer profile Color Settings color from here, it will replace website special color') }}</small>
                                     </div>
                                 </div>
@@ -89,7 +88,7 @@
                                             name="site_paragraph_color"
                                             style="background-color: {{ get_static_option('site_paragraph_color') }};color: #fff;"
                                             class="form-control" value="{{ get_static_option('site_paragraph_color') }}"
-                                            id="site_paragraph_color">
+                                            id="site_paragraph_color" required="">
                                         <small>{{ __('You can change site paragraph color from there') }}</small>
                                     </div>
                                 </div>
@@ -103,7 +102,7 @@
                                             name="site_form_bg_color"
                                             style="background-color: {{ get_static_option('site_form_bg_color') }};color: #fff;"
                                             class="form-control" value="{{ get_static_option('site_form_bg_color') }}"
-                                            id="site_form_bg_color">
+                                            id="site_form_bg_color" required="">
                                         <small>{{ __('You can change site form background color from there') }}</small>
                                     </div>
                                 </div>
@@ -117,7 +116,7 @@
                                             name="site_footer_bg_color"
                                             style="background-color: {{ get_static_option('site_footer_bg_color') }};color: #fff;"
                                             class="form-control" value="{{ get_static_option('site_footer_bg_color') }}"
-                                            id="site_footer_bg_color">
+                                            id="site_footer_bg_color" required="">
                                         <small>{{ __('You can change site paragraph color from there') }}</small>
                                     </div>
                                 </div>
@@ -135,14 +134,15 @@
     </div>
     <x-media.markup />
 @endsection
+
 @section('script')
     <script src="{{ asset('assets/backend/js/colorpicker.js') }}"></script>
     <script src="{{ asset('assets/backend/js/dropzone.js') }}"></script>
     <x-media.js />
     <script>
-        (function($) {
+        (function ($) {
             "use strict";
-            $(document).ready(function() {
+            $(document).ready(function () {
 
                 initColorPicker('#site_color');
                 initColorPicker('#site_secondary_color');
@@ -158,15 +158,15 @@
                 function initColorPicker(selector) {
                     $(selector).ColorPicker({
                         color: '#852aff',
-                        onShow: function(colpkr) {
+                        onShow: function (colpkr) {
                             $(colpkr).fadeIn(500);
                             return false;
                         },
-                        onHide: function(colpkr) {
+                        onHide: function (colpkr) {
                             $(colpkr).fadeOut(500);
                             return false;
                         },
-                        onChange: function(hsb, hex, rgb) {
+                        onChange: function (hsb, hex, rgb) {
                             $(selector).css('background-color', '#' + hex);
                             $(selector).val('#' + hex);
                         }
