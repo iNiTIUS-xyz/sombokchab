@@ -837,7 +837,7 @@
                         @can('colors')
                             <li class="{{ active_menu('admin-home/colors') }}">
                                 <a href="{{ route('admin.product.colors.all') }}">
-                                    {{ __('Colors') }}
+                                    {{ __('Product Variant Colors') }}
 
                                 </a>
                             </li>
