@@ -33,6 +33,7 @@
                                     <div class="form-group">
                                         <label for="title">
                                             {{ __('Title') }}
+                                            <span class="text-danger">*</span>
                                         </label>
                                         <input type="text" class="form-control" id="title" name="title"
                                             placeholder="{{ __('Enter title') }}" value="{{ $page_post->title }}">
@@ -129,6 +130,7 @@
                                     <div class="form-group">
                                         <label>
                                             {{ __('Status') }}
+                                            <span class="text-danger">*</span>
                                         </label>
                                         <select name="status" id="status" class="form-control">
                                             <option value="publish">

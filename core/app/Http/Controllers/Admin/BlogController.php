@@ -269,7 +269,7 @@ class BlogController extends Controller
         update_static_option('blog_single_page_recent_post_item', $request->blog_single_page_recent_post_item);
 
         return redirect()->back()->with([
-            'msg' => __('Settings updated successfully.'),
+            'msg' => __('Blog single page settings updated successfully.'),
             'type' => 'success',
         ]);
     }
@@ -285,6 +285,7 @@ class BlogController extends Controller
         $request->validate([
             'blog_page_read_more_btn_text' => 'nullable|string',
         ]);
+
         $read_more_btn_text = 'blog_page_read_more_btn_text';
         update_static_option($read_more_btn_text, $request->$read_more_btn_text);
 
@@ -292,7 +293,7 @@ class BlogController extends Controller
         update_static_option('blog_page_recent_post_widget_items', $request->blog_page_recent_post_widget_items);
 
         return redirect()->back()->with([
-            'msg' => __('Settings updated successfully.'),
+            'msg' => __('Blog page settings updated successfully.'),
             'type' => 'success',
         ]);
     }
@@ -315,5 +316,17 @@ class BlogController extends Controller
         }
 
         return response()->json(['status' => 'ok']);
+    }
+
+    public function statusChange(Request $request, $id)
+    {
+        BlogCategory::findOrFail($id)->update([
+            'status' => $request->status,
+        ]);
+
+        return redirect()->back()->with([
+            'msg' => __('Blog category status changed successfully.'),
+            'type' => 'success',
+        ]);
     }
 }

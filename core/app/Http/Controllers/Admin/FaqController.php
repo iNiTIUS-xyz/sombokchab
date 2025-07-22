@@ -83,4 +83,16 @@ class FaqController extends Controller
 
         return response()->json(['status' => 'ok']);
     }
+
+    public function statusChange(Request $request, $id)
+    {
+        Faq::find($id)->update([
+            'status' => $request->status,
+        ]);
+
+        return redirect()->back()->with([
+            'type' => 'success',
+            'msg' => __('FAQ status changed successfully.'),
+        ]);
+    }
 }

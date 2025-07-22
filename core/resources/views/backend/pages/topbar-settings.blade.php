@@ -23,8 +23,11 @@
                             <form action="{{ route('admin.topbar.select.menu') }}" method="post">
                                 @csrf
                                 <div class="form-group">
-                                    <label for="topbar_menu">{{ __('Select Menu') }}</label>
-                                    <select class="form-control" name="topbar_menu" id="topbar_menu">
+                                    <label for="topbar_menu">
+                                        {{ __('Select Menu') }}
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-control" name="topbar_menu" id="topbar_menu" required="">
                                         @foreach ($menus as $menu)
                                             <option value="{{ $menu->id }}" @if (get_static_option('topbar_menu') == $menu->id)
                                             selected @endif>
@@ -109,9 +112,12 @@
                             @csrf
                             <x-backend.icon-picker />
                             <div class="form-group">
-                                <label for="social_item_link">{{ __('URL') }}</label>
+                                <label for="social_item_link">
+                                    {{ __('URL') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input type="text" name="url" id="social_item_link" class="form-control"
-                                    placeholder="{{ __('Enter URL') }}">
+                                    placeholder="{{ __('Enter URL') }}" required="">
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -142,9 +148,12 @@
                             <input type="hidden" name="id" id="social_item_id" value="">
                             <x-backend.icon-picker />
                             <div class="form-group">
-                                <label for="social_item_edit_url">{{ __('Url') }}</label>
+                                <label for="social_item_edit_url">
+                                    {{ __('Url') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input type="text" class="form-control" id="social_item_edit_url" name="url"
-                                    placeholder="{{ __('Enter Url') }}">
+                                    placeholder="{{ __('Enter Url') }}" required="">
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -169,24 +178,19 @@
         (function ($) {
             "use strict";
             $(document).ready(function () {
-                <
-                    x - btn.submit / >
-                    <
-                        x - btn.update / >
 
-                    $(document).on('click', '.social_item_edit_btn', function () {
-                        var el = $(this);
-                        var id = el.data('id');
-                        var url = el.data('url');
-                        var icon = el.data('icon');
-                        var form = $('#social_item_edit_modal');
-                        form.find('#social_item_id').val(id);
-                        form.find('#social_item_edit_icon').val(icon);
-                        form.find('#social_item_edit_url').val(url);
-                        form.find('.icp-dd').attr('data-selected', el.data('icon'));
-                        form.find('.iconpicker-component i').attr('class', el.data('icon'));
-                    });
-
+                $(document).on('click', '.social_item_edit_btn', function () {
+                    var el = $(this);
+                    var id = el.data('id');
+                    var url = el.data('url');
+                    var icon = el.data('icon');
+                    var form = $('#social_item_edit_modal');
+                    form.find('#social_item_id').val(id);
+                    form.find('#social_item_edit_icon').val(icon);
+                    form.find('#social_item_edit_url').val(url);
+                    form.find('.icp-dd').attr('data-selected', el.data('icon'));
+                    form.find('.iconpicker-component i').attr('class', el.data('icon'));
+                });
 
             }) //document ready close
         })(jQuery);
