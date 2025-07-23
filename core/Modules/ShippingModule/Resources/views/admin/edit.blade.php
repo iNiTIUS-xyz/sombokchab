@@ -19,13 +19,18 @@
                     <input type="hidden" name="id" value="{{ $id }}" />
                     <div class="dashboard__card">
                         <div class="dashboard__card__header">
-                            <h4 class="dashboard__card__title">{{ __('Update Shipping Zone') }}</h4>
+                            <h4 class="dashboard__card__title">
+                                {{ __('Update Shipping Zone') }}
+                            </h4>
                         </div>
                         <div class="dashboard__card__body custom__form mt-4">
                             <div class="form-group">
-                                <label>{{ __('Zone Name') }}</label>
+                                <label>
+                                    {{ __('Zone Name') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input class="form-control" name="zone_name" value="{{ $zone->name }}"
-                                    placeholder="{{ __('Enter shipping zone.') }}" />
+                                    placeholder="{{ __('Enter shipping zone.') }}" required="" />
                             </div>
                             <div class="table-wrap">
                                 <table class="table table-responsive">

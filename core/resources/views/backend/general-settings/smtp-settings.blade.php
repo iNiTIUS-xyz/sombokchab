@@ -25,8 +25,9 @@
                                             {{ __('SMTP Mailer') }}
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <select name="site_smtp_mail_mailer" class="form-control">
-                                            <option value="smtp" @if (get_static_option('site_smtp_mail_mailer') == 'smtp') selected @endif>
+                                        <select name="site_smtp_mail_mailer" class="form-control" required="">
+                                            <option value="smtp" @if (get_static_option('site_smtp_mail_mailer') == 'smtp')
+                                            selected @endif>
                                                 {{ __('SMTP') }}
                                             </option>
                                             <option value="sendmail" @if (get_static_option('site_smtp_mail_mailer') == 'sendmail') selected @endif>
@@ -49,7 +50,7 @@
                                         </label>
                                         <input type="text" name="site_smtp_mail_host" class="form-control"
                                             value="{{ get_static_option('site_smtp_mail_host') }}"
-                                            placeholder="{{ __('Enter SMTP mail host') }}">
+                                            placeholder="{{ __('Enter SMTP mail host') }}" required="">
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
@@ -58,11 +59,13 @@
                                             {{ __('SMTP Mail Port') }}
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <select name="site_smtp_mail_port" class="form-control">
-                                            <option value="587" @if (get_static_option('site_smtp_mail_port') == '587') selected @endif>
+                                        <select name="site_smtp_mail_port" class="form-control" required="">
+                                            <option value="587" @if (get_static_option('site_smtp_mail_port') == '587')
+                                            selected @endif>
                                                 {{ __('587') }}
                                             </option>
-                                            <option value="465" @if (get_static_option('site_smtp_mail_port') == '465') selected @endif>
+                                            <option value="465" @if (get_static_option('site_smtp_mail_port') == '465')
+                                            selected @endif>
                                                 {{ __('465') }}
                                             </option>
                                         </select>
@@ -76,8 +79,8 @@
                                         </label>
                                         <input type="text" name="site_smtp_mail_username" class="form-control"
                                             value="{{ get_static_option('site_smtp_mail_username') }}"
-                                            id="site_smtp_mail_username"
-                                            placeholder="{{ __('Enter SMTP mail username') }}">
+                                            id="site_smtp_mail_username" placeholder="{{ __('Enter SMTP mail username') }}"
+                                            required="">
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
@@ -88,8 +91,8 @@
                                         </label>
                                         <input type="password" name="site_smtp_mail_password" class="form-control"
                                             value="{{ get_static_option('site_smtp_mail_password') }}"
-                                            id="site_smtp_mail_password"
-                                            placeholder="{{ __('Enter SMTP mail password') }}">
+                                            id="site_smtp_mail_password" placeholder="{{ __('Enter SMTP mail password') }}"
+                                            required="">
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
@@ -98,11 +101,13 @@
                                             {{ __('SMTP Mail Encryption') }}
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <select name="site_smtp_mail_encryption" class="form-control">
-                                            <option value="ssl" @if (get_static_option('site_smtp_mail_encryption') == 'ssl') selected @endif>
+                                        <select name="site_smtp_mail_encryption" class="form-control" required="">
+                                            <option value="ssl" @if (get_static_option('site_smtp_mail_encryption') == 'ssl')
+                                            selected @endif>
                                                 {{ __('SSL') }}
                                             </option>
-                                            <option value="tls" @if (get_static_option('site_smtp_mail_encryption') == 'tls') selected @endif>
+                                            <option value="tls" @if (get_static_option('site_smtp_mail_encryption') == 'tls')
+                                            selected @endif>
                                                 {{ __('TLS') }}
                                             </option>
                                         </select>
@@ -130,22 +135,32 @@
                             <div class="row g-4">
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label for="email">{{ __('Email') }}</label>
+                                        <label for="email">
+                                            {{ __('Email') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
                                         <input type="email" name="email" class="form-control"
-                                            placeholder="{{ __('Enter email') }}">
+                                            placeholder="{{ __('Enter email') }}" required="">
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label for="subject">{{ __('Subject') }}</label>
+                                        <label for="subject">
+                                            {{ __('Subject') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
                                         <input type="text" name="subject" class="form-control"
-                                            placeholder="{{ __('Enter subject') }}">
+                                            placeholder="{{ __('Enter subject') }}" required="">
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label for="message">{{ __('Message') }}</label>
-                                        <textarea name="message" class="form-control" cols="30" rows="10" placeholder="{{ __('Enter message') }}"></textarea>
+                                        <label for="message">
+                                            {{ __('Message') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <textarea name="message" class="form-control" cols="30" rows="10"
+                                            placeholder="{{ __('Enter message') }}" required=""></textarea>
                                     </div>
                                 </div>
                                 <div class="col-sm-12">

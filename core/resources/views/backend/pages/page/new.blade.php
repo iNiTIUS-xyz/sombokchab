@@ -30,7 +30,7 @@
                                                     <span class="text-danger">*</span>
                                                 </label>
                                                 <input type="text" class="form-control" id="title" name="title"
-                                                    placeholder="{{ __('Enter title') }}">
+                                                    placeholder="{{ __('Enter title') }}" required="">
                                             </div>
                                         </div>
                                         <div class="col-sm-12">
@@ -61,16 +61,14 @@
                                                         <div class="navbar_variants">
                                                             <div class="form-group">
                                                                 <input type="hidden" class="form-control"
-                                                                    id="navbar_variant" value="2"
-                                                                    name="navbar_variant">
+                                                                    id="navbar_variant" value="2" name="navbar_variant">
                                                             </div>
 
                                                             @for ($i = 1; $i <= 3; $i++)
                                                                 <div class="img-select img-select-nav">
                                                                     <div class="img-wrap">
                                                                         <img src="{{ asset('assets/frontend/navbar-variant/0' . $i . '.jpg') }}"
-                                                                            data-nav_id="{{ $i }}"
-                                                                            alt="">
+                                                                            data-nav_id="{{ $i }}" alt="">
                                                                     </div>
                                                                 </div>
                                                             @endfor
@@ -127,8 +125,11 @@
                                         </div>
                                         <div class="col-sm-12">
                                             <div class="form-group">
-                                                <label>{{ __('Status') }}</label>
-                                                <select name="status" id="status" class="form-control">
+                                                <label>
+                                                    {{ __('Status') }}
+                                                    <span class="text-danger">*</span>
+                                                </label>
+                                                <select name="status" id="status" class="form-control" required="">
                                                     <option value="publish">{{ __('Publish') }}</option>
                                                     <option value="draft">{{ __('Draft') }}</option>
                                                 </select>
@@ -183,8 +184,8 @@
     <x-media.js />
     <script src="{{ asset('assets/backend/js/bootstrap-tagsinput.js') }}"></script>
     <script>
-        $(document).ready(function() {
-            $(document).on('change', 'input[name="page_builder_status"]', function() {
+        $(document).ready(function () {
+            $(document).on('change', 'input[name="page_builder_status"]', function () {
                 if ($(this).is(':checked')) {
                     $('.classic-editor-wrapper').addClass('d-none');
                     $('.page-builder-btn-wrapper').removeClass('d-none');
@@ -194,7 +195,7 @@
                 }
             });
 
-            $(document).on('click', '.category_edit_btn', function() {
+            $(document).on('click', '.category_edit_btn', function () {
                 var el = $(this);
                 var id = el.data('id');
                 var name = el.data('name');
@@ -210,7 +211,7 @@
             var id = $('#navbar_variant').val();
             imgSelect1.removeClass('selected');
             $('img[data-nav_id="' + id + '"]').parent().parent().addClass('selected');
-            $(document).on('click', '.img-select-nav img', function(e) {
+            $(document).on('click', '.img-select-nav img', function (e) {
                 e.preventDefault();
                 imgSelect1.removeClass('selected');
                 $(this).parent().parent().addClass('selected').siblings();
@@ -222,7 +223,7 @@
             var id = $('#footer_variant').val();
             imgSelect2.removeClass('selected');
             $('img[data-foot_id="' + id + '"]').parent().parent().addClass('selected');
-            $(document).on('click', '.img-select-footer img', function(e) {
+            $(document).on('click', '.img-select-footer img', function (e) {
                 e.preventDefault();
                 imgSelect2.removeClass('selected');
                 $(this).parent().parent().addClass('selected').siblings();

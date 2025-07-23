@@ -20,7 +20,6 @@
                                     <div class="form-group">
                                         <label for="site_third_party_tracking_code">
                                             {{ __('Third Party Api Code') }}
-                                            <span class="text-danger">*</span>
                                         </label>
                                         <textarea name="site_third_party_tracking_code" id="site_third_party_tracking_code" cols="30" rows="10"
                                             class="form-control" placeholder="{{ __('Enter third party api code') }}">{{ get_static_option('site_third_party_tracking_code') }}</textarea>
@@ -31,7 +30,6 @@
                                     <div class="form-group">
                                         <label for="site_google_analytics">
                                             {{ __('Google Analytics Script') }}
-                                            <span class="text-danger">*</span>
                                         </label>
                                         <textarea class="form-control" name="site_google_analytics" id="site_google_analytics" cols="30" rows="10"
                                             placeholder="{{ __('Enter google analytics script') }}" placeholder="{{ __('Enter google analytics script') }}">{{ get_static_option('site_google_analytics') }}</textarea>
@@ -41,7 +39,6 @@
                                     <div class="form-group">
                                         <label for="site_google_captcha_v3_site_key">
                                             {{ __('Google Captcha V3 Site Key') }}
-                                            <span class="text-danger">*</span>
                                         </label>
                                         <input type="text" name="site_google_captcha_v3_site_key" class="form-control"
                                             value="{{ get_static_option('site_google_captcha_v3_site_key') }}"
@@ -53,7 +50,6 @@
                                     <div class="form-group">
                                         <label for="site_google_captcha_v3_secret_key">
                                             {{ __('Google Captcha V3 Secret Key') }}
-                                            <span class="text-danger">*</span>
                                         </label>
                                         <input type="text" name="site_google_captcha_v3_secret_key" class="form-control"
                                             value="{{ get_static_option('site_google_captcha_v3_secret_key') }}"
@@ -74,7 +70,6 @@
                                     <div class="form-group">
                                         <label for="tawk_api_key">
                                             {{ __('Tawk.to Script') }}
-                                            <span class="text-danger">*</span>
                                         </label>
                                         <textarea class="form-control" name="tawk_api_key" id="tawk_api_key" cols="30" rows="10"
                                             placeholder="{{ __('Enter Tawk.to script') }}">{{ get_static_option('tawk_api_key') }}</textarea>
@@ -85,7 +80,6 @@
                                         <label for="enable_facebook_login">
                                             <strong>
                                                 {{ __('Enable/Disable Facebook Login') }}
-                                                <span class="text-danger">*</span>
                                             </strong>
                                         </label>
                                         <label class="switch">
@@ -99,7 +93,6 @@
                                     <div class="form-group">
                                         <label for="facebook_client_id">
                                             {{ __('Facebook Client ID') }}
-                                            <span class="text-danger">*</span>
                                         </label>
                                         <input type="text" name="facebook_client_id" class="form-control"
                                             value="{{ get_static_option('facebook_client_id') }}"
@@ -110,7 +103,6 @@
                                     <div class="form-group">
                                         <label for="facebook_client_secret">
                                             {{ __('Facebook Client Secret') }}
-                                            <span class="text-danger">*</span>
                                         </label>
                                         <input type="text" name="facebook_client_secret" class="form-control"
                                             value="{{ get_static_option('facebook_client_secret') }}"
@@ -122,7 +114,6 @@
                                         <label for="enable_google_login">
                                             <strong>
                                                 {{ __('Enable/Disable Google Login') }}
-                                                <span class="text-danger">*</span>
                                             </strong>
                                         </label>
                                         <label class="switch">
@@ -136,7 +127,6 @@
                                     <div class="form-group">
                                         <label for="google_client_id">
                                             {{ __('Google Client ID') }}
-                                            <span class="text-danger">*</span>
                                         </label>
                                         <input type="text" name="google_client_id" class="form-control"
                                             value="{{ get_static_option('google_client_id') }}"
@@ -147,7 +137,6 @@
                                     <div class="form-group">
                                         <label for="google_client_secret">
                                             {{ __('Google Client Secret') }}
-                                            <span class="text-danger">*</span>
                                         </label>
                                         <input type="text" name="google_client_secret" class="form-control"
                                             value="{{ get_static_option('google_client_secret') }}"

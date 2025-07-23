@@ -82,22 +82,32 @@
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label for="site_gdpr_cookie_expire">{{ __('Cookie Expire') }}</label>
-                                        <input type="text" name="site_gdpr_cookie_expire" class="form-control"
+                                        <label for="site_gdpr_cookie_expire">
+                                            {{ __('Cookie Expire') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" required="" name="site_gdpr_cookie_expire" class="form-control"
                                             value="{{ get_static_option('site_gdpr_cookie_expire') }}"
                                             id="site_gdpr_cookie_expire">
                                         <small
-                                            class="form-text text-muted">{{ __('Set cookie expire time, eg: 30, means 30days') }}</small>
+                                            class="form-text text-muted">
+                                            {{ __('Set cookie expire time, eg: 30, means 30days') }}
+                                        </small>
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label for="site_gdpr_cookie_delay">{{ __('Show Delay') }}</label>
-                                        <input type="text" name="site_gdpr_cookie_delay" class="form-control"
+                                        <label for="site_gdpr_cookie_delay">
+                                            {{ __('Show Delay') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" required="" name="site_gdpr_cookie_delay" class="form-control"
                                             value="{{ get_static_option('site_gdpr_cookie_delay') }}"
                                             id="site_gdpr_cookie_delay">
                                         <small
-                                            class="form-text text-muted">{{ __('Set GDPR cookie delay time, it mean the notification will show after this time. number count as mili seconds. eg: 5000, means 5seconds') }}</small>
+                                            class="form-text text-muted">
+                                            {{ __('Set GDPR cookie delay time, it mean the notification will show after this time. number count as mili seconds. eg: 5000, means 5seconds') }}
+                                        </small>
                                     </div>
                                 </div>
                                 <div class="col-sm-12">

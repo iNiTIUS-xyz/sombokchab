@@ -32,34 +32,39 @@
                             <div class="row g-4">
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label for="title">{{ __('Title') }}</label>
+                                        <label for="title">
+                                            {{ __('Title') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
                                         <input type="text" class="form-control" name="title"
-                                            placeholder="{{ __('Enter title') }}">
+                                            placeholder="{{ __('Enter title') }}" required="">
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label>{{ __('Content') }}</label>
+                                        <label>
+                                            {{ __('Content') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
                                         <textarea name="blog_content" class="summernote"></textarea>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label for="author">{{ __('Author') }}</label>
+                                        <label for="author">
+                                            {{ __('Author') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
                                         <input type="text" class="form-control" name="author"
-                                            placeholder="{{ __('Enter author') }}">
+                                            placeholder="{{ __('Enter author') }}" required="">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label for="slug">{{ __('Slug') }}</label>
-                                        <input type="text" class="form-control" name="slug"
-                                            title="{{ __('Enter slug') }}">
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="title">{{ __('Blog Tags') }}</label>
+                                        <label for="title">
+                                            {{ __('Blog Tags') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
                                         <input type="text" class="form-control" name="tags" data-role="tagsinput"
                                             placeholder="{{ __('Enter blog tags') }}">
                                     </div>
@@ -73,9 +78,12 @@
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label for="title">{{ __('Excerpt') }}</label>
-                                        <textarea name="excerpt" id="excerpt" class="form-control max-height-150" cols="30" rows="10"
-                                            placeholder="{{ __('Enter excerpt') }}"></textarea>
+                                        <label for="title">
+                                            {{ __('Excerpt') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <textarea name="excerpt" id="excerpt" class="form-control max-height-150" cols="30"
+                                            rows="10" placeholder="{{ __('Enter excerpt') }}" required=""></textarea>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
@@ -95,33 +103,39 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="meta_description">{{ __('Meta Description') }}</label>
-                                        <textarea type="text" class="form-control" name="meta_description" rows="5" cols="10"
-                                            placeholder="{{ __('Enter meta description') }}"></textarea>
+                                        <textarea type="text" class="form-control" name="meta_description" rows="5"
+                                            cols="10" placeholder="{{ __('Enter meta description') }}"></textarea>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="og_meta_description">{{ __('Og Meta Description') }}</label>
-                                        <textarea type="text" class="form-control" name="og_meta_description" rows="5" cols="10"
-                                            placeholder="{{ __('Enter og meta description') }}"></textarea>
+                                        <textarea type="text" class="form-control" name="og_meta_description" rows="5"
+                                            cols="10" placeholder="{{ __('Enter og meta description') }}"></textarea>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <x-media-upload :title="__('Blog Image')" name="image" id="image" />
-                                        <small class="form-text text-danger">{{ __('Allowed image formats: jpg,jpeg,png') }}</small>
+                                        <small
+                                            class="form-text text-danger">{{ __('Allowed image formats: jpg,jpeg,png') }}</small>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <x-media-upload :title="__('Og Meta Image')" name="og_meta_image" id="og_meta_image" />
-                                        <small class="form-text text-danger">{{ __('Allowed image formats: jpg,jpeg,png') }}</small>
+                                        <x-media-upload :title="__('Og Meta Image')" name="og_meta_image"
+                                            id="og_meta_image" />
+                                        <small
+                                            class="form-text text-danger">{{ __('Allowed image formats: jpg,jpeg,png') }}</small>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div id="category_list" class="form-group">
-                                        <label for="category">{{ __('Category') }}</label>
-                                        <select name="category" class="form-control">
+                                        <label for="category">
+                                            {{ __('Category') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <select name="category" class="form-control" required="">
                                             <option value="">{{ __('Select Category') }}</option>
                                             @foreach ($all_category as $category)
                                                 <option value="{{ $category->id }}">
@@ -133,8 +147,11 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label for="status">{{ __('Status') }}</label>
-                                        <select name="status" class="form-control" id="status">
+                                        <label for="status">
+                                            {{ __('Status') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <select name="status" class="form-control" id="status" required="">
                                             <option value="draft">{{ __('Draft') }}</option>
                                             <option value="publish">{{ __('Publish') }}</option>
                                         </select>
@@ -163,7 +180,7 @@
     <x-summernote.js />
     <x-media.js />
     <script>
-        $(document).on('summernote.change', "textarea[name='blog_content']", function() {
+        $(document).on('summernote.change', "textarea[name='blog_content']", function () {
             var data = $("textarea[name='blog_content']").summernote('code');
             $("textarea[name='blog_content']").val(data)
         })

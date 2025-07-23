@@ -17,14 +17,17 @@
                         <h4 class="dashboard__card__title">{{ __('Create Shipping Method') }}</h4>
                     </div>
                     <div class="dashboard__card__body custom__form dashboard-recent-order">
-                        <form action="{{ route('admin.shipping-method.store') }}" method="post" enctype="multipart/form-data">
+                        <form action="{{ route('admin.shipping-method.store') }}" method="post"
+                            enctype="multipart/form-data">
                             @csrf
                             <div class="row g-4">
                                 <div class="col-lg-12">
-
                                     <div class="form-group">
-                                        <label for="zone_id">{{ __('Zone') }}</label>
-                                        <select name="zone_id" id="zone_id" class="form-control">
+                                        <label for="zone_id">
+                                            {{ __('Zone') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <select name="zone_id" id="zone_id" class="form-control" required="">
                                             @foreach ($all_zones as $zone)
                                                 <option value="{{ $zone->id }}">{{ $zone->name }}</option>
                                             @endforeach
@@ -33,16 +36,21 @@
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <label for="title">{{ __('Title') }}
-                                            <input name="title" class="form-control" placeholder="{{ __('Enter title') }}"
-                                                value="{{ old('title') ?? '' }}" />
+                                        <label for="title">
+                                            {{ __('Title') }}
+                                            <span class="text-danger">*</span>
                                         </label>
+                                        <input name="title" class="form-control" placeholder="{{ __('Enter title') }}"
+                                            value="{{ old('title') ?? '' }}" required="" />
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <label for="status">{{ __('Status') }}</label>
-                                        <select name="status" id="status" class="form-control">
+                                        <label for="status">
+                                            {{ __('Status') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <select name="status" id="status" class="form-control" required="">
                                             @foreach ($all_publish_status as $key => $status)
                                                 <option value="{{ $key }}">
                                                     {{ $status }}
@@ -53,9 +61,13 @@
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <label for="cost">{{ __('Cost') }}</label>
+                                        <label for="cost">
+                                            {{ __('Cost') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
                                         <input type="number" id="cost" name="cost" class="form-control"
-                                            placeholder="{{ __('Enter cost') }}" value="{{ old('cost') ?? '' }}">
+                                            placeholder="{{ __('Enter cost') }}" value="{{ old('cost') ?? '' }}"
+                                            required="">
                                     </div>
                                 </div>
 

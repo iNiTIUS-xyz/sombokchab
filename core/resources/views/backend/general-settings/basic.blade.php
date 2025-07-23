@@ -25,7 +25,6 @@
                                     <div class="form-group">
                                         <label for="site_title">
                                             {{ __('Site Title') }}
-                                            <span class="text-danger">*</span>
                                         </label>
                                         <input type="text" name="site_title" class="form-control"
                                             value="{{ get_static_option('site_title') }}" id="site_title"
@@ -36,7 +35,6 @@
                                     <div class="form-group">
                                         <label for="site_tag_line">
                                             {{ __('Site Tag Line') }}
-                                            <span class="text-danger">*</span>
                                         </label>
                                         <input type="text" name="site_tag_line" class="form-control"
                                             value="{{ get_static_option('site_tag_line') }}" id="site_tag_line"
@@ -47,7 +45,6 @@
                                     <div class="form-group">
                                         <label for="site_footer_copyright">
                                             {{ __('Footer Copyright') }}
-                                            <span class="text-danger">*</span>
                                         </label>
                                         <input type="text" name="site_footer_copyright" class="form-control"
                                             value="{{ get_static_option('site_footer_copyright') }}"
@@ -71,7 +68,6 @@
                                         <label for="enable_buy_now_button_on_shop_page">
                                             <strong>
                                                 {{ __('Enable buy now button on shop page') }}
-                                                <span class="text-danger">*</span>
                                             </strong>
                                         </label>
                                         <label class="switch">
@@ -87,7 +83,6 @@
                                         <label for="site_sticky_navbar_enabled">
                                             <strong>
                                                 {{ __('Sticky Navbar Enable/Disable') }}
-                                                <span class="text-danger">*</span>
                                             </strong>
                                         </label>
                                         <label class="switch">
@@ -103,7 +98,6 @@
                                         <label for="site_maintenance_mode">
                                             <strong>
                                                 {{ __('Maintenance Mode') }}
-                                                <span class="text-danger">*</span>
                                             </strong>
                                         </label>
                                         <label class="switch yes">
@@ -118,7 +112,6 @@
                                         <label for="site_admin_panel_nav_sticky">
                                             <strong>
                                                 {{ __('Enable/Disable Admin Panel Nav Sticky') }}
-                                                <span class="text-danger">*</span>
                                             </strong>
                                         </label>
                                         <label class="switch">
@@ -134,7 +127,6 @@
                                         <label for="site_payment_gateway">
                                             <strong>
                                                 {{ __('Enable/Disable Payment Gateway') }}
-                                                <span class="text-danger">*</span>
                                             </strong>
                                         </label>
                                         <label class="switch">
@@ -149,7 +141,6 @@
                                         <label for="disable_backend_preloader">
                                             <strong>
                                                 {{ __('Enable/Disable Backend Preloader') }}
-                                                <span class="text-danger">*</span>
                                             </strong>
                                         </label>
                                         <label class="switch">
@@ -165,7 +156,6 @@
                                         <label for="site_force_ssl_redirection">
                                             <strong>
                                                 {{ __('Enable/Disable Force SSL Redirection') }}
-                                                <span class="text-danger">*</span>
                                             </strong>
                                         </label>
                                         <label class="switch">
@@ -181,7 +171,6 @@
                                         <label for="disable_user_email_verify">
                                             <strong>
                                                 {{ __('Disable User Email Verify') }}
-                                                <span class="text-danger">*</span>
                                             </strong>
                                         </label>
                                         <label class="switch">
@@ -200,7 +189,6 @@
                                         <label for="preloader_status">
                                             <strong>
                                                 {{ __('Enable/Disable Frontend Preloader') }}
-                                                <span class="text-danger">*</span>
                                             </strong>
                                         </label>
                                         <label class="switch">

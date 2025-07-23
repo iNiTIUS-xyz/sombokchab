@@ -23,19 +23,22 @@
                                     <div class="form-group">
                                         <label for="site_meta_tags">
                                             {{ __('Site Meta Tags') }}
+                                            <span class="text-danger">*</span>
                                         </label>
-                                        <input type="text" name="site_meta_tags" class="form-control"
-                                            data-role="tagsinput" value="{{ get_static_option('site_meta_tags') }}"
-                                            id="site_meta_tags">
+                                        <input type="text" name="site_meta_tags" class="form-control" data-role="tagsinput"
+                                            value="{{ get_static_option('site_meta_tags') }}" id="site_meta_tags"
+                                            required="">
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label for="site_meta_description">
                                             {{ __('Site Meta Description') }}
+                                            <span class="text-danger">*</span>
                                         </label>
-                                        <textarea name="site_meta_description" class="form-control" id="site_meta_description"
-                                            placeholder="{{ __('Enter site meta description') }}">{{ get_static_option('site_meta_description') }}</textarea>
+                                        <textarea name="site_meta_description" class="form-control"
+                                            id="site_meta_description" placeholder="{{ __('Enter site meta description') }}"
+                                            required="">{{ get_static_option('site_meta_description') }}</textarea>
                                     </div>
                                 </div>
                                 <div class="col-sm-12">

@@ -28,9 +28,10 @@
                             <div class="form-group">
                                 <label>
                                     {{ __('Shipping Zone') }}
+                                    <span class="text-danger">*</span>
                                 </label>
                                 <input class="form-control" name="zone_name"
-                                    placeholder="{{ __('Enter shipping zone name') }}" />
+                                    placeholder="{{ __('Enter shipping zone name') }}" required="" />
                             </div>
                             <table class="table table-responsive">
                                 <thead>

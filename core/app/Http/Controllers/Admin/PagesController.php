@@ -33,7 +33,7 @@ class PagesController extends Controller
 
     public function store_new_page(Request $request)
     {
-        $request->validate( [
+        $request->validate([
             'content' => 'nullable',
             'meta_tags' => 'nullable',
             'meta_description' => 'nullable',
@@ -60,14 +60,14 @@ class PagesController extends Controller
             'status' => $request->status,
             'visibility' => $request->visibility,
             'page_builder_status' => (boolean) $request->page_builder_status,
-            'page_container_option' => (int) !! $request->page_container_option,
+            'page_container_option' => (int) !!$request->page_container_option,
             'navbar_variant' => $request->navbar_variant ?? 0,
-            'navbar_category_dropdown_open' => (int) !! $request->navbar_category_dropdown_open,
-            'breadcrumb_status' => (int) !! $request->breadcrumb_status,
+            'navbar_category_dropdown_open' => (int) !!$request->navbar_category_dropdown_open,
+            'breadcrumb_status' => (int) !!$request->breadcrumb_status,
         ]);
 
         return redirect()->back()->with([
-            'msg' => __('New Page Created...'),
+            'msg' => __('Page created successfully.'),
             'type' => 'success'
         ]);
     }
@@ -102,8 +102,8 @@ class PagesController extends Controller
         $slug_check = Page::where(['slug' => $slug])->count();
         $slug = $slug_check > 1 ? $slug . '2' : $slug;
 
-        if($request->navbar_variant == 1){
-            update_static_option("megamenu",$request->megamenu);
+        if ($request->navbar_variant == 1) {
+            update_static_option("megamenu", $request->megamenu);
         }
 
         Page::where('id', $id)->update([
@@ -117,12 +117,12 @@ class PagesController extends Controller
             'page_builder_status' => (boolean) $request->page_builder_status,
             'navbar_variant' => $request->navbar_variant,
             'breadcrumb_status' => $request->breadcrumb_status ? 1 : 0,
-            'page_container_option' => (int) !! $request->page_container_option,
-            'navbar_category_dropdown_open' => (int) !! $request->navbar_category_dropdown_open,
+            'page_container_option' => (int) !!$request->page_container_option,
+            'navbar_category_dropdown_open' => (int) !!$request->navbar_category_dropdown_open,
         ]);
 
         return redirect()->back()->with([
-            'msg' => __('Page updated...'),
+            'msg' => __('Page updated successfully.'),
             'type' => 'success'
         ]);
     }
@@ -131,7 +131,7 @@ class PagesController extends Controller
     {
         Page::find($id)->delete();
         return redirect()->back()->with([
-            'msg' => __('Page Delete Success...'),
+            'msg' => __('Page delete successfully.'),
             'type' => 'danger'
         ]);
     }
@@ -140,5 +140,17 @@ class PagesController extends Controller
     {
         $all = Page::whereIn('id', $request->ids)->delete();
         return response()->json(['status' => 'ok']);
+    }
+
+    public function statusChange(Request $request, $id)
+    {
+        Page::where('id', $id)->update([
+            'status' => $request->status,
+        ]);
+
+        return redirect()->back()->with([
+            'msg' => __('Page status changed successfully.'),
+            'type' => 'success'
+        ]);
     }
 }

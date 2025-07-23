@@ -27,7 +27,6 @@
                                     <div class="form-group">
                                         <label for="maintain_page_title">
                                             {{ __('Title') }}
-                                            <span class="text-danger">*</span>
                                         </label>
                                         <input type="text" class="form-control" id="maintain_page_title"
                                             value="{{ get_static_option('maintain_page_title') }}"
@@ -38,7 +37,6 @@
                                     <div class="form-group">
                                         <label for="maintain_page_description">
                                             {{ __('Description') }}
-                                            <span class="text-danger">*</span>
                                         </label>
                                         <textarea name="maintain_page_description" id="maintain_page_description" class="form-control max-height-150"
                                             cols="30" rows="10" placeholder="{{ __('Enter description') }}">{{ get_static_option('maintain_page_description') }}</textarea>
@@ -48,7 +46,6 @@
                                     <div class="form-group">
                                         <label for="maintain_page_datepicker">
                                             {{ __('Date') }}
-                                            <span class="text-danger">*</span>
                                         </label>
                                         <input type="date" class="form-control flatpickr" id="maintain_page_datepicker"
                                             value="{{ get_static_option('maintain_page_datepicker') }}"

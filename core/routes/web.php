@@ -514,11 +514,13 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
         Route::post('/update/{id}', 'BlogController@update_blog')->name('admin.blog.update')->permission('blog-update');
         Route::post('/delete/{id}', 'BlogController@delete_blog')->name('admin.blog.delete')->permission('blog-delete');
         Route::get('/category', 'BlogController@category')->name('admin.blog.category')->permission('blog-category');
+        Route::post('/blog-status-change/{id}', 'BlogController@blogStatusChange')->name('admin.blog.status.change');
         Route::post('/category', 'BlogController@new_category')->permission('blog-category');
         Route::post('/category/delete/{id}', 'BlogController@delete_category')->name('admin.blog.category.delete')->permission('blog-category-delete');
         Route::post('/category/update', 'BlogController@update_category')->name('admin.blog.category.update')->permission('blog-category-update');
         Route::post('/category/bulk-action', 'BlogController@category_bulk_action')->name('admin.blog.category.bulk.action')->permission('blog-category-bulk-action');
         Route::post('/blog-lang-by-cat', 'BlogController@Language_by_slug')->name('admin.blog.lang.cat')->permission('blog-blog-lang-by-cat');
+        Route::post('/blog-category-status-change/{id}', 'BlogController@statusChange')->name('admin.blog.category.status.change');
         //blog page
         Route::get('/page-settings', 'BlogController@blog_page_settings')->name('admin.blog.page.settings')->permission('blog-page-settings');
         Route::post('/page-settings', 'BlogController@update_blog_page_settings')->permission('blog-page-settings');
@@ -539,6 +541,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
         Route::post('/delete-faq/{id}', 'FaqController@delete')->name('admin.faq.delete')->permission('faq-delete-faq');
         Route::post('/clone-faq', 'FaqController@clone')->name('admin.faq.clone')->permission('faq-clone-faq');
         Route::post('/faq/bulk-action', 'FaqController@bulk_action')->name('admin.faq.bulk.action')->permission('faq-faq-bulk-action');
+        Route::post('/faq-status-change/{id}', 'FaqController@statusChange')->name('admin.faq.status.change');
     });
 
     /**---------------------------------------------------------------------------------------------------------------------------
@@ -552,6 +555,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
         Route::post('/update/{id}', 'PagesController@update_page')->name('admin.page.update')->permission('page-update');
         Route::post('/delete/{id}', 'PagesController@delete_page')->name('admin.page.delete')->permission('page-delete');
         Route::post('/bulk-action', 'PagesController@bulk_action')->name('admin.page.bulk.action')->permission('page-bulk-action');
+        Route::post('/page-status-change/{id}', 'PagesController@statusChange')->name('admin.page.status.change');
     });
 
     /**---------------------------------------------------------------------------------------------------------------------------

@@ -80,9 +80,12 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="form-group">
-                                            <label for="title">{{ __('Title') }}</label>
+                                            <label for="title">
+                                                {{ __('Title') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <input type="text" class="form-control" id="title" name="title"
-                                                placeholder="{{ __('Enter title') }}">
+                                                placeholder="{{ __('Enter title') }}" required="">
                                         </div>
                                         <div class="form-group mt-4">
                                             <button id="submit" type="submit" class="cmn_btn btn_bg_profile">

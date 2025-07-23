@@ -26,25 +26,33 @@
                             <div class="row g-4">
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label for="site_global_email">{{ __('Global Email') }}</label>
+                                        <label for="site_global_email">
+                                            {{ __('Global Email') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
                                         <input type="text" name="site_global_email" class="form-control"
                                             value="{{ get_static_option('site_global_email') }}" id="site_global_email"
-                                            placeholder="{{ __('Enter global email') }}">
+                                            placeholder="{{ __('Enter global email') }}" required="">
                                         <small class="form-text text-muted">use your web mail here</small>
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label for="site_global_email_template">{{ __('Email Template') }}</label>
+                                        <label for="site_global_email_template">
+                                            {{ __('Email Template') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
                                         <input type="hidden" name="site_global_email_template" class="form-control"
                                             value="{{ get_static_option('site_global_email_template') }}"
                                             id="site_global_email_template">
                                         <div class="summernote"
                                             data-content='{{ get_static_option('site_global_email_template') }}'></div>
-                                        <small class="form-text text-muted">@username
+                                        <small class="form-text text-muted">
+                                            @username
                                             {{ __('Will replace by username of user and') }} @company
                                             {{ __('will be replaced by site title also') }} @message
-                                            {{ __('will be replaced by dynamically with message.') }}</small>
+                                            {{ __('will be replaced by dynamically with message.') }}
+                                        </small>
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
@@ -64,17 +72,17 @@
 @section('script')
     <script src="{{ asset('assets/backend/js/summernote-bs4.js') }}"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('.summernote').summernote({
                 height: 150, //set editable area's height
                 codemirror: { // codemirror options
                     theme: 'monokai'
                 },
                 callbacks: {
-                    onChange: function(contents, $editable) {
+                    onChange: function (contents, $editable) {
                         $(this).prev('input').val(contents);
                     },
-                    onPaste: function(e) {
+                    onPaste: function (e) {
                         let bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData)
                             .getData('text/plain');
                         e.preventDefault();
@@ -83,7 +91,7 @@
                 }
             });
             if ($('.summernote').length) {
-                $('.summernote').each(function(index, value) {
+                $('.summernote').each(function (index, value) {
                     $(this).summernote('code', $(this).data('content'));
                 });
             }

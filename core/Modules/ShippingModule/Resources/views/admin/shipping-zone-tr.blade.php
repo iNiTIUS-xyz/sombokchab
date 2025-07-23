@@ -43,7 +43,7 @@
             </select>
         </td>
         <td style="width: 60%">
-            <select class="form-control select-two-{{ $rand }}" name="states[]">
+            <select class="form-control select-two-{{ $rand ?? 99999 }}" name="states[]">
                 @foreach ($states as $state)
                     <option value="{{ $state->id }}">
                         {{ $state->name }}
@@ -55,7 +55,8 @@
             <button type="button" id="shipping_zone_minus_btn" class="btn btn-danger btn-sm">
                 <i class="las la-minus"></i>
             </button>
-            <button type="button" id="shipping_zone_plus_btn" data-select-two="{{$rand}}" class="btn btn-primary btn-sm">
+            <button type="button" id="shipping_zone_plus_btn" data-select-two="{{$rand ?? 99999}}"
+                class="btn btn-primary btn-sm">
                 <i class="las la-plus"></i>
             </button>
         </td>

@@ -31,13 +31,18 @@
                                         $menu_content = '[{"ptype":"custom","pname":"Home","purl":"@url","id":1}]';
                                     }
                                 @endphp
-                                <textarea id="menu_content" name="menu_content" class="form-control d-none">{{ $menu_content }}</textarea>
+                                <textarea id="menu_content" name="menu_content"
+                                    class="form-control d-none">{{ $menu_content }}</textarea>
                                 <div class="row g-4">
                                     <div class="col-lg-12">
                                         <div class="form-group">
-                                            <label for="title">{{ __('Title') }}</label>
+                                            <label for="title">
+                                                {{ __('Title') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <input type="text" class="form-control" id="title" name="title"
-                                                placeholder="{{ __('Enter title') }}" value="{{ $page_post->title }}">
+                                                placeholder="{{ __('Enter title') }}" value="{{ $page_post->title }}"
+                                                required="">
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
@@ -49,7 +54,7 @@
                                                 <div class="accordion accordion-wrapper" id="add_menu_item_accordion">
                                                     {!! render_dynamic_pages_list($page_post->lang ?? '') !!}
                                                     <div id="custom-links">
-                                                        <button class="btn btn-link collapsed" type="button"
+                                                        <button class="btn btn-success btn-sm collapsed" type="button"
                                                             data-bs-toggle="collapse" data-bs-target="#custom-links-content"
                                                             aria-expanded="false" aria-controls="custom-links-content">
                                                             {{ __('Custom Links') }}
@@ -62,8 +67,7 @@
                                                                 <b>@url</b>
                                                             </p><br>
                                                             <div class="form-group">
-                                                                <label
-                                                                    for="custom_url"><strong>{{ __('URL') }}</strong></label>
+                                                                <label for="custom_url"><strong>{{ __('URL') }}</strong></label>
                                                                 <input type="text" name="custom_url" id="custom_url"
                                                                     class="form-control" placeholder="{{ __('https://') }}">
                                                             </div>
@@ -135,11 +139,11 @@
 @section('script')
     <script src="{{ asset('assets/backend/js/jquery.nestable.js') }}"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#nestable').nestable({
                 group: 1,
                 maxDepth: 5
-            }).on('change', function(e) {});
+            }).on('change', function (e) { });
 
             function removeTags(str) {
                 if ((str === null) || (str === '')) {
@@ -149,13 +153,13 @@
                 return str.replace(/(<([^>]+)>)/ig, '');
             }
 
-            $(document).on('click', '.add_mega_menu_to_menu', function(e) {
+            $(document).on('click', '.add_mega_menu_to_menu', function (e) {
                 e.preventDefault();
 
                 var allList = $(this).parent().prev().find('input[type="checkbox"]:checked');
                 var draggAbleMenuWrap = $('#nestable > ol');
 
-                $.each(allList, function(index, value) {
+                $.each(allList, function (index, value) {
                     $(this).attr('checked', false);
                     var draggAbleMenuLength = $('#nestable ol li').length + 1;
                     var allDataAttr = '';
@@ -184,9 +188,9 @@
                             lang: $('select[name="lang"]').val(),
                             menu_id: $('#menu_id').val(),
                         },
-                        success: function(data) {
+                        success: function (data) {
                             var html = data;
-                            setTimeout(function() {
+                            setTimeout(function () {
                                 $('li[data-uniqueid="' + AjaxRandomId +
                                     '"] .dd-body').html(html);
                             }, 1000);
@@ -195,11 +199,11 @@
                 });
             });
 
-            $(document).on('click', '.add_page_to_menu', function(e) {
+            $(document).on('click', '.add_page_to_menu', function (e) {
                 e.preventDefault();
                 var allList = $(this).parent().prev().find('input[type="checkbox"]:checked');
                 var draggAbleMenuWrap = $('#nestable > ol');
-                $.each(allList, function(index, value) {
+                $.each(allList, function (index, value) {
                     $(this).attr('checked', false);
                     var draggAbleMenuLength = $('#nestable ol li').length + 1;
                     var allDataAttr = '';
@@ -238,7 +242,7 @@
                 });
             });
 
-            $(document).on('click', '#add_custom_links', function(e) {
+            $(document).on('click', '#add_custom_links', function (e) {
                 e.preventDefault();
                 var draggAbleMenuWrap = $('#nestable > ol');
                 var draggAbleMenuLength = $('#nestable ol li').length + 1;
@@ -257,7 +261,7 @@
                 $('#custom_url').val('');
             });
 
-            $(document).on('input', '.icon_picker', function(e) {
+            $(document).on('input', '.icon_picker', function (e) {
                 var el = $(this);
                 var value = el.val();
                 if (value != '') {
@@ -267,7 +271,7 @@
                 }
             });
 
-            $(document).on('input', '.anchor_target', function(e) {
+            $(document).on('input', '.anchor_target', function (e) {
                 var el = $(this);
                 var value = el.val();
                 if (value != '') {
@@ -277,7 +281,7 @@
                 }
             });
 
-            $(document).on('input', '.static_pname', function(e) {
+            $(document).on('input', '.static_pname', function (e) {
                 var el = $(this);
                 var value = el.val();
                 if (value != '') {
@@ -287,11 +291,11 @@
                 }
             });
 
-            $(document).on('click', '.remove_item', function(e) {
+            $(document).on('click', '.remove_item', function (e) {
                 $(this).parent().remove();
             });
 
-            $('body').on('change', 'select[name="items_id"]', function(e) {
+            $('body').on('change', 'select[name="items_id"]', function (e) {
                 e.preventDefault();
                 var el = $(this);
                 var item_id = $(this).val();
@@ -302,7 +306,7 @@
                 }
             });
 
-            $(document).on('click', '#menu_structure_submit_btn', function(e) {
+            $(document).on('click', '#menu_structure_submit_btn', function (e) {
                 e.preventDefault();
                 var alldata = $('#nestable').nestable('serialize');
                 $('#menu_content').val(JSON.stringify(alldata));
