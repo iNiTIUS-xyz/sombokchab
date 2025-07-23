@@ -23,11 +23,7 @@ use function view;
 
 class ProductCouponController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Application|Factory|View
-     */
+
     public function index()
     {
         $all_product_coupon = ProductCoupon::orderBy('created_at', 'desc')->get();
@@ -45,11 +41,6 @@ class ProductCouponController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @return RedirectResponse
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -94,12 +85,6 @@ class ProductCouponController extends Controller
             : back()->with(FlashMsg::create_failed(' Coupon'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Product\ProductCoupon  $productCoupon
-     * @return RedirectResponse
-     */
     public function update(Request $request)
     {
         $request->validate([
@@ -144,12 +129,6 @@ class ProductCouponController extends Controller
             : back()->with(FlashMsg::update_failed(' Coupon'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Product\ProductCoupon  $productCoupon
-     * @return RedirectResponse
-     */
     public function destroy(ProductCoupon $item)
     {
         return $item->delete()
@@ -171,8 +150,20 @@ class ProductCouponController extends Controller
 
     public function allProductsAjax()
     {
-        $all_products = Product::select('id', 'name')->withOut('image','uom','badge')->where('status_id', 1)->get();
+        $all_products = Product::select('id', 'name')->withOut('image', 'uom', 'badge')->where('status_id', 1)->get();
 
         return response()->json($all_products);
+    }
+
+    public function statusChange(Request $request, $id)
+    {
+        ProductCoupon::where('id', $id)->update([
+            'status' => $request->status,
+        ]);
+
+        return redirect()->back()->with([
+            'msg' => __('Coupon status changed successfully.'),
+            'type' => 'success'
+        ]);
     }
 }

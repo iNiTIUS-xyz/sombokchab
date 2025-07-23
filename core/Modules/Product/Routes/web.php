@@ -106,6 +106,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
         Route::post('bulk-action', 'ProductCouponController@bulk_action')->name('bulk.action')->permission('coupons-bulk-action');
         Route::get('check', 'ProductCouponController@check')->name('check')->permission('coupons-check');
         Route::get('get-products', 'ProductCouponController@allProductsAjax')->name('products')->permission('coupons-get-products');
+        Route::post('status-change/{id}', 'ProductCouponController@statusChange')->name('status.change');
     });
 
     /*==============================================

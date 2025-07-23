@@ -138,9 +138,35 @@
                                                     {{ amount_with_currency_symbol($data->discount) }}
                                                 @endif
                                             </td>
-                                            <td>{{ date('d M Y', strtotime($data->expire_date)) }}</td>
                                             <td>
-                                                <x-status-span :status="$data->status" />
+                                                {{ date('d M Y', strtotime($data->expire_date)) }}
+                                            </td>
+                                            <td>
+                                                <div class="btn-group badge">
+                                                    <button type="button"
+                                                        class="status-{{ $data->status }} {{ $data->status == 'publish' ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
+                                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        {{ ucfirst($data->status == 'publish' ? __('Publish') : __('Draft')) }}
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        <form action="{{ route('admin.products.coupon.status.change', $data->id) }}"
+                                                            method="POST" id="status-form-activate-{{ $data->id }}">
+                                                            @csrf
+                                                            <input type="hidden" name="status" value="publish">
+                                                            <button type="submit" class="dropdown-item">
+                                                                {{ __('Publish') }}
+                                                            </button>
+                                                        </form>
+                                                        <form action="{{ route('admin.products.coupon.status.change', $data->id) }}"
+                                                            method="POST" id="status-form-deactivate-{{ $data->id }}">
+                                                            @csrf
+                                                            <input type="hidden" name="status" value="draft">
+                                                            <button type="submit" class="dropdown-item">
+                                                                {{ __('Draft') }}
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
                                             </td>
                                             <td>
                                                 @can('coupons-update')
@@ -171,151 +197,9 @@
                 </div>
             </div>
 
-            {{-- @can('coupons-new')
-                <div class="col-lg-5">
-                    <div class="dashboard__card">
-                        <div class="dashboard__card__header">
-                            <h4 class="dashboard__card__title">
-                                {{ __('Add New Coupon') }}</h4>
-                        </div>
-                        <div class="dashboard__card__body custom__form mt-4">
-                            <form action="{{ route('admin.products.coupon.new') }}" method="post"
-                                enctype="multipart/form-data">
-                                @csrf
-                                <div class="form-group">
-                                    <label for="title">
-                                        {{ __('Coupon Title') }}
-                                        <span class="text-danger">*</span>
-                                    </label>
-                                    <input type="text" class="form-control" id="title" name="title"
-                                        placeholder="{{ __('Title') }}" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="code">
-                                        {{ __('Coupon Code') }}
-                                        <span class="text-danger">*</span>
-                                    </label>
-                                    <input type="text" class="form-control" id="code" name="code"
-                                        placeholder="{{ __('Code') }}" required>
-                                    <span id="status_text" class="text-danger" style="display: none"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label for="discount_on">
-                                        {{ __('Discount On') }}
-                                    </label>
-                                    <select name="discount_on" id="discount_on" class="form-control">
-                                        <option value="">
-                                            {{ __('Select an option') }}
-                                        </option>
-                                        @foreach ($coupon_apply_options as $key => $value)
-                                            <option value="{{ $key }}">{{ $value }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group" id="form_category">
-                                    <label for="category">
-                                        {{ __('Category') }}
-                                    </label>
-                                    <select name="category" id="category" class="form-control">
-                                        <option value="">
-                                            {{ __('Select a Category') }}
-                                        </option>
-                                        @foreach ($all_categories as $key => $category)
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group" id="form_subcategory">
-                                    <label for="subcategory">
-                                        {{ __('Subcategory') }}
-                                    </label>
-                                    <select name="subcategory" id="subcategory" class="form-control">
-                                        <option value="">
-                                            {{ __('Select a Subcategory') }}
-                                        </option>
-                                        @foreach ($all_subcategories as $key => $subcategory)
-                                            <option value="{{ $subcategory->id }}">{{ $subcategory->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group" id="form_childcategory">
-                                    <label for="childcategory">
-                                        {{ __('Child Category') }}
-                                    </label>
-                                    <select name="childcategory" id="childcategory" class="form-control">
-                                        <option value="">
-                                            {{ __('Select a child category') }}
-                                        </option>
-                                        @foreach ($all_child_categories as $key => $child_category)
-                                            <option value="{{ $child_category->id }}">{{ $child_category->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group" id="form_products">
-                                    <label for="products">
-                                        {{ __('Products') }}
-                                    </label>
-                                    <select name="products[]" id="products" class="form-control wide" multiple>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="discount">
-                                        {{ __('Discount') }}
-                                        <span class="text-danger">*</span>
-                                    </label>
-                                    <input type="number" class="form-control" id="discount" name="discount"
-                                        placeholder="{{ __('Discount') }}" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="discount_type">
-                                        {{ __('Coupon Type') }}
-                                        <span class="text-danger">*</span>
-                                    </label>
-                                    <select name="discount_type" class="form-control" id="discount_type" required>
-                                        <option value="percentage">
-                                            {{ __('Percentage') }}
-                                        </option>
-                                        <option value="amount">
-                                            {{ __('Amount') }}
-                                        </option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="expire_date">
-                                        {{ __('Expire Date') }}
-                                        <span class="text-danger">*</span>
-                                    </label>
-                                    <input type="date" class="form-control flatpickr" id="expire_date" name="expire_date"
-                                        placeholder="{{ __('Expire Date') }}" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="status">
-                                        {{ __('Status') }}
-                                        <span class="text-danger">*</span>
-                                    </label>
-                                    <select name="status" class="form-control" id="status" required>
-                                        <option value="publish">
-                                            {{ __('Publish') }}
-                                        </option>
-                                        <option value="draft">
-                                            {{ __('Draft') }}
-                                        </option>
-                                    </select>
-                                </div>
-                                <button type="submit" id="coupon_create_btn" class="btn btn-primary mt-4 pr-4 pl-4">
-                                    {{ __('Add') }}
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            @endcan --}}
-
             @can('coupons-new')
                 <div class="modal fade" id="coupon_add_modal" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-scrollable">
+                    <div class="modal-dialog modal-dialog-scrollable modal-lg">
                         <div class="modal-content custom__form">
                             <div class="modal-header">
                                 <h5 class="modal-title">{{ __('Add Coupon') }}</h5>
@@ -331,7 +215,7 @@
                                             <span class="text-danger">*</span>
                                         </label>
                                         <input type="text" class="form-control" id="title" name="title"
-                                            placeholder="{{ __('Title') }}" required>
+                                            placeholder="{{ __('Title') }}" required="">
                                     </div>
                                     <div class="form-group">
                                         <label for="code">
@@ -339,7 +223,7 @@
                                             <span class="text-danger">*</span>
                                         </label>
                                         <input type="text" class="form-control" id="code" name="code"
-                                            placeholder="{{ __('Code') }}" required>
+                                            placeholder="{{ __('Code') }}" required="">
                                         <span id="status_text" class="text-danger" style="display: none"></span>
                                     </div>
                                     <div class="form-group">
@@ -409,14 +293,14 @@
                                             <span class="text-danger">*</span>
                                         </label>
                                         <input type="number" class="form-control" id="discount" name="discount"
-                                            placeholder="{{ __('Discount') }}" required>
+                                            placeholder="{{ __('Discount') }}" required="">
                                     </div>
                                     <div class="form-group">
                                         <label for="discount_type">
                                             {{ __('Coupon Type') }}
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <select name="discount_type" class="form-control" id="discount_type" required>
+                                        <select name="discount_type" class="form-control" id="discount_type" required="">
                                             <option value="percentage">
                                                 {{ __('Percentage') }}
                                             </option>
@@ -431,14 +315,14 @@
                                             <span class="text-danger">*</span>
                                         </label>
                                         <input type="date" class="form-control flatpickr" id="expire_date" name="expire_date"
-                                            placeholder="{{ __('Expire Date') }}" required>
+                                            placeholder="{{ __('Expire Date') }}" required="">
                                     </div>
                                     <div class="form-group">
                                         <label for="status">
                                             {{ __('Status') }}
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <select name="status" class="form-control" id="status" required>
+                                        <select name="status" class="form-control" id="status" required="">
                                             <option value="publish">
                                                 {{ __('Publish') }}
                                             </option>
@@ -478,7 +362,7 @@
                                             <span class="text-danger">*</span>
                                         </label>
                                         <input type="text" class="form-control" id="edit_title" name="title"
-                                            placeholder="{{ __('Title') }}" required>
+                                            placeholder="{{ __('Title') }}" required="">
                                     </div>
                                     <div class="form-group">
                                         <label for="edit_code">
@@ -560,7 +444,7 @@
                                         <label for="edit_discount">
                                             {{ __('Discount') }}
                                         </label>
-                                        <input type="number" class="form-control" id="edit_discount" name="discount"
+                                        <input type="number" class="form-control" id="edit_discount" name="discount" required=""
                                             placeholder="{{ __('Discount') }}">
                                     </div>
                                     <div class="form-group">
@@ -568,7 +452,7 @@
                                             {{ __('Coupon Type') }}
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <select name="discount_type" class="form-control" id="edit_discount_type">
+                                        <select name="discount_type" class="form-control" id="edit_discount_type" required="">
                                             <option value="percentage">
                                                 {{ __('Percentage') }}
                                             </option>
