@@ -86,7 +86,6 @@
                                                 <input type="checkbox" id="set_fixed_date">
                                                 <label for="set_fixed_date">
                                                     {{ __('Set Fixed Date') }}
-                                                    <span class="text-danger">*</span>
                                                 </label>
                                                 <p class="text-small">
                                                     {{ __('when you set fixed date, you have to click on sync date button, to sync date selection with all prodcuts') }}
