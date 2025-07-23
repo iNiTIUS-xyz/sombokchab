@@ -2,8 +2,9 @@
 
 namespace Modules\Campaign\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Http\FormRequest;
 
 class CampaignValidationRequest extends FormRequest
 {
@@ -78,12 +79,12 @@ class CampaignValidationRequest extends FormRequest
 
     private function userId()
     {
-        return \Auth::guard('admin')->check() ? \Auth::guard('admin')->user()->id : \Auth::guard('vendor')->user()->id;
+        return Auth::guard('admin')->check() ? Auth::guard('admin')->user()->id : \Auth::guard('vendor')->user()->id;
     }
 
     private function getGuardName(): string
     {
-        return \Auth::guard('admin')->check() ? 'admin' : 'vendor';
+        return Auth::guard('admin')->check() ? 'admin' : 'vendor';
     }
 
     private function how_is_the_owner(): array

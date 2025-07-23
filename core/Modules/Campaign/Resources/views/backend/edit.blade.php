@@ -40,32 +40,39 @@
                                         <div class="dashboard__card__body custom__form mt-4">
                                             <div class="form-group">
                                                 <input type="hidden" name="id" value="{{ $campaign->id }}">
-                                                <label for="campaign_name">{{ __('Campaign Name') }}</label>
+                                                <label for="campaign_name">
+                                                    {{ __('Campaign Name') }}
+                                                    <span class="text-danger">*</span>
+                                                </label>
                                                 <input type="text" class="form-control" id="campaign_name"
                                                     name="campaign_name" placeholder="Campaign Name"
-                                                    value="{{ $campaign->title }}">
+                                                    value="{{ $campaign->title }}" required="">
                                             </div>
 
-                                            <div class="form-group">
-                                                <label for="campaign_slug">{{ __('Campaign Slug') }}</label>
-                                                <input type="text" class="form-control" id="campaign_slug"
-                                                    name="campaign_slug" placeholder="Campaign Slug"
-                                                    value="{{ $campaign->slug }}">
-                                            </div>
+                                            {{-- <div class="form-group">
+                                            <label for="campaign_slug">{{ __('Campaign Slug') }}</label>
+                                        <input type="text" class="form-control" id="campaign_slug" name="campaign_slug" placeholder="Campaign Slug" value="{{ $campaign->slug }}">
+                                    </div> --}}
 
                                             <div class="form-group">
-                                                <label for="campaign_subtitle">{{ __('Campaign Subtitle') }}</label>
+                                                <label for="campaign_subtitle">
+                                                    {{ __('Campaign Subtitle') }}
+                                                    <span class="text-danger">*</span>
+                                                </label>
                                                 <input type="text" class="form-control" id="campaign_subtitle"
                                                     name="campaign_subtitle" placeholder="Campaign Subtitle"
-                                                    value="{{ html_entity_decode($campaign->subtitle) }}">
+                                                    value="{{ html_entity_decode($campaign->subtitle) }}" required="">
                                             </div>
 
                                             <x-media-upload :title="__('Campaign Image')" :oldimage="$campaign->campaignImage" :name="'image'"
                                                 :dimentions="'1920x1080'" />
 
                                             <div class="form-group">
-                                                <label for="campaign_status">{{ __('Campaign Status') }}</label>
-                                                <select name="status" id="status" class="form-control">
+                                                <label for="campaign_status">
+                                                    {{ __('Campaign Status') }}
+                                                    <span class="text-danger">*</span>
+                                                </label>
+                                                <select name="status" id="status" class="form-control" required="">
                                                     <option value="draft"
                                                         @if ($campaign->status == 'draft') selected @endif>
                                                         {{ __('Draft') }}</option>
@@ -119,9 +126,9 @@
                                         <div class="col-md-12">
                                             <div id="product_repeater_container">
                                                 @if ($campaign->products->count() == 0)
-                                                    <?php
-                                                    $remove_btn = true;
-                                                    ?>
+                                                    @php
+                                                        $remove_btn = true;
+                                                    @endphp
                                                     @include('backend.campaign.add_new_campaign_product')
                                                 @endif
 
@@ -137,7 +144,10 @@
                                                             <div class="dashboard__card__body custom__form mt-4">
                                                                 <div class="form-group select_product">
                                                                     <label
-                                                                        for="product_id">{{ __('Select Product') }}</label>
+                                                                        for="product_id">
+                                                                        {{ __('Select Product') }}
+                                                                        <span class="text-danger">*</span>
+                                                                    </label>
                                                                     <input type="hidden" name="campaign_product_id[]"
                                                                         class="campaign_product_id"
                                                                         value="{{ $campaign_product->id }}">
@@ -161,7 +171,9 @@
 
                                                                 <div class="form-group">
                                                                     <label
-                                                                        for="product_original_price">{{ __('Product Original Price') }}</label>
+                                                                        for="product_original_price">
+                                                                        {{ __('Product Original Price') }}
+                                                                    </label>
                                                                     <input type="number"
                                                                         class="form-control product_original_price"
                                                                         disabled
@@ -170,7 +182,10 @@
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label
-                                                                        for="campaign_price">{{ __('Price for Campaign') }}</label>
+                                                                        for="campaign_price">
+                                                                        {{ __('Price for Campaign') }}
+                                                                        <span class="text-danger">*</span>
+                                                                    </label>
                                                                     <input type="number" name="campaign_price[]"
                                                                         class="form-control campaign_price"
                                                                         value="{{ $campaign_product->campaign_price }}"
@@ -186,20 +201,29 @@
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label
-                                                                        for="units_for_sale">{{ __('No. of Units for Sale') }}</label>
+                                                                        for="units_for_sale">
+                                                                        {{ __('No. of Units for Sale') }}
+                                                                        <span class="text-danger">*</span>
+                                                                    </label>
                                                                     <input type="number" name="units_for_sale[]"
                                                                         class="form-control units_for_sale"
                                                                         value="{{ $campaign_product->units_for_sale }}">
                                                                 </div>
 
                                                                 <div class="form-group">
-                                                                    <label for="start_date">{{ __('Start Date') }}</label>
+                                                                    <label for="start_date">
+                                                                        {{ __('Start Date') }}
+                                                                        <span class="text-danger">*</span>
+                                                                    </label>
                                                                     <input type="text" name="start_date[]"
                                                                         class="form-control start_date flatpickr"
                                                                         value="{{ $campaign_product->start_date ?? $campaign->start_date }}">
                                                                 </div>
                                                                 <div class="form-group">
-                                                                    <label for="end_date">{{ __('End Date') }}</label>
+                                                                    <label for="end_date">
+                                                                        {{ __('End Date') }}
+                                                                        <span class="text-danger">*</span>
+                                                                    </label>
                                                                     <input type="text" name="end_date[]"
                                                                         class="form-control end_date flatpickr"
                                                                         value="{{ $campaign_product->end_date ?? $campaign->end_date }}">

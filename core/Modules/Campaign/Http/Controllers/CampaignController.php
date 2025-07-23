@@ -39,11 +39,11 @@ class CampaignController extends Controller
         $data = $request->validated();
 
         try {
-            $colorCampaign = Campaign::query()
+            $existCampaign = Campaign::query()
                 ->where('title', $request->title)
                 ->first();
 
-            if ($colorCampaign) {
+            if ($existCampaign) {
                 return back()->with([
                     'type' => 'danger',
                     'msg' => __('Campaign already exist with this title.')
@@ -77,12 +77,12 @@ class CampaignController extends Controller
     {
         $data = $request->validated();
 
-        $colorCampaign = Campaign::query()
+        $existCampaign = Campaign::query()
             ->where('id', '!=', $request->id)
             ->where('title', $request->title)
             ->first();
 
-        if ($colorCampaign) {
+        if ($existCampaign) {
             return back()->with([
                 'type' => 'danger',
                 'msg' => __('Campaign already exist with this title.')
