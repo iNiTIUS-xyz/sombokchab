@@ -22,7 +22,7 @@ class CampaignController extends Controller
 {
     const BASE_URL = 'campaign::backend.';
 
-    public function index(): Application|Factory|View
+    public function index()
     {
         $all_campaigns = GlobalCampaignService::fetch_campaigns(); //Campaign::with("campaignImage")->get();
 
@@ -39,7 +39,19 @@ class CampaignController extends Controller
         $data = $request->validated();
 
         try {
+            $colorCampaign = Campaign::query()
+                ->where('title', $request->title)
+                ->first();
+
+            if ($colorCampaign) {
+                return back()->with([
+                    'type' => 'danger',
+                    'msg' => __('Campaign already exist with this title.')
+                ]);
+            }
+
             DB::beginTransaction();
+
             $campaign = Campaign::create($data);
 
             if ($campaign->id) {
@@ -64,6 +76,19 @@ class CampaignController extends Controller
     public function update(CampaignValidationRequest $request)
     {
         $data = $request->validated();
+
+        $colorCampaign = Campaign::query()
+            ->where('id', '!=', $request->id)
+            ->where('title', $request->title)
+            ->first();
+
+        if ($colorCampaign) {
+            return back()->with([
+                'type' => 'danger',
+                'msg' => __('Campaign already exist with this title.')
+            ]);
+        }
+
 
         DB::beginTransaction();
         try {
@@ -99,6 +124,18 @@ class CampaignController extends Controller
 
             return back()->with(['msg' => __('Failed to delete campaign'), 'type' => 'danger']);
         }
+    }
+
+    public function statusChanage(Request $request, $id)
+    {
+        Campaign::findOrFail($id)->update([
+            'status' => $request->status,
+        ]);
+
+        return redirect()->back()->with([
+            'msg' => __('Campaign status changed successfully.'),
+            'type' => 'success',
+        ]);
     }
 
     public function bulk_action(Request $request)

@@ -34,25 +34,36 @@
                                         </div>
                                         <div class="dashboard__card__body mt-4">
                                             <div class="form-group">
-                                                <label for="campaign_name">{{ __('Campaign Name') }}</label>
+                                                <label for="campaign_name">
+                                                    {{ __('Campaign Name') }}
+                                                    <span class="text-danger">*</span>
+                                                </label>
                                                 <input type="text" class="form-control" id="campaign_name"
-                                                    name="campaign_name" placeholder="Campaign Name">
+                                                    name="campaign_name" placeholder="Campaign Name" required="">
                                             </div>
-                                            <div class="form-group">
-                                                <label for="campaign_slug">{{ __('Campaign Slug') }}</label>
+                                            {{-- <div class="form-group">
+                                                <label for="campaign_slug">
+                                                    {{ __('Campaign Slug') }}
+                                                </label>
                                                 <input type="text" class="form-control" id="campaign_slug"
                                                     name="campaign_slug" placeholder="Campaign Slug">
-                                            </div>
+                                            </div> --}}
                                             <div class="form-group">
-                                                <label for="campaign_subtitle">{{ __('Campaign Subtitle') }}</label>
+                                                <label for="campaign_subtitle">
+                                                    {{ __('Campaign Subtitle') }}
+                                                    <span class="text-danger">*</span>
+                                                </label>
                                                 <textarea type="text" class="form-control" id="campaign_subtitle"
-                                                    name="campaign_subtitle" placeholder="Campaign Subtitle"></textarea>
+                                                    name="campaign_subtitle" placeholder="Campaign Subtitle" required=""></textarea>
                                             </div>
                                             <x-media-upload :title="__('Campaign Image')" name="image"
                                                 :dimentions="'1920x1080'" />
                                             <div class="form-group">
-                                                <label for="campaign_status">{{ __('Campaign Status') }}</label>
-                                                <select name="status" id="status" class="form-control">
+                                                <label for="campaign_status">
+                                                    {{ __('Campaign Status') }}
+                                                    <span class="text-danger">*</span>
+                                                </label>
+                                                <select name="status" id="status" class="form-control" required="">
                                                     <option value="draft">{{ __('Draft') }}</option>
                                                     <option value="publish">{{ __('Publish') }}</option>
                                                 </select>
@@ -73,7 +84,10 @@
                                             </div>
                                             <div class="form-group">
                                                 <input type="checkbox" id="set_fixed_date">
-                                                <label for="set_fixed_date">{{ __('Set Fixed Date') }}</label>
+                                                <label for="set_fixed_date">
+                                                    {{ __('Set Fixed Date') }}
+                                                    <span class="text-danger">*</span>
+                                                </label>
                                                 <p class="text-small">
                                                     {{ __('when you set fixed date, you have to click on sync date button, to sync date selection with all prodcuts') }}
                                                 </p>

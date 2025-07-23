@@ -22,7 +22,7 @@ class CampaignValidationRequest extends FormRequest
             'start_date' => 'required',
             'end_date' => 'required',
             'id' => 'nullable',
-            'slug' => ['required', Rule::unique('campaigns')->ignore($this->id)],
+            // 'slug' => ['required', Rule::unique('campaigns')->ignore($this->id)],
             'products.product_id' => 'required|array',
             'products.campaign_price' => 'required|array',
             'products.units_for_sale' => 'required|array',
@@ -49,7 +49,7 @@ class CampaignValidationRequest extends FormRequest
                 'status' => $this->status,
                 'start_date' => $this->campaign_start_date,
                 'end_date' => $this->campaign_end_date,
-                'slug' => $this->campaign_slug,
+                'slug' => strtolower(str_replace(' ', '-', $this->campaign_name)),
                 'products' => [
                     'product_id' => $this->product_id,
                     'campaign_price' => $this->campaign_price,
