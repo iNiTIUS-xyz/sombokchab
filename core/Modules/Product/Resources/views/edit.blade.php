@@ -89,9 +89,8 @@
                             </button>
                         </div>
                     </div>
-
                     <div class="col-xxl-10 col-lg-9 col-md-9">
-                        <form data-request-route="{{ route('admin.products.edit', $product->id) }}" method="post"
+                        <form data-request-route="{{ route('admin.products.edit', $product?->id ?? 0) }}" method="post"
                             id="product-create-form">
                             @csrf
                             <input name="id" type="hidden" value="{{ $product?->id }}">
@@ -137,7 +136,7 @@
                                 </div>
                                 <div class="tab-pane fade" id="v-meta-tag-tab" role="tabpanel"
                                     aria-labelledby="v-meta-tag-tab">
-                                    <x-product::meta-seo :meta_data="$product->metaData" />
+                                    <x-product::meta-seo :meta_data="$product?->metaData" />
                                 </div>
                                 <div class="tab-pane fade" id="v-settings-tab" role="tabpanel"
                                     aria-labelledby="v-settings-tab">

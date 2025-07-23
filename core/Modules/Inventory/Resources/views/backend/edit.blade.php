@@ -87,13 +87,13 @@
                                 </strong>
                             </div>
 
-                            <a href="{{ route('frontend.products.single', $product?->slug ?? 0) }}"
+                            {{-- <a href="{{ route('frontend.products.single', $product?->slug ?? 0) }}"
                                 class="btn btn-secondary mr-10">
                                 <i class="lar la-eye icon"></i>
                             </a>
                             <a href="{{ route('admin.products.edit', $product?->id ?? 0) }}" class="btn btn-primary">
                                 <i class="las la-pencil-alt icon"></i>
-                            </a>
+                            </a> --}}
                         </div>
                     </div>
                 </div>
