@@ -23,8 +23,11 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <label for="zone_id">{{ __('Zone') }}</label>
-                                        <select name="zone_id" id="zone_id" class="form-control">
+                                        <label for="zone_id">
+                                            {{ __('Zone') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <select name="zone_id" id="zone_id" class="form-control" required="">
                                             @foreach ($all_zones as $zone)
                                                 <option {{ $method->zone_id == $zone->id ? 'selected' : '' }}
                                                     value="{{ $zone->id }}">
@@ -33,18 +36,21 @@
                                             @endforeach
                                         </select>
                                     </div>
-
                                     <div class="form-group">
                                         <label for="title">
                                             {{ __('Title') }}
+                                            <span class="text-danger">*</span>
                                         </label>
                                         <input value="{{ $method->title }}" name="title" class="form-control"
-                                            placeholder="{{ __('Enter title') }}" />
+                                            placeholder="{{ __('Enter title') }}" required=""/>
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="status">{{ __('Status') }}</label>
-                                        <select name="status" id="status" class="form-control">
+                                        <label for="status">
+                                            {{ __('Status') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <select name="status" id="status" class="form-control" required="">
                                             @foreach ($all_publish_status as $key => $status)
                                                 <option {{ $method->status_id == $key ? 'selected' : '' }}
                                                     value="{{ $key }}">{{ $status }}</option>
@@ -54,9 +60,10 @@
                                     <div class="form-group">
                                         <label for="cost">
                                             {{ __('Cost') }}
+                                            <span class="text-danger">*</span>
                                         </label>
                                         <input value="{{ $method->cost }}" type="number" id="cost" name="cost"
-                                            class="form-control" placeholder="{{ __('Enter cost') }}">
+                                            class="form-control" placeholder="{{ __('Enter cost') }}" required="">
                                     </div>
 
                                     <div class="form-group">

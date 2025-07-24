@@ -33,9 +33,6 @@ class TopBarController extends Controller
         return back()->with(FlashMsg::explain('success', __('Topbar menu updated')));
     }
 
-    /** ===================================================================
-     *                          SOCIAL ICONS
-     * =================================================================== */
     public function new_social_item(Request $request): RedirectResponse
     {
         $request->validate([
@@ -49,7 +46,7 @@ class TopBarController extends Controller
         ]);
 
         return redirect()->back()->with([
-            'msg' => __('New Social Item Added...'),
+            'msg' => __('Social item added successfully.'),
             'type' => 'success',
         ]);
     }
@@ -67,7 +64,7 @@ class TopBarController extends Controller
         ]);
 
         return redirect()->back()->with([
-            'msg' => __('Social Item Updated...'),
+            'msg' => __('Social item updated successfully.'),
             'type' => 'success',
         ]);
     }
@@ -77,7 +74,7 @@ class TopBarController extends Controller
         SocialIcons::find($id)->delete();
 
         return redirect()->back()->with([
-            'msg' => __('Social Item Deleted...'),
+            'msg' => __('Social item deleted successfully.'),
             'type' => 'danger',
         ]);
     }

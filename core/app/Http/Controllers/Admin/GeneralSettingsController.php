@@ -159,6 +159,7 @@ class GeneralSettingsController extends Controller
         ]);
 
         $all_language = Language::orderBy('default', 'desc')->get();
+
         foreach ($all_language as $lang) {
             $request->validate([
                 'site_gdpr_cookie_title' => 'nullable|string',
@@ -420,7 +421,7 @@ class GeneralSettingsController extends Controller
 
             return redirect()->back()->with(['msg' => __('Color settings updated successfully.'), 'type' => 'success']);
         } catch (\Throwable $e) {
-            dd($e);
+
             return redirect()->back()->with(['msg' => __('Something went worng. Please try again.'), 'type' => 'warning']);
         }
     }

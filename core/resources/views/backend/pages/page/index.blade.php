@@ -70,20 +70,33 @@
                                             </td>
                                             <td>{{ $page->created_at->diffForHumans() }}</td>
                                             <td>
-                                                @if ($page->status === 'publish')
-                                                    <span class="badge bg-primary">{{ __('Published') }}</span>
-                                                @else
-                                                    <span class="badge bg-warning">{{ __('Draft') }}</span>
-                                                @endif
+                                                <div class="btn-group badge">
+                                                    <button type="button"
+                                                        class="status-{{ $page->status }} {{ $page->status == 'publish' ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
+                                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        {{ ucfirst($page->status == 'publish' ? __('Publish') : __('Draft')) }}
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        <form action="{{ route('admin.page.status.change', $page->id) }}"
+                                                            method="POST" id="status-form-activate-{{ $page->id }}">
+                                                            @csrf
+                                                            <input type="hidden" name="status" value="publish">
+                                                            <button type="submit" class="dropdown-item">
+                                                                {{ __('Publish') }}
+                                                            </button>
+                                                        </form>
+                                                        <form action="{{ route('admin.page.status.change', $page->id) }}"
+                                                            method="POST" id="status-form-deactivate-{{ $page->id }}">
+                                                            @csrf
+                                                            <input type="hidden" name="status" value="draft">
+                                                            <button type="submit" class="dropdown-item">
+                                                                {{ __('Draft') }}
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
                                             </td>
                                             <td>
-                                                @if (empty($dynamic_page_ids[$page->id]))
-                                                    <a class="btn btn-xs btn-primary btn-sm mb-2 me-1"
-                                                        title="{{ __('View Data') }}"
-                                                        href="{{ route('frontend.dynamic.page', ['slug' => $page->slug, 'id' => $page->id]) }}">
-                                                        <i class="ti-eye"></i>
-                                                    </a>
-                                                @endif
                                                 @can('page-edit')
                                                     <a class="btn btn-xs btn-warning text-dark btn-sm mb-2 me-1"
                                                         title="{{ __('Edit Data') }}"

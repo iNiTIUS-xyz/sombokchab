@@ -45,7 +45,33 @@
                                             </td>
                                             <td>{{ $data->name }}</td>
                                             <td>
-                                                <x-status-span :status="$data->status" />
+                                                <div class="btn-group badge">
+                                                    <button type="button"
+                                                        class="status-{{ $data->status }} {{ $data->status == 'publish' ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
+                                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        {{ ucfirst($data->status == 'publish' ? __('Publish') : __('Draft')) }}
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        <form
+                                                            action="{{ route('admin.blog.category.status.change', $data->id) }}"
+                                                            method="POST" id="status-form-activate-{{ $data->id }}">
+                                                            @csrf
+                                                            <input type="hidden" name="status" value="publish">
+                                                            <button type="submit" class="dropdown-item">
+                                                                {{ __('Publish') }}
+                                                            </button>
+                                                        </form>
+                                                        <form
+                                                            action="{{ route('admin.blog.category.status.change', $data->id) }}"
+                                                            method="POST" id="status-form-deactivate-{{ $data->id }}">
+                                                            @csrf
+                                                            <input type="hidden" name="status" value="draft">
+                                                            <button type="submit" class="dropdown-item">
+                                                                {{ __('Draft') }}
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
                                             </td>
                                             <td>
                                                 @can('blog-category-edit')
@@ -84,13 +110,19 @@
                         <div class="modal-body">
                             @csrf
                             <div class="form-group">
-                                <label for="name">{{ __('Name') }}</label>
+                                <label for="name">
+                                    {{ __('Name') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input type="text" class="form-control" id="name" name="name"
-                                    placeholder="{{ __('Enter name') }}">
+                                    placeholder="{{ __('Enter name') }}" required="">
                             </div>
                             <div class="form-group">
-                                <label for="status">{{ __('Status') }}</label>
-                                <select name="status" class="form-control" id="status">
+                                <label for="status">
+                                    {{ __('Status') }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <select name="status" class="form-control" id="status" required="">
                                     <option value="publish">{{ __('Publish') }}</option>
                                     <option value="draft">{{ __('Draft') }}</option>
                                 </select>
@@ -122,13 +154,19 @@
                         <div class="modal-body">
                             @csrf
                             <div class="form-group">
-                                <label for="edit_name">{{ __('Name') }}</label>
+                                <label for="edit_name">
+                                    {{ __('Name') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input type="text" class="form-control" id="edit_name" name="name"
-                                    placeholder="{{ __('Enter name') }}">
+                                    placeholder="{{ __('Enter name') }}" required="">
                             </div>
                             <div class="form-group">
-                                <label for="edit_status">{{ __('Status') }}</label>
-                                <select name="status" class="form-control" id="edit_status">
+                                <label for="edit_status">
+                                    {{ __('Status') }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <select name="status" class="form-control" id="edit_status" required="">
                                     <option value="draft">{{ __('Draft') }}</option>
                                     <option value="publish">{{ __('Publish') }}</option>
                                 </select>

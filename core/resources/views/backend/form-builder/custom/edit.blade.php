@@ -14,41 +14,45 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Edit Form') }}</h4>
-                        {{-- <div class="dashboard__card__header__right">
-                            @can('form-builder-custom-new')
-                                <a href="#1" data-bs-toggle="modal" data-bs-target="#create_new_custom_form"
-                                    class="cmn_btn btn_bg_2">
-                                    {{ __('New Form') }}
-                                </a>
-                            @endcan
-                        </div> --}}
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
                         <form action="{{ route('admin.form.builder.update') }}" method="Post">
                             @csrf
                             <input type="hidden" name="id" value="{{ $form->id }}">
                             <div class="form-group">
-                                <label for="text">{{ __('Title') }}</label>
-                                <input type="text" placeholder="{{ __('Enter title') }}" class="form-control"
-                                    name="title" value="{{ $form->title }}">
+                                <label for="text">
+                                    {{ __('Title') }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" placeholder="{{ __('Enter title') }}" class="form-control" name="title"
+                                    value="{{ $form->title }}" required="">
                             </div>
                             <div class="form-group">
-                                <label for="text">{{ __('Receiving Email') }}</label>
+                                <label for="text">
+                                    {{ __('Receiving Email') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input type="email" class="form-control" name="email"
-                                    placeholder="{{ __('Enter receiving email') }}" value="{{ $form->email }}">
+                                    placeholder="{{ __('Enter receiving email') }}" value="{{ $form->email }}" required="">
                                 <span class="info-text">
                                     {{ __('your will get mail with all info of from to this email') }}
                                 </span>
                             </div>
                             <div class="form-group">
-                                <label for="text">{{ __('Button Title') }}</label>
+                                <label for="text">
+                                    {{ __('Button Title') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input type="text" placeholder="{{ __('Enter button title') }}" class="form-control"
-                                    name="button_title" value="{{ $form->button_text }}">
+                                    name="button_title" value="{{ $form->button_text }}" required="">
                             </div>
                             <div class="form-group">
-                                <label for="success_message">{{ __('Success Message') }}</label>
+                                <label for="success_message">
+                                    {{ __('Success Message') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input type="text" placeholder="{{ __('Enter success message') }}" class="form-control"
-                                    name="success_message" value="{{ $form->success_message }}">
+                                    name="success_message" value="{{ $form->success_message }}" required="">
                             </div>
                             <div class="form-group">
                                 {!! \App\Helpers\FormBuilderCustom::render_drag_drop_form_builder($form->fields) !!}
@@ -59,7 +63,7 @@
                                 </button>
                                 <a href="{{ route('admin.form.builder.all') }}" class="cmn_btn default-theme-btn"
                                     style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
-                                    Back
+                                    {{ __('Back') }}
                                 </a>
                             </div>
                         </form>
@@ -73,22 +77,38 @@
                     </div>
                     <div class="dashboard__card__body mt-4">
                         <ul id="sortable_02" class="available-form-field form-field-space">
-                            <li class="ui-state-default" type="text"><span
-                                    class="ui-icon ui-icon-arrowthick-2-n-s"></span>{{ __('Text') }}</li>
-                            <li class="ui-state-default" type="email"><span
-                                    class="ui-icon ui-icon-arrowthick-2-n-s"></span>{{ __('Email') }}</li>
-                            <li class="ui-state-default" type="tel"><span
-                                    class="ui-icon ui-icon-arrowthick-2-n-s"></span>{{ __('Tel') }}</li>
-                            <li class="ui-state-default" type="url"><span
-                                    class="ui-icon ui-icon-arrowthick-2-n-s"></span>{{ __('URL') }}</li>
-                            <li class="ui-state-default" type="select"><span
-                                    class="ui-icon ui-icon-arrowthick-2-n-s"></span>{{ __('Select') }}</li>
-                            <li class="ui-state-default" type="checkbox"><span
-                                    class="ui-icon ui-icon-arrowthick-2-n-s"></span>{{ __('Check Box') }}</li>
-                            <li class="ui-state-default" type="file"><span
-                                    class="ui-icon ui-icon-arrowthick-2-n-s"></span>{{ __('File') }}</li>
-                            <li class="ui-state-default" type="textarea"><span
-                                    class="ui-icon ui-icon-arrowthick-2-n-s"></span>{{ __('Textarea') }}</li>
+                            <li class="ui-state-default" type="text">
+                                <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
+                                {{ __('Text') }}
+                            </li>
+                            <li class="ui-state-default" type="email">
+                                <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
+                                {{ __('Email') }}
+                            </li>
+                            <li class="ui-state-default" type="tel">
+                                <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
+                                {{ __('Tel') }}
+                            </li>
+                            <li class="ui-state-default" type="url">
+                                <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
+                                {{ __('URL') }}
+                            </li>
+                            <li class="ui-state-default" type="select">
+                                <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
+                                {{ __('Select') }}
+                            </li>
+                            <li class="ui-state-default" type="checkbox">
+                                <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
+                                {{ __('Check Box') }}
+                            </li>
+                            <li class="ui-state-default" type="file">
+                                <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
+                                {{ __('File') }}
+                            </li>
+                            <li class="ui-state-default" type="textarea">
+                                <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
+                                {{ __('Textarea') }}
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -102,22 +122,22 @@
                 <div class="modal-content custom__form">
                     <div class="modal-header">
                         <h5 class="modal-title">{{ __('Add New Form') }}</h5>
-                        <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
+                        <button type="button" class="close" data-bs-dismiss="modal">
+                            <span>×</span></button>
                     </div>
                     <form action="{{ route('admin.form.builder.store') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="text">{{ __('Title') }}</label>
-                                <input type="text" class="form-control" name="title"
-                                    placeholder="{{ __('Enter Title') }}">
+                                <input type="text" class="form-control" name="title" placeholder="{{ __('Enter Title') }}">
                             </div>
                             <div class="form-group">
                                 <label for="text">{{ __('Receiving Email') }}</label>
-                                <input type="email" class="form-control" name="email"
-                                    placeholder="{{ __('Email') }}">
-                                <span
-                                    class="info-text">{{ __('your will get mail with all info of from to this email') }}</span>
+                                <input type="email" class="form-control" name="email" placeholder="{{ __('Email') }}">
+                                <span class="info-text">
+                                    {{ __('your will get mail with all info of from to this email') }}
+                                </span>
                             </div>
                             <div class="form-group">
                                 <label for="text">{{ __('Button Title') }}</label>
@@ -131,8 +151,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
                             <button type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
                         </div>
                     </form>
@@ -145,18 +164,18 @@
     <script src="{{ asset('assets/backend/js/jquery-ui.min.js') }}"></script>
 
     <script>
-        (function($) {
+        (function ($) {
             "use strict";
-            $(document).ready(function() {
+            $(document).ready(function () {
                 <
-                x - btn.save / >
+                    x - btn.save / >
                     $("#sortable").sortable({
                         axis: "y",
                         placeholder: "sortable-placeholder",
-                        out: function(event, ui) {
-                            setTimeout(function() {
+                        out: function (event, ui) {
+                            setTimeout(function () {
                                 var allShortableList = $("#sortable li");
-                                allShortableList.each(function(index, value) {
+                                allShortableList.each(function (index, value) {
                                     var el = $(this);
                                     el.find('.field-required').attr('name',
                                         'field_required[' + index + ']');
@@ -169,7 +188,7 @@
                 $("#sortable_02").sortable({
                     connectWith: '#sortable',
                     helper: "clone",
-                    remove: function(e, li) {
+                    remove: function (e, li) {
                         var value = li.item.prop('type');
                         var random = Math.floor(Math.random(9999) * 999999);
                         var formFiledLength = $('#sortable li').length - 1;
@@ -186,11 +205,11 @@
                     }
                 }).disableSelection();
 
-                $('.field-placeholder').on('change paste keyup', function(e) {
+                $('.field-placeholder').on('change paste keyup', function (e) {
                     $(this).parent().parent().parent().prev().find('.placeholder-name').text($(this)
                         .val());
                 });
-                $('body').on('click', '.remove-fields', function(e) {
+                $('body').on('click', '.remove-fields', function (e) {
                     $(this).parent().remove();
                     $("#sortable").sortable("refreshPositions");
                 });
@@ -208,7 +227,7 @@
                         '<label>Name</label>\n' +
                         '<input type="text" class="form-control" name="field_name[]" placeholder="enter field name" >\n</div>\n' +
                         '<div class="form-group">\n <label>Placeholder/Label</label>\n' +
-                        ' <input type="text" class="form-control field-placeholder"  name="field_placeholder[]" placeholder="enter field name" >\n' +
+                        ' <input type="text" class="form-control field-placeholder" name="field_placeholder[]" placeholder="enter field name" >\n' +
                         '</div>\n<div class="form-group">\n<label ><strong>Required</strong></label>\n<label class="switch">\n' +
                         '<input type="checkbox" class="field-required" name="field_required[' +
                         formFiledLength + ']" >\n' +

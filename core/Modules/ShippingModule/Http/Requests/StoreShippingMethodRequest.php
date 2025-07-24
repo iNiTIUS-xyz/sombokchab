@@ -26,11 +26,11 @@ class StoreShippingMethodRequest extends FormRequest
     {
         $arr = [];
 
-        if(auth("vendor")->check()){
+        if (auth("vendor")->check()) {
             $arr = ["vendor_id" => auth()->guard("vendor")->id()];
         }
 
-        if(auth("sanctum")->check()){
+        if (auth("sanctum")->check()) {
             $arr = ["vendor_id" => auth()->guard("sanctum")->id()];
         }
 

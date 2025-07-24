@@ -26,24 +26,49 @@
                         <div class="table-responsive">
                             <table class="table table-default" id="dataTable">
                                 <thead>
-                                    {{-- <th>{{ __('ID') }}</th> --}}
                                     <th>{{ __('Title') }}</th>
                                     <th>{{ __('Zone') }}</th>
-                                    <th>{{ __('Status') }}</th>
                                     <th>{{ __('Cost') }}</th>
+                                    <th>{{ __('Status') }}</th>
                                     <th>{{ __('Action') }}</th>
                                 </thead>
                                 <tbody>
                                     @foreach ($all_shipping_methods as $method)
                                         <tr>
-                                            {{-- <td>{{ $loop->iteration }}</td> --}}
                                             <td>{{ optional($method)->title }}</td>
                                             <td>{{ optional($method->zone)->name }}</td>
                                             <td>
-                                                <x-status-span :status="optional($method)->status?->name" />
+                                                {{ amount_with_currency_symbol(optional($method)->cost) }}
                                             </td>
-                                            <td>{{ amount_with_currency_symbol(optional($method)->cost) }}</td>
-
+                                            <td>
+                                                <div class="btn-group badge">
+                                                    <button type="button"
+                                                        class="status-{{ $method->status_id }} {{ $method->status_id == 1 ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
+                                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        {{ ucfirst($method->status_id == 1 ? __('Active') : __('Inactive')) }}
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        <form
+                                                            action="{{ route('admin.shipping-method.shipping-method.status.change', $method->id) }}"
+                                                            method="POST" id="status-form-activate-{{ $method->id }}">
+                                                            @csrf
+                                                            <input type="hidden" name="status" value="1">
+                                                            <button type="submit" class="dropdown-item">
+                                                                {{ __('Active') }}
+                                                            </button>
+                                                        </form>
+                                                        <form
+                                                            action="{{ route('admin.shipping-method.shipping-method.status.change', $method->id) }}"
+                                                            method="POST" id="status-form-deactivate-{{ $method->id }}">
+                                                            @csrf
+                                                            <input type="hidden" name="status" value="2">
+                                                            <button type="submit" class="dropdown-item">
+                                                                {{ __('Inactive') }}
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </td>
                                             <td>
                                                 @can('shipping-method-edit')
                                                     <a href="{{ route('admin.shipping-method.edit', $method->id) }}"

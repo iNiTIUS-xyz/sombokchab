@@ -22,7 +22,7 @@ class CampaignValidationRequest extends FormRequest
             'start_date' => 'required',
             'end_date' => 'required',
             'id' => 'nullable',
-            'slug' => ['required', Rule::unique('campaigns')->ignore($this->id)],
+            // 'slug' => ['required', Rule::unique('campaigns')->ignore($this->id)],
             'products.product_id' => 'required|array',
             'products.campaign_price' => 'required|array',
             'products.units_for_sale' => 'required|array',
@@ -41,27 +41,28 @@ class CampaignValidationRequest extends FormRequest
 
     protected function prepareForValidation()
     {
-        return $this->merge([
-            'title' => $this->campaign_name,
-            'subtitle' => $this->campaign_subtitle,
-            'image' => $this->image,
-            'status' => $this->status,
-            'start_date' => $this->campaign_start_date,
-            'end_date' => $this->campaign_end_date,
-            'slug' => $this->campaign_slug,
-            'products' => [
-                'product_id' => $this->product_id,
-                'campaign_price' => $this->campaign_price,
-                'units_for_sale' => $this->units_for_sale,
-                'start_date' => $this->start_date,
-                'end_date' => $this->end_date,
-                'product_id.*' => $this->product_id,
-                'campaign_price.*' => $this->campaign_price,
-                'units_for_sale.*' => $this->units_for_sale,
-                'start_date.*' => $this->start_date,
-                'end_date.*' => $this->end_date,
-            ],
-        ] + $this->how_is_the_owner()
+        return $this->merge(
+            [
+                'title' => $this->campaign_name,
+                'subtitle' => $this->campaign_subtitle,
+                'image' => $this->image,
+                'status' => $this->status,
+                'start_date' => $this->campaign_start_date,
+                'end_date' => $this->campaign_end_date,
+                'slug' => strtolower(str_replace(' ', '-', $this->campaign_name)),
+                'products' => [
+                    'product_id' => $this->product_id,
+                    'campaign_price' => $this->campaign_price,
+                    'units_for_sale' => $this->units_for_sale,
+                    'start_date' => $this->start_date,
+                    'end_date' => $this->end_date,
+                    'product_id.*' => $this->product_id,
+                    'campaign_price.*' => $this->campaign_price,
+                    'units_for_sale.*' => $this->units_for_sale,
+                    'start_date.*' => $this->start_date,
+                    'end_date.*' => $this->end_date,
+                ],
+            ] + $this->how_is_the_owner()
         );
     }
 

@@ -16,8 +16,8 @@ class StoreShippingZoneRequest extends FormRequest
 
         return [
             "zone_name" => "required",
-            "country.*" => "required",
-            "states.*" => "required"
+            "country.*" => "nullable",
+            "states.*" => "nullable"
         ];
     }
 

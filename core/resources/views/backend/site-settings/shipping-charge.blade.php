@@ -27,7 +27,7 @@
                                             <span class="text-danger">*</span>
                                         </label>
                                         <select name="shipping_charge_type"
-                                            class="form-select form-control shipping-charge-type">
+                                            class="form-select form-control shipping-charge-type" required="">
                                             <option value="">
                                                 {{ __('Select Type') }}
                                             </option>
@@ -49,7 +49,6 @@
                                         style="{{ get_static_option('shipping_charge_type') !== 'global' ? 'display: none' : '' }}">
                                         <label>
                                             {{ __('Shipping Charge Amount') }}
-                                            {{-- <span class="text-danger">*</span> --}}
                                         </label>
                                         <input value="{{ get_static_option('global_shipping_charge_amount') }}"
                                             name="global_shipping_charge_amount" type="number" class="form-control"

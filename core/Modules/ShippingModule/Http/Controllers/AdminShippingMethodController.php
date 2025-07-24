@@ -3,9 +3,10 @@
 namespace Modules\ShippingModule\Http\Controllers;
 
 use App\Status;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Modules\ShippingModule\Entities\AdminShippingMethod;
 use Modules\ShippingModule\Entities\Zone;
+use Modules\ShippingModule\Entities\AdminShippingMethod;
 use Modules\ShippingModule\Http\Requests\StoreShippingMethodRequest;
 
 class AdminShippingMethodController extends Controller
@@ -85,12 +86,23 @@ class AdminShippingMethodController extends Controller
 
     public function destroy($id)
     {
-        // delete method
         $delete = AdminShippingMethod::where("id", $id)->delete();
 
         return back()->with([
             "msg" => $delete ? "Shipping method deleted Successfully." : "Shipping method failed to delete.",
             "type" => $delete ? "success" : "danger"
+        ]);
+    }
+
+    public function statusChange(Request $request, $id)
+    {
+        AdminShippingMethod::where('id', $id)->update([
+            'status_id' => $request->status,
+        ]);
+
+        return redirect()->back()->with([
+            'msg' => __('Status changed successfully.'),
+            'type' => 'success'
         ]);
     }
 }

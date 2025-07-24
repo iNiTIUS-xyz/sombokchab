@@ -71,11 +71,31 @@
                                             @endcan
                                             <td>{{ $data->title }}</td>
                                             <td>
-                                                @if ($data->status == 'publish')
-                                                    <span class="badge bg-primary">{{ __('Published') }}</span>
-                                                @else
-                                                    <span class="badge bg-warning">{{ __('Draft') }}</span>
-                                                @endif
+                                                <div class="btn-group badge">
+                                                    <button type="button"
+                                                        class="status-{{ $data->status }} {{ $data->status == 'publish' ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
+                                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        {{ ucfirst($data->status == 'publish' ? __('Publish') : __('Draft')) }}
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        <form action="{{ route('admin.faq.status.change', $data->id) }}"
+                                                            method="POST" id="status-form-activate-{{ $data->id }}">
+                                                            @csrf
+                                                            <input type="hidden" name="status" value="publish">
+                                                            <button type="submit" class="dropdown-item">
+                                                                {{ __('Publish') }}
+                                                            </button>
+                                                        </form>
+                                                        <form action="{{ route('admin.faq.status.change', $data->id) }}"
+                                                            method="POST" id="status-form-deactivate-{{ $data->id }}">
+                                                            @csrf
+                                                            <input type="hidden" name="status" value="draft">
+                                                            <button type="submit" class="dropdown-item">
+                                                                {{ __('Draft') }}
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
                                             </td>
                                             <td>
                                                 @can('faq-edit-faq')
@@ -111,62 +131,11 @@
                     </div>
                 </div>
             </div>
-            {{-- @can('faq-create-faq')
-                <div class="col-lg-5">
-                    <div class="dashboard__card">
-                        <div class="dashboard__card__header">
-                            <h4 class="dashboard__card__title">{{ __('New FAQ') }}</h4>
-                        </div>
-                        <div class="dashboard__card__body custom__form mt-4">
-                            <form action="{{ route('admin.faq') }}" method="post" enctype="multipart/form-data">
-                                @csrf
-                                <div class="row g-4">
-                                    <div class="col-sm-12">
-                                        <div class="form-group">
-                                            <label for="title">{{ __('Title') }}</label>
-                                            <input type="text" class="form-control" id="title" name="title"
-                                                placeholder="{{ __('Title') }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <div class="form-group">
-                                            <label for="is_open">{{ __('Is Open by Default') }}</label>
-                                            <label class="switch">
-                                                <input type="checkbox" name="is_open" id="is_open">
-                                                <span class="slider"></span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <div class="form-group">
-                                            <label for="description">{{ __('Description') }}</label>
-                                            <textarea name="description" class="summernote"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <div class="form-group">
-                                            <label for="status">{{ __('Status') }}</label>
-                                            <select name="status" id="status" class="form-control">
-                                                <option value="publish">{{ __('Publish') }}</option>
-                                                <option value="draft">{{ __('Draft') }}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <button id="submit" type="submit"
-                                            class="cmn_btn btn_bg_profile">{{ __('Add') }}</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            @endcan --}}
         </div>
     </div>
 
 
-     @can('faq-edit-faq')
+    @can('faq-edit-faq')
         <div class="modal fade" id="faq_add_modal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content custom__form">
@@ -179,9 +148,12 @@
                             @csrf
                             <div class="col-sm-12">
                                 <div class="form-group mt-3">
-                                    <label for="title">{{ __('Title') }}</label>
+                                    <label for="title">
+                                        {{ __('Title') }}
+                                        <span class="text-danger">*</span>
+                                    </label>
                                     <input type="text" class="form-control" id="title" name="title"
-                                        placeholder="{{ __('Title') }}">
+                                        placeholder="{{ __('Title') }}" required="">
                                 </div>
                             </div>
                             <div class="col-sm-12">
@@ -195,7 +167,10 @@
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group mt-3">
-                                    <label for="description">{{ __('Description') }}</label>
+                                    <label for="description">
+                                        {{ __('Description') }}
+                                        <span class="text-danger">*</span>
+                                    </label>
                                     <textarea name="description" class="summernote"></textarea>
                                 </div>
                             </div>
@@ -234,9 +209,12 @@
                             <input type="hidden" name="lang" id="faq_lang" value="">
 
                             <div class="form-group">
-                                <label for="edit_title">{{ __('Title') }}</label>
+                                <label for="edit_title">
+                                    {{ __('Title') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input type="text" class="form-control" id="edit_title" name="title"
-                                    placeholder="{{ __('Title') }}">
+                                    placeholder="{{ __('Title') }}" required="">
                             </div>
                             <div class="form-group">
                                 <label for="edit_is_open">{{ __('Is Open by Default') }}</label>
@@ -246,11 +224,16 @@
                                 </label>
                             </div>
                             <div class="form-group">
-                                <label for="edit_description">{{ __('Description') }}</label>
+                                <label for="edit_description">
+                                    {{ __('Description') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <textarea name="description" id="edit_description" class="summernote"></textarea>
                             </div>
                             <div class="form-group">
-                                <label for="edit_status">{{ __('Status') }}</label>
+                                <label for="edit_status">
+                                    {{ __('Status') }}
+                                </label>
                                 <select name="status" id="edit_status" class="form-control">
                                     <option value="publish">{{ __('Publish') }}</option>
                                     <option value="draft">{{ __('Draft') }}</option>

@@ -41,7 +41,6 @@ class BlogController extends Controller
             'title' => 'required',
             'status' => 'required',
             'author' => 'required',
-            'slug' => 'nullable',
             'meta_tags' => 'nullable|string',
             'meta_title' => 'nullable|string',
             'meta_description' => 'nullable|string',
@@ -50,6 +49,17 @@ class BlogController extends Controller
             'og_meta_image' => 'nullable|string',
             'image' => 'nullable|string|max:191',
         ]);
+
+        $blogExit = Blog::query()
+            ->where('title', $request->title)
+            ->first();
+
+        if ($blogExit) {
+            return back()->with([
+                'type' => 'danger',
+                'msg' => __('Blog already exist with this title.')
+            ]);
+        }
 
         $store = Blog::create([
             'blog_categories_id' => $request->category,
@@ -77,10 +87,12 @@ class BlogController extends Controller
 
     public function clone_blog(Request $request)
     {
+
         $blog_details = Blog::findOrFail($request->item_id);
+
         Blog::create([
             'blog_categories_id' => $blog_details->blog_categories_id,
-            'slug' => !empty($blog_details->slug) ? \Str::slug($blog_details->slug) : \Str::slug($blog_details->title),
+            'slug' => strtolower(str_replace(' ', '-', $request->title)),
             'blog_content' => $blog_details->blog_content,
             'tags' => $blog_details->tags,
             'title' => $blog_details->title,
@@ -124,7 +136,6 @@ class BlogController extends Controller
             'title' => 'required',
             'status' => 'required',
             'author' => 'required',
-            'slug' => 'nullable',
             'meta_tags' => 'nullable|string',
             'meta_description' => 'nullable|string',
             'meta_title' => 'nullable|string',
@@ -133,9 +144,22 @@ class BlogController extends Controller
             'og_meta_image' => 'nullable|string',
             'image' => 'nullable|string|max:191',
         ]);
+
+        $blogExit = Blog::query()
+            ->where('id', '!=', $id)
+            ->where('title', $request->title)
+            ->first();
+
+        if ($blogExit) {
+            return back()->with([
+                'type' => 'danger',
+                'msg' => __('Blog already exist with this title.')
+            ]);
+        }
+
         Blog::where('id', $id)->update([
             'blog_categories_id' => $request->category,
-            'slug' => !empty($request->slug) ? \Str::slug($request->slug) : \Str::slug($request->title),
+            'slug' => strtolower(str_replace(' ', '-', $request->title)),
             'blog_content' => $request->blog_content,
             'tags' => $request->tags,
             'title' => $request->title,
@@ -269,7 +293,7 @@ class BlogController extends Controller
         update_static_option('blog_single_page_recent_post_item', $request->blog_single_page_recent_post_item);
 
         return redirect()->back()->with([
-            'msg' => __('Settings updated successfully.'),
+            'msg' => __('Blog single page settings updated successfully.'),
             'type' => 'success',
         ]);
     }
@@ -285,6 +309,7 @@ class BlogController extends Controller
         $request->validate([
             'blog_page_read_more_btn_text' => 'nullable|string',
         ]);
+
         $read_more_btn_text = 'blog_page_read_more_btn_text';
         update_static_option($read_more_btn_text, $request->$read_more_btn_text);
 
@@ -292,7 +317,7 @@ class BlogController extends Controller
         update_static_option('blog_page_recent_post_widget_items', $request->blog_page_recent_post_widget_items);
 
         return redirect()->back()->with([
-            'msg' => __('Settings updated successfully.'),
+            'msg' => __('Blog page settings updated successfully.'),
             'type' => 'success',
         ]);
     }
@@ -315,5 +340,28 @@ class BlogController extends Controller
         }
 
         return response()->json(['status' => 'ok']);
+    }
+
+    public function statusChange(Request $request, $id)
+    {
+        BlogCategory::findOrFail($id)->update([
+            'status' => $request->status,
+        ]);
+
+        return redirect()->back()->with([
+            'msg' => __('Blog category status changed successfully.'),
+            'type' => 'success',
+        ]);
+    }
+    public function blogStatusChange(Request $request, $id)
+    {
+        Blog::findOrFail($id)->update([
+            'status' => $request->status,
+        ]);
+
+        return redirect()->back()->with([
+            'msg' => __('Blog status changed successfully.'),
+            'type' => 'success',
+        ]);
     }
 }

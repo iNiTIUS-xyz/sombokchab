@@ -115,32 +115,44 @@
                         @csrf
                         <div class="modal-body">
                             <div class="form-group">
-                                <label for="text">{{ __('Title') }}</label>
-                                <input type="text" class="form-control" name="title" placeholder="{{ __('Enter Title') }}">
+                                <label for="text">
+                                    {{ __('Title') }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" name="title" placeholder="{{ __('Enter Title') }}"
+                                    required="">
                             </div>
                             <div class="form-group">
-                                <label for="text">{{ __('Receiving Email') }}</label>
-                                <input type="email" class="form-control" name="email" placeholder="{{ __('Enter email') }}">
+                                <label for="text">
+                                    {{ __('Receiving Email') }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="email" class="form-control" name="email" placeholder="{{ __('Enter email') }}"
+                                    required="">
                                 <span class="info-text">
                                     {{ __('your will get mail with all info of from to this email') }}
                                 </span>
                             </div>
                             <div class="form-group">
-                                <label for="text">{{ __('Button Title') }}</label>
+                                <label for="text">
+                                    {{ __('Button Title') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input type="text" class="form-control" name="button_title"
-                                    placeholder="{{ __('Enter button title') }}">
+                                    placeholder="{{ __('Enter button title') }}" required="">
                             </div>
                             <div class="form-group">
                                 <label for="success_message">
                                     {{ __('Success Message') }}
+                                    <span class="text-danger">*</span>
                                 </label>
                                 <input type="text" class="form-control" name="success_message"
-                                    placeholder="{{ __('Enter form submit success message') }}">
+                                    placeholder="{{ __('Enter form submit success message') }}" required="">
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                {{ __('Close') }}
+                                {{ __('Cancel') }}
                             </button>
                             <button type="submit" class="btn btn-primary">
                                 {{ __('Add') }}

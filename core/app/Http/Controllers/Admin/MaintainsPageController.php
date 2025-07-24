@@ -33,10 +33,10 @@ class MaintainsPageController extends Controller
             update_static_option($field, $request->$field);
         }
 
-        if (! empty($request->maintain_page_logo)) {
+        if (!empty($request->maintain_page_logo)) {
             update_static_option('maintain_page_logo', $request->maintain_page_logo);
         }
-        if (! empty($request->maintain_page_background_image)) {
+        if (!empty($request->maintain_page_background_image)) {
             update_static_option('maintain_page_background_image', $request->maintain_page_background_image);
         }
 

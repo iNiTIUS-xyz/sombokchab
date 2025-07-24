@@ -37,7 +37,6 @@
                                     @can('campaigns-bulk-action')
                                         <x-bulk-action.th />
                                     @endcan
-                                    {{-- <th>{{ __('ID') }}</th> --}}
                                     <th>{{ __('Name') }}</th>
                                     <th>{{ __('Image') }}</th>
                                     <th>{{ __('Status') }}</th>
@@ -49,13 +48,37 @@
                                             @can('campaigns-bulk-action')
                                                 <x-bulk-action.td :id="$campaign->id" />
                                             @endcan
-                                            {{-- <td>{{ $loop->iteration }}</td> --}}
                                             <td>{{ $campaign->title }}</td>
                                             <x-table.td-image :image="$campaign->image" />
-                                            <td><x-status-span :status="$campaign->status" /></td>
                                             <td>
-                                                <a class="btn btn-success btn-xs mb-2 me-1"
-                                                    title="{{ __('View Campaign') }}"
+                                                <div class="btn-group badge">
+                                                    <button type="button"
+                                                        class="status-{{ $campaign->status }} {{ $campaign->status == 'publish' ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
+                                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        {{ ucfirst($campaign->status == 'publish' ? __('Publish') : __('Draft')) }}
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        <form action="{{ route('admin.campaigns.change.status', $campaign->id) }}"
+                                                            method="POST" id="status-form-activate-{{ $campaign->id }}">
+                                                            @csrf
+                                                            <input type="hidden" name="status" value="publish">
+                                                            <button type="submit" class="dropdown-item">
+                                                                {{ __('Publish') }}
+                                                            </button>
+                                                        </form>
+                                                        <form action="{{ route('admin.campaigns.change.status', $campaign->id) }}"
+                                                            method="POST" id="status-form-deactivate-{{ $campaign->id }}">
+                                                            @csrf
+                                                            <input type="hidden" name="status" value="draft">
+                                                            <button type="submit" class="dropdown-item">
+                                                                {{ __('Draft') }}
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-success btn-xs mb-2 me-1" title="{{ __('View Campaign') }}"
                                                     href="{{ route('frontend.products.campaign', ['id' => $campaign->id, 'slug' => $campaign->slug]) }}">
                                                     <i class="ti-eye"></i>
                                                 </a>
