@@ -23,20 +23,28 @@
                         <form action="{{ route('admin.user.update') }}" method="post" enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" name="user_id" value="{{ $admin->id }}">
-
                             <div class="form-group">
-                                <label for="email">{{ __('Name') }} <span class="text-danger">*</span></label>
+                                <label for="email">
+                                    {{ __('Name') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input type="text" class="form-control" value="{{ $admin->name }}" name="name"
-                                    placeholder="{{ __('Enter email') }}">
+                                    placeholder="{{ __('Enter email') }}" required="">
                             </div>
                             <div class="form-group">
-                                <label for="name">{{ __('Email') }} <span class="text-danger">*</span></label>
+                                <label for="name">
+                                    {{ __('Email') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input type="email" class="form-control" value="{{ $admin->email }}" name="email"
-                                    placeholder="{{ __('Enter name') }}">
+                                    placeholder="{{ __('Enter name') }}" required="">
                             </div>
                             <div class="form-group">
-                                <label for="role">{{ 'Role' }} <span class="text-danger">*</span></label>
-                                <select name="role" class="form-select">
+                                <label for="role">
+                                    {{ 'Role' }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <select name="role" class="form-select" required="">
                                     <option value="">{{ __('Select role') }}</option>
                                     @foreach ($roles as $role)
                                         <option value="{{ $role }}"
@@ -45,7 +53,10 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="site_favicon">{{ __('Profile Image') }} <span class="text-danger">*</span></label>
+                                <label for="site_favicon">
+                                    {{ __('Profile Image') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <div class="media-upload-btn-wrapper">
                                     <div class="img-wrap">
                                         @php

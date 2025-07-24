@@ -35,9 +35,12 @@
                         <form action="{{ route('admin.newsletter.mail') }}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
-                                <label for="edit_icon">{{ __('Subject') }}</label>
+                                <label for="edit_icon">
+                                    {{ __('Subject') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input type="text" class="form-control" id="subject" name="subject"
-                                    placeholder="{{ __('Enter subject') }}">
+                                    placeholder="{{ __('Enter subject') }}" required="">
                             </div>
                             <div class="form-group">
                                 <label for="message">{{ __('Message') }}</label>

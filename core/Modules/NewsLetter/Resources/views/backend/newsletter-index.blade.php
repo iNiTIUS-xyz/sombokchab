@@ -118,7 +118,7 @@
     </div>
     @can('newsletter-newsletter-verify-mail-send')
         <div class="modal fade" id="new_subscribe_model" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
                         <h5 class="modal-title">{{ __('Add New Subscriber') }}</h5>
@@ -144,7 +144,7 @@
 
 
         <div class="modal fade" id="send_mail_to_subscriber_modal" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
                         <h5 class="modal-title">{{ __('Send Mail to Subscriber') }}</h5>
@@ -156,17 +156,25 @@
                             @csrf
                             <input type="hidden" name="id" id="newsletter_id">
                             <div class="d-none form-group">
-                                <label for="email">{{ __('Email') }}</label>
+                                <label for="email">
+                                    {{ __('Email') }}
+                                </label>
                                 <input type="email" class="form-control" id="email" name="email"
                                     placeholder="{{ __('Enter email') }}">
                             </div>
                             <div class="form-group">
-                                <label for="edit_icon">{{ __('Subject') }}</label>
+                                <label for="edit_icon">
+                                    {{ __('Subject') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input type="text" class="form-control" id="subject" name="subject"
-                                    placeholder="{{ __('Enter subject') }}">
+                                    placeholder="{{ __('Enter subject') }}" required="">
                             </div>
                             <div class="form-group">
-                                <label for="message">{{ __('Message') }}</label>
+                                <label for="message">
+                                    {{ __('Message') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input type="hidden" name="message">
                                 <div class="summernote"></div>
                             </div>

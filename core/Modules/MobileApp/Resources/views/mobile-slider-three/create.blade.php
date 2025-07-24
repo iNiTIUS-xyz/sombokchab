@@ -25,7 +25,7 @@
                                 <span class="text-danger">*</span>
                             </label>
                             <input class="form-control" id="title" name="title"
-                                placeholder="{{ __('Enter mobile slider title') }}" />
+                                placeholder="{{ __('Enter mobile slider title') }}" required=""/>
                         </div>
                         <div class="form-group">
                             <label for="description">
@@ -44,7 +44,7 @@
                                 <span class="text-danger">*</span>
                             </label>
                             <input class="form-control" id="button_text" name="button_text"
-                                placeholder="{{ __('Enter mobile slider button text') }}" />
+                                placeholder="{{ __('Enter mobile slider button text') }}" required=""/>
                         </div>
 
                         <div class="form-group">
@@ -53,13 +53,12 @@
                                 <span class="text-danger">*</span>
                             </label>
                             <input class="form-control" id="button_url" name="button_url"
-                                placeholder="{{ __('Enter mobile slider button URL') }}" />
+                                placeholder="{{ __('Enter mobile slider button URL') }}" required=""/>
                         </div>
 
                         <div class="form-group">
                             <label for="category">
                                 Enable Category
-                                <span class="text-danger">*</span>
                             </label>
                             <input type="checkbox" id="category" name="category_type" />
                         </div>
@@ -67,7 +66,6 @@
                         <div class="form-group" id="campaign-list">
                             <label for="campaigns">
                                 Select Campaign
-                                <span class="text-danger">*</span>
                             </label>
                             <select id="campaigns" name="campaign" class="form-control wide">
                                 <option value="">Select Campaign</option>
@@ -80,7 +78,6 @@
                         <div class="form-group" id="category-list" style="display: none">
                             <label for="products">
                                 Select Category
-                                <span class="text-danger">*</span>
                             </label>
                             <select id="products" name="category" class="form-control">
                                 <option value="">Select Category</option>

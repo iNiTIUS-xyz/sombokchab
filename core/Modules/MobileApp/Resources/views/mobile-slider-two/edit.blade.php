@@ -25,7 +25,7 @@
                                 <span class="text-danger">*</span>
                             </label>
                             <input class="form-control" id="title" name="title"
-                                placeholder="{{ __('Enter mobile slider title') }}" value="{{ $mobileSlider->title }}" />
+                                placeholder="{{ __('Enter mobile slider title') }}" value="{{ $mobileSlider->title }}" required=""/>
                         </div>
                         <div class="form-group">
                             <label for="description">
@@ -33,7 +33,7 @@
                                 <span class="text-danger">*</span>
                             </label>
                             <textarea class="form-control" id="description" name="description"
-                                placeholder="{{ __('Enter mobile slider description') }}">{{ $mobileSlider->description }}</textarea>
+                                placeholder="{{ __('Enter mobile slider description') }}" required="">{{ $mobileSlider->description }}</textarea>
                         </div>
 
                         <x-media-upload :title="__('Image')" :name="'image'" :dimentions="'1280x1280'"
@@ -45,20 +45,19 @@
                                 <span class="text-danger">*</span>
                             </label>
                             <input class="form-control" id="button_text" name="button_text"
-                                placeholder="Mobile Slider Button Text..." value="{{ $mobileSlider->button_text }}" />
+                                placeholder="Mobile Slider Button Text..." value="{{ $mobileSlider->button_text }}" required=""/>
                         </div>
 
                         <div class="form-group">
                             <label for="button_url">Button URL</label>
                             <input class="form-control" id="button_url" name="button_url"
                                 placeholder="{{ __('Enter mobile slider button URL') }}"
-                                value="{{ $mobileSlider->url }}" />
+                                value="{{ $mobileSlider->url }}" required=""/>
                         </div>
 
                         <div class="form-group">
                             <label for="category">
                                 Enable Category
-                                <span class="text-danger">*</span>
                             </label>
                             <input type="checkbox" id="category" name="category_type"
                                 {{ !empty($mobileSlider->category) ? 'checked' : '' }} />
@@ -68,7 +67,6 @@
                             style="{{ !empty($mobileSlider->category) ? 'display: none' : '' }}">
                             <label for="campaigns">
                                 Select Campaign
-                                <span class="text-danger">*</span>
                             </label>
                             <select id="campaigns" name="campaign" class="form-control wide">
                                 <option value="">Select Campaign</option>
@@ -83,7 +81,6 @@
                             style="{{ !empty($mobileSlider->category) ? '' : 'display: none' }}">
                             <label for="products">
                                 Select Category
-                                <span class="text-danger">*</span>
                             </label>
                             <select id="products" name="category" class="form-control">
                                 <option value="">Select Category</option>

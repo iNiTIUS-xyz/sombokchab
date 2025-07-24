@@ -5,7 +5,46 @@
 @endsection
 
 @section('style')
-    <x-niceselect.css />
+    <style>
+        .switch-field {
+            display: flex;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .switch-field input {
+            position: absolute !important;
+            clip: rect(0, 0, 0, 0);
+            height: 1px;
+            width: 1px;
+            border: 0;
+            overflow: hidden;
+        }
+        .switch-field label {
+            background-color: #e4e4e4;
+            color: rgba(0, 0, 0, 0.6);
+            font-size: 14px;
+            line-height: 1;
+            text-align: center;
+            padding: 8px 16px;
+            margin-right: -1px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            transition: all 0.1s ease-in-out;
+        }
+        .switch-field label:hover {
+            cursor: pointer;
+        }
+        .switch-field input:checked + label {
+            background-color: var(--main-color-one);
+            color: #fff;
+            box-shadow: none;
+        }
+        .switch-field label:first-of-type {
+            border-radius: 4px 0 0 4px;
+        }
+        .switch-field label:last-of-type {
+            border-radius: 0 4px 4px 0;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -68,26 +107,42 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+
+                                <div class="col-md-6 mb-3">
+                                    <div class="form-group">
+                                        <label>{{ __('Select User Type') }} <span class="text-danger">*</span></label>
+                                        <div class="switch-field">
+                                            <input type="radio" id="switch_customer" name="user_type" value="customer" checked="checked"/>
+                                            <label for="switch_customer">{{ __('Customer') }}</label>
+                                            <input type="radio" id="switch_vendor" name="user_type" value="vendor"/>
+                                            <label for="switch_vendor">{{ __('Vendor') }}</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6" id="customer_field">
                                     <div class="form-group">
                                         <label>
                                             {{ __('Customer') }}
+                                            <span class="text-danger">*</span>
                                         </label>
-                                        <select name="user_id" class="form-select wide">
-                                            <option value="" disabled selected>{{ __('Select Customer') }}</option>
+                                        <select name="user_id" id="user_id" class="form-control select2 wide">
+                                            <option value="">{{ __('Select Customer') }}</option>
                                             @foreach ($all_users as $user)
                                                 <option value="{{ $user->id }}">{{ $user->username }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+
+                                <div class="col-md-6 d-none" id="vendor_field">
                                     <div class="form-group">
                                         <label>
                                             {{ __('Vendor') }}
+                                            <span class="text-danger">*</span>
                                         </label>
-                                        <select name="vendor_id" class="form-select wide">
-                                            <option value="" disabled selected>{{ __('Select Vendor') }}</option>
+                                        <select name="vendor_id" id="vendor_id" class="form-control select2 wide">
+                                            <option value="">{{ __('Select Vendor') }}</option>
                                             @foreach ($all_vendors as $vendors)
                                                 <option value="{{ $vendors->id }}">
                                                     {{ $vendors->owner_name }}
@@ -96,9 +151,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-12 mb-3">
-                                    <small class="text-danger">Either Customer or Vendor must be selected.</small>
-                                </div>
+
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>
@@ -126,6 +179,51 @@
         </div>
     </div>
 @endsection
+
 @section('script')
-    <x-niceselect.js />
+    <script>
+        (function($) {
+            "use strict";
+
+            $(document).ready(function() {
+                // Initialize Select2
+                $('.select2').select2({
+                    placeholder: "{{ __('Select Customer') }}",
+                });
+
+                $('.select2').select2({
+                    placeholder: "{{ __('Select Vendor') }}",
+                });
+
+                // Toggle between customer and vendor fields
+                $('input[name="user_type"]').change(function() {
+                    if ($(this).val() === 'customer') {
+                        $('#customer_field').removeClass('d-none');
+                        $('#vendor_field').addClass('d-none');
+                        $('#vendor_id').val('').trigger('change');
+                    } else {
+                        $('#customer_field').addClass('d-none');
+                        $('#vendor_field').removeClass('d-none');
+                        $('#user_id').val('').trigger('change');
+                    }
+                });
+
+                // Form validation to ensure one of them is selected
+                $('form').submit(function(e) {
+                    if ($('input[name="user_type"]:checked').val() === 'customer' && !$('#user_id').val()) {
+                        e.preventDefault();
+                        alert('Please select a customer');
+                        return false;
+                    }
+
+                    if ($('input[name="user_type"]:checked').val() === 'vendor' && !$('#vendor_id').val()) {
+                        e.preventDefault();
+                        alert('Please select a vendor');
+                        return false;
+                    }
+                });
+            });
+
+        })(jQuery);
+    </script>
 @endsection

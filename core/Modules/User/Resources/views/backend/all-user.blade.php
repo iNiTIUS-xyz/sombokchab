@@ -151,7 +151,6 @@
                                     <div class="form-group">
                                         <label for="phone">
                                             {{ __('Phone') }}
-                                            <span class="text-danger">*</span>
                                         </label>
                                         <input type="text" class="form-control" id="phone" name="phone"
                                             placeholder="{{ __('Phone') }}">
@@ -161,7 +160,6 @@
                                     <div class="form-group">
                                         <label for="country">
                                             {{ __('Country') }}
-                                            <span class="text-danger">*</span>
                                         </label>
                                         <select id="country" name="country" class="form-select">
                                             <option value="">{{ __('Select country') }}</option>
@@ -178,7 +176,6 @@
                                     <div class="form-group">
                                         <label for="state">
                                             {{ __('Province') }}
-                                            {{-- <span class="text-danger">*</span> --}}
                                         </label>
                                         <select id="state_id" name="state" class="form-select">
                                             <option value="">{{ __('Select province') }}</option>
@@ -197,7 +194,6 @@
                                     <div class="form-group">
                                         <label for="city">
                                             {{ __('City') }}
-                                            <span class="text-danger">*</span>
                                         </label>
                                         <select id="city_id" name="city" class="form-select">
                                             <option value="">{{ __('Select city') }}</option>
@@ -214,7 +210,6 @@
                                     <div class="form-group">
                                         <label for="zipcode">
                                             {{ __('Postal Code') }}
-                                            <span class="text-danger">*</span>
                                         </label>
                                         <input type="text" class="form-control" id="zipcode" name="zipcode"
                                             placeholder="{{ __('Postal Code') }}">
@@ -224,7 +219,6 @@
                                     <div class="form-group">
                                         <label for="address">
                                             {{ __('Address') }}
-                                            <span class="text-danger">*</span>
                                         </label>
                                         <input type="text" class="form-control" id="address" name="address"
                                             placeholder="{{ __('Address') }}">
@@ -265,14 +259,20 @@
                         <div class="modal-body">
                             <input type="hidden" name="ch_user_id" id="ch_user_id">
                             <div class="form-group">
-                                <label for="password">{{ __('Password') }}</label>
+                                <label for="password">
+                                    {{ __('Password') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input type="password" class="form-control" name="password"
-                                    placeholder="{{ __('Enter Password') }}">
+                                    placeholder="{{ __('Enter Password') }}" required="">
                             </div>
                             <div class="form-group">
-                                <label for="password_confirmation">{{ __('Confirm Password') }}</label>
+                                <label for="password_confirmation">
+                                    {{ __('Confirm Password') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input type="password" class="form-control" id="password_confirmation"
-                                    name="password_confirmation" placeholder="{{ __('Confirm Password') }}">
+                                    name="password_confirmation" placeholder="{{ __('Confirm Password') }}" required="">
                             </div>
                         </div>
                         <div class="modal-footer">

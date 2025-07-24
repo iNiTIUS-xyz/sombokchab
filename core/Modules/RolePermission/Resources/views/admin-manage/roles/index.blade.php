@@ -97,8 +97,11 @@
                         </div> --}}
 
                         <div class="form-grup">
-                            <label for="#">{{ __('Name') }}</label>
-                            <input type="text" name="name" class="form-control" placeholder="{{ __('Enter name') }}">
+                            <label for="#">
+                                {{ __('Name') }}
+                                <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" name="name" class="form-control" placeholder="{{ __('Enter name') }}" required="">
                         </div>
 
                     </div>
@@ -134,8 +137,11 @@
                         </div> --}}
 
                         <div class="form-grup mt-4">
-                            <label for="#">{{ __('Name') }}</label>
-                            <input type="text" name="name" class="form-control" placeholder="{{ __('enter name') }}">
+                            <label for="#">
+                                {{ __('Name') }}
+                                <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" name="name" class="form-control" placeholder="{{ __('Enter name') }}" required="">
                         </div>
                     </div>
                     <div class="modal-footer">

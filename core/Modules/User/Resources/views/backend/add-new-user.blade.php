@@ -53,7 +53,6 @@
                                     <div class="form-group">
                                         <label for="phone">
                                             {{ __('Phone') }}
-                                            <span class="text-danger">*</span>
                                         </label>
                                         <input type="text" class="form-control" id="phone" name="phone"
                                             placeholder="{{ __('Enter phone') }}">
@@ -63,7 +62,6 @@
                                     <div class="form-group">
                                         <label for="country">
                                             {{ __('Country') }}
-                                            <span class="text-danger">*</span>
                                         </label>
                                         <select name="country" class="form-select">
                                             <option value="" disabled selected>{{ __('Select country') }}</option>
@@ -80,7 +78,6 @@
                                     <div class="form-group">
                                         <label for="city">
                                             {{ __('Province') }}
-                                            {{-- <span class="text-danger">*</span> --}}
                                         </label>
                                         <select name="city" class="form-select">
                                             <option value="" disabled selected>{{ __('Select province') }}</option>
@@ -97,7 +94,6 @@
                                     <div class="form-group">
                                         <label for="state">
                                             {{ __('City') }}
-                                            <span class="text-danger">*</span>
                                         </label>
                                         <select name="state" class="form-select">
                                             <option value="" disabled selected>{{ __('Select city') }}</option>
@@ -115,7 +111,6 @@
                                     <div class="form-group">
                                         <label for="zipcode">
                                             {{ __('Postal code') }}
-                                            <span class="text-danger">*</span>
                                         </label>
                                         <input type="text" class="form-control" id="zipcode" name="zipcode"
                                             placeholder="{{ __('Enter postal code') }}">
@@ -125,7 +120,6 @@
                                     <div class="form-group">
                                         <label for="address">
                                             {{ __('Address') }}
-                                            <span class="text-danger">*</span>
                                         </label>
                                         <input type="text" class="form-control" id="address" name="address"
                                             placeholder="{{ __('Enter address') }}">

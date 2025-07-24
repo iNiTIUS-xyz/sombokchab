@@ -6,7 +6,10 @@
 
 @if (($multiple ?? null) != true ?? true)
     <div class="form-group" id="{{ $name }}">
-        <label for="{{ $name }}">{{ __($title) }}</label>
+        <label for="{{ $name }}">
+            {{ __($title) }}
+            <span class="text-danger">*</span>
+        </label>
         @php $signature_image_upload_btn_label = __('Upload Image'); @endphp
         <div class="media-upload-btn-wrapper">
             <div class="img-wrap">
@@ -42,7 +45,10 @@
 
 @if (isset($multiple) && $multiple)
     <div class="form-group ">
-        <label for="image">{{ __($title) }}</label>
+        <label for="image">
+            {{ __($title) }}
+            <span class="text-danger">*</span>
+        </label>
         <div class="media-upload-btn-wrapper">
             <div class="img-wrap">
                 @if (isset($galleryImages))

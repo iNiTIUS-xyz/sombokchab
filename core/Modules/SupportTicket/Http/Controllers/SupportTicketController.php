@@ -84,8 +84,8 @@ class SupportTicketController extends Controller
             'subject' => $request->subject,
             'status' => 'open',
             'priority' => $request->priority,
-            'user_id' => $request->user_id,
-            'vendor_id' => $request->vendor_id,
+            'user_id' => $request->user_type == 'customer' ? $request->user_id : null,
+            'vendor_id' => $request->user_type == 'vendor' ? $request->vendor_id : null,
             'departments' => $request->departments,
             'admin_id' => Auth::guard('admin')->user()->id,
         ]);

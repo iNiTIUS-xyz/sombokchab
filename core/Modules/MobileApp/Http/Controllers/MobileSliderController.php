@@ -19,7 +19,6 @@ class MobileSliderController extends Controller
     public function index()
     {
         $mobileSliders = MobileSlider::where("type", 1)->get();
-        // now return only view
 
         return view("mobileapp::mobile-slider.list", compact("mobileSliders"));
     }

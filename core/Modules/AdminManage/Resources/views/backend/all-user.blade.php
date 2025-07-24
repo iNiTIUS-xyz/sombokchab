@@ -111,14 +111,20 @@
                         <div class="modal-body">
                             <input type="hidden" name="ch_user_id" id="ch_user_id">
                             <div class="form-group">
-                                <label for="password">{{ __('Password') }}</label>
+                                <label for="password">
+                                    {{ __('Password') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input type="password" class="form-control" name="password"
-                                    placeholder="{{ __('Enter Password') }}">
+                                    placeholder="{{ __('Enter Password') }}"  required="">
                             </div>
                             <div class="form-group">
-                                <label for="password_confirmation">{{ __('Confirm Password') }}</label>
+                                <label for="password_confirmation">
+                                    {{ __('Confirm Password') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input type="password" class="form-control" id="password_confirmation"
-                                    name="password_confirmation" placeholder="{{ __('Enter confirm Password') }}">
+                                    name="password_confirmation" placeholder="{{ __('Enter confirm Password') }}" required="">
                             </div>
                         </div>
                         <div class="modal-footer">
