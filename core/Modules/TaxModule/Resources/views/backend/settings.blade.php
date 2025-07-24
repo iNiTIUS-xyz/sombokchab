@@ -107,7 +107,7 @@
                                                 @endforeach
                                             </select>
                                             <div class="mt-2">
-                                                <a href="{{ route('admin.tax-module.tax-class') }}" class="text-primary">
+                                                <a href="{{ route('admin.tax-module.tax-class') }}" class="btn btn-info btn-sm text-white">
                                                     {{ __('Add tax class') }}
                                                 </a>
                                             </div>

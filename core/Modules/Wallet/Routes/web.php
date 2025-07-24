@@ -9,34 +9,35 @@ use Modules\Wallet\Http\Controllers\WithdrawGatewayController;
 
 // backend routes
 
-Route::prefix("admin-home/wallet")->middleware(["auth:admin"])->as("admin.wallet.")->group(function (){
-    Route::controller(WithdrawGatewayController::class)->prefix("withdraw")->as("withdraw.")->group(function (){
-        Route::get("/gateway","gateway")->name("gateway")->permission("wallet-withdraw-gateway");
-        Route::post("/gateway","storeGateway")->permission("wallet-withdraw-gateway");
+Route::prefix("admin-home/wallet")->middleware(["auth:admin"])->as("admin.wallet.")->group(function () {
+    Route::controller(WithdrawGatewayController::class)->prefix("withdraw")->as("withdraw.")->group(function () {
+        Route::get("/gateway", "gateway")->name("gateway")->permission("wallet-withdraw-gateway");
+        Route::post("/gateway", "storeGateway")->permission("wallet-withdraw-gateway");
         Route::put("gateway/update/{id?}", "updateGateway")->name("gateway.update")->permission("wallet-withdraw-gateway-update");
+        Route::post("status/change/{id}", "statusChange")->name("gateway.status.change");
         Route::post("gateway/delete/{id}", "deleteGateway")->name("gateway.delete")->permission("wallet-withdraw-gateway-delete");
     });
 });
 
-Route::group(['prefix' => 'admin-home/wallet','as'=>'admin.wallet.', 'middleware' => ['adminglobalVariable','setlang:backend','auth:admin']], function () {
-    Route::get( '/lists', 'Backend\WalletController@wallet_lists')->name('lists')->permission("wallet-lists");
-    Route::get( '/vendor/lists', 'Backend\WalletController@vendor_wallet_list')->name('lists')->permission("wallet-vendor-lists");
-    Route::get( '/customer/lists', 'Backend\WalletController@customer_wallet_list')->name('customer.lists')->permission("wallet-customer-lists");
-    Route::get( '/delivery-man/lists', 'Backend\WalletController@delivery_man_wallet_list')->name('delivery-man.lists')->permission("wallet-delivery-man-lists");
-    Route::post( '/status/{id}', 'Backend\WalletController@change_status')->name('status')->permission("wallet-status");
-    Route::get( '/history/records', 'Backend\WalletController@wallet_history')->name('history')->permission("wallet-history-records");
-    Route::post( '/history/records/status/{id}', 'Backend\WalletController@wallet_history_status')->name('history.status')->permission("wallet-history-records-status");
-    Route::get( '/settings/update', 'Backend\WalletController@settings')->name('settings')->permission("wallet-settings-update");
-    Route::post( '/settings/update', 'Backend\WalletController@settings_update')->permission("wallet-settings-update");
+Route::group(['prefix' => 'admin-home/wallet', 'as' => 'admin.wallet.', 'middleware' => ['adminglobalVariable', 'setlang:backend', 'auth:admin']], function () {
+    Route::get('/lists', 'Backend\WalletController@wallet_lists')->name('lists')->permission("wallet-lists");
+    Route::get('/vendor/lists', 'Backend\WalletController@vendor_wallet_list')->name('lists')->permission("wallet-vendor-lists");
+    Route::get('/customer/lists', 'Backend\WalletController@customer_wallet_list')->name('customer.lists')->permission("wallet-customer-lists");
+    Route::get('/delivery-man/lists', 'Backend\WalletController@delivery_man_wallet_list')->name('delivery-man.lists')->permission("wallet-delivery-man-lists");
+    Route::post('/status/{id}', 'Backend\WalletController@change_status')->name('status')->permission("wallet-status");
+    Route::get('/history/records', 'Backend\WalletController@wallet_history')->name('history')->permission("wallet-history-records");
+    Route::post('/history/records/status/{id}', 'Backend\WalletController@wallet_history_status')->name('history.status')->permission("wallet-history-records-status");
+    Route::get('/settings/update', 'Backend\WalletController@settings')->name('settings')->permission("wallet-settings-update");
+    Route::post('/settings/update', 'Backend\WalletController@settings_update')->permission("wallet-settings-update");
     Route::get("withdraw-request", "Backend\WalletController@withdrawRequestPage")->name("withdraw-request")->permission("wallet-withdraw-request");
     Route::post("withdraw-request/update", "Backend\WalletController@updateWithdrawRequest")->name("withdraw-request.update")->permission("wallet-withdraw-request-update");
     Route::get("delivery-man-withdraw-request", "Backend\WalletController@deliveryManWithdrawRequest")->name("delivery-man-withdraw-request")->permission("wallet-delivery-man-withdraw-request");
     Route::post("delivery-man-withdraw-request/update", "Backend\WalletController@updateDeliveryManWithdrawRequest")->name("delivery-man-withdraw-request.update")->permission("wallet-delivery-man-withdraw-request-update");
-    Route::get('details/{id}','Backend\WalletController@history_details')->name('history.details')->permission("wallet-details");
+    Route::get('details/{id}', 'Backend\WalletController@history_details')->name('history.details')->permission("wallet-details");
     Route::get('search-history', 'Backend\WalletController@search_history')->name('wallet.search')->permission("wallet-search-history");
 });
 
-Route::prefix("vendor-home/wallet")->middleware(["auth:vendor",'userEmailVerify','setlang:backend','adminglobalVariable'])->as("vendor.wallet.")->group(function (){
+Route::prefix("vendor-home/wallet")->middleware(["auth:vendor", 'userEmailVerify', 'setlang:backend', 'adminglobalVariable'])->as("vendor.wallet.")->group(function () {
     Route::controller(VendorWalletController::class)->group(function () {
         Route::get("/", "index")->name("home");
         Route::get("withdraw", "withdraw")->name("withdraw");
@@ -45,19 +46,19 @@ Route::prefix("vendor-home/wallet")->middleware(["auth:vendor",'userEmailVerify'
         Route::get("history", "walletHistory")->name('history');
     });
 
-    Route::prefix("/gateway")->name("withdraw.gateway.")->controller(VendorWalletGatewaySettingController::class)->group(function (){
-        Route::get("/","index")->name("index");
-        Route::put("/update","update")->name("update");
+    Route::prefix("/gateway")->name("withdraw.gateway.")->controller(VendorWalletGatewaySettingController::class)->group(function () {
+        Route::get("/", "index")->name("index");
+        Route::put("/update", "update")->name("update");
     });
 });
 
-Route::prefix("user-home/wallet")->middleware(["auth:web","globalVariable"])->as('user-home.wallet.')->group(function () {
+Route::prefix("user-home/wallet")->middleware(["auth:web", "globalVariable"])->as('user-home.wallet.')->group(function () {
     Route::controller(WalletController::class)->group(function () {
-        Route::get('history','wallet_history')->name('history');
+        Route::get('history', 'wallet_history')->name('history');
         Route::get('paginate/data', 'pagination')->name('paginate.data');
         Route::get('search-history', 'search_history')->name('search');
         Route::post('deposit', 'deposit')->name('deposit');
-        Route::get('deposit-cancel-static','deposit_payment_cancel_static')->name('deposit.payment.cancel.static');
+        Route::get('deposit-cancel-static', 'deposit_payment_cancel_static')->name('deposit.payment.cancel.static');
     });
 
     Route::controller(UserWalletDepositController::class)->group(function () {
@@ -89,7 +90,7 @@ Route::prefix("user-home/wallet")->middleware(["auth:web","globalVariable"])->as
         Route::get('senangpay-ipn', 'senangpay_ipn')->name('senangpay.ipn.wallet');
         Route::post('iyzipay-ipn', 'iyzipay_ipn')->name('iyzipay.ipn.wallet');
         Route::post('awdpay-ipn', 'awdpay_ipn')->name('awdpay.ipn.wallet');
-        Route::post('sslcommerz-ipn','sslcommerz_ipn')->name('sslcommerz.ipn.wallet');
+        Route::post('sslcommerz-ipn', 'sslcommerz_ipn')->name('sslcommerz.ipn.wallet');
     });
 });
 

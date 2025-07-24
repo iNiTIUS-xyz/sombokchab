@@ -18,7 +18,6 @@ class AdminOrderController extends Controller
 
     public function index()
     {
-        // first of all we need to get all sub order for login user
         $all_orders = SubOrder::with("order:id,payment_status,created_at", "vendor")
             ->withCount("orderItem")
             ->orderByDesc("id")
@@ -50,7 +49,6 @@ class AdminOrderController extends Controller
 
     public function orderVendorList()
     {
-        // first of all i need to get all vendor with some order information
         $vendors = Vendor::with("logo", "cover_photo")
             ->withCount([
                 "order as total_order" => function ($order) {
@@ -82,7 +80,6 @@ class AdminOrderController extends Controller
     {
         $vendor = Vendor::select("id", "username")->where("username", $username)->firstOrFail();
 
-        // first of all we need to get all sub order for login user
         $all_orders = SubOrder::with("order:id,payment_status,created_at", "vendor")
             ->withCount("orderItem")
             ->where("vendor_id", $vendor->id)
@@ -116,7 +113,6 @@ class AdminOrderController extends Controller
             if ($track == 'delivered') {
 
                 WalletService::completeOrderAmount($orderTrack["order_id"]);
-
             }
 
             OrderServices::storeOrderTrack($orderTrack["order_id"], $track, auth()->user()->id, 'admin');
@@ -148,6 +144,14 @@ class AdminOrderController extends Controller
         ]);
 
         return back()->with(["type" => "success", "msg" => __("Order status changed successfully.")]);
+    }
+    public function subOrderStatusChange(Request $request, $id)
+    {
+        SubOrder::where("id", $id)->update([
+            "order_status" => $request->order_status,
+        ]);
+
+        return back()->with(["type" => "success", "msg" => __("Sub Order status changed successfully.")]);
     }
 
     public function paymentStatusChange(Request $request, $id)

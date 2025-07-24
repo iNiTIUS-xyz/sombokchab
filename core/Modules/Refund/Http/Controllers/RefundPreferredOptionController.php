@@ -2,6 +2,7 @@
 
 namespace Modules\Refund\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Modules\Refund\Entities\RefundPreferredOption;
@@ -36,7 +37,7 @@ class RefundPreferredOptionController extends Controller
                 "msg" => $data ? __("Payment Gateway created successfully.") : __("Failed to create payment gateway try again."),
             ]);
         } catch (\Throwable $e) {
-            dd($e);
+
             return back()->with([
                 "type" => 'danger',
                 "msg" => __("Failed to create payment gateway try again."),
@@ -78,5 +79,18 @@ class RefundPreferredOptionController extends Controller
     public function delete($id)
     {
         return RefundPreferredOption::where("id", $id)->delete() ? "ok" : "false";
+    }
+
+
+    public function statusChange(Request $request, $id)
+    {
+        RefundPreferredOption::where('id', $id)->update([
+            'status_id' => $request->status,
+        ]);
+
+        return redirect()->back()->with([
+            'msg' => __('Refund rreferred option status changed successfully.'),
+            'type' => 'success'
+        ]);
     }
 }

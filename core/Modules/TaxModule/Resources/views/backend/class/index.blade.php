@@ -71,25 +71,6 @@
                         </div>
                     </div>
                 </div>
-            {{-- <div class="dashboard__card">
-                    <div class="dashboard__card__header">
-                        <h3 class="dashboard__card__title">{{ __('Create tax class') }}</h3>
-                    </div>
-                    <div class="dashboard__card__body custom__form mt-4">
-                        <form action="{{ route('admin.tax-module.tax-class') }}" method="post">
-                            @csrf
-                            <div class="form-group">
-                                <label for="#tax-class-name" class="form-label">{{ __('Name') }}</label>
-                                <input name="name" type="text" class="form-control"
-                                    placeholder="{{ __('Enter tax name') }}" />
-                            </div>
-
-                            <div class="form-group">
-                                <button class="cmn_btn btn_bg_profile">{{ __('Add') }}</button>
-                            </div>
-                        </form>
-                    </div>
-                </div> --}}
             </div>
         </div>
   </div>
@@ -104,9 +85,12 @@
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="#tax-class-name" class="form-label">{{ __('Name') }}</label>
+                            <label for="#tax-class-name" class="form-label">
+                                {{ __('Name') }}
+                                <span class="text-danger">*</span>
+                            </label>
                             <input name="name" type="text" class="form-control"
-                                placeholder="{{ __('Enter tax name') }}" />
+                                placeholder="{{ __('Enter tax name') }}" required=""/>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -131,9 +115,12 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="#update-tax-class-name" class="form-label">{{ __('Name') }}</label>
+                            <label for="#update-tax-class-name" class="form-label">
+                                {{ __('Name') }}
+                                <span class="text-danger">*</span>
+                            </label>
                             <input id="update-tax-class-name" name="name" type="text" class="form-control"
-                                placeholder="{{ __('Enter tax name') }}" />
+                                placeholder="{{ __('Enter tax name') }}" required=""/>
                         </div>
                     </div>
 

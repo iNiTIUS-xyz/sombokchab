@@ -111,9 +111,12 @@
                         <div class="modal-body">
                             @csrf
                             <div class="form-group">
-                                <label for="edit_name">{{ __('Country Name') }}</label>
+                                <label for="edit_name">
+                                    {{ __('Country Name') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input type="text" class="form-control" id="edit_name" name="name"
-                                    placeholder="{{ __('Enter country name') }}">
+                                    placeholder="{{ __('Enter country name') }}" required="">
                             </div>
                             <div class="form-group">
                                 <label for="edit_status">{{ __('Status') }}</label>
@@ -146,9 +149,12 @@
                         @csrf
                         <div class="model-body p-4">
                             <div class="form-group">
-                                <label for="name">{{ __('Country Name') }}</label>
+                                <label for="name">
+                                    {{ __('Country Name') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input type="text" class="form-control" id="name" name="name"
-                                    placeholder="{{ __('Enter country name') }}">
+                                    placeholder="{{ __('Enter country name') }}" required="">
                             </div>
                             <div class="form-group">
                                 <label for="status">{{ __('Status') }}</label>

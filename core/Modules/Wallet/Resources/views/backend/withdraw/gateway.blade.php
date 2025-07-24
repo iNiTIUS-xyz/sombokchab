@@ -39,7 +39,6 @@
                             <table class="table" id="dataTable">
                                 <thead>
                                     <tr>
-                                        {{-- <th>{{ __('Serial No.') }}</th> --}}
                                         <th>{{ __('Payment Method') }}</th>
                                         <th>{{ __('Method Field/s') }}</th>
                                         <th>{{ __('Method Status') }}</th>
@@ -49,11 +48,34 @@
                                 <tbody>
                                     @foreach ($gateways as $gateway)
                                         <tr>
-                                            {{-- <td>{{ $loop->iteration }}</td> --}}
                                             <td>{{ $gateway->name }}</td>
                                             <td>{{ implode(' , ', unserialize($gateway->filed)) }}</td>
                                             <td>
-                                                <x-status-span :status="$gateway->status?->name" />
+                                                <div class="btn-group badge">
+                                                    <button type="button"
+                                                        class="status-{{ $gateway->status_id }} {{ $gateway->status_id == 1 ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
+                                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        {{ ucfirst($gateway->status_id == 1 ? __('Active') : __('Inactive')) }}
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        <form action="{{ route('admin.wallet.withdraw.gateway.status.change', $gateway->id) }}"
+                                                            method="POST" id="status-form-activate-{{ $gateway->id }}">
+                                                            @csrf
+                                                            <input type="hidden" name="status" value="1">
+                                                            <button type="submit" class="dropdown-item">
+                                                                {{ __('Active') }}
+                                                            </button>
+                                                        </form>
+                                                        <form action="{{ route('admin.wallet.withdraw.gateway.status.change', $gateway->id) }}"
+                                                            method="POST" id="status-form-deactivate-{{ $gateway->id }}">
+                                                            @csrf
+                                                            <input type="hidden" name="status" value="2">
+                                                            <button type="submit" class="dropdown-item">
+                                                                {{ __('Inactive') }}
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
                                             </td>
                                             <td>
                                                 @can('wallet-withdraw-gateway-update')
@@ -82,62 +104,6 @@
                     </div>
                 </div>
             </div>
-            {{-- <div class="col-lg-5">
-                <div class="dashboard__card card__two">
-                    <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Create Vendor Wallet Payment Method') }}</h4>
-                    </div>
-                    <div class="dashboard__card__body custom__form">
-                        <form class="" method="POST" action="{{ route('admin.wallet.withdraw.gateway') }}">
-                            @csrf
-                            <div class="form-group">
-                                <label class="w-100">{{ __('Name:') }}</label>
-                                <input class="form-control" name="gateway_name"
-                                    placeholder="{{ __('Enter method name') }}">
-                            </div>
-                            <div class="dashboard__card card__two">
-                                <div class="dashboard__card__header">
-                                    <h4 class="dashboard__card__title">
-                                        {{ __('Method field') }}
-                                    </h4>
-                                </div>
-                                <div class="dashboard__card__body">
-                                    <div class="form-group row">
-                                        <div class="w-90 d-flex align-items-center">
-                                            <input class="form-control" name="filed[]"
-                                                placeholder="{{ __('Enter filed name') }}">
-                                        </div>
-                                        <div
-                                            class="col-md-1 d-flex flex-column align-items-center justify-content-center pb-2 gap-2">
-                                            <button type="button" class="btn btn-primary btn-sm gateway-filed-add"
-                                                title="{{ __('Add') }}">
-                                                <i class="las la-plus"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-danger btn-sm gateway-filed-remove"
-                                                title="{{ __('Remove') }}">
-                                                <i class="las la-trash-alt"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>{{ __('Select Status') }}</label>
-                                <select name="status_id" class="form-control">
-                                    <option value="">{{ __('Select Status') }}</option>
-                                    <option value="1">{{ __('Active') }}</option>
-                                    <option value="2">{{ __('Inactive') }}</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <button class="cmn_btn btn_bg_profile">
-                                    {{ __('Add') }}
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div> --}}
         </div>
     </div>
 

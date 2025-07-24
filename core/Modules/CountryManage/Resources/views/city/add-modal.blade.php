@@ -10,8 +10,11 @@
                 @csrf
                 <div class="modal-body">
                     <div class="form-group">
-                        <label class="label-title mt-3">{{ __('Country') }}</label>
-                        <select name="country" id="country" class="form-select">
+                        <label class="label-title mt-3">
+                            {{ __('Country') }}
+                            <span class="text-danger">*</span>
+                        </label>
+                        <select name="country" id="country" class="form-select" required="">
                             <option value="">{{ __('Select Country') }}</option>
                             @foreach ($all_countries as $data)
                                 <option value="{{ $data->id }}">{{ $data->name }}</option>
@@ -21,24 +24,27 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="label-title">{{ __('Province') }}</label>
-                        <select name="state" id="state" class="form-select">
+                        <label class="label-title">
+                            {{ __('Province') }}
+                            <span class="text-danger">*</span>
+                        </label>
+                        <select name="state" id="state" class="form-select" required="">
                             <option value="">{{ __('Select Province') }}</option>
                             @foreach ($all_states as $state)
-                                <option value="{{ $state->id }}">{{ $state->name }}</option>
+                            <option value="{{ $state->id }}">{{ $state->name }}</option>
                             @endforeach
                         </select>
                         <span class="info_msg"></span>
                     </div>
 
                     <div class="form-group">
-                        <label class="label-title">{{ __('City') }}</label>
-                        <input type="text" class="form-control" name="city" id="city" placeholder="Enter City Name">
-                         <span class="info_msg"></span>
+                        <label class="label-title">
+                            {{ __('City') }}
+                            <span class="text-danger">*</span>
+                        </label>
+                        <input type="text" class="form-control" name="city" id="city" placeholder="Enter City Name" required="">
+                        <span class="info_msg"></span>
                     </div>
-
-                    {{-- <x-form.text :title="__('City')" :type="__('text')" :name="'city'" :id="'city'"
-                        :placeholder="__('Enter city name')" /> --}}
 
                     <div class="form-group">
                         <label class="label-title">{{ __('Status') }}</label>
@@ -48,11 +54,10 @@
                         </select>
                         <span class="info_msg"></span>
                     </div>
-                    
+
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary mt-4"
-                        data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                    <button type="button" class="btn btn-secondary mt-4" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
                     <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4 add_city">{{ __('Add') }}</button>
                 </div>
             </form>

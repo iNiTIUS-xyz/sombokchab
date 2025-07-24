@@ -63,7 +63,31 @@
                                                 <x-status-span :status="$preferredOption->is_file" />
                                             </td>
                                             <td>
-                                                <x-status-span :status="$preferredOption->status?->name" />
+                                                <div class="btn-group badge">
+                                                    <button type="button"
+                                                        class="status-{{ $preferredOption->status_id }} {{ $preferredOption->status_id == 1 ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
+                                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        {{ ucfirst($preferredOption->status_id == 1 ? __('Active') : __('Inactive')) }}
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        <form action="{{ route('admin.refund.preferred-option.status.change', $preferredOption->id) }}"
+                                                            method="POST" id="status-form-activate-{{ $preferredOption->id }}">
+                                                            @csrf
+                                                            <input type="hidden" name="status" value="1">
+                                                            <button type="submit" class="dropdown-item">
+                                                                {{ __('Active') }}
+                                                            </button>
+                                                        </form>
+                                                        <form action="{{ route('admin.refund.preferred-option.status.change', $preferredOption->id) }}"
+                                                            method="POST" id="status-form-deactivate-{{ $preferredOption->id }}">
+                                                            @csrf
+                                                            <input type="hidden" name="status" value="2">
+                                                            <button type="submit" class="dropdown-item">
+                                                                {{ __('Inactive') }}
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
                                             </td>
                                             <td>
                                                 @can('refund-preferred-option-update')
@@ -94,77 +118,6 @@
                     </div>
                 </div>
             </div>
-            {{-- <div class="col-lg-5">
-                @can('refund-preferred-option-store')
-                    <div class="dashboard__card card__two">
-                        <div class="dashboard__card__header">
-                            <h4 class="dashboard__card__title">{{ __('Create Refund Payment Method') }}</h4>
-                        </div>
-                        <div class="dashboard__card__body custom__form">
-                            <form class="" method="POST" action="{{ route('admin.refund.preferred-option.store') }}">
-                                @csrf
-                                <div class="form-group">
-                                    <label class="w-100">{{ __('Name:') }}</label>
-                                    <input class="form-control" name="gateway_name"
-                                        placeholder="{{ __('Enter method name') }}">
-
-                                    <small class="info">
-                                        {{ __('If you want to merge refund value to user wallet, then use Wallet like this') }}<br>
-                                        {{ __('Only for wallet') }}
-                                    </small>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>
-                                        <input type="checkbox" name="is_file" id="is_file_checkbox" value="yes">
-                                        {{ __('Is File') }}
-                                    </label>
-                                </div>
-
-                                <div class="form-group overflow-auto" id="fields_container" style="max-height: 400px;">
-                                    <div class="dashboard__card card__two">
-                                        <div class="dashboard__card__header">
-                                            <h4 class="dashboard__card__title">
-                                                {{ __('Method field') }}
-                                            </h4>
-                                        </div>
-                                        <div class="dashboard__card__body">
-                                            <div class="form-group row">
-                                                <div class="w-90 d-flex align-items-center">
-                                                    <input class="form-control" name="filed[]"
-                                                        placeholder="{{ __('Enter filed name') }}">
-                                                </div>
-                                                <div
-                                                    class="col-md-1 d-flex flex-column align-items-center justify-content-center pb-2 gap-2">
-                                                    <button type="button" class="btn btn-primary btn-sm gateway-filed-add">
-                                                        <i class="las la-plus"></i>
-                                                    </button>
-                                                    <button type="button" class="btn btn-danger btn-sm gateway-filed-remove">
-                                                        <i class="las la-trash-alt"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>{{ __('Select Status') }}</label>
-                                    <select name="status_id" class="form-control">
-                                        <option value="">{{ __('Select Status') }}</option>
-                                        <option value="1">{{ __('Active') }}</option>
-                                        <option value="2">{{ __('Inactive') }}</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <button class="cmn_btn btn_bg_profile">{{ __('Add') }}</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                @endcan
-            </div> --}}
         </div>
     </div>
 
@@ -180,9 +133,12 @@
 
                         @csrf
                         <div class="form-group">
-                            <label class="w-100">{{ __('Name') }}</label>
+                            <label class="w-100">
+                                {{ __('Name') }}
+                                <span class="text-danger">*</span>
+                            </label>
                             <input class="form-control" name="gateway_name"
-                                placeholder="{{ __('Enter method name') }}">
+                                placeholder="{{ __('Enter method name') }}" required="">
 
                             <small class="info">
                                 {{ __('If you want to merge refund value to user wallet, then use Wallet like this') }}<br>
@@ -225,8 +181,11 @@
                         </div>
 
                         <div class="form-group">
-                            <label>{{ __('Select Status') }}</label>
-                            <select name="status_id" class="form-control">
+                            <label>
+                                {{ __('Select Status') }}
+                                <span class="text-danger">*</span>
+                            </label>
+                            <select name="status_id" class="form-control" required="">
                                 <option value="">{{ __('Select Status') }}</option>
                                 <option value="1">{{ __('Active') }}</option>
                                 <option value="2">{{ __('Inactive') }}</option>
@@ -263,7 +222,10 @@
 
                         <div class="modal-body overflow-auto" style="max-height: 550px;">
                             <div class="form-group">
-                                <label class="w-100">{{ __('Name') }}</label>
+                                <label class="w-100">
+                                    {{ __('Name') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input class="form-control" name="gateway_name" placeholder="{{ __('Enter gateway name') }}">
                                 <small class="info">
                                     {{ __('If you want to merge refund value to user wallet, then use Wallet like this') }} .
@@ -288,8 +250,11 @@
                             </div>
 
                             <div class="form-group">
-                                <label>{{ __('Select Status') }}</label>
-                                <select name="status_id" class="form-control">
+                                <label>
+                                    {{ __('Select Status') }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <select name="status_id" class="form-control" required="">
                                     <option value="">{{ __('Select Status') }}</option>
                                     <option value="1">{{ __('Active') }}</option>
                                     <option value="2">{{ __('inactive') }}</option>

@@ -84,9 +84,12 @@
 
                             <div class="modal-body">
                                 <div class="form-group">
-                                    <label for="reason_name" class="form-label">{{ __('Reason Title') }}</label>
+                                    <label for="reason_name" class="form-label">
+                                        {{ __('Reason Title') }}
+                                        <span class="text-danger">*</span>
+                                    </label>
                                     <input type="text" name="name" class="form-control" id="reason_name"
-                                        placeholder="{{ __('Enter reason title') }}">
+                                        placeholder="{{ __('Enter reason title') }}" required>
                                 </div>
                             </div>
 
@@ -117,8 +120,9 @@
                                 <div class="form-group">
                                     <label for="reason_name" class="form-label">
                                         {{ __('Reason Title') }}
+                                        <span class="text-danger">*</span>
                                         <input type="text" name="name" class="form-control" id="reason_name"
-                                            placeholder="{{ __('Enter reason title') }}">
+                                            placeholder="{{ __('Enter reason title') }}" required="">
                                     </label>
                                 </div>
                             </div>

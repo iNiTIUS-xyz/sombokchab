@@ -15,15 +15,21 @@
                         :placeholder="__('Enter city name')" /> --}}
 
                     <div class="form-group">
-                        <label class="label-title mt-3">{{ __('City') }}</label>
+                        <label class="label-title mt-3">
+                            {{ __('City') }}
+                            <span class="text-danger">*</span>
+                        </label>
                         <input type="text" class="form-control" name="city" id="city_name"
-                            placeholder="Enter city name">
+                            placeholder="Enter city name" required="">
                         <span class="info_msg"></span>
                     </div>
 
                     <div class="form-group">
-                        <label class="label-title">{{ __('Country') }}</label>
-                        <select name="country" id="country_id" class="form-select">
+                        <label class="label-title">
+                            {{ __('Country') }}
+                            <span class="text-danger">*</span>
+                        </label>
+                        <select name="country" id="country_id" class="form-select" required="">
                             <option value="">{{ __('Select Country') }}</option>
                             @foreach ($all_countries as $data)
                                 <option value="{{ $data->id }}">{{ $data->name }}</option>
@@ -32,8 +38,11 @@
                         <span class="info_msg"></span>
                     </div>
                     <div class="form-group">
-                        <label class="label-title">{{ __('Province') }}</label>
-                        <select name="state" id="state_id" class="form-select">
+                        <label class="label-title">
+                            {{ __('Province') }}
+                            <span class="text-danger">*</span>
+                        </label>
+                        <select name="state" id="state_id" class="form-select" required="">
                             <option value="">{{ __('Select Province') }}</option>
                             @foreach ($all_states as $state)
                                 <option value="{{ $state->id }}">{{ $state->name }}</option>

@@ -26,10 +26,13 @@
                         <form action="{{ route('admin.wallet.settings') }}" method="post">
                             @csrf
                             <div class="form-group">
-                                <label>{{ __('Minimum withdraw amount') }}</label>
+                                <label>
+                                    {{ __('Minimum withdraw amount') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input class="form-control" name="minimum_withdraw_amount"
                                     value="{{ get_static_option('minimum_withdraw_amount') ?? 1 }}"
-                                    placeholder="{{ __('Enter minimum withdraw amount') }}" />
+                                    placeholder="{{ __('Enter minimum withdraw amount') }}" required=""/>
                             </div>
 
                             <div class="form-group">

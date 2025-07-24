@@ -114,13 +114,19 @@
                         <div class="modal-body">
                             @csrf
                             <div class="form-group">
-                                <label for="edit_name">{{ __('Province Name') }}</label>
+                                <label for="edit_name">
+                                    {{ __('Province Name') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input type="text" class="form-control" id="edit_name" name="name"
-                                    placeholder="{{ __('Enter province name') }}">
+                                    placeholder="{{ __('Enter province name') }}" required="">
                             </div>
                             <div class="form-group">
-                                <label for="edit_country_id">{{ __('Country') }}</label>
-                                <select name="country_id" class="form-control" id="edit_country_id">
+                                <label for="edit_country_id">
+                                    {{ __('Country') }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <select name="country_id" class="form-control" id="edit_country_id" required="">
                                     @foreach ($all_countries as $country)
                                         <option value="{{ $country->id }}">{{ $country->name }}</option>
                                     @endforeach
@@ -150,14 +156,20 @@
                         @csrf
                         <div class="modal-body p-4">
                             <div class="form-group">
-                                <label for="name">{{ __('Province Name') }}</label>
+                                <label for="name">
+                                    {{ __('Province Name') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input type="text" class="form-control" id="name" name="name"
-                                    placeholder="{{ __('Enter Province Name') }}">
+                                    placeholder="{{ __('Enter Province Name') }}" required="">
                             </div>
 
                             <div class="form-group">
-                                <label for="country_id">{{ __('Country') }}</label>
-                                <select name="country_id" class="form-control" id="country_id">
+                                <label for="country_id">
+                                    {{ __('Country') }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <select name="country_id" class="form-control" id="country_id" required="">
                                     @foreach ($all_countries as $country)
                                         <option value="{{ $country->id }}">{{ $country->name }}</option>
                                     @endforeach
