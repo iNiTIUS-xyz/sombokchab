@@ -62,7 +62,31 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <x-status-span :status="$category->status?->name" />
+                                                <div class="btn-group badge">
+                                                    <button type="button"
+                                                        class="status-{{ $category->status_id }} {{ $category->status_id == 1 ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
+                                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        {{ ucfirst($category->status_id == 1 ? __('Active') : __('Inactive')) }}
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        <form action="{{ route('admin.category.status.change', $category->id) }}"
+                                                            method="POST" id="status-form-activate-{{ $category->id }}">
+                                                            @csrf
+                                                            <input type="hidden" name="status" value="1">
+                                                            <button type="submit" class="dropdown-item">
+                                                                {{ __('Active') }}
+                                                            </button>
+                                                        </form>
+                                                        <form action="{{ route('admin.category.status.change', $category->id) }}"
+                                                            method="POST" id="status-form-deactivate-{{ $category->id }}">
+                                                            @csrf
+                                                            <input type="hidden" name="status" value="2">
+                                                            <button type="submit" class="dropdown-item">
+                                                                {{ __('Inactive') }}
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
                                             </td>
                                             <td>
                                                 @can('categories-update')
@@ -70,7 +94,7 @@
                                                         data-bs-target="#category_edit_modal"
                                                         class="btn btn-sm btn-warning text-dark btn-xs mb-2 me-1 category_edit_btn"
                                                         data-id="{{ $category->id }}" data-name="{{ $category->name }}"
-                                                        data-status="{{ $category->status }}" data-slug="{{ $category->slug }}"
+                                                        data-status="{{ $category->status_id }}" data-slug="{{ $category->slug }}"
                                                         data-description="{{ $category->description }}"
                                                         data-imageid="{{ $category->image_id }}"
                                                         data-image="{{ \App\Http\Services\Media::render_image($category->image, render_type: 'path') }}">
@@ -108,9 +132,12 @@
                         <div class="modal-body">
                             @csrf
                             <div class="form-group">
-                                <label for="edit_name">{{ __('Name') }}</label>
+                                <label for="edit_name">
+                                    {{ __('Name') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input type="text" class="form-control" id="edit_name" name="name"
-                                    placeholder="{{ __('Enter name') }}">
+                                    placeholder="{{ __('Enter name') }}" required="">
                             </div>
                             {{-- <div class="form-group">
                                 <label for="edit_slug">{{ __('Slug') }}</label>
@@ -118,14 +145,20 @@
                                     placeholder="{{ __('Enter slug') }}">
                             </div> --}}
                             <div class="form-group">
-                                <label for="edit_description">{{ __('Description') }}</label>
+                                <label for="edit_description">
+                                    {{ __('Description') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <textarea type="text" class="form-control" id="edit_description" name="description"
-                                    placeholder="{{ __('Enter description') }}"></textarea>
+                                    placeholder="{{ __('Enter description') }}" required=""></textarea>
                             </div>
                             <x-media-upload :title="__('Image')" :name="'image_id'" :dimentions="'200x200'" />
                             <div class="form-group edit-status-wrapper">
-                                <label for="edit_status">{{ __('Status') }}</label>
-                                <select name="status_id" class="form-control" id="edit_status">
+                                <label for="edit_status">
+                                    {{ __('Status') }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <select name="status_id" class="form-control" id="edit_status" required="">
                                     @foreach ($statuses as $status)
                                         <option value="{{ $status->id }}">{{ $status->name }}</option>
                                     @endforeach
@@ -153,9 +186,12 @@
                         <form action="{{ route('admin.category.new') }}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
-                                <label for="name">{{ __('Name') }}</label>
+                                <label for="name">
+                                    {{ __('Name') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input type="text" class="form-control" id="create-name" name="name"
-                                    placeholder="{{ __('Enter name') }}">
+                                    placeholder="{{ __('Enter name') }}" required="">
                             </div>
 
                             {{-- <div class="form-group">
@@ -165,15 +201,21 @@
                             </div> --}}
 
                             <div class="form-group">
-                                <label for="description">{{ __('Description') }}</label>
+                                <label for="description">
+                                    {{ __('Description') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <textarea type="text" class="form-control" id="description" name="description"
-                                    placeholder="{{ __('Enter description') }}"></textarea>
+                                    placeholder="{{ __('Enter description') }}" required=""></textarea>
                             </div>
 
                             <x-media-upload :title="__('Image')" :name="'image_id'" :dimentions="'200x200'" />
                             <div class="form-group">
-                                <label for="status">{{ __('Status') }}</label>
-                                <select name="status_id" class="form-control" id="status">
+                                <label for="status">
+                                    {{ __('Status') }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <select name="status_id" class="form-control" id="status" required="">
                                     @foreach ($statuses as $status)
                                         <option value="{{ $status->id }}">{{ $status->name }}</option>
                                     @endforeach

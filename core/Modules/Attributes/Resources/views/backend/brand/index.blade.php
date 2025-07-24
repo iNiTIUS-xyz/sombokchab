@@ -106,7 +106,10 @@
                             <div class="row">
                                 <div class="col-md-12 mb-4">
                                     <div class="form-group">
-                                        <label for="name">{{ __('Name') }}</label>
+                                        <label for="name">
+                                            {{ __('Name') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
                                         <input type="text" class="form-control" id="edit-name" name="name"
                                             placeholder="{{ __('Enter brand name') }}">
                                     </div>
@@ -127,7 +130,10 @@
                                 </div> --}}
                                 <div class="col-md-12 mb-4">
                                     <div class="form-group">
-                                        <label for="name">{{ __('Description') }}</label>
+                                        <label for="name">
+                                            {{ __('Description') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
                                         <textarea class="form-control" id="edit-description" name="description"
                                             placeholder="{{ __('Enter brand Description Optional') }}"></textarea>
                                     </div>
@@ -164,7 +170,10 @@
                             <div class="row">
                                 <div class="col-md-12 mb-4">
                                     <div class="form-group">
-                                        <label for="name">{{ __('Name') }}</label>
+                                        <label for="name">
+                                            {{ __('Name') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
                                         <input type="text" class="form-control" id="create-name" name="name"
                                             placeholder="{{ __('Enter brand name') }}">
                                     </div>
@@ -185,7 +194,10 @@
                                 </div> --}}
                                 <div class="col-md-12 mb-4">
                                     <div class="form-group">
-                                        <label for="name">{{ __('Description') }}</label>
+                                        <label for="name">
+                                            {{ __('Description') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
                                         <textarea class="form-control" id="description" name="description"
                                             placeholder="{{ __('Enter brand Description Optional') }}"></textarea>
                                     </div>

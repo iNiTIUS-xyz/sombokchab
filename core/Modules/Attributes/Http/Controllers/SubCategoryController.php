@@ -93,4 +93,16 @@ class SubCategoryController extends Controller
 
         return response()->json(["option" => $options, "list" => $lists]);
     }
+
+    public function statusChange(Request $request, $id)
+    {
+        SubCategory::where('id', $id)->update([
+            'status_id' => $request->status,
+        ]);
+
+        return redirect()->back()->with([
+            'msg' => __('Sub Category status changed successfully.'),
+            'type' => 'success'
+        ]);
+    }
 }

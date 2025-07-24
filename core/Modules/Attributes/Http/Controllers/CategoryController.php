@@ -81,4 +81,16 @@ class CategoryController extends Controller
         Category::WhereIn('id', $request->ids)->delete();
         return response()->json(['status' => 'ok']);
     }
+
+    public function statusChange(Request $request, $id)
+    {
+        Category::where('id', $id)->update([
+            'status_id' => $request->status,
+        ]);
+
+        return redirect()->back()->with([
+            'msg' => __('Category status changed successfully.'),
+            'type' => 'success'
+        ]);
+    }
 }

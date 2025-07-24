@@ -34,6 +34,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
             Route::get('/', 'index')->name('all')->permission('categories');
             Route::post('/new', 'store')->name('new')->permission('categories-new');
             Route::post('/update', 'update')->name('update')->permission('categories-update');
+            Route::post('status-change/{id}', 'statusChange')->name('status.change');
             Route::post('/delete/{item}', 'destroy')->name('delete')->permission('categories-delete');
             Route::post('/bulk-action', 'bulk_action')->name('bulk.action')->permission('categories-bulk-action');
         });
@@ -47,6 +48,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
             Route::get('/', 'index')->name('all')->permission('sub-categories');
             Route::post('new', 'store')->name('new')->permission('sub-categories-new');
             Route::post('update', 'update')->name('update')->permission('sub-categories-update');
+            Route::post('status-change/{id}', 'statusChange')->name('status.change');
             Route::post('delete/{item}', 'destroy')->name('delete')->permission('sub-categories-delete');
             Route::post('bulk-action', 'bulk_action')->name('bulk.action')->permission('sub-categories-bulk-action');
             Route::get('of-category/{id}', 'getSubcategoriesOfCategory')->name('of.category')->permission('sub-categories-of-category');

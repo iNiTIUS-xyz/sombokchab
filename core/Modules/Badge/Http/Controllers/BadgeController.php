@@ -119,4 +119,16 @@ class BadgeController extends Controller
 
         return response()->json(['status' => 'ok']);
     }
+
+    public function statusChange(Request $request, $id)
+    {
+        Badge::where('id', $id)->update([
+            'status' => $request->status,
+        ]);
+
+        return redirect()->back()->with([
+            'msg' => __('Badge status changed successfully.'),
+            'type' => 'success'
+        ]);
+    }
 }

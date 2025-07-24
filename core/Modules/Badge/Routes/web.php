@@ -21,6 +21,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
             Route::post('update/{item}', 'update')->name('update')->permission('badge-update');
             Route::post('delete/{item}', 'destroy')->name('delete')->permission('badge-delete');
             Route::post('bulk-action', 'bulk_action_delete')->name('bulk.action.delete')->permission('badge-bulk-action');
+            Route::post('status/change/{id}', 'statusChange')->name('status.change');
 
             Route::prefix('trash')->group(function (){
                 Route::get('/', 'trash')->name('trash')->permission('badge-trash');

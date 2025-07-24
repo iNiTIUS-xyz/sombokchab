@@ -33,7 +33,6 @@
                         <div class="table-responsive">
                             <table class="table table-default" id="dataTable">
                                 <thead>
-                                    {{-- <th>{{ __('ID') }}</th> --}}
                                     <th>{{ __('Icon') }}</th>
                                     <th>{{ __('Title') }}</th>
                                     <th>{{ __('Sub Title') }}</th>
@@ -42,7 +41,6 @@
                                 <tbody>
                                     @foreach ($delivery_manages as $item)
                                         <tr>
-                                            {{-- <td>{{ $loop->iteration }}</td> --}}
                                             <td>
                                                 <x-backend.preview-icon :class="$item->icon" />
                                             </td>
@@ -71,37 +69,6 @@
                     </div>
                 </div>
             </div>
-            {{-- @can('product-delivery_manage-create')
-                <div class="col-lg-4">
-                    <div class="dashboard__card">
-                        <div class="dashboard__card__header">
-                            <h4 class="dashboard__card__title">{{ __('Add New Delivery Manage') }}</h4>
-                        </div>
-                        <div class="dashboard__card__body custom__form mt-4">
-                            <form action="{{ route('admin.delivery.option.store') }}" method="post"
-                                enctype="multipart/form-data">
-                                @csrf
-                                <div class="form-group">
-                                    <label for="name">{{ __('Title') }}</label>
-                                    <input type="text" class="form-control" id="title" name="title"
-                                        placeholder="{{ __('Enter tfitle') }}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="name">{{ __('Sub Title') }}</label>
-                                    <input type="text" class="form-control" id="sub_title" name="sub_title"
-                                        placeholder="{{ __('Enter sub title') }}">
-                                </div>
-                                <div class="form-group">
-                                    <x-backend.icon-picker />
-                                </div>
-                                <div class="btn-wrapper mt-4">
-                                    <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Add') }}</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            @endcan --}}
         </div>
     </div>
 
@@ -120,14 +87,20 @@
                         <div class="modal-body">
                             @csrf
                             <div class="form-group">
-                                <label for="name">{{ __('Title') }}</label>
+                                <label for="name">
+                                    {{ __('Title') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input type="text" class="form-control" id="title" name="title"
-                                    placeholder="{{ __('Enter tfitle') }}">
+                                    placeholder="{{ __('Enter tfitle') }}" required="">
                             </div>
                             <div class="form-group">
-                                <label for="name">{{ __('Sub Title') }}</label>
+                                <label for="name">
+                                    {{ __('Sub Title') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input type="text" class="form-control" id="sub_title" name="sub_title"
-                                    placeholder="{{ __('Enter sub title') }}">
+                                    placeholder="{{ __('Enter sub title') }}" required="">
                             </div>
                             <div class="form-group">
                                 <x-backend.icon-picker />
@@ -158,14 +131,20 @@
                         <div class="modal-body">
                             @csrf
                             <div class="form-group">
-                                <label for="name">{{ __('Title') }}</label>
+                                <label for="name">
+                                    {{ __('Title') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input type="text" class="form-control" id="edit-title" name="title"
-                                    placeholder="{{ __('Enter title') }}">
+                                    placeholder="{{ __('Enter title') }}" required="">
                             </div>
                             <div class="form-group">
-                                <label for="name">{{ __('Name') }}</label>
+                                <label for="name">
+                                    {{ __('Name') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input type="text" class="form-control" id="edit-sub-title" name="sub_title"
-                                    placeholder="{{ __('Enter sub title') }}">
+                                    placeholder="{{ __('Enter sub title') }}" required="">
                             </div>
                             <x-backend.icon-picker />
                         </div>

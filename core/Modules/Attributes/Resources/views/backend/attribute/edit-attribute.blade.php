@@ -25,16 +25,22 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="form-group">
-                                            <label for="title">{{ __('Title') }}</label>
+                                            <label for="title">
+                                                {{ __('Title') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <input type="text" class="form-control" name="title"
                                                 value="{{ $attribute->title }}" placeholder="{{ __('Enter title') }}">
                                         </div>
                                         <div class="form-group attributes-field attributess">
-                                            <label for="attributes">{{ __('Terms') }}</label>
+                                            <label for="attributes">
+                                                {{ __('Terms') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             @forelse(json_decode($attribute->terms) as $terms)
                                                 <div class="attribute-field-wrapper">
                                                     <input type="text" class="form-control" name="terms[]"
-                                                        value="{{ $terms }}">
+                                                        value="{{ $terms }}" required="">
                                                     <div class="icon-wrapper">
                                                         <span class="btn btn-sm btn-info add_attributes"><i
                                                                 class="las la-plus"></i></span>
@@ -45,7 +51,7 @@
                                             @empty
                                                 <div class="attribute-field-wrapper">
                                                     <input type="text" class="form-control" name="terms[]"
-                                                        placeholder="{{ __('terms') }}">
+                                                        placeholder="{{ __('terms') }}" required="">
                                                     <div class="icon-wrapper">
                                                         <span class="btn btn-sm btn-info add_attributes"><i
                                                                 class="las la-plus"></i></span>
@@ -79,7 +85,7 @@
             $(document).on('click', '.attribute-field-wrapper .add_attributes', function(e) {
                 e.preventDefault();
                 $(this).parent().parent().parent().append(' <div class="attribute-field-wrapper">\n' +
-                    '<input type="text" class="form-control" name="terms[]" placeholder="{{ __('terms') }}">\n' +
+                    '<input type="text" class="form-control" name="terms[]" placeholder="{{ __('terms') }}" required="">\n' +
                     '<div class="icon-wrapper">\n' +
                     '<span class="btn btn-sm btn-info add_attributes"><i class="las la-plus"></i></span>\n' +
                     '<span class="btn btn-sm btn-danger remove_attributes"><i class="las la-minus"></i></span>\n' +

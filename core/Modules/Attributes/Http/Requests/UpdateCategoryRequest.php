@@ -13,7 +13,9 @@ class UpdateCategoryRequest extends FormRequest
      *
      * @return array
      */
+
     #[ArrayShape(['name' => "string[]", 'slug' => "array", 'description' => "string", 'status_id' => "string", 'image_id' => "string"])]
+
     public function rules(): array
     {
         return [

@@ -4,6 +4,14 @@
     {{ __('Vendor List') }}
 @endsection
 
+@section('style')
+<style>
+    .badge {
+        border: 1px solid white !important;
+    }
+</style>
+@endsection
+
 @section('content')
     <div class="col-lg-12 col-ml-12 dashboard-area">
         <div class="row">
@@ -237,7 +245,9 @@
                             </div>
 
                             <div class="form-group">
-                                <button class="cmn_btn btn_bg_profile">{{ __('Update vendor settings') }}</button>
+                                <button class="cmn_btn btn_bg_profile">
+                                    {{ __('Update') }}
+                                </button>
                             </div>
                         </form>
                     </div>

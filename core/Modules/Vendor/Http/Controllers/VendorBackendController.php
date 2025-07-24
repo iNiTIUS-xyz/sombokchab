@@ -102,7 +102,6 @@ class VendorBackendController extends Controller
             DB::rollBack();
             return response()->json(["msg" => $e, "custom_msg" => "Failed to create vendor account..", "success" => false, "type" => "danger"])->setStatusCode(422);
         }
-
     }
 
     public function edit($vendor)
@@ -216,7 +215,7 @@ class VendorBackendController extends Controller
         update_static_option("vendor_firebase_server_key", $reqSettings["vendor_firebase_server_key"] ?? null);
 
         return back()->with([
-            "msg" => __("Vendor settings updated"),
+            "msg" => __("Vendor settings updated successfully."),
             "type" => "success"
         ]);
     }
@@ -242,7 +241,7 @@ class VendorBackendController extends Controller
 
 
         return response()->json([
-            "msg" => __("Global vendor commission settings updated."),
+            "msg" => __("Global vendor commission settings updated successfully."),
             "success" => true,
             "type" => "success"
         ]);

@@ -15,39 +15,27 @@ use Illuminate\Routing\Controller;
 use Modules\Attributes\Entities\ProductAttribute;
 use Modules\Attributes\Http\Services\DummyAttributeDeleteServices;
 use DB;
+
 class AttributesController extends Controller
 {
     private const BASE_PATH = 'attributes::backend.attribute.';
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Application|Factory|View
-     */
+
     public function index(): Application|Factory|View
     {
         $all_attributes = ProductAttribute::all();
         $ids = DummyAttributeDeleteServices::dummyAttributeId();
-        $dummyCount = DB::table('product_attributes')->whereIn('id',$ids)->count();
-        return view(self::BASE_PATH . "all-attribute", compact('all_attributes','dummyCount'));
+        $dummyCount = DB::table('product_attributes')->whereIn('id', $ids)->count();
+        return view(self::BASE_PATH . "all-attribute", compact('all_attributes', 'dummyCount'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Application|Factory|View
-     */
+
     public function create(): View|Factory|Application
     {
         return view(self::BASE_PATH . 'new-attribute');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return RedirectResponse
-     */
+
     public function store(Request $request)
     {
         $request->validate([
@@ -65,35 +53,13 @@ class AttributesController extends Controller
             : back()->with(FlashMsg::create_failed('Product Attribute'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param ProductAttribute $productAttribute
-     * @return void
-     */
-    public function show(ProductAttribute $productAttribute)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param ProductAttribute $item
-     * @return Application|Factory|View
-     */
     public function edit(ProductAttribute $item)
     {
         return view(self::BASE_PATH . 'edit-attribute')->with(['attribute' => $item]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param ProductAttribute $productAttribute
-     * @return RedirectResponse
-     */
+
     public function update(Request $request, ProductAttribute $productAttribute): RedirectResponse
     {
         $request->validate([
@@ -110,35 +76,21 @@ class AttributesController extends Controller
             : back()->with(FlashMsg::update_failed('Product Attribute'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param ProductAttribute $item
-     * @return bool|null
-     */
+
     public function destroy(ProductAttribute $item): ?bool
     {
         return $item->delete();
     }
 
-    /**
-     * Bulk delete
-     *
-     * @param Request $request
-     * @return RedirectResponse
-     */
+
     public function bulk_action(Request $request)
     {
         ProductAttribute::whereIn('id', $request->ids)->delete();
         return back()->with(FlashMsg::item_delete());
     }
 
-    /**
-     * Get product attribute detail in JSON format
-     *
-     * @param Request $request (id)
-     * @return JsonResponse
-     */
+
+
     public function get_details(Request $request): JsonResponse
     {
         $variant = ProductAttribute::findOrFail($request->id);
@@ -146,10 +98,10 @@ class AttributesController extends Controller
     }
     public function delete_dummy_attribute()
     {
-        $delete=DummyAttributeDeleteServices::destroy();
-        if($delete){
-            return response()->json(['success'=>true,'type'=>'success']);
+        $delete = DummyAttributeDeleteServices::destroy();
+        if ($delete) {
+            return response()->json(['success' => true, 'type' => 'success']);
         }
-        return response()->json(['success'=>false,'type'=>'danger']);
+        return response()->json(['success' => false, 'type' => 'danger']);
     }
 }

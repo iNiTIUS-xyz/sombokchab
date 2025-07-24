@@ -90,13 +90,19 @@
                         <div class="modal-body">
                             @csrf
                             <div class="form-group">
-                                <label for="name">{{ __('Name') }}</label>
+                                <label for="name">
+                                    {{ __('Name') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input type="text" class="form-control" id="name" name="name"
-                                    placeholder="{{ __('Enter name') }}">
+                                    placeholder="{{ __('Enter name') }}" required="">
                             </div>
                             <div class="form-group">
-                                <label for="color_code">{{ __('Color Code') }}</label>
-                                <input type="color" class="form-control w-25 p-1" id="color_code" name="color_code">
+                                <label for="color_code">
+                                    {{ __('Color Code') }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="color" class="form-control w-25 p-1" id="color_code" name="color_code" required="">
                             </div>
                             {{-- <div class="form-group">
                                 <label for="slug">{{ __('Slug') }}</label>
@@ -128,13 +134,19 @@
                         <div class="modal-body">
                             @csrf
                             <div class="form-group">
-                                <label for="name">{{ __('Name') }}</label>
+                                <label for="name">
+                                    {{ __('Name') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input type="text" class="form-control" id="edit_name" name="name"
-                                    placeholder="{{ __('Enter name') }}">
+                                    placeholder="{{ __('Enter name') }}" required="">
                             </div>
                             <div class="form-group">
-                                <label for="color_code">{{ __('Color Code') }}</label>
-                                <input type="color" class="form-control w-25 p-1" id="edit_color_code" name="color_code">
+                                <label for="color_code">
+                                    {{ __('Color Code') }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="color" class="form-control w-25 p-1" id="edit_color_code" name="color_code" required="">
                             </div>
                             {{-- <div class="form-group">
                                 <label for="slug">{{ __('Slug') }}</label>

@@ -20,15 +20,21 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="form-group">
-                                            <label for="title">{{ __('Title') }}</label>
+                                            <label for="title">
+                                                {{ __('Title') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <input type="text" class="form-control" name="title"
-                                                value="{{ old('title') }}" placeholder="{{ __('Enter title') }}">
+                                                value="{{ old('title') }}" placeholder="{{ __('Enter title') }}" required="">
                                         </div>
                                         <div class="form-group attributes-field product-variants">
-                                            <label for="attributes">{{ __('Terms') }}</label>
+                                            <label for="attributes">
+                                                {{ __('Terms') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <div class="attribute-field-wrapper">
                                                 <input type="text" class="form-control" name="terms[]"
-                                                    placeholder="{{ __('terms') }}">
+                                                    placeholder="{{ __('terms') }}" required="">
                                                 <div class="icon-wrapper">
                                                     <span class="add_attributes"><i class="ti-plus"></i></span>
                                                 </div>
@@ -60,7 +66,7 @@
                     e.preventDefault();
                     $(this).parent().parent().parent().append(
                         ' <div class="attribute-field-wrapper">\n' +
-                        '<input type="text" class="form-control" name="terms[]" placeholder="{{ __('terms') }}">\n' +
+                        '<input type="text" class="form-control" name="terms[]" placeholder="{{ __('terms') }}" required="">\n' +
                         '<div class="icon-wrapper">\n' +
                         '<span class="btn btn-sm btn-info add_attributes"><i class="las la-plus"></i></span>\n' +
                         '<span class="btn btn-sm btn-danger remove_attributes"><i class="las la-minus"></i></span>\n' +

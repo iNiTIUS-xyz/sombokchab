@@ -26,8 +26,9 @@
                             <div class="form-group">
                                 <label for="system_type">
                                     {{ __('Select system type') }}
+                                    <span class="text-danger">*</span>
                                 </label>
-                                <select name="system_type" id="system_type" class="form-control">
+                                <select name="system_type" id="system_type" class="form-control" required="">
                                     <option {{ get_static_option('system_type') == 'commission' ? 'selected' : '' }}
                                         value="commission">
                                         {{ __('Commission') }}
@@ -92,8 +93,9 @@
                             <div class="form-group">
                                 <label for="commission_type">
                                     {{ __('Select a vendor') }}
+                                    <span class="text-danger">*</span>
                                 </label>
-                                <select name="vendor_id" id="vendor_id" class="form-control select2">
+                                <select name="vendor_id" id="vendor_id" class="form-control select2" required="">
                                     <option value="">
                                         {{ __('Select an vendor') }}
                                     </option>
@@ -124,9 +126,10 @@
                             <div class="form-group">
                                 <label for="amount">
                                     {{ __('Percentage') }}
+                                    <span class="text-danger">*</span>
                                 </label>
                                 <input class="form-control form-control-sm" type="number" name="commission_amount"
-                                    id="amount" placeholder="{{ __('Enter percentage') }}" />
+                                    id="amount" placeholder="{{ __('Enter percentage') }}" required=""/>
                             </div>
 
                             <div class="form-group">

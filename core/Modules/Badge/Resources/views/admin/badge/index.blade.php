@@ -55,15 +55,36 @@
                                     @foreach ($badges as $badge)
                                         <tr>
                                             <x-bulk-action.td :id="$badge->id" />
-                                            {{-- <td>{{ $loop->iteration }}</td> --}}
                                             <td>{{ $badge->name }}</td>
                                             <td>
                                                 {!! render_image_markup_by_attachment_id($badge->image, 'badge_image') !!}
                                             </td>
                                             <td>
-                                                <span class="badge {{ $badge->status == 'active' ? 'bg-primary' : 'bg-danger' }}">
-                                                    {{ ucfirst($badge->status) }}
-                                                </span>
+                                                <div class="btn-group badge">
+                                                    <button type="button"
+                                                        class="status-{{ $badge->status }} {{ $badge->status == 'active' ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
+                                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        {{ ucfirst($badge->status == 'active' ? __('Active') : __('Inactive')) }}
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        <form action="{{ route('admin.badge.status.change', $badge->id) }}"
+                                                            method="POST" id="status-form-activate-{{ $badge->id }}">
+                                                            @csrf
+                                                            <input type="hidden" name="status" value="active">
+                                                            <button type="submit" class="dropdown-item">
+                                                                {{ __('Active') }}
+                                                            </button>
+                                                        </form>
+                                                        <form action="{{ route('admin.badge.status.change', $badge->id) }}"
+                                                            method="POST" id="status-form-deactivate-{{ $badge->id }}">
+                                                            @csrf
+                                                            <input type="hidden" name="status" value="in_active">
+                                                            <button type="submit" class="dropdown-item">
+                                                                {{ __('Inactive') }}
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
                                             </td>
 
                                             <td>
@@ -95,45 +116,8 @@
                     </div>
                 </div>
             </div>
-            {{-- @can('badge-new')
-                <div class="col-lg-4">
-                    <div class="dashboard__card">
-                        <div class="dashboard__card__header">
-                            <h4 class="dashboard__card__title">{{ __('Add New Badge') }}</h4>
-                        </div>
-                        <div class="dashboard__card__body custom__form mt-4">
-                            <form action="{{ route('admin.badge.store') }}" method="post" enctype="multipart/form-data">
-                                @csrf
-                                <div class="form-group">
-                                    <label for="name">{{ __('Name') }}</label>
-                                    <input type="text" class="form-control" id="name" name="name"
-                                        placeholder="{{ __('Enter name') }}">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="status">{{ __('Status') }}</label>
-                                    <select class="form-control" name="status" id="status">
-                                        <option value="" selected disabled>Select a badge type</option>
-                                        <option value="active">{{ __('Active') }}</option>
-                                        <option value="in_active">{{ __('In Active') }}</option>
-                                    </select>
-                                </div>
-
-                                <x-media.media-upload :name="'image'" :title="'Badge Image'" />
-
-                                <div class="btn-wrapper mt-3">
-                                    <button type="submit" class="cmn_btn btn_bg_profile">
-                                        {{ __('Add') }}
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            @endcan --}}
         </div>
     </div>
-
 
      @can('badge-new')
         <div class="modal fade" id="badge_add_modal" aria-hidden="true">
@@ -148,15 +132,21 @@
                         <div class="modal-body mx-3">
                             <div class="row">
                                 <div class="form-group">
-                                    <label for="name">{{ __('Name') }}</label>
+                                    <label for="name">
+                                        {{ __('Name') }}
+                                        <span class="text-danger">*</span>
+                                    </label>
                                     <input type="text" class="form-control" id="name" name="name"
-                                        placeholder="{{ __('Enter name') }}">
+                                        placeholder="{{ __('Enter name') }}" required="">
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="status">{{ __('Status') }}</label>
-                                    <select class="form-control" name="status" id="status">
-                                        <option value="" selected disabled>Select a badge type</option>
+                                    <label for="status">
+                                        {{ __('Status') }}
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-control" name="status" id="status" required="">
+                                        <option value="" selected disabled>Select One</option>
                                         <option value="active">{{ __('Active') }}</option>
                                         <option value="in_active">{{ __('In Active') }}</option>
                                     </select>
@@ -193,16 +183,22 @@
                             <div class="row">
                                 <div class="col-md-6 mb-4">
                                     <div class="form-group">
-                                        <label for="edit_name">{{ __('Name') }}</label>
+                                        <label for="edit_name">
+                                            {{ __('Name') }}
+                                        <span class="text-danger">*</span>
+                                        </label>
                                         <input type="text" class="form-control" id="edit_name" name="name"
-                                            placeholder="{{ __('Enter name') }}">
+                                            placeholder="{{ __('Enter name') }}" required="">
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-4">
                                     <div class="form-group">
-                                        <label for="status">{{ __('Status') }}</label>
-                                        <select class="form-control" name="status" id="edit-status">
-                                            <option value="" selected disabled>{{ __('Select a badge type') }}</option>
+                                        <label for="status">
+                                            {{ __('Status') }}
+                                        <span class="text-danger">*</span>
+                                        </label>
+                                        <select class="form-control" name="status" id="edit-status" required="">
+                                            <option value="" selected disabled>{{ __('Select One') }}</option>
                                             <option value="active">{{ __('Active') }}</option>
                                             <option value="in_active">{{ __('In Active') }}</option>
                                         </select>

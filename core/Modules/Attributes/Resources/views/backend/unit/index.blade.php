@@ -68,28 +68,6 @@
                     </div>
                 </div>
             </div>
-            {{-- @can('units-new')
-                <div class="col-lg-5">
-                    <div class="dashboard__card">
-                        <div class="dashboard__card__header">
-                            <h4 class="dashboard__card__title">{{ __('Add New Unit') }}</h4>
-                        </div>
-                        <div class="dashboard__card__body custom__form mt-4">
-                            <form action="{{ route('admin.units.store') }}" method="post" enctype="multipart/form-data">
-                                @csrf
-                                <div class="form-group">
-                                    <label for="name">{{ __('Name') }}</label>
-                                    <input type="text" class="form-control" id="name" name="name"
-                                        placeholder="{{ __('Enter name') }}">
-                                </div>
-                                <div class="form-group">
-                                    <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Add') }}</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            @endcan --}}
         </div>
     </div>
     @can('units-new')
@@ -104,9 +82,12 @@
                     <div class="modal-body">
                         @csrf
                         <div class="form-group">
-                            <label for="name">{{ __('Name') }}</label>
+                            <label for="name">
+                                {{ __('Name') }}
+                                <span class="text-danger">*</span>
+                            </label>
                             <input type="text" class="form-control" id="name" name="name"
-                                placeholder="{{ __('Enter name') }}">
+                                placeholder="{{ __('Enter name') }}" required="">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -133,9 +114,12 @@
                         <div class="modal-body">
                             @csrf
                             <div class="form-group">
-                                <label for="edit_name">{{ __('Name') }}</label>
+                                <label for="edit_name">
+                                    {{ __('Name') }}
+                                <span class="text-danger">*</span>
+                                </label>
                                 <input type="text" class="form-control" id="edit_name" name="name"
-                                    placeholder="{{ __('Enter name') }}">
+                                    placeholder="{{ __('Enter name') }}" required="">
                             </div>
                         </div>
                         <div class="modal-footer">

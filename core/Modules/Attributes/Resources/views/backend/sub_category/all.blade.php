@@ -20,12 +20,12 @@
                 <div class="mb-4">
                     @can('sub-categories-new')
                         <a href="#1" data-bs-toggle="modal" data-bs-target="#category_create_modal"
-                            class="cmn_btn btn_bg_profile">{{ __('Add New Sub-Category') }}</a>
+                            class="cmn_btn btn_bg_profile">{{ __('Add New Sub Category') }}</a>
                     @endcan
                 </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h3 class="dashboard__card__title">{{ __('Product Sub-Categories') }}</h3>
+                        <h3 class="dashboard__card__title">{{ __('Product Sub Categories') }}</h3>
                         <div class="dashboard__card__header__right">
                             @can('sub-categories-delete')
                                 <x-bulk-action.dropdown />
@@ -62,7 +62,31 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <x-status-span :status="$category->status?->name" />
+                                                <div class="btn-group badge">
+                                                    <button type="button"
+                                                        class="status-{{ $category->status_id }} {{ $category->status_id == 1 ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
+                                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        {{ ucfirst($category->status_id == 1 ? __('Active') : __('Inactive')) }}
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        <form action="{{ route('admin.subcategory.status.change', $category->id) }}"
+                                                            method="POST" id="status-form-activate-{{ $category->id }}">
+                                                            @csrf
+                                                            <input type="hidden" name="status" value="1">
+                                                            <button type="submit" class="dropdown-item">
+                                                                {{ __('Active') }}
+                                                            </button>
+                                                        </form>
+                                                        <form action="{{ route('admin.subcategory.status.change', $category->id) }}"
+                                                            method="POST" id="status-form-deactivate-{{ $category->id }}">
+                                                            @csrf
+                                                            <input type="hidden" name="status" value="2">
+                                                            <button type="submit" class="dropdown-item">
+                                                                {{ __('Inactive') }}
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
                                             </td>
                                             <td>
                                                 @can('sub-categories-update')
@@ -107,9 +131,12 @@
                             <div class="row">
                                 <div class="col-md-12 mb-4">
                                     <div class="form-group">
-                                        <label for="edit_name">{{ __('Name') }}</label>
+                                        <label for="edit_name">
+                                            {{ __('Name') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
                                         <input type="text" class="form-control" id="edit_name" name="name"
-                                            placeholder="{{ __('Enter name') }}">
+                                            placeholder="{{ __('Enter name') }}" required="">
                                     </div>
                                 </div>
                                 {{-- <div class="col-md-6 mb-4">
@@ -121,8 +148,11 @@
                                 </div> --}}
                                 <div class="col-md-6 mb-4">
                                     <div class="form-group edit-category-wrapper">
-                                        <label for="name">{{ __('Category') }}</label>
-                                        <select type="text" class="form-control" id="category_id" name="category_id">
+                                        <label for="name">
+                                            {{ __('Category') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <select type="text" class="form-control" id="category_id" name="category_id" required="">
                                             <option value="">{{ __('Select Category') }}</option>
                                             @foreach ($all_category as $category)
                                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -132,19 +162,27 @@
                                 </div>
                                 <div class="col-md-6 mb-4">
                                     <div class="form-group edit-status-wrapper">
-                                        <label for="edit_status">{{ __('Status') }}</label>
-                                        <select name="status_id" class="form-control" id="edit_status">
+                                        <label for="edit_status">
+                                            {{ __('Status') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <select name="status_id" class="form-control" id="edit_status" required="">
                                             @foreach ($statuses as $status)
-                                                <option value="{{ $status->id }}">{{ $status->name }}</option>
+                                                <option value="{{ $status->id }}">
+                                                    {{ $status->name }}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-12 mb-4">
                                     <div class="form-group">
-                                        <label for="edit_description">{{ __('Description') }}</label>
+                                        <label for="edit_description">
+                                            {{ __('Description') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
                                         <textarea type="text" class="form-control" id="edit_description" name="description"
-                                            placeholder="{{ __('Description') }}"></textarea>
+                                            placeholder="{{ __('Description') }}" required=""></textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-12 mb-4">
@@ -176,9 +214,12 @@
                             <div class="row">
                                 <div class="col-md-12 mb-4">
                                     <div class="form-group">
-                                        <label for="name">{{ __('Name') }}</label>
+                                        <label for="name">
+                                            {{ __('Name') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
                                         <input type="text" class="form-control" id="create-name" name="name"
-                                            placeholder="{{ __('Enter name') }}">
+                                            placeholder="{{ __('Enter name') }}" required="">
                                     </div>
                                 </div>
                                 {{-- <div class="col-md-6 mb-4">
@@ -190,8 +231,11 @@
                                 </div> --}}
                                 <div class="col-md-6 mb-4">
                                     <div class="form-group">
-                                        <label for="name">{{ __('Category') }}</label>
-                                        <select type="text" class="form-control" id="create_category_id" name="category_id">
+                                        <label for="name">
+                                            {{ __('Category') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <select type="text" class="form-control" id="create_category_id" name="category_id" required="">
                                             <option value="">Select Category</option>
                                             @foreach ($all_category as $category)
                                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -201,8 +245,11 @@
                                 </div>
                                 <div class="col-md-6 mb-4">
                                     <div class="form-group">
-                                        <label for="status">{{ __('Status') }}</label>
-                                        <select name="status_id" class="form-control" id="status">
+                                        <label for="status">
+                                            {{ __('Status') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <select name="status_id" class="form-control" id="status" required="">
                                             @foreach ($statuses as $status)
                                                 <option value="{{ $status->id }}">{{ $status->name }}</option>
                                             @endforeach
@@ -211,9 +258,12 @@
                                 </div>
                                 <div class="col-md-12 mb-4">
                                     <div class="form-group">
-                                        <label for="description">{{ __('Description') }}</label>
+                                        <label for="description">
+                                            {{ __('Description') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
                                         <textarea type="text" class="form-control" id="description" name="description"
-                                            placeholder="{{ __('Description') }}"></textarea>
+                                            placeholder="{{ __('Description') }}" required=""></textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-12 mb-4">
