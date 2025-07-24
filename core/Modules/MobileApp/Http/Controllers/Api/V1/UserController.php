@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Validator;
 use Modules\Product\Entities\ProductSellInfo;
 use App\Http\Services\ShippingAddressServices;
 use App\Http\Requests\StoreShippingAddressRequest;
+use Log;
 use Modules\MobileApp\Http\Services\Api\UserServices;
 
 class UserController extends Controller
@@ -501,7 +502,7 @@ class UserController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:191',
-            'email' => 'required|email|max:191|unique:users,id,' . $request->user_id,
+            'email' => 'required|email|max:191|unique:users,id,' . $user_id,
             'phone' => 'nullable|string|max:191',
             'state' => 'nullable|string|max:191',
             'city' => 'nullable|string|max:191',
@@ -515,26 +516,27 @@ class UserController extends Controller
             'email.email' => __('provide valid email'),
         ]);
 
+        Log::info("User profile update request: ", $request->all());
 
+        $last_image_id = null;
         if ($request->file('file')) {
-            MediaHelper::insert_media_image($request->file('file'));
-            $last_image_id = DB::getPdo()->lastInsertId();
-        }
-
-        $image_id = $user->image; // Default to existing image ID
-        if ($request->file('file')) {
-            $mediaResult = MediaHelper::insert_media_image($request->file('file'));
-            if ($mediaResult['success']) {
-                $image_id = $mediaResult['id']; // Use the returned ID
-            } else {
-                $image_id = null; // If media insertion fails, set to null
+            try {
+                MediaHelper::insert_media_image($request->file('file'));
+                $last_image_id = DB::getPdo()->lastInsertId();
+            } catch (\Throwable $e) {
+                Log::error("Image upload failed: " . $e->getMessage());
             }
         }
-        $updated = User::find($user_id)->update(
+        // if ($request->file('file')) {
+        //     MediaHelper::insert_media_image($request->file('file'));
+        //     $last_image_id = DB::getPdo()->lastInsertId();
+        // }
+
+        User::find($user_id)->update(
             [
                 'name' => $request->name ?? $user->name,
                 'email' => $request->email ?? $user->email,
-                'image' => $image_id,
+                'image' => $last_image_id ?? $user->image,
                 'phone' => $request->phone ?? $user->phone,
                 'state' => $request->state ?? $user->state,
                 'city' => $request->city ?? $user->city,
@@ -545,15 +547,7 @@ class UserController extends Controller
             ]
         );
 
-        // return response()->json(['success' => true]);
-        if ($updated) {
-            $user = User::with('userCountry', 'shipping', 'userState', 'userCity')->where('id', $user_id)->first();
-            $image_url = $user->image ? render_image($user->profile_image, render_type: 'path') : null;
-            $user->profile_image_url = $image_url;
-            return response()->json(['success' => true, 'user_details' => $user]);
-        }
-
-        return response()->json(['error' => 'Update failed'], 400);
+        return response()->json(['success' => true]);
     }
 
     public function get_all_tickets()
