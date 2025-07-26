@@ -44,7 +44,7 @@
                             <i class="las la-star required-filed"></i>
                         </label>
                         <input type="number" name="item_stock_count[]" id="item_stock_count" class="form-control"
-                            min="0" placeholder="{{ __('Enter Stock Count') }}"
+                            min="0" placeholder="{{ __('Enter stock quantity') }}"
                             @if (isset($inventoryDetail)) value="{{ optional($inventoryDetail)->stock_count ?? 0 }}" @endif>
                     </div>
                 </div>
