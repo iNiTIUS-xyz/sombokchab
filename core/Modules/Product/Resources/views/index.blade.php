@@ -4,9 +4,9 @@
 @endsection
 
 @section('style')
+    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap4.min.css') }}">
     <link href="{{ asset('assets/css/flatpickr.min.css') }}" rel="stylesheet">
     <x-product::variant-info.css />
-
     <x-media.css />
 @endsection
 @section('content')
@@ -16,15 +16,17 @@
                 <div class="col-md-12">
                     <x-flash-msg />
                     <div class="recent-order-wrapper dashboard-table bg-white">
-                        <div id="product-list-title-flex"
-                            class="product-list-title-flex d-flex flex-wrap align-items-center justify-content-between">
-                            <h3 class="cursor-pointer">{{ __('Search Product Module') }} <i class="las la-angle-down"></i></h3>
-                            <button id="product-search-button" type="submit"
-                                class="cmn_btn btn_bg_profile">{{ __('Search') }}</button>
-                        </div>
-
-                        <form id="product-search-form" class="custom__form" action="{{ route('admin.products.search') }}"
-                            method="get">
+                        <form class="custom__form" action="" method="get">
+                            <div id="product-list-title-flex"
+                                class="product-list-title-flex d-flex flex-wrap align-items-center justify-content-between">
+                                <h3 class="cursor-pointer">
+                                    {{ __('Search Product Module') }}
+                                    <i class="las la-angle-down"></i>
+                                </h3>
+                                <button type="submit" class="cmn_btn btn_bg_profile">
+                                    {{ __('Search') }}
+                                </button>
+                            </div>
                             <div class="row g-3 mt-2">
                                 <div class="col-md-4">
                                     <div class="form-group">
@@ -323,6 +325,29 @@
                     }
                 });
             });
+        });
+    </script>
+
+    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/dataTables.bootstrap4.min.js') }}"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Initialize DataTable only if the table exists
+            if ($('#productDataTable').length) {
+                $('#productDataTable').DataTable({
+                    paging: true,
+                    lengthChange: true,
+                    searching: true,
+                    ordering: true,
+                    info: true,
+                    autoWidth: false,
+                    responsive: true,
+                    language: {
+                        search: "Filter:"
+                    }
+                });
+            }
         });
     </script>
 @endsection
