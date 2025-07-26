@@ -1,4 +1,5 @@
 @extends('vendor.vendor-master')
+
 @section('site-title')
     {{ __('Products List') }}
 @endsection
@@ -159,13 +160,7 @@
                         <div class="dashboard__card__header__left">
                             <h3 class="dashboard__card__title mb-2">{{ __('Products List') }}</h3>
                             <div class="d-flex flex-wrap bulk-delete-wrapper gap-2">
-                                <label for="number-of-item">{{ __('Number of Products') }}</label>
-                                <select name="count" id="number-of-item">
-                                    <option value="10">{{ __('10') }}</option>
-                                    <option value="25">{{ __('25') }}</option>
-                                    <option value="50">{{ __('50') }}</option>
-                                    <option value="100">{{ __('100') }}</option>
-                                </select>
+
                             </div>
                         </div>
                         <div class="dashboard__card__header__right">

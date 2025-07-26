@@ -180,19 +180,7 @@
                         <h3 class="dashboard__card__title">{{ __('Product list') }}</h3>
                     </div>
                     <div class="dashboard__card__header mt-4">
-                        <div class="dashboard__card__header__right">
-                            <div class="d-flex bulk-delete-wrapper gap-2">
-                                @can('product-search')
-                                    <label for="number-of-item">{{ __('Number of Products') }}</label>
-                                    <select name="count" id="number-of-item">
-                                        <option value="10">{{ __('10') }}</option>
-                                        <option value="25">{{ __('25') }}</option>
-                                        <option value="50">{{ __('50') }}</option>
-                                        <option value="100">{{ __('100') }}</option>
-                                    </select>
-                                @endcan
-                            </div>
-                        </div>
+                        <div class="dashboard__card__header__right"></div>
                         @can('product-bulk-destroy')
                             <x-product::table.bulk-action />
                         @endcan
@@ -206,8 +194,6 @@
             </div>
         </div>
     </div>
-
-
     <x-product::product-image-modal />
     <x-media.markup />
 @endsection
@@ -337,8 +323,6 @@
                     }
                 });
             });
-
-
         });
     </script>
 @endsection
