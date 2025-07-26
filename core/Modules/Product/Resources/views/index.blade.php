@@ -26,7 +26,7 @@
                                 <div>
                                     @if( request('name') || request('sku') || request('brand') || request('category') || request('sub_category') || request('from_price') || request('to_price'))
                                         <a href="{{ route('admin.products.all') }}" class="cmn_btn btn-danger text-right text-white">
-                                            {{ __('Clear') }}
+                                           {{ __('Clear Search') }}
                                         </a>
                                     @endif
                                     <button type="submit" class="cmn_btn btn_bg_profile">

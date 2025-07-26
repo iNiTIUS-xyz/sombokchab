@@ -5,7 +5,7 @@
         $route ?? ($route = 'admin');
     }
 @endphp
-<table class="customs-tables pt-4 position-relative" id="dataTable">
+<table class="customs-tables pt-4 position-relative" id="productDataTable">
     <thead class="head-bg">
         <tr>
             <th class="check-all-rows p-3">
