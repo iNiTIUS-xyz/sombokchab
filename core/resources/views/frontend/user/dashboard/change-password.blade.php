@@ -7,10 +7,13 @@
             <form action="{{ route('user.password.change') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
-                    <label for="old_password">{{ __('Current Password') }}</label>
+                    <label for="old_password">
+                        {{ __('Current Password') }}
+                        <span class="text-danger">*</span>
+                    </label>
                     <div class="input-group-custom">
                         <input type="password" class="form-control" id="old_password" name="old_password"
-                            placeholder="{{ __('Enter Current Password') }}">
+                            placeholder="{{ __('Enter Current Password') }}" required="">
                         <span class="input-group-btn">
                             <button type="button" class="btn-toggle-password" data-target="old_password">
                                 <i class="la la-eye"></i>
@@ -19,10 +22,13 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="password">{{ __('New Password') }}</label>
+                    <label for="password">
+                        {{ __('New Password') }}
+                        <span class="text-danger">*</span>
+                    </label>
                     <div class="input-group-custom">
                         <input type="password" class="form-control" id="password" name="password"
-                            placeholder="{{ __('Enter New Password') }}">
+                            placeholder="{{ __('Enter New Password') }}" required="">
                         <span class="input-group-btn">
                             <button type="button" class="btn-toggle-password" data-target="password">
                                 <i class="la la-eye"></i>
@@ -35,10 +41,13 @@
                     <small id="passwordError" class="form-text text-danger" style="display: none;"></small>
                 </div>
                 <div class="form-group">
-                    <label for="password_confirmation">{{ __('Confirm Password') }}</label>
+                    <label for="password_confirmation">
+                        {{ __('Confirm Password') }}
+                        <span class="text-danger">*</span>
+                    </label>
                     <div class="input-group-custom">
                         <input type="password" class="form-control" id="password_confirmation" name="password_confirmation"
-                            placeholder="{{ __('Enter Confirm Password') }}">
+                            placeholder="{{ __('Enter Confirm Password') }}" required="">
                         <span class="input-group-btn">
                             <button type="button" class="btn-toggle-password" data-target="password_confirmation">
                                 <i class="la la-eye"></i>
@@ -104,115 +113,6 @@
             cursor: not-allowed;
         }
     </style>
-
-    {{-- <script>
-        // Password toggle functionality
-        document.querySelectorAll('.btn-toggle-password').forEach(button => {
-            button.addEventListener('click', function() {
-                const targetId = this.getAttribute('data-target');
-                const input = document.getElementById(targetId);
-                const icon = this.querySelector('i');
-
-                if (input.type === 'password') {
-                    input.type = 'text';
-                    icon.classList.remove('la-eye');
-                    icon.classList.add('la-eye-slash');
-                } else {
-                    input.type = 'password';
-                    icon.classList.remove('la-eye-slash');
-                    icon.classList.add('la-eye');
-                }
-            });
-        });
-
-        // Password validation elements
-        const passwordField = document.getElementById('password');
-        const confirmField = document.getElementById('password_confirmation');
-        const passwordHelp = document.getElementById('passwordHelp');
-        const passwordError = document.getElementById('passwordError');
-        const confirmHelp = document.getElementById('confirmHelp');
-        const confirmSuccess = document.getElementById('confirmSuccess');
-        const submitBtn = document.getElementById('submitBtn');
-
-        // New password validation function
-        function validatePassword(value) {
-            const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?!.*\s).{8,}$/;
-            if (!re.test(value)) {
-                return 'Password must have at least 8 characters with 1 uppercase, 1 lowercase, 1 number, and no spaces';
-            }
-            
-            return {
-                isValid: errors.length === 0,
-                errors: errors
-            };
-        }
-
-        // New confirm password validation function
-        function validateConfirmPassword(confirmVal, passwordVal) {
-            return confirmVal !== passwordVal ? 'Passwords do not match' : '';
-        }
-
-        function updateSubmitButton() {
-            const passwordError = validatePassword(passwordField.value);
-            const confirmError = validateConfirmPassword(confirmField.value, passwordField.value);
-
-            if (!passwordValidation.isValid || confirmError || passwordField.value === '' || confirmField.value === '') {
-                submitBtn.disabled = true;
-                submitBtn.classList.add('disabled');
-            } else {
-                submitBtn.disabled = false;
-                submitBtn.classList.remove('disabled');
-            }
-        }
-
-        passwordField.addEventListener('input', function() {
-            const validation = validatePassword(this.value);
-            
-            if (validation.isValid) {
-                passwordHelp.style.display = 'none';
-                passwordError.style.display = 'none';
-                this.classList.remove('is-invalid');
-            } else {
-                passwordHelp.style.display = 'block';
-                passwordError.textContent = 'Missing: ' + validation.errors.join(', ');
-                passwordError.style.display = 'block';
-                this.classList.add('is-invalid');
-            }
-            
-            updateSubmitButton();
-            checkPasswordMatch();
-        });
-
-        confirmField.addEventListener('input', function() {
-            checkPasswordMatch();
-            updateSubmitButton();
-        });
-
-        function checkPasswordMatch() {
-            const error = validateConfirmPassword(confirmField.value, passwordField.value);
-
-            if (passwordField.value === '') {
-                confirmHelp.style.display = 'none';
-                confirmSuccess.style.display = 'none';
-                confirmField.classList.remove('is-invalid');
-                return;
-            }
-
-            if (error) {
-                confirmHelp.textContent = error;
-                confirmHelp.style.display = 'block';
-                confirmSuccess.style.display = 'none';
-                confirmField.classList.add('is-invalid');
-            } else {
-                confirmHelp.style.display = 'none';
-                confirmSuccess.style.display = 'block';
-                confirmField.classList.remove('is-invalid');
-            }
-        }
-
-        // Initialize button state
-        updateSubmitButton();
-    </script> --}}
 
     <script>
         // Password toggle functionality
