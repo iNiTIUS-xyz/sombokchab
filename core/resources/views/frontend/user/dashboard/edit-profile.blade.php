@@ -42,7 +42,7 @@
                                 address.</span>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    {{-- <div class="col-md-6">
                         <div class="form-group">
                             <label for="phone">
                                 {{ __('Phone Number') }}
@@ -54,8 +54,8 @@
                                 title="Enter a valid phone number starting with + and followed by 10-15 digits"
                                 oninput="this.value = this.value.replace(/(?!^\+)[^\d]/g, '')" required="">
                         </div>
-                    </div>
-                    <div class="col-md-12">
+                    </div> --}}
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label for="address">{{ __('Address') }}</label>
                             <input type="text" class="form-control" id="address" name="address"

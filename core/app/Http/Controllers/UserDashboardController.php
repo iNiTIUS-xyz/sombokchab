@@ -129,7 +129,11 @@ class UserDashboardController extends Controller
                 'email',
                 Rule::unique('users', 'email')->ignore(Auth::guard()->user()->id),
             ],
-            'phone' => 'required|string|max:30',
+            // 'phone' => [
+            //     'required',
+            //     'string',
+            //     Rule::unique('users', 'phone')->ignore(Auth::guard()->user()->id),
+            // ],
             'state' => 'nullable|string|max:30',
             'city' => 'nullable|string|max:30',
             'zipcode' => 'nullable|string|max:30',
@@ -146,9 +150,9 @@ class UserDashboardController extends Controller
         User::find(Auth::guard()->user()->id)->update([
             'name' => $request->name,
             'email' => $request->email,
+            // 'phone' => $request->phone,
             'username' => $request->username,
             'image' => $request->image,
-            'phone' => $request->phone,
             'state' => $request->state,
             'city' => $request->city,
             'zipcode' => $request->zipcode,
