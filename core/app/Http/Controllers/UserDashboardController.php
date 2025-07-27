@@ -11,6 +11,7 @@ use App\Events\SupportMessage;
 use App\Support\SupportTicket;
 use App\Shipping\ShippingAddress;
 use Modules\Order\Entities\Order;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use App\Mail\SentSupportTicketMail;
 use Illuminate\Contracts\View\View;
@@ -118,7 +119,16 @@ class UserDashboardController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:30',
-            // 'email' => 'required|email|max:30|unique:users,id,'.$request->user_id,
+            'username' => [
+                'nullable',
+                'max:30',
+                Rule::unique('users', 'username')->ignore(Auth::guard()->user()->id),
+            ],
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('users', 'email')->ignore(Auth::guard()->user()->id),
+            ],
             'phone' => 'required|string|max:30',
             'state' => 'nullable|string|max:30',
             'city' => 'nullable|string|max:30',
@@ -127,14 +137,16 @@ class UserDashboardController extends Controller
             'address' => 'nullable|string',
             'image' => 'nullable|string',
         ], [
-            'name.' => __('Name is required'),
-            // 'email.required' => __('email is required'),
+            'name.required' => __('Name is required'),
+            'username.unique' => __('This username is already taken'),
+            'email.unique' => __('This email is already taken'),
             'email.email' => __('Provide valid email'),
         ]);
 
         User::find(Auth::guard()->user()->id)->update([
             'name' => $request->name,
             'email' => $request->email,
+            'username' => $request->username,
             'image' => $request->image,
             'phone' => $request->phone,
             'state' => $request->state,
@@ -485,7 +497,6 @@ class UserDashboardController extends Controller
                 ]);
             }
             dd(2, $refundProducts);
-
         } catch (\Throwable $e) {
 
             dd($e);

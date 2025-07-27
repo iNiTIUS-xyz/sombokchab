@@ -1,12 +1,14 @@
 @extends('frontend.user.dashboard.user-master')
+
 @section('style')
     <x-media.css />
     <x-niceselect.css />
 @endsection
+
 @section('section')
     @php
-
         $states = \Modules\CountryManage\Entities\State::where('country_id', 31)->get();
+        $cities = \Modules\CountryManage\Entities\City::get();
     @endphp
     <div class="bodyUser_overlay"></div>
     <div class="dashboard-form-wrapper">
@@ -17,16 +19,18 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="name">{{ __('Full Name') }}</label>
+                            <label for="name">
+                                {{ __('Full Name') }}
+                                <span class="text-danger">*</span>
+                            </label>
                             <input type="text" class="form-control" id="name" name="name"
-                                value="{{ $user_details->name }}" placeholder="{{ __('Enter Full Name') }}">
+                                value="{{ $user_details->name }}" placeholder="{{ __('Enter Full Name') }}" required="">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="name">{{ __('Username') }}</label>
-                            <input type="text" class="form-control" value="{{ $user_details->username }}" readonly
-                                disabled>
+                            <input type="text" name="username" class="form-control" value="{{ $user_details->username }}" >
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -40,12 +44,15 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="phone">{{ __('Phone Number') }}</label>
+                            <label for="phone">
+                                {{ __('Phone Number') }}
+                                <span class="text-danger">*</span>
+                            </label>
                             <input type="tel" class="form-control" id="phone" name="phone"
                                 value="{{ $user_details->phone }}" placeholder="{{ __('Enter Phone Number') }}"
                                 pattern="^\+[0-9]{10,15}$"
                                 title="Enter a valid phone number starting with + and followed by 10-15 digits"
-                                oninput="this.value = this.value.replace(/(?!^\+)[^\d]/g, '')">
+                                oninput="this.value = this.value.replace(/(?!^\+)[^\d]/g, '')" required="">
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -57,7 +64,9 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="state">{{ __('City') }}</label>
+                            <label for="state">
+                                {{ __('City') }}
+                            </label>
                             <select class="form-select" id="state" name="state">
                                 <option value="">
                                     {{ __('Select City') }}
@@ -73,17 +82,11 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="city">{{ __('Province') }}</label>
-
+                            <label for="city">
+                                {{ __('Province') }}
+                            </label>
                             <select class="form-select" id="city" name="city">
                                 <option value="">{{ __('Select Province') }}</option>
-                                @php
-                                    $cities = \Modules\CountryManage\Entities\City::where(
-                                        'state_id',
-                                        $user_details->state ?? 0,
-                                    )->get();
-                                @endphp
-
                                 @foreach ($cities as $city)
                                     <option value="{{ $city->id }}"
                                         {{ $user_details->city == $city->id ? 'selected' : '' }}>
@@ -140,7 +143,10 @@
             <form action="{{ route('user.deactivate') }}" method="post">
                 @csrf
                 <div class="form-group">
-                    <label for="password">{{ __('Password') }}</label>
+                    <label for="password">
+                        {{ __('Password') }}
+                        <span class="text-danger">*</span>
+                    </label>
                     <input type="password" class="form-control" id="password" name="password"
                         placeholder="{{ __('Enter Password') }}" required>
                 </div>
@@ -160,24 +166,24 @@
         (function($) {
             "use strict";
 
-            $(document).on("change", "#country", function() {
-                let id = $(this).val().trim();
+            // $(document).on("change", "#country", function() {
+            //     let id = $(this).val().trim();
 
-                $.get('{{ route('country.state.info.ajax') }}', {
-                    id: id
-                }).then(function(data) {
-                    $('#state').html(data);
-                });
-            });
-            $(document).on("change", "#state", function() {
-                let id = $(this).val().trim();
+            //     $.get('{{ route('country.state.info.ajax') }}', {
+            //         id: id
+            //     }).then(function(data) {
+            //         $('#state').html(data);
+            //     });
+            // });
+            // $(document).on("change", "#state", function() {
+            //     let id = $(this).val().trim();
 
-                $.get('{{ route('state.city.info.ajax') }}', {
-                    id: id
-                }).then(function(data) {
-                    $('#city').html(data);
-                });
-            });
+            //     $.get('{{ route('state.city.info.ajax') }}', {
+            //         id: id
+            //     }).then(function(data) {
+            //         $('#city').html(data);
+            //     });
+            // });
 
             $(document).ready(function() {
                 $(document).on('click', '.bodyUser_overlay', function() {
