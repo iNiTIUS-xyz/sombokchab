@@ -1,8 +1,12 @@
 <div class="dashboard__card">
     <div class="dashboard__card__header">
-        <h4 class="dashboard__card__title">{{ __('Campaign Product') }}</h4>
+        <h4 class="dashboard__card__title">
+            {{ __('Campaign Product') }}
+        </h4>
         @if (isset($remove_btn))
-        <span class="cross-btn"><i class="las la-times-circle"></i></span>
+            <span class="cross-btn">
+                <i class="las la-times-circle"></i>
+            </span>
         @endif
     </div>
     <div class="dashboard__card__body custom__form mt-4">

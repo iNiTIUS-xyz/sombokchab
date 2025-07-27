@@ -79,7 +79,7 @@
                                                                 </label>
                                                                 <input name="owner_name" type="text"
                                                                     class="form--control radius-10"
-                                                                    value="{{ $vendor->owner_name }}" required
+                                                                    value="{{ $vendor->owner_name }}" required=""
                                                                     placeholder="{{ __('Enter Vendor Name') }}">
                                                             </div>
                                                         </div>
@@ -91,7 +91,7 @@
                                                                 </label>
                                                                 <input name="business_name" type="text"
                                                                     class="form--control radius-10"
-                                                                    value="{{ $vendor->business_name }}" required
+                                                                    value="{{ $vendor->business_name }}" required=""
                                                                     placeholder="{{ __('Enter Business Name') }}">
                                                             </div>
                                                         </div>
@@ -103,7 +103,7 @@
                                                                 </label>
                                                                 <input name="username" type="text"
                                                                     class="form--control radius-10"
-                                                                    value="{{ $vendor->username }}" required
+                                                                    value="{{ $vendor->username }}" required=""
                                                                     placeholder="{{ __('Enter Username') }}">
                                                             </div>
                                                         </div>
@@ -115,7 +115,7 @@
                                                                 </label>
                                                                 <div class="nice-select-two">
                                                                     <select id="business_type" name="business_type_id"
-                                                                        style="" class="form--control radius-10">
+                                                                        style="" class="form--control radius-10" required="">
                                                                         @foreach ($business_type as $item)
                                                                             <option value="{{ $item->id }}"
                                                                                 {{ $item->id == $vendor->business_type_id ? 'selected' : '' }}>
@@ -164,7 +164,7 @@
                                                                 </label>
                                                                 <div class="nice-select-two country_wrapper">
                                                                     <select class="form-control" id="country_id"
-                                                                        name="country_id">
+                                                                        name="country_id" required="">
                                                                         <option value="">Select City</option>
                                                                         @foreach ($country as $item)
                                                                             <option value="{{ $item->id }}"
@@ -183,7 +183,7 @@
                                                                 </label>
                                                                 <div class="nice-select-two state_wrapper">
                                                                     <select class="form-control" id="state_id"
-                                                                        name="state_id">
+                                                                        name="state_id" required="">
                                                                         <option value="">Select City</option>
                                                                         @foreach ($states as $state)
                                                                             <option value="{{ $state->id }}"
@@ -204,7 +204,7 @@
                                                                 </label>
                                                                 <div class="nice-select-two city_wrapper">
                                                                     <select class="form-control" id="city_id"
-                                                                        name="city_id">
+                                                                        name="city_id" required="">
                                                                         <option value="">Select Province</option>
                                                                         @foreach ($cities as $city)
                                                                             <option value="{{ $city->id }}"
@@ -224,7 +224,7 @@
                                                                 <input type="text" name="zip_code"
                                                                     class="form--control radius-10"
                                                                     value="{{ $vendor?->vendor_address?->zip_code }}"
-                                                                    placeholder="{{ __('Postal Code') }}">
+                                                                    placeholder="{{ __('Postal Code') }}" required="">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
@@ -287,7 +287,7 @@
                                                                 </label>
                                                                 <input value="{{ $vendor?->phone }}" name="number"
                                                                     type="tel" class="form--control radius-10"
-                                                                    placeholder="{{ __('Enter Phone Number') }}">
+                                                                    placeholder="{{ __('Enter Phone Number') }}" required="">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
@@ -401,7 +401,7 @@
                                                                     value="{{ $vendor?->vendor_bank_info?->bank_name }}"
                                                                     name="bank_name" type="text"
                                                                     class="form--control radius-10"
-                                                                    placeholder="{{ __('Enter name') }}">
+                                                                    placeholder="{{ __('Enter name') }}" required="">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
@@ -414,7 +414,7 @@
                                                                     value="{{ $vendor?->vendor_bank_info?->bank_email }}"
                                                                     name="bank_email" type="text"
                                                                     class="form--control radius-10"
-                                                                    placeholder="{{ __('Enter email') }}">
+                                                                    placeholder="{{ __('Enter email') }}" required="">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
@@ -427,7 +427,7 @@
                                                                     value="{{ $vendor?->vendor_bank_info?->bank_code }}"
                                                                     name="bank_code" type="tel"
                                                                     class="form--control radius-10"
-                                                                    placeholder="{{ __('Enter code') }}">
+                                                                    placeholder="{{ __('Enter code') }}" required="">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
@@ -440,7 +440,7 @@
                                                                     value="{{ $vendor?->vendor_bank_info?->account_number }}"
                                                                     name="account_number" type="tel"
                                                                     class="form--control radius-10"
-                                                                    placeholder="{{ __('Enter account number') }}">
+                                                                    placeholder="{{ __('Enter account number') }}" required="">
                                                             </div>
                                                         </div>
                                                     </div>

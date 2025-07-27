@@ -1,14 +1,19 @@
 <div class="dashboard__card">
     <div class="dashboard__card__header">
-        <h4 class="dashboard__card__title">{{ __('Campaign Product') }}</h4>
-        @if (isset($remove_btn))
-            <span class="cross-btn"><i class="las la-times-circle"></i></span>
-        @endif
+        <h4 class="dashboard__card__title">
+            {{ __('Campaign Product') }}
+        </h4>
+        <span class="cross-btn text-danger">
+            <i class="las la-times-circle"></i>
+        </span>
     </div>
     <div class="dashboard__card__body custom__form mt-4">
         <div class="form-group select_product">
-            <label for="product_id">{{ __('Select Product') }}</label>
-            <select name="product_id[]" id="product_id" class="form-select wide repeater_product_id">
+            <label for="product_id">
+                {{ __('Select Product') }}
+                <span class="text-danger">*</span>
+            </label>
+            <select name="product_id[]" id="product_id" class="form-select wide repeater_product_id" required>
                 <option value="">{{ __('Add Campaign Product') }}</option>
                 @foreach ($all_products as $product)
                     <option value="{{ $product->id }}" data-price="{{ $product->price }}"
@@ -20,30 +25,46 @@
             </select>
         </div>
         <div class="form-group">
-            <label for="original_price">{{ __('Original Price') }}</label>
+            <label for="original_price">
+                {{ __('Original Price') }}
+            </label>
             <input type="number" class="form-control original_price" disabled>
         </div>
         <div class="form-group">
-            <label for="campaign_price">{{ __('Price for Campaign') }}</label>
+            <label for="campaign_price">
+                {{ __('Price for Campaign') }}
+                <span class="text-danger">*</span>
+            </label>
             <input type="number" name="campaign_price[]" class="form-control campaign_price" step="0.01"
-                placeholder="{{ __('Enter Price For Campaign') }}">
+                placeholder="{{ __('Enter Price For Campaign') }}" required="">
         </div>
         <div class="form-group">
-            <label for="available_num_of_units">{{ __('No. of Units Available') }}</label>
+            <label for="available_num_of_units">
+                {{ __('No. of Units Available') }}
+            </label>
             <input type="number" class="form-control available_num_of_units" disabled>
         </div>
         <div class="form-group">
-            <label for="units_for_sale">{{ __('No. of Units for Sale') }}</label>
+            <label for="units_for_sale">
+                {{ __('No. of Units for Sale') }}
+                <span class="text-danger">*</span>
+            </label>
             <input type="number" name="units_for_sale[]" class="form-control units_for_sale"
-                placeholder="Enter No. of Units for Sale">
+                placeholder="Enter No. of Units for Sale" required>
         </div>
         <div class="form-group">
-            <label for="start_date">{{ __('Start Date') }}</label>
+            <label for="start_date">
+                {{ __('Start Date') }}
+                <span class="text-danger">*</span>
+            </label>
             <input type="text" name="start_date[]" class="form-control flatpickr start_date"
                 placeholder="Enter Start Date">
         </div>
         <div class="form-group">
-            <label for="end_date">{{ __('End Date') }}</label>
+            <label for="end_date">
+                {{ __('End Date') }}
+                <span class="text-danger">*</span>
+            </label>
             <input type="text" name="end_date[]" id="end_date" class="form-control flatpickr end_date"
                 placeholder="Enter End State">
         </div>

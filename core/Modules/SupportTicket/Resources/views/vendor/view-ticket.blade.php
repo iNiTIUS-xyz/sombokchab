@@ -145,19 +145,26 @@
                                 </div>
                             </div>
                             <div class="reply-message-wrap ">
-                                <h5 class="title">{{ __('Reply') }}</h5>
+                                <h5 class="title">
+                                    {{ __('Reply') }}
+                                </h5>
                                 <form action="{{ route('vendor.support.ticket.send.message') }}" method="post"
                                     enctype="multipart/form-data">
                                     @csrf
                                     <input type="hidden" value="{{ $ticket_details->id }}" name="ticket_id">
                                     <input type="hidden" value="vendor" name="user_type">
-                                    <div class="form-group">
-                                        <label for="">{{ __('Message') }}</label>
+                                    <div class="form-group mt-4">
+                                        <label for="">
+                                            {{ __('Message') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
                                         <textarea name="message" class="form-control d-none" cols="30" rows="5" placeholder="Enter Message"></textarea>
                                         <div class="summernote"></div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="file">{{ __('File') }}</label>
+                                        <label for="file">
+                                            {{ __('File') }}
+                                        </label>
                                         <input type="file" name="file">
                                         <small class="info-text d-block text-danger">
                                             {{ __('Max file size 200mb, only zip, png, gif, jpg, jpeg, pdf, docx, doc, odd file is allowed') }}

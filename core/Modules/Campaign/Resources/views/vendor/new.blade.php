@@ -30,24 +30,35 @@
                                         </div>
                                         <div class="dashboard__card__body custom__form mt-4">
                                             <div class="form-group">
-                                                <label for="campaign_name">{{ __('Campaign Name') }}</label>
+                                                <label for="campaign_name">
+                                                    {{ __('Campaign Name') }}
+                                                    <span class="text-danger">*</span>
+                                                </label>
                                                 <input type="text" class="form-control" id="campaign_name"
-                                                    name="campaign_name" placeholder="Enter Campaign Name">
+                                                    name="campaign_name" placeholder="Enter Campaign Name" required="">
                                             </div>
-                                            <div class="form-group">
-                                                <label for="campaign_slug">{{ __('Campaign Slug') }}</label>
+                                            {{-- <div class="form-group">
+                                                <label for="campaign_slug">
+                                                    {{ __('Campaign Slug') }}
+                                                </label>
                                                 <input type="text" class="form-control" id="campaign_slug"
                                                     name="campaign_slug" placeholder="Enter Campaign Slug">
-                                            </div>
+                                            </div> --}}
                                             <div class="form-group">
-                                                <label for="campaign_subtitle">{{ __('Campaign Subtitle') }}</label>
+                                                <label for="campaign_subtitle">
+                                                    {{ __('Campaign Subtitle') }}
+                                                    <span class="text-danger">*</span>
+                                                </label>
                                                 <textarea type="text" class="form-control" id="campaign_subtitle" name="campaign_subtitle"
-                                                    placeholder="Campaign Subtitle"></textarea>
+                                                    placeholder="Campaign Subtitle" required=""></textarea>
                                             </div>
                                             <x-media-upload :title="__('Campaign Image')" :name="'image'" :dimentions="'1920x1080'" />
                                             <div class="form-group">
-                                                <label for="campaign_status">{{ __('Campaign Status') }}</label>
-                                                <select name="status" id="status" class="form-select">
+                                                <label for="campaign_status">
+                                                    {{ __('Campaign Status') }}
+                                                    <span class="text-danger">*</span>
+                                                </label>
+                                                <select name="status" id="status" class="form-select" required="">
                                                     <option value="draft">{{ __('Draft') }}</option>
                                                     <option value="publish">{{ __('Publish') }}</option>
                                                 </select>
@@ -168,7 +179,7 @@
                 }
 
                 $(document).on('click', '.cross-btn', function() {
-                    let container = $(this).closest('.card');
+                    let container = $(this).closest('.dashboard__card');
                     container.slideUp('slow');
                     setTimeout(() => {
                         container.remove();

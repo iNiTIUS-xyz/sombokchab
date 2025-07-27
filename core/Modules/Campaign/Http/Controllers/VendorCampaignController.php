@@ -28,19 +28,19 @@ class VendorCampaignController extends Controller
         $this->middleware('auth:vendor');
     }
 
-    public function index(): Application|Factory|View
+    public function index()
     {
         $all_campaigns = GlobalCampaignService::fetch_campaigns();
 
         return view(self::BASE_URL . 'all', compact('all_campaigns'));
     }
 
-    public function create(): View|Factory|Application
+    public function create()
     {
         return GlobalCampaignService::renderCampaignProduct(self::BASE_URL);
     }
 
-    public function store(CampaignValidationRequest $request): RedirectResponse
+    public function store(CampaignValidationRequest $request)
     {
         $data = $request->validated();
 
@@ -62,7 +62,7 @@ class VendorCampaignController extends Controller
         }
     }
 
-    public function edit($item): Application|Factory|View
+    public function edit($item)
     {
         return GlobalCampaignService::renderCampaignProduct(self::BASE_URL, $item);
     }
