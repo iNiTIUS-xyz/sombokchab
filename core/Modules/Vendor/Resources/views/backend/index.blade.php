@@ -20,7 +20,7 @@
                 <x-msg.flash />
                 <div class="mb-4">
                     <a class="cmn_btn btn_bg_profile" href="{{ route('admin.vendor.create') }}">
-                        {{ __('Vendor Create') }}
+                        {{ __('Add New Vendor') }}
                     </a>
                 </div>
                 <div class="dashboard__card">

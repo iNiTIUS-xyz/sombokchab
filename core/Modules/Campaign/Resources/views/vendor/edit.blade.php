@@ -72,9 +72,9 @@
 
                                             <div class="form-group">
                                                 <input type="checkbox" id="set_fixed_percentage">
-                                                <label for="set_fixed_percentage">{{ __('Set Fixed Percentage') }}</label>
+                                                <label for="set_fixed_percentage">{{ __('Set Discount Percentage') }}</label>
                                                 <p class="text-small">
-                                                    {{ __('when you set fixed percentage, you have to click on sync price button, to sync price selection with all prodcuts') }}
+                                                    {{ __('when you set discount percentage, you have to click on sync price button, to sync price selection with all prodcuts') }}
                                                 </p>
                                                 <div id="fixe_price_cut_container" style="display: none">
                                                     <input type="number" id="fixed_percentage_amount"
@@ -364,50 +364,50 @@
                         });
                     });
 
-                    //     $('#add_product_btn').on('click', function() {
-                    //         let product_repeater_container = $('#product_repeater_container');
-                    //         let remove_button_selector = '.delete-campaign';
-                    //         let from_date = undefined;
-                    //         let to_date = undefined;
-                    //         let new_element = product_repeater_container.find('.card').last().clone();
-                    //
-                    //         if ($('#set_fixed_date').is(':checked')) {
-                    //             from_date = $('#fixed_from_date').val();
-                    //             to_date = $('#fixed_to_date').val();
-                    //         }
-                    //
-                    //         if (from_date) {
-                    //             new_element.find('.start_date.input').val(from_date);
-                    //         }
-                    //
-                    //         if (to_date) {
-                    //             new_element.find('.end_date.input').val(to_date);
-                    //         }
-                    //
-                    //         let remove_btn = new_element.find(remove_button_selector);
-                    //
-                    //         remove_btn.removeClass(remove_button_selector);
-                    //         remove_btn.addClass('cross-btn');
-                    //
-                    //         new_element.find('.start_date.input').remove();
-                    //         new_element.find('.end_date.input').remove();
-                    //
-                    //         new_element.find('.campaign_price').val('');
-                    //         new_element.find('.units_for_sale').val('');
-                    //
-                    //         product_repeater_container.append(new_element.hide());
-                    //         new_element.slideDown('slow');
-                    //
-                    //         flatpickr(".flatpickr", {
-                    //             altInput: true,
-                    //             altFormat: "F j, Y",
-                    //             dateFormat: "Y-m-d",
-                    //         });
-                    //
-                    //         product_repeater_container.find('.nice-select').niceSelect('destroy');
-                    //         product_repeater_container.find('.nice-select').niceSelect();
-                    //     });
-                    // });
+                        $('#add_product_btn').on('click', function() {
+                            let product_repeater_container = $('#product_repeater_container');
+                            let remove_button_selector = '.delete-campaign';
+                            let from_date = undefined;
+                            let to_date = undefined;
+                            let new_element = product_repeater_container.find('.card').last().clone();
+                    
+                            if ($('#set_fixed_date').is(':checked')) {
+                                from_date = $('#fixed_from_date').val();
+                                to_date = $('#fixed_to_date').val();
+                            }
+                    
+                            if (from_date) {
+                                new_element.find('.start_date.input').val(from_date);
+                            }
+                    
+                            if (to_date) {
+                                new_element.find('.end_date.input').val(to_date);
+                            }
+                    
+                            let remove_btn = new_element.find(remove_button_selector);
+                    
+                            remove_btn.removeClass(remove_button_selector);
+                            remove_btn.addClass('cross-btn');
+                    
+                            new_element.find('.start_date.input').remove();
+                            new_element.find('.end_date.input').remove();
+                    
+                            new_element.find('.campaign_price').val('');
+                            new_element.find('.units_for_sale').val('');
+                    
+                            product_repeater_container.append(new_element.hide());
+                            new_element.slideDown('slow');
+                    
+                            flatpickr(".flatpickr", {
+                                altInput: true,
+                                altFormat: "F j, Y",
+                                dateFormat: "Y-m-d",
+                            });
+                    
+                            product_repeater_container.find('.nice-select').niceSelect('destroy');
+                            product_repeater_container.find('.nice-select').niceSelect();
+                        });
+                    });
 
 
 

@@ -132,7 +132,7 @@
                 </div>
                 <div class="dashboard__card__body mt-4">
                     <div class="d-flex justify-content-between mb-2">
-                        <b>{{ __('Sub Order ID') }}</b>
+                        <b>{{ __('Order No.') }}</b>
                         <h6>{{ $subOrders->order_number }}</h6>
                     </div>
                     <div class="d-flex justify-content-between mb-2">

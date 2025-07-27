@@ -7,7 +7,7 @@
     <div class="dashboard__card__header">
         <div class="dashboard__card__header__left">
             <h5 class="dashboard__card__title">
-                {{ __('Custom Inventory Variant') }}
+                {{ __('Custom Inventory Attribute Variant') }}
             </h5>
             <p class="dashboard__card__para mt-3">
                 {{ __('Inventory will be variant of this product.') }}

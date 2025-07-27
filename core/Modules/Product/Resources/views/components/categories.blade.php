@@ -48,7 +48,7 @@
             </select>
         </div>
     </div>
-    <div class="dashboard-input mt-4">
+    <div class="dashboard-input mt-4" style="display: none">
         <label class="dashboard-label color-light mb-2">
             {{ __('Child Category') }}
         </label>

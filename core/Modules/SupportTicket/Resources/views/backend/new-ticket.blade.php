@@ -126,10 +126,10 @@
                                             {{ __('Customer') }}
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <select name="user_id" id="user_id" class="form-control select2 wide">
+                                        <select name="user_id" id="user_id" class="form-control select2 customer_select wide">
                                             <option value="">{{ __('Select Customer') }}</option>
                                             @foreach ($all_users as $user)
-                                                <option value="{{ $user->id }}">{{ $user->username }}</option>
+                                                <option value="{{ $user->id }}">{{ $user->username }} ( {{ $user->phone }} ) </option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -141,11 +141,11 @@
                                             {{ __('Vendor') }}
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <select name="vendor_id" id="vendor_id" class="form-control select2 wide">
+                                        <select name="vendor_id" id="vendor_id" class="form-control select2 vendor_select wide">
                                             <option value="">{{ __('Select Vendor') }}</option>
                                             @foreach ($all_vendors as $vendors)
                                                 <option value="{{ $vendors->id }}">
-                                                    {{ $vendors->owner_name }}
+                                                    {{ $vendors->owner_name }} ( {{ $vendors->phone }} ) 
                                                 </option>
                                             @endforeach
                                         </select>
@@ -187,13 +187,14 @@
 
             $(document).ready(function() {
                 // Initialize Select2
-                $('.select2').select2({
+                $('.select2.customer_select').select2({
                     placeholder: "{{ __('Select Customer') }}",
                 });
 
-                $('.select2').select2({
+                $('.select2.vendor_select').select2({
                     placeholder: "{{ __('Select Vendor') }}",
                 });
+                
 
                 // Toggle between customer and vendor fields
                 $('input[name="user_type"]').change(function() {

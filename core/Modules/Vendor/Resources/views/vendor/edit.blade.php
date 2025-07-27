@@ -336,7 +336,7 @@
                                                                 </label>
                                                                 <input type="text" name="store_color"
                                                                     style="background-color: {{ $vendor?->vendor_shop_info?->colors['store_color'] ?? '' }};color: #fff;"
-                                                                    class="form-control"
+                                                                    class="form-control" placeholder="Select color"
                                                                     value="{{ $vendor?->vendor_shop_info?->colors['store_color'] ?? '' }}"
                                                                     id="store_color">
                                                             </div>
@@ -347,7 +347,7 @@
                                                                     for="store_secondary_color">{{ __('Secondary Color') }}</label>
                                                                 <input type="text" name="store_secondary_color"
                                                                     style="background-color: {{ $vendor?->vendor_shop_info?->colors['store_secondary_color'] ?? '' }};color: #fff;"
-                                                                    class="form-control"
+                                                                    class="form-control" placeholder="Select color"
                                                                     value="{{ $vendor?->vendor_shop_info?->colors['store_secondary_color'] ?? '' }}"
                                                                     id="store_secondary_color">
                                                             </div>
@@ -358,7 +358,7 @@
                                                                     for="store_heading_color">{{ __('Heading Color') }}</label>
                                                                 <input type="text" name="store_heading_color"
                                                                     style="background-color: {{ $vendor?->vendor_shop_info?->colors['store_heading_color'] ?? '' }};color: #fff;"
-                                                                    class="form-control"
+                                                                    class="form-control" placeholder="Select color"
                                                                     value="{{ $vendor?->vendor_shop_info?->colors['store_heading_color'] ?? '' }}"
                                                                     id="store_heading_color">
                                                             </div>
@@ -369,7 +369,7 @@
                                                                     for="store_paragraph_color">{{ __('Paragraph Color') }}</label>
                                                                 <input type="text" name="store_paragraph_color"
                                                                     style="background-color: {{ $vendor?->vendor_shop_info?->colors['store_paragraph_color'] ?? '' }};color: #fff;"
-                                                                    class="form-control"
+                                                                    class="form-control" placeholder="Select color"
                                                                     value="{{ $vendor?->vendor_shop_info?->colors['store_paragraph_color'] ?? '' }}"
                                                                     id="store_paragraph_color">
                                                                 <small>{{ __('you can change site paragraph color from there') }}</small>

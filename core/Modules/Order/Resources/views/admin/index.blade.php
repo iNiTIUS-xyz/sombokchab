@@ -36,7 +36,7 @@
                                 $status = strtolower($order->order_status);
                                 $statusClass = match ($status) {
                                     'canceled' => 'bg-danger',
-                                    'pending' => 'bg-info',
+                                    'pending' => 'bg-warning',
                                     'complete' => 'bg-success',
                                     'failed' => 'bg-warning',
                                     default => 'bg-secondary',

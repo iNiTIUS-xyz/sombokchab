@@ -28609,8 +28609,9 @@ select.form-control:not([size]):not([multiple]) {
 
 .dashboard-products-add .nav-pills .nav-link.active,
 .dashboard-products-add .nav-pills .show>.nav-link {
-  color: var(--customer-profile) !important;
+  color: var(--main-color-one) !important;
   background: none;
+  font-weight: bold !important;
 }
 
 .media-image-header {
@@ -38423,3 +38424,6 @@ table.dataTable thead tr th:first-child {
 
 
 
+.select2-search--dropdown .select2-search__field{
+  border: 1px solid var(--body-color) !important;
+}

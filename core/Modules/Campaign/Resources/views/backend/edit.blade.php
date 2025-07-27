@@ -84,9 +84,9 @@
 
                                             <div class="form-group mt-5">
                                                 <input type="checkbox" id="set_fixed_percentage">
-                                                <label for="set_fixed_percentage">{{ __('Set Fixed Percentage') }}</label>
+                                                <label for="set_fixed_percentage">{{ __('Set Discount Percentage') }}</label>
                                                 <p class="text-small">
-                                                    {{ __('when you set fixed percentage, you have to click on sync price button, to sync price selection with all prodcuts') }}
+                                                    {{ __('when you set discount percentage, you have to click on sync price button, to sync price selection with all prodcuts') }}
                                                 </p>
                                                 <div id="fixe_price_cut_container" style="display: none">
                                                     <input type="number" id="fixed_percentage_amount"

@@ -50,7 +50,7 @@
                             {{ __('Description') }}
                         </label>
                         <textarea type="text" id="general-description" name="general_description" class="form--control radius-10 py-2"
-                            rows="6" placeholder="{{ __('Enter eneral info description') }}">{{ $metaData?->meta_description }}</textarea>
+                            rows="6" placeholder="{{ __('Enter General Info Description') }}">{{ $metaData?->meta_description }}</textarea>
                     </div>
                 </div>
             </div>

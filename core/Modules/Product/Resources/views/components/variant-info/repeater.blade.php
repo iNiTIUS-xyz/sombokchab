@@ -49,7 +49,7 @@
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <label for="item_stock_count">{{ __('Extra cost') }} </label>
+                        <label for="item_stock_count">{{ __('Extra Cost') }} </label>
                         <input type="number" name="item_extra_cost[]" id="item_stock_count" class="form-control"
                             min="0" placeholder="{{ __('Enter Extra cost') }}"
                             value="{{ $detail?->add_cost ?? 0 }}">
@@ -118,7 +118,7 @@
                     <div class="form-group">
                         <label>{{ __('Attribute Value') }}</label>
                         <select name="item_attribute_value[]" class="form-select select2 item_attribute_value">
-                            <option value="">{{ __('Select attribute value') }}</option>
+                            <option value="">{{ __('Select Attribute Value') }}</option>
                         </select>
                     </div>
                 </div>
@@ -150,7 +150,7 @@
                 {{ __('Click on the up arrow button beside attribute select after selecting the attribute.') }}
             </p>
             <p class="attribute-warning">
-                {{ __('In a variant, you cannot select the same attribute more than once, so please create a new variant if you need to do so.') }}
+                {{ __('You cannot select the same attribute more than once, so please create a new attribute variant if you need to do so.') }}
             </p>
         </div>
     </div>

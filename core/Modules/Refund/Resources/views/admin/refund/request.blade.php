@@ -41,7 +41,7 @@
 
                                 <td>
                                     <span class="user-info text-left">
-                                        {{-- <b>{{ $request->order?->order_number }}</b> --}}
+                                        <b>Order No.: {{ $request->order?->order_number }}</b>
                                         <br>
                                         {{ __('Status') }}:
                                         @if ($request->order?->order_status == 'complete')

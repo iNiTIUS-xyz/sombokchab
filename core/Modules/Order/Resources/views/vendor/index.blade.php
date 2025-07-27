@@ -64,7 +64,7 @@
                                     {{-- <td class="order-numb">
                                         {{ $order->id }}
                                     </td> --}}
-                                    <td class="order-numb">
+                                    <td class="order-numb" style="text-align: left;">
                                         {{ $order->order_number }}
                                     </td>
                                     <td class="date">
