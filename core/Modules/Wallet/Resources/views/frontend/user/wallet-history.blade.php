@@ -109,15 +109,15 @@
                 <div class="modal-content custom__form">
                     <div class="modal-header">
                         <h5 class="modal-title" id="couponModal">
-                            {{ __('Deposit to your wallet') }}</h5>
+                            {{ __('Deposit to your wallet') }}
+                        </h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        {{-- <label for="">{{ __('Deposit Amount') }}</label> --}}
                         <input type="number" class="form-control" name="amount"
-                            placeholder="{{ __('Enter deposit amount') }}">
+                            placeholder="{{ __('Enter deposit amount') }}" required="">
                         <div class="confirm-bottom-content">
                             <br>
                             {!! render_payment_gateway_for_form() !!}
