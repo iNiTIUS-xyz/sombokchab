@@ -9,3 +9,4 @@
 /core/storage/**/*.key
 /core/.env
 *.zip
+core/.env
