@@ -120,7 +120,7 @@
                                                                 <h4 class="dashboard__card__title">
                                                                     {{ __('Campaign Product') }}
                                                                 </h4>
-                                                                <span class="delete-campaign">
+                                                                <span class="delete-campaign text-danger">
                                                                     <i class="las la-times-circle"></i>
                                                                 </span>
                                                             </div>
