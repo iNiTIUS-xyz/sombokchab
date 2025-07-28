@@ -1,5 +1,4 @@
-<table class="customs-tables pt-4 position-relative" id="myTable">
-    <div class="load-ajax-data"></div>
+<table class="customs-tables pt-4 position-relative" id="productDataTable">
     <thead class="head-bg">
         <tr>
             <th class="check-all-rows p-3">
@@ -7,7 +6,6 @@
                     <input type="checkbox" class="all-checkbox">
                 </div>
             </th>
-            <th> {{ __('Product ID') }} </th>
             <th> {{ __('Name') }} </th>
             <th> {{ __('Brand') }} </th>
             <th> {{ __('Categories') }} </th>
@@ -18,14 +16,14 @@
         </tr>
     </thead>
     <tbody>
-        @forelse($products["items"] as $product)
+        @forelse($products as $product)
             <tr class="table-cart-row" data-product-id-row="{{ $product->id }}">
-                <td data-label="Check All" class="text-center">
+                <td>
                     @can('product-bulk-destroy')
                         <x-product::table.bulk-delete-checkbox :id="$product->id" />
                     @endcan
                 </td>
-                <td class="product-name-info">
+                <td>
                     <div class="d-flex gap-2">
                         <div class="logo-brand position-relative">
                             <div class="image-box">
@@ -49,7 +47,7 @@
                     </div>
                 </td>
 
-                <td data-label="Image">
+                <td>
                     <div class="d-flex gap-2">
                         <div class="logo-brand product-brand">
                             {!! render_image($product?->brand?->logo) !!}
@@ -58,7 +56,7 @@
                     </div>
                 </td>
 
-                <td class="price-td" data-label="Name">
+                <td>
                     <span class="category-field">
                         @if ($product?->category?->name)
                             <b> {{ __('Category') }}: </b>
@@ -73,11 +71,11 @@
                     </span><br>
                 </td>
 
-                <td class="price-td" data-label="Quantity">
+                <td>
                     <span class="quantity-number"> {{ $product?->inventory?->stock_count }}</span>
                 </td>
 
-                <td data-label="Status">
+                <td>
 
                     <div class="btn-group badge">
                         <button type="button"
@@ -108,7 +106,7 @@
                         </div>
                     </div>
                 </td>
-                <td data-label="Status">
+                <td>
                     <div class="btn-group badge">
                         <button type="button"
                             class="status-{{ $product?->product_status }} {{ $product?->product_status == 'publish' ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
@@ -137,7 +135,7 @@
                     </div>
                 </td>
 
-                <td data-label="Actions">
+                <td>
                     <div class="action-icon">
                         {{-- <a href="{{ route('frontend.products.single', $product->slug) }}"
                             class="btn btn-success btn-sm" title="{{ __('View Data') }}">
@@ -177,7 +175,7 @@
     </tbody>
 </table>
 
-<div class="custom-pagination-wrapper">
+{{-- <div class="custom-pagination-wrapper">
     <div class="pagination-info d-flex gap-3">
         <p>
             <strong>{{ __('Per Page:') }}</strong>
@@ -211,4 +209,4 @@
             @endforeach
         </ul>
     </div>
-</div>
+</div> --}}

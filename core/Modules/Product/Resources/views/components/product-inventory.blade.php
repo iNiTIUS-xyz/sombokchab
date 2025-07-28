@@ -28,9 +28,9 @@
         </div>
 
         <div class="@if (isset($inventoryPage)) col-md-4 @else dashboard-input @endif">
-            <label class="dashboard-label"> {{ __('Quantity') }} </label>
+            <label class="dashboard-label"> {{ __('Stock Quantity') }} </label>
             <input type="number" step="0.01" class="form--control radius-10" name="quantity"
-                placeholder="Enter Quantity" value="{{ $inventory?->stock_count }}">
+                placeholder="Enter stock quantity" value="{{ $inventory?->stock_count }}">
             <small class="mt-2 mb-0 d-block">
                 {{ __('This will be replaced with the sum of inventory items. if any inventory  item is registered..') }}
             </small>

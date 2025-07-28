@@ -271,10 +271,10 @@
                                     </a>
                                 </h5>
                                 <div class="btn-wrapper mb-20" style="padding-left: 20px">
-                                    <a href="{{ route('frontend.products.single', $product->slug) }}"
+                                    {{-- <a href="{{ route('frontend.products.single', $product->slug) }}"
                                         class="btn btn-warning">
                                         <i class="lar la-eye icon"></i>
-                                    </a>
+                                    </a> --}}
                                     <a href="{{ route('vendor.products.edit', $product->id) }}" class="btn btn-primary">
                                         <i class="ti-pencil icon"></i>
                                     </a>

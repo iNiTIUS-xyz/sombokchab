@@ -571,10 +571,8 @@ trait ProductGlobalTrait
 
     private function search($request, $route = 'admin', $queryType = "admin", $isCustomPagination = "custom")
     {
-
         $type = $request->type ?? 'default';
         $multiple_date = $this->is_date_range_multiple();
-
 
         if ($queryType == 'admin') {
             $all_products = Product::query()
@@ -588,7 +586,6 @@ trait ProductGlobalTrait
                     "taxOptions:tax_class_options.id,country_id,state_id,city_id,rate",
                     "vendorAddress:vendor_addresses.id,country_id,state_id,city_id"
                 ]);
-
         } else if ($queryType == 'frontend') {
             $all_products = Product::query()
                 ->with([
@@ -612,7 +609,8 @@ trait ProductGlobalTrait
                 ->withSum("taxOptions", "rate")
                 ->when(get_static_option('vendor_enable', 'on') != 'on', function ($query) {
                     $query->whereNull("vendor_id");
-                })->when($request->country, function ($query) use ($request) {
+                })
+                ->when($request->country, function ($query) use ($request) {
                     $query->whereHas('vendorAddress', function ($query) use ($request) {
                         $query->where('vendor_addresses.country_id', '=', $request->country);
                     });
@@ -627,7 +625,6 @@ trait ProductGlobalTrait
                         $query->where('vendor_addresses.city_id', '=', $request->city);
                     });
                 });
-            // call a function for campaign this function will add condition to this table
         } else if ($queryType == 'api') {
             $all_products = Product::query()
                 ->with([
@@ -647,12 +644,14 @@ trait ProductGlobalTrait
                     'vendor',
                     "taxOptions:tax_class_options.id,country_id,state_id,city_id,rate",
                     "vendorAddress:vendor_addresses.id,country_id,state_id,city_id"
-                ])->withAvg("ratings", "rating")
+                ])
+                ->withAvg("ratings", "rating")
                 ->withCount("ratings")
                 ->withSum("taxOptions", "rate")
                 ->whereHas("status", function ($query) {
                     $query->where("name", "Active");
-                })->when(get_static_option('vendor_enable', 'on') != 'on', function ($query) {
+                })
+                ->when(get_static_option('vendor_enable', 'on') != 'on', function ($query) {
                     $query->whereNull("vendor_id");
                 });
         } else if ($queryType == 'vendor') {
@@ -678,6 +677,7 @@ trait ProductGlobalTrait
                 ->without("badge", "uom");
         }
 
+        // Filters
         $all_products->when($request->search_category_id != 'all' && $request->search_category_id, function ($q) use ($request) {
             $q->whereHas("category", function ($q) use ($request) {
                 $q->where("categories.id", $request->search_category_id);
@@ -703,86 +703,83 @@ trait ProductGlobalTrait
                     $vendor->where("id", auth("sanctum")->id());
                 });
             })
-            ->when(!empty($request->name) && $request->has("name"), function ($query) use ($request) {
+            ->when(!empty($request->name), function ($query) use ($request) {
                 $query->where("name", "LIKE", "%" . trim(strip_tags($request->name)) . "%");
             })
-            ->when(!empty($request->tag) && $request->has("tag"), function ($query) use ($request) {// search by using tag
+            ->when(!empty($request->tag), function ($query) use ($request) {
                 $query->whereHas("tag", function ($i_query) use ($request) {
                     $i_query->where("tag_name", "like", "%" . $request->tag . "%");
                 });
             })
-            ->when(!empty($request->category) && $request->has("category"), function ($query) use ($request) { // category
+            ->when(!empty($request->category), function ($query) use ($request) {
                 $query->whereHas("category", function ($i_query) use ($request) {
                     $i_query->where("name", "like", "%" . trim(strip_tags($request->category)) . "%");
                 });
             })
-            ->when(!empty($request->sub_category) && $request->has("sub_category"), function ($query) use ($request) { // sub category
+            ->when(!empty($request->sub_category), function ($query) use ($request) {
                 $query->whereHas("subCategory", function ($i_query) use ($request) {
                     $i_query->where("name", "like", "%" . trim(strip_tags($request->sub_category)) . "%");
                 });
             })
-            ->when(!empty($request->child_category) && $request->has("child_category"), function ($query) use ($request) { // child category
+            ->when(!empty($request->child_category), function ($query) use ($request) {
                 $query->whereHas("childCategory", function ($i_query) use ($request) {
                     $i_query->where("name", "like", "%" . trim(strip_tags($request->child_category)) . "%");
                 });
             })
-            ->when(!empty($request->category_id) && $request->has("category_id"), function ($query) use ($request) { // category
+            ->when(!empty($request->category_id), function ($query) use ($request) {
                 $query->whereHas("category", function ($i_query) use ($request) {
                     $i_query->where("categories.id", trim(strip_tags($request->category_id)));
                 });
             })
-            ->when(!empty($request->sub_category_id) && $request->has("sub_category_id"), function ($query) use ($request) { // sub category
+            ->when(!empty($request->sub_category_id), function ($query) use ($request) {
                 $query->whereHas("subCategory", function ($i_query) use ($request) {
                     $i_query->where("sub_categories.id", trim(strip_tags($request->sub_category_id)));
                 });
             })
-            ->when(!empty($request->child_category_id) && $request->has("child_category_id"), function ($query) use ($request) { // child category
+            ->when(!empty($request->child_category_id), function ($query) use ($request) {
                 $query->whereHas("childCategory", function ($i_query) use ($request) {
                     $i_query->where("child_categories.id", trim(strip_tags($request->child_category_id)));
                 });
             })
-            ->when(!empty($request->brand) && $request->has("brand"), function ($query) use ($request) { // Brand
+            ->when(!empty($request->brand), function ($query) use ($request) {
                 $query->whereHas("brand", function ($i_query) use ($request) {
                     $i_query->where("name", "like", "%" . trim(strip_tags($request->brand)) . "%");
                 });
             })
-            ->when(!empty($request->color) && $request->has("color"), function ($query) use ($request) { // color
+            ->when(!empty($request->color), function ($query) use ($request) {
                 $query->whereHas("color", function ($i_query) use ($request) {
                     $i_query->where("name", "like", "%" . trim(strip_tags($request->color)) . "%");
                 });
             })
-            ->when(!empty($request->size) && $request->has("size"), function ($query) use ($request) { // size
+            ->when(!empty($request->size), function ($query) use ($request) {
                 $query->whereHas("size", function ($i_query) use ($request) {
                     $i_query->where("name", "like", "%" . trim(strip_tags($request->size)) . "%");
                 });
             })
-            ->when(!empty($request->sku) && $request->has("sku"), function ($query) use ($request) { // sku
+            ->when(!empty($request->sku), function ($query) use ($request) {
                 $query->whereHas("inventory", function ($i_query) use ($request) {
                     $i_query->where("sku", "like", trim(strip_tags($request->sku) . "%"));
                 });
             })
-            ->when(!empty($request->delivery_option) && $request->has("delivery_option"), function ($query) use ($request) { // delivery option
+            ->when(!empty($request->delivery_option), function ($query) use ($request) {
                 $query->whereHas("productDeliveryOption", function ($i_query) use ($request) {
                     $i_query->where("title", "like", "%" . trim(strip_tags($request->delivery_option)) . "%");
                 });
             })
-            ->when(!empty($request->refundable) && $request->has("refundable"), function ($query) use ($request) { // refundable
+            ->when(!empty($request->refundable), function ($query) {
                 $query->where("is_refundable", 1);
             })
-            ->when(!empty($request->inventory_warning) && $request->has("inventory_warning"), function ($query) use ($request) { // inventory warning
+            ->when(!empty($request->inventory_warning), function ($query) {
                 $query->where("is_inventory_warn_able", 1);
             })
-            ->when(!empty($request->from_price) && $request->has("from_price") && !empty($request->to_price) && $request->has("to_price"), function ($query) use ($request) { // price
+            ->when(!empty($request->from_price) && !empty($request->to_price), function ($query) use ($request) {
                 $query->whereBetween("sale_price", [$request->from_price, $request->to_price]);
             })
-            ->when($multiple_date[0] && $request->has("date_range"), function ($query) use ($request, $multiple_date) { // Order By
-                // make separate to date in an array
+            ->when($multiple_date[0] && $request->has("date_range"), function ($query) use ($request, $multiple_date) {
                 $arr = $multiple_date[1];
-
                 $query->whereBetween("created_at", [$arr[0], $arr[1]]);
             })
-            ->when(!empty($request->min_price ?? null) && !empty($request->max_price ?? ""), function ($query) use ($request) { // Order By
-                // now makes whereBetween condition for search product
+            ->when(!empty($request->min_price ?? null) && !empty($request->max_price ?? ""), function ($query) use ($request) {
                 $query->whereBetween("sale_price", [$request->min_price, $request->max_price]);
             })
             ->when(!empty($request->order_by), function ($query) use ($request) {
@@ -794,7 +791,7 @@ trait ProductGlobalTrait
                         $query->orderBy('id', 'desc');
                         break;
                     case 'a-z':
-                        $query->orderBy('name', 'asc'); // Replace `name` with your actual column
+                        $query->orderBy('name', 'asc');
                         break;
                     case 'z-a':
                         $query->orderBy('name', 'desc');
@@ -806,7 +803,6 @@ trait ProductGlobalTrait
                         $query->orderBy('sale_price', 'desc');
                         break;
                     default:
-                        // Optionally, set a default order
                         $query->orderBy('id', 'desc');
                         break;
                 }
@@ -817,11 +813,7 @@ trait ProductGlobalTrait
             })
             ->latest();
 
-        $display_item_count = request()->count ?? get_static_option('default_item_count', 10);
-        $current_query = request()->all();
-        $create_query = http_build_query($current_query);
-
-        return CustomPaginationService::pagination_type($all_products, $display_item_count, $isCustomPagination, route($route . ".products.search") . '?' . $create_query);
+        return $all_products->get();
     }
 
     private function is_date_range_multiple(): array

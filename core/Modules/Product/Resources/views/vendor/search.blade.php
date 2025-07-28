@@ -5,8 +5,7 @@
         $route ?? ($route = 'admin');
     }
 @endphp
-<table class="customs-tables pt-4 position-relative" id="myTable" style="text-align: left !important;">
-    <div class="load-ajax-data"></div>
+<table class="customs-tables pt-4 position-relative" id="productDataTable">
     <thead class="head-bg">
         <tr>
             <th class="check-all-rows p-3">
@@ -24,7 +23,7 @@
         </tr>
     </thead>
     <tbody>
-        @forelse($products["items"] as $product)
+        @forelse($products as $product)
             <tr class="table-cart-row">
                 <td data-label="Check All">
                     <x-product::table.bulk-delete-checkbox :id="$product->id" />
@@ -147,7 +146,7 @@
     </tbody>
 </table>
 
-<div class="custom-pagination-wrapper">
+{{-- <div class="custom-pagination-wrapper">
     <div class="pagination-info">
         <p>
             <strong>{{ __('Per Page:') }}</strong>
@@ -193,4 +192,4 @@
             </li>
         </ul>
     </div>
-</div>
+</div> --}}

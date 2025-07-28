@@ -13,10 +13,10 @@
                 {{ __('Inventory will be variant of this product.') }}
             </p>
             <p class="dashboard__card__para mt-1">
-                {{ __('All inventory stock count will be merged and replace to main stock of this product.') }}
+                {{ __('All inventory stock quantity will be merged and replace to main stock of this product.') }}
             </p>
             <p class="dashboard__card__para mt-1">
-                {{ __('Stock count filed is required.') }}
+                {{ __('stock quantity filed is required.') }}
             </p>
         </div>
     </div>

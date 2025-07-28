@@ -31,7 +31,7 @@ use Modules\TaxModule\Entities\TaxClass;
 class ProductController extends Controller
 {
 
-    public function index(Request $request): Renderable
+    public function index(Request $request)
     {
         $products = AdminProductServices::productSearch($request, "admin");
 
@@ -40,7 +40,7 @@ class ProductController extends Controller
         return view('product::index', compact("products", "statuses"));
     }
 
-    public function create(): Renderable
+    public function create()
     {
         $data = $this->productData();
 
@@ -85,7 +85,7 @@ class ProductController extends Controller
         return view('product::show');
     }
 
-    public function edit(int $id): Renderable
+    public function edit(int $id)
     {
         $data = $this->productData();
 
@@ -107,8 +107,8 @@ class ProductController extends Controller
 
         return response()->json(
             (new AdminProductServices)->update($data, $id)
-            ? ["success" => true, "type" => "success"]
-            : ["success" => false, "type" => "danger"]
+                ? ["success" => true, "type" => "success"]
+                : ["success" => false, "type" => "danger"]
         );
     }
 
@@ -155,7 +155,7 @@ class ProductController extends Controller
         return response()->json((new AdminProductServices)->bulk_delete_action($request->ids) ? ["success" => true, "type" => "success"] : ["success" => false, "type" => "danger"]);
     }
 
-    public function trash(): Renderable
+    public function trash()
     {
         $products = Product::with('category', 'subCategory', 'childCategory', 'brand', 'inventory')->onlyTrashed()->get();
         return view('product::trash', compact("products"));

@@ -182,6 +182,8 @@ Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_
         Route::get('/support-tickets', 'UserDashboardController@support_tickets')->name('user.home.support.tickets');
 
         Route::post('/user/deactivate', 'UserDashboardController@deactivateAccount')->name('user.deactivate');
+        Route::post('send/otp-code', 'UserDashboardController@sendOtopCode')->name('user.send.opt.code');
+        Route::post('change/phone', 'UserDashboardController@changePhone')->name('user.chnage.phone');
 
         Route::get('support-ticket/view/{id}', 'UserDashboardController@support_ticket_view')->name('user.dashboard.support.ticket.view');
         Route::post('support-ticket/priority-change', 'UserDashboardController@support_ticket_priority_change')->name('user.dashboard.support.ticket.priority.change');
