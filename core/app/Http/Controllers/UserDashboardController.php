@@ -9,19 +9,21 @@ use App\Helpers\FlashMsg;
 use Illuminate\Http\Request;
 use App\Events\SupportMessage;
 use App\Support\SupportTicket;
+use Illuminate\Validation\Rule;
 use App\Shipping\ShippingAddress;
 use Modules\Order\Entities\Order;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use App\Mail\SentSupportTicketMail;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Modules\Order\Entities\SubOrder;
 use App\Support\SupportTicketMessage;
 use Illuminate\Contracts\View\Factory;
 use Modules\Order\Entities\OrderTrack;
+use App\Http\Requests\ChangePhoneRequest;
 use Modules\Refund\Entities\RefundReason;
 use Modules\Refund\Entities\RefundRequest;
 use Modules\CountryManage\Entities\Country;
@@ -184,6 +186,83 @@ class UserDashboardController extends Controller
         Auth::logout();
 
         return redirect()->route('homepage')->with('success', 'Your account has been deactivated.');
+    }
+
+    public function sendOtopCode(Request $request)
+    {
+
+        $request->validate([
+            'phone' => 'required|string'
+        ]);
+
+        $phone = $request->input('phone');
+
+        $otpCode = Str::upper(Str::random(4));
+
+        $user = User::query()
+            ->findOrFail(Auth::user()->id);
+
+        $user->otp_code = $otpCode;
+        $user->save();
+
+        // Prepare SMS gateway API
+        $apiUrl = "http://smpp.revesms.com:7788/sendtext";
+        $apiKey = "3878204a3dcfa224";
+        $secretKey = "cbbbdb73";
+        $callerID = "8801635396061";
+        $messageContent = "Your one time OTP code is: $otpCode.";
+
+        // Send GET request to SMS API
+        $response = Http::get($apiUrl, [
+            'apikey' => $apiKey,
+            'secretkey' => $secretKey,
+            'callerID' => $callerID,
+            'toUser' => $phone,
+            'messageContent' => $messageContent,
+        ]);
+
+        if ($response->successful()) {
+            return response()->json([
+                'status' => true,
+                'message' => 'OTP sent successfully!'
+            ]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'Failed to send OTP.'
+            ], 500);
+        }
+    }
+
+    public function changePhone(ChangePhoneRequest $request)
+    {
+
+        try {
+            $user = User::query()
+                ->findOrFail(Auth::user()->id);
+
+            if (!$user) {
+                return redirect()->back()->with(['msg' => __('User not found.'), 'type' => 'warning']);
+            }
+
+            if ($user->otp_code != $request->otp_code) {
+
+                return redirect()->back()->with(['msg' => __('Invalid OTP code.'), 'type' => 'warning']);
+            }
+
+            DB::beginTransaction();
+
+            $user->phone = $request->country_code . $request->phone;
+            $user->otp_code = null;
+            $user->save();
+
+            DB::commit();
+
+            return redirect()->back()->with(['msg' => __('User phone number chnaged successfully.'), 'type' => 'success']);
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return redirect()->back()->with(['msg' => __('Something went wrong. Please try again.'), 'type' => 'warning']);
+        }
     }
 
     public function user_password_change(Request $request)

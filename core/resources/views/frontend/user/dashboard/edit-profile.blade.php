@@ -42,19 +42,6 @@
                                 address.</span>
                         </div>
                     </div>
-                    {{-- <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="phone">
-                                {{ __('Phone Number') }}
-                                <span class="text-danger">*</span>
-                            </label>
-                            <input type="tel" class="form-control" id="phone" name="phone"
-                                value="{{ $user_details->phone }}" placeholder="{{ __('Enter Phone Number') }}"
-                                pattern="^\+[0-9]{10,15}$"
-                                title="Enter a valid phone number starting with + and followed by 10-15 digits"
-                                oninput="this.value = this.value.replace(/(?!^\+)[^\d]/g, '')" required="">
-                        </div>
-                    </div> --}}
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="address">{{ __('Address') }}</label>
@@ -138,6 +125,47 @@
     </div>
     <hr>
     <div class="dashboard-form-wrapper" style="margin-top: 20px">
+        <h2 class="dashboard__card__title">{{ __('Chgange Phone Number') }}</h2>
+        <div class="custom__form mt-4">
+            <form action="{{ route('user.chnage.phone') }}" method="post">
+                @csrf
+                <div class="phone-input mb-4">
+                    <label class="label-title mb-2">
+                        {{ __('Phone Number') }}
+                    </label>
+                    <div class="d-flex">
+                        <select id="country_code" name="country_code" class="form-select"
+                            style="width: 15% !important; border: 1px solid rgba(221, 221, 221, 0.4) !important; box-shadow: 0 0 10px rgba(255, 255, 255, 0.1) !important;">
+                            <option value="+1">+1</option>
+                            <option value="+880">+880</option>
+                            <option value="+855">+855</option>
+                        </select>
+                        <input id="phone" name="phone" type="number" class="form--control radius-10"
+                            placeholder="{{ __('Phone Number') }}" required
+                            style="width: 70% !important; border-radius: 0px;">
+                        <button type="button" onclick="sendOtpCode()" class="btn btn-success" style="width: 15% !important; color: #000; background-color: rgba(221, 221, 221, 0.4); border: 1px solid rgba(221, 221, 221, 0.4) !important; box-shadow: 0 0 10px rgba(255, 255, 255, 0.1) !important;">
+                            Send Code
+                        </button>
+                    </div>
+                    <p id="showMessage"></p>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="password">
+                        {{ __('Otp Code') }}
+                        <span class="text-danger">*</span>
+                    </label>
+                    <input type="text" class="form-control" name="otp_code" placeholder="{{ __('Enter OTP code') }}" required>
+                </div>
+                <div class="btn-wrapper mt-2">
+                    <button type="submit" class="btn btn-success">
+                        {{ __('Chnage Phone Number') }}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <hr>
+    <div class="dashboard-form-wrapper" style="margin-top: 20px">
         <h2 class="dashboard__card__title">{{ __('Deactivate Account') }}</h2>
         <div class="custom__form mt-4">
             <form action="{{ route('user.deactivate') }}" method="post">
@@ -162,6 +190,47 @@
 
 @section('script')
     <x-niceselect.js />
+
+    <script>
+        function sendOtpCode() {
+            var countryCode = $("#country_code").val();
+            var phoneNumber = $("#phone").val();
+            var fullNumber = countryCode + phoneNumber;
+
+            if (!phoneNumber) {
+                alert("Please enter a valid phone number.");
+                return;
+            }
+
+            $.ajax({
+                url: "{{ route('user.send.opt.code') }}",
+                method: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    phone: fullNumber
+                },
+                beforeSend: function () {
+                    $("button[onclick='sendOtpCode()']").text("Sending...");
+                },
+                success: function (response) {
+
+                    $("#showMessage").text(`
+                        <span class="text-success"> OTP Code has been sent successfully! Please check you inbox.</span>
+                    `);
+                },
+                error: function (xhr) {
+                    $("#showMessage").text(`
+                        <span class="text-danger">Failed to send OTP. Please try again.</span>
+                    `);
+                },
+                complete: function () {
+                    $("button[onclick='sendOtpCode()']").text("Send Code");
+                }
+            });
+        }
+    </script>
+
+
     <script>
         (function($) {
             "use strict";
