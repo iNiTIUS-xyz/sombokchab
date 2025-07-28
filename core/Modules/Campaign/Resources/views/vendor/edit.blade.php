@@ -72,9 +72,9 @@
 
                                             <div class="form-group">
                                                 <input type="checkbox" id="set_fixed_percentage">
-                                                <label for="set_fixed_percentage">{{ __('Set Fixed Percentage') }}</label>
+                                                <label for="set_fixed_percentage">{{ __('Set Discount Percentage') }}</label>
                                                 <p class="text-small">
-                                                    {{ __('when you set fixed percentage, you have to click on sync price button, to sync price selection with all prodcuts') }}
+                                                    {{ __('when you set discount percentage, you have to click on sync price button, to sync price selection with all prodcuts') }}
                                                 </p>
                                                 <div id="fixe_price_cut_container" style="display: none">
                                                     <input type="number" id="fixed_percentage_amount"
@@ -153,9 +153,11 @@
                                                                     </select>
                                                                 </div>
                                                                 <div class="form-group">
-                                                                    <label
-                                                                        for="product_original_price">
+                                                                    <label for="product_original_price">
                                                                         {{ __('Original Price') }}
+                                                                        <span title="This field only for showing orginal price" style="cursor: pointer;">
+                                                                            <i class="las la-star required-filed"></i>
+                                                                        </span>
                                                                     </label>
                                                                     <input type="number"
                                                                         class="form-control product_original_price"

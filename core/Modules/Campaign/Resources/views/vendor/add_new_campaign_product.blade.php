@@ -27,6 +27,9 @@
         <div class="form-group">
             <label for="original_price">
                 {{ __('Original Price') }}
+                <span title="This field only for showing orginal price" style="cursor: pointer;">
+                    <i class="las la-star required-filed"></i>
+                </span>
             </label>
             <input type="number" class="form-control original_price" disabled>
         </div>
