@@ -120,13 +120,13 @@
                                             <span class="slider-yes-no"></span>
                                         </label>
                                     </div>
-                                    <div class="form-group">
+                                    {{-- <div class="form-group">
                                         <label for="slug">
                                             {{ __('Slug') }}
                                         </label>
                                         <input type="text" class="form-control" id="slug" name="slug"
                                             placeholder="{{ __('Enter slug') }}" value="{{ $page_post->slug }}">
-                                    </div>
+                                    </div> --}}
                                     <div class="form-group">
                                         <label>
                                             {{ __('Status') }}
