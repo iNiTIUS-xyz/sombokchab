@@ -60,16 +60,38 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label class="label-1" for="search-category">{{ __('Category') }}</label>
-                                            <input name="category" class="form-control" id="search-category"
-                                                value="{{ request('category') }}" placeholder="{{ __('Enter categroy') }}" />
+                                            <label class="label-1" for="search-category">
+                                                {{ __('Category') }}
+                                            </label>
+                                            <select name="category" class="form-control select2">
+                                                <option value="" disabled selected>
+                                                    Select One
+                                                </option>
+                                                @foreach ($categories as $category)
+                                                    <option value="{{ $category->name }}" @if(request('category') == $category->name) selected @endif>
+                                                        {{ $category->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label class="label-1" for="search-sub_category">{{ __('Sub Category') }}</label>
-                                            <input name="sub_category" class="form-control" id="search-brand"
-                                                value="{{ request('sub_category') }}" placeholder="{{ __('Enter sub category') }}" />
+                                            <label class="label-1" for="search-sub_category">
+                                                {{ __('Sub Category') }}
+                                            </label>
+                                            <select name="category" class="form-control select2">
+                                                <option value="" disabled selected>
+                                                    Select One
+                                                </option>
+                                                @foreach ($sub_categories as $sub_category)
+                                                    <option value="{{ $sub_category->name }}" @if(request('sub_category') == $sub_category->name) selected @endif>
+                                                        {{ $sub_category->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            {{-- <input name="sub_category" class="form-control" id="search-brand"
+                                                value="{{ request('sub_category') }}" placeholder="{{ __('Enter sub category') }}" /> --}}
                                         </div>
                                     </div>
                                     {{-- <div class="col-md-4">
@@ -220,6 +242,9 @@
         <x-product::table.bulk-action-js :url="route('admin.products.bulk.destroy')" />
     @endcan
     <x-product::product-image-js />
+    <script>
+        $(".select2").select2();
+    </script>
     <script>
         $(function() {
             $("#search-date_range").flatpickr({

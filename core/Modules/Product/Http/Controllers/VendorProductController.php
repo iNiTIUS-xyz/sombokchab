@@ -45,9 +45,10 @@ class VendorProductController extends Controller
 
         $statuses = Status::all();
 
-        return view('product::vendor.index', compact("products", "statuses"));
+        $categories = Category::get();
+        $sub_categories = SubCategory::get();
 
-
+        return view('product::vendor.index', compact("products", "statuses", "categories", "sub_categories"));
     }
 
     public function create()

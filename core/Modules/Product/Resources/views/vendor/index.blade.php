@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap4.min.css') }}">
     <x-product::variant-info.css />
     <x-media.css type="vendor" />
+    <link rel="stylesheet" href="{{ asset('assets/css/select2.min.css') }}">
 @endsection
 @section('content')
     <div class="dashboard-recent-order">
@@ -61,17 +62,36 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label class="label-1" for="search-category">{{ __('Category') }}</label>
-                                            <input name="category" class="form--control input-height-1" id="search-category"
-                                                value="{{ request('category') }}" placeholder="{{ __('Enter Category') }}" />
+                                            <label class="label-1" for="search-category">
+                                                {{ __('Category') }}
+                                            </label>
+                                            <select name="category" class="form-control select2">
+                                                <option value="" disabled selected>
+                                                    Select One
+                                                </option>
+                                                @foreach ($categories as $category)
+                                                    <option value="{{ $category->name }}" @if(request('category') == $category->name) selected @endif>
+                                                        {{ $category->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label class="label-1" for="search-sub_category">{{ __('Sub Categor') }}y</label>
-                                            <input name="sub_category" class="form--control input-height-1" id="search-brand"
-                                                value="{{ request('sub_category') }}"
-                                                placeholder="{{ __('Enete Sub Category') }}" />
+                                            <label class="label-1" for="search-sub_category">
+                                                {{ __('Sub Category') }}
+                                            </label>
+                                            <select name="category" class="form-control select2">
+                                                <option value="" disabled selected>
+                                                    Select One
+                                                </option>
+                                                @foreach ($sub_categories as $sub_category)
+                                                    <option value="{{ $sub_category->name }}" @if(request('sub_category') == $sub_category->name) selected @endif>
+                                                        {{ $sub_category->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                     {{-- <div class="col-md-4">
@@ -196,11 +216,15 @@
 @endsection
 
 @section('script')
+    <script src="{{ asset('assets/js/select2.min.js') }}"></script>
     <script src="{{ asset('assets/js/flatpickr.js') }}"></script>
     <x-product::table.status-js type="vendor" />
     <x-product::table.bulk-action-js :url="route('vendor.products.bulk.destroy')" />
     <x-product::product-image-js :route="route('vendor.products.update-image')" />
     <x-media.js type="vendor" />
+    <script>
+        $(".select2").select2();
+    </script>
     <script>
         $(function () {
             $("#search-date_range").flatpickr({

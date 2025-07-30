@@ -36,8 +36,10 @@ class ProductController extends Controller
         $products = AdminProductServices::productSearch($request, "admin");
 
         $statuses = Status::all();
+        $categories = Category::get();
+        $sub_categories = SubCategory::get();
 
-        return view('product::index', compact("products", "statuses"));
+        return view('product::index', compact("products", "statuses", "categories", "sub_categories"));
     }
 
     public function create()
