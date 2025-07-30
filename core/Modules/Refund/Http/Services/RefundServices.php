@@ -45,14 +45,11 @@ class RefundServices extends RefundRequestWithable
             ->withWhereHas("isDelivered")
             ->firstOrFail();
 
-        dd($order);
-
         $addDay = get_static_option("how_long_user_will_eligible_for_refund");
 
         if ($order->isDelivered?->created_at?->addDay($addDay) < Carbon::now()) {
             return false;
         }
-
 
         return $order->orderItems ?? false;
     }
