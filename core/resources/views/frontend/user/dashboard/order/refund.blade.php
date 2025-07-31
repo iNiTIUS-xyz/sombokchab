@@ -303,7 +303,7 @@
                     html += `
                         <div class="form-group mt-3">
                             <label class="form-label">QR Code File</label>
-                            <input class="form-control-file" name="qr_code_file" type="file" />
+                            <input class="form-control-file" name="qr_file" type="file" />
                         </div>
                     `;
                 }

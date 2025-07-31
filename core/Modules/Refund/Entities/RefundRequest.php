@@ -24,6 +24,7 @@ class RefundRequest extends Model
         'preferred_option_id',
         'preferred_option_fields',
         'refund_fee',
+        'qr_file',
         'status',
         'user_id'
     ];

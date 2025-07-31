@@ -564,6 +564,7 @@ class UserDashboardController extends Controller
 
     public function handleRefundRequest(HandleUserRefundRequest $request, $id)
     {
+
         if (!moduleExists("Refund")) {
             abort(404);
         }
@@ -572,17 +573,13 @@ class UserDashboardController extends Controller
 
             $refundProducts = RefundServices::prepareRefundRequestData($request->validated(), $id);
 
-
             if ($refundProducts) {
                 return redirect()->route('user.product.refund-request')->with([
                     'msg' => __('Your refund request has been sent successfully.'),
                     'type' => 'success',
                 ]);
             }
-            dd(2, $refundProducts);
         } catch (\Throwable $e) {
-
-            dd($e);
 
             return back()->with([
                 'msg' => __('An error occurred while processing your refund request. Please try again later.'),
@@ -590,7 +587,6 @@ class UserDashboardController extends Controller
             ]);
         }
     }
-
 
     public function orderDetailsPage($item)
     {

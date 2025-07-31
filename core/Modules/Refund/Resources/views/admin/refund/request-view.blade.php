@@ -461,7 +461,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-5 mt-4">
+                <div class="col-md-3 mt-4">
                     <div class="dashboard__card">
                         <div class="dashboard__card__header">
                             <h3 class="dashboard__card__title">
@@ -514,7 +514,23 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-7 mt-4">
+                @if(isset($request->qr_file))
+                    <div class="col-md-3 mt-4">
+                        <div class="dashboard__card">
+                            <div class="dashboard__card__header">
+                                <h3 class="dashboard__card__title">
+                                    {{ __('Request QR File') }}
+                                </h3>
+                            </div>
+                            <div class="dashboard__card__body mt-4">
+                                <a href="{{ asset($request->qr_file) }}" target="__blanck">
+                                    <img src="{{ asset($request->qr_file) }}" alt="" width="100%" height="100%">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+                <div class="col-md-6 mt-4">
                     <div class="dashboard__card">
                         <div class="dashboard__card__header">
                             <h3 class="dashboard__card__title">
@@ -543,9 +559,6 @@
                                         </small>
                                     </div>
                                 @endforeach
-                            </div>
-                            <div class="stepDetails">
-                                <p>sgsdfgsdfgsdfgsdfgsdfg</p>
                             </div>
                         </div>
                     </div>

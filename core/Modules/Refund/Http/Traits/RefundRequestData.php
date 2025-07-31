@@ -112,20 +112,33 @@ trait RefundRequestData
     private function storeRefundRequest()
     {
         return $this->refundRequest = RefundRequest::create($this->storeRefundRequestData());
-
     }
 
-    private function storeRefundRequestData(): array
+    private function storeRefundRequestData()
     {
+        $qrFileName = null;
+
+        if (isset($this->data['qr_file']) && $this->data['qr_file']) {
+            if (!file_exists(public_path('uploads/refund-qr'))) {
+                mkdir(public_path('uploads/refund-qr'), 0777, true);
+            }
+
+            $filename = time() . rand(1111, 9999) . '.' . $this->data['qr_file']->getClientOriginalExtension();
+            $this->data['qr_file']->move(public_path('uploads/refund-qr'), $filename);
+            $qrFileName = 'uploads/refund-qr/' . $filename;
+        }
+
         return [
             "additional_information" => $this->data["additional_information"],
             "preferred_option_id" => $this->data["preferred_option"],
             "preferred_option_fields" => $this->data["preferred_option_fields"],
             "order_id" => $this->orderId,
             "status" => $this->defaultRefundStatus ?? '',
-            "user_id" => auth()->id()
+            "user_id" => auth()->id(),
+            "qr_file" => $qrFileName,
         ];
     }
+
 
     private function requestItemProduct()
     {

@@ -264,7 +264,6 @@
                                 <span class="orderRequest__item__left">{{ __('Total Product') }}</span>
                                 <p class="orderRequest__item__right">{{ $request->order?->order_items_count }}</p>
                             </div>
-
                             @if (json_decode($request->preferred_option_fields))
                                 <div class="orderRequest__item">
                                     <span class="orderRequest__item__left">{{ $request?->preferredOption?->name }}: </span>
@@ -272,6 +271,19 @@
                                         @foreach (json_decode($request->preferred_option_fields) ?? [] as $key => $value)
                                             <span>{{ $key }}: </span><b>{{ $value }}</b>
                                         @endforeach
+                                    </p>
+                                </div>
+                            @endif
+                            <br>
+                            @if($request->qr_file)
+                                <div class="orderRequest__item">
+                                    <span class="orderRequest__item__left">
+                                        {{ __('Qr File') }}
+                                    </span>
+                                    <p class="orderRequest__item__right">
+                                        <a href="{{ asset($request->qr_file) }}">
+                                            <img height="100%" width="100%" src="{{ asset($request->qr_file) }}" alt="">
+                                        </a>
                                     </p>
                                 </div>
                             @endif

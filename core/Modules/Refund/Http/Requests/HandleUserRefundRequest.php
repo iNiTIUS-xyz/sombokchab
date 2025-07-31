@@ -18,7 +18,7 @@ class HandleUserRefundRequest extends FormRequest
             "preferred_option" => "required|exists:refund_preferred_options,id",
             "files.*" => "mimes:jpeg,jpg,png,gif,tif,pdf|nullable",
             "preferred_option_fields" => "nullable",
-            "qr_code_file" => "nullable"
+            'qr_file' => 'nullable|mimes:jpg,jpeg,png,pdf',
         ] + $this->reasonValidation();
     }
 
