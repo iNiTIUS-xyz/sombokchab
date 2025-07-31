@@ -57,26 +57,6 @@
                             </ul>
                         </div>
                     </div>
-                    {{-- <div class="col-xxl-4 col-md-5">
-                        <div class="order__item__estimate">
-                            <div class="order__item__estimate__single d-flex justify-content-between">
-                                <span>{{ __('Sub Total') }}</span>
-                                <strong id="vendor_subtotal">{{ float_amount_with_currency_symbol(2600) }}</strong>
-                            </div>
-                            <div class="order__item__estimate__single d-flex justify-content-between">
-                                <span>{{ __('Tax Amount') }}</span>
-                                <strong id="vendor_tax_amount">{{ float_amount_with_currency_symbol(170) }}</strong>
-                            </div>
-                            <div class="order__item__estimate__single d-flex justify-content-between">
-                                <span>{{ __('Cost Summary') }}</span>
-                                <strong id="vendor_shipping_cost">{{ float_amount_with_currency_symbol(200) }}</strong>
-                            </div>
-                            <div class="order__item__estimate__single d-flex justify-content-between">
-                                <span>{{ __('Total') }}</span>
-                                <strong id="vendor_total">{{ float_amount_with_currency_symbol(2800) }}</strong>
-                            </div>
-                        </div>
-                    </div> --}}
                 </div>
             </div>
             <form action="{{ route('user.product.order.refund', $id) }}" method="post" enctype="multipart/form-data">
@@ -180,8 +160,10 @@
                                         <select class="form-control" name="preferred_option" id="preferred_option">
                                             <option value="">{{ __('Select Payment Option') }}</option>
                                             @foreach ($refundPreferredOptions as $option)
-                                                <option data-fields="{{ json_encode(unserialize($option->fields)) }}" data-is-file="{{ $option->is_file }}"
-                                                    value="{{ $option->id }}">
+                                                <option
+                                                    value="{{ $option->id }}"
+                                                    data-fields='@json(unserialize($option->fields))'
+                                                    data-is-file="{{ $option->is_file ? 1 : 0 }}">
                                                     {{ $option->name }}
                                                 </option>
                                             @endforeach
@@ -222,108 +204,126 @@
         </div>
     @endif
 @endsection
+
 @section('script')
     <script>
-        $(document).ready(function() {
-            $(document).on('click', '.bodyUser_overlay', function() {
+        $(document).ready(function () {
+
+            // Show/hide sidebar
+            $(document).on('click', '.bodyUser_overlay', function () {
                 $('.user-dashboard-wrapper, .bodyUser_overlay').removeClass('show');
             });
-            $(document).on('click', '.mobile_nav', function() {
+
+            $(document).on('click', '.mobile_nav', function () {
                 $('.user-dashboard-wrapper, .bodyUser_overlay').addClass('show');
             });
-        });
 
-       $(document).on("change", "#preferred_option", function () {
-            let preferredMethods = '';
-            let $selectedOption = $(this).find("option:selected");
-            let isFile = $selectedOption.attr("data-is-file");
-            let fields = $selectedOption.attr("data-fields");
-
-            // If isFile is yes, add only one file input
-            if (isFile === 'yes') {
-                preferredMethods += `
-                    <div class="form-group">
-                        <label class="form-label">QR Code File</label>
-                        <input class="form-control-file" name="qr_code_file" type="file" />
-                    </div>
-                `;
-            }
-            // If isFile is no, loop through fields and add text inputs
-            else if (isFile === 'no' && fields && fields !== "false") {
-                fields = JSON.parse(fields);
-
-                fields.forEach(function (value) {
-                    let name = value.replace(/\s+/g, "_");
-                    preferredMethods += `
-                        <div class="form-group">
-                            <label class="form-label">${value}</label>
-                            <input class="form-control" name="fields[${name}]" type="text" />
-                        </div>
-                    `;
-                });
-            }
-
-            $(".preferred-method-fields").html(preferredMethods);
-        });
-
-
-        // $(document).on("click", ".request-product-checkbox", function() {
-        //     if ($(this).prop('checked')) {
-        //         $(this).parent().parent().addClass("border-info selected-refund-product");
-        //     } else {
-        //         $(this).parent().parent().removeClass("border-info selected-refund-product");
-        //     }
-        // });
-
-        $(document).on("click", ".request-product-checkbox", function() {
-            if ($(this).prop('checked')) {
-                $(this).closest('.refunded__product').addClass("border-info selected-refund-product");
-            } else {
-                $(this).closest('.refunded__product').removeClass("border-info selected-refund-product");
-            }
-        });
-
-        $(document).on("click", ".refund_request_button", function() {
-            let isDetectError = true;
-
-            $(".request-product-checkbox").each(function() {
-                let reasonParent = $(this).parent().parent();
-                if ($(this).prop('checked') && reasonParent.find(".product-refund-reason select").val() ===
-                    '') {
-                    reasonParent.find(".product-refund-reason .error-info").text("Please select a reason")
-
-                    isDetectError = false;
-                }
-
-                if (reasonParent.find(".product-refund-quantity input").val() > reasonParent.find(
-                        ".product-refund-quantity input").attr('max')) {
-                    reasonParent.find(".product-refund-quantity .error-info").text(
-                        "Quantity must be equal or less than " + reasonParent.find(
-                            ".product-refund-quantity input").attr('max'))
-
-                    isDetectError = false;
-                }
+            // Checkbox styling logic
+            $(document).on("click", ".request-product-checkbox", function () {
+                $(this).closest('.refunded__product').toggleClass("border-info selected-refund-product", this.checked);
             });
 
-            if ($(".request-product-checkbox:checked").length < 1) {
-                isDetectError = false;
+            // Submit validation logic
+            $(document).on("click", ".refund_request_button", function (e) {
+                let isValid = true;
 
-                toastr.warning("Please select a product first for requesting refund");
-            }
+                $(".request-product-checkbox").each(function () {
+                    let parent = $(this).closest('.refunded__product');
 
-            if ($(this).closest("form").find('.preferred-option-wrapper select').val() === '') {
-                isDetectError = false;
+                    if ($(this).prop('checked')) {
+                        let reason = parent.find(".product-refund-reason select").val();
+                        let quantity = parent.find(".product-refund-quantity input").val();
+                        let maxQty = parent.find(".product-refund-quantity input").attr('max');
 
-                $(this).closest("form").find('.preferred-option-wrapper .error-info').text(
-                    "Please select preferred option");
-            }
+                        if (!reason) {
+                            parent.find(".product-refund-reason .error-info").text("Please select a reason");
+                            isValid = false;
+                        } else {
+                            parent.find(".product-refund-reason .error-info").text("");
+                        }
 
-            if ($(this).closest("form").find('#additional-info').val() === '') {
-                $(this).closest("form").find('.additional-information-wrapper .error-info').text(
-                    "Please write add additional information");
-            }
+                        if (parseInt(quantity) > parseInt(maxQty)) {
+                            parent.find(".product-refund-quantity .error-info").text(
+                                "Quantity must be equal or less than " + maxQty
+                            );
+                            isValid = false;
+                        } else {
+                            parent.find(".product-refund-quantity .error-info").text("");
+                        }
+                    }
+                });
 
-            return isDetectError;
-        })
+                // At least one checkbox should be selected
+                if ($(".request-product-checkbox:checked").length < 1) {
+                    toastr.warning("Please select a product first for requesting refund");
+                    isValid = false;
+                }
+
+                // Preferred option required
+                if ($('#preferred_option').val() === '') {
+                    $('.preferred-option-wrapper .error-info').text("Please select preferred option");
+                    isValid = false;
+                } else {
+                    $('.preferred-option-wrapper .error-info').text("");
+                }
+
+                // Additional info required
+                if ($('#additional-info').val().trim() === '') {
+                    $('.additional-information-wrapper .error-info').text("Please write additional information");
+                    isValid = false;
+                } else {
+                    $('.additional-information-wrapper .error-info').text("");
+                }
+
+                return isValid;
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+
+            // Triggered when preferred option changes
+            $('#preferred_option').on('change', function () {
+                let $selected = $(this).find("option:selected");
+                let isFile = parseInt($selected.data("is-file"));
+                let fieldsRaw = $selected.data("fields");
+                let fields = [];
+
+                try {
+                    fields = typeof fieldsRaw === 'string' ? JSON.parse(fieldsRaw) : fieldsRaw;
+                } catch (e) {
+                    console.error("Error parsing dynamic fields:", e);
+                }
+
+                let html = '';
+
+                // If file upload is required (QR Code file)
+                if (isFile === 1) {
+                    html += `
+                        <div class="form-group mt-3">
+                            <label class="form-label">QR Code File</label>
+                            <input class="form-control-file" name="qr_code_file" type="file" />
+                        </div>
+                    `;
+                }
+
+                // Dynamic input fields (bank name, account number etc)
+                if (isFile === 0 && Array.isArray(fields)) {
+                    fields.forEach(function (field) {
+                        const name = field.replace(/\s+/g, '_').toLowerCase();
+                        html += `
+                            <div class="form-group mt-3">
+                                <label class="form-label">${field}</label>
+                                <input class="form-control" name="fields[${name}]" type="text" />
+                            </div>
+                        `;
+                    });
+                }
+
+                $('.preferred-method-fields').html(html);
+            });
+
+        });
     </script>
 @endsection

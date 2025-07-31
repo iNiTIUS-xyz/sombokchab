@@ -650,34 +650,6 @@
         <div class="categoryNav_sidebar">
             <h3 class="categoryNav__title">{{ __('All Categories') }}</h3>
             <div class="categoryNav__inner mt-3">
-                {{-- <ul class="categoryNav__list parent_menu menu_visible">
-                    <li>
-                        <a href="{{ route('frontend.dynamic.page', ['slug' => 'shop']) }}">All Categories</a>
-                    </li>
-                    @foreach ($categories as $category)
-                    <li class="nav-item dropdown">
-                        <a href="{{ route('frontend.dynamic.page', ['slug' => 'shop', 'id' => $category->id]) }}"
-                            class="nav-link dropdown-toggle" data-bs-toggle="collapse"
-                            data-bs-target="#submenu-{{ $category->id }}" aria-expanded="false"
-                            data-filter-type="category" data-filter-value="{{ $category->name }}">
-                            {{ $category->name }}
-                        </a>
-                        @if ($category->subcategory->count() > 0)
-                        <ul class="collapse dropdown-menu" id="submenu-{{ $category->id }}">
-                            @foreach ($category->subcategory as $sub_cat)
-                            <li>
-                                <a class="dropdown-item"
-                                    href="{{ route('frontend.dynamic.page', ['slug' => 'shop', 'sub_cat_id' => $sub_cat->id]) }}"
-                                    data-filter-type="sub_category" data-filter-value="{{ $sub_cat->name }}">
-                                    {{ $sub_cat->name }}
-                                </a>
-                            </li>
-                            @endforeach
-                        </ul>
-                        @endif
-                    </li>
-                    @endforeach
-                </ul> --}}
                 <ul class="categoryNav__list parent_menu menu_visible">
                     {{-- “All Categories” --}}
                     <li class="nav-item d-flex align-items-center justify-content-between">
@@ -977,28 +949,4 @@
 
         document.getElementById("search_suggestions_wrap").style.display = "block";
     }
-
-    $(document).on('click', '[data-filter-type]', function (e) {
-        e.preventDefault();
-
-        const filterType = $(this).data('filter-type');
-        const filterValue = $(this).data('filter-value');
-        const url = $(this).attr('href');
-
-        // Set the filter value
-        $(`#${filterType}`).val(filterValue);
-
-        // Submit the form
-        submitForm();
-
-        // Optionally navigate to the URL
-        window.location.href = url;
-    });
-    $(document).ready(function () {
-        $('.categoryNav__list .nav-link').on('click', function (e) {
-            // Allow navigation without triggering collapse
-            window.location.href = $(this).attr('href');
-        });
-    });
-
 </script>
