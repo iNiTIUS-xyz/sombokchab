@@ -813,7 +813,16 @@ trait ProductGlobalTrait
             })
             ->latest();
 
-        return $all_products->get();
+        if ($queryType == 'vendor' ||  $queryType == 'admin') {
+            return $all_products->get();
+        } else {
+
+            $display_item_count = request()->count ?? get_static_option('default_item_count', 10);
+            $current_query = request()->all();
+            $create_query = http_build_query($current_query);
+
+            return CustomPaginationService::pagination_type($all_products, $display_item_count, $isCustomPagination, route($route . ".products.search") . '?' . $create_query);
+        }
     }
 
     private function is_date_range_multiple(): array
