@@ -6,6 +6,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Modules\Wallet\Entities\VendorWalletGateway;
 use Modules\Wallet\Http\Requests\StoreGatewayRequest;
+use App\Helpers\SanitizeInput;
 
 class WithdrawGatewayController extends Controller
 {
@@ -18,10 +19,19 @@ class WithdrawGatewayController extends Controller
 
     public function storeGateway(StoreGatewayRequest $request)
     {
-        $insertData = $request->validated();
-        $insertData['is_file'] =  isset($request->is_file) ? 'yes' : 'no';
 
-        $data = VendorWalletGateway::create($insertData);
+        $fields = [];
+
+        foreach ($request->filed ?? [] as $key => $value) {
+            $fields[$key] = SanitizeInput::esc_html($value);
+        }
+
+        $data = new VendorWalletGateway();
+        $data->name = $request->gateway_name;
+        $data->filed = isset($request->is_file) &&  $request->is_file == 'yes' ? null : serialize($fields);
+        $data->status_id = $request->status_id;
+        $data->is_file = isset($request->is_file) ? $request->is_file : 'no';
+        $data->save();
 
         return back()->with(["status" => (bool)$data, "type" => $data ? "success" : "danger", "msg" => $data ? __("Payment Gateway created successfully.") : __("Failed to create payment gateway try again.")]);
     }
@@ -29,12 +39,20 @@ class WithdrawGatewayController extends Controller
 
     public function updateGateway(StoreGatewayRequest $request)
     {
-        $data = $request->validated();
 
-        $id = $data["id"];
-        unset($data["id"]);
+        $fields = [];
 
-        $data = VendorWalletGateway::where("id", $id)->update($data);
+        foreach ($request->filed ?? [] as $key => $value) {
+            $fields[$key] = SanitizeInput::esc_html($value);
+        }
+
+        $data =  VendorWalletGateway::query()
+            ->findOrFail($request->id);
+        $data->name = $request->gateway_name;
+        $data->filed = isset($request->is_file) &&  $request->is_file == 'yes' ? null : serialize($fields);
+        $data->status_id = $request->status_id;
+        $data->is_file = isset($request->is_file) ? $request->is_file : 'no';
+        $data->save();
 
         return back()->with(["status" => (bool)$data, "type" => $data ? "success" : "danger", "msg" => $data ? __("Payment Gateway updated successfully.") : __("Failed to update payment gateway try again.")]);
     }
