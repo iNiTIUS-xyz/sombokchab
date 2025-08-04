@@ -44,7 +44,7 @@ class BrandStyleOne extends PageBuilderBase
             'placeholder' =>  __('Select Brand'),
             'options' => $brands,
             'value' => $widget_saved_values['brands'] ?? null,
-            'info' => __('you can select item for brand, if you want to show all brands leave it empty')
+            'info' => __('Select brands or for all brands leave it empty')
         ]);
 
         $output .= $this->paddings($widget_saved_values);

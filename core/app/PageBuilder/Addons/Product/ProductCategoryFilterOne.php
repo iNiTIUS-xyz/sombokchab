@@ -102,7 +102,7 @@ class ProductCategoryFilterOne extends PageBuilderBase
                 'rating' => __('Ratings'),
             ],
             'value' => $widget_saved_values['order_by'] ?? null,
-            'info' => __('set order by')
+            'info' => __('Set order by')
         ]);
         $output .= Select::get([
             'name' => 'order',
@@ -112,7 +112,7 @@ class ProductCategoryFilterOne extends PageBuilderBase
                 'desc' => __('Descending'),
             ],
             'value' => $widget_saved_values['order'] ?? null,
-            'info' => __('set product order')
+            'info' => __('Set product order')
         ]);
         $output .= Number::get([
             'name' => 'items',

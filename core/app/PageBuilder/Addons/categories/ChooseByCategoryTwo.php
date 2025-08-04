@@ -40,10 +40,10 @@ class ChooseByCategoryTwo extends PageBuilderBase
             'name' => 'categories',
             'multiple' => true,
             'label' => __('Categories'),
-            'placeholder' =>  __('Select Blogs'),
+            'placeholder' =>  __('Select categories'),
             'options' => $categories,
             'value' => $widget_saved_values['blogs'] ?? null,
-            'info' => __('you can select item for categories, if you want to show all category leave it empty')
+            'info' => __('Select categories or for all categories leave it empty')
         ]);
 
         $output .= Text::get([

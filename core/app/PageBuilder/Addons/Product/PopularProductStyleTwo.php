@@ -91,7 +91,7 @@ class PopularProductStyleTwo extends PageBuilderBase
                 'rating' => __('Ratings'),
             ],
             'value' => $widget_saved_values['order_by'] ?? null,
-            'info' => __('set order by')
+            'info' => __('Set order by')
         ]);
         $output .= Select::get([
             'name' => 'order',
@@ -101,13 +101,13 @@ class PopularProductStyleTwo extends PageBuilderBase
                 'desc' => __('Descending'),
             ],
             'value' => $widget_saved_values['order'] ?? null,
-            'info' => __('set product order')
+            'info' => __('Set product order')
         ]);
         $output .= Number::get([
             'name' => 'items',
             'label' => __('Items'),
             'value' => $widget_saved_values['items'] ?? null,
-            'info' => __('enter how many item you want to show in frontend, leave it empty if you want to show all products'),
+            'info' => __('Enter how many item you want to show in frontend, leave it empty if you want to show all products'),
         ]);
         $output .= '</div>';
 

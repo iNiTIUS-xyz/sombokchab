@@ -65,7 +65,7 @@ trait HelpersFunctions
                 'sale_price' => __('Price'),
             ],
             'value' => $widget_saved_values['order_by'] ?? null,
-            'info' => __('set order by')
+            'info' => __('Set order by')
         ]);
 
         $output .= Select::get([
@@ -76,14 +76,14 @@ trait HelpersFunctions
                 'desc' => __('Descending'),
             ],
             'value' => $widget_saved_values['order'] ?? 'asc',
-            'info' => __('set product order')
+            'info' => __('Set product order')
         ]);
 
         $output .= Number::get([
             'name' => 'items',
             'label' => __('Items'),
             'value' => $widget_saved_values['items'] ?? 10,
-            'info' => __('enter how many item you want to show in frontend, leave it empty if you want to show all products'),
+            'info' => __('Enter how many item you want to show in frontend, leave it empty if you want to show all products'),
         ]);
 
         return $output;

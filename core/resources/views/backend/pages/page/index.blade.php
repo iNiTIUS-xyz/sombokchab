@@ -112,7 +112,7 @@
                                                 @can('page-builder-dynamic-page')
                                                     @if (!empty($page->page_builder_status))
                                                         <a href="{{ route('admin.dynamic.page.builder', ['type' => 'dynamic-page', 'id' => $page->id]) }}"
-                                                            class="btn btn-xs btn-secondary mb-2 me-1">
+                                                            class="btn btn-xs btn-primary mb-2 me-1">
                                                             {{ __('Open Page Builder') }}
                                                         </a>
                                                     @endif

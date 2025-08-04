@@ -38414,16 +38414,39 @@ table.table-default.data-table-style tr td{
     color: var(--white);
 }
 
-
+#bulk_option{
+  width: 190px;
+}
 
 
 table.dataTable thead tr th:first-child {
     padding-left: 5px !important;
 }
 
+.mark-all-checkbox.text-center{
+  margin-right: 5px;
+}
 
 
+/* Forced nice select css code */
+/* .ui-state-default.widget-handler select[name="product_items[]"],
+.ui-state-default.widget-handler .all-field-wrap select[name="categories[]"] {
+    display: none !important;
+} */
 
-.select2-search--dropdown .select2-search__field{
-  border: 1px solid var(--body-color) !important;
+.nice-select.has-multiple .multiple-options {
+    margin-left: 0px !important;
+}
+
+[data-name="ChooseByCategoryTwo"] select[name="categories[]"],
+/* [data-name="PopularProductStyleTwo"] select[name="products[]"], */
+[data-name="PopularProductStyleTwo"] select[name="product_items[]"],
+[data-name="ProductFilterStyleTwo"] select[name="products[]"],
+[data-name="VendorStyleOne"] select[name="blogs[]"],
+[data-name="BrandStyleTwo"] select[name="brands[]"]{
+    display: none !important;
+}
+
+.nice-select.wide.form-control.has-multiple:nth-of-type(2) {
+    display: none !important;
 }

@@ -28,11 +28,11 @@ class VendorStyleOne extends PageBuilderBase
         $output .= NiceSelect::get([
             'name' => 'blogs',
             'multiple' => true,
-            'label' => __('Blogs'),
-            'placeholder' =>  __('Select Blogs'),
+            'label' => __('Shops'),
+            'placeholder' =>  __('Select Shop'),
             'options' => $vendors->pluck('business_name','id'),
             'value' => $widget_saved_values['blogs'] ?? null,
-            'info' => __('you can select item for blogs, if you want to show random blog leave it empty')
+            'info' => __('Select shop(s) or for all shops leave it empty')
         ]);
 
         $output .= $this->admin_form_submit_button();
@@ -55,6 +55,6 @@ class VendorStyleOne extends PageBuilderBase
 
     public function addon_title(): array|string|Translator|Application|null
     {
-        return __("Vendors Style: 01");
+        return __("Shops Style: 01");
     }
 }
