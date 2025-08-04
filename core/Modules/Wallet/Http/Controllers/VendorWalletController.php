@@ -29,8 +29,8 @@ class VendorWalletController extends Controller
         $adminGateways = VendorWalletGateway::where("status_id", 1)->get();
         $savedGateway = VendorWalletGatewaySetting::where(["vendor_id" => auth("vendor")->id()])->first();
         $data = [
-            "total_order_amount" => (double) SubOrder::where("vendor_id", auth()->guard("vendor")->id())->sum("total_amount"),
-            "total_complete_order_amount" => (double) SubOrder::where("vendor_id", auth()->guard("vendor")->id())->where("order_status", "complete")->whereHas("orderTrack", function ($orderTrack) {
+            "total_order_amount" => (float) SubOrder::where("vendor_id", auth()->guard("vendor")->id())->sum("total_amount"),
+            "total_complete_order_amount" => (float) SubOrder::where("vendor_id", auth()->guard("vendor")->id())->where("order_status", "complete")->whereHas("orderTrack", function ($orderTrack) {
                 $orderTrack->where("name", "delivered");
             })->sum("total_amount"),
             "pending_balance" => $wallet ? $wallet->pending_balance : 0,
@@ -55,7 +55,23 @@ class VendorWalletController extends Controller
 
     public function handleWithdraw(VendorHandleWithdrawRequest $request)
     {
+
+        $qrFileName = null;
+
+        if (isset($this->data['qr_file']) && $request->qr_file) {
+            if (!file_exists(public_path('uploads/refund-qr'))) {
+                mkdir(public_path('uploads/refund-qr'), 0777, true);
+            }
+
+            $filename = time() . rand(1111, 9999) . '.' . $request->qr_file->getClientOriginalExtension();
+            $request->qr_file->move(public_path('uploads/refund-qr'), $filename);
+            $qrFileName = 'uploads/refund-qr/' . $filename;
+        }
+
         $data = $request->validated();
+
+        $data['qr_file'] = $qrFileName;
+
         $wallet = Wallet::where("vendor_id", $data["vendor_id"])->first();
 
         if ($wallet->balance >= $data["amount"]) {
