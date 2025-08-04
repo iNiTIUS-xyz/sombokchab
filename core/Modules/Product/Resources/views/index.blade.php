@@ -201,8 +201,8 @@
                     <div class="col-md-6 text-end">
                         @can('product-trash')
                             <div class="btn-wrapper-trash margin-right-20">
-                                <a class="cmn_btn btn_bg_danger btn-sm" href="{{ route('admin.products.trash.all') }}">
-                                    {{ __('Trash') }}
+                                <a class="cmn_btn btn_bg_danger btn-sm px-4 me-2" href="{{ route('admin.products.trash.all') }}">
+                                    {{ __('Trash Bin') }}
                                 </a>
                             </div>
                         @endcan

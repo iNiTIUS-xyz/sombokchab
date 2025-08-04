@@ -44,7 +44,7 @@ class BlogStyleTwo extends PageBuilderBase
             'placeholder' =>  __('Select Blogs'),
             'options' => $blogs,
             'value' => $widget_saved_values['blogs'] ?? null,
-            'info' => __('you can select item for blogs, if you want to show random blog leave it empty')
+            'info' => __('Select blog(s) or for all blogs leave it empty')
         ]);
 
         $output .= $this->paddings($widget_saved_values);

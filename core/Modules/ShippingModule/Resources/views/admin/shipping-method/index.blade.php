@@ -1,7 +1,7 @@
 @extends('backend.admin-master')
 
 @section('site-title')
-    {{ __('Shipping Method List') }}
+    {{ __('Shipping Methods List') }}
 @endsection
 
 @section('content')
@@ -26,7 +26,7 @@
                         <div class="table-responsive">
                             <table class="table table-default" id="dataTable">
                                 <thead>
-                                    <th>{{ __('Title') }}</th>
+                                    <th>{{ __('Shipping Method Name') }}</th>
                                     <th>{{ __('Zone') }}</th>
                                     <th>{{ __('Cost') }}</th>
                                     <th>{{ __('Status') }}</th>

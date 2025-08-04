@@ -1347,7 +1347,7 @@
                 <li class="main_dropdown @if (request()->is('admin-home/general-settings/*') || request()->is('admin-home/shipping-charge-settings')) active open @endif ">
                     <a href="#1" aria-expanded="true">
                         <i class="ti-new-window"></i>
-                        <span>{{ __('General Settings Management') }}</span>
+                        <span>{{ __('Website Settings Management') }}</span>
                     </a>
                     <ul class="collapse">
                         @can('shipping-charge-settings')

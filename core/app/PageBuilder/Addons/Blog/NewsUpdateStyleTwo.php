@@ -78,7 +78,7 @@ class NewsUpdateStyleTwo extends PageBuilderBase
             'name' => 'items',
             'label' => __('Items'),
             'value' => $widget_saved_values['items'] ?? null,
-            'info' => __('enter how many item you want to show in frontend, leave it empty if you want to show all products'),
+            'info' => __('Enter how many item you want to show in frontend, leave it empty if you want to show all products'),
         ]);
 
         $output .= Text::get([
