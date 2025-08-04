@@ -18,7 +18,10 @@ class WithdrawGatewayController extends Controller
 
     public function storeGateway(StoreGatewayRequest $request)
     {
-        $data = VendorWalletGateway::create($request->validated());
+        $insertData = $request->validated();
+        $insertData['is_file'] =  isset($request->is_file) ? 'yes' : 'no';
+
+        $data = VendorWalletGateway::create($insertData);
 
         return back()->with(["status" => (bool)$data, "type" => $data ? "success" : "danger", "msg" => $data ? __("Payment Gateway created successfully.") : __("Failed to create payment gateway try again.")]);
     }
