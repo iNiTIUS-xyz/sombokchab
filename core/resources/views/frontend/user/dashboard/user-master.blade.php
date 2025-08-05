@@ -1,6 +1,28 @@
 @extends('frontend.frontend-page-master')
 @section('page-title')
-    {{ __('Customer Dashboard') }}
+    @php
+        $titles = [
+            'user.home' => __('Dashboard'),
+            'user.home.edit.profile' => __('Edit Profile'),
+            'user.home.change.password' => __('Change Password'),
+            'user.product.order.all' => __('My Orders'),
+            'frontend.chat.home' => __('Chat List'),
+            'user.product.refund-request' => __('Refund Requests'),
+            'user.product.refund-request.view' => __('Refund Request Details'),   // <- Added
+            'user-home.wallet.history' => __('Wallet History'),
+            'user.shipping.address.all' => __('Shipping Address'),
+            'user.shipping.address.edit' => __('Edit Shipping Address'), // <- Added
+            'user.shipping.address.new' => __('Add New Shipping Address'), // <- Added
+            'user.home.support.tickets' => __('Support Tickets'),
+        ];
+
+        $currentTitle = $titles[Route::currentRouteName()] ?? __('Customer Dashboard');
+    @endphp
+
+    @section('page-title')
+        {{ $currentTitle }}
+    @endsection
+
 @endsection
 @section('style')
     @parent

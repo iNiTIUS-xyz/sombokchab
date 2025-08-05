@@ -10,8 +10,9 @@
             <th> {{ __('Brand') }} </th>
             <th> {{ __('Categories') }} </th>
             <th> {{ __('Stock Qty') }} </th>
-            <th> {{ __('Status') }} </th>
             <th> {{ __('Publish Status') }} </th>
+            <th> {{ __('Status') }} </th>
+            
             <th> {{ __('Actions') }} </th>
         </tr>
     </thead>
@@ -76,6 +77,35 @@
                 </td>
 
                 <td>
+                    <div class="btn-group badge">
+                        <button type="button"
+                            class="status-{{ $product?->product_status }} {{ $product?->product_status == 'publish' ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ ucfirst($product->product_status == 'publish' ? __('Publish') : __('Unpublish')) }}
+                        </button>
+                        <div class="dropdown-menu">
+                            {{-- Form for activating --}}
+                            <form action="{{ route('admin.products.status.change', $product->id) }}" method="POST"
+                                id="status-form-activate-{{ $product->id }}">
+                                @csrf
+                                <input type="hidden" name="product_status" value="publish">
+                                <button type="submit" class="dropdown-item">
+                                    {{ __('Publish') }}
+                                </button>
+                            </form>
+                            <form action="{{ route('admin.products.status.change', $product->id) }}" method="POST"
+                                id="status-form-deactivate-{{ $product->id }}">
+                                @csrf
+                                <input type="hidden" name="product_status" value="unpublish">
+                                <button type="submit" class="dropdown-item">
+                                    {{ __('Unpublish') }}
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </td>
+
+                <td>
 
                     <div class="btn-group badge">
                         <button type="button"
@@ -106,34 +136,7 @@
                         </div>
                     </div>
                 </td>
-                <td>
-                    <div class="btn-group badge">
-                        <button type="button"
-                            class="status-{{ $product?->product_status }} {{ $product?->product_status == 'publish' ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{ ucfirst($product->product_status == 'publish' ? __('Publish') : __('Unpublish')) }}
-                        </button>
-                        <div class="dropdown-menu">
-                            {{-- Form for activating --}}
-                            <form action="{{ route('admin.products.status.change', $product->id) }}" method="POST"
-                                id="status-form-activate-{{ $product->id }}">
-                                @csrf
-                                <input type="hidden" name="product_status" value="publish">
-                                <button type="submit" class="dropdown-item">
-                                    {{ __('Publish') }}
-                                </button>
-                            </form>
-                            <form action="{{ route('admin.products.status.change', $product->id) }}" method="POST"
-                                id="status-form-deactivate-{{ $product->id }}">
-                                @csrf
-                                <input type="hidden" name="product_status" value="unpublish">
-                                <button type="submit" class="dropdown-item">
-                                    {{ __('Unpublish') }}
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </td>
+                
 
                 <td>
                     <div class="action-icon">

@@ -96,7 +96,7 @@
                                             <span class="slider-yes-no"></span>
                                         </label>
                                     </div>
-                                    <div class="form-group">
+                                    {{-- <div class="form-group">
                                         <label>
                                             <strong>
                                                 {{ __('Full Page Width') }}
@@ -119,7 +119,7 @@
                                                 @if (!empty($page_post->navbar_category_dropdown_open)) checked @endif>
                                             <span class="slider-yes-no"></span>
                                         </label>
-                                    </div>
+                                    </div> --}}
                                     {{-- <div class="form-group">
                                         <label for="slug">
                                             {{ __('Slug') }}
@@ -141,7 +141,7 @@
                                             </option>
                                         </select>
                                     </div>
-                                    <div class="form-group" id="megamenu">
+                                    {{-- <div class="form-group" id="megamenu">
                                         <label>{{ __('Select Mega Menu') }}
 
                                         </label>
@@ -153,7 +153,7 @@
                                                 </option>
                                             @endforeach
                                         </select>
-                                    </div>
+                                    </div> --}}
                                     <div class="form-group">
                                         <label>
                                             {{ __('Visibility') }}

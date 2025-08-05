@@ -1,9 +1,9 @@
 @extends('frontend.frontend-page-master')
 @section('site-title')
-    {{ get_static_option('support_ticket_page_name') ?? 'Support Ticket' }}
+    {{ get_static_option('support_ticket_page_name') ?? 'Add New Support Ticket' }}
 @endsection
 @section('page-title')
-    {{ get_static_option('support_ticket_page_name') ?? 'Support Ticket' }}
+    {{ get_static_option('support_ticket_page_name') ?? 'Add New Support Ticket' }}
 @endsection
 @section('page-meta-data')
     <meta name="description" content="{{ get_static_option('about_page_meta_description') }}">
@@ -90,7 +90,7 @@
                         @if (auth()->guard('web')->check())
                             <div class="dashboard__card__header">
                                 <h3 class="dashboard__card__title">
-                                    {{ get_static_option('support_ticket_form_title') }}</h3>
+                                    Add New Support Ticket</h3>
                             </div>
                             <div class="dashboard__card__body custom__form mt-4">
                                 <x-msg.flash />

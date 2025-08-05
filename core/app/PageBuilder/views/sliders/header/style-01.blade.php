@@ -1,5 +1,5 @@
 <!-- Banner area Starts -->
-<div class="banner-area banner-two pt-0 mb-5">
+<div class="banner-area banner-two pt-0 mb-3">
     <div class="">
         <div class="row justify-content-center">
             {{-- <div class="col-lg-3 d-none d-lg-block">
@@ -92,7 +92,7 @@
         width: 100%;
     }
     .carousel-item img{
-        height: 350px;
+        height: 300px;
         width: 100%;
         object-fit: cover;
     }

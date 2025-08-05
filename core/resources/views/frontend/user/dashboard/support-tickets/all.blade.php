@@ -26,7 +26,7 @@
 @endsection
 
 @section('section')
-    <a href="{{ route('frontend.support.ticket') }}" class="cmn_btn btn_bg_1">{{ __('Create New Ticket') }}</a>
+    <a href="{{ route('frontend.support.ticket') }}" class="cmn_btn btn_bg_1">{{ __('Add New Support Ticket') }}</a>
     @if (count($all_tickets) > 0)
         <div class="mt-4">
             <div class="table-responsive" style="overflow-x: unset !important;">

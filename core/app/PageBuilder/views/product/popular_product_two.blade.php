@@ -1,12 +1,3 @@
-<!-- jQuery first -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<!-- NiceSelect CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nice-select2@2.0.0/dist/css/nice-select2.min.css">
-
-<!-- NiceSelect JS -->
-<script src="https://cdn.jsdelivr.net/npm/nice-select2@2.0.0/dist/js/nice-select2.min.js"></script>
-<!-- Popular Porduct Starts -->
 <section class="popularProduct__area padding-top-20 padding-bottom-20 ">
     <div class="container container_1608">
         <div class="row">
@@ -29,10 +20,4 @@
     </div>
 </section>
 <!-- Popular Porduct end -->
-<script>
-$(document).ready(function() {
-    $('.nice-select').niceSelect(); // for jQuery Nice Select
-    // or for NiceSelect2:
-    // NiceSelect.bind(document.querySelectorAll(".nice-select"));
-});
-</script>
+

@@ -9,7 +9,7 @@
                 </div>
             </div>
         </div>
-        <div class="row mt-5">
+        <div class="row mt-3">
             <div class="col-lg-12">
                 <div class="category__slider">
                     <div class="global-slick-init slider-inner-margin" data-appendArrows=".append_category"

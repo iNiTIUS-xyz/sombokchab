@@ -12,7 +12,7 @@
             <x-msg.error />
             <div class="dashboard__card">
                 <div class="dashboard__card__header">
-                    <h4 class="dashboard__card__title">{{ __('Page Builder') }}</h4>
+                    <h4 class="dashboard__card__title">{{ $page->title }} - {{ __('Page Builder') }}</h4>
                     <div class="dashboard__card__header__right">
                         @can('page-edit')
                             <a class="btn btn-lg btn-secondary btn-sm mb-2 me-1" href="{{ route('admin.page.edit', $page->id) }}">
@@ -36,7 +36,7 @@
                         <div class="row g-4">
                             <div class="col-lg-8" id="parent-container">
                                 <div class="page-builder-area-wrapper">
-                                    <h4 class="dashboard__card__title">{{ __('Without Sidebar Layout') }}</h4>
+                                    <h4 class="dashboard__card__title">{{ $page->title }} - {{ __('Without Sidebar Layout') }}</h4>
                                     <ul id="dynamic_page"
                                         class="sortable available-form-field main-fields sortable_widget_location mt-4">
                                         {!! \App\PageBuilder\PageBuilderSetup::get_saved_addons_for_dynamic_page('dynamic_page', $page->id) !!}
@@ -44,7 +44,7 @@
                                 </div>
 
                                 <div class="row mt-4" id="container_wrapper">
-                                    <h4 class="dashboard__card__title mb-3">{{ __('With Sidebar Layout') }}</h4>
+                                    <h4 class="dashboard__card__title mb-3">{{ $page->title }} - {{ __('With Sidebar Layout') }}</h4>
                                     <div class="col-md-5">
                                         <div class="page-builder-area-wrapper extra-title">
                                             <ul id="dynamic_page_left_sidebar"
