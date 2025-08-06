@@ -132,7 +132,7 @@
                                                             class="status-{{ $vendor->is_vendor_verified }} {{ $vendor->is_vendor_verified == 0 ? 'bg-danger status-close' : 'bg-primary status-open' }} dropdown-toggle"
                                                             data-bs-toggle="dropdown" aria-haspopup="true"
                                                             aria-expanded="false">
-                                                            {{ ucfirst($vendor->is_vendor_verified == 0 ? __('Unverified') : __('Verifyed')) }}
+                                                            {{ ucfirst($vendor->is_vendor_verified == 0 ? __('Unverified') : __('Verified')) }}
                                                         </button>
                                                         <div class="dropdown-menu">
                                                             <form
@@ -141,7 +141,7 @@
                                                                 @csrf
                                                                 <input type="hidden" name="verify_status" value="1">
                                                                 <button type="submit" class="dropdown-item">
-                                                                    {{ __('Verifyed') }}
+                                                                    {{ __('Verified') }}
                                                                 </button>
                                                             </form>
                                                             <form

@@ -7,7 +7,7 @@
 @section('section')
     <div class="btn-wrapper">
         <a href="{{ route('user.shipping.address.new') }}" class="cmn_btn btn_bg_1">
-            {{ __('Add Shipping Address') }}
+            {{ __('Add New Shipping Address') }}
         </a>
     </div>
     @if ($all_shipping_address && $all_shipping_address->count())

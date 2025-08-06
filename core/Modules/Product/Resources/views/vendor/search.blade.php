@@ -17,8 +17,9 @@
             <th> {{ __('Brand') }} </th>
             <th> {{ __('Categories') }} </th>
             <th> {{ __('Stock Qty') }} </th>
-            <th> {{ __('Status') }} </th>
             <th> {{ __('Publish Status') }} </th>
+            <th> {{ __('Status') }} </th>
+            
             <th> {{ __('Action') }} </th>
         </tr>
     </thead>
@@ -76,6 +77,12 @@
                 <td class="price-td" data-label="Quantity">
                     <span class="quantity-number"> {{ $product?->inventory?->stock_count }}</span>
                 </td>
+                <td>
+                    <span
+                        class="badge {{ $product?->product_status == 'publish' ? 'bg-primary status-open' : 'bg-danger status-close' }}">
+                        {{ ucfirst($product?->product_status) }}
+                    </span>
+                </td>
                 <td data-label="Status">
                     {{-- <x-product::table.status :statuses="$statuses" :statusId="$product?->status_id"
                         :id="$product->id" /> --}}
@@ -108,12 +115,7 @@
                         </div>
                     </div>
                 </td>
-                <td>
-                    <span
-                        class="badge {{ $product?->product_status == 'publish' ? 'bg-primary status-open' : 'bg-danger status-close' }}">
-                        {{ ucfirst($product?->product_status) }}
-                    </span>
-                </td>
+                
                 <td data-label="Actions">
                     <div class="action-icon">
                         {{-- <a href="{{ route('frontend.products.single', $product->slug) }}"

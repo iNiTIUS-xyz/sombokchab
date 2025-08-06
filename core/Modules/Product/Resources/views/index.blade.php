@@ -23,16 +23,7 @@
                                     {{ __('Search Products') }}
                                     <i class="las la-angle-down"></i>
                                 </h3>
-                                <div>
-                                    @if( request('name') || request('sku') || request('brand') || request('category') || request('sub_category') || request('from_price') || request('to_price'))
-                                        <a href="{{ route('admin.products.all') }}" class="cmn_btn btn-danger text-right text-white">
-                                           {{ __('Clear Search') }}
-                                        </a>
-                                    @endif
-                                    <button type="submit" class="cmn_btn btn_bg_profile">
-                                        {{ __('Search') }}
-                                    </button>
-                                </div>
+                                
                             </div>
                             <div id="product-search-form">
                                 <div class="row g-3 mt-2">
@@ -90,50 +81,8 @@
                                                     </option>
                                                 @endforeach
                                             </select>
-                                            {{-- <input name="sub_category" class="form-control" id="search-brand"
-                                                value="{{ request('sub_category') }}" placeholder="{{ __('Enter sub category') }}" /> --}}
                                         </div>
                                     </div>
-                                    {{-- <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="label-1" for="search-category">{{ __('Child Category') }}</label>
-                                            <input name="child_category" class="form-control" id="search-category"
-                                                value="{{ old('child_category') }}"
-                                                placeholder="{{ __('Enter clild category') }}" />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="label-1" for="search-color">{{ __('Color Name') }}</label>
-                                            <input name="color" class="form-control" id="search-color"
-                                                value="{{ old('color') }}" placeholder="{{ __('Enter color name') }}" />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="label-1" for="search-size">{{ __('Size Name') }}</label>
-                                            <input name="size" class="form-control" id="search-size" value="{{ old('size') }}"
-                                                name="{{ __('Enter size name') }}" />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="search-is_inventory_warn_able" class="checkbox-label-1">
-                                                <input type="checkbox" name="is_inventory_warn_able" class="form--checkbox-1"
-                                                    id="search-is_inventory_warn_able"
-                                                    value="{{ old('is_inventory_warn_able') }}" />
-                                                {{ __('Inventory Warning') }}
-                                            </label>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="search-refundable" class="checkbox-label-1">
-                                                <input type="checkbox" name="refundable" class="form--checkbox-1"
-                                                    id="search-refundable" value="{{ old('refundable') }}" />
-                                                {{ __('Refundable') }}
-                                            </label>
-                                        </div>
-                                    </div> --}}
                                     <div class="col-md-4">
                                         <div class="row">
                                             <div class="col-md-6">
@@ -160,27 +109,16 @@
                                         </div>
                                     </div>
 
-                                    {{-- <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="label-1" for="search-date_range">
-                                                {{ __('Created Date Range') }}
-                                            </label>
-                                            <input name="date_range" class="form-control" id="search-date_range"
-                                                value="{{ old('date_range') }}" />
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="label-1" for="search-order_by">{{ __('Order By') }}</label>
-                                            <select name="order_by" class="form-control" id="search-order_by"
-                                                value="{{ old('order_by') }}">
-                                                <option value="">{{ __('Select Order By Option') }}</option>
-                                                <option value="asc">{{ __('Asc') }}</option>
-                                                <option value="desc">{{ __('DESC') }}</option>
-                                            </select>
-                                        </div>
-                                    </div> --}}
+                                    <div>
+                                    @if( request('name') || request('sku') || request('brand') || request('category') || request('sub_category') || request('from_price') || request('to_price'))
+                                        <a href="{{ route('admin.products.all') }}" class="cmn_btn btn-danger text-right text-white">
+                                           {{ __('Clear Search') }}
+                                        </a>
+                                    @endif
+                                    <button type="submit" class="cmn_btn btn_bg_profile">
+                                        {{ __('Search') }}
+                                    </button>
+                                </div>
                                 </div>
                             </div>
                         </form>
