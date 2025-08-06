@@ -266,6 +266,60 @@
             </div>
         </div>
 
+        <div class="row g-5 mt-2">
+            <div class="col-md-6">
+                <h3 class="my-3">Campaign Stars</h3>
+                <ul class="nav nav-tabs" id="chartTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="campaign_daily-tab" data-bs-toggle="tab" type="button">
+                            Daily
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="campaign_weekly-tab" data-bs-toggle="tab" type="button">
+                            Weekly
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="campaign_monthly-tab" data-bs-toggle="tab" type="button">
+                            Monthly
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="campaign_yearly-tab" data-bs-toggle="tab" type="button">
+                            Yearly
+                        </button>
+                    </li>
+                </ul>
+                <div class="mt-3" id="campaign_chart"></div>
+            </div>
+            <div class="col-md-6">
+                <h3 class="mb-5"></h3>
+                <ul class="nav nav-tabs" id="chartTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="campaign_two_daily-tab" data-bs-toggle="tab" type="button">
+                            Daily
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="campaign_two_weekly-tab" data-bs-toggle="tab" type="button">
+                            Weekly
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="campaign_two_monthly-tab" data-bs-toggle="tab" type="button">
+                            Monthly
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="campaign_two_yearly-tab" data-bs-toggle="tab" type="button">
+                            Yearly
+                        </button>
+                    </li>
+                </ul>
+                <div class="mt-3" id="campaign_two_chart"></div>
+            </div>
+        </div>
 
         <div class="row g-5 mt-2">
             <div class="col-md-6">
@@ -292,7 +346,9 @@
                         </button>
                     </li>
                 </ul>
-                <div class="mt-3" id="analytics_chart"></div>
+                <div class="text-center">
+                    <div class="mt-3" id="analytics_chart"></div>
+                </div>
             </div>
             <div class="col-md-6">
                 <h3 class="mb-5"></h3>
@@ -326,6 +382,102 @@
 
 @section('script')
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script>
+        var campaign_options = {
+        series: [44, 55, 41, 17],
+        labels: ["Flash Campaign", "Eid Campaign", "New Arival", "Best Sales"],
+        chart: {
+            width: 380,
+            type: 'donut',
+        },
+        plotOptions: {
+            pie: {
+                startAngle: -90,
+                endAngle: 270
+            }
+        },
+        dataLabels: {
+            enabled: false
+        },
+        fill: {
+            type: 'gradient',
+        },
+        legend: {
+            formatter: function(val, opts) {
+                return val + " - " + opts.w.globals.series[opts.seriesIndex]
+            }
+        },
+        responsive: [{
+            breakpoint: 480,
+            options: {
+                chart: {
+                    width: 200
+                },
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }]
+        };
+
+        var campaign_chart = new ApexCharts(document.querySelector("#campaign_chart"), campaign_options);
+        campaign_chart.render();
+    </script>
+
+    <script>
+         var campaign_two_options = {
+        series: [
+            {
+                name: 'Net Profit',
+                data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
+            },
+        ],
+        chart: {
+            type: 'bar',
+            height: 350,
+            toolbar: { show: true, tools: { download: false } }
+        },
+        plotOptions: {
+            bar: {
+                horizontal: false,
+                columnWidth: '15%',
+                borderRadius: 5,
+                borderRadiusApplication: 'end'
+            },
+        },
+        colors: ['#FF0000'],
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            show: true,
+            width: 2,
+            colors: ['transparent']
+        },
+        xaxis: {
+            categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+        },
+        yaxis: {
+            title: {
+                text: '$ (thousands)'
+            }
+        },
+        fill: {
+            opacity: 1
+        },
+        tooltip: {
+          y:{
+            formatter: function (val) {
+                return "$ " + val + " thousands"
+            }
+        }
+        }};
+
+        var campaign_two_chart = new ApexCharts(document.querySelector("#campaign_two_chart"), campaign_two_options);
+        campaign_two_chart.render();
+    </script>
+
+
     <script>
         var options = {
             series: [{
