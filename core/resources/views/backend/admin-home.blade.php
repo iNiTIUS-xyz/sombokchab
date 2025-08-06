@@ -1,446 +1,296 @@
 @extends('backend.admin-master')
+
 @section('site-title')
     {{ __('Dashboard') }}
 @endsection
+
 @section('content')
-    @php
-        $statistics = [
-            ['title' => __('Total Admin'), 'value' => $total_admin, 'icon' => 'lar la-user'],
-            ['title' => __('Total Customer'), 'value' => $total_user, 'icon' => 'lar la-user'],
-            ['title' => __('Total Blog'), 'value' => $all_blogs_count, 'icon' => 'lar la-edit'],
-            ['title' => __('Total Products'), 'value' => $all_products_count, 'icon' => 'las la-box'],
-            ['title' => __('Completed Sale'), 'value' => $all_completed_sell_count, 'icon' => 'las la-boxes'],
-            ['title' => __('Pending Sale'), 'value' => $all_pending_sell_count, 'icon' => 'las la-history'],
-            ['title' => __('Sold Amount'), 'value' => $total_sold_amount, 'icon' => 'las la-coins'],
-            ['title' => __('Ongoing Campaign'), 'value' => $total_ongoing_campaign, 'icon' => 'las la-gifts'],
-        ];
-    @endphp
-
-    <div class="dashboard-profile-inner">
-        {{-- <div class="row g-4 justify-content-center">
-            <div class="col-xxl-3 col-xl-6 col-sm-6 orders-child">
-                <a href="{{ route('admin.all.user') }}">
-                    <div class="single-orders">
-                        <div class="orders-shapes"></div>
-                        <div class="orders-flex-content">
-                            <div class="contents">
-                                <span class="order-para"> {{ __('Total Admin') }} </span>
-                                <h2 class="order-titles"> {{ $total_admin }} </h2>
+    <div class="col-lg-12 col-ml-12 mb-3">
+        <div class="row">
+            <div class="col-12">
+                <div class="dashboard__card">
+                    <div class="dashboard__card__body">
+                        <div class="row g-5">
+                            <div class="col-md-6">
+                                <h3 class="my-3">Financial Summary</h3>
                             </div>
-                            <div class="icon">
-                                <i class="las la-tasks"></i>
+                            <div class="col-md-6 text-end">
+                                <a href="#" class="text-warning">View All</a>
                             </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-xxl-3 col-xl-6 col-sm-6 orders-child">
-                <a href="{{ route('admin.vendor.all') }}">
-                    <div class="single-orders">
-                        <div class="orders-shapes"></div>
-                        <div class="orders-flex-content">
-                            <div class="contents">
-                                <span class="order-para"> {{ __('Total Vendors') }} </span>
-                                <h2 class="order-titles"> {{ $total_vendor }} </h2>
+                            <div class="col-md-6">
+                                <ul class="nav nav-tabs" id="chartTabs" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="income_statement_daily-tab" data-bs-toggle="tab" type="button">
+                                            Daily
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="income_statement_weekly-tab" data-bs-toggle="tab" type="button">
+                                            Weekly
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="income_statement_monthly-tab" data-bs-toggle="tab" type="button">
+                                            Monthly
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="income_statement_yearly-tab" data-bs-toggle="tab" type="button">
+                                            Yearly
+                                        </button>
+                                    </li>
+                                </ul>
+                                <div class="mt-3" id="income_statement_chart"></div>
                             </div>
-                            <div class="icon">
-                                <i class="las la-handshake"></i>
+                            <div class="col-md-6">
+                                <ul class="nav nav-tabs" id="chartTabs" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="top_vendors_daily-tab" data-bs-toggle="tab" type="button">
+                                            Daily
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="top_vendors_weekly-tab" data-bs-toggle="tab" type="button">
+                                            Weekly
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="top_vendors_monthly-tab" data-bs-toggle="tab" type="button">
+                                            Monthly
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="top_vendors_yearly-tab" data-bs-toggle="tab" type="button">
+                                            Yearly
+                                        </button>
+                                    </li>
+                                </ul>
+                                <div class="mt-3" id="top_vendor_chart"></div>
                             </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-xxl-3 col-xl-6 col-sm-6 orders-child">
-                <a href="{{ route('admin.all.frontend.user') }}">
-                    <div class="single-orders">
-                        <div class="orders-shapes"></div>
-                        <div class="orders-flex-content">
-                            <div class="contents">
-                                <span class="order-para"> {{ __('Total Customers') }} </span>
-                                <h2 class="order-titles"> {{ $total_user }} </h2>
-                            </div>
-                            <div class="icon">
-                                <i class="las la-handshake"></i>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-xxl-3 col-xl-6 col-sm-6 orders-child">
-                <a href="{{ route('admin.blog') }}">
-                    <div class="single-orders">
-                        <div class="orders-shapes">
-                        </div>
-                        <div class="orders-flex-content">
-                            <div class="contents">
-                                <span class="order-para"> {{ __('Total Blogs') }} </span>
-                                <h2 class="order-titles"> {{ $all_blogs_count }} </h2>
-                            </div>
-                            <div class="icon">
-                                <i class="las la-dollar-sign"></i>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-xxl-3 col-xl-6 col-sm-6 orders-child">
-                <a href="{{ route('admin.products.all') }}">
-                    <div class="single-orders">
-                        <div class="orders-shapes">
-                        </div>
-                        <div class="orders-flex-content">
-                            <div class="contents">
-                                <span class="order-para"> {{ __('Total Product') }} </span>
-                                <h2 class="order-titles"> {{ $all_products_count }} </h2>
-                            </div>
-                            <div class="icon">
-                                <i class="las la-dollar-sign"></i>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-xxl-3 col-xl-6 col-sm-6 orders-child">
-                <a href="{{ route('admin.orders.list') }}">
-                    <div class="single-orders">
-                        <div class="orders-shapes">
-                        </div>
-                        <div class="orders-flex-content">
-                            <div class="contents">
-                                <span class="order-para"> {{ __('Total Completed Order') }} </span>
-                                <h2 class="order-titles"> {{ $all_completed_sell_count }} </h2>
-                            </div>
-                            <div class="icon">
-                                <i class="las la-file-invoice-dollar"></i>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-xxl-3 col-xl-6 col-sm-6 orders-child">
-                <a href="{{ route('admin.orders.list') }}">
-                    <div class="single-orders">
-                        <div class="orders-shapes">
-                        </div>
-                        <div class="orders-flex-content">
-                            <div class="contents">
-                                <span class="order-para"> {{ __('Total Pending Order') }} </span>
-                                <h2 class="order-titles"> {{ $all_pending_sell_count }} </h2>
-                            </div>
-                            <div class="icon">
-                                <i class="las la-file-invoice-dollar"></i>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-xxl-3 col-xl-6 col-sm-6 orders-child">
-                <div class="single-orders">
-                    <div class="orders-shapes">
-                    </div>
-                    <div class="orders-flex-content">
-                        <div class="contents">
-                            <span class="order-para"> {{ __('Total Sold Amount') }} </span>
-                            <h2 class="order-titles"> {{ $total_sold_amount }} </h2>
-                        </div>
-                        <div class="icon">
-                            <i class="las la-file-invoice-dollar"></i>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-xxl-3 col-xl-6 col-sm-6 orders-child">
-                <div class="single-orders">
-                    <div class="orders-shapes">
-                    </div>
-                    <div class="orders-flex-content">
-                        <div class="contents">
-                            <span class="order-para"> {{ __('Last week earning') }} </span>
-                            <h2 class="order-titles"> {{ $last_week_earning }} </h2>
-                        </div>
-                        <div class="icon">
-                            <i class="las la-dollar-sign"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xxl-3 col-xl-6 col-sm-6 orders-child">
-                <div class="single-orders">
-                    <div class="orders-shapes">
-                    </div>
-                    <div class="orders-flex-content">
-                        <div class="contents">
-                            <span class="order-para"> {{ __('This month earning') }} </span>
-                            <h2 class="order-titles"> {{ $running_month_earning }} </h2>
-                        </div>
-                        <div class="icon">
-                            <i class="las la-file-invoice-dollar"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xxl-3 col-xl-6 col-sm-6 orders-child">
-                <div class="single-orders">
-                    <div class="orders-shapes">
-                    </div>
-                    <div class="orders-flex-content">
-                        <div class="contents">
-                            <span class="order-para"> {{ __('Last month earning') }} </span>
-                            <h2 class="order-titles"> {{ $last_month_earning }} </h2>
-                        </div>
-                        <div class="icon">
-                            <i class="las la-file-invoice-dollar"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xxl-3 col-xl-6 col-sm-6 orders-child">
-                <div class="single-orders">
-                    <div class="orders-shapes">
-                    </div>
-                    <div class="orders-flex-content">
-                        <div class="contents">
-                            <span class="order-para"> {{ __('This year earning') }} </span>
-                            <h2 class="order-titles"> {{ $this_year_earning }} </h2>
-                        </div>
-                        <div class="icon">
-                            <i class="las la-file-invoice-dollar"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
-
-        <div class="row g-5 mt-2">
-            <div class="col-md-6">
-                <h3 class="my-3">Income Statement</h3>
-                <ul class="nav nav-tabs" id="chartTabs" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="income_statement_daily-tab" data-bs-toggle="tab" type="button">
-                            Daily
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="income_statement_weekly-tab" data-bs-toggle="tab" type="button">
-                            Weekly
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="income_statement_monthly-tab" data-bs-toggle="tab" type="button">
-                            Monthly
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="income_statement_yearly-tab" data-bs-toggle="tab" type="button">
-                            Yearly
-                        </button>
-                    </li>
-                </ul>
-                <div class="mt-3" id="income_statement_chart"></div>
-            </div>
-            <div class="col-md-6">
-                <h3 class="my-3">Top Vendors</h3>
-                <ul class="nav nav-tabs" id="chartTabs" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="top_vendors_daily-tab" data-bs-toggle="tab" type="button">
-                            Daily
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="top_vendors_weekly-tab" data-bs-toggle="tab" type="button">
-                            Weekly
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="top_vendors_monthly-tab" data-bs-toggle="tab" type="button">
-                            Monthly
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="top_vendors_yearly-tab" data-bs-toggle="tab" type="button">
-                            Yearly
-                        </button>
-                    </li>
-                </ul>
-                <div class="mt-3" id="top_vendor_chart"></div>
-            </div>
-        </div>
-
-        <div class="row g-5 mt-2">
-            <div class="col-md-6">
-                <h3 class="my-3">Campaign Stars</h3>
-                <ul class="nav nav-tabs" id="chartTabs" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="campaign_daily-tab" data-bs-toggle="tab" type="button">
-                            Daily
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="campaign_weekly-tab" data-bs-toggle="tab" type="button">
-                            Weekly
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="campaign_monthly-tab" data-bs-toggle="tab" type="button">
-                            Monthly
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="campaign_yearly-tab" data-bs-toggle="tab" type="button">
-                            Yearly
-                        </button>
-                    </li>
-                </ul>
-                <div class="mt-3" id="campaign_chart"></div>
-            </div>
-            <div class="col-md-6">
-                <h3 class="mb-5"></h3>
-                <ul class="nav nav-tabs" id="chartTabs" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="campaign_two_daily-tab" data-bs-toggle="tab" type="button">
-                            Daily
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="campaign_two_weekly-tab" data-bs-toggle="tab" type="button">
-                            Weekly
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="campaign_two_monthly-tab" data-bs-toggle="tab" type="button">
-                            Monthly
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="campaign_two_yearly-tab" data-bs-toggle="tab" type="button">
-                            Yearly
-                        </button>
-                    </li>
-                </ul>
-                <div class="mt-3" id="campaign_two_chart"></div>
-            </div>
-        </div>
-
-        <div class="row g-5 mt-2">
-            <div class="col-md-6">
-                <h3 class="my-3">Analytics</h3>
-                <ul class="nav nav-tabs" id="chartTabs" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="analytics_daily-tab" data-bs-toggle="tab" type="button">
-                            Daily
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="analytics_weekly-tab" data-bs-toggle="tab" type="button">
-                            Weekly
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="analytics_monthly-tab" data-bs-toggle="tab" type="button">
-                            Monthly
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="analytics_yearly-tab" data-bs-toggle="tab" type="button">
-                            Yearly
-                        </button>
-                    </li>
-                </ul>
-                <div class="text-center">
-                    <div class="mt-3" id="analytics_chart"></div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <h3 class="mb-5"></h3>
-                <ul class="nav nav-tabs" id="chartTabs" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="analytics_two_daily-tab" data-bs-toggle="tab" type="button">
-                            Daily
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="analytics_two_weekly-tab" data-bs-toggle="tab" type="button">
-                            Weekly
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="analytics_two_monthly-tab" data-bs-toggle="tab" type="button">
-                            Monthly
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="analytics_two_yearly-tab" data-bs-toggle="tab" type="button">
-                            Yearly
-                        </button>
-                    </li>
-                </ul>
-                <div class="mt-3" id="analytics_chart_two"></div>
-            </div>
-        </div>
-        <div class="row g-5 mt-2">
-            <div class="col-md-6">
-                <h3 class="my-3">Webstie Stars</h3>
-                <ul class="nav nav-tabs" id="chartTabs" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="webstie_daily-tab" data-bs-toggle="tab" type="button">
-                            Daily
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="webstie_weekly-tab" data-bs-toggle="tab" type="button">
-                            Weekly
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="webstie_monthly-tab" data-bs-toggle="tab" type="button">
-                            Monthly
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="webstie_yearly-tab" data-bs-toggle="tab" type="button">
-                            Yearly
-                        </button>
-                    </li>
-                </ul>
-                <div class="text-center">
-                    <div class="mt-3" id="webstie_chart"></div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <h3 class="mb-5"></h3>
-                <ul class="nav nav-tabs" id="chartTabs" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="webstie_two_daily-tab" data-bs-toggle="tab" type="button">
-                            Daily
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="webstie_two_weekly-tab" data-bs-toggle="tab" type="button">
-                            Weekly
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="webstie_two_monthly-tab" data-bs-toggle="tab" type="button">
-                            Monthly
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="webstie_two_yearly-tab" data-bs-toggle="tab" type="button">
-                            Yearly
-                        </button>
-                    </li>
-                </ul>
-                <div class="mt-3" id="webstie_chart_two"></div>
             </div>
         </div>
     </div>
+
+    <div class="col-lg-12 col-ml-12 mb-3">
+        <div class="row">
+            <div class="col-12">
+                <div class="dashboard__card">
+                    <div class="dashboard__card__body">
+                        <div class="row g-5">
+                            <div class="col-md-6">
+                                <h3 class="my-3">Campaign Stats</h3>
+                            </div>
+                            <div class="col-md-6 text-end">
+                                <a href="#" class="text-warning">View All</a>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="nav nav-tabs" id="chartTabs" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="campaign_daily-tab" data-bs-toggle="tab" type="button">
+                                            Daily
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="campaign_weekly-tab" data-bs-toggle="tab" type="button">
+                                            Weekly
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="campaign_monthly-tab" data-bs-toggle="tab" type="button">
+                                            Monthly
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="campaign_yearly-tab" data-bs-toggle="tab" type="button">
+                                            Yearly
+                                        </button>
+                                    </li>
+                                </ul>
+                                <div class="mt-3" id="campaign_chart"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="nav nav-tabs" id="chartTabs" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="campaign_two_daily-tab" data-bs-toggle="tab" type="button">
+                                            Daily
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="campaign_two_weekly-tab" data-bs-toggle="tab" type="button">
+                                            Weekly
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="campaign_two_monthly-tab" data-bs-toggle="tab" type="button">
+                                            Monthly
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="campaign_two_yearly-tab" data-bs-toggle="tab" type="button">
+                                            Yearly
+                                        </button>
+                                    </li>
+                                </ul>
+                                <div class="mt-3" id="campaign_two_chart"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12 col-ml-12 mb-3">
+        <div class="row">
+            <div class="col-12">
+                <div class="dashboard__card">
+                    <div class="dashboard__card__body">
+                        <div class="row g-5">
+                            <div class="col-md-6">
+                                <h3 class="my-3">Analytics</h3>
+                            </div>
+                            <div class="col-md-6 text-end">
+                                <a href="#" class="text-warning">View All</a>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="nav nav-tabs" id="chartTabs" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="analytics_daily-tab" data-bs-toggle="tab" type="button">
+                                            Daily
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="analytics_weekly-tab" data-bs-toggle="tab" type="button">
+                                            Weekly
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="analytics_monthly-tab" data-bs-toggle="tab" type="button">
+                                            Monthly
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="analytics_yearly-tab" data-bs-toggle="tab" type="button">
+                                            Yearly
+                                        </button>
+                                    </li>
+                                </ul>
+                                <div class="text-center">
+                                    <div class="mt-3" id="analytics_chart"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="nav nav-tabs" id="chartTabs" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="analytics_two_daily-tab" data-bs-toggle="tab" type="button">
+                                            Daily
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="analytics_two_weekly-tab" data-bs-toggle="tab" type="button">
+                                            Weekly
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="analytics_two_monthly-tab" data-bs-toggle="tab" type="button">
+                                            Monthly
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="analytics_two_yearly-tab" data-bs-toggle="tab" type="button">
+                                            Yearly
+                                        </button>
+                                    </li>
+                                </ul>
+                                <div class="mt-3" id="analytics_chart_two"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12 col-ml-12 mb-3">
+        <div class="row">
+            <div class="col-12">
+                <div class="dashboard__card">
+                    <div class="dashboard__card__body">
+                        <div class="row g-5">
+                            <div class="col-md-6">
+                                <h3 class="my-3">Webstie Stats</h3>
+                            </div>
+                            <div class="col-md-6 text-end">
+                                <a href="#" class="text-warning">View All</a>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="nav nav-tabs" id="chartTabs" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="webstie_daily-tab" data-bs-toggle="tab" type="button">
+                                            Daily
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="webstie_weekly-tab" data-bs-toggle="tab" type="button">
+                                            Weekly
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="webstie_monthly-tab" data-bs-toggle="tab" type="button">
+                                            Monthly
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="webstie_yearly-tab" data-bs-toggle="tab" type="button">
+                                            Yearly
+                                        </button>
+                                    </li>
+                                </ul>
+                                <div class="text-center">
+                                    <div class="mt-3" id="webstie_chart"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="nav nav-tabs" id="chartTabs" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="webstie_two_daily-tab" data-bs-toggle="tab" type="button">
+                                            Daily
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="webstie_two_weekly-tab" data-bs-toggle="tab" type="button">
+                                            Weekly
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="webstie_two_monthly-tab" data-bs-toggle="tab" type="button">
+                                            Monthly
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="webstie_two_yearly-tab" data-bs-toggle="tab" type="button">
+                                            Yearly
+                                        </button>
+                                    </li>
+                                </ul>
+                                <div class="mt-3" id="webstie_chart_two"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @section('script')
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
     <script>
-        // ===== INCOME STATEMENT DATA =====
         const incomeDaily = @json($income_daily->pluck('amount', 'label'));
         const incomeWeekly = @json($income_weekly->pluck('amount', 'week'));
         const incomeMonthly = @json($income_monthly->pluck('amount', 'label'));
@@ -459,7 +309,6 @@
             return Array.from({ length }, (_, i) => i % 2 === 0 ? colorOne : colorTwo);
         }
 
-        // ===== INCOME STATEMENT CHART =====
         var income_statement_options = {
             series: [{
                 name: 'Net Profit',
@@ -477,6 +326,10 @@
                     borderRadius: 10,
                     borderRadiusApplication: 'end'
                 }
+            },
+            title: {
+                text: 'Order Revenue.',
+                align: 'left'
             },
             colors: ['#41695a'],
             dataLabels: { enabled: false },
@@ -543,6 +396,10 @@
                     borderRadiusApplication: 'end',
                     distributed: true
                 }
+            },
+            title: {
+                text: 'Top Seeling Vendor',
+                align: 'left'
             },
             colors: generateAlternatingColors(Object.keys(topVendorsDaily).length),
             dataLabels: { enabled: false },
@@ -664,6 +521,10 @@
                 borderRadiusApplication: 'end'
             },
         },
+        title: {
+            text: 'Campaign Visitor',
+            align: 'left'
+        },
         colors: ['#e0bb20'],
         dataLabels: {
             enabled: false
@@ -712,6 +573,10 @@
             },
             toolbar: { show: true, tools: { download: false } }
         },
+        title: {
+            text: 'Sign up converstaion rate.',
+            align: 'left'
+        },
         colors: ['#41695a'],
         dataLabels: {
             enabled: false
@@ -754,6 +619,10 @@
                 borderRadius: 5,
                 borderRadiusApplication: 'end'
             },
+        },
+        title: {
+            text: 'Download Status',
+            align: 'left'
         },
         colors: ['#41695a'],
         dataLabels: {
