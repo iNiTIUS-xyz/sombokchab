@@ -17,7 +17,7 @@
     @endphp
 
     <div class="dashboard-profile-inner">
-        <div class="row g-4 justify-content-center">
+        {{-- <div class="row g-4 justify-content-center">
             <div class="col-xxl-3 col-xl-6 col-sm-6 orders-child">
                 <a href="{{ route('admin.all.user') }}">
                     <div class="single-orders">
@@ -209,7 +209,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <div class="row g-5 mt-2">
             <div class="col-md-6">
@@ -265,28 +265,184 @@
                 <div class="mt-3" id="top_vendor_chart"></div>
             </div>
         </div>
+
+
+        <div class="row g-5 mt-2">
+            <div class="col-md-6">
+                <h3 class="my-3">Analytics</h3>
+                <ul class="nav nav-tabs" id="chartTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="analytics_daily-tab" data-bs-toggle="tab" type="button">
+                            Daily
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="analytics_weekly-tab" data-bs-toggle="tab" type="button">
+                            Weekly
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="analytics_monthly-tab" data-bs-toggle="tab" type="button">
+                            Monthly
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="analytics_yearly-tab" data-bs-toggle="tab" type="button">
+                            Yearly
+                        </button>
+                    </li>
+                </ul>
+                <div class="mt-3" id="analytics_chart"></div>
+            </div>
+            <div class="col-md-6">
+                <h3 class="mb-5"></h3>
+                <ul class="nav nav-tabs" id="chartTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="analytics_two_daily-tab" data-bs-toggle="tab" type="button">
+                            Daily
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="analytics_two_weekly-tab" data-bs-toggle="tab" type="button">
+                            Weekly
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="analytics_two_monthly-tab" data-bs-toggle="tab" type="button">
+                            Monthly
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="analytics_two_yearly-tab" data-bs-toggle="tab" type="button">
+                            Yearly
+                        </button>
+                    </li>
+                </ul>
+                <div class="mt-3" id="analytics_chart_two"></div>
+            </div>
+        </div>
     </div>
 @endsection
 
 @section('script')
-
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script>
+        var options = {
+            series: [{
+                name: "Desktops",
+                data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+            }
+        ],
+        chart: {
+            height: 350,
+            type: 'line',
+            zoom: {
+                enabled: false
+            },
+            toolbar: { show: true, tools: { download: false } }
+        },
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            curve: 'straight'
+        },
+        grid: {
+            row: {
+                colors: ['#f3f3f3', 'transparent'],
+                opacity: 0.5
+            },
+        },
+        xaxis: {
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+            }
+        };
+
+        var analytics_chart_two = new ApexCharts(document.querySelector("#analytics_chart_two"), options);
+        analytics_chart_two.render();
+    </script>
+    <script>
+         var analytics_options = {
+        series: [
+            {
+                name: 'Net Profit',
+                data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
+            },
+        ],
+        chart: {
+            type: 'bar',
+            height: 350,
+            toolbar: { show: true, tools: { download: false } }
+        },
+        plotOptions: {
+            bar: {
+                horizontal: false,
+                columnWidth: '55%',
+                borderRadius: 5,
+                borderRadiusApplication: 'end'
+            },
+        },
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            show: true,
+            width: 2,
+            colors: ['transparent']
+        },
+        xaxis: {
+            categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+        },
+        yaxis: {
+            title: {
+                text: '$ (thousands)'
+            }
+        },
+        fill: {
+            opacity: 1
+        },
+        tooltip: {
+          y:{
+            formatter: function (val) {
+                return "$ " + val + " thousands"
+            }
+        }
+        }};
+
+        var analytics_chart = new ApexCharts(document.querySelector("#analytics_chart"), analytics_options);
+        analytics_chart.render();
+    </script>
 
     <script>
+        // ===== INCOME STATEMENT DATA =====
+        const incomeDaily = @json($income_daily->pluck('amount', 'label'));
+        const incomeWeekly = @json($income_weekly->pluck('amount', 'week'));
+        const incomeMonthly = @json($income_monthly->pluck('amount', 'label'));
+        const incomeYearly = @json($income_yearly->pluck('amount', 'label'));
+
+        // ===== TOP VENDORS DATA =====
+        const topVendorsDaily = @json($top_vendors_daily);
+        const topVendorsWeekly = @json($top_vendors_weekly);
+        const topVendorsMonthly = @json($top_vendors_monthly);
+        const topVendorsYearly = @json($top_vendors_yearly);
+
+        // ===== Helper: Alternating Colors =====
+        function generateAlternatingColors(length) {
+            const red = '#e74c3c';
+            const blue = '#3498db';
+            return Array.from({ length }, (_, i) => i % 2 === 0 ? red : blue);
+        }
+
+        // ===== INCOME STATEMENT CHART =====
         var income_statement_options = {
             series: [{
                 name: 'Net Profit',
-                data: [10, 20, 15, 30, 25, 20, 18]
+                data: Object.values(incomeDaily)
             }],
             chart: {
                 type: 'bar',
                 height: 350,
-                toolbar: {
-                    show: true,
-                    tools: {
-                        download: false
-                    }
-                }
+                toolbar: { show: true, tools: { download: false } }
             },
             plotOptions: {
                 bar: {
@@ -296,25 +452,15 @@
                     borderRadiusApplication: 'end'
                 }
             },
-            dataLabels: {
-                enabled: false
-            },
-            stroke: {
-                show: true,
-                width: 2,
-                colors: ['transparent']
-            },
+            dataLabels: { enabled: false },
+            stroke: { show: true, width: 2, colors: ['transparent'] },
             xaxis: {
-                categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                categories: Object.keys(incomeDaily)
             },
             yaxis: {
-                title: {
-                    text: '$ (USD)'
-                }
+                title: { text: '$ (USD)' }
             },
-            fill: {
-                opacity: 1
-            },
+            fill: { opacity: 1 },
             tooltip: {
                 y: {
                     formatter: function (val) {
@@ -327,70 +473,40 @@
         var chart = new ApexCharts(document.querySelector("#income_statement_chart"), income_statement_options);
         chart.render();
 
-        // Update Chart Data on Tab Click
-        document.querySelector('#income_statement_daily-tab').addEventListener('click', function () {
+        function updateIncomeChart(data) {
             chart.updateOptions({
-                series: [{ name: 'Net Profit', data: [10, 20, 15, 30, 25, 20, 18] }],
-                xaxis: { categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] }
+                series: [{ name: 'Net Profit', data: Object.values(data) }],
+                xaxis: { categories: Object.keys(data) }
             });
+        }
+
+        // Income Tabs Event Listeners
+        document.querySelector('#income_statement_daily-tab').addEventListener('click', function () {
+            updateIncomeChart(incomeDaily);
         });
 
         document.querySelector('#income_statement_weekly-tab').addEventListener('click', function () {
-            chart.updateOptions({
-                series: [{ name: 'Net Profit', data: [100, 120, 90, 110] }],
-                xaxis: { categories: ['Week 1', 'Week 2', 'Week 3', 'Week 4'] }
-            });
+            updateIncomeChart(incomeWeekly);
         });
 
         document.querySelector('#income_statement_monthly-tab').addEventListener('click', function () {
-            chart.updateOptions({
-                series: [{ name: 'Net Profit', data: [
-                    100, 90, 95, 110, 105, 115, 120, 98, 102, 108,
-                    111, 99, 103, 107, 113, 109, 104, 112, 118, 125,
-                    130, 119, 117, 116, 114, 121, 123, 126, 127, 129
-                ] }],
-                xaxis: { categories: Array.from({ length: 30 }, (_, i) => (i + 1).toString()) }
-            });
+            updateIncomeChart(incomeMonthly);
         });
 
         document.querySelector('#income_statement_yearly-tab').addEventListener('click', function () {
-            chart.updateOptions({
-                series: [{ name: 'Net Profit', data: [500, 620, 580, 710, 600, 300] }],
-                xaxis: { categories: ['2020', '2021', '2022', '2023', '2024', '2025'] }
-            });
+            updateIncomeChart(incomeYearly);
         });
-    </script>
 
-    <script>
-        function generateAlternatingColors(length) {
-            const red = '#e74c3c';
-            const blue = '#3498db';
-            return Array.from({ length }, (_, i) => i % 2 === 0 ? red : blue);
-        }
-
-        const dailyData = [10, 20, 15, 30, 25, 20, 18];
-        const weeklyData = [100, 120, 90, 110];
-        const monthlyData = [
-            100, 90, 95, 110, 105, 115, 120, 98, 102, 108,
-            111, 99, 103, 107, 113, 109, 104, 112, 118, 125,
-            130, 119, 117, 116, 114, 121, 123, 126, 127, 129
-        ];
-        const yearlyData = [500, 620, 580, 710, 600, 300];
-
+        // ===== TOP VENDORS CHART =====
         const top_vendor_options = {
             series: [{
                 name: 'Net Profit',
-                data: dailyData
+                data: Object.values(topVendorsDaily)
             }],
             chart: {
                 type: 'bar',
                 height: 350,
-                toolbar: {
-                    show: true,
-                    tools: {
-                        download: false
-                    }
-                }
+                toolbar: { show: true, tools: { download: false } }
             },
             plotOptions: {
                 bar: {
@@ -401,29 +517,17 @@
                     distributed: true
                 }
             },
-            colors: generateAlternatingColors(dailyData.length),
-            dataLabels: {
-                enabled: false
-            },
-            stroke: {
-                show: true,
-                width: 2,
-                colors: ['transparent']
-            },
+            colors: generateAlternatingColors(Object.keys(topVendorsDaily).length),
+            dataLabels: { enabled: false },
+            stroke: { show: true, width: 2, colors: ['transparent'] },
             xaxis: {
-                categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                categories: Object.keys(topVendorsDaily)
             },
             yaxis: {
-                title: {
-                    text: 'Total'
-                }
+                title: { text: 'Total Sales' }
             },
-            legend: {
-                show: false // ✅ Hide the color legend
-            },
-            fill: {
-                opacity: 1
-            },
+            legend: { show: false },
+            fill: { opacity: 1 },
             tooltip: {
                 y: {
                     formatter: function (val) {
@@ -436,42 +540,37 @@
         const top_vendor_chart = new ApexCharts(document.querySelector("#top_vendor_chart"), top_vendor_options);
         top_vendor_chart.render();
 
-        // Tab click events
-        document.querySelector('#top_vendors_daily-tab').addEventListener('click', function () {
+        function updateVendorChart(data) {
+            const labels = Object.keys(data);
+            const values = Object.values(data);
             top_vendor_chart.updateOptions({
-                series: [{ name: 'Net Profit', data: dailyData }],
-                xaxis: { categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] },
-                colors: generateAlternatingColors(dailyData.length),
+                series: [{ name: 'Net Profit', data: values }],
+                xaxis: { categories: labels },
+                colors: generateAlternatingColors(labels.length),
                 legend: { show: false }
             });
+        }
+
+        // Vendor Tabs Event Listeners
+        document.querySelector('#top_vendors_daily-tab').addEventListener('click', function () {
+            updateVendorChart(topVendorsDaily);
         });
 
         document.querySelector('#top_vendors_weekly-tab').addEventListener('click', function () {
-            top_vendor_chart.updateOptions({
-                series: [{ name: 'Net Profit', data: weeklyData }],
-                xaxis: { categories: ['Week 1', 'Week 2', 'Week 3', 'Week 4'] },
-                colors: generateAlternatingColors(weeklyData.length),
-                legend: { show: false }
-            });
+            updateVendorChart(topVendorsWeekly);
         });
 
         document.querySelector('#top_vendors_monthly-tab').addEventListener('click', function () {
-            top_vendor_chart.updateOptions({
-                series: [{ name: 'Net Profit', data: monthlyData }],
-                xaxis: { categories: Array.from({ length: 30 }, (_, i) => (i + 1).toString()) },
-                colors: generateAlternatingColors(monthlyData.length),
-                legend: { show: false }
-            });
+            updateVendorChart(topVendorsMonthly);
         });
 
         document.querySelector('#top_vendors_yearly-tab').addEventListener('click', function () {
-            top_vendor_chart.updateOptions({
-                series: [{ name: 'Net Profit', data: yearlyData }],
-                xaxis: { categories: ['2020', '2021', '2022', '2023', '2024', '2025'] },
-                colors: generateAlternatingColors(yearlyData.length),
-                legend: { show: false }
-            });
+            updateVendorChart(topVendorsYearly);
+        });
+
+        // Set default chart data on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            updateVendorChart(topVendorsDaily);
         });
     </script>
-
 @endsection

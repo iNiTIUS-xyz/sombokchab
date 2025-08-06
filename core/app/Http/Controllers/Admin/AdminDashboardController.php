@@ -42,75 +42,177 @@ class AdminDashboardController extends Controller
             ->where('order_status', 'complete')
             ->where('created_at', '>', Carbon::now()->subYear(1))
             ->get()
-            ->groupBy(fn ($query) => Carbon::parse($query->created_at)->format('m'));
+            ->groupBy(fn($query) => Carbon::parse($query->created_at)->format('m'));
         $user_enroll_per_month = User::select('id', 'created_at')
             ->get()
-            ->groupBy(fn ($query) => Carbon::parse($query->created_at)->format('m'));
+            ->groupBy(fn($query) => Carbon::parse($query->created_at)->format('m'));
 
-        $yearly_income_statement = SubOrder::whereNull('vendor_id')
+        $yearly_income_statement = SubOrder::query()
             ->selectRaw("DATE_FORMAT(sub_orders.created_at,'%b') as date, IFNULL(SUM(total_amount), 0) as amount")
-            ->whereBetween('sub_orders.created_at', [
-                Carbon::now()->subYear(1)->format('Y-m-d'),
-                Carbon::now()->addDay(1)->format('Y-m-d')]
-            )->whereHas('orderTrack', function ($query){
+            ->whereBetween(
+                'sub_orders.created_at',
+                [
+                    Carbon::now()->subYear(1)->format('Y-m-d'),
+                    Carbon::now()->addDay(1)->format('Y-m-d')
+                ]
+            )
+            ->whereHas('orderTrack', function ($query) {
                 $query->where('name', 'delivered');
             })
-            ->groupBy('date')->get();
+            ->groupBy('date')
+            ->get();
 
-        $weekly_statement = SubOrder::whereNull('vendor_id')
+        $weekly_statement = SubOrder::query()
             ->selectRaw("DATE_FORMAT(sub_orders.created_at,'%a') as date, IFNULL(SUM(total_amount), 0) as amount")
-            ->whereBetween('sub_orders.created_at', [
-                Carbon::now()->subWeek(1)->format('Y-m-d'),
-                Carbon::now()->addDay(1)->format('Y-m-d')
-            ])->whereHas('orderTrack', function ($query){
+            ->whereBetween(
+                'sub_orders.created_at',
+                [
+                    Carbon::now()->subWeek(1)->format('Y-m-d'),
+                    Carbon::now()->addDay(1)->format('Y-m-d')
+                ]
+            )
+            ->whereHas('orderTrack', function ($query) {
                 $query->where('name', 'delivered');
-
                 return $query;
             })
-            ->groupBy('date')->get();
+            ->groupBy('date')
+            ->get();
 
-        $running_month_earning = SubOrder::whereNull('vendor_id')
+        $running_month_earning = SubOrder::query()
+            ->whereNull('vendor_id')
             ->selectRaw("DATE_FORMAT(sub_orders.created_at,'%e') as date, IFNULL(SUM(total_amount), 0) as amount")
             ->whereBetween('sub_orders.created_at', [
                 Carbon::now()->startOfMonth()->format('Y-m-d'),
                 Carbon::now()->endOfMonth()->addDay(1)->format('Y-m-d')
-            ])->whereHas('orderTrack', function ($query){
+            ])->whereHas('orderTrack', function ($query) {
                 $query->where('name', 'delivered');
             })
             ->groupBy('date')->get()->sum('amount');
 
-        $last_month_earning = SubOrder::whereNull('vendor_id')
+        $last_month_earning = SubOrder::query()
+            ->whereNull('vendor_id')
             ->selectRaw("DATE_FORMAT(sub_orders.created_at,'%e') as date, IFNULL(SUM(total_amount), 0) as amount")
             ->whereBetween('sub_orders.created_at', [
                 Carbon::now()->subMonth(1)->startOfMonth()->format('Y-m-d'),
                 Carbon::now()->subMonth(1)->endOfMonth()->addDay(1)->format('Y-m-d')
-            ])->whereHas('orderTrack', function ($query){
+            ])->whereHas('orderTrack', function ($query) {
                 $query->where('name', 'delivered');
             })
             ->groupBy('date')->get()->sum('amount');
 
-        $this_year_earning = SubOrder::whereNull('vendor_id')
+        $this_year_earning = SubOrder::query()
+            ->whereNull('vendor_id')
             ->selectRaw("DATE_FORMAT(sub_orders.created_at,'%e') as date, IFNULL(SUM(total_amount), 0) as amount")
             ->whereBetween('sub_orders.created_at', [
                 Carbon::now()->startOfYear()->format('Y-m-d'),
                 Carbon::now()->endOfYear()->addDay(1)->format('Y-m-d')
-            ])->whereHas('orderTrack', function ($query){
+            ])->whereHas('orderTrack', function ($query) {
                 $query->where('name', 'delivered');
             })
             ->groupBy('date')->get()->sum('amount');
 
-        $running_week_earning = SubOrder::whereNull('vendor_id')
+        $running_week_earning = SubOrder::query()
+            ->whereNull('vendor_id')
             ->selectRaw("DATE_FORMAT(sub_orders.created_at,'%a') as date, IFNULL(SUM(total_amount), 0) as amount")
             ->whereBetween('sub_orders.created_at', [
                 Carbon::now()->startOfWeek()->format('Y-m-d'),
                 Carbon::now()->endOfWeek()->addDay(1)->format('Y-m-d')
-            ])->whereHas('orderTrack', function ($query){
+            ])->whereHas('orderTrack', function ($query) {
                 $query->where('name', 'delivered');
             })
             ->groupBy('date')->get()->sum('amount');
 
         $yearly_income_statement = $yearly_income_statement->pluck('amount', 'date');
         $weekly_statement = $weekly_statement->pluck('amount', 'date');
+
+        // Income Statement (Daily - Current Week)
+        $income_daily = SubOrder::selectRaw("DATE_FORMAT(created_at, '%a') as label, SUM(total_amount) as amount")
+            ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+            ->whereHas('orderTrack', fn($q) => $q->where('name', 'delivered'))
+            ->groupBy('label')
+            ->get();
+
+        // Income Statement (Weekly - Last 4 weeks)
+        $income_weekly = SubOrder::selectRaw("YEARWEEK(created_at, 1) as week, SUM(total_amount) as amount")
+            ->whereBetween('created_at', [Carbon::now()->subWeeks(4), Carbon::now()])
+            ->whereHas('orderTrack', fn($q) => $q->where('name', 'delivered'))
+            ->groupBy('week')
+            ->get();
+
+        // Income Statement (Monthly - Current Year)
+        $income_monthly = SubOrder::selectRaw("DATE_FORMAT(created_at, '%b') as label, SUM(total_amount) as amount")
+            ->whereYear('created_at', Carbon::now()->year)
+            ->whereHas('orderTrack', fn($q) => $q->where('name', 'delivered'))
+            ->groupBy('label')
+            ->get();
+
+        // Income Statement (Yearly - Last 5 Years)
+        $income_yearly = SubOrder::selectRaw("YEAR(created_at) as label, SUM(total_amount) as amount")
+            ->whereYear('created_at', '>=', Carbon::now()->subYears(5)->year)
+            ->whereHas('orderTrack', fn($q) => $q->where('name', 'delivered'))
+            ->groupBy('label')
+            ->get();
+
+        // Top Vendors (Last 7 Days)
+        $top_vendors = SubOrder::selectRaw("vendors.owner_name as label, SUM(total_amount) as amount")
+            ->join('vendors', 'sub_orders.vendor_id', '=', 'vendors.id')
+            ->whereNotNull('vendor_id')
+            ->whereBetween('sub_orders.created_at', [Carbon::now()->subDays(31), Carbon::now()])
+            ->groupBy('label')
+            ->orderByDesc('amount')
+            ->limit(10)
+            ->get();
+
+        // 🔹 1. Top Vendors - Daily (Last 7 Days)
+        $top_vendors_daily = SubOrder::selectRaw("vendors.owner_name as label, SUM(total_amount) as amount")
+            ->join('vendors', 'sub_orders.vendor_id', '=', 'vendors.id')
+            ->whereNotNull('vendor_id')
+            ->whereBetween('sub_orders.created_at', [Carbon::now()->subDays(6)->startOfDay(), Carbon::now()->endOfDay()])
+            ->whereHas('orderTrack', fn($q) => $q->where('name', 'delivered'))
+            ->groupBy('label')
+            ->orderByDesc('amount')
+            ->limit(10)
+            ->get();
+
+        // 🔹 2. Top Vendors - Weekly (Last 4 Weeks)
+        $top_vendors_weekly = SubOrder::selectRaw("vendors.owner_name as label, YEARWEEK(sub_orders.created_at, 1) as week, SUM(total_amount) as amount")
+            ->join('vendors', 'sub_orders.vendor_id', '=', 'vendors.id')
+            ->whereNotNull('vendor_id')
+            ->whereBetween('sub_orders.created_at', [Carbon::now()->subWeeks(4), Carbon::now()])
+            ->whereHas('orderTrack', fn($q) => $q->where('name', 'delivered'))
+            ->groupBy('label', 'week')
+            ->get()
+            ->groupBy('label')
+            ->map(fn($group) => $group->sum('amount'))
+            ->sortDesc()
+            ->take(10);
+
+        // 🔹 3. Top Vendors - Monthly (Last 12 Months)
+        $top_vendors_monthly = SubOrder::selectRaw("vendors.owner_name as label, DATE_FORMAT(sub_orders.created_at, '%Y-%m') as month, SUM(total_amount) as amount")
+            ->join('vendors', 'sub_orders.vendor_id', '=', 'vendors.id')
+            ->whereNotNull('vendor_id')
+            ->where('sub_orders.created_at', '>=', Carbon::now()->subMonths(12)->startOfMonth())
+            ->whereHas('orderTrack', fn($q) => $q->where('name', 'delivered'))
+            ->groupBy('label', 'month')
+            ->get()
+            ->groupBy('label')
+            ->map(fn($group) => $group->sum('amount'))
+            ->sortDesc()
+            ->take(10);
+
+        // 🔹 4. Top Vendors - Yearly (Last 5 Years)
+        $top_vendors_yearly = SubOrder::selectRaw("vendors.owner_name as label, YEAR(sub_orders.created_at) as year, SUM(total_amount) as amount")
+            ->join('vendors', 'sub_orders.vendor_id', '=', 'vendors.id')
+            ->whereNotNull('vendor_id')
+            ->where('sub_orders.created_at', '>=', Carbon::now()->subYears(5)->startOfYear())
+            ->whereHas('orderTrack', fn($q) => $q->where('name', 'delivered'))
+            ->groupBy('label', 'year')
+            ->get()
+            ->groupBy('label')
+            ->map(fn($group) => $group->sum('amount'))
+            ->sortDesc()
+            ->take(10);
+
 
         return view('backend.admin-home')->with([
             'running_month_earning' => $running_month_earning,
@@ -130,6 +232,17 @@ class AdminDashboardController extends Controller
             'total_vendor' => $total_vendor,
             'yearly_income_statement' => $yearly_income_statement,
             'weekly_statement' => $weekly_statement,
+
+            'income_daily' => $income_daily,
+            'income_weekly' => $income_weekly,
+            'income_monthly' => $income_monthly,
+            'income_yearly' => $income_yearly,
+
+            'top_vendors' => $top_vendors,
+            'top_vendors_daily' => $top_vendors_daily,
+            'top_vendors_weekly' => $top_vendors_weekly,
+            'top_vendors_monthly' => $top_vendors_monthly,
+            'top_vendors_yearly' => $top_vendors_yearly,
         ]);
     }
 
@@ -142,9 +255,6 @@ class AdminDashboardController extends Controller
 
     public function get_chart_data(Request $request)
     {
-        /* -------------------------------------
-            TOTAL RAISED BY MONTH CHART DATA
-        ------------------------------------- */
         $all_sell_amount = ProductSellInfo::select('total_amount', 'created_at')
             ->whereYear('created_at', date('Y'))
             ->where(['status' => 'complete'])
@@ -169,12 +279,9 @@ class AdminDashboardController extends Controller
 
     public function get_chart_by_date_data(Request $request)
     {
-        /* -----------------------------------------------------
-           TOTAL RAISED BY Per Day In last 30 days
-       -------------------------------------------------------- */
         $all_sales_total_per_month = ProductSellInfo::select('total_amount', 'created_at')
             ->where(['status' => 'complete'])
-                                                // ->whereMonth('created_at',date('m'))
+            // ->whereMonth('created_at',date('m'))
             ->whereDate('created_at', '>', Carbon::now()->subDays(30))
             ->get()
             ->groupBy(function ($query) {
