@@ -377,193 +377,67 @@
                 <div class="mt-3" id="analytics_chart_two"></div>
             </div>
         </div>
+        <div class="row g-5 mt-2">
+            <div class="col-md-6">
+                <h3 class="my-3">Webstie Stars</h3>
+                <ul class="nav nav-tabs" id="chartTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="webstie_daily-tab" data-bs-toggle="tab" type="button">
+                            Daily
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="webstie_weekly-tab" data-bs-toggle="tab" type="button">
+                            Weekly
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="webstie_monthly-tab" data-bs-toggle="tab" type="button">
+                            Monthly
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="webstie_yearly-tab" data-bs-toggle="tab" type="button">
+                            Yearly
+                        </button>
+                    </li>
+                </ul>
+                <div class="text-center">
+                    <div class="mt-3" id="webstie_chart"></div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h3 class="mb-5"></h3>
+                <ul class="nav nav-tabs" id="chartTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="webstie_two_daily-tab" data-bs-toggle="tab" type="button">
+                            Daily
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="webstie_two_weekly-tab" data-bs-toggle="tab" type="button">
+                            Weekly
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="webstie_two_monthly-tab" data-bs-toggle="tab" type="button">
+                            Monthly
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="webstie_two_yearly-tab" data-bs-toggle="tab" type="button">
+                            Yearly
+                        </button>
+                    </li>
+                </ul>
+                <div class="mt-3" id="webstie_chart_two"></div>
+            </div>
+        </div>
     </div>
 @endsection
 
 @section('script')
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    <script>
-        var campaign_options = {
-        series: [44, 55, 41, 17],
-        labels: ["Flash Campaign", "Eid Campaign", "New Arival", "Best Sales"],
-        chart: {
-            width: 380,
-            type: 'donut',
-        },
-        plotOptions: {
-            pie: {
-                startAngle: -90,
-                endAngle: 270
-            }
-        },
-        dataLabels: {
-            enabled: false
-        },
-        fill: {
-            type: 'gradient',
-        },
-        legend: {
-            formatter: function(val, opts) {
-                return val + " - " + opts.w.globals.series[opts.seriesIndex]
-            }
-        },
-        responsive: [{
-            breakpoint: 480,
-            options: {
-                chart: {
-                    width: 200
-                },
-                legend: {
-                    position: 'bottom'
-                }
-            }
-        }]
-        };
-
-        var campaign_chart = new ApexCharts(document.querySelector("#campaign_chart"), campaign_options);
-        campaign_chart.render();
-    </script>
-
-    <script>
-         var campaign_two_options = {
-        series: [
-            {
-                name: 'Net Profit',
-                data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
-            },
-        ],
-        chart: {
-            type: 'bar',
-            height: 350,
-            toolbar: { show: true, tools: { download: false } }
-        },
-        plotOptions: {
-            bar: {
-                horizontal: false,
-                columnWidth: '15%',
-                borderRadius: 5,
-                borderRadiusApplication: 'end'
-            },
-        },
-        colors: ['#FF0000'],
-        dataLabels: {
-            enabled: false
-        },
-        stroke: {
-            show: true,
-            width: 2,
-            colors: ['transparent']
-        },
-        xaxis: {
-            categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
-        },
-        yaxis: {
-            title: {
-                text: '$ (thousands)'
-            }
-        },
-        fill: {
-            opacity: 1
-        },
-        tooltip: {
-          y:{
-            formatter: function (val) {
-                return "$ " + val + " thousands"
-            }
-        }
-        }};
-
-        var campaign_two_chart = new ApexCharts(document.querySelector("#campaign_two_chart"), campaign_two_options);
-        campaign_two_chart.render();
-    </script>
-
-
-    <script>
-        var options = {
-            series: [{
-                name: "Desktops",
-                data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
-            }
-        ],
-        chart: {
-            height: 350,
-            type: 'line',
-            zoom: {
-                enabled: false
-            },
-            toolbar: { show: true, tools: { download: false } }
-        },
-        dataLabels: {
-            enabled: false
-        },
-        stroke: {
-            curve: 'straight'
-        },
-        grid: {
-            row: {
-                colors: ['#f3f3f3', 'transparent'],
-                opacity: 0.5
-            },
-        },
-        xaxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
-            }
-        };
-
-        var analytics_chart_two = new ApexCharts(document.querySelector("#analytics_chart_two"), options);
-        analytics_chart_two.render();
-    </script>
-    <script>
-         var analytics_options = {
-        series: [
-            {
-                name: 'Net Profit',
-                data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
-            },
-        ],
-        chart: {
-            type: 'bar',
-            height: 350,
-            toolbar: { show: true, tools: { download: false } }
-        },
-        plotOptions: {
-            bar: {
-                horizontal: false,
-                columnWidth: '55%',
-                borderRadius: 5,
-                borderRadiusApplication: 'end'
-            },
-        },
-        dataLabels: {
-            enabled: false
-        },
-        stroke: {
-            show: true,
-            width: 2,
-            colors: ['transparent']
-        },
-        xaxis: {
-            categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
-        },
-        yaxis: {
-            title: {
-                text: '$ (thousands)'
-            }
-        },
-        fill: {
-            opacity: 1
-        },
-        tooltip: {
-          y:{
-            formatter: function (val) {
-                return "$ " + val + " thousands"
-            }
-        }
-        }};
-
-        var analytics_chart = new ApexCharts(document.querySelector("#analytics_chart"), analytics_options);
-        analytics_chart.render();
-    </script>
 
     <script>
         // ===== INCOME STATEMENT DATA =====
@@ -580,9 +454,9 @@
 
         // ===== Helper: Alternating Colors =====
         function generateAlternatingColors(length) {
-            const red = '#e74c3c';
-            const blue = '#3498db';
-            return Array.from({ length }, (_, i) => i % 2 === 0 ? red : blue);
+            const colorOne = '#41695a';
+            const colorTwo = '#e0bb20';
+            return Array.from({ length }, (_, i) => i % 2 === 0 ? colorOne : colorTwo);
         }
 
         // ===== INCOME STATEMENT CHART =====
@@ -604,6 +478,7 @@
                     borderRadiusApplication: 'end'
                 }
             },
+            colors: ['#41695a'],
             dataLabels: { enabled: false },
             stroke: { show: true, width: 2, colors: ['transparent'] },
             xaxis: {
@@ -725,4 +600,284 @@
             updateVendorChart(topVendorsDaily);
         });
     </script>
+
+    <script>
+        var campaign_options = {
+        series: [44, 55, 41, 17],
+        labels: ["Flash Campaign", "Eid Campaign", "New Arival", "Best Sales"],
+        chart: {
+            width: 380,
+            type: 'donut',
+        },
+        plotOptions: {
+            pie: {
+                startAngle: -90,
+                endAngle: 270
+            }
+        },
+        dataLabels: {
+            enabled: false
+        },
+        fill: {
+            type: 'gradient',
+        },
+        legend: {
+            formatter: function(val, opts) {
+                return val + " - " + opts.w.globals.series[opts.seriesIndex]
+            }
+        },
+        responsive: [{
+            breakpoint: 480,
+            options: {
+                chart: {
+                    width: 200
+                },
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }]
+        };
+
+        var campaign_chart = new ApexCharts(document.querySelector("#campaign_chart"), campaign_options);
+        campaign_chart.render();
+    </script>
+
+    <script>
+         var campaign_two_options = {
+        series: [
+            {
+                name: 'Net Profit',
+                data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
+            },
+        ],
+        chart: {
+            type: 'bar',
+            height: 350,
+            toolbar: { show: true, tools: { download: false } }
+        },
+        plotOptions: {
+            bar: {
+                horizontal: false,
+                columnWidth: '15%',
+                borderRadius: 5,
+                borderRadiusApplication: 'end'
+            },
+        },
+        colors: ['#e0bb20'],
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            show: true,
+            width: 2,
+            colors: ['transparent']
+        },
+        xaxis: {
+            categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+        },
+        yaxis: {
+            title: {
+                text: '$ (thousands)'
+            }
+        },
+        fill: {
+            opacity: 1
+        },
+        tooltip: {
+          y:{
+            formatter: function (val) {
+                return "$ " + val + " thousands"
+            }
+        }
+        }};
+
+        var campaign_two_chart = new ApexCharts(document.querySelector("#campaign_two_chart"), campaign_two_options);
+        campaign_two_chart.render();
+    </script>
+
+
+    <script>
+        var options = {
+            series: [{
+                name: "Desktops",
+                data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+            }
+        ],
+        chart: {
+            height: 350,
+            type: 'line',
+            zoom: {
+                enabled: false
+            },
+            toolbar: { show: true, tools: { download: false } }
+        },
+        colors: ['#41695a'],
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            curve: 'straight'
+        },
+        grid: {
+            row: {
+                colors: ['#f3f3f3', 'transparent'],
+                opacity: 0.5
+            },
+        },
+        xaxis: {
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+            }
+        };
+
+        var analytics_chart_two = new ApexCharts(document.querySelector("#analytics_chart_two"), options);
+        analytics_chart_two.render();
+    </script>
+
+    <script>
+         var analytics_options = {
+        series: [
+            {
+                name: 'Net Profit',
+                data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
+            },
+        ],
+        chart: {
+            type: 'bar',
+            height: 350,
+            toolbar: { show: true, tools: { download: false } }
+        },
+        plotOptions: {
+            bar: {
+                horizontal: false,
+                columnWidth: '15%',
+                borderRadius: 5,
+                borderRadiusApplication: 'end'
+            },
+        },
+        colors: ['#41695a'],
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            show: true,
+            width: 2,
+            colors: ['transparent']
+        },
+        xaxis: {
+            categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+        },
+        yaxis: {
+            title: {
+                text: '$ (thousands)'
+            }
+        },
+        fill: {
+            opacity: 1
+        },
+        tooltip: {
+          y:{
+            formatter: function (val) {
+                return "$ " + val + " thousands"
+            }
+        }
+        }};
+
+        var analytics_chart = new ApexCharts(document.querySelector("#analytics_chart"), analytics_options);
+        analytics_chart.render();
+    </script>
+
+
+
+    <script>
+         var webstie_chart_two_options = {
+        series: [
+            {
+                name: 'Net Profit',
+                data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
+            },
+        ],
+        chart: {
+            type: 'bar',
+            height: 350,
+            toolbar: { show: true, tools: { download: false } }
+        },
+        plotOptions: {
+            bar: {
+                horizontal: false,
+                columnWidth: '15%',
+                borderRadius: 5,
+                borderRadiusApplication: 'end'
+            },
+        },
+        colors: ['#e0bb20'],
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            show: true,
+            width: 2,
+            colors: ['transparent']
+        },
+        xaxis: {
+            categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+        },
+        yaxis: {
+            title: {
+                text: '$ (thousands)'
+            }
+        },
+        fill: {
+            opacity: 1
+        },
+        tooltip: {
+          y:{
+            formatter: function (val) {
+                return "$ " + val + " thousands"
+            }
+        }
+        }};
+
+        var webstie_chart_two_chart = new ApexCharts(document.querySelector("#webstie_chart_two"), webstie_chart_two_options);
+        webstie_chart_two_chart.render();
+    </script>
+
+    <script>
+        var website_stars_options = {
+            series: [{
+                name: "Desktops",
+                data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+            }],
+            chart: {
+            height: 350,
+            type: 'line',
+            zoom: {
+                enabled: false
+            }
+            },
+            dataLabels: {
+            enabled: false
+            },
+            stroke: {
+            curve: 'straight'
+            },
+            title: {
+            text: 'Product Trends by Month',
+            align: 'left'
+            },
+            grid: {
+            row: {
+                colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                opacity: 0.5
+            },
+            },
+            xaxis: {
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+            }
+            };
+
+            var webstie_chart = new ApexCharts(document.querySelector("#webstie_chart"), website_stars_options);
+            webstie_chart.render();
+    </script>
+
 @endsection
