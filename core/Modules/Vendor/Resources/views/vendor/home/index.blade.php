@@ -197,120 +197,229 @@
             </div>
         </div>
 
-        <div class="row g-4 mt-2">
-            <div class="col-md-7">
-                <div class="dashboard__card">
-                    <div class="dashboard__card__header">
-                        <div class="dashboard__card__header__left">
-                            <h2 class="dashboard__card__title"> {{ __('Yearly Income Statement') }}</h2>
-                            {{-- <h3 class="dashboard-earning-price mt-3">
-                                {{ float_amount_with_currency_symbol(array_sum($yearly_income_statement->toArray())) }}
-                            </h3> --}}
-                        </div>
-                        {{-- <span class="seller-title-right chart-icon radius-5"> <i class="las la-chart-bar"></i> </span> --}}
-                    </div>
-                    <div class="dashboard__card__body mt-4">
-                        <div class="bar-charts">
-                            <canvas id="bar-chart"></canvas>
-                        </div>
-                    </div>
-                </div>
+        <div class="row g-5 mt-2">
+            <div class="col-md-6">
+                <h3 class="my-3">Financial Summary</h3>
+                <ul class="nav nav-tabs" id="chartTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="financial_summary_daily-tab" data-bs-toggle="tab" type="button">Daily</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="financial_summary_weekly-tab" data-bs-toggle="tab" type="button">Weekly</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="financial_summary_monthly-tab" data-bs-toggle="tab" type="button">Monthly</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="financial_summary_yearly-tab" data-bs-toggle="tab" type="button">Yearly</button>
+                    </li>
+                </ul>
+                <div class="mt-3" id="financial_summary_chart"></div>
             </div>
-
-            <div class="col-md-5">
-                <div class="dashboard__card">
-                    <div class="dashboard__card__header d-block text-center">
-                        <div class="dashboard__card__header__left">
-                            <span class="dashboard__card__title"> {{ __('This Week\'s Earning') }} </span>
-                            {{-- <h3 class="dashboard-earning-price mt-3">
-                                {{ float_amount_with_currency_symbol(array_sum($weekly_statement->toArray())) }} </h3> --}}
-                        </div>
-                    </div>
-                    <div class="dashboard__card__body mt-4">
-                        <div class="line-charts">
-                            <canvas id="line-chart" width="292" height="146"
-                                style="display: block; box-sizing: border-box; height: 146px; width: 292px;"></canvas>
-                        </div>
-                    </div>
-                </div>
+            <div class="col-md-6">
+                <h3 class="my-3">Top Vendors</h3>
+                <ul class="nav nav-tabs" id="chartTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="top_vendors_daily-tab" data-bs-toggle="tab" type="button">Daily</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="top_vendors_weekly-tab" data-bs-toggle="tab" type="button">Weekly</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="top_vendors_monthly-tab" data-bs-toggle="tab" type="button">Monthly</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="top_vendors_yearly-tab" data-bs-toggle="tab" type="button">Yearly</button>
+                    </li>
+                </ul>
+                <div class="mt-3" id="top_vendor_chart"></div>
             </div>
         </div>
-
     </div>
 @endsection
 
 @section('script')
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
     <x-datatable.js />
     <x-media.js />
     <x-table.btn.swal.js />
 
-
-
-    @php
-        $monthName = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        $monthArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-        $weekName = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-        $weekArray = [0, 0, 0, 0, 0, 0, 0];
-        
-        // foreach ($yearly_income_statement as $month => $value) {
-        //     $monthArray[array_search($month, $monthName, true)] = (float) $value;
-        // }
-        
-        // foreach ($weekly_statement as $week => $value) {
-        //     $weekArray[array_search($week, $weekName, true)] = (float) $value;
-        // }
-    @endphp
     <script>
-        new Chart(document.getElementById("bar-chart"), {
-            type: 'bar',
-            data: {
-                labels: ['Jan', 'Feb', "Mar", 'Apr', 'May', "Jun", "July", 'Aug', "Sep", 'Oct', 'Nov', 'Dec'],
-                datasets: [{
-                    label: "Statement",
-                    backgroundColor: "#e9edf7",
-                    data: [
-                        @foreach ($monthArray as $value)
-                            {{ $value }},
-                        @endforeach
-                    ],
-                    barThickness: 15,
-                    hoverBackgroundColor: '#05cd99',
-                    hoverBorderColor: '#05cd99',
-                    borderRadius: 5,
-                    minBarLength: 0,
-                    indexAxis: "x",
-                    pointStyle: 'star',
-                }, ]
+        var options = {
+            series: [{
+                name: 'Net Profit',
+                data: [10, 20, 15, 30, 25, 20, 18]
+            }],
+            chart: {
+                type: 'bar',
+                height: 350,
+                toolbar: {
+                    show: true,
+                    tools: {
+                        download: false
+                    }
+                }
             },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: '30%',
+                    borderRadius: 10,
+                    borderRadiusApplication: 'end'
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                show: true,
+                width: 2,
+                colors: ['transparent']
+            },
+            xaxis: {
+                categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            },
+            yaxis: {
+                title: {
+                    text: '$ (USD)'
+                }
+            },
+            fill: {
+                opacity: 1
+            },
+            tooltip: {
+                y: {
+                    formatter: function (val) {
+                        return "$ " + val + " USD"
+                    }
+                }
             }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#financial_summary_chart"), options);
+        chart.render();
+
+        // Update Chart Data on Tab Click
+        document.querySelector('#financial_summary_daily-tab').addEventListener('click', function () {
+            chart.updateOptions({
+                series: [{ name: 'Net Profit', data: [10, 20, 15, 30, 25, 20, 18] }],
+                xaxis: { categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] }
+            });
         });
 
-        new Chart(document.getElementById("line-chart"), {
-            type: 'line',
-            data: {
-                labels: ['Sun', 'Mon', "Tue", 'Wed', 'Thu', "Fri", "Sat"],
-                datasets: [{
-                    data: [
-                        @foreach ($weekArray as $value)
-                            {{ $value }},
-                        @endforeach
-                    ], //[265, 270, 268, 272, 270, 267, 270],
-                    label: "Earnings",
-                    borderColor: "#05cd99",
-                    borderWidth: 2,
-                    fill: true,
-                    backgroundColor: 'rgba(5, 205, 153,.08)',
-                    fillBackgroundColor: "#f9503e",
-                    pointBorderWidth: 2,
-                    pointBackgroundColor: '#fff',
-                    pointRadius: 3,
-                    pointHoverRadius: 3,
-                    pointHoverBackgroundColor: "#05cd99",
-                }, ]
+        document.querySelector('#financial_summary_weekly-tab').addEventListener('click', function () {
+            chart.updateOptions({
+                series: [{ name: 'Net Profit', data: [100, 120, 90, 110] }],
+                xaxis: { categories: ['Week 1', 'Week 2', 'Week 3', 'Week 4'] }
+            });
+        });
+
+        document.querySelector('#financial_summary_monthly-tab').addEventListener('click', function () {
+            chart.updateOptions({
+                series: [{ name: 'Net Profit', data: [
+                    100, 90, 95, 110, 105, 115, 120, 98, 102, 108,
+                    111, 99, 103, 107, 113, 109, 104, 112, 118, 125,
+                    130, 119, 117, 116, 114, 121, 123, 126, 127, 129
+                ] }],
+                xaxis: { categories: Array.from({ length: 30 }, (_, i) => (i + 1).toString()) }
+            });
+        });
+
+        document.querySelector('#financial_summary_yearly-tab').addEventListener('click', function () {
+            chart.updateOptions({
+                series: [{ name: 'Net Profit', data: [500, 620, 580, 710, 600, 300] }],
+                xaxis: { categories: ['2020', '2021', '2022', '2023', '2024', '2025'] }
+            });
+        });
+    </script>
+    <script>
+        var top_vendor_options = {
+            series: [{
+                name: 'Net Profit',
+                data: [10, 20, 15, 30, 25, 20, 18]
+            }],
+            chart: {
+                type: 'bar',
+                height: 350,
+                toolbar: {
+                    show: true,
+                    tools: {
+                        download: false
+                    }
+                }
             },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: '30%',
+                    borderRadius: 10,
+                    borderRadiusApplication: 'end'
+                }
+            },
+            colors: ['#e74c3c'],
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                show: true,
+                width: 2,
+                colors: ['transparent']
+            },
+            xaxis: {
+                categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            },
+            yaxis: {
+                title: {
+                    text: 'Total'
+                }
+            },
+            fill: {
+                opacity: 1
+            },
+            tooltip: {
+                y: {
+                    formatter: function (val) {
+                        return "$ " + val + " USD"
+                    }
+                }
+            }
+        };
+
+        var top_vendor_chart = new ApexCharts(document.querySelector("#top_vendor_chart"), top_vendor_options);
+        top_vendor_chart.render();
+
+        // Update Chart Data on Tab Click
+        document.querySelector('#top_vendors_daily-tab').addEventListener('click', function () {
+            top_vendor_chart.updateOptions({
+                series: [{ name: 'Net Profit', data: [10, 20, 15, 30, 25, 20, 18] }],
+                xaxis: { categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] }
+            });
+        });
+
+        document.querySelector('#top_vendors_weekly-tab').addEventListener('click', function () {
+            top_vendor_chart.updateOptions({
+                series: [{ name: 'Net Profit', data: [100, 120, 90, 110] }],
+                xaxis: { categories: ['Week 1', 'Week 2', 'Week 3', 'Week 4'] }
+            });
+        });
+
+        document.querySelector('#top_vendors_monthly-tab').addEventListener('click', function () {
+            top_vendor_chart.updateOptions({
+                series: [{ name: 'Net Profit', data: [
+                    100, 90, 95, 110, 105, 115, 120, 98, 102, 108,
+                    111, 99, 103, 107, 113, 109, 104, 112, 118, 125,
+                    130, 119, 117, 116, 114, 121, 123, 126, 127, 129
+                ] }],
+                xaxis: { categories: Array.from({ length: 30 }, (_, i) => (i + 1).toString()) }
+            });
+        });
+
+        document.querySelector('#top_vendors_yearly-tab').addEventListener('click', function () {
+            top_vendor_chart.updateOptions({
+                series: [{ name: 'Net Profit', data: [500, 620, 580, 710, 600, 300] }],
+                xaxis: { categories: ['2020', '2021', '2022', '2023', '2024', '2025'] }
+            });
         });
     </script>
 @endsection

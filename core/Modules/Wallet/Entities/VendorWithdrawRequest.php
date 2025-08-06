@@ -21,6 +21,7 @@ class VendorWithdrawRequest extends Model
         "gateway_fields",
         "note",
         "image",
+        "qr_file",
     ];
 
     public function gateway(): BelongsTo

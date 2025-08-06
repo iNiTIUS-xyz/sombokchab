@@ -93,64 +93,6 @@
                                         </h2>
                                     </div>
                                     <div class="dashboard__card__body custom__form mt-4">
-                                        {{-- <form action="{{ route('vendor.wallet.withdraw') }}" method="post">
-                                            @csrf
-                                            <div class="form-group">
-                                                <label>
-                                                    {{ __('Withdraw Amount') }}
-                                                    <span class="text-danger">*</span>
-                                                </label>
-                                                <input name="withdraw_amount" type="number" id="withdraw_amount"
-                                                    min="{{ get_static_option('minimum_withdraw_amount') }}"
-                                                    max="{{ $current_balance }}" class="form-control"
-                                                    placeholder="{{ __('Enter withdraw amount') }}" />
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label>{{ __('Payment Method') }}</label>
-                                                <select name="gateway_name" class="form-select gateway-name">
-                                                    <option value="" selected disabled>
-                                                        {{ __('Select payment method') }}
-                                                    </option>
-                                                    @foreach ($adminGateways as $gateway)
-                                                        <option
-                                                            {{ $savedGateway?->vendor_wallet_gateway_id === $gateway->id ? 'selected' : '' }}
-                                                            value="{{ $gateway->id }}"
-                                                            data-fileds="{{ json_encode(unserialize($gateway->filed)) }}">
-                                                            {{ $gateway->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group gateway-information-wrapper">
-                                                @php
-                                                    $gatewayFields = $savedGateway?->fileds ? unserialize($savedGateway?->fileds) : [];
-                                                @endphp
-                                                @foreach ($gatewayFields as $key => $value)
-                                                    <div class="form-group">
-                                                        <label>
-                                                            {{ ucwords(str_replace('_', ' ', $key)) }}
-                                                        </label>
-                                                        <input type="text" name="gateway_filed[{{ $key }}]"
-                                                            class="form-control" value="{{ $value }}"
-                                                            placeholder="Enter {{ str_replace('_', ' ', $key) }}" />
-                                                    </div>
-                                                @endforeach
-                                            </div>
-                                            <div class="form-group">
-                                                <hr>
-                                                <div class="btn-wrapper">
-                                                    <button class="cmn_btn btn_bg_profile" type="submit">
-                                                        {{ __('Send Withdraw Request') }}
-                                                    </button>
-                                                    <a href="{{ route('vendor.wallet.home') }}"
-                                                    class="cmn_btn default-theme-btn"
-                                                    style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
-                                                        {{ __('Back') }}
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </form> --}}
-
                                         <form action="{{ route('vendor.wallet.withdraw') }}" method="post">
                                             @csrf
                                             <div class="form-group">
@@ -164,7 +106,7 @@
                                                     placeholder="{{ __('Enter withdraw amount') }}" />
                                             </div>
 
-                                            <div class="form-group">
+                                           <div class="form-group">
                                                 <label>{{ __('Payment Method') }}</label>
                                                 <select name="gateway_name" class="form-select gateway-name">
                                                     <option value="" selected disabled>
@@ -174,7 +116,8 @@
                                                         <option
                                                             {{ $savedGateway?->vendor_wallet_gateway_id === $gateway->id ? 'selected' : '' }}
                                                             value="{{ $gateway->id }}"
-                                                            data-fileds="{{ json_encode(unserialize($gateway->filed)) }}">
+                                                            data-fileds="{{ json_encode(unserialize($gateway->filed)) }}"
+                                                            data-is_file="{{ $gateway->is_file }}">
                                                             {{ $gateway->name }}</option>
                                                     @endforeach
                                                 </select>
@@ -194,9 +137,13 @@
                                                         <label>
                                                             {{ $label }}
                                                         </label>
-                                                        <input type="text" name="gateway_filed[{{ $key }}]"
-                                                            class="form-control" value="{{ $value }}"
-                                                            placeholder="Enter {{ str_replace('_', ' ', $key) }}" />
+                                                        @if($key === 'qr_file')
+                                                            <input type="file" name="gateway_filed[{{ $key }}]" class="form-control" />
+                                                        @else
+                                                            <input type="text" name="gateway_filed[{{ $key }}]"
+                                                                class="form-control" value="{{ $value }}"
+                                                                placeholder="Enter {{ str_replace('_', ' ', $key) }}" />
+                                                        @endif
                                                     </div>
                                                 @endforeach
                                             </div>
@@ -225,27 +172,46 @@
     </div>
     <div class="body-overlay-desktop"></div>
 @endsection
+
 @section('script')
     <script>
         $(document).on("change", ".gateway-name", function() {
             let gatewayInformation = "";
             $(".gateway-information-wrapper").fadeOut(150);
 
-            JSON.parse($(this).find(":selected").attr("data-fileds")).forEach(function(value, index) {
-                let gateway_name = value.toLowerCase().replaceAll(" ", "_").replaceAll("-", "_");
+            const selectedOption = $(this).find(":selected");
+            const isFile = selectedOption.attr("data-is_file");
+            let fields = selectedOption.attr("data-fileds");
 
+            try {
+                fields = JSON.parse(fields);
+
+                // Loop through object entries if fields is an object
+                Object.entries(fields).forEach(function([key, value]) {
+                    let gateway_name = key.toLowerCase().replaceAll(" ", "_").replaceAll("-", "_");
+
+                    gatewayInformation += `
+                        <div class="form-group">
+                            <label>${ value }</label>
+                            <input type="text" name="gateway_filed[${ gateway_name }]" class="form-control" placeholder="Enter ${ value }" />
+                        </div>
+                    `;
+                });
+            } catch (e) {
+                console.error("Invalid JSON in data-fileds", e);
+            }
+
+            if (isFile === "yes") {
                 gatewayInformation += `
                     <div class="form-group">
-                        <label>
-                            ${ value }
-                            <input type="text" name="gateway_filed[${ gateway_name }]" class="form-control" placeholder="Enter ${ value.toLowerCase() }" />
-                        </label>
+                        <label>QR File</label>
+                        <input type="file" name="qr_file" class="form-control" />
                     </div>
                 `;
-            })
+            }
 
             $(".gateway-information-wrapper").html(gatewayInformation);
             $(".gateway-information-wrapper").fadeIn(250);
-        })
+        });
     </script>
 @endsection

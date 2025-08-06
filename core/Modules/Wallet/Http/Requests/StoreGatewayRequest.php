@@ -11,23 +11,11 @@ class StoreGatewayRequest extends FormRequest
     {
         return [
             "id" => "sometimes",
-            "name" => "required|string",
-            "filed" => "required|string",
+            "gateway_name" => "required|string",
+            "filed" => "nullable",
             "status_id" => "required|integer",
+            "is_file" => "nullable",
         ];
-    }
-
-    protected function prepareForValidation()
-    {
-        $fields = [];
-        foreach($this->filed ?? [] as $key => $value){
-            $fields[$key] = SanitizeInput::esc_html($value);
-        }
-
-        return $this->merge([
-            "filed" => serialize($fields),
-            "name" => SanitizeInput::esc_html($this->gateway_name)
-        ]);
     }
 
     public function authorize(): bool
