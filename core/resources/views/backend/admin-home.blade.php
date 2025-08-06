@@ -17,7 +17,7 @@
     @endphp
 
     <div class="dashboard-profile-inner">
-        <div class="row g-4 justify-content-center">
+        {{-- <div class="row g-4 justify-content-center">
             <div class="col-xxl-3 col-xl-6 col-sm-6 orders-child">
                 <a href="{{ route('admin.all.user') }}">
                     <div class="single-orders">
@@ -209,7 +209,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <div class="row g-5 mt-2">
             <div class="col-md-6">
@@ -265,12 +265,153 @@
                 <div class="mt-3" id="top_vendor_chart"></div>
             </div>
         </div>
-    </div>
 
+
+        <div class="row g-5 mt-2">
+            <div class="col-md-6">
+                <h3 class="my-3">Analytics</h3>
+                <ul class="nav nav-tabs" id="chartTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="analytics_daily-tab" data-bs-toggle="tab" type="button">
+                            Daily
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="analytics_weekly-tab" data-bs-toggle="tab" type="button">
+                            Weekly
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="analytics_monthly-tab" data-bs-toggle="tab" type="button">
+                            Monthly
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="analytics_yearly-tab" data-bs-toggle="tab" type="button">
+                            Yearly
+                        </button>
+                    </li>
+                </ul>
+                <div class="mt-3" id="analytics_chart"></div>
+            </div>
+            <div class="col-md-6">
+                <h3 class="mb-5"></h3>
+                <ul class="nav nav-tabs" id="chartTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="analytics_two_daily-tab" data-bs-toggle="tab" type="button">
+                            Daily
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="analytics_two_weekly-tab" data-bs-toggle="tab" type="button">
+                            Weekly
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="analytics_two_monthly-tab" data-bs-toggle="tab" type="button">
+                            Monthly
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="analytics_two_yearly-tab" data-bs-toggle="tab" type="button">
+                            Yearly
+                        </button>
+                    </li>
+                </ul>
+                <div class="mt-3" id="analytics_chart_two"></div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('script')
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script>
+        var options = {
+            series: [{
+                name: "Desktops",
+                data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+            }
+        ],
+        chart: {
+            height: 350,
+            type: 'line',
+            zoom: {
+                enabled: false
+            },
+            toolbar: { show: true, tools: { download: false } }
+        },
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            curve: 'straight'
+        },
+        grid: {
+            row: {
+                colors: ['#f3f3f3', 'transparent'],
+                opacity: 0.5
+            },
+        },
+        xaxis: {
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+            }
+        };
+
+        var analytics_chart_two = new ApexCharts(document.querySelector("#analytics_chart_two"), options);
+        analytics_chart_two.render();
+    </script>
+    <script>
+         var analytics_options = {
+        series: [
+            {
+                name: 'Net Profit',
+                data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
+            },
+        ],
+        chart: {
+            type: 'bar',
+            height: 350,
+            toolbar: { show: true, tools: { download: false } }
+        },
+        plotOptions: {
+            bar: {
+                horizontal: false,
+                columnWidth: '55%',
+                borderRadius: 5,
+                borderRadiusApplication: 'end'
+            },
+        },
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            show: true,
+            width: 2,
+            colors: ['transparent']
+        },
+        xaxis: {
+            categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+        },
+        yaxis: {
+            title: {
+                text: '$ (thousands)'
+            }
+        },
+        fill: {
+            opacity: 1
+        },
+        tooltip: {
+          y:{
+            formatter: function (val) {
+                return "$ " + val + " thousands"
+            }
+        }
+        }};
+
+        var analytics_chart = new ApexCharts(document.querySelector("#analytics_chart"), analytics_options);
+        analytics_chart.render();
+    </script>
 
     <script>
         // ===== INCOME STATEMENT DATA =====
