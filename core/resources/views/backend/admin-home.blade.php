@@ -537,11 +537,6 @@
                             <div class="row g-5">
                                 <div class="col-md-12">
                                     <div class="mb-2">
-                                        <span class="badge badge-custom">Account Pending: 5</span>
-                                        <span class="badge badge-custom">Approved: 20</span>
-                                        <span class="badge badge-custom">Rejected: 3</span>
-                                    </div>
-                                    <div class="mb-2">
                                         <span class="badge badge-custom">Product Pending: 10</span>
                                         <span class="badge badge-custom">Approved: 15</span>
                                         <span class="badge badge-custom">Rejected: 2</span>
