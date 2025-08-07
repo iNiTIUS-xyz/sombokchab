@@ -2,25 +2,27 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Admin;
 use App\Blog;
-use App\ContactInfoItem;
-use App\Language;
-use Modules\SupportTicket\Entities\SupportTicket;
 use App\User;
+use App\Admin;
+use App\Language;
 use Carbon\Carbon;
+use App\ContactInfoItem;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Modules\Order\Entities\Order;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
+use Modules\Vendor\Entities\Vendor;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Modules\Campaign\Entities\Campaign;
-use Modules\Order\Entities\Order;
-use Modules\Order\Entities\OrderPaymentMeta;
 use Modules\Order\Entities\SubOrder;
 use Modules\Product\Entities\Product;
-use Modules\Product\Entities\ProductSellInfo;
+use Modules\Campaign\Entities\Campaign;
 use Modules\Refund\Entities\RefundRequest;
-use Modules\Vendor\Entities\Vendor;
+use Modules\Order\Entities\OrderPaymentMeta;
+use Modules\Product\Entities\ProductSellInfo;
+use Modules\SupportTicket\Entities\SupportTicket;
 use Modules\Wallet\Entities\VendorWithdrawRequest;
 
 class AdminDashboardController extends Controller
@@ -159,6 +161,36 @@ class AdminDashboardController extends Controller
             ->where('user_id', '!=', null)
             ->get();
 
+        $baseQuery = DB::table('sub_order_items')
+            ->join('orders', 'sub_order_items.order_id', '=', 'orders.id')
+            ->join('products', 'sub_order_items.product_id', '=', 'products.id')
+            ->select('products.name', DB::raw('SUM(sub_order_items.quantity) as total_quantity'));
+
+        // Daily
+        $topVendorsDaily = (clone $baseQuery)
+            ->whereDate('orders.created_at', Carbon::today())
+            ->groupBy('products.name')
+            ->pluck('total_quantity', 'products.name');
+
+        // Weekly
+        $topVendorsWeekly = (clone $baseQuery)
+            ->whereBetween('orders.created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+            ->groupBy('products.name')
+            ->pluck('total_quantity', 'products.name');
+
+        // Monthly
+        $topVendorsMonthly = (clone $baseQuery)
+            ->whereMonth('orders.created_at', Carbon::now()->month)
+            ->whereYear('orders.created_at', Carbon::now()->year)
+            ->groupBy('products.name')
+            ->pluck('total_quantity', 'products.name');
+
+        // Yearly
+        $topVendorsYearly = (clone $baseQuery)
+            ->whereYear('orders.created_at', Carbon::now()->year)
+            ->groupBy('products.name')
+            ->pluck('total_quantity', 'products.name');
+
         return view('backend.admin-home')->with([
             'campaign' => $campaign,
             'vendor' => $vendor,
@@ -180,6 +212,11 @@ class AdminDashboardController extends Controller
             'top_vendors_weekly' => $top_vendors_weekly,
             'top_vendors_monthly' => $top_vendors_monthly,
             'top_vendors_yearly' => $top_vendors_yearly,
+
+            'topVendorsDaily' => $topVendorsDaily,
+            'topVendorsWeekly' => $topVendorsWeekly,
+            'topVendorsMonthly' => $topVendorsMonthly,
+            'topVendorsYearly' => $topVendorsYearly,
         ]);
     }
 

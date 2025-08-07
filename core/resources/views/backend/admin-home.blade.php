@@ -276,7 +276,8 @@
                                     <div class="text-center">
                                         <h5>Active Campaigns</h5>
                                         <h2>
-                                            {{ $campaign->count() }}</h2>
+                                            {{ $campaign->count() }}
+                                        </h2>
                                         <span class="badge bg-light text-dark">Live Now</span>
                                     </div>
                                 </div>
@@ -1477,11 +1478,23 @@
     </script>
 
     <script>
-        var top_vendors_two_options = {
+        let sp_topVendorsDaily = @json($topVendorsDaily);
+        let sp_topVendorsWeekly = @json($topVendorsWeekly);
+        let sp_topVendorsMonthly = @json($topVendorsMonthly);
+        let sp_topVendorsYearly = @json($topVendorsYearly);
+
+        function sp_generateAlternatingColors(count) {
+            const colors = ['#41695a', '#609C78'];
+            return Array.from({
+                length: count
+            }, (_, i) => colors[i % colors.length]);
+        }
+
+        let sp_chartOptions = {
             series: [{
-                name: 'Net Profit',
-                data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
-            }, ],
+                name: 'Total Sold',
+                data: []
+            }],
             chart: {
                 type: 'bar',
                 height: 350,
@@ -1502,7 +1515,7 @@
                 },
             },
             title: {
-                text: 'Top Seeling Products',
+                text: 'Top Selling Products',
                 align: 'left'
             },
             colors: ['#41695a'],
@@ -1515,11 +1528,16 @@
                 colors: ['transparent']
             },
             xaxis: {
-                categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+                categories: [],
+                labels: {
+                    formatter: function(value) {
+                        return value.length > 15 ? value.substring(0, 15) + '...' : value;
+                    }
+                }
             },
             yaxis: {
                 title: {
-                    text: '$ (thousands)'
+                    text: 'Quantity Sold'
                 }
             },
             fill: {
@@ -1528,14 +1546,50 @@
             tooltip: {
                 y: {
                     formatter: function(val) {
-                        return "$ " + val + " thousands"
+                        return val + ' sold';
                     }
                 }
             }
         };
 
-        var top_vendors_two_chart = new ApexCharts(document.querySelector("#top_vendors_two_chart"),
-            top_vendors_two_options);
-        top_vendors_two_chart.render();
+        let sp_top_vendors_chart = new ApexCharts(document.querySelector("#top_vendors_two_chart"), sp_chartOptions);
+        sp_top_vendors_chart.render();
+
+        function sp_updateVendorChart(data) {
+            const labels = Object.keys(data);
+            const values = Object.values(data).map(val => parseInt(val));
+
+            sp_top_vendors_chart.updateOptions({
+                series: [{
+                    name: 'Total Sold',
+                    data: values
+                }],
+                xaxis: {
+                    categories: labels
+                },
+                colors: sp_generateAlternatingColors(labels.length),
+                legend: {
+                    show: false
+                }
+            });
+        }
+
+        // Corrected event listeners with matching IDs
+        document.querySelector('#top_vendors_two_daily-tab').addEventListener('click', function() {
+            sp_updateVendorChart(sp_topVendorsDaily);
+        });
+        document.querySelector('#top_vendors_two_weekly-tab').addEventListener('click', function() {
+            sp_updateVendorChart(sp_topVendorsWeekly);
+        });
+        document.querySelector('#top_vendors_two_monthly-tab').addEventListener('click', function() {
+            sp_updateVendorChart(sp_topVendorsMonthly);
+        });
+        document.querySelector('#top_vendors_two_yearly-tab').addEventListener('click', function() {
+            sp_updateVendorChart(sp_topVendorsYearly);
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            sp_updateVendorChart(sp_topVendorsDaily);
+        });
     </script>
 @endsection
