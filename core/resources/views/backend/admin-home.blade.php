@@ -4,6 +4,33 @@
     {{ __('Dashboard') }}
 @endsection
 
+@section('style')
+    <style>
+        .badge-custom {
+            background-color: #dee2e6;
+            color: #000;
+            font-size: 14px;
+            margin-right: 5px;
+        }
+
+        .section-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .view-all {
+            float: right;
+            color: green;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .view-all:hover {
+            text-decoration: underline;
+        }
+    </style>
+@endsection
+
 @section('content')
     <div class="row">
         {{-- Webstie Stats --}}
@@ -210,8 +237,8 @@
                                             </button>
                                         </li>
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="analytics_three_monthly-tab" data-bs-toggle="tab"
-                                                type="button">
+                                            <button class="nav-link" id="analytics_three_monthly-tab"
+                                                data-bs-toggle="tab" type="button">
                                                 Monthly
                                             </button>
                                         </li>
@@ -223,85 +250,6 @@
                                         </li>
                                     </ul>
                                     <div class="mt-3" id="analytics_three_chart"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {{-- Financial Summary --}}
-        <div class="col-lg-12 col-ml-12 mb-3">
-            <div class="row">
-                <div class="col-12">
-                    <div class="dashboard__card">
-                        <div class="dashboard__card__body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h3 class="my-3">Financial Summary</h3>
-                                </div>
-                                <div class="col-md-6 text-end">
-                                    <a href="#" class="text-warning">View All</a>
-                                </div>
-                            </div>
-                            <div class="row g-5">
-                                <div class="col-md-6">
-                                    <ul class="nav nav-tabs" id="chartTabs" role="tablist">
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link active" id="financial_summary_daily-tab"
-                                                data-bs-toggle="tab" type="button">
-                                                Daily
-                                            </button>
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="financial_summary_weekly-tab"
-                                                data-bs-toggle="tab" type="button">
-                                                Weekly
-                                            </button>
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="financial_summary_monthly-tab"
-                                                data-bs-toggle="tab" type="button">
-                                                Monthly
-                                            </button>
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="financial_summary_yearly-tab"
-                                                data-bs-toggle="tab" type="button">
-                                                Yearly
-                                            </button>
-                                        </li>
-                                    </ul>
-                                    <div class="mt-3" id="financial_summary_chart"></div>
-                                </div>
-                                <div class="col-md-6">
-                                    <ul class="nav nav-tabs" id="chartTabs" role="tablist">
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link active" id="financial_summary_two_daily-tab"
-                                                data-bs-toggle="tab" type="button">
-                                                Daily
-                                            </button>
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="financial_summary_two_weekly-tab"
-                                                data-bs-toggle="tab" type="button">
-                                                Weekly
-                                            </button>
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="financial_summary_two_monthly-tab"
-                                                data-bs-toggle="tab" type="button">
-                                                Monthly
-                                            </button>
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="financial_summary_two_yearly-tab"
-                                                data-bs-toggle="tab" type="button">
-                                                Yearly
-                                            </button>
-                                        </li>
-                                    </ul>
-                                    <div class="mt-3" id="financial_summary_two_chart"></div>
                                 </div>
                             </div>
                         </div>
@@ -545,6 +493,184 @@
                                         </li>
                                     </ul>
                                     <div class="mt-3" id="top_vendors_two_chart"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- vendor management  --}}
+        <div class="col-lg-12 col-ml-12 mb-3">
+            <div class="row">
+                <div class="col-12">
+                    <div class="dashboard__card">
+                        <div class="dashboard__card__body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h3 class="my-3">Vendor managements</h3>
+                                </div>
+                                <div class="col-md-6 text-end">
+                                    <a href="#" class="text-warning">View All</a>
+                                </div>
+                            </div>
+                            <div class="row g-5">
+                                <div class="col-md-12">
+                                    <div class="mb-2">
+                                        <span class="badge badge-custom">Account Pending: 5</span>
+                                        <span class="badge badge-custom">Approved: 20</span>
+                                        <span class="badge badge-custom">Rejected: 3</span>
+                                    </div>
+                                    <div class="mb-2">
+                                        <span class="badge badge-custom">Product Pending: 10</span>
+                                        <span class="badge badge-custom">Approved: 15</span>
+                                        <span class="badge badge-custom">Rejected: 2</span>
+                                    </div>
+                                    <div class="mb-2">
+                                        <span class="badge badge-custom">Withdrawal Requests Pending: 2</span>
+                                        <span class="badge badge-custom">Approved: 1</span>
+                                        <span class="badge badge-custom">Rejected: 0</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- vendor Support  --}}
+        <div class="col-lg-12 col-ml-12 mb-3">
+            <div class="row">
+                <div class="col-12">
+                    <div class="dashboard__card">
+                        <div class="dashboard__card__body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h3 class="my-3">Vendor Support</h3>
+                                </div>
+                                <div class="col-md-6 text-end">
+                                    <a href="#" class="text-warning">View All</a>
+                                </div>
+                            </div>
+                            <div class="row g-5">
+                                <div class="col-md-12">
+                                    <div class="mb-2">
+                                        <span class="badge badge-custom">Total Tickets Open: 10</span>
+                                        <span class="badge badge-custom">Resolved: 25</span>
+                                        <span class="badge badge-custom">Overdue: 3</span>
+                                        <span class="badge badge-custom">High Priority Tickets: 5</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- Customer Support --}}
+        <div class="col-lg-12 col-ml-12 mb-3">
+            <div class="row">
+                <div class="col-12">
+                    <div class="dashboard__card">
+                        <div class="dashboard__card__body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h3 class="my-3">Customer Support</h3>
+                                </div>
+                                <div class="col-md-6 text-end">
+                                    <a href="#" class="text-warning">View All</a>
+                                </div>
+                            </div>
+                            <div class="row g-5">
+                                <div class="col-md-12">
+                                    <div class="mb-2">
+                                        <span class="badge badge-custom">Total Tickets Open: 15</span>
+                                        <span class="badge badge-custom">Resolved: 30</span>
+                                        <span class="badge badge-custom">Overdue: 4</span>
+                                        <span class="badge badge-custom">High Priority Tickets: 7</span>
+                                        <span class="badge badge-custom">Refund Request: 10</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- Financial Summary --}}
+        <div class="col-lg-12 col-ml-12 mb-3">
+            <div class="row">
+                <div class="col-12">
+                    <div class="dashboard__card">
+                        <div class="dashboard__card__body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h3 class="my-3">Financial Summary</h3>
+                                </div>
+                                <div class="col-md-6 text-end">
+                                    <a href="#" class="text-warning">View All</a>
+                                </div>
+                            </div>
+                            <div class="row g-5">
+                                <div class="col-md-6">
+                                    <ul class="nav nav-tabs" id="chartTabs" role="tablist">
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link active" id="financial_summary_daily-tab"
+                                                data-bs-toggle="tab" type="button">
+                                                Daily
+                                            </button>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link" id="financial_summary_weekly-tab"
+                                                data-bs-toggle="tab" type="button">
+                                                Weekly
+                                            </button>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link" id="financial_summary_monthly-tab"
+                                                data-bs-toggle="tab" type="button">
+                                                Monthly
+                                            </button>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link" id="financial_summary_yearly-tab"
+                                                data-bs-toggle="tab" type="button">
+                                                Yearly
+                                            </button>
+                                        </li>
+                                    </ul>
+                                    <div class="mt-3" id="financial_summary_chart"></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <ul class="nav nav-tabs" id="chartTabs" role="tablist">
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link active" id="financial_summary_two_daily-tab"
+                                                data-bs-toggle="tab" type="button">
+                                                Daily
+                                            </button>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link" id="financial_summary_two_weekly-tab"
+                                                data-bs-toggle="tab" type="button">
+                                                Weekly
+                                            </button>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link" id="financial_summary_two_monthly-tab"
+                                                data-bs-toggle="tab" type="button">
+                                                Monthly
+                                            </button>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link" id="financial_summary_two_yearly-tab"
+                                                data-bs-toggle="tab" type="button">
+                                                Yearly
+                                            </button>
+                                        </li>
+                                    </ul>
+                                    <div class="mt-3" id="financial_summary_two_chart"></div>
                                 </div>
                             </div>
                         </div>
