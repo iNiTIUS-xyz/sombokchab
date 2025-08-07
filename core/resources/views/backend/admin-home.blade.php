@@ -785,7 +785,7 @@
                 },
             },
             title: {
-                text: 'New Vendor Sign-Ups',
+                text: 'New Vendor Sign Up',
                 align: 'left'
             },
             colors: ['#41695a'],
