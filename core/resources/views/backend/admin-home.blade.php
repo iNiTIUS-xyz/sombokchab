@@ -547,7 +547,6 @@
                                         <span class="badge badge-custom">Rejected: 0</span>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -746,11 +745,26 @@
     </script>
 
     <script>
-        var webstie_two_options = {
+        // Pass data from Laravel to JavaScript
+        let sp_vendorsDaily = @json($vendorsDaily);
+        let sp_vendorsWeekly = @json($vendorsWeekly);
+        let sp_vendorsMonthly = @json($vendorsMonthly);
+        let sp_vendorsYearly = @json($vendorsYearly);
+
+        // Function to generate alternating colors
+        function sp_generateAlternatingColors(count) {
+            const colors = ['#41695a', '#609C78'];
+            return Array.from({
+                length: count
+            }, (_, i) => colors[i % colors.length]);
+        }
+
+        // Chart configuration
+        let sp_chartOptions = {
             series: [{
-                name: 'Net Profit',
-                data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
-            }, ],
+                name: 'New Vendors',
+                data: []
+            }],
             chart: {
                 type: 'bar',
                 height: 350,
@@ -770,13 +784,13 @@
                     borderRadiusApplication: 'end'
                 },
             },
+            title: {
+                text: 'New Vendor Sign-Ups',
+                align: 'left'
+            },
             colors: ['#41695a'],
             dataLabels: {
                 enabled: false
-            },
-            title: {
-                text: 'New vendor sign up',
-                align: 'left'
             },
             stroke: {
                 show: true,
@@ -784,11 +798,16 @@
                 colors: ['transparent']
             },
             xaxis: {
-                categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+                categories: [],
+                labels: {
+                    formatter: function(value) {
+                        return value && value.length > 15 ? value.substring(0, 15) + '...' : value || '';
+                    }
+                }
             },
             yaxis: {
                 title: {
-                    text: '$ (thousands)'
+                    text: 'Number of Sign-Ups'
                 }
             },
             fill: {
@@ -797,14 +816,54 @@
             tooltip: {
                 y: {
                     formatter: function(val) {
-                        return "$ " + val + " thousands"
+                        return val + ' sign-ups';
                     }
                 }
             }
         };
 
-        var webstie_two_chart = new ApexCharts(document.querySelector("#webstie_two_chart"), webstie_two_options);
-        webstie_two_chart.render();
+        // Initialize chart
+        let sp_vendors_chart = new ApexCharts(document.querySelector("#webstie_two_chart"), sp_chartOptions);
+        sp_vendors_chart.render();
+
+        // Function to update chart
+        function sp_updateVendorChart(data) {
+            const labels = Object.keys(data);
+            const values = Object.values(data).map(val => parseInt(val) || 0);
+
+            sp_vendors_chart.updateOptions({
+                series: [{
+                    name: 'New Vendors',
+                    data: values
+                }],
+                xaxis: {
+                    categories: labels
+                },
+                colors: sp_generateAlternatingColors(labels.length),
+                legend: {
+                    show: false
+                }
+            });
+        }
+
+        // Event listeners for tabs
+        document.querySelector('#webstie_two_daily-tab').addEventListener('click', function() {
+            sp_updateVendorChart(sp_vendorsDaily);
+        });
+        document.querySelector('#webstie_two_weekly-tab').addEventListener('click', function() {
+            sp_updateVendorChart(sp_vendorsWeekly);
+        });
+        document.querySelector('#webstie_two_monthly-tab').addEventListener('click', function() {
+            sp_updateVendorChart(sp_vendorsMonthly);
+        });
+        document.querySelector('#webstie_two_yearly-tab').addEventListener('click', function() {
+            sp_updateVendorChart(sp_vendorsYearly);
+        });
+
+        // Initial chart load
+        document.addEventListener('DOMContentLoaded', () => {
+            sp_updateVendorChart(sp_vendorsDaily);
+        });
     </script>
 
     <script>
