@@ -867,11 +867,26 @@
     </script>
 
     <script>
-        var webstie_three_options = {
+        // Pass data from Laravel to JavaScript
+        let sp_customersDaily = @json($customersDaily);
+        let sp_customersWeekly = @json($customersWeekly);
+        let sp_customersMonthly = @json($customersMonthly);
+        let sp_customersYearly = @json($customersYearly);
+
+        // Function to generate alternating colors
+        function sp_generateAlternatingColors(count) {
+            const colors = ['#41695a', '#609C78'];
+            return Array.from({
+                length: count
+            }, (_, i) => colors[i % colors.length]);
+        }
+
+        // Chart configuration
+        let sp_customer_chartOptions = {
             series: [{
-                name: 'Net Profit',
-                data: [44, 55, 58, 63, 60, 66, 57, 56, 61, ]
-            }, ],
+                name: 'New Customers',
+                data: []
+            }],
             chart: {
                 type: 'bar',
                 height: 350,
@@ -891,13 +906,13 @@
                     borderRadiusApplication: 'end'
                 },
             },
+            title: {
+                text: 'New Customer Sign Up',
+                align: 'left'
+            },
             colors: ['#41695a'],
             dataLabels: {
                 enabled: false
-            },
-            title: {
-                text: 'New customer sign up',
-                align: 'left'
             },
             stroke: {
                 show: true,
@@ -905,11 +920,16 @@
                 colors: ['transparent']
             },
             xaxis: {
-                categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+                categories: [],
+                labels: {
+                    formatter: function(value) {
+                        return value && value.length > 15 ? value.substring(0, 15) + '...' : value || '';
+                    }
+                }
             },
             yaxis: {
                 title: {
-                    text: '$ (thousands)'
+                    text: 'Number of Sign-Ups'
                 }
             },
             fill: {
@@ -918,14 +938,54 @@
             tooltip: {
                 y: {
                     formatter: function(val) {
-                        return "$ " + val + " thousands"
+                        return val + ' sign-ups';
                     }
                 }
             }
         };
 
-        var webstie_three_chart = new ApexCharts(document.querySelector("#webstie_three_chart"), webstie_three_options);
-        webstie_three_chart.render();
+        // Initialize chart
+        let sp_customers_chart = new ApexCharts(document.querySelector("#webstie_three_chart"), sp_customer_chartOptions);
+        sp_customers_chart.render();
+
+        // Function to update chart
+        function sp_updateCustomerChart(data) {
+            const labels = Object.keys(data);
+            const values = Object.values(data).map(val => parseInt(val) || 0);
+
+            sp_customers_chart.updateOptions({
+                series: [{
+                    name: 'New Customers',
+                    data: values
+                }],
+                xaxis: {
+                    categories: labels
+                },
+                colors: sp_generateAlternatingColors(labels.length),
+                legend: {
+                    show: false
+                }
+            });
+        }
+
+        // Event listeners for tabs
+        document.querySelector('#webstie_three_daily-tab').addEventListener('click', function() {
+            sp_updateCustomerChart(sp_customersDaily);
+        });
+        document.querySelector('#webstie_three_weekly-tab').addEventListener('click', function() {
+            sp_updateCustomerChart(sp_customersWeekly);
+        });
+        document.querySelector('#webstie_three_monthly-tab').addEventListener('click', function() {
+            sp_updateCustomerChart(sp_customersMonthly);
+        });
+        document.querySelector('#webstie_three_yearly-tab').addEventListener('click', function() {
+            sp_updateCustomerChart(sp_customersYearly);
+        });
+
+        // Initial chart load
+        document.addEventListener('DOMContentLoaded', () => {
+            sp_updateCustomerChart(sp_customersDaily);
+        });
     </script>
 
     <script>

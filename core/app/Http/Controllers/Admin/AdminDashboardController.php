@@ -242,6 +242,58 @@ class AdminDashboardController extends Controller
             ->pluck('count', 'year')
             ->toArray();
 
+
+        // Daily sign-ups (last 10 days)
+        $customersDaily = User::select(
+            DB::raw('DATE(created_at) as date'),
+            DB::raw('COUNT(*) as count')
+        )
+            ->groupBy('date')
+            ->orderBy('date', 'asc')
+            ->take(10)
+            ->get()
+            ->pluck('count', 'date')
+            ->toArray();
+
+        // Weekly sign-ups (last 10 weeks)
+        $customersWeekly = User::select(
+            DB::raw('DATE_FORMAT(created_at, "%Y-%U") as week'),
+            DB::raw('COUNT(*) as count')
+        )
+            ->groupBy('week')
+            ->orderBy('week', 'asc')
+            ->take(10)
+            ->get()
+            ->mapWithKeys(function ($item) {
+                return ['Week ' . $item->week => $item->count];
+            })
+            ->toArray();
+
+        // Monthly sign-ups (last 12 months)
+        $customersMonthly = User::select(
+            DB::raw('DATE_FORMAT(created_at, "%Y-%m") as month'),
+            DB::raw('COUNT(*) as count')
+        )
+            ->groupBy('month')
+            ->orderBy('month', 'asc')
+            ->take(12)
+            ->get()
+            ->pluck('count', 'month')
+            ->toArray();
+
+        // Yearly sign-ups (last 5 years)
+        $customersYearly = User::select(
+            DB::raw('YEAR(created_at) as year'),
+            DB::raw('COUNT(*) as count')
+        )
+            ->groupBy('year')
+            ->orderBy('year', 'asc')
+            ->take(5)
+            ->get()
+            ->pluck('count', 'year')
+            ->toArray();
+
+
         return view('backend.admin-home')->with([
             'campaign' => $campaign,
             'vendor' => $vendor,
@@ -273,6 +325,11 @@ class AdminDashboardController extends Controller
             'vendorsWeekly' => $vendorsWeekly,
             'vendorsMonthly' => $vendorsMonthly,
             'vendorsYearly' => $vendorsYearly,
+
+            'customersDaily' => $customersDaily,
+            'customersWeekly' => $customersWeekly,
+            'customersMonthly' => $customersMonthly,
+            'customersYearly' => $customersYearly,
         ]);
     }
 
