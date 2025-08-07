@@ -275,7 +275,8 @@
                                 <div class="col-md-6">
                                     <div class="text-center">
                                         <h5>Active Campaigns</h5>
-                                        <h2>100</h2>
+                                        <h2>
+                                            {{ $campaign->count() }}</h2>
                                         <span class="badge bg-light text-dark">Live Now</span>
                                     </div>
                                 </div>
@@ -390,28 +391,46 @@
                                 <div class="col-md-12">
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            New Vendor Requests:
-                                            <span class="badge bg-primary rounded-pill">15</span>
+                                            Vendors:
+                                            <span class="badge bg-primary rounded-pill">
+                                                {{ $vendor->count() }}
+                                            </span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            Pending Product Approvals:
-                                            <span class="badge bg-primary rounded-pill">8</span>
+                                            New Vendor Requests:
+                                            <span class="badge bg-primary rounded-pill">
+                                                {{ $vendorRequest->count() }}
+                                            </span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Products:
+                                            <span class="badge bg-primary rounded-pill">
+                                                {{ $products->count() }}
+                                            </span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Pending Products:
+                                            <span class="badge bg-primary rounded-pill">
+                                                {{ $productsPending->count() }}
+                                            </span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
                                             Vendor Withdrawal Requests:
-                                            <span class="badge bg-primary rounded-pill">5</span>
+                                            <span class="badge bg-primary rounded-pill">
+                                                {{ $vendorWithdrawRequests->count() }}
+                                            </span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
                                             High Priority Support Tickets:
-                                            <span class="badge bg-primary rounded-pill">10</span>
+                                            <span class="badge bg-primary rounded-pill">
+                                                {{ $supportTickets->count() }}
+                                            </span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
                                             Refund Requests:
-                                            <span class="badge bg-primary rounded-pill">7</span>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            Recent Login Failures:
-                                            <span class="badge bg-primary rounded-pill">3</span>
+                                            <span class="badge bg-primary rounded-pill">
+                                                {{ $refundRequests->count() }}
+                                            </span>
                                         </li>
                                     </ul>
                                 </div>
@@ -557,12 +576,9 @@
                                 <div class="col-md-12">
                                     <div class="mb-2">
                                         <span class="badge badge-custom">Total Tickets Open: 10</span>
-                                        <span class="badge badge-custom">Resolved: 25</span>
-                                        <span class="badge badge-custom">Overdue: 3</span>
                                         <span class="badge badge-custom">High Priority Tickets: 5</span>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -586,11 +602,15 @@
                             <div class="row g-5">
                                 <div class="col-md-12">
                                     <div class="mb-2">
-                                        <span class="badge badge-custom">Total Tickets Open: 15</span>
-                                        <span class="badge badge-custom">Resolved: 30</span>
-                                        <span class="badge badge-custom">Overdue: 4</span>
-                                        <span class="badge badge-custom">High Priority Tickets: 7</span>
-                                        <span class="badge badge-custom">Refund Request: 10</span>
+                                        <span class="badge badge-custom">
+                                            Total Tickets Open: {{ $customerTicketData['totalOpenTicket']->count() }}
+                                        </span>
+                                        <span class="badge badge-custom">
+                                            High Priority Tickets: {{ $customerTicketData['totalCloseTicket']->count() }}
+                                        </span>
+                                        <span class="badge badge-custom">
+                                            Refund Request: {{ $customerTicketData['refundRequest']->count() }}
+                                        </span>
                                     </div>
                                 </div>
                             </div>

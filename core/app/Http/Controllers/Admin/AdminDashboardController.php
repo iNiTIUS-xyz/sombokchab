@@ -6,6 +6,7 @@ use App\Admin;
 use App\Blog;
 use App\ContactInfoItem;
 use App\Language;
+use Modules\SupportTicket\Entities\SupportTicket;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -18,114 +19,14 @@ use Modules\Order\Entities\OrderPaymentMeta;
 use Modules\Order\Entities\SubOrder;
 use Modules\Product\Entities\Product;
 use Modules\Product\Entities\ProductSellInfo;
+use Modules\Refund\Entities\RefundRequest;
 use Modules\Vendor\Entities\Vendor;
+use Modules\Wallet\Entities\VendorWithdrawRequest;
 
 class AdminDashboardController extends Controller
 {
     public function adminIndex()
     {
-        // pills
-        $total_admin = Admin::count();
-        $total_user = User::count();
-        $total_vendor = Vendor::count();
-        $all_blogs_count = Blog::count();
-        $all_products_count = Product::count();
-        $all_completed_sell_count = Order::where('order_status', 'complete')->count();
-        $all_pending_sell_count = Order::where('order_status', 'pending')->count();
-        $total_ongoing_campaign = Campaign::where('status', 'publish')->count();
-        $total_sold_amount = OrderPaymentMeta::whereHas('order', function ($orderQuery) {
-            $orderQuery->where('order_status', 'complete');
-        })->sum('total_amount');
-
-        // charts
-        $sell_per_month = Order::select('id', 'created_at')
-            ->where('order_status', 'complete')
-            ->where('created_at', '>', Carbon::now()->subYear(1))
-            ->get()
-            ->groupBy(fn($query) => Carbon::parse($query->created_at)->format('m'));
-        $user_enroll_per_month = User::select('id', 'created_at')
-            ->get()
-            ->groupBy(fn($query) => Carbon::parse($query->created_at)->format('m'));
-
-        $yearly_income_statement = SubOrder::query()
-            ->selectRaw("DATE_FORMAT(sub_orders.created_at,'%b') as date, IFNULL(SUM(total_amount), 0) as amount")
-            ->whereBetween(
-                'sub_orders.created_at',
-                [
-                    Carbon::now()->subYear(1)->format('Y-m-d'),
-                    Carbon::now()->addDay(1)->format('Y-m-d')
-                ]
-            )
-            ->whereHas('orderTrack', function ($query) {
-                $query->where('name', 'delivered');
-            })
-            ->groupBy('date')
-            ->get();
-
-        $weekly_statement = SubOrder::query()
-            ->selectRaw("DATE_FORMAT(sub_orders.created_at,'%a') as date, IFNULL(SUM(total_amount), 0) as amount")
-            ->whereBetween(
-                'sub_orders.created_at',
-                [
-                    Carbon::now()->subWeek(1)->format('Y-m-d'),
-                    Carbon::now()->addDay(1)->format('Y-m-d')
-                ]
-            )
-            ->whereHas('orderTrack', function ($query) {
-                $query->where('name', 'delivered');
-                return $query;
-            })
-            ->groupBy('date')
-            ->get();
-
-        $running_month_earning = SubOrder::query()
-            ->whereNull('vendor_id')
-            ->selectRaw("DATE_FORMAT(sub_orders.created_at,'%e') as date, IFNULL(SUM(total_amount), 0) as amount")
-            ->whereBetween('sub_orders.created_at', [
-                Carbon::now()->startOfMonth()->format('Y-m-d'),
-                Carbon::now()->endOfMonth()->addDay(1)->format('Y-m-d')
-            ])->whereHas('orderTrack', function ($query) {
-                $query->where('name', 'delivered');
-            })
-            ->groupBy('date')->get()->sum('amount');
-
-        $last_month_earning = SubOrder::query()
-            ->whereNull('vendor_id')
-            ->selectRaw("DATE_FORMAT(sub_orders.created_at,'%e') as date, IFNULL(SUM(total_amount), 0) as amount")
-            ->whereBetween('sub_orders.created_at', [
-                Carbon::now()->subMonth(1)->startOfMonth()->format('Y-m-d'),
-                Carbon::now()->subMonth(1)->endOfMonth()->addDay(1)->format('Y-m-d')
-            ])->whereHas('orderTrack', function ($query) {
-                $query->where('name', 'delivered');
-            })
-            ->groupBy('date')->get()->sum('amount');
-
-        $this_year_earning = SubOrder::query()
-            ->whereNull('vendor_id')
-            ->selectRaw("DATE_FORMAT(sub_orders.created_at,'%e') as date, IFNULL(SUM(total_amount), 0) as amount")
-            ->whereBetween('sub_orders.created_at', [
-                Carbon::now()->startOfYear()->format('Y-m-d'),
-                Carbon::now()->endOfYear()->addDay(1)->format('Y-m-d')
-            ])->whereHas('orderTrack', function ($query) {
-                $query->where('name', 'delivered');
-            })
-            ->groupBy('date')->get()->sum('amount');
-
-        $running_week_earning = SubOrder::query()
-            ->whereNull('vendor_id')
-            ->selectRaw("DATE_FORMAT(sub_orders.created_at,'%a') as date, IFNULL(SUM(total_amount), 0) as amount")
-            ->whereBetween('sub_orders.created_at', [
-                Carbon::now()->startOfWeek()->format('Y-m-d'),
-                Carbon::now()->endOfWeek()->addDay(1)->format('Y-m-d')
-            ])->whereHas('orderTrack', function ($query) {
-                $query->where('name', 'delivered');
-            })
-            ->groupBy('date')->get()->sum('amount');
-
-        $yearly_income_statement = $yearly_income_statement->pluck('amount', 'date');
-        $weekly_statement = $weekly_statement->pluck('amount', 'date');
-
-        // Income Statement (Daily - Current Week)
         $income_daily = SubOrder::selectRaw("DATE_FORMAT(created_at, '%a') as label, SUM(total_amount) as amount")
             ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
             ->whereHas('orderTrack', fn($q) => $q->where('name', 'delivered'))
@@ -213,25 +114,61 @@ class AdminDashboardController extends Controller
             ->sortDesc()
             ->take(10);
 
+        $campaign = Campaign::query()
+            ->where('status', 'publish')
+            ->get();
+
+        $vendor = Vendor::query()
+            ->get();
+
+        $vendorRequest = Vendor::query()
+            ->where('is_vendor_verified', 0)
+            ->get();
+
+        $products = Product::query()
+            ->get();
+
+        $productsPending = Product::query()
+            ->where('product_status', '!=', 'publish')
+            ->get();
+
+        $vendorWithdrawRequests = VendorWithdrawRequest::query()
+            ->where('request_status', 'pending')
+            ->get();
+
+        $supportTickets = SupportTicket::query()
+            ->where('priority', 'high')
+            ->get();
+        $refundRequests = RefundRequest::query()
+            ->where('status', 'pending')
+            ->get();
+
+        $customerTicketData = [];
+
+        $customerTicketData['totalOpenTicket'] = SupportTicket::query()
+            ->where('user_id', '!=', null)
+            ->where('status', 'open')
+            ->get();
+
+        $customerTicketData['totalCloseTicket'] = SupportTicket::query()
+            ->where('user_id', '!=', null)
+            ->where('status', 'close')
+            ->get();
+
+        $customerTicketData['refundRequest'] = RefundRequest::query()
+            ->where('user_id', '!=', null)
+            ->get();
 
         return view('backend.admin-home')->with([
-            'running_month_earning' => $running_month_earning,
-            'last_week_earning' => $running_week_earning,
-            'last_month_earning' => $last_month_earning,
-            'this_year_earning' => $this_year_earning,
-            'total_admin' => $total_admin,
-            'total_user' => $total_user,
-            'all_blogs_count' => $all_blogs_count,
-            'all_products_count' => $all_products_count,
-            'all_completed_sell_count' => $all_completed_sell_count,
-            'total_ongoing_campaign' => $total_ongoing_campaign,
-            'all_pending_sell_count' => $all_pending_sell_count,
-            'total_sold_amount' => float_amount_with_currency_symbol($total_sold_amount),
-            'sell_per_month' => $sell_per_month,
-            'user_enroll_per_month' => $user_enroll_per_month,
-            'total_vendor' => $total_vendor,
-            'yearly_income_statement' => $yearly_income_statement,
-            'weekly_statement' => $weekly_statement,
+            'campaign' => $campaign,
+            'vendor' => $vendor,
+            'vendorRequest' => $vendorRequest,
+            'products' => $products,
+            'productsPending' => $productsPending,
+            'vendorWithdrawRequests' => $vendorWithdrawRequests,
+            'supportTickets' => $supportTickets,
+            'refundRequests' => $refundRequests,
+            'customerTicketData' => $customerTicketData,
 
             'income_daily' => $income_daily,
             'income_weekly' => $income_weekly,
