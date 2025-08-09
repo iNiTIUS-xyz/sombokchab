@@ -570,8 +570,12 @@
                             <div class="row g-5">
                                 <div class="col-md-12">
                                     <div class="mb-2">
-                                        <span class="badge badge-custom">Total Tickets Open: 10</span>
-                                        <span class="badge badge-custom">High Priority Tickets: 5</span>
+                                        <span class="badge badge-custom">Total Tickets Open:
+                                            {{ $vendorTicketData['vendorTotalOpenTicket']->count() }}</span>
+                                        <span class="badge badge-custom">High Priority Tickets:
+                                            {{ $vendorTicketData['vendorTotalPriorityTicket']->count() }}</span>
+                                        <span class="badge badge-custom">Total Close Tickets:
+                                            {{ $vendorTicketData['vendorTotalCloseTicket']->count() }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -745,123 +749,124 @@
     </script>
 
     <script>
-        // Pass data from Laravel to JavaScript
-        let sp_vendorsDaily = @json($vendorsDaily);
-        let sp_vendorsWeekly = @json($vendorsWeekly);
-        let sp_vendorsMonthly = @json($vendorsMonthly);
-        let sp_vendorsYearly = @json($vendorsYearly);
+        document.addEventListener('DOMContentLoaded', () => {
+            // Pass data from Laravel to JavaScript
+            let sp_vendorsDaily = @json($vendorsDaily);
+            let sp_vendorsWeekly = @json($vendorsWeekly);
+            let sp_vendorsMonthly = @json($vendorsMonthly);
+            let sp_vendorsYearly = @json($vendorsYearly);
 
-        // Function to generate alternating colors
-        function sp_generateAlternatingColors(count) {
-            const colors = ['#41695a', '#609C78'];
-            return Array.from({
-                length: count
-            }, (_, i) => colors[i % colors.length]);
-        }
-
-        // Chart configuration
-        let sp_chartOptions = {
-            series: [{
-                name: 'New Vendors',
-                data: []
-            }],
-            chart: {
-                type: 'bar',
-                height: 350,
-                background: '#ffffff',
-                toolbar: {
-                    show: true,
-                    tools: {
-                        download: false
-                    }
-                }
-            },
-            plotOptions: {
-                bar: {
-                    horizontal: false,
-                    columnWidth: '15%',
-                    borderRadius: 5,
-                    borderRadiusApplication: 'end'
-                },
-            },
-            title: {
-                text: 'New Vendor Sign Up',
-                align: 'left'
-            },
-            colors: ['#41695a'],
-            dataLabels: {
-                enabled: false
-            },
-            stroke: {
-                show: true,
-                width: 2,
-                colors: ['transparent']
-            },
-            xaxis: {
-                categories: [],
-                labels: {
-                    formatter: function(value) {
-                        return value && value.length > 15 ? value.substring(0, 15) + '...' : value || '';
-                    }
-                }
-            },
-            yaxis: {
-                title: {
-                    text: 'Number of Sign-Ups'
-                }
-            },
-            fill: {
-                opacity: 1
-            },
-            tooltip: {
-                y: {
-                    formatter: function(val) {
-                        return val + ' sign-ups';
-                    }
-                }
+            // Function to generate alternating colors
+            function sp_generateAlternatingColors(count) {
+                const colors = ['#41695a', '#609C78'];
+                return Array.from({
+                    length: count
+                }, (_, i) => colors[i % colors.length]);
             }
-        };
 
-        // Initialize chart
-        let sp_vendors_chart = new ApexCharts(document.querySelector("#webstie_two_chart"), sp_chartOptions);
-        sp_vendors_chart.render();
-
-        // Function to update chart
-        function sp_updateVendorChart(data) {
-            const labels = Object.keys(data);
-            const values = Object.values(data).map(val => parseInt(val) || 0);
-
-            sp_vendors_chart.updateOptions({
+            // Chart configuration
+            let sp_ven_two_chartOptions = {
                 series: [{
                     name: 'New Vendors',
-                    data: values
+                    data: []
                 }],
-                xaxis: {
-                    categories: labels
+                chart: {
+                    type: 'bar',
+                    height: 350,
+                    background: '#ffffff',
+                    toolbar: {
+                        show: true,
+                        tools: {
+                            download: false
+                        }
+                    }
                 },
-                colors: sp_generateAlternatingColors(labels.length),
-                legend: {
-                    show: false
+                plotOptions: {
+                    bar: {
+                        horizontal: false,
+                        columnWidth: '15%',
+                        borderRadius: 5,
+                        borderRadiusApplication: 'end'
+                    },
+                },
+                title: {
+                    text: 'New Vendor Sign Up',
+                    align: 'left'
+                },
+                colors: ['#41695a'],
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    show: true,
+                    width: 2,
+                    colors: ['transparent']
+                },
+                xaxis: {
+                    categories: [],
+                    labels: {
+                        formatter: function(value) {
+                            return value && value.length > 15 ?
+                                value.substring(0, 15) + '...' :
+                                value || '';
+                        }
+                    }
+                },
+                yaxis: {
+                    title: {
+                        text: 'Number of Sign-Ups'
+                    }
+                },
+                fill: {
+                    opacity: 1
+                },
+                tooltip: {
+                    y: {
+                        formatter: function(val) {
+                            return val + ' sign-ups';
+                        }
+                    }
                 }
-            });
-        }
+            };
 
-        // Event listeners for tabs
-        document.querySelector('#webstie_two_daily-tab').addEventListener('click', function() {
-            sp_updateVendorChart(sp_vendorsDaily);
-        });
-        document.querySelector('#webstie_two_weekly-tab').addEventListener('click', function() {
-            sp_updateVendorChart(sp_vendorsWeekly);
-        });
-        document.querySelector('#webstie_two_monthly-tab').addEventListener('click', function() {
-            sp_updateVendorChart(sp_vendorsMonthly);
-        });
-        document.querySelector('#webstie_two_yearly-tab').addEventListener('click', function() {
-            sp_updateVendorChart(sp_vendorsYearly);
-        });
+            // Initialize chart
+            let sp_vendors_chart = new ApexCharts(
+                document.querySelector("#webstie_two_chart"),
+                sp_ven_two_chartOptions
+            );
+            sp_vendors_chart.render();
 
-        // Initial chart load
-        document.addEventListener('DOMContentLoaded', () => {
+            // Function to update chart
+            function sp_updateVendorChart(data) {
+                const labels = Object.keys(data);
+                const values = Object.values(data).map(val => parseInt(val) || 0);
+
+                sp_vendors_chart.updateOptions({
+                    series: [{
+                        name: 'New Vendors',
+                        data: values
+                    }],
+                    xaxis: {
+                        categories: labels
+                    },
+                    colors: sp_generateAlternatingColors(labels.length),
+                    legend: {
+                        show: false
+                    }
+                });
+            }
+
+            // Attach event listeners to tabs
+            document.querySelector('#webstie_two_daily-tab').addEventListener('click', () => sp_updateVendorChart(
+                sp_vendorsDaily));
+            document.querySelector('#webstie_two_weekly-tab').addEventListener('click', () => sp_updateVendorChart(
+                sp_vendorsWeekly));
+            document.querySelector('#webstie_two_monthly-tab').addEventListener('click', () => sp_updateVendorChart(
+                sp_vendorsMonthly));
+            document.querySelector('#webstie_two_yearly-tab').addEventListener('click', () => sp_updateVendorChart(
+                sp_vendorsYearly));
+
+            // Initial chart load (Daily data)
             sp_updateVendorChart(sp_vendorsDaily);
         });
     </script>

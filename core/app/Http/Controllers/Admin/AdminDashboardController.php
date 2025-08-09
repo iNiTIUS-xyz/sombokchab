@@ -161,6 +161,23 @@ class AdminDashboardController extends Controller
             ->where('user_id', '!=', null)
             ->get();
 
+        $vendorTicketData = [];
+
+        $vendorTicketData['vendorTotalOpenTicket'] = SupportTicket::query()
+            ->where('vendor_id', '!=', null)
+            ->where('status', 'open')
+            ->get();
+
+        $vendorTicketData['vendorTotalCloseTicket'] = SupportTicket::query()
+            ->where('vendor_id', '!=', null)
+            ->where('status', 'close')
+            ->get();
+
+        $vendorTicketData['vendorTotalPriorityTicket'] = SupportTicket::query()
+            ->where('vendor_id', '!=', null)
+            ->where('priority', 'high')
+            ->get();
+
         $baseQuery = DB::table('sub_order_items')
             ->join('orders', 'sub_order_items.order_id', '=', 'orders.id')
             ->join('products', 'sub_order_items.product_id', '=', 'products.id')
@@ -329,6 +346,9 @@ class AdminDashboardController extends Controller
             ->orderBy('year')
             ->pluck('total', 'year');
 
+
+        $vendorData = [];
+
         return view('backend.admin-home')->with([
             'campaign' => $campaign,
             'vendor' => $vendor,
@@ -339,6 +359,8 @@ class AdminDashboardController extends Controller
             'supportTickets' => $supportTickets,
             'refundRequests' => $refundRequests,
             'customerTicketData' => $customerTicketData,
+            'vendorTicketData' => $vendorTicketData,
+            'vendorData' => $vendorData,
 
             'income_daily' => $income_daily,
             'income_weekly' => $income_weekly,
