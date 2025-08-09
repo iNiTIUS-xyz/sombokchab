@@ -293,6 +293,41 @@ class AdminDashboardController extends Controller
             ->pluck('count', 'year')
             ->toArray();
 
+        // DAILY data (last 7 days)
+        $vendorWithdrawDaily = DB::table('vendor_withdraw_requests')
+            ->select(DB::raw("DATE(created_at) as date"), DB::raw("SUM(amount) as total"))
+            ->where('request_status', 'pending')
+            ->where('created_at', '>=', Carbon::now()->subDays(7))
+            ->groupBy('date')
+            ->orderBy('date')
+            ->pluck('total', 'date');
+
+        // WEEKLY data (last 8 weeks)
+        $vendorWithdrawWeekly = DB::table('vendor_withdraw_requests')
+            ->select(DB::raw("YEARWEEK(created_at) as week"), DB::raw("SUM(amount) as total"))
+            ->where('request_status', 'pending')
+            ->where('created_at', '>=', Carbon::now()->subWeeks(8))
+            ->groupBy('week')
+            ->orderBy('week')
+            ->pluck('total', 'week');
+
+        // MONTHLY data (last 12 months)
+        $vendorWithdrawMonthly = DB::table('vendor_withdraw_requests')
+            ->select(DB::raw("DATE_FORMAT(created_at, '%b %Y') as month"), DB::raw("SUM(amount) as total"))
+            ->where('request_status', 'pending')
+            ->where('created_at', '>=', Carbon::now()->subMonths(12))
+            ->groupBy('month')
+            ->orderByRaw("MIN(created_at)")
+            ->pluck('total', 'month');
+
+        // YEARLY data (last 5 years)
+        $vendorWithdrawYearly = DB::table('vendor_withdraw_requests')
+            ->select(DB::raw("YEAR(created_at) as year"), DB::raw("SUM(amount) as total"))
+            ->where('request_status', 'pending')
+            ->where('created_at', '>=', Carbon::now()->subYears(5))
+            ->groupBy('year')
+            ->orderBy('year')
+            ->pluck('total', 'year');
 
         return view('backend.admin-home')->with([
             'campaign' => $campaign,
@@ -330,6 +365,11 @@ class AdminDashboardController extends Controller
             'customersWeekly' => $customersWeekly,
             'customersMonthly' => $customersMonthly,
             'customersYearly' => $customersYearly,
+
+            'vendorWithdrawDaily' => $vendorWithdrawDaily,
+            'vendorWithdrawWeekly' => $vendorWithdrawWeekly,
+            'vendorWithdrawMonthly' => $vendorWithdrawMonthly,
+            'vendorWithdrawYearly' => $vendorWithdrawYearly,
         ]);
     }
 

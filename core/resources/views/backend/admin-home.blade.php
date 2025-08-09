@@ -1254,10 +1254,25 @@
     </script>
 
     <script>
-        var financial_summary_two_options = {
+        // Laravel variables from controller
+        let fs_two_daily = @json($vendorWithdrawDaily);
+        let fs_two_weekly = @json($vendorWithdrawWeekly);
+        let fs_two_monthly = @json($vendorWithdrawMonthly);
+        let fs_two_yearly = @json($vendorWithdrawYearly);
+
+        // Function to generate alternating colors
+        function fs_two_generateColors(count) {
+            const colors = ['#e0bb20', '#c79f1a'];
+            return Array.from({
+                length: count
+            }, (_, i) => colors[i % colors.length]);
+        }
+
+        // Chart default options
+        let fs_two_chartOptions = {
             series: [{
                 name: 'Revenue',
-                data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
+                data: []
             }],
             chart: {
                 type: 'bar',
@@ -1291,7 +1306,7 @@
                 colors: ['transparent']
             },
             xaxis: {
-                categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+                categories: [],
             },
             yaxis: {
                 title: {
@@ -1304,15 +1319,57 @@
             tooltip: {
                 y: {
                     formatter: function(val) {
-                        return "$ " + val + " thousands"
+                        return "$ " + val + " thousands";
                     }
                 }
             }
         };
 
-        var financial_summary_two_chart = new ApexCharts(document.querySelector("#financial_summary_two_chart"),
-            financial_summary_two_options);
+        // Create chart instance
+        let financial_summary_two_chart = new ApexCharts(
+            document.querySelector("#financial_summary_two_chart"),
+            fs_two_chartOptions
+        );
         financial_summary_two_chart.render();
+
+        // Function to update chart data
+        function fs_two_updateChart(data) {
+            const labels = Object.keys(data);
+            const values = Object.values(data).map(val => parseFloat(val));
+
+            financial_summary_two_chart.updateOptions({
+                series: [{
+                    name: 'Revenue',
+                    data: values
+                }],
+                xaxis: {
+                    categories: labels
+                },
+                colors: fs_two_generateColors(labels.length),
+                legend: {
+                    show: false
+                }
+            });
+        }
+
+        // Event listeners for tabs
+        document.querySelector('#financial_summary_two_daily-tab').addEventListener('click', function() {
+            fs_two_updateChart(fs_two_daily);
+        });
+        document.querySelector('#financial_summary_two_weekly-tab').addEventListener('click', function() {
+            fs_two_updateChart(fs_two_weekly);
+        });
+        document.querySelector('#financial_summary_two_monthly-tab').addEventListener('click', function() {
+            fs_two_updateChart(fs_two_monthly);
+        });
+        document.querySelector('#financial_summary_two_yearly-tab').addEventListener('click', function() {
+            fs_two_updateChart(fs_two_yearly);
+        });
+
+        // Load daily data on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            fs_two_updateChart(fs_two_daily);
+        });
     </script>
 
     <script>
@@ -1604,7 +1661,7 @@
             }, (_, i) => colors[i % colors.length]);
         }
 
-        let sp_chartOptions = {
+        let sp_t_v_t_chartOptions = {
             series: [{
                 name: 'Total Sold',
                 data: []
@@ -1666,7 +1723,7 @@
             }
         };
 
-        let sp_top_vendors_chart = new ApexCharts(document.querySelector("#top_vendors_two_chart"), sp_chartOptions);
+        let sp_top_vendors_chart = new ApexCharts(document.querySelector("#top_vendors_two_chart"), sp_t_v_t_chartOptions);
         sp_top_vendors_chart.render();
 
         function sp_updateVendorChart(data) {
