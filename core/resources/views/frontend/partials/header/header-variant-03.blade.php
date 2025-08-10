@@ -364,7 +364,7 @@
                                                     <a href="" id="showMoreProduct"
                                                         class="showMoreProduct btn btn-primary"
                                                         style="border-radius: 30px">
-                                                        See More
+                                                        View More
                                                     </a>
                                                 </span>
                                             </h6>
@@ -619,7 +619,7 @@
                                             </ul>
                                             <a href="" class="showMoreProduct"
                                                 style="text-align: center; display: block;">
-                                                See More
+                                                View More
                                             </a>
                                         </div>
 
