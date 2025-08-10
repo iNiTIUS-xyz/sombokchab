@@ -108,7 +108,7 @@
                     </div>
                 </div>
                 <div class="col-auto">
-                    <button type="button" class="btn btn-primary margin-top-30 add_item_attribute">
+                    <button type="button" class="btn btn-primary margin-top-30 add_item_attribute" title="Add Item Attribute">
                         <i class="las la-arrow-up"></i>
                     </button>
                 </div>
@@ -117,13 +117,15 @@
         <div class="col-auto">
             <div class="item_repeater_add_remove">
                 <div class="repeater_button">
-                    <button type="button" class="btn btn-primary btn-xs add">
+                    <button type="button" class="btn btn-primary btn-xs add" title="Add New">
                         +
                     </button>
                 </div>
                 @if (!isset($isFirst) || !$isFirst)
                     <div class="repeater_button">
-                        <button type="button" class="btn btn-danger btn-xs remove"> -</button>
+                        <button type="button" class="btn btn-danger btn-xs remove" title="Remove">
+                            -
+                        </button>
                     </div>
                 @endif
             </div>

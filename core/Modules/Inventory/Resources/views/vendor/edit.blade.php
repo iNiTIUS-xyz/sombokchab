@@ -275,7 +275,7 @@
                                         class="btn btn-warning">
                                         <i class="lar la-eye icon"></i>
                                     </a> --}}
-                                    <a href="{{ route('vendor.products.edit', $product->id) }}" class="btn btn-primary">
+                                    <a href="{{ route('vendor.products.edit', $product->id) }}" class="btn btn-primary" title="Edit Product">
                                         <i class="ti-pencil icon"></i>
                                     </a>
                                 </div>

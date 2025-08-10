@@ -125,7 +125,7 @@
                     </div>
                 </div>
                 <div class="col-auto text-center">
-                    <button type="button" class="btn btn-primary add_item_attribute" style="margin-top: 35px">
+                    <button type="button" class="btn btn-primary add_item_attribute" style="margin-top: 35px" title="Add Item Attribute">
                         <i class="las la-arrow-up"></i>
                     </button>
                 </div>
@@ -134,13 +134,13 @@
         <div class="col-auto">
             <div class="item_repeater_add_remove">
                 <div class="repeater_button">
-                    <button type="button" class="btn btn-primary btn-xs add">
+                    <button type="button" class="btn btn-primary btn-xs add" title="Add New">
                         <i class="las la-plus"></i>
                     </button>
                 </div>
                 @if (!isset($isFirst) || !$isFirst)
                     <div class="repeater_button mt-2">
-                        <button type="button" class="btn btn-danger btn-xs remove">
+                        <button type="button" class="btn btn-danger btn-xs remove" title="Remove">
                             <i class="las la-trash-alt"></i>
                         </button>
                     </div>
@@ -199,13 +199,14 @@
                 </div>
             </div>
             <div class="col-auto">
-                <button type="button" class="btn btn-sm btn-primary add_variant_info_btn"><i
-                        class="las la-plus"></i>
+                <button type="button" class="btn btn-sm btn-primary add_variant_info_btn" title="Add New">
+                    <i class="las la-plus"></i>
                 </button>
                 @if ($loop != 1)
-                    <button type="button"
+                    <button title="Remove" type="button"
                         class="btn btn-sm btn-danger remove_this_variant_info_btn @if (isset($variantId)) remove_variant @endif"
-                        @if (isset($isFirst) && $isFirst) readonly @endif><i class="las la-trash-alt"></i>
+                        @if (isset($isFirst) && $isFirst) readonly @endif>
+                        <i class="las la-trash-alt"></i>
                     </button>
                 @endif
             </div>

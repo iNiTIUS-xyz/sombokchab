@@ -26,7 +26,7 @@
                                 <div class="col-md-4">
                                     <div class="dashboard__card">
                                         <div class="dashboard__card__header">
-                                            <h4 class="dashboard__card__title">{{ __('Create Info') }}</h4>
+                                            <h4 class="dashboard__card__title">{{ __('Campaign Info') }}</h4>
                                         </div>
                                         <div class="dashboard__card__body custom__form mt-4">
                                             <div class="form-group">

@@ -130,8 +130,8 @@
                                                                 <label class="label-title color-light mb-2">
                                                                     {{ __('Description') }}
                                                                 </label>
-                                                                <textarea name="description" class="form--control form--message radius-10"
-                                                                    placeholder="{{ __('Enter Description') }}" style="height: 100px">{{ $vendor->description }}</textarea>
+                                                                <textarea name="description"  class="form--control form--message radius-10"
+                                                                    placeholder="{{ __('Enter Description') }}" cols="30" rows="10">{{ $vendor->description }}</textarea>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -232,7 +232,7 @@
                                                                 <label class="label-title color-light mb-2">
                                                                     {{ __('Address') }}
                                                                 </label>
-                                                                <textarea name="address" type="text" class="form--control radius-10" placeholder="{{ __('Enter Address') }}">{{ $vendor?->vendor_address?->address }}</textarea>
+                                                                <textarea cols="30" rows="10" name="address" type="text" class="form--control radius-10" placeholder="{{ __('Enter Address') }}">{{ $vendor?->vendor_address?->address }}</textarea>
                                                             </div>
                                                         </div>
 
@@ -240,7 +240,7 @@
                                                             <div class="single-input">
                                                                 <label class="label-title color-light mb-2">
                                                                     {{ __('Google Map Location') }}</label>
-                                                                <textarea name="google_map_location" type="text" class="form--control radius-10"
+                                                                <textarea cols="30" rows="10" name="google_map_location" type="text" class="form--control radius-10"
                                                                     placeholder="{{ __('Enter Google Map Location') }}">
                                                                     @if (!empty($vendor?->vendor_address?->google_map_location))
                                                                         {!! $location_iframeHtml !!}

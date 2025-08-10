@@ -54,7 +54,6 @@
             text-align: right;
         }
     </style>
-
 @endsection
 
 @section('content')
@@ -95,7 +94,17 @@
                                                 <td>{{ $data->title }}</td>
                                                 <td>{{ $data->department->name ?? __('anonymous') }}</td>
                                                 <td><small>{{ $data->created_at->format('M j, Y') }}</small></td>
-                                                <td class="">{{ ucfirst($data->priority) }}</td>
+                                                <td class="">
+                                                    <span
+                                                        class="
+                                                            @if ($data->priority == 'low') text-success
+                                                            @elseif ($data->priority == 'medium') text-primary
+                                                            @elseif ($data->priority == 'high') text-warning
+                                                            @elseif ($data->priority == 'urgent') text-danger @endif
+                                                        ">
+                                                        {{ ucfirst($data->priority) }}
+                                                    </span>
+                                                </td>
                                                 <td>
                                                     <span
                                                         class="text-capitalize badge {{ $data->status == 'close' ? 'status-close' : 'status-open' }}">
@@ -105,7 +114,8 @@
                                                 <td>
                                                     @if ($data->status == 'open')
                                                         <a href="#1" class="ticket_status_change btn btn-danger btn-xs"
-                                                            data-id="{{ $data->id }}" data-val="close" title="Close Ticket">
+                                                            data-id="{{ $data->id }}" data-val="close"
+                                                            title="Close Ticket">
                                                             <i class="las la-times"></i>
                                                         </a>
                                                     @endif
@@ -114,8 +124,7 @@
                                                         <i class="las la-eye"></i>
                                                     </a>
 
-                                                    <x-delete-popover :url="route('vendor.support.ticket.delete', $data->id)"
-                                                        style="margin: 0px !important" />
+                                                    <x-delete-popover :url="route('vendor.support.ticket.delete', $data->id)" style="margin: 0px !important" />
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -130,12 +139,11 @@
     </div>
 @endsection
 @section('script')
-
     <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/js/dataTables.bootstrap4.min.js') }}"></script>
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             if ($('#dataTable').length) {
                 $('#dataTable').DataTable({
                     paging: true,
@@ -159,7 +167,7 @@
             }
 
             // Status change handler with SweetAlert2
-            $(document).on('click', '.ticket_status_change', function (e) {
+            $(document).on('click', '.ticket_status_change', function(e) {
                 e.preventDefault();
                 var status = $(this).data('val');
                 var id = $(this).data('id');
@@ -183,16 +191,17 @@
                                 status: status,
                                 id: id,
                             },
-                            success: function (data) {
+                            success: function(data) {
                                 if (data.success) {
                                     Swal.fire('Closed!', '', 'success');
-                                    setTimeout(function () {
+                                    setTimeout(function() {
                                         location.reload();
                                     }, 1000);
                                 }
                             },
-                            error: function () {
-                                Swal.fire('Error!', 'Failed to change status.', 'error');
+                            error: function() {
+                                Swal.fire('Error!', 'Failed to change status.',
+                                    'error');
                             }
                         });
                     }
@@ -203,5 +212,4 @@
 
     <x-bulk-action.js :route="route('vendor.support.ticket.bulk.action')" />
     <script src="{{ asset('assets/backend/js/sweetalert2.js') }}"></script>
-
 @endsection

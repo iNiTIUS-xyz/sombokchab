@@ -34,7 +34,7 @@
 @section('content')
     <div class="dashboard__card">
         <div class="dashboard__card__header">
-            <h3 class="dashboard__card__title">{{ __('My Orders') }}</h3>
+            <h3 class="dashboard__card__title">{{ __('Orders List') }}</h3>
         </div>
         <div class="dashboard__card__body mt-4">
             <div class="all-user-campaign-table">

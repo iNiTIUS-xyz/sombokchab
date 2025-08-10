@@ -12,7 +12,6 @@
                             <div class="col-xl-2">
                                 <form action="{{ route('frontend.products.wishlist') }}" method="GET">
                                     <select name="sorting_by" class="form-control" onchange="this.form.submit()">
-                                        <option disabled selected>Sorthing By</option>
                                         <option value="price" @if (request('sorting_by') == 'price') selected @endif>
                                             Sorting By Price
                                         </option>
@@ -30,7 +29,6 @@
                             <div class="col-xl-2">
                                 <form action="{{ route('frontend.products.cart') }}" method="GET">
                                     <select name="sorting_by" class="form-control" onchange="this.form.submit()">
-                                        <option disabled selected>Sorthing By</option>
                                         <option value="price" @if (request('sorting_by') == 'price') selected @endif>
                                             Sorting By Price
                                         </option>
@@ -112,30 +110,16 @@
                                                 </div>
                                             </td>
                                             @if (!Route::is('frontend.products.wishlist'))
-                                                {{-- <td data-label="Quantity">
-                                                    <div class="product-quantity">
-                                                        <span class="substract">
-                                                            <i class="las la-minus"></i>
-                                                        </span>
-                                                        <input class="quantity-input" type="number"
-                                                            value="{{ $cart_item->qty }}"
-                                                            max="{{ $cart_item?->options['available_stock_qty'] }}">
-                                                        <span class="plus">
-                                                            <i class="las la-plus"></i>
-                                                        </span>
-                                                    </div>
-                                                </td> --}}
+
                                                 <td data-label="Quantity">
                                                     <div class="product-quantity">
                                                         <span class="substract">
                                                             <i class="las la-minus"></i>
                                                         </span>
-                                                        <!-- Hidden input to store the actual value -->
                                                         <input class="quantity-input" type="hidden"
                                                             value="{{ $cart_item->qty }}"
                                                             data-max="{{ $cart_item?->options['available_stock_qty'] }}"
                                                             data-min="1">
-                                                        <!-- Visible span to display the quantity -->
                                                         <span class="quantity-display">{{ $cart_item->qty }}</span>
                                                         <span class="plus">
                                                             <i class="las la-plus"></i>
@@ -155,7 +139,7 @@
                                                     @if ($wishlist)
                                                         <a data-label="Move" title="Add to cart" data-type="tr"
                                                             data-product_hash_id="{{ $cart_item->rowId }}"
-                                                            href="#1" class="ff-jost move-cart px-3 btn btn-info">
+                                                            href="#1" class="ff-jost move-cart px-3 btn btn-info mx-2">
                                                             <span class="icon-close text-light">
                                                                 <i class="las la-shopping-cart"></i>
                                                             </span>
@@ -172,7 +156,7 @@
                                                         <a data-label="Move" title="Add to save for later" data-type="tr"
                                                             data-product_hash_id="{{ $cart_item->rowId }}"
                                                             href="#1"
-                                                            class="ff-jost move-wishlist px-3 btn btn-info">
+                                                            class="ff-jost move-wishlist px-3 btn btn-info mx-2">
                                                             <span class="icon-close text-light">
                                                                 <i class="lar la-save"></i>
                                                             </span>
