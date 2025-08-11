@@ -404,7 +404,7 @@
                                     class="dashboard__card dashboard-orderInfo-item show-delivery-man radius-10 {{ $order->delivery_man_count > 0 ? 'd-none' : '' }}">
                                     <div class="dashboard__card__header dashboard-orderInfo-item-top">
                                         <h4 class="dashboard__card__title dashboard-orderInfo-item-title">
-                                            {{ __('Assign Delivery Man') }}</h4>
+                                            {{ __('Assign Delivery Driver') }}</h4>
                                     </div>
                                     <div class="dashboard__card__body custom__form mt-4">
                                         <div id="delivery_man_details" class="dashboard-orderInfo-item-contents">
@@ -440,12 +440,12 @@
                                             @if ($order->delivery_man_count > 0)
                                                 <div class="edit-profile-btn-wrapper center-text mt-4">
                                                     <button type="submit"
-                                                        class="cmn_btn btn_bg_profile edit-profile dashboard-bg radius-5 w-100">{{ __('Change Delivery man') }}</button>
+                                                        class="cmn_btn btn_bg_profile edit-profile dashboard-bg radius-5 w-100">{{ __('Change Delivery Driver') }}</button>
                                                 </div>
                                             @else
                                                 <div class="edit-profile-btn-wrapper center-text mt-4">
                                                     <button type="submit"
-                                                        class="cmn_btn btn_bg_profile edit-profile dashboard-bg radius-5 w-100">{{ __('Assign Delivery man') }}</button>
+                                                        class="cmn_btn btn_bg_profile edit-profile dashboard-bg radius-5 w-100">{{ __('Assign Delivery Driver') }}</button>
                                                 </div>
                                             @endif
                                         </form>

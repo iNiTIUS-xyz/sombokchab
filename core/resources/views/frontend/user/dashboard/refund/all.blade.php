@@ -34,7 +34,7 @@
 @section('section')
     <div class="dashboard__card__refund">
         <div class="dashboard__card__header">
-            <h3 class="dashboard__card__title">{{ __('My Refund Requests') }}</h3>
+            {{-- <h3 class="dashboard__card__title">{{ __('My Refund Requests') }}</h3> --}}
         </div>
         <div class="dashboard__card__body">
             <div class="table-responsive">

@@ -88,13 +88,13 @@
                                 </ul>
                             </div>
                             <div class="gig-message-start-wrap">
-                                <h2 class="title">{{ __('All Conversation') }}</h2>
+                                <h2 class="title">{{ __('Conversation') }}</h2>
                                 <div class="all-message-wrap @if ($q == 'all') msg-row-reverse @endif">
                                     @if ($q == 'all' && count($all_messages) > 1)
                                         <form action="" method="get">
                                             <input type="hidden" value="all" name="q">
                                             <button class="load_all_conversation"
-                                                type="submit">{{ __('load all message') }}</button>
+                                                type="submit">{{ __('Load all message') }}</button>
                                         </form>
                                     @endif
                                     @forelse($all_messages as $msg)
@@ -145,6 +145,7 @@
                                 </div>
                             </div>
                             @can('support-tickets-send-message')
+                                @if($ticket_details->status !== 'close')
                                 <div class="reply-message-wrap ">
                                     {{-- <h5 class="title">{{ __('Reply to Message') }}</h5> --}}
                                     <form action="{{ route('admin.support.ticket.send.message') }}" method="post"
@@ -171,6 +172,7 @@
                                         <button class="cmn_btn btn_bg_profile" type="submit">{{ __('Send Message') }}</button>
                                     </form>
                                 </div>
+                                @endif
                             @endcan
                         </div>
                     </div>

@@ -2,7 +2,7 @@
 
 @section('section')
     <div class="dashboard-form-wrapper">
-        <h2 class="dashboard__card__title">{{ __('Change Password') }}</h2>
+        {{-- <h2 class="dashboard__card__title">{{ __('Change Password') }}</h2> --}}
         <div class="custom__form mt-4">
             <form action="{{ route('user.password.change') }}" method="post" enctype="multipart/form-data">
                 @csrf

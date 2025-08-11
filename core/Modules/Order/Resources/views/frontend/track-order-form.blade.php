@@ -27,9 +27,9 @@
 
                             <form method="get" action="{{ route('frontend.products.track.order') }}">
                                 <div class="form-group mt-2">
-                                    <label for="order_id">{{ __('Tracking Number ') }}</label>
-                                    <input type="text" name="order_id" class="form-control" id="order_id"
-                                        placeholder="{{ __('Tracking Number ') }}">
+                                    <label for="order_id">{{ __('Order Number ') }}</label>
+                                    <input type="text" name="order_number" class="form-control" id="order_id"
+                                        placeholder="{{ __('Order Number ') }}">
                                 </div>
                                 <div class="form-group mt-2">
                                     <label for="phone">{{ __('Phone') }}</label>

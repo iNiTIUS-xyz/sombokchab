@@ -12,6 +12,22 @@
             display: flex;
             justify-content: center;
         }
+
+        .icon.cart-loading.product__card__cart__btn__icon.remove_compare_item_ajax{
+            border: 1px solid var(--danger-color);
+        }
+        
+        .icon.cart-loading.product__card__cart__btn__icon.remove_compare_item_ajax i{
+            color: var(--danger-color);
+        }
+
+        .icon.cart-loading.product__card__cart__btn__icon.remove_compare_item_ajax:hover{
+            background: var(--danger-color);
+        }
+        
+        .icon.cart-loading.product__card__cart__btn__icon.remove_compare_item_ajax:hover i{
+            color: var(--white) !important;
+        }
     </style>
 @endsection
 
@@ -166,21 +182,21 @@
                                         @endforeach
                                     @endif
                                 </ul>
-                                <div class="btn-wrapper mt-2">
+                                <div class="btn-wrapper mt-2 d-flex">
                                     <a href="javascript:;" data-id="{{ $product->id }}"
-                                        class="btn btn-success add_to_cart_ajax">
-                                        <span class="icon-close text-light">
-                                            <i class="las la-shopping-cart"></i>
+                                        class="product__card__cart__outline radius-30 add_to_cart_ajax">
+                                        <span class="icon-close">
+                                            <i class="las la-shopping-cart"></i> Add to Cart
                                         </span>
                                     </a>
                                     <a href="javascript:;" data-id="{{ $product->id }}"
-                                        class="btn btn-info add_to_wishlist_ajax">
-                                        <span class="icon-close text-light">
+                                        class="add_to_wishlist_ajax icon cart-loading product__card__cart__btn__icon">
+                                        <span class="icon-close">
                                             <i class="lar la-save"></i>
                                         </span>
                                     </a>
                                     <a href="#1" data-product_hash_id="{{ $product->rowId }}"
-                                        class="btn btn-danger remove_compare_item_ajax" title="Remove">
+                                        class="icon cart-loading product__card__cart__btn__icon remove_compare_item_ajax" title="Remove">
                                         <i class="la la-times"></i>
                                     </a>
                                 </div>

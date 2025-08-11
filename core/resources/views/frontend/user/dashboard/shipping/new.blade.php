@@ -9,7 +9,7 @@
     @endphp
     <div class="dashboard__card">
         <div class="dashboard__card__header">
-            <h5 class="dashboard__card__title">{{ __('Add New Shipping Address') }}</h5>
+            {{-- <h5 class="dashboard__card__title">{{ __('Add New Shipping Address') }}</h5> --}}
             {{-- <div class="btn-wrapper">
                 <a href="{{ route('user.shipping.address.all') }}"
                     class="cmn_btn btn_bg_2">{{ __('All Shipping Address') }}</a>

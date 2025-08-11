@@ -180,7 +180,7 @@
 @section('section')
     <div class="dashboard__card">
         <div class="dashboard__card__header">
-            <h3 class="dashboard__card__title">{{ __('Refund Request Details') }}</h3>
+            {{-- <h3 class="dashboard__card__title">{{ __('Refund Request Details') }}</h3> --}}
         </div>
         <div class="dashboard__card__body mt-4">
             <div class="row g-4">

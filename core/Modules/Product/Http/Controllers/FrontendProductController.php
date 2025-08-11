@@ -715,7 +715,7 @@ class FrontendProductController extends Controller
         if (!Auth::guard("web")->check()) {
             return response()->json([
                 'type' => 'warning',
-                'quantity_msg' => __('Sign up or Sign in to wishlist items.')
+                'quantity_msg' => __('Sign in first to add product to wishlist.')
             ]);
         }
 

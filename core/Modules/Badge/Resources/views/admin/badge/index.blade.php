@@ -36,7 +36,7 @@
                                 <x-bulk-action.dropdown />
                             @endcan
                             @can('badge-trash')
-                                <a class="cmn_btn btn_bg_danger" href="{{ route('admin.badge.trash') }}">{{ __('Trash') }}</a>
+                                <a class="cmn_btn btn_bg_danger" href="{{ route('admin.badge.trash') }}">{{ __('Trash Bin') }}</a>
                             @endcan
                         </div>
                     </div>

@@ -557,7 +557,7 @@ class AdminDashboardController extends Controller
 
         return redirect()
             ->route('admin.login')
-            ->with(['msg' => __('You Logged Out !!'), 'type' => 'danger']);
+            ->with(['msg' => __('Sign out successful.'), 'type' => 'success']);
     }
 
     public function admin_profile()

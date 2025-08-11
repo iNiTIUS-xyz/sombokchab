@@ -144,6 +144,7 @@
                                     @endforelse
                                 </div>
                             </div>
+                            @if($ticket_details->status !== 'close')
                             <div class="reply-message-wrap ">
                                 <h5 class="title">
                                     {{ __('Reply') }}
@@ -177,6 +178,7 @@
                                     <button class="btn-primary btn btn-md" type="submit">{{ __('Send Message') }}</button>
                                 </form>
                             </div>
+                            @endif
                         </div>
                     </div>
                 </div>

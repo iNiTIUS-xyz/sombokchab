@@ -19,7 +19,7 @@
                 <form action="" method="get">
                     <div class="dashboard__card">
                         <div class="dashboard__card__header" id="product-list-title-flex">
-                            <h3 class="dashboard__card__title cursor-pointer">{{ __('Search Product Module') }}
+                            <h3 class="dashboard__card__title cursor-pointer">{{ __('Search Product') }}
                                 <i class="las la-angle-down"></i>
                             </h3>
                             <div>
@@ -183,7 +183,7 @@
                     <a class="cmn_btn btn_bg_profile mb-3"
                         href="{{ route('vendor.products.create') }}">{{ __('Add New Product') }}</a>
                     <a class="cmn_btn btn_bg_danger mb-3" style="float: right"
-                        href="{{ route('vendor.products.trash.all') }}">{{ __('Trash') }}</a>
+                        href="{{ route('vendor.products.trash.all') }}">{{ __('Trash Bin') }}</a>
                 </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
