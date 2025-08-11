@@ -150,7 +150,7 @@
                         </div>
                         <div class="single-shop-left border-1">
                             <div class="shop-left-title open">
-                                <h5 class="title"> {{ __('Category') }} </h5>
+                                <h5 class="title"> {{ __('Categories') }} </h5>
                                 <div class="shop-left-list margin-top-15">
                                     <ul class="shop-lists">
                                         @foreach($all_category as $category)
@@ -202,7 +202,7 @@
                                         <div class="ui-range-slider"></div>
                                         <div class="ui-range-slider-footer">
                                             <div class="ui-range-values">
-                                                <span class="ui-price-title"> {{ __('Price') }}: </span>
+                                                <span class="ui-price-title"> {{ __('Prices') }}: </span>
                                                 <div class="ui-range-value-min">{{ site_currency_symbol() }}<span
                                                         class="min_price">{{ $min_price }}</span>
                                                     <input id="min_price_search" data-type="min_price" type="hidden"
@@ -221,7 +221,7 @@
                         </div>
                         <div class="single-shop-left border-1 margin-top-40">
                             <div class="shop-left-title open">
-                                <h5 class="title"> {{ __('Color') }} </h5>
+                                <h5 class="title"> {{ __('Colors') }} </h5>
                                 <div class="shop-left-list margin-top-15">
                                     <ul class="color-lists active-list">
                                         @foreach ($all_colors as $color)
@@ -236,7 +236,7 @@
                         </div>
                         <div class="single-shop-left border-1 margin-top-40">
                             <div class="shop-left-title open">
-                                <h5 class="title"> {{ __('Size') }} </h5>
+                                <h5 class="title"> {{ __('Sizes') }} </h5>
                                 <div class="shop-left-list margin-top-15">
                                     <ul class="size-lists active-list" data-type="size">
                                         @foreach ($all_sizes as $size)
