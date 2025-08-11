@@ -13,7 +13,7 @@ class OrderTrackingFrontendController extends Controller
 
     public function trackOrderPage(Request $request)
     {
-        if ($request->has("order_id") && $request->has("phone")) {
+        if ($request->has("order_number") && $request->has("phone")) {
             // Find the order by order_number instead of using orderDetailsMethod
             $order = Order::where("order_number", $request->order_id)->first();
 

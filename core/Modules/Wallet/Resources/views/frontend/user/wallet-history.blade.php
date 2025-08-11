@@ -39,7 +39,7 @@
             <div class="col-lg-12">
                 <div class="dashboard__card__header dashboard-settings">
                     <div class="dashboard__card__header__left">
-                        <h4 class="dashboard__card__title">{{ __('Wallet History') }} </h4>
+                        {{-- <h4 class="dashboard__card__title">{{ __('Wallet History') }} </h4> --}}
                         <div class="notice-board">
                             <p class="dashboard__card__para text-danger">
                                 {{ __('You can deposit to your wallet from here.') }}

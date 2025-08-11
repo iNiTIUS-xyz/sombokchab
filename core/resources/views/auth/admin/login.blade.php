@@ -104,20 +104,6 @@
                             <button id="form_submit" type="submit"
                                 class="btn-submit dashboard-bg w-100">{{ __('Sign In') }}</button>
                         </div>
-                        @if (preg_match('/(xgenious)/', url('/')))
-                            <div class="adminlogin-info">
-                                <table class="table-default">
-                                    <th>{{ __('Username') }}</th>
-                                    <th>{{ __('Password') }}</th>
-                                    <tbody>
-                                        <tr>
-                                            <td>super_admin</td>
-                                            <td>12345678</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        @endif
                     </div>
                 </form>
             </div>

@@ -18,17 +18,33 @@
                                 <x-notification.header />
                             </div>
                             <div class="author-thumb-contents">
+                                
                                 <div class="author-thumb">
                                     @php
                                         $admin = auth()->guard('admin')->user();
                                         $profile_img = get_attachment_image_by_id($admin->image, null, true);
                                     @endphp
                                     @if (!empty($profile_img))
-                                        <img src="{{$profile_img['img_url']}}" alt="{{$admin->name}}">
+                                        <img src="{{ $profile_img['img_url'] }}" alt="{{ $admin->name }}">
+                                    @else
+                                        <i class="las la-user"></i>
                                     @endif
+
+                                    {{-- @php
+                                        $admin = auth()->guard('admin')->user();
+                                        $profile_img = get_attachment_image_by_id($admin->image, null, true);
+                                    @endphp
+                                    @if (!empty($profile_img))
+                                        <img src="{{$profile_img['img_url']}}" alt="{{$admin->name}}">
+                                    @endif --}}
                                 </div>
 
                                 <ul class="author-account-list">
+                                    <li class="list">
+                                        <a href="#" class="vendor_active_sidebar">
+                                            Welcome, {{ $admin->name }}
+                                        </a>
+                                    </li>
                                     <li class="list"><a
                                             href="{{route('admin.profile.update')}}">{{__('Edit Profile')}}</a></li>
                                     <li class="list"><a

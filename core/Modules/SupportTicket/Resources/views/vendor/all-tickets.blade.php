@@ -64,7 +64,7 @@
                 <x-msg.error />
                 <div class="btn-wrapper mb-4">
                     <a href="{{ route('vendor.support.ticket.new') }}"
-                        class="cmn_btn btn_bg_profile">{{ __('Add New Support Tickets') }}
+                        class="cmn_btn btn_bg_profile">{{ __('Add New Support Ticket') }}
                     </a>
                 </div>
                 <div class="dashboard__card">

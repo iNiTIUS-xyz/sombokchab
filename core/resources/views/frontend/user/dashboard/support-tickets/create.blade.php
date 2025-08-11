@@ -89,8 +89,8 @@
                     <div class="dashboard__card support-ticket-wrapper">
                         @if (auth()->guard('web')->check())
                             <div class="dashboard__card__header">
-                                <h3 class="dashboard__card__title">
-                                    Add New Support Ticket</h3>
+                                {{-- <h3 class="dashboard__card__title">
+                                    Add New Support Ticket</h3> --}}
                             </div>
                             <div class="dashboard__card__body custom__form mt-4">
                                 <x-msg.flash />

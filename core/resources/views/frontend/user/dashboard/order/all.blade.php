@@ -34,7 +34,7 @@
 @section('section')
     <div class="dashboard__card__order">
         <div class="dashboard__card__header">
-            <h3 class="dashboard__card__title">{{ __('My Orders') }}</h3>
+            {{-- <h3 class="dashboard__card__title">{{ __('My Orders') }}</h3> --}}
         </div>
         <div class="dashboard__card__table mt-4">
             <div class="table-responsive">

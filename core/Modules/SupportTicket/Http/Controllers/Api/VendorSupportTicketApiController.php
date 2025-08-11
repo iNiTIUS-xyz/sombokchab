@@ -51,7 +51,7 @@ class VendorSupportTicketApiController extends Controller
         }
 
         return response()->json([
-            'message' => __('Message Send Success'),
+            'message' => __('Message Sent Successfully.'),
             'ticket_id' => $request->ticket_id,
             'user_type' => $request->user_type,
             'ticket_info' => $ticket_info,

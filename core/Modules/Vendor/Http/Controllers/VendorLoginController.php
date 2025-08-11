@@ -32,7 +32,7 @@ class VendorLoginController extends Controller
         Auth::logout();
 
         return redirect()->route('vendor.login')
-            ->with(['msg' => __('You Logged Out.'), 'type' => 'danger']);
+            ->with(['msg' => __('Sign out successful.'), 'type' => 'success']);
     }
 
     public function login()

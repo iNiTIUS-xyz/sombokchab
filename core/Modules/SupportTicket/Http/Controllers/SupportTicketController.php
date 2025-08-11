@@ -166,7 +166,7 @@ class SupportTicketController extends Controller
 
         event(new SupportMessage($ticket_info));
 
-        return back()->with(FlashMsg::settings_update(__('Message send')));
+        return back()->with(FlashMsg::settings_update(__('Message Sent Successfully.')));
     }
 
     public function bulk_action(Request $request)

@@ -13,7 +13,7 @@
                 <x-msg.error />
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('New Ticket') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('Add New Support Ticket') }}</h4>
                         {{-- <a href="{{ route('vendor.support.ticket.all') }}"
                             class="cmn_btn btn_bg_profile">{{ __('All Support Tickets') }}</a> --}}
                     </div>

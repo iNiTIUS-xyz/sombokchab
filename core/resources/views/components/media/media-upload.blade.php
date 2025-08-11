@@ -66,7 +66,11 @@
                 <div class="upload-finish media-upload-btn-wrapper mt-4">
                     <div class="img-wrap row d-flex">
                         @if (!empty($oldImage))
+                            @if($title === "Cover Photo")
+                            <div class="upload-thumb" style="max-width: 100%">
+                            @else
                             <div class="upload-thumb col-xxl-2">
+                            @endif
                                 {!! !empty($oldImage) ? render_image($oldImage) : $signature_image_tag !!}
                                 <span class="close-thumb" data-media-id="{{ $oldImage->id }}"> <i class="las la-times"></i>
                                 </span>

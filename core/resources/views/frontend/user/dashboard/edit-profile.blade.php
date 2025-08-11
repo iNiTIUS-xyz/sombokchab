@@ -12,7 +12,7 @@
     @endphp
     <div class="bodyUser_overlay"></div>
     <div class="dashboard-form-wrapper">
-        <h2 class="dashboard__card__title">{{ __('Edit Profile') }}</h2>
+        {{-- <h2 class="dashboard__card__title">{{ __('Edit Profile') }}</h2> --}}
         <div class="custom__form mt-4">
             <form action="{{ route('user.profile.update') }}" method="post" enctype="multipart/form-data">
                 @csrf

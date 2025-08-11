@@ -228,13 +228,13 @@
                                     </ul>
                                 </div>
                                 <div class="gig-message-start-wrap">
-                                    <h2 class="title">{{ __('All Conversation') }}</h2>
+                                    <h2 class="title">{{ __('Conversation') }}</h2>
                                     <div class="all-message-wrap @if ($q == 'all') msg-row-reverse @endif">
                                         @if ($q == 'all' && count($all_messages) > 1)
                                             <form action="" method="get">
                                                 <input type="hidden" value="all" name="q">
                                                 <button class="load_all_conversation"
-                                                    type="submit">{{ __('load all message') }}</button>
+                                                    type="submit">{{ __('Load all message') }}</button>
                                             </form>
                                         @endif
 
@@ -275,36 +275,38 @@
                                         @endforelse
                                     </div>
                                 </div>
-                                <div class="reply-message-wrap ">
-                                    {{-- <h5 class="dashboard__card__title">{{ __('Reply To Message') }}</h5> --}}
-                                    <x-error-msg />
-                                    <x-flash-msg />
-                                    <form action="{{ route('tenant.user.dashboard.support.ticket.message') }}"
-                                        method="post" enctype="multipart/form-data">
-                                        @csrf
-                                        <input type="hidden" value="{{ $ticket_details->id }}" name="ticket_id">
-                                        <input type="hidden" value="customer" name="user_type">
-                                        <div class="form-group">
-                                            <label for="">{{ __('Type your message here') }}</label>
-                                            <textarea name="message" class="form-control d-none" cols="30" rows="5"></textarea>
-                                            <div class="summernote"></div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="file">{{ __('File') }}</label>
-                                            <input type="file" name="file">
-                                            <small class="info-text d-block text-danger">
-                                            {{ __('Max file size 200mb, only zip, png, gif, jpg, jpeg, pdf, docx, doc, odd file is allowed') }}
-                                            </small>
-                                        </div>
-                                        <div class="form-group d-flex align-items-baseline gap-3">
-                                            <input type="checkbox" name="send_notify_mail" id="send_notify_mail">
-                                            <label for="send_notify_mail">{{ __('Notify Via Mail') }}</label>
-                                        </div>
-                                        <button class="btn-primary btn btn-md" type="submit">
-                                            {{ __('Send Message') }}
-                                        </button>
-                                    </form>
-                                </div>
+                                 @if($ticket_details->status !== 'close')
+                                    <div class="reply-message-wrap ">
+                                        {{-- <h5 class="dashboard__card__title">{{ __('Reply To Message') }}</h5> --}}
+                                        <x-error-msg />
+                                        <x-flash-msg />
+                                        <form action="{{ route('tenant.user.dashboard.support.ticket.message') }}"
+                                            method="post" enctype="multipart/form-data">
+                                            @csrf
+                                            <input type="hidden" value="{{ $ticket_details->id }}" name="ticket_id">
+                                            <input type="hidden" value="customer" name="user_type">
+                                            <div class="form-group">
+                                                <label for="">{{ __('Type your message here') }}</label>
+                                                <textarea name="message" class="form-control d-none" cols="30" rows="5"></textarea>
+                                                <div class="summernote"></div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="file">{{ __('File') }}</label>
+                                                <input type="file" name="file">
+                                                <small class="info-text d-block text-danger">
+                                                {{ __('Max file size 200mb, only zip, png, gif, jpg, jpeg, pdf, docx, doc, odd file is allowed') }}
+                                                </small>
+                                            </div>
+                                            <div class="form-group d-flex align-items-baseline gap-3">
+                                                <input type="checkbox" name="send_notify_mail" id="send_notify_mail">
+                                                <label for="send_notify_mail">{{ __('Notify Via Mail') }}</label>
+                                            </div>
+                                            <button class="btn-primary btn btn-md" type="submit">
+                                                {{ __('Send Message') }}
+                                            </button>
+                                        </form>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>

@@ -228,7 +228,7 @@
                     <div class="dashboard__card support-ticket-summery-warp">
                         <div class="gig-chat-message-heading">
                             <div class="dashboard__card__header">
-                                <h4 class="dashboard__card__title">{{ __('Support Ticket Details') }}</h4>
+                                {{-- <h4 class="dashboard__card__title">{{ __('Support Ticket Details') }}</h4> --}}
                                 {{-- <a href="{{ route('user.home.support.tickets') }}"
                                     class="cmn_btn btn_bg_profile">{{ __('All Tickets') }}</a> --}}
                             </div>
@@ -255,7 +255,7 @@
                                     </ul>
                                 </div>
                                 <div class="gig-message-start-wrap">
-                                    <h2 class="dashboard__card__title mb-3">{{ __('All Conversation') }}</h2>
+                                    <h2 class="dashboard__card__title mb-3">{{ __('Conversation') }}</h2>
                                     <div class="all-message-wrap @if ($q == 'all') msg-row-reverse @endif">
                                         @if ($q == 'all' && count($all_messages) > 1)
                                             <form action="" method="get">
@@ -324,42 +324,44 @@
                                         @endforelse
                                     </div>
                                 </div>
-                                <div class="reply-message-wrap ">
-                                    <x-msg.error />
-                                    <x-msg.flash />
-                                    <form action="{{ route('user.dashboard.support.ticket.message') }}" method="post"
-                                        enctype="multipart/form-data">
-                                        @csrf
-                                        <input type="hidden" value="{{ $ticket_details->id }}" name="ticket_id">
-                                        <input type="hidden" value="customer" name="user_type">
-                                        <div class="form-group">
-                                            <label for="">{{ __('Type your message here') }}</label>
-                                            <textarea name="message" class="form-control d-none" cols="30" rows="5"></textarea>
-                                            <div class="summernote"></div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="file">{{ __('File') }}</label>
-                                            <input type="file" name="file">
-                                            <small class="info-text d-block text-danger">
-                                                {{ __('Max file size 200mb, only zip, png, gif, jpg, jpeg, pdf, docx, doc, odd file is allowed') }}
-                                            </small>
-                                        </div>
-                                        <div class="form-group d-flex align-items-start gap-3">
-                                            <input type="checkbox" name="send_notify_mail" id="send_notify_mail">
-                                            <label for="send_notify_mail">{{ __('Notify via mail') }}</label>
-                                        </div>
-                                        <div class="btn-wrapper">
-                                            <button type="submit" class="cmn_btn btn_bg_1 btn-success">
-                                                {{ __('Send Message') }}
-                                            </button>
-                                            <a href="{{ route('user.home.support.tickets') }}"
-                                                class="cmn_btn default-theme-btn"
-                                                style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
-                                                {{ __('Back') }}
-                                            </a>
-                                        </div>
-                                    </form>
-                                </div>
+                                @if($ticket_details->status !== 'close')
+                                    <div class="reply-message-wrap ">
+                                        <x-msg.error />
+                                        <x-msg.flash />
+                                        <form action="{{ route('user.dashboard.support.ticket.message') }}" method="post"
+                                            enctype="multipart/form-data">
+                                            @csrf
+                                            <input type="hidden" value="{{ $ticket_details->id }}" name="ticket_id">
+                                            <input type="hidden" value="customer" name="user_type">
+                                            <div class="form-group">
+                                                <label for="">{{ __('Type your message here') }}</label>
+                                                <textarea name="message" class="form-control d-none" cols="30" rows="5"></textarea>
+                                                <div class="summernote"></div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="file">{{ __('File') }}</label>
+                                                <input type="file" name="file">
+                                                <small class="info-text d-block text-danger">
+                                                    {{ __('Max file size 200mb, only zip, png, gif, jpg, jpeg, pdf, docx, doc, odd file is allowed') }}
+                                                </small>
+                                            </div>
+                                            <div class="form-group d-flex align-items-start gap-3">
+                                                <input type="checkbox" name="send_notify_mail" id="send_notify_mail">
+                                                <label for="send_notify_mail">{{ __('Notify via mail') }}</label>
+                                            </div>
+                                            <div class="btn-wrapper">
+                                                <button type="submit" class="cmn_btn btn_bg_1 btn-success">
+                                                    {{ __('Send Message') }}
+                                                </button>
+                                                <a href="{{ route('user.home.support.tickets') }}"
+                                                    class="cmn_btn default-theme-btn"
+                                                    style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                                                    {{ __('Back') }}
+                                                </a>
+                                            </div>
+                                        </form>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>

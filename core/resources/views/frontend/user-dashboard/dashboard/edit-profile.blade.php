@@ -10,7 +10,7 @@
 
 @section('section')
     <div class="parent">
-        <h2 class="title">{{__('Edit Profile')}}</h2>
+        {{-- <h2 class="title">{{__('Edit Profile')}}</h2> --}}
         <form action="{{route('tenant.user.profile.update')}}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="row">

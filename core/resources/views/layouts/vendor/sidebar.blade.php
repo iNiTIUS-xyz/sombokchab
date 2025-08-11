@@ -167,7 +167,7 @@
                         </li>
 
                         <li class="{{ active_menu('vendor-home/support-tickets/new') }}">
-                            <a href="{{ route('vendor.support.ticket.new') }}">{{ __('Add New Support Tickets') }}</a>
+                            <a href="{{ route('vendor.support.ticket.new') }}">{{ __('Add New Support Ticket') }}</a>
                         </li>
                     </ul>
                 </li>
