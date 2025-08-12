@@ -65,7 +65,7 @@
                                     <div class="mt-3" id="financial_summary_chart"></div>
                                 </div>
                                 <div class="col-md-6">
-                                    <h3 class="my-3">Top Vendors</h3>
+                                    <h3 class="my-3">Top Products</h3>
                                     <ul class="nav nav-tabs" id="chartTabs" role="tablist">
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link active" id="top_vendors_daily-tab" data-bs-toggle="tab"
