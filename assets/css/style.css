@@ -9295,6 +9295,8 @@ textarea {
 
 .value-input-area .size-lists li.active {
   border-color: var(--main-color-one);
+  background-color: var(--main-color-one);
+  color: white;
 }
 
 @media only screen and (max-width: 480px) {
@@ -9346,11 +9348,12 @@ textarea {
   border: 1px solid transparent;
   position: relative;
   z-index: 1;
+  border: 1px solid var(--main-color-one);
 }
 
 .value-input-area .color-list li.active {
-  height: 16px;
-  width: 16px;
+  height: 30px;
+  width: 30px;
 }
 
 .value-input-area .color-list li.active::before {
@@ -27299,6 +27302,7 @@ section.news-area {
   font-family: 'Line Awesome Free';
   font-weight: 900;
   font-style: inherit;
+  color: red;
 }
 
 .preview-image i {
@@ -27310,14 +27314,13 @@ section.news-area {
   position: relative !important;
   overflow: hidden;
   color: #8986868f !important;
-
 }
 
 .disabled-option:hover {
   cursor: not-allowed !important;
 }
 
-.disabled-option::after {
+/* .disabled-option::after {
   content: "";
   position: absolute;
   width: 150%;
@@ -27335,7 +27338,7 @@ section.news-area {
   background-color: #9b9b9b;
   transform: rotate(315deg);
   top: 13px;
-}
+} */
 
 .value-input-area .color-list li.active::before {
   display: none !important;

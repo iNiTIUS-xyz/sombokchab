@@ -27,6 +27,40 @@
     @if (moduleExists('Chat'))
         @include('chat::components.frontend-css')
     @endif
+
+
+
+    <style>
+        /* Style the quantity display to look like an input */
+        .quantity-display {
+            display: inline-block;
+            padding: 8px 30px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            min-width: 50px;
+            text-align: center;
+            font-weight: 500;
+            user-select: none;
+            /* Prevent text selection */
+            cursor: default;
+            font-size: 14px;
+        }
+
+        /* Optional: Add hover effects to plus/minus buttons */
+        .product-quantity .plus:hover,
+        .product-quantity .substract:hover {
+            background-color: #f0f0f0;
+            cursor: pointer;
+        }
+
+        /* Disable button appearance when at limits */
+        .product-quantity .plus.disabled,
+        .product-quantity .substract.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    </style>
 @endsection
 
 @php
@@ -50,9 +84,11 @@
     $facebook_meta_image = render_image($product->metaData?->facebook_meta_image ?? null, render_type: 'url');
     $twitter_meta_image = render_image($product->metaData?->twitter_meta_image ?? null, render_type: 'url');
 @endphp
+
 @section('page-meta-data')
     {!! render_page_meta_data_for_product($product) !!}
 @endsection
+
 @section('content')
     <!-- Shop Details area end -->
     <div class="bradecrumb-wraper-div">
@@ -102,16 +138,6 @@
                                     {!! view('product::components.frontend.common.rating-markup', compact('product')) !!}
                                 </div>
 
-                                {{-- @if ($stock_count > (int) get_static_option('product_in_stock_limit_set') ?? 0)
-                                    <span data-stock-text="{{ $stock_count }}"
-                                        class="availability text-success">{{ filter_static_option_value('product_in_stock_text', $setting_text, __('In stock')) }}
-                                        ({{ $stock_count }})
-                                    </span>
-                                @else
-                                    <span data-stock-text="{{ $stock_count }}"
-                                          class="availability text-danger">{{ filter_static_option_value('product_out_of_stock_text', $setting_text, __('Out of stock')) }}</span>
-                                @endif --}}
-
                                 <div class="price-update-through">
                                     <h3 class="ff-rubik flash-prices color-one price" data-main-price="{{ $sale_price }}"
                                         data-price-percentage="{{ \Modules\TaxModule\Services\CalculateTaxServices::pricesEnteredWithTax() ? $product->tax_options_sum_rate : 0 }}"
@@ -125,14 +151,18 @@
                                 </div>
 
                                 <div class="short-description mt-3">
-                                    <p class="info">{!! purify_html($product->summary) !!}</p>
+                                    <p class="info">
+                                        {!! purify_html($product->summary) !!}
+                                    </p>
                                 </div>
 
                                 @if ($productSizes->count() > 0 && !empty(current(current($productSizes))))
                                     <div class="value-input-area margin-top-15 size_list">
                                         <span class="input-list">
-                                            <strong class="color-light">{{ __('Size:') }}</strong>
-                                            <input class="form--input value-size" name="size" type="text"
+                                            <strong class="color-light">
+                                                {{ __('Size:') }}
+                                            </strong>
+                                            <input class="form--input value-size" name="size" type="hidden"
                                                 value="">
                                             <input type="hidden" id="selected_size">
                                         </span>
@@ -142,7 +172,8 @@
                                                 @if (!empty($product_size))
                                                     <li class="" data-value="{{ optional($product_size)->id }}"
                                                         data-display-value="{{ optional($product_size)->name }}">
-                                                        {{ optional($product_size)->name }} </li>
+                                                        {{ optional($product_size)->name }}
+                                                    </li>
                                                 @endif
                                             @endforeach
                                         </ul>
@@ -153,7 +184,7 @@
                                     <div class="value-input-area mt-4 color_list">
                                         <span class="input-list">
                                             <strong class="color-light">{{ __('Color:') }}</strong>
-                                            <input class="form--input value-size" disabled name="color" type="text"
+                                            <input class="form--input value-size" disabled name="color" type="hidden"
                                                 value="">
                                             <input type="hidden" id="selected_color">
                                         </span>
@@ -167,7 +198,8 @@
                                                         data-display-value="{{ optional($product_color)->name }}">
                                                         <span class="color-list-overlay"></span>
                                                         <span
-                                                            style="background: {{ optional($product_color)->color_code }}"></span>
+                                                            style="background: {{ optional($product_color)->color_code }}">
+                                                        </span>
                                                     </li>
                                                 @endif
                                             @endforeach
@@ -178,8 +210,10 @@
                                 @foreach ($available_attributes as $attribute => $options)
                                     <div class="value-input-area margin-top-15 attribute_options_list">
                                         <span class="input-list">
-                                            <strong class="color-light">{{ $attribute }}</strong>
-                                            <input class="form--input value-size" type="text" value="">
+                                            <strong class="color-light">
+                                                {{ $attribute }}
+                                            </strong>
+                                            <input class="form--input value-size" type="hidden" value="">
                                             <input type="hidden" id="selected_attribute_option"
                                                 name="selected_attribute_option">
                                         </span>
@@ -187,32 +221,19 @@
                                         <ul class="size-lists" data-type="{{ $attribute }}">
                                             @foreach ($options as $option)
                                                 <li class="" data-value="{{ $option }}"
-                                                    data-display-value="{{ $option }}"> {{ $option }} </li>
+                                                    data-display-value="{{ $option }}">
+                                                    {{ $option }}
+                                                </li>
                                             @endforeach
                                         </ul>
                                     </div>
                                 @endforeach
 
                                 <div class="quantity-area mt-4">
-                                    {{-- <div class="quantity-flex">
-                                        <span class="quantity-title color-light"> {{ __('Quantity:') }} </span>
-                                        <div class="product-quantity">
-                                            <span class="substract">
-                                                <i class="las la-minus"></i>
-                                            </span>
-                                            <input class="quantity-input" id="quantity" type="number" value="1"
-                                                min="0" max="{{ $stock_count }}"
-                                                onkeydown="return restrictInput(event)" />
-                                            <span class="plus">
-                                                <i class="las la-plus"></i>
-                                            </span>
-                                        </div>
-                                        <span data-stock-text="{{ $stock_count }}"
-                                            class="stock-available {{ $stock_count ? 'text-success' : 'text-danger' }}">
-                                            {{ $stock_count ? "In Stock ($stock_count)" : 'Out of stock' }} </span>
-                                    </div> --}}
                                     <div class="quantity-flex">
-                                        <span class="quantity-title color-light"> {{ __('Quantity:') }} </span>
+                                        <span class="quantity-title color-light">
+                                            {{ __('Quantity:') }}
+                                        </span>
                                         <div class="product-quantity">
                                             <span class="substract">
                                                 <i class="las la-minus"></i>
@@ -230,38 +251,6 @@
                                             class="stock-available {{ $stock_count ? 'text-success' : 'text-danger' }}">
                                             {{ $stock_count ? "In Stock ($stock_count)" : 'Sold out' }} </span>
                                     </div>
-
-                                    <style>
-                                        /* Style the quantity display to look like an input */
-                                        .quantity-display {
-                                            display: inline-block;
-                                            padding: 8px 30px;
-                                            border: 1px solid #ddd;
-                                            border-radius: 4px;
-                                            background-color: #f9f9f9;
-                                            min-width: 50px;
-                                            text-align: center;
-                                            font-weight: 500;
-                                            user-select: none;
-                                            /* Prevent text selection */
-                                            cursor: default;
-                                            font-size: 14px;
-                                        }
-
-                                        /* Optional: Add hover effects to plus/minus buttons */
-                                        .product-quantity .plus:hover,
-                                        .product-quantity .substract:hover {
-                                            background-color: #f0f0f0;
-                                            cursor: pointer;
-                                        }
-
-                                        /* Disable button appearance when at limits */
-                                        .product-quantity .plus.disabled,
-                                        .product-quantity .substract.disabled {
-                                            opacity: 0.5;
-                                            cursor: not-allowed;
-                                        }
-                                    </style>
                                     <div class="quantity-btn margin-top-40">
                                         <div class="btn-wrapper">
                                             <a href="#1" data-id="{{ $product->id }}"
@@ -323,40 +312,21 @@
                                                 </a>
                                             </li>
                                         @endif
-                                        {{-- @if ($product->childCategory)
-                                            <li class="category-list">
-                                                <strong> {{ __('Child Category:') }} </strong>
-                                                @foreach ($product?->childCategory ?? [] as $childCategory)
-                                                    <a class="list-item"
-                                                        href="{{ route('frontend.products.child-category', $childCategory?->slug) }}">
-                                                        {{ $childCategory?->name }}
-                                                    </a>
-                                                @endforeach
-                                            </li>
-                                        @endif --}}
                                         @if (!empty(get_static_option('product_sku_show_hide')))
                                             <li class="category-list">
                                                 <strong> {{ __('Sku:') }} </strong>
                                                 <label class="list-item"> {{ $product->inventory?->sku }} </label>
                                             </li>
                                         @endif
+                                        @if ($product->brand)
+                                            <li class="category-list">
+                                                <strong> {{ __('Brand:') }} </strong>
+                                                <a class="list-item text-success" href="javascript:;">
+                                                    {{ $product?->brand?->name }}
+                                                </a>
+                                            </li>
+                                        @endif
                                     </ul>
-
-                                    {{-- @if ($product->tag?->isNotEmpty())
-                                        <div class="tags-area-shop shop-border-top pt-4 mt-4">
-                                            <span class="tags-span color-light"> <strong> {{ __('Tags:') }} </strong>
-                                            </span>
-                                            <ul class="tags-shop-list">
-                                                @foreach ($product->tag ?? [] as $tag)
-                                                    <li class="list">
-                                                        <a
-                                                            href="{{ route('frontend.products.all', ['tag-name' => $tag->tag_name]) }}">
-                                                            {{ $tag->tag_name }} </a>
-                                                    </li>
-                                                @endforeach
-                                            </ul>
-                                        </div>
-                                    @endif --}}
                                 </div>
                             </div>
                         </div>
@@ -544,7 +514,6 @@
                             </div>
                         </div>
                     </section>
-                    <!-- Shop Details tab area end -->
                 </div>
                 <div class="col-xxl-3 col-xl-3">
                     <div class="shop-details-right-sidebar">
@@ -671,8 +640,6 @@
             </div>
         </div>
     </section>
-    <!-- Shop Details area end -->
-    <!-- Related Products area Starts -->
     <section class="related-products-area padding-top-50 padding-bottom-100">
         <div class="container container-one">
             <div class="row">
@@ -701,8 +668,6 @@
             </div>
         </div>
     </section>
-    <!-- Related Products area end -->
-
     @if (moduleExists('Chat'))
         @include('chat::components.live-chat-modal', ['vendor' => $vendor_information])
     @endif

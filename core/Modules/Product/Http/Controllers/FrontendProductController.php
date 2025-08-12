@@ -146,6 +146,7 @@ class FrontendProductController extends Controller
                 'tag',
                 'color',
                 'size',
+                'brand',
                 'campaign_product' => function ($campaignProduct) use ($date) {
                     $campaignProduct->whereDate("end_date", ">=", $date)->whereDate("start_date", "<=", $date);
                 },
