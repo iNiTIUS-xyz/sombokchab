@@ -9,10 +9,11 @@ class ProductInventoryDetailAttribute extends Model
 {
     use HasFactory;
 
-    protected $fillable = ["product_id","inventory_details_id","attribute_name","attribute_value"];
-    
+    protected $fillable = ["product_id", "inventory_details_id", "attribute_name", "attribute_value"];
+
     protected static function newFactory()
     {
         return \Modules\Product\Database\factories\ProductInventoryDetailAttributeFactory::new();
     }
+
 }

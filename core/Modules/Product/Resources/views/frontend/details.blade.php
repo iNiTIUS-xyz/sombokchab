@@ -326,6 +326,14 @@
                                                 </a>
                                             </li>
                                         @endif
+                                        @if ($product->is_refundable)
+                                            <li class="category-list">
+                                                <strong> {{ __('Refundable:') }} </strong>
+                                                <a class="list-item text-success" href="javascript:;">
+                                                    {{ $product?->is_refundable == 1 ? 'Yes' : 'No' }}
+                                                </a>
+                                            </li>
+                                        @endif
                                     </ul>
                                 </div>
                             </div>

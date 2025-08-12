@@ -185,10 +185,12 @@ class ProductCartController extends Controller
 
                 $product_detail = ProductInventoryDetail::query()
                     ->with([
-                        'attribute:attribute_name,attribute_value,inventory_details_id',
-                        'attribute.attribute:attribute_name,attribute_value'
+                        'attribute:id,attribute_name,attribute_value,inventory_details_id',
+                        'attr_image'
                     ])
-                    ->where('id', $cart_data['product_variant'])->first();
+                    ->where('id', $cart_data['product_variant'])
+                    ->first();
+
                 $product_attributes = $product_detail?->attribute?->pluck('attribute_value', 'attribute_name', 'inventory_details')
                     ->toArray();
 
@@ -226,6 +228,7 @@ class ProductCartController extends Controller
                 'cart-content' => Cart::instance('default')->content(),
             ]);
         } catch (\Exception $exception) {
+            dd($exception);
             return response()->json([
                 'type' => 'error',
                 'msg' => __('Something went wrong!'),
