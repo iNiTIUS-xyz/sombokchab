@@ -43,53 +43,6 @@
             <i class="las la-angle-up"></i>
         </div>
 
-        @if (preg_match('/(xgenious)/', url('/')))
-            <script type="text/javascript">
-                adroll_adv_id = "GXM5SRU2XZE7JOKGHSZPSZ";
-                adroll_pix_id = "WP43YTLBS5BQXDP6XUEIC7";
-                adroll_version = "2.0";
-                (function(w, d, e, o, a) {
-                    w.__adroll_loaded = true;
-                    w.adroll = w.adroll || [];
-                    w.adroll.f = ['setProperties', 'identify', 'track'];
-                    var roundtripUrl = "https://s.adroll.com/j/" + adroll_adv_id + "/roundtrip.js";
-                    for (a = 0; a < w.adroll.f.length; a++) {
-                        w.adroll[w.adroll.f[a]] = w.adroll[w.adroll.f[a]] || (function(n) {
-                            return function() {
-                                w.adroll.push([n, arguments])
-                            }
-                        })(w.adroll.f[a])
-                    }
-                    e = d.createElement('script');
-                    o = d.getElementsByTagName('script')[0];
-                    e.async = 1;
-                    e.src = roundtripUrl;
-                    o.parentNode.insertBefore(e, o);
-                })(window, document);
-                adroll.track("pageView");
-            </script>
-            <div class="buy-now-wrap">
-                <ul class="buy-list">
-                    <li>
-                        <a href="https://xgenious.com/docs/grenmart-organic-grocery-laravel-ecommerce/"
-                            data-container="body" data-bs-toggle="popover" data-placement="left"
-                            data-content="{{ __('Documentation') }}">
-                            <i class="lar la-file-alt"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://1.envato.market/kj2GdL">
-                            <i class="las la-shopping-cart"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://xgenious51.freshdesk.com/">
-                            <i class="las la-headset"></i>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        @endif
         <!-- jquery -->
         <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
         <!-- jquery Migrate -->
@@ -142,10 +95,10 @@
             }
         </style>
 
-        @include('frontend.partials.google-captcha')
+        {{-- @include('frontend.partials.google-captcha') --}}
         {{-- @include('frontend.partials.gdpr-cookie') --}}
-        @include('frontend.partials.inline-script')
-        @include('frontend.partials.twakto')
+        {{-- @include('frontend.partials.inline-script')
+        @include('frontend.partials.twakto') --}}
 
         <script src="{{ asset('assets/common/js/toastr.min.js') }}"></script>
         <script src="{{ asset('assets/frontend/js/jquery.nicescroll.min.js') }}"></script>
@@ -183,12 +136,7 @@
 
         <script>
             $(document).ready(function() {
-                /*
-                ========================================
-                    Countdown js
-                ========================================
-                */
-                // check this class is exist or not if exist then run this code
+
                 if ($('.flashCountdown').length > 0) {
                     loopcounter('flashCountdown');
                 }
@@ -1357,27 +1305,18 @@
             @endif
         </script>
         <script>
-            // $(".dismissSearcSection").on('click', function() {
-            //     $("#search_form_input").val('');
-            //     $(".dismissSearcSection").hide();
-            //     $("#search_suggestions_wrap").removeClass('show');
-            // });
-
-            // on input change
             $('#search_form_input').on('input', function() {
                 const $dismiss = $('.dismissSearcSection');
 
                 if ($(this).val().length) {
-                    // apply your styles and show it
                     $dismiss
-                    .css({
-                        position: 'absolute',
-                        right:  '60px',
-                        top:    '15px'
-                    })
-                    .show();
+                        .css({
+                            position: 'absolute',
+                            right: '60px',
+                            top: '15px'
+                        })
+                        .show();
                 } else {
-                    // hide and reset suggestions
                     $dismiss.hide();
                     $('#search_suggestions_wrap').removeClass('show');
                 }
@@ -1389,7 +1328,6 @@
                 $(this).hide();
                 $('#search_suggestions_wrap').removeClass('show');
             });
-
         </script>
 
         <script>
@@ -1411,7 +1349,7 @@
                 // **TWEAKED**: make the search-icon button navigate to the same URL as “See More”
                 $('#search_form_input').parent().find('button').on('click', function(e) {
                     e.preventDefault();
-                    const kw       = $('#search_form_input').val().trim();
+                    const kw = $('#search_form_input').val().trim();
                     const catValue = $('#search_category_id').val();
                     if (!kw) return;
 
@@ -1425,14 +1363,14 @@
                 });
 
                 function handleSearch() {
-                    let input_values        = $('#search_form_input').val().trim();
-                    let search_category_id  = $('#search_category_id').val();
-                    let category_id         = $('#search_selected_category').val();
+                    let input_values = $('#search_form_input').val().trim();
+                    let search_category_id = $('#search_category_id').val();
+                    let category_id = $('#search_selected_category').val();
                     let search_result_category = $('#search_result_categories');
                     let search_result_products = $('#search_result_products');
-                    let spinnerHtml         = '<i class="las la-spinner la-spin"></i>';
-                    let $btn                = $('#search_form_input').parent().find('button');
-                    let btnOldHtml          = `<i class="las la-search"></i>`;
+                    let spinnerHtml = '<i class="las la-spinner la-spin"></i>';
+                    let $btn = $('#search_form_input').parent().find('button');
+                    let btnOldHtml = `<i class="las la-search"></i>`;
                     let site_currency_symbol = "{{ site_currency_symbol() }}";
 
                     // **TWEAKED**: build routeUrl with category name (omit if "all")
@@ -1451,8 +1389,8 @@
                         $btn.html(spinnerHtml);
 
                         $.get('{{ route('frontend.products.search') }}', {
-                            name:               input_values,
-                            category:           category_id,
+                            name: input_values,
+                            category: category_id,
                             search_category_id: search_category_id
                         }).then(function(data) {
                             $(".dismissSearcSection").show();
@@ -1482,7 +1420,6 @@
                                 $('#search_result_categories').parent().hide();
                             }
 
-                            // product suggestions
                             let fetchedProducts = data['products'] || [];
                             search_result_products.html('');
                             if (fetchedProducts.length) {

@@ -1,6 +1,6 @@
 @extends('vendor.vendor-master')
 @section('site-title')
-    {{ __('Vendor Profile Update') }}
+    {{ __('Edit Profile') }}
 @endsection
 
 @section('style')
@@ -18,7 +18,7 @@
                 <x-msg.flash />
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Vendor Profile Update') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('Edit Profile') }}</h4>
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
                         <form id="vendor-create-form" data-action-url="{{ route('vendor.profile.update', $vendor->id) }}">

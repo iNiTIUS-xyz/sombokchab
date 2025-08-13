@@ -82,13 +82,9 @@ class IconBoxStyleFour extends PageBuilderBase
         return $output;
     }
 
-    /**
-     * frontend_render
-     * this method must have to implement by all widget to render frontend widget content
-     * @since 1.0.0
-     * */
-    public function frontend_render(): string
+    public function frontend_render()
     {
-        return $this->renderBlade('iconbox.iconbox-04');
+        return true;
+        // return $this->renderBlade('iconbox.iconbox-04');
     }
 }

@@ -618,7 +618,6 @@ function amount_with_currency_symbol($amount, $text = false): string
         $amount = number_format((float) $amount, 2, ($separator == ',' ? '.' : ','), $add_remove_comman_form_amount);
     } else {
         $amount = number_format((int) $amount, null, null, $separator);
-
     }
 
     $symbol = site_currency_symbol($text);
@@ -782,8 +781,7 @@ function render_form_field_for_frontend($form_content)
             $output .= get_field_by_type($value, $form_fields->field_name[$key], $form_fields->field_placeholder[$key], $options, $required, $mimes);
             if ($value == 'select') {
                 $select_index++;
-            }
-            ;
+            };
         }
     }
     return $output;
@@ -1979,8 +1977,7 @@ function getItemAttributes($product_id)
     foreach ($all_attributes as $key => $product_attributes) {
         foreach ($product_attributes as $key => $product_attribute) {
             $result[$product_attribute['type']][] = $product_attribute['name'];
-        }
-        ;
+        };
     }
     return $result;
 }
@@ -2067,7 +2064,7 @@ function render_navbar_category_menu(): string
                 } else {
                     /* THUMBNAIL style */
                     //                    $output .= '<li class="mega-menu-single-section custom">'; // thumbnail style section start
-//                    $output .= '<ul class="mega-menu-main">'; // subcategory items thumbnails <ul> start
+                    //                    $output .= '<ul class="mega-menu-main">'; // subcategory items thumbnails <ul> start
 
                     $output .=
                         '<li class="round-menu-product"><a href="' . route("frontend.products.subcategory", $subcategory->id) . '">'
@@ -2076,7 +2073,7 @@ function render_navbar_category_menu(): string
                         . '</a></li>';
 
                     //                    $output .= '</ul>';
-//                    $output .= '</li>'; // thumbnail style section end
+                    //                    $output .= '</li>'; // thumbnail style section end
                 }
             }
 
@@ -2396,7 +2393,7 @@ function addonProductInstance(): Builder|_IH_Product_QB
         "taxOptions:tax_class_options.id,country_id,state_id,city_id,rate",
         "vendorAddress:vendor_addresses.id,country_id,state_id,city_id"
     ]);
-    $products->withAvg('ratings', 'rating');// this line of code will return a sum of tax rate, for example,
+    $products->withAvg('ratings', 'rating'); // this line of code will return a sum of tax rate, for example,
     //I have 2 tax one is 5 percent, another one is 10 percent then this will return 15 percent
     $products->withSum("taxOptions", "rate")->when(get_static_option('vendor_enable', 'on') != 'on', function ($query) {
         $query->whereNull("vendor_id");
@@ -2589,7 +2586,6 @@ function render_page_meta_data_for_product($product_details)
        <meta name="twitter:description" content="$twitter_meta_description">
        <meta name="twitter:image" content="{$twitter_meta_image}">
 HTML;
-
 }
 
 function frontendProductPageUrl()

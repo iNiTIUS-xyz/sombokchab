@@ -49,20 +49,20 @@ class NewsletterWidget extends WidgetBase
         $output .= '<div class="footer-widget widget">';
 
         if (!empty($widget_title)) {
-            $output .= '<h4 class="widget-title">'.purify_html($widget_title).'</h4>';
+            $output .= '<h4 class="widget-title">' . purify_html($widget_title) . '</h4>';
         }
 
         $output .= '<div class="footer-inner mt-4">';
         if (!empty($description)) {
-            $output .= '<p class="info">'.purify_html($description).'</p>';
+            $output .= '<p class="info">' . purify_html($description) . '</p>';
         }
 
-        $output .= 
-        '<div class="subscribe-form">
-            <form action="'.route('frontend.subscribe.newsletter').'" method="POST">
+        $output .=
+            '<div class="subscribe-form">
+            <form action="' . route('frontend.subscribe.newsletter') . '" method="POST">
                 <div class="form-message-show"></div>
                 <div class="widget-form-single">
-                    <input type="hidden" name="_token" value="'.csrf_token().'">
+                    <input type="hidden" name="_token" value="' . csrf_token() . '">
                     <input type="email" name="email" class="form--control" placeholder="' . __("Your mail here") . '">
                     <button type="submit">
                         <i class="lar la-paper-plane"></i>
@@ -76,7 +76,6 @@ class NewsletterWidget extends WidgetBase
         $output .= $this->widget_after(); // render widget after content
 
         return $output;
-
     }
 
     public function widget_title()

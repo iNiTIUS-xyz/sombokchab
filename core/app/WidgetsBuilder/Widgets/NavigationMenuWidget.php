@@ -20,22 +20,22 @@ class NavigationMenuWidget extends WidgetBase
         $widget_saved_values = $this->get_settings();
 
 
-            $widget_title =  $widget_saved_values['widget_title'] ?? '';
-            $selected_menu_id = $widget_saved_values['menu_id'] ?? '';
+        $widget_title =  $widget_saved_values['widget_title'] ?? '';
+        $selected_menu_id = $widget_saved_values['menu_id'] ?? '';
 
-            $output .= '<div class="form-group"><input type="text" name="widget_title" class="form-control" placeholder="' . __('Widget Title') . '" value="'. $widget_title .'"></div>';
+        $output .= '<div class="form-group"><input type="text" name="widget_title" class="form-control" placeholder="' . __('Widget Title') . '" value="' . $widget_title . '"></div>';
 
-            $output .= '<div class="form-group">';
-            $output .= '<select class="form-control" name="menu_id">';
+        $output .= '<div class="form-group">';
+        $output .= '<select class="form-control" name="menu_id">';
 
-            $navigation_menus = Menu::all();
+        $navigation_menus = Menu::all();
 
-            foreach($navigation_menus as $menu_item){
-                $selected = $selected_menu_id == $menu_item->id ? 'selected' : '';
-                $output .= '<option value="'.$menu_item->id.'" '.$selected.'>'.$menu_item->title.'</option>';
-            }
-            $output .= '</select>';
-            $output .= '</div>';
+        foreach ($navigation_menus as $menu_item) {
+            $selected = $selected_menu_id == $menu_item->id ? 'selected' : '';
+            $output .= '<option value="' . $menu_item->id . '" ' . $selected . '>' . $menu_item->title . '</option>';
+        }
+        $output .= '</select>';
+        $output .= '</div>';
 
 
 
@@ -55,12 +55,19 @@ class NavigationMenuWidget extends WidgetBase
 
         $output = $this->widget_before(); //render widget before content
         $output .= "<div class='footer-widget widget'>";
-        if (!empty($widget_title)){
-            $output .= '<h6 class="widget-title">'.$widget_title.'</h6>';
+        if (!empty($widget_title)) {
+            $output .= '<h6 class="widget-title">' . $widget_title . '</h6>';
         }
+
+        // Get the menu HTML
+        $menu_html = render_frontend_menu($menu_id);
+
+        // Remove Blogs menu item by matching the href
+        $menu_html = preg_replace('/<li[^>]*>\s*<a[^>]*href="[^"]*\/blog"[^>]*>.*?<\/a>\s*<\/li>/is', '', $menu_html);
+
         $output .= "<div class='footer-inner mt-4'>";
         $output .= '<ul class="footer-link-list">';
-        $output .= render_frontend_menu($menu_id);
+        $output .= $menu_html;
         $output .= '</ul>';
         $output .= '</div>';
         $output .= '</div>';

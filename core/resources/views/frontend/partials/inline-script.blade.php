@@ -1,4 +1,3 @@
-
 <script>
     function getCookie(cname) {
         var name = cname + "=";
@@ -23,43 +22,40 @@
         document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
     }
 
-    (function ($) {
+    (function($) {
         "use strict";
 
-        @if(!empty(get_static_option('site_sticky_navbar_enabled')))
-        $(window).on('scroll', function () {
+        @if (!empty(get_static_option('site_sticky_navbar_enabled')))
+            $(window).on('scroll', function() {
 
-            if ($(window).width() > 992) {
-                /*--------------------------
-                sticky menu activation
-               -------------------------*/
-                var st = $(this).scrollTop();
-                var mainMenuTop = $('.navbar-area');
-                if ($(window).scrollTop() > 1000) {
-                    // active sticky menu on scrollup
-                    mainMenuTop.addClass('nav-fixed');
-                } else {
-                    mainMenuTop.removeClass('nav-fixed ');
+                if ($(window).width() > 992) {
+
+                    var st = $(this).scrollTop();
+                    var mainMenuTop = $('.navbar-area');
+                    if ($(window).scrollTop() > 1000) {
+                        mainMenuTop.addClass('nav-fixed');
+                    } else {
+                        mainMenuTop.removeClass('nav-fixed ');
+                    }
                 }
-            }
-        });
+            });
         @endif
-        $(document).on('click','.language_dropdown ul li',function(e){
+        $(document).on('click', '.language_dropdown ul li', function(e) {
             var el = $(this);
             el.parent().parent().find('.selected-language').text(el.text());
             el.parent().removeClass('show');
             $.ajax({
-                url : "{{route('frontend.langchange')}}",
+                url: "{{ route('frontend.langchange') }}",
                 type: "GET",
-                data:{
-                    'lang' : el.data('value')
+                data: {
+                    'lang': el.data('value')
                 },
-                success:function (data) {
+                success: function(data) {
                     location.reload();
                 }
             })
         });
-        $(document).on('click', '.newsletter-form-wrap .form-btn-2', function (e) {
+        $(document).on('click', '.newsletter-form-wrap .form-btn-2', function(e) {
             e.preventDefault();
             var email = $('.newsletter-form-wrap input[type="email"]').val();
             var errrContaner = $(this).parent().parent().parent().find('.form-message-show');
@@ -69,25 +65,28 @@
             var el = $(this);
             el.find('i').removeClass(paperIcon).addClass(spinnerIcon);
             $.ajax({
-                url: "{{route('frontend.subscribe.newsletter')}}",
+                url: "{{ route('frontend.subscribe.newsletter') }}",
                 type: "POST",
                 data: {
-                    _token: "{{csrf_token()}}",
+                    _token: "{{ csrf_token() }}",
                     email: email
                 },
-                success: function (data) {
-                    errrContaner.html('<div class="alert alert-'+data.type+'">' + data.msg + '</div>');
+                success: function(data) {
+                    errrContaner.html('<div class="alert alert-' + data.type + '">' + data.msg +
+                        '</div>');
                     el.find('i').addClass(paperIcon).removeClass(spinnerIcon);
                 },
-                error: function (data) {
+                error: function(data) {
                     el.find('i').addClass(paperIcon).removeClass(spinnerIcon);
                     var errors = data.responseJSON.errors;
-                    errrContaner.html('<div class="alert alert-danger">' + errors.email[0] + '</div>');
+                    errrContaner.html('<div class="alert alert-danger">' + errors.email[0] +
+                        '</div>');
                 }
             });
         });
 
-    <x-frontend.page-builder.product-category-filter-one />
+        <
+        x - frontend.page - builder.product - category - filter - one / >
 
     }(jQuery));
 </script>
