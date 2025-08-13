@@ -28,7 +28,7 @@
 
         <div class="col-sm-6 m-auto text-dark">
             <div class="py-2 px-2 mb-2 d-flex justify-content-between align-items-center bg-white">
-                <h3>{{ __("Website health") }}</h3>
+                <h3>{{ __("Website Health") }}</h3>
             </div>
             <ul class="list-group">
                 <li class="list-group-item d-flex justify-content-between align-items-center text-dark">
