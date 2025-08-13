@@ -16,9 +16,12 @@
         <div class="row">
             <div class="col-lg-12">
                 @include('backend.partials.message')
+                @include('backend.partials.error')
                 <div class="card">
                     <div class="card-body">
-                        @include('backend.partials.error')
+                        <h4 class="dashboard__card__title">Edit Profile</h4>
+                    </div>
+                    <div class="card-body">
                         @can('profile-update')
                             <form action="{{ route('admin.profile.update') }}" method="post" enctype="multipart/form-data">
                                 @csrf

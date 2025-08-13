@@ -1,4 +1,4 @@
-<div class="dashboard-top-contents mb-4">
+<div class="dashboard-top-contents mb-3">
     <div class="row">
         <div class="col-lg-12">
             <div class="top-inner-contents search-area top-searchbar-wrapper">
@@ -8,7 +8,7 @@
                         <div class="d-flex align-items-center">
                             <h2 class="heading-two dashboard-left-heading mt-2"></h2>
                             <h2 class="dashboard-left-heading mt-2 fw-500">
-                                &nbsp;- {{auth('admin')->user()->name}}
+                                &nbsp;- {{ auth('admin')->user()->name }}
                             </h2>
                         </div>
                     </div>
@@ -18,7 +18,7 @@
                                 <x-notification.header />
                             </div>
                             <div class="author-thumb-contents">
-                                
+
                                 <div class="author-thumb">
                                     @php
                                         $admin = auth()->guard('admin')->user();
@@ -30,13 +30,6 @@
                                         <i class="las la-user"></i>
                                     @endif
 
-                                    {{-- @php
-                                        $admin = auth()->guard('admin')->user();
-                                        $profile_img = get_attachment_image_by_id($admin->image, null, true);
-                                    @endphp
-                                    @if (!empty($profile_img))
-                                        <img src="{{$profile_img['img_url']}}" alt="{{$admin->name}}">
-                                    @endif --}}
                                 </div>
 
                                 <ul class="author-account-list">
@@ -45,11 +38,21 @@
                                             Welcome, {{ $admin->name }}
                                         </a>
                                     </li>
-                                    <li class="list"><a
-                                            href="{{route('admin.profile.update')}}">{{__('Edit Profile')}}</a></li>
-                                    <li class="list"><a
-                                            href="{{route('admin.password.change')}}">{{__('Password Change')}}</a></li>
-                                    <li class="list"><a href="{{ route('admin.logout') }}">{{ __('Sign Out') }}</a></li>
+                                    <li class="list">
+                                        <a href="{{ route('admin.profile.update') }}">
+                                            {{ __('Edit Profile') }}
+                                        </a>
+                                    </li>
+                                    <li class="list">
+                                        <a href="{{ route('admin.password.change') }}">
+                                            {{ __('Change Password') }}
+                                        </a>
+                                    </li>
+                                    <li class="list">
+                                        <a href="{{ route('admin.logout') }}">
+                                            {{ __('Sign Out') }}
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -59,8 +62,8 @@
                 <div class="search-bar">
                     <form class="menu-search-form" action="#">
                         <div class="search-close"> <i class="las la-times"></i> </div>
-                        <input class="item-search" type="text" placeholder="{{ __("Search Here.....") }}">
-                        <button type="submit"> {{ __("Search Now") }} </button>
+                        <input class="item-search" type="text" placeholder="{{ __('Search Here.....') }}">
+                        <button type="submit"> {{ __('Search Now') }} </button>
                     </form>
                 </div>
             </div>

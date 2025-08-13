@@ -51,7 +51,7 @@
                                     </li>
                                     <li class="list">
                                         <a href="{{ route('vendor.password.change') }}">
-                                            {{ __('Password Change') }}
+                                            {{ __('Change Password') }}
                                         </a>
                                     </li>
                                     <li class="list">
