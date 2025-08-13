@@ -24,7 +24,7 @@
                             <tr>
                                 <th>{{ __('Full Name') }}</th>
                                 <th>{{ __('Address') }}</th>
-                                <th>{{ __('Is Default') }}</th>
+                                <th>{{ __('Default Status') }}</th>
                                 <th>{{ __('Action') }}</th>
                             </tr>
                         </thead>

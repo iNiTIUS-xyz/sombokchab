@@ -95,7 +95,7 @@
         <x-product::frontend.breadcrumb.frontend-breadcrumb :title="__('Product Details')" :innerTitle="$product->category?->name" :subInnerTitle="$product->subCategory?->name"
             :chidInnerTitle="$product->childCategorySingle?->name ?? ''" :routeName="route('frontend.products.category', $product->category?->slug ?? 'x')" :subRouteName="route('frontend.products.subcategory', $product->subCategory?->slug ?? 'x')" :childRouteName="route('frontend.products.child-category', $product->childCategorySingle?->slug ?? 'x')" />
     </div>
-    <section class="shop-details-area padding-top-100 padding-bottom-50">
+    <section class="shop-details-area padding-top-25 padding-bottom-25">
         <div class="container container-one">
             <div class="row justify-content-center">
                 <div class="col-xxl-9 col-xl-9">
