@@ -40,9 +40,12 @@
                                     </div>
                                     <div class="orders-flex-content">
                                         <div class="contents">
-                                            <span class="order-para"> {{ __('Pending Balance') }} </span>
+                                            <span class="order-para">
+                                                {{ __('Pending Balance') }}
+                                            </span>
                                             <h2 class="order-titles">
-                                                {{ float_amount_with_currency_symbol($pending_balance) }} </h2>
+                                                {{ float_amount_with_currency_symbol($pending_balance) }}
+                                            </h2>
                                         </div>
                                         <div class="icon">
                                             <i class="las la-file-invoice-dollar"></i>
@@ -52,9 +55,7 @@
                             </div>
                             <div class="col-xxl-3 col-xl-4 col-sm-6 orders-child">
                                 <div class="single-orders">
-                                    <div class="orders-shapes">
-
-                                    </div>
+                                    <div class="orders-shapes"></div>
                                     <div class="orders-flex-content">
                                         <div class="contents">
                                             <span class="order-para ff-rubik"> {{ __('Order Completed Balance') }} </span>
@@ -98,15 +99,19 @@
                                             <div class="form-group">
                                                 <label>
                                                     {{ __('Withdraw Amount') }}
+                                                    <small class="text-info">
+                                                        ( Minimum withdrawal amount is = ${{ get_static_option('minimum_withdraw_amount') }})
+                                                    </small>
                                                     <span class="text-danger">*</span>
                                                 </label>
                                                 <input name="withdraw_amount" type="number" id="withdraw_amount"
                                                     min="{{ get_static_option('minimum_withdraw_amount') }}"
-                                                    max="{{ $current_balance }}" class="form-control"
-                                                    placeholder="{{ __('Enter withdraw amount') }}" />
+                                                    max="{{ $current_balance }}" class="form-control" step="0.01"
+                                                    placeholder="{{ __('Enter withdraw amount') }}"
+                                                    min="{{ get_static_option('minimum_withdraw_amount') }}" />
                                             </div>
 
-                                           <div class="form-group">
+                                            <div class="form-group">
                                                 <label>{{ __('Payment Method') }}</label>
                                                 <select name="gateway_name" class="form-select gateway-name">
                                                     <option value="" selected disabled>
@@ -124,7 +129,9 @@
                                             </div>
                                             <div class="form-group gateway-information-wrapper">
                                                 @php
-                                                    $gatewayFields = $savedGateway?->fileds ? unserialize($savedGateway?->fileds) : [];
+                                                    $gatewayFields = $savedGateway?->fileds
+                                                        ? unserialize($savedGateway?->fileds)
+                                                        : [];
                                                 @endphp
                                                 @foreach ($gatewayFields as $key => $value)
                                                     @php
@@ -137,8 +144,9 @@
                                                         <label>
                                                             {{ $label }}
                                                         </label>
-                                                        @if($key === 'qr_file')
-                                                            <input type="file" name="gateway_filed[{{ $key }}]" class="form-control" />
+                                                        @if ($key === 'qr_file')
+                                                            <input type="file" name="gateway_filed[{{ $key }}]"
+                                                                class="form-control" />
                                                         @else
                                                             <input type="text" name="gateway_filed[{{ $key }}]"
                                                                 class="form-control" value="{{ $value }}"
@@ -154,8 +162,8 @@
                                                         {{ __('Send Withdraw Request') }}
                                                     </button>
                                                     <a href="{{ route('vendor.wallet.home') }}"
-                                                    class="cmn_btn default-theme-btn"
-                                                    style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                                                        class="cmn_btn default-theme-btn"
+                                                        style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
                                                         {{ __('Back') }}
                                                     </a>
                                                 </div>

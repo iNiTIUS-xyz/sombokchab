@@ -5,11 +5,11 @@
 @endsection
 
 @section('style')
-<style>
-    .badge {
-        border: 1px solid white !important;
-    }
-</style>
+    <style>
+        .badge {
+            border: 1px solid white !important;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -18,16 +18,16 @@
             <div class="col-lg-12">
                 <x-msg.error />
                 <x-msg.flash />
+
                 <div class="mb-4">
                     <a class="cmn_btn btn_bg_profile" href="{{ route('admin.vendor.create') }}">
                         {{ __('Add New Vendor') }}
                     </a>
                 </div>
+
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">
-                            {{ __('Vendor List') }}
-                        </h4>
+                        <h4 class="dashboard__card__title">{{ __('Vendor List') }}</h4>
                     </div>
                     <div class="dashboard__card__body dashboard-recent-order mt-4">
                         <div class="table-wrap dashboard-table">
@@ -35,12 +35,11 @@
                                 <table class="table" id="dataTable">
                                     <thead class="head-bg">
                                         <tr>
-                                            {{-- <th> {{ __('Serial No.') }} </th> --}}
-                                            <th class="min-width-100"> {{ __('Vendor Info') }} </th>
-                                            <th class="min-width-250"> {{ __('Shop Info') }} </th>
-                                            <th class="min-width-100"> {{ __('Status') }} </th>
-                                            <th class="min-width-100"> {{ __('Verify Status') }} </th>
-                                            <th> {{ __('Actions') }} </th>
+                                            <th class="min-width-100">{{ __('Vendor Info') }}</th>
+                                            <th class="min-width-250">{{ __('Shop Info') }}</th>
+                                            <th class="min-width-100">{{ __('Status') }}</th>
+                                            <th class="min-width-100">{{ __('Verify Status') }}</th>
+                                            <th>{{ __('Actions') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -49,21 +48,22 @@
 
                                                 <td class="price-td" data-label="Name">
                                                     <div class="vendorList__item">
-                                                        <span class="vendorList__label vendor-label">{{ __('Name:') }}
+                                                        <span class="vendorList__label vendor-label">{{ __('Vendor Name:') }}
                                                         </span>
                                                         <span class="vendorList__value vendor-value">
                                                             {{ $vendor->owner_name }}
                                                         </span>
                                                     </div>
                                                     <div class="vendorList__item">
-                                                        <span class="vendorList__label vendor-label">{{ __('Email:') }}
+                                                        <span class="vendorList__label vendor-label">{{ __('Vendor Email:') }}
                                                         </span>
                                                         <span class="vendorList__value vendor-value">
                                                             {{ $vendor->vendor_shop_info?->email }}
                                                         </span>
                                                     </div>
                                                     <div class="vendorList__item">
-                                                        <span class="vendorList__label vendor-label">{{ __('Business Type:') }}
+                                                        <span
+                                                            class="vendorList__label vendor-label">{{ __('Business Type:') }}
                                                         </span>
                                                         <span class="vendorList__value vendor-value">
                                                             {{ $vendor->business_type?->name }}
@@ -109,7 +109,8 @@
                                                                     </b>
                                                                     <button data-vendor-id="{{ $vendor->id }}"
                                                                         class="btn btn-sm btn-info update-individual-commission"
-                                                                        data-bs-target="#vendor-commission" data-bs-toggle="modal">
+                                                                        data-bs-target="#vendor-commission"
+                                                                        data-bs-toggle="modal">
                                                                         <i class="las la-pen"></i>
                                                                     </button>
                                                                 </div>
@@ -121,7 +122,7 @@
                                                     <div class="status-dropdown">
                                                         <select data-vendor-id="{{ $vendor->id }}" name="status"
                                                             id="vendor-status"
-                                                            class="badge @if($vendor->status_id == 1) bg-primary @else bg-danger @endif">
+                                                            class="badge @if ($vendor->status_id == 1) bg-primary @else bg-danger @endif">
                                                             {!! status_option($type = 'option', $vendor->status_id) !!}
                                                         </select>
                                                     </div>
@@ -137,7 +138,8 @@
                                                         <div class="dropdown-menu">
                                                             <form
                                                                 action="{{ route('admin.vendor.varify.status', $vendor->id) }}"
-                                                                method="POST" id="status-form-activate-{{ $vendor->id }}">
+                                                                method="POST"
+                                                                id="status-form-activate-{{ $vendor->id }}">
                                                                 @csrf
                                                                 <input type="hidden" name="verify_status" value="1">
                                                                 <button type="submit" class="dropdown-item">
@@ -146,7 +148,8 @@
                                                             </form>
                                                             <form
                                                                 action="{{ route('admin.vendor.varify.status', $vendor->id) }}"
-                                                                method="POST" id="status-form-deactivate-{{ $vendor->id }}">
+                                                                method="POST"
+                                                                id="status-form-deactivate-{{ $vendor->id }}">
                                                                 @csrf
                                                                 <input type="hidden" name="verify_status" value="0">
                                                                 <button type="submit" class="dropdown-item">
@@ -159,10 +162,9 @@
                                                 <td data-label="Actions">
                                                     <div class="action-icon">
                                                         @can('vendor-details')
-                                                            <a href="#1" class="btn btn-secondary btn-sm"
-                                                                data-id="{{ $vendor->id }}" class="icon vendor-detail"
-                                                                data-bs-toggle="modal" data-bs-target="#vendor-details"
-                                                                title="{{ __('View Details') }}">
+                                                            <a href="#" class="btn btn-secondary btn-sm vendor-detail"
+                                                                data-id="{{ $vendor->id }}" data-bs-toggle="modal"
+                                                                data-bs-target="#vendor-details">
                                                                 <i class="las la-file-invoice"></i>
                                                             </a>
                                                         @endcan
@@ -196,122 +198,114 @@
         </div>
     </div>
 
-    @can('vendor-details')
-        <!-- Modal -->
-        <div class="modal fade" id="vendor-details" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content custom__form">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">{{ __('Vendor Details') }}</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
+    {{-- Vendor Details Modal --}}
+    <div class="modal fade" id="vendor-details" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl" style="overflow: hidden;">
+            <div class="modal-content custom__form">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        {{ __('Vendor Details') }}
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body"></div>
+            </div>
+        </div>
+    </div>
 
-                    </div>
+    {{-- Vendor Commission Modal --}}
+    <div class="modal fade" id="vendor-commission" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content custom__form">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ __('Vendor Commission') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('admin.vendor.individual-commission-settings') }}"
+                        id="individual_vendor_commission_settings" method="post">
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" name="vendor_id" id="vendor_id">
+                        <div class="form-group">
+                            <label>{{ __('Select commission type') }}</label>
+                            <select name="commission_type" id="commission_type" class="form-control">
+                                <option value="">{{ __('Select an option') }}</option>
+                                <option value="fixed_amount">{{ __('Fixed amount') }}</option>
+                                <option value="percentage">{{ __('Percentage') }}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>{{ __('Enter percentage.') }}</label>
+                            <input type="number" name="commission_amount" id="amount"
+                                class="form-control form-control-sm" placeholder="{{ __('Enter percentage') }}">
+                        </div>
+                        <div class="form-group">
+                            <button class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-    @endcan
-
-    @can('vendor-individual-commission-settings')
-        <!-- Modal -->
-        <div class="modal fade" id="vendor-commission" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content custom__form">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="vendorCommission">{{ __('Vendor Commission') }}</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="{{ route('admin.vendor.individual-commission-settings') }}"
-                            id="individual_vendor_commission_settings" method="post">
-                            @csrf
-                            @method('PUT')
-                            <input type="hidden" value="" name="vendor_id" id="vendor_id" />
-
-                            <div class="form-group">
-                                <label for="commission_type">{{ __('Select commission type') }}</label>
-                                <select name="commission_type" id="commission_type" class="form-control">
-                                    <option value="">{{ __('Select an option') }}</option>
-                                    <option value="fixed_amount">{{ __('Fixed amount') }}</option>
-                                    <option value="percentage">{{ __('Percentage') }}</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="amount">{{ __('Enter percentage.') }}</label>
-                                <input class="form-control form-control-sm" type="number" name="commission_amount" id="amount"
-                                    placeholder="{{ __('Enter percentage') }}" />
-                            </div>
-
-                            <div class="form-group">
-                                <button class="cmn_btn btn_bg_profile">
-                                    {{ __('Update') }}
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endcan
-    <div class="body-overlay-desktop"></div>
+    </div>
 @endsection
 
 @section('script')
     <script>
-        $(document).on("click", ".vendor-detail", function (e) {
-            let data = new FormData(),
-                id = $(this).data("id");
-            data.append("id", id);
-            data.append("_token", "{{ csrf_token() }}");
-
-            send_ajax_request("post", data, "{{ route('admin.vendor.show') }}", () => {
-                // before send request
-            }, (data) => {
-                // receive success response
-                $("#vendor-details .modal-body").html(data);
-            }, (data) => {
-                prepare_errors(data);
-            })
+        $(document).on("click", ".vendor-detail", function(e) {
+            e.preventDefault();
+            let vendorId = $(this).data("id");
+            $.ajax({
+                url: "{{ route('admin.vendor.show') }}",
+                type: "POST",
+                data: {
+                    id: vendorId,
+                    _token: "{{ csrf_token() }}"
+                },
+                beforeSend: function() {
+                    $("#vendor-details .modal-body").html("<p>Loading...</p>");
+                },
+                success: function(response) {
+                    $("#vendor-details .modal-body").html(response);
+                },
+                error: function() {
+                    $("#vendor-details .modal-body").html(
+                        "<p class='text-danger'>Failed to load vendor details.</p>");
+                }
+            });
         });
-
 
         let previousValue;
-        // Store the previous value when the select gains focus
-        $(document).on("focus", ".status-dropdown select", function () {
+
+        $(document).on("focus", ".status-dropdown select", function() {
             previousValue = $(this).val();
         });
-        // Handle the change event
-        $(document).on("change", ".status-dropdown select", function () {
+
+        $(document).on("change", ".status-dropdown select", function() {
             let selectElement = $(this);
             let selectedValue = selectElement.val();
+
             if (!confirm("Are you sure to change this vendor status?")) {
-                // If the user cancels, revert to the previous value
                 selectElement.val(previousValue);
                 return;
             }
 
-            // Proceed with the change
             let data = new FormData();
             data.append("_token", "{{ csrf_token() }}");
             data.append("status_id", selectedValue);
             data.append("vendor_id", selectElement.data("vendor-id"));
-
             send_ajax_request("post", data, "{{ route('admin.vendor.update-status') }}", () => {
                 toastr.warning("Request sent, please wait.");
-            }, (data) => {
+            }, () => {
                 toastr.success("Vendor Status Changed Successfully");
             }, (data) => {
                 prepare_errors(data);
             });
         });
 
-
-        $(document).on("submit", "#individual_vendor_commission_settings", function (e) {
+        $(document).on("submit", "#individual_vendor_commission_settings", function(e) {
             e.preventDefault();
             let data = new FormData(e.target);
-
             send_ajax_request("post", data, $(this).attr("action"), () => {
                 toastr.warning('{{ __('Individual commission updating request is sent.') }}');
             }, (response) => {
@@ -321,32 +315,17 @@
             });
         });
 
-        $(document).on("click", ".update-individual-commission", function () {
+        $(document).on("click", ".update-individual-commission", function() {
             let vendor_id = $(this).attr("data-vendor-id");
-            $("#individual_vendor_commission_settings  #vendor_id").val(vendor_id)
-
+            $("#individual_vendor_commission_settings  #vendor_id").val(vendor_id);
             send_ajax_request("GET", null, "{{ route('admin.vendor.get-vendor-commission-information') }}/" +
-                vendor_id, () => {
-
-                }, (response) => {
+                vendor_id, () => {}, (response) => {
                     $("#individual_vendor_commission_settings #commission_type option[value=" + response
                         .commission_type + "]").attr("selected", true);
                     $("#individual_vendor_commission_settings  #amount").val(response.commission_amount);
                 }, (errors) => {
                     ajax_toastr_error_message(errors)
                 });
-        });
-
-        $(document).on("submit", "#individual_vendor_commission_settings", function (e) {
-            e.preventDefault();
-
-            send_ajax_request("post", new FormData(e.target), $(this).attr("action"), () => {
-                toastr.warning('{{ __('Individual commission updating request is sent.') }}');
-            }, (response) => {
-                ajax_toastr_success_message(response)
-            }, (errors) => {
-                ajax_toastr_error_message(errors)
-            });
         });
     </script>
 @endsection

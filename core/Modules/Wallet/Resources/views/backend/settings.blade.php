@@ -30,9 +30,9 @@
                                     {{ __('Minimum withdraw amount') }} (USD)
                                     <span class="text-danger">*</span>
                                 </label>
-                                <input class="form-control" name="minimum_withdraw_amount"
+                                <input type="number" step="0.01" class="form-control" name="minimum_withdraw_amount"
                                     value="{{ get_static_option('minimum_withdraw_amount') ?? 1 }}"
-                                    placeholder="{{ __('Enter minimum withdraw amount') }}" required=""/>
+                                    placeholder="{{ __('Enter minimum withdraw amount') }}" required="" min="1" />
                             </div>
 
                             <div class="form-group">
@@ -49,5 +49,4 @@
 @endsection
 
 @section('script')
-
 @endsection
