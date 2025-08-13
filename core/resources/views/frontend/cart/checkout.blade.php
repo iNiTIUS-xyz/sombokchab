@@ -26,61 +26,6 @@
             flex-wrap: wrap;
         }
 
-        /* .shippingMethod__wrapper__item {
-            min-height: 45px !important;
-            width: 100%;
-            text-align: left !important;
-            margin: 5px 0px;
-            display: flex;
-            align-items: center;
-            border: 1px solid #ccc;
-        }
-
-        .shippingMethod__wrapper__item.active {
-            background-color: var(--main-color-one);
-            border-color: var(--main-color-one);
-            color: var(--white);
-        }
-
-        .shippingMethod__wrapper__item.active h6 {
-            color: var(--white);
-        }
-
-        .shippingMethod__wrapper__item.active p {
-            color: var(--white);
-        }
-
-        .checkout__card__footer__estimate__main {
-            width: 100%;
-        }
-
-        .checkout__card__footer__estimate__item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 16px;
-            font-weight: 400;
-            line-height: 20px;
-            color: var(--black);
-        }
-
-        .checkout__card__footer__estimate__item:not(:last-child) {
-            margin-bottom: 12px;
-        }
-
-        .shippingMethod__wrapper {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .badge.bg-success {
-            font-size: 12px;
-            padding: 4px 8px;
-            margin-top: 8px;
-            display: inline-block;
-        } */
         .shippingMethod__wrapper__item {
             min-height: 45px !important;
             text-align: left !important;
@@ -93,13 +38,15 @@
         }
 
 
-        .shippingMethod__wrapper__item span{
+        .shippingMethod__wrapper__item span {
             margin-right: 5px;
         }
+
         .shippingMethod__wrapper__item span.title {
             color: var(--black) !important;
             font-weight: bold;
         }
+
         .shippingMethod__wrapper__item span.checkbox {
             height: 20px !important;
             width: 20px !important;
@@ -108,6 +55,7 @@
             border-radius: 50%;
             position: relative;
         }
+
         .shippingMethod__wrapper__item span.checkbox .inner {
             width: 100%;
             height: 100%;
@@ -126,12 +74,13 @@
             border: 1px solid var(--main-color-one) !important;
             background: var(--main-color-one) !important;
         }
-        
+
         .shippingMethod__wrapper__item.active span.title,
         .shippingMethod__wrapper__item:hover span.title {
             color: var(--main-color-two) !important;
             font-weight: bold;
         }
+
         .shippingMethod__wrapper__item.active span.other_text,
         .shippingMethod__wrapper__item:hover span.other_text {
             color: var(--white) !important;
@@ -203,27 +152,22 @@
                             <x-msg.error />
                             <div class="checkout-inner-content">
                                 <div class="billing-details-area-wrapper">
-                                     <h4 class="title mb-3">
+                                    <h4 class="title mb-3">
                                         {{ __('Shipping details') }}
                                     </h4>
-                                    
                                     @if (auth('web')->check())
                                         <div class="btn-wrapper">
                                             <button type="button"
                                                 class="cmn-btn btn-bg-1 billing_details_click btn-small">{{ __('New Shipping Address') }}</button>
                                         </div>
                                     @endif
-                                    
+
                                     <div class="row mt-3" style="flex-wrap: unset !important;">
-                                        {{-- <h6 class="payment-label fw-500 mb-3">
-                                            {{ __('Select shipping address') }}
-                                        </h6> --}}
                                         <ul>
                                             @foreach ($all_user_shipping ?? [] as $shipping_address)
                                                 @include('frontend.cart.partials.shipping-address-option')
                                             @endforeach
                                         </ul>
-                                        
                                     </div>
                                     {{-- <div class="flex-start mt-4 user-shipping-address-wrapper d-flex position-relative">
                                         @foreach ($all_user_shipping ?? [] as $shipping_address)
@@ -555,23 +499,26 @@
                 data.append("type", "country");
                 data.append("_token", "{{ csrf_token() }}");
 
-                send_ajax_request("POST", data, "{{ route('frontend.shipping.module.methods') }}", () => {}, (data) => {
-                    if (data.success) {
-                        let statehtml = "<option value=''> {{ __('Select an state') }} </option>";
-                        data?.states?.forEach((state) => {
-                            statehtml += "<option value='" + state.id + "'>" + state.name + "</option>";
-                        });
+                send_ajax_request("POST", data, "{{ route('frontend.shipping.module.methods') }}", () => {}, (
+                        data) => {
+                        if (data.success) {
+                            let statehtml = "<option value=''> {{ __('Select an state') }} </option>";
+                            data?.states?.forEach((state) => {
+                                statehtml += "<option value='" + state.id + "'>" + state.name +
+                                    "</option>";
+                            });
 
-                        $("#checkout_tax_percentage").val(data.tax_amount);
-                        $('#tax_amount').html(data.tax_amount + "%");
-                        $(this).parent().parent().find(".select-state").html(statehtml);
+                            $("#checkout_tax_percentage").val(data.tax_amount);
+                            $('#tax_amount').html(data.tax_amount + "%");
+                            $(this).parent().parent().find(".select-state").html(statehtml);
 
-                        calculateAmount(data);
-                        calculateOrderSummary();
-                    }
-                }, function(xhr) {
-                    ajax_toastr_error_message(xhr);
-                })
+                            calculateAmount(data);
+                            calculateOrderSummary();
+                        }
+                    },
+                    function(xhr) {
+                        ajax_toastr_error_message(xhr);
+                    })
             });
 
             $(document).on("change", "#state_id", function() {
@@ -581,23 +528,26 @@
                 data.append("type", "state");
                 data.append("_token", "{{ csrf_token() }}");
 
-                send_ajax_request("POST", data, "{{ route('frontend.shipping.module.methods') }}", () => {}, (data) => {
-                    if (data.success) {
-                        $("#checkout_tax_percentage").val(data.tax_amount);
-                        $('#tax_amount').html(data.tax_amount + "%");
+                send_ajax_request("POST", data, "{{ route('frontend.shipping.module.methods') }}", () => {}, (
+                        data) => {
+                        if (data.success) {
+                            $("#checkout_tax_percentage").val(data.tax_amount);
+                            $('#tax_amount').html(data.tax_amount + "%");
 
-                        let cityhtml = "<option value=''> {{ __('Select an city') }} </option>";
-                        data?.cities?.forEach((city) => {
-                            cityhtml += "<option value='" + city.id + "'>" + city.name + "</option>";
-                        });
+                            let cityhtml = "<option value=''> {{ __('Select an city') }} </option>";
+                            data?.cities?.forEach((city) => {
+                                cityhtml += "<option value='" + city.id + "'>" + city.name +
+                                    "</option>";
+                            });
 
-                        $("#city_id").html(cityhtml);
-                        calculateAmount(data);
-                        calculateOrderSummary();
-                    }
-                }, function(xhr) {
-                    ajax_toastr_error_message(xhr);
-                })
+                            $("#city_id").html(cityhtml);
+                            calculateAmount(data);
+                            calculateOrderSummary();
+                        }
+                    },
+                    function(xhr) {
+                        ajax_toastr_error_message(xhr);
+                    })
             });
         @endif
 
@@ -686,6 +636,7 @@
                 let selected = state.id == selectedState ? 'selected' : '';
                 statehtml += `<option value="${state.id}" ${selected}>${state.name}</option>`;
             });
+
             $("#state_id").html(statehtml).val(selectedState);
 
             // Populate cities
@@ -708,9 +659,11 @@
                         (data) => {
                             $('.cart-items-wrapper').html(data.cart_items);
 
-                            let statehtml = "<option value=''> {{ __('Select an state') }} </option>";
+                            let statehtml =
+                                "<option value=''> {{ __('Select an state') }} </option>";
                             data?.states?.forEach((state) => {
-                                statehtml += "<option value='" + state.id + "'>" + state.name + "</option>";
+                                statehtml += "<option value='" + state.id + "'>" + state
+                                    .name + "</option>";
                             });
 
                             $(this).parent().parent().find(".select-state").html(statehtml);
@@ -733,9 +686,11 @@
                         (data) => {
                             $('.cart-items-wrapper').html(data.cart_items);
 
-                            let cityhtml = "<option value=''> {{ __('Select a province') }} </option>";
+                            let cityhtml =
+                                "<option value=''> {{ __('Select a province') }} </option>";
                             data?.cities?.forEach((city) => {
-                                cityhtml += "<option value='" + city.id + "'>" + city.name + "</option>";
+                                cityhtml += "<option value='" + city.id + "'>" + city
+                                    .name + "</option>";
                             });
 
                             $("#city_id").html(cityhtml);
@@ -784,11 +739,11 @@
             let subTotal = $(this).parent().parent().find("#vendor_subtotal").text().replace(currencySymbol, "");
             let total = parseFloat(subTotal) + parseFloat(shippingCost);
 
-            if ($(this).hasClass("active")) {
-            } else {
+            if ($(this).hasClass("active")) {} else {
                 $(this).parent().find(".checkout-shipping-method").removeClass("active");
                 $(this).addClass("active");
-                $(this).parent().parent().find("#vendor_shipping_cost").html(amount_with_currency_symbol(shippingCost));
+                $(this).parent().parent().find("#vendor_shipping_cost").html(amount_with_currency_symbol(
+                    shippingCost));
                 $(this).parent().parent().find("#shipping_cost").val(shippingCostId);
 
                 calculateAmount();
@@ -875,7 +830,8 @@
                 let shippingCost = $(this).attr("data-shipping-cost");
                 let shippingCostId = $(this).attr("data-shipping-cost-id");
 
-                $(this).parent().parent().find(".vendor_shipping_cost").text(amount_with_currency_symbol(shippingCost));
+                $(this).parent().parent().find(".vendor_shipping_cost").text(amount_with_currency_symbol(
+                    shippingCost));
                 $(this).parent().parent().find(".shipping_cost").val(shippingCostId);
             });
         }
@@ -884,17 +840,21 @@
             let currencySymbol = "{{ site_currency_symbol() }}";
 
             $(".card #vendor_tax_amount").each(function() {
-                let subTotal = parseFloat($(this).parent().parent().find("#vendor_subtotal").text().trim().replace(currencySymbol, ""));
-                let shippingCost = parseFloat($(this).parent().parent().find("#vendor_shipping_cost").text().trim().replace(currencySymbol, ""));
+                let subTotal = parseFloat($(this).parent().parent().find("#vendor_subtotal").text().trim().replace(
+                    currencySymbol, ""));
+                let shippingCost = parseFloat($(this).parent().parent().find("#vendor_shipping_cost").text().trim()
+                    .replace(currencySymbol, ""));
                 let taxAmount = null;
                 let mainSubTotal = 0;
                 @if (get_static_option('tax_system') !== 'advance_tax_system')
-                    taxAmount = data?.tax_amount ?? parseFloat($(this).parent().parent().find("#vendor_tax_amount").text().trim().replace("%", "").replace(currencySymbol, ''));
+                    taxAmount = data?.tax_amount ?? parseFloat($(this).parent().parent().find("#vendor_tax_amount")
+                        .text().trim().replace("%", "").replace(currencySymbol, ''));
                     $(this).text(taxAmount + "%");
                     mainSubTotal = subTotal * taxAmount / 100;
                 @endif
 
-                $(this).parent().parent().find("#vendor_total").text(amount_with_currency_symbol((subTotal + shippingCost + mainSubTotal).toFixed(1)));
+                $(this).parent().parent().find("#vendor_total").text(amount_with_currency_symbol((subTotal +
+                    shippingCost + mainSubTotal).toFixed(1)));
             });
         }
 
@@ -915,8 +875,10 @@
 
             $("#checkout_items_total").text(amount_with_currency_symbol(subTotal.toFixed(2)));
             $("#checkout_delivery_cost").text(amount_with_currency_symbol(totalShippingCost.toFixed(2)));
-            $("#total_payment_amount").text(amount_with_currency_symbol(((subTotal - discountAmount) + totalTax + totalShippingCost).toFixed(2)));
-            $("#checkout_total").text(amount_with_currency_symbol(((subTotal - discountAmount) + totalTax + totalShippingCost).toFixed(2)));
+            $("#total_payment_amount").text(amount_with_currency_symbol(((subTotal - discountAmount) + totalTax +
+                totalShippingCost).toFixed(2)));
+            $("#checkout_total").text(amount_with_currency_symbol(((subTotal - discountAmount) + totalTax +
+                totalShippingCost).toFixed(2)));
         }
     </script>
     @if (moduleExists('ShippingModule'))
@@ -958,7 +920,8 @@
             data.append("type", "state");
             data.append("_token", "{{ csrf_token() }}");
 
-            send_ajax_request("POST", data, "{{ route('frontend.shipping.module.methods') }}", () => {}, (data) => {
+            send_ajax_request("POST", data, "{{ route('frontend.shipping.module.methods') }}", () => {}, (
+                data) => {
                 if (data.success) {
                     $("#checkout_tax_percentage").val(data.tax_amount);
                     $('#tax_amount').html(data.tax_amount + "%");
