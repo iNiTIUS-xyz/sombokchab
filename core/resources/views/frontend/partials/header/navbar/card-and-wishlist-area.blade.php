@@ -31,7 +31,7 @@
             {{-- {{ Cart::instance('default')->content()->count() }} --}}
             {{ Cart::instance('default')->content()->sum('qty') }}
         </a>
-        <div class="addto-cart-contents ">
+        <div class="addto-cart-contents">
             <div class="single-addto-cart-wrappers">
                 @php
                     $cart = Cart::instance('default')->content();

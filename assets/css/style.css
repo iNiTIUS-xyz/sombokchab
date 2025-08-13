@@ -6170,7 +6170,7 @@ textarea {
   -webkit-transform: scale(0.5);
   transform: scale(0.5);
   -webkit-transition: all 0.3s;
-  transition: all 0.3s;
+  transition: all 0.5s;
 }
 
 @media (min-width: 300px) and (max-width: 991.98px) {
