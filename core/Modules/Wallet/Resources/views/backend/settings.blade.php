@@ -27,7 +27,7 @@
                             @csrf
                             <div class="form-group">
                                 <label>
-                                    {{ __('Minimum withdraw amount') }}
+                                    {{ __('Minimum withdraw amount') }} (USD)
                                     <span class="text-danger">*</span>
                                 </label>
                                 <input class="form-control" name="minimum_withdraw_amount"

@@ -32,10 +32,10 @@
                                         <th>{{ __('Amount') }}</th>
                                         <th>{{ __('Payment Method') }}</th>
                                         <th style="width: 30%">{{ __('Payment Method Details') }}</th>
-                                        <th>{{ __('Note') }}</th>
                                         <th>{{ __('Image') }}</th>
                                         <th>{{ __('Status') }}</th>
                                         <th>{{ __('Action') }}</th>
+                                        <th>{{ __('Note') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -87,9 +87,6 @@
                                                 <div class="table-fields">{!! $fields !!}</div>
                                             </td>
                                             <td>
-                                                <div class="table-notes">{{ $request->note ?? '' }}</div>
-                                            </td>
-                                            <td>
                                                 @if (!empty($request->image))
                                                     <div class="table-image">
                                                         <img src="{{ asset('assets/uploads/wallet-withdraw-request/' . $request->image) }}"
@@ -110,6 +107,9 @@
                                                         <i class="ti-pencil"></i>
                                                     </button>
                                                 @endif
+                                            </td>
+                                            <td>
+                                                <div class="table-notes">{{ $request?->note }}</div>
                                             </td>
                                         </tr>
                                     @endforeach
