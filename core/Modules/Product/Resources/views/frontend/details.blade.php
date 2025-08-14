@@ -334,6 +334,27 @@
                                                 </a>
                                             </li>
                                         @endif
+                                        @if ($product->tag)
+                                            @if ($product->tag?->isNotEmpty())
+                                                <div class="tags-area-shop shop-border-top">
+                                                    <span class="tags-span">
+                                                        <strong class="text-dark">
+                                                            {{ __('Tags:') }}
+                                                        </strong>
+                                                    </span>
+                                                    <ul class="tags-shop-list">
+                                                        @foreach ($product->tag ?? [] as $tag)
+                                                            <li class="list">
+                                                                <a
+                                                                    href="{{ route('frontend.products.all', ['tag-name' => $tag->tag_name]) }}">
+                                                                    {{ $tag->tag_name }}
+                                                                </a>
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                            @endif
+                                        @endif
                                     </ul>
                                 </div>
                             </div>
