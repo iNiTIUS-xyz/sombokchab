@@ -68,9 +68,10 @@
                 <div class="col-sm-6">
                     <div class="dashboard-input">
                         <label class="dashboard-label color-light mb-2">
-                            {{ __('Tax class') }}
+                            {{ __('Tax Class') }}
+                            <span class="text-danger">*</span>
                         </label>
-                        <select class="form--control radius-10" name="tax_class_id">
+                        <select class="form--control radius-10" name="tax_class_id" required>
                             <option value="">
                                 {{ __('Select a tax class for this product') }}
                             </option>
