@@ -25,7 +25,7 @@
                         </div>
                     </div>
 
-                    @php $signature_image_upload_btn_label = __('Change Image'); @endphp
+                    @php $signature_image_upload_btn_label = __('Update Image'); @endphp
                 @endif
             </div>
             <br>
@@ -36,7 +36,6 @@
                 {{ __($signature_image_upload_btn_label) }}
             </button>
         </div>
-        {{-- <small>{{__('Recommended image size is ')}} {{$dimentions ?? ''}}</small> --}}
         @if (isset($hint) && is_string($hint))
             <small class="text-secondary"> ({{ $hint }})</small>
         @endif
@@ -70,7 +69,6 @@
                     @endif
                 @endif
             </div>
-
             <input @php $required @endphp type="hidden" name="{{ $name }}">
             <button type="button" class="btn btn-info media_upload_form_btn popup-modal"
                 data-btntitle="{{ __('Select Image') }}" data-modaltitle="{{ __('Upload Image') }}"

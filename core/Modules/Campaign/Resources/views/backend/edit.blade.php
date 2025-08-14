@@ -49,11 +49,6 @@
                                                     value="{{ $campaign->title }}" required="">
                                             </div>
 
-                                            {{-- <div class="form-group">
-                                            <label for="campaign_slug">{{ __('Campaign Slug') }}</label>
-                                        <input type="text" class="form-control" id="campaign_slug" name="campaign_slug" placeholder="Campaign Slug" value="{{ $campaign->slug }}">
-                                    </div> --}}
-
                                             <div class="form-group">
                                                 <label for="campaign_subtitle">
                                                     {{ __('Campaign Subtitle') }}
@@ -84,7 +79,8 @@
 
                                             <div class="form-group mt-5">
                                                 <input type="checkbox" id="set_fixed_percentage">
-                                                <label for="set_fixed_percentage">{{ __('Set Discount Percentage') }}</label>
+                                                <label
+                                                    for="set_fixed_percentage">{{ __('Set Discount Percentage') }}</label>
                                                 <p class="text-small">
                                                     {{ __('when you set discount percentage, you have to click on sync price button, to sync price selection with all prodcuts') }}
                                                 </p>
@@ -143,8 +139,7 @@
                                                             </div>
                                                             <div class="dashboard__card__body custom__form mt-4">
                                                                 <div class="form-group select_product">
-                                                                    <label
-                                                                        for="product_id">
+                                                                    <label for="product_id">
                                                                         {{ __('Select Product') }}
                                                                         <span class="text-danger">*</span>
                                                                     </label>
@@ -170,8 +165,7 @@
                                                                 </div>
 
                                                                 <div class="form-group">
-                                                                    <label
-                                                                        for="product_original_price">
+                                                                    <label for="product_original_price">
                                                                         {{ __('Product Original Price') }}
                                                                     </label>
                                                                     <input type="number"
@@ -181,8 +175,7 @@
                                                                         step="0.01">
                                                                 </div>
                                                                 <div class="form-group">
-                                                                    <label
-                                                                        for="campaign_price">
+                                                                    <label for="campaign_price">
                                                                         {{ __('Price for Campaign') }}
                                                                         <span class="text-danger">*</span>
                                                                     </label>
@@ -200,8 +193,7 @@
                                                                         value="{{ optional(optional($campaign_product->product)->inventory)->stock_count ?? 0 }}">
                                                                 </div>
                                                                 <div class="form-group">
-                                                                    <label
-                                                                        for="units_for_sale">
+                                                                    <label for="units_for_sale">
                                                                         {{ __('No. of Units for Sale') }}
                                                                         <span class="text-danger">*</span>
                                                                     </label>
