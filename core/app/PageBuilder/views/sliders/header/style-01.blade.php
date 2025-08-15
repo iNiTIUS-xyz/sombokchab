@@ -96,5 +96,10 @@
         width: 100%;
         object-fit: cover;
     }
+    .banner-middle-title a{
+        padding: 5px;
+        background: #0000003f;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    }
 </style>
 <!-- Banner area end -->

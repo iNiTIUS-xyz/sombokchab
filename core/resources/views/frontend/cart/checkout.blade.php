@@ -163,11 +163,12 @@
                                     @endif
 
                                     <div class="row mt-3" style="flex-wrap: unset !important;">
-                                        <ul>
-                                            @foreach ($all_user_shipping ?? [] as $shipping_address)
+                                        @foreach ($all_user_shipping ?? [] as $shipping_address)
+                                            <div class="col-md-6">
                                                 @include('frontend.cart.partials.shipping-address-option')
-                                            @endforeach
-                                        </ul>
+                                            </div>   
+                                        
+                                        @endforeach
                                     </div>
                                     {{-- <div class="flex-start mt-4 user-shipping-address-wrapper d-flex position-relative">
                                         @foreach ($all_user_shipping ?? [] as $shipping_address)

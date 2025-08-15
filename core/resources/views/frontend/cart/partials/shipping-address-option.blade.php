@@ -109,8 +109,8 @@
         min-height: 45px !important;
         text-align: left !important;
         margin: 5px 0px;
-        display: flex;
-        align-items: center;
+        /* display: flex;
+        align-items: center; */
         border: 1px solid #ccc;
     }
 
@@ -119,12 +119,17 @@
         margin-right: 5px;
     }
 
-    .user-shipping-address-item .before-hover span.title {
+    .user-shipping-address-item .before-hover p.title {
         color: var(--black) !important;
         font-weight: bold;
     }
+    
+    .user-shipping-address-item .before-hover p.other_text {
+        color: var(--paragraph-color) !important;
+        font-size: 0.8em;
+    }
 
-    .user-shipping-address-item .before-hover span.checkbox {
+    .user-shipping-address-item .before-hover p.checkbox {
         height: 20px !important;
         width: 20px !important;
         background: var(--white);
@@ -133,7 +138,7 @@
         position: relative;
     }
 
-    .user-shipping-address-item .before-hover span.checkbox .inner {
+    .user-shipping-address-item .before-hover p.checkbox .inner {
         width: 100%;
         height: 100%;
         border-radius: 50%;
@@ -152,29 +157,29 @@
         background: var(--main-color-one) !important;
     }
 
-    .user-shipping-address-item.active .before-hover span.title,
-    .user-shipping-address-item .before-hover:hover span.title {
+    .user-shipping-address-item.active .before-hover p.title,
+    .user-shipping-address-item .before-hover:hover p.title {
         color: var(--main-color-two) !important;
         font-weight: bold;
     }
 
-    .user-shipping-address-item.active .before-hover span.other_text,
-    .user-shipping-address-item .before-hover:hover span.other_text {
+    .user-shipping-address-item.active .before-hover p.other_text,
+    .user-shipping-address-item .before-hover:hover p.other_text {
         color: var(--white) !important;
     }
 
-    /* .user-shipping-address-item .before-hover:hover span.checkbox {
+    /* .user-shipping-address-item .before-hover:hover p.checkbox {
         background: var(--main-color-two);
         border: 2px solid var(--white);
     } */
 
-    .user-shipping-address-item.active .before-hover span.checkbox,
-    .user-shipping-address-item .before-hover:hover span.checkbox {
+    .user-shipping-address-item.active .before-hover p.checkbox,
+    .user-shipping-address-item .before-hover:hover p.checkbox {
         border: 2px solid var(--white);
     }
 
-    .user-shipping-address-item.active .before-hover span.checkbox .inner,
-    .user-shipping-address-item .before-hover:hover span.checkbox .inner {
+    .user-shipping-address-item.active .before-hover p.checkbox .inner,
+    .user-shipping-address-item .before-hover:hover p.checkbox .inner {
         background: var(--main-color-two) !important;
         /* Yellow circle */
         border: 2px solid var(--main-color-one) !important;
@@ -193,7 +198,7 @@
     $isDefault = $shipping_address->is_default ?? false;
 @endphp
 
-<li class="user-shipping-address-item @if ($isDefault) active @endif"
+<div class="user-shipping-address-item @if ($isDefault) active @endif"
     data-name="{{ $shipping_address->name }}" data-email="{{ $shipping_address->email }}"
     data-address="{{ $shipping_address->address }}" data-country="{{ $shipping_address->country_id }}"
     data-state="{{ $shipping_address->state_id }}" data-city="{{ $shipping_address->city }}"
@@ -203,20 +208,15 @@
     data-country-tax="{{ json_encode($shipping_address?->country_taxs?->toArray() ?? []) }}"
     data-state-tax="{{ json_encode($shipping_address?->state_taxs?->toArray() ?? []) }}">
     <div class="before-hover btn btn-outline-secondary" style="margin-right: 10px; width: 100%;">
-        <span class="checkbox">
-            <span class="inner"></span>
-        </span>
-
-        <span class="title">
+        <p class="title">
             {{ $shipping_address->shipping_address_name ?? $shipping_address->name }}
-
-        </span>
-        <span class="other_text">( {{ $shipping_address->address }};</span>
-        <span class="other_text">{{ $shipping_address->phone }} )</span>
-
-        @if ($isDefault)
-            <span class="badge">Default</span>
-        @endif
+            @if ($isDefault)
+                <span class="badge">Default</span>
+            @endif
+        </p>
+        <p class="other_text">{{ $shipping_address->phone }}</p>
+        <p class="other_text">{{ $shipping_address->address }}</p>
+        
     </div>
 
     <div class="after-hover position-absolute top-0 bg-color-one text-light d-none">
@@ -230,4 +230,4 @@
         <p>{{ __('Mobile') }}: <b>{{ $shipping_address->phone }}</b></p>
         <p>{{ __('Zip Code') }}: <b>{{ $shipping_address->zip_code }}</b></p>
     </div>
-</li>
+</div>
