@@ -149,7 +149,7 @@
         </div>
         <div class="col-sm-12">
             <p class="mt-2">
-                {{ __('Click on the up arrow button beside attribute select after selecting the attribute.') }}
+                {{ __('Click on the up arrow button beside attribute select after selecting the attribute name and value.') }}
             </p>
             <p class="attribute-warning">
                 {{ __('You cannot select the same attribute more than once, so please create a new attribute variant if you need to do so.') }}
