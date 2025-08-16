@@ -349,6 +349,39 @@ class AdminDashboardController extends Controller
 
         $vendorData = [];
 
+        $vendorData['totalVendor'] = Vendor::query()
+            ->get();
+
+        $vendorData['approveVendor'] = Vendor::query()
+            ->where('status_id', 1)
+            ->get();
+
+        $vendorData['rejectVendor'] = Vendor::query()
+            ->where('status_id', 2)
+            ->get();
+
+        $vendorData['verifyVendor'] = Vendor::query()
+            ->where('is_vendor_verified', 1)
+            ->get();
+
+        $vendorData['unverifyVendor'] = Vendor::query()
+            ->where('is_vendor_verified', 0)
+            ->get();
+
+        $vendorWithdrawData = [];
+
+        $vendorWithdrawData['totalwithdraw'] = VendorWithdrawRequest::query()
+            ->get();
+
+        $vendorWithdrawData['pendingwithdraw'] = VendorWithdrawRequest::query()
+            ->where('request_status', 'pending')
+            ->get();
+
+        $vendorWithdrawData['totalNotPendingWithdraw'] = VendorWithdrawRequest::query()
+            ->where('request_status', '!=', 'pending')
+            ->get();
+
+
         return view('backend.admin-home')->with([
             'campaign' => $campaign,
             'vendor' => $vendor,
@@ -361,6 +394,7 @@ class AdminDashboardController extends Controller
             'customerTicketData' => $customerTicketData,
             'vendorTicketData' => $vendorTicketData,
             'vendorData' => $vendorData,
+            'vendorWithdrawData' => $vendorWithdrawData,
 
             'income_daily' => $income_daily,
             'income_weekly' => $income_weekly,

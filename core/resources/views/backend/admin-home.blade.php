@@ -537,14 +537,40 @@
                             <div class="row g-5">
                                 <div class="col-md-12">
                                     <div class="mb-2">
-                                        <span class="badge badge-custom">Product Pending: 10</span>
-                                        <span class="badge badge-custom">Approved: 15</span>
-                                        <span class="badge badge-custom">Rejected: 2</span>
+                                        <span class="badge badge-custom">
+                                            Total:
+                                            {{ $vendorData['totalVendor']->count() }}
+                                        </span>
+                                        <span class="badge badge-custom">
+                                            Approved:
+                                            {{ $vendorData['approveVendor']->count() }}
+                                        </span>
+                                        <span class="badge badge-custom">
+                                            Rejected:
+                                            {{ $vendorData['rejectVendor']->count() }}
+                                        </span>
+                                        <span class="badge badge-custom">
+                                            verified Vendor :
+                                            {{ $vendorData['verifyVendor']->count() }}
+                                        </span>
+                                        <span class="badge badge-custom">
+                                            Unverified Vendor:
+                                            {{ $vendorData['unverifyVendor']->count() }}
+                                        </span>
                                     </div>
                                     <div class="mb-2">
-                                        <span class="badge badge-custom">Withdrawal Requests Pending: 2</span>
-                                        <span class="badge badge-custom">Approved: 1</span>
-                                        <span class="badge badge-custom">Rejected: 0</span>
+                                        <span class="badge badge-custom">
+                                            Total Withdrawal Request:
+                                            {{ $vendorWithdrawData['totalwithdraw']->count() }}
+                                        </span>
+                                        <span class="badge badge-custom">
+                                            Approved Withdrawal Request:
+                                            {{ $vendorWithdrawData['pendingwithdraw']->count() }}
+                                        </span>
+                                        <span class="badge badge-custom">
+                                            Rejected Withdrawal Request:
+                                            {{ $vendorWithdrawData['totalNotPendingWithdraw']->count() }}
+                                        </span>
                                     </div>
                                 </div>
                             </div>
