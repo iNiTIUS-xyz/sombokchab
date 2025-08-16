@@ -385,7 +385,7 @@
                                     <h3 class="my-3">Notifications</h3>
                                 </div>
                                 <div class="col-md-6 text-end">
-                                    <a href="#" class="text-warning">View All</a>
+                                    <a href="{{ route('admin.notifications') }}" class="text-warning">View All</a>
                                 </div>
                             </div>
                             <div class="row">
@@ -452,7 +452,7 @@
                                     <h3 class="my-3">Top vendors</h3>
                                 </div>
                                 <div class="col-md-6 text-end">
-                                    <a href="#" class="text-warning">View All</a>
+                                    <a href="{{ route('admin.vendor.all') }}" class="text-warning">View All</a>
                                 </div>
                             </div>
                             <div class="row g-5">
@@ -531,7 +531,7 @@
                                     <h3 class="my-3">Vendor managements</h3>
                                 </div>
                                 <div class="col-md-6 text-end">
-                                    <a href="#" class="text-warning">View All</a>
+                                    <a href="{{ route('admin.vendor.all') }}" class="text-warning">View All</a>
                                 </div>
                             </div>
                             <div class="row g-5">
@@ -590,7 +590,8 @@
                                     <h3 class="my-3">Vendor Support</h3>
                                 </div>
                                 <div class="col-md-6 text-end">
-                                    <a href="#" class="text-warning">View All</a>
+                                    <a href="{{ route('admin.support.ticket.all.vendor') }}" class="text-warning">View
+                                        All</a>
                                 </div>
                             </div>
                             <div class="row g-5">
@@ -621,7 +622,7 @@
                                     <h3 class="my-3">Customer Support</h3>
                                 </div>
                                 <div class="col-md-6 text-end">
-                                    <a href="#" class="text-warning">View All</a>
+                                    <a href="{{ route('admin.support.ticket.all') }}" class="text-warning">View All</a>
                                 </div>
                             </div>
                             <div class="row g-5">
