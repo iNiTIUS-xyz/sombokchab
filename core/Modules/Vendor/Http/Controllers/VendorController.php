@@ -4,23 +4,19 @@ namespace Modules\Vendor\Http\Controllers;
 
 use App\Mail\BasicMail;
 use Carbon\Carbon;
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Validator;
 use Modules\Campaign\Entities\Campaign;
 use Modules\Order\Entities\SubOrder;
 use Modules\Product\Entities\Product;
-use Modules\User\Entities\User;
 use Modules\Vendor\Entities\Vendor;
 use Modules\Vendor\Http\Services\VendorServices;
-use Modules\Wallet\Entities\Wallet;
 use Illuminate\Http\JsonResponse;
 use Modules\CountryManage\Entities\State;
 use Modules\CountryManage\Entities\City;
+
 class VendorController extends Controller
 {
     public function adminIndex()
@@ -30,64 +26,43 @@ class VendorController extends Controller
 
     public function index()
     {
-        $data = VendorServices::vendorAccountBanner();
+        $income_daily = SubOrder::selectRaw("DATE_FORMAT(created_at, '%a') as label, SUM(total_amount) as amount")
+            ->where('vendor_id', auth("vendor")->id())
+            ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+            ->whereHas('orderTrack', fn($q) => $q->where('name', 'delivered'))
+            ->groupBy('label')
+            ->get();
 
-        $vendor_id = auth("vendor")->id();
-        $data["total_product"] = Product::where("vendor_id", $vendor_id)->count() ?? 0;
-        $data["totalCampaign"] = Campaign::where("vendor_id", $vendor_id)->count() ?? 0;
-        $data["totalOrder"] = SubOrder::where("vendor_id", $vendor_id)->count() ?? 0;
-        $data["successOrder"] = SubOrder::where("vendor_id", $vendor_id)->whereHas("order", function ($orderQuery) {
-            $orderQuery->where("order_status", "complete");
-        })->count() ?? 0;
+        // Income Statement (Weekly - Last 4 weeks)
+        $income_weekly = SubOrder::selectRaw("YEARWEEK(created_at, 1) as week, SUM(total_amount) as amount")
+            ->where('vendor_id', auth("vendor")->id())
+            ->whereBetween('created_at', [Carbon::now()->subWeeks(4), Carbon::now()])
+            ->whereHas('orderTrack', fn($q) => $q->where('name', 'delivered'))
+            ->groupBy('week')
+            ->get();
 
-        $running_month_earning = SubOrder::where('vendor_id', $vendor_id)
-            ->selectRaw("DATE_FORMAT(sub_orders.created_at,'%e') as date, IFNULL(SUM(total_amount), 0) as amount")
-            ->whereBetween('sub_orders.created_at', [
-                Carbon::now()->startOfMonth()->format('Y-m-d'),
-                Carbon::now()->endOfMonth()->addDay(1)->format('Y-m-d')
-            ])->whereHas('orderTrack', function ($query) {
-                $query->where('name', 'delivered');
-            })
-            ->groupBy('date')->get()->sum('amount');
+        // Income Statement (Monthly - Current Year)
+        $income_monthly = SubOrder::selectRaw("DATE_FORMAT(created_at, '%b') as label, SUM(total_amount) as amount")
+            ->where('vendor_id', auth("vendor")->id())
+            ->whereYear('created_at', Carbon::now()->year)
+            ->whereHas('orderTrack', fn($q) => $q->where('name', 'delivered'))
+            ->groupBy('label')
+            ->get();
 
-        $last_month_earning = SubOrder::where('vendor_id', $vendor_id)
-            ->selectRaw("DATE_FORMAT(sub_orders.created_at,'%e') as date, IFNULL(SUM(total_amount), 0) as amount")
-            ->whereBetween('sub_orders.created_at', [
-                Carbon::now()->subMonth(1)->startOfMonth()->format('Y-m-d'),
-                Carbon::now()->subMonth(1)->endOfMonth()->addDay(1)->format('Y-m-d')
-            ])->whereHas('orderTrack', function ($query) {
-                $query->where('name', 'delivered');
-            })
-            ->groupBy('date')->get()->sum('amount');
+        // Income Statement (Yearly - Last 5 Years)
+        $income_yearly = SubOrder::selectRaw("YEAR(created_at) as label, SUM(total_amount) as amount")
+            ->where('vendor_id', auth("vendor")->id())
+            ->whereYear('created_at', '>=', Carbon::now()->subYears(5)->year)
+            ->whereHas('orderTrack', fn($q) => $q->where('name', 'delivered'))
+            ->groupBy('label')
+            ->get();
 
-        $this_year_earning = SubOrder::where('vendor_id', $vendor_id)
-            ->selectRaw("DATE_FORMAT(sub_orders.created_at,'%e') as date, IFNULL(SUM(total_amount), 0) as amount")
-            ->whereBetween('sub_orders.created_at', [
-                Carbon::now()->startOfYear()->format('Y-m-d'),
-                Carbon::now()->endOfYear()->addDay(1)->format('Y-m-d')
-            ])->whereHas('orderTrack', function ($query) {
-                $query->where('name', 'delivered');
-            })
-            ->groupBy('date')->get()->sum('amount');
-
-        $running_week_earning = SubOrder::where('vendor_id', $vendor_id)
-            ->selectRaw("DATE_FORMAT(sub_orders.created_at,'%a') as date, IFNULL(SUM(total_amount), 0) as amount")
-            ->whereBetween('sub_orders.created_at', [
-                Carbon::now()->startOfWeek()->format('Y-m-d'),
-                Carbon::now()->endOfWeek()->addDay(1)->format('Y-m-d')
-            ])->whereHas('orderTrack', function ($query) {
-                $query->where('name', 'delivered');
-            })
-            ->groupBy('date')->get()->sum('amount');
-
-        $data += [
-            'running_month_earning' => $running_month_earning,
-            'last_week_earning' => $running_week_earning,
-            'last_month_earning' => $last_month_earning,
-            'this_year_earning' => $this_year_earning,
-        ];
-
-        return view("vendor::vendor.home.index", $data);
+        return view("vendor::vendor.home.index", compact(
+            'income_daily',
+            'income_weekly',
+            'income_monthly',
+            'income_yearly',
+        ));
     }
 
 
@@ -174,5 +149,4 @@ class VendorController extends Controller
 
         return response()->json(["success" => true, "type" => "success"] + render_view_for_nice_select($states));
     }
-
 }

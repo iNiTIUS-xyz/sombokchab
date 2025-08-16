@@ -165,10 +165,23 @@
     <x-table.btn.swal.js />
 
     <script>
-        var options = {
+        const incomeDaily = @json($income_daily->pluck('amount', 'label'));
+        const incomeWeekly = @json($income_weekly->pluck('amount', 'week'));
+        const incomeMonthly = @json($income_monthly->pluck('amount', 'label'));
+        const incomeYearly = @json($income_yearly->pluck('amount', 'label'));
+        // ===== Helper: Alternating Colors =====
+        function generateAlternatingColors(length) {
+            const colorOne = '#41695a';
+            const colorTwo = '#e0bb20';
+            return Array.from({
+                length
+            }, (_, i) => i % 2 === 0 ? colorOne : colorTwo);
+        }
+
+        var financial_summary_options = {
             series: [{
                 name: 'Net Profit',
-                data: [10, 20, 15, 30, 25, 20, 18]
+                data: Object.values(incomeDaily)
             }],
             chart: {
                 type: 'bar',
@@ -189,6 +202,11 @@
                     borderRadiusApplication: 'end'
                 }
             },
+            title: {
+                text: 'Order Revenue',
+                align: 'left'
+            },
+            colors: ['#41695a'],
             dataLabels: {
                 enabled: false
             },
@@ -198,7 +216,7 @@
                 colors: ['transparent']
             },
             xaxis: {
-                categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                categories: Object.keys(incomeDaily)
             },
             yaxis: {
                 title: {
@@ -217,174 +235,34 @@
             }
         };
 
-        var chart = new ApexCharts(document.querySelector("#financial_summary_chart"), options);
+        var chart = new ApexCharts(document.querySelector("#financial_summary_chart"), financial_summary_options);
         chart.render();
 
-        // Update Chart Data on Tab Click
-        document.querySelector('#financial_summary_daily-tab').addEventListener('click', function() {
+        function updateIncomeChart(data) {
             chart.updateOptions({
                 series: [{
                     name: 'Net Profit',
-                    data: [10, 20, 15, 30, 25, 20, 18]
+                    data: Object.values(data)
                 }],
                 xaxis: {
-                    categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                    categories: Object.keys(data)
                 }
             });
+        }
+        document.querySelector('#financial_summary_daily-tab').addEventListener('click', function() {
+            updateIncomeChart(incomeDaily);
         });
 
         document.querySelector('#financial_summary_weekly-tab').addEventListener('click', function() {
-            chart.updateOptions({
-                series: [{
-                    name: 'Net Profit',
-                    data: [100, 120, 90, 110]
-                }],
-                xaxis: {
-                    categories: ['Week 1', 'Week 2', 'Week 3', 'Week 4']
-                }
-            });
+            updateIncomeChart(incomeWeekly);
         });
 
         document.querySelector('#financial_summary_monthly-tab').addEventListener('click', function() {
-            chart.updateOptions({
-                series: [{
-                    name: 'Net Profit',
-                    data: [
-                        100, 90, 95, 110, 105, 115, 120, 98, 102, 108,
-                        111, 99, 103, 107, 113, 109, 104, 112, 118, 125,
-                        130, 119, 117, 116, 114, 121, 123, 126, 127, 129
-                    ]
-                }],
-                xaxis: {
-                    categories: Array.from({
-                        length: 30
-                    }, (_, i) => (i + 1).toString())
-                }
-            });
+            updateIncomeChart(incomeMonthly);
         });
 
         document.querySelector('#financial_summary_yearly-tab').addEventListener('click', function() {
-            chart.updateOptions({
-                series: [{
-                    name: 'Net Profit',
-                    data: [500, 620, 580, 710, 600, 300]
-                }],
-                xaxis: {
-                    categories: ['2020', '2021', '2022', '2023', '2024', '2025']
-                }
-            });
-        });
-    </script>
-    <script>
-        var top_vendor_options = {
-            series: [{
-                name: 'Net Profit',
-                data: [10, 20, 15, 30, 25, 20, 18]
-            }],
-            chart: {
-                type: 'bar',
-                height: 350,
-                background: '#ffffff',
-                toolbar: {
-                    show: true,
-                    tools: {
-                        download: false
-                    }
-                }
-            },
-            plotOptions: {
-                bar: {
-                    horizontal: false,
-                    columnWidth: '30%',
-                    borderRadius: 10,
-                    borderRadiusApplication: 'end'
-                }
-            },
-            colors: ['#e74c3c'],
-            dataLabels: {
-                enabled: false
-            },
-            stroke: {
-                show: true,
-                width: 2,
-                colors: ['transparent']
-            },
-            xaxis: {
-                categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-            },
-            yaxis: {
-                title: {
-                    text: 'Total'
-                }
-            },
-            fill: {
-                opacity: 1
-            },
-            tooltip: {
-                y: {
-                    formatter: function(val) {
-                        return "$ " + val + " USD"
-                    }
-                }
-            }
-        };
-
-        var top_vendor_chart = new ApexCharts(document.querySelector("#top_vendor_chart"), top_vendor_options);
-        top_vendor_chart.render();
-
-        // Update Chart Data on Tab Click
-        document.querySelector('#top_vendors_daily-tab').addEventListener('click', function() {
-            top_vendor_chart.updateOptions({
-                series: [{
-                    name: 'Net Profit',
-                    data: [10, 20, 15, 30, 25, 20, 18]
-                }],
-                xaxis: {
-                    categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-                }
-            });
-        });
-
-        document.querySelector('#top_vendors_weekly-tab').addEventListener('click', function() {
-            top_vendor_chart.updateOptions({
-                series: [{
-                    name: 'Net Profit',
-                    data: [100, 120, 90, 110]
-                }],
-                xaxis: {
-                    categories: ['Week 1', 'Week 2', 'Week 3', 'Week 4']
-                }
-            });
-        });
-
-        document.querySelector('#top_vendors_monthly-tab').addEventListener('click', function() {
-            top_vendor_chart.updateOptions({
-                series: [{
-                    name: 'Net Profit',
-                    data: [
-                        100, 90, 95, 110, 105, 115, 120, 98, 102, 108,
-                        111, 99, 103, 107, 113, 109, 104, 112, 118, 125,
-                        130, 119, 117, 116, 114, 121, 123, 126, 127, 129
-                    ]
-                }],
-                xaxis: {
-                    categories: Array.from({
-                        length: 30
-                    }, (_, i) => (i + 1).toString())
-                }
-            });
-        });
-
-        document.querySelector('#top_vendors_yearly-tab').addEventListener('click', function() {
-            top_vendor_chart.updateOptions({
-                series: [{
-                    name: 'Net Profit',
-                    data: [500, 620, 580, 710, 600, 300]
-                }],
-                xaxis: {
-                    categories: ['2020', '2021', '2022', '2023', '2024', '2025']
-                }
-            });
+            updateIncomeChart(incomeYearly);
         });
     </script>
 @endsection
