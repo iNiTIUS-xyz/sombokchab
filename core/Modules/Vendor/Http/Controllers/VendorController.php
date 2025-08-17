@@ -17,6 +17,7 @@ use Modules\Campaign\Entities\Campaign;
 use Modules\CountryManage\Entities\City;
 use Modules\CountryManage\Entities\State;
 use Modules\Vendor\Http\Services\VendorServices;
+use Modules\SupportTicket\Entities\SupportTicket;
 
 class VendorController extends Controller
 {
@@ -93,6 +94,36 @@ class VendorController extends Controller
             ->groupBy('products.name')
             ->pluck('total_quantity', 'products.name');
 
+        $supportTickets = [];
+
+        $supportTickets['all_tickets'] = SupportTicket::query()
+            ->where('vendor_id', auth('vendor')->id())
+            ->get();
+
+        $supportTickets['all_open_tickets'] = SupportTicket::query()
+            ->where('status', 'open')
+            ->where('vendor_id', auth('vendor')->id())
+            ->get();
+
+        $supportTickets['all_close_tickets'] = SupportTicket::query()
+            ->where('status', 'close')
+            ->where('vendor_id', auth('vendor')->id())
+            ->get();
+
+
+        $supportTickets['all_high_tickets'] = SupportTicket::query()
+            ->where('priority', 'high')
+            ->where('vendor_id', auth('vendor')->id())
+            ->get();
+        $supportTickets['all_low_tickets'] = SupportTicket::query()
+            ->where('priority', 'low')
+            ->where('vendor_id', auth('vendor')->id())
+            ->get();
+        $supportTickets['all_medium_tickets'] = SupportTicket::query()
+            ->where('priority', 'medium')
+            ->where('vendor_id', auth('vendor')->id())
+            ->get();
+
         return view("vendor::vendor.home.index", compact(
             'income_daily',
             'income_weekly',
@@ -103,6 +134,8 @@ class VendorController extends Controller
             'topVendorsWeekly',
             'topVendorsMonthly',
             'topVendorsYearly',
+
+            'supportTickets'
         ));
     }
 

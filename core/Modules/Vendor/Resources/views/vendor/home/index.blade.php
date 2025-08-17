@@ -120,9 +120,32 @@
                             <div class="row g-5">
                                 <div class="col-md-12">
                                     <div class="mb-2">
-                                        <span class="badge badge-custom">Total Tickets Open: 31</span>
-                                        <span class="badge badge-custom">High Priority Tickets: 31</span>
-                                        <span class="badge badge-custom">Total Close Tickets: 31</span>
+                                        <span class="badge badge-custom">
+                                            Total Tickets:
+                                            {{ $supportTickets['all_tickets']->count() }}
+                                        </span>
+                                        <span class="badge badge-custom">
+                                            Total Open Tickets:
+                                            {{ $supportTickets['all_open_tickets']->count() }}
+                                        </span>
+                                        <span class="badge badge-custom">
+                                            Total Close Tickets:
+                                            {{ $supportTickets['all_close_tickets']->count() }}
+                                        </span>
+
+                                        <span class="badge badge-custom">
+                                            Total High Priority Tickets:
+                                            {{ $supportTickets['all_high_tickets']->count() }}
+                                        </span>
+
+                                        <span class="badge badge-custom">
+                                            Total Low Priority Tickets:
+                                            {{ $supportTickets['all_low_tickets']->count() }}
+                                        </span>
+                                        <span class="badge badge-custom">
+                                            Total Medium Priority Tickets:
+                                            {{ $supportTickets['all_medium_tickets']->count() }}
+                                        </span>
                                     </div>
                                 </div>
                             </div>
