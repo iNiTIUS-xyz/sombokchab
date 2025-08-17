@@ -2,20 +2,21 @@
 
 namespace Modules\Vendor\Http\Controllers;
 
-use App\Mail\BasicMail;
 use Carbon\Carbon;
+use App\Mail\BasicMail;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
+use Modules\Vendor\Entities\Vendor;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use Modules\Campaign\Entities\Campaign;
 use Modules\Order\Entities\SubOrder;
 use Modules\Product\Entities\Product;
-use Modules\Vendor\Entities\Vendor;
-use Modules\Vendor\Http\Services\VendorServices;
-use Illuminate\Http\JsonResponse;
-use Modules\CountryManage\Entities\State;
+use Modules\Campaign\Entities\Campaign;
 use Modules\CountryManage\Entities\City;
+use Modules\CountryManage\Entities\State;
+use Modules\Vendor\Http\Services\VendorServices;
 
 class VendorController extends Controller
 {
@@ -57,11 +58,51 @@ class VendorController extends Controller
             ->groupBy('label')
             ->get();
 
+        $baseQuery = DB::table('sub_order_items')
+            ->join('sub_orders', 'sub_order_items.sub_order_id', '=', 'sub_orders.id')
+            ->join('orders', 'sub_orders.order_id', '=', 'orders.id')
+            ->join('products', 'sub_order_items.product_id', '=', 'products.id')
+            ->where('sub_orders.vendor_id', auth("vendor")->id())
+            ->select(
+                'products.name',
+                DB::raw('SUM(sub_order_items.quantity) as total_quantity')
+            )
+            ->groupBy('products.name');
+
+        $topVendorsDaily = (clone $baseQuery)
+            ->whereDate('orders.created_at', Carbon::today())
+            ->groupBy('products.name')
+            ->pluck('total_quantity', 'products.name');
+
+        // Weekly
+        $topVendorsWeekly = (clone $baseQuery)
+            ->whereBetween('orders.created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+            ->groupBy('products.name')
+            ->pluck('total_quantity', 'products.name');
+
+        // Monthly
+        $topVendorsMonthly = (clone $baseQuery)
+            ->whereMonth('orders.created_at', Carbon::now()->month)
+            ->whereYear('orders.created_at', Carbon::now()->year)
+            ->groupBy('products.name')
+            ->pluck('total_quantity', 'products.name');
+
+        // Yearly
+        $topVendorsYearly = (clone $baseQuery)
+            ->whereYear('orders.created_at', Carbon::now()->year)
+            ->groupBy('products.name')
+            ->pluck('total_quantity', 'products.name');
+
         return view("vendor::vendor.home.index", compact(
             'income_daily',
             'income_weekly',
             'income_monthly',
             'income_yearly',
+
+            'topVendorsDaily',
+            'topVendorsWeekly',
+            'topVendorsMonthly',
+            'topVendorsYearly',
         ));
     }
 
