@@ -78,7 +78,7 @@
                                                 </p>
                                                 <div id="fixe_price_cut_container" style="display: none">
                                                     <input type="number" id="fixed_percentage_amount"
-                                                        class="form-control mb-2"
+                                                        class="form-control mb-2" step="0.01"
                                                         placeholder="{{ __('Price Cut Percentage') }}">
                                                     <button type="button" class="btn btn-sm btn-primary mb-2"
                                                         id="fixed_price_sync_all">{{ __('Sync Price') }}</button>

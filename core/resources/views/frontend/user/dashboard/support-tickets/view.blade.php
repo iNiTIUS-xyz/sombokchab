@@ -237,7 +237,7 @@
                                     <ul>
                                         <li><strong>{{ __('Ticket ID:') }}</strong> {{ $ticket_details->id }}</li>
                                         <li><strong>{{ __('Order No:') }}</strong> {{ $ticket_details->order_id }}</li>
-                                        <li><strong>{{ __('Subject:') }}</strong> {{ $ticket_details->title }} </li>
+                                        <li><strong>{{ __('Title:') }}</strong> {{ $ticket_details->title }} </li>
                                         <li><strong>{{ __('Status:') }}</strong> 
                                             <span
                                                 class="badge status-{{ $ticket_details->status }} {{ $ticket_details->status == 'close' ? __('bg-danger') : __('bg-primary') }}">

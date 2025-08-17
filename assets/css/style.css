@@ -334,11 +334,11 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 /* Firefox  */
-input[type=number] {
+/* input[type=number] {
   -moz-appearance: textfield;
   -webkit-appearance: textfield;
   appearance: textfield;
-}
+} */
 
 .form-control {
   width: 100%;
@@ -6121,7 +6121,8 @@ textarea {
   top: 100%;
   -webkit-transform: scale(1);
   transform: scale(1);
-  margin-top: 15px;
+  z-index: 100;
+  /* margin-top: 15px; */
 }
 
 @media (min-width: 300px) and (max-width: 991.98px) {

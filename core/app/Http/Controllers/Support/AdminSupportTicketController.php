@@ -73,16 +73,16 @@ class AdminSupportTicketController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:191',
-            'subject' => 'required|string|max:191',
+            // 'subject' => 'required|string|max:191',
             'priority' => 'required|string|max:191',
             'description' => 'required|string',
             'departments' => 'required|string',
         ], [
-            'title.required' => __('title required'),
-            'subject.required' => __('subject required'),
-            'priority.required' => __('priority required'),
-            'description.required' => __('description required'),
-            'departments.required' => __('departments required'),
+            'title.required' => __('Title is required'),
+            // 'subject.required' => __('subject required'),
+            'priority.required' => __('Priority is required'),
+            'description.required' => __('Description is required'),
+            'departments.required' => __('Departments is required'),
         ]);
 
         $support_ticket = SupportTicket::create([
@@ -91,7 +91,7 @@ class AdminSupportTicketController extends Controller
             'operating_system' => null,
             'user_agent' => null,
             'description' => $request->description,
-            'subject' => $request->subject,
+            'subject'  => null,
             'status' => 'open',
             'priority' => $request->priority,
             'user_id' => $request->user_id,

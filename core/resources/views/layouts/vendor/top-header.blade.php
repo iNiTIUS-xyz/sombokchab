@@ -22,6 +22,13 @@
                             <div class="author-icon">
                                 <div class="single-icon-flex">
                                     <div class="single-icon notifications-parent">
+                                        <div class="gtranslate_wrapper_vendor"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="author-icon">
+                                <div class="single-icon-flex">
+                                    <div class="single-icon notifications-parent">
                                         <x-notification.header type="vendor" />
                                     </div>
                                 </div>
@@ -68,3 +75,50 @@
         </div>
     </div>
 </div>
+
+
+<style>
+    .gtranslate_wrapper_vendor option:first-child {
+        display: none;
+    }
+
+
+    .gtranslate_wrapper_vendor {
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+    }
+
+    .gtranslate_wrapper_vendor .gt_selector{
+        width: 100px;
+        height: 42px;
+        font-size: 15px;
+        border: 1px solid #DDD;
+        padding: 0px 10px;
+        background: var(--main-color-one);
+        color: #FFF;
+        border-radius: 5px;
+        appearance: none;
+        /* Remove default arrow */
+        -webkit-appearance: none;
+        /* Remove default arrow for Safari */
+        -moz-appearance: none;
+        /* Remove default arrow for Firefox */
+        text-align: center;
+    }
+
+    .gtranslate_wrapper_vendor .gt_selector option{
+        background: var(--main-color-one) !important;
+        border-radius: 0px !important;
+    }
+</style>
+
+<script>
+    window.gtranslateSettings = {
+        "default_language": "en",
+        "languages": ["en", "km"],
+        "wrapper_selector": ".gtranslate_wrapper_vendor"
+    }
+</script>
+<script src="https://cdn.gtranslate.net/widgets/latest/dropdown.js" defer></script>

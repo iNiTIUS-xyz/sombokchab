@@ -61,9 +61,9 @@ class UserSupportTicketController extends Controller
             'title' => 'required|string|max:191',
             'description' => 'required|string',
             'departments' => 'required|string',
-            'order_id' => 'required|string|exists:orders,id',
+            'order_id' => 'required|string|exists:orders,order_number',
         ], [
-            'title.required' => __('Subject is required'),
+            'title.required' => __('Title is required'),
             'description.required' => __('Description is required'),
             'departments.required' => __('Department is required'),
             'order_id.required' => __('Order is required'),
@@ -78,7 +78,7 @@ class UserSupportTicketController extends Controller
             'title' => $request->title,
             'status' => 'open',
             'user_id' => auth('web')->user()->id,
-            'order_id' => $request->order_number,
+            'order_id' => $request->order_id,
             'admin_id' => null,
             'departments' => $request->departments
         ]);
