@@ -5,32 +5,30 @@
 @section('style')
     <link rel="stylesheet" href="{{ asset('assets/backend/css/summernote-bs4.css') }}">
     <style>
-        .priority-status.bg-low{
-
-        }
+        .priority-status.bg-low {}
 
         .priority-status.bg-low {
-        background-color: var(--updatedOffer-bg-1);
-        border:1px solid var(--updatedOffer-bg-1);
-        color: var(--black);
+            background-color: var(--updatedOffer-bg-1);
+            border: 1px solid var(--updatedOffer-bg-1);
+            color: var(--black);
         }
 
         .priority-status.bg-medium {
-        background-color: var(--section-bg);
-        border:1px solid var(--section-bg);
-        color: var(--black);
+            background-color: var(--section-bg);
+            border: 1px solid var(--section-bg);
+            color: var(--black);
         }
 
         .priority-status.bg-high {
-        background-color: var(--main-color-two);
-        border:1px solid var(--main-color-two);
-        color: var(--black);
+            background-color: var(--main-color-two);
+            border: 1px solid var(--main-color-two);
+            color: var(--black);
         }
 
         .priority-status.bg-urgent {
-        background-color: var(--delete-color);
-        border:1px solid var(--delete-color);
-        color: var(--white);
+            background-color: var(--delete-color);
+            border: 1px solid var(--delete-color);
+            color: var(--white);
         }
 
 
@@ -214,10 +212,10 @@
         }
 
         /* .anchor-btn {
-            color: #345990;
-            text-decoration: underline;
-            margin: 5px 0;
-        } */
+                color: #345990;
+                text-decoration: underline;
+                margin: 5px 0;
+            } */
     </style>
 @endsection
 @section('content')
@@ -238,7 +236,7 @@
                                         <li><strong>{{ __('Ticket ID:') }}</strong> {{ $ticket_details->id }}</li>
                                         <li><strong>{{ __('Order No:') }}</strong> {{ $ticket_details->order_id }}</li>
                                         <li><strong>{{ __('Title:') }}</strong> {{ $ticket_details->title }} </li>
-                                        <li><strong>{{ __('Status:') }}</strong> 
+                                        <li><strong>{{ __('Status:') }}</strong>
                                             <span
                                                 class="badge status-{{ $ticket_details->status }} {{ $ticket_details->status == 'close' ? __('bg-danger') : __('bg-primary') }}">
                                                 {{ ucfirst($ticket_details->status == 'close' ? __('Closed') : __($ticket_details->status)) }}
@@ -299,12 +297,13 @@
                                                     <div class="message-content">
                                                         {{-- {!! $msg->message !!} --}}
                                                         @if (!empty($msg->attachment) && file_exists(public_path('assets/uploads/ticket/' . $msg->attachment)))
-                                                            <a href="{{ asset('assets/uploads/ticket/' . $msg->attachment) }}" download class="anchor-btn text-info">
+                                                            <a href="{{ asset('assets/uploads/ticket/' . $msg->attachment) }}"
+                                                                download class="anchor-btn text-info">
                                                                 <strong class="text-info">File:</strong>
                                                                 <span class="text-info">{{ $msg->attachment }}</span>
                                                             </a>
                                                         @else
-                                                            <span>{!! $msg->message ?: 'No message provided' !!}</span>
+                                                            <span style="color: black;">{!! $msg->message ?: 'No message provided' !!}</span>
                                                         @endif
                                                     </div>
                                                     {{-- @if (file_exists('assets/uploads/ticket/' . $msg->attachment))
@@ -324,7 +323,7 @@
                                         @endforelse
                                     </div>
                                 </div>
-                                @if($ticket_details->status !== 'close')
+                                @if ($ticket_details->status !== 'close')
                                     <div class="reply-message-wrap ">
                                         <x-msg.error />
                                         <x-msg.flash />
@@ -348,6 +347,10 @@
                                             <div class="form-group d-flex align-items-start gap-3">
                                                 <input type="checkbox" name="send_notify_mail" id="send_notify_mail">
                                                 <label for="send_notify_mail">{{ __('Notify via mail') }}</label>
+                                            </div>
+                                            <div class="form-group d-flex align-items-start gap-3">
+                                                <input type="checkbox" name="send_notify_phone" id="send_notify_phone_number">
+                                                <label for="send_notify_phone_number">{{ __('Notify via phone number') }}</label>
                                             </div>
                                             <div class="btn-wrapper">
                                                 <button type="submit" class="cmn_btn btn_bg_1 btn-success">

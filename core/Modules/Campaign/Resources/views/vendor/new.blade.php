@@ -37,13 +37,6 @@
                                                 <input type="text" class="form-control" id="campaign_name"
                                                     name="campaign_name" placeholder="Enter Campaign Name" required="">
                                             </div>
-                                            {{-- <div class="form-group">
-                                                <label for="campaign_slug">
-                                                    {{ __('Campaign Slug') }}
-                                                </label>
-                                                <input type="text" class="form-control" id="campaign_slug"
-                                                    name="campaign_slug" placeholder="Enter Campaign Slug">
-                                            </div> --}}
                                             <div class="form-group">
                                                 <label for="campaign_subtitle">
                                                     {{ __('Campaign Subtitle') }}
@@ -73,10 +66,13 @@
                                                 <div id="fixe_price_cut_container" style="display: none">
                                                     <input type="number" id="fixed_percentage_amount"
                                                         class="form-control mb-2" step="0.01" min="0.01"
-                                                        max="100.00"
-                                                        placeholder="{{ __('Enter Price Cut Percentage') }}">
+                                                        max="99"
+                                                        placeholder="{{ __('Enter Price Cut Percentage (0.01-99)') }}">
+                                                    <div class="invalid-feedback" id="percentage-error">
+                                                        Please enter a value between 0.01 and 99
+                                                    </div>
                                                     <button type="button" class="btn btn-sm btn-primary mb-2"
-                                                        id="fixed_price_sync_all">{{ __('Sync Price') }}</button>
+                                                        id="fixed_price_sync_all" disabled>{{ __('Sync Price') }}</button>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -128,7 +124,6 @@
                                 </div>
                             </div>
                         </form>
-                        {{--                        @endcan --}}
                     </div>
                 </div>
             </div>
@@ -142,12 +137,10 @@
     <x-niceselect.js />
     <script>
         (function($) {
-
             $('#campaign_name , #campaign_slug').on('keyup', function() {
                 let title_text = $(this).val();
                 $('#campaign_slug').val(convertToSlug(title_text))
             });
-
 
             $(document).on('change', '.select_product select', function() {
                 let selected_product_id = $(this).val();
@@ -235,9 +228,7 @@
                     }
                 });
 
-
                 $('#fixed_date_sync_all').on('click', function() {
-                    console.log(111);
                     if ($('#set_fixed_date').is(':checked')) {
                         let from_date = $('#fixed_from_date').val();
                         let to_date = $('#fixed_to_date').val();
@@ -261,29 +252,60 @@
                     }
                 });
 
+                // Percentage validation
+                $('#fixed_percentage_amount').on('input change', function() {
+                    validatePercentageInput();
+                });
+
+                function validatePercentageInput() {
+                    const input = $('#fixed_percentage_amount');
+                    const value = parseFloat(input.val());
+                    const errorElement = $('#percentage-error');
+                    const syncButton = $('#fixed_price_sync_all');
+
+                    // Reset validation state
+                    input.removeClass('is-invalid');
+                    errorElement.hide();
+
+                    if (isNaN(value) || value < 0.01 || value > 99) {
+                        input.addClass('is-invalid');
+                        errorElement.show();
+                        syncButton.prop('disabled', true);
+                        return false;
+                    }
+
+                    syncButton.prop('disabled', false);
+                    return true;
+                }
+
+                // Form submission validation
+                $('form').on('submit', function(e) {
+                    if ($('#set_fixed_percentage').is(':checked') && !validatePercentageInput()) {
+                        e.preventDefault();
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: '{{ __('Please enter a valid percentage between 0.01 and 99') }}',
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                        $('#fixed_percentage_amount').focus();
+                    }
+                });
             });
 
-
-
             $(document).on('click', '#fixed_price_sync_all', function() {
-                let fixed_percentage = $('#fixed_percentage_amount').val().trim();
-
-                if (!fixed_percentage.length) {
-                    Swal.fire({
-                        position: 'top-end',
-                        icon: 'warning',
-                        title: '{{ __('Set percentage first') }}',
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
+                if (!validatePercentageInput()) {
+                    return;
                 }
+
+                let fixed_percentage = $('#fixed_percentage_amount').val().trim();
 
                 let all_prices = $('.original_price');
                 for (let i = 0; i < all_prices.length; i++) {
                     let final_price_container = $(all_prices[i]).closest('.dashboard__card__body');
                     let product_price = $(all_prices[i]).val().trim();
-                    let price_after_percentage = product_price - (product_price / 100 *
-                        fixed_percentage);
+                    let price_after_percentage = product_price - (product_price / 100 * fixed_percentage);
                     price_after_percentage = price_after_percentage.toFixed(2);
                     final_price_container.find('.campaign_price').val(price_after_percentage);
                 }
@@ -333,22 +355,5 @@
                 product_repeater_container.find('.nice-select').niceSelect();
             });
         })(jQuery)
-    </script>
-
-    <script>
-        $(document).ready(function() {
-            $('#fixed_percentage_amount').on('input', function() {
-                const value = parseFloat($(this).val());
-
-                if (!isNaN(value) && value >= 0 && value <= 100) {
-                    $('#fixed_price_sync_all').prop('disabled', false);
-                } else {
-                    $('#fixed_price_sync_all').prop('disabled', true);
-                }
-            });
-
-            // Initially disable the button
-            $('#fixed_price_sync_all').prop('disabled', true);
-        });
     </script>
 @endsection

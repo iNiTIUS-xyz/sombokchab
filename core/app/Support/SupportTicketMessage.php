@@ -39,6 +39,7 @@ class SupportTicketMessage extends Model
         'notify',
         'attachment',
         'support_ticket_id',
-        'type'
+        'type',
+        'notify_phone',
     ];
 }

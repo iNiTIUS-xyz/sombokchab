@@ -691,6 +691,7 @@ class UserDashboardController extends Controller
             'user_type' => 'required|string|max:191',
             'message' => 'required',
             'send_notify_mail' => 'nullable|string',
+            'send_notify_phone' => 'nullable|string',
             'file' => 'nullable|max:204800',
         ]);
 
@@ -699,6 +700,7 @@ class UserDashboardController extends Controller
             'type' => $request->user_type,
             'message' => $request->message,
             'notify' => $request->send_notify_mail ? 'on' : 'off',
+            'notify_phone' => $request->send_notify_phone ? 'Yes' : 'No',
         ]);
 
         if ($request->hasFile('file')) {
