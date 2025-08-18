@@ -22,139 +22,250 @@
         }
 
         .select2-container--default .select2-selection--single .select2-selection__arrow {
-            top: 9px !important;
+            top: 3px !important;
         }
 
         .select2-container .select2-selection--single .select2-selection__rendered {
             padding-top: 7px !important;
+            line-height: 27px !important;
+        }
+
+        .select2-container {
+            z-index: 1060 !important;
+            /* Higher than offcanvas (1050) */
+        }
+
+        .btn-close {
+            z-index: 1061 !important;
+            /* Higher than Select2 */
         }
     </style>
 @endsection
 
 @section('content')
-    <div class="dashboard-recent-order">
-        <div class="row g-4">
-            @can('product-search')
-                <div class="col-md-12">
-                    <x-flash-msg />
-                    <div class="recent-order-wrapper dashboard-table bg-white">
-                        <form class="custom__form" action="" method="get">
-                            <div id="product-list-title-flex"
-                                class="product-list-title-flex d-flex flex-wrap align-items-center justify-content-between">
-                                <h3 class="cursor-pointer">
-                                    {{ __('Search Products') }}
-                                    <i class="las la-angle-down"></i>
-                                </h3>
 
+    @can('product-search')
+        <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
+            <div class="offcanvas-header">
+                <h5 id="offcanvasTopLabel">Advance Search</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <form action="" method="get">
+                    <div class="dashboard__card">
+                        <div class="row g-4">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="label-1" for="search-name">{{ __('Product Name') }}</label>
+                                    <input name="name" class="form--control input-height-1" id="search-name"
+                                        value="{{ request('name') }}" placeholder="{{ __('Enter Product Name') }}" />
+                                </div>
                             </div>
-                            <div id="product-search-form">
-                                <div class="row g-3 mt-2">
-                                    <div class="col-md-4">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="label-1" for="search-sku">{{ __('SKU') }}</label>
+                                    <input name="sku" class="form--control input-height-1" id="search-sku"
+                                        value="{{ request('sku') }}" placeholder="{{ __('Enter SKU') }}" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="label-1" for="search-brand">
+                                        {{ __('Brand') }}
+                                    </label>
+                                    <select name="brand" class="form-control select2">
+                                        <option value="" disabled selected>
+                                            Select One
+                                        </option>
+                                        @foreach ($brands as $brand)
+                                            <option value="{{ $brand->name }}"
+                                                @if (request('brand') == $brand->name) selected @endif>
+                                                {{ $brand->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="label-1" for="search-category">
+                                        {{ __('Category') }}
+                                    </label>
+                                    <select name="category" class="form-control select2">
+                                        <option value="" disabled selected>
+                                            Select One
+                                        </option>
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->name }}"
+                                                @if (request('category') == $category->name) selected @endif>
+                                                {{ $category->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="label-1" for="search-sub_category">
+                                        {{ __('Sub Category') }}
+                                    </label>
+                                    <select name="category" class="form-control select2">
+                                        <option value="" disabled selected>
+                                            Select One
+                                        </option>
+                                        @foreach ($sub_categories as $sub_category)
+                                            <option value="{{ $sub_category->name }}"
+                                                @if (request('sub_category') == $sub_category->name) selected @endif>
+                                                {{ $sub_category->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="row">
+                                    <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="label-1" for="search-name">{{ __('Name') }}</label>
-                                            <input name="name" class="form-control" id="search-name"
-                                                value="{{ request('name') }}" placeholder="{{ __('Enter name') }}" />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="label-1" for="search-sku">{{ __('SKU') }}</label>
-                                            <input name="sku" class="form-control" id="search-sku"
-                                                value="{{ request('sku') }}" placeholder="{{ __('Enter sku') }}" />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="label-1" for="search-brand">{{ __('Brand') }}</label>
-                                            <input name="brand" class="form-control" id="search-brand"
-                                                value="{{ request('brand') }}" placeholder="{{ __('Enter brand') }}" />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="label-1" for="search-category">
-                                                {{ __('Category') }}
-                                            </label>
-                                            <select name="category" class="form-control select2">
-                                                <option value="" disabled selected>
-                                                    Select One
-                                                </option>
-                                                @foreach ($categories as $category)
-                                                    <option value="{{ $category->name }}"
-                                                        @if (request('category') == $category->name) selected @endif>
-                                                        {{ $category->name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="label-1" for="search-sub_category">
-                                                {{ __('Sub Category') }}
-                                            </label>
-                                            <select name="category" class="form-control select2">
-                                                <option value="" disabled selected>
-                                                    Select One
-                                                </option>
-                                                @foreach ($sub_categories as $sub_category)
-                                                    <option value="{{ $sub_category->name }}"
-                                                        @if (request('sub_category') == $sub_category->name) selected @endif>
-                                                        {{ $sub_category->name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label class="label-1" for="search-from_price">
-                                                        {{ __('Min Price') }}
-                                                    </label>
-                                                    <input name="from_price" class="form-control" id="search-from_price"
-                                                        value="{{ request('from_price') }}"
-                                                        placeholder="{{ __('Enter min price') }}" />
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label class="label-1" for="search-to_price">
-                                                        {{ __('Max Price') }}
-                                                    </label>
-                                                    <input name="to_price" class="form-control" id="search-to_price"
-                                                        value="{{ request('to_price') }}"
-                                                        placeholder="{{ __('Enter max price') }}" />
-                                                </div>
-                                            </div>
+                                            <label class="label-1" for="search-from_price">{{ __('Min Price') }}</label>
+                                            <input name="from_price" class="form--control input-height-1" id="search-from_price"
+                                                value="{{ request('from_price') }}"
+                                                placeholder="{{ __('Enter Min Price') }}" />
                                         </div>
                                     </div>
 
-                                    <div>
-                                        @if (request('name') ||
-                                                request('sku') ||
-                                                request('brand') ||
-                                                request('category') ||
-                                                request('sub_category') ||
-                                                request('from_price') ||
-                                                request('to_price'))
-                                            <a href="{{ route('admin.products.all') }}"
-                                                class="cmn_btn btn-danger text-right text-white">
-                                                {{ __('Clear Search') }}
-                                            </a>
-                                        @endif
-                                        <button type="submit" class="cmn_btn btn_bg_profile">
-                                            {{ __('Search') }}
-                                        </button>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="label-1" for="search-to_price">{{ __('Max Price') }}</label>
+                                            <input name="to_price" class="form--control input-height-1" id="search-to_price"
+                                                value="{{ request('to_price') }}" placeholder="{{ __('Enter Max Price') }}" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </form>
+                        </div>
                     </div>
+                    <div class="dashboard__card__body">
+                        <button class="btn btn-primary" type="submit">
+                            {{ __('Search') }}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    @endcan
+    <div class="dashboard-recent-order">
+
+        @can('product-search')
+            <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
+                <div class="offcanvas-header">
+                    <h5 id="offcanvasTopLabel">Advance Search</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
-            @endcan
+                <div class="offcanvas-body">
+                    <form action="" method="get">
+                        <div class="dashboard__card">
+                            <div class="row g-4">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="label-1" for="search-name">{{ __('Product Name') }}</label>
+                                        <input name="name" class="form--control input-height-1" id="search-name"
+                                            value="{{ request('name') }}" placeholder="{{ __('Enter Product Name') }}" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="label-1" for="search-sku">{{ __('SKU') }}</label>
+                                        <input name="sku" class="form--control input-height-1" id="search-sku"
+                                            value="{{ request('sku') }}" placeholder="{{ __('Enter SKU') }}" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="label-1" for="search-brand">
+                                            {{ __('Brand') }}
+                                        </label>
+                                        <select name="brand" class="form-control select2">
+                                            <option value="" disabled selected>
+                                                Select One
+                                            </option>
+                                            @foreach ($brands as $brand)
+                                                <option value="{{ $brand->name }}"
+                                                    @if (request('brand') == $brand->name) selected @endif>
+                                                    {{ $brand->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="label-1" for="search-category">
+                                            {{ __('Category') }}
+                                        </label>
+                                        <select name="category" class="form-control select2">
+                                            <option value="" disabled selected>
+                                                Select One
+                                            </option>
+                                            @foreach ($categories as $category)
+                                                <option value="{{ $category->name }}"
+                                                    @if (request('category') == $category->name) selected @endif>
+                                                    {{ $category->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="label-1" for="search-sub_category">
+                                            {{ __('Sub Category') }}
+                                        </label>
+                                        <select name="category" class="form-control select2">
+                                            <option value="" disabled selected>
+                                                Select One
+                                            </option>
+                                            @foreach ($sub_categories as $sub_category)
+                                                <option value="{{ $sub_category->name }}"
+                                                    @if (request('sub_category') == $sub_category->name) selected @endif>
+                                                    {{ $sub_category->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="label-1" for="search-from_price">{{ __('Min Price') }}</label>
+                                                <input name="from_price" class="form--control input-height-1"
+                                                    id="search-from_price" value="{{ request('from_price') }}"
+                                                    placeholder="{{ __('Enter Min Price') }}" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="label-1" for="search-to_price">{{ __('Max Price') }}</label>
+                                                <input name="to_price" class="form--control input-height-1"
+                                                    id="search-to_price" value="{{ request('to_price') }}"
+                                                    placeholder="{{ __('Enter Max Price') }}" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dashboard__card__body">
+                            <button class="btn btn-primary" type="submit">
+                                {{ __('Search') }}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        @endcan
+        <div class="row g-4">
             <div class="col-lg-12">
                 <div class="row mx-2 mb-4">
                     <div class="col-md-6">
@@ -179,13 +290,35 @@
                 </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h3 class="dashboard__card__title">{{ __('Product list') }}</h3>
-                    </div>
-                    <div class="dashboard__card__header mt-4">
-                        <div class="dashboard__card__header__right"></div>
-                        @can('product-bulk-destroy')
-                            <x-product::table.bulk-action />
-                        @endcan
+                        <div class="dashboard__card__header__left">
+                            <h3 class="dashboard__card__title mb-2">{{ __('Products List') }}</h3>
+                            <div class="d-flex flex-wrap bulk-delete-wrapper gap-2"></div>
+                        </div>
+                        <div class="dashboard__card__header__right">
+                            @can('product-search')
+                                <div class="btn-wrapper">
+                                    @if (request('name') ||
+                                            request('sku') ||
+                                            request('brand') ||
+                                            request('category') ||
+                                            request('sub_category') ||
+                                            request('from_price') ||
+                                            request('to_price'))
+                                        <a href="{{ route('admin.products.all') }}"
+                                            class="cmn_btn btn-danger text-right text-white">
+                                            {{ __('Clear Search') }}
+                                        </a>
+                                    @endif
+                                    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
+                                        data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
+                                        {{ __('Advance Search') }}
+                                    </button>
+                                </div>
+                            @endcan
+                            <div class="btn-wrapper">
+                                <x-product::table.bulk-action />
+                            </div>
+                        </div>
                     </div>
                     <div class="dashboard-table table-wrap">
                         <div class="table-responsive mt-4" id="product-table-body">
@@ -212,7 +345,22 @@
     @endcan
     <x-product::product-image-js />
     <script>
-        $(".select2").select2();
+        $(document).ready(function() {
+            $('select[name="brand"]').select2({
+                placeholder: "Select One",
+                allowClear: true
+            });
+
+            $('select[name="category"]').select2({
+                placeholder: "Select One",
+                allowClear: true
+            });
+
+            $('select[name="sub_category"]').select2({
+                placeholder: "Select One",
+                allowClear: true
+            });
+        });
     </script>
     <script>
         $(function() {

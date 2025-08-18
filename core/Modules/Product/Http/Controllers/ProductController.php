@@ -38,8 +38,9 @@ class ProductController extends Controller
         $statuses = Status::all();
         $categories = Category::get();
         $sub_categories = SubCategory::get();
+        $brands = Brand::select(["id", "name"])->get();
 
-        return view('product::index', compact("products", "statuses", "categories", "sub_categories"));
+        return view('product::index', compact("products", "statuses", "categories", "sub_categories", "brands"));
     }
 
     public function create()
