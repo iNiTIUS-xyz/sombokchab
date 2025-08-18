@@ -9,11 +9,11 @@ use App\Helpers\FlashMsg;
 use Illuminate\Http\Request;
 use App\Events\SupportMessage;
 use App\Support\SupportTicket;
+use App\Mail\SupportTicketMail;
 use Illuminate\Validation\Rule;
 use App\Shipping\ShippingAddress;
 use Modules\Order\Entities\Order;
 use Illuminate\Support\Facades\DB;
-use App\Mail\SentSupportTicketMail;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -23,6 +23,7 @@ use Modules\Order\Entities\SubOrder;
 use App\Support\SupportTicketMessage;
 use Illuminate\Contracts\View\Factory;
 use Modules\Order\Entities\OrderTrack;
+use Modules\AdminManage\Entities\Admin;
 use App\Http\Requests\ChangePhoneRequest;
 use Modules\Refund\Entities\RefundReason;
 use Modules\Refund\Entities\RefundRequest;
@@ -712,15 +713,20 @@ class UserDashboardController extends Controller
         //send mail to user
         event(new SupportMessage($ticket_info));
 
-        // if (isset($request->send_notify_mail) && $request->send_notify_mail == 'on') {
 
-        //     $details = [
-        //         'title' => "You have a new support ticket message. Please check and reply.",
-        //         'url' => ,
-        //     ];
+        if ($ticket_info->notify === 'on') {
+            $admin = Admin::where('email', 'admin@gmail.com')
+                ->first();
 
-        //     Mail::to($request->email)->send(new SentSupportTicketMail($details));
-        // }
+            $details = [
+                'name' => "Hi " . $admin->name,
+                'support_ticket_id' => $request->ticket_id,
+                "form_name" => auth('web')->user()->name,
+                "message" => $request->message,
+            ];
+
+            Mail::to($admin->email)->send(new SupportTicketMail($details));
+        }
 
         return back()->with(FlashMsg::settings_update(__('Message sent successfully.')));
     }

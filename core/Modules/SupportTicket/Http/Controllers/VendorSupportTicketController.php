@@ -2,20 +2,23 @@
 
 namespace Modules\SupportTicket\Http\Controllers;
 
-use App\Events\SupportMessage;
+use Str;
+use Storage;
 use App\Helpers\FlashMsg;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Events\SupportMessage;
+use App\Mail\SupportTicketMail;
+use Modules\User\Entities\User;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Intervention\Image\Facades\Image;
-use Modules\SupportTicket\Entities\SupportDepartment;
+use Modules\AdminManage\Entities\Admin;
 use Modules\SupportTicket\Entities\SupportTicket;
+use Modules\SupportTicket\Entities\SupportDepartment;
 use Modules\SupportTicket\Entities\SupportTicketMessage;
 use Modules\SupportTicket\Http\Requests\AdminStoreSendMessageRequest;
 use Modules\SupportTicket\Http\Requests\AdminStoreSupportTicketRequest;
-use Modules\User\Entities\User;
-use Str;
-use Storage;
 
 class VendorSupportTicketController extends Controller
 {
@@ -151,24 +154,40 @@ class VendorSupportTicketController extends Controller
             'message' => $request->message,
             'notify' => $request->send_notify_mail ? 'on' : 'off',
         ]);
-        $imageExtensions = [
-            'png','gif','jpg','jpeg'
-        ];
+
+        $imageExtensions = ['png', 'gif', 'jpg', 'jpeg'];
+
         if ($request->hasFile('file')) {
             $uploaded_file = $request->file;
             $file_extension = $uploaded_file->extension();
-            $file_name = Str::uuid().'-'.time().'.'.$file_extension;
-            if(in_array($file_extension,$imageExtensions)){
+            $file_name = Str::uuid() . '-' . time() . '.' . $file_extension;
+
+            if (in_array($file_extension, $imageExtensions)) {
                 $image = Image::make($uploaded_file);
-                Storage::disk('asset_path')->put('assets/uploads/ticket/'.$file_name, (string) $image->encode());
-            }else{
+                Storage::disk('asset_path')->put('assets/uploads/ticket/' . $file_name, (string) $image->encode());
+            } else {
                 $uploaded_file->move('assets/uploads/ticket', $file_name);
             }
+
             $ticket_info->attachment = $file_name;
             $ticket_info->save();
         }
 
         event(new SupportMessage($ticket_info));
+
+        if ($ticket_info->notify === 'on') {
+            $admin = Admin::where('email', 'admin@gmail.com')
+                ->first();
+
+            $details = [
+                'name' => "Hi " . $admin->name,
+                'support_ticket_id' => $request->ticket_id,
+                "form_name" => Auth::guard('vendor')->user()->name,
+                "message" => $request->message,
+            ];
+
+            Mail::to($admin->email)->send(new SupportTicketMail($details));
+        }
 
         return back()->with(FlashMsg::settings_update(__('Message sent')));
     }
