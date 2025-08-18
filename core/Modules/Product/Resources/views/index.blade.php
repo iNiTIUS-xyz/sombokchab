@@ -11,7 +11,7 @@
     <x-media.css />
     <style>
         .offcanvas-top {
-            height: 44vh !important;
+            height: 45vh !important;
             left: 360px;
             border-bottom-left-radius: 8px;
             border-bottom-right-radius: 8px;
@@ -29,26 +29,15 @@
             padding-top: 7px !important;
             line-height: 27px !important;
         }
-
-        .select2-container {
-            z-index: 1060 !important;
-            /* Higher than offcanvas (1050) */
-        }
-
-        .btn-close {
-            z-index: 1061 !important;
-            /* Higher than Select2 */
-        }
     </style>
 @endsection
 
 @section('content')
-
     @can('product-search')
         <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
             <div class="offcanvas-header">
                 <h5 id="offcanvasTopLabel">Advance Search</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
                 <form action="" method="get">
@@ -154,117 +143,6 @@
         </div>
     @endcan
     <div class="dashboard-recent-order">
-
-        @can('product-search')
-            <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
-                <div class="offcanvas-header">
-                    <h5 id="offcanvasTopLabel">Advance Search</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                </div>
-                <div class="offcanvas-body">
-                    <form action="" method="get">
-                        <div class="dashboard__card">
-                            <div class="row g-4">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="label-1" for="search-name">{{ __('Product Name') }}</label>
-                                        <input name="name" class="form--control input-height-1" id="search-name"
-                                            value="{{ request('name') }}" placeholder="{{ __('Enter Product Name') }}" />
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="label-1" for="search-sku">{{ __('SKU') }}</label>
-                                        <input name="sku" class="form--control input-height-1" id="search-sku"
-                                            value="{{ request('sku') }}" placeholder="{{ __('Enter SKU') }}" />
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="label-1" for="search-brand">
-                                            {{ __('Brand') }}
-                                        </label>
-                                        <select name="brand" class="form-control select2">
-                                            <option value="" disabled selected>
-                                                Select One
-                                            </option>
-                                            @foreach ($brands as $brand)
-                                                <option value="{{ $brand->name }}"
-                                                    @if (request('brand') == $brand->name) selected @endif>
-                                                    {{ $brand->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="label-1" for="search-category">
-                                            {{ __('Category') }}
-                                        </label>
-                                        <select name="category" class="form-control select2">
-                                            <option value="" disabled selected>
-                                                Select One
-                                            </option>
-                                            @foreach ($categories as $category)
-                                                <option value="{{ $category->name }}"
-                                                    @if (request('category') == $category->name) selected @endif>
-                                                    {{ $category->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="label-1" for="search-sub_category">
-                                            {{ __('Sub Category') }}
-                                        </label>
-                                        <select name="category" class="form-control select2">
-                                            <option value="" disabled selected>
-                                                Select One
-                                            </option>
-                                            @foreach ($sub_categories as $sub_category)
-                                                <option value="{{ $sub_category->name }}"
-                                                    @if (request('sub_category') == $sub_category->name) selected @endif>
-                                                    {{ $sub_category->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="label-1" for="search-from_price">{{ __('Min Price') }}</label>
-                                                <input name="from_price" class="form--control input-height-1"
-                                                    id="search-from_price" value="{{ request('from_price') }}"
-                                                    placeholder="{{ __('Enter Min Price') }}" />
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="label-1" for="search-to_price">{{ __('Max Price') }}</label>
-                                                <input name="to_price" class="form--control input-height-1"
-                                                    id="search-to_price" value="{{ request('to_price') }}"
-                                                    placeholder="{{ __('Enter Max Price') }}" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="dashboard__card__body">
-                            <button class="btn btn-primary" type="submit">
-                                {{ __('Search') }}
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        @endcan
         <div class="row g-4">
             <div class="col-lg-12">
                 <div class="row mx-2 mb-4">
@@ -345,22 +223,7 @@
     @endcan
     <x-product::product-image-js />
     <script>
-        $(document).ready(function() {
-            $('select[name="brand"]').select2({
-                placeholder: "Select One",
-                allowClear: true
-            });
-
-            $('select[name="category"]').select2({
-                placeholder: "Select One",
-                allowClear: true
-            });
-
-            $('select[name="sub_category"]').select2({
-                placeholder: "Select One",
-                allowClear: true
-            });
-        });
+        $(".select2").select2();
     </script>
     <script>
         $(function() {
