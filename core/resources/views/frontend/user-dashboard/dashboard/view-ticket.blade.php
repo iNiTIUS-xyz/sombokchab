@@ -209,8 +209,11 @@
                                 <div class="gig-order-info">
                                     <ul>
                                         <li><strong>{{ __('Ticket ID:') }}</strong> {{ $ticket_details->id }}</li>
+                                        @if($ticket_details->order_id !== null)
+                                        <li><strong>{{ __('Order No:') }}</strong> {{ $ticket_details->order_id }}</li>
+                                        @endif
                                         <li><strong>{{ __('Title:') }}</strong> {{ $ticket_details->title }}</li>
-                                        <li><strong>{{ __('Subject:') }}</strong> {{ $ticket_details->subject }} </li>
+                                        {{-- <li><strong>{{ __('Subject:') }}</strong> {{ $ticket_details->subject }} </li> --}}
                                         <li><strong>{{ __('Status:') }}</strong> 
                                             <span
                                                 class="badge status-{{ $ticket_details->status }} {{ $ticket_details->status == 'close' ? __('bg-danger') : __('bg-primary') }}">

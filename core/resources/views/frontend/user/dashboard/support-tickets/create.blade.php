@@ -101,11 +101,11 @@
                                     <input type="hidden" name="via" value="{{ __('website') }}">
                                     <div class="form-group">
                                         <label>
-                                            {{ __('Subject') }}
+                                            {{ __('Title') }}
                                             <span class="text-danger">*</span>
                                         </label>
                                         <input type="text" class="form-control" name="title"
-                                            placeholder="{{ __('Enter Subject') }}">
+                                            placeholder="{{ __('Enter Title') }}" required>
                                         @error('title')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
@@ -115,7 +115,7 @@
                                             {{ __('Support Category') }}
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <select name="departments" class="form-select">
+                                        <select name="departments" class="form-select" required>
                                             @foreach ($departments as $dep)
                                                 <option value="{{ $dep->id }}">{{ $dep->name }}</option>
                                             @endforeach
@@ -129,11 +129,11 @@
                                             {{ __('Order Number (No. - Date - Amount)') }}
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <select name="order_id" class="form-select">
+                                        <select name="order_id" class="form-select" required>
                                             <option value="" selected>Select A Order No</option>
                                             @foreach ($user_orders as $order)
-                                                <option value="{{ $order->id }}">
-                                                    {{ $order->order_number }} - {{ $order->tracking_code }} -
+                                                <option value="{{ $order->order_number }}">
+                                                    {{ $order->order_number }} -
                                                     {{ $order->created_at->format('M d, Y') }} -
                                                     {{ float_amount_with_currency_symbol($order->paymentMeta->total_amount ?? 0) }}
                                                 </option>
@@ -149,7 +149,7 @@
                                             <span class="text-danger">*</span>
                                         </label>
                                         <textarea name="description" class="form-control" cols="30" rows="10"
-                                            placeholder="{{ __('Enter Description') }}"></textarea>
+                                            placeholder="{{ __('Enter Description') }}" required></textarea>
                                         @error('description')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror

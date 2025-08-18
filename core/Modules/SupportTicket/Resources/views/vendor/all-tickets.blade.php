@@ -83,7 +83,7 @@
                                             <th>{{ __('Title') }}</th>
                                             <th>{{ __('Department') }}</th>
                                             <th>{{ __('Date Created') }}</th>
-                                            <th>{{ __('Priority') }}</th>
+                                            {{-- <th>{{ __('Priority') }}</th> --}}
                                             <th>{{ __('Status') }}</th>
                                             <th>{{ __('Action') }}</th>
                                         </tr>
@@ -92,9 +92,9 @@
                                         @foreach ($all_tickets as $data)
                                             <tr>
                                                 <td>{{ $data->title }}</td>
-                                                <td>{{ $data->department->name ?? __('anonymous') }}</td>
+                                                <td style="text-align: left;">{{ $data->department->name ?? __('anonymous') }}</td>
                                                 <td><small>{{ $data->created_at->format('M j, Y') }}</small></td>
-                                                <td class="">
+                                                {{-- <td class="">
                                                     <span
                                                         class="
                                                             @if ($data->priority == 'low') text-success
@@ -104,7 +104,7 @@
                                                         ">
                                                         {{ ucfirst($data->priority) }}
                                                     </span>
-                                                </td>
+                                                </td> --}}
                                                 <td>
                                                     <span
                                                         class="text-capitalize badge {{ $data->status == 'close' ? 'status-close' : 'status-open' }}">

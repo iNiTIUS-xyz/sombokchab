@@ -76,7 +76,7 @@ class VendorSupportTicketApiController extends Controller
             'departments' => 'required|string',
         ], [
             'title.required' => __('title required'),
-            'subject.required' => __('subject required'),
+            // 'subject.required' => __('subject required'),
             'priority.required' => __('priority required'),
             'description.required' => __('description required'),
             'departments.required' => __('departments required'),
@@ -88,7 +88,7 @@ class VendorSupportTicketApiController extends Controller
             'operating_system' => null,
             'user_agent' => $_SERVER['HTTP_USER_AGENT'],
             'description' => $request->description,
-            'subject' => $request->subject,
+            'subject'  => null,
             'status' => 'open',
             'priority' => $request->priority,
             'vendor_id' => $uesr_info,

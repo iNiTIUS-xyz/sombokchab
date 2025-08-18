@@ -31,7 +31,7 @@
                                             placeholder="{{ __('Enter Title') }}" required="">
                                     </div>
                                 </div>
-                                <div class="col-md-6 mb-3">
+                                {{-- <div class="col-md-6 mb-3">
 
                                     <div class="form-group">
                                         <label>
@@ -41,8 +41,8 @@
                                         <input type="text" class="form-control" name="subject"
                                             placeholder="{{ __('Enter Subject') }}" required="">
                                     </div>
-                                </div>
-                                <div class="col-md-6 mb-3">
+                                </div> --}}
+                                {{-- <div class="col-md-6 mb-3">
 
                                     <div class="form-group">
                                         <label>
@@ -56,7 +56,7 @@
                                             <option value="urgent">{{ __('Urgent') }}</option>
                                         </select>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="col-md-6 mb-3">
                                     <div class="form-group">
                                         <label>

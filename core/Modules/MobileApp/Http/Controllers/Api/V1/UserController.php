@@ -729,13 +729,13 @@ class UserController extends Controller
         $uesr_info = auth('sanctum')->user()->id;
         $request->validate([
             'title' => 'required|string|max:191',
-            'subject' => 'required|string|max:191',
+            // 'subject' => 'required|string|max:191',
             'priority' => 'required|string|max:191',
             'description' => 'required|string',
             'departments' => 'required|string',
         ], [
             'title.required' => __('title required'),
-            'subject.required' => __('subject required'),
+            // 'subject.required' => __('subject required'),
             'priority.required' => __('priority required'),
             'description.required' => __('description required'),
             'departments.required' => __('departments required'),
@@ -747,7 +747,7 @@ class UserController extends Controller
             'operating_system' => null,
             'user_agent' => $_SERVER['HTTP_USER_AGENT'],
             'description' => $request->description,
-            'subject' => $request->subject,
+            'subject'  => null,
             'status' => 'open',
             'priority' => $request->priority,
             'user_id' => $uesr_info,
