@@ -1,10 +1,14 @@
 @extends('frontend.frontend-page-master')
+
 @section('page-title')
     {{ __('Cart') }}
 @endsection
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('assets/common/css/toastr.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap4.min.css') }}">
+
     <style>
         .table-list-content .custom--table tbody tr td {
             width: unset !important;
@@ -154,6 +158,28 @@
 @endsection
 
 @section('script')
+    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            // Initialize DataTable only if the table exists
+            if ($('#dataTable').length) {
+                $('#dataTable').DataTable({
+                    paging: true,
+                    lengthChange: true,
+                    searching: true,
+                    ordering: true,
+                    info: true,
+                    autoWidth: false,
+                    responsive: true,
+                    language: {
+                        search: "Filter:"
+                    }
+                });
+            }
+        });
+    </script>
+
     <script>
         (function($) {
             'use strict';

@@ -1,12 +1,11 @@
 @php
     $wishlist = $wishlist ?? false;
 @endphp
-
 <div class="cart-area">
     <div class="container container-one">
         <div class="cart-wrapper">
             <div class="row g-4">
-                @if (Route::is('frontend.products.wishlist'))
+                {{-- @if (Route::is('frontend.products.wishlist'))
                     <div class="col-xl-8 mt-4 m-auto">
                         <div class="row justify-content-end">
                             <div class="col-xl-2">
@@ -40,11 +39,11 @@
                             </div>
                         </div>
                     </div>
-                @endif
+                @endif --}}
                 <div class="col-xl-8 mt-4 m-auto">
                     <div class="table-list-content table-cart-clear">
                         <div class="table-responsive table-responsive--md">
-                            <table class="custom--table table-border radius-10">
+                            <table id="dataTable" class="custom--table table-border radius-10">
                                 <thead class="head-bg">
                                     <tr>
                                         <th class="text-center"> {{ __('Product Name') }} </th>
@@ -110,7 +109,6 @@
                                                 </div>
                                             </td>
                                             @if (!Route::is('frontend.products.wishlist'))
-
                                                 <td data-label="Quantity">
                                                     <div class="product-quantity">
                                                         <span class="substract">
@@ -139,7 +137,8 @@
                                                     @if ($wishlist)
                                                         <a data-label="Move" title="Add to cart" data-type="tr"
                                                             data-product_hash_id="{{ $cart_item->rowId }}"
-                                                            href="#1" class="ff-jost move-cart px-3 btn btn-info mx-2">
+                                                            href="#1"
+                                                            class="ff-jost move-cart px-3 btn btn-info mx-2">
                                                             <span class="icon-close text-light">
                                                                 <i class="las la-shopping-cart"></i>
                                                             </span>
@@ -153,7 +152,8 @@
                                                             </span>
                                                         </a>
                                                     @else
-                                                        <a data-label="Move" title="Add to save for later" data-type="tr"
+                                                        <a data-label="Move" title="Add to save for later"
+                                                            data-type="tr"
                                                             data-product_hash_id="{{ $cart_item->rowId }}"
                                                             href="#1"
                                                             class="ff-jost move-wishlist px-3 btn btn-info mx-2">

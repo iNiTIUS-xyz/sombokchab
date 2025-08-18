@@ -30,6 +30,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/animate.css') }}">
     <!-- slick carousel  -->
     <link rel="stylesheet" href="{{ asset('assets/css/slick.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/select2.min.css') }}">
     <!-- LineAwesome -->
     <link rel="stylesheet" href="{{ asset('assets/css/line-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/themify-icons.css') }}">
@@ -87,6 +88,7 @@
     <script src="{{ asset('assets/js/plugin-two.js') }}"></script>
     <!-- Nice Scroll -->
     <script src="{{ asset('assets/js/jquery.nicescroll.min.js') }}"></script>
+    <script src="{{ asset('assets/js/select2.min.js') }}"></script>
     <!-- Calendar js -->
     <script src="{{ asset('assets/js/calendar-bundle.js') }}"></script>
     <!-- Chart Js -->
