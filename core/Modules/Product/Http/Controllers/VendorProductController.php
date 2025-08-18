@@ -47,8 +47,9 @@ class VendorProductController extends Controller
 
         $categories = Category::get();
         $sub_categories = SubCategory::get();
+        $brands = Brand::select(["id", "name"])->get();
 
-        return view('product::vendor.index', compact("products", "statuses", "categories", "sub_categories"));
+        return view('product::vendor.index', compact("products", "statuses", "categories", "sub_categories", "brands"));
     }
 
     public function create()
