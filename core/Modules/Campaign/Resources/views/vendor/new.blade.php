@@ -37,6 +37,13 @@
                                                 <input type="text" class="form-control" id="campaign_name"
                                                     name="campaign_name" placeholder="Enter Campaign Name" required="">
                                             </div>
+                                            {{-- <div class="form-group">
+                                                <label for="campaign_slug">
+                                                    {{ __('Campaign Slug') }}
+                                                </label>
+                                                <input type="text" class="form-control" id="campaign_slug"
+                                                    name="campaign_slug" placeholder="Enter Campaign Slug">
+                                            </div> --}}
                                             <div class="form-group">
                                                 <label for="campaign_subtitle">
                                                     {{ __('Campaign Subtitle') }}
@@ -101,9 +108,8 @@
                                                 @include('campaign::vendor.add_new_campaign_product')
                                             </div>
                                             <div class="btn-wrapper mt-4">
-                                                <button type="button" class="cmn_btn btn_bg_profile" id="add_product_btn">
-                                                    {{ __('Add Product') }}
-                                                </button>
+                                                <button type="button" class="cmn_btn btn_bg_profile"
+                                                    id="add_product_btn">{{ __('Add Product') }}</button>
                                             </div>
                                         </div>
                                     </div>
@@ -122,6 +128,7 @@
                                 </div>
                             </div>
                         </form>
+                        {{--                        @endcan --}}
                     </div>
                 </div>
             </div>
@@ -133,11 +140,6 @@
     <x-media.js type="vendor" />
     <script src="{{ asset('assets/backend/js/flatpickr.js') }}"></script>
     <x-niceselect.js />
-    <script>
-        $(document).ready(function() {
-            $(".repeater_product_id").select2();
-        });
-    </script>
     <script>
         (function($) {
 
@@ -286,6 +288,7 @@
                     final_price_container.find('.campaign_price').val(price_after_percentage);
                 }
             });
+
             $(document).on('click', '#add_product_btn', function() {
                 let product_repeater_container = $('#product_repeater_container');
                 let remove_button_selector = '.delete-campaign';
@@ -293,50 +296,42 @@
                 let to_date = undefined;
                 let new_element = product_repeater_container.find('.dashboard__card').last().clone();
 
-                // Reset all inputs in the cloned card
-                new_element.find('select.repeater_product_id')
-                    .val('') // reset value
-                    .prop('selectedIndex', 0) // force default option
-                    .trigger('change'); // reset select2 display
-
-                new_element.find('.original_price').val('');
-                new_element.find('.campaign_price').val('');
-                new_element.find('.available_num_of_units').val('');
-                new_element.find('.units_for_sale').val('');
-                new_element.find('.start_date').val('');
-                new_element.find('.end_date').val('');
-
-                // If fixed date is enabled, set them
                 if ($('#set_fixed_date').is(':checked')) {
                     from_date = $('#fixed_from_date').val();
                     to_date = $('#fixed_to_date').val();
-
-                    if (from_date) new_element.find('.start_date').val(from_date);
-                    if (to_date) new_element.find('.end_date').val(to_date);
                 }
 
-                // Replace remove button
+                if (from_date) {
+                    new_element.find('.start_date.input').val(from_date);
+                }
+
+                if (to_date) {
+                    new_element.find('.end_date.input').val(to_date);
+                }
+
                 let remove_btn = new_element.find(remove_button_selector);
-                remove_btn.removeClass(remove_button_selector).addClass('cross-btn');
+
+                remove_btn.removeClass(remove_button_selector);
+                remove_btn.addClass('cross-btn');
+
+                new_element.find('.start_date.input').remove();
+                new_element.find('.end_date.input').remove();
+
+                new_element.find('.campaign_price').val('');
+                new_element.find('.units_for_sale').val('');
 
                 product_repeater_container.append(new_element.hide());
                 new_element.slideDown('slow');
 
-                // Re-init flatpickr
                 flatpickr(".flatpickr", {
                     altInput: true,
                     altFormat: "F j, Y",
                     dateFormat: "Y-m-d",
                 });
 
-                // Re-init Select2 only for new element
-                new_element.find('.repeater_product_id').select2({
-                    width: '100%',
-                    placeholder: "Add Campaign Product",
-                    allowClear: true
-                });
+                product_repeater_container.find('.nice-select').niceSelect('destroy');
+                product_repeater_container.find('.nice-select').niceSelect();
             });
-
         })(jQuery)
     </script>
 
