@@ -29,7 +29,7 @@ class CampaignController extends Controller
         return view(self::BASE_URL . 'all', compact('all_campaigns'));
     }
 
-    public function create(): View|Factory|Application
+    public function create()
     {
         return GlobalCampaignService::renderCampaignProduct(self::BASE_URL);
     }
