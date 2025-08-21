@@ -168,7 +168,6 @@
             let productId = selected.data("product_id");
             let productName = selected.data("product_name");
             let productPrice = selected.data("price");
-            let productSalePrice = selected.data("sale_price");
             let productStock = selected.data("stock");
 
             // Prevent duplicate
@@ -201,19 +200,27 @@
                             <div class="row g-3">
                                 <div class="col-md-3">
                                     <label class="form-label">Original Price</label>
-                                    <input type="text" class="form-control" value="${productPrice}" readonly />
+                                    <input type="text" class="form-control original-price" value="${productPrice}" readonly />
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label">Price for Campaign</label>
-                                    <input type="text" class="form-control" value="" name="campaign_price[]"/>
+                                    <input type="number" class="form-control campaign-price"
+                                        value=""
+                                        name="campaign_price[]"
+                                        data-original="${productPrice}"
+                                        oninput="checkCampaignPrice(this)" />
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label">No. of Units Available</label>
-                                    <input type="text" class="form-control" value="${productStock}" readonly />
+                                    <input type="text" class="form-control available-units" value="${productStock}" readonly />
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label">No. of Units for Sale</label>
-                                    <input type="text" class="form-control" value="0" name="units_for_sale[]" />
+                                    <input type="number" class="form-control units-for-sale"
+                                        value="0"
+                                        name="units_for_sale[]"
+                                        data-available="${productStock}"
+                                        oninput="checkUnitsForSale(this)" />
                                 </div>
                                 <div class="col-md-4">
                                     <label class="form-label">Start Date</label>
@@ -231,7 +238,6 @@
 
             $("#campaignProducts").append(html);
 
-            // Initialize flatpickr only for new inputs
             $("#accordion-" + productId + " .dataPickerStart").flatpickr({
                 altInput: true,
                 altFormat: "F j, Y",
@@ -242,6 +248,28 @@
                 altFormat: "F j, Y",
                 dateFormat: "Y-m-d",
             });
+        }
+
+        function checkUnitsForSale(input) {
+            let available = parseInt($(input).data("available"));
+            let entered = parseInt($(input).val());
+
+            if (entered > available) {
+                $(input).val(available);
+            } else if (entered < 0 || isNaN(entered)) {
+                $(input).val(0);
+            }
+        }
+
+        function checkCampaignPrice(input) {
+            let original = parseFloat($(input).data("original"));
+            let entered = parseFloat($(input).val());
+
+            if (entered > original) {
+                $(input).val(original);
+            } else if (entered < 0 || isNaN(entered)) {
+                $(input).val(0);
+            }
         }
 
         // Apply fixed date range if checked
