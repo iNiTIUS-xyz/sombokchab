@@ -42,9 +42,6 @@ class GlobalCampaignService
         return $campaign->get();
     }
 
-    /**====================================================================
-     *                  CAMPAIGN PRODUCT FUNCTIONS
-    ==================================================================== */
     public static function updateCampaignProducts($campaign_id, $data)
     {
         try {
@@ -83,7 +80,7 @@ class GlobalCampaignService
         return (bool) CampaignProduct::whereIn('product_id', $all_product_id)->delete();
     }
 
-    public static function renderCampaignProduct($url, $id = null): Factory|View|Application
+    public static function renderCampaignProduct($url, $id = null)
     {
         $other_campaign_products = CampaignProduct::query()->select('product_id');
         $campaign = null;
@@ -98,7 +95,7 @@ class GlobalCampaignService
         $other_campaign_products = $other_campaign_products->pluck('product_id')->toArray();
         $all_products = Product::with('inventory')->where('status_id', 1)->whereNotIn('id', $other_campaign_products)->get();
 
-        return view($url.$view, compact('campaign', 'all_products'));
+        return view($url . $view, compact('campaign', 'all_products'));
     }
 
     public static function campaignDetails($id)

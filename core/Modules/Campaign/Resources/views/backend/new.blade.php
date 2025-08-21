@@ -5,7 +5,7 @@
 @endsection
 
 @section('style')
-    {{--  --}}
+    <link rel="stylesheet" href="{{ asset('assets/backend/css/flatpickr.min.css') }}">
     <style>
         .form-section {
             background: transparent;
@@ -31,6 +31,12 @@
 
         .dashboard__card {
             height: auto !important;
+        }
+
+        .accordion-button:not(.collapsed) {
+            color: var(--main-color-one) !important;
+            background-color: var(--white) !important;
+            box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .125);
         }
     </style>
 @endsection
@@ -59,154 +65,227 @@
         </div>
     </div>
     <div class="col-lg-12 col-ml-12">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="row g-4">
-                    <div class="col-md-4">
-                        <div class="dashboard__card">
-                            <div class="mb-3">
-                                <label class="form-label">Campaign Name <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" placeholder="Enter campaign name">
+        <form action="">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <div class="dashboard__card">
+                                <div class="mb-3">
+                                    <label class="form-label">Campaign Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" placeholder="Enter campaign name">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Campaign Subtitle <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" placeholder="Enter campaign subtitle">
+                                </div>
+                                <div class="mb-3">
+                                    <x-media-upload :title="__('Campaign Image')" name="image" :dimentions="'1920x1080'" />
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">
+                                        Campaign Status
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-select">
+                                        <option>Published</option>
+                                        <option>Draft</option>
+                                        <option>Archived</option>
+                                    </select>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="discountCheck">
+                                    <label class="form-check-label" for="discountCheck">
+                                        Set Discount Percentage
+                                    </label>
+                                </div>
+                                <div class="mb-3">
+                                    <input type="text" class="form-control" placeholder="Set Discount Percentage">
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="set_fixed_date">
+                                    <label class="form-check-label" for="set_fixed_date">
+                                        Set Fixed Date Range
+                                    </label>
+                                </div>
+                                <div class="mb-3 d-flex gap-2">
+                                    <input type="text" class="form-control flatpickr" id="fixed_from_date">
+                                </div>
+                                <div class="mb-3 d-flex gap-2">
+                                    <input type="text" class="form-control flatpickr" id="fixed_to_date">
+                                </div>
+                                <button class="btn btn-success w-100" type="submit">
+                                    {{ __('Add Campaign') }}
+                                </button>
                             </div>
-                            <div class="mb-3">
-                                <label class="form-label">Campaign Subtitle <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" placeholder="Enter campaign subtitle">
-                            </div>
-                            <div class="mb-3">
-                                <x-media-upload :title="__('Campaign Image')" name="image" :dimentions="'1920x1080'" />
-                            </div>
-                            <div class="mb-3">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="dashboard__card campain_product_section">
                                 <label class="form-label">
-                                    Campaign Status
+                                    Campaign Products
                                     <span class="text-danger">*</span>
                                 </label>
-                                <select class="form-select">
-                                    <option>Published</option>
-                                    <option>Draft</option>
-                                    <option>Archived</option>
+                                <select class="form-control" id="productId" onchange="selectCampaignProduct(this)">
+                                    <option selected disabled>
+                                        Select One
+                                    </option>
+                                    @foreach ($all_products as $product)
+                                        <option value="{{ $product->id }}" data-product_id="{{ $product->id }}"
+                                            data-product_name="{{ $product->name }}" data-price="{{ $product->price }}"
+                                            data-sale_price="{{ $product->sale_price }}"
+                                            data-stock="{{ optional($product->inventory)->stock_count ?? 0 }}">
+                                            {{ $product->name }}
+                                        </option>
+                                    @endforeach
                                 </select>
                             </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="discountCheck" checked>
-                                <label class="form-check-label" for="discountCheck">Set Discount
-                                    Percentage</label>
-                            </div>
-                            <div class="mb-3">
-                                <input type="text" class="form-control" placeholder="15%">
-                            </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="dateCheck" checked>
-                                <label class="form-check-label" for="dateCheck">Set Fixed Date Range</label>
-                            </div>
-                            <div class="mb-3 d-flex gap-2">
-                                <input type="text" class="form-control">
-                                <input type="text" class="form-control">
-                            </div>
-                            <button class="btn btn-success w-100">
-                                Create Campaign
-                            </button>
-                        </div>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="dashboard__card campain_product_section">
-                            <label class="form-label">
-                                Campaign Products
-                                <span class="text-danger">*</span>
-                            </label>
-                            <select class="form-control selec2">
-                                @foreach ($all_products as $product)
-                                    <option value="{{ $product->id }}" data-price="{{ $product->price }}"
-                                        data-sale_price="{{ $product->sale_price }}"
-                                        data-stock="{{ optional($product->inventory)->stock_count ?? 0 }}">
-                                        {{ $product->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="accordion" id="campaignProducts">
-                            <div class="accordion-item mb-2">
-                                <h2 class="accordion-header d-flex align-items-center">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#product1">
-                                        Infant Baby Girl Outfits Long Sleeve Ruffle Romper + Floral Pants + Headband Set
-                                    </button>
-                                    <button type="button" class="btn btn-danger">
-                                        <i class="ti-trash"></i>
-                                    </button>
-                                </h2>
-                                <div id="product1" class="accordion-collapse collapse" data-bs-parent="#campaignProducts">
-                                    <div class="accordion-body">
-                                        <div class="row g-3">
-                                            <div class="col-md-3">
-                                                <label class="form-label">Original Price</label>
-                                                <input type="text" class="form-control" value="$40.00">
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label class="form-label">Price for Campaign</label>
-                                                <input type="text" class="form-control" value="$34.00">
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label class="form-label">No. of Units Available</label>
-                                                <input type="text" class="form-control" value="40">
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label class="form-label">No. of Units for Sale</label>
-                                                <input type="text" class="form-control" value="15">
-                                            </div>
-                                            <div class="col-md-3">
-                                                <input type="date" class="form-control" value="2025-07-25">
-                                            </div>
-                                            <div class="col-md-3">
-                                                <input type="date" class="form-control" value="2025-07-30">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Repeat Product Items -->
-                            <div class="accordion-item mb-2">
-                                <h2 class="accordion-header d-flex align-items-center">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#product2">
-                                        Long Sleeve Ruffle Romper + Floral Pants + Headband Set
-                                    </button>
-                                    <button type="button" class="btn btn-danger">
-                                        <i class="ti-trash"></i>
-                                    </button>
-                                </h2>
-                                <div id="product2" class="accordion-collapse collapse"
-                                    data-bs-parent="#campaignProducts">
-                                    <div class="accordion-body">
-                                        <p>Product details form here...</p>
-                                    </div>
-                                </div>
-                            </div>
+                            <div class="accordion" id="campaignProducts">
 
-                            <div class="accordion-item mb-2">
-                                <h2 class="accordion-header d-flex align-items-center">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#product3">
-                                        Floral Pants + Headband Set
-                                    </button>
-                                    <button type="button" class="btn btn-danger">
-                                        <i class="ti-trash"></i>
-                                    </button>
-                                </h2>
-                                <div id="product3" class="accordion-collapse collapse"
-                                    data-bs-parent="#campaignProducts">
-                                    <div class="accordion-body">
-                                        <p>Product details form here...</p>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 @endsection
 
 @section('script')
-    {{--  --}}
+    <script src="{{ asset('assets/backend/js/flatpickr.js') }}"></script>
+    <script>
+        flatpickr(".flatpickr", {
+            altInput: true,
+            altFormat: "F j, Y",
+            dateFormat: "Y-m-d",
+        });
+    </script>
+    <script>
+        // Keep track of added products
+        let addedProducts = [];
+
+        function selectCampaignProduct() {
+            let selected = $("#productId option:selected");
+            let productId = selected.data("product_id");
+            let productName = selected.data("product_name");
+            let productPrice = selected.data("price");
+            let productSalePrice = selected.data("sale_price");
+            let productStock = selected.data("stock");
+
+            // Prevent duplicate
+            if (addedProducts.includes(productId)) {
+                alert("This product is already added to the campaign!");
+                return;
+            }
+
+            addedProducts.push(productId);
+
+            let uniqueId = "product_" + productId;
+
+            let html = `
+                <div class="accordion-item mb-2" id="accordion-${productId}">
+                    <h2 class="accordion-header d-flex align-items-center">
+                        <input type="hidden" name="product_id[]" value="${productId}">
+                        <button class="accordion-button collapsed" type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#${uniqueId}"
+                            aria-expanded="false"
+                            aria-controls="${uniqueId}">
+                            ${productName}
+                        </button>
+                        <button type="button" class="btn btn-danger ms-2" onclick="removeCampaignProduct(${productId})">
+                            <i class="ti-trash"></i>
+                        </button>
+                    </h2>
+                    <div id="${uniqueId}" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+                            <div class="row g-3">
+                                <div class="col-md-3">
+                                    <label class="form-label">Original Price</label>
+                                    <input type="text" class="form-control" value="${productPrice}" readonly />
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Price for Campaign</label>
+                                    <input type="text" class="form-control" value="" name="campaign_price[]"/>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">No. of Units Available</label>
+                                    <input type="text" class="form-control" value="${productStock}" readonly />
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">No. of Units for Sale</label>
+                                    <input type="text" class="form-control" value="0" name="units_for_sale[]" />
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Start Date</label>
+                                    <input type="text" class="form-control dataPickerStart" />
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">End Date</label>
+                                    <input type="text" class="form-control dataPickerEnd" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            $("#campaignProducts").append(html);
+
+            // Initialize flatpickr only for new inputs
+            $("#accordion-" + productId + " .dataPickerStart").flatpickr({
+                altInput: true,
+                altFormat: "F j, Y",
+                dateFormat: "Y-m-d",
+            });
+            $("#accordion-" + productId + " .dataPickerEnd").flatpickr({
+                altInput: true,
+                altFormat: "F j, Y",
+                dateFormat: "Y-m-d",
+            });
+        }
+
+        // Apply fixed date range if checked
+        $('#set_fixed_date').on('change', function() {
+            if ($(this).is(':checked')) {
+                let from_date = $('#fixed_from_date').val();
+                let to_date = $('#fixed_to_date').val();
+
+                if (from_date && to_date) {
+                    $('.dataPickerStart').each(function() {
+                        if (this._flatpickr) {
+                            this._flatpickr.setDate(from_date, true);
+                        } else {
+                            $(this).flatpickr({
+                                altInput: true,
+                                altFormat: "F j, Y",
+                                dateFormat: "Y-m-d",
+                                defaultDate: from_date
+                            });
+                        }
+                    });
+
+                    $('.dataPickerEnd').each(function() {
+                        if (this._flatpickr) {
+                            this._flatpickr.setDate(to_date, true);
+                        } else {
+                            $(this).flatpickr({
+                                altInput: true,
+                                altFormat: "F j, Y",
+                                dateFormat: "Y-m-d",
+                                defaultDate: to_date
+                            });
+                        }
+                    });
+                } else {
+                    alert("Please select fixed date range first");
+                    $(this).prop('checked', false);
+                }
+            }
+        });
+
+        function removeCampaignProduct(productId) {
+            $("#accordion-" + productId).remove();
+            addedProducts = addedProducts.filter(id => id !== productId);
+        }
+    </script>
 @endsection
