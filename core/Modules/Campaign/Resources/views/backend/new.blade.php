@@ -76,14 +76,16 @@
                                         Campaign Name
                                         <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" placeholder="Enter campaign name">
+                                    <input type="text" class="form-control" name="campaign_name"
+                                        placeholder="Enter campaign name">
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">
                                         Campaign Subtitle
                                         <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" placeholder="Enter campaign subtitle">
+                                    <input type="text" class="form-control" name="campaign_subtitle"
+                                        placeholder="Enter campaign subtitle">
                                 </div>
                                 <div class="mb-3">
                                     <x-media-upload :title="__('Campaign Image')" name="image" :dimentions="'1920x1080'" />
@@ -93,10 +95,9 @@
                                         Campaign Status
                                         <span class="text-danger">*</span>
                                     </label>
-                                    <select class="form-select">
-                                        <option>Published</option>
-                                        <option>Draft</option>
-                                        <option>Archived</option>
+                                    <select name="status" class="form-select">
+                                        <option value="draft">{{ __('Draft') }}</option>
+                                        <option value="publish">{{ __('Publish') }}</option>
                                     </select>
                                 </div>
                                 <div class="form-check mb-2">
@@ -133,7 +134,8 @@
                                     Campaign Products
                                     <span class="text-danger">*</span>
                                 </label>
-                                <select class="form-control" id="productId" onchange="selectCampaignProduct(this)">
+                                <select class="form-control select2 product_select" id="productId"
+                                    onchange="selectCampaignProduct(this)">
                                     <option selected disabled>
                                         Select One
                                     </option>
@@ -142,14 +144,12 @@
                                             data-product_name="{{ $product->name }}" data-price="{{ $product->price }}"
                                             data-sale_price="{{ $product->sale_price }}"
                                             data-stock="{{ optional($product->inventory)->stock_count ?? 0 }}">
-                                            {{ $product->name }}
+                                            {{ Str::limit($product->name, 100, '...') }}
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="accordion" id="campaignProducts">
-
-                            </div>
+                            <div class="accordion" id="campaignProducts"></div>
                         </div>
                     </div>
                 </div>
@@ -161,13 +161,20 @@
 @section('script')
     <script src="{{ asset('assets/backend/js/flatpickr.js') }}"></script>
     <script>
+        $(document).ready(function() {
+            // Initialize Select2
+            $('.select2.product_select').select2({
+                placeholder: "{{ __('Select Product') }}",
+            });
+        });
+    </script>
+    <script>
         flatpickr(".flatpickr", {
             altInput: true,
             altFormat: "F j, Y",
             dateFormat: "Y-m-d",
         });
-    </script>
-    <script>
+
         // Keep track of added products
         let addedProducts = [];
 
@@ -180,7 +187,7 @@
 
             // Prevent duplicate
             if (addedProducts.includes(productId)) {
-                alert("This product is already added to the campaign!");
+                toastr.error('This product is already added to the campaign!');
                 return;
             }
 
@@ -232,11 +239,11 @@
                                 </div>
                                 <div class="col-md-4">
                                     <label class="form-label">Start Date</label>
-                                    <input type="text" class="form-control dataPickerStart" name="start_date[]" />
+                                    <input type="text" class="form-control dataPickerStart" name=""start_date[] />
                                 </div>
                                 <div class="col-md-4">
                                     <label class="form-label">End Date</label>
-                                    <input type="text" class="form-control dataPickerEnd" name="end_date[]" />
+                                    <input type="text" class="form-control dataPickerEnd" name=""end_date[] />
                                 </div>
                             </div>
                         </div>
@@ -246,6 +253,7 @@
 
             $("#campaignProducts").append(html);
 
+            // Initialize flatpickr only for new inputs
             $("#accordion-" + productId + " .dataPickerStart").flatpickr({
                 altInput: true,
                 altFormat: "F j, Y",
@@ -263,6 +271,7 @@
             let entered = parseInt($(input).val());
 
             if (entered > available) {
+
                 $(input).val(available);
             } else if (entered < 0 || isNaN(entered)) {
                 $(input).val(0);
@@ -280,7 +289,6 @@
             }
         }
 
-        // Apply fixed date range if checked
         $('#set_fixed_date').on('change', function() {
             if ($(this).is(':checked')) {
                 let from_date = $('#fixed_from_date').val();
@@ -313,7 +321,7 @@
                         }
                     });
                 } else {
-                    alert("Please select fixed date range first");
+                    toastr.error("Please select fixed date range first");
                     $(this).prop('checked', false);
                 }
             }
@@ -323,5 +331,43 @@
             $("#accordion-" + productId).remove();
             addedProducts = addedProducts.filter(id => id !== productId);
         }
+
+        $('#discountCheck').on('change', function() {
+            if ($(this).is(':checked')) {
+                let discountPercent = parseFloat($('input[placeholder="Set Discount Percentage"]').val());
+
+                if (isNaN(discountPercent) || discountPercent <= 0) {
+                    toastr.error("Please enter a valid discount percentage first");
+                    $(this).prop('checked', false);
+                    return;
+                }
+
+                $('.campaign-price').each(function() {
+                    let original = parseFloat($(this).data("original"));
+                    let discountedPrice = original - (original * discountPercent / 100);
+
+                    if (discountedPrice < 0) discountedPrice = 0;
+
+                    $(this).val(discountedPrice.toFixed(2));
+                });
+            }
+        });
+
+        $('input[placeholder="Set Discount Percentage"]').on('input', function() {
+            if ($('#discountCheck').is(':checked')) {
+                let discountPercent = parseFloat($(this).val());
+
+                if (isNaN(discountPercent) || discountPercent < 0) return;
+
+                $('.campaign-price').each(function() {
+                    let original = parseFloat($(this).data("original"));
+                    let discountedPrice = original - (original * discountPercent / 100);
+
+                    if (discountedPrice < 0) discountedPrice = 0;
+
+                    $(this).val(discountedPrice.toFixed(2));
+                });
+            }
+        });
     </script>
 @endsection

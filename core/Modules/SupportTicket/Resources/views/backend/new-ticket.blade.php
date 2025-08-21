@@ -194,7 +194,7 @@
                 $('.select2.vendor_select').select2({
                     placeholder: "{{ __('Select Vendor') }}",
                 });
-                
+
 
                 // Toggle between customer and vendor fields
                 $('input[name="user_type"]').change(function() {
