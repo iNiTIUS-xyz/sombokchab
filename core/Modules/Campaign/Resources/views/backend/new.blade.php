@@ -6,6 +6,7 @@
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('assets/backend/css/flatpickr.min.css') }}">
+    <x-media.css />
     <style>
         .form-section {
             background: transparent;
@@ -156,9 +157,11 @@
             </div>
         </form>
     </div>
+    <x-media.markup />
 @endsection
 
 @section('script')
+    <x-media.js />
     <script src="{{ asset('assets/backend/js/flatpickr.js') }}"></script>
     <script>
         $(document).ready(function() {
