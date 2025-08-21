@@ -85,7 +85,7 @@
                                         <span class="text-danger">*</span>
                                     </label>
                                     <input type="text" class="form-control" name="campaign_name"
-                                        placeholder="Enter campaign name" value="{{ old('campaign_name') }}" required>
+                                        placeholder="Enter campaign name" value="{{ $campaign->title }}" required>
                                     @error('campaign_name')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -96,14 +96,14 @@
                                         <span class="text-danger">*</span>
                                     </label>
                                     <input type="text" class="form-control" name="campaign_subtitle"
-                                        placeholder="Enter campaign subtitle" value="{{ old('campaign_subtitle') }}"
-                                        required>
+                                        placeholder="Enter campaign subtitle"
+                                        value="{{ html_entity_decode($campaign->subtitle) }}" required>
                                     @error('campaign_subtitle')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="mb-3">
-                                    <x-media-upload :title="__('Campaign Image')" name="image" :dimentions="'1920x1080'" />
+                                    <x-media-upload :title="__('Campaign Image')" name="image" :oldimage="$campaign->campaignImage" :dimentions="'1920x1080'" />
                                     @error('image')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -114,10 +114,12 @@
                                         <span class="text-danger">*</span>
                                     </label>
                                     <select name="status" class="form-select" required>
-                                        <option value="draft" {{ old('status') == 'draft' ? 'selected' : '' }}>
-                                            {{ __('Draft') }}</option>
-                                        <option value="publish" {{ old('status') == 'publish' ? 'selected' : '' }}>
-                                            {{ __('Publish') }}</option>
+                                        <option value="draft" @if ($campaign->status == 'draft') selected @endif>
+                                            {{ __('Draft') }}
+                                        </option>
+                                        <option value="publish" @if ($campaign->status == 'publish') selected @endif>
+                                            {{ __('Publish') }}
+                                        </option>
                                     </select>
                                     @error('status')
                                         <span class="text-danger">{{ $message }}</span>
@@ -135,7 +137,7 @@
                                 </div>
                                 <div class="form-check mb-2">
                                     <input class="form-check-input" type="checkbox" id="set_fixed_date"
-                                        name="use_fixed_dates">
+                                        @if ($campaign->start_date || $campaign->end_date) checked @endif name="use_fixed_dates">
                                     <label class="form-check-label" for="set_fixed_date">
                                         Set Fixed Date Range
                                     </label>
@@ -143,7 +145,7 @@
                                 <div class="mb-3">
                                     <label class="form-label">Start Date</label>
                                     <input type="text" class="form-control flatpickr" id="fixed_from_date"
-                                        name="campaign_start_date" value="{{ old('campaign_start_date') }}" required>
+                                        name="campaign_start_date" value="{{ $campaign->start_date }}" required>
                                     @error('campaign_start_date')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -151,7 +153,7 @@
                                 <div class="mb-3">
                                     <label class="form-label">End Date</label>
                                     <input type="text" class="form-control flatpickr" id="fixed_to_date"
-                                        name="campaign_end_date" value="{{ old('campaign_end_date') }}" required>
+                                        name="campaign_end_date" value="{{ $campaign->end_date }}" required>
                                     @error('campaign_end_date')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -235,7 +237,7 @@
                                                             <input type="number" class="form-control units-for-sale"
                                                                 value="{{ $campaignProduct->units_for_sale }}"
                                                                 name="units_for_sale[]"
-                                                                data-available="{{ $campaignProduct?->product?->stock }}"
+                                                                data-available="{{ $campaignProduct?->product?->inventory?->stock_count }}"
                                                                 oninput="checkUnitsForSale(this)" required />
                                                         </div>
                                                         <div class="col-md-4">
