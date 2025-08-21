@@ -45,11 +45,8 @@ class GlobalCampaignService
     public static function updateCampaignProducts($campaign_id, $data)
     {
         try {
-            DB::beginTransaction();
             (new self)->deleteCampaignProducts($data['products']['product_id']);
             self::insertCampaignProducts($campaign_id, $data['products'], $data['start_date'], $data['end_date']);
-
-            DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
 

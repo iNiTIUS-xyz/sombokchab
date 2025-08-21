@@ -187,6 +187,7 @@
                             <div class="accordion" id="campaignProducts">
                                 @if ($campaign->products)
                                     @foreach ($campaign->products as $campaignProduct)
+                                        <input type="hidden" name="campaign_product_id[]" class="campaign_product_id" value="{{ $campaignProduct->id }}">
                                         <div class="accordion-item mb-2"
                                             id="accordion-{{ $campaignProduct->product_id }}">
                                             <h2 class="accordion-header d-flex align-items-center">
@@ -200,7 +201,7 @@
                                                     {{ $campaignProduct?->product?->name }}
                                                 </button>
                                                 <button type="button" class="btn btn-danger ms-2"
-                                                    onclick="removeCampaignProduct({{ $campaignProduct->product_id }})">
+                                                    onclick="deleteCampaign({{ $campaignProduct->id }})">
                                                     <i class="ti-trash"></i>
                                                 </button>
                                             </h2>
@@ -504,5 +505,28 @@
                 });
             }
         });
+
+        function deleteCampaign(campaign_id) {
+            Swal.fire({
+                title: "{{ __('Do you want to delete this campaign?') }}",
+                showCancelButton: true,
+                confirmButtonText: 'Delete',
+                confirmButtonColor: '#dd3333',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.post('{{ route('admin.campaigns.delete.product') }}', {
+                        _token: '{{ csrf_token() }}',
+                        id: campaign_id
+                    }).then(function(data) {
+                        if (data) {
+                            Swal.fire('Deleted!', '', 'success');
+                            setTimeout(function() {
+                                location.reload();
+                            }, 1000);
+                        }
+                    });
+                }
+            });
+        }
     </script>
 @endsection

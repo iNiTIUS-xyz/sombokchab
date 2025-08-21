@@ -15,7 +15,6 @@ use Modules\Product\Entities\Product;
 use Illuminate\Contracts\View\Factory;
 use Modules\Campaign\Entities\Campaign;
 use Modules\Campaign\Entities\CampaignProduct;
-use Illuminate\Contracts\Foundation\Application;
 use Modules\Campaign\Http\Services\GlobalCampaignService;
 use Modules\Campaign\Http\Requests\CampaignValidationRequest;
 
@@ -94,7 +93,7 @@ class CampaignController extends Controller
         }
     }
 
-    public function edit($item): Application|Factory|View
+    public function edit($item)
     {
         return GlobalCampaignService::renderCampaignProduct(self::BASE_URL, $item);
     }
@@ -105,7 +104,7 @@ class CampaignController extends Controller
 
         $existCampaign = Campaign::query()
             ->where('id', '!=', $request->id)
-            ->where('title', $request->title)
+            ->where('title', $request->campaign_name)
             ->first();
 
         if ($existCampaign) {
@@ -115,18 +114,51 @@ class CampaignController extends Controller
             ]);
         }
 
-
         DB::beginTransaction();
+
+
         try {
-            Campaign::findOrFail($request->id)->update($data);
-            GlobalCampaignService::updateCampaignProducts($request->id, $data);
+
+            $campaignData = [
+                'title' => $data['campaign_name'],
+                'subtitle' => $data['campaign_subtitle'],
+                'image' => $data['image'],
+                'status' => $data['status'],
+                'start_date' => $data['campaign_start_date'],
+                'end_date' => $data['campaign_end_date'],
+                'slug' => Str::slug($data['campaign_name']),
+            ];
+
+            Campaign::findOrFail($request->id)->update($campaignData);
+
+            $productsData = [
+                'product_id' => $request->product_id,
+                'campaign_price' => $request->campaign_price,
+                'units_for_sale' => $request->units_for_sale,
+                'start_date' => $request->start_date,
+                'end_date' => $request->end_date,
+            ];
+
+            if ($request->id) {
+
+                CampaignProduct::whereIn('id', $request->campaign_product_id)->delete();
+
+                $productsData = [
+                    'product_id' => $request->product_id,
+                    'campaign_price' => $request->campaign_price,
+                    'units_for_sale' => $request->units_for_sale,
+                    'start_date' => $request->start_date,
+                    'end_date' => $request->end_date,
+                ];
+
+                GlobalCampaignService::insertCampaignProducts($request->id, $productsData);
+            }
 
             DB::commit();
 
             return back()->with(FlashMsg::update_succeed('Campaign'));
         } catch (Throwable $th) {
             DB::rollBack();
-
             return back()->with(FlashMsg::update_failed('Campaign'));
         }
     }
