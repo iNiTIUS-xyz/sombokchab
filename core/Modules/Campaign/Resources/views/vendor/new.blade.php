@@ -53,13 +53,11 @@
                         <h4 class="dashboard__card__title">
                             {{ __('Create Campaign') }}
                         </h4>
-                        @can('campaigns')
-                            <div class="btn-wrapper">
-                                <a href="{{ route('admin.campaigns.all') }}" class="cmn_btn btn_bg_profile">
-                                    {{ __('All Campaigns') }}
-                                </a>
-                            </div>
-                        @endcan
+                        <div class="btn-wrapper">
+                            <a href="{{ route('vendor.campaigns.all') }}" class="cmn_btn btn_bg_profile">
+                                {{ __('All Campaigns') }}
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
