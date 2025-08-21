@@ -8,32 +8,25 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class CampaignValidationRequest extends FormRequest
 {
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
     public function rules(): array
     {
         return [
-            'title' => 'required|string|max:191',
-            'subtitle' => 'required|string',
+            'campaign_name' => 'required|string|max:191',
+            'campaign_subtitle' => 'required|string',
             'image' => 'required|string',
             'status' => 'required|string',
-            'start_date' => 'required',
-            'end_date' => 'required',
-            'id' => 'nullable',
-            // 'slug' => ['required', Rule::unique('campaigns')->ignore($this->id)],
-            'products.product_id' => 'required|array',
-            'products.campaign_price' => 'required|array',
-            'products.units_for_sale' => 'required|array',
-            'products.start_date' => 'required|array',
-            'products.end_date' => 'required|array',
-            'products.product_id.*' => 'required|exists:products,id',
-            'products.campaign_price.*' => 'required|string',
-            'products.units_for_sale.*' => 'required|string',
-            'products.start_date.*' => 'nullable|date',
-            'products.end_date.*' => 'nullable|date',
+            'campaign_start_date' => 'required|date',
+            'campaign_end_date' => 'required|date|after:campaign_start_date',
+            'product_id' => 'required|array|min:1',
+            'product_id.*' => 'required|exists:products,id',
+            'campaign_price' => 'required|array|min:1',
+            'campaign_price.*' => 'required|numeric|min:0',
+            'units_for_sale' => 'required|array|min:1',
+            'units_for_sale.*' => 'required|integer|min:0',
+            'start_date' => 'required|array|min:1',
+            'start_date.*' => 'required|date',
+            'end_date' => 'required|array|min:1',
+            'end_date.*' => 'required|date|after:start_date.*',
             'admin_id' => 'nullable',
             'vendor_id' => 'nullable',
             'type' => 'nullable',
@@ -48,30 +41,11 @@ class CampaignValidationRequest extends FormRequest
                 'subtitle' => $this->campaign_subtitle,
                 'image' => $this->image,
                 'status' => $this->status,
-                'start_date' => $this->campaign_start_date,
-                'end_date' => $this->campaign_end_date,
                 'slug' => strtolower(str_replace(' ', '-', $this->campaign_name)),
-                'products' => [
-                    'product_id' => $this->product_id,
-                    'campaign_price' => $this->campaign_price,
-                    'units_for_sale' => $this->units_for_sale,
-                    'start_date' => $this->start_date,
-                    'end_date' => $this->end_date,
-                    'product_id.*' => $this->product_id,
-                    'campaign_price.*' => $this->campaign_price,
-                    'units_for_sale.*' => $this->units_for_sale,
-                    'start_date.*' => $this->start_date,
-                    'end_date.*' => $this->end_date,
-                ],
             ] + $this->how_is_the_owner()
         );
     }
 
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
     public function authorize()
     {
         return true;

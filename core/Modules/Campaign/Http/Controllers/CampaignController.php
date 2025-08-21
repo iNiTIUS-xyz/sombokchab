@@ -2,21 +2,22 @@
 
 namespace Modules\Campaign\Http\Controllers;
 
-use App\Helpers\FlashMsg;
 use DB;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
+use Throwable;
+use App\Helpers\FlashMsg;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Modules\Product\Entities\Product;
+use Illuminate\Contracts\View\Factory;
 use Modules\Campaign\Entities\Campaign;
 use Modules\Campaign\Entities\CampaignProduct;
-use Modules\Campaign\Http\Requests\CampaignValidationRequest;
+use Illuminate\Contracts\Foundation\Application;
 use Modules\Campaign\Http\Services\GlobalCampaignService;
-use Modules\Product\Entities\Product;
-use Throwable;
+use Modules\Campaign\Http\Requests\CampaignValidationRequest;
 
 class CampaignController extends Controller
 {
@@ -34,13 +35,14 @@ class CampaignController extends Controller
         return GlobalCampaignService::renderCampaignProduct(self::BASE_URL);
     }
 
+
     public function store(CampaignValidationRequest $request)
     {
         $data = $request->validated();
 
         try {
             $existCampaign = Campaign::query()
-                ->where('title', $request->title)
+                ->where('title', $request->campaign_name)
                 ->first();
 
             if ($existCampaign) {
@@ -52,10 +54,33 @@ class CampaignController extends Controller
 
             DB::beginTransaction();
 
-            $campaign = Campaign::create($data);
+            // Prepare campaign data
+            $campaignData = [
+                'title' => $data['campaign_name'],
+                'subtitle' => $data['campaign_subtitle'],
+                'image' => $data['image'],
+                'status' => $data['status'],
+                'start_date' => $data['campaign_start_date'],
+                'end_date' => $data['campaign_end_date'],
+                'slug' => Str::slug($data['campaign_name']),
+                'admin_id' => $data['admin_id'] ?? null,
+                'vendor_id' => $data['vendor_id'] ?? null,
+                'type' => $data['type'] ?? null,
+            ];
+
+            $campaign = Campaign::create($campaignData);
 
             if ($campaign->id) {
-                GlobalCampaignService::insertCampaignProducts($campaign->id, $data['products']);
+                // Prepare products data
+                $productsData = [
+                    'product_id' => $request->product_id,
+                    'campaign_price' => $request->campaign_price,
+                    'units_for_sale' => $request->units_for_sale,
+                    'start_date' => $request->start_date,
+                    'end_date' => $request->end_date,
+                ];
+
+                GlobalCampaignService::insertCampaignProducts($campaign->id, $productsData);
             }
 
             DB::commit();
@@ -63,6 +88,7 @@ class CampaignController extends Controller
             return back()->with(FlashMsg::create_succeed('Campaign'));
         } catch (Throwable $th) {
             DB::rollBack();
+            \Log::error('Campaign creation failed: ' . $th->getMessage());
 
             return back()->with(FlashMsg::create_failed('Campaign'));
         }

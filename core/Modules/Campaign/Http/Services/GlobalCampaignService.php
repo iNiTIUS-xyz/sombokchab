@@ -57,18 +57,20 @@ class GlobalCampaignService
         }
     }
 
-    public static function insertCampaignProducts($campaign_id, $products_data, $start_date = null, $end_date = null): bool
+    public static function insertCampaignProducts($campaign_id, $products_data): bool
     {
         $insert_data = [];
 
-        foreach ($products_data['product_id'] as $key => $value) {
-            $insert_data[$products_data['product_id'][$key]] = [
+        foreach ($products_data['product_id'] as $key => $product_id) {
+            $insert_data[] = [
                 'campaign_id' => $campaign_id,
-                'product_id' => $products_data['product_id'][$key],
+                'product_id' => $product_id,
                 'campaign_price' => $products_data['campaign_price'][$key],
                 'units_for_sale' => $products_data['units_for_sale'][$key],
-                'start_date' => $products_data['start_date'][$key] ?? $start_date,
-                'end_date' => $products_data['end_date'][$key] ?? $end_date,
+                'start_date' => $products_data['start_date'][$key],
+                'end_date' => $products_data['end_date'][$key],
+                'created_at' => now(),
+                'updated_at' => now(),
             ];
         }
 

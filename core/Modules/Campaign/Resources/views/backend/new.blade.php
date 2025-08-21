@@ -66,7 +66,8 @@
         </div>
     </div>
     <div class="col-lg-12 col-ml-12">
-        <form action="">
+        <form action="{{ route('admin.campaigns.new') }}" method="POST" enctype="multipart/form-data">
+            @csrf
             <div class="row">
                 <div class="col-lg-12">
                     <div class="row g-4">
@@ -78,7 +79,10 @@
                                         <span class="text-danger">*</span>
                                     </label>
                                     <input type="text" class="form-control" name="campaign_name"
-                                        placeholder="Enter campaign name">
+                                        placeholder="Enter campaign name" value="{{ old('campaign_name') }}" required>
+                                    @error('campaign_name')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">
@@ -86,20 +90,32 @@
                                         <span class="text-danger">*</span>
                                     </label>
                                     <input type="text" class="form-control" name="campaign_subtitle"
-                                        placeholder="Enter campaign subtitle">
+                                        placeholder="Enter campaign subtitle" value="{{ old('campaign_subtitle') }}"
+                                        required>
+                                    @error('campaign_subtitle')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
                                 <div class="mb-3">
                                     <x-media-upload :title="__('Campaign Image')" name="image" :dimentions="'1920x1080'" />
+                                    @error('image')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">
                                         Campaign Status
                                         <span class="text-danger">*</span>
                                     </label>
-                                    <select name="status" class="form-select">
-                                        <option value="draft">{{ __('Draft') }}</option>
-                                        <option value="publish">{{ __('Publish') }}</option>
+                                    <select name="status" class="form-select" required>
+                                        <option value="draft" {{ old('status') == 'draft' ? 'selected' : '' }}>
+                                            {{ __('Draft') }}</option>
+                                        <option value="publish" {{ old('status') == 'publish' ? 'selected' : '' }}>
+                                            {{ __('Publish') }}</option>
                                     </select>
+                                    @error('status')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
                                 <div class="form-check mb-2">
                                     <input class="form-check-input" type="checkbox" id="discountCheck">
@@ -108,21 +124,31 @@
                                     </label>
                                 </div>
                                 <div class="mb-3">
-                                    <input type="text" class="form-control" placeholder="Set Discount Percentage">
+                                    <input type="number" class="form-control" id="discountPercentage"
+                                        placeholder="Set Discount Percentage" min="0" max="100" step="0.01">
                                 </div>
                                 <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" id="set_fixed_date">
+                                    <input class="form-check-input" type="checkbox" id="set_fixed_date"
+                                        name="use_fixed_dates">
                                     <label class="form-check-label" for="set_fixed_date">
                                         Set Fixed Date Range
                                     </label>
                                 </div>
-                                <div class="mb-3 d-flex gap-2">
+                                <div class="mb-3">
+                                    <label class="form-label">Start Date</label>
                                     <input type="text" class="form-control flatpickr" id="fixed_from_date"
-                                        name="campaign_start_date">
+                                        name="campaign_start_date" value="{{ old('campaign_start_date') }}" required>
+                                    @error('campaign_start_date')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
-                                <div class="mb-3 d-flex gap-2">
+                                <div class="mb-3">
+                                    <label class="form-label">End Date</label>
                                     <input type="text" class="form-control flatpickr" id="fixed_to_date"
-                                        name="campaign_end_date">
+                                        name="campaign_end_date" value="{{ old('campaign_end_date') }}" required>
+                                    @error('campaign_end_date')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
                                 <button class="btn btn-success w-100" type="submit">
                                     {{ __('Add Campaign') }}
@@ -151,6 +177,15 @@
                                 </select>
                             </div>
                             <div class="accordion" id="campaignProducts"></div>
+                            @error('product_id')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                            @error('campaign_price')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                            @error('units_for_sale')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
                 </div>
@@ -224,9 +259,10 @@
                                     <label class="form-label">Price for Campaign</label>
                                     <input type="number" class="form-control campaign-price"
                                         value=""
+                                        step="0.01"
                                         name="campaign_price[]"
                                         data-original="${productPrice}"
-                                        oninput="checkCampaignPrice(this)" />
+                                        oninput="checkCampaignPrice(this)" required />
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label">No. of Units Available</label>
@@ -238,15 +274,15 @@
                                         value="0"
                                         name="units_for_sale[]"
                                         data-available="${productStock}"
-                                        oninput="checkUnitsForSale(this)" />
+                                        oninput="checkUnitsForSale(this)" required />
                                 </div>
                                 <div class="col-md-4">
                                     <label class="form-label">Start Date</label>
-                                    <input type="text" class="form-control dataPickerStart" name=""start_date[] />
+                                    <input type="text" class="form-control dataPickerStart" name="start_date[]" required />
                                 </div>
                                 <div class="col-md-4">
                                     <label class="form-label">End Date</label>
-                                    <input type="text" class="form-control dataPickerEnd" name=""end_date[] />
+                                    <input type="text" class="form-control dataPickerEnd" name="end_date[]" required />
                                 </div>
                             </div>
                         </div>
@@ -274,7 +310,7 @@
             let entered = parseInt($(input).val());
 
             if (entered > available) {
-
+                toastr.error('Cannot exceed available units');
                 $(input).val(available);
             } else if (entered < 0 || isNaN(entered)) {
                 $(input).val(0);
@@ -286,6 +322,7 @@
             let entered = parseFloat($(input).val());
 
             if (entered > original) {
+                toastr.error('Campaign price cannot be higher than original price');
                 $(input).val(original);
             } else if (entered < 0 || isNaN(entered)) {
                 $(input).val(0);
@@ -337,7 +374,7 @@
 
         $('#discountCheck').on('change', function() {
             if ($(this).is(':checked')) {
-                let discountPercent = parseFloat($('input[placeholder="Set Discount Percentage"]').val());
+                let discountPercent = parseFloat($('#discountPercentage').val());
 
                 if (isNaN(discountPercent) || discountPercent <= 0) {
                     toastr.error("Please enter a valid discount percentage first");
@@ -356,7 +393,7 @@
             }
         });
 
-        $('input[placeholder="Set Discount Percentage"]').on('input', function() {
+        $('#discountPercentage').on('input', function() {
             if ($('#discountCheck').is(':checked')) {
                 let discountPercent = parseFloat($(this).val());
 
