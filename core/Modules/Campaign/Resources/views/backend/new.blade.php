@@ -72,11 +72,17 @@
                         <div class="col-md-4">
                             <div class="dashboard__card">
                                 <div class="mb-3">
-                                    <label class="form-label">Campaign Name <span class="text-danger">*</span></label>
+                                    <label class="form-label">
+                                        Campaign Name
+                                        <span class="text-danger">*</span>
+                                    </label>
                                     <input type="text" class="form-control" placeholder="Enter campaign name">
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label">Campaign Subtitle <span class="text-danger">*</span></label>
+                                    <label class="form-label">
+                                        Campaign Subtitle
+                                        <span class="text-danger">*</span>
+                                    </label>
                                     <input type="text" class="form-control" placeholder="Enter campaign subtitle">
                                 </div>
                                 <div class="mb-3">
@@ -109,10 +115,12 @@
                                     </label>
                                 </div>
                                 <div class="mb-3 d-flex gap-2">
-                                    <input type="text" class="form-control flatpickr" id="fixed_from_date">
+                                    <input type="text" class="form-control flatpickr" id="fixed_from_date"
+                                        name="campaign_start_date">
                                 </div>
                                 <div class="mb-3 d-flex gap-2">
-                                    <input type="text" class="form-control flatpickr" id="fixed_to_date">
+                                    <input type="text" class="form-control flatpickr" id="fixed_to_date"
+                                        name="campaign_end_date">
                                 </div>
                                 <button class="btn btn-success w-100" type="submit">
                                     {{ __('Add Campaign') }}
@@ -224,11 +232,11 @@
                                 </div>
                                 <div class="col-md-4">
                                     <label class="form-label">Start Date</label>
-                                    <input type="text" class="form-control dataPickerStart" />
+                                    <input type="text" class="form-control dataPickerStart" name="start_date[]" />
                                 </div>
                                 <div class="col-md-4">
                                     <label class="form-label">End Date</label>
-                                    <input type="text" class="form-control dataPickerEnd" />
+                                    <input type="text" class="form-control dataPickerEnd" name="end_date[]" />
                                 </div>
                             </div>
                         </div>
