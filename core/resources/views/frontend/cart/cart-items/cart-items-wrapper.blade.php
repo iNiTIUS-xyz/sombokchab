@@ -370,7 +370,7 @@
             </div>
 
             <div class="card-footer checkout__card__footer">
-                <h6 class="checkout__card__title card-title py-2">{{ __('Cost Summary') }}</h6>
+                <h6 class="checkout__card__title card-title py-2">{{ __('Shipping options') }}</h6>
                 <input type="hidden" class="shipping_cost" name="shipping_cost[{{ empty($key) ? 'admin' : $c_vendor?->id }}]" />
 
                 <ul class="shippingMethod__wrapper shipping-method-wrapper">

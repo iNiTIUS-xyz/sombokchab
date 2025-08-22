@@ -54,6 +54,7 @@
             border: 2px solid var(--paragraph-color);
             border-radius: 50%;
             position: relative;
+            margin-right: 15px;
         }
 
         .shippingMethod__wrapper__item span.checkbox .inner {
@@ -70,31 +71,31 @@
         /* Hover + Active States */
         .shippingMethod__wrapper__item.active,
         .shippingMethod__wrapper__item:hover {
-            color: var(--white) !important;
+            color: var(--paragraph-color) !important;
             border: 1px solid var(--main-color-one) !important;
-            background: var(--main-color-one) !important;
+            background: transparent !important;
         }
 
         .shippingMethod__wrapper__item.active span.title,
         .shippingMethod__wrapper__item:hover span.title {
-            color: var(--main-color-two) !important;
+            color: var(--main-color-one) !important;
             font-weight: bold;
         }
 
         .shippingMethod__wrapper__item.active span.other_text,
         .shippingMethod__wrapper__item:hover span.other_text {
-            color: var(--white) !important;
+            color: var(--main-color-one) !important;
         }
 
         .shippingMethod__wrapper__item.active span.checkbox,
         .shippingMethod__wrapper__item:hover span.checkbox {
-            border: 2px solid var(--white);
+            border: 2px solid var(--main-color-one);
         }
 
         .shippingMethod__wrapper__item.active span.checkbox .inner,
         .shippingMethod__wrapper__item:hover span.checkbox .inner {
             background: var(--main-color-two) !important;
-            border: 2px solid var(--main-color-one) !important;
+            border: 2px solid var(--white) !important;
             margin-bottom: 2px;
         }
     </style>
