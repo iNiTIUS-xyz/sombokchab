@@ -145,27 +145,27 @@
     }
 
     .user-shipping-address-item .before-hover span.badge {
-        background: var(--main-color-one) !important;
+        background: var(--black) !important;
     }
 
 
     /* Hover + Active States */
     .user-shipping-address-item.active .before-hover,
     .user-shipping-address-item .before-hover:hover {
-        color: var(--white) !important;
+        /* color: var(--paragraph-color) !important; */
         border: 1px solid var(--main-color-one) !important;
-        background: var(--main-color-one) !important;
+        background: transparent !important;
     }
 
     .user-shipping-address-item.active .before-hover p.title,
     .user-shipping-address-item .before-hover:hover p.title {
-        color: var(--main-color-two) !important;
+        color: var(--main-color-one) !important;
         font-weight: bold;
     }
 
     .user-shipping-address-item.active .before-hover p.other_text,
     .user-shipping-address-item .before-hover:hover p.other_text {
-        color: var(--white) !important;
+        color: var(--paragraph-color) !important;
     }
 
     /* .user-shipping-address-item .before-hover:hover p.checkbox {
@@ -189,8 +189,8 @@
 
     .user-shipping-address-item.active .before-hover span.badge,
     .user-shipping-address-item .before-hover:hover span.badge {
-        background: var(--main-color-two) !important;
-        color: var(--black) !important;
+        background: var(--main-color-one) !important;
+        color: var(--white) !important;
     }
 </style>
 

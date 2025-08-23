@@ -150,7 +150,7 @@
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
-                                <button class="btn btn-success w-100" type="submit">
+                                <button class="btn btn-primary py-2 w-100" type="submit">
                                     {{ __('Add Campaign') }}
                                 </button>
                             </div>

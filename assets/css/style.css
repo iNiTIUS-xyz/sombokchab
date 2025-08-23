@@ -38446,8 +38446,8 @@ table.table-default.data-table-style tr td {
 
 .gateway_option input[type="radio"]:hover,
 .gateway_option input[type="radio"]:checked {
-  border: 2px solid var(--white);
-  background-color: var(--main-color-one);
+  border: 2px solid var(--main-color-one);
+  background-color: transparent !important;
 }
 
 .gateway_option input[type="radio"]:hover::after,
@@ -38488,14 +38488,14 @@ table.table-default.data-table-style tr td {
 
 .gateway_option:has(input[type="radio"]:hover),
 .gateway_option:has(input[type="radio"]:checked) {
-  background-color: var(--main-color-one);
-  border-color: var(--white);
-  color: var(--white);
+  background-color: transparent;
+  border: 1px solid var(--main-color-one);
+  color: var(--main-color-one);
 }
 
 .gateway_option:has(input[type="radio"]:hover) span,
 .gateway_option:has(input[type="radio"]:checked) span {
-  color: var(--white);
+  color: var(--main-color-one);
 }
 
 #bulk_option {

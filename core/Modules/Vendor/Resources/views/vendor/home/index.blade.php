@@ -114,7 +114,7 @@
                                     <h3 class="my-3">Vendor Support</h3>
                                 </div>
                                 <div class="col-md-6 text-end">
-                                    <a href="#" class="text-warning">View All</a>
+                                    <a href="#" class="text-primary">View All</a>
                                 </div>
                             </div>
                             <div class="row g-5">
