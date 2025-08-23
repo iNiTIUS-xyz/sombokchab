@@ -159,7 +159,7 @@
                                     @enderror
                                 </div>
                                 <button class="btn btn-success w-100" type="submit">
-                                    {{ __('Add Campaign') }}
+                                    {{ __('Update Campaign') }}
                                 </button>
                             </div>
                         </div>

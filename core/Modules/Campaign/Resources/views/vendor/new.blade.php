@@ -95,7 +95,7 @@
                                     @enderror
                                 </div>
                                 <div class="mb-3">
-                                    <x-media-upload :title="__('Campaign Image')" name="image" :dimentions="'1920x1080'" />
+                                    <x-media-upload :title="__('Campaign Image')" :name="'image'" :dimentions="'1920x1080'" />
                                     @error('image')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -190,11 +190,11 @@
             </div>
         </form>
     </div>
-    <x-media.markup />
+    <x-media.markup type="vendor" />
 @endsection
 
 @section('script')
-    <x-media.js />
+    <x-media.js type="vendor" />
     <script src="{{ asset('assets/backend/js/flatpickr.js') }}"></script>
     <script>
         $(document).ready(function() {
