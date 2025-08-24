@@ -111,11 +111,11 @@
                     let password = $('#login_password').val();
                     let remember = $('#login_remember').is(':checked');
                     let countryCode = $('#phone_country_code').val();
-    
+
                     let loginInput = isEmail ? email : (countryCode + phone);
-    
+
                     el.text('{{ __('Please Wait') }}');
-    
+
                     $.ajax({
                         type: 'post',
                         url: "{{ route('user.ajax.login') }}",
@@ -153,13 +153,13 @@
                         }
                     });
                 });
-    
+
                 $('.nav-item .nav-link').on('click', function() {
                     $('#forgot-password').removeClass('active');
                 });
             });
         })(jQuery)
-    
+
         function capitalizeFirstLetter(string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
         }

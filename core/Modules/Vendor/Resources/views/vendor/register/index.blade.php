@@ -104,22 +104,46 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="label-title mb-2"> {{ __('Password *') }} </label>
-                                            <input name="password" id="password" type="password"
-                                                class="form--control radius-10" placeholder="{{ __('Password') }}"
-                                                required />
-
+                                            <label class="label-title mb-2">
+                                                {{ __('Password *') }}
+                                            </label>
+                                            <div class="position-relative">
+                                                <input name="password" id="password" type="password"
+                                                    class="form--control radius-10" placeholder="{{ __('Password') }}"
+                                                    required />
+                                                <div class="toggle-password position-absolute"
+                                                    style="right: 10px; top: 45%; transform: translateY(-50%); cursor: pointer;">
+                                                    <span class="hide-icon" style="display: inline;">
+                                                        <i class="las la-eye-slash"></i>
+                                                    </span>
+                                                    <span class="show-icon" style="display: none;">
+                                                        <i class="las la-eye"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
                                             <small class="text-danger" id="passwordError"></small>
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="label-title mb-2"> {{ __('Confirm Password *') }}
+                                            <label class="label-title mb-2">
+                                                {{ __('Confirm Password *') }}
                                             </label>
-                                            <input name="password_confirmation" id="password_confirmation"
-                                                type="password" class="form--control radius-10"
-                                                placeholder="{{ __('Confirm Password') }}" required />
+                                            <div class="position-relative">
+                                                <input name="password_confirmation" id="password_confirmation"
+                                                    type="password" class="form--control radius-10"
+                                                    placeholder="{{ __('Confirm Password') }}" required />
+                                                <div class="toggle-password position-absolute"
+                                                    style="right: 10px; top: 45%; transform: translateY(-50%); cursor: pointer;">
+                                                    <span class="hide-icon-two" style="display: inline;">
+                                                        <i class="las la-eye-slash"></i>
+                                                    </span>
+                                                    <span class="show-icon-two" style="display: none;">
+                                                        <i class="las la-eye"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
                                             <small class="text-danger" id="passwordConfirmError"></small>
                                         </div>
                                     </div>
@@ -655,10 +679,48 @@
             timeLeft = 60;
             sendCodeAndContinue();
         }
-
-        // ----------------- On Load ----------------- //
         window.onload = () => {
             updateContinueButton();
         };
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordInput = document.getElementById('password');
+            const showIcon = document.querySelector('.show-icon');
+            const hideIcon = document.querySelector('.hide-icon');
+
+            showIcon.addEventListener('click', function() {
+                passwordInput.type = 'text';
+                showIcon.style.display = 'none';
+                hideIcon.style.display = 'inline';
+            });
+
+            hideIcon.addEventListener('click', function() {
+                passwordInput.type = 'password';
+                showIcon.style.display = 'inline';
+                hideIcon.style.display = 'none';
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordInput = document.getElementById('password_confirmation');
+            const showIcon = document.querySelector('.show-icon-two');
+            const hideIcon = document.querySelector('.hide-icon-two');
+
+            showIcon.addEventListener('click', function() {
+                passwordInput.type = 'text';
+                showIcon.style.display = 'none';
+                hideIcon.style.display = 'inline';
+            });
+
+            hideIcon.addEventListener('click', function() {
+                passwordInput.type = 'password';
+                showIcon.style.display = 'inline';
+                hideIcon.style.display = 'none';
+            });
+        });
     </script>
 @endsection
