@@ -46,7 +46,10 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label class="label-title mb-2"> {{ __('Store Name *') }} </label>
+                                            <label class="label-title mb-2">
+                                                {{ __('Store Name') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <input name="business_name" id="business_name" type="text"
                                                 class="form--control radius-10" placeholder="{{ __('Store Name') }}"
                                                 required />
@@ -56,7 +59,10 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="label-title mb-2"> {{ __('Phone Number *') }} </label>
+                                            <label class="label-title mb-2">
+                                                {{ __('Phone Number') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <div class="input-group">
                                                 <select id="phone_country_code" name="phone_country_code"
                                                     class="form-select" style="width: 35% !important;">
@@ -75,7 +81,10 @@
                                     <!-- Username -->
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="label-title mb-2"> {{ __('Username *') }} </label>
+                                            <label class="label-title mb-2">
+                                                {{ __('Username') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <input name="username" id="username" type="text"
                                                 class="form--control radius-10" placeholder="{{ __('Username') }}"
                                                 required />
@@ -85,7 +94,10 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="label-title mb-2"> {{ __('Email') }} </label>
+                                            <label class="label-title mb-2">
+                                                {{ __('Email') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <input name="email" id="email" type="text"
                                                 class="form--control radius-10" placeholder="{{ __('Email') }}" />
                                             <small class="text-danger" id="emailError"></small>
@@ -95,7 +107,9 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="label-title mb-2">
-                                                {{ __('Passport or National ID *') }} </label>
+                                                {{ __('Passport or National ID') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <input name="passport_nid" id="passport_nid" type="text"
                                                 class="form--control radius-10"
                                                 placeholder="{{ __('Passport or National ID') }}" required />
@@ -105,7 +119,8 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="label-title mb-2">
-                                                {{ __('Password *') }}
+                                                {{ __('Password') }}
+                                                <span class="text-danger">*</span>
                                             </label>
                                             <div class="position-relative">
                                                 <input name="password" id="password" type="password"
@@ -128,7 +143,8 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="label-title mb-2">
-                                                {{ __('Confirm Password *') }}
+                                                {{ __('Confirm Password') }}
+                                                <span class="text-danger">*</span>
                                             </label>
                                             <div class="position-relative">
                                                 <input name="password_confirmation" id="password_confirmation"

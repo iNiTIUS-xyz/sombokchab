@@ -40,12 +40,14 @@
                                 <form id="account-form" method="post" enctype="multipart/form-data" novalidate>
                                     @csrf
                                     <input type="hidden" name="phone" id="verified_phone">
-
                                     <div class="row">
                                         <!-- Phone Number -->
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="label-title text-bold mb-2">{{ __('Phone Number *') }}</label>
+                                                <label class="label-title text-bold mb-2">
+                                                    {{ __('Phone Number') }}
+                                                    <span class="text-danger">*</span>
+                                                </label>
                                                 <div class="input-group">
                                                     <select name="phone_country_code" id="phone_country_code"
                                                         class="form-select" required>
@@ -54,7 +56,7 @@
                                                         <option value="+855">+855</option>
                                                     </select>
                                                     <input type="number" id="number" name="phone"
-                                                        class="form--control radius-10" placeholder="Phone Number *"
+                                                        class="form--control radius-10" placeholder="Enter phone number"
                                                         style="width: unset" required>
                                                 </div>
                                                 <small class="text-danger" id="phoneError"></small>
@@ -64,9 +66,12 @@
                                         <!-- Name -->
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="label-title text-bold mb-2">{{ __('Name *') }}</label>
+                                                <label class="label-title text-bold mb-2">
+                                                    {{ __('Name') }}
+                                                    <span class="text-danger">*</span>
+                                                </label>
                                                 <input type="text" name="name" id="name"
-                                                    class="form--control radius-10" placeholder="{{ __('Name *') }}"
+                                                    class="form--control radius-10" placeholder="{{ __('Enter name') }}"
                                                     required>
                                                 <small class="text-danger" id="nameError"></small>
                                             </div>
@@ -74,19 +79,25 @@
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="label-title text-bold mb-2">{{ __('Username *') }}</label>
+                                                <label class="label-title text-bold mb-2">
+                                                    {{ __('Username') }}
+                                                    <span class="text-danger">*</span>
+                                                </label>
                                                 <input type="text" name="username" id="username"
                                                     class="form--control radius-10" maxlength="20"
-                                                    placeholder="{{ __('Username *') }}" required>
+                                                    placeholder="{{ __('Username') }}" required>
                                                 <small class="text-danger" id="usernameError"></small>
                                             </div>
                                         </div>
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="label-title text-bold mb-2">{{ __('Email') }}</label>
+                                                <label class="label-title text-bold mb-2">
+                                                    {{ __('Email') }}
+                                                    <span class="text-danger">*</span>
+                                                </label>
                                                 <input type="email" name="email" id="email"
-                                                    class="form--control radius-10" placeholder="{{ __('Email') }}">
+                                                    class="form--control radius-10" placeholder="{{ __('Enter email') }}">
                                                 <small class="text-danger" id="emailError"></small>
                                             </div>
                                         </div>
@@ -94,12 +105,13 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="label-title text-bold mb-2">
-                                                    {{ __('Password *') }}
+                                                    {{ __('Password') }}
+                                                    <span class="text-danger">*</span>
                                                 </label>
                                                 <div class="position-relative">
                                                     <input type="password" name="password" id="password"
-                                                        class="form--control radius-10" placeholder="{{ __('Password *') }}"
-                                                        required>
+                                                        class="form--control radius-10"
+                                                        placeholder="{{ __('Enter password') }}" required>
                                                     <div class="toggle-password position-absolute"
                                                         style="right: 10px; top: 45%; transform: translateY(-50%); cursor: pointer;">
                                                         <span class="hide-icon" style="display: inline;">
@@ -117,12 +129,13 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="label-title text-bold mb-2">
-                                                    {{ __('Re-enter your password *') }}
+                                                    {{ __('Re-enter your password') }}
+                                                    <span class="text-danger">*</span>
                                                 </label>
                                                 <div class="position-relative">
                                                     <input type="password" name="password_confirmation"
                                                         id="password_confirmation" class="form--control radius-10"
-                                                        placeholder="{{ __('Re-enter your password *') }}" required>
+                                                        placeholder="{{ __('Re-enter your password') }}" required>
                                                     <div class="toggle-password position-absolute"
                                                         style="right: 10px; top: 45%; transform: translateY(-50%); cursor: pointer;">
                                                         <span class="hide-icon-two" style="display: inline;">

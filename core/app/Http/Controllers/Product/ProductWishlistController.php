@@ -38,7 +38,7 @@ class ProductWishlistController extends Controller
             'product_id' => 'required|exists:products,id',
             'product_attributes' => 'nullable|array',
         ]);
-        
+
         $attributes = (array) $request->product_attributes;
         $attributes['user_id'] = auth('web')->check() ? auth('web')->id() : null;
 
@@ -55,7 +55,7 @@ class ProductWishlistController extends Controller
         ]);
         WishlistHelper::remove($request->id, $request->product_attributes);
 
-        return response()->json(FlashMsg::explain('success', __('Item removed from wishlist')), 200);
+        return response()->json(FlashMsg::explain('success', __('Item removed from save for letter.')), 200);
     }
 
     public function clearWishlist(Request $request)
