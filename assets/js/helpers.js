@@ -74,6 +74,14 @@ function ajax_toastr_error_message(xhr){
     });
 }
 
+function ajax_toastr_success_two_message(data){
+    if(data.type == 'success'){
+        toastr.success(data.msg)
+    }else{
+        toastr.warning(data.msg);
+    }
+}
+
 function ajax_toastr_success_message(data){
     if(data.success){
         toastr.success(data.msg)

@@ -182,8 +182,9 @@
                     () => {
 
                     }, (data) => {
+
                         loadHeaderCardAndWishlistArea(data);
-                        ajax_toastr_success_message(data);
+                        ajax_toastr_success_two_message(data);
                         $(".cart-page-wrapper").load(location.href + " .cart-page-wrapper");
                     }, (errors) => {
                         prepare_errors(errors);
