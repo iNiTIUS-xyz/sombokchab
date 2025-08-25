@@ -129,6 +129,10 @@
                 box-shadow: unset;
             }
         }
+
+        .selectder-filter-contents .selected-flex-list li a {
+            color: var(--main-color-one) !important;
+        }
     </style>
 @endsection
 
@@ -385,7 +389,6 @@
                             <div class="selectder-filter-contents click-hide-filter mt-4">
                                 <p> {{ __('Filter Terms:') }} </p>
                                 <ul class="selected-flex-list">
-
                                     @include('product::frontend.search.selected-search-item')
                                 </ul>
                             </div>
