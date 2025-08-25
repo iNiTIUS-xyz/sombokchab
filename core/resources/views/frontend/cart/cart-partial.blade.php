@@ -116,7 +116,7 @@
                                                         </span>
                                                         <input class="quantity-input" type="hidden"
                                                             value="{{ $cart_item->qty }}"
-                                                            data-max="{{ $cart_item?->options['available_stock_qty'] }}"
+                                                            data-max="{{ $cart_item?->options ? $cart_item?->options['available_stock_qty'] : 100 }}"
                                                             data-min="1">
                                                         <span class="quantity-display">{{ $cart_item->qty }}</span>
                                                         <span class="plus">
@@ -135,7 +135,7 @@
                                             <td data-label="Close" class="text-center">
                                                 <div class="btn-group">
                                                     @if ($wishlist)
-                                                        <a data-label="Move" title="Add to cart" data-type="tr"
+                                                        <a data-label="Move" title="Move to cart" data-type="tr"
                                                             data-product_hash_id="{{ $cart_item->rowId }}"
                                                             href="#1"
                                                             class="ff-jost move-cart px-3 btn btn-info mx-2">
@@ -143,7 +143,7 @@
                                                                 <i class="las la-shopping-cart"></i>
                                                             </span>
                                                         </a>
-                                                        <a data-label="Close" title="Remove" data-type="tr"
+                                                        <a title="Remove" data-type="tr"
                                                             data-product_hash_id="{{ $cart_item->rowId }}"
                                                             href="#1"
                                                             class="ff-jost remove-wishlist px-3 btn btn-danger">

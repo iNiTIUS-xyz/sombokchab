@@ -103,7 +103,9 @@
 @section('content')
     <div class=" cart-page-wrapper mt-3">
         @php
-            $all_cart_items = \Gloudemans\Shoppingcart\Facades\Cart::instance('wishlist')->content()->sortBy(request('sorting_by'));
+            $all_cart_items = \Gloudemans\Shoppingcart\Facades\Cart::instance('wishlist')
+                ->content()
+                ->sortBy(request('sorting_by'));
             $wishlist = true;
         @endphp
         @if (empty($all_cart_items->count()))

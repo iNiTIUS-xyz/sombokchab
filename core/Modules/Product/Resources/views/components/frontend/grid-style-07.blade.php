@@ -6,7 +6,9 @@
     $deleted_price = !is_null($campaign_product) ? $product->sale_price : $product->price;
     $campaign_percentage = !is_null($campaign_product) ? getPercentage($product->sale_price, $sale_price) : false;
     $campaignSoldCount = $product?->campaign_sold_product;
-    $stock_count = $campaign_product ? $campaign_product->units_for_sale - optional($campaignSoldCount)->sold_count ?? 0 : optional($product->inventory)->stock_count;
+    $stock_count = $campaign_product
+        ? $campaign_product->units_for_sale - optional($campaignSoldCount)->sold_count ?? 0
+        : optional($product->inventory)->stock_count;
     $stock_count = $stock_count > (int) get_static_option('product_in_stock_limit_set') ?? 0 ? $stock_count : 0;
     $filter = $filter ?? false;
 @endphp
@@ -31,46 +33,49 @@
             @endif
         </div>
         <div class="product__card__contents mt-3">
-
             <h6 class="product__card__contents__title mt-2">
                 <a href="{{ route('frontend.products.single', $product->slug) }}">
                     {{ Str::limit($product->name, 25, '...') }}
                 </a>
             </h6>
             <div class="product__price mt-2">
-                <span
-                    class="product__price__current color-two">{{ float_amount_with_currency_symbol(calculatePrice($sale_price, $product)) }}</span>
-                <s
-                    class="product__price__old">{{ $deleted_price ? float_amount_with_currency_symbol(calculatePrice($deleted_price, $product)) : '' }}</s>
+                <span class="product__price__current color-two">
+                    {{ float_amount_with_currency_symbol(calculatePrice($sale_price, $product)) }}
+                </span>
+                <s class="product__price__old">
+                    {{ $deleted_price ? float_amount_with_currency_symbol(calculatePrice($deleted_price, $product)) : '' }}
+                </s>
             </div>
             <div class="product__card__cart mt-3">
                 @if (isset($attributes) && $attributes > 0)
-                    <a data-type="text" data-old-text="{{ __('View Details') }}" data-action-route="{{ route('frontend.products.single-quick-view', $product->slug) }}"
+                    <a data-type="text" data-old-text="{{ __('View Details') }}" title="View Details"
+                        data-action-route="{{ route('frontend.products.single-quick-view', $product->slug) }}"
                         data-attributes="{{ $product->attributes }}" data-id="{{ $product->id }}"
                         class="product__card__cart__btn radius-30 product-quick-view-ajax {{ $class ?? '' }}">
                         {{ __('View Details') }}
                     </a>
                 @else
-                    <a data-type="text" data-old-text="{{ __('Add to Cart') }}" href="#1" data-attributes="{{ $product->attribute }}" data-id="{{ $product->id }}"
+                    <a data-type="text" data-old-text="{{ __('Add to Cart') }}" href="#1" title="Add to cart"
+                        data-attributes="{{ $product->attribute }}" data-id="{{ $product->id }}"
                         class="product__card__cart__outline radius-30 add_to_cart_ajax {{ $class ?? '' }}">
                         {{ __('Add to Cart') }}
                     </a>
                 @endif
 
                 <div class="product__card__cart__right">
-                    <a href="javascript:void(0)" data-id="{{ $product->id }}"
+                    <a href="javascript:void(0)" data-id="{{ $product->id }}" title="Add to compare"
                         class="{{ $class ?? '' }} product__card__cart__btn__icon cart-loading icon add_to_compare_ajax">
                         <i class="las la-retweet"></i>
                     </a>
 
                     @if (isset($attributes) && $attributes > 0)
                         <a class="{{ $class ?? '' }} product-quick-view-ajax favourite icon cart-loading product__card__cart__btn__icon"
-                            href="#1"
+                            href="#1" title="View Details"
                             data-action-route="{{ route('frontend.products.single-quick-view', $product->slug) }}">
                             <i class="lar la-save"></i>
                         </a>
                     @else
-                        <a href="#1" data-id="{{ $product->id }}"
+                        <a href="#1" data-id="{{ $product->id }}" title="Save for Later"
                             class="{{ $class ?? '' }} add_to_wishlist_ajax icon cart-loading product__card__cart__btn__icon">
                             <i class="lar la-save"></i>
                         </a>

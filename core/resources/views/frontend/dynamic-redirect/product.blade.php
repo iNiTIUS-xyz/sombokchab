@@ -219,7 +219,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="single-shop-left border-1 margin-top-40">
+                        {{-- <div class="single-shop-left border-1 margin-top-40">
                             <div class="shop-left-title open">
                                 <h5 class="title"> {{ __('Colors') }} </h5>
                                 <div class="shop-left-list margin-top-15">
@@ -248,7 +248,7 @@
                                     </ul>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="single-shop-left border-1 margin-top-40">
                             <div class="shop-left-title open">
                                 <h5 class="title"> {{ __('Filter By Rating') }} </h5>
