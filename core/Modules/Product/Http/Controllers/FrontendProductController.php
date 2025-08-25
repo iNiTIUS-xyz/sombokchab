@@ -2,42 +2,44 @@
 
 namespace Modules\Product\Http\Controllers;
 
-use App\Action\CartAction;
-use App\Action\CompareAction;
-use App\AdminShopManage;
-use App\PaymentGateway;
-use Modules\Attributes\Entities\ChildCategory;
-use Modules\Attributes\Entities\SubCategory;
-use Modules\Campaign\Entities\Campaign;
-use Modules\Campaign\Entities\CampaignProduct;
-use App\Helpers\CartHelper;
-use App\Helpers\CompareHelper;
-use App\Helpers\FlashMsg;
-use App\Helpers\WishlistHelper;
-use App\Mail\TrackOrder;
+use DB;
+use Auth;
 use App\Page;
 use App\StaticOption;
-use Auth;
-use Barryvdh\DomPDF\Facade\Pdf as PDF;
-use DB;
-use Gloudemans\Shoppingcart\Facades\Cart;
+use App\PaymentGateway;
+use App\AdminShopManage;
+use App\Mail\TrackOrder;
+use App\Helpers\FlashMsg;
+use App\Action\CartAction;
+use App\Helpers\CartHelper;
 use Illuminate\Http\Request;
+use App\Action\CompareAction;
+use App\Helpers\CompareHelper;
+use App\Helpers\WishlistHelper;
 use Illuminate\Routing\Controller;
-use Modules\Attributes\Entities\Category;
-use Modules\MobileApp\Http\Resources\Api\MobileFeatureProductResource;
-use Modules\Order\Entities\SubOrderItem;
 use Modules\Product\Entities\Product;
-use Modules\Product\Entities\ProductCategory;
-use Modules\Product\Entities\ProductRating;
-use Modules\Product\Entities\ProductReviews;
-use Modules\Product\Entities\ProductSellInfo;
-use Modules\Product\Entities\ProductSubCategory;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
+use Modules\Campaign\Entities\Campaign;
+use Modules\Order\Entities\SubOrderItem;
 use Modules\Product\Entities\ProductTag;
-use Modules\Product\Entities\ProductUnit;
 use Modules\Product\Entities\ProductUom;
+use Gloudemans\Shoppingcart\Facades\Cart;
+use Modules\Attributes\Entities\Category;
+use Modules\Product\Entities\ProductUnit;
 use Modules\Product\Entities\SaleDetails;
-use Modules\Product\Http\Services\Api\ApiProductServices;
+use Modules\Product\Entities\ProductRating;
+use Modules\Attributes\Entities\SubCategory;
+use Modules\Product\Entities\ProductReviews;
+use Modules\Product\Entities\ProductCategory;
+use Modules\Product\Entities\ProductSellInfo;
+use Modules\Attributes\Entities\ChildCategory;
+use Modules\Campaign\Entities\CampaignProduct;
+use Modules\Product\Entities\ProductInventory;
+use Modules\Product\Entities\ProductSubCategory;
+use Modules\Product\Entities\ProductInventoryDetail;
 use Modules\Product\Services\FrontendProductServices;
+use Modules\Product\Http\Services\Api\ApiProductServices;
+use Modules\MobileApp\Http\Resources\Api\MobileFeatureProductResource;
 
 class FrontendProductController extends Controller
 {
@@ -720,8 +722,7 @@ class FrontendProductController extends Controller
             ]);
         }
 
-        $username = Auth::guard("web")->user()->id;
-        ;
+        $username = Auth::guard("web")->user()->id;;
         // first of all get cart item from cart package
         $cart_data = (array) Cart::instance("default")->get($request->rowId);
         $options = [];
@@ -758,15 +759,30 @@ class FrontendProductController extends Controller
 
     public function moveToCart(Request $request)
     {
-        $username = Auth::guard("web")->user()->id;
-        ;
-        // first of all get cart item from cart package
+        $username = Auth::guard("web")->user()->id;;
+
         $cart_data = (array) Cart::instance("wishlist")->get($request->rowId);
         $options = [];
 
         foreach ($cart_data["options"] as $key => $value) {
             $options[$key] = $value;
         }
+
+        $options['available_stock_qty'] = 0;
+
+        $product_inventory = ProductInventory::query()
+            ->where('product_id', $cart_data['id'])
+            ->first();
+
+        if ($request->product_variant) {
+            $product_inventory_details = ProductInventoryDetail::where('id', $request->product_variant)->first();
+        } else {
+            $product_inventory_details = null;
+        }
+
+        $availableStockQty = $product_inventory_details ? $product_inventory_details->stock_count : $product_inventory->stock_count;
+
+        $options['available_stock_qty'] = $availableStockQty ?? 0;
 
         Cart::instance("default")->add(['id' => $cart_data['id'], 'name' => $cart_data["name"], 'qty' => $cart_data['qty'], 'price' => $cart_data["price"], 'weight' => '0', 'options' => $options]);
         // now remove this item from cart
@@ -901,7 +917,6 @@ class FrontendProductController extends Controller
         $sell_info = ProductSellInfo::where('id', $request->order_id)
             ->where('email', $request->email)
             ->first();
-
     }
 
     public function search(Request $request)
@@ -943,5 +958,4 @@ class FrontendProductController extends Controller
             'product_url' => $product_url
         ]);
     }
-
 }
