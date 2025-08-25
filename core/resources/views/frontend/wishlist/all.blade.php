@@ -6,6 +6,9 @@
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('assets/common/css/toastr.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap4.min.css') }}">
+
     <style>
         .lds-ellipsis {
             display: inline-block;
@@ -98,12 +101,15 @@
             width: unset !important;
         }
     </style>
+    <x-bulk-action.css />
 @endsection
 
 @section('content')
     <div class=" cart-page-wrapper mt-3">
         @php
-            $all_cart_items = \Gloudemans\Shoppingcart\Facades\Cart::instance('wishlist')->content()->sortBy(request('sorting_by'));
+            $all_cart_items = \Gloudemans\Shoppingcart\Facades\Cart::instance('wishlist')
+                ->content()
+                ->sortBy(request('sorting_by'));
             $wishlist = true;
         @endphp
         @if (empty($all_cart_items->count()))
@@ -123,6 +129,28 @@
     </div>
 @endsection
 @section('script')
+    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            // Initialize DataTable only if the table exists
+            if ($('#dataTable').length) {
+                $('#dataTable').DataTable({
+                    paging: true,
+                    lengthChange: true,
+                    searching: true,
+                    ordering: true,
+                    info: true,
+                    autoWidth: false,
+                    responsive: true,
+                    language: {
+                        search: "Filter:"
+                    }
+                });
+            }
+        });
+    </script>
+
     <script>
         (function($) {
             'use script'

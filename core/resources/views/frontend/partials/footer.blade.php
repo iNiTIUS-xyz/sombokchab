@@ -95,10 +95,6 @@
             }
         </style>
 
-        {{-- @include('frontend.partials.google-captcha') --}}
-        {{-- @include('frontend.partials.gdpr-cookie') --}}
-        {{-- @include('frontend.partials.inline-script')
-        @include('frontend.partials.twakto') --}}
 
         <script src="{{ asset('assets/common/js/toastr.min.js') }}"></script>
         <script src="{{ asset('assets/frontend/js/jquery.nicescroll.min.js') }}"></script>

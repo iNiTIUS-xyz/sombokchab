@@ -211,34 +211,6 @@
                 );
             });
 
-            // Remove from cart handler
-            // $(document).on("click", ".remove-cart", function(e) {
-            //     e.preventDefault();
-
-            //     let formData = new FormData();
-            //     formData.append("rowId", $(this).attr("data-product_hash_id"));
-            //     formData.append("_token", "{{ csrf_token() }}");
-
-            //     send_ajax_request("post", formData, "{{ route('frontend.products.cart.ajax.remove') }}",
-            //         () => {},
-            //         (data) => {
-
-            //             if (data.type == 'success') {
-            //                 toastr.success(data.msg)
-            //             } else {
-            //                 toastr.warning(data.msg);
-            //             }
-
-            //             $(".cart-page-wrapper").load(location.href + " .cart-page-wrapper");
-            //         },
-
-
-            //             prepare_errors(errors);
-            //         }
-            //     );
-            // });
-
-            // Quantity button handlers with proper debouncing and validation
             $(document).on('click', '.product-quantity .plus, .product-quantity .substract', function(e) {
                 e.preventDefault();
                 e.stopImmediatePropagation();
