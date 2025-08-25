@@ -207,6 +207,7 @@ Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_
             Route::get('/refund/{item}', 'UserDashboardController@orderRefundPage')->name('refund');
             Route::post('/refund/{item}', 'UserDashboardController@handleRefundRequest');
             Route::get('/{item}', 'UserDashboardController@orderDetailsPage')->name('details');
+            Route::get('reorder/{id}', 'UserDashboardController@reOrder')->name('reorder');
             Route::post('/delivery-man-ratting/{item}', 'UserDashboardController@orderDeliveryManRatting')->name('delivery-man-ratting');
         });
 
@@ -773,8 +774,6 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
         Route::get('/estimate', 'FormBuilderController@estimate_form_index')->name('admin.form.builder.estimate.form')->permission('form-builder-estimate');
         Route::post('/estimate', 'FormBuilderController@update_estimate_form')->permission('form-builder-estimate');
     });
-
-
 }); //End admin-home
 
 

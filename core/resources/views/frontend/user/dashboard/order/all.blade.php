@@ -123,6 +123,11 @@
                                                 <i class="las la-times"></i>
                                             </button>
                                         @endif
+
+                                        <a href="{{ route('user.product.order.reorder', $order->id) }}"
+                                            class="btn btn-info btn-sm rounded-btn" title="Re-Order" style="width: 40px;">
+                                            <i class="las la-retweet"></i>
+                                        </a>
                                     </div>
                                 </td>
                             </tr>

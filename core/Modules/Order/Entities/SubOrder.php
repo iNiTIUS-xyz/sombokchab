@@ -28,43 +28,38 @@ class SubOrder extends Model
         "tax_type"
     ];
 
-    public function commission(): HasOne
+    public function commission()
     {
         return $this->hasOne(SubOrderCommission::class, "sub_order_id", "id");
     }
 
-    public function order(): HasOne
+    public function order()
     {
         return $this->hasOne(Order::class, "id", "order_id");
     }
 
-    public function vendor(): HasOne
+    public function vendor()
     {
         return $this->hasOne(Vendor::class, "id", "vendor_id");
     }
 
-    public function orderTrack(): HasMany
+    public function orderTrack()
     {
         return $this->hasMany(OrderTrack::class, "order_id", "order_id");
     }
 
-    public function orderItem(): HasMany
+    public function orderItem()
     {
         return $this->hasMany(SubOrderItem::class, "sub_order_id", "id");
     }
 
-    public function product(): HasManyThrough
+    public function product()
     {
         return $this->hasManyThrough(Product::class, SubOrderItem::class, "sub_order_id", "id", "id", "product_id");
     }
 
-    public function productVariant(): HasManyThrough
+    public function productVariant()
     {
         return $this->hasManyThrough(ProductInventoryDetail::class, SubOrderItem::class, "sub_order_id", "id", "id", "variant_id");
     }
-
-    // public function isDelivered()
-    // {
-    //     return;
-    // }
 }

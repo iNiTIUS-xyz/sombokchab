@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Str;
 use App\User;
 use App\Mail\BasicMail;
+use App\AdminShopManage;
 use App\Helpers\FlashMsg;
 use Illuminate\Http\Request;
 use App\Events\SupportMessage;
@@ -21,18 +22,25 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Modules\Order\Entities\SubOrder;
 use App\Support\SupportTicketMessage;
+use Modules\Attributes\Entities\Size;
+use Modules\Product\Entities\Product;
 use Illuminate\Contracts\View\Factory;
+use Modules\Attributes\Entities\Color;
 use Modules\Order\Entities\OrderTrack;
 use Modules\AdminManage\Entities\Admin;
 use App\Http\Requests\ChangePhoneRequest;
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Modules\Refund\Entities\RefundReason;
 use Modules\Refund\Entities\RefundRequest;
 use Modules\CountryManage\Entities\Country;
 use Modules\Product\Entities\ProductSellInfo;
+use Modules\Product\Entities\ProductInventory;
 use Illuminate\Contracts\Foundation\Application;
 use Modules\Refund\Http\Services\RefundServices;
+use Modules\Campaign\Entities\CampaignSoldProduct;
 use Modules\Refund\Entities\RefundPreferredOption;
 use Modules\DeliveryMan\Entities\DeliveryManRating;
+use Modules\Product\Entities\ProductInventoryDetail;
 use Modules\Refund\Http\Requests\HandleUserRefundRequest;
 
 class UserDashboardController extends Controller
@@ -624,52 +632,82 @@ class UserDashboardController extends Controller
         return view(self::BASE_PATH . 'order.details', compact('item', 'orders', 'payment_details', 'orderTrack'));
     }
 
-    public function reOrder($order_number)
+    public function reOrder($id)
     {
-        $originalOrder = Order::with(['subOrders.orderItem'])->where('order_number', $order_number)->first();
+        $orders = SubOrder::query()
+            ->with('orderItem')
+            ->where('order_id', $id)
+            ->get();
 
-        if (!$originalOrder) {
-            return redirect()->back()->with('type', 'danger')->with('msg', 'Original order not found.');
+        $productIds = $orders->pluck('orderItem.*.product_id')->flatten()->unique()->toArray();
+
+        foreach ($productIds as $productId) {
+            $this->addToCart($productId);
         }
 
-        DB::beginTransaction();
+        return redirect()->route('frontend.checkout');
+    }
 
-        try {
-            // Clone main order
-            $newOrder = $originalOrder->replicate();
-            $newOrder->order_number = date('Ymdhis'); // Generate new order number
-            $newOrder->status = 'pending'; // Reset status
-            $newOrder->created_at = now();
-            $newOrder->updated_at = now();
-            $newOrder->save();
+    private function addToCart($productId)
+    {
+        $quantity = 1;
 
-            // Clone SubOrders and their items
-            foreach ($originalOrder->subOrders as $subOrder) {
-                $newSubOrder = $subOrder->replicate();
-                $newSubOrder->order_id = $newOrder->id;
-                $newSubOrder->created_at = now();
-                $newSubOrder->updated_at = now();
-                $newSubOrder->save();
+        $product = Product::with([
+            'taxOptions:tax_class_options.id,country_id,state_id,city_id,rate',
+            'vendorAddress:vendor_addresses.id,country_id,state_id,city_id'
+        ])->withSum('taxOptions', 'rate')->findOrFail($productId);
 
-                // Clone Order Items
-                foreach ($subOrder->orderItem as $item) {
-                    $newItem = $item->replicate();
-                    $newItem->sub_order_id = $newSubOrder->id;
-                    $newItem->created_at = now();
-                    $newItem->updated_at = now();
-                    $newItem->save();
-                }
-            }
-
-            DB::commit();
-
-            return redirect()->route('user.orders.details', $newOrder->order_number)
-                ->with('msg', 'Order has been re-created successfully.')
-                ->with('type', 'success');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return redirect()->back()->with('type', 'danger')->with('msg', 'Failed to reorder: ' . $e->getMessage());
+        $productInventory = ProductInventory::where('product_id', $productId)->first();
+        if (!$productInventory || $quantity > $productInventory->stock_count) {
+            return false; // Not enough stock
         }
+
+        // Check existing cart item
+        $findCart = Cart::instance("default")->search(function ($cartItem) use ($productId) {
+            return $cartItem->id === $productId;
+        })->first();
+
+        // Min purchase check
+        if (($quantity + ($findCart?->qty ?? 0)) < $product->min_purchase) {
+            return false;
+        }
+
+        // Max purchase check
+        $max_purchase = $product->max_purchase > 0 ? $product->max_purchase : PHP_INT_MAX;
+        if (($quantity + ($findCart?->qty ?? 0)) > $max_purchase) {
+            return false;
+        }
+
+        // Price calculation
+        $sale_price = $product->campaign_product ? $product->campaign_product->campaign_price : $product->sale_price;
+        $final_price = $sale_price ?? $product->price;
+
+        // Cart options
+        $options = [
+            'image' => $product->image_id,
+            'used_categories' => [
+                'category' => $product->category?->id,
+                'subcategory' => $product->subCategory?->id ?? null,
+            ],
+            'vendor_id' => $product->vendor_id ?? null,
+            'slug' => $product->slug ?? null,
+            'sku' => $product->sku ?? null,
+            'regular_price' => $product->price ?? 0,
+            'available_stock_qty' => $productInventory->stock_count ?? 0,
+            'tax_options_sum_rate' => $product->tax_options_sum_rate ?? 0,
+        ];
+
+        // Add to cart
+        Cart::instance('default')->add([
+            'id' => $productId,
+            'name' => $product->name,
+            'qty' => $quantity,
+            'price' => $final_price,
+            'weight' => 0,
+            'options' => $options,
+        ]);
+
+        return true;
     }
 
     public function orderDeliveryManRatting($item, Request $request)

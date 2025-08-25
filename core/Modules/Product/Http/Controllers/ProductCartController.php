@@ -228,7 +228,6 @@ class ProductCartController extends Controller
                 'cart-content' => Cart::instance('default')->content(),
             ]);
         } catch (\Exception $exception) {
-            dd($exception);
             return response()->json([
                 'type' => 'error',
                 'msg' => __('Something went wrong!'),
