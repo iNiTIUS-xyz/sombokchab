@@ -223,7 +223,7 @@ class ProductWishlistController extends Controller
             Cart::instance('wishlist')->store($userId);  // Then store
         }
 
-        return response()->json(FlashMsg::explain('success', __('Item removed from wishlist')) + [
+        return response()->json(FlashMsg::explain('success', __('Item removed from save for letter.')) + [
             'header_area' => view('frontend.partials.header.navbar.card-and-wishlist-area')->render(),
         ], 200);
     }

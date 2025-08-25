@@ -514,7 +514,7 @@
                 confirmButtonColor: '#dd3333',
             }).then((result) => {
                 if (result.isConfirmed) {
-                    $.post('{{ route('admin.campaigns.delete.product') }}', {
+                    $.post('{{ route('vendor.campaigns.delete.product') }}', {
                         _token: '{{ csrf_token() }}',
                         id: campaign_id
                     }).then(function(data) {

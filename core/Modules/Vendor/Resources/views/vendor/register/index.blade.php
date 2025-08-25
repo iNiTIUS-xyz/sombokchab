@@ -46,7 +46,10 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label class="label-title mb-2"> {{ __('Store Name *') }} </label>
+                                            <label class="label-title mb-2">
+                                                {{ __('Store Name') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <input name="business_name" id="business_name" type="text"
                                                 class="form--control radius-10" placeholder="{{ __('Store Name') }}"
                                                 required />
@@ -56,7 +59,10 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="label-title mb-2"> {{ __('Phone Number *') }} </label>
+                                            <label class="label-title mb-2">
+                                                {{ __('Phone Number') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <div class="input-group">
                                                 <select id="phone_country_code" name="phone_country_code"
                                                     class="form-select" style="width: 35% !important;">
@@ -75,7 +81,10 @@
                                     <!-- Username -->
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="label-title mb-2"> {{ __('Username *') }} </label>
+                                            <label class="label-title mb-2">
+                                                {{ __('Username') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <input name="username" id="username" type="text"
                                                 class="form--control radius-10" placeholder="{{ __('Username') }}"
                                                 required />
@@ -85,7 +94,10 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="label-title mb-2"> {{ __('Email') }} </label>
+                                            <label class="label-title mb-2">
+                                                {{ __('Email') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <input name="email" id="email" type="text"
                                                 class="form--control radius-10" placeholder="{{ __('Email') }}" />
                                             <small class="text-danger" id="emailError"></small>
@@ -95,7 +107,9 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="label-title mb-2">
-                                                {{ __('Passport or National ID *') }} </label>
+                                                {{ __('Passport or National ID') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <input name="passport_nid" id="passport_nid" type="text"
                                                 class="form--control radius-10"
                                                 placeholder="{{ __('Passport or National ID') }}" required />
@@ -104,22 +118,48 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="label-title mb-2"> {{ __('Password *') }} </label>
-                                            <input name="password" id="password" type="password"
-                                                class="form--control radius-10" placeholder="{{ __('Password') }}"
-                                                required />
-
+                                            <label class="label-title mb-2">
+                                                {{ __('Password') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="position-relative">
+                                                <input name="password" id="password" type="password"
+                                                    class="form--control radius-10" placeholder="{{ __('Password') }}"
+                                                    required />
+                                                <div class="toggle-password position-absolute"
+                                                    style="right: 10px; top: 45%; transform: translateY(-50%); cursor: pointer;">
+                                                    <span class="hide-icon" style="display: inline;">
+                                                        <i class="las la-eye-slash"></i>
+                                                    </span>
+                                                    <span class="show-icon" style="display: none;">
+                                                        <i class="las la-eye"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
                                             <small class="text-danger" id="passwordError"></small>
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="label-title mb-2"> {{ __('Confirm Password *') }}
+                                            <label class="label-title mb-2">
+                                                {{ __('Confirm Password') }}
+                                                <span class="text-danger">*</span>
                                             </label>
-                                            <input name="password_confirmation" id="password_confirmation"
-                                                type="password" class="form--control radius-10"
-                                                placeholder="{{ __('Confirm Password') }}" required />
+                                            <div class="position-relative">
+                                                <input name="password_confirmation" id="password_confirmation"
+                                                    type="password" class="form--control radius-10"
+                                                    placeholder="{{ __('Confirm Password') }}" required />
+                                                <div class="toggle-password position-absolute"
+                                                    style="right: 10px; top: 45%; transform: translateY(-50%); cursor: pointer;">
+                                                    <span class="hide-icon-two" style="display: inline;">
+                                                        <i class="las la-eye-slash"></i>
+                                                    </span>
+                                                    <span class="show-icon-two" style="display: none;">
+                                                        <i class="las la-eye"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
                                             <small class="text-danger" id="passwordConfirmError"></small>
                                         </div>
                                     </div>
@@ -655,10 +695,48 @@
             timeLeft = 60;
             sendCodeAndContinue();
         }
-
-        // ----------------- On Load ----------------- //
         window.onload = () => {
             updateContinueButton();
         };
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordInput = document.getElementById('password');
+            const showIcon = document.querySelector('.show-icon');
+            const hideIcon = document.querySelector('.hide-icon');
+
+            showIcon.addEventListener('click', function() {
+                passwordInput.type = 'text';
+                showIcon.style.display = 'none';
+                hideIcon.style.display = 'inline';
+            });
+
+            hideIcon.addEventListener('click', function() {
+                passwordInput.type = 'password';
+                showIcon.style.display = 'inline';
+                hideIcon.style.display = 'none';
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordInput = document.getElementById('password_confirmation');
+            const showIcon = document.querySelector('.show-icon-two');
+            const hideIcon = document.querySelector('.hide-icon-two');
+
+            showIcon.addEventListener('click', function() {
+                passwordInput.type = 'text';
+                showIcon.style.display = 'none';
+                hideIcon.style.display = 'inline';
+            });
+
+            hideIcon.addEventListener('click', function() {
+                passwordInput.type = 'password';
+                showIcon.style.display = 'inline';
+                hideIcon.style.display = 'none';
+            });
+        });
     </script>
 @endsection

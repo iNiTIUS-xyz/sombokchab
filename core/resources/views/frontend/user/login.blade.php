@@ -16,7 +16,10 @@
                         <div class="alert alert-success showLoginRedirect" style="display: none;"></div>
                         <div class="single-input">
                             <div class="phone-input">
-                                <label class="label-title mb-2"> {{ __('Phone Number') }} </label>
+                                <label class="label-title mb-2">
+                                    {{ __('Phone Number') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <div class="d-flex">
                                     <select id="phone_country_code" class="form-select"
                                         style="width: 30% !important; border: 1px solid rgba(221, 221, 221, 0.4) !important; box-shadow: 0 0 10px rgba(255, 255, 255, 0.1) !important;">
@@ -31,7 +34,10 @@
                                 <small id="login_phone_error" class="text-danger"></small>
                             </div>
                             <div class="email-input" style="display: none;">
-                                <label class="label-title mb-2"> {{ __('Email') }} </label>
+                                <label class="label-title mb-2">
+                                    {{ __('Email') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input class="form--control" type="email" name="email" id="login_email"
                                     placeholder="{{ __('Type Email') }}" required>
                                 <small id="login_email_error" class="text-danger"></small>
@@ -44,7 +50,10 @@
                             </div>
                         </div>
                         <div class="single-input">
-                            <label class="label-title mb-2"> {{ __('Password') }} </label>
+                            <label class="label-title mb-2">
+                                {{ __('Password') }}
+                                    <span class="text-danger">*</span>
+                            </label>
                             <div class="position-relative">
                                 <input class="form--control" type="password" id="login_password" name="password"
                                     placeholder="{{ __('Type Password') }}">
@@ -111,11 +120,11 @@
                     let password = $('#login_password').val();
                     let remember = $('#login_remember').is(':checked');
                     let countryCode = $('#phone_country_code').val();
-    
+
                     let loginInput = isEmail ? email : (countryCode + phone);
-    
+
                     el.text('{{ __('Please Wait') }}');
-    
+
                     $.ajax({
                         type: 'post',
                         url: "{{ route('user.ajax.login') }}",
@@ -153,13 +162,13 @@
                         }
                     });
                 });
-    
+
                 $('.nav-item .nav-link').on('click', function() {
                     $('#forgot-password').removeClass('active');
                 });
             });
         })(jQuery)
-    
+
         function capitalizeFirstLetter(string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
         }
