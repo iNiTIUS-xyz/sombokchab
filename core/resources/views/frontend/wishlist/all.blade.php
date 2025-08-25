@@ -186,6 +186,10 @@
                         loadHeaderCardAndWishlistArea(data);
                         ajax_toastr_success_two_message(data);
                         $(".cart-page-wrapper").load(location.href + " .cart-page-wrapper");
+
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1000);
                     }, (errors) => {
                         prepare_errors(errors);
                     })

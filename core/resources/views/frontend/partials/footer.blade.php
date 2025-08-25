@@ -251,6 +251,10 @@
                         if ($(this).data('type') === 'tr') {
                             $(".cart-page-wrapper").load(location.href + " .cart-page-wrapper");
                         }
+
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1000);
                     }
 
                     $('.loader').hide();
