@@ -108,7 +108,6 @@
                                             <a href="{{ route('user.product.order.refund', $order->id) }}"
                                                 class="btn btn-warning btn-sm rounded-btn" title="Request Refund"
                                                 style="width: 40px;">
-                                                {{-- {{ __('Request Refund') }} --}}
                                                 <i class="las la-undo"></i>
                                             </a>
                                         @endif
@@ -116,17 +115,14 @@
                                         <a href="{{ route('user.product.order.details', $order->order_number) }}"
                                             class="btn btn-secondary btn-sm rounded-btn" title="View Details"
                                             style="width: 40px;">
-                                            {{-- {{ __('View Details') }} --}}
                                             <i class="las la-file-alt"></i>
                                         </a>
                                         @if ($order->isCancelableStatus && $order->order_status == 'pending')
-                                            <button class="btn btn-danger btn-sm rounded-btn swal_cancel_button" title="Cancel"
-                                                data-order-id="{{ $order->id }}" style="width: 40px;">
-                                                {{-- {{ __('Cancel Order') }} --}}
+                                            <button class="btn btn-danger btn-sm rounded-btn swal_cancel_button"
+                                                title="Cancel" data-order-id="{{ $order->id }}" style="width: 40px;">
                                                 <i class="las la-times"></i>
                                             </button>
                                         @endif
-
                                     </div>
                                 </td>
                             </tr>
@@ -141,18 +137,18 @@
 @section('script')
     <script src="{{ asset('assets/backend/js/sweetalert2.js') }}"></script>
     <script>
-        (function ($) {
+        (function($) {
             "use strict";
-            $(document).ready(function () {
+            $(document).ready(function() {
 
-                $(document).on('click', '.bodyUser_overlay', function () {
+                $(document).on('click', '.bodyUser_overlay', function() {
                     $('.user-dashboard-wrapper, .bodyUser_overlay').removeClass('show');
                 });
-                $(document).on('click', '.mobile_nav', function () {
+                $(document).on('click', '.mobile_nav', function() {
                     $('.user-dashboard-wrapper, .bodyUser_overlay').addClass('show');
                 });
 
-                $(document).on('click', '.swal_delete_button', function (e) {
+                $(document).on('click', '.swal_delete_button', function(e) {
                     e.preventDefault();
                     Swal.fire({
                         title: '{{ __('Are you sure?') }}',
@@ -178,7 +174,7 @@
     <script src="{{ asset('assets/js/dataTables.bootstrap4.min.js') }}"></script>
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             // Initialize DataTable only if the table exists
             if ($('#dataTable').length) {
                 $('#dataTable').DataTable({
@@ -198,10 +194,10 @@
     </script>
 
     <script>
-        (function ($) {
+        (function($) {
             "use strict";
-            $(document).ready(function () {
-                $(document).on('click', '.swal_cancel_button', function (e) {
+            $(document).ready(function() {
+                $(document).on('click', '.swal_cancel_button', function(e) {
                     e.preventDefault();
                     const orderId = $(this).data('order-id');
 
@@ -218,24 +214,28 @@
                         if (result.isConfirmed) {
                             $.ajax({
                                 type: 'get',
-                                url: "{{ url('/user-home/orders/cancel') }}/" + orderId,
+                                url: "{{ url('/user-home/orders/cancel') }}/" +
+                                    orderId,
                                 data: {
                                     _token: "{{ csrf_token() }}",
                                 },
-                                success: function (data) {
+                                success: function(data) {
                                     console.log('AJAX Response:', data);
                                     if (data.success) {
                                         Swal.fire('Cancelled!', '', 'success');
-                                        setTimeout(function () {
+                                        setTimeout(function() {
                                             location.reload();
                                         }, 1000);
                                     } else {
-                                        Swal.fire('Error!', data.message || 'Failed to cancel order.', 'error');
+                                        Swal.fire('Error!', data.message ||
+                                            'Failed to cancel order.', 'error');
                                     }
                                 },
-                                error: function (xhr, status, error) {
-                                    console.error('AJAX Error:', xhr.responseText, status, error);
-                                    Swal.fire('Error!', 'Failed to cancel order.', 'error');
+                                error: function(xhr, status, error) {
+                                    console.error('AJAX Error:', xhr.responseText,
+                                        status, error);
+                                    Swal.fire('Error!', 'Failed to cancel order.',
+                                        'error');
                                 }
                             });
                         }

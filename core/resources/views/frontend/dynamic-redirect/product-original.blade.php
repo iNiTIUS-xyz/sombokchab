@@ -135,7 +135,7 @@
 @section('content')
     @php $item_width = 'col-lg-4'; @endphp
 
-    <section class="shop-area padding-top-100 padding-bottom-100">
+    <section class="shop-area padding-top-50 padding-bottom-50">
         <div class="container container-one">
             <div class="shop-contents-wrapper style-02">
                 <div class="shop-icon shop-icon-text">

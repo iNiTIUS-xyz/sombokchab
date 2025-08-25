@@ -6,7 +6,7 @@
 @endsection
 @section('content')
     <!-- Shop area end -->
-    <section class="shop-area padding-top-100 padding-bottom-100">
+    <section class="shop-area padding-top-50 padding-bottom-50">
         <div class="container container-one">
             <div class="row align-items-center">
                 <div class="col-lg-6 col-md-5">

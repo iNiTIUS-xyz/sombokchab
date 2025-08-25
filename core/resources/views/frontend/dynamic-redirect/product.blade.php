@@ -80,7 +80,7 @@
             animation-delay: 0.2s;
         }
 
-        .border-1{
+        .border-1 {
             border-color: var(--main-color-one) !important;
         }
 
@@ -135,7 +135,7 @@
 @section('content')
     @php $item_width = 'col-lg-4'; @endphp
 
-    <section class="shop-area padding-top-100 padding-bottom-100">
+    <section class="shop-area padding-top-50 padding-bottom-50">
         <div class="container container-one">
             <div class="shop-contents-wrapper style-02">
                 <div class="shop-icon shop-icon-text">
@@ -153,36 +153,23 @@
                                 <h5 class="title"> {{ __('Categories') }} </h5>
                                 <div class="shop-left-list margin-top-15">
                                     <ul class="shop-lists">
-                                        @foreach($all_category as $category)
-                                            <li 
-                                            data-val="{{ $category->name }}" 
-                                            data-type="category"
-                                            class="
-                                                list
-                                                menu-item-has-children
-                                                {{ request('category') === $category->name ? 'active open' : '' }}
-                                            "
-                                            >
-                                            <a href="javascript:void(0)">
-                                                {{ $category->name }}
-                                            </a>
-
-                                            <ul 
-                                                class="submenu {{ request('category') === $category->name ? 'show' : 'none' }}" 
-                                                style="display: {{ request('category') === $category->name ? 'block' : 'none' }};"
-                                            >
-                                                @foreach($category->subcategory as $sub_cat)
-                                                <li 
-                                                    data-val="{{ $sub_cat->name }}" 
-                                                    data-type="sub_category"
-                                                    class="list {{ request('sub_category') === $sub_cat->name ? 'active' : '' }}"
-                                                >
-                                                    <a href="javascript:void(0)">
-                                                    {{ $sub_cat->name }}
-                                                    </a>
-                                                </li>
-                                                @endforeach
-                                            </ul>
+                                        @foreach ($all_category as $category)
+                                            <li data-val="{{ $category->name }}" data-type="category"
+                                                class="list menu-item-has-children {{ request('category') === $category->name ? 'active open' : '' }}">
+                                                <a href="javascript:void(0)" class="text-dark">
+                                                    {{ $category->name }}
+                                                </a>
+                                                <ul class="submenu {{ request('category') === $category->name ? 'show' : 'none' }}"
+                                                    style="display: {{ request('category') === $category->name ? 'block' : 'none' }};">
+                                                    @foreach ($category->subcategory as $sub_cat)
+                                                        <li data-val="{{ $sub_cat->name }}" data-type="sub_category"
+                                                            class="list {{ request('sub_category') === $sub_cat->name ? 'active' : '' }}">
+                                                            <a href="javascript:void(0)" class="text-dark">
+                                                                {{ $sub_cat->name }}
+                                                            </a>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
                                             </li>
                                         @endforeach
                                     </ul>
@@ -301,7 +288,9 @@
                                     <ul class="shop-lists active-list brand-list">
                                         @foreach ($all_brands as $brand)
                                             <li data-type="brand" data-val="{{ $brand->name }}" class="list">
-                                                <a href="#1"> {{ $brand->name }} </a>
+                                                <a href="#1" class="text-dark">
+                                                    {{ $brand->name }}
+                                                </a>
                                             </li>
                                         @endforeach
                                     </ul>
@@ -396,7 +385,7 @@
                             <div class="selectder-filter-contents click-hide-filter mt-4">
                                 <p> {{ __('Filter Terms:') }} </p>
                                 <ul class="selected-flex-list">
-                                    
+
                                     @include('product::frontend.search.selected-search-item')
                                 </ul>
                             </div>
@@ -423,7 +412,7 @@
                         <div class="row mt-4">
                             @foreach ($all_products['items'] as $product)
                                 {{-- <div class="col-xl-4 col-lg-4 col-sm-6 mt-4"> --}}
-                                    <x-product::frontend.grid-style-07 :$product :$loop :isAllowBuyNow="get_static_option('enable_buy_now_button_on_shop_page') === 'on'" />
+                                <x-product::frontend.grid-style-07 :$product :$loop :isAllowBuyNow="get_static_option('enable_buy_now_button_on_shop_page') === 'on'" />
                                 {{-- </div> --}}
                             @endforeach
                         </div>
@@ -436,7 +425,7 @@
                                     <x-product::frontend.list-style-02 :$product :$loop :isAllowBuyNow="get_static_option('enable_buy_now_button_on_shop_page') === 'on'" />
                                 </div>
                             @endforeach
-                            
+
                         </div>
                     </div>
 
@@ -462,15 +451,14 @@
 @section('script')
 @include('frontend.partials.product.product-filter-script')
 <script>
-
-   $(document).ready(function () {
+    $(document).ready(function() {
         // Trigger form submission if category, subcategory, or child category is selected
         if ($('#category').val() || $('#sub_category').val() || $('#child_category').val()) {
             submitForm();
         }
 
         // Ensure submenu is expanded for active parent category
-        $('.shop-lists .list.active').each(function () {
+        $('.shop-lists .list.active').each(function() {
             $(this).parents('.submenu').addClass('show');
             $(this).parents('.shop-left-title').addClass('open');
         });
@@ -664,25 +652,24 @@
             ajax_toastr_error_message(xhr);
         })
     });
-    
 </script>
 
 <script>
     $(document).on('click', '#load_more_button', function(e) {
         e.preventDefault();
-        
+
         let button = $(this);
         let currentPage = parseInt(button.data('current-page')) + 1;
         let totalPages = parseInt(button.data('total-pages'));
         let spinner = button.find('.btn-loading-spinner');
-        
+
         // Show loading spinner and disable button
         spinner.removeClass('d-none');
         button.prop('disabled', true);
-        
+
         // Update the page number in the form
         $("#search_page").val(currentPage);
-        
+
         // Submit the form via AJAX
         $.ajax({
             url: $("#search_product").attr('action') + "?" + $("#search_product").serialize(),
@@ -695,23 +682,23 @@
                 let gridItems = $(data.grid).find('.col-xxl-3, .col-xl-4, .col-md-4, .col-sm-6');
                 gridItems.addClass('new-loaded-item');
                 $('#tab-grid2 .row').append(gridItems);
-                
+
                 // Append new products to the list view with fade-in animation
                 let listItems = $(data.list).find('.col-xl-6, .col-lg-6, .col-sm-12');
                 listItems.addClass('new-loaded-item');
                 $('#tab-grid .row').append(listItems);
-                
+
                 // Update the button's data attributes
                 button.data('current-page', currentPage);
-                
+
                 // Hide the button if we've reached the last page
                 if (currentPage >= totalPages) {
                     button.hide();
                 }
-                
+
                 // Update showing results count
                 $(".showing-results-item-count").html(data.showing_items);
-                
+
                 // Smooth scroll to the newly loaded items
                 $('html, body').animate({
                     scrollTop: gridItems.first().offset().top - 100

@@ -486,7 +486,7 @@ class UserDashboardController extends Controller
         return back()->with(FlashMsg::delete_failed('Shipping address'));
     }
 
-    public function allOrdersPage(): Factory|View|Application
+    public function allOrdersPage()
     {
 
         $all_orders = Order::with(['paymentMeta', 'refundRequest.currentTrackStatus'])->withCount('isDelivered')
@@ -497,7 +497,7 @@ class UserDashboardController extends Controller
         return view(self::BASE_PATH . 'order.all', compact('all_orders'));
     }
 
-    public function allRefundsPage(): Factory|View|Application
+    public function allRefundsPage()
     {
         if (!moduleExists("Refund")) {
             abort(404);
@@ -622,6 +622,54 @@ class UserDashboardController extends Controller
         $orderTrack = OrderTrack::where('order_id', $payment_details->id)->orderByDesc('id')->first();
 
         return view(self::BASE_PATH . 'order.details', compact('item', 'orders', 'payment_details', 'orderTrack'));
+    }
+
+    public function reOrder($order_number)
+    {
+        $originalOrder = Order::with(['subOrders.orderItem'])->where('order_number', $order_number)->first();
+
+        if (!$originalOrder) {
+            return redirect()->back()->with('type', 'danger')->with('msg', 'Original order not found.');
+        }
+
+        DB::beginTransaction();
+
+        try {
+            // Clone main order
+            $newOrder = $originalOrder->replicate();
+            $newOrder->order_number = date('Ymdhis'); // Generate new order number
+            $newOrder->status = 'pending'; // Reset status
+            $newOrder->created_at = now();
+            $newOrder->updated_at = now();
+            $newOrder->save();
+
+            // Clone SubOrders and their items
+            foreach ($originalOrder->subOrders as $subOrder) {
+                $newSubOrder = $subOrder->replicate();
+                $newSubOrder->order_id = $newOrder->id;
+                $newSubOrder->created_at = now();
+                $newSubOrder->updated_at = now();
+                $newSubOrder->save();
+
+                // Clone Order Items
+                foreach ($subOrder->orderItem as $item) {
+                    $newItem = $item->replicate();
+                    $newItem->sub_order_id = $newSubOrder->id;
+                    $newItem->created_at = now();
+                    $newItem->updated_at = now();
+                    $newItem->save();
+                }
+            }
+
+            DB::commit();
+
+            return redirect()->route('user.orders.details', $newOrder->order_number)
+                ->with('msg', 'Order has been re-created successfully.')
+                ->with('type', 'success');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('type', 'danger')->with('msg', 'Failed to reorder: ' . $e->getMessage());
+        }
     }
 
     public function orderDeliveryManRatting($item, Request $request)

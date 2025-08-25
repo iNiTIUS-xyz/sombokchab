@@ -381,10 +381,7 @@
 
     <div class="patment-success-area padding-top-100 padding-bottom-100">
         @if (moduleExists('DeliveryMan'))
-            @if (
-                    !empty($payment_details->deliveryMan) &&
-                    DeliveryManRating::where('delivery_man_id', $payment_details->deliveryMan?->delivery_man_id)->count() < 1
-                )
+            @if (!empty($payment_details->deliveryMan) && DeliveryManRating::where('delivery_man_id', $payment_details->deliveryMan?->delivery_man_id)->count() < 1)
                 <!-- End Contract area Starts -->
                 <div class="end-contract-area section-bg-2">
                     <div class="container">
@@ -403,7 +400,8 @@
                                                     </h4>
                                                 </div>
                                                 <div class="end-contract-feedback-single-contents profile-border-top">
-                                                    <form action="{{ route('user.product.order.delivery-man-ratting', $item) }}"
+                                                    <form
+                                                        action="{{ route('user.product.order.delivery-man-ratting', $item) }}"
                                                         method="post">
                                                         @csrf
                                                         <input id="delivery-man-ratting-input" type="hidden" name="ratting"
@@ -667,6 +665,7 @@
                         </div>
                     </div>
                 </div>
+                @dd($orders);
                 @if ($orders->count() > 0)
                     <div class="col-lg-12 padding-top-60">
                         <div class="order__details__single">
@@ -685,7 +684,9 @@
                                                 <div class="order__item">
                                                     @foreach ($order?->orderItem as $orderItem)
                                                         @php
-                                                            $productInfo = DB::table('products')->where('id', $orderItem->product_id)->first();
+                                                            $productInfo = DB::table('products')
+                                                                ->where('id', $orderItem->product_id)
+                                                                ->first();
                                                             $prd_image = $orderItem->product?->image;
 
                                                             if (!empty($orderItem->variant?->attr_image)) {
@@ -695,12 +696,14 @@
                                                         <div class="order__item__single">
                                                             <div class="order__item__single__flex">
                                                                 <div class="order__item__product">
-                                                                    <div class="order__item__product__thumb checkout-cart-thumb">
+                                                                    <div
+                                                                        class="order__item__product__thumb checkout-cart-thumb">
                                                                         {!! render_image($prd_image, class: 'w-100') !!}
                                                                     </div>
                                                                     <div
                                                                         class="order__item__product__contents checkout-cart-img-contents">
-                                                                        <h6 class="order__item__product__name checkout-cart-title">
+                                                                        <h6
+                                                                            class="order__item__product__name checkout-cart-title">
                                                                             <a href="javascript:;">
                                                                                 {{ Str::limit(Str::words($productInfo->name), 50, '...') }}
                                                                             </a>
@@ -726,7 +729,8 @@
                                                                             <span class="order__item__product__span__left">
                                                                                 {{ __('Sold By:') }}
                                                                             </span>
-                                                                            <span class="order__item__product__span__right">
+                                                                            <span
+                                                                                class="order__item__product__span__right">
                                                                                 {{ $order->vendor?->business_name ?? $adminShopManage?->store_name }}
                                                                             </span>
                                                                         </p>
@@ -749,8 +753,10 @@
                                                                 </div>
                                                             </div>
                                                             @php
-                                                                $subtotal += $orderItem->sale_price * $orderItem->quantity;
-                                                                $itemsTotal += $orderItem->sale_price * $orderItem->quantity;
+                                                                $subtotal +=
+                                                                    $orderItem->sale_price * $orderItem->quantity;
+                                                                $itemsTotal +=
+                                                                    $orderItem->sale_price * $orderItem->quantity;
                                                             @endphp
                                                         </div>
                                                     @endforeach
@@ -762,7 +768,8 @@
                                                         </h4>
                                                     @else
                                                         <div class="order__item__estimate">
-                                                            <div class="order__item__estimate__single d-flex justify-content-between">
+                                                            <div
+                                                                class="order__item__estimate__single d-flex justify-content-between">
                                                                 <span>
                                                                     {{ __('Sub Total') }}
                                                                 </span>
@@ -770,7 +777,8 @@
                                                                     {{ float_amount_with_currency_symbol($payment_details->paymentMeta?->sub_total) }}
                                                                 </strong>
                                                             </div>
-                                                            <div class="order__item__estimate__single d-flex justify-content-between">
+                                                            <div
+                                                                class="order__item__estimate__single d-flex justify-content-between">
                                                                 <span>
                                                                     {{ __('Discount Amount') }}
                                                                 </span>
@@ -778,7 +786,8 @@
                                                                     {{ float_amount_with_currency_symbol($payment_details->paymentMeta?->coupon_amount) }}
                                                                 </strong>
                                                             </div>
-                                                            <div class="order__item__estimate__single d-flex justify-content-between">
+                                                            <div
+                                                                class="order__item__estimate__single d-flex justify-content-between">
                                                                 <span>
                                                                     {{ __('Tax Amount') }}
                                                                 </span>
@@ -786,7 +795,8 @@
                                                                     {{ float_amount_with_currency_symbol($payment_details->paymentMeta?->tax_amount) }}
                                                                 </strong>
                                                             </div>
-                                                            <div class="order__item__estimate__single d-flex justify-content-between">
+                                                            <div
+                                                                class="order__item__estimate__single d-flex justify-content-between">
                                                                 <span>
                                                                     {{ __('Cost Summary') }}
                                                                 </span>
@@ -794,7 +804,8 @@
                                                                     {{ float_amount_with_currency_symbol($payment_details->paymentMeta?->shipping_cost) }}
                                                                 </strong>
                                                             </div>
-                                                            <div class="order__item__estimate__single d-flex justify-content-between">
+                                                            <div
+                                                                class="order__item__estimate__single d-flex justify-content-between">
                                                                 <span>
                                                                     {{ __('Total') }}
                                                                 </span>
@@ -826,16 +837,16 @@
 
 @section('script')
     <script>
-        $(document).ready(function () {
-            $(document).on('click', '.bodyUser_overlay', function () {
+        $(document).ready(function() {
+            $(document).on('click', '.bodyUser_overlay', function() {
                 $('.user-dashboard-wrapper, .bodyUser_overlay').removeClass('show');
             });
-            $(document).on('click', '.mobile_nav', function () {
+            $(document).on('click', '.mobile_nav', function() {
                 $('.user-dashboard-wrapper, .bodyUser_overlay').addClass('show');
             });
         });
 
-        $(document).on('click', '.reaction-list', function () {
+        $(document).on('click', '.reaction-list', function() {
             $(this).siblings().removeClass("active");
             $(this).addClass("active");
 
@@ -847,7 +858,7 @@
             $('#delivery-man-ratting-input').val($(this).attr("data-ratting-number"));
         });
 
-        $(document).on('click', '.click-skip', function () {
+        $(document).on('click', '.click-skip', function() {
             $(this).parent().parent().find(".reaction-list.active").removeClass("active");
         });
     </script>
