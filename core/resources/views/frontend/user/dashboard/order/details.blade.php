@@ -665,7 +665,6 @@
                         </div>
                     </div>
                 </div>
-                @dd($orders);
                 @if ($orders->count() > 0)
                     <div class="col-lg-12 padding-top-60">
                         <div class="order__details__single">
