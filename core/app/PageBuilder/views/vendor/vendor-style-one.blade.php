@@ -2,6 +2,9 @@
 <!-- All Porduct start -->
 <section class="allProduct__area padding-top-20 padding-bottom-20">
     <div class="container container_1608">
+        <div class="row g-4 mt-4">
+            <h2 class="title">Popular Stores</h2>
+        </div>
         <div class="row">
             <div class="col-lg-12">
                 <div class="section__title text-left section_borderBottom">
@@ -24,9 +27,7 @@
             </div>
         </div>
         <div class="" id="all_vendor_list">
-            <div class="row g-4 mt-4">
-                <h2 class="title">Popular Stores</h2>
-            </div>
+            
             <div class="row g-4 mt-4">
                 @foreach ($vendors as $vendor)
                     <x-vendor::style-one :vendor="$vendor" />
