@@ -28,6 +28,44 @@
         .view-all:hover {
             text-decoration: underline;
         }
+
+        .vendor-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .vendor-number {
+            font-weight: 600;
+            margin-right: 10px;
+            font-size: 1rem;
+            width: 20px;
+            text-align: right;
+        }
+
+        .vendor-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #28a745;
+            margin-right: 10px;
+        }
+
+        .vendor-name {
+            font-weight: 500;
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .subtitle {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: #198754;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+        }
     </style>
 @endsection
 
@@ -39,14 +77,7 @@
                 <div class="col-12">
                     <div class="dashboard__card">
                         <div class="dashboard__card__body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h3 class="my-3">Webstie Stats</h3>
-                                </div>
-                                <div class="col-md-6 text-end">
-                                    <a href="#" class="text-warning">View All</a>
-                                </div>
-                            </div>
+                            <h3 class="my-3">Webstie Stats</h3>
                             <div class="row g-5">
                                 <div class="col-md-6">
                                     <ul class="nav nav-tabs" id="chartTabs" role="tablist">
@@ -154,14 +185,7 @@
                 <div class="col-12">
                     <div class="dashboard__card">
                         <div class="dashboard__card__body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h3 class="my-3">Analytics</h3>
-                                </div>
-                                <div class="col-md-6 text-end">
-                                    <a href="#" class="text-warning">View All</a>
-                                </div>
-                            </div>
+                            <h3 class="my-3">Analytics</h3>
                             <div class="row g-5">
                                 <div class="col-md-6">
                                     <ul class="nav nav-tabs" id="chartTabs" role="tablist">
@@ -263,14 +287,7 @@
                 <div class="col-12">
                     <div class="dashboard__card">
                         <div class="dashboard__card__body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h3 class="my-3">Campaign Stats</h3>
-                                </div>
-                                <div class="col-md-6 text-end">
-                                    <a href="#" class="text-warning">View All</a>
-                                </div>
-                            </div>
+                            <h3 class="my-3">Campaign Stats</h3>
                             <div class="row g-5">
                                 <div class="col-md-6">
                                     <div class="text-center">
@@ -380,14 +397,7 @@
                 <div class="col-12">
                     <div class="dashboard__card">
                         <div class="dashboard__card__body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h3 class="my-3">Notifications</h3>
-                                </div>
-                                <div class="col-md-6 text-end">
-                                    <a href="{{ route('admin.notifications') }}" class="text-warning">View All</a>
-                                </div>
-                            </div>
+                            <h3 class="my-3">Notifications</h3>
                             <div class="row">
                                 <div class="col-md-12">
                                     <ul class="list-group list-group-flush">
@@ -441,20 +451,132 @@
                 </div>
             </div>
         </div>
+        <div class="col-lg-12 col-ml-12 mb-3">
+            <div class="row">
+                <div class="col-12">
+                    <div class="dashboard__card">
+                        <div class="dashboard__card__body">
+                            <h3 class="my-3">Top Vendors</h3>
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <div class="card p-4">
+                                        <p class="subtitle">Top Selling Vendor</p>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="vendor-item">
+                                                    <span class="vendor-number">1.</span>
+                                                    <img src="https://avatar.iran.liara.run/public/1" alt="Theresa Webb"
+                                                        class="vendor-img">
+                                                    <span class="vendor-name">Theresa Webb</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="vendor-item">
+                                                    <span class="vendor-number">2.</span>
+                                                    <img src="https://avatar.iran.liara.run/public/2"
+                                                        alt="Marvin McKinney" class="vendor-img">
+                                                    <span class="vendor-name">Marvin McKinney</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="vendor-item">
+                                                    <span class="vendor-number">3.</span>
+                                                    <img src="https://avatar.iran.liara.run/public/3" alt="Floyd Miles"
+                                                        class="vendor-img">
+                                                    <span class="vendor-name">Floyd Miles</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="vendor-item">
+                                                    <span class="vendor-number">4.</span>
+                                                    <img src="https://avatar.iran.liara.run/public/4"
+                                                        alt="Cameron Williamson" class="vendor-img">
+                                                    <span class="vendor-name">Cameron Williamson</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="vendor-item">
+                                                    <span class="vendor-number">5.</span>
+                                                    <img src="https://avatar.iran.liara.run/public/5" alt="Guy Hawkins"
+                                                        class="vendor-img">
+                                                    <span class="vendor-name">Guy Hawkins</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="vendor-item">
+                                                    <span class="vendor-number">6.</span>
+                                                    <img src="https://avatar.iran.liara.run/public/6"
+                                                        alt="Brooklyn Simmons" class="vendor-img">
+                                                    <span class="vendor-name">Brooklyn Simmons</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="vendor-item">
+                                                    <span class="vendor-number">7.</span>
+                                                    <img src="https://avatar.iran.liara.run/public/7" alt="Ralph Edwards"
+                                                        class="vendor-img">
+                                                    <span class="vendor-name">Ralph Edwards</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="vendor-item">
+                                                    <span class="vendor-number">8.</span>
+                                                    <img src="https://avatar.iran.liara.run/public/8" alt="Devon Lane"
+                                                        class="vendor-img">
+                                                    <span class="vendor-name">Devon Lane</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="vendor-item">
+                                                    <span class="vendor-number">9.</span>
+                                                    <img src="https://avatar.iran.liara.run/public/9" alt="Kristin Watson"
+                                                        class="vendor-img">
+                                                    <span class="vendor-name">Kristin Watson</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="vendor-item">
+                                                    <span class="vendor-number">10.</span>
+                                                    <img src="https://avatar.iran.liara.run/public/10" alt="Jane Cooper"
+                                                        class="vendor-img">
+                                                    <span class="vendor-name">Jane Cooper</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Top Selling Products -->
+                                <div class="col-md-6">
+                                    <div class="card p-4">
+                                        <p class="subtitle">Top Selling Products</p>
+                                        <ul class="list-unstyled product-list">
+                                            <li>1. UltraGlow Hydrating Revitalization Serum with Botanical...</li>
+                                            <li>2. EcoSmart Multi-Purpose Kitchen Blender with TurboPul...</li>
+                                            <li>3. ProShield Heavy-Duty Waterproof Backpack for Travel...</li>
+                                            <li>4. ZenWave Noise-Cancelling Over-Ear Bluetooth Headph...</li>
+                                            <li>5. SmartClean Automatic Robotic Vacuum with AI Pathfind...</li>
+                                            <li>6. CrystalPure Double-Wall Insulated Stainless Steel Water...</li>
+                                            <li>7. EverGlow Aromatherapy Diffuser with Multi-Color LED M...</li>
+                                            <li>8. PowerMax Solar-Powered Portable Generator with Dual...</li>
+                                            <li>9. ComfyCloud Ultra-Soft Memory Foam Mattress Topper...</li>
+                                            <li>10. VisionPro 4K Ultra-HD Smart Projector with Wireless C...</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         {{-- Top vendors --}}
         <div class="col-lg-12 col-ml-12 mb-3">
             <div class="row">
                 <div class="col-12">
                     <div class="dashboard__card">
                         <div class="dashboard__card__body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h3 class="my-3">Top vendors</h3>
-                                </div>
-                                <div class="col-md-6 text-end">
-                                    <a href="{{ route('admin.vendor.all') }}" class="text-warning">View All</a>
-                                </div>
-                            </div>
+                            <h3 class="my-3">Top vendors</h3>
                             <div class="row g-5">
                                 <div class="col-md-6">
                                     <ul class="nav nav-tabs" id="chartTabs" role="tablist">
@@ -522,122 +644,152 @@
         </div>
         {{-- vendor management  --}}
         <div class="col-lg-12 col-ml-12 mb-3">
-            <div class="row">
-                <div class="col-12">
-                    <div class="dashboard__card">
-                        <div class="dashboard__card__body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h3 class="my-3">Vendor managements</h3>
-                                </div>
-                                <div class="col-md-6 text-end">
-                                    <a href="{{ route('admin.vendor.all') }}" class="text-warning">View All</a>
+            <div class="card shadow rounded-3">
+                <div class="card-body">
+                    <h4 class="my-3">Vendor managements</h4>
+                    <div class="p-3 bg-light rounded-3">
+                        <div class="row g-3 mb-2">
+                            <div class="col-md-4">
+                                <div
+                                    class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
+                                    <span>Account Verification Pending</span>
+                                    <span class="fw-bold text-warning">14</span>
                                 </div>
                             </div>
-                            <div class="row g-5">
-                                <div class="col-md-12">
-                                    <div class="mb-2">
-                                        <span class="badge badge-custom">
-                                            Total:
-                                            {{ $vendorData['totalVendor']->count() }}
-                                        </span>
-                                        <span class="badge badge-custom">
-                                            Approved:
-                                            {{ $vendorData['approveVendor']->count() }}
-                                        </span>
-                                        <span class="badge badge-custom">
-                                            Rejected:
-                                            {{ $vendorData['rejectVendor']->count() }}
-                                        </span>
-                                        <span class="badge badge-custom">
-                                            verified Vendor :
-                                            {{ $vendorData['verifyVendor']->count() }}
-                                        </span>
-                                        <span class="badge badge-custom">
-                                            Unverified Vendor:
-                                            {{ $vendorData['unverifyVendor']->count() }}
-                                        </span>
-                                    </div>
-                                    <div class="mb-2">
-                                        <span class="badge badge-custom">
-                                            Total Withdrawal Request:
-                                            {{ $vendorWithdrawData['totalwithdraw']->count() }}
-                                        </span>
-                                        <span class="badge badge-custom">
-                                            Approved Withdrawal Request:
-                                            {{ $vendorWithdrawData['pendingwithdraw']->count() }}
-                                        </span>
-                                        <span class="badge badge-custom">
-                                            Rejected Withdrawal Request:
-                                            {{ $vendorWithdrawData['totalNotPendingWithdraw']->count() }}
-                                        </span>
-                                    </div>
+                            <div class="col-md-4">
+                                <div
+                                    class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
+                                    <span>Approved</span>
+                                    <span class="fw-bold text-success">55</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div
+                                    class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
+                                    <span>Rejected</span>
+                                    <span class="fw-bold text-danger">43</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g-3 mb-2">
+                            <div class="col-md-4">
+                                <div
+                                    class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
+                                    <span>Product Verification Pending</span>
+                                    <h4 class="fw-bold text-warning">53</h4>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div
+                                    class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
+                                    <span>Approved</span>
+                                    <h4 class="fw-bold text-success">546</h4>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div
+                                    class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
+                                    <span>Rejected</span>
+                                    <h4 class="fw-bold text-danger">3</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <div
+                                    class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
+                                    <span>Withdrawal Requests Pending</span>
+                                    <h4 class="fw-bold text-warning">132</h4>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div
+                                    class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
+                                    <span>Approved</span>
+                                    <h4 class="fw-bold text-success">65</h4>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div
+                                    class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
+                                    <span>Rejected</span>
+                                    <h4 class="fw-bold text-danger">7</h4>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        {{-- vendor Support  --}}
-        <div class="col-lg-12 col-ml-12 mb-3">
-            <div class="row">
-                <div class="col-12">
-                    <div class="dashboard__card">
-                        <div class="dashboard__card__body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h3 class="my-3">Vendor Support</h3>
-                                </div>
-                                <div class="col-md-6 text-end">
-                                    <a href="{{ route('admin.support.ticket.all.vendor') }}" class="text-warning">View
-                                        All</a>
+
+                <div class="card-body">
+                    <h4 class="mb-4">Vendor Support</h4>
+                    <div class="p-3 bg-light rounded-3">
+                        <div class="row g-3 mb-2">
+                            <div class="col-md-4">
+                                <div
+                                    class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
+                                    <span>Total Tickets Open</span>
+                                    <h4 class="fw-bold text-warning">
+                                        {{ $vendorTicketData['vendorTotalOpenTicket']->count() }}</h4>
                                 </div>
                             </div>
-                            <div class="row g-5">
-                                <div class="col-md-12">
-                                    <div class="mb-2">
-                                        <span class="badge badge-custom">Total Tickets Open:
-                                            {{ $vendorTicketData['vendorTotalOpenTicket']->count() }}</span>
-                                        <span class="badge badge-custom">High Priority Tickets:
-                                            {{ $vendorTicketData['vendorTotalPriorityTicket']->count() }}</span>
-                                        <span class="badge badge-custom">Total Close Tickets:
-                                            {{ $vendorTicketData['vendorTotalCloseTicket']->count() }}</span>
-                                    </div>
+                            <div class="col-md-4">
+                                <div
+                                    class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
+                                    <span>High Priority Tickets</span>
+                                    <h4 class="fw-bold text-success">
+                                        {{ $vendorTicketData['vendorTotalPriorityTicket']->count() }}</h4>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div
+                                    class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
+                                    <span>Total Close Tickets</span>
+                                    <h4 class="fw-bold text-danger">
+                                        {{ $vendorTicketData['vendorTotalCloseTicket']->count() }}</h4>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        {{-- Customer Support --}}
-        <div class="col-lg-12 col-ml-12 mb-3">
-            <div class="row">
-                <div class="col-12">
-                    <div class="dashboard__card">
-                        <div class="dashboard__card__body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h3 class="my-3">Customer Support</h3>
-                                </div>
-                                <div class="col-md-6 text-end">
-                                    <a href="{{ route('admin.support.ticket.all') }}" class="text-warning">View All</a>
+
+                <div class="card-body">
+                    <h4 class="mb-4">Customer Support</h4>
+                    <div class="p-3 bg-light rounded-3">
+                        <div class="row g-3 mb-2">
+                            <div class="col-md-3">
+                                <div
+                                    class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
+                                    <span>Total Tickets Open</span>
+                                    <h4 class="fw-bold text-warning">
+                                        {{ $customerTicketData['totalOpenTicket']->count() }}
+                                    </h4>
                                 </div>
                             </div>
-                            <div class="row g-5">
-                                <div class="col-md-12">
-                                    <div class="mb-2">
-                                        <span class="badge badge-custom">
-                                            Total Tickets Open: {{ $customerTicketData['totalOpenTicket']->count() }}
-                                        </span>
-                                        <span class="badge badge-custom">
-                                            High Priority Tickets: {{ $customerTicketData['totalCloseTicket']->count() }}
-                                        </span>
-                                        <span class="badge badge-custom">
-                                            Refund Request: {{ $customerTicketData['refundRequest']->count() }}
-                                        </span>
-                                    </div>
+                            <div class="col-md-3">
+                                <div
+                                    class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
+                                    <span>High Priority Tickets</span>
+                                    <h4 class="fw-bold text-success">
+                                        {{ $customerTicketData['totalCloseTicket']->count() }}
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div
+                                    class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
+                                    <span>Total Close Tickets</span>
+                                    <h4 class="fw-bold text-danger">
+                                        {{ $vendorTicketData['vendorTotalCloseTicket']->count() }}
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div
+                                    class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
+                                    <span>Total Close Tickets</span>
+                                    <h4 class="fw-bold text-danger">
+                                        {{ $customerTicketData['refundRequest']->count() }}
+                                    </h4>
                                 </div>
                             </div>
                         </div>
@@ -651,14 +803,7 @@
                 <div class="col-12">
                     <div class="dashboard__card">
                         <div class="dashboard__card__body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h3 class="my-3">Financial Summary</h3>
-                                </div>
-                                <div class="col-md-6 text-end">
-                                    <a href="#" class="text-warning">View All</a>
-                                </div>
-                            </div>
+                            <h3 class="my-3">Financial Summary</h3>
                             <div class="row g-5">
                                 <div class="col-md-6">
                                     <ul class="nav nav-tabs" id="chartTabs" role="tablist">
@@ -717,6 +862,134 @@
                                         </li>
                                     </ul>
                                     <div class="mt-3" id="financial_summary_two_chart"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-ml-12 mb-3">
+            <div class="card shadow rounded-3 mb-4">
+                <div class="card-body">
+                    <h4 class="mb-4">Performance Monitoring</h4>
+                    <div class="row g-3">
+                        <!-- Page Load Time -->
+                        <div class="col-md-4">
+                            <div class="card shadow-sm rounded-3 text-center p-3">
+                                <div class="row g-3 mt-2">
+                                    <div class="col-md-12">
+                                        <div class="p-2 bg-light rounded">
+                                            <small>Page Load Time</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="p-2 bg-light rounded">
+                                            <small>Home Page</small>
+                                            <h5 class="mt-1 text-success">2s</h5>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="p-2 bg-light rounded">
+                                            <small>Product Page</small>
+                                            <h5 class="mt-1 text-success">2s</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- API Latency -->
+                        <div class="col-md-4">
+                            <div class="card shadow-sm rounded-3 text-center p-3">
+                                <h6>API Latency</h6>
+                                <div class="p-2 bg-light rounded mt-2">
+                                    <h5 class="text-success">AVG 200ms</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- User Sessions -->
+                        <div class="col-md-4">
+                            <div class="card shadow-sm rounded-3 text-center p-3">
+                                <h6>User Sessions</h6>
+                                <div class="row mt-2">
+                                    <div class="col">
+                                        <div class="p-2 bg-light rounded">
+                                            <small>Signed In</small>
+                                            <h5 class="text-success">150</h5>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="p-2 bg-light rounded">
+                                            <small>Avg Duration</small>
+                                            <h5 class="text-success">5m</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row g-3">
+                <!-- Development & Version Info -->
+                <div class="col-md-4">
+                    <div class="card shadow-sm rounded-3 p-3">
+                        <h6>Development & Version Info</h6>
+                        <p class="mb-1">Mobile App Version: 2.1.0 | Desktop: 2.1.0</p>
+                        <p class="mb-1">Last Development: Jul 16, 2025 10:00</p>
+                        <button class="btn btn-sm btn-success">Rollback</button> | <a href="#">Version
+                            History</a>
+                    </div>
+                </div>
+
+                <!-- Error Log Summary -->
+                <div class="col-md-4">
+                    <div class="card shadow-sm rounded-3 p-3 text-center">
+                        <h6>Error Log Summary</h6>
+                        <div class="row mt-2">
+                            <div class="col">
+                                <div class="p-2 bg-light rounded">
+                                    <small>Customer</small>
+                                    <h5 class="text-success">5</h5>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="p-2 bg-light rounded">
+                                    <small>Vendor</small>
+                                    <h5 class="text-success">3</h5>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="p-2 bg-light rounded">
+                                    <small>Admin</small>
+                                    <h5 class="text-success">2</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Security Alerts -->
+                <div class="col-md-4">
+                    <div class="card shadow-sm rounded-3 p-3">
+                        <h6>Security Alerts</h6>
+                        <div class="row g-2 mt-2">
+                            <div class="col-6">
+                                <div class="p-2 bg-light rounded d-flex justify-content-between align-items-center">
+                                    <small>Recent Login Failures</small>
+                                    <span class="text-warning fw-bold">7</span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-2 bg-light rounded d-flex justify-content-between align-items-center">
+                                    <small>Pending Password Resets</small>
+                                    <span class="text-success fw-bold">5</span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-2 bg-light rounded d-flex justify-content-between align-items-center mt-2">
+                                    <small>Potential IP Anomalies</small>
+                                    <span class="text-danger fw-bold">4</span>
                                 </div>
                             </div>
                         </div>

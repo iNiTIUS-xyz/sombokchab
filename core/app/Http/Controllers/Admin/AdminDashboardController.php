@@ -80,6 +80,7 @@ class AdminDashboardController extends Controller
             ->orderByDesc('amount')
             ->limit(10)
             ->get();
+        dd($top_vendors_daily);
 
         // 🔹 2. Top Vendors - Weekly (Last 4 Weeks)
         $top_vendors_weekly = SubOrder::selectRaw("vendors.owner_name as label, YEARWEEK(sub_orders.created_at, 1) as week, SUM(total_amount) as amount")
@@ -354,28 +355,6 @@ class AdminDashboardController extends Controller
             ->orderBy('year')
             ->pluck('total', 'year');
 
-
-        $vendorData = [];
-
-        $vendorData['totalVendor'] = Vendor::query()
-            ->get();
-
-        $vendorData['approveVendor'] = Vendor::query()
-            ->where('status_id', 1)
-            ->get();
-
-        $vendorData['rejectVendor'] = Vendor::query()
-            ->where('status_id', 2)
-            ->get();
-
-        $vendorData['verifyVendor'] = Vendor::query()
-            ->where('is_vendor_verified', 1)
-            ->get();
-
-        $vendorData['unverifyVendor'] = Vendor::query()
-            ->where('is_vendor_verified', 0)
-            ->get();
-
         $vendorWithdrawData = [];
 
         $vendorWithdrawData['totalwithdraw'] = VendorWithdrawRequest::query()
@@ -401,7 +380,7 @@ class AdminDashboardController extends Controller
             'refundRequests' => $refundRequests,
             'customerTicketData' => $customerTicketData,
             'vendorTicketData' => $vendorTicketData,
-            'vendorData' => $vendorData,
+
             'vendorWithdrawData' => $vendorWithdrawData,
 
             'vendorsDaily' => $vendorsDaily,
