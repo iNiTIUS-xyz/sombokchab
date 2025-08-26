@@ -80,7 +80,6 @@ class AdminDashboardController extends Controller
             ->orderByDesc('amount')
             ->limit(10)
             ->get();
-        dd($top_vendors_daily);
 
         // 🔹 2. Top Vendors - Weekly (Last 4 Weeks)
         $top_vendors_weekly = SubOrder::selectRaw("vendors.owner_name as label, YEARWEEK(sub_orders.created_at, 1) as week, SUM(total_amount) as amount")
