@@ -53,7 +53,7 @@
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link active" id="webstie_daily-tab" data-bs-toggle="tab"
                                                 type="button">
-                                                Daily
+                                                Last 7 Days
                                             </button>
                                         </li>
                                         <li class="nav-item" role="presentation">
@@ -89,7 +89,7 @@
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link active" id="webstie_two_daily-tab" data-bs-toggle="tab"
                                                 type="button">
-                                                Daily
+                                                Last 7 Days
                                             </button>
                                         </li>
                                         <li class="nav-item" role="presentation">
@@ -118,7 +118,7 @@
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link active" id="webstie_three_daily-tab"
                                                 data-bs-toggle="tab" type="button">
-                                                Daily
+                                                Last 7 Days
                                             </button>
                                         </li>
                                         <li class="nav-item" role="presentation">
@@ -168,7 +168,7 @@
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link active" id="analytics_daily-tab" data-bs-toggle="tab"
                                                 type="button">
-                                                Daily
+                                                Last 7 Days
                                             </button>
                                         </li>
                                         <li class="nav-item" role="presentation">
@@ -197,7 +197,7 @@
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link active" id="analytics_two_daily-tab"
                                                 data-bs-toggle="tab" type="button">
-                                                Daily
+                                                Last 7 Days
                                             </button>
                                         </li>
                                         <li class="nav-item" role="presentation">
@@ -227,7 +227,7 @@
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link active" id="analytics_three_daily-tab"
                                                 data-bs-toggle="tab" type="button">
-                                                Daily
+                                                Last 7 Days
                                             </button>
                                         </li>
                                         <li class="nav-item" role="presentation">
@@ -286,7 +286,7 @@
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link active" id="campaign_one_daily-tab"
                                                 data-bs-toggle="tab" type="button">
-                                                Daily
+                                                Last 7 Days
                                             </button>
                                         </li>
                                         <li class="nav-item" role="presentation">
@@ -315,7 +315,7 @@
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link active" id="campaign_two_daily-tab"
                                                 data-bs-toggle="tab" type="button">
-                                                Daily
+                                                Last 7 Days
                                             </button>
                                         </li>
                                         <li class="nav-item" role="presentation">
@@ -344,7 +344,7 @@
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link active" id="campaign_three_daily-tab"
                                                 data-bs-toggle="tab" type="button">
-                                                Daily
+                                                Last 7 Days
                                             </button>
                                         </li>
                                         <li class="nav-item" role="presentation">
@@ -461,7 +461,7 @@
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link active" id="top_vendors_daily-tab"
                                                 data-bs-toggle="tab" type="button">
-                                                Daily
+                                                Last 7 Days
                                             </button>
                                         </li>
                                         <li class="nav-item" role="presentation">
@@ -490,7 +490,7 @@
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link active" id="top_vendors_two_daily-tab"
                                                 data-bs-toggle="tab" type="button">
-                                                Daily
+                                                Last 7 Days
                                             </button>
                                         </li>
                                         <li class="nav-item" role="presentation">
@@ -665,7 +665,7 @@
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link active" id="financial_summary_daily-tab"
                                                 data-bs-toggle="tab" type="button">
-                                                Daily
+                                                Last 7 Days
                                             </button>
                                         </li>
                                         <li class="nav-item" role="presentation">
@@ -694,7 +694,7 @@
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link active" id="financial_summary_two_daily-tab"
                                                 data-bs-toggle="tab" type="button">
-                                                Daily
+                                                Last 7 Days
                                             </button>
                                         </li>
                                         <li class="nav-item" role="presentation">

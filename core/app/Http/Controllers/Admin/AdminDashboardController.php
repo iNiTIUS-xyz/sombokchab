@@ -30,9 +30,13 @@ class AdminDashboardController extends Controller
     public function adminIndex()
     {
         $income_daily = SubOrder::selectRaw("DATE_FORMAT(created_at, '%a') as label, SUM(total_amount) as amount")
-            ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+            ->whereBetween('created_at', [
+                Carbon::now()->subDays(6)->startOfDay(), // 6 days ago
+                Carbon::now()->endOfDay() // today
+            ])
             ->whereHas('orderTrack', fn($q) => $q->where('name', 'delivered'))
             ->groupBy('label')
+            ->orderByRaw("MIN(created_at)") // Ensure order by date, not by day name
             ->get();
 
         // Income Statement (Weekly - Last 4 weeks)
@@ -183,15 +187,17 @@ class AdminDashboardController extends Controller
             ->join('products', 'sub_order_items.product_id', '=', 'products.id')
             ->select('products.name', DB::raw('SUM(sub_order_items.quantity) as total_quantity'));
 
-        // Daily
         $topVendorsDaily = (clone $baseQuery)
-            ->whereDate('orders.created_at', Carbon::today())
+            ->whereBetween('orders.created_at', [
+                Carbon::now()->subDays(6)->startOfDay(),
+                Carbon::now()->endOfDay()
+            ])
             ->groupBy('products.name')
             ->pluck('total_quantity', 'products.name');
 
         // Weekly
         $topVendorsWeekly = (clone $baseQuery)
-            ->whereBetween('orders.created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+            ->where('orders.created_at', '>=', Carbon::now()->subDays(6)->startOfDay())
             ->groupBy('products.name')
             ->pluck('total_quantity', 'products.name');
 
@@ -208,16 +214,13 @@ class AdminDashboardController extends Controller
             ->groupBy('products.name')
             ->pluck('total_quantity', 'products.name');
 
-
-        // Daily sign-ups (last 10 days)
-        $vendorsDaily = Vendor::select(
+        $vendorsDaily = Vendor::select([
             DB::raw('DATE(created_at) as date'),
             DB::raw('COUNT(*) as count')
-        )
+        ])
+            ->where('created_at', '>=', Carbon::now()->subDays(6)->startOfDay())
             ->groupBy('date')
             ->orderBy('date', 'asc')
-            ->take(10)
-            ->get()
             ->pluck('count', 'date')
             ->toArray();
 
@@ -260,15 +263,17 @@ class AdminDashboardController extends Controller
             ->toArray();
 
 
-        // Daily sign-ups (last 10 days)
-        $customersDaily = User::select(
-            DB::raw('DATE(created_at) as date'),
-            DB::raw('COUNT(*) as count')
-        )
+        $customersDaily = User::query()
+            ->select([
+                DB::raw('DATE(created_at) as date'),
+                DB::raw('COUNT(*) as count')
+            ])
+            ->whereBetween('created_at', [
+                Carbon::now()->subDays(6)->startOfDay(),
+                Carbon::now()->endOfDay()
+            ])
             ->groupBy('date')
             ->orderBy('date', 'asc')
-            ->take(10)
-            ->get()
             ->pluck('count', 'date')
             ->toArray();
 
@@ -310,14 +315,17 @@ class AdminDashboardController extends Controller
             ->pluck('count', 'year')
             ->toArray();
 
-        // DAILY data (last 7 days)
         $vendorWithdrawDaily = DB::table('vendor_withdraw_requests')
             ->select(DB::raw("DATE(created_at) as date"), DB::raw("SUM(amount) as total"))
             ->where('request_status', 'pending')
-            ->where('created_at', '>=', Carbon::now()->subDays(7))
+            ->whereBetween('created_at', [
+                Carbon::now()->subDays(6)->startOfDay(), // 6 days ago
+                Carbon::now()->endOfDay() // today
+            ])
             ->groupBy('date')
-            ->orderBy('date')
-            ->pluck('total', 'date');
+            ->orderBy('date', 'asc')
+            ->pluck('total', 'date')
+            ->toArray();
 
         // WEEKLY data (last 8 weeks)
         $vendorWithdrawWeekly = DB::table('vendor_withdraw_requests')
@@ -396,6 +404,11 @@ class AdminDashboardController extends Controller
             'vendorData' => $vendorData,
             'vendorWithdrawData' => $vendorWithdrawData,
 
+            'vendorsDaily' => $vendorsDaily,
+            'vendorsWeekly' => $vendorsWeekly,
+            'vendorsMonthly' => $vendorsMonthly,
+            'vendorsYearly' => $vendorsYearly,
+
             'income_daily' => $income_daily,
             'income_weekly' => $income_weekly,
             'income_monthly' => $income_monthly,
@@ -411,11 +424,6 @@ class AdminDashboardController extends Controller
             'topVendorsWeekly' => $topVendorsWeekly,
             'topVendorsMonthly' => $topVendorsMonthly,
             'topVendorsYearly' => $topVendorsYearly,
-
-            'vendorsDaily' => $vendorsDaily,
-            'vendorsWeekly' => $vendorsWeekly,
-            'vendorsMonthly' => $vendorsMonthly,
-            'vendorsYearly' => $vendorsYearly,
 
             'customersDaily' => $customersDaily,
             'customersWeekly' => $customersWeekly,
