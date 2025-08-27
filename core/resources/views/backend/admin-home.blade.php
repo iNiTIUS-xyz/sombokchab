@@ -77,7 +77,7 @@
                 <div class="col-12">
                     <div class="dashboard__card">
                         <div class="dashboard__card__body">
-                            <h3 class="my-3">Webstie Stats</h3>
+                            <h3 class="my-3">Website User Statistics</h3>
                             <div class="row g-5">
                                 <div class="col-md-6">
                                     <ul class="nav nav-tabs" id="chartTabs" role="tablist">
@@ -287,7 +287,7 @@
                 <div class="col-12">
                     <div class="dashboard__card">
                         <div class="dashboard__card__body">
-                            <h3 class="my-3">Campaign Stats</h3>
+                            <h3 class="my-3">Campaign Statistics</h3>
                             <div class="row g-5">
                                 <div class="col-md-6">
                                     <div class="text-center">
@@ -468,7 +468,7 @@
                                                         <span class="vendor-number">
                                                             {{ $loop->iteration }}.
                                                         </span>
-                                                        <img src="{{ file_exists($topVendors['logo']) ? asset($topVendors['logo']) : 'https://avatar.iran.liara.run/public/1' }}"
+                                                        <img src="{{ file_exists($topVendors['logo']) ? asset($topVendors['logo']) : null }}"
                                                             alt="Theresa Webb" class="vendor-img">
                                                         <span class="vendor-name">
                                                             {{ $topVendors['name'] }}
@@ -859,8 +859,7 @@
                 </div>
             </div>
             <div class="row g-3">
-                <!-- Development & Version Info -->
-                <div class="col-md-4">
+                {{-- <div class="col-md-4">
                     <div class="card shadow-sm rounded-3 p-3">
                         <h6>Development & Version Info</h6>
                         <p class="mb-1">Mobile App Version: 2.1.0 | Desktop: 2.1.0</p>
@@ -868,35 +867,38 @@
                         <button class="btn btn-sm btn-success">Rollback</button> | <a href="#">Version
                             History</a>
                     </div>
-                </div>
-
-                <!-- Error Log Summary -->
+                </div> --}}
                 <div class="col-md-4">
                     <div class="card shadow-sm rounded-3 p-3 text-center">
                         <h6>Error Log Summary</h6>
                         <div class="row mt-2">
                             <div class="col">
-                                <div class="p-2 bg-light rounded">
-                                    <small>Customer</small>
-                                    <h5 class="text-success">5</h5>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="p-2 bg-light rounded">
+                                <div class="p-4 bg-light rounded">
                                     <small>Vendor</small>
-                                    <h5 class="text-success">3</h5>
+                                    <h5 class="text-success">
+                                        {{ $totalVendors->count() }}
+                                    </h5>
                                 </div>
                             </div>
                             <div class="col">
-                                <div class="p-2 bg-light rounded">
+                                <div class="p-4 bg-light rounded">
                                     <small>Admin</small>
-                                    <h5 class="text-success">2</h5>
+                                    <h5 class="text-success">
+                                        {{ $totalAdmin->count() }}
+                                    </h5>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="p-4 bg-light rounded">
+                                    <small>Customer</small>
+                                    <h5 class="text-success">
+                                        {{ $totalCustomer->count() }}
+                                    </h5>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
                 <!-- Security Alerts -->
                 <div class="col-md-4">
                     <div class="card shadow-sm rounded-3 p-3">

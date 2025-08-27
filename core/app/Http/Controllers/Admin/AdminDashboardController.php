@@ -386,6 +386,10 @@ class AdminDashboardController extends Controller
             ->where('request_status', '!=', 'pending')
             ->get();
 
+        $totalVendors = Vendor::get();
+        $totalAdmin = Admin::get();
+        $totalCustomer = User::get();
+
         return view('backend.admin-home')->with([
             'campaign' => $campaign,
             'vendor' => $vendor,
@@ -397,6 +401,10 @@ class AdminDashboardController extends Controller
             'refundRequests' => $refundRequests,
             'customerTicketData' => $customerTicketData,
             'vendorTicketData' => $vendorTicketData,
+
+            'totalVendors' => $totalVendors,
+            'totalAdmin' => $totalAdmin,
+            'totalCustomer' => $totalCustomer,
 
             'vendorWithdrawData' => $vendorWithdrawData,
 
