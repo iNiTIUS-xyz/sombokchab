@@ -462,105 +462,33 @@
                                     <div class="card p-4">
                                         <p class="subtitle">Top Selling Vendor</p>
                                         <div class="row">
-                                            <div class="col-6">
-                                                <div class="vendor-item">
-                                                    <span class="vendor-number">1.</span>
-                                                    <img src="https://avatar.iran.liara.run/public/1" alt="Theresa Webb"
-                                                        class="vendor-img">
-                                                    <span class="vendor-name">Theresa Webb</span>
+                                            @foreach ($topVendorsInfos as $topVendors)
+                                                <div class="col-6">
+                                                    <div class="vendor-item">
+                                                        <span class="vendor-number">
+                                                            {{ $loop->iteration }}.
+                                                        </span>
+                                                        <img src="{{ file_exists($topVendors['logo']) ? asset($topVendors['logo']) : 'https://avatar.iran.liara.run/public/1' }}"
+                                                            alt="Theresa Webb" class="vendor-img">
+                                                        <span class="vendor-name">
+                                                            {{ $topVendors['name'] }}
+                                                        </span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="vendor-item">
-                                                    <span class="vendor-number">2.</span>
-                                                    <img src="https://avatar.iran.liara.run/public/2"
-                                                        alt="Marvin McKinney" class="vendor-img">
-                                                    <span class="vendor-name">Marvin McKinney</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="vendor-item">
-                                                    <span class="vendor-number">3.</span>
-                                                    <img src="https://avatar.iran.liara.run/public/3" alt="Floyd Miles"
-                                                        class="vendor-img">
-                                                    <span class="vendor-name">Floyd Miles</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="vendor-item">
-                                                    <span class="vendor-number">4.</span>
-                                                    <img src="https://avatar.iran.liara.run/public/4"
-                                                        alt="Cameron Williamson" class="vendor-img">
-                                                    <span class="vendor-name">Cameron Williamson</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="vendor-item">
-                                                    <span class="vendor-number">5.</span>
-                                                    <img src="https://avatar.iran.liara.run/public/5" alt="Guy Hawkins"
-                                                        class="vendor-img">
-                                                    <span class="vendor-name">Guy Hawkins</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="vendor-item">
-                                                    <span class="vendor-number">6.</span>
-                                                    <img src="https://avatar.iran.liara.run/public/6"
-                                                        alt="Brooklyn Simmons" class="vendor-img">
-                                                    <span class="vendor-name">Brooklyn Simmons</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="vendor-item">
-                                                    <span class="vendor-number">7.</span>
-                                                    <img src="https://avatar.iran.liara.run/public/7" alt="Ralph Edwards"
-                                                        class="vendor-img">
-                                                    <span class="vendor-name">Ralph Edwards</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="vendor-item">
-                                                    <span class="vendor-number">8.</span>
-                                                    <img src="https://avatar.iran.liara.run/public/8" alt="Devon Lane"
-                                                        class="vendor-img">
-                                                    <span class="vendor-name">Devon Lane</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="vendor-item">
-                                                    <span class="vendor-number">9.</span>
-                                                    <img src="https://avatar.iran.liara.run/public/9" alt="Kristin Watson"
-                                                        class="vendor-img">
-                                                    <span class="vendor-name">Kristin Watson</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="vendor-item">
-                                                    <span class="vendor-number">10.</span>
-                                                    <img src="https://avatar.iran.liara.run/public/10" alt="Jane Cooper"
-                                                        class="vendor-img">
-                                                    <span class="vendor-name">Jane Cooper</span>
-                                                </div>
-                                            </div>
+                                            @endforeach
                                         </div>
                                     </div>
                                 </div>
-
                                 <!-- Top Selling Products -->
                                 <div class="col-md-6">
                                     <div class="card p-4">
                                         <p class="subtitle">Top Selling Products</p>
-                                        <ul class="list-unstyled product-list">
-                                            <li>1. UltraGlow Hydrating Revitalization Serum with Botanical...</li>
-                                            <li>2. EcoSmart Multi-Purpose Kitchen Blender with TurboPul...</li>
-                                            <li>3. ProShield Heavy-Duty Waterproof Backpack for Travel...</li>
-                                            <li>4. ZenWave Noise-Cancelling Over-Ear Bluetooth Headph...</li>
-                                            <li>5. SmartClean Automatic Robotic Vacuum with AI Pathfind...</li>
-                                            <li>6. CrystalPure Double-Wall Insulated Stainless Steel Water...</li>
-                                            <li>7. EverGlow Aromatherapy Diffuser with Multi-Color LED M...</li>
-                                            <li>8. PowerMax Solar-Powered Portable Generator with Dual...</li>
-                                            <li>9. ComfyCloud Ultra-Soft Memory Foam Mattress Topper...</li>
-                                            <li>10. VisionPro 4K Ultra-HD Smart Projector with Wireless C...</li>
+                                        <ul class="list-unstyled product-list text-justify">
+                                            @foreach ($topProducts as $key => $topProduct)
+                                                <li class="p-1">
+                                                    {{ $loop->iteration }}. {{ Str::limit($key, 80, '...') }}
+                                                </li>
+                                            @endforeach
                                         </ul>
                                     </div>
                                 </div>
@@ -1454,13 +1382,6 @@
         const incomeWeekly = @json($income_weekly->pluck('amount', 'week'));
         const incomeMonthly = @json($income_monthly->pluck('amount', 'label'));
         const incomeYearly = @json($income_yearly->pluck('amount', 'label'));
-
-        // ===== TOP VENDORS DATA =====
-        const topVendorsDaily = @json($top_vendors_daily);
-        const topVendorsWeekly = @json($top_vendors_weekly);
-        const topVendorsMonthly = @json($top_vendors_monthly);
-        const topVendorsYearly = @json($top_vendors_yearly);
-
         // ===== Helper: Alternating Colors =====
         function generateAlternatingColors(length) {
             const colorOne = '#41695a';
@@ -1848,6 +1769,12 @@
     </script>
 
     <script>
+        // ===== TOP VENDORS DATA =====
+        const topVendorsDaily = @json($top_vendors_daily);
+        const topVendorsWeekly = @json($top_vendors_weekly);
+        const topVendorsMonthly = @json($top_vendors_monthly);
+        const topVendorsYearly = @json($top_vendors_yearly);
+
         const top_vendor_options = {
             series: [{
                 name: 'Net Profit',

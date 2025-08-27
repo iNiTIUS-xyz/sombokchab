@@ -57,32 +57,32 @@ class Vendor extends Authenticatable
         "check_online_status" => "datetime"
     ];
 
-    public function vendor_address(): HasOne
+    public function vendor_address()
     {
         return $this->hasOne(VendorAddress::class);
     }
 
-    public function shippingMethod(): HasMany
+    public function shippingMethod()
     {
         return $this->hasMany(VendorShippingMethod::class, "vendor_id", "id");
     }
 
-    public function product(): HasMany
+    public function product()
     {
         return $this->hasMany(Product::class, "vendor_id", "id");
     }
 
-    public function vendorProductRating(): HasManyThrough
+    public function vendorProductRating()
     {
         return $this->hasManyThrough(ProductRating::class, Product::class, "vendor_id", "product_id", "id", "id");
     }
 
-    public function vendor_shop_info(): HasOne
+    public function vendor_shop_info()
     {
         return $this->hasOne(VendorShopInfo::class);
     }
 
-    public function vendor_bank_info(): HasOne
+    public function vendor_bank_info()
     {
         return $this->hasOne(VendorBankInfo::class);
     }
@@ -97,17 +97,17 @@ class Vendor extends Authenticatable
         return $this->belongsTo(Status::class);
     }
 
-    public function wallet(): HasOne
+    public function wallet()
     {
         return $this->hasOne(Wallet::class, "vendor_id", "id");
     }
 
-    public function logo(): HasOneThrough
+    public function logo()
     {
         return $this->hasOneThrough(MediaUpload::class, VendorShopInfo::class, "vendor_id", "id", "id", "logo_id");
     }
 
-    public function cover_photo(): HasOneThrough
+    public function cover_photo()
     {
         return $this->hasOneThrough(
             MediaUpload::class,
@@ -119,17 +119,17 @@ class Vendor extends Authenticatable
         );
     }
 
-    public function subOrder(): HasMany
+    public function subOrder()
     {
         return $this->hasMany(SubOrder::class, "vendor_id", "id");
     }
 
-    public function order(): HasManyThrough
+    public function order()
     {
         return $this->hasManyThrough(Order::class, SubOrder::class, "vendor_id", "id", "id", "id");
     }
 
-    public function orderItems(): HasManyThrough
+    public function orderItems()
     {
         return $this->hasManyThrough(SubOrderItem::class, SubOrder::class, "vendor_id", "sub_order_id", "id", "id");
     }

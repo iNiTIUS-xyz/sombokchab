@@ -31,36 +31,32 @@ class AdminDashboardController extends Controller
     {
         $income_daily = SubOrder::selectRaw("DATE_FORMAT(created_at, '%a') as label, SUM(total_amount) as amount")
             ->whereBetween('created_at', [
-                Carbon::now()->subDays(6)->startOfDay(), // 6 days ago
-                Carbon::now()->endOfDay() // today
+                Carbon::now()->subDays(6)->startOfDay(),
+                Carbon::now()->endOfDay()
             ])
             ->whereHas('orderTrack', fn($q) => $q->where('name', 'delivered'))
             ->groupBy('label')
-            ->orderByRaw("MIN(created_at)") // Ensure order by date, not by day name
+            ->orderByRaw("MIN(created_at)")
             ->get();
 
-        // Income Statement (Weekly - Last 4 weeks)
         $income_weekly = SubOrder::selectRaw("YEARWEEK(created_at, 1) as week, SUM(total_amount) as amount")
             ->whereBetween('created_at', [Carbon::now()->subWeeks(4), Carbon::now()])
             ->whereHas('orderTrack', fn($q) => $q->where('name', 'delivered'))
             ->groupBy('week')
             ->get();
 
-        // Income Statement (Monthly - Current Year)
         $income_monthly = SubOrder::selectRaw("DATE_FORMAT(created_at, '%b') as label, SUM(total_amount) as amount")
             ->whereYear('created_at', Carbon::now()->year)
             ->whereHas('orderTrack', fn($q) => $q->where('name', 'delivered'))
             ->groupBy('label')
             ->get();
 
-        // Income Statement (Yearly - Last 5 Years)
         $income_yearly = SubOrder::selectRaw("YEAR(created_at) as label, SUM(total_amount) as amount")
             ->whereYear('created_at', '>=', Carbon::now()->subYears(5)->year)
             ->whereHas('orderTrack', fn($q) => $q->where('name', 'delivered'))
             ->groupBy('label')
             ->get();
 
-        // Top Vendors (Last 7 Days)
         $top_vendors = SubOrder::selectRaw("vendors.owner_name as label, SUM(total_amount) as amount")
             ->join('vendors', 'sub_orders.vendor_id', '=', 'vendors.id')
             ->whereNotNull('vendor_id')
@@ -70,7 +66,6 @@ class AdminDashboardController extends Controller
             ->limit(10)
             ->get();
 
-        // 🔹 1. Top Vendors - Daily (Last 7 Days)
         $top_vendors_daily = SubOrder::selectRaw("vendors.owner_name as label, SUM(total_amount) as amount")
             ->join('vendors', 'sub_orders.vendor_id', '=', 'vendors.id')
             ->whereNotNull('vendor_id')
@@ -81,7 +76,6 @@ class AdminDashboardController extends Controller
             ->limit(10)
             ->get();
 
-        // 🔹 2. Top Vendors - Weekly (Last 4 Weeks)
         $top_vendors_weekly = SubOrder::selectRaw("vendors.owner_name as label, YEARWEEK(sub_orders.created_at, 1) as week, SUM(total_amount) as amount")
             ->join('vendors', 'sub_orders.vendor_id', '=', 'vendors.id')
             ->whereNotNull('vendor_id')
@@ -94,7 +88,6 @@ class AdminDashboardController extends Controller
             ->sortDesc()
             ->take(10);
 
-        // 🔹 3. Top Vendors - Monthly (Last 12 Months)
         $top_vendors_monthly = SubOrder::selectRaw("vendors.owner_name as label, DATE_FORMAT(sub_orders.created_at, '%Y-%m') as month, SUM(total_amount) as amount")
             ->join('vendors', 'sub_orders.vendor_id', '=', 'vendors.id')
             ->whereNotNull('vendor_id')
@@ -107,7 +100,6 @@ class AdminDashboardController extends Controller
             ->sortDesc()
             ->take(10);
 
-        // 🔹 4. Top Vendors - Yearly (Last 5 Years)
         $top_vendors_yearly = SubOrder::selectRaw("vendors.owner_name as label, YEAR(sub_orders.created_at) as year, SUM(total_amount) as amount")
             ->join('vendors', 'sub_orders.vendor_id', '=', 'vendors.id')
             ->whereNotNull('vendor_id')
@@ -119,6 +111,42 @@ class AdminDashboardController extends Controller
             ->map(fn($group) => $group->sum('amount'))
             ->sortDesc()
             ->take(10);
+
+        // Step 1: Get top vendors by amount
+        $topVendors = SubOrder::selectRaw("
+                vendors.id,
+                vendors.owner_name as name,
+                SUM(total_amount) as total_amount
+            ")
+            ->join('vendors', 'sub_orders.vendor_id', '=', 'vendors.id')
+            ->whereNotNull('vendor_id')
+            ->where('sub_orders.created_at', '>=', Carbon::now()->subYears(5)->startOfYear())
+            ->whereHas('orderTrack', fn($q) => $q->where('name', 'delivered'))
+            ->groupBy('vendors.id', 'vendors.owner_name')
+            ->orderByDesc('total_amount')
+            ->take(10)
+            ->get();
+
+        $vendorIds = $topVendors->pluck('id');
+
+        $topVendorsInfos = Vendor::query()
+            ->with([
+                'vendor_shop_info.cover_photo',
+                'vendor_shop_info.logo'
+            ])
+            ->whereIn('id', $vendorIds)
+            ->get()
+            ->map(function ($vendor) use ($topVendors) {
+                // Match total amount from $topVendors
+                $amount = $topVendors->firstWhere('id', $vendor->id)->total_amount;
+
+                return [
+                    'id' => $vendor->id,
+                    'name' => $vendor->owner_name,
+                    'total_amount' => $amount,
+                    'logo' => optional($vendor->vendor_shop_info->logo)->path,
+                ];
+            });
 
         $campaign = Campaign::query()
             ->where('status', 'publish')
@@ -195,23 +223,26 @@ class AdminDashboardController extends Controller
             ->groupBy('products.name')
             ->pluck('total_quantity', 'products.name');
 
-        // Weekly
         $topVendorsWeekly = (clone $baseQuery)
             ->where('orders.created_at', '>=', Carbon::now()->subDays(6)->startOfDay())
             ->groupBy('products.name')
             ->pluck('total_quantity', 'products.name');
 
-        // Monthly
         $topVendorsMonthly = (clone $baseQuery)
             ->whereMonth('orders.created_at', Carbon::now()->month)
             ->whereYear('orders.created_at', Carbon::now()->year)
             ->groupBy('products.name')
             ->pluck('total_quantity', 'products.name');
 
-        // Yearly
         $topVendorsYearly = (clone $baseQuery)
             ->whereYear('orders.created_at', Carbon::now()->year)
             ->groupBy('products.name')
+            ->pluck('total_quantity', 'products.name');
+
+        $topProducts = (clone $baseQuery)
+            ->whereYear('orders.created_at', Carbon::now()->year)
+            ->groupBy('products.name')
+            ->limit(10)
             ->pluck('total_quantity', 'products.name');
 
         $vendorsDaily = Vendor::select([
@@ -224,7 +255,6 @@ class AdminDashboardController extends Controller
             ->pluck('count', 'date')
             ->toArray();
 
-        // Weekly sign-ups (last 10 weeks)
         $vendorsWeekly = Vendor::select(
             DB::raw('DATE_FORMAT(created_at, "%Y-%U") as week'),
             DB::raw('COUNT(*) as count')
@@ -238,7 +268,6 @@ class AdminDashboardController extends Controller
             })
             ->toArray();
 
-        // Monthly sign-ups (last 12 months)
         $vendorsMonthly = Vendor::select(
             DB::raw('DATE_FORMAT(created_at, "%Y-%m") as month'),
             DB::raw('COUNT(*) as count')
@@ -250,7 +279,6 @@ class AdminDashboardController extends Controller
             ->pluck('count', 'month')
             ->toArray();
 
-        // Yearly sign-ups (last 5 years)
         $vendorsYearly = Vendor::select(
             DB::raw('YEAR(created_at) as year'),
             DB::raw('COUNT(*) as count')
@@ -261,7 +289,6 @@ class AdminDashboardController extends Controller
             ->get()
             ->pluck('count', 'year')
             ->toArray();
-
 
         $customersDaily = User::query()
             ->select([
@@ -277,7 +304,6 @@ class AdminDashboardController extends Controller
             ->pluck('count', 'date')
             ->toArray();
 
-        // Weekly sign-ups (last 10 weeks)
         $customersWeekly = User::select(
             DB::raw('DATE_FORMAT(created_at, "%Y-%U") as week'),
             DB::raw('COUNT(*) as count')
@@ -291,7 +317,6 @@ class AdminDashboardController extends Controller
             })
             ->toArray();
 
-        // Monthly sign-ups (last 12 months)
         $customersMonthly = User::select(
             DB::raw('DATE_FORMAT(created_at, "%Y-%m") as month'),
             DB::raw('COUNT(*) as count')
@@ -303,7 +328,6 @@ class AdminDashboardController extends Controller
             ->pluck('count', 'month')
             ->toArray();
 
-        // Yearly sign-ups (last 5 years)
         $customersYearly = User::select(
             DB::raw('YEAR(created_at) as year'),
             DB::raw('COUNT(*) as count')
@@ -319,15 +343,14 @@ class AdminDashboardController extends Controller
             ->select(DB::raw("DATE(created_at) as date"), DB::raw("SUM(amount) as total"))
             ->where('request_status', 'pending')
             ->whereBetween('created_at', [
-                Carbon::now()->subDays(6)->startOfDay(), // 6 days ago
-                Carbon::now()->endOfDay() // today
+                Carbon::now()->subDays(6)->startOfDay(),
+                Carbon::now()->endOfDay()
             ])
             ->groupBy('date')
             ->orderBy('date', 'asc')
             ->pluck('total', 'date')
             ->toArray();
 
-        // WEEKLY data (last 8 weeks)
         $vendorWithdrawWeekly = DB::table('vendor_withdraw_requests')
             ->select(DB::raw("YEARWEEK(created_at) as week"), DB::raw("SUM(amount) as total"))
             ->where('request_status', 'pending')
@@ -336,7 +359,6 @@ class AdminDashboardController extends Controller
             ->orderBy('week')
             ->pluck('total', 'week');
 
-        // MONTHLY data (last 12 months)
         $vendorWithdrawMonthly = DB::table('vendor_withdraw_requests')
             ->select(DB::raw("DATE_FORMAT(created_at, '%b %Y') as month"), DB::raw("SUM(amount) as total"))
             ->where('request_status', 'pending')
@@ -345,7 +367,6 @@ class AdminDashboardController extends Controller
             ->orderByRaw("MIN(created_at)")
             ->pluck('total', 'month');
 
-        // YEARLY data (last 5 years)
         $vendorWithdrawYearly = DB::table('vendor_withdraw_requests')
             ->select(DB::raw("YEAR(created_at) as year"), DB::raw("SUM(amount) as total"))
             ->where('request_status', 'pending')
@@ -366,7 +387,6 @@ class AdminDashboardController extends Controller
         $vendorWithdrawData['totalNotPendingWithdraw'] = VendorWithdrawRequest::query()
             ->where('request_status', '!=', 'pending')
             ->get();
-
 
         return view('backend.admin-home')->with([
             'campaign' => $campaign,
@@ -402,6 +422,8 @@ class AdminDashboardController extends Controller
             'topVendorsWeekly' => $topVendorsWeekly,
             'topVendorsMonthly' => $topVendorsMonthly,
             'topVendorsYearly' => $topVendorsYearly,
+            'topProducts' => $topProducts,
+            'topVendorsInfos' => $topVendorsInfos,
 
             'customersDaily' => $customersDaily,
             'customersWeekly' => $customersWeekly,
