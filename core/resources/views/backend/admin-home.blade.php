@@ -5,6 +5,7 @@
 @endsection
 
 @section('style')
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <style>
         .badge-custom {
             background-color: #dee2e6;
@@ -140,6 +141,9 @@
                                                 type="button">
                                                 Yearly
                                             </button>
+                                        </li>
+                                        <li class="nav-item">
+                                            <input type="text" class="form-control dateRange" id="vendor_sign_up">
                                         </li>
                                     </ul>
                                     <div class="mt-3" id="webstie_two_chart"></div>
@@ -859,18 +863,20 @@
                 </div>
             </div>
             <div class="row g-3">
-                {{-- <div class="col-md-4">
+                <div class="col-md-4">
                     <div class="card shadow-sm rounded-3 p-3">
-                        <h6>Development & Version Info</h6>
-                        <p class="mb-1">Mobile App Version: 2.1.0 | Desktop: 2.1.0</p>
-                        <p class="mb-1">Last Development: Jul 16, 2025 10:00</p>
-                        <button class="btn btn-sm btn-success">Rollback</button> | <a href="#">Version
-                            History</a>
+                        <h6>Website & Version Info</h6>
+                        <p class="mb-1">
+                            Website Version: {{ app()->version() }} | Website PHP Version: {{ substr(PHP_VERSION, 0, 3) }}
+                        </p>
+                        <p class="mb-1">
+                            Last Development Year: {{ date('Y') }}
+                        </p>
                     </div>
-                </div> --}}
+                </div>
                 <div class="col-md-4">
                     <div class="card shadow-sm rounded-3 p-3 text-center">
-                        <h6>Error Log Summary</h6>
+                        <h6>Log Summary</h6>
                         <div class="row mt-2">
                             <div class="col">
                                 <div class="p-4 bg-light rounded">
@@ -906,14 +912,16 @@
                         <div class="row g-2 mt-2">
                             <div class="col-6">
                                 <div class="p-2 bg-light rounded d-flex justify-content-between align-items-center">
-                                    <small>Recent Login Failures</small>
-                                    <span class="text-warning fw-bold">7</span>
+                                    <small>Pending Password Resets</small>
+                                    <span class="text-success fw-bold">
+                                        {{ $pass_reset_count }}
+                                    </span>
                                 </div>
                             </div>
-                            <div class="col-6">
+                            {{-- <div class="col-6">
                                 <div class="p-2 bg-light rounded d-flex justify-content-between align-items-center">
-                                    <small>Pending Password Resets</small>
-                                    <span class="text-success fw-bold">5</span>
+                                    <small>Recent Login Failures</small>
+                                    <span class="text-warning fw-bold">7</span>
                                 </div>
                             </div>
                             <div class="col-6">
@@ -921,7 +929,7 @@
                                     <small>Potential IP Anomalies</small>
                                     <span class="text-danger fw-bold">4</span>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -931,6 +939,32 @@
 @endsection
 
 @section('script')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <script src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+    <li class="nav-item">
+        <input type="text" class="form-control dateRange" id="vendor_sign_up">
+    </li>
+
+    <script>
+        $(document).ready(function() {
+            $('.dateRange').daterangepicker({
+                opens: 'left',
+                autoUpdateInput: true
+            });
+
+            $('.dateRange').on('apply.daterangepicker', function(ev, picker) {
+                var startDate = picker.startDate.format('YYYY-MM-DD');
+                var endDate = picker.endDate.format('YYYY-MM-DD');
+
+                console.log("Selected Range:", startDate, endDate);
+
+            });
+        });
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
     <script>
@@ -1188,7 +1222,7 @@
                     labels: {
                         formatter: function(value) {
                             return value && value.length > 15 ? value.substring(0, 15) + '...' : value ||
-                            '';
+                                '';
                         }
                     }
                 },

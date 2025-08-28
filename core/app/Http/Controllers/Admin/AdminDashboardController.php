@@ -390,6 +390,8 @@ class AdminDashboardController extends Controller
         $totalAdmin = Admin::get();
         $totalCustomer = User::get();
 
+        $pass_reset_count = DB::table('password_resets')->count();
+
         return view('backend.admin-home')->with([
             'campaign' => $campaign,
             'vendor' => $vendor,
@@ -440,6 +442,7 @@ class AdminDashboardController extends Controller
             'vendorWithdrawWeekly' => $vendorWithdrawWeekly,
             'vendorWithdrawMonthly' => $vendorWithdrawMonthly,
             'vendorWithdrawYearly' => $vendorWithdrawYearly,
+            'pass_reset_count' => $pass_reset_count,
         ]);
     }
 
