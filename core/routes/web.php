@@ -501,6 +501,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
         Route::post('/password-change', 'AdminDashboardController@admin_password_chagne')->permission('password-change');
         //admin index
         Route::get('/', 'AdminDashboardController@adminIndex')->name('admin.home');
+        Route::get('/vendors/data', 'AdminDashboardController@getVendorData')->name('vendors.data');
         Route::get('/health', 'AdminDashboardController@health')->name('admin.health');
         Route::get('/dark-mode-toggle', 'AdminDashboardController@dark_mode_toggle')->name('admin.dark.mode.toggle')->permission('dark-mode-toggle');
     });

@@ -939,17 +939,94 @@
 @endsection
 
 @section('script')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <script src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+    <li class="nav-item">
+        <input type="text" class="form-control dateRange" id="vendor_sign_up">
+    </li>
+
+    <script>
+        $(document).ready(function() {
+            $('.dateRange').daterangepicker({
+                opens: 'left',
+                autoUpdateInput: true
+            });
+
+            $('.dateRange').on('apply.daterangepicker', function(ev, picker) {
+                var startDate = picker.startDate.format('YYYY-MM-DD');
+                var endDate = picker.endDate.format('YYYY-MM-DD');
+
+                console.log("Selected Range:", startDate, endDate);
+
+            });
+        });
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
     <script>
+        var website_stars_options = {
+            series: [{
+                name: "Desktops",
+                data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+            }],
+            chart: {
+                height: 350,
+                type: 'line',
+                background: '#ffffff',
+                zoom: {
+                    enabled: false
+                },
+                toolbar: {
+                    show: true,
+                    tools: {
+                        download: false
+                    }
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: 'straight'
+            },
+            title: {
+                text: 'Visitor',
+                align: 'left'
+            },
+            grid: {
+                row: {
+                    colors: ['#f3f3f3', 'transparent'],
+                    opacity: 0.5
+                },
+            },
+            xaxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+            }
+        };
+
+        var webstie_chart = new ApexCharts(document.querySelector("#webstie_chart"), website_stars_options);
+        webstie_chart.render();
+    </script>
+
+    <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Variables to store current state
-            let currentType = 'daily';
-            let currentStartDate = null;
-            let currentEndDate = null;
+            // Pass data from Laravel to JavaScript
+            let sp_vendorsDaily = @json($vendorsDaily);
+            let sp_vendorsWeekly = @json($vendorsWeekly);
+            let sp_vendorsMonthly = @json($vendorsMonthly);
+            let sp_vendorsYearly = @json($vendorsYearly);
+
+            // Function to generate alternating colors
+            function sp_generateAlternatingColors(count) {
+                const colors = ['#41695a', '#609C78'];
+                return Array.from({
+                    length: count
+                }, (_, i) => colors[i % colors.length]);
+            }
 
             // Chart configuration
             let sp_ven_two_chartOptions = {
@@ -958,7 +1035,7 @@
                     data: []
                 }],
                 chart: {
-                    type: 'bar',
+                    type: 'bar', // Default type
                     height: 350,
                     background: '#ffffff',
                     toolbar: {
@@ -1023,61 +1100,10 @@
             );
             sp_vendors_chart.render();
 
-            // Function to generate alternating colors
-            function sp_generateAlternatingColors(count) {
-                const colors = ['#41695a', '#609C78'];
-                return Array.from({
-                    length: count
-                }, (_, i) => colors[i % colors.length]);
-            }
-
-            // Function to fetch data via AJAX
-            function fetchVendorData(type, startDate = null, endDate = null) {
-                // Show loading state
-                sp_vendors_chart.updateOptions({
-                    title: {
-                        text: 'Loading data...'
-                    }
-                });
-
-                // Prepare request data
-                const requestData = {
-                    type: type,
-                };
-
-                // Add date range if provided
-                if (startDate && endDate) {
-                    requestData.start_date = startDate;
-                    requestData.end_date = endDate;
-                }
-
-                $.ajax({
-                    url: '{{ route('vendors.data') }}',
-                    type: 'GET',
-                    data: requestData,
-                    success: function(data) {
-                        updateChart(data, type);
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error fetching data:', error);
-                        // Show error message
-                        sp_vendors_chart.updateOptions({
-                            title: {
-                                text: 'Error loading data'
-                            }
-                        });
-                    }
-                });
-            }
-
-            // Function to update chart with data
-            function updateChart(data, chartType) {
+            // Function to update chart with type
+            function sp_updateVendorChart(data, chartType) {
                 const labels = Object.keys(data);
                 const values = Object.values(data).map(val => parseInt(val) || 0);
-
-                // Determine chart type based on data type
-                const isLineChart = chartType === 'weekly' || chartType === 'yearly';
-                const displayChartType = isLineChart ? 'line' : 'bar';
 
                 sp_vendors_chart.updateOptions({
                     series: [{
@@ -1085,7 +1111,7 @@
                         data: values
                     }],
                     chart: {
-                        type: displayChartType,
+                        type: chartType,
                         height: 350,
                         background: '#ffffff',
                         toolbar: {
@@ -1098,18 +1124,17 @@
                     xaxis: {
                         categories: labels
                     },
-                    colors: isLineChart ? ['#41695a'] : sp_generateAlternatingColors(labels.length),
-                    title: {
-                        text: 'New Vendor Sign Up - ' + chartType.charAt(0).toUpperCase() + chartType.slice(
-                            1)
+                    colors: sp_generateAlternatingColors(labels.length),
+                    legend: {
+                        show: false
                     },
                     stroke: {
-                        show: isLineChart ? true : true,
-                        width: isLineChart ? 3 : 2,
-                        colors: isLineChart ? ['#41695a'] : ['transparent']
+                        show: chartType === 'line' ? true : true,
+                        width: chartType === 'line' ? 3 : 2,
+                        colors: chartType === 'line' ? ['#41695a'] : ['transparent']
                     },
                     markers: {
-                        size: isLineChart ? 4 : 0
+                        size: chartType === 'line' ? 4 : 0
                     },
                     plotOptions: {
                         bar: {
@@ -1122,43 +1147,944 @@
                 });
             }
 
-            // Set up tab click handlers
-            document.querySelector('#webstie_two_daily-tab').addEventListener('click', function() {
-                currentType = 'daily';
-                fetchVendorData(currentType, currentStartDate, currentEndDate);
+            // Attach event listeners to tabs with alternating chart types
+            document.querySelector('#webstie_two_daily-tab').addEventListener('click', () => sp_updateVendorChart(
+                sp_vendorsDaily, 'bar'));
+            document.querySelector('#webstie_two_weekly-tab').addEventListener('click', () => sp_updateVendorChart(
+                sp_vendorsWeekly, 'line'));
+            document.querySelector('#webstie_two_monthly-tab').addEventListener('click', () => sp_updateVendorChart(
+                sp_vendorsMonthly, 'bar'));
+            document.querySelector('#webstie_two_yearly-tab').addEventListener('click', () => sp_updateVendorChart(
+                sp_vendorsYearly, 'line'));
+
+            // Initial chart load (Daily data as bar)
+            sp_updateVendorChart(sp_vendorsDaily, 'bar');
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Pass data from Laravel to JavaScript
+            let sp_customersDaily = @json($customersDaily);
+            let sp_customersWeekly = @json($customersWeekly);
+            let sp_customersMonthly = @json($customersMonthly);
+            let sp_customersYearly = @json($customersYearly);
+
+            // Function to generate alternating colors
+            function sp_generateAlternatingColors(count) {
+                const colors = ['#41695a', '#609C78'];
+                return Array.from({
+                    length: count
+                }, (_, i) => colors[i % colors.length]);
+            }
+
+            // Chart configuration
+            let sp_customer_chartOptions = {
+                series: [{
+                    name: 'New Customers',
+                    data: []
+                }],
+                chart: {
+                    type: 'bar', // Default type
+                    height: 350,
+                    background: '#ffffff',
+                    toolbar: {
+                        show: true,
+                        tools: {
+                            download: false
+                        }
+                    }
+                },
+                plotOptions: {
+                    bar: {
+                        horizontal: false,
+                        columnWidth: '15%',
+                        borderRadius: 5,
+                        borderRadiusApplication: 'end'
+                    },
+                },
+                title: {
+                    text: 'New Customer Sign Up',
+                    align: 'left'
+                },
+                colors: ['#41695a'],
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    show: true,
+                    width: 2,
+                    colors: ['transparent'],
+                    curve: 'straight' // Ensure smooth line for line charts
+                },
+                xaxis: {
+                    categories: [],
+                    labels: {
+                        formatter: function(value) {
+                            return value && value.length > 15 ? value.substring(0, 15) + '...' : value ||
+                                '';
+                        }
+                    }
+                },
+                yaxis: {
+                    title: {
+                        text: 'Number of Sign-Ups'
+                    }
+                },
+                fill: {
+                    opacity: 1
+                },
+                tooltip: {
+                    y: {
+                        formatter: function(val) {
+                            return val + ' sign-ups';
+                        }
+                    }
+                }
+            };
+
+            // Initialize chart
+            let sp_customers_chart = new ApexCharts(document.querySelector("#webstie_three_chart"),
+                sp_customer_chartOptions);
+            sp_customers_chart.render();
+
+            // Function to update chart with type
+            function sp_updateCustomerChart(data, chartType) {
+                const labels = Object.keys(data);
+                const values = Object.values(data).map(val => parseInt(val) || 0);
+
+                sp_customers_chart.updateOptions({
+                    series: [{
+                        name: 'New Customers',
+                        data: values
+                    }],
+                    chart: {
+                        type: chartType,
+                        height: 350,
+                        background: '#ffffff',
+                        toolbar: {
+                            show: true,
+                            tools: {
+                                download: false
+                            }
+                        }
+                    },
+                    xaxis: {
+                        categories: labels
+                    },
+                    colors: sp_generateAlternatingColors(labels.length),
+                    legend: {
+                        show: false
+                    },
+                    stroke: {
+                        show: true,
+                        width: chartType === 'line' ? 3 : 2,
+                        colors: chartType === 'line' ? ['#41695a'] : ['transparent'],
+                        curve: 'straight' // Ensure continuous line
+                    },
+                    markers: {
+                        size: chartType === 'line' ? 4 : 0,
+                        strokeColors: chartType === 'line' ? '#41695a' : 'transparent',
+                        strokeWidth: chartType === 'line' ? 2 : 0
+                    },
+                    plotOptions: {
+                        bar: {
+                            horizontal: false,
+                            columnWidth: '15%',
+                            borderRadius: 5,
+                            borderRadiusApplication: 'end'
+                        }
+                    }
+                });
+            }
+
+            // Attach event listeners to tabs with alternating chart types
+            document.querySelector('#webstie_three_daily-tab').addEventListener('click', () =>
+                sp_updateCustomerChart(sp_customersDaily, 'bar'));
+            document.querySelector('#webstie_three_weekly-tab').addEventListener('click', () =>
+                sp_updateCustomerChart(sp_customersWeekly, 'line'));
+            document.querySelector('#webstie_three_monthly-tab').addEventListener('click', () =>
+                sp_updateCustomerChart(sp_customersMonthly, 'bar'));
+            document.querySelector('#webstie_three_yearly-tab').addEventListener('click', () =>
+                sp_updateCustomerChart(sp_customersYearly, 'line'));
+
+            // Initial chart load (Daily data as bar)
+            sp_updateCustomerChart(sp_customersDaily, 'bar');
+        });
+    </script>
+
+    <script>
+        var analytics_options = {
+            series: [{
+                name: 'Net Profit',
+                data: [44, 63, 60, 66, 55, 57, 56, 61, 58, ]
+            }, ],
+            chart: {
+                type: 'bar',
+                height: 350,
+                background: '#ffffff',
+                toolbar: {
+                    show: true,
+                    tools: {
+                        download: false
+                    }
+                }
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: '15%',
+                    borderRadius: 5,
+                    borderRadiusApplication: 'end'
+                },
+            },
+            colors: ['#e0bb20'],
+            dataLabels: {
+                enabled: false
+            },
+            title: {
+                text: 'Download Status',
+                align: 'left'
+            },
+            stroke: {
+                show: true,
+                width: 2,
+                colors: ['transparent']
+            },
+            xaxis: {
+                categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+            },
+            yaxis: {
+                title: {
+                    text: '$ (thousands)'
+                }
+            },
+            fill: {
+                opacity: 1
+            },
+            tooltip: {
+                y: {
+                    formatter: function(val) {
+                        return "$ " + val + " thousands"
+                    }
+                }
+            }
+        };
+
+        var analytics_chart = new ApexCharts(document.querySelector("#analytics_chart"), analytics_options);
+        analytics_chart.render();
+    </script>
+
+    <script>
+        var analytics_two_options = {
+            series: [{
+                name: "Desktops",
+                data: [10, 41, 69, 91, 148, 35, 51, 49, 62, ]
+            }],
+            chart: {
+                height: 350,
+                type: 'line',
+                zoom: {
+                    enabled: false
+                },
+                background: '#ffffff',
+                toolbar: {
+                    show: true,
+                    tools: {
+                        download: false
+                    }
+                }
+            },
+            title: {
+                text: 'Sign up conversion rate',
+                align: 'left'
+            },
+            colors: ['#41695a'],
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: 'straight'
+            },
+            grid: {
+                row: {
+                    colors: ['#f3f3f3', 'transparent'],
+                    opacity: 0.5
+                },
+            },
+            xaxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+            }
+        };
+
+        var analytics_two_chart = new ApexCharts(document.querySelector("#analytics_two_chart"), analytics_two_options);
+        analytics_two_chart.render();
+    </script>
+
+    <script>
+        var analytics_three_options = {
+            series: [{
+                name: "Desktops",
+                data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+            }],
+            chart: {
+                height: 350,
+                type: 'line',
+                zoom: {
+                    enabled: false
+                },
+                background: '#ffffff',
+                toolbar: {
+                    show: true,
+                    tools: {
+                        download: false
+                    }
+                }
+            },
+            title: {
+                text: 'Purchase conversion rate',
+                align: 'left'
+            },
+            colors: ['#41695a'],
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: 'straight'
+            },
+            grid: {
+                row: {
+                    colors: ['#f3f3f3', 'transparent'],
+                    opacity: 0.5
+                },
+            },
+            xaxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+            }
+        };
+
+        var analytics_three_chart = new ApexCharts(document.querySelector("#analytics_three_chart"),
+            analytics_three_options);
+        analytics_three_chart.render();
+    </script>
+
+
+    <script>
+        const incomeDaily = @json($income_daily->pluck('amount', 'label'));
+        const incomeWeekly = @json($income_weekly->pluck('amount', 'week'));
+        const incomeMonthly = @json($income_monthly->pluck('amount', 'label'));
+        const incomeYearly = @json($income_yearly->pluck('amount', 'label'));
+        // ===== Helper: Alternating Colors =====
+        function generateAlternatingColors(length) {
+            const colorOne = '#41695a';
+            const colorTwo = '#e0bb20';
+            return Array.from({
+                length
+            }, (_, i) => i % 2 === 0 ? colorOne : colorTwo);
+        }
+
+        var financial_summary_options = {
+            series: [{
+                name: 'Net Profit',
+                data: Object.values(incomeDaily)
+            }],
+            chart: {
+                type: 'bar',
+                height: 350,
+                background: '#ffffff',
+                toolbar: {
+                    show: true,
+                    tools: {
+                        download: false
+                    }
+                }
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: '30%',
+                    borderRadius: 10,
+                    borderRadiusApplication: 'end'
+                }
+            },
+            title: {
+                text: 'Order Revenue',
+                align: 'left'
+            },
+            colors: ['#41695a'],
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                show: true,
+                width: 2,
+                colors: ['transparent']
+            },
+            xaxis: {
+                categories: Object.keys(incomeDaily)
+            },
+            yaxis: {
+                title: {
+                    text: '$ (USD)'
+                }
+            },
+            fill: {
+                opacity: 1
+            },
+            tooltip: {
+                y: {
+                    formatter: function(val) {
+                        return "$ " + val + " USD"
+                    }
+                }
+            }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#financial_summary_chart"), financial_summary_options);
+        chart.render();
+
+        function updateIncomeChart(data) {
+            chart.updateOptions({
+                series: [{
+                    name: 'Net Profit',
+                    data: Object.values(data)
+                }],
+                xaxis: {
+                    categories: Object.keys(data)
+                }
             });
+        }
+        document.querySelector('#financial_summary_daily-tab').addEventListener('click', function() {
+            updateIncomeChart(incomeDaily);
+        });
 
-            document.querySelector('#webstie_two_weekly-tab').addEventListener('click', function() {
-                currentType = 'weekly';
-                fetchVendorData(currentType, currentStartDate, currentEndDate);
+        document.querySelector('#financial_summary_weekly-tab').addEventListener('click', function() {
+            updateIncomeChart(incomeWeekly);
+        });
+
+        document.querySelector('#financial_summary_monthly-tab').addEventListener('click', function() {
+            updateIncomeChart(incomeMonthly);
+        });
+
+        document.querySelector('#financial_summary_yearly-tab').addEventListener('click', function() {
+            updateIncomeChart(incomeYearly);
+        });
+    </script>
+
+    <script>
+        // Laravel variables from controller
+        let fs_two_daily = @json($vendorWithdrawDaily);
+        let fs_two_weekly = @json($vendorWithdrawWeekly);
+        let fs_two_monthly = @json($vendorWithdrawMonthly);
+        let fs_two_yearly = @json($vendorWithdrawYearly);
+
+        // Function to generate alternating colors
+        function fs_two_generateColors(count) {
+            const colors = ['#e0bb20', '#c79f1a'];
+            return Array.from({
+                length: count
+            }, (_, i) => colors[i % colors.length]);
+        }
+
+        // Chart default options
+        let fs_two_chartOptions = {
+            series: [{
+                name: 'Revenue',
+                data: []
+            }],
+            chart: {
+                type: 'bar',
+                background: '#ffffff',
+                toolbar: {
+                    show: true,
+                    tools: {
+                        download: false
+                    }
+                }
+            },
+            title: {
+                text: 'Pending Vendor Payouts',
+                align: 'left'
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: '55%',
+                    borderRadius: 5,
+                    borderRadiusApplication: 'end'
+                },
+            },
+            colors: ['#e0bb20'],
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                show: true,
+                width: 2,
+                colors: ['transparent']
+            },
+            xaxis: {
+                categories: [],
+            },
+            yaxis: {
+                title: {
+                    text: '$ (thousands)'
+                }
+            },
+            fill: {
+                opacity: 1
+            },
+            tooltip: {
+                y: {
+                    formatter: function(val) {
+                        return "$ " + val + " thousands";
+                    }
+                }
+            }
+        };
+
+        // Create chart instance
+        let financial_summary_two_chart = new ApexCharts(
+            document.querySelector("#financial_summary_two_chart"),
+            fs_two_chartOptions
+        );
+        financial_summary_two_chart.render();
+
+        // Function to update chart data
+        function fs_two_updateChart(data) {
+            const labels = Object.keys(data);
+            const values = Object.values(data).map(val => parseFloat(val));
+
+            financial_summary_two_chart.updateOptions({
+                series: [{
+                    name: 'Revenue',
+                    data: values
+                }],
+                xaxis: {
+                    categories: labels
+                },
+                colors: fs_two_generateColors(labels.length),
+                legend: {
+                    show: false
+                }
             });
+        }
 
-            document.querySelector('#webstie_two_monthly-tab').addEventListener('click', function() {
-                currentType = 'monthly';
-                fetchVendorData(currentType, currentStartDate, currentEndDate);
+        // Event listeners for tabs
+        document.querySelector('#financial_summary_two_daily-tab').addEventListener('click', function() {
+            fs_two_updateChart(fs_two_daily);
+        });
+        document.querySelector('#financial_summary_two_weekly-tab').addEventListener('click', function() {
+            fs_two_updateChart(fs_two_weekly);
+        });
+        document.querySelector('#financial_summary_two_monthly-tab').addEventListener('click', function() {
+            fs_two_updateChart(fs_two_monthly);
+        });
+        document.querySelector('#financial_summary_two_yearly-tab').addEventListener('click', function() {
+            fs_two_updateChart(fs_two_yearly);
+        });
+
+        // Load daily data on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            fs_two_updateChart(fs_two_daily);
+        });
+    </script>
+
+    <script>
+        var campaign_one_options = {
+            series: [{
+                name: "Desktops",
+                data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+            }],
+            chart: {
+                height: 350,
+                type: 'line',
+                zoom: {
+                    enabled: false
+                },
+                background: '#ffffff',
+                toolbar: {
+                    show: true,
+                    tools: {
+                        download: false
+                    }
+                }
+            },
+            title: {
+                text: 'Campaign Visitor',
+                align: 'left'
+            },
+            colors: ['#e0bb20'],
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: 'straight'
+            },
+            grid: {
+                row: {
+                    colors: ['#f3f3f3', 'transparent'],
+                    opacity: 0.5
+                },
+            },
+            xaxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+            }
+        };
+
+        var campaign_one_chart = new ApexCharts(document.querySelector("#campaign_one_chart"), campaign_one_options);
+        campaign_one_chart.render();
+    </script>
+
+    <script>
+        var campaign_two_options = {
+            series: [{
+                name: 'Net Profit',
+                data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
+            }, ],
+            chart: {
+                type: 'bar',
+                height: 350,
+                background: '#ffffff',
+                toolbar: {
+                    show: true,
+                    tools: {
+                        download: false
+                    }
+                }
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: '15%',
+                    borderRadius: 5,
+                    borderRadiusApplication: 'end'
+                },
+            },
+            title: {
+                text: 'Campaign sign up',
+                align: 'left'
+            },
+            colors: ['#41695a'],
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                show: true,
+                width: 2,
+                colors: ['transparent']
+            },
+            xaxis: {
+                categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+            },
+            yaxis: {
+                title: {
+                    text: '$ (thousands)'
+                }
+            },
+            fill: {
+                opacity: 1
+            },
+            tooltip: {
+                y: {
+                    formatter: function(val) {
+                        return "$ " + val + " thousands"
+                    }
+                }
+            }
+        };
+
+        var campaign_two_chart = new ApexCharts(document.querySelector("#campaign_two_chart"), campaign_two_options);
+        campaign_two_chart.render();
+    </script>
+
+    <script>
+        var campaign_three_options = {
+            series: [{
+                name: 'Net Profit',
+                data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
+            }, ],
+            chart: {
+                type: 'bar',
+                height: 350,
+                background: '#ffffff',
+                toolbar: {
+                    show: true,
+                    tools: {
+                        download: false
+                    }
+                }
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: '15%',
+                    borderRadius: 5,
+                    borderRadiusApplication: 'end'
+                },
+            },
+            title: {
+                text: 'Campaign Purchase',
+                align: 'left'
+            },
+            colors: ['#e0bb20'],
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                show: true,
+                width: 2,
+                colors: ['transparent']
+            },
+            xaxis: {
+                categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+            },
+            yaxis: {
+                title: {
+                    text: '$ (thousands)'
+                }
+            },
+            fill: {
+                opacity: 1
+            },
+            tooltip: {
+                y: {
+                    formatter: function(val) {
+                        return "$ " + val + " thousands"
+                    }
+                }
+            }
+        };
+
+        var campaign_three_chart = new ApexCharts(document.querySelector("#campaign_three_chart"), campaign_three_options);
+        campaign_three_chart.render();
+    </script>
+
+    <script>
+        // ===== TOP VENDORS DATA =====
+        const topVendorsDaily = @json($top_vendors_daily);
+        const topVendorsWeekly = @json($top_vendors_weekly);
+        const topVendorsMonthly = @json($top_vendors_monthly);
+        const topVendorsYearly = @json($top_vendors_yearly);
+
+        const top_vendor_options = {
+            series: [{
+                name: 'Net Profit',
+                data: Object.values(topVendorsDaily)
+            }],
+            chart: {
+                type: 'bar',
+                height: 350,
+                background: '#ffffff',
+                toolbar: {
+                    show: true,
+                    tools: {
+                        download: false
+                    }
+                }
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: '30%',
+                    borderRadius: 10,
+                    borderRadiusApplication: 'end',
+                    distributed: true
+                }
+            },
+            title: {
+                text: 'Top Seeling Vendor',
+                align: 'left'
+            },
+            colors: generateAlternatingColors(Object.keys(topVendorsDaily).length),
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                show: true,
+                width: 2,
+                colors: ['transparent']
+            },
+            xaxis: {
+                categories: Object.keys(topVendorsDaily)
+            },
+            yaxis: {
+                title: {
+                    text: 'Total Sales'
+                }
+            },
+            legend: {
+                show: false
+            },
+            fill: {
+                opacity: 1
+            },
+            tooltip: {
+                y: {
+                    formatter: function(val) {
+                        return "$ " + val + " USD";
+                    }
+                }
+            }
+        };
+
+        const top_vendor_chart = new ApexCharts(document.querySelector("#top_vendor_chart"), top_vendor_options);
+        top_vendor_chart.render();
+
+        function updateVendorChart(data) {
+            const labels = Object.keys(data);
+            const values = Object.values(data);
+            top_vendor_chart.updateOptions({
+                series: [{
+                    name: 'Net Profit',
+                    data: values
+                }],
+                xaxis: {
+                    categories: labels
+                },
+                colors: generateAlternatingColors(labels.length),
+                legend: {
+                    show: false
+                }
             });
+        }
 
-            document.querySelector('#webstie_two_yearly-tab').addEventListener('click', function() {
-                currentType = 'yearly';
-                fetchVendorData(currentType, currentStartDate, currentEndDate);
+        // Vendor Tabs Event Listeners
+        document.querySelector('#top_vendors_daily-tab').addEventListener('click', function() {
+            updateVendorChart(topVendorsDaily);
+        });
+
+        document.querySelector('#top_vendors_weekly-tab').addEventListener('click', function() {
+            updateVendorChart(topVendorsWeekly);
+        });
+
+        document.querySelector('#top_vendors_monthly-tab').addEventListener('click', function() {
+            updateVendorChart(topVendorsMonthly);
+        });
+
+        document.querySelector('#top_vendors_yearly-tab').addEventListener('click', function() {
+            updateVendorChart(topVendorsYearly);
+        });
+
+        // Set default chart data on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            updateVendorChart(topVendorsDaily);
+        });
+    </script>
+
+    <script>
+        let sp_topVendorsDaily = @json($topVendorsDaily);
+        let sp_topVendorsWeekly = @json($topVendorsWeekly);
+        let sp_topVendorsMonthly = @json($topVendorsMonthly);
+        let sp_topVendorsYearly = @json($topVendorsYearly);
+
+        function sp_generateAlternatingColors(count) {
+            const colors = ['#41695a', '#609C78'];
+            return Array.from({
+                length: count
+            }, (_, i) => colors[i % colors.length]);
+        }
+
+        let sp_t_v_t_chartOptions = {
+            series: [{
+                name: 'Total Sold',
+                data: []
+            }],
+            chart: {
+                type: 'bar',
+                height: 350,
+                background: '#ffffff',
+                toolbar: {
+                    show: true,
+                    tools: {
+                        download: false
+                    }
+                }
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: '15%',
+                    borderRadius: 5,
+                    borderRadiusApplication: 'end'
+                },
+            },
+            title: {
+                text: 'Top Selling Products',
+                align: 'left'
+            },
+            colors: ['#41695a'],
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                show: true,
+                width: 2,
+                colors: ['transparent']
+            },
+            xaxis: {
+                categories: [],
+                labels: {
+                    formatter: function(value) {
+                        return value.length > 15 ? value.substring(0, 15) + '...' : value;
+                    }
+                }
+            },
+            yaxis: {
+                title: {
+                    text: 'Quantity Sold'
+                }
+            },
+            fill: {
+                opacity: 1
+            },
+            tooltip: {
+                y: {
+                    formatter: function(val) {
+                        return val + ' sold';
+                    }
+                }
+            }
+        };
+
+        let sp_top_vendors_chart = new ApexCharts(document.querySelector("#top_vendors_two_chart"), sp_t_v_t_chartOptions);
+        sp_top_vendors_chart.render();
+
+        function sp_updateVendorChart(data) {
+            const labels = Object.keys(data);
+            const values = Object.values(data).map(val => parseInt(val));
+
+            sp_top_vendors_chart.updateOptions({
+                series: [{
+                    name: 'Total Sold',
+                    data: values
+                }],
+                xaxis: {
+                    categories: labels
+                },
+                colors: sp_generateAlternatingColors(labels.length),
+                legend: {
+                    show: false
+                }
             });
+        }
 
-            // Initialize date range picker
-            $('.dateRange').daterangepicker({
-                opens: 'left',
-                autoUpdateInput: true
-            });
+        // Corrected event listeners with matching IDs
+        document.querySelector('#top_vendors_two_daily-tab').addEventListener('click', function() {
+            sp_updateVendorChart(sp_topVendorsDaily);
+        });
+        document.querySelector('#top_vendors_two_weekly-tab').addEventListener('click', function() {
+            sp_updateVendorChart(sp_topVendorsWeekly);
+        });
+        document.querySelector('#top_vendors_two_monthly-tab').addEventListener('click', function() {
+            sp_updateVendorChart(sp_topVendorsMonthly);
+        });
+        document.querySelector('#top_vendors_two_yearly-tab').addEventListener('click', function() {
+            sp_updateVendorChart(sp_topVendorsYearly);
+        });
 
-            $('.dateRange').on('apply.daterangepicker', function(ev, picker) {
-                currentStartDate = picker.startDate.format('YYYY-MM-DD');
-                currentEndDate = picker.endDate.format('YYYY-MM-DD');
-
-                // Fetch data with the new date range
-                fetchVendorData(currentType, currentStartDate, currentEndDate);
-            });
-
-            // Load initial data
-            fetchVendorData(currentType);
+        document.addEventListener('DOMContentLoaded', () => {
+            sp_updateVendorChart(sp_topVendorsDaily);
         });
     </script>
 @endsection
