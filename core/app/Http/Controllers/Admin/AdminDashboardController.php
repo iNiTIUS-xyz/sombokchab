@@ -192,42 +192,6 @@ class AdminDashboardController extends Controller
             ->pluck('count', 'year')
             ->toArray();
 
-        $vendorWithdrawDaily = DB::table('vendor_withdraw_requests')
-            ->select(DB::raw("DATE(created_at) as date"), DB::raw("SUM(amount) as total"))
-            ->where('request_status', 'pending')
-            ->whereBetween('created_at', [
-                Carbon::now()->subDays(6)->startOfDay(),
-                Carbon::now()->endOfDay()
-            ])
-            ->groupBy('date')
-            ->orderBy('date', 'asc')
-            ->pluck('total', 'date')
-            ->toArray();
-
-        $vendorWithdrawWeekly = DB::table('vendor_withdraw_requests')
-            ->select(DB::raw("YEARWEEK(created_at) as week"), DB::raw("SUM(amount) as total"))
-            ->where('request_status', 'pending')
-            ->where('created_at', '>=', Carbon::now()->subWeeks(8))
-            ->groupBy('week')
-            ->orderBy('week')
-            ->pluck('total', 'week');
-
-        $vendorWithdrawMonthly = DB::table('vendor_withdraw_requests')
-            ->select(DB::raw("DATE_FORMAT(created_at, '%b %Y') as month"), DB::raw("SUM(amount) as total"))
-            ->where('request_status', 'pending')
-            ->where('created_at', '>=', Carbon::now()->subMonths(12))
-            ->groupBy('month')
-            ->orderByRaw("MIN(created_at)")
-            ->pluck('total', 'month');
-
-        $vendorWithdrawYearly = DB::table('vendor_withdraw_requests')
-            ->select(DB::raw("YEAR(created_at) as year"), DB::raw("SUM(amount) as total"))
-            ->where('request_status', 'pending')
-            ->where('created_at', '>=', Carbon::now()->subYears(5))
-            ->groupBy('year')
-            ->orderBy('year')
-            ->pluck('total', 'year');
-
         $vendorWithdrawData = [];
 
         $vendorWithdrawData['totalwithdraw'] = VendorWithdrawRequest::query()
@@ -275,10 +239,6 @@ class AdminDashboardController extends Controller
             'topProducts' => $topProducts,
             'topVendorsInfos' => $topVendorsInfos,
 
-            'vendorWithdrawDaily' => $vendorWithdrawDaily,
-            'vendorWithdrawWeekly' => $vendorWithdrawWeekly,
-            'vendorWithdrawMonthly' => $vendorWithdrawMonthly,
-            'vendorWithdrawYearly' => $vendorWithdrawYearly,
             'pass_reset_count' => $pass_reset_count,
         ]);
     }
@@ -744,6 +704,94 @@ class AdminDashboardController extends Controller
                     })
                     ->sortDesc()
                     ->take(10)
+                    ->toArray();
+                break;
+
+            default:
+                $data = [];
+                break;
+        }
+
+        return response()->json($data);
+    }
+
+    public function getVendorPayoutsData(Request $request)
+    {
+        $type = $request->input('type');
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
+        $query = DB::table('vendor_withdraw_requests')
+            ->where('request_status', 'pending');
+
+        // Apply date filter if provided
+        if ($startDate && $endDate) {
+            $query->whereBetween('created_at', [
+                Carbon::parse($startDate)->startOfDay(),
+                Carbon::parse($endDate)->endOfDay()
+            ]);
+        }
+
+        switch ($type) {
+            case 'daily':
+                $data = $query->selectRaw("DATE_FORMAT(created_at, '%Y-%m-%d') as date, SUM(amount) as total")
+                    ->where('created_at', '>=', Carbon::now()->subDays(6)->startOfDay())
+                    ->groupBy('date')
+                    ->orderBy('date', 'asc')
+                    ->pluck('total', 'date')
+                    ->toArray();
+                break;
+
+            case 'weekly':
+                // Current month's weekly data
+                $data = $query->selectRaw("
+                    WEEK(created_at, 1) as week_number,
+                    YEAR(created_at) as year,
+                    CONCAT('Week ', WEEK(created_at, 1) - WEEK(CURRENT_DATE - INTERVAL 1 MONTH, 1) + 1) as week,
+                    SUM(amount) as total
+                ")
+                    ->where('created_at', '>=', Carbon::now()->startOfMonth())
+                    ->where('created_at', '<=', Carbon::now()->endOfMonth())
+                    ->groupBy('year', 'week_number', 'week')
+                    ->orderBy('year', 'asc')
+                    ->orderBy('week_number', 'asc')
+                    ->get()
+                    ->mapWithKeys(function ($item) {
+                        return [$item->week => $item->total];
+                    })
+                    ->toArray();
+                break;
+
+            case 'monthly':
+                // Current year's monthly data
+                $data = $query->selectRaw("
+                    MONTH(created_at) as month_number,
+                    YEAR(created_at) as year,
+                    DATE_FORMAT(created_at, '%M') as month_name,
+                    SUM(amount) as total
+                ")
+                    ->whereYear('created_at', Carbon::now()->year)
+                    ->groupBy('year', 'month_number', 'month_name')
+                    ->orderBy('year', 'asc')
+                    ->orderBy('month_number', 'asc')
+                    ->get()
+                    ->mapWithKeys(function ($item) {
+                        return [$item->month_name => $item->total];
+                    })
+                    ->toArray();
+                break;
+
+            case 'yearly':
+                // Last 5 years' data
+                $data = $query->selectRaw("
+                    YEAR(created_at) as year,
+                    SUM(amount) as total
+                ")
+                    ->where('created_at', '>=', Carbon::now()->subYears(5)->startOfYear())
+                    ->where('created_at', '<=', Carbon::now()->endOfYear())
+                    ->groupBy('year')
+                    ->orderBy('year', 'asc')
+                    ->pluck('total', 'year')
                     ->toArray();
                 break;
 
