@@ -446,7 +446,6 @@ class AdminDashboardController extends Controller
         ]);
     }
 
-
     public function getVendorData(Request $request)
     {
         $type = $request->input('type');
@@ -465,6 +464,7 @@ class AdminDashboardController extends Controller
 
         switch ($type) {
             case 'daily':
+                // Last 7 days including today
                 $data = $query->select([
                     DB::raw('DATE(created_at) as date'),
                     DB::raw('COUNT(*) as count')
@@ -477,17 +477,20 @@ class AdminDashboardController extends Controller
                 break;
 
             case 'weekly':
-                // Running month all weekly data (Fixed for only_full_group_by)
+                // Current month all week data
                 $data = $query->select(
-                    DB::raw('WEEK(created_at, 1) as week_number'),
                     DB::raw('YEAR(created_at) as year'),
+                    DB::raw('MONTH(created_at) as month_number'),
+                    DB::raw('WEEK(created_at, 1) as week_number'),
                     DB::raw('CONCAT("Week ", WEEK(created_at, 1)) as week'),
                     DB::raw('COUNT(*) as count')
                 )
-                    ->where('created_at', '>=', Carbon::now()->startOfMonth())
-                    ->groupBy('year', 'week_number', 'week')
-                    ->orderBy('year', 'asc')
-                    ->orderBy('week_number', 'asc')
+                    ->whereYear('created_at', Carbon::now()->year)
+                    ->whereMonth('created_at', Carbon::now()->month)
+                    ->groupBy('year', 'month_number', 'week_number', 'week')
+                    ->orderBy('year')
+                    ->orderBy('month_number')
+                    ->orderBy('week_number')
                     ->get()
                     ->mapWithKeys(function ($item) {
                         return [$item->week => $item->count];
@@ -496,7 +499,7 @@ class AdminDashboardController extends Controller
                 break;
 
             case 'monthly':
-                // Current year all month data (Fixed for only_full_group_by)
+                // Current year all months
                 $data = $query->select(
                     DB::raw('MONTH(created_at) as month_number'),
                     DB::raw('YEAR(created_at) as year'),
@@ -505,8 +508,8 @@ class AdminDashboardController extends Controller
                 )
                     ->whereYear('created_at', Carbon::now()->year)
                     ->groupBy('year', 'month_number', 'month_name')
-                    ->orderBy('year', 'asc')
-                    ->orderBy('month_number', 'asc')
+                    ->orderBy('year')
+                    ->orderBy('month_number')
                     ->get()
                     ->mapWithKeys(function ($item) {
                         return [$item->month_name => $item->count];
@@ -515,7 +518,7 @@ class AdminDashboardController extends Controller
                 break;
 
             case 'yearly':
-                // Last 5 years' data only
+                // Last 5 years
                 $data = $query->select(
                     DB::raw('YEAR(created_at) as year'),
                     DB::raw('COUNT(*) as count')
@@ -523,7 +526,6 @@ class AdminDashboardController extends Controller
                     ->where('created_at', '>=', Carbon::now()->subYears(5)->startOfYear())
                     ->groupBy('year')
                     ->orderBy('year', 'asc')
-                    ->get()
                     ->pluck('count', 'year')
                     ->toArray();
                 break;

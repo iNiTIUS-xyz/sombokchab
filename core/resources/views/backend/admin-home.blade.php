@@ -946,19 +946,18 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Variables to store current state
             let currentType = 'daily';
             let currentStartDate = null;
             let currentEndDate = null;
 
-            // Chart configuration
+            // Chart config (always line)
             let sp_ven_two_chartOptions = {
                 series: [{
                     name: 'New Vendors',
                     data: []
                 }],
                 chart: {
-                    type: 'bar',
+                    type: 'line',
                     height: 350,
                     background: '#ffffff',
                     toolbar: {
@@ -968,13 +967,16 @@
                         }
                     }
                 },
-                plotOptions: {
-                    bar: {
-                        horizontal: false,
-                        columnWidth: '15%',
-                        borderRadius: 5,
-                        borderRadiusApplication: 'end'
-                    },
+                stroke: {
+                    curve: 'smooth',
+                    width: 3,
+                    colors: ['#41695a']
+                },
+                markers: {
+                    size: 4,
+                    colors: ['#41695a'],
+                    strokeColors: '#fff',
+                    strokeWidth: 2
                 },
                 title: {
                     text: 'New Vendor Sign Up',
@@ -983,11 +985,6 @@
                 colors: ['#41695a'],
                 dataLabels: {
                     enabled: false
-                },
-                stroke: {
-                    show: true,
-                    width: 2,
-                    colors: ['transparent']
                 },
                 xaxis: {
                     categories: [],
@@ -1004,9 +1001,6 @@
                         text: 'Number of Sign-Ups'
                     }
                 },
-                fill: {
-                    opacity: 1
-                },
                 tooltip: {
                     y: {
                         formatter: function(val) {
@@ -1016,36 +1010,23 @@
                 }
             };
 
-            // Initialize chart
             let sp_vendors_chart = new ApexCharts(
                 document.querySelector("#webstie_two_chart"),
                 sp_ven_two_chartOptions
             );
             sp_vendors_chart.render();
 
-            // Function to generate alternating colors
-            function sp_generateAlternatingColors(count) {
-                const colors = ['#41695a', '#609C78'];
-                return Array.from({
-                    length: count
-                }, (_, i) => colors[i % colors.length]);
-            }
-
-            // Function to fetch data via AJAX
+            // Fetch Data
             function fetchVendorData(type, startDate = null, endDate = null) {
-                // Show loading state
                 sp_vendors_chart.updateOptions({
                     title: {
                         text: 'Loading data...'
                     }
                 });
 
-                // Prepare request data
                 const requestData = {
-                    type: type,
+                    type: type
                 };
-
-                // Add date range if provided
                 if (startDate && endDate) {
                     requestData.start_date = startDate;
                     requestData.end_date = endDate;
@@ -1060,7 +1041,6 @@
                     },
                     error: function(xhr, status, error) {
                         console.error('Error fetching data:', error);
-                        // Show error message
                         sp_vendors_chart.updateOptions({
                             title: {
                                 text: 'Error loading data'
@@ -1070,59 +1050,27 @@
                 });
             }
 
-            // Function to update chart with data
+            // Update chart (always line)
             function updateChart(data, chartType) {
                 const labels = Object.keys(data);
                 const values = Object.values(data).map(val => parseInt(val) || 0);
-
-                // Determine chart type based on data type
-                const isLineChart = chartType === 'weekly' || chartType === 'yearly';
-                const displayChartType = isLineChart ? 'line' : 'bar';
 
                 sp_vendors_chart.updateOptions({
                     series: [{
                         name: 'New Vendors',
                         data: values
                     }],
-                    chart: {
-                        type: displayChartType,
-                        height: 350,
-                        background: '#ffffff',
-                        toolbar: {
-                            show: true,
-                            tools: {
-                                download: false
-                            }
-                        }
-                    },
                     xaxis: {
                         categories: labels
                     },
-                    colors: isLineChart ? ['#41695a'] : sp_generateAlternatingColors(labels.length),
                     title: {
                         text: 'New Vendor Sign Up - ' + chartType.charAt(0).toUpperCase() + chartType.slice(
                             1)
-                    },
-                    stroke: {
-                        show: isLineChart ? true : true,
-                        width: isLineChart ? 3 : 2,
-                        colors: isLineChart ? ['#41695a'] : ['transparent']
-                    },
-                    markers: {
-                        size: isLineChart ? 4 : 0
-                    },
-                    plotOptions: {
-                        bar: {
-                            horizontal: false,
-                            columnWidth: '15%',
-                            borderRadius: 5,
-                            borderRadiusApplication: 'end'
-                        }
                     }
                 });
             }
 
-            // Set up tab click handlers
+            // Tabs
             document.querySelector('#webstie_two_daily-tab').addEventListener('click', function() {
                 currentType = 'daily';
                 fetchVendorData(currentType, currentStartDate, currentEndDate);
@@ -1143,7 +1091,7 @@
                 fetchVendorData(currentType, currentStartDate, currentEndDate);
             });
 
-            // Initialize date range picker
+            // Date Range Picker
             $('.dateRange').daterangepicker({
                 opens: 'left',
                 autoUpdateInput: true
@@ -1152,12 +1100,10 @@
             $('.dateRange').on('apply.daterangepicker', function(ev, picker) {
                 currentStartDate = picker.startDate.format('YYYY-MM-DD');
                 currentEndDate = picker.endDate.format('YYYY-MM-DD');
-
-                // Fetch data with the new date range
                 fetchVendorData(currentType, currentStartDate, currentEndDate);
             });
 
-            // Load initial data
+            // Initial load
             fetchVendorData(currentType);
         });
     </script>
