@@ -539,6 +539,9 @@
                                                 Yearly
                                             </button>
                                         </li>
+                                        <li class="nav-item">
+                                            <input type="text" class="form-control dateRange" id="vendor_sign_up">
+                                        </li>
                                     </ul>
                                     <div class="mt-3" id="top_vendor_chart"></div>
                                 </div>
@@ -1474,6 +1477,192 @@
 
             // Load initial data
             fetchIncomeData(currentType);
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Variables to store current state
+            let currentType = 'daily';
+            let currentStartDate = null;
+            let currentEndDate = null;
+
+            // Chart configuration
+            let top_vendor_options = {
+                series: [{
+                    name: 'Net Profit',
+                    data: []
+                }],
+                chart: {
+                    type: 'line',
+                    height: 350,
+                    background: '#ffffff',
+                    toolbar: {
+                        show: true,
+                        tools: {
+                            download: false
+                        }
+                    }
+                },
+                title: {
+                    text: 'Top Selling Vendors',
+                    align: 'left'
+                },
+                colors: ['#41695a'],
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    show: true,
+                    width: 3,
+                    curve: 'smooth'
+                },
+                markers: {
+                    size: 4
+                },
+                xaxis: {
+                    categories: [],
+                    labels: {
+                        formatter: function(value) {
+                            return value && value.length > 15 ?
+                                value.substring(0, 15) + '...' :
+                                value || '';
+                        }
+                    }
+                },
+                yaxis: {
+                    title: {
+                        text: '$ (USD)'
+                    }
+                },
+                tooltip: {
+                    y: {
+                        formatter: function(val) {
+                            return "$ " + val + " USD"
+                        }
+                    }
+                }
+            };
+
+            // Initialize chart
+            let top_vendor_chart = new ApexCharts(
+                document.querySelector("#top_vendor_chart"),
+                top_vendor_options
+            );
+            top_vendor_chart.render();
+
+            // Function to fetch data via AJAX
+            function fetchTopVendorsData(type, startDate = null, endDate = null) {
+                // Show loading state
+                top_vendor_chart.updateOptions({
+                    title: {
+                        text: 'Loading data...'
+                    }
+                });
+
+                // Prepare request data
+                const requestData = {
+                    type: type,
+                };
+
+                // Add date range if provided
+                if (startDate && endDate) {
+                    requestData.start_date = startDate;
+                    requestData.end_date = endDate;
+                }
+
+                $.ajax({
+                    url: '{{ route('top-vendors.data') }}',
+                    type: 'GET',
+                    data: requestData,
+                    success: function(data) {
+                        updateChart(data, type);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching data:', error);
+                        top_vendor_chart.updateOptions({
+                            title: {
+                                text: 'Error loading data'
+                            }
+                        });
+                    }
+                });
+            }
+
+            // Function to update chart with data
+            function updateChart(data, chartType) {
+                const labels = Object.keys(data);
+                const values = Object.values(data).map(val => parseFloat(val) || 0);
+
+                top_vendor_chart.updateOptions({
+                    series: [{
+                        name: 'Net Profit',
+                        data: values
+                    }],
+                    chart: {
+                        type: 'line',
+                        height: 350,
+                        background: '#ffffff',
+                        toolbar: {
+                            show: true,
+                            tools: {
+                                download: false
+                            }
+                        }
+                    },
+                    xaxis: {
+                        categories: labels
+                    },
+                    title: {
+                        text: 'Top Selling Vendors - ' + chartType.charAt(0).toUpperCase() + chartType
+                            .slice(1)
+                    },
+                    stroke: {
+                        show: true,
+                        width: 3,
+                        curve: 'smooth'
+                    },
+                    markers: {
+                        size: 4
+                    }
+                });
+            }
+
+            // Set up tab click handlers
+            document.querySelector('#top_vendors_daily-tab').addEventListener('click', function() {
+                currentType = 'daily';
+                fetchTopVendorsData(currentType, currentStartDate, currentEndDate);
+            });
+
+            document.querySelector('#top_vendors_weekly-tab').addEventListener('click', function() {
+                currentType = 'weekly';
+                fetchTopVendorsData(currentType, currentStartDate, currentEndDate);
+            });
+
+            document.querySelector('#top_vendors_monthly-tab').addEventListener('click', function() {
+                currentType = 'monthly';
+                fetchTopVendorsData(currentType, currentStartDate, currentEndDate);
+            });
+
+            document.querySelector('#top_vendors_yearly-tab').addEventListener('click', function() {
+                currentType = 'yearly';
+                fetchTopVendorsData(currentType, currentStartDate, currentEndDate);
+            });
+
+            // Initialize date range picker
+            $('.dateRange').daterangepicker({
+                opens: 'left',
+                autoUpdateInput: true
+            });
+
+            $('.dateRange').on('apply.daterangepicker', function(ev, picker) {
+                currentStartDate = picker.startDate.format('YYYY-MM-DD');
+                currentEndDate = picker.endDate.format('YYYY-MM-DD');
+                fetchTopVendorsData(currentType, currentStartDate, currentEndDate);
+            });
+
+            // Load initial data
+            fetchTopVendorsData(currentType);
         });
     </script>
 @endsection

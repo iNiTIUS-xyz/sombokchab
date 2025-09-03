@@ -38,52 +38,6 @@ class AdminDashboardController extends Controller
             ->limit(10)
             ->get();
 
-        $top_vendors_daily = SubOrder::selectRaw("vendors.owner_name as label, SUM(total_amount) as amount")
-            ->join('vendors', 'sub_orders.vendor_id', '=', 'vendors.id')
-            ->whereNotNull('vendor_id')
-            ->whereBetween('sub_orders.created_at', [Carbon::now()->subDays(6)->startOfDay(), Carbon::now()->endOfDay()])
-            ->whereHas('orderTrack', fn($q) => $q->where('name', 'delivered'))
-            ->groupBy('label')
-            ->orderByDesc('amount')
-            ->limit(10)
-            ->get();
-
-        $top_vendors_weekly = SubOrder::selectRaw("vendors.owner_name as label, YEARWEEK(sub_orders.created_at, 1) as week, SUM(total_amount) as amount")
-            ->join('vendors', 'sub_orders.vendor_id', '=', 'vendors.id')
-            ->whereNotNull('vendor_id')
-            ->whereBetween('sub_orders.created_at', [Carbon::now()->subWeeks(4), Carbon::now()])
-            ->whereHas('orderTrack', fn($q) => $q->where('name', 'delivered'))
-            ->groupBy('label', 'week')
-            ->get()
-            ->groupBy('label')
-            ->map(fn($group) => $group->sum('amount'))
-            ->sortDesc()
-            ->take(10);
-
-        $top_vendors_monthly = SubOrder::selectRaw("vendors.owner_name as label, DATE_FORMAT(sub_orders.created_at, '%Y-%m') as month, SUM(total_amount) as amount")
-            ->join('vendors', 'sub_orders.vendor_id', '=', 'vendors.id')
-            ->whereNotNull('vendor_id')
-            ->where('sub_orders.created_at', '>=', Carbon::now()->subMonths(12)->startOfMonth())
-            ->whereHas('orderTrack', fn($q) => $q->where('name', 'delivered'))
-            ->groupBy('label', 'month')
-            ->get()
-            ->groupBy('label')
-            ->map(fn($group) => $group->sum('amount'))
-            ->sortDesc()
-            ->take(10);
-
-        $top_vendors_yearly = SubOrder::selectRaw("vendors.owner_name as label, YEAR(sub_orders.created_at) as year, SUM(total_amount) as amount")
-            ->join('vendors', 'sub_orders.vendor_id', '=', 'vendors.id')
-            ->whereNotNull('vendor_id')
-            ->where('sub_orders.created_at', '>=', Carbon::now()->subYears(5)->startOfYear())
-            ->whereHas('orderTrack', fn($q) => $q->where('name', 'delivered'))
-            ->groupBy('label', 'year')
-            ->get()
-            ->groupBy('label')
-            ->map(fn($group) => $group->sum('amount'))
-            ->sortDesc()
-            ->take(10);
-
         // Step 1: Get top vendors by amount
         $topVendors = SubOrder::selectRaw("
                 vendors.id,
@@ -341,10 +295,6 @@ class AdminDashboardController extends Controller
             'vendorsYearly' => $vendorsYearly,
 
             'top_vendors' => $top_vendors,
-            'top_vendors_daily' => $top_vendors_daily,
-            'top_vendors_weekly' => $top_vendors_weekly,
-            'top_vendors_monthly' => $top_vendors_monthly,
-            'top_vendors_yearly' => $top_vendors_yearly,
 
             'topVendorsDaily' => $topVendorsDaily,
             'topVendorsWeekly' => $topVendorsWeekly,
@@ -622,6 +572,108 @@ class AdminDashboardController extends Controller
                     ->orderBy('year', 'asc')
                     ->get()
                     ->pluck('amount', 'year')
+                    ->toArray();
+                break;
+
+            default:
+                $data = [];
+                break;
+        }
+
+        return response()->json($data);
+    }
+
+    public function getTopVendorsData(Request $request)
+    {
+        $type = $request->input('type');
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
+        $query = SubOrder::query()
+            ->join('vendors', 'sub_orders.vendor_id', '=', 'vendors.id')
+            ->whereNotNull('sub_orders.vendor_id')
+            ->whereHas('orderTrack', fn($q) => $q->where('name', 'delivered'));
+
+        // Apply date filter if provided
+        if ($startDate && $endDate) {
+            $query->whereBetween('sub_orders.created_at', [
+                Carbon::parse($startDate)->startOfDay(),
+                Carbon::parse($endDate)->endOfDay()
+            ]);
+        }
+
+        switch ($type) {
+            case 'daily':
+                $data = $query->selectRaw("
+                    vendors.owner_name as label,
+                    SUM(sub_orders.total_amount) as amount
+                ")
+                    ->where('sub_orders.created_at', '>=', Carbon::now()->subDays(6)->startOfDay())
+                    ->groupBy('label')
+                    ->orderByDesc('amount')
+                    ->limit(10)
+                    ->pluck('amount', 'label')
+                    ->toArray();
+                break;
+
+            case 'weekly':
+                // Current month's weekly data
+                $data = $query->selectRaw("
+                    vendors.owner_name as label,
+                    WEEK(sub_orders.created_at, 1) as week_number,
+                    CONCAT('Week ', WEEK(sub_orders.created_at, 1) - WEEK(CURRENT_DATE - INTERVAL 1 MONTH, 1) + 1, ': ', vendors.owner_name) as week_label,
+                    SUM(sub_orders.total_amount) as amount
+                ")
+                    ->where('sub_orders.created_at', '>=', Carbon::now()->startOfMonth())
+                    ->where('sub_orders.created_at', '<=', Carbon::now()->endOfMonth())
+                    ->groupBy('label', 'week_number', 'week_label')
+                    ->get()
+                    ->groupBy('label')
+                    ->map(function ($group) {
+                        return $group->sum('amount');
+                    })
+                    ->sortDesc()
+                    ->take(10)
+                    ->toArray();
+                break;
+
+            case 'monthly':
+                // Current year's monthly data
+                $data = $query->selectRaw("
+                    vendors.owner_name as label,
+                    MONTH(sub_orders.created_at) as month_number,
+                    DATE_FORMAT(sub_orders.created_at, '%M') as month_name,
+                    SUM(sub_orders.total_amount) as amount
+                ")
+                    ->whereYear('sub_orders.created_at', Carbon::now()->year)
+                    ->groupBy('label', 'month_number', 'month_name')
+                    ->get()
+                    ->groupBy('label')
+                    ->map(function ($group) {
+                        return $group->sum('amount');
+                    })
+                    ->sortDesc()
+                    ->take(10)
+                    ->toArray();
+                break;
+
+            case 'yearly':
+                // Last 5 years' data
+                $data = $query->selectRaw("
+                    vendors.owner_name as label,
+                    YEAR(sub_orders.created_at) as year,
+                    SUM(sub_orders.total_amount) as amount
+                ")
+                    ->where('sub_orders.created_at', '>=', Carbon::now()->subYears(5)->startOfYear())
+                    ->where('sub_orders.created_at', '<=', Carbon::now()->endOfYear())
+                    ->groupBy('label', 'year')
+                    ->get()
+                    ->groupBy('label')
+                    ->map(function ($group) {
+                        return $group->sum('amount');
+                    })
+                    ->sortDesc()
+                    ->take(10)
                     ->toArray();
                 break;
 
