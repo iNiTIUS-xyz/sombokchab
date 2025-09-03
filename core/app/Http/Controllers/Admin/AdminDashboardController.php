@@ -141,30 +141,6 @@ class AdminDashboardController extends Controller
             ->join('products', 'sub_order_items.product_id', '=', 'products.id')
             ->select('products.name', DB::raw('SUM(sub_order_items.quantity) as total_quantity'));
 
-        $topVendorsDaily = (clone $baseQuery)
-            ->whereBetween('orders.created_at', [
-                Carbon::now()->subDays(6)->startOfDay(),
-                Carbon::now()->endOfDay()
-            ])
-            ->groupBy('products.name')
-            ->pluck('total_quantity', 'products.name');
-
-        $topVendorsWeekly = (clone $baseQuery)
-            ->where('orders.created_at', '>=', Carbon::now()->subDays(6)->startOfDay())
-            ->groupBy('products.name')
-            ->pluck('total_quantity', 'products.name');
-
-        $topVendorsMonthly = (clone $baseQuery)
-            ->whereMonth('orders.created_at', Carbon::now()->month)
-            ->whereYear('orders.created_at', Carbon::now()->year)
-            ->groupBy('products.name')
-            ->pluck('total_quantity', 'products.name');
-
-        $topVendorsYearly = (clone $baseQuery)
-            ->whereYear('orders.created_at', Carbon::now()->year)
-            ->groupBy('products.name')
-            ->pluck('total_quantity', 'products.name');
-
         $topProducts = (clone $baseQuery)
             ->whereYear('orders.created_at', Carbon::now()->year)
             ->groupBy('products.name')
@@ -296,10 +272,6 @@ class AdminDashboardController extends Controller
 
             'top_vendors' => $top_vendors,
 
-            'topVendorsDaily' => $topVendorsDaily,
-            'topVendorsWeekly' => $topVendorsWeekly,
-            'topVendorsMonthly' => $topVendorsMonthly,
-            'topVendorsYearly' => $topVendorsYearly,
             'topProducts' => $topProducts,
             'topVendorsInfos' => $topVendorsInfos,
 
@@ -671,6 +643,104 @@ class AdminDashboardController extends Controller
                     ->groupBy('label')
                     ->map(function ($group) {
                         return $group->sum('amount');
+                    })
+                    ->sortDesc()
+                    ->take(10)
+                    ->toArray();
+                break;
+
+            default:
+                $data = [];
+                break;
+        }
+
+        return response()->json($data);
+    }
+
+    public function getTopProductsData(Request $request)
+    {
+        $type = $request->input('type');
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
+        $query = DB::table('sub_order_items')
+            ->join('orders', 'sub_order_items.order_id', '=', 'orders.id')
+            ->join('products', 'sub_order_items.product_id', '=', 'products.id')
+            ->select('products.name as label', DB::raw('SUM(sub_order_items.quantity) as total_quantity'));
+
+        // Apply date filter if provided
+        if ($startDate && $endDate) {
+            $query->whereBetween('orders.created_at', [
+                Carbon::parse($startDate)->startOfDay(),
+                Carbon::parse($endDate)->endOfDay()
+            ]);
+        }
+
+        switch ($type) {
+            case 'daily':
+                $data = $query->where('orders.created_at', '>=', Carbon::now()->subDays(6)->startOfDay())
+                    ->groupBy('label')
+                    ->orderByDesc('total_quantity')
+                    ->limit(10)
+                    ->pluck('total_quantity', 'label')
+                    ->toArray();
+                break;
+
+            case 'weekly':
+                // Current month's weekly data
+                $data = $query->selectRaw("
+                    products.name as label,
+                    WEEK(orders.created_at, 1) as week_number,
+                    CONCAT('Week ', WEEK(orders.created_at, 1) - WEEK(CURRENT_DATE - INTERVAL 1 MONTH, 1) + 1, ': ', products.name) as week_label,
+                    SUM(sub_order_items.quantity) as total_quantity
+                ")
+                    ->where('orders.created_at', '>=', Carbon::now()->startOfMonth())
+                    ->where('orders.created_at', '<=', Carbon::now()->endOfMonth())
+                    ->groupBy('label', 'week_number', 'week_label')
+                    ->get()
+                    ->groupBy('label')
+                    ->map(function ($group) {
+                        return $group->sum('total_quantity');
+                    })
+                    ->sortDesc()
+                    ->take(10)
+                    ->toArray();
+                break;
+
+            case 'monthly':
+                // Current year's monthly data
+                $data = $query->selectRaw("
+                    products.name as label,
+                    MONTH(orders.created_at) as month_number,
+                    DATE_FORMAT(orders.created_at, '%M') as month_name,
+                    SUM(sub_order_items.quantity) as total_quantity
+                ")
+                    ->whereYear('orders.created_at', Carbon::now()->year)
+                    ->groupBy('label', 'month_number', 'month_name')
+                    ->get()
+                    ->groupBy('label')
+                    ->map(function ($group) {
+                        return $group->sum('total_quantity');
+                    })
+                    ->sortDesc()
+                    ->take(10)
+                    ->toArray();
+                break;
+
+            case 'yearly':
+                // Last 5 years' data
+                $data = $query->selectRaw("
+                    products.name as label,
+                    YEAR(orders.created_at) as year,
+                    SUM(sub_order_items.quantity) as total_quantity
+                ")
+                    ->where('orders.created_at', '>=', Carbon::now()->subYears(5)->startOfYear())
+                    ->where('orders.created_at', '<=', Carbon::now()->endOfYear())
+                    ->groupBy('label', 'year')
+                    ->get()
+                    ->groupBy('label')
+                    ->map(function ($group) {
+                        return $group->sum('total_quantity');
                     })
                     ->sortDesc()
                     ->take(10)

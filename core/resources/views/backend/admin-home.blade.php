@@ -571,6 +571,9 @@
                                                 Yearly
                                             </button>
                                         </li>
+                                        <li class="nav-item">
+                                            <input type="text" class="form-control dateRange" id="vendor_sign_up">
+                                        </li>
                                     </ul>
                                     <div class="mt-3" id="top_vendors_two_chart"></div>
                                 </div>
@@ -1663,6 +1666,192 @@
 
             // Load initial data
             fetchTopVendorsData(currentType);
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Variables to store current state
+            let currentType = 'daily';
+            let currentStartDate = null;
+            let currentEndDate = null;
+
+            // Chart configuration
+            let sp_t_v_t_chartOptions = {
+                series: [{
+                    name: 'Total Sold',
+                    data: []
+                }],
+                chart: {
+                    type: 'line',
+                    height: 350,
+                    background: '#ffffff',
+                    toolbar: {
+                        show: true,
+                        tools: {
+                            download: false
+                        }
+                    }
+                },
+                title: {
+                    text: 'Top Selling Products',
+                    align: 'left'
+                },
+                colors: ['#41695a'],
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    show: true,
+                    width: 3,
+                    curve: 'smooth'
+                },
+                markers: {
+                    size: 4
+                },
+                xaxis: {
+                    categories: [],
+                    labels: {
+                        formatter: function(value) {
+                            return value && value.length > 15 ?
+                                value.substring(0, 15) + '...' :
+                                value || '';
+                        }
+                    }
+                },
+                yaxis: {
+                    title: {
+                        text: 'Quantity Sold'
+                    }
+                },
+                tooltip: {
+                    y: {
+                        formatter: function(val) {
+                            return val + ' sold';
+                        }
+                    }
+                }
+            };
+
+            // Initialize chart
+            let sp_top_vendors_chart = new ApexCharts(
+                document.querySelector("#top_vendors_two_chart"),
+                sp_t_v_t_chartOptions
+            );
+            sp_top_vendors_chart.render();
+
+            // Function to fetch data via AJAX
+            function fetchTopProductsData(type, startDate = null, endDate = null) {
+                // Show loading state
+                sp_top_vendors_chart.updateOptions({
+                    title: {
+                        text: 'Loading data...'
+                    }
+                });
+
+                // Prepare request data
+                const requestData = {
+                    type: type,
+                };
+
+                // Add date range if provided
+                if (startDate && endDate) {
+                    requestData.start_date = startDate;
+                    requestData.end_date = endDate;
+                }
+
+                $.ajax({
+                    url: '{{ route('top-products.data') }}',
+                    type: 'GET',
+                    data: requestData,
+                    success: function(data) {
+                        updateChart(data, type);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching data:', error);
+                        sp_top_vendors_chart.updateOptions({
+                            title: {
+                                text: 'Error loading data'
+                            }
+                        });
+                    }
+                });
+            }
+
+            // Function to update chart with data
+            function updateChart(data, chartType) {
+                const labels = Object.keys(data);
+                const values = Object.values(data).map(val => parseInt(val) || 0);
+
+                sp_top_vendors_chart.updateOptions({
+                    series: [{
+                        name: 'Total Sold',
+                        data: values
+                    }],
+                    chart: {
+                        type: 'line',
+                        height: 350,
+                        background: '#ffffff',
+                        toolbar: {
+                            show: true,
+                            tools: {
+                                download: false
+                            }
+                        }
+                    },
+                    xaxis: {
+                        categories: labels
+                    },
+                    title: {
+                        text: 'Top Selling Products - ' + chartType.charAt(0).toUpperCase() + chartType
+                            .slice(1)
+                    },
+                    stroke: {
+                        show: true,
+                        width: 3,
+                        curve: 'smooth'
+                    },
+                    markers: {
+                        size: 4
+                    }
+                });
+            }
+
+            // Set up tab click handlers
+            document.querySelector('#top_vendors_two_daily-tab').addEventListener('click', function() {
+                currentType = 'daily';
+                fetchTopProductsData(currentType, currentStartDate, currentEndDate);
+            });
+
+            document.querySelector('#top_vendors_two_weekly-tab').addEventListener('click', function() {
+                currentType = 'weekly';
+                fetchTopProductsData(currentType, currentStartDate, currentEndDate);
+            });
+
+            document.querySelector('#top_vendors_two_monthly-tab').addEventListener('click', function() {
+                currentType = 'monthly';
+                fetchTopProductsData(currentType, currentStartDate, currentEndDate);
+            });
+
+            document.querySelector('#top_vendors_two_yearly-tab').addEventListener('click', function() {
+                currentType = 'yearly';
+                fetchTopProductsData(currentType, currentStartDate, currentEndDate);
+            });
+
+            // Initialize date range picker
+            $('.dateRange').daterangepicker({
+                opens: 'left',
+                autoUpdateInput: true
+            });
+
+            $('.dateRange').on('apply.daterangepicker', function(ev, picker) {
+                currentStartDate = picker.startDate.format('YYYY-MM-DD');
+                currentEndDate = picker.endDate.format('YYYY-MM-DD');
+                fetchTopProductsData(currentType, currentStartDate, currentEndDate);
+            });
+
+            // Load initial data
+            fetchTopProductsData(currentType);
         });
     </script>
 @endsection
