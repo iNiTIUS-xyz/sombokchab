@@ -27,33 +27,7 @@ class AdminDashboardController extends Controller
 {
     public function adminIndex()
     {
-        $income_daily = SubOrder::selectRaw("DATE_FORMAT(created_at, '%a') as label, SUM(total_amount) as amount")
-            ->whereBetween('created_at', [
-                Carbon::now()->subDays(6)->startOfDay(),
-                Carbon::now()->endOfDay()
-            ])
-            ->whereHas('orderTrack', fn($q) => $q->where('name', 'delivered'))
-            ->groupBy('label')
-            ->orderByRaw("MIN(created_at)")
-            ->get();
 
-        $income_weekly = SubOrder::selectRaw("YEARWEEK(created_at, 1) as week, SUM(total_amount) as amount")
-            ->whereBetween('created_at', [Carbon::now()->subWeeks(4), Carbon::now()])
-            ->whereHas('orderTrack', fn($q) => $q->where('name', 'delivered'))
-            ->groupBy('week')
-            ->get();
-
-        $income_monthly = SubOrder::selectRaw("DATE_FORMAT(created_at, '%b') as label, SUM(total_amount) as amount")
-            ->whereYear('created_at', Carbon::now()->year)
-            ->whereHas('orderTrack', fn($q) => $q->where('name', 'delivered'))
-            ->groupBy('label')
-            ->get();
-
-        $income_yearly = SubOrder::selectRaw("YEAR(created_at) as label, SUM(total_amount) as amount")
-            ->whereYear('created_at', '>=', Carbon::now()->subYears(5)->year)
-            ->whereHas('orderTrack', fn($q) => $q->where('name', 'delivered'))
-            ->groupBy('label')
-            ->get();
 
         $top_vendors = SubOrder::selectRaw("vendors.owner_name as label, SUM(total_amount) as amount")
             ->join('vendors', 'sub_orders.vendor_id', '=', 'vendors.id')
@@ -288,55 +262,6 @@ class AdminDashboardController extends Controller
             ->pluck('count', 'year')
             ->toArray();
 
-        $customersDaily = User::query()
-            ->select([
-                DB::raw('DATE(created_at) as date'),
-                DB::raw('COUNT(*) as count')
-            ])
-            ->whereBetween('created_at', [
-                Carbon::now()->subDays(6)->startOfDay(),
-                Carbon::now()->endOfDay()
-            ])
-            ->groupBy('date')
-            ->orderBy('date', 'asc')
-            ->pluck('count', 'date')
-            ->toArray();
-
-        $customersWeekly = User::select(
-            DB::raw('DATE_FORMAT(created_at, "%Y-%U") as week'),
-            DB::raw('COUNT(*) as count')
-        )
-            ->groupBy('week')
-            ->orderBy('week', 'asc')
-            ->take(10)
-            ->get()
-            ->mapWithKeys(function ($item) {
-                return ['Week ' . $item->week => $item->count];
-            })
-            ->toArray();
-
-        $customersMonthly = User::select(
-            DB::raw('DATE_FORMAT(created_at, "%Y-%m") as month'),
-            DB::raw('COUNT(*) as count')
-        )
-            ->groupBy('month')
-            ->orderBy('month', 'asc')
-            ->take(12)
-            ->get()
-            ->pluck('count', 'month')
-            ->toArray();
-
-        $customersYearly = User::select(
-            DB::raw('YEAR(created_at) as year'),
-            DB::raw('COUNT(*) as count')
-        )
-            ->groupBy('year')
-            ->orderBy('year', 'asc')
-            ->take(5)
-            ->get()
-            ->pluck('count', 'year')
-            ->toArray();
-
         $vendorWithdrawDaily = DB::table('vendor_withdraw_requests')
             ->select(DB::raw("DATE(created_at) as date"), DB::raw("SUM(amount) as total"))
             ->where('request_status', 'pending')
@@ -415,11 +340,6 @@ class AdminDashboardController extends Controller
             'vendorsMonthly' => $vendorsMonthly,
             'vendorsYearly' => $vendorsYearly,
 
-            'income_daily' => $income_daily,
-            'income_weekly' => $income_weekly,
-            'income_monthly' => $income_monthly,
-            'income_yearly' => $income_yearly,
-
             'top_vendors' => $top_vendors,
             'top_vendors_daily' => $top_vendors_daily,
             'top_vendors_weekly' => $top_vendors_weekly,
@@ -432,11 +352,6 @@ class AdminDashboardController extends Controller
             'topVendorsYearly' => $topVendorsYearly,
             'topProducts' => $topProducts,
             'topVendorsInfos' => $topVendorsInfos,
-
-            'customersDaily' => $customersDaily,
-            'customersWeekly' => $customersWeekly,
-            'customersMonthly' => $customersMonthly,
-            'customersYearly' => $customersYearly,
 
             'vendorWithdrawDaily' => $vendorWithdrawDaily,
             'vendorWithdrawWeekly' => $vendorWithdrawWeekly,
@@ -455,6 +370,97 @@ class AdminDashboardController extends Controller
         $query = Vendor::query();
 
         // Apply date filter if provided
+        if ($startDate && $endDate) {
+            $query->whereBetween('created_at', [
+                Carbon::parse($startDate)->startOfDay(),
+                Carbon::parse($endDate)->endOfDay()
+            ]);
+        }
+
+        switch ($type) {
+            case 'daily':
+                $data = $query->select([
+                    DB::raw('DATE(created_at) as date'),
+                    DB::raw('COUNT(*) as count')
+                ])
+                    ->where('created_at', '>=', Carbon::now()->subDays(6)->startOfDay())
+                    ->groupBy('date')
+                    ->orderBy('date', 'asc')
+                    ->pluck('count', 'date')
+                    ->toArray();
+                break;
+
+            case 'weekly':
+                // Current month's weekly data
+                $data = $query->select(
+                    DB::raw('WEEK(created_at, 1) as week_number'),
+                    DB::raw('YEAR(created_at) as year'),
+                    DB::raw('CONCAT("Week ", WEEK(created_at, 1) - WEEK(CURRENT_DATE - INTERVAL 1 MONTH, 1) + 1) as week'),
+                    DB::raw('COUNT(*) as count')
+                )
+                    ->where('created_at', '>=', Carbon::now()->startOfMonth())
+                    ->where('created_at', '<=', Carbon::now()->endOfMonth())
+                    ->groupBy('year', 'week_number', 'week')
+                    ->orderBy('year', 'asc')
+                    ->orderBy('week_number', 'asc')
+                    ->get()
+                    ->mapWithKeys(function ($item) {
+                        return [$item->week => $item->count];
+                    })
+                    ->toArray();
+                break;
+
+            case 'monthly':
+                // Current year's monthly data
+                $data = $query->select(
+                    DB::raw('MONTH(created_at) as month_number'),
+                    DB::raw('YEAR(created_at) as year'),
+                    DB::raw('DATE_FORMAT(created_at, "%M") as month_name'),
+                    DB::raw('COUNT(*) as count')
+                )
+                    ->whereYear('created_at', Carbon::now()->year)
+                    ->groupBy('year', 'month_number', 'month_name')
+                    ->orderBy('year', 'asc')
+                    ->orderBy('month_number', 'asc')
+                    ->get()
+                    ->mapWithKeys(function ($item) {
+                        return [$item->month_name => $item->count];
+                    })
+                    ->toArray();
+                break;
+
+            case 'yearly':
+                // Last 5 years' data
+                $data = $query->select(
+                    DB::raw('YEAR(created_at) as year'),
+                    DB::raw('COUNT(*) as count')
+                )
+                    ->where('created_at', '>=', Carbon::now()->subYears(5)->startOfYear())
+                    ->where('created_at', '<=', Carbon::now()->endOfYear())
+                    ->groupBy('year')
+                    ->orderBy('year', 'asc')
+                    ->get()
+                    ->pluck('count', 'year')
+                    ->toArray();
+                break;
+
+            default:
+                $data = [];
+                break;
+        }
+
+        return response()->json($data);
+    }
+
+    public function getCustomerData(Request $request)
+    {
+        $type = $request->input('type');
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
+        $query = User::query();
+
+        // Optional date filter
         if ($startDate && $endDate) {
             $query->whereBetween('created_at', [
                 Carbon::parse($startDate)->startOfDay(),
@@ -527,6 +533,95 @@ class AdminDashboardController extends Controller
                     ->groupBy('year')
                     ->orderBy('year', 'asc')
                     ->pluck('count', 'year')
+                    ->toArray();
+                break;
+
+            default:
+                $data = [];
+                break;
+        }
+
+        return response()->json($data);
+    }
+
+    public function getIncomeData(Request $request)
+    {
+        $type = $request->input('type');
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
+        $query = SubOrder::query()
+            ->whereHas('orderTrack', fn($q) => $q->where('name', 'delivered'));
+
+        // Apply date filter if provided
+        if ($startDate && $endDate) {
+            $query->whereBetween('created_at', [
+                Carbon::parse($startDate)->startOfDay(),
+                Carbon::parse($endDate)->endOfDay()
+            ]);
+        }
+
+        switch ($type) {
+            case 'daily':
+                $data = $query->selectRaw("DATE_FORMAT(created_at, '%Y-%m-%d') as date, SUM(total_amount) as amount")
+                    ->where('created_at', '>=', Carbon::now()->subDays(6)->startOfDay())
+                    ->groupBy('date')
+                    ->orderBy('date', 'asc')
+                    ->pluck('amount', 'date')
+                    ->toArray();
+                break;
+
+            case 'weekly':
+                // Current month's weekly data
+                $data = $query->selectRaw("
+                    WEEK(created_at, 1) as week_number,
+                    YEAR(created_at) as year,
+                    CONCAT('Week ', WEEK(created_at, 1) - WEEK(CURRENT_DATE - INTERVAL 1 MONTH, 1) + 1) as week,
+                    SUM(total_amount) as amount
+                ")
+                    ->where('created_at', '>=', Carbon::now()->startOfMonth())
+                    ->where('created_at', '<=', Carbon::now()->endOfMonth())
+                    ->groupBy('year', 'week_number', 'week')
+                    ->orderBy('year', 'asc')
+                    ->orderBy('week_number', 'asc')
+                    ->get()
+                    ->mapWithKeys(function ($item) {
+                        return [$item->week => $item->amount];
+                    })
+                    ->toArray();
+                break;
+
+            case 'monthly':
+                // Current year's monthly data
+                $data = $query->selectRaw("
+                    MONTH(created_at) as month_number,
+                    YEAR(created_at) as year,
+                    DATE_FORMAT(created_at, '%M') as month_name,
+                    SUM(total_amount) as amount
+                ")
+                    ->whereYear('created_at', Carbon::now()->year)
+                    ->groupBy('year', 'month_number', 'month_name')
+                    ->orderBy('year', 'asc')
+                    ->orderBy('month_number', 'asc')
+                    ->get()
+                    ->mapWithKeys(function ($item) {
+                        return [$item->month_name => $item->amount];
+                    })
+                    ->toArray();
+                break;
+
+            case 'yearly':
+                // Last 5 years' data
+                $data = $query->selectRaw("
+                    YEAR(created_at) as year,
+                    SUM(total_amount) as amount
+                ")
+                    ->where('created_at', '>=', Carbon::now()->subYears(5)->startOfYear())
+                    ->where('created_at', '<=', Carbon::now()->endOfYear())
+                    ->groupBy('year')
+                    ->orderBy('year', 'asc')
+                    ->get()
+                    ->pluck('amount', 'year')
                     ->toArray();
                 break;
 

@@ -174,6 +174,9 @@
                                                 Yearly
                                             </button>
                                         </li>
+                                        <li class="nav-item">
+                                            <input type="text" class="form-control dateRange" id="vendor_sign_up">
+                                        </li>
                                     </ul>
                                     <div class="mt-3" id="webstie_three_chart"></div>
                                 </div>
@@ -763,6 +766,9 @@
                                                 Yearly
                                             </button>
                                         </li>
+                                        <li class="nav-item">
+                                            <input type="text" class="form-control dateRange" id="vendor_sign_up">
+                                        </li>
                                     </ul>
                                     <div class="mt-3" id="financial_summary_chart"></div>
                                 </div>
@@ -946,11 +952,12 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Variables to store current state
             let currentType = 'daily';
             let currentStartDate = null;
             let currentEndDate = null;
 
-            // Chart config (always line)
+            // Chart configuration
             let sp_ven_two_chartOptions = {
                 series: [{
                     name: 'New Vendors',
@@ -967,17 +974,6 @@
                         }
                     }
                 },
-                stroke: {
-                    curve: 'smooth',
-                    width: 3,
-                    colors: ['#41695a']
-                },
-                markers: {
-                    size: 4,
-                    colors: ['#41695a'],
-                    strokeColors: '#fff',
-                    strokeWidth: 2
-                },
                 title: {
                     text: 'New Vendor Sign Up',
                     align: 'left'
@@ -985,6 +981,14 @@
                 colors: ['#41695a'],
                 dataLabels: {
                     enabled: false
+                },
+                stroke: {
+                    show: true,
+                    width: 3,
+                    curve: 'smooth'
+                },
+                markers: {
+                    size: 4
                 },
                 xaxis: {
                     categories: [],
@@ -1010,23 +1014,28 @@
                 }
             };
 
+            // Initialize chart
             let sp_vendors_chart = new ApexCharts(
                 document.querySelector("#webstie_two_chart"),
                 sp_ven_two_chartOptions
             );
             sp_vendors_chart.render();
 
-            // Fetch Data
+            // Function to fetch data via AJAX
             function fetchVendorData(type, startDate = null, endDate = null) {
+                // Show loading state
                 sp_vendors_chart.updateOptions({
                     title: {
                         text: 'Loading data...'
                     }
                 });
 
+                // Prepare request data
                 const requestData = {
-                    type: type
+                    type: type,
                 };
+
+                // Add date range if provided
                 if (startDate && endDate) {
                     requestData.start_date = startDate;
                     requestData.end_date = endDate;
@@ -1050,7 +1059,7 @@
                 });
             }
 
-            // Update chart (always line)
+            // Function to update chart with data
             function updateChart(data, chartType) {
                 const labels = Object.keys(data);
                 const values = Object.values(data).map(val => parseInt(val) || 0);
@@ -1060,17 +1069,36 @@
                         name: 'New Vendors',
                         data: values
                     }],
+                    chart: {
+                        type: 'line',
+                        height: 350,
+                        background: '#ffffff',
+                        toolbar: {
+                            show: true,
+                            tools: {
+                                download: false
+                            }
+                        }
+                    },
                     xaxis: {
                         categories: labels
                     },
                     title: {
                         text: 'New Vendor Sign Up - ' + chartType.charAt(0).toUpperCase() + chartType.slice(
                             1)
+                    },
+                    stroke: {
+                        show: true,
+                        width: 3,
+                        curve: 'smooth'
+                    },
+                    markers: {
+                        size: 4
                     }
                 });
             }
 
-            // Tabs
+            // Set up tab click handlers
             document.querySelector('#webstie_two_daily-tab').addEventListener('click', function() {
                 currentType = 'daily';
                 fetchVendorData(currentType, currentStartDate, currentEndDate);
@@ -1091,7 +1119,7 @@
                 fetchVendorData(currentType, currentStartDate, currentEndDate);
             });
 
-            // Date Range Picker
+            // Initialize date range picker
             $('.dateRange').daterangepicker({
                 opens: 'left',
                 autoUpdateInput: true
@@ -1103,8 +1131,349 @@
                 fetchVendorData(currentType, currentStartDate, currentEndDate);
             });
 
-            // Initial load
+            // Load initial data
             fetchVendorData(currentType);
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let currentType = 'daily';
+            let currentStartDate = null;
+            let currentEndDate = null;
+
+            // Chart configuration (always line)
+            let sp_customer_chartOptions = {
+                series: [{
+                    name: 'New Customers',
+                    data: []
+                }],
+                chart: {
+                    type: 'line',
+                    height: 350,
+                    background: '#ffffff',
+                    toolbar: {
+                        show: true,
+                        tools: {
+                            download: false
+                        }
+                    }
+                },
+                stroke: {
+                    curve: 'smooth',
+                    width: 3,
+                    colors: ['#41695a']
+                },
+                markers: {
+                    size: 4,
+                    colors: ['#41695a'],
+                    strokeColors: '#fff',
+                    strokeWidth: 2
+                },
+                title: {
+                    text: 'New Customer Sign Up',
+                    align: 'left'
+                },
+                colors: ['#41695a'],
+                dataLabels: {
+                    enabled: false
+                },
+                xaxis: {
+                    categories: [],
+                    labels: {
+                        formatter: value => value && value.length > 15 ? value.substring(0, 15) + '...' :
+                            value || ''
+                    }
+                },
+                yaxis: {
+                    title: {
+                        text: 'Number of Sign-Ups'
+                    }
+                },
+                tooltip: {
+                    y: {
+                        formatter: val => val + ' sign-ups'
+                    }
+                }
+            };
+
+            let sp_customers_chart = new ApexCharts(
+                document.querySelector("#webstie_three_chart"),
+                sp_customer_chartOptions
+            );
+            sp_customers_chart.render();
+
+            // Fetch Data via AJAX
+            function fetchCustomerData(type, startDate = null, endDate = null) {
+                sp_customers_chart.updateOptions({
+                    title: {
+                        text: 'Loading data...'
+                    }
+                });
+
+                const requestData = {
+                    type: type
+                };
+                if (startDate && endDate) {
+                    requestData.start_date = startDate;
+                    requestData.end_date = endDate;
+                }
+
+                $.ajax({
+                    url: '{{ route('customers.data') }}',
+                    type: 'GET',
+                    data: requestData,
+                    success: function(data) {
+                        updateCustomerChart(data, type);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching data:', error);
+                        sp_customers_chart.updateOptions({
+                            title: {
+                                text: 'Error loading data'
+                            }
+                        });
+                    }
+                });
+            }
+
+            // Update chart
+            function updateCustomerChart(data, chartType) {
+                const labels = Object.keys(data);
+                const values = Object.values(data).map(val => parseInt(val) || 0);
+
+                sp_customers_chart.updateOptions({
+                    series: [{
+                        name: 'New Customers',
+                        data: values
+                    }],
+                    xaxis: {
+                        categories: labels
+                    },
+                    title: {
+                        text: 'New Customer Sign Up - ' + chartType.charAt(0).toUpperCase() + chartType
+                            .slice(1)
+                    }
+                });
+            }
+
+            // Tab Click Handlers
+            document.querySelector('#webstie_three_daily-tab').addEventListener('click', () => {
+                currentType = 'daily';
+                fetchCustomerData(currentType, currentStartDate, currentEndDate);
+            });
+            document.querySelector('#webstie_three_weekly-tab').addEventListener('click', () => {
+                currentType = 'weekly';
+                fetchCustomerData(currentType, currentStartDate, currentEndDate);
+            });
+            document.querySelector('#webstie_three_monthly-tab').addEventListener('click', () => {
+                currentType = 'monthly';
+                fetchCustomerData(currentType, currentStartDate, currentEndDate);
+            });
+            document.querySelector('#webstie_three_yearly-tab').addEventListener('click', () => {
+                currentType = 'yearly';
+                fetchCustomerData(currentType, currentStartDate, currentEndDate);
+            });
+
+            // Date Range Picker
+            $('.dateRange').daterangepicker({
+                opens: 'left',
+                autoUpdateInput: true
+            });
+
+            $('.dateRange').on('apply.daterangepicker', function(ev, picker) {
+                currentStartDate = picker.startDate.format('YYYY-MM-DD');
+                currentEndDate = picker.endDate.format('YYYY-MM-DD');
+                fetchCustomerData(currentType, currentStartDate, currentEndDate);
+            });
+
+            // Initial Load
+            fetchCustomerData(currentType);
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Variables to store current state
+            let currentType = 'daily';
+            let currentStartDate = null;
+            let currentEndDate = null;
+
+            // Chart configuration
+            let financial_summary_options = {
+                series: [{
+                    name: 'Net Profit',
+                    data: []
+                }],
+                chart: {
+                    type: 'line',
+                    height: 350,
+                    background: '#ffffff',
+                    toolbar: {
+                        show: true,
+                        tools: {
+                            download: false
+                        }
+                    }
+                },
+                title: {
+                    text: 'Order Revenue',
+                    align: 'left'
+                },
+                colors: ['#41695a'],
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    show: true,
+                    width: 3,
+                    curve: 'smooth'
+                },
+                markers: {
+                    size: 4
+                },
+                xaxis: {
+                    categories: [],
+                    labels: {
+                        formatter: function(value) {
+                            return value && value.length > 15 ?
+                                value.substring(0, 15) + '...' :
+                                value || '';
+                        }
+                    }
+                },
+                yaxis: {
+                    title: {
+                        text: '$ (USD)'
+                    }
+                },
+                tooltip: {
+                    y: {
+                        formatter: function(val) {
+                            return "$ " + val + " USD"
+                        }
+                    }
+                }
+            };
+
+            // Initialize chart
+            let chart = new ApexCharts(
+                document.querySelector("#financial_summary_chart"),
+                financial_summary_options
+            );
+            chart.render();
+
+            // Function to fetch data via AJAX
+            function fetchIncomeData(type, startDate = null, endDate = null) {
+                // Show loading state
+                chart.updateOptions({
+                    title: {
+                        text: 'Loading data...'
+                    }
+                });
+
+                // Prepare request data
+                const requestData = {
+                    type: type,
+                };
+
+                // Add date range if provided
+                if (startDate && endDate) {
+                    requestData.start_date = startDate;
+                    requestData.end_date = endDate;
+                }
+
+                $.ajax({
+                    url: '{{ route('income.data') }}',
+                    type: 'GET',
+                    data: requestData,
+                    success: function(data) {
+                        updateChart(data, type);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching data:', error);
+                        chart.updateOptions({
+                            title: {
+                                text: 'Error loading data'
+                            }
+                        });
+                    }
+                });
+            }
+
+            // Function to update chart with data
+            function updateChart(data, chartType) {
+                const labels = Object.keys(data);
+                const values = Object.values(data).map(val => parseFloat(val) || 0);
+
+                chart.updateOptions({
+                    series: [{
+                        name: 'Net Profit',
+                        data: values
+                    }],
+                    chart: {
+                        type: 'line',
+                        height: 350,
+                        background: '#ffffff',
+                        toolbar: {
+                            show: true,
+                            tools: {
+                                download: false
+                            }
+                        }
+                    },
+                    xaxis: {
+                        categories: labels
+                    },
+                    title: {
+                        text: 'Order Revenue - ' + chartType.charAt(0).toUpperCase() + chartType.slice(1)
+                    },
+                    stroke: {
+                        show: true,
+                        width: 3,
+                        curve: 'smooth'
+                    },
+                    markers: {
+                        size: 4
+                    }
+                });
+            }
+
+            // Set up tab click handlers
+            document.querySelector('#financial_summary_daily-tab').addEventListener('click', function() {
+                currentType = 'daily';
+                fetchIncomeData(currentType, currentStartDate, currentEndDate);
+            });
+
+            document.querySelector('#financial_summary_weekly-tab').addEventListener('click', function() {
+                currentType = 'weekly';
+                fetchIncomeData(currentType, currentStartDate, currentEndDate);
+            });
+
+            document.querySelector('#financial_summary_monthly-tab').addEventListener('click', function() {
+                currentType = 'monthly';
+                fetchIncomeData(currentType, currentStartDate, currentEndDate);
+            });
+
+            document.querySelector('#financial_summary_yearly-tab').addEventListener('click', function() {
+                currentType = 'yearly';
+                fetchIncomeData(currentType, currentStartDate, currentEndDate);
+            });
+
+            // Initialize date range picker
+            $('.dateRange').daterangepicker({
+                opens: 'left',
+                autoUpdateInput: true
+            });
+
+            $('.dateRange').on('apply.daterangepicker', function(ev, picker) {
+                currentStartDate = picker.startDate.format('YYYY-MM-DD');
+                currentEndDate = picker.endDate.format('YYYY-MM-DD');
+                fetchIncomeData(currentType, currentStartDate, currentEndDate);
+            });
+
+            // Load initial data
+            fetchIncomeData(currentType);
         });
     </script>
 @endsection
