@@ -376,7 +376,6 @@ class AdminDashboardController extends Controller
         return response()->json($data);
     }
 
-
     public function getCustomerData(Request $request)
     {
         $type = $request->input('type');
@@ -423,7 +422,7 @@ class AdminDashboardController extends Controller
                     $data = $query->select(
                         DB::raw('YEAR(created_at) as year'),
                         DB::raw('WEEK(created_at, 1) as week_number'),
-                        DB::raw('CONCAT("Week ", WEEK(created_at, 1) - WEEK(DATE_SUB(CURRENT_DATE, INTERVAL 1 MONTH), 1) + 1) as week'),
+                        DB::raw('CONCAT("Week ", WEEK(created_at, 1)) as week'),
                         DB::raw('COUNT(*) as count')
                     )
                         ->where('created_at', '>=', Carbon::now()->startOfMonth())
@@ -501,7 +500,6 @@ class AdminDashboardController extends Controller
 
         return response()->json($data);
     }
-
 
     public function getIncomeData(Request $request)
     {
