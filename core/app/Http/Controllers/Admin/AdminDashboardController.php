@@ -251,7 +251,6 @@ class AdminDashboardController extends Controller
 
         $query = Vendor::query();
 
-        // Apply date filter if provided
         if ($startDate && $endDate) {
             $query->whereBetween('created_at', [
                 Carbon::parse($startDate)->startOfDay(),
@@ -386,7 +385,6 @@ class AdminDashboardController extends Controller
 
         $query = User::query();
 
-        // Apply date filter if provided
         if ($startDate && $endDate) {
             $query->whereBetween('created_at', [
                 Carbon::parse($startDate)->startOfDay(),
@@ -396,7 +394,6 @@ class AdminDashboardController extends Controller
 
         switch ($type) {
             case 'daily':
-                // ✅ Always last 7 days (ignore date range)
                 $data = User::select([
                     DB::raw('DATE(created_at) as date'),
                     DB::raw('COUNT(*) as count')
@@ -410,7 +407,6 @@ class AdminDashboardController extends Controller
 
             case 'weekly':
                 if ($startDate && $endDate) {
-                    // Custom range weeks
                     $data = $query->select(
                         DB::raw('YEAR(created_at) as year'),
                         DB::raw('WEEK(created_at, 1) as week_number'),
@@ -424,7 +420,6 @@ class AdminDashboardController extends Controller
                         ->mapWithKeys(fn($item) => [$item->week => $item->count])
                         ->toArray();
                 } else {
-                    // Default: current month
                     $data = $query->select(
                         DB::raw('YEAR(created_at) as year'),
                         DB::raw('WEEK(created_at, 1) as week_number'),
@@ -444,7 +439,6 @@ class AdminDashboardController extends Controller
 
             case 'monthly':
                 if ($startDate && $endDate) {
-                    // ✅ Custom range months
                     $data = $query->select(
                         DB::raw('YEAR(created_at) as year'),
                         DB::raw('MONTH(created_at) as month_number'),
@@ -458,7 +452,6 @@ class AdminDashboardController extends Controller
                         ->mapWithKeys(fn($item) => [$item->month_name => $item->count])
                         ->toArray();
                 } else {
-                    // ✅ Default: current year
                     $data = $query->select(
                         DB::raw('YEAR(created_at) as year'),
                         DB::raw('MONTH(created_at) as month_number'),
@@ -477,7 +470,6 @@ class AdminDashboardController extends Controller
 
             case 'yearly':
                 if ($startDate && $endDate) {
-                    // ✅ Custom range years
                     $data = $query->select(
                         DB::raw('YEAR(created_at) as year'),
                         DB::raw('COUNT(*) as count')
@@ -488,7 +480,6 @@ class AdminDashboardController extends Controller
                         ->pluck('count', 'year')
                         ->toArray();
                 } else {
-                    // ✅ Default: last 5 years
                     $data = $query->select(
                         DB::raw('YEAR(created_at) as year'),
                         DB::raw('COUNT(*) as count')
