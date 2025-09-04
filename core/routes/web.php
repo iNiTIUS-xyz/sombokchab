@@ -507,6 +507,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
         Route::get('/top-vendors/data', 'AdminDashboardController@getTopVendorsData')->name('top-vendors.data');
         Route::get('/top-products/data', 'AdminDashboardController@getTopProductsData')->name('top-products.data');
         Route::get('/vendor-payouts/data', 'AdminDashboardController@getVendorPayoutsData')->name('vendor-payouts.data');
+        Route::get('/campaigns/data', 'AdminDashboardController@getCampaignData')->name('campaigns.data');
         Route::get('/health', 'AdminDashboardController@health')->name('admin.health');
         Route::get('/dark-mode-toggle', 'AdminDashboardController@dark_mode_toggle')->name('admin.dark.mode.toggle')->permission('dark-mode-toggle');
     });

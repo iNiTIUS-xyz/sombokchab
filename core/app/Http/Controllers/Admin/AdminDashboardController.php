@@ -803,6 +803,92 @@ class AdminDashboardController extends Controller
         return response()->json($data);
     }
 
+    public function getCampaignData(Request $request)
+    {
+        $type = $request->input('type');
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
+        $query = Campaign::query();
+
+        // Apply date filter if provided
+        if ($startDate && $endDate) {
+            $query->whereBetween('created_at', [
+                Carbon::parse($startDate)->startOfDay(),
+                Carbon::parse($endDate)->endOfDay()
+            ]);
+        }
+
+        switch ($type) {
+            case 'daily':
+                $data = $query->selectRaw("DATE_FORMAT(created_at, '%Y-%m-%d') as date, COUNT(*) as count")
+                    ->where('created_at', '>=', Carbon::now()->subDays(6)->startOfDay())
+                    ->groupBy('date')
+                    ->orderBy('date', 'asc')
+                    ->pluck('count', 'date')
+                    ->toArray();
+                break;
+
+            case 'weekly':
+                // Current month's weekly data
+                $data = $query->selectRaw("
+                        WEEK(created_at, 1) as week_number,
+                        YEAR(created_at) as year,
+                        CONCAT('Week ', WEEK(created_at, 1) - WEEK(CURRENT_DATE - INTERVAL 1 MONTH, 1) + 1) as week,
+                        COUNT(*) as count
+                    ")
+                    ->where('created_at', '>=', Carbon::now()->startOfMonth())
+                    ->where('created_at', '<=', Carbon::now()->endOfMonth())
+                    ->groupBy('year', 'week_number', 'week')
+                    ->orderBy('year', 'asc')
+                    ->orderBy('week_number', 'asc')
+                    ->get()
+                    ->mapWithKeys(function ($item) {
+                        return [$item->week => $item->count];
+                    })
+                    ->toArray();
+                break;
+
+            case 'monthly':
+                // Current year's monthly data
+                $data = $query->selectRaw("
+                    MONTH(created_at) as month_number,
+                    YEAR(created_at) as year,
+                    DATE_FORMAT(created_at, '%M') as month_name,
+                    COUNT(*) as count
+                ")
+                    ->whereYear('created_at', Carbon::now()->year)
+                    ->groupBy('year', 'month_number', 'month_name')
+                    ->orderBy('year', 'asc')
+                    ->orderBy('month_number', 'asc')
+                    ->get()
+                    ->mapWithKeys(function ($item) {
+                        return [$item->month_name => $item->count];
+                    })
+                    ->toArray();
+                break;
+
+            case 'yearly':
+                $data = $query->selectRaw("
+                        YEAR(created_at) as year,
+                        COUNT(*) as count
+                    ")
+                    ->where('created_at', '>=', Carbon::now()->subYears(5)->startOfYear())
+                    ->where('created_at', '<=', Carbon::now()->endOfYear())
+                    ->groupBy('year')
+                    ->orderBy('year', 'asc')
+                    ->pluck('count', 'year')
+                    ->toArray();
+                break;
+
+            default:
+                $data = [];
+                break;
+        }
+
+        return response()->json($data);
+    }
+
     public  function health()
     {
         $all_user = Admin::all()->except(Auth::id());

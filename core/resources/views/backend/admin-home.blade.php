@@ -331,6 +331,9 @@
                                                 Yearly
                                             </button>
                                         </li>
+                                        <li class="nav-item">
+                                            <input type="text" class="form-control dateRange" id="vendor_sign_up">
+                                        </li>
                                     </ul>
                                     <div class="mt-3" id="campaign_one_chart"></div>
                                 </div>
@@ -1857,6 +1860,7 @@
             fetchTopProductsData(currentType);
         });
     </script>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Variables to store current state
@@ -2040,6 +2044,204 @@
 
             // Load initial data
             fetchVendorPayoutsData(currentType);
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Variables to store current state
+            let currentType = 'daily';
+            let currentStartDate = null;
+            let currentEndDate = null;
+
+            // Chart configuration
+            let campaign_one_options = {
+                series: [{
+                    name: 'Campaigns Created',
+                    data: []
+                }],
+                chart: {
+                    type: 'line',
+                    height: 350,
+                    background: '#ffffff',
+                    toolbar: {
+                        show: true,
+                        tools: {
+                            download: false
+                        }
+                    },
+                    zoom: {
+                        enabled: false
+                    }
+                },
+                title: {
+                    text: 'Campaign Creation',
+                    align: 'left'
+                },
+                colors: ['#e0bb20'],
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    show: true,
+                    width: 3,
+                    curve: 'smooth'
+                },
+                markers: {
+                    size: 4
+                },
+                xaxis: {
+                    categories: [],
+                    labels: {
+                        formatter: function(value) {
+                            return value && value.length > 15 ?
+                                value.substring(0, 15) + '...' :
+                                value || '';
+                        }
+                    }
+                },
+                yaxis: {
+                    title: {
+                        text: 'Number of Campaigns'
+                    }
+                },
+                grid: {
+                    row: {
+                        colors: ['#f3f3f3', 'transparent'],
+                        opacity: 0.5
+                    }
+                },
+                tooltip: {
+                    y: {
+                        formatter: function(val) {
+                            return val + ' campaigns';
+                        }
+                    }
+                }
+            };
+
+            // Initialize chart
+            let campaign_one_chart = new ApexCharts(
+                document.querySelector("#campaign_one_chart"),
+                campaign_one_options
+            );
+            campaign_one_chart.render();
+
+            // Function to fetch data via AJAX
+            function fetchCampaignData(type, startDate = null, endDate = null) {
+                // Show loading state
+                campaign_one_chart.updateOptions({
+                    title: {
+                        text: 'Loading data...'
+                    }
+                });
+
+                // Prepare request data
+                const requestData = {
+                    type: type,
+                };
+
+                // Add date range if provided
+                if (startDate && endDate) {
+                    requestData.start_date = startDate;
+                    requestData.end_date = endDate;
+                }
+
+                $.ajax({
+                    url: '{{ route('campaigns.data') }}',
+                    type: 'GET',
+                    data: requestData,
+                    success: function(data) {
+                        updateChart(data, type);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching data:', error);
+                        campaign_one_chart.updateOptions({
+                            title: {
+                                text: 'Error loading data'
+                            }
+                        });
+                    }
+                });
+            }
+
+            // Function to update chart with data
+            function updateChart(data, chartType) {
+                const labels = Object.keys(data);
+                const values = Object.values(data).map(val => parseInt(val) || 0);
+
+                campaign_one_chart.updateOptions({
+                    series: [{
+                        name: 'Campaigns Created',
+                        data: values
+                    }],
+                    chart: {
+                        type: 'line',
+                        height: 350,
+                        background: '#ffffff',
+                        toolbar: {
+                            show: true,
+                            tools: {
+                                download: false
+                            }
+                        },
+                        zoom: {
+                            enabled: false
+                        }
+                    },
+                    xaxis: {
+                        categories: labels
+                    },
+                    title: {
+                        text: 'Campaign Creation - ' + chartType.charAt(0).toUpperCase() + chartType.slice(
+                            1)
+                    },
+                    stroke: {
+                        show: true,
+                        width: 3,
+                        curve: 'smooth'
+                    },
+                    markers: {
+                        size: 4
+                    }
+                });
+            }
+
+            // Set up tab click handlers
+            document.querySelector('#campaign_one_daily-tab').addEventListener('click', function() {
+                currentType = 'daily';
+                fetchCampaignData(currentType, currentStartDate, currentEndDate);
+            });
+
+            document.querySelector('#campaign_one_weekly-tab').addEventListener('click', function() {
+                currentType = 'weekly';
+                fetchCampaignData(currentType, currentStartDate, currentEndDate);
+            });
+
+            document.querySelector('#campaign_one_monthly-tab').addEventListener('click', function() {
+                currentType = 'monthly';
+                fetchCampaignData(currentType, currentStartDate, currentEndDate);
+            });
+
+            document.querySelector('#campaign_one_yearly-tab').addEventListener('click', function() {
+                currentType = 'yearly';
+                fetchCampaignData(currentType, currentStartDate, currentEndDate);
+            });
+
+            // Initialize date range picker
+            $('.dateRange').daterangepicker({
+                opens: 'left',
+                autoUpdateInput: true
+            });
+
+            $('.dateRange').on('apply.daterangepicker', function(ev, picker) {
+                currentStartDate = picker.startDate.format('YYYY-MM-DD');
+                currentEndDate = picker.endDate.format('YYYY-MM-DD');
+                fetchCampaignData(currentType, currentStartDate, currentEndDate);
+            });
+
+            // Load initial data
+            fetchCampaignData(currentType);
         });
     </script>
 @endsection
