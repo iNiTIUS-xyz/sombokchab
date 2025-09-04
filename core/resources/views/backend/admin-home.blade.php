@@ -1082,6 +1082,13 @@
                 const labels = Object.keys(data);
                 const values = Object.values(data).map(val => parseInt(val) || 0);
 
+                let chartTitle = '';
+                if (chartType.toLowerCase() === 'daily') {
+                    chartTitle = 'Last 7 Days';
+                } else {
+                    chartTitle = chartType.charAt(0).toUpperCase() + chartType.slice(1);
+                }
+
                 sp_vendors_chart.updateOptions({
                     series: [{
                         name: 'New Vendors',
@@ -1102,8 +1109,7 @@
                         categories: labels
                     },
                     title: {
-                        text: 'New Vendor Sign Up - ' + chartType.charAt(0).toUpperCase() + chartType.slice(
-                            1)
+                        text: 'New Vendor Sign Up - ' + chartTitle
                     },
                     stroke: {
                         show: true,
@@ -1141,7 +1147,7 @@
             $('.dateRangeWebstie').daterangepicker({
                 opens: 'left',
                 autoUpdateInput: true,
-                minDate: moment().startOf('year'),
+                minDate: moment('2024-01-01'),
                 maxDate: moment().endOf('year'),
             }, function(start, end) {
                 var months = end.diff(start, 'months', true);
@@ -1268,6 +1274,13 @@
                 const labels = Object.keys(data);
                 const values = Object.values(data).map(val => parseInt(val) || 0);
 
+                let chartTitle = '';
+                if (chartType.toLowerCase() === 'daily') {
+                    chartTitle = 'Last 7 Days';
+                } else {
+                    chartTitle = chartType.charAt(0).toUpperCase() + chartType.slice(1);
+                }
+
                 sp_customers_chart.updateOptions({
                     series: [{
                         name: 'New Customers',
@@ -1277,8 +1290,7 @@
                         categories: labels
                     },
                     title: {
-                        text: 'New Customer Sign Up - ' + chartType.charAt(0).toUpperCase() + chartType
-                            .slice(1)
+                        text: 'New Customer Sign Up - ' + chartTitle
                     }
                 });
             }
@@ -1305,7 +1317,7 @@
             $('.dateWebstieRange').daterangepicker({
                 opens: 'left',
                 autoUpdateInput: true,
-                minDate: moment().startOf('year'),
+                minDate: moment('2024-01-01'),
                 maxDate: moment().endOf('year'),
             }, function(start, end) {
                 var months = end.diff(start, 'months', true);
@@ -1498,7 +1510,7 @@
             $('.dateRangeFinancialSummary').daterangepicker({
                 opens: 'left',
                 autoUpdateInput: true,
-                minDate: moment().startOf('year'),
+                minDate: moment('2024-01-01'),
                 maxDate: moment().endOf('year'),
             }, function(start, end) {
                 var months = end.diff(start, 'months', true);
@@ -1692,7 +1704,7 @@
             $('.dateRangeTopVendor').daterangepicker({
                 opens: 'left',
                 autoUpdateInput: true,
-                minDate: moment().startOf('year'),
+                minDate: moment('2024-01-01'),
                 maxDate: moment().endOf('year'),
             }, function(start, end) {
                 var months = end.diff(start, 'months', true);
@@ -1886,7 +1898,7 @@
             $('.dateTopVendorsRange').daterangepicker({
                 opens: 'left',
                 autoUpdateInput: true,
-                minDate: moment().startOf('year'),
+                minDate: moment('2024-01-01'),
                 maxDate: moment().endOf('year'),
             }, function(start, end) {
                 var months = end.diff(start, 'months', true);
@@ -2080,7 +2092,7 @@
             $('.dateFinancialSummaryRange').daterangepicker({
                 opens: 'left',
                 autoUpdateInput: true,
-                minDate: moment().startOf('year'),
+                minDate: moment('2024-01-01'),
                 maxDate: moment().endOf('year'),
             }, function(start, end) {
                 var months = end.diff(start, 'months', true);
@@ -2286,7 +2298,7 @@
             $('.dateCampaignRange').daterangepicker({
                 opens: 'left',
                 autoUpdateInput: true,
-                minDate: moment().startOf('year'),
+                minDate: moment('2024-01-01'),
                 maxDate: moment().endOf('year'),
             }, function(start, end) {
                 var months = end.diff(start, 'months', true);
