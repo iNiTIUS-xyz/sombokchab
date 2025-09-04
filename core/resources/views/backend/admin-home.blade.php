@@ -143,7 +143,7 @@
                                             </button>
                                         </li>
                                         <li class="nav-item">
-                                            <input type="text" class="form-control dateRange" id="vendor_sign_up">
+                                            <input type="text" class="form-control dateRangeWebstie" id="vendor_sign_up">
                                         </li>
                                     </ul>
                                     <div class="mt-3" id="webstie_two_chart"></div>
@@ -175,7 +175,8 @@
                                             </button>
                                         </li>
                                         <li class="nav-item">
-                                            <input type="text" class="form-control dateRange" id="vendor_sign_up">
+                                            <input type="text" class="form-control dateWebstieRange"
+                                                id="vendor_sign_up">
                                         </li>
                                     </ul>
                                     <div class="mt-3" id="webstie_three_chart"></div>
@@ -332,7 +333,8 @@
                                             </button>
                                         </li>
                                         <li class="nav-item">
-                                            <input type="text" class="form-control dateRange" id="vendor_sign_up">
+                                            <input type="text" class="form-control dateCampaignRange"
+                                                id="vendor_sign_up">
                                         </li>
                                     </ul>
                                     <div class="mt-3" id="campaign_one_chart"></div>
@@ -543,7 +545,8 @@
                                             </button>
                                         </li>
                                         <li class="nav-item">
-                                            <input type="text" class="form-control dateRange" id="vendor_sign_up">
+                                            <input type="text" class="form-control dateRangeTopVendor"
+                                                id="vendor_sign_up">
                                         </li>
                                     </ul>
                                     <div class="mt-3" id="top_vendor_chart"></div>
@@ -575,7 +578,8 @@
                                             </button>
                                         </li>
                                         <li class="nav-item">
-                                            <input type="text" class="form-control dateRange" id="vendor_sign_up">
+                                            <input type="text" class="form-control dateTopVendorsRange"
+                                                id="vendor_sign_up">
                                         </li>
                                     </ul>
                                     <div class="mt-3" id="top_vendors_two_chart"></div>
@@ -776,7 +780,8 @@
                                             </button>
                                         </li>
                                         <li class="nav-item">
-                                            <input type="text" class="form-control dateRange" id="vendor_sign_up">
+                                            <input type="text" class="form-control dateRangeFinancialSummary"
+                                                id="vendor_sign_up">
                                         </li>
                                     </ul>
                                     <div class="mt-3" id="financial_summary_chart"></div>
@@ -808,7 +813,8 @@
                                             </button>
                                         </li>
                                         <li class="nav-item">
-                                            <input type="text" class="form-control dateRange" id="vendor_sign_up">
+                                            <input type="text" class="form-control dateFinancialSummaryRange"
+                                                id="vendor_sign_up">
                                         </li>
                                     </ul>
                                     <div class="mt-3" id="financial_summary_two_chart"></div>
@@ -1132,12 +1138,20 @@
             });
 
             // Initialize date range picker
-            $('.dateRange').daterangepicker({
+            $('.dateRangeWebstie').daterangepicker({
                 opens: 'left',
-                autoUpdateInput: true
+                autoUpdateInput: true,
+                minDate: moment().startOf('year'),
+                maxDate: moment().endOf('year'),
+            }, function(start, end) {
+                var months = end.diff(start, 'months', true);
+                if (months < 1) {
+                    this.setStartDate(moment(start));
+                    this.setEndDate(moment(start).add(1, 'months'));
+                }
             });
 
-            $('.dateRange').on('apply.daterangepicker', function(ev, picker) {
+            $('.dateRangeWebstie').on('apply.daterangepicker', function(ev, picker) {
                 currentStartDate = picker.startDate.format('YYYY-MM-DD');
                 currentEndDate = picker.endDate.format('YYYY-MM-DD');
                 fetchVendorData(currentType, currentStartDate, currentEndDate);
@@ -1288,12 +1302,20 @@
             });
 
             // Date Range Picker
-            $('.dateRange').daterangepicker({
+            $('.dateWebstieRange').daterangepicker({
                 opens: 'left',
-                autoUpdateInput: true
+                autoUpdateInput: true,
+                minDate: moment().startOf('year'),
+                maxDate: moment().endOf('year'),
+            }, function(start, end) {
+                var months = end.diff(start, 'months', true);
+                if (months < 1) {
+                    this.setStartDate(moment(start));
+                    this.setEndDate(moment(start).add(1, 'months'));
+                }
             });
 
-            $('.dateRange').on('apply.daterangepicker', function(ev, picker) {
+            $('.dateWebstieRange').on('apply.daterangepicker', function(ev, picker) {
                 currentStartDate = picker.startDate.format('YYYY-MM-DD');
                 currentEndDate = picker.endDate.format('YYYY-MM-DD');
                 fetchCustomerData(currentType, currentStartDate, currentEndDate);
@@ -1473,12 +1495,20 @@
             });
 
             // Initialize date range picker
-            $('.dateRange').daterangepicker({
+            $('.dateRangeFinancialSummary').daterangepicker({
                 opens: 'left',
-                autoUpdateInput: true
+                autoUpdateInput: true,
+                minDate: moment().startOf('year'),
+                maxDate: moment().endOf('year'),
+            }, function(start, end) {
+                var months = end.diff(start, 'months', true);
+                if (months < 1) {
+                    this.setStartDate(moment(start));
+                    this.setEndDate(moment(start).add(1, 'months'));
+                }
             });
 
-            $('.dateRange').on('apply.daterangepicker', function(ev, picker) {
+            $('.dateRangeFinancialSummary').on('apply.daterangepicker', function(ev, picker) {
                 currentStartDate = picker.startDate.format('YYYY-MM-DD');
                 currentEndDate = picker.endDate.format('YYYY-MM-DD');
                 fetchIncomeData(currentType, currentStartDate, currentEndDate);
@@ -1659,12 +1689,20 @@
             });
 
             // Initialize date range picker
-            $('.dateRange').daterangepicker({
+            $('.dateRangeTopVendor').daterangepicker({
                 opens: 'left',
-                autoUpdateInput: true
+                autoUpdateInput: true,
+                minDate: moment().startOf('year'),
+                maxDate: moment().endOf('year'),
+            }, function(start, end) {
+                var months = end.diff(start, 'months', true);
+                if (months < 1) {
+                    this.setStartDate(moment(start));
+                    this.setEndDate(moment(start).add(1, 'months'));
+                }
             });
 
-            $('.dateRange').on('apply.daterangepicker', function(ev, picker) {
+            $('.dateRangeTopVendor').on('apply.daterangepicker', function(ev, picker) {
                 currentStartDate = picker.startDate.format('YYYY-MM-DD');
                 currentEndDate = picker.endDate.format('YYYY-MM-DD');
                 fetchTopVendorsData(currentType, currentStartDate, currentEndDate);
@@ -1845,12 +1883,20 @@
             });
 
             // Initialize date range picker
-            $('.dateRange').daterangepicker({
+            $('.dateTopVendorsRange').daterangepicker({
                 opens: 'left',
-                autoUpdateInput: true
+                autoUpdateInput: true,
+                minDate: moment().startOf('year'),
+                maxDate: moment().endOf('year'),
+            }, function(start, end) {
+                var months = end.diff(start, 'months', true);
+                if (months < 1) {
+                    this.setStartDate(moment(start));
+                    this.setEndDate(moment(start).add(1, 'months'));
+                }
             });
 
-            $('.dateRange').on('apply.daterangepicker', function(ev, picker) {
+            $('.dateTopVendorsRange').on('apply.daterangepicker', function(ev, picker) {
                 currentStartDate = picker.startDate.format('YYYY-MM-DD');
                 currentEndDate = picker.endDate.format('YYYY-MM-DD');
                 fetchTopProductsData(currentType, currentStartDate, currentEndDate);
@@ -2031,12 +2077,20 @@
             });
 
             // Initialize date range picker
-            $('.dateRange').daterangepicker({
+            $('.dateFinancialSummaryRange').daterangepicker({
                 opens: 'left',
-                autoUpdateInput: true
+                autoUpdateInput: true,
+                minDate: moment().startOf('year'),
+                maxDate: moment().endOf('year'),
+            }, function(start, end) {
+                var months = end.diff(start, 'months', true);
+                if (months < 1) {
+                    this.setStartDate(moment(start));
+                    this.setEndDate(moment(start).add(1, 'months'));
+                }
             });
 
-            $('.dateRange').on('apply.daterangepicker', function(ev, picker) {
+            $('.dateFinancialSummaryRange').on('apply.daterangepicker', function(ev, picker) {
                 currentStartDate = picker.startDate.format('YYYY-MM-DD');
                 currentEndDate = picker.endDate.format('YYYY-MM-DD');
                 fetchVendorPayoutsData(currentType, currentStartDate, currentEndDate);
@@ -2229,12 +2283,20 @@
             });
 
             // Initialize date range picker
-            $('.dateRange').daterangepicker({
+            $('.dateCampaignRange').daterangepicker({
                 opens: 'left',
-                autoUpdateInput: true
+                autoUpdateInput: true,
+                minDate: moment().startOf('year'),
+                maxDate: moment().endOf('year'),
+            }, function(start, end) {
+                var months = end.diff(start, 'months', true);
+                if (months < 1) {
+                    this.setStartDate(moment(start));
+                    this.setEndDate(moment(start).add(1, 'months'));
+                }
             });
 
-            $('.dateRange').on('apply.daterangepicker', function(ev, picker) {
+            $('.dateCampaignRange').on('apply.daterangepicker', function(ev, picker) {
                 currentStartDate = picker.startDate.format('YYYY-MM-DD');
                 currentEndDate = picker.endDate.format('YYYY-MM-DD');
                 fetchCampaignData(currentType, currentStartDate, currentEndDate);
