@@ -101,42 +101,36 @@
                 <div class="card-footer checkout__card__footer">
                     <h6 class="card-title py-2">{{ __('Select delivery option') }}</h6>
                     <input type="hidden" class="shipping_cost" name="shipping_cost[{{ $c_vendor?->id }}]" />
-                    <ul class="shippingMethod__wrapper">
+                    <ul class="shippingMethod__wrapper shipping-method-wrapper">
                         @foreach ($c_vendor?->shippingMethod ?? [] as $method)
                             @php
-                            $method->cost = calculatePrice($method->cost, $shippingTaxClass, 'shipping');
-                            if ($method->is_default) { $default_shipping_cost = $method->cost; }
+                                $method->cost = calculatePrice($method->cost, $shippingTaxClass, 'shipping');
+                                if ($method->is_default) {
+                                    $default_shipping_cost = $method->cost;
+                                }
                             @endphp
-
-                            <li class="shippingMethod__wrapper__item"
-                                data-shipping-cost-id="{{ $method->id }}"
-                                data-shipping-cost="{{ $method->cost }}"
-                                data-shipping-percentage="{{ $shippingTaxClass }}">
-                            
-                            <label class="ship-card">
-                                <input
-                                type="radio"
-                                name="shipping_method_id"
-                                value="{{ $method->id }}"
-                                class="ship-input"
-                                @checked($method->is_default)
-                                />
-
-                                <span class="ship-radio" aria-hidden="true"></span>
-
-                                <span class="ship-text">
-                                <span class="ship-title">{{ $method?->title }}</span>
-                                <span class="ship-sub">
-                                    ({{ __('Zone:') }} {{ $method?->zone?->name }}) — &nbsp;
-                                    <span class="ship-amount">{{ amount_with_currency_symbol(round($method->cost)) }}</span>
+                            <li data-shipping-cost-id="{{ $method->id }}" data-shipping-cost="{{ $method->cost }}"
+                                data-shipping-percentage="{{ $shippingTaxClass }}"
+                                class="shippingMethod__wrapper__item checkout-shipping-method py-2 px-4 {{ $method->is_default ? 'active' : '' }}">
+                                <span class="checkbox">
+                                    <span class="inner"></span>
                                 </span>
+                                <span class="title">
+                                    {{ $method?->title }}
                                 </span>
-                            </label>
-
+                                <span class="zone">
+                                    ( {{ __('Zone:') }}
+                                    {{ $method?->zone?->name }} )
+                                </span>
+                                <span class="">
+                                    -
+                                </span>
+                                <span class="amount text-right">
+                                    {{ amount_with_currency_symbol(round($method->cost)) }}
+                                </span>
                             </li>
                         @endforeach
                     </ul>
-
                     {{-- <hr /> --}}
                     <div class="checkout__card__footer__estimate d-flex justify-content-end"
                         style="display: none !important;">
@@ -221,7 +215,7 @@
                                 <span class="">
                                     -
                                 </span>
-                                <span class="amount">
+                                <span class="amount text-right">
                                     {{ amount_with_currency_symbol(round($method->cost)) }}
                                 </span>
                             </li>

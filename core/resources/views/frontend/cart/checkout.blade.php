@@ -27,20 +27,23 @@
         }
 
         .shippingMethod__wrapper__item {
-            min-height: 45px !important;
-            text-align: left !important;
-            /* margin: 5px 0px; */
-            display: flex !important;
+            display: flex;
             align-items: center !important;
-            border: 1px solid #ccc;
+            gap: .75rem;
+            padding: .65rem 1rem !important;
+            border: 1px solid #d9d9d9 !important;
+            border-radius: .5rem;
+            background: #fff !important;
+            cursor: pointer;
+            transition: border-color .2s ease, background-color .2s ease;
             width: 100%;
-            border-radius: 3px;
+            font-size: .875rem !important;
         }
 
 
-        .shippingMethod__wrapper__item span {
+        /* .shippingMethod__wrapper__item span {
             margin-right: 5px;
-        }
+        } */
 
         .shippingMethod__wrapper__item span.title {
             color: var(--black) !important;
@@ -54,7 +57,11 @@
             border: 2px solid var(--paragraph-color);
             border-radius: 50%;
             position: relative;
-            margin-right: 15px;
+            /* margin-right: 10px; */
+        }
+
+        .shippingMethod__wrapper__item span.zone {
+            margin: -5px !important;
         }
 
         .shippingMethod__wrapper__item span.checkbox .inner {
@@ -65,6 +72,7 @@
 
         .shippingMethod__wrapper__item span.amount {
             font-weight: bold;
+            margin: -5px !important;
         }
 
 
@@ -73,7 +81,7 @@
         .shippingMethod__wrapper__item:hover {
             color: var(--paragraph-color) !important;
             border: 1px solid var(--main-color-one) !important;
-            background: transparent !important;
+            /* background: transparent !important; */
         }
 
         .shippingMethod__wrapper__item.active span.title,
@@ -163,14 +171,106 @@
                                         </div>
                                     @endif
 
-                                    <div class="row mt-3" style="flex-wrap: unset !important;">
+                                    <ul class="mt-3" style="flex-wrap: unset !important;">
                                         @foreach ($all_user_shipping ?? [] as $shipping_address)
-                                            <div class="col-md-6">
+                                            <li class="shipping-option-item">
                                                 @include('frontend.cart.partials.shipping-address-option')
-                                            </div>   
-                                        
+                                            </li>   
                                         @endforeach
-                                    </div>
+                                    </ul>
+
+                                    <style>
+                                        /* List reset */
+                                        .shipping-option-list { margin: 0; padding: 0; }
+                                        .shipping-option-item { list-style: none; margin-bottom: .75rem; }
+
+                                        /* Default card */
+                                        .option-card {
+                                            display: flex;
+                                            align-items: center;
+                                            gap: .75rem;
+                                            padding: .65rem 1rem;
+                                            border: 1px solid #d9d9d9;   /* default gray border */
+                                            border-radius: .5rem;
+                                            background: #fff;
+                                            cursor: pointer;
+                                            transition: border-color .2s ease, background-color .2s ease;
+                                            width: 100%;
+                                        }
+
+                                        /* Hide native radio */
+                                        .option-input {
+                                            position: absolute;
+                                            opacity: 0;
+                                            pointer-events: none;
+                                        }
+
+                                        /* Card turns active when its child input is checked */
+                                        .option-card:has(.option-input:checked) {
+                                            border: 1px solid var(--main-color-one);
+                                        }
+
+
+                                        /* Custom radio */
+                                        .option-radio {
+                                            width: 22px;
+                                            height: 22px;
+                                            border: 2px solid #bfbfbf;
+                                            border-radius: 50%;
+                                            display: inline-block;
+                                            position: relative;
+                                            flex: 0 0 22px;
+                                        }
+                                        .option-radio::after {
+                                            content: "";
+                                            position: absolute;
+                                            inset: 3px;
+                                            border-radius: 50%;
+                                            background: var(--main-color-two); 
+                                            transform: scale(0);
+                                            transition: transform .15s ease;
+                                        }
+
+                                        /* Text block */
+                                        .option-text {}
+                                        .option-title { font-weight: 600; color: #111; line-height: 1.1; }
+                                        .option-sub { font-size: .875rem; color: #666; }
+
+                                        /* Badge */
+                                        .option-badge {
+                                            margin-left: .5rem;
+                                            padding: .15rem .45rem;
+                                            font-size: .7rem;
+                                            border-radius: .35rem;
+                                            background: #111;
+                                            color: #fff;
+                                        }
+
+                                        /* Hover */
+                                        .option-card:hover {
+                                            border-color: var(--main-color-one);
+                                            box-shadow: 0 0 0 3px rgba(30,123,133,.08);
+                                        }
+
+                                        /* Selected state (style siblings when radio is checked) */
+                                        .option-input:checked + .option-radio {
+                                            border-color: var(--main-color-one);
+                                        }
+                                        .option-input:checked + .option-radio::after {
+                                            transform: scale(1);
+                                        }
+                                        .option-input:checked ~ .option-text .option-title {
+                                            color: var(--main-color-one);
+                                        }
+                                        .option-input:checked ~ .option-text .option-sub {
+                                            color: #444;
+                                        }
+
+                                        /* Optional: reduce wrapping like your original */
+                                        .shipping-option-list { display: block; }
+
+                                    </style>
+
                                     {{-- <div class="flex-start mt-4 user-shipping-address-wrapper d-flex position-relative">
                                         @foreach ($all_user_shipping ?? [] as $shipping_address)
                                             @include('frontend.cart.partials.shipping-address-option')

@@ -38442,6 +38442,7 @@ table.table-default.data-table-style tr td {
   margin-right: 6px;
   position: relative;
   cursor: pointer;
+
 }
 
 .gateway_option input[type="radio"]:hover,
@@ -38475,11 +38476,15 @@ table.table-default.data-table-style tr td {
   width: 100%;
   display: flex;
   align-items: center;
-  gap: 8px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 10px;
+  gap: .75rem;
+  padding: .65rem 1rem;
+  border: 1px solid #d9d9d9;
+  border-radius: .5rem;
+  background: #fff;
   cursor: pointer;
+  transition: border-color .2s ease, background-color .2s ease;
+  width: 100%;
+  font-size: .875rem;
   min-width: 180px;
   color: var(--black);
   font-weight: bold;
@@ -38488,7 +38493,7 @@ table.table-default.data-table-style tr td {
 
 .gateway_option:has(input[type="radio"]:hover),
 .gateway_option:has(input[type="radio"]:checked) {
-  background-color: transparent;
+  /* background-color: transparent; */
   border: 1px solid var(--main-color-one);
   color: var(--main-color-one);
 }
