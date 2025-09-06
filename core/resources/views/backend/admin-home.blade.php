@@ -1452,6 +1452,13 @@
                 const labels = Object.keys(data);
                 const values = Object.values(data).map(val => parseFloat(val) || 0);
 
+                let chartTitle = '';
+                if (chartType.toLowerCase() === 'daily') {
+                    chartTitle = 'Last 7 Days';
+                } else {
+                    chartTitle = chartType.charAt(0).toUpperCase() + chartType.slice(1);
+                }
+
                 chart.updateOptions({
                     series: [{
                         name: 'Net Profit',
@@ -1472,7 +1479,7 @@
                         categories: labels
                     },
                     title: {
-                        text: 'Order Revenue - ' + chartType.charAt(0).toUpperCase() + chartType.slice(1)
+                        text: 'Order Revenue - ' + chartTitle
                     },
                     stroke: {
                         show: true,
@@ -1645,6 +1652,13 @@
                 const labels = Object.keys(data);
                 const values = Object.values(data).map(val => parseFloat(val) || 0);
 
+                let chartTitle = '';
+                if (chartType.toLowerCase() === 'daily') {
+                    chartTitle = 'Last 7 Days';
+                } else {
+                    chartTitle = chartType.charAt(0).toUpperCase() + chartType.slice(1);
+                }
+
                 top_vendor_chart.updateOptions({
                     series: [{
                         name: 'Net Profit',
@@ -1665,8 +1679,7 @@
                         categories: labels
                     },
                     title: {
-                        text: 'Top Selling Vendors - ' + chartType.charAt(0).toUpperCase() + chartType
-                            .slice(1)
+                        text: 'Top Selling Vendors - ' + chartTitle
                     },
                     stroke: {
                         show: true,
@@ -1839,6 +1852,14 @@
                 const labels = Object.keys(data);
                 const values = Object.values(data).map(val => parseInt(val) || 0);
 
+                let chartTitle = '';
+                if (chartType.toLowerCase() === 'daily') {
+                    chartTitle = 'Last 7 Days';
+                } else {
+                    chartTitle = chartType.charAt(0).toUpperCase() + chartType.slice(1);
+                }
+
+
                 sp_top_vendors_chart.updateOptions({
                     series: [{
                         name: 'Total Sold',
@@ -1859,8 +1880,7 @@
                         categories: labels
                     },
                     title: {
-                        text: 'Top Selling Products - ' + chartType.charAt(0).toUpperCase() + chartType
-                            .slice(1)
+                        text: 'Top Selling Products - ' + chartTitle
                     },
                     stroke: {
                         show: true,
@@ -2033,6 +2053,13 @@
                 const labels = Object.keys(data);
                 const values = Object.values(data).map(val => parseFloat(val) || 0);
 
+                let chartTitle = '';
+                if (chartType.toLowerCase() === 'daily') {
+                    chartTitle = 'Last 7 Days';
+                } else {
+                    chartTitle = chartType.charAt(0).toUpperCase() + chartType.slice(1);
+                }
+
                 financial_summary_two_chart.updateOptions({
                     series: [{
                         name: 'Revenue',
@@ -2053,8 +2080,7 @@
                         categories: labels
                     },
                     title: {
-                        text: 'Pending Vendor Payouts - ' + chartType.charAt(0).toUpperCase() + chartType
-                            .slice(1)
+                        text: 'Pending Vendor Payouts - ' + chartTitle
                     },
                     stroke: {
                         show: true,
@@ -2235,6 +2261,12 @@
             function updateChart(data, chartType) {
                 const labels = Object.keys(data);
                 const values = Object.values(data).map(val => parseInt(val) || 0);
+                let chartTitle = '';
+                if (chartType.toLowerCase() === 'daily') {
+                    chartTitle = 'Last 7 Days';
+                } else {
+                    chartTitle = chartType.charAt(0).toUpperCase() + chartType.slice(1);
+                }
 
                 campaign_one_chart.updateOptions({
                     series: [{
@@ -2259,8 +2291,7 @@
                         categories: labels
                     },
                     title: {
-                        text: 'Campaign Creation - ' + chartType.charAt(0).toUpperCase() + chartType.slice(
-                            1)
+                        text: 'Campaign Creation - ' + chartTitle
                     },
                     stroke: {
                         show: true,
