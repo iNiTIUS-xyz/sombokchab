@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Blog;
 use App\User;
 use App\Admin;
 use App\Language;
@@ -18,7 +17,6 @@ use Modules\Order\Entities\SubOrder;
 use Modules\Product\Entities\Product;
 use Modules\Campaign\Entities\Campaign;
 use Modules\Refund\Entities\RefundRequest;
-use Modules\Order\Entities\OrderPaymentMeta;
 use Modules\Product\Entities\ProductSellInfo;
 use Modules\SupportTicket\Entities\SupportTicket;
 use Modules\Wallet\Entities\VendorWithdrawRequest;
@@ -27,8 +25,6 @@ class AdminDashboardController extends Controller
 {
     public function adminIndex()
     {
-
-
         $top_vendors = SubOrder::selectRaw("vendors.owner_name as label, SUM(total_amount) as amount")
             ->join('vendors', 'sub_orders.vendor_id', '=', 'vendors.id')
             ->whereNotNull('vendor_id')
@@ -38,7 +34,6 @@ class AdminDashboardController extends Controller
             ->limit(10)
             ->get();
 
-        // Step 1: Get top vendors by amount
         $topVendors = SubOrder::selectRaw("
                 vendors.id,
                 vendors.owner_name as name,
@@ -63,7 +58,7 @@ class AdminDashboardController extends Controller
             ->whereIn('id', $vendorIds)
             ->get()
             ->map(function ($vendor) use ($topVendors) {
-                // Match total amount from $topVendors
+
                 $amount = $topVendors->firstWhere('id', $vendor->id)->total_amount;
 
                 return [
@@ -510,7 +505,6 @@ class AdminDashboardController extends Controller
         $query = SubOrder::query()
             ->whereHas('orderTrack', fn($q) => $q->where('name', 'delivered'));
 
-        // Apply date filter if provided
         if ($startDate && $endDate) {
             $query->whereBetween('created_at', [
                 Carbon::parse($startDate)->startOfDay(),
@@ -529,7 +523,6 @@ class AdminDashboardController extends Controller
                 break;
 
             case 'weekly':
-                // Current month's weekly data
                 $data = $query->selectRaw("
                     WEEK(created_at, 1) as week_number,
                     YEAR(created_at) as year,
@@ -549,7 +542,6 @@ class AdminDashboardController extends Controller
                 break;
 
             case 'monthly':
-                // Current year's monthly data
                 $data = $query->selectRaw("
                     MONTH(created_at) as month_number,
                     YEAR(created_at) as year,
@@ -568,7 +560,6 @@ class AdminDashboardController extends Controller
                 break;
 
             case 'yearly':
-                // Last 5 years' data
                 $data = $query->selectRaw("
                     YEAR(created_at) as year,
                     SUM(total_amount) as amount
@@ -601,7 +592,6 @@ class AdminDashboardController extends Controller
             ->whereNotNull('sub_orders.vendor_id')
             ->whereHas('orderTrack', fn($q) => $q->where('name', 'delivered'));
 
-        // Apply date filter if provided
         if ($startDate && $endDate) {
             $query->whereBetween('sub_orders.created_at', [
                 Carbon::parse($startDate)->startOfDay(),
@@ -624,7 +614,6 @@ class AdminDashboardController extends Controller
                 break;
 
             case 'weekly':
-                // Current month's weekly data
                 $data = $query->selectRaw("
                     vendors.owner_name as label,
                     WEEK(sub_orders.created_at, 1) as week_number,
@@ -645,7 +634,6 @@ class AdminDashboardController extends Controller
                 break;
 
             case 'monthly':
-                // Current year's monthly data
                 $data = $query->selectRaw("
                     vendors.owner_name as label,
                     MONTH(sub_orders.created_at) as month_number,
@@ -665,7 +653,6 @@ class AdminDashboardController extends Controller
                 break;
 
             case 'yearly':
-                // Last 5 years' data
                 $data = $query->selectRaw("
                     vendors.owner_name as label,
                     YEAR(sub_orders.created_at) as year,
@@ -703,7 +690,6 @@ class AdminDashboardController extends Controller
             ->join('products', 'sub_order_items.product_id', '=', 'products.id')
             ->select('products.name as label', DB::raw('SUM(sub_order_items.quantity) as total_quantity'));
 
-        // Apply date filter if provided
         if ($startDate && $endDate) {
             $query->whereBetween('orders.created_at', [
                 Carbon::parse($startDate)->startOfDay(),
@@ -722,7 +708,6 @@ class AdminDashboardController extends Controller
                 break;
 
             case 'weekly':
-                // Current month's weekly data
                 $data = $query->selectRaw("
                     products.name as label,
                     WEEK(orders.created_at, 1) as week_number,
@@ -743,7 +728,6 @@ class AdminDashboardController extends Controller
                 break;
 
             case 'monthly':
-                // Current year's monthly data
                 $data = $query->selectRaw("
                     products.name as label,
                     MONTH(orders.created_at) as month_number,
@@ -763,7 +747,6 @@ class AdminDashboardController extends Controller
                 break;
 
             case 'yearly':
-                // Last 5 years' data
                 $data = $query->selectRaw("
                     products.name as label,
                     YEAR(orders.created_at) as year,
@@ -799,7 +782,6 @@ class AdminDashboardController extends Controller
         $query = DB::table('vendor_withdraw_requests')
             ->where('request_status', 'pending');
 
-        // Apply date filter if provided
         if ($startDate && $endDate) {
             $query->whereBetween('created_at', [
                 Carbon::parse($startDate)->startOfDay(),
@@ -818,7 +800,6 @@ class AdminDashboardController extends Controller
                 break;
 
             case 'weekly':
-                // Current month's weekly data
                 $data = $query->selectRaw("
                     WEEK(created_at, 1) as week_number,
                     YEAR(created_at) as year,
@@ -838,7 +819,6 @@ class AdminDashboardController extends Controller
                 break;
 
             case 'monthly':
-                // Current year's monthly data
                 $data = $query->selectRaw("
                     MONTH(created_at) as month_number,
                     YEAR(created_at) as year,
@@ -857,7 +837,6 @@ class AdminDashboardController extends Controller
                 break;
 
             case 'yearly':
-                // Last 5 years' data
                 $data = $query->selectRaw("
                     YEAR(created_at) as year,
                     SUM(amount) as total
@@ -886,7 +865,6 @@ class AdminDashboardController extends Controller
 
         $query = Campaign::query();
 
-        // Apply date filter if provided
         if ($startDate && $endDate) {
             $query->whereBetween('created_at', [
                 Carbon::parse($startDate)->startOfDay(),
@@ -905,7 +883,6 @@ class AdminDashboardController extends Controller
                 break;
 
             case 'weekly':
-                // Current month's weekly data
                 $data = $query->selectRaw("
                         WEEK(created_at, 1) as week_number,
                         YEAR(created_at) as year,
@@ -925,7 +902,6 @@ class AdminDashboardController extends Controller
                 break;
 
             case 'monthly':
-                // Current year's monthly data
                 $data = $query->selectRaw("
                     MONTH(created_at) as month_number,
                     YEAR(created_at) as year,
@@ -971,7 +947,7 @@ class AdminDashboardController extends Controller
         return view('backend.health')->with(['all_user' => $all_user]);
     }
 
-    public function get_chart_data(Request $request)
+    public function get_chart_data()
     {
         $all_sell_amount = ProductSellInfo::select('total_amount', 'created_at')
             ->whereYear('created_at', date('Y'))
@@ -999,7 +975,6 @@ class AdminDashboardController extends Controller
     {
         $all_sales_total_per_month = ProductSellInfo::select('total_amount', 'created_at')
             ->where(['status' => 'complete'])
-            // ->whereMonth('created_at',date('m'))
             ->whereDate('created_at', '>', Carbon::now()->subDays(30))
             ->get()
             ->groupBy(function ($query) {
@@ -1018,11 +993,8 @@ class AdminDashboardController extends Controller
         ]);
     }
 
-    public function getSaleCountPerDayChartData(Request $request)
+    public function getSaleCountPerDayChartData()
     {
-        /* -----------------------------------------------------
-           TOTAL SALES Per Day In last 30 days
-       -------------------------------------------------------- */
         $chart_labels = [];
         $chart_data = [];
 
@@ -1045,11 +1017,8 @@ class AdminDashboardController extends Controller
         ]);
     }
 
-    public function getOrderCountPerDayChartData(Request $request)
+    public function getOrderCountPerDayChartData()
     {
-        /* -----------------------------------------------------
-           TOTAL SALES Per Day In last 30 days
-       -------------------------------------------------------- */
         $chart_labels = [];
         $chart_data = [];
 
@@ -1183,6 +1152,7 @@ class AdminDashboardController extends Controller
             'blog_page_recent_post_widget_title' => 'nullable',
             'blog_page_recent_post_widget_item' => 'nullable',
         ]);
+
         $blog_page_title = 'blog_page_title';
         $blog_page_item = 'blog_page_item';
         $blog_page_category_widget_title = 'blog_page_category_widget_title';

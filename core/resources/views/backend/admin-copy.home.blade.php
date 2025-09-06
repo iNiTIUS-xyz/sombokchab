@@ -6,70 +6,7 @@
 
 @section('style')
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-    <style>
-        .badge-custom {
-            background-color: #dee2e6;
-            color: #000;
-            font-size: 14px;
-            margin-right: 5px;
-        }
-
-        .section-title {
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-
-        .view-all {
-            float: right;
-            color: green;
-            font-weight: 500;
-            text-decoration: none;
-        }
-
-        .view-all:hover {
-            text-decoration: underline;
-        }
-
-        .vendor-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .vendor-number {
-            font-weight: 600;
-            margin-right: 10px;
-            font-size: 1rem;
-            width: 20px;
-            text-align: right;
-        }
-
-        .vendor-img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #28a745;
-            margin-right: 10px;
-        }
-
-        .vendor-name {
-            font-weight: 500;
-            font-size: 1rem;
-            color: #333;
-        }
-
-        .subtitle {
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            font-weight: 600;
-            color: #198754;
-            margin-bottom: 20px;
-            letter-spacing: 0.5px;
-        }
-    </style>
 @endsection
-
 @section('content')
     <div class="row">
         {{-- Webstie Stats --}}
@@ -806,7 +743,6 @@
                 <div class="card-body">
                     <h4 class="mb-4">Performance Monitoring</h4>
                     <div class="row g-3">
-                        <!-- Page Load Time -->
                         <div class="col-md-4">
                             <div class="card shadow-sm rounded-3 text-center p-3">
                                 <div class="row g-3 mt-2">
@@ -918,7 +854,7 @@
                                     </span>
                                 </div>
                             </div>
-                            {{-- <div class="col-6">
+                            <div class="col-6">
                                 <div class="p-2 bg-light rounded d-flex justify-content-between align-items-center">
                                     <small>Recent Login Failures</small>
                                     <span class="text-warning fw-bold">7</span>
@@ -929,7 +865,7 @@
                                     <small>Potential IP Anomalies</small>
                                     <span class="text-danger fw-bold">4</span>
                                 </div>
-                            </div> --}}
+                            </div>
                         </div>
                     </div>
                 </div>
