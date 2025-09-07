@@ -515,7 +515,7 @@ class AdminDashboardController extends Controller
         switch ($type) {
             case 'daily':
                 $data = $query->selectRaw("DATE_FORMAT(created_at, '%Y-%m-%d') as date, SUM(total_amount) as amount")
-                    ->where('created_at', '>=', Carbon::now()->subDays(6)->startOfDay())
+                    ->when(!$startDate || !$endDate, fn($q) => $q->where('created_at', '>=', Carbon::now()->subDays(6)->startOfDay()))
                     ->groupBy('date')
                     ->orderBy('date', 'asc')
                     ->pluck('amount', 'date')
@@ -523,54 +523,92 @@ class AdminDashboardController extends Controller
                 break;
 
             case 'weekly':
-                $data = $query->selectRaw("
-                    WEEK(created_at, 1) as week_number,
+                if ($startDate && $endDate) {
+                    $data = $query->selectRaw("
                     YEAR(created_at) as year,
-                    CONCAT('Week ', WEEK(created_at, 1) - WEEK(CURRENT_DATE - INTERVAL 1 MONTH, 1) + 1) as week,
+                    WEEK(created_at, 1) as week_number,
+                    CONCAT('Week ', WEEK(created_at, 1)) as week,
                     SUM(total_amount) as amount
                 ")
-                    ->where('created_at', '>=', Carbon::now()->startOfMonth())
-                    ->where('created_at', '<=', Carbon::now()->endOfMonth())
-                    ->groupBy('year', 'week_number', 'week')
-                    ->orderBy('year', 'asc')
-                    ->orderBy('week_number', 'asc')
-                    ->get()
-                    ->mapWithKeys(function ($item) {
-                        return [$item->week => $item->amount];
-                    })
-                    ->toArray();
+                        ->groupBy('year', 'week_number', 'week')
+                        ->orderBy('year', 'asc')
+                        ->orderBy('week_number', 'asc')
+                        ->get()
+                        ->mapWithKeys(fn($item) => [$item->week => $item->amount])
+                        ->toArray();
+                } else {
+                    $data = $query->selectRaw("
+                    YEAR(created_at) as year,
+                    WEEK(created_at, 1) as week_number,
+                    CONCAT('Week ', WEEK(created_at, 1)) as week,
+                    SUM(total_amount) as amount
+                ")
+                        ->where('created_at', '>=', Carbon::now()->startOfMonth())
+                        ->where('created_at', '<=', Carbon::now()->endOfMonth())
+                        ->groupBy('year', 'week_number', 'week')
+                        ->orderBy('year', 'asc')
+                        ->orderBy('week_number', 'asc')
+                        ->get()
+                        ->mapWithKeys(fn($item) => [$item->week => $item->amount])
+                        ->toArray();
+                }
                 break;
 
             case 'monthly':
-                $data = $query->selectRaw("
-                    MONTH(created_at) as month_number,
+                if ($startDate && $endDate) {
+                    $data = $query->selectRaw("
                     YEAR(created_at) as year,
+                    MONTH(created_at) as month_number,
+                    DATE_FORMAT(created_at, '%M %Y') as month_name,
+                    SUM(total_amount) as amount
+                ")
+                        ->groupBy('year', 'month_number', 'month_name')
+                        ->orderBy('year', 'asc')
+                        ->orderBy('month_number', 'asc')
+                        ->get()
+                        ->mapWithKeys(fn($item) => [$item->month_name => $item->amount])
+                        ->toArray();
+                } else {
+                    $data = $query->selectRaw("
+                    YEAR(created_at) as year,
+                    MONTH(created_at) as month_number,
                     DATE_FORMAT(created_at, '%M') as month_name,
                     SUM(total_amount) as amount
                 ")
-                    ->whereYear('created_at', Carbon::now()->year)
-                    ->groupBy('year', 'month_number', 'month_name')
-                    ->orderBy('year', 'asc')
-                    ->orderBy('month_number', 'asc')
-                    ->get()
-                    ->mapWithKeys(function ($item) {
-                        return [$item->month_name => $item->amount];
-                    })
-                    ->toArray();
+                        ->whereYear('created_at', Carbon::now()->year)
+                        ->groupBy('year', 'month_number', 'month_name')
+                        ->orderBy('year', 'asc')
+                        ->orderBy('month_number', 'asc')
+                        ->get()
+                        ->mapWithKeys(fn($item) => [$item->month_name => $item->amount])
+                        ->toArray();
+                }
                 break;
 
             case 'yearly':
-                $data = $query->selectRaw("
+                if ($startDate && $endDate) {
+                    $data = $query->selectRaw("
                     YEAR(created_at) as year,
                     SUM(total_amount) as amount
                 ")
-                    ->where('created_at', '>=', Carbon::now()->subYears(5)->startOfYear())
-                    ->where('created_at', '<=', Carbon::now()->endOfYear())
-                    ->groupBy('year')
-                    ->orderBy('year', 'asc')
-                    ->get()
-                    ->pluck('amount', 'year')
-                    ->toArray();
+                        ->groupBy('year')
+                        ->orderBy('year', 'asc')
+                        ->get()
+                        ->pluck('amount', 'year')
+                        ->toArray();
+                } else {
+                    $data = $query->selectRaw("
+                    YEAR(created_at) as year,
+                    SUM(total_amount) as amount
+                ")
+                        ->where('created_at', '>=', Carbon::now()->subYears(5)->startOfYear())
+                        ->where('created_at', '<=', Carbon::now()->endOfYear())
+                        ->groupBy('year')
+                        ->orderBy('year', 'asc')
+                        ->get()
+                        ->pluck('amount', 'year')
+                        ->toArray();
+                }
                 break;
 
             default:
@@ -602,10 +640,10 @@ class AdminDashboardController extends Controller
         switch ($type) {
             case 'daily':
                 $data = $query->selectRaw("
-                    vendors.owner_name as label,
-                    SUM(sub_orders.total_amount) as amount
-                ")
-                    ->where('sub_orders.created_at', '>=', Carbon::now()->subDays(6)->startOfDay())
+                vendors.owner_name as label,
+                SUM(sub_orders.total_amount) as amount
+            ")
+                    ->when(!$startDate || !$endDate, fn($q) => $q->where('sub_orders.created_at', '>=', Carbon::now()->subDays(6)->startOfDay()))
                     ->groupBy('label')
                     ->orderByDesc('amount')
                     ->limit(10)
@@ -614,61 +652,118 @@ class AdminDashboardController extends Controller
                 break;
 
             case 'weekly':
-                $data = $query->selectRaw("
+                if ($startDate && $endDate) {
+                    $data = $query->selectRaw("
                     vendors.owner_name as label,
+                    YEAR(sub_orders.created_at) as year,
                     WEEK(sub_orders.created_at, 1) as week_number,
-                    CONCAT('Week ', WEEK(sub_orders.created_at, 1) - WEEK(CURRENT_DATE - INTERVAL 1 MONTH, 1) + 1, ': ', vendors.owner_name) as week_label,
+                    CONCAT('Week ', WEEK(sub_orders.created_at, 1)) as week_label,
                     SUM(sub_orders.total_amount) as amount
                 ")
-                    ->where('sub_orders.created_at', '>=', Carbon::now()->startOfMonth())
-                    ->where('sub_orders.created_at', '<=', Carbon::now()->endOfMonth())
-                    ->groupBy('label', 'week_number', 'week_label')
-                    ->get()
-                    ->groupBy('label')
-                    ->map(function ($group) {
-                        return $group->sum('amount');
-                    })
-                    ->sortDesc()
-                    ->take(10)
-                    ->toArray();
+                        ->groupBy('label', 'year', 'week_number', 'week_label')
+                        ->get()
+                        ->groupBy('label')
+                        ->map(function ($group) {
+                            return $group->sum('amount');
+                        })
+                        ->sortDesc()
+                        ->take(10)
+                        ->toArray();
+                } else {
+                    $data = $query->selectRaw("
+                    vendors.owner_name as label,
+                    YEAR(sub_orders.created_at) as year,
+                    WEEK(sub_orders.created_at, 1) as week_number,
+                    CONCAT('Week ', WEEK(sub_orders.created_at, 1)) as week_label,
+                    SUM(sub_orders.total_amount) as amount
+                ")
+                        ->where('sub_orders.created_at', '>=', Carbon::now()->startOfMonth())
+                        ->where('sub_orders.created_at', '<=', Carbon::now()->endOfMonth())
+                        ->groupBy('label', 'year', 'week_number', 'week_label')
+                        ->get()
+                        ->groupBy('label')
+                        ->map(function ($group) {
+                            return $group->sum('amount');
+                        })
+                        ->sortDesc()
+                        ->take(10)
+                        ->toArray();
+                }
                 break;
 
             case 'monthly':
-                $data = $query->selectRaw("
+                if ($startDate && $endDate) {
+                    $data = $query->selectRaw("
                     vendors.owner_name as label,
+                    YEAR(sub_orders.created_at) as year,
+                    MONTH(sub_orders.created_at) as month_number,
+                    DATE_FORMAT(sub_orders.created_at, '%M %Y') as month_name,
+                    SUM(sub_orders.total_amount) as amount
+                ")
+                        ->groupBy('label', 'year', 'month_number', 'month_name')
+                        ->get()
+                        ->groupBy('label')
+                        ->map(function ($group) {
+                            return $group->sum('amount');
+                        })
+                        ->sortDesc()
+                        ->take(10)
+                        ->toArray();
+                } else {
+                    $data = $query->selectRaw("
+                    vendors.owner_name as label,
+                    YEAR(sub_orders.created_at) as year,
                     MONTH(sub_orders.created_at) as month_number,
                     DATE_FORMAT(sub_orders.created_at, '%M') as month_name,
                     SUM(sub_orders.total_amount) as amount
                 ")
-                    ->whereYear('sub_orders.created_at', Carbon::now()->year)
-                    ->groupBy('label', 'month_number', 'month_name')
-                    ->get()
-                    ->groupBy('label')
-                    ->map(function ($group) {
-                        return $group->sum('amount');
-                    })
-                    ->sortDesc()
-                    ->take(10)
-                    ->toArray();
+                        ->whereYear('sub_orders.created_at', Carbon::now()->year)
+                        ->groupBy('label', 'year', 'month_number', 'month_name')
+                        ->get()
+                        ->groupBy('label')
+                        ->map(function ($group) {
+                            return $group->sum('amount');
+                        })
+                        ->sortDesc()
+                        ->take(10)
+                        ->toArray();
+                }
                 break;
 
             case 'yearly':
-                $data = $query->selectRaw("
+                if ($startDate && $endDate) {
+                    $data = $query->selectRaw("
                     vendors.owner_name as label,
                     YEAR(sub_orders.created_at) as year,
                     SUM(sub_orders.total_amount) as amount
                 ")
-                    ->where('sub_orders.created_at', '>=', Carbon::now()->subYears(5)->startOfYear())
-                    ->where('sub_orders.created_at', '<=', Carbon::now()->endOfYear())
-                    ->groupBy('label', 'year')
-                    ->get()
-                    ->groupBy('label')
-                    ->map(function ($group) {
-                        return $group->sum('amount');
-                    })
-                    ->sortDesc()
-                    ->take(10)
-                    ->toArray();
+                        ->groupBy('label', 'year')
+                        ->get()
+                        ->groupBy('label')
+                        ->map(function ($group) {
+                            return $group->sum('amount');
+                        })
+                        ->sortDesc()
+                        ->take(10)
+                        ->toArray();
+                } else {
+                    $data = $query->selectRaw("
+                    vendors.owner_name as label,
+                    YEAR(sub_orders.created_at) as year,
+                    SUM(sub_orders.total_amount) as amount
+                ")
+                        ->where('sub_orders.created_at', '>=', Carbon::now()->subYears(5)->startOfYear())
+                        ->where('sub_orders.created_at', '<=', Carbon::now()->endOfYear())
+                        ->groupBy('label', 'year')
+                        ->get()
+                        ->groupBy('label')
+                        ->map(function ($group) {
+                            return $group->sum('amount');
+                        })
+                        ->sortDesc()
+                        ->take(10)
+                        ->toArray();
+                }
                 break;
 
             default:
