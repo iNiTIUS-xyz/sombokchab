@@ -887,7 +887,7 @@ class AdminDashboardController extends Controller
         switch ($type) {
             case 'daily':
                 $data = $query->selectRaw("DATE_FORMAT(created_at, '%Y-%m-%d') as date, SUM(amount) as total")
-                    ->where('created_at', '>=', Carbon::now()->subDays(6)->startOfDay())
+                    ->when(!$startDate || !$endDate, fn($q) => $q->where('created_at', '>=', Carbon::now()->subDays(6)->startOfDay()))
                     ->groupBy('date')
                     ->orderBy('date', 'asc')
                     ->pluck('total', 'date')
@@ -895,53 +895,90 @@ class AdminDashboardController extends Controller
                 break;
 
             case 'weekly':
-                $data = $query->selectRaw("
-                    WEEK(created_at, 1) as week_number,
+                if ($startDate && $endDate) {
+                    $data = $query->selectRaw("
                     YEAR(created_at) as year,
-                    CONCAT('Week ', WEEK(created_at, 1) - WEEK(CURRENT_DATE - INTERVAL 1 MONTH, 1) + 1) as week,
+                    WEEK(created_at, 1) as week_number,
+                    CONCAT('Week ', WEEK(created_at, 1)) as week,
                     SUM(amount) as total
                 ")
-                    ->where('created_at', '>=', Carbon::now()->startOfMonth())
-                    ->where('created_at', '<=', Carbon::now()->endOfMonth())
-                    ->groupBy('year', 'week_number', 'week')
-                    ->orderBy('year', 'asc')
-                    ->orderBy('week_number', 'asc')
-                    ->get()
-                    ->mapWithKeys(function ($item) {
-                        return [$item->week => $item->total];
-                    })
-                    ->toArray();
+                        ->groupBy('year', 'week_number', 'week')
+                        ->orderBy('year', 'asc')
+                        ->orderBy('week_number', 'asc')
+                        ->get()
+                        ->mapWithKeys(fn($item) => [$item->week => $item->total])
+                        ->toArray();
+                } else {
+                    $data = $query->selectRaw("
+                    YEAR(created_at) as year,
+                    WEEK(created_at, 1) as week_number,
+                    CONCAT('Week ', WEEK(created_at, 1)) as week,
+                    SUM(amount) as total
+                ")
+                        ->where('created_at', '>=', Carbon::now()->startOfMonth())
+                        ->where('created_at', '<=', Carbon::now()->endOfMonth())
+                        ->groupBy('year', 'week_number', 'week')
+                        ->orderBy('year', 'asc')
+                        ->orderBy('week_number', 'asc')
+                        ->get()
+                        ->mapWithKeys(fn($item) => [$item->week => $item->total])
+                        ->toArray();
+                }
                 break;
 
             case 'monthly':
-                $data = $query->selectRaw("
-                    MONTH(created_at) as month_number,
+                if ($startDate && $endDate) {
+                    $data = $query->selectRaw("
                     YEAR(created_at) as year,
+                    MONTH(created_at) as month_number,
+                    DATE_FORMAT(created_at, '%M %Y') as month_name,
+                    SUM(amount) as total
+                ")
+                        ->groupBy('year', 'month_number', 'month_name')
+                        ->orderBy('year', 'asc')
+                        ->orderBy('month_number', 'asc')
+                        ->get()
+                        ->mapWithKeys(fn($item) => [$item->month_name => $item->total])
+                        ->toArray();
+                } else {
+                    $data = $query->selectRaw("
+                    YEAR(created_at) as year,
+                    MONTH(created_at) as month_number,
                     DATE_FORMAT(created_at, '%M') as month_name,
                     SUM(amount) as total
                 ")
-                    ->whereYear('created_at', Carbon::now()->year)
-                    ->groupBy('year', 'month_number', 'month_name')
-                    ->orderBy('year', 'asc')
-                    ->orderBy('month_number', 'asc')
-                    ->get()
-                    ->mapWithKeys(function ($item) {
-                        return [$item->month_name => $item->total];
-                    })
-                    ->toArray();
+                        ->whereYear('created_at', Carbon::now()->year)
+                        ->groupBy('year', 'month_number', 'month_name')
+                        ->orderBy('year', 'asc')
+                        ->orderBy('month_number', 'asc')
+                        ->get()
+                        ->mapWithKeys(fn($item) => [$item->month_name => $item->total])
+                        ->toArray();
+                }
                 break;
 
             case 'yearly':
-                $data = $query->selectRaw("
+                if ($startDate && $endDate) {
+                    $data = $query->selectRaw("
                     YEAR(created_at) as year,
                     SUM(amount) as total
                 ")
-                    ->where('created_at', '>=', Carbon::now()->subYears(5)->startOfYear())
-                    ->where('created_at', '<=', Carbon::now()->endOfYear())
-                    ->groupBy('year')
-                    ->orderBy('year', 'asc')
-                    ->pluck('total', 'year')
-                    ->toArray();
+                        ->groupBy('year')
+                        ->orderBy('year', 'asc')
+                        ->pluck('total', 'year')
+                        ->toArray();
+                } else {
+                    $data = $query->selectRaw("
+                    YEAR(created_at) as year,
+                    SUM(amount) as total
+                ")
+                        ->where('created_at', '>=', Carbon::now()->subYears(5)->startOfYear())
+                        ->where('created_at', '<=', Carbon::now()->endOfYear())
+                        ->groupBy('year')
+                        ->orderBy('year', 'asc')
+                        ->pluck('total', 'year')
+                        ->toArray();
+                }
                 break;
 
             default:
@@ -951,7 +988,6 @@ class AdminDashboardController extends Controller
 
         return response()->json($data);
     }
-
     public function getCampaignData(Request $request)
     {
         $type = $request->input('type');
@@ -970,7 +1006,7 @@ class AdminDashboardController extends Controller
         switch ($type) {
             case 'daily':
                 $data = $query->selectRaw("DATE_FORMAT(created_at, '%Y-%m-%d') as date, COUNT(*) as count")
-                    ->where('created_at', '>=', Carbon::now()->subDays(6)->startOfDay())
+                    ->when(!$startDate || !$endDate, fn($q) => $q->where('created_at', '>=', Carbon::now()->subDays(6)->startOfDay()))
                     ->groupBy('date')
                     ->orderBy('date', 'asc')
                     ->pluck('count', 'date')
@@ -978,53 +1014,90 @@ class AdminDashboardController extends Controller
                 break;
 
             case 'weekly':
-                $data = $query->selectRaw("
-                        WEEK(created_at, 1) as week_number,
-                        YEAR(created_at) as year,
-                        CONCAT('Week ', WEEK(created_at, 1) - WEEK(CURRENT_DATE - INTERVAL 1 MONTH, 1) + 1) as week,
-                        COUNT(*) as count
-                    ")
-                    ->where('created_at', '>=', Carbon::now()->startOfMonth())
-                    ->where('created_at', '<=', Carbon::now()->endOfMonth())
-                    ->groupBy('year', 'week_number', 'week')
-                    ->orderBy('year', 'asc')
-                    ->orderBy('week_number', 'asc')
-                    ->get()
-                    ->mapWithKeys(function ($item) {
-                        return [$item->week => $item->count];
-                    })
-                    ->toArray();
+                if ($startDate && $endDate) {
+                    $data = $query->selectRaw("
+                    YEAR(created_at) as year,
+                    WEEK(created_at, 1) as week_number,
+                    CONCAT('Week ', WEEK(created_at, 1)) as week,
+                    COUNT(*) as count
+                ")
+                        ->groupBy('year', 'week_number', 'week')
+                        ->orderBy('year', 'asc')
+                        ->orderBy('week_number', 'asc')
+                        ->get()
+                        ->mapWithKeys(fn($item) => [$item->week => $item->count])
+                        ->toArray();
+                } else {
+                    $data = $query->selectRaw("
+                    YEAR(created_at) as year,
+                    WEEK(created_at, 1) as week_number,
+                    CONCAT('Week ', WEEK(created_at, 1)) as week,
+                    COUNT(*) as count
+                ")
+                        ->where('created_at', '>=', Carbon::now()->startOfMonth())
+                        ->where('created_at', '<=', Carbon::now()->endOfMonth())
+                        ->groupBy('year', 'week_number', 'week')
+                        ->orderBy('year', 'asc')
+                        ->orderBy('week_number', 'asc')
+                        ->get()
+                        ->mapWithKeys(fn($item) => [$item->week => $item->count])
+                        ->toArray();
+                }
                 break;
 
             case 'monthly':
-                $data = $query->selectRaw("
-                    MONTH(created_at) as month_number,
+                if ($startDate && $endDate) {
+                    $data = $query->selectRaw("
                     YEAR(created_at) as year,
+                    MONTH(created_at) as month_number,
+                    DATE_FORMAT(created_at, '%M %Y') as month_name,
+                    COUNT(*) as count
+                ")
+                        ->groupBy('year', 'month_number', 'month_name')
+                        ->orderBy('year', 'asc')
+                        ->orderBy('month_number', 'asc')
+                        ->get()
+                        ->mapWithKeys(fn($item) => [$item->month_name => $item->count])
+                        ->toArray();
+                } else {
+                    $data = $query->selectRaw("
+                    YEAR(created_at) as year,
+                    MONTH(created_at) as month_number,
                     DATE_FORMAT(created_at, '%M') as month_name,
                     COUNT(*) as count
                 ")
-                    ->whereYear('created_at', Carbon::now()->year)
-                    ->groupBy('year', 'month_number', 'month_name')
-                    ->orderBy('year', 'asc')
-                    ->orderBy('month_number', 'asc')
-                    ->get()
-                    ->mapWithKeys(function ($item) {
-                        return [$item->month_name => $item->count];
-                    })
-                    ->toArray();
+                        ->whereYear('created_at', Carbon::now()->year)
+                        ->groupBy('year', 'month_number', 'month_name')
+                        ->orderBy('year', 'asc')
+                        ->orderBy('month_number', 'asc')
+                        ->get()
+                        ->mapWithKeys(fn($item) => [$item->month_name => $item->count])
+                        ->toArray();
+                }
                 break;
 
             case 'yearly':
-                $data = $query->selectRaw("
-                        YEAR(created_at) as year,
-                        COUNT(*) as count
-                    ")
-                    ->where('created_at', '>=', Carbon::now()->subYears(5)->startOfYear())
-                    ->where('created_at', '<=', Carbon::now()->endOfYear())
-                    ->groupBy('year')
-                    ->orderBy('year', 'asc')
-                    ->pluck('count', 'year')
-                    ->toArray();
+                if ($startDate && $endDate) {
+                    $data = $query->selectRaw("
+                    YEAR(created_at) as year,
+                    COUNT(*) as count
+                ")
+                        ->groupBy('year')
+                        ->orderBy('year', 'asc')
+                        ->pluck('count', 'year')
+                        ->toArray();
+                } else {
+                    $data = $query->selectRaw("
+                    YEAR(created_at) as year,
+                    COUNT(*) as count
+                ")
+                        ->where('created_at', '>=', Carbon::now()->subYears(5)->startOfYear())
+                        ->where('created_at', '<=', Carbon::now()->endOfYear())
+                        ->groupBy('year')
+                        ->orderBy('year', 'asc')
+                        ->pluck('count', 'year')
+                        ->toArray();
+                }
                 break;
 
             default:
