@@ -51,7 +51,6 @@ class AdminDashboardController extends Controller
             ->map(function ($vendor) use ($topVendors) {
 
                 $amount = $topVendors->firstWhere('id', $vendor->id)->total_amount;
-
                 return [
                     'id' => $vendor->id,
                     'name' => $vendor->owner_name,
@@ -125,24 +124,14 @@ class AdminDashboardController extends Controller
         $baseQuery = DB::table('sub_order_items')
             ->join('orders', 'sub_order_items.order_id', '=', 'orders.id')
             ->join('products', 'sub_order_items.product_id', '=', 'products.id')
-            ->select('products.name', DB::raw('SUM(sub_order_items.quantity) as total_quantity'));
+            ->select('products.id', 'products.name', DB::raw('SUM(sub_order_items.quantity) as total_quantity'));
 
         $topProducts = (clone $baseQuery)
             ->whereYear('orders.created_at', Carbon::now()->year)
-            ->groupBy('products.name')
+            ->groupBy('products.id', 'products.name')
+            ->orderBy('total_quantity', 'desc')
             ->limit(10)
-            ->pluck('total_quantity', 'products.name');
-
-        $vendorsDaily = Vendor::select([
-            DB::raw('DATE(created_at) as date'),
-            DB::raw('COUNT(*) as count')
-        ])
-            ->where('created_at', '>=', Carbon::now()->subDays(6)->startOfDay())
-            ->groupBy('date')
-            ->orderBy('date', 'asc')
-            ->pluck('count', 'date')
-            ->toArray();
-
+            ->get();
 
         $vendorWithdrawData = [];
 

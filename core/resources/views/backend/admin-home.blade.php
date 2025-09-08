@@ -482,23 +482,27 @@
                                                         </span>
                                                         <img src="{{ file_exists($topVendors['logo']) ? asset($topVendors['logo']) : null }}"
                                                             alt="Theresa Webb" class="vendor-img">
-                                                        <span class="vendor-name">
+                                                        <a class="vendor-name" target="__blank"
+                                                            href="{{ route('admin.vendor.edit', $topVendors['id']) }}">
                                                             {{ $topVendors['name'] }}
-                                                        </span>
+                                                        </a>
                                                     </div>
                                                 </div>
                                             @endforeach
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Top Selling Products -->
                                 <div class="col-md-6">
                                     <div class="card p-4">
                                         <p class="subtitle">Top Selling Products</p>
                                         <ul class="list-unstyled product-list text-justify">
                                             @foreach ($topProducts as $key => $topProduct)
                                                 <li class="p-1">
-                                                    {{ $loop->iteration }}. {{ Str::limit($key, 80, '...') }}
+                                                    <a class="text-dark" href="{{ route('admin.products.edit', $topProduct->id) }}"
+                                                        target="__blank">
+                                                        {{ $key + 1 }}.
+                                                        {{ Str::limit($topProduct->name, 80, '...') }}
+                                                    </a>
                                                 </li>
                                             @endforeach
                                         </ul>
@@ -830,7 +834,6 @@
                 <div class="card-body">
                     <h4 class="mb-4">Performance Monitoring</h4>
                     <div class="row g-3">
-                        <!-- Page Load Time -->
                         <div class="col-md-4">
                             <div class="card shadow-sm rounded-3 text-center p-3">
                                 <div class="row g-3 mt-2">
@@ -842,7 +845,8 @@
                                     <div class="col-md-6">
                                         <div class="p-2 bg-light rounded">
                                             <small>Home Page</small>
-                                            <h5 class="mt-1 text-success">{{  round((microtime(true) - LARAVEL_START) * 1000, 2) . 's'; }}</h5>
+                                            <h5 class="mt-1 text-success">
+                                                {{ round((microtime(true) - LARAVEL_START) * 1000, 2) . 's' }}</h5>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -854,7 +858,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- API Latency -->
                         <div class="col-md-4">
                             <div class="card shadow-sm rounded-3 text-center p-3">
                                 <h6>API Latency</h6>
@@ -863,7 +866,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- User Sessions -->
                         <div class="col-md-4">
                             <div class="card shadow-sm rounded-3 text-center p-3">
                                 <h6>User Sessions</h6>
@@ -942,18 +944,6 @@
                                     </span>
                                 </div>
                             </div>
-                            {{-- <div class="col-6">
-                                <div class="p-2 bg-light rounded d-flex justify-content-between align-items-center">
-                                    <small>Recent Login Failures</small>
-                                    <span class="text-warning fw-bold">7</span>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="p-2 bg-light rounded d-flex justify-content-between align-items-center mt-2">
-                                    <small>Potential IP Anomalies</small>
-                                    <span class="text-danger fw-bold">4</span>
-                                </div>
-                            </div> --}}
                         </div>
                     </div>
                 </div>
