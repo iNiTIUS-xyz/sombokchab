@@ -842,7 +842,7 @@
                                     <div class="col-md-6">
                                         <div class="p-2 bg-light rounded">
                                             <small>Home Page</small>
-                                            <h5 class="mt-1 text-success">2s</h5>
+                                            <h5 class="mt-1 text-success">{{  round((microtime(true) - LARAVEL_START) * 1000, 2) . 's'; }}</h5>
                                         </div>
                                     </div>
                                     <div class="col-md-6">

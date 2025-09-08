@@ -12,11 +12,8 @@ use Modules\Vendor\Entities\Vendor;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Modules\Order\Entities\SubOrder;
-use Modules\Product\Entities\Product;
-use Modules\Campaign\Entities\Campaign;
 use Modules\CountryManage\Entities\City;
 use Modules\CountryManage\Entities\State;
-use Modules\Vendor\Http\Services\VendorServices;
 use Modules\SupportTicket\Entities\SupportTicket;
 
 class VendorController extends Controller
@@ -28,37 +25,6 @@ class VendorController extends Controller
 
     public function index()
     {
-        $income_daily = SubOrder::selectRaw("DATE_FORMAT(created_at, '%a') as label, SUM(total_amount) as amount")
-            ->where('vendor_id', auth("vendor")->id())
-            ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
-            ->whereHas('orderTrack', fn($q) => $q->where('name', 'delivered'))
-            ->groupBy('label')
-            ->get();
-
-        // Income Statement (Weekly - Last 4 weeks)
-        $income_weekly = SubOrder::selectRaw("YEARWEEK(created_at, 1) as week, SUM(total_amount) as amount")
-            ->where('vendor_id', auth("vendor")->id())
-            ->whereBetween('created_at', [Carbon::now()->subWeeks(4), Carbon::now()])
-            ->whereHas('orderTrack', fn($q) => $q->where('name', 'delivered'))
-            ->groupBy('week')
-            ->get();
-
-        // Income Statement (Monthly - Current Year)
-        $income_monthly = SubOrder::selectRaw("DATE_FORMAT(created_at, '%b') as label, SUM(total_amount) as amount")
-            ->where('vendor_id', auth("vendor")->id())
-            ->whereYear('created_at', Carbon::now()->year)
-            ->whereHas('orderTrack', fn($q) => $q->where('name', 'delivered'))
-            ->groupBy('label')
-            ->get();
-
-        // Income Statement (Yearly - Last 5 Years)
-        $income_yearly = SubOrder::selectRaw("YEAR(created_at) as label, SUM(total_amount) as amount")
-            ->where('vendor_id', auth("vendor")->id())
-            ->whereYear('created_at', '>=', Carbon::now()->subYears(5)->year)
-            ->whereHas('orderTrack', fn($q) => $q->where('name', 'delivered'))
-            ->groupBy('label')
-            ->get();
-
         $baseQuery = DB::table('sub_order_items')
             ->join('sub_orders', 'sub_order_items.sub_order_id', '=', 'sub_orders.id')
             ->join('orders', 'sub_orders.order_id', '=', 'orders.id')
@@ -125,20 +91,295 @@ class VendorController extends Controller
             ->get();
 
         return view("vendor::vendor.home.index", compact(
-            'income_daily',
-            'income_weekly',
-            'income_monthly',
-            'income_yearly',
-
+            'supportTickets',
             'topVendorsDaily',
             'topVendorsWeekly',
             'topVendorsMonthly',
             'topVendorsYearly',
-
-            'supportTickets'
         ));
     }
 
+    public function getIncomeData(Request $request)
+    {
+        $type = $request->input('type');
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
+        $query = SubOrder::query()
+            ->where('vendor_id', auth("vendor")->id())
+            ->whereHas('orderTrack', fn($q) => $q->where('name', 'delivered'));
+
+        if ($startDate && $endDate) {
+            $query->whereBetween('created_at', [
+                Carbon::parse($startDate)->startOfDay(),
+                Carbon::parse($endDate)->endOfDay()
+            ]);
+        }
+
+        switch ($type) {
+            case 'daily':
+                $data = $query->selectRaw("DATE_FORMAT(created_at, '%Y-%m-%d') as date, SUM(total_amount) as amount")
+                    ->when(!$startDate || !$endDate, fn($q) => $q->where('created_at', '>=', Carbon::now()->subDays(6)->startOfDay()))
+                    ->groupBy('date')
+                    ->orderBy('date', 'asc')
+                    ->pluck('amount', 'date')
+                    ->toArray();
+                break;
+
+            case 'weekly':
+                if ($startDate && $endDate) {
+                    $data = $query->selectRaw("
+                    YEAR(created_at) as year,
+                    WEEK(created_at, 1) as week_number,
+                    CONCAT('Week ', WEEK(created_at, 1)) as week,
+                    SUM(total_amount) as amount
+                ")
+                        ->groupBy('year', 'week_number', 'week')
+                        ->orderBy('year', 'asc')
+                        ->orderBy('week_number', 'asc')
+                        ->get()
+                        ->mapWithKeys(fn($item) => [$item->week => $item->amount])
+                        ->toArray();
+                } else {
+                    $data = $query->selectRaw("
+                    YEAR(created_at) as year,
+                    WEEK(created_at, 1) as week_number,
+                    CONCAT('Week ', WEEK(created_at, 1)) as week,
+                    SUM(total_amount) as amount
+                ")
+                        ->where('created_at', '>=', Carbon::now()->startOfMonth())
+                        ->where('created_at', '<=', Carbon::now()->endOfMonth())
+                        ->groupBy('year', 'week_number', 'week')
+                        ->orderBy('year', 'asc')
+                        ->orderBy('week_number', 'asc')
+                        ->get()
+                        ->mapWithKeys(fn($item) => [$item->week => $item->amount])
+                        ->toArray();
+                }
+                break;
+
+            case 'monthly':
+                if ($startDate && $endDate) {
+                    $data = $query->selectRaw("
+                    YEAR(created_at) as year,
+                    MONTH(created_at) as month_number,
+                    DATE_FORMAT(created_at, '%M %Y') as month_name,
+                    SUM(total_amount) as amount
+                ")
+                        ->groupBy('year', 'month_number', 'month_name')
+                        ->orderBy('year', 'asc')
+                        ->orderBy('month_number', 'asc')
+                        ->get()
+                        ->mapWithKeys(fn($item) => [$item->month_name => $item->amount])
+                        ->toArray();
+                } else {
+                    $data = $query->selectRaw("
+                    YEAR(created_at) as year,
+                    MONTH(created_at) as month_number,
+                    DATE_FORMAT(created_at, '%M') as month_name,
+                    SUM(total_amount) as amount
+                ")
+                        ->whereYear('created_at', Carbon::now()->year)
+                        ->groupBy('year', 'month_number', 'month_name')
+                        ->orderBy('year', 'asc')
+                        ->orderBy('month_number', 'asc')
+                        ->get()
+                        ->mapWithKeys(fn($item) => [$item->month_name => $item->amount])
+                        ->toArray();
+                }
+                break;
+
+            case 'yearly':
+                if ($startDate && $endDate) {
+                    $data = $query->selectRaw("
+                    YEAR(created_at) as year,
+                    SUM(total_amount) as amount
+                ")
+                        ->groupBy('year')
+                        ->orderBy('year', 'asc')
+                        ->get()
+                        ->pluck('amount', 'year')
+                        ->toArray();
+                } else {
+                    $data = $query->selectRaw("
+                    YEAR(created_at) as year,
+                    SUM(total_amount) as amount
+                ")
+                        ->where('created_at', '>=', Carbon::now()->subYears(5)->startOfYear())
+                        ->where('created_at', '<=', Carbon::now()->endOfYear())
+                        ->groupBy('year')
+                        ->orderBy('year', 'asc')
+                        ->get()
+                        ->pluck('amount', 'year')
+                        ->toArray();
+                }
+                break;
+
+            default:
+                $data = [];
+                break;
+        }
+
+        return response()->json($data);
+    }
+
+    public function getProductsData(Request $request)
+    {
+        $type = $request->input('type');
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('start_date');
+
+        $query = DB::table('sub_order_items')
+            ->join('sub_orders', 'sub_order_items.sub_order_id', '=', 'sub_orders.id')
+            ->join('orders', 'sub_orders.order_id', '=', 'orders.id')
+            ->join('products', 'sub_order_items.product_id', '=', 'products.id')
+            ->where('sub_orders.vendor_id', auth("vendor")->id())
+            ->select(
+                'products.name',
+                DB::raw('SUM(sub_order_items.quantity) as total_quantity')
+            );
+
+        if ($startDate && $endDate) {
+            $query->whereBetween('orders.created_at', [
+                Carbon::parse($startDate)->startOfDay(),
+                Carbon::parse($endDate)->endOfDay()
+            ]);
+        }
+
+        switch ($type) {
+            case 'daily':
+                $data = $query->selectRaw("DATE_FORMAT(orders.created_at, '%Y-%m-%d') as date, SUM(sub_order_items.quantity) as total_quantity")
+                    ->when(!$startDate || !$endDate, fn($q) => $q->where('orders.created_at', '>=', Carbon::now()->subDays(6)->startOfDay()))
+                    ->groupBy('date', 'products.name')
+                    ->orderBy('date', 'asc')
+                    ->get()
+                    ->groupBy('date')
+                    ->map(function ($group) {
+                        return $group->pluck('total_quantity', 'products.name')->toArray();
+                    })
+                    ->first() ?? [];
+                break;
+
+            case 'weekly':
+                if ($startDate && $endDate) {
+                    $data = $query->selectRaw("
+                        YEAR(orders.created_at) as year,
+                        WEEK(orders.created_at, 1) as week_number,
+                        CONCAT('Week ', WEEK(orders.created_at, 1)) as week,
+                        products.name,
+                        SUM(sub_order_items.quantity) as total_quantity
+                    ")
+                        ->groupBy('year', 'week_number', 'week', 'products.name')
+                        ->orderBy('year', 'asc')
+                        ->orderBy('week_number', 'asc')
+                        ->get()
+                        ->groupBy('week')
+                        ->map(function ($group) {
+                            return $group->pluck('total_quantity', 'products.name')->toArray();
+                        })
+                        ->first() ?? [];
+                } else {
+                    $data = $query->selectRaw("
+                        YEAR(orders.created_at) as year,
+                        WEEK(orders.created_at, 1) as week_number,
+                        CONCAT('Week ', WEEK(orders.created_at, 1)) as week,
+                        products.name,
+                        SUM(sub_order_items.quantity) as total_quantity
+                    ")
+                        ->where('orders.created_at', '>=', Carbon::now()->startOfMonth())
+                        ->where('orders.created_at', '<=', Carbon::now()->endOfMonth())
+                        ->groupBy('year', 'week_number', 'week', 'products.name')
+                        ->orderBy('year', 'asc')
+                        ->orderBy('week_number', 'asc')
+                        ->get()
+                        ->groupBy('week')
+                        ->map(function ($group) {
+                            return $group->pluck('total_quantity', 'products.name')->toArray();
+                        })
+                        ->first() ?? [];
+                }
+                break;
+
+            case 'monthly':
+                if ($startDate && $endDate) {
+                    $data = $query->selectRaw("
+                        YEAR(orders.created_at) as year,
+                        MONTH(orders.created_at) as month_number,
+                        DATE_FORMAT(orders.created_at, '%M %Y') as month_name,
+                        products.name,
+                        SUM(sub_order_items.quantity) as total_quantity
+                    ")
+                        ->groupBy('year', 'month_number', 'month_name', 'products.name')
+                        ->orderBy('year', 'asc')
+                        ->orderBy('month_number', 'asc')
+                        ->get()
+                        ->groupBy('month_name')
+                        ->map(function ($group) {
+                            return $group->pluck('total_quantity', 'products.name')->toArray();
+                        })
+                        ->first() ?? [];
+                } else {
+                    $data = $query->selectRaw("
+                        YEAR(orders.created_at) as year,
+                        MONTH(orders.created_at) as month_number,
+                        DATE_FORMAT(orders.created_at, '%M') as month_name,
+                        products.name,
+                        SUM(sub_order_items.quantity) as total_quantity
+                    ")
+                        ->whereYear('orders.created_at', Carbon::now()->year)
+                        ->groupBy('year', 'month_number', 'month_name', 'products.name')
+                        ->orderBy('year', 'asc')
+                        ->orderBy('month_number', 'asc')
+                        ->get()
+                        ->groupBy('month_name')
+                        ->map(function ($group) {
+                            return $group->pluck('total_quantity', 'products.name')->toArray();
+                        })
+                        ->first() ?? [];
+                }
+                break;
+
+            case 'yearly':
+                if ($startDate && $endDate) {
+                    $data = $query->selectRaw("
+                        YEAR(orders.created_at) as year,
+                        products.name,
+                        SUM(sub_order_items.quantity) as total_quantity
+                    ")
+                        ->groupBy('year', 'products.name')
+                        ->orderBy('year', 'asc')
+                        ->get()
+                        ->groupBy('year')
+                        ->map(function ($group) {
+                            return $group->pluck('total_quantity', 'products.name')->toArray();
+                        })
+                        ->first() ?? [];
+                } else {
+                    $data = $query->selectRaw("
+                        YEAR(orders.created_at) as year,
+                        products.name,
+                        SUM(sub_order_items.quantity) as total_quantity
+                    ")
+                        ->where('orders.created_at', '>=', Carbon::now()->subYears(5)->startOfYear())
+                        ->where('orders.created_at', '<=', Carbon::now()->endOfYear())
+                        ->groupBy('year', 'products.name')
+                        ->orderBy('year', 'asc')
+                        ->get()
+                        ->groupBy('year')
+                        ->map(function ($group) {
+                            return $group->pluck('total_quantity', 'products.name')->toArray();
+                        })
+                        ->first() ?? [];
+                }
+                break;
+
+            default:
+                $data = [];
+                break;
+        }
+
+        return response()->json($data);
+    }
 
     public function user_email_verify_index()
     {

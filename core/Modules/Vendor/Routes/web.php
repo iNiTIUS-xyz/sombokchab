@@ -39,7 +39,6 @@ Route::prefix('admin-home/vendor')->middleware(['setlang:backend', 'adminglobalV
         Route::put('individual-commission-settings', 'updateIndividualCommissionSettings')->name('individual-commission-settings')->permission('vendor-individual-commission-settings');
         Route::get('vendor-commission-information/{id?}', 'getVendorCommissionInformation')->name('get-vendor-commission-information')->permission('vendor-vendor-commission-information');
         Route::get('dummy-vendors-delete', 'delete_dummy_vendor')->name('dummy-vendor-delete');
-
     });
 });
 
@@ -59,6 +58,8 @@ Route::prefix('vendor-home')->middleware(['setlang:backend', 'adminglobalVariabl
         Route::post('get-city', 'get_city')->name('vendor.get.city');
         // admin index
         Route::get('dashboard', 'index')->name('vendor.home');
+        Route::get('income-data', 'getIncomeData')->name('vendor.income.data');
+        Route::get('products-data', 'getProductsData')->name('vendor.products.data');
         Route::get('/dark-mode-toggle', 'AdminDashboardController@dark_mode_toggle')->name('vendor.dark.mode.toggle');
         Route::get('/logout', 'VendorLoginController@logout')->name('vendor.logout');
     });
