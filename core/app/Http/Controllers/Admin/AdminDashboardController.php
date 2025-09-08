@@ -25,15 +25,6 @@ class AdminDashboardController extends Controller
 {
     public function adminIndex()
     {
-        $top_vendors = SubOrder::selectRaw("vendors.owner_name as label, SUM(total_amount) as amount")
-            ->join('vendors', 'sub_orders.vendor_id', '=', 'vendors.id')
-            ->whereNotNull('vendor_id')
-            ->whereBetween('sub_orders.created_at', [Carbon::now()->subDays(31), Carbon::now()])
-            ->groupBy('label')
-            ->orderByDesc('amount')
-            ->limit(10)
-            ->get();
-
         $topVendors = SubOrder::selectRaw("
                 vendors.id,
                 vendors.owner_name as name,
@@ -152,40 +143,6 @@ class AdminDashboardController extends Controller
             ->pluck('count', 'date')
             ->toArray();
 
-        $vendorsWeekly = Vendor::select(
-            DB::raw('DATE_FORMAT(created_at, "%Y-%U") as week'),
-            DB::raw('COUNT(*) as count')
-        )
-            ->groupBy('week')
-            ->orderBy('week', 'asc')
-            ->take(10)
-            ->get()
-            ->mapWithKeys(function ($item) {
-                return ['Week ' . $item->week => $item->count];
-            })
-            ->toArray();
-
-        $vendorsMonthly = Vendor::select(
-            DB::raw('DATE_FORMAT(created_at, "%Y-%m") as month'),
-            DB::raw('COUNT(*) as count')
-        )
-            ->groupBy('month')
-            ->orderBy('month', 'asc')
-            ->take(12)
-            ->get()
-            ->pluck('count', 'month')
-            ->toArray();
-
-        $vendorsYearly = Vendor::select(
-            DB::raw('YEAR(created_at) as year'),
-            DB::raw('COUNT(*) as count')
-        )
-            ->groupBy('year')
-            ->orderBy('year', 'asc')
-            ->take(5)
-            ->get()
-            ->pluck('count', 'year')
-            ->toArray();
 
         $vendorWithdrawData = [];
 
@@ -223,13 +180,6 @@ class AdminDashboardController extends Controller
             'totalCustomer' => $totalCustomer,
 
             'vendorWithdrawData' => $vendorWithdrawData,
-
-            'vendorsDaily' => $vendorsDaily,
-            'vendorsWeekly' => $vendorsWeekly,
-            'vendorsMonthly' => $vendorsMonthly,
-            'vendorsYearly' => $vendorsYearly,
-
-            'top_vendors' => $top_vendors,
 
             'topProducts' => $topProducts,
             'topVendorsInfos' => $topVendorsInfos,
