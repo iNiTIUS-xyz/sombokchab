@@ -194,15 +194,31 @@ class AdminDashboardController extends Controller
 
         switch ($type) {
             case 'daily':
-                $data = Vendor::select([
-                    DB::raw('DATE(created_at) as date'),
-                    DB::raw('COUNT(*) as count')
-                ])
-                    ->where('created_at', '>=', Carbon::now()->subDays(6)->startOfDay())
-                    ->groupBy('date')
-                    ->orderBy('date', 'asc')
-                    ->pluck('count', 'date')
-                    ->toArray();
+                if ($startDate && $endDate) {
+                    $data = Vendor::select([
+                        DB::raw('DATE(created_at) as date'),
+                        DB::raw('COUNT(*) as count')
+                    ])
+                        ->whereBetween('created_at', [
+                            Carbon::parse($startDate)->startOfDay(),
+                            Carbon::parse($endDate)->endOfDay()
+                        ])
+                        ->groupBy('date')
+                        ->orderBy('date', 'asc')
+                        ->pluck('count', 'date')
+                        ->toArray();
+                } else {
+                    $data = Vendor::select([
+                        DB::raw('DATE(created_at) as date'),
+                        DB::raw('COUNT(*) as count')
+                    ])
+                        ->where('created_at', '>=', Carbon::now()->startOfMonth())
+                        ->where('created_at', '<=', Carbon::now()->endOfMonth())
+                        ->groupBy('date')
+                        ->orderBy('date', 'asc')
+                        ->pluck('count', 'date')
+                        ->toArray();
+                }
                 break;
 
             case 'weekly':
@@ -327,15 +343,31 @@ class AdminDashboardController extends Controller
 
         switch ($type) {
             case 'daily':
-                $data = User::select([
-                    DB::raw('DATE(created_at) as date'),
-                    DB::raw('COUNT(*) as count')
-                ])
-                    ->where('created_at', '>=', Carbon::now()->subDays(6)->startOfDay())
-                    ->groupBy('date')
-                    ->orderBy('date', 'asc')
-                    ->pluck('count', 'date')
-                    ->toArray();
+                if ($startDate && $endDate) {
+                    $data = User::select([
+                        DB::raw('DATE(created_at) as date'),
+                        DB::raw('COUNT(*) as count')
+                    ])
+                        ->whereBetween('created_at', [
+                            Carbon::parse($startDate)->startOfDay(),
+                            Carbon::parse($endDate)->endOfDay()
+                        ])
+                        ->groupBy('date')
+                        ->orderBy('date', 'asc')
+                        ->pluck('count', 'date')
+                        ->toArray();
+                } else {
+                    $data = User::select([
+                        DB::raw('DATE(created_at) as date'),
+                        DB::raw('COUNT(*) as count')
+                    ])
+                        ->where('created_at', '>=', Carbon::now()->startOfMonth())
+                        ->where('created_at', '<=', Carbon::now()->endOfMonth())
+                        ->groupBy('date')
+                        ->orderBy('date', 'asc')
+                        ->pluck('count', 'date')
+                        ->toArray();
+                }
                 break;
 
             case 'weekly':
@@ -453,12 +485,25 @@ class AdminDashboardController extends Controller
 
         switch ($type) {
             case 'daily':
-                $data = $query->selectRaw("DATE_FORMAT(created_at, '%Y-%m-%d') as date, SUM(total_amount) as amount")
-                    ->when(!$startDate || !$endDate, fn($q) => $q->where('created_at', '>=', Carbon::now()->subDays(6)->startOfDay()))
-                    ->groupBy('date')
-                    ->orderBy('date', 'asc')
-                    ->pluck('amount', 'date')
-                    ->toArray();
+                if ($startDate && $endDate) {
+                    $data = $query->selectRaw("DATE_FORMAT(created_at, '%Y-%m-%d') as date, SUM(total_amount) as amount")
+                        ->whereBetween('created_at', [
+                            Carbon::parse($startDate)->startOfDay(),
+                            Carbon::parse($endDate)->endOfDay()
+                        ])
+                        ->groupBy('date')
+                        ->orderBy('date', 'asc')
+                        ->pluck('amount', 'date')
+                        ->toArray();
+                } else {
+                    $data = $query->selectRaw("DATE_FORMAT(created_at, '%Y-%m-%d') as date, SUM(total_amount) as amount")
+                        ->where('created_at', '>=', Carbon::now()->startOfMonth())
+                        ->where('created_at', '<=', Carbon::now()->endOfMonth())
+                        ->groupBy('date')
+                        ->orderBy('date', 'asc')
+                        ->pluck('amount', 'date')
+                        ->toArray();
+                }
                 break;
 
             case 'weekly':
@@ -578,16 +623,27 @@ class AdminDashboardController extends Controller
 
         switch ($type) {
             case 'daily':
-                $data = $query->selectRaw("
-                vendors.owner_name as label,
-                SUM(sub_orders.total_amount) as amount
-            ")
-                    ->when(!$startDate || !$endDate, fn($q) => $q->where('sub_orders.created_at', '>=', Carbon::now()->subDays(6)->startOfDay()))
-                    ->groupBy('label')
-                    ->orderByDesc('amount')
-                    ->limit(10)
-                    ->pluck('amount', 'label')
-                    ->toArray();
+                if ($startDate && $endDate) {
+                    $data = $query->selectRaw("vendors.owner_name as label, SUM(sub_orders.total_amount) as amount")
+                        ->whereBetween('sub_orders.created_at', [
+                            Carbon::parse($startDate)->startOfDay(),
+                            Carbon::parse($endDate)->endOfDay()
+                        ])
+                        ->groupBy('label')
+                        ->orderByDesc('amount')
+                        ->limit(10)
+                        ->pluck('amount', 'label')
+                        ->toArray();
+                } else {
+                    $data = $query->selectRaw("vendors.owner_name as label, SUM(sub_orders.total_amount) as amount")
+                        ->where('sub_orders.created_at', '>=', Carbon::now()->startOfMonth())
+                        ->where('sub_orders.created_at', '<=', Carbon::now()->endOfMonth())
+                        ->groupBy('label')
+                        ->orderByDesc('amount')
+                        ->limit(10)
+                        ->pluck('amount', 'label')
+                        ->toArray();
+                }
                 break;
 
             case 'weekly':
@@ -733,12 +789,25 @@ class AdminDashboardController extends Controller
 
         switch ($type) {
             case 'daily':
-                $data = $query->where('orders.created_at', '>=', Carbon::now()->subDays(6)->startOfDay())
-                    ->groupBy('label')
-                    ->orderByDesc('total_quantity')
-                    ->limit(10)
-                    ->pluck('total_quantity', 'label')
-                    ->toArray();
+                if ($startDate && $endDate) {
+                    $data = $query->whereBetween('orders.created_at', [
+                        Carbon::parse($startDate)->startOfDay(),
+                        Carbon::parse($endDate)->endOfDay()
+                    ])
+                        ->groupBy('label')
+                        ->orderByDesc('total_quantity')
+                        ->limit(10)
+                        ->pluck('total_quantity', 'label')
+                        ->toArray();
+                } else {
+                    $data = $query->where('orders.created_at', '>=', Carbon::now()->startOfMonth())
+                        ->where('orders.created_at', '<=', Carbon::now()->endOfMonth())
+                        ->groupBy('label')
+                        ->orderByDesc('total_quantity')
+                        ->limit(10)
+                        ->pluck('total_quantity', 'label')
+                        ->toArray();
+                }
                 break;
 
             case 'weekly':
@@ -825,12 +894,25 @@ class AdminDashboardController extends Controller
 
         switch ($type) {
             case 'daily':
-                $data = $query->selectRaw("DATE_FORMAT(created_at, '%Y-%m-%d') as date, SUM(amount) as total")
-                    ->when(!$startDate || !$endDate, fn($q) => $q->where('created_at', '>=', Carbon::now()->subDays(6)->startOfDay()))
-                    ->groupBy('date')
-                    ->orderBy('date', 'asc')
-                    ->pluck('total', 'date')
-                    ->toArray();
+                if ($startDate && $endDate) {
+                    $data = $query->selectRaw("DATE_FORMAT(created_at, '%Y-%m-%d') as date, SUM(amount) as total")
+                        ->whereBetween('created_at', [
+                            Carbon::parse($startDate)->startOfDay(),
+                            Carbon::parse($endDate)->endOfDay()
+                        ])
+                        ->groupBy('date')
+                        ->orderBy('date', 'asc')
+                        ->pluck('total', 'date')
+                        ->toArray();
+                } else {
+                    $data = $query->selectRaw("DATE_FORMAT(created_at, '%Y-%m-%d') as date, SUM(amount) as total")
+                        ->where('created_at', '>=', Carbon::now()->startOfMonth())
+                        ->where('created_at', '<=', Carbon::now()->endOfMonth())
+                        ->groupBy('date')
+                        ->orderBy('date', 'asc')
+                        ->pluck('total', 'date')
+                        ->toArray();
+                }
                 break;
 
             case 'weekly':
@@ -927,6 +1009,7 @@ class AdminDashboardController extends Controller
 
         return response()->json($data);
     }
+
     public function getCampaignData(Request $request)
     {
         $type = $request->input('type');
@@ -944,12 +1027,25 @@ class AdminDashboardController extends Controller
 
         switch ($type) {
             case 'daily':
-                $data = $query->selectRaw("DATE_FORMAT(created_at, '%Y-%m-%d') as date, COUNT(*) as count")
-                    ->when(!$startDate || !$endDate, fn($q) => $q->where('created_at', '>=', Carbon::now()->subDays(6)->startOfDay()))
-                    ->groupBy('date')
-                    ->orderBy('date', 'asc')
-                    ->pluck('count', 'date')
-                    ->toArray();
+                if ($startDate && $endDate) {
+                    $data = $query->selectRaw("DATE_FORMAT(created_at, '%Y-%m-%d') as date, COUNT(*) as count")
+                        ->whereBetween('created_at', [
+                            Carbon::parse($startDate)->startOfDay(),
+                            Carbon::parse($endDate)->endOfDay()
+                        ])
+                        ->groupBy('date')
+                        ->orderBy('date', 'asc')
+                        ->pluck('count', 'date')
+                        ->toArray();
+                } else {
+                    $data = $query->selectRaw("DATE_FORMAT(created_at, '%Y-%m-%d') as date, COUNT(*) as count")
+                        ->where('created_at', '>=', Carbon::now()->startOfMonth())
+                        ->where('created_at', '<=', Carbon::now()->endOfMonth())
+                        ->groupBy('date')
+                        ->orderBy('date', 'asc')
+                        ->pluck('count', 'date')
+                        ->toArray();
+                }
                 break;
 
             case 'weekly':

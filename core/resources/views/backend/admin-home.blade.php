@@ -85,7 +85,7 @@
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link active" id="webstie_daily-tab" data-bs-toggle="tab"
                                                 type="button">
-                                                Last 7 Days
+                                                Daily
                                             </button>
                                         </li>
                                         <li class="nav-item" role="presentation">
@@ -121,7 +121,7 @@
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link active" id="webstie_two_daily-tab" data-bs-toggle="tab"
                                                 type="button">
-                                                Last 7 Days
+                                                Daily
                                             </button>
                                         </li>
                                         <li class="nav-item" role="presentation">
@@ -153,7 +153,7 @@
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link active" id="webstie_three_daily-tab"
                                                 data-bs-toggle="tab" type="button">
-                                                Last 7 Days
+                                                Daily
                                             </button>
                                         </li>
                                         <li class="nav-item" role="presentation">
@@ -200,7 +200,7 @@
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link active" id="analytics_daily-tab" data-bs-toggle="tab"
                                                 type="button">
-                                                Last 7 Days
+                                                Daily
                                             </button>
                                         </li>
                                         <li class="nav-item" role="presentation">
@@ -229,7 +229,7 @@
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link active" id="analytics_two_daily-tab"
                                                 data-bs-toggle="tab" type="button">
-                                                Last 7 Days
+                                                Daily
                                             </button>
                                         </li>
                                         <li class="nav-item" role="presentation">
@@ -259,7 +259,7 @@
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link active" id="analytics_three_daily-tab"
                                                 data-bs-toggle="tab" type="button">
-                                                Last 7 Days
+                                                Daily
                                             </button>
                                         </li>
                                         <li class="nav-item" role="presentation">
@@ -311,7 +311,7 @@
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link active" id="campaign_one_daily-tab"
                                                 data-bs-toggle="tab" type="button">
-                                                Last 7 Days
+                                                Daily
                                             </button>
                                         </li>
                                         <li class="nav-item" role="presentation">
@@ -344,7 +344,7 @@
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link active" id="campaign_two_daily-tab"
                                                 data-bs-toggle="tab" type="button">
-                                                Last 7 Days
+                                                Daily
                                             </button>
                                         </li>
                                         <li class="nav-item" role="presentation">
@@ -373,7 +373,7 @@
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link active" id="campaign_three_daily-tab"
                                                 data-bs-toggle="tab" type="button">
-                                                Last 7 Days
+                                                Daily
                                             </button>
                                         </li>
                                         <li class="nav-item" role="presentation">
@@ -498,7 +498,8 @@
                                         <ul class="list-unstyled product-list text-justify">
                                             @foreach ($topProducts as $key => $topProduct)
                                                 <li class="p-1">
-                                                    <a class="text-dark" href="{{ route('admin.products.edit', $topProduct->id) }}"
+                                                    <a class="text-dark"
+                                                        href="{{ route('admin.products.edit', $topProduct->id) }}"
                                                         target="__blank">
                                                         {{ $key + 1 }}.
                                                         {{ Str::limit($topProduct->name, 80, '...') }}
@@ -527,7 +528,7 @@
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link active" id="top_vendors_daily-tab"
                                                 data-bs-toggle="tab" type="button">
-                                                Last 7 Days
+                                                Daily
                                             </button>
                                         </li>
                                         <li class="nav-item" role="presentation">
@@ -560,7 +561,7 @@
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link active" id="top_vendors_two_daily-tab"
                                                 data-bs-toggle="tab" type="button">
-                                                Last 7 Days
+                                                Daily
                                             </button>
                                         </li>
                                         <li class="nav-item" role="presentation">
@@ -762,7 +763,7 @@
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link active" id="financial_summary_daily-tab"
                                                 data-bs-toggle="tab" type="button">
-                                                Last 7 Days
+                                                Daily
                                             </button>
                                         </li>
                                         <li class="nav-item" role="presentation">
@@ -795,7 +796,7 @@
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link active" id="financial_summary_two_daily-tab"
                                                 data-bs-toggle="tab" type="button">
-                                                Last 7 Days
+                                                Daily
                                             </button>
                                         </li>
                                         <li class="nav-item" role="presentation">
@@ -1072,13 +1073,6 @@
                 const labels = Object.keys(data);
                 const values = Object.values(data).map(val => parseInt(val) || 0);
 
-                let chartTitle = '';
-                if (chartType.toLowerCase() === 'daily') {
-                    chartTitle = 'Last 7 Days';
-                } else {
-                    chartTitle = chartType.charAt(0).toUpperCase() + chartType.slice(1);
-                }
-
                 sp_vendors_chart.updateOptions({
                     series: [{
                         name: 'New Vendors',
@@ -1099,7 +1093,8 @@
                         categories: labels
                     },
                     title: {
-                        text: 'New Vendor Sign Up - ' + chartTitle
+                        text: 'New Vendor Sign Up - ' + chartType.charAt(0).toUpperCase() + chartType.slice(
+                            1)
                     },
                     stroke: {
                         show: true,
@@ -1264,13 +1259,6 @@
                 const labels = Object.keys(data);
                 const values = Object.values(data).map(val => parseInt(val) || 0);
 
-                let chartTitle = '';
-                if (chartType.toLowerCase() === 'daily') {
-                    chartTitle = 'Last 7 Days';
-                } else {
-                    chartTitle = chartType.charAt(0).toUpperCase() + chartType.slice(1);
-                }
-
                 sp_customers_chart.updateOptions({
                     series: [{
                         name: 'New Customers',
@@ -1280,7 +1268,8 @@
                         categories: labels
                     },
                     title: {
-                        text: 'New Customer Sign Up - ' + chartTitle
+                        text: 'New Customer Sign Up - ' + chartType.charAt(0).toUpperCase() + chartType
+                            .slice(1)
                     }
                 });
             }
@@ -1442,13 +1431,6 @@
                 const labels = Object.keys(data);
                 const values = Object.values(data).map(val => parseFloat(val) || 0);
 
-                let chartTitle = '';
-                if (chartType.toLowerCase() === 'daily') {
-                    chartTitle = 'Last 7 Days';
-                } else {
-                    chartTitle = chartType.charAt(0).toUpperCase() + chartType.slice(1);
-                }
-
                 chart.updateOptions({
                     series: [{
                         name: 'Net Profit',
@@ -1469,7 +1451,7 @@
                         categories: labels
                     },
                     title: {
-                        text: 'Order Revenue - ' + chartTitle
+                        text: 'Order Revenue - ' + chartType.charAt(0).toUpperCase() + chartType.slice(1)
                     },
                     stroke: {
                         show: true,
@@ -1642,13 +1624,6 @@
                 const labels = Object.keys(data);
                 const values = Object.values(data).map(val => parseFloat(val) || 0);
 
-                let chartTitle = '';
-                if (chartType.toLowerCase() === 'daily') {
-                    chartTitle = 'Last 7 Days';
-                } else {
-                    chartTitle = chartType.charAt(0).toUpperCase() + chartType.slice(1);
-                }
-
                 top_vendor_chart.updateOptions({
                     series: [{
                         name: 'Net Profit',
@@ -1669,7 +1644,8 @@
                         categories: labels
                     },
                     title: {
-                        text: 'Top Selling Vendors - ' + chartTitle
+                        text: 'Top Selling Vendors - ' + chartType.charAt(0).toUpperCase() + chartType
+                            .slice(1)
                     },
                     stroke: {
                         show: true,
@@ -1842,14 +1818,6 @@
                 const labels = Object.keys(data);
                 const values = Object.values(data).map(val => parseInt(val) || 0);
 
-                let chartTitle = '';
-                if (chartType.toLowerCase() === 'daily') {
-                    chartTitle = 'Last 7 Days';
-                } else {
-                    chartTitle = chartType.charAt(0).toUpperCase() + chartType.slice(1);
-                }
-
-
                 sp_top_vendors_chart.updateOptions({
                     series: [{
                         name: 'Total Sold',
@@ -1870,7 +1838,8 @@
                         categories: labels
                     },
                     title: {
-                        text: 'Top Selling Products - ' + chartTitle
+                        text: 'Top Selling Products - ' + chartType.charAt(0).toUpperCase() + chartType
+                            .slice(1)
                     },
                     stroke: {
                         show: true,
@@ -2043,13 +2012,6 @@
                 const labels = Object.keys(data);
                 const values = Object.values(data).map(val => parseFloat(val) || 0);
 
-                let chartTitle = '';
-                if (chartType.toLowerCase() === 'daily') {
-                    chartTitle = 'Last 7 Days';
-                } else {
-                    chartTitle = chartType.charAt(0).toUpperCase() + chartType.slice(1);
-                }
-
                 financial_summary_two_chart.updateOptions({
                     series: [{
                         name: 'Revenue',
@@ -2070,7 +2032,8 @@
                         categories: labels
                     },
                     title: {
-                        text: 'Pending Vendor Payouts - ' + chartTitle
+                        text: 'Pending Vendor Payouts - ' + chartType.charAt(0).toUpperCase() + chartType
+                            .slice(1)
                     },
                     stroke: {
                         show: true,
@@ -2251,12 +2214,6 @@
             function updateChart(data, chartType) {
                 const labels = Object.keys(data);
                 const values = Object.values(data).map(val => parseInt(val) || 0);
-                let chartTitle = '';
-                if (chartType.toLowerCase() === 'daily') {
-                    chartTitle = 'Last 7 Days';
-                } else {
-                    chartTitle = chartType.charAt(0).toUpperCase() + chartType.slice(1);
-                }
 
                 campaign_one_chart.updateOptions({
                     series: [{
@@ -2281,7 +2238,8 @@
                         categories: labels
                     },
                     title: {
-                        text: 'Campaign Creation - ' + chartTitle
+                        text: 'Campaign Creation - ' + chartType.charAt(0).toUpperCase() + chartType.slice(
+                            1)
                     },
                     stroke: {
                         show: true,
