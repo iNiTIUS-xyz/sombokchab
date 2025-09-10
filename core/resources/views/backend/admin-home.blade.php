@@ -1153,7 +1153,7 @@
         });
     </script>
 
-    <script>
+    {{-- <script>
         document.addEventListener('DOMContentLoaded', () => {
             let currentType = 'daily';
             let currentStartDate = null;
@@ -1315,6 +1315,187 @@
             // Initial Load
             fetchCustomerData(currentType);
         });
+    </script> --}}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let currentType = 'daily';
+            let currentStartDate = null;
+            let currentEndDate = null;
+
+            // Chart configuration (BAR instead of LINE)
+            let sp_customer_chartOptions = {
+                series: [{
+                    name: 'New Customers',
+                    data: []
+                }],
+                chart: {
+                    type: 'bar',
+                    height: 350,
+                    background: '#ffffff',
+                    toolbar: {
+                        show: true,
+                        tools: {
+                            download: false
+                        }
+                    }
+                },
+                title: {
+                    text: 'New Customer Sign Up',
+                    align: 'left'
+                },
+                colors: ['#41695a'],
+                dataLabels: {
+                    enabled: true,
+                    formatter: function(val) {
+                        return val;
+                    },
+                    style: {
+                        fontSize: '12px',
+                        colors: ['#000']
+                    }
+                },
+                plotOptions: {
+                    bar: {
+                        horizontal: false, // set true for horizontal bars
+                        columnWidth: '50%',
+                        borderRadius: 6
+                    }
+                },
+                xaxis: {
+                    categories: [],
+                    labels: {
+                        formatter: value =>
+                            value && value.length > 30 ?
+                            value.substring(0, 30) + '...' : value || ''
+                    }
+                },
+                yaxis: {
+                    title: {
+                        text: 'Number of Sign-Ups'
+                    }
+                },
+                tooltip: {
+                    y: {
+                        formatter: val => val + ' sign-ups'
+                    }
+                }
+            };
+
+            let sp_customers_chart = new ApexCharts(
+                document.querySelector("#webstie_three_chart"),
+                sp_customer_chartOptions
+            );
+            sp_customers_chart.render();
+
+            // Fetch Data via AJAX
+            function fetchCustomerData(type, startDate = null, endDate = null) {
+                sp_customers_chart.updateOptions({
+                    title: {
+                        text: 'Loading data...'
+                    }
+                });
+
+                const requestData = {
+                    type: type
+                };
+                if (startDate && endDate) {
+                    requestData.start_date = startDate;
+                    requestData.end_date = endDate;
+                }
+
+                $.ajax({
+                    url: '{{ route('customers.data') }}',
+                    type: 'GET',
+                    data: requestData,
+                    success: function(data) {
+                        updateCustomerChart(data, type);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching data:', error);
+                        sp_customers_chart.updateOptions({
+                            title: {
+                                text: 'Error loading data'
+                            }
+                        });
+                    }
+                });
+            }
+
+            // Update chart
+            function updateCustomerChart(data, chartType) {
+                const labels = Object.keys(data);
+                const values = Object.values(data).map(val => parseInt(val) || 0);
+
+                sp_customers_chart.updateOptions({
+                    series: [{
+                        name: 'New Customers',
+                        data: values
+                    }],
+                    chart: {
+                        type: 'bar',
+                        height: 350,
+                        background: '#ffffff'
+                    },
+                    xaxis: {
+                        categories: labels
+                    },
+                    title: {
+                        text: 'New Customer Sign Up - ' +
+                            chartType.charAt(0).toUpperCase() +
+                            chartType.slice(1)
+                    },
+                    plotOptions: {
+                        bar: {
+                            horizontal: false,
+                            columnWidth: '50%',
+                            borderRadius: 6
+                        }
+                    }
+                });
+            }
+
+            // Tab Click Handlers
+            document.querySelector('#webstie_three_daily-tab').addEventListener('click', () => {
+                currentType = 'daily';
+                fetchCustomerData(currentType, currentStartDate, currentEndDate);
+            });
+            document.querySelector('#webstie_three_weekly-tab').addEventListener('click', () => {
+                currentType = 'weekly';
+                fetchCustomerData(currentType, currentStartDate, currentEndDate);
+            });
+            document.querySelector('#webstie_three_monthly-tab').addEventListener('click', () => {
+                currentType = 'monthly';
+                fetchCustomerData(currentType, currentStartDate, currentEndDate);
+            });
+            document.querySelector('#webstie_three_yearly-tab').addEventListener('click', () => {
+                currentType = 'yearly';
+                fetchCustomerData(currentType, currentStartDate, currentEndDate);
+            });
+
+            // Date Range Picker
+            $('.dateWebstieRange').daterangepicker({
+                opens: 'left',
+                autoUpdateInput: true,
+                minDate: moment('2024-01-01'),
+                maxDate: moment().endOf('year'),
+            }, function(start, end) {
+                var months = end.diff(start, 'months', true);
+                if (months < 1) {
+                    this.setStartDate(moment(start));
+                    this.setEndDate(moment(start).add(1, 'months'));
+                }
+            });
+
+            $('.dateWebstieRange').on('apply.daterangepicker', function(ev, picker) {
+                currentStartDate = picker.startDate.format('YYYY-MM-DD');
+                currentEndDate = picker.endDate.format('YYYY-MM-DD');
+                fetchCustomerData(currentType, currentStartDate, currentEndDate);
+            });
+
+            // Initial Load
+            fetchCustomerData(currentType);
+        });
     </script>
 
     <script>
@@ -1361,8 +1542,8 @@
                     categories: [],
                     labels: {
                         formatter: function(value) {
-                            return value && value.length > 15 ?
-                                value.substring(0, 15) + '...' :
+                            return value && value.length > 30 ?
+                                value.substring(0, 30) + '...' :
                                 value || '';
                         }
                     }

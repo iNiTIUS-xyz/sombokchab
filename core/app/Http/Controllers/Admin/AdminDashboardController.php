@@ -375,32 +375,49 @@ class AdminDashboardController extends Controller
                     $data = $query->select(
                         DB::raw('YEAR(created_at) as year'),
                         DB::raw('WEEK(created_at, 1) as week_number'),
-                        DB::raw('CONCAT("Week ", WEEK(created_at, 1)) as week'),
+                        DB::raw('MIN(DATE(created_at)) as week_start'),
+                        DB::raw('MAX(DATE(created_at)) as week_end'),
                         DB::raw('COUNT(*) as count')
                     )
-                        ->groupBy('year', 'week_number', 'week')
+                        ->whereBetween('created_at', [
+                            Carbon::parse($startDate)->startOfDay(),
+                            Carbon::parse($endDate)->endOfDay()
+                        ])
+                        ->groupBy('year', 'week_number')
                         ->orderBy('year', 'asc')
                         ->orderBy('week_number', 'asc')
                         ->get()
-                        ->mapWithKeys(fn($item) => [$item->week => $item->count])
+                        ->mapWithKeys(function ($item) {
+                            $weekStart = Carbon::parse($item->week_start)->format('j');
+                            $weekEnd   = Carbon::parse($item->week_end)->format('j M');
+                            $label = "W {$item->week_number} ({$weekStart} - {$weekEnd})";
+                            return [$label => $item->count];
+                        })
                         ->toArray();
                 } else {
                     $data = $query->select(
                         DB::raw('YEAR(created_at) as year'),
                         DB::raw('WEEK(created_at, 1) as week_number'),
-                        DB::raw('CONCAT("Week ", WEEK(created_at, 1)) as week'),
+                        DB::raw('MIN(DATE(created_at)) as week_start'),
+                        DB::raw('MAX(DATE(created_at)) as week_end'),
                         DB::raw('COUNT(*) as count')
                     )
                         ->where('created_at', '>=', Carbon::now()->startOfMonth())
                         ->where('created_at', '<=', Carbon::now()->endOfMonth())
-                        ->groupBy('year', 'week_number', 'week')
+                        ->groupBy('year', 'week_number')
                         ->orderBy('year', 'asc')
                         ->orderBy('week_number', 'asc')
                         ->get()
-                        ->mapWithKeys(fn($item) => [$item->week => $item->count])
+                        ->mapWithKeys(function ($item) {
+                            $weekStart = Carbon::parse($item->week_start)->format('j');
+                            $weekEnd   = Carbon::parse($item->week_end)->format('j M');
+                            $label = "W {$item->week_number} ({$weekStart} - {$weekEnd})";
+                            return [$label => $item->count];
+                        })
                         ->toArray();
                 }
                 break;
+
 
             case 'monthly':
                 if ($startDate && $endDate) {
