@@ -811,14 +811,24 @@ class AdminDashboardController extends Controller
                 break;
 
             case 'weekly':
-                $data = $query->selectRaw("
+                $weeklyQuery = $query->selectRaw("
                     products.name as label,
                     WEEK(orders.created_at, 1) as week_number,
-                    CONCAT('Week ', WEEK(orders.created_at, 1) - WEEK(CURRENT_DATE - INTERVAL 1 MONTH, 1) + 1, ': ', products.name) as week_label,
+                    CONCAT('Week ', WEEK(orders.created_at, 1) - WEEK(DATE_SUB(orders.created_at, INTERVAL DAY(orders.created_at)-1 DAY), 1) + 1, ': ', products.name) as week_label,
                     SUM(sub_order_items.quantity) as total_quantity
-                ")
-                    ->where('orders.created_at', '>=', Carbon::now()->startOfMonth())
-                    ->where('orders.created_at', '<=', Carbon::now()->endOfMonth())
+                ");
+
+                if ($startDate && $endDate) {
+                    $weeklyQuery->whereBetween('orders.created_at', [
+                        Carbon::parse($startDate)->startOfDay(),
+                        Carbon::parse($endDate)->endOfDay()
+                    ]);
+                } else {
+                    $weeklyQuery->where('orders.created_at', '>=', Carbon::now()->startOfMonth())
+                        ->where('orders.created_at', '<=', Carbon::now()->endOfMonth());
+                }
+
+                $data = $weeklyQuery
                     ->groupBy('label', 'week_number', 'week_label')
                     ->get()
                     ->groupBy('label')
