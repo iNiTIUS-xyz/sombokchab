@@ -8,7 +8,7 @@
     <div class="form-group" id="{{ $name }}">
         <label for="{{ $name }}">
             {{ __($title) }}
-            <span class="text-danger">*</span>
+            {{-- <span class="text-danger">*</span> --}}
         </label>
         @php $signature_image_upload_btn_label = __('Upload Image'); @endphp
         <div class="media-upload-btn-wrapper">
@@ -30,7 +30,7 @@
             </div>
             <br>
             <input type="hidden" @php $required @endphp name="{{ $name }}" value="{{ $imageId }}">
-            <button type="button" class="btn btn-primary media_upload_form_btn popup-modal"
+            <button type="button" class="btn btn-secondary media_upload_form_btn popup-modal"
                 data-btntitle="{{ __('Select Image') }}" data-modaltitle="{{ __('Upload Image') }}"
                 data-imgid="{{ $imageId ?? '' }}" data-bs-toggle="modal" data-bs-target="#media_upload_modal">
                 {{ __($signature_image_upload_btn_label) }}
@@ -70,7 +70,7 @@
                 @endif
             </div>
             <input @php $required @endphp type="hidden" name="{{ $name }}">
-            <button type="button" class="btn btn-info media_upload_form_btn popup-modal"
+            <button type="button" class="btn btn-secondary media_upload_form_btn popup-modal"
                 data-btntitle="{{ __('Select Image') }}" data-modaltitle="{{ __('Upload Image') }}"
                 data-bs-toggle="modal" data-mulitple="true" data-bs-target="#media_upload_modal">
                 {{ __('Upload Image') }}

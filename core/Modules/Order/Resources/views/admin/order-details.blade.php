@@ -95,7 +95,7 @@
                 <div class="dashboard__card__body">
                     <div class="subOrder__single__item">
                         <span class="subOrder__single__item__left">{{ __('Sub Order No') }}</span>
-                        <span class="subOrder__single__item__right">#{{ $subOrders?->order_number }}</span>
+                        <span class="subOrder__single__item__right">{{ $subOrders?->order_number }}</span>
                     </div>
                     <div class="subOrder__single__item">
                         <span class="subOrder__single__item__left">{{ __('Transaction ID') }}</span>
