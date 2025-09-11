@@ -381,7 +381,9 @@
 
     <div class="patment-success-area padding-top-100 padding-bottom-100">
         @if (moduleExists('DeliveryMan'))
-            @if (!empty($payment_details->deliveryMan) && DeliveryManRating::where('delivery_man_id', $payment_details->deliveryMan?->delivery_man_id)->count() < 1)
+            @if (
+                !empty($payment_details->deliveryMan) &&
+                    DeliveryManRating::where('delivery_man_id', $payment_details->deliveryMan?->delivery_man_id)->count() < 1)
                 <!-- End Contract area Starts -->
                 <div class="end-contract-area section-bg-2">
                     <div class="container">
@@ -733,6 +735,15 @@
                                                                                 {{ $order->vendor?->business_name ?? $adminShopManage?->store_name }}
                                                                             </span>
                                                                         </p>
+                                                                        {{-- <p class="order__item__product__span mt-2">
+                                                                            <span class="order__item__product__span__left">
+                                                                                {{ __('Sub Order No:') }}
+                                                                            </span>
+                                                                            <span
+                                                                                class="order__item__product__span__right">
+                                                                                {{ $order->order_number }}
+                                                                            </span>
+                                                                        </p> --}}
                                                                     </div>
                                                                 </div>
                                                                 <p class="d-block product-items">

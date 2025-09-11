@@ -25,7 +25,8 @@
 
                         <div class="d-flex justify-content-between gap-2">
                             <b>{{ __('This order status') }}</b>
-                            <span class="badge {{ $subOrders?->order_status === 'order_cancelled' ? 'bg-danger' : 'bg-dark' }}">
+                            <span
+                                class="badge {{ $subOrders?->order_status === 'order_cancelled' ? 'bg-danger' : 'bg-dark' }}">
                                 {{ ucfirst(str_replace(['_', '-'], ' ', $subOrders?->order_status)) }}
                             </span>
                         </div>
@@ -93,8 +94,8 @@
                 </div>
                 <div class="dashboard__card__body">
                     <div class="subOrder__single__item">
-                        <span class="subOrder__single__item__left">{{ __('Sub Order ID') }}</span>
-                        <span class="subOrder__single__item__right">#{{ $subOrders?->id }}</span>
+                        <span class="subOrder__single__item__left">{{ __('Sub Order No') }}</span>
+                        <span class="subOrder__single__item__right">#{{ $subOrders?->order_number }}</span>
                     </div>
                     <div class="subOrder__single__item">
                         <span class="subOrder__single__item__left">{{ __('Transaction ID') }}</span>

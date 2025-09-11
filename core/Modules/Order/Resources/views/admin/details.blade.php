@@ -506,9 +506,9 @@
                                     </h5>
                                     <div class="dashboard__card__header__right">
                                         <div class="d-flex justify-content-between gap-1">
-                                            <b>{{ __('Sub Order ID') }} </b>
+                                            <b>{{ __('Sub Order No') }} </b>
                                             <b class="request__right">
-                                                #{{ $subOrders->id }}
+                                                #{{ $subOrders->order_number }}
                                             </b>
                                         </div>
                                         <a href="{{ route('admin.orders.details', $subOrders->id) }}"

@@ -29,8 +29,12 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="name">{{ __('Username') }}</label>
-                            <input type="text" name="username" class="form-control" value="{{ $user_details->username }}" >
+                            <label for="name">
+                                {{ __('Username') }}
+                                <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" name="username" class="form-control" value="{{ $user_details->username }}"
+                                readonly disabled>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -85,7 +89,9 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="zipcode">{{ __('Postal Code') }}</label>
+                            <label for="zipcode">
+                                {{ __('Postal Code') }}
+                            </label>
                             <input type="text" class="form-control" id="zipcode" name="zipcode"
                                 value="{{ $user_details->zipcode }}" placeholder="{{ __('Enter Postal Code') }}">
                         </div>
@@ -98,16 +104,18 @@
                                     ->where('status', 'publish')
                                     ->get();
                             @endphp
-
-                            <label for="country">{{ __('Country') }}</label>
+                            <label for="country">
+                                {{ __('Country') }}
+                                <span class="text-danger">*</span>
+                            </label>
                             <select id="country" class="form-select wide" name="country">
                                 @foreach ($all_countries as $country)
                                     <option value="{{ $country->id }}"
                                         {{ $user_details->country == $country->id ? 'selected' : '' }}>
-                                        {{ $country->name }}</option>
+                                        {{ $country->name }}
+                                    </option>
                                 @endforeach
                             </select>
-
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -125,13 +133,14 @@
     </div>
     <hr>
     <div class="dashboard-form-wrapper" style="margin-top: 20px">
-        <h2 class="dashboard__card__title">{{ __('Chgange Phone Number') }}</h2>
+        <h2 class="dashboard__card__title">{{ __('Change Phone Number') }}</h2>
         <div class="custom__form mt-4">
             <form action="{{ route('user.chnage.phone') }}" method="post">
                 @csrf
                 <div class="phone-input mb-4">
                     <label class="label-title mb-2">
                         {{ __('Phone Number') }}
+                        <span class="text-danger">*</span>
                     </label>
                     <div class="d-flex">
                         <select id="country_code" name="country_code" class="form-select"
@@ -141,9 +150,10 @@
                             <option value="+855">+855</option>
                         </select>
                         <input id="phone" name="phone" type="number" class="form--control radius-10"
-                            placeholder="{{ __('Phone Number') }}" required
+                            placeholder="{{ __('Phone Number') }}" required=""
                             style="width: 70% !important; border-radius: 0px;">
-                        <button type="button" onclick="sendOtpCode()" class="btn btn-success" style="width: 15% !important; color: #000; background-color: rgba(221, 221, 221, 0.4); border: 1px solid rgba(221, 221, 221, 0.4) !important; box-shadow: 0 0 10px rgba(255, 255, 255, 0.1) !important;">
+                        <button type="button" onclick="sendOtpCode()" class="btn btn-success"
+                            style="width: 15% !important; color: #000; background-color: rgba(221, 221, 221, 0.4); border: 1px solid rgba(221, 221, 221, 0.4) !important; box-shadow: 0 0 10px rgba(255, 255, 255, 0.1) !important;">
                             Send Code
                         </button>
                     </div>
@@ -151,14 +161,15 @@
                 </div>
                 <div class="form-group mb-3">
                     <label for="password">
-                        {{ __('Otp Code') }}
+                        {{ __('OTP Code') }}
                         <span class="text-danger">*</span>
                     </label>
-                    <input type="text" class="form-control" name="otp_code" placeholder="{{ __('Enter OTP code') }}" required>
+                    <input type="text" class="form-control" name="otp_code" placeholder="{{ __('Enter OTP code') }}"
+                        required>
                 </div>
                 <div class="btn-wrapper mt-2">
                     <button type="submit" class="btn btn-success">
-                        {{ __('Chnage Phone Number') }}
+                        {{ __('Change Phone Number') }}
                     </button>
                 </div>
             </form>
@@ -209,21 +220,21 @@
                     _token: "{{ csrf_token() }}",
                     phone: fullNumber
                 },
-                beforeSend: function () {
+                beforeSend: function() {
                     $("button[onclick='sendOtpCode()']").text("Sending...");
                 },
-                success: function (response) {
+                success: function(response) {
 
                     $("#showMessage").text(`
                         <span class="text-success"> OTP Code has been sent successfully! Please check you inbox.</span>
                     `);
                 },
-                error: function (xhr) {
+                error: function(xhr) {
                     $("#showMessage").text(`
                         <span class="text-danger">Failed to send OTP. Please try again.</span>
                     `);
                 },
-                complete: function () {
+                complete: function() {
                     $("button[onclick='sendOtpCode()']").text("Send Code");
                 }
             });

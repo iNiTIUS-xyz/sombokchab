@@ -234,7 +234,10 @@ class AdminDashboardController extends Controller
                         ->orderBy('week_number', 'asc')
                         ->get()
                         ->mapWithKeys(function ($item) {
-                            return [$item->week => $item->count];
+                            $weekStart = Carbon::parse($item->week_start)->format('j');
+                            $weekEnd   = Carbon::parse($item->week_end)->format('j M');
+                            $label = "W {$item->week_number} ({$weekStart} - {$weekEnd})";
+                            return [$label => $item->count];
                         })
                         ->toArray();
                 } else {
@@ -251,7 +254,10 @@ class AdminDashboardController extends Controller
                         ->orderBy('week_number', 'asc')
                         ->get()
                         ->mapWithKeys(function ($item) {
-                            return [$item->week => $item->count];
+                            $weekStart = Carbon::parse($item->week_start)->format('j');
+                            $weekEnd   = Carbon::parse($item->week_end)->format('j M');
+                            $label = "W {$item->week_number} ({$weekStart} - {$weekEnd})";
+                            return [$label => $item->count];
                         })
                         ->toArray();
                 }
@@ -552,6 +558,7 @@ class AdminDashboardController extends Controller
                         ->get()
                         ->mapWithKeys(fn($item) => [$item->week => $item->amount])
                         ->toArray();
+
                 }
                 break;
 
