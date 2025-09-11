@@ -34,7 +34,7 @@
                                 <span class="text-danger">*</span>
                             </label>
                             <input type="text" name="username" class="form-control" value="{{ $user_details->username }}"
-                                readonly disabled>
+                                readonly>
                         </div>
                     </div>
                     <div class="col-md-6">
