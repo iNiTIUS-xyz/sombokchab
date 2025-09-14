@@ -672,12 +672,12 @@ class AdminDashboardController extends Controller
             case 'weekly':
                 if ($startDate && $endDate) {
                     $data = $query->selectRaw("
-                    vendors.owner_name as label,
-                    YEAR(sub_orders.created_at) as year,
-                    WEEK(sub_orders.created_at, 1) as week_number,
-                    CONCAT('Week ', WEEK(sub_orders.created_at, 1)) as week_label,
-                    SUM(sub_orders.total_amount) as amount
-                ")
+                            vendors.owner_name as label,
+                            YEAR(sub_orders.created_at) as year,
+                            WEEK(sub_orders.created_at, 1) as week_number,
+                            CONCAT('Week ', WEEK(sub_orders.created_at, 1)) as week_label,
+                            SUM(sub_orders.total_amount) as amount
+                        ")
                         ->groupBy('label', 'year', 'week_number', 'week_label')
                         ->get()
                         ->groupBy('label')
@@ -689,12 +689,12 @@ class AdminDashboardController extends Controller
                         ->toArray();
                 } else {
                     $data = $query->selectRaw("
-                    vendors.owner_name as label,
-                    YEAR(sub_orders.created_at) as year,
-                    WEEK(sub_orders.created_at, 1) as week_number,
-                    CONCAT('Week ', WEEK(sub_orders.created_at, 1)) as week_label,
-                    SUM(sub_orders.total_amount) as amount
-                ")
+                            vendors.owner_name as label,
+                            YEAR(sub_orders.created_at) as year,
+                            WEEK(sub_orders.created_at, 1) as week_number,
+                            CONCAT('Week ', WEEK(sub_orders.created_at, 1)) as week_label,
+                            SUM(sub_orders.total_amount) as amount
+                        ")
                         ->where('sub_orders.created_at', '>=', Carbon::now()->startOfMonth())
                         ->where('sub_orders.created_at', '<=', Carbon::now()->endOfMonth())
                         ->groupBy('label', 'year', 'week_number', 'week_label')
@@ -712,12 +712,12 @@ class AdminDashboardController extends Controller
             case 'monthly':
                 if ($startDate && $endDate) {
                     $data = $query->selectRaw("
-                    vendors.owner_name as label,
-                    YEAR(sub_orders.created_at) as year,
-                    MONTH(sub_orders.created_at) as month_number,
-                    DATE_FORMAT(sub_orders.created_at, '%M %Y') as month_name,
-                    SUM(sub_orders.total_amount) as amount
-                ")
+                            vendors.owner_name as label,
+                            YEAR(sub_orders.created_at) as year,
+                            MONTH(sub_orders.created_at) as month_number,
+                            DATE_FORMAT(sub_orders.created_at, '%M %Y') as month_name,
+                            SUM(sub_orders.total_amount) as amount
+                        ")
                         ->groupBy('label', 'year', 'month_number', 'month_name')
                         ->get()
                         ->groupBy('label')
@@ -729,12 +729,12 @@ class AdminDashboardController extends Controller
                         ->toArray();
                 } else {
                     $data = $query->selectRaw("
-                    vendors.owner_name as label,
-                    YEAR(sub_orders.created_at) as year,
-                    MONTH(sub_orders.created_at) as month_number,
-                    DATE_FORMAT(sub_orders.created_at, '%M') as month_name,
-                    SUM(sub_orders.total_amount) as amount
-                ")
+                            vendors.owner_name as label,
+                            YEAR(sub_orders.created_at) as year,
+                            MONTH(sub_orders.created_at) as month_number,
+                            DATE_FORMAT(sub_orders.created_at, '%M') as month_name,
+                            SUM(sub_orders.total_amount) as amount
+                        ")
                         ->whereYear('sub_orders.created_at', Carbon::now()->year)
                         ->groupBy('label', 'year', 'month_number', 'month_name')
                         ->get()
@@ -751,10 +751,10 @@ class AdminDashboardController extends Controller
             case 'yearly':
                 if ($startDate && $endDate) {
                     $data = $query->selectRaw("
-                    vendors.owner_name as label,
-                    YEAR(sub_orders.created_at) as year,
-                    SUM(sub_orders.total_amount) as amount
-                ")
+                            vendors.owner_name as label,
+                            YEAR(sub_orders.created_at) as year,
+                            SUM(sub_orders.total_amount) as amount
+                        ")
                         ->groupBy('label', 'year')
                         ->get()
                         ->groupBy('label')
@@ -766,10 +766,10 @@ class AdminDashboardController extends Controller
                         ->toArray();
                 } else {
                     $data = $query->selectRaw("
-                    vendors.owner_name as label,
-                    YEAR(sub_orders.created_at) as year,
-                    SUM(sub_orders.total_amount) as amount
-                ")
+                            vendors.owner_name as label,
+                            YEAR(sub_orders.created_at) as year,
+                            SUM(sub_orders.total_amount) as amount
+                        ")
                         ->where('sub_orders.created_at', '>=', Carbon::now()->subYears(5)->startOfYear())
                         ->where('sub_orders.created_at', '<=', Carbon::now()->endOfYear())
                         ->groupBy('label', 'year')
@@ -865,11 +865,11 @@ class AdminDashboardController extends Controller
 
             case 'monthly':
                 $data = $query->selectRaw("
-                    products.name as label,
-                    MONTH(orders.created_at) as month_number,
-                    DATE_FORMAT(orders.created_at, '%M') as month_name,
-                    SUM(sub_order_items.quantity) as total_quantity
-                ")
+                        products.name as label,
+                        MONTH(orders.created_at) as month_number,
+                        DATE_FORMAT(orders.created_at, '%M') as month_name,
+                        SUM(sub_order_items.quantity) as total_quantity
+                    ")
                     ->whereYear('orders.created_at', Carbon::now()->year)
                     ->groupBy('label', 'month_number', 'month_name')
                     ->get()
@@ -884,10 +884,10 @@ class AdminDashboardController extends Controller
 
             case 'yearly':
                 $data = $query->selectRaw("
-                    products.name as label,
-                    YEAR(orders.created_at) as year,
-                    SUM(sub_order_items.quantity) as total_quantity
-                ")
+                        products.name as label,
+                        YEAR(orders.created_at) as year,
+                        SUM(sub_order_items.quantity) as total_quantity
+                    ")
                     ->where('orders.created_at', '>=', Carbon::now()->subYears(5)->startOfYear())
                     ->where('orders.created_at', '<=', Carbon::now()->endOfYear())
                     ->groupBy('label', 'year')
@@ -951,11 +951,11 @@ class AdminDashboardController extends Controller
             case 'weekly':
                 if ($startDate && $endDate) {
                     $data = $query->selectRaw("
-                    YEAR(created_at) as year,
-                    WEEK(created_at, 1) as week_number,
-                    CONCAT('Week ', WEEK(created_at, 1)) as week,
-                    SUM(amount) as total
-                ")
+                            YEAR(created_at) as year,
+                            WEEK(created_at, 1) as week_number,
+                            CONCAT('Week ', WEEK(created_at, 1)) as week,
+                            SUM(amount) as total
+                        ")
                         ->groupBy('year', 'week_number', 'week')
                         ->orderBy('year', 'asc')
                         ->orderBy('week_number', 'asc')
@@ -964,11 +964,11 @@ class AdminDashboardController extends Controller
                         ->toArray();
                 } else {
                     $data = $query->selectRaw("
-                    YEAR(created_at) as year,
-                    WEEK(created_at, 1) as week_number,
-                    CONCAT('Week ', WEEK(created_at, 1)) as week,
-                    SUM(amount) as total
-                ")
+                            YEAR(created_at) as year,
+                            WEEK(created_at, 1) as week_number,
+                            CONCAT('Week ', WEEK(created_at, 1)) as week,
+                            SUM(amount) as total
+                        ")
                         ->where('created_at', '>=', Carbon::now()->startOfMonth())
                         ->where('created_at', '<=', Carbon::now()->endOfMonth())
                         ->groupBy('year', 'week_number', 'week')
@@ -983,11 +983,11 @@ class AdminDashboardController extends Controller
             case 'monthly':
                 if ($startDate && $endDate) {
                     $data = $query->selectRaw("
-                    YEAR(created_at) as year,
-                    MONTH(created_at) as month_number,
-                    DATE_FORMAT(created_at, '%M %Y') as month_name,
-                    SUM(amount) as total
-                ")
+                            YEAR(created_at) as year,
+                            MONTH(created_at) as month_number,
+                            DATE_FORMAT(created_at, '%M %Y') as month_name,
+                            SUM(amount) as total
+                        ")
                         ->groupBy('year', 'month_number', 'month_name')
                         ->orderBy('year', 'asc')
                         ->orderBy('month_number', 'asc')
@@ -996,11 +996,11 @@ class AdminDashboardController extends Controller
                         ->toArray();
                 } else {
                     $data = $query->selectRaw("
-                    YEAR(created_at) as year,
-                    MONTH(created_at) as month_number,
-                    DATE_FORMAT(created_at, '%M') as month_name,
-                    SUM(amount) as total
-                ")
+                            YEAR(created_at) as year,
+                            MONTH(created_at) as month_number,
+                            DATE_FORMAT(created_at, '%M') as month_name,
+                            SUM(amount) as total
+                        ")
                         ->whereYear('created_at', Carbon::now()->year)
                         ->groupBy('year', 'month_number', 'month_name')
                         ->orderBy('year', 'asc')
@@ -1014,18 +1014,18 @@ class AdminDashboardController extends Controller
             case 'yearly':
                 if ($startDate && $endDate) {
                     $data = $query->selectRaw("
-                    YEAR(created_at) as year,
-                    SUM(amount) as total
-                ")
+                            YEAR(created_at) as year,
+                            SUM(amount) as total
+                        ")
                         ->groupBy('year')
                         ->orderBy('year', 'asc')
                         ->pluck('total', 'year')
                         ->toArray();
                 } else {
                     $data = $query->selectRaw("
-                    YEAR(created_at) as year,
-                    SUM(amount) as total
-                ")
+                            YEAR(created_at) as year,
+                            SUM(amount) as total
+                        ")
                         ->where('created_at', '>=', Carbon::now()->subYears(5)->startOfYear())
                         ->where('created_at', '<=', Carbon::now()->endOfYear())
                         ->groupBy('year')
@@ -1084,11 +1084,11 @@ class AdminDashboardController extends Controller
             case 'weekly':
                 if ($startDate && $endDate) {
                     $data = $query->selectRaw("
-                    YEAR(created_at) as year,
-                    WEEK(created_at, 1) as week_number,
-                    CONCAT('Week ', WEEK(created_at, 1)) as week,
-                    COUNT(*) as count
-                ")
+                            YEAR(created_at) as year,
+                            WEEK(created_at, 1) as week_number,
+                            CONCAT('Week ', WEEK(created_at, 1)) as week,
+                            COUNT(*) as count
+                        ")
                         ->groupBy('year', 'week_number', 'week')
                         ->orderBy('year', 'asc')
                         ->orderBy('week_number', 'asc')
@@ -1097,11 +1097,11 @@ class AdminDashboardController extends Controller
                         ->toArray();
                 } else {
                     $data = $query->selectRaw("
-                    YEAR(created_at) as year,
-                    WEEK(created_at, 1) as week_number,
-                    CONCAT('Week ', WEEK(created_at, 1)) as week,
-                    COUNT(*) as count
-                ")
+                            YEAR(created_at) as year,
+                            WEEK(created_at, 1) as week_number,
+                            CONCAT('Week ', WEEK(created_at, 1)) as week,
+                            COUNT(*) as count
+                        ")
                         ->where('created_at', '>=', Carbon::now()->startOfMonth())
                         ->where('created_at', '<=', Carbon::now()->endOfMonth())
                         ->groupBy('year', 'week_number', 'week')
@@ -1116,11 +1116,11 @@ class AdminDashboardController extends Controller
             case 'monthly':
                 if ($startDate && $endDate) {
                     $data = $query->selectRaw("
-                    YEAR(created_at) as year,
-                    MONTH(created_at) as month_number,
-                    DATE_FORMAT(created_at, '%M %Y') as month_name,
-                    COUNT(*) as count
-                ")
+                            YEAR(created_at) as year,
+                            MONTH(created_at) as month_number,
+                            DATE_FORMAT(created_at, '%M %Y') as month_name,
+                            COUNT(*) as count
+                        ")
                         ->groupBy('year', 'month_number', 'month_name')
                         ->orderBy('year', 'asc')
                         ->orderBy('month_number', 'asc')
@@ -1129,11 +1129,11 @@ class AdminDashboardController extends Controller
                         ->toArray();
                 } else {
                     $data = $query->selectRaw("
-                    YEAR(created_at) as year,
-                    MONTH(created_at) as month_number,
-                    DATE_FORMAT(created_at, '%M') as month_name,
-                    COUNT(*) as count
-                ")
+                            YEAR(created_at) as year,
+                            MONTH(created_at) as month_number,
+                            DATE_FORMAT(created_at, '%M') as month_name,
+                            COUNT(*) as count
+                        ")
                         ->whereYear('created_at', Carbon::now()->year)
                         ->groupBy('year', 'month_number', 'month_name')
                         ->orderBy('year', 'asc')
@@ -1147,18 +1147,18 @@ class AdminDashboardController extends Controller
             case 'yearly':
                 if ($startDate && $endDate) {
                     $data = $query->selectRaw("
-                    YEAR(created_at) as year,
-                    COUNT(*) as count
-                ")
+                            YEAR(created_at) as year,
+                            COUNT(*) as count
+                        ")
                         ->groupBy('year')
                         ->orderBy('year', 'asc')
                         ->pluck('count', 'year')
                         ->toArray();
                 } else {
                     $data = $query->selectRaw("
-                    YEAR(created_at) as year,
-                    COUNT(*) as count
-                ")
+                            YEAR(created_at) as year,
+                            COUNT(*) as count
+                        ")
                         ->where('created_at', '>=', Carbon::now()->subYears(5)->startOfYear())
                         ->where('created_at', '<=', Carbon::now()->endOfYear())
                         ->groupBy('year')
