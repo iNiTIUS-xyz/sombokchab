@@ -120,7 +120,7 @@
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
-                            <x-media-upload :title="__('Profile image')" name="image" :oldimage="$user_details->image" />
+                            <x-media-upload :title="__('Profile Image')" name="image" :oldimage="$user_details->image" />
                             <small>{{ __('Recommended image size 150x150') }}</small>
                         </div>
                     </div>
@@ -152,8 +152,8 @@
                         <input id="phone" name="phone" type="number" class="form--control radius-10"
                             placeholder="{{ __('Phone Number') }}" required=""
                             style="width: 70% !important; border-radius: 0px;">
-                        <button type="button" onclick="sendOtpCode()" class="btn btn-success"
-                            style="width: 15% !important; color: #000; background-color: rgba(221, 221, 221, 0.4); border: 1px solid rgba(221, 221, 221, 0.4) !important; box-shadow: 0 0 10px rgba(255, 255, 255, 0.1) !important;">
+                        <button type="button" onclick="sendOtpCode()" class="btn btn-secondary"
+                            style="width: 15% !important;">
                             Send Code
                         </button>
                     </div>
@@ -168,7 +168,7 @@
                         required>
                 </div>
                 <div class="btn-wrapper mt-2">
-                    <button type="submit" class="btn btn-success">
+                    <button type="submit" class="btn btn-primary">
                         {{ __('Change Phone Number') }}
                     </button>
                 </div>
@@ -190,7 +190,7 @@
                         placeholder="{{ __('Enter Password') }}" required>
                 </div>
                 <div class="btn-wrapper mt-2">
-                    <button type="submit" class="cmn_btn btn_bg_4">{{ __('Deactivate Account') }}</button>
+                    <button type="submit" class="btn btn-danger">{{ __('Deactivate Account') }}</button>
                 </div>
             </form>
         </div>

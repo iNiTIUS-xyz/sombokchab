@@ -41,9 +41,10 @@
                 <table class="table" id="dataTable">
                     <thead>
                         <tr>
-                            <th>{{ __('Serial No.') }}</th>
-                            <th>{{ __('Order Details') }}</th>
+                            {{-- <th>{{ __('Serial No.') }}</th> --}}
                             <th>{{ __('Refund Details') }}</th>
+                            <th>{{ __('Order Details') }}</th>
+                            
                             <th>{{ __('Refund Request Date') }}</th>
                             <th>{{ __('Action') }}</th>
                         </tr>
@@ -51,8 +52,18 @@
                     <tbody>
                         @foreach ($refundRequests as $request)
                             <tr>
-                                <td style="text-align: left !important;">{{ $loop->iteration }}</td>
-                                <td>
+                                {{-- <td style="text-align: left !important;">{{ $loop->iteration }}</td> --}}
+                                <td class="text-left">
+                                    <span class="user-info ">
+                                        <b>{{ $request->id }}</b><br>
+                                        {{ __('Status') }}:
+                                        <span
+                                            class="badge bg-light text-dark">{{ __(ucwords(str_replace('_', ' ', $request->currentTrackStatus?->name))) }}</span>
+                                        <br>
+                                        {{ __('Total Product:') }} {{ $request->request_product_count }}<br>
+                                    </span>
+                                </td>
+                                <td class="text-left">
                                     <span class="user-info">
                                         <b>{{ $request->order?->order_number }}</b><br>
                                         {{ __('Status') }}:
@@ -75,16 +86,7 @@
                                         {{ float_amount_with_currency_symbol($request->order?->paymentMeta?->total_amount) }}<br>
                                     </span>
                                 </td>
-                                <td>
-                                    <span class="user-info ">
-                                        <b>{{ $request->id }}</b><br>
-                                        {{ __('Status') }}:
-                                        <span
-                                            class="badge bg-light text-dark">{{ __(ucwords(str_replace('_', ' ', $request->currentTrackStatus?->name))) }}</span>
-                                        <br>
-                                        {{ __('Total Product:') }} {{ $request->request_product_count }}<br>
-                                    </span>
-                                </td>
+                                
                                 <td>{{ $request->created_at->format('M j, Y') }}</td>
                                 <td>
                                     <a href="{{ route('user.product.refund-request.view', $request->id) }}"
