@@ -1006,10 +1006,8 @@
                 },
                 plotOptions: {
                     bar: {
-                        columnWidth: '50%',
-                        dataLabels: {
-                            position: 'top'
-                        }
+                        columnWidth: '18%',
+                        borderRadius: 6
                     }
                 },
                 xaxis: {
@@ -1086,9 +1084,6 @@
                 const labels = Object.keys(data);
                 const values = Object.values(data).map(val => parseInt(val) || 0);
 
-                // Adjust bar width for yearly and monthly views
-                const columnWidth = (chartType === 'yearly' || chartType === 'monthly') ? '15%' : '15%';
-
                 sp_vendors_chart.updateOptions({
                     series: [{
                         name: 'New Vendors',
@@ -1117,10 +1112,8 @@
                     },
                     plotOptions: {
                         bar: {
-                            columnWidth: columnWidth,
-                            dataLabels: {
-                                position: 'top'
-                            }
+                            columnWidth: '18%',
+                            borderRadius: 6
                         }
                     },
                     xaxis: {
@@ -1235,10 +1228,7 @@
                 },
                 plotOptions: {
                     bar: {
-                        columnWidth: '50%',
-                        dataLabels: {
-                            position: 'top'
-                        },
+                        columnWidth: '18%',
                         borderRadius: 6
                     }
                 },
@@ -1317,7 +1307,7 @@
                 const values = Object.values(data).map(val => parseInt(val) || 0);
 
                 // Adjust bar width for yearly and monthly views
-                const columnWidth = (chartType === 'yearly' || chartType === 'monthly') ? '15%' : '15%';
+                const columnWidth = (chartType === 'yearly' || chartType === 'monthly') ? '18%' : '18%';
 
                 sp_customers_chart.updateOptions({
                     series: [{
@@ -1348,9 +1338,6 @@
                     plotOptions: {
                         bar: {
                             columnWidth: columnWidth,
-                            dataLabels: {
-                                position: 'top'
-                            },
                             borderRadius: 6
                         }
                     },
@@ -1418,6 +1405,7 @@
             fetchCustomerData(currentType);
         });
     </script>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Variables to store current state
@@ -1432,14 +1420,24 @@
                     data: []
                 }],
                 chart: {
-                    type: 'line',
+                    type: 'bar',
                     height: 350,
                     background: '#ffffff',
                     toolbar: {
                         show: true,
                         tools: {
-                            download: false
+                            download: false,
+                            zoom: true,
+                            zoomin: true,
+                            zoomout: true,
+                            pan: true,
+                            reset: true
                         }
+                    },
+                    zoom: {
+                        enabled: true,
+                        type: 'x',
+                        autoScaleYaxis: true
                     }
                 },
                 title: {
@@ -1448,15 +1446,21 @@
                 },
                 colors: ['#41695a'],
                 dataLabels: {
-                    enabled: false
+                    enabled: true,
+                    formatter: function(val) {
+                        return "$" + val;
+                    },
+                    style: {
+                        colors: ['#ffffff'],
+                        fontSize: '12px'
+                    },
+                    offsetY: -20
                 },
-                stroke: {
-                    show: true,
-                    width: 3,
-                    curve: 'smooth'
-                },
-                markers: {
-                    size: 4
+                plotOptions: {
+                    bar: {
+                        columnWidth: '25%',
+                        borderRadius: 6
+                    }
                 },
                 xaxis: {
                     categories: [],
@@ -1478,6 +1482,9 @@
                         formatter: function(val) {
                             return "$ " + val + " USD"
                         }
+                    },
+                    style: {
+                        colors: ['#ffffff']
                     }
                 }
             };
@@ -1538,14 +1545,24 @@
                         data: values
                     }],
                     chart: {
-                        type: 'line',
+                        type: 'bar',
                         height: 350,
                         background: '#ffffff',
                         toolbar: {
                             show: true,
                             tools: {
-                                download: false
+                                download: false,
+                                zoom: true,
+                                zoomin: true,
+                                zoomout: true,
+                                pan: true,
+                                reset: true
                             }
+                        },
+                        zoom: {
+                            enabled: true,
+                            type: 'x',
+                            autoScaleYaxis: true
                         }
                     },
                     xaxis: {
@@ -1554,13 +1571,27 @@
                     title: {
                         text: 'Order Revenue - ' + chartType.charAt(0).toUpperCase() + chartType.slice(1)
                     },
-                    stroke: {
-                        show: true,
-                        width: 3,
-                        curve: 'smooth'
+                    plotOptions: {
+                        bar: {
+                            columnWidth: '18%',
+                            borderRadius: 6
+                        }
                     },
-                    markers: {
-                        size: 4
+                    dataLabels: {
+                        enabled: true,
+                        formatter: function(val) {
+                            return "$" + val;
+                        },
+                        style: {
+                            colors: ['#ffffff'],
+                            fontSize: '12px'
+                        },
+                        offsetY: -20
+                    },
+                    tooltip: {
+                        style: {
+                            colors: ['#ffffff']
+                        }
                     }
                 });
             }
@@ -1625,7 +1656,7 @@
                     data: []
                 }],
                 chart: {
-                    type: 'line',
+                    type: 'bar',
                     height: 350,
                     background: '#ffffff',
                     toolbar: {
@@ -1641,15 +1672,17 @@
                 },
                 colors: ['#41695a'],
                 dataLabels: {
-                    enabled: false
+                    enabled: true,
+                    style: {
+                        colors: ['#ffffff']
+                    },
+                    position: 'top'
                 },
-                stroke: {
-                    show: true,
-                    width: 3,
-                    curve: 'smooth'
-                },
-                markers: {
-                    size: 4
+                plotOptions: {
+                    bar: {
+                        columnWidth: '18%',
+                        borderRadius: 6
+                    }
                 },
                 xaxis: {
                     categories: [],
@@ -1731,7 +1764,7 @@
                         data: values
                     }],
                     chart: {
-                        type: 'line',
+                        type: 'bar',
                         height: 350,
                         background: '#ffffff',
                         toolbar: {
@@ -1741,6 +1774,12 @@
                             }
                         }
                     },
+                    plotOptions: {
+                        bar: {
+                            columnWidth: '18%',
+                            borderRadius: 6
+                        }
+                    },
                     xaxis: {
                         categories: labels
                     },
@@ -1748,13 +1787,11 @@
                         text: 'Top Selling Vendors - ' + chartType.charAt(0).toUpperCase() + chartType
                             .slice(1)
                     },
-                    stroke: {
-                        show: true,
-                        width: 3,
-                        curve: 'smooth'
-                    },
-                    markers: {
-                        size: 4
+                    dataLabels: {
+                        enabled: true,
+                        style: {
+                            colors: ['#ffffff']
+                        }
                     }
                 });
             }
@@ -1819,7 +1856,7 @@
                     data: []
                 }],
                 chart: {
-                    type: 'line',
+                    type: 'bar', // Changed from 'line' to 'bar'
                     height: 350,
                     background: '#ffffff',
                     toolbar: {
@@ -1835,15 +1872,20 @@
                 },
                 colors: ['#41695a'],
                 dataLabels: {
-                    enabled: false
+                    enabled: true,
+                    style: {
+                        colors: ['#ffffff']
+                    }
+                },
+                plotOptions: {
+                    bar: {
+                        columnWidth: '18%',
+                        borderRadius: 6
+                    }
                 },
                 stroke: {
                     show: true,
-                    width: 3,
-                    curve: 'smooth'
-                },
-                markers: {
-                    size: 4
+                    width: 2
                 },
                 xaxis: {
                     categories: [],
@@ -1925,7 +1967,7 @@
                         data: values
                     }],
                     chart: {
-                        type: 'line',
+                        type: 'bar', // Changed from 'line' to 'bar'
                         height: 350,
                         background: '#ffffff',
                         toolbar: {
@@ -1933,6 +1975,18 @@
                             tools: {
                                 download: false
                             }
+                        }
+                    },
+                    plotOptions: {
+                        bar: {
+                            columnWidth: '20%',
+                            borderRadius: 6
+                        }
+                    },
+                    dataLabels: {
+                        enabled: true,
+                        style: {
+                            colors: ['#ffffff']
                         }
                     },
                     xaxis: {
@@ -1944,11 +1998,7 @@
                     },
                     stroke: {
                         show: true,
-                        width: 3,
-                        curve: 'smooth'
-                    },
-                    markers: {
-                        size: 4
+                        width: 2
                     }
                 });
             }
@@ -2013,7 +2063,7 @@
                     data: []
                 }],
                 chart: {
-                    type: 'line',
+                    type: 'bar',
                     height: 350,
                     background: '#ffffff',
                     toolbar: {
@@ -2027,17 +2077,19 @@
                     text: 'Pending Vendor Payouts',
                     align: 'left'
                 },
-                colors: ['#e0bb20'],
+                colors: ['#41695a'],
                 dataLabels: {
-                    enabled: false
+                    enabled: true,
+                    style: {
+                        colors: ['#ffffff']
+                    },
+                    position: 'top'
                 },
-                stroke: {
-                    show: true,
-                    width: 3,
-                    curve: 'smooth'
-                },
-                markers: {
-                    size: 4
+                plotOptions: {
+                    bar: {
+                        columnWidth: '18%',
+                        borderRadius: 6
+                    }
                 },
                 xaxis: {
                     categories: [],
@@ -2119,7 +2171,7 @@
                         data: values
                     }],
                     chart: {
-                        type: 'line',
+                        type: 'bar',
                         height: 350,
                         background: '#ffffff',
                         toolbar: {
@@ -2129,6 +2181,12 @@
                             }
                         }
                     },
+                    plotOptions: {
+                        bar: {
+                            columnWidth: '18%',
+                            borderRadius: 6
+                        }
+                    },
                     xaxis: {
                         categories: labels
                     },
@@ -2136,13 +2194,11 @@
                         text: 'Pending Vendor Payouts - ' + chartType.charAt(0).toUpperCase() + chartType
                             .slice(1)
                     },
-                    stroke: {
-                        show: true,
-                        width: 3,
-                        curve: 'smooth'
-                    },
-                    markers: {
-                        size: 4
+                    dataLabels: {
+                        enabled: true,
+                        style: {
+                            colors: ['#ffffff']
+                        }
                     }
                 });
             }
@@ -2207,7 +2263,7 @@
                     data: []
                 }],
                 chart: {
-                    type: 'line',
+                    type: 'bar',
                     height: 350,
                     background: '#ffffff',
                     toolbar: {
@@ -2224,17 +2280,22 @@
                     text: 'Campaign Creation',
                     align: 'left'
                 },
-                colors: ['#e0bb20'],
+                colors: ['#41695a'],
                 dataLabels: {
-                    enabled: false
+                    enabled: true,
+                    style: {
+                        colors: ['#ffffff']
+                    }
+                },
+                plotOptions: {
+                    bar: {
+                        columnWidth: '15%',
+                        borderRadius: 6
+                    }
                 },
                 stroke: {
                     show: true,
-                    width: 3,
-                    curve: 'smooth'
-                },
-                markers: {
-                    size: 4
+                    width: 2
                 },
                 xaxis: {
                     categories: [],
@@ -2322,7 +2383,7 @@
                         data: values
                     }],
                     chart: {
-                        type: 'line',
+                        type: 'bar', // Changed from 'line' to 'bar'
                         height: 350,
                         background: '#ffffff',
                         toolbar: {
@@ -2335,6 +2396,18 @@
                             enabled: false
                         }
                     },
+                    plotOptions: {
+                        bar: {
+                            columnWidth: '18%',
+                            borderRadius: 6
+                        }
+                    },
+                    dataLabels: {
+                        enabled: true,
+                        style: {
+                            colors: ['#ffffff'] // Set text color to white
+                        }
+                    },
                     xaxis: {
                         categories: labels
                     },
@@ -2344,11 +2417,7 @@
                     },
                     stroke: {
                         show: true,
-                        width: 3,
-                        curve: 'smooth'
-                    },
-                    markers: {
-                        size: 4
+                        width: 2
                     }
                 });
             }
