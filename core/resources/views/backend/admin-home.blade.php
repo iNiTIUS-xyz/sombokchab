@@ -1015,7 +1015,7 @@
                     labels: {
                         formatter: function(value) {
                             return value && value.length > 15 ?
-                                value.substring(0, 15) + '...' :
+                                value.substring(0, 20) + '...' :
                                 value || '';
                         }
                     }
@@ -1237,7 +1237,7 @@
                     labels: {
                         formatter: function(value) {
                             return value && value.length > 30 ?
-                                value.substring(0, 30) + '...' :
+                                value.substring(0, 20) + '...' :
                                 value || '';
                         }
                     }
@@ -1467,7 +1467,7 @@
                     labels: {
                         formatter: function(value) {
                             return value && value.length > 30 ?
-                                value.substring(0, 30) + '...' :
+                                value.substring(0, 20) + '...' :
                                 value || '';
                         }
                     }
@@ -1689,7 +1689,7 @@
                     labels: {
                         formatter: function(value) {
                             return value && value.length > 15 ?
-                                value.substring(0, 15) + '...' :
+                                value.substring(0, 20) + '...' :
                                 value || '';
                         }
                     }
@@ -1892,7 +1892,7 @@
                     labels: {
                         formatter: function(value) {
                             return value && value.length > 15 ?
-                                value.substring(0, 15) + '...' :
+                                value.substring(0, 20) + '...' :
                                 value || '';
                         }
                     }
@@ -2096,7 +2096,7 @@
                     labels: {
                         formatter: function(value) {
                             return value && value.length > 15 ?
-                                value.substring(0, 15) + '...' :
+                                value.substring(0, 20) + '...' :
                                 value || '';
                         }
                     }
@@ -2302,7 +2302,7 @@
                     labels: {
                         formatter: function(value) {
                             return value && value.length > 15 ?
-                                value.substring(0, 15) + '...' :
+                                value.substring(0, 20) + '...' :
                                 value || '';
                         }
                     }

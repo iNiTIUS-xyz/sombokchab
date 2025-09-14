@@ -541,7 +541,12 @@ class AdminDashboardController extends Controller
                         ->orderBy('year', 'asc')
                         ->orderBy('week_number', 'asc')
                         ->get()
-                        ->mapWithKeys(fn($item) => [$item->week => $item->amount])
+                        ->mapWithKeys(function ($item) {
+                            $weekStart = Carbon::parse($item->week_start)->format('j');
+                            $weekEnd   = Carbon::parse($item->week_end)->format('j M');
+                            $label = "W {$item->week_number} ({$weekStart} - {$weekEnd})";
+                            return [$label => $item->amount];
+                        })
                         ->toArray();
                 } else {
                     $data = $query->selectRaw("
@@ -556,7 +561,12 @@ class AdminDashboardController extends Controller
                         ->orderBy('year', 'asc')
                         ->orderBy('week_number', 'asc')
                         ->get()
-                        ->mapWithKeys(fn($item) => [$item->week => $item->amount])
+                        ->mapWithKeys(function ($item) {
+                            $weekStart = Carbon::parse($item->week_start)->format('j');
+                            $weekEnd   = Carbon::parse($item->week_end)->format('j M');
+                            $label = "W {$item->week_number} ({$weekStart} - {$weekEnd})";
+                            return [$label => $item->amount];
+                        })
                         ->toArray();
                 }
                 break;
@@ -913,7 +923,8 @@ class AdminDashboardController extends Controller
                 $weeklyQuery = $query->selectRaw("
                     YEAR(created_at) as year,
                     WEEK(created_at, 1) as week_number,
-                    CONCAT('Week ', WEEK(created_at, 1)) as week,
+                    MIN(created_at) as week_start,
+                    MAX(created_at) as week_end,
                     SUM(amount) as total
                 ");
 
@@ -929,11 +940,16 @@ class AdminDashboardController extends Controller
                     ]);
                 }
 
-                $data = $weeklyQuery->groupBy('year', 'week_number', 'week')
+                $data = $weeklyQuery->groupBy('year', 'week_number')
                     ->orderBy('year', 'asc')
                     ->orderBy('week_number', 'asc')
                     ->get()
-                    ->mapWithKeys(fn($item) => [$item->week => $item->total])
+                    ->mapWithKeys(function ($item) {
+                        $weekStart = Carbon::parse($item->week_start)->startOfWeek(Carbon::MONDAY)->format('j');
+                        $weekEnd   = Carbon::parse($item->week_start)->endOfWeek(Carbon::SUNDAY)->format('j M');
+                        $label     = "W {$item->week_number} ({$weekStart} - {$weekEnd})";
+                        return [$label => $item->total];
+                    })
                     ->toArray();
                 break;
 
