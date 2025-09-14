@@ -21,18 +21,14 @@ Route::get('firebase-phone-authentication', [FirebaseController::class, 'index']
 
 Route::get('update-notification', XgNotificationController::class)->middleware(['setlang:frontend', 'setlang:backend'])->name('update-notification');
 
-
 Route::get('send-otp', '\App\Http\Controllers\Auth\LoginController@sendOtp')->name('send.otp');
 Route::post('verify-otp', '\App\Http\Controllers\Auth\LoginController@verifyOtp')->name('verify.otp');
 
 Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_mode', 'check.auth.vendor']], function () {
-
-
     Route::group(['prefix' => 'facebook'], function () {
         Route::get('callback', 'SocialLoginController@facebook_callback')->name('facebook.callback');
         Route::get('redirect', 'SocialLoginController@facebook_redirect')->name('login.facebook.redirect');
     });
-
     Route::group(['prefix' => 'google'], function () {
         Route::get('callback', 'SocialLoginController@google_callback')->name('google.callback');
         Route::get('redirect', 'SocialLoginController@google_redirect')->name('login.google.redirect');
@@ -41,22 +37,15 @@ Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_
     Route::post('submit-custom-form', 'FrontendFormController@custom_form_builder_message')->name('frontend.form.builder.custom.submit');
 
     $blog_page_slug = getSlugFromReadingSetting('blog_page', 'blog');
-
-    /**---------------------------------------------------------------------------------------------------------------------------
-     *                          FRONTEND ROUTES
-     * --------------------------------------------------------------------------------------------------------------------------*/
+    // FRONTEND ROUTES
     Route::get('/', 'FrontendController@index')->name('homepage');
     Route::get('change-currency', 'FrontendController@changeCurrencySymbol')->name('changeCurrency');
-
     Route::get('products', 'FrontendController@dynamic_shop_single_page')->name('frontend.dynamic.shop.page');
-
     Route::get('/home/{id}', 'FrontendController@home_page_change')->name('homepage.demo');
-
     // Newsletter
     Route::get('/subscriber/email-verify/{token}', 'FrontendController@subscriber_verify')->name('subscriber.verify');
     //Unsubscribe Newsletter
     Route::get('/newsletter/unsubscribe/{id}', 'FrontendController@newsletter_unsubscribe')->name('frontend.newsletter.unsubscribe.visitor');
-
     // Contact Route
     Route::post('/contact-message', 'FrontendFormController@send_contact_message')->name('frontend.contact.message');
     // Tax Info
@@ -69,14 +58,8 @@ Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_
     // change site currency symbol
     Route::post('change-currency', 'FrontendController@changeSiteCurrency')->name('frontend.change.currency');
     Route::post('change-language', 'FrontendController@changeSiteLanguage')->name('frontend.change.language');
-
-
     Route::post('/search/image', [FrontendController::class, 'searchByImage'])->name('search.image');
-
-
-    /**--------------------------------
-     * FRONT PAGE FILTER ROUTES
-     * ---------------------------------*/
+    // FRONT PAGE FILTER ROUTES
     Route::match(["get", "post"], 'filter-top-rated', 'FrontendController@topRatedProducts')->name('frontend.products.filter.top.rated');
     Route::match(["get", "post"], 'filter-top-selling', 'FrontendController@topSellingProducts')->name('frontend.products.filter.top.selling');
     Route::match(["get", "post"], 'filter-new', 'FrontendController@newProducts')->name('frontend.products.filter.new');
@@ -85,32 +68,21 @@ Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_
     Route::get('filter-category', 'FrontendController@filterCategoryProducts')->name('frontend.products.filter.category');
 
     Route::get('attribute-data', 'FrontendController@getProductAttributeHtml')->name('frontend.products.attribute.html');
-
-    /**--------------------------------
-     * LANDING PAGES
-     * ---------------------------------*/
+    // LANDING PAGES
     Route::prefix('land')->group(function () {
-        /**--------------------------------
-         * PRODUCT SHOP PAGES
-         * ---------------------------------*/
+        // PRODUCT SHOP PAGES
         Route::prefix('home')->group(function () {
             Route::get('01', 'LandingController@homeOne');
             Route::get('02', 'LandingController@homeTwo');
         });
-
-        /**--------------------------------
-         * PRODUCT SHOP PAGES
-         * ---------------------------------*/
+        // PRODUCT SHOP PAGES
         Route::prefix('shop')->group(function () {
             Route::get('grid', 'LandingController@shopGrid')->name('land.shop.grid');
             Route::get('list', 'LandingController@shopList')->name('land.shop.list');
             Route::get('right-sidebar', 'LandingController@shopRightSidebar')->name('land.shop.sidebar.right');
             Route::get('left-sidebar', 'LandingController@shopLeftSidebar')->name('land.shop.sidebar.left');
         });
-
-        /**--------------------------------
-         * BLOG PAGES
-         * ---------------------------------*/
+        // BLOG PAGES
         Route::prefix('blog')->group(function () {
             Route::get('grid', 'LandingController@blogGrid');
             Route::get('list', 'LandingController@blogList');
@@ -118,10 +90,7 @@ Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_
             Route::get('details', 'LandingController@blogDetails');
         });
     });
-
-    /**--------------------------------
-     * CHECKOUT ROUTES
-     * ---------------------------------*/
+    // CHECKOUT ROUTES
     Route::get('checkout', 'FrontendController@checkoutPage')->name('frontend.checkout');
     Route::get('get-tax-based-on-billing-address', 'FrontendController@cartItemsBasedOnBillingAddress')->name('frontend.get-tax-based-on-billing-address');
     Route::get('vendors', [FrontendVendorController::class, "index"])->name('frontend.vendors');
@@ -131,10 +100,8 @@ Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_
     Route::get('vendor/forget-password', [FrontendController::class, "showVendorForgetPasswordForm"])->name('vendor.forget.password.form');
     Route::post('vendor/forget-password', [FrontendController::class, "sendVendorForgetPasswordMail"])->name('vendor.forget.password');
 
-
     Route::post('/vendor-check-phone-existence', [FrontendController::class, 'checkVendorPhoneExistence'])->name('vendor.check-phone-existence');
     Route::post('/vendor-update-forgot-password', [FrontendController::class, 'updateVendorForgotPassword'])->name('vendor.update-forgot-password');
-
 
     Route::get('/vendor/reset-password/{user}/{token}', 'FrontendController@showVendorResetPasswordForm')->name('vendor.reset.password');
     Route::post('/vendor/reset-password', 'FrontendController@VendorResetPassword')->name('vendor.reset.password.change');
@@ -147,60 +114,41 @@ Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_
         ->controller(FrontendShippingAddresssController::class)->group(function () {
             Route::post("/add", "store")->name("store");
         });
-
-    /**---------------------------------------------------------------------------------------------------------------------------
-     *                   BLOG AREA FRONTEND ROUTES
-     * ----------------------------------------------------------------------------------------------------------------------------*/
+    // BLOG AREA FRONTEND ROUTES
     Route::get('/' . $blog_page_slug . '/{slug}', 'FrontendController@blog_single_page')->name('frontend.blog.single');
     Route::get('/' . $blog_page_slug . '-search', 'FrontendController@blog_search_page')->name('frontend.blog.search');
     Route::get('/' . $blog_page_slug . '-category/{id}/{any?}', 'FrontendController@category_wise_blog_page')->name('frontend.blog.category');
     Route::get('/' . $blog_page_slug . '-tags/{name}', 'FrontendController@tags_wise_blog_page')->name('frontend.blog.tags.page');
-
-    /*----------------------------------
-        FRONTEND: SUPPORT TICKET ROUTES
-    ----------------------------------*/
+    // FRONTEND: SUPPORT TICKET ROUTES
     Route::group(['namespace' => 'Support'], function () {
         $support_ticket_page_slug = 'support'; // get_static_option('support_ticket_page_slug') ?? 'support';
         Route::get($support_ticket_page_slug, 'UserSupportTicketController@page')->name('frontend.support.ticket');
         Route::post($support_ticket_page_slug . '/new', 'UserSupportTicketController@store')->name('frontend.support.ticket.store');
     });
-
-
-    /**---------------------------------------------------------------------------------------------------------------------------
-     *                   USER DASHBOARD
-     * ----------------------------------------------------------------------------------------------------------------------------*/
+    // USER DASHBOARD
     Route::get('campaign/user', 'FrontendController@user_campaign')->name('frontend.campaign.user');
 
     Route::prefix('user-home')->middleware(['userEmailVerify', 'setlang:frontend', 'globalVariable', 'maintains_mode'])->group(function () {
         Route::get('/', 'UserDashboardController@user_index')->name('user.home');
         Route::get('/download/file/{id}', 'UserDashboardController@download_file')->name('user.dashboard.download.file');
-
         Route::get('/change-password', 'UserDashboardController@change_password')->name('user.home.change.password');
         Route::get('/edit-profile', 'UserDashboardController@edit_profile')->name('user.home.edit.profile');
         Route::post('/profile-update', 'UserDashboardController@user_profile_update')->name('user.profile.update');
         Route::post('/password-change', 'UserDashboardController@user_password_change')->name('user.password.change');
         Route::get('/support-tickets', 'UserDashboardController@support_tickets')->name('user.home.support.tickets');
-
         Route::post('/user/deactivate', 'UserDashboardController@deactivateAccount')->name('user.deactivate');
         Route::post('send/otp-code', 'UserDashboardController@sendOtopCode')->name('user.send.opt.code');
         Route::post('change/phone', 'UserDashboardController@changePhone')->name('user.chnage.phone');
-
         Route::get('support-ticket/view/{id}', 'UserDashboardController@support_ticket_view')->name('user.dashboard.support.ticket.view');
         Route::post('support-ticket/priority-change', 'UserDashboardController@support_ticket_priority_change')->name('user.dashboard.support.ticket.priority.change');
         Route::post('support-ticket/status-change', 'UserDashboardController@support_ticket_status_change')->name('user.dashboard.support.ticket.status.change');
         Route::post('support-ticket/message', 'UserDashboardController@support_ticket_message')->name('user.dashboard.support.ticket.message');
-
-        /**------------------------------------
-         * Campaign log withdraw
-         * -------------------------------------*/
+        // Campaign log withdraw
         Route::get('/campaign/log/withdraw', 'UserDashboardController@campaign_log_withdraw')->name('user.campaign.log.withdraw');
         Route::post('/campaign/withdraw/submit', 'UserDashboardController@campaign_withdraw_submit')->name('user.campaign.withdraw.submit');
         Route::post('/campaign/withdraw/check', 'UserDashboardController@campaign_withdraw_check')->name('user.campaign.withdraw.check');
         Route::get('/campaign/withdraw/view/{id}', 'UserDashboardController@campaign_withdraw_view')->name('user.campaign.withdraw.view');
-
-        /**------------------------------------
-         * User Product Order
-         * -------------------------------------*/
+        //  User Product Order
         Route::prefix('orders')->name('user.product.order.')->group(function () {
             Route::get('all', 'UserDashboardController@allOrdersPage')->name('all');
             Route::get('/cancel/{item}', 'UserDashboardController@orderCancel')->name('cancel');
@@ -210,13 +158,9 @@ Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_
             Route::get('reorder/{id}', 'UserDashboardController@reOrder')->name('reorder');
             Route::post('/delivery-man-ratting/{item}', 'UserDashboardController@orderDeliveryManRatting')->name('delivery-man-ratting');
         });
-
         Route::get("refund-request", 'UserDashboardController@allRefundsPage')->name("user.product.refund-request");
         Route::get("refund-request/{id}", 'UserDashboardController@viewRequest')->name("user.product.refund-request.view");
-
-        /**------------------------------------
-         * User Shipping Address
-         * -------------------------------------*/
+        // User Shipping Address
         Route::get('shipping-address', 'UserDashboardController@allShippingAddress')->name('user.shipping.address.all');
         Route::get('shipping-address/new', 'UserDashboardController@createShippingAddress')->name('user.shipping.address.new');
         Route::post('shipping-address/new', 'UserDashboardController@storeShippingAddress');
@@ -224,10 +168,7 @@ Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_
         Route::get('shipping-address/edit/{id}', 'UserDashboardController@editShippingAddress')->name('user.shipping.address.edit');
         Route::put('shipping-address/update', 'UserDashboardController@updateShippingAddress')->name('user.shipping.address.update');
         Route::get('make/shipping-address/default/{id}', 'UserDashboardController@makeDefault')->name('user.shipping.address.make-default');
-
-        /**---------------------------------------------------------------------------------------------------------------------------
-         * MEDIA UPLOAD ROUTE
-         * ----------------------------------------------------------------------------------------------------------------------------*/
+        // MEDIA UPLOAD ROUTE
         Route::group(['prefix' => 'media-upload', 'namespace' => 'User'], function () {
             Route::post('/', 'MediaUploadController@upload_media_file')->name('user.upload.media.file');
             Route::post('/all', 'MediaUploadController@all_upload_media_file')->name('user.upload.media.file.all');
@@ -235,10 +176,7 @@ Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_
             Route::post('/delete', 'MediaUploadController@delete_upload_media_file')->name('user.upload.media.file.delete');
             Route::post('/loadmore', 'MediaUploadController@get_image_for_loadmore')->name('user.upload.media.file.loadmore');
         });
-
-        /**---------------------------------------------------------------------------------------------------------------------------
-         * MEDIA UPLOAD ROUTE
-         * ----------------------------------------------------------------------------------------------------------------------------*/
+        // MEDIA UPLOAD ROUTE
         Route::group(['prefix' => 'media-upload', 'namespace' => 'Admin'], function () {
             Route::post('/', 'MediaUploadController@upload_media_file')->name('user.upload.media.file');
             Route::post('/all', 'MediaUploadController@all_upload_media_file')->name('user.upload.media.file.all');
@@ -282,16 +220,11 @@ Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_
     Route::post('/package-user/generate-invoice', 'FrontendController@generate_package_invoice')->name('frontend.package.invoice.generate');
 });
 
-
 Route::group(['middleware' => 'globalVariable'], function () {
-    /**---------------------------------------------------------------------------------------------------------------------------
-     *                          LANGUAGE CHANGE
-     *----------------------------------------------------------------------------------------------------------------------------*/
+    // LANGUAGE CHANGE
     Route::get('/lang', 'FrontendController@lang_change')->name('frontend.langchange');
     Route::post('/subscribe-newsletter', 'FrontendController@subscribe_newsletter')->name('frontend.subscribe.newsletter');
-    /**---------------------------------------------------------------------------------------------------------------------------
-     *                          ADMIN LOGIN
-     *----------------------------------------------------------------------------------------------------------------------------*/
+    // ADMIN LOGIN
     Route::middleware(['setlang:backend'])->group(function () {
         Route::get('/admin', 'Auth\LoginController@showAdminLoginForm')->name('admin.login');
         Route::get('/admin/forget-password', 'FrontendController@showAdminForgetPasswordForm')->name('admin.forget.password');
@@ -302,38 +235,25 @@ Route::group(['middleware' => 'globalVariable'], function () {
         Route::post('/admin', 'Auth\LoginController@adminLogin');
     });
 });
-
-/**--------------------------------------------------------------------------------------------------------------------------------
- *                          ADMIN PANEL ROUTES
- *----------------------------------------------------------------------------------------------------------------------------------*/
+// ADMIN PANEL ROUTES
 Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable', 'auth:admin'])->group(function () {
     // 404-page manage
     Route::get('404-page-manage', 'Admin\Error404PageManage@error_404_page_settings')->name('admin.404.page.settings')->permission('404-page-manage');
     Route::post('404-page-manage', 'Admin\Error404PageManage@update_error_404_page_settings')->permission('404-page-manage');
-
     // maintains page
     Route::get('/maintains-page/settings', 'Admin\MaintainsPageController@maintains_page_settings')->name('admin.maintains.page.settings')->permission('maintains-page-settings');
     Route::post('/maintains-page/settings', 'Admin\MaintainsPageController@update_maintains_page_settings')->permission('maintains-page-settings');
-
     Route::get("shipping-charge-settings", [SiteSettingsController::class, "shippingMethods"])->name("admin.shipping-charge-settings")->permission('shipping-charge-settings');
     Route::post("shipping-charge-settings", [SiteSettingsController::class, "updateShippingMethods"])->permission('shipping-charge-settings');
-
     Route::get("notification", [AdminNotificationController::class, "index"])->name("admin.notifications");
-
-
-    /*-----------------------------------
-        Admin Shop Manage Routes
-    ------------------------------------*/
+    // Admin Shop Manage Routes
     Route::controller(AdminShopManageController::class)->group(function () {
         Route::get("invoice-note", "invoiceNote")->name("admin.shop-manage.invoice-note")->permission("invoice-note");
         Route::post("invoice-note", "saveInvoiceNote")->permission("invoice-note");
         Route::get("shop-manage", "index")->name("admin.shop-manage.update")->permission('shop-manage');
         Route::post("shop-manage", "update")->permission('shop-manage');
     });
-
-    /*-----------------------------------
-        MODULE SETTING ROUTES
-    ------------------------------------*/
+    // MODULE SETTING ROUTES
     Route::group(['prefix' => 'page-settings', 'as' => 'admin.page.settings.'], function () {
         // wishlist
         Route::get('wishlist', 'Admin\ModulePageSettingsController@wishlistPageSettings')->name('wishlist')->permission('page-settings-wishlist');
@@ -360,7 +280,6 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
         Route::get('product-settings-page', 'Admin\ModulePageSettingsController@productSettingsPage')->name('product.settings.page')->permission('page-settings-product-details-page');
         Route::post('product-settings-page', 'Admin\ModulePageSettingsController@storeProductSettingsPage')->permission('page-settings-product-details-page');
     });
-
     //HOME PAGE MANAGE
     Route::group(['prefix' => 'home-page-01', 'namespace' => 'Admin'], function () {
         Route::get('/latest-news', 'HomePageController@home_01_latest_news')->name('admin.homeone.latest.news')->permission('home-page-01-latest-news');
@@ -381,7 +300,6 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
         Route::get('/section-manage', 'HomePageController@home_01_section_manage')->name('admin.homeone.section.manage')->permission('home-page-01-section-manage');
         Route::post('/section-manage', 'HomePageController@home_01_update_section_manage')->permission('home-page-01-section-manage');
     });
-
     // WIDGET
     Route::group(['prefix' => 'widgets', 'namespace' => 'Admin'], function () {
         //widget manage
@@ -392,7 +310,6 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
         Route::post('/update/order', 'WidgetsController@update_order_widget')->name('admin.widgets.update.order')->permission('widgets-update-order');
         Route::post('/delete', 'WidgetsController@delete_widget')->name('admin.widgets.delete')->permission('widgets-delete');
     });
-
     // TOPBAR SETTINGS
     Route::group(['prefix' => 'topbar-settings', 'namespace' => 'Admin'], function () {
         Route::get('/all', "TopBarController@index")->name('admin.topbar.settings')->permission('topbar-settings-all');
@@ -401,7 +318,6 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
         Route::post('/delete/{id}', 'TopBarController@delete')->name('admin.topbar.delete')->permission('topbar-settings-delete');
         Route::post('/bulk-action', 'TopBarController@bulk_action')->name('admin.topbar.bulk.action')->permission('topbar-settings-bulk-action');
     });
-
     //MENU MANAGE
     Route::group(['prefix' => 'menu', 'namespace' => 'Admin'], function () {
         Route::get('/', 'MenuController@index')->name('admin.menu')->permission('menu');
@@ -412,7 +328,6 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
         Route::post('/default/{id}', 'MenuController@set_default_menu')->name('admin.menu.default')->permission('menu-default');
         Route::post('/mega-menu', 'MenuController@mega_menu_item_select_markup')->name('admin.mega.menu.item.select.markup')->permission('menu-mega-menu');
     });
-
     // Category Menu
     Route::group(['prefix' => 'category-menu', 'namespace' => 'Admin'], function () {
         Route::get('/', 'CategoryMenuController@index')->name('admin.category.menu.settings')->permission('category-menu');
@@ -424,43 +339,31 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
         Route::post('/mega-menu', 'CategoryMenuController@mega_menu_item_select_markup')->name('admin.mega.category.menu.item.select.markup')->permission('category-menu-mega-menu');
         Route::post('/render-sub-category', [CategoryMenuController::class, "fetch_sub_category"])->name("admin.category.menu.sub_category")->permission('category-menu-render-sub-category');
     });
-
-    /**---------------------------------------------------------------------------------------------------------------------------
-     *                           HOMEPAGE MANAGE
-     * ----------------------------------------------------------------------------------------------------------------------------*/
     //homepage manage
     Route::prefix('home-page')->namespace('Admin')->group(function () {
         //Key Features
         Route::get('/key-features-area', 'HomePageController@key_features_section')->name('admin.home.key.features')->permission('home-page-key-features-area');
         Route::post('/key-features-area', 'HomePageController@update_key_features_section')->permission('home-page-key-features-area');
-
         //why-choose-us area
         Route::get('/why-choose-us-area-settings', 'HomePageController@why_choose_us_area')->name('admin.home.why.choose.us')->permission('home-page-why-choose-us-area-settings');
         Route::post('/why-choose-us-area-settings', 'HomePageController@update_why_choose_us_area')->permission('home-page-why-choose-us-area-settings');
-
         //call to action area
         Route::get('/call-to-action-settings', 'HomePageController@call_to_action_area')->name('admin.home.call.to.action')->permission('home-page-call-to-action-settings');
         Route::post('/call-to-action-settings', 'HomePageController@update_call_to_action_area')->permission('home-page-call-to-action-settings');
-
         //keyfeatures area
         Route::get('/keyfeatures-area-settings', 'HomePageController@keyfeatures_area')->name('admin.home.keyfeatures')->permission('home-page-keyfeatures-area-settings');
         Route::post('/keyfeatures-area-settings', 'HomePageController@update_keyfeatures_area')->permission('home-page-keyfeatures-area-settings');
         //price plan area
         Route::get('/price-plan-area-settings', 'HomePageController@price_plan_area')->name('admin.home.price.plan')->permission('home-page-price-plan-area-settings');
         Route::post('/price-plan-area-settings', 'HomePageController@update_price_plan_area')->permission('home-page-price-plan-area-settings');
-
         //latest blog area
         Route::get('/latest-blog-settings', 'HomePageController@latest_blog_area')->name('admin.home.blog.latest')->permission('home-page-latest-blog-settings');
         Route::post('/latest-blog-settings', 'HomePageController@update_latest_blog_area')->permission('home-page-latest-blog-settings');
-
         //section manage
         Route::get('/section-manage', 'HomePageController@section_manage')->name('admin.home.section.manage')->permission('home-page-section-manage');
         Route::post('/section-manage', 'HomePageController@update_section_manage')->permission('home-page-section-manage');
     });
-
-    /**---------------------------------------------------------------------------------------------------------------------------
-     *                           CONTACT PAGE MANAGE
-     * ----------------------------------------------------------------------------------------------------------------------------*/
+    //  CONTACT PAGE MANAGE
     Route::group(['prefix' => 'contact-page', 'namespace' => 'Admin'], function () {
         //contact page
         Route::get('/form-area', 'ContactPageController@contact_page_form_area')->name('admin.contact.page.form.area')->permission('contact-page-form-area');
@@ -471,7 +374,6 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
         Route::get('/section-manage', 'ContactPageController@contact_page_section_manage')->name('admin.contact.page.section.manage')->permission('contact-page-section-manage');
         Route::post('/section-manage', 'ContactPageController@contact_page_update_section_manage')->permission('contact-page-section-manage');
 
-        //contact info /** @todo delete */
         Route::get('/contact-info', 'ContactInfoController@index')->name('admin.contact.info')->permission('contact-page-contact-info');
         Route::post('/contact-info', 'ContactInfoController@store')->permission('contact-page-contact-info');
         Route::post('/contact-info/title', 'ContactInfoController@contact_info_title')->name('admin.contact.info.title')->permission('contact-page-contact-info-title');
@@ -479,19 +381,13 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
         Route::post('/contact-info/delete/{id}', 'ContactInfoController@delete')->name('admin.contact.info.delete')->permission('contact-page-contact-info-delete');
         Route::post('/contact-info/bulk-action', 'ContactInfoController@bulk_action')->name('admin.contact.info.bulk.action')->permission('contact-page-contact-info-bulk-action');
     });
-
-    /**---------------------------------------------------------------------------------------------------------------------------
-     *                           MEDIA UPLOAD ROUTE
-     * ----------------------------------------------------------------------------------------------------------------------------*/
+    // MEDIA UPLOAD ROUTE
     Route::group(['prefix' => 'media-upload', 'namespace' => 'Admin'], function () {
         Route::post('/alt', 'MediaUploadController@alt_change_upload_media_file')->name('admin.upload.media.file.alt.change')->permission('media-upload-alt');
         Route::get('/page', 'MediaUploadController@all_upload_media_images_for_page')->name('admin.upload.media.images.page')->permission('media-upload-page');
         Route::post('/delete', 'MediaUploadController@delete_upload_media_file')->name('admin.upload.media.file.delete')->permission('media-upload-delete');
     });
-
-    /**---------------------------------------------------------------------------------------------------------------------------
-     *                          ADMIN DASHBOARD ROUTES
-     * ----------------------------------------------------------------------------------------------------------------------------*/
+    //  ADMIN DASHBOARD ROUTES
     Route::group(['namespace' => 'Admin'], function () {
         //admin Profile
         Route::get('/settings', 'AdminDashboardController@admin_settings')->name('admin.profile.settings')->permission('settings');
@@ -499,7 +395,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
         Route::post('/profile-update', 'AdminDashboardController@admin_profile_update')->permission('profile-update');
         Route::get('/password-change', 'AdminDashboardController@admin_password')->name('admin.password.change')->permission('password-change');
         Route::post('/password-change', 'AdminDashboardController@admin_password_chagne')->permission('password-change');
-        //admin index
+        //admin dasboard
         Route::get('/', 'AdminDashboardController@adminIndex')->name('admin.home');
         Route::get('/vendors/data', 'AdminDashboardController@getVendorData')->name('vendors.data');
         Route::get('/customers/data', 'AdminDashboardController@getCustomerData')->name('customers.data');
@@ -511,10 +407,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
         Route::get('/health', 'AdminDashboardController@health')->name('admin.health');
         Route::get('/dark-mode-toggle', 'AdminDashboardController@dark_mode_toggle')->name('admin.dark.mode.toggle')->permission('dark-mode-toggle');
     });
-
-    /**---------------------------------------------------------------------------------------------------------------------------
-     *                          BLOG PAGE MANAGE
-     * ----------------------------------------------------------------------------------------------------------------------------*/
+    // BLOG PAGE MANAGE
     Route::group(['prefix' => 'blog', 'namespace' => 'Admin'], function () {
         Route::get('/', 'BlogController@index')->name('admin.blog')->permission('blog');
         Route::get('/new', 'BlogController@new_blog')->name('admin.blog.new')->permission('blog-new');
@@ -540,10 +433,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
         //bulk action
         Route::post('/bulk-action', 'BlogController@bulk_action')->name('admin.blog.bulk.action')->permission('blog-bulk-action');
     });
-
-    /**---------------------------------------------------------------------------------------------------------------------------
-     *                          FAQ ROUTES
-     * ----------------------------------------------------------------------------------------------------------------------------*/
+    // FAQ ROUTES
     Route::group(['prefix' => 'faq', 'namespace' => 'Admin'], function () {
         Route::get('/', 'FaqController@index')->name('admin.faq')->permission('faq');
         Route::post('/', 'FaqController@store')->permission('faq');
@@ -553,10 +443,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
         Route::post('/faq/bulk-action', 'FaqController@bulk_action')->name('admin.faq.bulk.action')->permission('faq-faq-bulk-action');
         Route::post('/faq-status-change/{id}', 'FaqController@statusChange')->name('admin.faq.status.change');
     });
-
-    /**---------------------------------------------------------------------------------------------------------------------------
-     *                          PAGES ROUTES
-     * ----------------------------------------------------------------------------------------------------------------------------*/
+    // PAGES ROUTES
     Route::group(['prefix' => 'page', 'namespace' => 'Admin'], function () {
         Route::get('/all', 'PagesController@index')->name('admin.page')->permission('page-all');
         Route::get('/new', 'PagesController@new_page')->name('admin.page.new')->permission('page-new');
@@ -567,26 +454,17 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
         Route::post('/bulk-action', 'PagesController@bulk_action')->name('admin.page.bulk.action')->permission('page-bulk-action');
         Route::post('/page-status-change/{id}', 'PagesController@statusChange')->name('admin.page.status.change');
     });
-
-    /**---------------------------------------------------------------------------------------------------------------------------
-     *                          NAVBAR ROUTES
-     * ----------------------------------------------------------------------------------------------------------------------------*/
+    // NAVBAR ROUTES
     Route::group(['prefix' => 'appearance-settings/navbar', 'namespace' => 'Admin'], function () {
         Route::get('/all', 'NavbarController@navbar_settings')->name('admin.navbar.settings')->permission('appearance-settings-navbar-all');
         Route::post('/all', 'NavbarController@update_navbar_settings')->permission('appearance-settings-navbar-all');
     });
-
-    /**---------------------------------------------------------------------------------------------------------------------------
-     *                          HOME VARIANT ROUTES
-     * ----------------------------------------------------------------------------------------------------------------------------*/
+    // HOME VARIANT ROUTES
     Route::group(['prefix' => 'appearance-settings/home-variant', 'namespace' => 'Admin'], function () {
         Route::get('/select', "AdminDashboardController@home_variant")->name('admin.home.variant')->permission('appearance-settings-home-variant-select');
         Route::post('/select', "AdminDashboardController@update_home_variant")->permission('appearance-settings-home-variant-select');
     });
-
-    /**---------------------------------------------------------------------------------------------------------------------------
-     *                          TOP BAR ROUTES
-     * ----------------------------------------------------------------------------------------------------------------------------*/
+    // TOP BAR ROUTES
     Route::group(['prefix' => 'appearance-settings/topbar', 'namespace' => 'Admin'], function () {
         Route::get('/all', "TopBarController@topbar_settings")->name('admin.topbar.settings')->permission('appearance-settings-topbar-all');
         Route::post('/all', "TopBarController@update_topbar_settings")->permission('appearance-settings-topbar-all');
@@ -595,11 +473,8 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
         Route::post('/update-social-item', 'TopBarController@update_social_item')->name('admin.update.social.item')->permission('appearance-settings-topbar-update-social-item');
         Route::post('/delete-social-item/{id}', 'TopBarController@delete_social_item')->name('admin.delete.social.item')->permission('appearance-settings-topbar-delete-social-item');
     });
-
-    /**---------------------------------------------------------------------------------------------------------------------------
-     *                          GENERAL SETTINGS MANAGE
-     * ----------------------------------------------------------------------------------------------------------------------------*/
-    Route::group(['prefix' => 'general-settings', 'namespace' => 'Admin'], function () {     //Upgrade Database
+    // GENERAL SETTINGS MANAGE
+    Route::group(['prefix' => 'general-settings', 'namespace' => 'Admin'], function () {
         Route::get('/database-upgrade', 'GeneralSettingsController@database_upgrade')->name('admin.general.database.upgrade')->permission('general-settings-database-upgrade');
         Route::post('/database-upgrade', 'GeneralSettingsController@database_upgrade_post')->permission('general-settings-database-upgrade');
         //Reading
@@ -608,7 +483,6 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
         //Reading
         Route::get('/others', 'GeneralSettingsController@others')->name('admin.general.others')->permission('general-settings-others');
         Route::post('/others', 'GeneralSettingsController@update_others')->permission('general-settings-others');
-
         //Navbar Global Variant
         Route::get('/global-variant-navbar', 'GeneralSettingsController@global_variant_navbar')->name('admin.general.global.variant.navbar')->permission('general-settings-global-variant-navbar');
         Route::post('/global-variant-navbar', 'GeneralSettingsController@update_global_variant_navbar')->permission('general-settings-global-variant-navbar');
@@ -672,13 +546,11 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
         Route::post('/custom-js', 'GeneralSettingsController@update_custom_js_settings')->permission('general-settings-custom-js');
         //smtp settings
         Route::get('/smtp-settings', 'GeneralSettingsController@smtp_settings')->name('admin.general.smtp.settings')->permission('general-settings-smtp-settings');
-
         Route::post('/smtp-settings', 'GeneralSettingsController@update_smtp_settings')->permission('general-settings-smtp-settings');
         Route::post('/smtp-settings/test', 'GeneralSettingsController@test_smtp_settings')->name('admin.general.smtp.settings.test')->permission('general-settings-smtp-settings-test');
         //payment gateway
         Route::get('/payment-settings', 'GeneralSettingsController@payment_settings')->name('admin.general.payment.settings')->permission('general-settings-payment-settings');
         Route::post('/payment-settings', 'GeneralSettingsController@update_payment_settings')->permission('general-settings-payment-settings');
-
         //popup
         Route::get('/popup-settings', 'GeneralSettingsController@popup_settings')->name('admin.general.popup.settings')->permission('general-settings-popup-settings');
         Route::post('/popup-settings', 'GeneralSettingsController@update_popup_settings')->permission('general-settings-popup-settings');
@@ -700,7 +572,6 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
             Route::get('/software-update-setting', 'software_update_check_settings')->name('admin.general.software.update.settings');
         });
     });
-
     //language
     Route::group(['prefix' => 'languages', 'namespace' => 'Admin'], function () {
         Route::get('/', 'LanguageController@index')->name('admin.languages')->permission('languages');
@@ -715,10 +586,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
         Route::post('/add-new-string', 'LanguageController@add_new_string')->name('admin.languages.add.string')->permission('languages-add-new-string');
         Route::post('/languages/regenerate-source-text', 'LanguageController@regenerate_source_text')->name('admin.languages.regenerate.source.texts')->permission('languages-languages-regenerate-source-text');
     });
-
-    /** ------------------------------------------
-     *              PAGE BUILDER
-     * ------------------------------------------ */
+    // PAGE BUILDER
     Route::group(['prefix' => 'page-builder', 'namespace' => 'Admin'], function () {
         Route::post('/update', 'PageBuilderController@update_addon_content')->name('admin.page.builder.update')->permission('page-builder-update');
         Route::post('/new', 'PageBuilderController@store_new_addon_content')->name('admin.page.builder.new')->permission('page-builder-new');
@@ -726,14 +594,9 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
         Route::get('/dynamic-page/{type}/{id}', 'PageBuilderController@dynamicpage_builder')->name('admin.dynamic.page.builder')->permission('page-builder-dynamic-page');
         Route::post('/dynamic-page', 'PageBuilderController@update_dynamicpage_builder')->name('admin.dynamic.page.builder.store')->permission('page-builder-dynamic-page');
     });
-
-    /** ------------------------------------------
-     * FORM BUILDER ROUTES
-     * ------------------------------------------ */
+    // FORM BUILDER ROUTES
     Route::prefix('form-builder')->group(function () {
-        /*-------------------------
-            CUSTOM FORM BUILDER
-        --------------------------*/
+        // CUSTOM FORM BUILDER
         Route::group(['prefix' => 'custom'], function () {
             Route::get('/all', 'Admin\CustomFormBuilderController@all')->name('admin.form.builder.all')->permission('form-builder-custom-all');
             Route::post('/new', 'Admin\CustomFormBuilderController@store')->name('admin.form.builder.store')->permission('form-builder-custom-new');
@@ -742,51 +605,30 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
             Route::post('/delete/{id}', 'Admin\CustomFormBuilderController@delete')->name('admin.form.builder.delete')->permission('form-builder-custom-delete');
             Route::post('/bulk-action', 'Admin\CustomFormBuilderController@bulk_action')->name('admin.form.builder.bulk.action')->permission('form-builder-custom-bulk-action');
         });
-
-        /*-------------------------
-         GET IN TOUCH FORM ROUTES
-        --------------------------*/
+        // GET IN TOUCH FORM ROUTES
         Route::get('/get-in-touch', 'FormBuilderController@get_in_touch_form_index')->name('admin.form.builder.get.in.touch');
         Route::post('/get-in-touch', 'FormBuilderController@update_get_in_touch_form');
-        /*-------------------------
-        SERVICE QUERY FORM ROUTES
-       --------------------------*/
+        //  SERVICE QUERY FORM ROUTES
         Route::get('/service-query', 'FormBuilderController@service_query_index')->name('admin.form.builder.service.query')->permission('form-builder-service-query');
         Route::post('/service-query', 'FormBuilderController@update_service_query')->permission('form-builder-service-query');
-        /*-------------------------
-        CASE STUDY FORM ROUTES
-       --------------------------*/
+        // CASE STUDY FORM ROUTES
         Route::get('/case-study-query', 'FormBuilderController@case_study_query_index')->name('admin.form.builder.case.study.query')->permission('form-builder-case-study-query');
         Route::post('/case-study-query', 'FormBuilderController@update_case_study_query')->permission('form-builder-case-study-query');
-        /*-------------------------
-        QUOTE FORM ROUTES
-       --------------------------*/
+        // QUOTE FORM ROUTES
         Route::get('/quote-form', 'FormBuilderController@quote_form_index')->name('admin.form.builder.quote')->permission('form-builder-quote-form');
         Route::post('/quote-form', 'FormBuilderController@update_quote_form')->permission('form-builder-quote-form');
-
-        /*-------------------------
-        ORDER FORM ROUTES
-       --------------------------*/
+        // ORDER FORM ROUTES
         Route::get('/order-form', 'FormBuilderController@order_form_index')->name('admin.form.builder.order')->permission('form-builder-order-form');
         Route::post('/order-form', 'FormBuilderController@update_order_form')->permission('form-builder-order-form');
-        /*-------------------------
-          CONTACT FORM ROUTES
-          --------------------------*/
+        // CONTACT FORM ROUTES
         Route::get('/contact-form', 'FormBuilderController@contact_form_index')->name('admin.form.builder.contact')->permission('form-builder-contact-form');
         Route::post('/contact-form', 'FormBuilderController@update_contact_form')->permission('form-builder-contact-form');
-
-        /*-------------------------
-           ESTIMATE FORM ROUTES
-         --------------------------*/
+        // ESTIMATE FORM ROUTES
         Route::get('/estimate', 'FormBuilderController@estimate_form_index')->name('admin.form.builder.estimate.form')->permission('form-builder-estimate');
         Route::post('/estimate', 'FormBuilderController@update_estimate_form')->permission('form-builder-estimate');
     });
-}); //End admin-home
-
-
-/**----------------------------------------------------------------------
- *    ADMIN MEDIA UPLOAD BUTTON, KEEP IT SEPARATED FOR DEMO PURPOSE
- * -----------------------------------------------------------------------*/
+});
+// ADMIN MEDIA UPLOAD BUTTON, KEEP IT SEPARATED FOR DEMO PURPOSE
 Route::group(['middleware' => ['setlang:backend', 'auth:admin'], 'prefix' => 'admin-home', 'namespace' => 'Admin'], function () {
     /* media upload */
     Route::post('/', 'MediaUploadController@upload_media_file')->name('admin.upload.media.file');
@@ -797,11 +639,7 @@ Route::group(['middleware' => ['setlang:backend', 'auth:admin'], 'prefix' => 'ad
     Route::post('/chart/day', 'AdminDashboardController@get_chart_by_date_data')->name('admin.home.chart.data.by.day')->permission("chart-day");
     Route::post('/chart/sale-count', 'AdminDashboardController@getSaleCountPerDayChartData')->name('admin.home.chart.sale.count.per.day')->permission("chart-sale-count");
     Route::post('/chart/order-count', 'AdminDashboardController@getOrderCountPerDayChartData')->name('admin.home.chart.order.count.per.day')->permission("chart-order-count");
-
-    /*--------------------------
-        PAGE BUILDER
-    --------------------------*/
-
+    // PAGE BUILDER
     Route::post('page-builder/update-order', 'PageBuilderController@update_addon_order')->name('admin.page.builder.update.addon.order')->permission('page-builder-update-order');
     Route::post('page-builder/get-admin-markup', 'PageBuilderController@get_admin_panel_addon_markup')->name('admin.page.builder.get.addon.markup')->permission('page-builder-get-admin-markup');
 });
@@ -813,7 +651,6 @@ Route::group(['prefix' => $product_page_slug, 'as' => 'frontend.products.', 'mid
 
 Route::get("product-search", [FrontendController::class, "search"])->name("frontend.ajax.products.search");
 Route::get('/search-results', [FrontendController::class, 'searchResults'])->name('frontend.search.results');
-
 
 Route::middleware("globalVariable")->as('frontend.')->controller(PaymentGatewayController::class)->group(function () {
     Route::post('paytm-ipn', 'paytm_ipn')->name('paytm.ipn');
@@ -848,7 +685,7 @@ Route::middleware("globalVariable")->as('frontend.')->controller(PaymentGatewayC
     Route::post('sslcommerz-ipn', 'sslcommerz_ipn')->name('sslcommerz.ipn');
     Route::post('aba-payway-ipn', 'aba_ipn')->name('abapayway.ipn');
     Route::post('acleda-pay', 'acleda_ipn')->name('acledapay.ipn');
-
+    // order
     Route::post('/order-confirm', 'order_payment_form')->name('order.payment.form');
     Route::get('/order-success/{id}', 'order_payment_success')->name('order.payment.success');
     Route::get('/order-cancel/{id}', 'order_payment_cancel')->name('order.payment.cancel');
@@ -856,9 +693,7 @@ Route::middleware("globalVariable")->as('frontend.')->controller(PaymentGatewayC
     Route::get('/order-confirm/{id}', 'order_confirm')->name('order.confirm');
 });
 
-
 Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_mode', 'check.auth.vendor']], function () {
-
     Route::feeds('feeds');
     Route::get('/vendor/{slug?}/products', 'FrontendController@dynamic_single_page')->name('frontend.vendor.product');
     Route::get('/{slug?}', 'FrontendController@dynamic_single_page')->name('frontend.dynamic.page');

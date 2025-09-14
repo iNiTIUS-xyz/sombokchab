@@ -558,7 +558,6 @@ class AdminDashboardController extends Controller
                         ->get()
                         ->mapWithKeys(fn($item) => [$item->week => $item->amount])
                         ->toArray();
-
                 }
                 break;
 
