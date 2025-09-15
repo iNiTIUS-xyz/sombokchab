@@ -1,42 +1,42 @@
 @extends('vendor.vendor-master')
+
 @section('site-title')
     {{ __('Ticket Details') }}
 @endsection
+
 @section('style')
     <link rel="stylesheet" href="{{ asset('assets/backend/css/dropzone.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/backend/css/media-uploader.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/backend/css/summernote-bs4.css') }}">
     <style>
-        .priority-status.bg-low{
-
-        }
+        .priority-status.bg-low {}
 
         .priority-status.bg-low {
-        background-color: var(--updatedOffer-bg-1);
-        border:1px solid var(--updatedOffer-bg-1);
-        color: var(--black);
+            background-color: var(--updatedOffer-bg-1);
+            border: 1px solid var(--updatedOffer-bg-1);
+            color: var(--black);
         }
 
         .priority-status.bg-medium {
-        background-color: var(--section-bg);
-        border:1px solid var(--section-bg);
-        color: var(--black);
+            background-color: var(--section-bg);
+            border: 1px solid var(--section-bg);
+            color: var(--black);
         }
 
         .priority-status.bg-high {
-        background-color: var(--main-color-two);
-        border:1px solid var(--main-color-two);
-        color: var(--black);
+            background-color: var(--main-color-two);
+            border: 1px solid var(--main-color-two);
+            color: var(--black);
         }
 
         .priority-status.bg-urgent {
-        background-color: var(--delete-color);
-        border:1px solid var(--delete-color);
-        color: var(--white);
+            background-color: var(--delete-color);
+            border: 1px solid var(--delete-color);
+            color: var(--white);
         }
-
     </style>
 @endsection
+
 @section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row">
@@ -59,14 +59,15 @@
                                     <li><strong>{{ __('Title:') }}</strong> {{ $ticket_details->title }}</li>
                                     {{-- <li><strong>{{ __('Subject:') }}</strong> {{ $ticket_details->subject }}</li> --}}
                                     <li><strong>{{ __('Description:') }}</strong> {{ $ticket_details->description }}</li>
-                                    <li><strong>{{ __('Status:') }}</strong> 
+                                    <li><strong>{{ __('Status:') }}</strong>
                                         <span
                                             class="badge status-{{ $ticket_details->status }} {{ $ticket_details->status == 'close' ? __('bg-danger') : __('bg-primary') }}">
                                             {{ ucfirst($ticket_details->status == 'close' ? __('Closed') : __($ticket_details->status)) }}
                                         </span>
                                     </li>
-                                    <li><strong>{{ __('Priority:') }}</strong> 
-                                        <span class="badge priority-status {{ $ticket_details->priority }} bg-{{ $ticket_details->priority }}">
+                                    <li><strong>{{ __('Priority:') }}</strong>
+                                        <span
+                                            class="badge priority-status {{ $ticket_details->priority }} bg-{{ $ticket_details->priority }}">
                                             {{ ucfirst($ticket_details->priority) }}
                                         </span>
                                     </li>
@@ -144,40 +145,41 @@
                                     @endforelse
                                 </div>
                             </div>
-                            @if($ticket_details->status !== 'close')
-                            <div class="reply-message-wrap ">
-                                <h5 class="title">
-                                    {{ __('Reply') }}
-                                </h5>
-                                <form action="{{ route('vendor.support.ticket.send.message') }}" method="post"
-                                    enctype="multipart/form-data">
-                                    @csrf
-                                    <input type="hidden" value="{{ $ticket_details->id }}" name="ticket_id">
-                                    <input type="hidden" value="vendor" name="user_type">
-                                    <div class="form-group mt-4">
-                                        <label for="">
-                                            {{ __('Message') }}
-                                            <span class="text-danger">*</span>
-                                        </label>
-                                        <textarea name="message" class="form-control d-none" cols="30" rows="5" placeholder="Enter Message"></textarea>
-                                        <div class="summernote"></div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="file">
-                                            {{ __('File') }}
-                                        </label>
-                                        <input type="file" name="file">
-                                        <small class="info-text d-block text-danger">
-                                            {{ __('Max file size 200mb, only zip, png, gif, jpg, jpeg, pdf, docx, doc, odd file is allowed') }}
-                                        </small>
-                                    </div>
-                                    <div class="form-group d-flex align-items-baseline gap-3">
-                                        <input type="checkbox" name="send_notify_mail" id="send_notify_mail">
-                                        <label for="send_notify_mail">{{ __('Notify Via Mail') }}</label>
-                                    </div>
-                                    <button class="btn-primary btn btn-md" type="submit">{{ __('Send Message') }}</button>
-                                </form>
-                            </div>
+                            @if ($ticket_details->status !== 'close')
+                                <div class="reply-message-wrap ">
+                                    <h5 class="title">
+                                        {{ __('Reply') }}
+                                    </h5>
+                                    <form action="{{ route('vendor.support.ticket.send.message') }}" method="post"
+                                        enctype="multipart/form-data">
+                                        @csrf
+                                        <input type="hidden" value="{{ $ticket_details->id }}" name="ticket_id">
+                                        <input type="hidden" value="vendor" name="user_type">
+                                        <div class="form-group mt-4">
+                                            <label for="">
+                                                {{ __('Message') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <textarea name="message" class="form-control d-none" cols="30" rows="5" placeholder="Enter Message"></textarea>
+                                            <div class="summernote"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="file">
+                                                {{ __('File') }}
+                                            </label>
+                                            <input type="file" name="file">
+                                            <small class="info-text d-block text-danger">
+                                                {{ __('Max file size 200mb, only zip, png, gif, jpg, jpeg, pdf, docx, doc, odd file is allowed') }}
+                                            </small>
+                                        </div>
+                                        <div class="form-group d-flex align-items-baseline gap-3">
+                                            <input type="checkbox" name="send_notify_mail" id="send_notify_mail">
+                                            <label for="send_notify_mail">{{ __('Notify Via Mail') }}</label>
+                                        </div>
+                                        <button class="btn-primary btn btn-md"
+                                            type="submit">{{ __('Send Message') }}</button>
+                                    </form>
+                                </div>
                             @endif
                         </div>
                     </div>
@@ -187,6 +189,7 @@
     </div>
     @include('backend.partials.media-upload.media-upload-markup')
 @endsection
+
 @section('script')
     <script src="{{ asset('assets/backend/js/summernote-bs4.js') }}"></script>
     <script src="{{ asset('assets/backend/js/dropzone.js') }}"></script>
@@ -194,8 +197,8 @@
     <script>
         $(document).ready(function() {
             $('.summernote').summernote({
-                height: 200, //set editable area's height
-                codemirror: { // codemirror options
+                height: 200,
+                codemirror: {
                     theme: 'monokai'
                 },
                 callbacks: {
