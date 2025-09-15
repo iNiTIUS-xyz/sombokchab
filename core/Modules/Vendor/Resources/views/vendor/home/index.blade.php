@@ -372,19 +372,11 @@
             fetchIncomeData(currentType);
         });
     </script>
-
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             let currentType = 'daily';
             let currentStartDate = null;
             let currentEndDate = null;
-
-            function generateAlternatingColors(count) {
-                const colors = ['#41695a', '#609C78'];
-                return Array.from({
-                    length: count
-                }, (_, i) => colors[i % colors.length]);
-            }
 
             let chartOptions = {
                 series: [{
@@ -392,7 +384,7 @@
                     data: []
                 }],
                 chart: {
-                    type: 'bar',
+                    type: 'line', // Changed from 'bar' to 'line'
                     height: 350,
                     background: '#ffffff',
                     toolbar: {
@@ -400,15 +392,22 @@
                         tools: {
                             download: false
                         }
+                    },
+                    zoom: {
+                        enabled: true,
+                        type: 'x',
+                        autoScaleYaxis: true
                     }
                 },
-                plotOptions: {
-                    bar: {
-                        horizontal: false,
-                        columnWidth: '15%',
-                        borderRadius: 5,
-                        borderRadiusApplication: 'end'
-                    },
+                stroke: {
+                    width: 3,
+                    curve: 'smooth'
+                },
+                markers: {
+                    size: 5,
+                    hover: {
+                        size: 7
+                    }
                 },
                 title: {
                     text: 'Top Selling Products',
@@ -417,11 +416,6 @@
                 colors: ['#41695a'],
                 dataLabels: {
                     enabled: false
-                },
-                stroke: {
-                    show: true,
-                    width: 2,
-                    colors: ['transparent']
                 },
                 xaxis: {
                     categories: [],
@@ -436,9 +430,6 @@
                     title: {
                         text: 'Quantity Sold'
                     }
-                },
-                fill: {
-                    opacity: 1
                 },
                 tooltip: {
                     y: {
@@ -504,7 +495,6 @@
                     xaxis: {
                         categories: labels
                     },
-                    colors: generateAlternatingColors(labels.length),
                     title: {
                         text: chartTitle
                     },

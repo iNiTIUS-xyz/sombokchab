@@ -59,7 +59,7 @@ Route::prefix('vendor-home')->middleware(['setlang:backend', 'adminglobalVariabl
         // admin index
         Route::get('dashboard', 'index')->name('vendor.home');
         Route::get('income-data', 'getIncomeData')->name('vendor.income.data');
-        Route::get('products-data', 'getProductsData')->name('vendor.products.data');
+        Route::get('products-data', 'getTopProductsData')->name('vendor.products.data');
         Route::get('/dark-mode-toggle', 'AdminDashboardController@dark_mode_toggle')->name('vendor.dark.mode.toggle');
         Route::get('/logout', 'VendorLoginController@logout')->name('vendor.logout');
     });
