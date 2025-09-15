@@ -113,7 +113,6 @@
                 </div>
             </div>
         </div>
-        {{-- vendor Support  --}}
         <div class="col-lg-12 col-ml-12 mb-3">
             <div class="row">
                 <div class="col-12">
@@ -142,12 +141,10 @@
                                             Total Close Tickets:
                                             {{ $supportTickets['all_close_tickets']->count() }}
                                         </span>
-
                                         <span class="badge badge-custom">
                                             Total High Priority Tickets:
                                             {{ $supportTickets['all_high_tickets']->count() }}
                                         </span>
-
                                         <span class="badge badge-custom">
                                             Total Low Priority Tickets:
                                             {{ $supportTickets['all_low_tickets']->count() }}
@@ -175,12 +172,10 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Variables to store current state
             let currentType = 'daily';
             let currentStartDate = null;
             let currentEndDate = null;
 
-            // Chart configuration
             let financial_summary_options = {
                 series: [{
                     name: 'Net Profit',
@@ -237,14 +232,12 @@
                 }
             };
 
-            // Initialize chart
             let chart = new ApexCharts(
                 document.querySelector("#financial_summary_chart"),
                 financial_summary_options
             );
             chart.render();
 
-            // Function to fetch data via AJAX
             function fetchIncomeData(type, startDate = null, endDate = null) {
                 // Show loading state
                 chart.updateOptions({
@@ -253,7 +246,6 @@
                     }
                 });
 
-                // Prepare request data
                 const requestData = {
                     type: type,
                 };
@@ -327,7 +319,6 @@
                 });
             }
 
-            // Set up tab click handlers
             document.querySelector('#financial_summary_daily-tab').addEventListener('click', function() {
                 currentType = 'daily';
                 fetchIncomeData(currentType, currentStartDate, currentEndDate);
@@ -348,7 +339,6 @@
                 fetchIncomeData(currentType, currentStartDate, currentEndDate);
             });
 
-            // Initialize date range picker
             $('.dateRangeFinancialSummary').daterangepicker({
                 opens: 'left',
                 autoUpdateInput: true,
@@ -368,10 +358,10 @@
                 fetchIncomeData(currentType, currentStartDate, currentEndDate);
             });
 
-            // Load initial data
             fetchIncomeData(currentType);
         });
     </script>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             let currentType = 'daily';
@@ -384,7 +374,7 @@
                     data: []
                 }],
                 chart: {
-                    type: 'line', // Changed from 'bar' to 'line'
+                    type: 'line',
                     height: 350,
                     background: '#ffffff',
                     toolbar: {
