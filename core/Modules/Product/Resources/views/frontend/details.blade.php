@@ -345,7 +345,7 @@
                                                     <ul class="tags-shop-list">
                                                         @foreach ($product->tag ?? [] as $tag)
                                                             <li class="list">
-                                                                <a
+                                                                <a class="text-success"
                                                                     href="{{ route('frontend.products.all', ['tag-name' => $tag->tag_name]) }}">
                                                                     {{ $tag->tag_name }}
                                                                 </a>
@@ -376,7 +376,7 @@
                                             ({{ $product->reviews_count }}) </li>
                                     </ul>
                                     <div id="description"
-                                        class="tab-content-item {{ $product->reviews_count > 0 ? '' : 'active' }}">
+                                        class="tab-content-item text-success {{ $product->reviews_count > 0 ? '' : 'active' }}" style="text-align: justify;">
                                         {!! $product->description !!}
                                     </div>
                                     <div id="information" class="tab-content-item">
@@ -613,7 +613,8 @@
                                                 <div class="icon"> <i class="{{ $option->icon }}"></i> </div>
                                                 <div class="promon-icon-contents">
                                                     <h6 class="promo-title fw-500"> {{ $option->title }} </h6>
-                                                    <span class="promo-para"> {{ $option->sub_title }} </span>
+                                                    <span class="promo-para text-success"> {{ $option->sub_title }}
+                                                    </span>
                                                 </div>
                                             </li>
                                         @endforeach
