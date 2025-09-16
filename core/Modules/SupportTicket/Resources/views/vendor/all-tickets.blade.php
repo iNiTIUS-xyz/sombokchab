@@ -71,7 +71,18 @@
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('All Support Tickets') }}</h4>
                         <div class="dashboard__card__header__right">
-                            <x-bulk-action.dropdown />
+                            <div class="bulk-delete-wrapper my-3">
+                                <div class="select-box-wrap">
+                                    <select name="bulk_option" id="bulk_option">
+                                        <option value="">{{ __('Bulk Action') }}</option>
+                                        <option value="delete">{{ __('Delete') }}</option>
+                                    </select>
+                                    <button class="btn btn-primary btn-sm" id="bulk_delete_btn">
+                                        {{ __('Apply') }}
+                                    </button>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                     <div class="dashboard__card__body mt-4">
@@ -80,10 +91,10 @@
                                 <table class="table" id="dataTable">
                                     <thead>
                                         <tr>
+                                            <x-bulk-action.th />
                                             <th>{{ __('Title') }}</th>
                                             <th>{{ __('Department') }}</th>
                                             <th>{{ __('Date Created') }}</th>
-                                            {{-- <th>{{ __('Priority') }}</th> --}}
                                             <th>{{ __('Status') }}</th>
                                             <th>{{ __('Action') }}</th>
                                         </tr>
@@ -91,20 +102,13 @@
                                     <tbody>
                                         @foreach ($all_tickets as $data)
                                             <tr>
+                                                <x-bulk-action.td :id="$data->id" />
                                                 <td>{{ $data->title }}</td>
-                                                <td style="text-align: left;">{{ $data->department->name ?? __('anonymous') }}</td>
-                                                <td><small>{{ $data->created_at->format('M j, Y') }}</small></td>
-                                                {{-- <td class="">
-                                                    <span
-                                                        class="
-                                                            @if ($data->priority == 'low') text-success
-                                                            @elseif ($data->priority == 'medium') text-primary
-                                                            @elseif ($data->priority == 'high') text-warning
-                                                            @elseif ($data->priority == 'urgent') text-danger @endif
-                                                        ">
-                                                        {{ ucfirst($data->priority) }}
-                                                    </span>
-                                                </td> --}}
+                                                <td style="text-align: left;">
+                                                    {{ $data->department->name ?? __('anonymous') }}</td>
+                                                <td>
+                                                    <small>{{ $data->created_at->format('M j, Y') }}</small>
+                                                </td>
                                                 <td>
                                                     <span
                                                         class="text-capitalize badge {{ $data->status == 'close' ? 'status-close' : 'status-open' }}">
@@ -138,6 +142,7 @@
         </div>
     </div>
 @endsection
+
 @section('script')
     <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/js/dataTables.bootstrap4.min.js') }}"></script>
@@ -166,7 +171,6 @@
                 });
             }
 
-            // Status change handler with SweetAlert2
             $(document).on('click', '.ticket_status_change', function(e) {
                 e.preventDefault();
                 var status = $(this).data('val');
@@ -209,7 +213,81 @@
             });
         });
     </script>
+    <script>
+        (function($) {
+            $(document).ready(function() {
+                $(document).on('click', '#bulk_delete_btn', function(e) {
+                    e.preventDefault();
 
-    <x-bulk-action.js :route="route('vendor.support.ticket.bulk.action')" />
+                    var bulkOption = $('#bulk_option').val();
+                    var allCheckbox = $('.bulk-checkbox:checked');
+                    var allIds = [];
+
+                    allCheckbox.each(function(index, value) {
+                        allIds.push($(this).val());
+                    });
+
+                    if (allIds.length > 0 && bulkOption == 'delete') {
+                        Swal.fire({
+                            title: '{{ __('Are you sure?') }}',
+                            text: '{{ __('You would not be able to revert this action!') }}',
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#ee0000',
+                            cancelButtonColor: '#55545b',
+                            confirmButtonText: '{{ __('Yes, delete them!') }}',
+                            cancelButtonText: "{{ __('No') }}"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $('#bulk_delete_btn').text('{{ __('Deleting...') }}');
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: "{{ route('vendor.support.ticket.bulk.action') }}",
+                                    data: {
+                                        _token: "{{ csrf_token() }}",
+                                        ids: allIds,
+                                    },
+                                    success: function(data) {
+                                        Swal.fire(
+                                            '{{ __('Deleted!') }}',
+                                            '{{ __('Selected tickets have been deleted.') }}',
+                                            'success'
+                                        );
+                                        setTimeout(function() {
+                                            location.reload();
+                                        }, 1000);
+                                    },
+                                    error: function() {
+                                        Swal.fire(
+                                            'Error!',
+                                            'Failed to delete tickets.',
+                                            'error'
+                                        );
+                                    }
+                                });
+                            }
+                        });
+                    } else {
+                        Swal.fire(
+                            'Warning!',
+                            '{{ __('Please select at least one item and choose delete option.') }}',
+                            'warning'
+                        );
+                    }
+                });
+
+                // Handle "select all" checkbox
+                $('.all-checkbox').on('change', function(e) {
+                    e.preventDefault();
+                    var value = $(this).is(':checked');
+                    var allChek = $(this).closest('table').find('.bulk-checkbox');
+
+                    allChek.prop('checked', value);
+                });
+            });
+        })(jQuery);
+    </script>
+
     <script src="{{ asset('assets/backend/js/sweetalert2.js') }}"></script>
 @endsection
