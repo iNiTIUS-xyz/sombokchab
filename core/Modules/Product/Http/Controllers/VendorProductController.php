@@ -27,6 +27,7 @@ use Modules\Attributes\Entities\Size as ProductSize;
 use Modules\Attributes\Entities\Color as ProductColor;
 use Modules\Product\Http\Requests\ProductStoreRequest;
 use Modules\Product\Http\Services\Admin\AdminProductServices;
+use Maatwebsite\Excel\Facades\Excel;
 
 class VendorProductController extends Controller
 {
@@ -241,5 +242,68 @@ class VendorProductController extends Controller
             'status' => true,
             'msg' => 'Product successfully updated',
         ]);
+    }
+
+    public function productImport()
+    {
+        return view('product::vendor.product_import');
+    }
+    public function importProduct(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'file' => 'required|mimes:xlsx,csv,txt|max:2048',
+            ]);
+
+            if ($validator->fails()) {
+                return back()->withErrors($validator)->withInput();
+            }
+
+            $file = $request->file('file');
+
+            $data = Excel::toArray([], $file);
+
+            dd($data);
+
+            if (!empty($data) && count($data) > 0) {
+
+                $rows = $data[0];
+
+                foreach ($rows as $index => $row) {
+
+                    if ($index == 0) {
+                        continue;
+                    }
+
+                    Product::create([
+                        'name' => $row[0] ?? null,
+                        'slug' => strtolower(str_replace(' ', '-', $row[1])) ?? null,
+                        'summary' => $row[2] ?? null,
+                        'description' => $row[3] ?? null,
+                        'image_id' => $row[4] ?? null,
+                        'price' => $row[5] ?? null,
+                        'sale_price' => $row[7] ?? null,
+                        'cost' => $row[7] ?? null,
+                        'badge_id' => $row[8] ?? null,
+                        'brand_id' => $row[9] ?? null,
+                        'status_id' => $row[10] ?? null,
+                        'product_type' => $row[11] ?? null,
+                        'min_purchase' => $row[12] ?? null,
+                        'max_purchase' => $row[13] ?? null,
+                        'is_inventory_warn_able' => $row[14] ?? null,
+                        'is_refundable' => $row[15] ?? null,
+                        'is_in_house' => $row[16] ?? null,
+                        'admin_id' => $row[17] ?? null,
+                        'vendor_id' => $row[18] ?? null,
+                        'is_taxable' => $row[19] ?? null,
+                        'tax_class_id' => $row[20] ?? null,
+                    ]);
+                }
+            }
+
+            return redirect()->back()->with('success', 'Products imported successfully!');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', 'Import failed: ' . $e->getMessage());
+        }
     }
 }

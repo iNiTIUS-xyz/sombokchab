@@ -116,6 +116,17 @@
       'Invoice' => 'LaravelDaily\\Invoices\\Facades\\Invoice',
     ),
   ),
+  'maatwebsite/excel' => 
+  array (
+    'aliases' => 
+    array (
+      'Excel' => 'Maatwebsite\\Excel\\Facades\\Excel',
+    ),
+    'providers' => 
+    array (
+      0 => 'Maatwebsite\\Excel\\ExcelServiceProvider',
+    ),
+  ),
   'mdzahid-pro/shoppingcart' => 
   array (
     'providers' => 

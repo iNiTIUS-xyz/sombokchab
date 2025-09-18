@@ -30,14 +30,9 @@ Route::group(['prefix' => $product_page_slug, 'as' => 'frontend.products.', 'mid
     Route::get('subcategory/{slug?}/{any?}', 'FrontendProductController@products_subcategory')->name('subcategory');
     Route::get('child-category/{slug?}/{any?}', 'FrontendProductController@products_child_category')->name('child-category');
 
-    /**--------------------------------
-     *          CART ROUTES
-     * ---------------------------------*/
     Route::group(['prefix' => 'cart'], function () {
         Route::get('/all', 'FrontendProductController@cartPage')->name('cart');
-        /**------------------------------------------------------------------------------------
-         *          CART AJAX ROUTES
-         *----------------------------------------------------------------------------------*/
+
         Route::post('move-to-wishlist', 'FrontendProductController@moveToWishlist')->name('cart.move.to.wishlist');
 
         Route::group(['prefix' => 'ajax'], function () {
@@ -56,9 +51,7 @@ Route::group(['prefix' => $product_page_slug, 'as' => 'frontend.products.', 'mid
             });
         });
     });
-    /**--------------------------------
-     *          WISHLIST ROUTES
-     * ---------------------------------*/
+
     Route::group(['prefix' => 'wishlist'], function () {
         Route::post('move-to-cart', 'FrontendProductController@moveToCart')->name('wishlist.move.to.cart');
 
@@ -72,9 +65,7 @@ Route::group(['prefix' => $product_page_slug, 'as' => 'frontend.products.', 'mid
         Route::post('send-to-cart-single', 'ProductWishlistController@sendSingleItemToCartAjax')->name('wishlist.send.to.cart.single');
         Route::get('wishlist-info', 'ProductWishlistController@getWishlistInfoAjax')->name('wishlist.info.ajax');
     });
-    /**--------------------------------
-     *      COMPARE PRODUCT ROUTES
-     * ---------------------------------*/
+
     Route::group(['prefix' => 'compare'], function () {
         Route::get('all', 'FrontendProductController@productsComparePage')->name('compare');
         Route::post('add', 'ProductCompareController@add_to_compare')->name('add.to.compare');
@@ -95,9 +86,7 @@ Route::group([
 
 
 Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable', 'auth:admin'])->group(function () {
-    /*-----------------------------------
-        COUPON ROUTES
-    ------------------------------------*/
+
     Route::group(['prefix' => 'coupons', 'as' => 'admin.products.coupon.'], function () {
         Route::get('/', 'ProductCouponController@index')->name('all')->permission('coupons');
         Route::post('new', 'ProductCouponController@store')->name('new')->permission('coupons-new');
@@ -109,9 +98,6 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
         Route::post('status-change/{id}', 'ProductCouponController@statusChange')->name('status.change');
     });
 
-    /*==============================================
-                    PRODUCT MODULE
-    ==============================================*/
     Route::prefix('product')->as('admin.products.')->group(function () {
         Route::controller(ProductController::class)->group(function () {
             Route::get('create', 'create')->name('create')->permission('product-create');
@@ -147,9 +133,6 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
         });
     });
 
-    /*==============================================
-                    Product Module Category Route
-    ==============================================*/
     Route::prefix('category')->as('admin.product.category.')->group(function () {
         Route::controller(CategoryController::class)->group(function () {
             Route::post('category', 'getCategory')->name('all')->permission('category-category');
@@ -159,43 +142,40 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
     });
 });
 
-Route::prefix('vendor-home')->middleware(['setlang:backend', 'adminglobalVariable', 'auth:vendor', 'userEmailVerify'])
-    ->as('vendor.products.')->group(function () {
-        /*==============================================
-                        PRODUCT MODULE
-        ==============================================*/
-        Route::prefix('product')->group(function () {
-            Route::controller(VendorProductController::class)->group(function () {
-                Route::get('create', 'create')->name('create');
-                Route::post('create', 'store');
-                Route::get('all', 'index')->name('all');
-                Route::get('clone/{id}', 'clone')->name('clone');
-                Route::post('status-update', 'update_status')->name('update.status');
-                Route::get('update/{id}', 'edit')->name('edit');
-                Route::post('update/{id}', 'update');
-                Route::post('update-image', 'updateImage')->name('update-image');
-                Route::get('destroy/{id}', 'destroy')->name('destroy');
-                Route::post('bulk/destroy', 'bulk_destroy')->name('bulk.destroy');
-                Route::post('bulk/action', 'bulkAction')->name('bulk.action');
+Route::prefix('vendor-home')->middleware(['setlang:backend', 'adminglobalVariable', 'auth:vendor', 'userEmailVerify'])->as('vendor.products.')->group(function () {
+    Route::prefix('product')->group(function () {
+        Route::controller(VendorProductController::class)->group(function () {
+            Route::get('create', 'create')->name('create');
+            Route::post('create', 'store');
+            Route::get('all', 'index')->name('all');
+            Route::get('clone/{id}', 'clone')->name('clone');
+            Route::post('status-update', 'update_status')->name('update.status');
+            Route::get('update/{id}', 'edit')->name('edit');
+            Route::post('update/{id}', 'update');
+            Route::post('update-image', 'updateImage')->name('update-image');
+            Route::get('destroy/{id}', 'destroy')->name('destroy');
+            Route::post('bulk/destroy', 'bulk_destroy')->name('bulk.destroy');
+            Route::post('bulk/action', 'bulkAction')->name('bulk.action');
 
-                Route::prefix('trash')->name('trash.')->group(function () {
-                    Route::get('/', 'trash')->name('all');
-                    Route::get('/restore/{id}', 'restore')->name('restore');
-                    Route::get('/delete/{id}', 'trash_delete')->name('delete');
-                    Route::post('/bulk/destroy', 'trash_bulk_destroy')->name('bulk.destroy');
-                    Route::post('/empty', 'trash_empty')->name('empty');
-                });
-
-                Route::get('search', 'productSearch')->name('search');
+            Route::prefix('trash')->name('trash.')->group(function () {
+                Route::get('/', 'trash')->name('all');
+                Route::get('/restore/{id}', 'restore')->name('restore');
+                Route::get('/delete/{id}', 'trash_delete')->name('delete');
+                Route::post('/bulk/destroy', 'trash_bulk_destroy')->name('bulk.destroy');
+                Route::post('/empty', 'trash_empty')->name('empty');
+            });
+            Route::prefix('import')->name('import.')->group(function () {
+                Route::get('/', 'productImport')->name('all');
+                Route::post('/', 'importProduct')->name('store');
             });
 
+            Route::get('search', 'productSearch')->name('search');
         });
     });
+});
 
 Route::prefix('vendor-home')->middleware(['setlang:backend', 'adminglobalVariable', 'auth:vendor', 'userEmailVerify'])->group(function () {
-    /*==============================================
-                    Product Module Category Route
-    ==============================================*/
+
     Route::prefix('category')->as('vendor.product.category.')->group(function () {
         Route::controller(CategoryController::class)->group(function () {
             Route::post('category', 'getCategory')->name('all');

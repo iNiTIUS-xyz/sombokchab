@@ -83,8 +83,8 @@
                         </div>
                     </div>
                     <div class="col-sm-8 col-md-9 col-lg-8 col-xl-9 col-xxl-10">
-                        <form class="was-validated" data-request-route="{{ route('vendor.products.create') }}" method="post"
-                            id="product-create-form">
+                        <form class="was-validated" data-request-route="{{ route('vendor.products.create') }}"
+                            method="post" id="product-create-form">
                             @csrf
                             <div class="form-button">
                                 <button class="cmn_btn btn_bg_profile">{{ __('Add New Product') }}</button>
@@ -138,7 +138,7 @@
                 </div>
             </div>
         </div>
-        <x-media.markup type="vendor"/>
+        <x-media.markup type="vendor" />
     @endsection
     @section('script')
         <x-select2.select2-js />
@@ -148,13 +148,13 @@
         <x-product::variant-info.js :colors="$data['product_colors']" :sizes="$data['product_sizes']" :all-attributes="$data['all_attribute']" />
 
         <script>
-            $(document).ready(function (){
+            $(document).ready(function() {
                 $("#country_id").select2()
                 $("#state_id").select2();
                 $("#city_id").select2();
 
                 $('#child_category').select2({
-                    placeholder:"{{__('Select Child Category')}}"
+                    placeholder: "{{ __('Select Child Category') }}"
                 });
             })
             $('#product-name , #product-slug').on('keyup', function() {
@@ -195,8 +195,8 @@
                 data.append("category_id", $(this).val());
 
                 send_ajax_request("post", data, '{{ route('vendor.product.category.sub-category') }}', function() {
-                    $("#sub_category").html("<option value=''>{{ __("Select Sub Category")}}</option>");
-                    $("#child_category").html("<option value=''>{{ __("Select Child Category") }}</option>");
+                    $("#sub_category").html("<option value=''>{{ __('Select Sub Category') }}</option>");
+                    $("#child_category").html("<option value=''>{{ __('Select Child Category') }}</option>");
                 }, function(data) {
                     $("#sub_category").html(data.html);
                 }, function(xhr) {

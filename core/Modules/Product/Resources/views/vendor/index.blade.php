@@ -147,10 +147,18 @@
             </div>
             <div class="col-lg-12 mt-2">
                 <div class="btn-wrapper" style="width: 98%">
-                    <a class="cmn_btn btn_bg_profile mb-3"
-                        href="{{ route('vendor.products.create') }}">{{ __('Add New Product') }}</a>
-                    <a class="cmn_btn btn_bg_danger mb-3" style="float: right"
-                        href="{{ route('vendor.products.trash.all') }}">{{ __('Trash Bin') }}</a>
+                    <a class="cmn_btn btn_bg_profile mb-3" href="{{ route('vendor.products.create') }}">
+                        {{ __('Add New Product') }}
+                    </a>
+                    <div style="float: right">
+                        <a class="cmn_btn btn-success text-white mb-3 mx-2 text-right"
+                            href="{{ route('vendor.products.import.all') }}">
+                            {{ __('Import Product') }}
+                        </a>
+                        <a class="cmn_btn btn_bg_danger mb-3" href="{{ route('vendor.products.trash.all') }}">
+                            {{ __('Trash Bin') }}
+                        </a>
+                    </div>
                 </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
