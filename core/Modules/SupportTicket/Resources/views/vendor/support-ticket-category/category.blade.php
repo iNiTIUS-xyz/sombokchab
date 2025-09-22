@@ -129,7 +129,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-sm btn-secondary"
-                            data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                            data-bs-dismiss="modal">{{ __('Close') }}</button>
                         <button type="submit" class="btn btn-primary">{{ __('Save Change') }}</button>
                     </div>
                 </form>

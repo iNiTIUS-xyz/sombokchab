@@ -126,7 +126,7 @@
                     </div>
                 </div>
                 <div class="btn-wrapper mt-4">
-                    <button type="submit" class="cmn_btn btn_bg_1 btn-success">{{ __('Update') }}</button>
+                    <button type="submit" class="btn btn-primary">{{ __('Update Profile Data') }}</button>
                 </div>
             </form>
         </div>
@@ -169,7 +169,7 @@
                 </div>
                 <div class="btn-wrapper mt-2">
                     <button type="submit" class="btn btn-primary">
-                        {{ __('Change Phone Number') }}
+                        {{ __('Update Phone Number') }}
                     </button>
                 </div>
             </form>

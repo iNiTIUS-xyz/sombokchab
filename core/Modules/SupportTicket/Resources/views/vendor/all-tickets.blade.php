@@ -5,7 +5,7 @@
 @endsection
 
 @section('style')
-    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.min.css') }}">
     <x-bulk-action.css />
     <style>
         .swal_delete_button {
@@ -139,8 +139,8 @@
     </div>
 @endsection
 @section('script')
-    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/js/dataTables.bootstrap4.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script> --}}
+    <script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
 
     <script>
         $(document).ready(function() {

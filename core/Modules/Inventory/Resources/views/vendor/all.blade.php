@@ -7,30 +7,8 @@
 @section('style')
     <x-bulk-action.css />
 
-    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap4.min.css') }}">
-    <style>
-        #DataTables_Table_0_wrapper>.row:first-child {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            margin-bottom: 1rem;
-        }
-
-        #DataTables_Table_0_wrapper>.row:first-child .col-12 {
-            flex: 1 1 50%;
-            max-width: 50%;
-        }
-
-        /* Optional: Align content inside each column */
-        #DataTables_Table_0_length {
-            text-align: left;
-        }
-
-        #DataTables_Table_0_filter {
-            text-align: right;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.min.css') }}">
+    
 @endsection
 
 @section('content')
@@ -86,12 +64,11 @@
 @endsection
 
 @section('script')
-    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/js/dataTables.bootstrap4.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script> --}}
+    <script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
 
-    <script>
+    <script> 
         $(document).ready(function () {
-            // Initialize DataTable only if the table exists
             if ($('#dataTable').length) {
                 $('#dataTable').DataTable({
                     paging: true,
@@ -102,12 +79,19 @@
                     autoWidth: false,
                     responsive: true,
                     language: {
-                        search: "Filter:"
-                    }
+                        search: "Filter:",
+                        paginate: {
+                            previous: "Prev",
+                            next: "Next"
+                        }
+                    },
+                    // Add this for pagination style
+                    pagingType: "simple_numbers" // options: simple, simple_numbers, full, full_numbers
                 });
             }
         });
     </script>
+
     <x-table.btn.swal.js />
     <x-bulk-action.js :route="route('admin.products.inventory.bulk.action')" />
 @endsection

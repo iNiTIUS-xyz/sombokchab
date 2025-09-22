@@ -21,7 +21,7 @@
 
         .view-all {
             float: right;
-            color: green;
+            color: #41695a;
             font-weight: 500;
             text-decoration: none;
         }
@@ -49,7 +49,7 @@
             height: 40px;
             border-radius: 50%;
             object-fit: cover;
-            border: 2px solid #28a745;
+            border: 2px solid #41695a;
             margin-right: 10px;
         }
 
@@ -63,10 +63,74 @@
             font-size: 0.85rem;
             text-transform: uppercase;
             font-weight: 600;
-            color: #198754;
+            color: #41695a;
             margin-bottom: 20px;
             letter-spacing: 0.5px;
         }
+
+        /* Toolbar pan (hand) icon color */
+        .apexcharts-toolbar .apexcharts-pan-icon svg {
+            stroke: #41695a !important;
+            fill: #41695a !important;
+        }
+
+
+/* Base track */
+#new_vendor_signup_scroll,
+#new_customer_signup_scroll {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 4px;
+  background: #e9ecef;
+  outline: none;
+}
+
+/* WebKit thumb */
+#new_vendor_signup_scroll::-webkit-slider-thumb,
+#new_customer_signup_scroll::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #41695a;           /* your green */
+  border: 2px solid #2f4f45;      /* subtle ring */
+  cursor: pointer;
+  margin-top: -5px;               /* vertically center on 6px track */
+}
+
+/* Firefox thumb */
+#new_vendor_signup_scroll::-moz-range-thumb,
+#new_customer_signup_scroll::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #41695a;
+  border: 2px solid #2f4f45;
+  cursor: pointer;
+}
+
+/* Firefox track */
+#new_vendor_signup_scroll::-moz-range-track,
+#new_customer_signup_scroll::-moz-range-track {
+  height: 6px;
+  border-radius: 4px;
+  background: #e9ecef;
+}
+
+/* Focus ring */
+#new_vendor_signup_scroll:focus-visible,
+#new_customer_signup_scroll:focus-visible {
+  outline: 2px solid rgba(65,105,90,.35);
+  outline-offset: 2px;
+}
+
+#new_vendor_signup_nav, #new_customer_signup_nav {
+    display: none;
+}
+#top_vendor_nav, #top_products_nav { display: none; }
+
     </style>
 @endsection
 
@@ -116,71 +180,65 @@
                                         <span class="badge bg-light text-dark">Online</span>
                                     </div>
                                 </div>
+
+                                {{-- New vendor signup chart --}}
                                 <div class="col-md-6">
-                                    <ul class="nav nav-tabs" id="chartTabs" role="tablist">
+                                    <ul class="nav nav-tabs" role="tablist">
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link active" id="webstie_two_daily-tab" data-bs-toggle="tab"
-                                                type="button">
-                                                Daily
-                                            </button>
+                                        <button class="nav-link active" id="new_vendor_signup_daily-tab" type="button">Daily</button>
                                         </li>
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="webstie_two_weekly-tab" data-bs-toggle="tab"
-                                                type="button">
-                                                Weekly
-                                            </button>
+                                        <button class="nav-link" id="new_vendor_signup_weekly-tab" type="button">Weekly</button>
                                         </li>
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="webstie_two_monthly-tab" data-bs-toggle="tab"
-                                                type="button">
-                                                Monthly
-                                            </button>
+                                        <button class="nav-link" id="new_vendor_signup_monthly-tab" type="button">Monthly</button>
                                         </li>
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="webstie_two_yearly-tab" data-bs-toggle="tab"
-                                                type="button">
-                                                Yearly
-                                            </button>
+                                        <button class="nav-link" id="new_vendor_signup_yearly-tab" type="button">Yearly</button>
                                         </li>
                                         <li class="nav-item">
-                                            <input type="text" class="form-control dateRangeWebstie" id="vendor_sign_up">
+                                        <input type="text" class="form-control dateRangeWebstie" id="vendor_sign_up_picker">
                                         </li>
                                     </ul>
-                                    <div class="mt-3" id="webstie_two_chart"></div>
+
+                                    <div class="mt-3 position-relative">
+                                        <div id="new_vendor_signup_chart"></div>
+                                        <!-- scroll bar -->
+                                        <input id="new_vendor_signup_scroll" class="form-range mt-2 w-100" type="range" min="0" max="0" value="0" step="1" />
+                                    </div>
+                                    <div class="mt-2" id="new_vendor_signup_nav" style="height:110px;"></div>
+                                    <small>Ctrl/⌘ + wheel to zoom in and zoom out</small>
                                 </div>
+
+                                {{-- New customer signup chart --}}
                                 <div class="col-md-6">
-                                    <ul class="nav nav-tabs" id="chartTabs" role="tablist">
+                                    <ul class="nav nav-tabs" role="tablist">
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link active" id="webstie_three_daily-tab"
-                                                data-bs-toggle="tab" type="button">
-                                                Daily
-                                            </button>
+                                        <button class="nav-link active" id="new_customer_signup_daily-tab" type="button">Daily</button>
                                         </li>
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="webstie_three_weekly-tab" data-bs-toggle="tab"
-                                                type="button">
-                                                Weekly
-                                            </button>
+                                        <button class="nav-link" id="new_customer_signup_weekly-tab" type="button">Weekly</button>
                                         </li>
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="webstie_three_monthly-tab" data-bs-toggle="tab"
-                                                type="button">
-                                                Monthly
-                                            </button>
+                                        <button class="nav-link" id="new_customer_signup_monthly-tab" type="button">Monthly</button>
                                         </li>
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="webstie_three_yearly-tab" data-bs-toggle="tab"
-                                                type="button">
-                                                Yearly
-                                            </button>
+                                        <button class="nav-link" id="new_customer_signup_yearly-tab" type="button">Yearly</button>
                                         </li>
                                         <li class="nav-item">
-                                            <input type="text" class="form-control dateWebstieRange"
-                                                id="vendor_sign_up">
+                                        <input type="text" class="form-control dateWebstieRange" id="customer_sign_up_picker">
                                         </li>
                                     </ul>
-                                    <div class="mt-3" id="webstie_three_chart"></div>
+
+                                    <div class="mt-3 position-relative">
+                                        <div id="new_customer_signup_chart"></div>
+                                        <!-- scroll bar -->
+                                        <input id="new_customer_signup_scroll" class="form-range mt-2 w-100" type="range" min="0" max="0" value="0" step="1" />
+                                    </div>
+                                    <div class="mt-2" id="new_customer_signup_nav" style="height:110px;"></div>
+                                    <small>Ctrl/⌘ + wheel to zoom in and zoom out</small>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -188,7 +246,7 @@
             </div>
         </div>
         {{-- Analytics --}}
-        <div class="col-lg-12 col-ml-12 mb-3">
+        {{-- <div class="col-lg-12 col-ml-12 mb-3">
             <div class="row">
                 <div class="col-12">
                     <div class="dashboard__card">
@@ -288,7 +346,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
         {{-- Campaign Stats --}}
         <div class="col-lg-12 col-ml-12 mb-3">
             <div class="row">
@@ -339,7 +397,7 @@
                                     </ul>
                                     <div class="mt-3" id="campaign_one_chart"></div>
                                 </div>
-                                <div class="col-md-6">
+                                {{-- <div class="col-md-6">
                                     <ul class="nav nav-tabs" id="chartTabs" role="tablist">
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link active" id="campaign_two_daily-tab"
@@ -396,7 +454,7 @@
                                         </li>
                                     </ul>
                                     <div class="mt-3" id="campaign_three_chart"></div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -523,73 +581,65 @@
                         <div class="dashboard__card__body">
                             <h3 class="my-3">Top vendors</h3>
                             <div class="row g-5">
+                                <!-- Top Selling Vendors -->
                                 <div class="col-md-6">
-                                    <ul class="nav nav-tabs" id="chartTabs" role="tablist">
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link active" id="top_vendors_daily-tab"
-                                                data-bs-toggle="tab" type="button">
-                                                Daily
-                                            </button>
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="top_vendors_weekly-tab" data-bs-toggle="tab"
-                                                type="button">
-                                                Weekly
-                                            </button>
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="top_vendors_monthly-tab" data-bs-toggle="tab"
-                                                type="button">
-                                                Monthly
-                                            </button>
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="top_vendors_yearly-tab" data-bs-toggle="tab"
-                                                type="button">
-                                                Yearly
-                                            </button>
-                                        </li>
-                                        <li class="nav-item">
-                                            <input type="text" class="form-control dateRangeTopVendor"
-                                                id="vendor_sign_up">
-                                        </li>
+                                    <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="top_vendors_daily-tab" type="button">Daily</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="top_vendors_weekly-tab" type="button">Weekly</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="top_vendors_monthly-tab" type="button">Monthly</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="top_vendors_yearly-tab" type="button">Yearly</button>
+                                    </li>
+                                    <li class="nav-item">
+                                        <input type="text" class="form-control dateRangeTopVendor" id="top_vendors_picker" />
+                                    </li>
                                     </ul>
-                                    <div class="mt-3" id="top_vendor_chart"></div>
+
+                                    <div class="mt-3 position-relative">
+                                    <div id="top_vendor_chart"></div>
+                                    <!-- scrollbar -->
+                                    <input id="top_vendor_scroll" class="form-range mt-2 w-100" type="range" min="0" max="0" value="0" step="1" />
+                                    </div>
+                                    <div class="mt-2" id="top_vendor_nav" style="height:110px;"></div>
+                                    <small>Ctrl/⌘ + wheel to zoom in and zoom out</small>
                                 </div>
+
+                                <!-- Top Selling Products -->
                                 <div class="col-md-6">
-                                    <ul class="nav nav-tabs" id="chartTabs" role="tablist">
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link active" id="top_vendors_two_daily-tab"
-                                                data-bs-toggle="tab" type="button">
-                                                Daily
-                                            </button>
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="top_vendors_two_weekly-tab" data-bs-toggle="tab"
-                                                type="button">
-                                                Weekly
-                                            </button>
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="top_vendors_two_monthly-tab"
-                                                data-bs-toggle="tab" type="button">
-                                                Monthly
-                                            </button>
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="top_vendors_two_yearly-tab" data-bs-toggle="tab"
-                                                type="button">
-                                                Yearly
-                                            </button>
-                                        </li>
-                                        <li class="nav-item">
-                                            <input type="text" class="form-control dateTopVendorsRange"
-                                                id="vendor_sign_up">
-                                        </li>
+                                    <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="top_vendors_two_daily-tab" type="button">Daily</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="top_vendors_two_weekly-tab" type="button">Weekly</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="top_vendors_two_monthly-tab" type="button">Monthly</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="top_vendors_two_yearly-tab" type="button">Yearly</button>
+                                    </li>
+                                    <li class="nav-item">
+                                        <input type="text" class="form-control dateTopVendorsRange" id="top_products_picker" />
+                                    </li>
                                     </ul>
-                                    <div class="mt-3" id="top_vendors_two_chart"></div>
+
+                                    <div class="mt-3 position-relative">
+                                    <div id="top_vendors_two_chart"></div>
+                                    <!-- scrollbar -->
+                                    <input id="top_products_scroll" class="form-range mt-2 w-100" type="range" min="0" max="0" value="0" step="1" />
+                                    </div>
+                                    <div class="mt-2" id="top_products_nav" style="height:110px;"></div>
+                                    <small>Ctrl/⌘ + wheel to zoom in and zoom out</small>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -961,450 +1011,358 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Variables to store current state
+        // ---------- Shared helpers ----------
+        const clamp = (n, lo, hi) => Math.min(hi, Math.max(lo, n));
+
+        function makeBrushBarChart({ ids, url, seriesName, titleBase }) {
             let currentType = 'daily';
             let currentStartDate = null;
             let currentEndDate = null;
 
-            // Chart configuration
-            let sp_ven_two_chartOptions = {
-                series: [{
-                    name: 'New Vendors',
-                    data: []
-                }],
-                chart: {
-                    type: 'bar',
-                    height: 350,
-                    background: '#ffffff',
-                    toolbar: {
-                        show: true,
-                        tools: {
-                            download: false,
-                            zoom: true,
-                            zoomin: true,
-                            zoomout: true,
-                            pan: true,
-                            reset: true
-                        }
-                    },
-                    zoom: {
-                        enabled: true,
-                        type: 'x',
-                        autoScaleYaxis: true
-                    }
-                },
-                title: {
-                    text: 'New Vendor Sign Up',
-                    align: 'left'
-                },
-                colors: ['#41695a'],
-                dataLabels: {
-                    enabled: true,
-                    style: {
-                        colors: ['#ffffff']
-                    }
-                },
-                plotOptions: {
-                    bar: {
-                        columnWidth: '18%',
-                        borderRadius: 6
-                    }
-                },
-                xaxis: {
-                    categories: [],
-                    labels: {
-                        formatter: function(value) {
-                            return value && value.length > 15 ?
-                                value.substring(0, 20) + '...' :
-                                value || '';
-                        }
-                    }
-                },
-                yaxis: {
-                    title: {
-                        text: 'Number of Sign-Ups'
-                    }
-                },
-                tooltip: {
-                    y: {
-                        formatter: function(val) {
-                            return val + ' sign-ups';
-                        }
-                    }
+            // full dataset
+            let labels = [];      // ["2025-09-01", ...] | ["W36, Sep-2025", ...] | ["Jan 2025", ...] | ["2024","2025",...]
+            let values = [];      // [1,2,0,...]
+            let points = [];      // [{x:i,y:v}]
+
+            // current viewport (inclusive indices into full arrays)
+            let vMin = 0, vMax = 0;
+
+            // DOM
+            const elMain   = document.querySelector('#' + ids.main);
+            const elNav    = document.querySelector('#' + ids.nav);
+            const elScroll = document.querySelector('#' + ids.scroll);
+
+            // ---------- Tabs UI ----------
+            const tabIds = [ids.tabs.daily, ids.tabs.weekly, ids.tabs.monthly, ids.tabs.yearly];
+            function setActiveTabUI(type) {
+            const map = { daily: ids.tabs.daily, weekly: ids.tabs.weekly, monthly: ids.tabs.monthly, yearly: ids.tabs.yearly };
+            const activeId = map[type];
+            tabIds.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.toggle('active', id === activeId);
+            });
+            }
+
+            // ---------- Main (category) chart ----------
+            const mainOpts = {
+            series: [{ name: seriesName, data: [] }],
+            chart: {
+                id: ids.main + '_chart',
+                type: 'bar',
+                height: 350,
+                background: '#ffffff',
+                toolbar: { show: false },                 // hide apex toolbar
+                zoom: { enabled: false },                 // we'll handle zoom/pan ourselves
+                animations: { easing: 'easeinout', speed: 180 }
+            },
+            title: { text: titleBase, align: 'left' },
+            colors: ['#e0bb20'],
+            grid: { padding: { left: 2, right: 2 } },
+            plotOptions: { bar: { columnWidth: '18%', borderRadius: 6, distributed: false } },
+            dataLabels: {
+                enabled: true,
+                background: { enabled: false },
+                style: { colors: ['#000'], fontWeight: 600 },
+                formatter: (v) => v
+            },
+            xaxis: {
+                type: 'category',                         // ← category axis (exact 1:1 with visible bars)
+                categories: [],
+                tickPlacement: 'on',
+                rangePadding: 'none',
+                labels: {
+                rotate: -90,
+                rotateAlways: true,
+                trim: false,
+                hideOverlappingLabels: false
                 }
+            },
+            yaxis: { title: { text: 'Number of Sign-Ups' } },
+            tooltip: {
+                x: { formatter: (val, { dataPointIndex }) => (visibleLabels[dataPointIndex] ?? '') },
+                y: { formatter: (val) => `${val} sign-ups` }
+            }
             };
 
-            // Initialize chart
-            let sp_vendors_chart = new ApexCharts(
-                document.querySelector("#webstie_two_chart"),
-                sp_ven_two_chartOptions
-            );
-            sp_vendors_chart.render();
+            // this array mirrors the xaxis categories each update; used by tooltip
+            let visibleLabels = [];
 
-            // Function to fetch data via AJAX
-            function fetchVendorData(type, startDate = null, endDate = null) {
-                // Show loading state
-                sp_vendors_chart.updateOptions({
-                    title: {
-                        text: 'Loading data...'
+            const chart = new ApexCharts(elMain, mainOpts);
+            chart.render();
+
+            // ---------- Navigator (numeric) ----------
+            let nav = null;
+            function renderNav() {
+            if (nav) nav.destroy();
+
+            const navData = values.map((y, i) => ({ x: i, y }));
+
+            // default window = up to 60 bars
+            vMin = 0;
+            vMax = Math.max(0, Math.min(values.length - 1, 60));
+
+            nav = new ApexCharts(elNav, {
+                chart: {
+                id: ids.nav + '_chart',
+                height: 110,
+                type: 'area',
+                toolbar: { show: false },
+                animations: { enabled: false },
+                // We manually handle selection; brush is unnecessary with category axis in main.
+                selection: { enabled: true, xaxis: { min: vMin, max: vMax } },
+                events: {
+                    selection: (ctx, { xaxis }) => {
+                    const minI = clamp(Math.round(xaxis.min), 0, labels.length - 1);
+                    const maxI = clamp(Math.round(xaxis.max), 0, labels.length - 1);
+                    applyViewport(minI, maxI, { from: 'nav' });
                     }
-                });
-
-                // Prepare request data
-                const requestData = {
-                    type: type,
-                };
-
-                // Add date range if provided
-                if (startDate && endDate) {
-                    requestData.start_date = startDate;
-                    requestData.end_date = endDate;
                 }
+                },
+                colors: ['#e0bb20'],
+                stroke: { width: 1, colors: ['#e0bb20'] },
+                series: [{ name: 'Range', data: navData }],
+                xaxis: { type: 'numeric', labels: { show: false }, tooltip: { enabled: false } },
+                yaxis: { show: false },
+                dataLabels: { enabled: false },
+                fill: { opacity: 0.2 }
+            });
 
-                $.ajax({
-                    url: '{{ route('vendors.data') }}',
-                    type: 'GET',
-                    data: requestData,
-                    success: function(data) {
-                        updateChart(data, type);
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error fetching data:', error);
-                        sp_vendors_chart.updateOptions({
-                            title: {
-                                text: 'Error loading data'
-                            }
-                        });
-                    }
-                });
+            nav.render();
+            applyViewport(vMin, vMax);
+            updateScrollbar();
             }
 
-            // Function to update chart with data
-            function updateChart(data, chartType) {
-                const labels = Object.keys(data);
-                const values = Object.values(data).map(val => parseInt(val) || 0);
+            // ---------- Viewport sync (slice to visible window) ----------
+            function applyViewport(minI, maxI, { from = 'code' } = {}) {
+            vMin = Math.max(0, Math.min(minI, maxI));
+            vMax = Math.max(0, Math.max(minI, maxI));
 
-                sp_vendors_chart.updateOptions({
-                    series: [{
-                        name: 'New Vendors',
-                        data: values
-                    }],
-                    chart: {
-                        type: 'bar',
-                        height: 350,
-                        background: '#ffffff',
-                        toolbar: {
-                            show: true,
-                            tools: {
-                                download: false,
-                                zoom: true,
-                                zoomin: true,
-                                zoomout: true,
-                                pan: true,
-                                reset: true
-                            }
-                        },
-                        zoom: {
-                            enabled: true,
-                            type: 'x',
-                            autoScaleYaxis: true
-                        }
-                    },
-                    plotOptions: {
-                        bar: {
-                            columnWidth: '18%',
-                            borderRadius: 6
-                        }
-                    },
-                    xaxis: {
-                        categories: labels
-                    },
-                    title: {
-                        text: 'New Vendor Sign Up - ' + chartType.charAt(0).toUpperCase() + chartType.slice(
-                            1)
-                    },
-                    dataLabels: {
-                        enabled: true,
-                        style: {
-                            colors: ['#ffffff']
-                        }
-                    }
-                });
+            // slice visible window for main chart
+            const windowVals = values.slice(vMin, vMax + 1);
+            visibleLabels    = labels.slice(vMin, vMax + 1);
+
+            chart.updateOptions({
+                series: [{ name: seriesName, data: windowVals }],
+                xaxis: { categories: visibleLabels }
+            }, false, false);
+
+            // keep navigator’s selection synced
+            if (nav && from !== 'nav') {
+                nav.updateOptions({
+                chart: { selection: { enabled: true, xaxis: { min: vMin, max: vMax } } }
+                }, false, false);
             }
 
-            // Set up tab click handlers
-            document.querySelector('#webstie_two_daily-tab').addEventListener('click', function() {
-                currentType = 'daily';
-                fetchVendorData(currentType, currentStartDate, currentEndDate);
+            if (from !== 'scroll') updateScrollbar();
+            }
+
+            // ---------- Scrollbar ----------
+            function updateScrollbar() {
+            const windowSize = Math.max(1, vMax - vMin + 1);
+            const maxLeft = Math.max(0, labels.length - windowSize);
+            elScroll.max = String(maxLeft);
+            elScroll.step = '1';
+            elScroll.value = String(clamp(vMin, 0, maxLeft));
+            elScroll.disabled = (maxLeft === 0);
+            elScroll.title = 'Scroll to pan. Hold Ctrl/Cmd + Wheel to zoom. Wheel to pan.';
+            }
+
+            elScroll.addEventListener('input', () => {
+            const windowSize = Math.max(1, vMax - vMin + 1);
+            const left = parseInt(elScroll.value || '0', 10);
+            applyViewport(left, left + windowSize - 1, { from: 'scroll' });
             });
 
-            document.querySelector('#webstie_two_weekly-tab').addEventListener('click', function() {
-                currentType = 'weekly';
-                fetchVendorData(currentType, currentStartDate, currentEndDate);
+            // ---------- Smooth wheel zoom & pan on MAIN ----------
+            elMain.addEventListener('wheel', (e) => {
+            if (!labels.length) return;
+
+            const rect = elMain.getBoundingClientRect();
+            const relX = Math.min(rect.width, Math.max(0, e.clientX - rect.left));
+            const frac = rect.width > 0 ? (relX / rect.width) : 0.5;
+            const centerIdx = Math.round(vMin + frac * Math.max(0, (vMax - vMin)));
+
+            const delta = e.deltaY || e.wheelDelta || 0;
+
+            if (e.ctrlKey || e.metaKey) {
+                // ZOOM
+                e.preventDefault();
+                const currentWindow = Math.max(1, vMax - vMin + 1);
+                const scale = delta > 0 ? 1.15 : 1 / 1.15;
+                let newWindow = Math.round(currentWindow * scale);
+                newWindow = clamp(newWindow, 5, Math.max(10, Math.ceil(labels.length * 0.9)));
+
+                const half = Math.floor(newWindow / 2);
+                let newMin = clamp(centerIdx - half, 0, Math.max(0, labels.length - newWindow));
+                let newMax = newMin + newWindow - 1;
+                applyViewport(newMin, newMax);
+            } else {
+                // PAN
+                const panStep = Math.max(1, Math.round((vMax - vMin + 1) * 0.1));
+                const dir = delta > 0 ? 1 : -1;
+                const newMin = clamp(vMin + dir * panStep, 0, Math.max(0, labels.length - (vMax - vMin + 1)));
+                const newMax = newMin + (vMax - vMin);
+                applyViewport(newMin, newMax);
+            }
+            }, { passive: false });
+
+            // Double-click to reset window
+            elMain.addEventListener('dblclick', () => {
+            const fullMax = Math.max(0, labels.length - 1);
+            const initialMax = Math.min(fullMax, 60);
+            applyViewport(0, initialMax);
             });
 
-            document.querySelector('#webstie_two_monthly-tab').addEventListener('click', function() {
-                currentType = 'monthly';
-                fetchVendorData(currentType, currentStartDate, currentEndDate);
+            // ---------- Data fetch & ingest ----------
+            function fetchData(type, startDate = null, endDate = null) {
+            setActiveTabUI(type);
+            chart.updateOptions({ title: { text: 'Loading…' } });
+            const req = { type };
+            if (startDate && endDate) { req.start_date = startDate; req.end_date = endDate; }
+
+            $.ajax({
+                url,
+                type: 'GET',
+                data: req,
+                success: (payload) => ingest(payload, type),
+                error: () => chart.updateOptions({ title: { text: 'Error loading data' } })
+            });
+            }
+
+            function ingest(payload, chartType) {
+            // keep insertion order, de-dupe keys
+            const seen = new Set();
+            labels = [];
+            values = [];
+            Object.keys(payload).forEach(k => {
+                if (!seen.has(k)) { seen.add(k); labels.push(k); values.push(parseInt(payload[k]) || 0); }
+            });
+            points = values.map((y, i) => ({ x: i, y }));
+
+            chart.updateOptions({
+                title: { text: `${titleBase} - ${chartType.charAt(0).toUpperCase() + chartType.slice(1)}` }
             });
 
-            document.querySelector('#webstie_two_yearly-tab').addEventListener('click', function() {
-                currentType = 'yearly';
-                fetchVendorData(currentType, currentStartDate, currentEndDate);
-            });
+            renderNav(); // builds vMin/vMax and paints both charts
+            }
 
-            // Initialize date range picker
-            $('.dateRangeWebstie').daterangepicker({
-                opens: 'left',
-                autoUpdateInput: true,
-                minDate: moment('2024-01-01'),
-                maxDate: moment().endOf('year'),
+            // ---------- Tabs ----------
+            document.getElementById(ids.tabs.daily).addEventListener('click',  () => { currentType = 'daily';  fetchData(currentType, currentStartDate, currentEndDate); });
+            document.getElementById(ids.tabs.weekly).addEventListener('click', () => { currentType = 'weekly'; fetchData(currentType, currentStartDate, currentEndDate); });
+            document.getElementById(ids.tabs.monthly).addEventListener('click',()=> { currentType = 'monthly';fetchData(currentType, currentStartDate, currentEndDate); });
+            document.getElementById(ids.tabs.yearly).addEventListener('click', () => { currentType = 'yearly';  fetchData(currentType, currentStartDate, currentEndDate); });
+
+            // ---------- Date picker ----------
+            $('#' + ids.picker).daterangepicker({
+            opens: 'left',
+            autoUpdateInput: true,
+            minDate: moment('2024-01-01'),
+            maxDate: moment().endOf('year'),
             }, function(start, end) {
-                var months = end.diff(start, 'months', true);
-                if (months < 1) {
-                    this.setStartDate(moment(start));
-                    this.setEndDate(moment(start).add(1, 'months'));
-                }
+            const months = end.diff(start, 'months', true);
+            if (months < 1) { this.setStartDate(moment(start)); this.setEndDate(moment(start).add(1, 'months')); }
             });
 
-            $('.dateRangeWebstie').on('apply.daterangepicker', function(ev, picker) {
-                currentStartDate = picker.startDate.format('YYYY-MM-DD');
-                currentEndDate = picker.endDate.format('YYYY-MM-DD');
-                fetchVendorData(currentType, currentStartDate, currentEndDate);
+            $('#' + ids.picker).on('apply.daterangepicker', function(ev, picker) {
+            currentStartDate = picker.startDate.format('YYYY-MM-DD');
+            currentEndDate   = picker.endDate.format('YYYY-MM-DD');
+            fetchData(currentType, currentStartDate, currentEndDate);
             });
 
-            // Load initial data
-            fetchVendorData(currentType);
+            // ---------- First load ----------
+            setActiveTabUI('daily');
+            fetchData(currentType);
+
+            // expose if needed
+            return { refresh: () => fetchData(currentType, currentStartDate, currentEndDate) };
+        }
+
+        // ===== Vendors =====
+        makeBrushBarChart({
+            ids: {
+            main: 'new_vendor_signup_chart',
+            nav: 'new_vendor_signup_nav',
+            scroll: 'new_vendor_signup_scroll',
+            picker: 'vendor_sign_up_picker',
+            tabs: {
+                daily:   'new_vendor_signup_daily-tab',
+                weekly:  'new_vendor_signup_weekly-tab',
+                monthly: 'new_vendor_signup_monthly-tab',
+                yearly:  'new_vendor_signup_yearly-tab',
+            }
+            },
+            url: '{{ route('vendors.data') }}',
+            seriesName: 'New Vendors',
+            titleBase: 'New Vendor Sign Up'
+        });
+
+        // ===== Customers =====
+        makeBrushBarChart({
+            ids: {
+            main: 'new_customer_signup_chart',
+            nav: 'new_customer_signup_nav',
+            scroll: 'new_customer_signup_scroll',
+            picker: 'customer_sign_up_picker',
+            tabs: {
+                daily:   'new_customer_signup_daily-tab',
+                weekly:  'new_customer_signup_weekly-tab',
+                monthly: 'new_customer_signup_monthly-tab',
+                yearly:  'new_customer_signup_yearly-tab',
+            }
+            },
+            url: '{{ route('customers.data') }}',
+            seriesName: 'New Customers',
+            titleBase: 'New Customer Sign Up'
+        });
+
+        // ===== Top Selling Vendors (uses total_amount, same as your controller) =====
+        makeBrushBarChart({
+            ids: {
+            main:   'top_vendor_chart',
+            nav:    'top_vendor_nav',
+            scroll: 'top_vendor_scroll',
+            picker: 'top_vendors_picker',
+            tabs: {
+                daily:   'top_vendors_daily-tab',
+                weekly:  'top_vendors_weekly-tab',
+                monthly: 'top_vendors_monthly-tab',
+                yearly:  'top_vendors_yearly-tab',
+            }
+            },
+            url: '{{ route('top-vendors.data') }}',
+            seriesName: 'Net Profit',
+            titleBase: 'Top Selling Vendors'
+        });
+
+        // ===== Top Selling Products (uses total sold qty, same as your controller) =====
+        makeBrushBarChart({
+            ids: {
+            main:   'top_vendors_two_chart',
+            nav:    'top_products_nav',
+            scroll: 'top_products_scroll',
+            picker: 'top_products_picker',
+            tabs: {
+                daily:   'top_vendors_two_daily-tab',
+                weekly:  'top_vendors_two_weekly-tab',
+                monthly: 'top_vendors_two_monthly-tab',
+                yearly:  'top_vendors_two_yearly-tab',
+            }
+            },
+            url: '{{ route('top-products.data') }}',
+            seriesName: 'Total Sold',
+            titleBase: 'Top Selling Products'
+        });
         });
     </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Variables to store current state
-            let currentType = 'daily';
-            let currentStartDate = null;
-            let currentEndDate = null;
-
-            // Chart configuration
-            let sp_customer_chartOptions = {
-                series: [{
-                    name: 'New Customers',
-                    data: []
-                }],
-                chart: {
-                    type: 'bar',
-                    height: 350,
-                    background: '#ffffff',
-                    toolbar: {
-                        show: true,
-                        tools: {
-                            download: false,
-                            zoom: true,
-                            zoomin: true,
-                            zoomout: true,
-                            pan: true,
-                            reset: true
-                        }
-                    },
-                    zoom: {
-                        enabled: true,
-                        type: 'x',
-                        autoScaleYaxis: true
-                    }
-                },
-                title: {
-                    text: 'New Customer Sign Up',
-                    align: 'left'
-                },
-                colors: ['#41695a'],
-                dataLabels: {
-                    enabled: true,
-                    style: {
-                        colors: ['#ffffff']
-                    },
-                    formatter: function(val) {
-                        return val;
-                    }
-                },
-                plotOptions: {
-                    bar: {
-                        columnWidth: '18%',
-                        borderRadius: 6
-                    }
-                },
-                xaxis: {
-                    categories: [],
-                    labels: {
-                        formatter: function(value) {
-                            return value && value.length > 30 ?
-                                value.substring(0, 20) + '...' :
-                                value || '';
-                        }
-                    }
-                },
-                yaxis: {
-                    title: {
-                        text: 'Number of Sign-Ups'
-                    }
-                },
-                tooltip: {
-                    y: {
-                        formatter: function(val) {
-                            return val + ' sign-ups';
-                        }
-                    }
-                }
-            };
-
-            // Initialize chart
-            let sp_customers_chart = new ApexCharts(
-                document.querySelector("#webstie_three_chart"),
-                sp_customer_chartOptions
-            );
-            sp_customers_chart.render();
-
-            // Function to fetch data via AJAX
-            function fetchCustomerData(type, startDate = null, endDate = null) {
-                // Show loading state
-                sp_customers_chart.updateOptions({
-                    title: {
-                        text: 'Loading data...'
-                    }
-                });
-
-                // Prepare request data
-                const requestData = {
-                    type: type
-                };
-
-                // Add date range if provided
-                if (startDate && endDate) {
-                    requestData.start_date = startDate;
-                    requestData.end_date = endDate;
-                }
-
-                $.ajax({
-                    url: '{{ route('customers.data') }}',
-                    type: 'GET',
-                    data: requestData,
-                    success: function(data) {
-                        updateCustomerChart(data, type);
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error fetching data:', error);
-                        sp_customers_chart.updateOptions({
-                            title: {
-                                text: 'Error loading data'
-                            }
-                        });
-                    }
-                });
-            }
-
-            // Function to update chart with data
-            function updateCustomerChart(data, chartType) {
-                const labels = Object.keys(data);
-                const values = Object.values(data).map(val => parseInt(val) || 0);
-
-                // Adjust bar width for yearly and monthly views
-                const columnWidth = (chartType === 'yearly' || chartType === 'monthly') ? '18%' : '18%';
-
-                sp_customers_chart.updateOptions({
-                    series: [{
-                        name: 'New Customers',
-                        data: values
-                    }],
-                    chart: {
-                        type: 'bar',
-                        height: 350,
-                        background: '#ffffff',
-                        toolbar: {
-                            show: true,
-                            tools: {
-                                download: false,
-                                zoom: true,
-                                zoomin: true,
-                                zoomout: true,
-                                pan: true,
-                                reset: true
-                            }
-                        },
-                        zoom: {
-                            enabled: true,
-                            type: 'x',
-                            autoScaleYaxis: true
-                        }
-                    },
-                    plotOptions: {
-                        bar: {
-                            columnWidth: columnWidth,
-                            borderRadius: 6
-                        }
-                    },
-                    xaxis: {
-                        categories: labels
-                    },
-                    title: {
-                        text: 'New Customer Sign Up - ' + chartType.charAt(0).toUpperCase() + chartType
-                            .slice(1)
-                    },
-                    dataLabels: {
-                        enabled: true,
-                        style: {
-                            colors: ['#ffffff']
-                        },
-                        formatter: function(val) {
-                            return val;
-                        }
-                    }
-                });
-            }
-
-            // Set up tab click handlers
-            document.querySelector('#webstie_three_daily-tab').addEventListener('click', () => {
-                currentType = 'daily';
-                fetchCustomerData(currentType, currentStartDate, currentEndDate);
-            });
-
-            document.querySelector('#webstie_three_weekly-tab').addEventListener('click', () => {
-                currentType = 'weekly';
-                fetchCustomerData(currentType, currentStartDate, currentEndDate);
-            });
-
-            document.querySelector('#webstie_three_monthly-tab').addEventListener('click', () => {
-                currentType = 'monthly';
-                fetchCustomerData(currentType, currentStartDate, currentEndDate);
-            });
-
-            document.querySelector('#webstie_three_yearly-tab').addEventListener('click', () => {
-                currentType = 'yearly';
-                fetchCustomerData(currentType, currentStartDate, currentEndDate);
-            });
-
-            // Initialize date range picker
-            $('.dateWebstieRange').daterangepicker({
-                opens: 'left',
-                autoUpdateInput: true,
-                minDate: moment('2024-01-01'),
-                maxDate: moment().endOf('year'),
-            }, function(start, end) {
-                var months = end.diff(start, 'months', true);
-                if (months < 1) {
-                    this.setStartDate(moment(start));
-                    this.setEndDate(moment(start).add(1, 'months'));
-                }
-            });
-
-            $('.dateWebstieRange').on('apply.daterangepicker', function(ev, picker) {
-                currentStartDate = picker.startDate.format('YYYY-MM-DD');
-                currentEndDate = picker.endDate.format('YYYY-MM-DD');
-                fetchCustomerData(currentType, currentStartDate, currentEndDate);
-            });
-
-            // Load initial data
-            fetchCustomerData(currentType);
+        
         });
     </script>
+
+
+
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -1642,7 +1600,7 @@
         });
     </script>
 
-    <script>
+    {{-- <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Variables to store current state
             let currentType = 'daily';
@@ -2047,7 +2005,7 @@
             // Load initial data
             fetchTopProductsData(currentType);
         });
-    </script>
+    </script> --}}
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {

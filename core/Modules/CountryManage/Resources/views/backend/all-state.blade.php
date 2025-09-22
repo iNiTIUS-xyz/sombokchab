@@ -135,7 +135,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">
-                                {{ __('Cancel') }}
+                                {{ __('Close') }}
                             </button>
                             <button type="submit" class="btn btn-sm btn-primary">{{ __('Update') }}</button>
                         </div>
@@ -187,7 +187,7 @@
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">
-                                {{ __('Cancel') }}
+                                {{ __('Close') }}
                             </button>
                             <button type="submit" class="btn btn-sm btn-primary">{{ __('Add') }}</button>
                         </div>
