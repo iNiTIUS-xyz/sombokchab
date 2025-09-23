@@ -1,36 +1,16 @@
 @extends('vendor.vendor-master')
 
 @section('site-title')
+
     {{ __('All Campaigns') }}
 @endsection
 
 @section('style')
-    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap4.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.min.css') }}">
     <x-bulk-action.css />
 
-    <style>
-        #DataTables_Table_0_wrapper>.row:first-child {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            margin-bottom: 1rem;
-        }
-
-        #DataTables_Table_0_wrapper>.row:first-child .col-12 {
-            flex: 1 1 50%;
-            max-width: 50%;
-        }
-
-        /* Optional: Align content inside each column */
-        #DataTables_Table_0_length {
-            text-align: left;
-        }
-
-        #DataTables_Table_0_filter {
-            text-align: right;
-        }
-    </style>
+    
 @endsection
 
 @section('content')
@@ -47,17 +27,7 @@
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('All Campaigns') }}</h4>
                         <div class="dashboard__card__header__right">
-                            <div class="bulk-delete-wrapper my-3">
-                                <div class="select-box-wrap">
-                                    <select name="bulk_option" id="bulk_option">
-                                        <option value="">{{ __('Bulk Action') }}</option>
-                                        <option value="delete">{{ __('Delete') }}</option>
-                                    </select>
-                                    <button class="btn btn-primary btn-sm" id="bulk_delete_btn">
-                                        {{ __('Apply') }}
-                                    </button>
-                                </div>
-                            </div>
+                            <x-bulk-action.dropdown />
                         </div>
                     </div>
                     <div class="dashboard__card__body mt-4">
@@ -98,88 +68,13 @@
         </div>
     </div>
 @endsection
-
 @section('script')
     <x-table.btn.swal.js />
-    <script>
-        (function($) {
-            $(document).ready(function() {
-                $(document).on('click', '#bulk_delete_btn', function(e) {
-                    e.preventDefault();
-
-                    var bulkOption = $('#bulk_option').val();
-                    var allCheckbox = $('.bulk-checkbox:checked');
-                    var allIds = [];
-
-                    allCheckbox.each(function(index, value) {
-                        allIds.push($(this).val());
-                    });
-
-                    if (allIds.length > 0 && bulkOption == 'delete') {
-                        Swal.fire({
-                            title: '{{ __('Are you sure?') }}',
-                            text: '{{ __('This action cannot be undone.') }}',
-                            icon: 'warning',
-                            showCancelButton: true,
-                            confirmButtonColor: '#ee0000',
-                            cancelButtonColor: '#55545b',
-                            confirmButtonText: '{{ __('Yes, delete them!') }}',
-                            cancelButtonText: "{{ __('No') }}"
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                $('#bulk_delete_btn').text('{{ __('Deleting...') }}');
-
-                                $.ajax({
-                                    type: "POST",
-                                    url: "{{ route('vendor.campaigns.bulk.action') }}",
-                                    data: {
-                                        _token: "{{ csrf_token() }}",
-                                        ids: allIds,
-                                    },
-                                    success: function(data) {
-                                        Swal.fire(
-                                            '{{ __('Deleted!') }}',
-                                            '{{ __('Selected tickets have been deleted.') }}',
-                                            'success'
-                                        );
-                                        setTimeout(function() {
-                                            location.reload();
-                                        }, 1000);
-                                    },
-                                    error: function() {
-                                        Swal.fire(
-                                            'Error!',
-                                            'Failed to delete tickets.',
-                                            'error'
-                                        );
-                                    }
-                                });
-                            }
-                        });
-                    } else {
-                        Swal.fire(
-                            'Warning!',
-                            '{{ __('Please select at least one item and choose delete option.') }}',
-                            'warning'
-                        );
-                    }
-                });
-
-                // Handle "select all" checkbox
-                $('.all-checkbox').on('change', function(e) {
-                    e.preventDefault();
-                    var value = $(this).is(':checked');
-                    var allChek = $(this).closest('table').find('.bulk-checkbox');
-
-                    allChek.prop('checked', value);
-                });
-            });
-        })(jQuery);
-    </script>
+    <x-bulk-action.js :route="route('vendor.campaigns.bulk.action')" />
 
     <script>
-        $(document).ready(function() {
-            $(document).on('click', '.campaign_edit_btn', function() {
+        $(document).ready(function () {
+            $(document).on('click', '.campaign_edit_btn', function () {
                 let el = $(this);
                 let id = el.data('id');
                 let name = el.data('name');
@@ -193,12 +88,11 @@
         });
     </script>
 
-    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/js/dataTables.bootstrap4.min.js') }}"></script>
+    {{-- {{-- <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script> --}} --}}
+    <script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
 
     <script>
-        $(document).ready(function() {
-            // Initialize DataTable only if the table exists
+        $(document).ready(function () {
             if ($('#dataTable').length) {
                 $('#dataTable').DataTable({
                     paging: true,
@@ -209,10 +103,16 @@
                     autoWidth: false,
                     responsive: true,
                     language: {
-                        search: "Filter:"
-                    }
+                        search: "Filter:",
+                        paginate: {
+                            previous: "Prev",
+                            next: "Next"
+                        }
+                    },
+                    pagingType: "simple_numbers" // gives Prev, numbers, Next
                 });
             }
         });
     </script>
+
 @endsection

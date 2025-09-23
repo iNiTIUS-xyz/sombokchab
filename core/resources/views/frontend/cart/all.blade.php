@@ -7,7 +7,7 @@
 @section('style')
     <link rel="stylesheet" href="{{ asset('assets/common/css/toastr.css') }}">
 
-    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.min.css') }}">
 
     <style>
         .table-list-content .custom--table tbody tr td {
@@ -158,8 +158,8 @@
 @endsection
 
 @section('script')
-    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/js/dataTables.bootstrap4.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script> --}}
+    <script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
     <script>
         $(document).ready(function() {
             // Initialize DataTable only if the table exists

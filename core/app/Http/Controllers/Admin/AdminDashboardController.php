@@ -179,316 +179,252 @@ class AdminDashboardController extends Controller
 
     public function getVendorData(Request $request)
     {
-        $type = $request->input('type');
+        $type      = $request->input('type', 'daily');
         $startDate = $request->input('start_date');
-        $endDate = $request->input('end_date');
+        $endDate   = $request->input('end_date');
 
-        $query = Vendor::query();
-
+        // Establish the effective range based on defaults you described
         if ($startDate && $endDate) {
-            $query->whereBetween('created_at', [
-                Carbon::parse($startDate)->startOfDay(),
-                Carbon::parse($endDate)->endOfDay()
-            ]);
+            $start = \Carbon\Carbon::parse($startDate)->startOfDay();
+            $end   = \Carbon\Carbon::parse($endDate)->endOfDay();
+        } else {
+            switch ($type) {
+                case 'daily':
+                    $start = \Carbon\Carbon::now()->startOfMonth();
+                    $end   = \Carbon\Carbon::now()->endOfMonth();
+                    break;
+                case 'weekly':
+                    $start = \Carbon\Carbon::now()->startOfMonth()->startOfWeek(\Carbon\Carbon::MONDAY);
+                    $end   = \Carbon\Carbon::now()->endOfMonth()->endOfWeek(\Carbon\Carbon::SUNDAY);
+                    break;
+                case 'monthly':
+                    $start = \Carbon\Carbon::now()->startOfYear();
+                    $end   = \Carbon\Carbon::now()->endOfYear();
+                    break;
+                case 'yearly':
+                    $start = \Carbon\Carbon::now()->subYears(4)->startOfYear(); // last 5 years including current
+                    $end   = \Carbon\Carbon::now()->endOfYear();
+                    break;
+                default:
+                    $start = \Carbon\Carbon::now()->startOfMonth();
+                    $end   = \Carbon\Carbon::now()->endOfMonth();
+            }
         }
 
+        // Base query constrained by range (for performance)
+        $base = Vendor::query()
+            ->whereBetween('created_at', [$start->copy()->startOfDay(), $end->copy()->endOfDay()]);
+
+        $data = [];
+
         switch ($type) {
-            case 'daily':
-                if ($startDate && $endDate) {
-                    $data = Vendor::select([
-                        DB::raw('DATE(created_at) as date'),
-                        DB::raw('COUNT(*) as count')
-                    ])
-                        ->whereBetween('created_at', [
-                            Carbon::parse($startDate)->startOfDay(),
-                            Carbon::parse($endDate)->endOfDay()
-                        ])
-                        ->groupBy('date')
-                        ->orderBy('date', 'asc')
-                        ->pluck('count', 'date')
-                        ->toArray();
-                } else {
-                    $data = Vendor::select([
-                        DB::raw('DATE(created_at) as date'),
-                        DB::raw('COUNT(*) as count')
-                    ])
-                        ->where('created_at', '>=', Carbon::now()->startOfMonth())
-                        ->where('created_at', '<=', Carbon::now()->endOfMonth())
-                        ->groupBy('date')
-                        ->orderBy('date', 'asc')
-                        ->pluck('count', 'date')
-                        ->toArray();
-                }
-                break;
+            case 'daily': {
+                // counts grouped by date
+                $counts = $base->clone()
+                    ->selectRaw('DATE(created_at) as d, COUNT(*) as c')
+                    ->groupBy('d')
+                    ->pluck('c', 'd');
 
-            case 'weekly':
-                if ($startDate && $endDate) {
-                    $data = $query->select(
-                        DB::raw('YEAR(created_at) as year'),
-                        DB::raw('WEEK(created_at, 1) as week_number'),
-                        DB::raw('CONCAT("Week ", WEEK(created_at, 1)) as week'),
-                        DB::raw('COUNT(*) as count')
-                    )
-                        ->groupBy('year', 'week_number', 'week')
-                        ->orderBy('year', 'asc')
-                        ->orderBy('week_number', 'asc')
-                        ->get()
-                        ->mapWithKeys(function ($item) {
-                            $weekStart = Carbon::parse($item->week_start)->format('j');
-                            $weekEnd   = Carbon::parse($item->week_end)->format('j M');
-                            $label = "W {$item->week_number} ({$weekStart} - {$weekEnd})";
-                            return [$label => $item->count];
-                        })
-                        ->toArray();
-                } else {
-                    $data = $query->select(
-                        DB::raw('WEEK(created_at, 1) as week_number'),
-                        DB::raw('YEAR(created_at) as year'),
-                        DB::raw('CONCAT("Week ", WEEK(created_at, 1) - WEEK(CURRENT_DATE - INTERVAL 1 MONTH, 1) + 1) as week'),
-                        DB::raw('COUNT(*) as count')
-                    )
-                        ->where('created_at', '>=', Carbon::now()->startOfMonth())
-                        ->where('created_at', '<=', Carbon::now()->endOfMonth())
-                        ->groupBy('year', 'week_number', 'week')
-                        ->orderBy('year', 'asc')
-                        ->orderBy('week_number', 'asc')
-                        ->get()
-                        ->mapWithKeys(function ($item) {
-                            $weekStart = Carbon::parse($item->week_start)->format('j');
-                            $weekEnd   = Carbon::parse($item->week_end)->format('j M');
-                            $label = "W {$item->week_number} ({$weekStart} - {$weekEnd})";
-                            return [$label => $item->count];
-                        })
-                        ->toArray();
+                // build full day range with zeros
+                $cursor = $start->copy()->startOfDay();
+                while ($cursor->lte($end)) {
+                    $lbl = $cursor->toDateString(); // YYYY-MM-DD
+                    $data[$lbl] = (int) ($counts[$lbl] ?? 0);
+                    $cursor->addDay();
                 }
                 break;
+            }
 
-            case 'monthly':
-                if ($startDate && $endDate) {
-                    $data = $query->select(
-                        DB::raw('YEAR(created_at) as year'),
-                        DB::raw('MONTH(created_at) as month_number'),
-                        DB::raw('DATE_FORMAT(created_at, "%M %Y") as month_name'),
-                        DB::raw('COUNT(*) as count')
-                    )
-                        ->groupBy('year', 'month_number', 'month_name')
-                        ->orderBy('year', 'asc')
-                        ->orderBy('month_number', 'asc')
-                        ->get()
-                        ->mapWithKeys(function ($item) {
-                            return [$item->month_name => $item->count];
-                        })
-                        ->toArray();
-                } else {
-                    $data = $query->select(
-                        DB::raw('MONTH(created_at) as month_number'),
-                        DB::raw('YEAR(created_at) as year'),
-                        DB::raw('DATE_FORMAT(created_at, "%M") as month_name'),
-                        DB::raw('COUNT(*) as count')
-                    )
-                        ->whereYear('created_at', Carbon::now()->year)
-                        ->groupBy('year', 'month_number', 'month_name')
-                        ->orderBy('year', 'asc')
-                        ->orderBy('month_number', 'asc')
-                        ->get()
-                        ->mapWithKeys(function ($item) {
-                            return [$item->month_name => $item->count];
-                        })
-                        ->toArray();
-                }
-                break;
+            case 'weekly': {
+                // ISO week key (oW => ISO year + week). Example: 202536
+                $counts = $base->clone()
+                    ->selectRaw('YEARWEEK(created_at, 3) as yw, COUNT(*) as c') // 3 => ISO week, Monday start
+                    ->groupBy('yw')
+                    ->pluck('c', 'yw');
 
-            case 'yearly':
-                if ($startDate && $endDate) {
-                    $data = $query->select(
-                        DB::raw('YEAR(created_at) as year'),
-                        DB::raw('COUNT(*) as count')
-                    )
-                        ->groupBy('year')
-                        ->orderBy('year', 'asc')
-                        ->get()
-                        ->pluck('count', 'year')
-                        ->toArray();
-                } else {
-                    $data = $query->select(
-                        DB::raw('YEAR(created_at) as year'),
-                        DB::raw('COUNT(*) as count')
-                    )
-                        ->where('created_at', '>=', Carbon::now()->subYears(5)->startOfYear())
-                        ->where('created_at', '<=', Carbon::now()->endOfYear())
-                        ->groupBy('year')
-                        ->orderBy('year', 'asc')
-                        ->get()
-                        ->pluck('count', 'year')
-                        ->toArray();
+                // iterate weeks from Monday..Sunday
+                $cursorStart = $start->copy()->startOfWeek(\Carbon\Carbon::MONDAY);
+                $rangeEnd    = $end->copy()->endOfWeek(\Carbon\Carbon::SUNDAY);
+
+                while ($cursorStart->lte($rangeEnd)) {
+                    $isoYear = (int) $cursorStart->format('o');  // ISO year
+                    $isoWeek = (int) $cursorStart->format('W');  // 1..53
+                    $key     = (int) ($isoYear . str_pad((string)$isoWeek, 2, '0', STR_PAD_LEFT)); // matches YEARWEEK(...,3)
+
+                    // Label: "W{week}, {Mon-YYYY}" using the week *start* month
+                    // $label = 'W' . $isoWeek . ', ' . $cursorStart->format('M-Y');
+                    $label = 'W' . $isoWeek . ', ' . $cursorStart->copy()->endOfWeek(\Carbon\Carbon::SUNDAY)->format('M-Y');
+
+                    $data[$label] = (int) ($counts[$key] ?? 0);
+
+                    $cursorStart->addWeek();
                 }
                 break;
+            }
+
+            case 'monthly': {
+                // counts grouped by month/year
+                $counts = $base->clone()
+                    ->selectRaw('YEAR(created_at) as y, MONTH(created_at) as m, COUNT(*) as c')
+                    ->groupBy('y', 'm')
+                    ->get()
+                    ->reduce(function ($carry, $row) {
+                        $key = sprintf('%04d-%02d', $row->y, $row->m);
+                        $carry[$key] = (int) $row->c;
+                        return $carry;
+                    }, []);
+
+                $cursor = $start->copy()->startOfMonth();
+                while ($cursor->lte($end)) {
+                    $key   = $cursor->format('Y-m');
+                    $label = $cursor->format('M Y'); // "Jan 2025"
+                    $data[$label] = (int) ($counts[$key] ?? 0);
+                    $cursor->addMonth();
+                }
+                break;
+            }
+
+            case 'yearly': {
+                $counts = $base->clone()
+                    ->selectRaw('YEAR(created_at) as y, COUNT(*) as c')
+                    ->groupBy('y')
+                    ->pluck('c', 'y');
+
+                $cursor = $start->copy()->startOfYear();
+                while ($cursor->lte($end)) {
+                    $year = (int) $cursor->format('Y');
+                    $data[(string)$year] = (int) ($counts[$year] ?? 0);
+                    $cursor->addYear();
+                }
+                break;
+            }
 
             default:
+                // fall back to empty
                 $data = [];
-                break;
         }
 
         return response()->json($data);
     }
+
 
     public function getCustomerData(Request $request)
     {
-        $type = $request->input('type');
+        $type      = $request->input('type', 'daily');
         $startDate = $request->input('start_date');
-        $endDate = $request->input('end_date');
-
-        $query = User::query();
+        $endDate   = $request->input('end_date');
 
         if ($startDate && $endDate) {
-            $query->whereBetween('created_at', [
-                Carbon::parse($startDate)->startOfDay(),
-                Carbon::parse($endDate)->endOfDay()
-            ]);
+            $start = \Carbon\Carbon::parse($startDate)->startOfDay();
+            $end   = \Carbon\Carbon::parse($endDate)->endOfDay();
+        } else {
+            switch ($type) {
+                case 'daily':
+                    $start = \Carbon\Carbon::now()->startOfMonth();
+                    $end   = \Carbon\Carbon::now()->endOfMonth();
+                    break;
+                case 'weekly':
+                    $start = \Carbon\Carbon::now()->startOfMonth()->startOfWeek(\Carbon\Carbon::MONDAY);
+                    $end   = \Carbon\Carbon::now()->endOfMonth()->endOfWeek(\Carbon\Carbon::SUNDAY);
+                    break;
+                case 'monthly':
+                    $start = \Carbon\Carbon::now()->startOfYear();
+                    $end   = \Carbon\Carbon::now()->endOfYear();
+                    break;
+                case 'yearly':
+                    $start = \Carbon\Carbon::now()->subYears(4)->startOfYear(); // last 5 incl. current
+                    $end   = \Carbon\Carbon::now()->endOfYear();
+                    break;
+                default:
+                    $start = \Carbon\Carbon::now()->startOfMonth();
+                    $end   = \Carbon\Carbon::now()->endOfMonth();
+            }
         }
+
+        $base = User::query()
+            ->whereBetween('created_at', [$start->copy()->startOfDay(), $end->copy()->endOfDay()]);
+
+        $out = [];
 
         switch ($type) {
-            case 'daily':
-                if ($startDate && $endDate) {
-                    $data = User::select([
-                        DB::raw('DATE(created_at) as date'),
-                        DB::raw('COUNT(*) as count')
-                    ])
-                        ->whereBetween('created_at', [
-                            Carbon::parse($startDate)->startOfDay(),
-                            Carbon::parse($endDate)->endOfDay()
-                        ])
-                        ->groupBy('date')
-                        ->orderBy('date', 'asc')
-                        ->pluck('count', 'date')
-                        ->toArray();
-                } else {
-                    $data = User::select([
-                        DB::raw('DATE(created_at) as date'),
-                        DB::raw('COUNT(*) as count')
-                    ])
-                        ->where('created_at', '>=', Carbon::now()->startOfMonth())
-                        ->where('created_at', '<=', Carbon::now()->endOfMonth())
-                        ->groupBy('date')
-                        ->orderBy('date', 'asc')
-                        ->pluck('count', 'date')
-                        ->toArray();
+            case 'daily': {
+                $counts = $base->clone()
+                    ->selectRaw('DATE(created_at) as d, COUNT(*) as c')
+                    ->groupBy('d')
+                    ->pluck('c', 'd');
+
+                $cursor = $start->copy()->startOfDay();
+                while ($cursor->lte($end)) {
+                    $lbl = $cursor->toDateString(); // YYYY-MM-DD
+                    $out[$lbl] = (int)($counts[$lbl] ?? 0);
+                    $cursor->addDay();
                 }
                 break;
+            }
 
-            case 'weekly':
-                if ($startDate && $endDate) {
-                    $data = $query->select(
-                        DB::raw('YEAR(created_at) as year'),
-                        DB::raw('WEEK(created_at, 1) as week_number'),
-                        DB::raw('MIN(DATE(created_at)) as week_start'),
-                        DB::raw('MAX(DATE(created_at)) as week_end'),
-                        DB::raw('COUNT(*) as count')
-                    )
-                        ->whereBetween('created_at', [
-                            Carbon::parse($startDate)->startOfDay(),
-                            Carbon::parse($endDate)->endOfDay()
-                        ])
-                        ->groupBy('year', 'week_number')
-                        ->orderBy('year', 'asc')
-                        ->orderBy('week_number', 'asc')
-                        ->get()
-                        ->mapWithKeys(function ($item) {
-                            $weekStart = Carbon::parse($item->week_start)->format('j');
-                            $weekEnd   = Carbon::parse($item->week_end)->format('j M');
-                            $label = "W {$item->week_number} ({$weekStart} - {$weekEnd})";
-                            return [$label => $item->count];
-                        })
-                        ->toArray();
-                } else {
-                    $data = $query->select(
-                        DB::raw('YEAR(created_at) as year'),
-                        DB::raw('WEEK(created_at, 1) as week_number'),
-                        DB::raw('MIN(DATE(created_at)) as week_start'),
-                        DB::raw('MAX(DATE(created_at)) as week_end'),
-                        DB::raw('COUNT(*) as count')
-                    )
-                        ->where('created_at', '>=', Carbon::now()->startOfMonth())
-                        ->where('created_at', '<=', Carbon::now()->endOfMonth())
-                        ->groupBy('year', 'week_number')
-                        ->orderBy('year', 'asc')
-                        ->orderBy('week_number', 'asc')
-                        ->get()
-                        ->mapWithKeys(function ($item) {
-                            $weekStart = Carbon::parse($item->week_start)->format('j');
-                            $weekEnd   = Carbon::parse($item->week_end)->format('j M');
-                            $label = "W {$item->week_number} ({$weekStart} - {$weekEnd})";
-                            return [$label => $item->count];
-                        })
-                        ->toArray();
+            case 'weekly': {
+                // keyed by ISO YEARWEEK (mode 3 = ISO weeks)
+                $counts = $base->clone()
+                    ->selectRaw('YEARWEEK(created_at, 3) as yw, COUNT(*) as c')
+                    ->groupBy('yw')
+                    ->pluck('c', 'yw');
+
+                $cursor = $start->copy()->startOfWeek(\Carbon\Carbon::MONDAY);
+                $rangeEnd = $end->copy()->endOfWeek(\Carbon\Carbon::SUNDAY);
+
+                while ($cursor->lte($rangeEnd)) {
+                    $isoYear = (int)$cursor->format('o');
+                    $isoWeek = (int)$cursor->format('W');
+                    $key     = (int)($isoYear . str_pad((string)$isoWeek, 2, '0', STR_PAD_LEFT));
+                    $label   = 'W' . $isoWeek . ', ' . $cursor->format('M-Y'); // e.g., W36, Sep-2025
+                    $out[$label] = (int)($counts[$key] ?? 0);
+                    $cursor->addWeek();
                 }
                 break;
+            }
 
+            case 'monthly': {
+                $counts = $base->clone()
+                    ->selectRaw('YEAR(created_at) as y, MONTH(created_at) as m, COUNT(*) as c')
+                    ->groupBy('y', 'm')
+                    ->get()
+                    ->reduce(function($carry, $r) {
+                        $carry[sprintf('%04d-%02d', $r->y, $r->m)] = (int)$r->c;
+                        return $carry;
+                    }, []);
 
-            case 'monthly':
-                if ($startDate && $endDate) {
-                    $data = $query->select(
-                        DB::raw('YEAR(created_at) as year'),
-                        DB::raw('MONTH(created_at) as month_number'),
-                        DB::raw('DATE_FORMAT(created_at, "%M %Y") as month_name'),
-                        DB::raw('COUNT(*) as count')
-                    )
-                        ->groupBy('year', 'month_number', 'month_name')
-                        ->orderBy('year', 'asc')
-                        ->orderBy('month_number', 'asc')
-                        ->get()
-                        ->mapWithKeys(fn($item) => [$item->month_name => $item->count])
-                        ->toArray();
-                } else {
-                    $data = $query->select(
-                        DB::raw('YEAR(created_at) as year'),
-                        DB::raw('MONTH(created_at) as month_number'),
-                        DB::raw('DATE_FORMAT(created_at, "%M") as month_name'),
-                        DB::raw('COUNT(*) as count')
-                    )
-                        ->whereYear('created_at', Carbon::now()->year)
-                        ->groupBy('year', 'month_number', 'month_name')
-                        ->orderBy('year', 'asc')
-                        ->orderBy('month_number', 'asc')
-                        ->get()
-                        ->mapWithKeys(fn($item) => [$item->month_name => $item->count])
-                        ->toArray();
+                $cursor = $start->copy()->startOfMonth();
+                while ($cursor->lte($end)) {
+                    $key   = $cursor->format('Y-m');
+                    $label = $cursor->format('M Y'); // Jan 2025
+                    $out[$label] = (int)($counts[$key] ?? 0);
+                    $cursor->addMonth();
                 }
                 break;
+            }
 
-            case 'yearly':
-                if ($startDate && $endDate) {
-                    $data = $query->select(
-                        DB::raw('YEAR(created_at) as year'),
-                        DB::raw('COUNT(*) as count')
-                    )
-                        ->groupBy('year')
-                        ->orderBy('year', 'asc')
-                        ->get()
-                        ->pluck('count', 'year')
-                        ->toArray();
-                } else {
-                    $data = $query->select(
-                        DB::raw('YEAR(created_at) as year'),
-                        DB::raw('COUNT(*) as count')
-                    )
-                        ->where('created_at', '>=', Carbon::now()->subYears(5)->startOfYear())
-                        ->where('created_at', '<=', Carbon::now()->endOfYear())
-                        ->groupBy('year')
-                        ->orderBy('year', 'asc')
-                        ->get()
-                        ->pluck('count', 'year')
-                        ->toArray();
+            case 'yearly': {
+                $counts = $base->clone()
+                    ->selectRaw('YEAR(created_at) as y, COUNT(*) as c')
+                    ->groupBy('y')
+                    ->pluck('c', 'y');
+
+                $cursor = $start->copy()->startOfYear();
+                while ($cursor->lte($end)) {
+                    $year = (int)$cursor->format('Y');
+                    $out[(string)$year] = (int)($counts[$year] ?? 0);
+                    $cursor->addYear();
                 }
                 break;
+            }
 
             default:
-                $data = [];
-                break;
+                $out = [];
         }
 
-        return response()->json($data);
+        return response()->json($out);
     }
+
 
     public function getIncomeData(Request $request)
     {
@@ -638,255 +574,110 @@ class AdminDashboardController extends Controller
 
     public function getTopVendorsData(Request $request)
     {
-        $type = $request->input('type');
+        $type      = $request->input('type', 'daily');
         $startDate = $request->input('start_date');
-        $endDate = $request->input('end_date');
+        $endDate   = $request->input('end_date');
 
-        $query = SubOrder::query()
+        // ---- Align default windows with your signup charts ----
+        if ($startDate && $endDate) {
+            $start = \Carbon\Carbon::parse($startDate)->startOfDay();
+            $end   = \Carbon\Carbon::parse($endDate)->endOfDay();
+        } else {
+            switch ($type) {
+                case 'daily':
+                    $start = \Carbon\Carbon::now()->startOfMonth();
+                    $end   = \Carbon\Carbon::now()->endOfMonth();
+                    break;
+                case 'weekly':
+                    $start = \Carbon\Carbon::now()->startOfMonth()->startOfWeek(\Carbon\Carbon::MONDAY);
+                    $end   = \Carbon\Carbon::now()->endOfMonth()->endOfWeek(\Carbon\Carbon::SUNDAY);
+                    break;
+                case 'monthly':
+                    $start = \Carbon\Carbon::now()->startOfYear();
+                    $end   = \Carbon\Carbon::now()->endOfYear();
+                    break;
+                case 'yearly':
+                    $start = \Carbon\Carbon::now()->subYears(4)->startOfYear(); // last 5 incl current
+                    $end   = \Carbon\Carbon::now()->endOfYear();
+                    break;
+                default:
+                    $start = \Carbon\Carbon::now()->startOfMonth();
+                    $end   = \Carbon\Carbon::now()->endOfMonth();
+            }
+        }
+
+        // ---- Base query within window (delivered only, like before) ----
+        $base = SubOrder::query()
             ->join('vendors', 'sub_orders.vendor_id', '=', 'vendors.id')
             ->whereNotNull('sub_orders.vendor_id')
-            ->whereHas('orderTrack', fn($q) => $q->where('name', 'delivered'));
+            ->whereHas('orderTrack', fn ($q) => $q->where('name', 'delivered'))
+            ->whereBetween('sub_orders.created_at', [$start->copy()->startOfDay(), $end->copy()->endOfDay()]);
 
-        if ($startDate && $endDate) {
-            $query->whereBetween('sub_orders.created_at', [
-                Carbon::parse($startDate)->startOfDay(),
-                Carbon::parse($endDate)->endOfDay()
-            ]);
-        }
+        // ---- Aggregate by vendor label, top 10 ----
+        $rows = $base
+            ->selectRaw('COALESCE(vendors.owner_name, "Unknown") as label, SUM(sub_orders.total_amount) as amount')
+            ->groupBy('label')
+            ->orderByDesc('amount')
+            ->limit(10)
+            ->get();
 
-        switch ($type) {
-            case 'daily':
-                $selectRaw = "vendors.owner_name as label, DATE(sub_orders.created_at) as date, SUM(sub_orders.total_amount) as amount";
-                $groupBy = ['label', 'date'];
-                if (!$startDate || !$endDate) {
-                    $query->where('sub_orders.created_at', '>=', Carbon::now()->startOfMonth())
-                        ->where('sub_orders.created_at', '<=', Carbon::now()->endOfMonth());
-                }
-                $data = $query->selectRaw($selectRaw)
-                    ->groupBy($groupBy)
-                    ->get()
-                    ->groupBy('label')
-                    ->map(fn($group) => $group->sum('amount'))
-                    ->sortDesc()
-                    ->take(10)
-                    ->toArray();
-                break;
-
-            case 'weekly':
-                $selectRaw = "
-                    vendors.owner_name as label,
-                    YEAR(sub_orders.created_at) as year,
-                    WEEK(sub_orders.created_at, 1) as week_number,
-                    CONCAT('Week ', WEEK(sub_orders.created_at, 1)) as week_label,
-                    SUM(sub_orders.total_amount) as amount
-                ";
-                $groupBy = ['label', 'year', 'week_number', 'week_label'];
-                if (!$startDate || !$endDate) {
-                    $query->where('sub_orders.created_at', '>=', Carbon::now()->startOfMonth())
-                        ->where('sub_orders.created_at', '<=', Carbon::now()->endOfMonth());
-                }
-                $data = $query->selectRaw($selectRaw)
-                    ->groupBy($groupBy)
-                    ->get()
-                    ->groupBy('label')
-                    ->map(fn($group) => $group->sum('amount'))
-                    ->sortDesc()
-                    ->take(10)
-                    ->toArray();
-                break;
-
-            case 'monthly':
-                $selectRaw = "
-                    vendors.owner_name as label,
-                    YEAR(sub_orders.created_at) as year,
-                    MONTH(sub_orders.created_at) as month_number,
-                    DATE_FORMAT(sub_orders.created_at, '%M %Y') as month_name,
-                    SUM(sub_orders.total_amount) as amount
-                ";
-                $groupBy = ['label', 'year', 'month_number', 'month_name'];
-                if (!$startDate || !$endDate) {
-                    $query->where('sub_orders.created_at', '>=', Carbon::now()->startOfMonth())
-                        ->where('sub_orders.created_at', '<=', Carbon::now()->endOfMonth());
-                }
-                $data = $query->selectRaw($selectRaw)
-                    ->groupBy($groupBy)
-                    ->get()
-                    ->groupBy('label')
-                    ->map(fn($group) => $group->sum('amount'))
-                    ->sortDesc()
-                    ->take(10)
-                    ->toArray();
-                break;
-
-            case 'yearly':
-                $selectRaw = "
-                    vendors.owner_name as label,
-                    YEAR(sub_orders.created_at) as year,
-                    SUM(sub_orders.total_amount) as amount
-                ";
-                $groupBy = ['label', 'year'];
-                if (!$startDate || !$endDate) {
-                    $startDate = Carbon::now()->subYears(5)->startOfYear();
-                    $endDate = Carbon::now()->endOfYear();
-                    $query->whereBetween('sub_orders.created_at', [$startDate, $endDate]);
-                }
-                $data = $query->selectRaw($selectRaw)
-                    ->groupBy($groupBy)
-                    ->get()
-                    ->groupBy('label')
-                    ->map(fn($group) => $group->sum('amount'))
-                    ->sortDesc()
-                    ->take(10)
-                    ->toArray();
-                break;
-
-            default:
-                $data = [];
-                break;
-        }
-
-        return response()->json($data);
+        // flat { label => value } map
+        return response()->json($rows->pluck('amount', 'label'));
     }
+
 
     public function getTopProductsData(Request $request)
     {
-        $type = $request->input('type');
+        $type      = $request->input('type', 'daily');
         $startDate = $request->input('start_date');
-        $endDate = $request->input('end_date');
+        $endDate   = $request->input('end_date');
 
-        $query = DB::table('sub_order_items')
-            ->join('orders', 'sub_order_items.order_id', '=', 'orders.id')
-            ->join('products', 'sub_order_items.product_id', '=', 'products.id')
-            ->select('products.name as label', DB::raw('SUM(sub_order_items.quantity) as total_quantity'));
-
-        switch ($type) {
-            case 'daily':
-                if ($startDate && $endDate) {
-                    $query->whereBetween('orders.created_at', [
-                        Carbon::parse($startDate)->startOfDay(),
-                        Carbon::parse($endDate)->endOfDay()
-                    ]);
-                } else {
-                    $query->whereBetween('orders.created_at', [
-                        Carbon::now()->startOfMonth(),
-                        Carbon::now()->endOfMonth()
-                    ]);
-                }
-
-                $data = $query->groupBy('label')
-                    ->orderByDesc('total_quantity')
-                    ->limit(10)
-                    ->pluck('total_quantity', 'label')
-                    ->toArray();
-                break;
-
-            case 'weekly':
-                $weeklyQuery = DB::table('sub_order_items')
-                    ->join('orders', 'sub_order_items.order_id', '=', 'orders.id')
-                    ->join('products', 'sub_order_items.product_id', '=', 'products.id')
-                    ->selectRaw("
-                    products.name as label,
-                    WEEK(orders.created_at, 1) as week_number,
-                    CONCAT('Week ', WEEK(orders.created_at, 1) - WEEK(DATE_SUB(orders.created_at, INTERVAL DAY(orders.created_at)-1 DAY), 1) + 1, ': ', products.name) as week_label,
-                    SUM(sub_order_items.quantity) as total_quantity
-                ");
-
-                if ($startDate && $endDate) {
-                    $weeklyQuery->whereBetween('orders.created_at', [
-                        Carbon::parse($startDate)->startOfDay(),
-                        Carbon::parse($endDate)->endOfDay()
-                    ]);
-                } else {
-                    $weeklyQuery->whereBetween('orders.created_at', [
-                        Carbon::now()->startOfMonth(),
-                        Carbon::now()->endOfMonth()
-                    ]);
-                }
-
-                $data = $weeklyQuery
-                    ->groupBy('label', 'week_number', 'week_label')
-                    ->get()
-                    ->groupBy('label')
-                    ->map(function ($group) {
-                        return $group->sum('total_quantity');
-                    })
-                    ->sortDesc()
-                    ->take(10)
-                    ->toArray();
-                break;
-
-            case 'monthly':
-                $monthlyQuery = DB::table('sub_order_items')
-                    ->join('orders', 'sub_order_items.order_id', '=', 'orders.id')
-                    ->join('products', 'sub_order_items.product_id', '=', 'products.id')
-                    ->selectRaw("
-                    products.name as label,
-                    MONTH(orders.created_at) as month_number,
-                    DATE_FORMAT(orders.created_at, '%M') as month_name,
-                    SUM(sub_order_items.quantity) as total_quantity
-                ");
-
-                if ($startDate && $endDate) {
-                    $monthlyQuery->whereBetween('orders.created_at', [
-                        Carbon::parse($startDate)->startOfDay(),
-                        Carbon::parse($endDate)->endOfDay()
-                    ]);
-                } else {
-                    $monthlyQuery->whereMonth('orders.created_at', Carbon::now()->month)
-                        ->whereYear('orders.created_at', Carbon::now()->year);
-                }
-
-                $data = $monthlyQuery
-                    ->groupBy('label', 'month_number', 'month_name')
-                    ->get()
-                    ->groupBy('label')
-                    ->map(function ($group) {
-                        return $group->sum('total_quantity');
-                    })
-                    ->sortDesc()
-                    ->take(10)
-                    ->toArray();
-                break;
-
-            case 'yearly':
-                $yearlyQuery = DB::table('sub_order_items')
-                    ->join('orders', 'sub_order_items.order_id', '=', 'orders.id')
-                    ->join('products', 'sub_order_items.product_id', '=', 'products.id')
-                    ->selectRaw("
-                    products.name as label,
-                    YEAR(orders.created_at) as year,
-                    SUM(sub_order_items.quantity) as total_quantity
-                ");
-
-                if ($startDate && $endDate) {
-                    $yearlyQuery->whereBetween('orders.created_at', [
-                        Carbon::parse($startDate)->startOfDay(),
-                        Carbon::parse($endDate)->endOfDay()
-                    ]);
-                } else {
-                    $yearlyQuery->where('orders.created_at', '>=', Carbon::now()->subYears(5)->startOfYear())
-                        ->where('orders.created_at', '<=', Carbon::now()->endOfYear());
-                }
-
-                $data = $yearlyQuery
-                    ->groupBy('label', 'year')
-                    ->get()
-                    ->groupBy('label')
-                    ->map(function ($group) {
-                        return $group->sum('total_quantity');
-                    })
-                    ->sortDesc()
-                    ->take(10)
-                    ->toArray();
-                break;
-
-            default:
-                $data = [];
-                break;
+        // ---- Align default windows with your signup charts ----
+        if ($startDate && $endDate) {
+            $start = \Carbon\Carbon::parse($startDate)->startOfDay();
+            $end   = \Carbon\Carbon::parse($endDate)->endOfDay();
+        } else {
+            switch ($type) {
+                case 'daily':
+                    $start = \Carbon\Carbon::now()->startOfMonth();
+                    $end   = \Carbon\Carbon::now()->endOfMonth();
+                    break;
+                case 'weekly':
+                    $start = \Carbon\Carbon::now()->startOfMonth()->startOfWeek(\Carbon\Carbon::MONDAY);
+                    $end   = \Carbon\Carbon::now()->endOfMonth()->endOfWeek(\Carbon\Carbon::SUNDAY);
+                    break;
+                case 'monthly':
+                    $start = \Carbon\Carbon::now()->startOfYear();
+                    $end   = \Carbon\Carbon::now()->endOfYear();
+                    break;
+                case 'yearly':
+                    $start = \Carbon\Carbon::now()->subYears(4)->startOfYear(); // last 5 incl current
+                    $end   = \Carbon\Carbon::now()->endOfYear();
+                    break;
+                default:
+                    $start = \Carbon\Carbon::now()->startOfMonth();
+                    $end   = \Carbon\Carbon::now()->endOfMonth();
+            }
         }
 
-        return response()->json($data);
+        // ---- Base query within window ----
+        $base = \DB::table('sub_order_items')
+            ->join('orders', 'sub_order_items.order_id', '=', 'orders.id')
+            ->join('products', 'sub_order_items.product_id', '=', 'products.id')
+            ->whereBetween('orders.created_at', [$start->copy()->startOfDay(), $end->copy()->endOfDay()]);
+
+        // ---- Aggregate by product label, top 10 ----
+        $rows = $base
+            ->selectRaw('COALESCE(products.name, "Unknown") as label, SUM(sub_order_items.quantity) as total_quantity')
+            ->groupBy('label')
+            ->orderByDesc('total_quantity')
+            ->limit(10)
+            ->get();
+
+        // flat { label => value } map
+        return response()->json($rows->pluck('total_quantity', 'label'));
     }
+
 
     public function getVendorPayoutsData(Request $request)
     {

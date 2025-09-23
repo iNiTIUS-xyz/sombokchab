@@ -5,7 +5,7 @@
 @endsection
 
 @section('style')
-    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.min.css') }}">
     <style>
         .payment_attachment {
             width: 100px;
@@ -61,12 +61,11 @@
 @endsection
 
 @section('script')
-    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/js/dataTables.bootstrap4.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script> --}}
+    <script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
 
-    <script>
+    <script> 
         $(document).ready(function () {
-            // Initialize DataTable only if the table exists
             if ($('#dataTable').length) {
                 $('#dataTable').DataTable({
                     paging: true,
@@ -77,10 +76,17 @@
                     autoWidth: false,
                     responsive: true,
                     language: {
-                        search: "Filter:"
-                    }
+                        search: "Filter:",
+                        paginate: {
+                            previous: "Prev",
+                            next: "Next"
+                        }
+                    },
+                    // Add this for pagination style
+                    pagingType: "simple_numbers" // options: simple, simple_numbers, full, full_numbers
                 });
             }
         });
     </script>
+
 @endsection

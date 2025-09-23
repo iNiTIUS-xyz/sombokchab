@@ -1,7 +1,7 @@
 @extends('frontend.user.dashboard.user-master')
 
 @section('style')
-    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.min.css') }}">
     <style>
         @media (min-width: 576px) {
             .modal-dialog {
@@ -138,8 +138,8 @@
 
 @section('script')
     <script src="{{ asset('assets/backend/js/sweetalert2.js') }}"></script>
-    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/js/dataTables.bootstrap4.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script> --}}
+    <script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
 
     <script>
         $(document).ready(function() {

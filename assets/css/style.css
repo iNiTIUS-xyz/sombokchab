@@ -38539,3 +38539,28 @@ table.dataTable thead tr th:first-child {
 .nice-select.wide.form-control.has-multiple:nth-of-type(2) {
   display: none !important;
 }
+
+
+/* Pagination active button */
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background-color: var(--main-color-one) !important; /* green shade */
+    color: #fff !important;
+    border-radius: 4px;
+    border: none;
+}
+
+/* Normal buttons */
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 6px 12px;
+    margin: 0 2px;
+    border: none;
+    background: #fff;
+    color: #333 !important;
+    border-radius: 4px;
+}
+
+/* Hover effect */
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background: var(--main-color-one) !important;
+    color: #fff !important;
+}
