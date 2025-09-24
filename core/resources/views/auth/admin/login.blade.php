@@ -35,7 +35,6 @@
             display: inline-block;
         }
 
-
         .toggle-password {
             height: 50px;
             border: 1px solid #f7f7f7;
@@ -54,11 +53,15 @@
             right: 0px;
             cursor: pointer;
         }
+
+        .error-message .alert {
+            margin-top: 10px;
+        }
     </style>
     <div class="signin-area">
         <div class="container">
             <div class="login-box-wrapper ptb--100">
-                <form method="POST" action="{{ route('admin.login') }}">
+                <form method="POST" action="{{ route('admin.login') }}" id="login-form">
                     @csrf
                     <div class="login-form-header text-center mb-4">
                         <div class="logo-wrapper" style="margin-bottom: 20px;">
@@ -71,16 +74,22 @@
                     <div class="error-message"></div>
                     <div class="login-form-wrap mt-4">
                         <div class="dashboard-input">
-                            <label for="username" class="dashboard-label">{{ __('Email or username') }}</label>
+                            <label for="username" class="dashboard-label">
+                                {{ __('Email or username') }}
+                                <span class="text-danger">*</span>
+                            </label>
                             <input type="text" class="form--control" id="username" name="username"
-                                placeholder="{{ __('Enter your email or username') }}" autofocus>
+                                placeholder="{{ __('Enter your email or username') }}" autofocus required="">
                         </div>
                         <div class="dashboard-input mt-4">
-                            <label for="password" class="dashboard-label">{{ __('Password') }}</label>
+                            <label for="password" class="dashboard-label">
+                                {{ __('Password') }}
+                                <span class="text-danger">*</span>
+                            </label>
                             <div class="input-group">
                                 <input @if (request()->host() == 'safecart.bytesed.com') value="12345678" @endif type="password"
                                     class="form--control" id="password" name="password"
-                                    placeholder="{{ __('Enter password') }}">
+                                    placeholder="{{ __('Enter password') }}" required="">
                                 <div class="input-group-append">
                                     <button class="p-2 toggle-password" type="button">
                                         <i class="la la-eye"></i>
@@ -111,70 +120,95 @@
     </div>
 @endsection
 
-
 @section('script')
     <script>
-        (function($) {
-            "use strict";
+        $(document).ready(function($) {
 
-            $(document).ready(function($) {
+            // $('#login-form').on('keypress', function(e) {
+            //     if (e.which === 13) {
+            //         e.preventDefault();
+            //         validateAndSubmit();
+            //     }
+            // });
 
-                $(document).on('click', '#form_submit', function(e) {
-                    e.preventDefault();
-                    var el = $(this);
-                    var erContainer = $(".error-message");
-                    erContainer.html('');
-                    el.text('{{ __('Please Wait..') }}');
-                    $.ajax({
-                        url: "{{ route('admin.login') }}",
-                        type: "POST",
-                        data: {
-                            _token: "{{ csrf_token() }}",
-                            username: $('#username').val(),
-                            password: $('#password').val(),
-                            remember: $('#remember').val(),
-                        },
-                        error: function(data) {
-                            var errors = data.responseJSON;
-                            erContainer.html('<div class="alert alert-danger"></div>');
-                            $.each(errors.errors, function(index, value) {
-                                erContainer.find('.alert.alert-danger').append(
-                                    '<p>' + value + '</p>');
-                            });
-                            el.text('{{ __('Login') }}');
-                        },
-                        success: function(data) {
-                            $('.alert.alert-danger').remove();
-                            if (data.status == 'ok') {
-                                el.text('{{ __('Redirecting') }}..');
-                                erContainer.html('<div class="alert alert-' + data.type +
-                                    '">' + data.msg + '</div>');
-                                location.reload();
-                            } else {
-                                erContainer.html('<div class="alert alert-' + data.type +
-                                    '">' + data.msg + '</div>');
-                                el.text('{{ __('Login') }}');
-                            }
-                        }
-                    });
-                });
-
+            $(document).on('click', '#form_submit', function(e) {
+                e.preventDefault();
+                validateAndSubmit();
             });
-        })(jQuery);
-    </script>
 
-    <script>
-        $('.toggle-password').click(function() {
-            var passwordInput = $('#password');
-            var icon = $(this).find('i');
+            function validateAndSubmit() {
+                var erContainer = $(".error-message");
+                erContainer.html('');
+                var username = $('#username').val().trim();
+                var password = $('#password').val().trim();
+                var el = $('#form_submit');
 
-            if (passwordInput.attr('type') === 'password') {
-                passwordInput.attr('type', 'text');
-                icon.removeClass('la-eye').addClass('la-eye-slash');
-            } else {
-                passwordInput.attr('type', 'password');
-                icon.removeClass('la-eye-slash').addClass('la-eye');
+                // if (!username && !password) {
+                //     erContainer.html(
+                //         '<div class="alert alert-danger"><p>Please enter your email or username and password.</p></div>'
+                //     );
+                //     return;
+                // }
+
+                // if (!username) {
+                //     erContainer.html(
+                //         '<div class="alert alert-danger"><p>Please enter your email or username.</p></div>');
+                //     return;
+                // }
+
+                // if (!password) {
+                //     erContainer.html('<div class="alert alert-danger"><p>Please enter your password.</p></div>');
+                //     return;
+                // }
+
+                el.text('{{ __('Please Wait..') }}');
+                $.ajax({
+                    url: "{{ route('admin.login') }}",
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        username: username,
+                        password: password,
+                        remember: $('#remember').is(':checked') ? 'on' : '',
+                    },
+                    error: function(data) {
+                        var errors = data.responseJSON;
+                        erContainer.html('<div class="alert alert-danger"></div>');
+                        $.each(errors.errors, function(index, value) {
+                            erContainer.find('.alert.alert-danger').append('<p>' + value +
+                                '</p>');
+                        });
+                        el.text('{{ __('Sign In') }}');
+                    },
+                    success: function(data) {
+                        $('.alert.alert-danger').remove();
+                        if (data.status === 'ok') {
+                            el.text('{{ __('Redirecting') }}..');
+                            erContainer.html('<div class="alert alert-' + data.type + '">' + data.msg +
+                                '</div>');
+                            location.reload();
+                        } else {
+                            erContainer.html('<div class="alert alert-' + data.type + '">' + data.msg +
+                                '</div>');
+                            el.text('{{ __('Sign In') }}');
+                        }
+                    }
+                });
             }
+
+            $('.toggle-password').click(function() {
+                var passwordInput = $('#password');
+                var icon = $(this).find('i');
+
+                if (passwordInput.attr('type') === 'password') {
+                    passwordInput.attr('type', 'text');
+                    icon.removeClass('la-eye').addClass('la-eye-slash');
+                } else {
+                    passwordInput.attr('type', 'password');
+                    icon.removeClass('la-eye-slash').addClass('la-eye');
+                }
+            });
+
         });
     </script>
 @endsection

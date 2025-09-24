@@ -21,7 +21,6 @@ class LoginController extends Controller
     public function redirectTo()
     {
         return route('homepage');
-        // return route('user.home');
     }
 
     public function __construct()
@@ -51,8 +50,10 @@ class LoginController extends Controller
             'username' => 'required|string',
             'password' => 'required|min:6',
         ], [
-            'username.required' => sprintf(__('%s required'), $user_login_type),
-            'password.required' => __('password required'),
+            'username.required' => sprintf(__('%s is required.'), ucfirst($user_login_type)),
+            'username.string' => sprintf(__('Please enter a valid %s.'), $user_login_type),
+            'password.required' => __('Password is required.'),
+            'password.min' => __('Your password must be at least 6 characters long.'),
         ]);
 
         if (Auth::guard('admin')->attempt([$user_login_type => $request->username, 'password' => $request->password], $request->get('remember'))) {
