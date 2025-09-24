@@ -124,12 +124,12 @@
     <script>
         $(document).ready(function($) {
 
-            // $('#login-form').on('keypress', function(e) {
-            //     if (e.which === 13) {
-            //         e.preventDefault();
-            //         validateAndSubmit();
-            //     }
-            // });
+            $('#login-form').on('keypress', function(e) {
+                if (e.which === 13) {
+                    e.preventDefault();
+                    validateAndSubmit();
+                }
+            });
 
             $(document).on('click', '#form_submit', function(e) {
                 e.preventDefault();
@@ -143,23 +143,23 @@
                 var password = $('#password').val().trim();
                 var el = $('#form_submit');
 
-                // if (!username && !password) {
-                //     erContainer.html(
-                //         '<div class="alert alert-danger"><p>Please enter your email or username and password.</p></div>'
-                //     );
-                //     return;
-                // }
+                if (!username && !password) {
+                    erContainer.html(
+                        '<div class="alert alert-danger"><p>Please enter your email or username and password.</p></div>'
+                    );
+                    return;
+                }
 
-                // if (!username) {
-                //     erContainer.html(
-                //         '<div class="alert alert-danger"><p>Please enter your email or username.</p></div>');
-                //     return;
-                // }
+                if (!username) {
+                    erContainer.html(
+                        '<div class="alert alert-danger"><p>Please enter your email or username.</p></div>');
+                    return;
+                }
 
-                // if (!password) {
-                //     erContainer.html('<div class="alert alert-danger"><p>Please enter your password.</p></div>');
-                //     return;
-                // }
+                if (!password) {
+                    erContainer.html('<div class="alert alert-danger"><p>Please enter your password.</p></div>');
+                    return;
+                }
 
                 el.text('{{ __('Please Wait..') }}');
                 $.ajax({
