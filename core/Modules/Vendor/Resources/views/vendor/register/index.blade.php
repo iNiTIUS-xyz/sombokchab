@@ -1,5 +1,84 @@
 @extends('frontend.frontend-master')
 
+@section('style')
+    <style>
+        #vendor-form label {
+            line-height: 20px;
+            color: var(--heading-color);
+            font-size: 16px !important;
+            font-weight: 500 !important;
+        }
+
+        .btn {
+            font-size: 16px;
+        }
+
+        .input-group {
+            position: relative;
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: stretch;
+            width: 100%;
+        }
+
+        .btn:disabled {
+            color: #656565;
+            background-color: transparent;
+            border-color: #656565;
+        }
+
+        #step-1 .btn.btn-next.step-button-outline {
+            border: 1px solid var(--main-color-one);
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        #step-2 .btn.btn-prev.step-button {
+            border: none;
+            font-weight: bold;
+            border: 1px solid var(--main-color-one);
+        }
+
+        #step-2 .btn.btn-prev {
+            color: #4d4d4d;
+            font-weight: bold;
+            border: 1px solid #4d4d4d;
+        }
+
+        #step-2 .btn.btn-prev:hover {
+            color: #FFF;
+            font-weight: bold;
+            background: #4d4d4d;
+            border: 1px solid #4d4d4d;
+        }
+
+        #step-2 .btn.submit-button {
+            border: 1px solid var(--main-color-one);
+            font-weight: bold;
+            background: var(--main-color-one);
+            color: #FFF;
+        }
+
+        #step-2 .btn.submit-button:hover {
+            border: 1px solid #284137;
+            font-weight: bold;
+            background: #284137;
+            color: #FFF;
+        }
+
+        .form--control {
+            width: 100%;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 20px;
+            color: var(--paragraph-color);
+            height: 55px;
+            border: 1px solid var(--border-two);
+            border-radius: 5px;
+        }
+    </style>
+@endsection
+
 @section('content')
     <div class="breadcrumb-area breadcrumb-padding bg-item-badge">
         <div class="breadcrumb-shapes">
@@ -17,9 +96,7 @@
             </div>
         </div>
     </div>
-    <!-- Breadcrumb area end -->
 
-    <!-- Vendor Registration area Starts -->
     <section class="vendor-registration-area padding-top-20 padding-bottom-20">
         <div class="container container-one">
             <div class="row justify-content-center flex-lg-row flex-column-reverse">
@@ -28,14 +105,13 @@
                     <x-msg.success />
 
                     <div class="dashboard__card">
-                        <!-- Alert messages to show/hide after 5s -->
                         <div class="alert alert-danger" id="error" style="display: none;"></div>
-                        <div class="alert alert-success" id="sentSuccess" style="display: none;">OTP Sent Successfully!
+                        <div class="alert alert-success" id="sentSuccess" style="display: none;">
+                            OTP Sent Successfully!
                         </div>
-                        <div class="alert alert-success" id="verifiedSuccess" style="display: none;">Account Created
-                            Successfully!</div>
-
-                        <!-- STEP 1: Vendor Registration Form Fields -->
+                        <div class="alert alert-success" id="verifiedSuccess" style="display: none;">
+                            Account Created Successfully!
+                        </div>
                         <div id="step-1">
                             <form id="vendor-form" method="post" enctype="multipart/form-data" novalidate>
                                 @csrf
@@ -225,83 +301,6 @@
             </div>
         </div>
     </section>
-
-    <style>
-        #vendor-form label {
-            line-height: 20px;
-            color: var(--heading-color);
-            font-size: 16px !important;
-            font-weight: 500 !important;
-        }
-
-        .btn {
-            font-size: 16px;
-        }
-
-        .input-group {
-            position: relative;
-            display: flex;
-            flex-wrap: nowrap;
-            align-items: stretch;
-            width: 100%;
-        }
-
-        .btn:disabled {
-            color: #656565;
-            background-color: transparent;
-            border-color: #656565;
-        }
-
-        #step-1 .btn.btn-next.step-button-outline {
-            border: 1px solid var(--main-color-one);
-            font-weight: bold;
-            font-size: 16px;
-        }
-
-        #step-2 .btn.btn-prev.step-button {
-            border: none;
-            font-weight: bold;
-            border: 1px solid var(--main-color-one);
-        }
-
-        #step-2 .btn.btn-prev {
-            color: #4d4d4d;
-            font-weight: bold;
-            border: 1px solid #4d4d4d;
-        }
-
-        #step-2 .btn.btn-prev:hover {
-            color: #FFF;
-            font-weight: bold;
-            background: #4d4d4d;
-            border: 1px solid #4d4d4d;
-        }
-
-        #step-2 .btn.submit-button {
-            border: 1px solid var(--main-color-one);
-            font-weight: bold;
-            background: var(--main-color-one);
-            color: #FFF;
-        }
-
-        #step-2 .btn.submit-button:hover {
-            border: 1px solid #284137;
-            font-weight: bold;
-            background: #284137;
-            color: #FFF;
-        }
-
-        .form--control {
-            width: 100%;
-            font-size: 14px;
-            font-weight: 400;
-            line-height: 20px;
-            color: var(--paragraph-color);
-            height: 55px;
-            border: 1px solid var(--border-two);
-            border-radius: 5px;
-        }
-    </style>
 @endsection
 
 @section('script')
@@ -310,7 +309,7 @@
     </script>
 
     <script>
-        // ----------------- reCAPTCHA Init ----------------- //
+
         grecaptcha.ready(function() {
             grecaptcha.execute("{{ get_static_option('site_google_captcha_v3_site_key') }}", {
                 action: 'homepage'
@@ -319,7 +318,6 @@
             });
         });
 
-        // ----------------- FIELD & ELEMENT REFS ----------------- //
         const phoneCountryCode = document.getElementById('phone_country_code');
         const phoneField = document.getElementById('number');
         const ownerNameField = document.getElementById('owner_name');
@@ -357,8 +355,8 @@
 
             const phoneDigitsOnly = fullPhone.replace(/\D/g, ''); // Remove non-digit characters
 
-            if (phoneDigitsOnly.length < 8 || phoneDigitsOnly.length > 10) {
-                return 'Phone number must be between 8 and 10 digits';
+            if (phoneDigitsOnly.length < 8 || phoneDigitsOnly.length > 14) {
+                return 'Phone number must be between 8 and 14 digits';
             }
 
             if (!/^\+?\d+$/.test(fullPhone)) {
