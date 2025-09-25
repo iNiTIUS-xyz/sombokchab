@@ -1,7 +1,9 @@
 @extends('vendor.vendor-master')
+
 @section('site-title')
-    {{ __('Add new Product') }}
+    {{ __('Edit Product') }}
 @endsection
+
 @section('style')
     <x-media.css />
     <x-summernote.css />
@@ -38,7 +40,7 @@
                 <div class="top-inner-contents search-area top-searchbar-wrapper">
                     <div class="dashboard-flex-contetns">
                         <div class="dashboard-left-flex">
-                            <h3 class="dashboard__card__title"> {{ __('Update Product') }} </h3>
+                            <h3 class="dashboard__card__title"> {{ __('Edit Product') }} </h3>
                         </div>
                     </div>
                 </div>
