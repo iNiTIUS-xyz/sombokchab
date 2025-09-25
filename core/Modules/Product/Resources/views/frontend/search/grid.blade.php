@@ -11,7 +11,7 @@
                 @endif
             </div>
             <h3 class="text-warning text-center">
-                {{ __('No product found.') }}
+                {{ __('No products found.') }}
             </h3>
         </div>
     @endforelse

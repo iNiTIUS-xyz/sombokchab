@@ -6,7 +6,7 @@
                     {!! render_image_markup_by_attachment_id($image) !!}
                 </div>
                 <div class="content mx-auto text-center">
-                    <h4 class="my-5">{{ $text }}</h4>
+                    <h4 class="my-5">{{ __('No products found.') }}</h4>
                 </div>
             </div>
         </div>
