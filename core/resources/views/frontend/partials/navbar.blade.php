@@ -104,6 +104,16 @@
                                         </a>
                                     </li>
                                     <li class="list">
+                                        <a href="{{ route('user.product.refund-request') }}">
+                                            {{ __('Refund Requests') }}
+                                        </a>
+                                    </li>
+                                    <li class="list">
+                                        <a href="{{ route('user-home.wallet.history') }}">
+                                            {{ __('Wallet History') }}
+                                        </a>
+                                    </li>
+                                    <li class="list">
                                         <a href="{{ route('user.shipping.address.all') }}">
                                             {{ __('Shipping Address') }}
                                         </a>

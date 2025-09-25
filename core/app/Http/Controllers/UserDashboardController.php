@@ -402,6 +402,8 @@ class UserDashboardController extends Controller
         ]);
 
         $exists = ShippingAddress::query()
+            ->where('user_id', getUserByGuard('web')->id ?? null)
+            ->when($request->id, fn($q) => $q->where('id', '!=', $request->id))
             ->where('name', $request->name)
             ->get();
 
