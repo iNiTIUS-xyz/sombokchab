@@ -164,6 +164,7 @@ Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_
         Route::get('shipping-address', 'UserDashboardController@allShippingAddress')->name('user.shipping.address.all');
         Route::get('shipping-address/new', 'UserDashboardController@createShippingAddress')->name('user.shipping.address.new');
         Route::post('shipping-address/new', 'UserDashboardController@storeShippingAddress');
+        Route::post('/check-name-availability',  'UserDashboardController@checkNameAvailability')->name('user.shipping.address.exists');
         Route::post('shipping-address/delete/{id}', 'UserDashboardController@deleteShippingAddress')->name('shipping.address.delete');
         Route::get('shipping-address/edit/{id}', 'UserDashboardController@editShippingAddress')->name('user.shipping.address.edit');
         Route::put('shipping-address/update', 'UserDashboardController@updateShippingAddress')->name('user.shipping.address.update');

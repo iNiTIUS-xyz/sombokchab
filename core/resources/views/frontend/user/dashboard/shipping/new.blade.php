@@ -180,4 +180,46 @@
             });
         })(jQuery);
     </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#name').on('blur', function() {
+                var name = $(this).val();
+
+                if (name.length > 0) {
+                    $.ajax({
+                        url: '{{ route('user.shipping.address.exists') }}',
+                        type: 'POST',
+                        data: {
+                            name: name,
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function(response) {
+                            $('.name-message').remove();
+
+                            if (response.exists) {
+                                $('#name').after(
+                                    '<p class="text-danger name-message">This name is already taken. Please choose another one.</p>'
+                                );
+                            } else {
+                                $('#name').after(
+                                    '<p class="text-success name-message">This name is available!</p>'
+                                );
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error("Error: " + error);
+                            // Handle error here, like showing a generic error message
+                            $('.name-message').remove();
+                            $('#name').after(
+                                '<p class="text-danger name-message">An error occurred. Please try again later.</p>'
+                            );
+                        }
+                    });
+                } else {
+                    $('.name-message').remove();
+                }
+            });
+        });
+    </script>
 @endsection

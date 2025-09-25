@@ -340,7 +340,7 @@ class UserDashboardController extends Controller
         return view(self::BASE_PATH . 'shipping.new', compact('all_country'));
     }
 
-    public function storeShippingAddress(Request $request): \Illuminate\Http\RedirectResponse
+    public function storeShippingAddress(Request $request)
     {
         if (!auth('web')->user()) {
             return back()->with(FlashMsg::explain('danger', __('Login to add new ')));
@@ -393,6 +393,23 @@ class UserDashboardController extends Controller
         return $user_shipping_address->id
             ? redirect()->route('user.shipping.address.all')->with(FlashMsg::create_succeed('Shipping address'))
             : back()->with(FlashMsg::create_failed('Shipping address'));
+    }
+
+    public function checkNameAvailability(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:191',
+        ]);
+
+        $exists = ShippingAddress::query()
+            ->where('name', $request->name)
+            ->get();
+
+        if ($exists->count() > 0) {
+            return response()->json(['exists' => true]);
+        } else {
+            return response()->json(['exists' => false]);
+        }
     }
 
     private function makeChangeDefault($shippingAddressId)
