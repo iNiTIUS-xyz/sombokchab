@@ -172,7 +172,8 @@
                             @endcan
 
                             @can('support-tickets-page-settings')
-                                <li class="{{ active_menu('admin-home/support-tickets/page-settings') }}" style="display: none;">
+                                <li class="{{ active_menu('admin-home/support-tickets/page-settings') }}"
+                                    style="display: none;">
                                     <a href="{{ route('admin.support.ticket.page.settings') }}">
                                         {{ __('Page Settings') }}
                                     </a>
@@ -353,7 +354,8 @@
                                     </li>
                                 @endcan
                                 @if (auth('admin')->user()->hasRole('Super Admin'))
-                                    <li class="{{ active_menu('admin-home/delivery-man/update') }}" style="display: none;">
+                                    <li class="{{ active_menu('admin-home/delivery-man/update') }}"
+                                        style="display: none;">
                                         <a href="{{ route('admin.delivery-man.license_update') }}">
                                             <span>{{ __('Update Plugin') }}</span>
                                         </a>
@@ -484,7 +486,8 @@
                                 </li>
                             @endcan
                             @if (auth('admin')->user()->hasRole('Super Admin'))
-                                <li class="{{ active_menu('admin-home/refund/update-plugin') }}" style="display: none;">
+                                <li class="{{ active_menu('admin-home/refund/update-plugin') }}"
+                                    style="display: none;">
                                     <a href="{{ route('admin.refund.refund_plugin_license_update') }}">
                                         <span>{{ __('Update Plugin') }}</span>
                                     </a>
@@ -498,7 +501,8 @@
             @if (moduleExists('EmailTemplate'))
                 @can('email-template-all-templates')
                     {{--                Wallet Manage                 --}}
-                    <li class="main_dropdown @if (request()->is(['admin-home/email-template/*'])) active open @endif " style="display: none">
+                    <li class="main_dropdown @if (request()->is(['admin-home/email-template/*'])) active open @endif "
+                        style="display: none">
                         <a href="#1" aria-expanded="true">
                             <i class="ti-email"></i>
                             <span>{{ __('Email Template Management') }}</span>
@@ -517,7 +521,8 @@
             @if (moduleExists('Wallet'))
                 @canany(['shop-manage', 'invoice-note'])
                     {{--                Shop Manage Manage                 --}}
-                    <li class="main_dropdown @if (request()->is(['admin-home/shop-manage/*', 'admin-home/shop-manage', 'admin-home/invoice-note'])) active open @endif " style="display: none">
+                    <li class="main_dropdown @if (request()->is(['admin-home/shop-manage/*', 'admin-home/shop-manage', 'admin-home/invoice-note'])) active open @endif "
+                        style="display: none">
                         <a href="#1" aria-expanded="true">
                             <i class="ti-shopping-cart"></i>
                             <span>{{ __('Shop Management') }}</span>
@@ -633,7 +638,7 @@
                 @endcanany
             @endif
 
-            
+
 
             @canany(['country', 'state', 'city'])
                 <li class="main_dropdown @if (request()->is([
@@ -943,7 +948,7 @@
                         @can('product-all')
                             <li class="{{ active_menu('admin-home/product/all') }}">
                                 <a href="{{ route('admin.products.all') }}">
-                                    {{ __('Product List') }}
+                                    {{ __('Products List') }}
 
                                 </a>
                             </li>
@@ -953,7 +958,6 @@
                             <li class="{{ active_menu('admin-home/product/create') }}">
                                 <a href="{{ route('admin.products.create') }}">
                                     {{ __('Add New Product') }}
-
                                 </a>
                             </li>
                         @endcan
@@ -1077,7 +1081,8 @@
                             </li>
                         @endcan
                         @if (auth('admin')->user()->hasRole('Super Admin'))
-                            <li class="{{ active_menu('admin-home/livechat/update-plugin') }}" style="display: none;">
+                            <li class="{{ active_menu('admin-home/livechat/update-plugin') }}"
+                                style="display: none;">
                                 <a href="{{ route('admin.livechat.chat_plugin_license_update') }}">
                                     <span>{{ __('Update Plugin') }}</span>
                                 </a>
@@ -1474,14 +1479,16 @@
                             </li>
                         @endcan
                         @can('general-settings-sitemap-settings')
-                            <li class="{{ active_menu('admin-home/general-settings/sitemap-settings') }}" style="display: none;">
+                            <li class="{{ active_menu('admin-home/general-settings/sitemap-settings') }}"
+                                style="display: none;">
                                 <a href="{{ route('admin.general.sitemap.settings') }}">
                                     {{ __('Sitemap Settings') }}
                                 </a>
                             </li>
                         @endcan
                         @can('general-settings-rss-settings')
-                            <li class="{{ active_menu('admin-home/general-settings/rss-settings') }}" style="display: none;">
+                            <li class="{{ active_menu('admin-home/general-settings/rss-settings') }}"
+                                style="display: none;">
                                 <a href="{{ route('admin.general.rss.feed.settings') }}">
                                     {{ __('RSS Feed Settings') }}
                                 </a>

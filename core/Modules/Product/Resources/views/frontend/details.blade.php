@@ -28,8 +28,6 @@
         @include('chat::components.frontend-css')
     @endif
 
-
-
     <style>
         /* Style the quantity display to look like an input */
         .quantity-display {
@@ -64,7 +62,6 @@
 @endsection
 
 @php
-
     $attributes = $product?->inventory_detail_count ?? null;
     $campaign_product = $product->campaign_product ?? null;
     $campaignProductEndDate = $product->campaign->end_date ?? ($product->campaign->end_date->end_date ?? '');

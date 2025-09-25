@@ -90,7 +90,7 @@
                             <button class="nav-link" id="v-pills-delivery-option-tab" data-bs-toggle="pill"
                                 data-bs-target="#v-delivery-option-tab" type="button" role="tab"
                                 aria-controls="v-delivery-option-tab" aria-selected="false"><span
-                                    style='font-size:15px; padding-right: 7px;'>&#9679;</span> {{ __('Delivery Option') }}
+                                    style='font-size:15px; padding-right: 7px;'>&#9679;</span> {{ __('Delivery Options') }}
                             </button>
                             <button class="nav-link" id="v-pills-meta-tag-tab" data-bs-toggle="pill"
                                 data-bs-target="#v-meta-tag-tab" type="button" role="tab"

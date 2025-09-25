@@ -30,7 +30,7 @@
                     <li
                         class="main_dropdown @if (request()->is(['vendor-home/product', 'vendor-home/product/*'])) active open @endif">
                         <a href="#1" aria-expanded="true">
-                            <i class="ti-layout-tab"></i> <span>{{ __('Product') }}
+                            <i class="ti-layout-tab"></i> <span>{{ __('Products') }}
                             </span>
                         </a>
 

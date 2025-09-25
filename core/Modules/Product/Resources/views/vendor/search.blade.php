@@ -19,7 +19,6 @@
             <th> {{ __('Stock Qty') }} </th>
             <th> {{ __('Publish Status') }} </th>
             <th> {{ __('Status') }} </th>
-            
             <th> {{ __('Action') }} </th>
         </tr>
     </thead>
@@ -115,7 +114,7 @@
                         </div>
                     </div>
                 </td>
-                
+
                 <td data-label="Actions">
                     <div class="action-icon">
                         {{-- <a href="{{ route('frontend.products.single', $product->slug) }}"
@@ -123,12 +122,13 @@
                             <i class="las la-eye"></i>
                         </a> --}}
                         <a href="{{ route($route . '.products.clone', $product->id) }}"
-                            class="icon clone btn-sm text-white btn btn-secondary" title="{{ __('Create Duplicate') }}">
+                            class="icon clone btn-sm text-white btn btn-secondary"
+                            title="{{ __('Create Duplicate') }}">
                             <i class="las la-copy"></i>
                         </a>
 
                         <a href="{{ route($route . '.products.edit', $product->id) }}"
-                            class="icon edit btn-sm text-dark btn btn-warning" title="{{ __('Edit Data') }}">
+                            class="icon edit btn-sm text-dark btn btn-warning" title="{{ __('Edit Product') }}">
                             <i class="las la-pencil-alt"></i>
                         </a>
 

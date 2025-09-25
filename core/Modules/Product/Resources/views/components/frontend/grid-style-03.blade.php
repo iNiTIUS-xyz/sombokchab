@@ -37,7 +37,7 @@
                         <span
                             class="stock-available @if ($stock_count > (int) get_static_option('product_in_stock_limit_set') ?? 0) color-stock @else text-danger @endif">
                             @if ($stock_count > (int) get_static_option('product_in_stock_limit_set') ?? 0)
-                                {{ __('Stock Available') }}({{ $stock_count }})
+                                {{ __('In Stock') }} ({{ $stock_count }})
                             @else
                                 {{ __('Out of stock') }}
                             @endif

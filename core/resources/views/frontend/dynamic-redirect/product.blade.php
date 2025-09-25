@@ -428,7 +428,6 @@
                                     <x-product::frontend.list-style-02 :$product :$loop :isAllowBuyNow="get_static_option('enable_buy_now_button_on_shop_page') === 'on'" />
                                 </div>
                             @endforeach
-
                         </div>
                     </div>
 
