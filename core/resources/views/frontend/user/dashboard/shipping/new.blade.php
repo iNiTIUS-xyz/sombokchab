@@ -1,7 +1,9 @@
 @extends('frontend.user.dashboard.user-master')
+
 @section('style')
     <x-loader.css />
 @endsection
+
 @section('section')
     @php
         $all_countries = DB::table('countries')->select('id', 'name')->where('status', 'publish')->get();
@@ -9,11 +11,6 @@
     @endphp
     <div class="dashboard__card">
         <div class="dashboard__card__header">
-            {{-- <h5 class="dashboard__card__title">{{ __('Add New Shipping Address') }}</h5> --}}
-            {{-- <div class="btn-wrapper">
-                <a href="{{ route('user.shipping.address.all') }}"
-                    class="cmn_btn btn_bg_2">{{ __('All Shipping Address') }}</a>
-            </div> --}}
         </div>
         <div class="dashboard__card__body custom__form mt-4">
             <form action="{{ route('user.shipping.address.new') }}" method="POST" id="new_user_shipping_address_form">
@@ -33,7 +30,10 @@
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="name">{{ __('Full Name') }} <span class="text-danger">*</span></label>
+                            <label for="name">
+                                {{ __('Full Name') }}
+                                <span class="text-danger">*</span>
+                            </label>
                             <input type="text" class="form-control" name="name" id="name"
                                 placeholder="{{ __('Enter Full Name') }}">
                         </div>
