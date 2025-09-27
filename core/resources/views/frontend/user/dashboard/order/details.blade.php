@@ -647,21 +647,6 @@
                                             </span>
                                         </li>
                                     @endif
-                                    {{-- <li>
-                                        <span class="payment-list-left list-bold">
-                                            {{ __('Order Track:') }}
-                                        </span>
-                                        <span class="payment-list-right payment-bold">
-                                            {{ ucfirst(str_replace(['-', '_'], ' ', $orderTrack->name)) }}
-                                        </span>
-                                    </li> --}}
-                                    {{-- <li>
-                                        <span class="payment-list-left">
-                                            {{ __('Transaction ID:') }}
-                                        </span>
-                                        <span class="payment-list-right">
-                                            {{ $payment_details->transaction_id }}</span>
-                                    </li> --}}
                                 </ul>
                             </div>
                         </div>
@@ -683,6 +668,13 @@
                                         <div class="col-lg-12">
                                             <div class="order__details__item">
                                                 <div class="order__item">
+                                                    <div style="border-bottom: 2px solid white;"
+                                                        class="order__item__heading d-flex justify-content-between align-items-center mb-3 border-bottom pb-2">
+                                                        <strong>Product</strong>
+                                                        <strong>Quantity</strong>
+                                                        <strong>Price</strong>
+                                                    </div>
+
                                                     @foreach ($order?->orderItem as $orderItem)
                                                         @php
                                                             $productInfo = DB::table('products')
@@ -735,23 +727,10 @@
                                                                                 {{ $order->vendor?->business_name ?? $adminShopManage?->store_name }}
                                                                             </span>
                                                                         </p>
-                                                                        {{-- <p class="order__item__product__span mt-2">
-                                                                            <span class="order__item__product__span__left">
-                                                                                {{ __('Sub Order No:') }}
-                                                                            </span>
-                                                                            <span
-                                                                                class="order__item__product__span__right">
-                                                                                {{ $order->order_number }}
-                                                                            </span>
-                                                                        </p> --}}
                                                                     </div>
                                                                 </div>
-                                                                <p class="d-block product-items">
-                                                                    <span>
-                                                                        {{ __('QTY:') }}
-                                                                    </span>
-                                                                    <strong class="color-heading">
-                                                                        {{ $orderItem->quantity ?? '0' }}</strong>
+                                                                <p class="d-flex product-items text-center">
+                                                                    {{ $orderItem->quantity ?? '0' }}
                                                                 </p>
                                                                 <div class="d-flex gap-2">
                                                                     <s class="checkout-cart-price">
