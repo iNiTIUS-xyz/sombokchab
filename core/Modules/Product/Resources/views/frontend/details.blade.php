@@ -373,7 +373,8 @@
                                             ({{ $product->reviews_count }}) </li>
                                     </ul>
                                     <div id="description"
-                                        class="tab-content-item text-success {{ $product->reviews_count > 0 ? '' : 'active' }}" style="text-align: justify;">
+                                        class="tab-content-item text-success {{ $product->reviews_count > 0 ? '' : 'active' }}"
+                                        style="text-align: justify;">
                                         {!! $product->description !!}
                                     </div>
                                     <div id="information" class="tab-content-item">
@@ -621,7 +622,9 @@
                         @endif
                         <div class="single-sidebar-details single-border margin-top-40">
                             <div class="shop-details-share center-text">
-                                <h5 class="title-sidebar-global"> {{ __('Share:') }} </h5>
+                                <h5 class="title-sidebar-global">
+                                    {{ __('Share:') }}
+                                </h5>
                                 <ul class="share-list mt-4">
                                     {!! single_post_share(
                                         route('frontend.products.single', purify_html($product->slug)),

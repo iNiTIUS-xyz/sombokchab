@@ -185,30 +185,32 @@ function delete_static_option($key)
 function single_post_share($url, $title, $img_url) // idea given by sharifur rahman and implemented by md zahid
 {
     $output = '';
-    //get current page url
+    // Encode current page url
     $encoded_url = urlencode($url);
-    //get current page title
+    // Encode page title
     $post_title = str_replace(' ', '%20', $title);
 
     $site_title = get_static_option('site_title');
 
-    //all social share link generate
-    $facebook_share_link = "https://www.facebook.com/sharer/sharer.php?u=$encoded_url";
-    $twitter_share_link = "https://twitter.com/intent/tweet?text=$post_title&amp;url=$encoded_url&amp;via=$site_title";
-    $linkedin_share_link = "https://www.linkedin.com/shareArticle?mini=true&url=$encoded_url&amp;title=$post_title";
+    // All social share links
+    $facebook_share_link  = "https://www.facebook.com/sharer/sharer.php?u=$encoded_url";
+    $twitter_share_link   = "https://twitter.com/intent/tweet?text=$post_title&amp;url=$encoded_url&amp;via=$site_title";
+    $linkedin_share_link  = "https://www.linkedin.com/shareArticle?mini=true&url=$encoded_url&amp;title=$post_title";
     $pinterest_share_link = "https://pinterest.com/pin/create/button/?url=$encoded_url&amp;media=$img_url&amp;description=$post_title";
-    $whatsapp_share_link = "https://api.whatsapp.com/send?text=*$post_title $encoded_url";
-    $reddit_share_link = "https://reddit.com/submit?url=$encoded_url&title=$post_title";
+    $whatsapp_share_link  = "https://api.whatsapp.com/send?text=*$post_title $encoded_url";
+    $reddit_share_link    = "https://reddit.com/submit?url=$encoded_url&title=$post_title";
 
-    $output .= '<li class="list bg-color-two"><a class="social-icon" href="' . $facebook_share_link . '"><i class="lab la-facebook-f icon"></i></a></li>';
-    $output .= '<li class="list bg-color-two"><a class="social-icon" href="' . $twitter_share_link . '"><i class="lab la-twitter icon"></i></a></li>';
-    $output .= '<li class="list bg-color-two"><a class="social-icon" href="' . $linkedin_share_link . '"><i class="lab la-linkedin-in icon"></i></a></li>';
-    $output .= '<li class="list bg-color-two"><a class="social-icon" href="' . $pinterest_share_link . '"><i class="lab la-pinterest-p icon"></i></a></li>';
-    $output .= '<li class="list bg-color-two"><a class="social-icon" href="' . $whatsapp_share_link . '"><i class="lab la-whatsapp icon"></i></a></li>';
-    $output .= '<li class="list bg-color-two"><a class="social-icon" href="' . $reddit_share_link . '"><i class="lab la-reddit icon"></i></a></li>';
+    // Build output
+    $output .= '<li class="list bg-color-two"><a class="social-icon" href="' . $facebook_share_link  . '" target="_blank"><i class="lab la-facebook-f icon"></i></a></li>';
+    $output .= '<li class="list bg-color-two"><a class="social-icon" href="' . $twitter_share_link   . '" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" fill="currentColor" fillRule="evenodd"><path d="M818 800 498.11 333.745l.546.437L787.084 0h-96.385L455.738 272 269.15 0H16.367l298.648 435.31-.036-.037L0 800h96.385l261.222-302.618L565.217 800zM230.96 72.727l448.827 654.546h-76.38L154.217 72.727z" transform="translate(103 112)"/></svg></a></li>';
+    $output .= '<li class="list bg-color-two"><a class="social-icon" href="' . $linkedin_share_link  . '" target="_blank"><i class="lab la-linkedin-in icon"></i></a></li>';
+    $output .= '<li class="list bg-color-two"><a class="social-icon" href="' . $pinterest_share_link . '" target="_blank"><i class="lab la-pinterest-p icon"></i></a></li>';
+    $output .= '<li class="list bg-color-two"><a class="social-icon" href="' . $whatsapp_share_link  . '" target="_blank"><i class="lab la-whatsapp icon"></i></a></li>';
+    $output .= '<li class="list bg-color-two"><a class="social-icon" href="' . $reddit_share_link    . '" target="_blank"><i class="lab la-reddit icon"></i></a></li>';
 
     return $output;
 }
+
 
 
 function load_google_fonts()
