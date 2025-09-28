@@ -378,7 +378,15 @@
     <div>
         <x-msg.flash />
     </div>
-
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="breadcrumb-contents">
+                <h2 class="breadcrumb-title">
+                    Order Details
+                </h2>
+            </div>
+        </div>
+    </div>
     <div class="patment-success-area padding-top-100 padding-bottom-100">
         @if (moduleExists('DeliveryMan'))
             @if (
@@ -602,7 +610,7 @@
                     <div class="order__details__single">
                         <div class="payment-success-wrapper">
                             <div class="payment-contents">
-                                <h4 class="title__two"> {{ __('Order Details') }} </h4>
+                                <h4 class="title__two"> {{ __('Order Info') }} </h4>
                                 <ul class="payment-list payment-list-two margin-top-30">
                                     <li>
                                         <span class="payment-list-left list-bold">
@@ -670,11 +678,10 @@
                                                 <div class="order__item">
                                                     <div style="border-bottom: 2px solid white;"
                                                         class="order__item__heading d-flex justify-content-between align-items-center mb-3 border-bottom pb-2">
-                                                        <strong>Product</strong>
-                                                        <strong>Quantity</strong>
-                                                        <strong>Price</strong>
+                                                        <b class="text-dark">Product</b>
+                                                        <b class="text-dark">Quantity</b>
+                                                        <b class="text-dark">Price</b>
                                                     </div>
-
                                                     @foreach ($order?->orderItem as $orderItem)
                                                         @php
                                                             $productInfo = DB::table('products')
