@@ -6,7 +6,7 @@
     @endsection
 @else
     @section('page-title')
-        {{ __('Products') }}
+        <span id="page-title-text">{{ __('Products') }}</span>
     @endsection
 @endif
 
@@ -529,17 +529,26 @@
     $(document).on("click", ".list[data-type=category] a", function() {
         $("#" + $(this).parent().attr("data-type")).val($(this).parent().attr("data-val"));
 
+        let categoryName = $(this).parent().attr("data-val");
+
+        $("#page-title-text").text(categoryName);
         submitForm();
     });
 
     $(document).on("click", ".list[data-type=sub_category] a", function() {
         $("#" + $(this).parent().attr("data-type")).val($(this).parent().attr("data-val"));
+        let subCategoryName = $(this).parent().attr("data-val");
 
+        $("#page-title-text").text(subCategoryName);
         submitForm();
     });
 
     $(document).on("click", ".list[data-type=child_category] a", function() {
         $("#" + $(this).parent().attr("data-type")).val($(this).parent().attr("data-val"));
+
+        let childCategoryName = $(this).parent().attr("data-val");
+
+        $("#page-title-text").text(childCategoryName);
 
         submitForm();
     });
