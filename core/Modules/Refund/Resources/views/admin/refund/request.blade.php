@@ -29,7 +29,7 @@
                             <tr>
                                 <td>
                                     <span class="user-info text-left">
-                                        Name: <strong> {{ $request->user?->name }} </strong>
+                                        Full Name: <strong> {{ $request->user?->name }} </strong>
                                         <br>
                                         Email: <strong> {{ $request->user?->email }} </strong>
                                         @if ($request->user?->phone)
@@ -171,7 +171,7 @@
 
 @section('script')
     <script>
-        $(document).on("click", ".edit-reason", function () {
+        $(document).on("click", ".edit-reason", function() {
             let id = $(this).attr("data-id");
             let name = $(this).attr("data-name");
             let form = $("#edit-refund-reason-form");
@@ -180,14 +180,14 @@
             form.find("#reason_id").val(id);
         });
 
-        $(document).on("submit", "#new-refund-reason-form", function (e) {
+        $(document).on("submit", "#new-refund-reason-form", function(e) {
             e.preventDefault();
 
-            send_ajax_request("POST", new FormData(e.target), "{{ route('admin.refund.reason.store') }}", () => { },
+            send_ajax_request("POST", new FormData(e.target), "{{ route('admin.refund.reason.store') }}", () => {},
                 (response) => {
                     ajax_toastr_success_message(response);
                     if (response.success) {
-                        setTimeout(function () {
+                        setTimeout(function() {
                             window.location.reload();
                         }, 1000);
                     }
@@ -196,14 +196,14 @@
                 })
         });
 
-        $(document).on("submit", "#edit-refund-reason-form", function (e) {
+        $(document).on("submit", "#edit-refund-reason-form", function(e) {
             e.preventDefault();
 
             send_ajax_request("POST", new FormData(e.target), "{{ route('admin.refund.reason.update') }}",
-                () => { }, (response) => {
+                () => {}, (response) => {
                     ajax_toastr_success_message(response);
                     if (response.success) {
-                        setTimeout(function () {
+                        setTimeout(function() {
                             window.location.reload();
                         }, 1000);
                     }

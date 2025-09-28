@@ -1,15 +1,10 @@
 @extends('frontend.frontend-page-master')
 
-@section('page-title', __('Vendor List Page'))
-@section('title', __('Vendor List Page'))
-
-@section('style')
-@endsection
+@section('page-title', __('Popular Stores'))
 
 @section('content')
-
     <!-- Best Seller area Starts -->
-    <section class="best-seller-area padding-top-100 padding-bottom-50">
+    <section class="best-seller-area padding-top-50 padding-bottom-50">
         <div class="container container-one">
             <div class="row g-4">
                 @foreach ($vendors as $vendor)
@@ -65,9 +60,4 @@
             </div>
         </div>
     </section>
-    <!-- Best Seller area end -->
-
-@endsection
-
-@section('script')
 @endsection

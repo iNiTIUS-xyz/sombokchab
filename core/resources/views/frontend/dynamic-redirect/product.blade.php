@@ -185,7 +185,7 @@
 
                         <div class="single-shop-left border-1 margin-top-40">
                             <div class="shop-left-title open">
-                                <h5 class="title"> {{ __('Prices') }} </h5>
+                                <h5 class="title"> {{ __('Prices Range') }} </h5>
                                 <div class="shop-left-list mt-4">
                                     <form class="price-range-slider" method="post" data-start-min="{{ $min_price }}"
                                         data-start-max="{{ $max_price }}" data-min="{{ $min_price }}"
@@ -431,7 +431,6 @@
                         </div>
                     </div>
 
-                    {{--          add condition here if current page is contain more content then per_page          --}}
                     @if (($all_products['total_page'] ?? 0) > 1)
                         <div class="row">
                             <div class="col-lg-12">

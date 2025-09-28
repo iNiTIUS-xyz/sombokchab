@@ -71,7 +71,7 @@
                             {{ __('Tax Class') }}
                             <span class="text-danger">*</span>
                         </label>
-                        <select class="form--control radius-10" name="tax_class_id" required>
+                        <select class="form--control radius-10" name="tax_class_id">
                             <option value="">
                                 {{ __('Select a tax class for this product') }}
                             </option>

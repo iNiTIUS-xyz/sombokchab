@@ -12,7 +12,6 @@
             <th> {{ __('Stock Qty') }} </th>
             <th> {{ __('Publish Status') }} </th>
             <th> {{ __('Status') }} </th>
-            
             <th> {{ __('Actions') }} </th>
         </tr>
     </thead>
@@ -136,7 +135,7 @@
                         </div>
                     </div>
                 </td>
-                
+
 
                 <td>
                     <div class="action-icon">
@@ -146,8 +145,8 @@
                         </a> --}}
 
                         @can('product-update')
-                            <a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-warning text-dark btn-sm"
-                                title="{{ __('Edit Data') }}">
+                            <a href="{{ route('admin.products.edit', $product->id) }}"
+                                class="btn btn-warning text-dark btn-sm" title="{{ __('Edit Product') }}">
                                 <i class="las la-pencil-alt"></i>
                             </a>
                         @endcan

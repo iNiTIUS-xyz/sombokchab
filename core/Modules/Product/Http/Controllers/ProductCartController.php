@@ -347,7 +347,7 @@ class ProductCartController extends Controller
 
             return response()->json([
                 'type' => 'success',
-                'msg' => 'Item added to Save for later',
+                'msg' => 'Item added to Save for later.',
             ]);
         } catch (\Exception $exception) {
             DB::rollBack();

@@ -54,7 +54,7 @@ class ProductWishlistController extends Controller
 
         WishlistHelper::add($request->product_id, 1, $attributes);
 
-        return back()->with(FlashMsg::explain('success', __('Item added to save for later')));
+        return back()->with(FlashMsg::explain('success', __('Item added to save for later.')));
     }
 
     public function addToWishlistAjax(Request $request)
@@ -190,7 +190,7 @@ class ProductWishlistController extends Controller
 
             return response()->json([
                 'type' => 'success',
-                'msg' => 'Item added to save for later',
+                'msg' => 'Item added to save for later.',
                 'header_area' => view('frontend.partials.header.navbar.card-and-wishlist-area')->render(),
             ]);
         } catch (\Exception $exception) {

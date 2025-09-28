@@ -1,4 +1,5 @@
 @extends('frontend.frontend-page-master')
+
 @section('page-title', __('Compare'))
 
 @section('style')
@@ -13,19 +14,19 @@
             justify-content: center;
         }
 
-        .icon.cart-loading.product__card__cart__btn__icon.remove_compare_item_ajax{
+        .icon.cart-loading.product__card__cart__btn__icon.remove_compare_item_ajax {
             border: 1px solid var(--danger-color);
         }
-        
-        .icon.cart-loading.product__card__cart__btn__icon.remove_compare_item_ajax i{
+
+        .icon.cart-loading.product__card__cart__btn__icon.remove_compare_item_ajax i {
             color: var(--danger-color);
         }
 
-        .icon.cart-loading.product__card__cart__btn__icon.remove_compare_item_ajax:hover{
+        .icon.cart-loading.product__card__cart__btn__icon.remove_compare_item_ajax:hover {
             background: var(--danger-color);
         }
-        
-        .icon.cart-loading.product__card__cart__btn__icon.remove_compare_item_ajax:hover i{
+
+        .icon.cart-loading.product__card__cart__btn__icon.remove_compare_item_ajax:hover i {
             color: var(--white) !important;
         }
     </style>
@@ -51,38 +52,10 @@
 @endphp
 
 @section('content')
-    <!-- Compare Area Starts -->
     <section class="compare-area padding-top-100 padding-bottom-100">
         <div class="container ">
             <div class="row g-4">
                 @forelse($products as $product)
-                    {{-- @php
-                        $product_inventory = \Modules\Product\Entities\ProductInventory::where(
-                            'product_id',
-                            $product->id,
-                        )->first();
-
-                        $campaign_product = $product->campaign_product ?? null;
-                        $campaignSoldCount = $product?->campaign_sold_product;
-                        $stock_count = $campaign_product
-                            ? $campaign_product->units_for_sale - optional($campaignSoldCount)->sold_count ?? 0
-                            : optional($product->inventory)->stock_count;
-
-                        if ($product->options->variant_id ?? false) {
-                            $product_inventory_details = \Modules\Product\Entities\ProductInventoryDetail::where(
-                                'id',
-                                $product->options->variant_id,
-                            )->first();
-                            $stock_count = $campaign_product
-                                ? $campaign_product->units_for_sale - optional($campaignSoldCount)->sold_count ?? 0
-                                : $product_inventory_details->stock_count;
-                        } else {
-                            $product_inventory_details = null;
-                        }
-
-                        $stock_count =
-                            $stock_count > (int) get_static_option('product_in_stock_limit_set') ? $stock_count : 0;
-                    @endphp --}}
                     @php
                         $product_inventory = \Modules\Product\Entities\ProductInventory::where(
                             'product_id',
@@ -93,26 +66,7 @@
                         $stock_count = $campaign_product
                             ? $campaign_product->units_for_sale - (optional($campaignSoldCount)->sold_count ?? 0)
                             : optional($product->inventory)->stock_count;
-                        // // Check if product has variants
-                        // if ($product->options->variant_id ?? false) {
-                        //     $product_inventory_details = \Modules\Product\Entities\ProductInventoryDetail::where(
-                        //         'id',
-                        //         $product->options->variant_id,
-                        //     )->first();
 
-                        //     // For variant products, use variant stock count (not campaign units)
-                        //     $stock_count = $campaign_product
-                        //         ? $campaign_product->units_for_sale - (optional($campaignSoldCount)->sold_count ?? 0)
-                        //         : ($product_inventory_details->stock_count ?? 0);
-                        // } else {
-                        //     $product_inventory_details = null;
-                        //     // For non-variant products, use main product stock
-                        //     $stock_count = $campaign_product
-                        //         ? $campaign_product->units_for_sale - (optional($campaignSoldCount)->sold_count ?? 0)
-                        //         : optional($product->inventory)->stock_count;
-                        // }
-
-                        // Apply stock limit check
                         $stock_count =
                             $stock_count > (int) get_static_option('product_in_stock_limit_set') ? $stock_count : 0;
                     @endphp
@@ -126,7 +80,6 @@
                             <div class="compare-contents mt-2">
                                 <h5>
                                     <a href="{{ route('frontend.products.single', $product->options->slug ?? '') }}">
-                                        {{-- {{ $product->name }} --}}
                                         {{ Str::limit($product->name, 100, '...') }}
                                     </a>
                                 </h5>
@@ -144,32 +97,33 @@
                                 <h4 class="common-price-title-four color-one mt-2">
                                     {{ float_amount_with_currency_symbol($product->price) }} </h4>
                                 <ul class="compare-content-list mt-3">
-                                    <li class="list">
-                                        <span class="model"> {{ __('SKU:') }} {{ $product->options->sku }} </span>
-                                    </li>
+                                    @if ($product?->options?->sku)
+                                        <li class="list">
+                                            <span class="model">
+                                                {{ __('SKU:') }} {{ $product?->options?->sku }}
+                                            </span>
+                                        </li>
+                                    @endif
                                     <li class="list">
                                         <p class="common-para">
                                             {{ strip_tags($product->options->sort_description) }}
                                         </p>
                                     </li>
-                                    {{-- <li class="list">
-                                        @if ($stock_count > 0)
-                                            <span
-                                                class="availability">{{ filter_static_option_value('product_in_stock_text', $setting_text, __('In stock')) }}
-                                                ({{ $stock_count }})
-                                            </span>
-                                        @else
-                                            <span
-                                                class="availability text-danger">{{ filter_static_option_value('product_out_of_stock_text', $setting_text, __('Sold out')) }}</span>
-                                        @endif
-                                    </li> --}}
                                     @if ($product->options->color_name ?? null)
-                                        <li class="list">{{ __('Color:') }} <b class="">
-                                                {{ $product->options->color_name }} </b> </li>
+                                        <li class="list">
+                                            {{ __('Color:') }}
+                                            <b class="">
+                                                {{ $product->options->color_name }}
+                                            </b>
+                                        </li>
                                     @endif
                                     @if ($product->options->size_name ?? null)
-                                        <li class="list">{{ __('Size:') }} <b class="">
-                                                {{ $product->options->size_name }} </b> </li>
+                                        <li class="list">
+                                            {{ __('Size:') }}
+                                            <b class="">
+                                                {{ $product->options->size_name }}
+                                            </b>
+                                        </li>
                                     @endif
                                     @if ($product->options->attributes ?? null)
                                         @foreach ($product->options->attributes as $key => $value)
@@ -196,7 +150,8 @@
                                         </span>
                                     </a>
                                     <a href="#1" data-product_hash_id="{{ $product->rowId }}"
-                                        class="icon cart-loading product__card__cart__btn__icon remove_compare_item_ajax" title="Remove">
+                                        class="icon cart-loading product__card__cart__btn__icon remove_compare_item_ajax"
+                                        title="Remove">
                                         <i class="la la-times"></i>
                                     </a>
                                 </div>
@@ -213,7 +168,6 @@
             </div>
         </div>
     </section>
-    <!-- Compare Area end -->
 @endsection
 @section('script')
     <script>
