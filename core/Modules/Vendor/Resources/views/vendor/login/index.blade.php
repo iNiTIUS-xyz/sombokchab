@@ -14,7 +14,6 @@
                         @csrf
                         <div class="error-wrap"></div>
                         <div class="alert alert-success showLoginRedirect" style="display: none;"></div>
-
                         <div class="single-input">
                             <div class="phone-input">
                                 <label class="label-title mb-2">
@@ -55,7 +54,10 @@
 
                         <!-- Password Input -->
                         <div class="single-input">
-                            <label class="label-title mb-2"> {{ __('Password') }} </label>
+                            <label class="label-title mb-2">
+                                {{ __('Password') }}
+                                <span class="text-danger">*</span>
+                            </label>
                             <div class="position-relative">
                                 <input class="form--control" type="password" id="login_password" name="password"
                                     placeholder="{{ __('Type Password') }}">
