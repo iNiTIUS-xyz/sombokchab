@@ -3,6 +3,56 @@
 @section('style')
     <x-media.css />
     <x-niceselect.css />
+
+    <style>
+        /* Custom input group styles */
+        .input-group-custom {
+            position: relative;
+            display: flex;
+            width: 100%;
+        }
+
+        .input-group-custom .form-control {
+            flex: 1;
+            padding-right: 40px;
+            /* Space for the button */
+        }
+
+        .input-group-btn {
+            background: transparent;
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .btn-toggle-password {
+            background: transparent;
+            border: none;
+            padding: 0 10px;
+            height: 100%;
+            cursor: pointer;
+            color: gray;
+            outline: none;
+        }
+
+        .btn-toggle-password:hover {
+            color: #e9e9e9;
+        }
+
+        .btn-toggle-password:focus {
+            box-shadow: none;
+        }
+
+        /* Disabled button styles */
+        .disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+    </style>
 @endsection
 
 @section('section')
@@ -12,7 +62,6 @@
     @endphp
     <div class="bodyUser_overlay"></div>
     <div class="dashboard-form-wrapper">
-        {{-- <h2 class="dashboard__card__title">{{ __('Edit Profile') }}</h2> --}}
         <div class="custom__form mt-4">
             <form action="{{ route('user.profile.update') }}" method="post" enctype="multipart/form-data">
                 @csrf
@@ -181,16 +230,23 @@
         <div class="custom__form mt-4">
             <form action="{{ route('user.deactivate') }}" method="post">
                 @csrf
-                <div class="form-group">
-                    <label for="password">
-                        {{ __('Password') }}
-                        <span class="text-danger">*</span>
-                    </label>
+                <label for="password">
+                    {{ __('Password') }}
+                    <span class="text-danger">*</span>
+                </label>
+                <div class="input-group-custom">
                     <input type="password" class="form-control" id="password" name="password"
-                        placeholder="{{ __('Enter Password') }}" required>
+                        placeholder="{{ __('Enter New Password') }}" required="">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn-toggle-password" data-target="password">
+                            <i class="la la-eye"></i>
+                        </button>
+                    </span>
                 </div>
                 <div class="btn-wrapper mt-2">
-                    <button type="submit" class="btn btn-danger">{{ __('Deactivate Account') }}</button>
+                    <button type="submit" class="btn btn-danger">
+                        {{ __('Deactivate Account') }}
+                    </button>
                 </div>
             </form>
         </div>
@@ -201,6 +257,26 @@
 
 @section('script')
     <x-niceselect.js />
+
+    <script>
+        document.querySelectorAll('.btn-toggle-password').forEach(button => {
+            button.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                const input = document.getElementById(targetId);
+                const icon = this.querySelector('i');
+
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.classList.remove('la-eye');
+                    icon.classList.add('la-eye-slash');
+                } else {
+                    input.type = 'password';
+                    icon.classList.remove('la-eye-slash');
+                    icon.classList.add('la-eye');
+                }
+            });
+        });
+    </script>
 
     <script>
         function sendOtpCode() {
@@ -241,29 +317,10 @@
         }
     </script>
 
-
     <script>
         (function($) {
             "use strict";
 
-            // $(document).on("change", "#country", function() {
-            //     let id = $(this).val().trim();
-
-            //     $.get('{{ route('country.state.info.ajax') }}', {
-            //         id: id
-            //     }).then(function(data) {
-            //         $('#state').html(data);
-            //     });
-            // });
-            // $(document).on("change", "#state", function() {
-            //     let id = $(this).val().trim();
-
-            //     $.get('{{ route('state.city.info.ajax') }}', {
-            //         id: id
-            //     }).then(function(data) {
-            //         $('#city').html(data);
-            //     });
-            // });
 
             $(document).ready(function() {
                 $(document).on('click', '.bodyUser_overlay', function() {

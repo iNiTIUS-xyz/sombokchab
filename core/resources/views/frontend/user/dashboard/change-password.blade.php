@@ -1,8 +1,59 @@
 @extends('frontend.user.dashboard.user-master')
 
+@section('style')
+    <style>
+        /* Custom input group styles */
+        .input-group-custom {
+            position: relative;
+            display: flex;
+            width: 100%;
+        }
+
+        .input-group-custom .form-control {
+            flex: 1;
+            padding-right: 40px;
+            /* Space for the button */
+        }
+
+        .input-group-btn {
+            background: transparent;
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .btn-toggle-password {
+            background: transparent;
+            border: none;
+            padding: 0 10px;
+            height: 100%;
+            cursor: pointer;
+            color: gray;
+            outline: none;
+        }
+
+        .btn-toggle-password:hover {
+            color: #e9e9e9;
+        }
+
+        .btn-toggle-password:focus {
+            box-shadow: none;
+        }
+
+        /* Disabled button styles */
+        .disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+    </style>
+@endsection
+
 @section('section')
     <div class="dashboard-form-wrapper">
-        {{-- <h2 class="dashboard__card__title">{{ __('Change Password') }}</h2> --}}
         <div class="custom__form mt-4">
             <form action="{{ route('user.password.change') }}" method="post" enctype="multipart/form-data">
                 @csrf
@@ -55,7 +106,8 @@
                         </span>
                     </div>
                     <small id="confirmHelp" class="form-text text-danger" style="display: none;"></small>
-                    <small id="confirmSuccess" class="form-text text-success" style="display: none;">Passwords match!</small>
+                    <small id="confirmSuccess" class="form-text text-success" style="display: none;">Passwords
+                        match!</small>
                 </div>
                 <div class="btn-wrapper mt-4">
                     <button type="submit" id="submitBtn" class="cmn_btn btn_bg_1" disabled>{{ __('Update') }}</button>
@@ -63,56 +115,6 @@
             </form>
         </div>
     </div>
-
-    <style>
-        /* Custom input group styles */
-        .input-group-custom {
-            position: relative;
-            display: flex;
-            width: 100%;
-        }
-
-        .input-group-custom .form-control {
-            flex: 1;
-            padding-right: 40px;
-            /* Space for the button */
-        }
-
-        .input-group-btn {
-            background: transparent;
-            position: absolute;
-            right: 0;
-            top: 0;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            border-radius: 0 8px 8px 0;
-        }
-
-        .btn-toggle-password {
-            background: transparent;
-            border: none;
-            padding: 0 10px;
-            height: 100%;
-            cursor: pointer;
-            color: gray;
-            outline: none;
-        }
-
-        .btn-toggle-password:hover {
-            color: #e9e9e9;
-        }
-
-        .btn-toggle-password:focus {
-            box-shadow: none;
-        }
-
-        /* Disabled button styles */
-        .disabled {
-            opacity: 0.65;
-            cursor: not-allowed;
-        }
-    </style>
 
     <script>
         // Password toggle functionality
@@ -179,11 +181,9 @@
                 passwordHelp.style.display = 'block';
                 passwordError.textContent = error;
                 passwordError.style.display = 'block';
-                this.classList.add('is-invalid');
             } else {
                 passwordHelp.style.display = 'none';
                 passwordError.style.display = 'none';
-                this.classList.remove('is-invalid');
             }
 
             updateSubmitButton();
@@ -203,7 +203,6 @@
             if (passwordField.value === '') {
                 confirmHelp.style.display = 'none';
                 confirmSuccess.style.display = 'none';
-                confirmField.classList.remove('is-invalid');
                 return;
             }
 
@@ -211,15 +210,11 @@
                 confirmHelp.textContent = error;
                 confirmHelp.style.display = 'block';
                 confirmSuccess.style.display = 'none';
-                confirmField.classList.add('is-invalid');
             } else {
                 confirmHelp.style.display = 'none';
                 confirmSuccess.style.display = 'block';
-                confirmField.classList.remove('is-invalid');
             }
         }
-
-        // Initialize button state
         updateSubmitButton();
     </script>
 @endsection
