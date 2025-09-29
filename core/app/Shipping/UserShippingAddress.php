@@ -33,7 +33,8 @@ class UserShippingAddress extends Model
     protected $fillable = [
         'user_id',
         'name',
-        'address'
+        'address',
+        'phone'
     ];
 
 }
