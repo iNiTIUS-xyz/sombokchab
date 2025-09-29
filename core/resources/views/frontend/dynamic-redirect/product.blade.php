@@ -536,17 +536,29 @@
     });
 
     $(document).on("click", ".list[data-type=sub_category] a", function() {
-        $("#" + $(this).parent().attr("data-type")).val($(this).parent().attr("data-val"));
-        let subCategoryName = $(this).parent().attr("data-val");
+        let $parent = $(this).parent();
+        let subCategoryName = $parent.attr("data-val");
+
+        $parent.siblings("[data-type=sub_category]").removeClass("active");
+
+        $parent.addClass("active");
+
+        $("#" + $parent.attr("data-type")).val(subCategoryName);
 
         $("#page-title-text").text(subCategoryName);
+
         submitForm();
     });
 
     $(document).on("click", ".list[data-type=child_category] a", function() {
-        $("#" + $(this).parent().attr("data-type")).val($(this).parent().attr("data-val"));
+        let $parent = $(this).parent();
+        let childCategoryName = $parent.attr("data-val");
 
-        let childCategoryName = $(this).parent().attr("data-val");
+        $parent.siblings("[data-type=child_category]").removeClass("active");
+
+        $parent.addClass("active");
+
+        $("#" + $parent.attr("data-type")).val(childCategoryName);
 
         $("#page-title-text").text(childCategoryName);
 
