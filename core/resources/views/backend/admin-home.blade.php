@@ -75,61 +75,72 @@
         }
 
 
-/* Base track */
-#new_vendor_signup_scroll,
-#new_customer_signup_scroll {
-  -webkit-appearance: none;
-  appearance: none;
-  height: 6px;
-  border-radius: 4px;
-  background: #e9ecef;
-  outline: none;
-}
+        /* Base track */
+        #new_vendor_signup_scroll,
+        #new_customer_signup_scroll {
+        -webkit-appearance: none;
+        appearance: none;
+        height: 6px;
+        border-radius: 4px;
+        background: #e9ecef;
+        outline: none;
+        }
 
-/* WebKit thumb */
-#new_vendor_signup_scroll::-webkit-slider-thumb,
-#new_customer_signup_scroll::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: #41695a;           /* your green */
-  border: 2px solid #2f4f45;      /* subtle ring */
-  cursor: pointer;
-  margin-top: -5px;               /* vertically center on 6px track */
-}
+        /* WebKit thumb */
+        #new_vendor_signup_scroll::-webkit-slider-thumb,
+        #new_customer_signup_scroll::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: #41695a;           /* your green */
+        border: 2px solid #2f4f45;      /* subtle ring */
+        cursor: pointer;
+        margin-top: -5px;               /* vertically center on 6px track */
+        }
 
-/* Firefox thumb */
-#new_vendor_signup_scroll::-moz-range-thumb,
-#new_customer_signup_scroll::-moz-range-thumb {
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: #41695a;
-  border: 2px solid #2f4f45;
-  cursor: pointer;
-}
+        /* Firefox thumb */
+        #new_vendor_signup_scroll::-moz-range-thumb,
+        #new_customer_signup_scroll::-moz-range-thumb {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: #41695a;
+        border: 2px solid #2f4f45;
+        cursor: pointer;
+        }
 
-/* Firefox track */
-#new_vendor_signup_scroll::-moz-range-track,
-#new_customer_signup_scroll::-moz-range-track {
-  height: 6px;
-  border-radius: 4px;
-  background: #e9ecef;
-}
+        /* Firefox track */
+        #new_vendor_signup_scroll::-moz-range-track,
+        #new_customer_signup_scroll::-moz-range-track {
+        height: 6px;
+        border-radius: 4px;
+        background: #e9ecef;
+        }
 
-/* Focus ring */
-#new_vendor_signup_scroll:focus-visible,
-#new_customer_signup_scroll:focus-visible {
-  outline: 2px solid rgba(65,105,90,.35);
-  outline-offset: 2px;
-}
+        /* Focus ring */
+        #new_vendor_signup_scroll:focus-visible,
+        #new_customer_signup_scroll:focus-visible {
+        outline: 2px solid rgba(65,105,90,.35);
+        outline-offset: 2px;
+        }
 
-#new_vendor_signup_nav, #new_customer_signup_nav {
-    display: none;
+        #new_vendor_signup_nav, #new_customer_signup_nav {
+            display: none;
+        }
+        #top_vendor_nav, #top_products_nav { display: none; }
+
+  /* tilt values drawn on top of bars */
+/* Make all bar values vertical */
+#new_customer_signup_chart .apexcharts-datalabel,
+#new_vendor_signup_chart .apexcharts-datalabel,
+#top_vendor_chart .apexcharts-datalabel,
+#top_vendors_two_chart .apexcharts-datalabel {
+    transform: rotate(-90deg) !important;
+    transform-origin: center center !important;
+    transform-box: fill-box !important;
 }
-#top_vendor_nav, #top_products_nav { display: none; }
 
     </style>
 @endsection
@@ -1013,7 +1024,7 @@
         document.addEventListener('DOMContentLoaded', () => {
         // ---------- Shared helpers ----------
         const clamp = (n, lo, hi) => Math.min(hi, Math.max(lo, n));
-
+        
         function makeBrushBarChart({ ids, url, seriesName, titleBase }) {
             let currentType = 'daily';
             let currentStartDate = null;
@@ -1062,7 +1073,12 @@
             dataLabels: {
                 enabled: true,
                 background: { enabled: false },
-                style: { colors: ['#000'], fontWeight: 600 },
+                style: {
+                    colors: ['#000'],
+                    fontWeight: 600,
+                    fontSize: '12px',
+                    // rotate: -45   // 👈 tilt the numbers
+                },
                 formatter: (v) => v
             },
             xaxis: {
@@ -1071,10 +1087,10 @@
                 tickPlacement: 'on',
                 rangePadding: 'none',
                 labels: {
-                rotate: -90,
-                rotateAlways: true,
-                trim: false,
-                hideOverlappingLabels: false
+                    rotate: -90,
+                    rotateAlways: true,
+                    trim: false,
+                    hideOverlappingLabels: false
                 }
             },
             yaxis: { title: { text: 'Number of Sign-Ups' } },
