@@ -16,16 +16,15 @@
                 $type = $type ?? 'admin';
             @endphp
             <div class="table-responsive">
-                <table class="table">
+                <table class="table" id="dataTable">
                     <thead>
                         <tr>
                             <th>{{ __('Serial No.') }}</th>
                             <th>{{ __('Message') }}</th>
                         </tr>
                     </thead>
-
                     <tbody>
-                        @foreach ($notifications as $notification)
+                        @foreach ($notifications as $key => $notification)
                             @php
 
                                 $namespace = new $notification->model();
@@ -41,7 +40,7 @@
 
                             <tr>
                                 <td>
-                                    {{ $notifications->perPage() * ($notifications->currentPage() - 1) + $loop->iteration }}
+                                    {{ $key + 1 }}
                                 </td>
                                 <td class="{{ $notification->type == 'stock_out' ? 'bg bg-warning' : '' }}">
                                     <div class="notification-list-flex">
@@ -60,9 +59,6 @@
                         @endforeach
                     </tbody>
                 </table>
-                <div class="pagination">
-                    {{ $notifications->links() }}
-                </div>
             </div>
         </div>
     </div>
