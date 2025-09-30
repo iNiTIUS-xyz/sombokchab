@@ -675,75 +675,82 @@
         })
     });
 </script>
-
 <script>
-    $(document).on('click', '#load_more_button', function(e) {
-        e.preventDefault();
+    $(function() {
 
-        let button = $(this);
-        let currentPage = parseInt(button.data('current-page')) + 1;
-        let totalPages = parseInt(button.data('total-pages'));
-        let spinner = button.find('.btn-loading-spinner');
+        $(document).on('click', '#load_more_button', function(e) {
+            e.preventDefault();
 
-        // Show loading spinner and disable button
-        spinner.removeClass('d-none');
-        button.prop('disabled', true);
+            let button = $(this);
+            if (button.prop('disabled')) return;
 
-        // Update the page number in the form
-        $("#search_page").val(currentPage);
+            let currentPage = parseInt(button.data('current-page')) + 1;
+            let totalPages = parseInt(button.data('total-pages'));
+            let spinner = button.find('.btn-loading-spinner');
 
-        // Submit the form via AJAX
-        $.ajax({
-            url: $("#search_product").attr('action') + "?" + $("#search_product").serialize(),
-            type: $("#search_product").attr('method'),
-            data: new FormData($("#search_product")[0]),
-            processData: false,
-            contentType: false,
-            success: function(data) {
-                // Append new products to the grid view with fade-in animation
-                let gridItems = $(data.grid).find('.col-xxl-3, .col-xl-4, .col-md-4, .col-sm-6');
-                gridItems.addClass('new-loaded-item');
-                $('#tab-grid2 .row').append(gridItems);
+            spinner.removeClass('d-none');
+            button.prop('disabled', true);
 
-                // Append new products to the list view with fade-in animation
-                let listItems = $(data.list).find('.col-xl-6, .col-lg-6, .col-sm-12');
-                listItems.addClass('new-loaded-item');
-                $('#tab-grid .row').append(listItems);
+            // set page in form
+            $("#search_page").val(currentPage);
 
-                // Update the button's data attributes
-                button.data('current-page', currentPage);
+            $.ajax({
+                url: $("#search_product").attr('action') + "?" + $("#search_product")
+                    .serialize(),
+                type: $("#search_product").attr('method') || 'GET',
+                data: new FormData($("#search_product")[0]),
+                processData: false,
+                contentType: false,
+                dataType: 'json',
+                success: function(data) {
 
-                // Hide the button if we've reached the last page
-                if (currentPage >= totalPages) {
-                    button.hide();
+                    let gridItems = $(data.grid).find(
+                        '.col-xxl-3, .col-xl-4, .col-md-4, .col-sm-6');
+                    gridItems.addClass('new-loaded-item');
+                    $('#tab-grid2 .row').append(gridItems);
+
+                    let listItems = $(data.list);
+                    $('#tab-grid .row').append(listItems);
+
+                    button.data('current-page', currentPage);
+                    if (currentPage >= totalPages) {
+                        button.hide();
+                    }
+
+                    if (data.showing_items !== undefined) {
+                        $(".showing-results-item-count").html(data.showing_items);
+                    }
+
+                    // scroll to first newly-added product
+                    let firstNew = gridItems.first().length ? gridItems.first() : listItems
+                        .first();
+                    if (firstNew.length) {
+                        $('html, body').animate({
+                            scrollTop: firstNew.offset().top - 100
+                        }, 500);
+                    }
+                },
+                error: function(xhr, status, err) {
+                    console.error('AJAX error:', status, err, xhr.responseText);
+                    toastr.error('Error loading more products. Please try again.');
+                },
+                complete: function() {
+                    spinner.addClass('d-none');
+                    button.prop('disabled', false);
                 }
+            });
+        });
 
-                // Update showing results count
-                $(".showing-results-item-count").html(data.showing_items);
-
-                // Smooth scroll to the newly loaded items
-                $('html, body').animate({
-                    scrollTop: gridItems.first().offset().top - 100
-                }, 500);
-            },
-            error: function(xhr) {
-                console.error('Error loading more products:', xhr.responseText);
-                toastr.error('Error loading more products. Please try again.');
-            },
-            complete: function() {
-                spinner.addClass('d-none');
-                button.prop('disabled', false);
+        // auto load on scroll
+        $(window).on('scroll', function() {
+            if ($(window).scrollTop() + $(window).height() >= $(document).height() - 300) {
+                let btn = $('#load_more_button');
+                if (btn.length && btn.is(':visible') && !btn.prop('disabled')) {
+                    btn.trigger('click');
+                }
             }
         });
-    });
 
-    // Infinite scroll implementation
-    $(window).scroll(function() {
-        if ($(window).scrollTop() + $(window).height() >= $(document).height() - 300) {
-            if (!$('#load_more_button').prop('disabled') && $('#load_more_button').is(':visible')) {
-                $('#load_more_button').trigger('click');
-            }
-        }
     });
 </script>
 @endsection

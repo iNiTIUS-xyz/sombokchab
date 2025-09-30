@@ -679,7 +679,7 @@
                 let listItems = $(data.list).find('.col-xl-6, .col-lg-6, .col-sm-12');
                 listItems.addClass('new-loaded-item');
                 $('#tab-grid .row').append(listItems);
-                
+
                 // Update the button's data attributes
                 button.data('current-page', currentPage);
                 

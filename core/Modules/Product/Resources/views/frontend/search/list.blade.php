@@ -1,6 +1,6 @@
 <div class="row mt-4">
     @forelse($all_products["items"] ?? [] as $product)
-        <div class="col-xl-4 col-lg-4 col-sm-6 mt-4">
+        <div class="col-xl-6 col-lg-6 col-sm-12">
             <x-product::frontend.list-style-02 :$product :$loop />
         </div>
     @empty

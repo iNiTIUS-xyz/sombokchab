@@ -1,15 +1,12 @@
-@props([
-    'all_products'
-])
+@props(['all_products'])
 {{-- Load more button instead of numbered pagination --}}
-@if(($all_products['total_page'] ?? 0) > ($all_products['current_page'] ?? 1))
+@if (($all_products['total_page'] ?? 0) > ($all_products['current_page'] ?? 1))
     <div class="row">
         <div class="col-lg-12 text-center mt-5">
-            <button id="load_more_button" class="btn-load-more" 
+            <button id="load_more_button" class="btn-load-more"
                 data-current-page="{{ $all_products['current_page'] ?? 1 }}"
                 data-total-pages="{{ $all_products['total_page'] ?? 1 }}">
-                {{ __('Load More') }} 
-                {{-- ({{ $all_products['total_items'] - ($all_products['current_page'] * $all_products['per_page']) }} remaining) --}}
+                {{ __('Load More') }}
                 <span class="btn-loading-spinner d-none">
                     <i class="las la-spinner la-spin"></i>
                 </span>
@@ -49,12 +46,18 @@
 
     /* Animation for smooth loading of new items */
     @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
     .new-loaded-item {
         animation: fadeIn 0.5s ease forwards;
     }
 </style>
-
