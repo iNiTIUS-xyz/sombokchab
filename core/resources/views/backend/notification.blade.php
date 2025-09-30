@@ -1,15 +1,15 @@
-@extends("backend.admin-master")
+@extends('backend.admin-master')
 
-@section("site-title", __("Notification list page"))
+@section('site-title', __('Notification list page'))
 
-@section("style")
+@section('style')
 
 @endsection
 
-@section("content")
+@section('content')
     <div class="card">
         <div class="card-header">
-            <h2>{{ __("Notifications") }}</h2>
+            <h2>{{ __('Notifications') }}</h2>
         </div>
         <div class="card-body">
             @php
@@ -18,39 +18,33 @@
             <div class="table-responsive">
                 <table class="table">
                     <thead>
-                    <tr>
-                        <th>{{ __("Serial No.") }}</th>
-                        <th>{{ __("Message") }}</th>
-                    </tr>
+                        <tr>
+                            <th>{{ __('Serial No.') }}</th>
+                            <th>{{ __('Message') }}</th>
+                        </tr>
                     </thead>
 
                     <tbody>
-                        @foreach($notifications as $notification)
+                        @foreach ($notifications as $notification)
                             @php
-                                // get model namespace and make a class
+
                                 $namespace = new $notification->model();
                                 $productName = '';
 
-
-                                // this line will be executed when a notification type is product
                                 if ($notification->type == 'product') {
-                                    $productName = $namespace->select('id', 'name')->find($notification->model_id)?->name;
+                                    $productName = $namespace->select('id', 'name')->find($notification->model_id)
+                                        ?->name;
                                 }
 
-                                // this method will generate
                                 $href = \App\Http\Services\NotificationService::generateUrl($type, $notification);
                             @endphp
 
                             <tr>
                                 <td>
-                                    {{ ($notifications->perPage() * ($notifications->currentPage() - 1)) + $loop->iteration }}
+                                    {{ $notifications->perPage() * ($notifications->currentPage() - 1) + $loop->iteration }}
                                 </td>
                                 <td class="{{ $notification->type == 'stock_out' ? 'bg bg-warning' : '' }}">
                                     <div class="notification-list-flex">
-                                        <div class="notification-icon">
-                                            <i class="las la-bell"></i>
-                                        </div>
-
                                         <div class="notification-contents">
                                             <a class="list-title" href="{{ $href }}">
                                                 {!! str_replace(
@@ -66,7 +60,6 @@
                         @endforeach
                     </tbody>
                 </table>
-
                 <div class="pagination">
                     {{ $notifications->links() }}
                 </div>
@@ -75,6 +68,6 @@
     </div>
 @endsection
 
-@section("script")
+@section('script')
 
 @endsection

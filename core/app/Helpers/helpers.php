@@ -2529,7 +2529,7 @@ function identityTypes(): array
     return ["Passport", "Driver's License", "National Identity Card"];
 }
 
-function xgNotifications($for = null): object|array
+function xgNotifications($for = null)
 {
     return (new NotificationService())->fetch($for);
 }

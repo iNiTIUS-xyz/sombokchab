@@ -8,6 +8,6 @@ class AdminNotificationController extends Controller
     {
         $notifications = xgNotifications('page')->paginate();
 
-        return view("backend.notification",compact('notifications'));
+        return view("backend.notification", compact('notifications'));
     }
 }
