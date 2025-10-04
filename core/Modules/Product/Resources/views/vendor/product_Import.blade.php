@@ -139,7 +139,7 @@
                             <span class="text-bark">
                                 (12)
                                 <b>
-                                    product_type:
+                                    product type:
                                     required, number
                                 </b>
                             </span>
@@ -147,15 +147,15 @@
                             <span class="text-bark">
                                 (13)
                                 <b>
-                                    min_purchase:
-                                    nullable, number|text
+                                    min purchase:
+                                    nullable, number
                                 </b>
                             </span>
                             <br>
                             <span class="text-bark">
                                 (14)
                                 <b>
-                                    max_purchase:
+                                    max purchase:
                                     required, number
                                 </b>
                             </span>
@@ -163,39 +163,23 @@
                             <span class="text-bark">
                                 (15)
                                 <b>
-                                    is_inventory_warn_able:
-                                    required, text
+                                    is inventory warn able:
+                                    required, number 1/0
                                 </b>
                             </span>
                             <br>
                             <span class="text-bark">
                                 (16)
                                 <b>
-                                    is_refundable:
-                                    required, text
+                                    is refundable:
+                                    required, number 1/0
                                 </b>
                             </span>
                             <br>
                             <span class="text-bark">
                                 (17)
                                 <b>
-                                    is_in_house:
-                                    required, number
-                                </b>
-                            </span>
-                            <br>
-                            <span class="text-bark">
-                                (18)
-                                <b>
-                                    admin_id:
-                                    required, number
-                                </b>
-                            </span>
-                            <br>
-                            <span class="text-bark">
-                                (19)
-                                <b>
-                                    vendor_id:
+                                    is in house:
                                     required, number 1/0
                                 </b>
                             </span>
