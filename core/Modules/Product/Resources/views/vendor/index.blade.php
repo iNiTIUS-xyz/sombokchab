@@ -151,10 +151,10 @@
                         {{ __('Add New Product') }}
                     </a>
                     <div style="float: right">
-                        {{-- <a class="cmn_btn btn-success text-white mb-3 mx-2 text-right"
+                        <a class="cmn_btn btn-success text-white mb-3 mx-2 text-right"
                             href="{{ route('vendor.products.import.all') }}">
                             {{ __('Import Product') }}
-                        </a> --}}
+                        </a>
                         <a class="cmn_btn btn_bg_danger mb-3" href="{{ route('vendor.products.trash.all') }}">
                             {{ __('Trash Bin') }}
                         </a>

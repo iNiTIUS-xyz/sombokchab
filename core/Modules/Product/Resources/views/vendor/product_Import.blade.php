@@ -51,7 +51,7 @@
                             <span class="text-bark">
                                 (1)
                                 <b>
-                                    name :
+                                    name:
                                     required, text
                                 </b>
                             </span>
@@ -59,15 +59,15 @@
                             <span class="text-bark">
                                 (2)
                                 <b>
-                                    sku :
-                                    nullable, number|text
+                                    slug:
+                                    required, text
                                 </b>
                             </span>
                             <br>
                             <span class="text-bark">
                                 (3)
                                 <b>
-                                    category :
+                                    summary:
                                     required, text
                                 </b>
                             </span>
@@ -75,23 +75,23 @@
                             <span class="text-bark">
                                 (4)
                                 <b>
-                                    subcategory :
-                                    nullable, text
+                                    description:
+                                    required, text
                                 </b>
                             </span>
                             <br>
                             <span class="text-bark">
                                 (5)
                                 <b>
-                                    childcategory :
-                                    nullable, text
+                                    image_id:
+                                    required, text
                                 </b>
                             </span>
                             <br>
                             <span class="text-bark">
                                 (6)
                                 <b>
-                                    unit :
+                                    price:
                                     required, text
                                 </b>
                             </span>
@@ -99,55 +99,55 @@
                             <span class="text-bark">
                                 (7)
                                 <b>
-                                    brand :
-                                    nullable, text
+                                    sale_price:
+                                    required, text
                                 </b>
                             </span>
                             <br>
                             <span class="text-bark">
                                 (8)
                                 <b>
-                                    author :
-                                    nullable, text
+                                    cost:
+                                    required, text
                                 </b>
                             </span>
                             <br>
                             <span class="text-bark">
                                 (9)
                                 <b>
-                                    alert_quantity :
-                                    nullable, number
+                                    badge name:
+                                    required, number
                                 </b>
                             </span>
                             <br>
                             <span class="text-bark">
                                 (10)
                                 <b>
-                                    vat_percent :
-                                    nullable, number
+                                    brand name:
+                                    required, number
                                 </b>
                             </span>
                             <br>
                             <span class="text-bark">
                                 (11)
                                 <b>
-                                    minimum_sale_price :
-                                    nullable, number
+                                    status name:
+                                    required, number
                                 </b>
                             </span>
                             <br>
                             <span class="text-bark">
                                 (12)
                                 <b>
-                                    minimum_wholesale_price :
-                                    nullable, number
+                                    product_type:
+                                    required, number
                                 </b>
                             </span>
                             <br>
                             <span class="text-bark">
                                 (13)
                                 <b>
-                                    barcode :
+                                    min_purchase:
                                     nullable, number|text
                                 </b>
                             </span>
@@ -155,7 +155,7 @@
                             <span class="text-bark">
                                 (14)
                                 <b>
-                                    purchase_price :
+                                    max_purchase:
                                     required, number
                                 </b>
                             </span>
@@ -163,79 +163,63 @@
                             <span class="text-bark">
                                 (15)
                                 <b>
-                                    selling_price :
-                                    required, number
+                                    is_inventory_warn_able:
+                                    required, text
                                 </b>
                             </span>
                             <br>
                             <span class="text-bark">
                                 (16)
                                 <b>
-                                    discount_type :
-                                    required, Amount|Percentage
+                                    is_refundable:
+                                    required, text
                                 </b>
                             </span>
                             <br>
                             <span class="text-bark">
                                 (17)
                                 <b>
-                                    discount_value :
-                                    nullable, number
+                                    is_in_house:
+                                    required, number
                                 </b>
                             </span>
                             <br>
                             <span class="text-bark">
                                 (18)
                                 <b>
-                                    wholesale_price :
-                                    nullable, number
+                                    admin_id:
+                                    required, number
                                 </b>
                             </span>
                             <br>
                             <span class="text-bark">
                                 (19)
                                 <b>
-                                    minimum_wholesale_quantity :
-                                    nullable, number
+                                    vendor_id:
+                                    required, number 1/0
                                 </b>
                             </span>
                             <br>
                             <span class="text-bark">
                                 (20)
                                 <b>
-                                    size :
-                                    nullable, text
+                                    is_taxable:
+                                    required, number 1/0
                                 </b>
                             </span>
                             <br>
                             <span class="text-bark">
-                                (21)
+                                (20)
                                 <b>
-                                    color :
-                                    nullable, text
-                                </b>
-                            </span>
-                            <br>
-                            <span class="text-bark">
-                                (22)
-                                <b>
-                                    opening_stock_qty :
-                                    nullable, number
-                                </b>
-                            </span>
-                            <br>
-                            <span class="text-bark">
-                                (23)
-                                <b>
-                                    opening_stock_purchase_price_rate :
-                                    nullable, number
+                                    tax_class_id:
+                                    required, number 1/0
                                 </b>
                             </span>
                             <br>
                         </div>
                         <div class="row mt-3">
                             <div class="col-md-12">
-                                <a href="https://amarsolution.com/product-export?type=template" download=""
+                                <a href="#" download="{{ asset('product_template.xlsx') }}"
                                     class="btn btn-warning waves-effect waves-light m-b-5">
                                     <i class="fa fa-file-alt m-r-5"></i>
                                     <span>
