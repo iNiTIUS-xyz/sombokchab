@@ -9,7 +9,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Modules\Badge\Entities\Badge;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 use Modules\Attributes\Entities\Tag;
 use Illuminate\Http\RedirectResponse;
 use Modules\Attributes\Entities\Unit;
@@ -27,7 +29,6 @@ use Modules\Attributes\Entities\Size as ProductSize;
 use Modules\Attributes\Entities\Color as ProductColor;
 use Modules\Product\Http\Requests\ProductStoreRequest;
 use Modules\Product\Http\Services\Admin\AdminProductServices;
-use Maatwebsite\Excel\Facades\Excel;
 
 class VendorProductController extends Controller
 {
@@ -251,6 +252,8 @@ class VendorProductController extends Controller
     public function importProduct(Request $request)
     {
         try {
+
+            DB::beginTransaction();
             $validator = Validator::make($request->all(), [
                 'file' => 'required|mimes:xlsx,csv,txt|max:2048',
             ]);
@@ -263,8 +266,6 @@ class VendorProductController extends Controller
 
             $data = Excel::toArray([], $file);
 
-            dd($data);
-
             if (!empty($data) && count($data) > 0) {
 
                 $rows = $data[0];
@@ -275,34 +276,36 @@ class VendorProductController extends Controller
                         continue;
                     }
 
+                    $brand = Brand::firstOrCreate(
+                        ['name' => $row[8]]
+                    );
+
                     Product::create([
                         "name" => $row[1],
-                        "slug" => $row[2],
+                        "slug" => $row[2] ? $row[2] : strtolower(str_replace(' ', '-', $row[1])),
                         "summary" => $row[3],
                         "description" => $row[4],
-                        "image_id" => $row[5],
-                        "price" => $row[6],
-                        "sale_price" => $row[7],
-                        "cost" => $row[8],
-                        "badge_id" => $row[9],
-                        "brand_id" => $row[10],
-                        "status_id" => $row[11],
-                        "product_type" => $row[12],
-                        "min_purchase" => $row[13],
-                        "max_purchase" => $row[14],
-                        "is_inventory_warn_able" => $row[15],
-                        "is_refundable" => $row[16],
-                        "is_in_house" => $row[17],
-                        "admin_id" => $row[18],
-                        "vendor_id" => $row[19],
-                        "is_taxable" => $row[20],
-                        "tax_class_id" => $row[21],
+                        "price" => $row[5],
+                        "sale_price" => $row[6],
+                        "cost" => $row[7],
+                        "brand_id" => $brand->id ?? null,
+                        "status_id" => $row[9] == 1 ? 1 : 2,
+                        "product_type" => $row[10] == 1 ? 1 : 2,
+                        "min_purchase" => $row[11],
+                        "max_purchase" => $row[12],
+                        "is_inventory_warn_able" => $row[13] == 1 ? 1 : 2,
+                        "is_refundable" => $row[14] == 1 ? 1 : 0,
+                        "is_in_house" => $row[15] == 1 ? 1 : 0,
+                        "vendor_id" => auth('vendor')->user()->id,
+                        "is_taxable" => $row[16]  == 1 ? 1 : 0,
+                        "tax_class_id" => $row[17]  == 1 ? 1 : 0,
                     ]);
                 }
             }
-
+            DB::commit();
             return redirect()->back()->with('success', 'Products imported successfully!');
         } catch (Exception $e) {
+            DB::rollback();
             return redirect()->back()->with('error', 'Import failed: ' . $e->getMessage());
         }
     }
