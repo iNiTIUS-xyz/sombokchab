@@ -22,9 +22,11 @@ use Modules\Attributes\Entities\Category;
 use Illuminate\Contracts\Support\Renderable;
 use Modules\Attributes\Entities\SubCategory;
 use Modules\Product\Entities\ProductGallery;
+use Modules\Product\Entities\ProductCategory;
 use Modules\Attributes\Entities\ChildCategory;
 use Modules\Product\Entities\ProductAttribute;
 use Modules\Attributes\Entities\DeliveryOption;
+use Modules\Product\Entities\ProductSubCategory;
 use Modules\Attributes\Entities\Size as ProductSize;
 use Modules\Attributes\Entities\Color as ProductColor;
 use Modules\Product\Http\Requests\ProductStoreRequest;
@@ -280,9 +282,9 @@ class VendorProductController extends Controller
                         ['name' => $row[8]]
                     );
 
-                    Product::create([
+                    $product = Product::create([
                         "name" => $row[1],
-                        "slug" => $row[2] ? $row[2] : strtolower(str_replace(' ', '-', $row[1])),
+                        "slug" => strtolower(str_replace(' ', '-', $row[1])),
                         "summary" => $row[3],
                         "description" => $row[4],
                         "price" => $row[5],
@@ -300,6 +302,25 @@ class VendorProductController extends Controller
                         "is_taxable" => $row[16]  == 1 ? 1 : 0,
                         "tax_class_id" => $row[17]  == 1 ? 1 : 0,
                     ]);
+
+                    $category = Category::firstOrCreate(
+                        ['name' => $row[8]]
+                    );
+
+                    $productCategory = new ProductCategory();
+                    $productCategory->product_id = $product->id;
+                    $productCategory->category_id = $category->id;
+                    $productCategory->save();
+
+
+                    $subCategory = SubCategory::firstOrCreate(
+                        ['name' => $row[8]]
+                    );
+
+                    $productSubCategory = new ProductSubCategory();
+                    $productSubCategory->product_id = $product->id;
+                    $productSubCategory->sub_category_id = $subCategory->id;
+                    $productSubCategory->save();
                 }
             }
             DB::commit();
