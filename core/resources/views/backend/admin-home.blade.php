@@ -1367,7 +1367,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // ---------- Shared helpers ----------
             const clamp = (n, lo, hi) => Math.min(hi, Math.max(lo, n));
 
             function makeBrushBarChart({
@@ -1382,26 +1381,19 @@
                 let currentStartDate = null;
                 let currentEndDate = null;
 
-                // full dataset
                 let rawLabels = [];
                 let displayLabels = [];
                 let topNames = [];
+                let labels = [];
+                let values = [];
 
-                let
-                    labels = []; // ["2025-09-01", ...] | ["W36, Sep-2025", ...] | ["Jan 2025", ...] | ["2024","2025",...]
-                let values = []; // [1,2,0,...]
-                let points = []; // [{x:i,y:v}]
-
-                // current viewport (inclusive indices into full arrays)
                 let vMin = 0,
                     vMax = 0;
 
-                // DOM
                 const elMain = document.querySelector('#' + ids.main);
                 const elNav = document.querySelector('#' + ids.nav);
                 const elScroll = document.querySelector('#' + ids.scroll);
 
-                // ---------- Tabs UI ----------
                 const tabIds = [ids.tabs.daily, ids.tabs.weekly, ids.tabs.monthly, ids.tabs.yearly];
 
                 function setActiveTabUI(type) {
@@ -1418,7 +1410,6 @@
                     });
                 }
 
-                // ---------- Main (category) chart ----------
                 const mainOpts = {
                     series: [{
                         name: seriesName,
@@ -1427,17 +1418,17 @@
                     chart: {
                         id: ids.main + '_chart',
                         type: 'bar',
-                        height: 350,
+                        height: 380,
                         background: '#ffffff',
                         toolbar: {
                             show: false
-                        }, // hide apex toolbar
+                        },
                         zoom: {
                             enabled: false
-                        }, // we'll handle zoom/pan ourselves
+                        },
                         animations: {
                             easing: 'easeinout',
-                            speed: 180
+                            speed: 200
                         }
                     },
                     title: {
@@ -1447,58 +1438,53 @@
                     colors: ['#e0bb20'],
                     grid: {
                         padding: {
-                            left: 2,
-                            right: 2,
-                            bottom: 22
+                            left: 5,
+                            right: 5,
+                            bottom: 25
                         }
-                    }, // more space at the bottom
+                    },
                     plotOptions: {
                         bar: {
-                            columnWidth: '18%',
-                            borderRadius: 6,
-                            distributed: false,
+                            columnWidth: '40%',
+                            borderRadius: 5,
                             dataLabels: {
-                                position: 'bottom'
-                            } // ← anchor labels at bar base (y=0)
+                                position: 'top'
+                            }
                         }
                     },
                     dataLabels: {
                         enabled: true,
-                        offsetY: -2, // fallback; position is controlled above
-                        background: {
-                            enabled: false
-                        },
+                        offsetY: -14,
                         style: {
                             colors: ['#000'],
                             fontWeight: 600,
-                            fontSize: isTopChart ? '10px' : '12px',
+                            fontSize: '11px',
+                            textAnchor: 'middle'
                         },
-                        formatter: isTopChart ?
-                            function(v, {
-                                dataPointIndex
-                            }) {
-                                if (v === 0) return '0';
-                                return v >= 1 ?
-                                    (seriesName === 'Sales' ?
-                                        `${topNames[dataPointIndex]}\n${v} ${unit}` :
-                                        `${v} ${unit.split(' ')[0].toLowerCase()},\n${v} ${unit.split(' ')[1].toLowerCase()}`
-                                    ) :
-                                    `${v}`;
-                            } : (v) => (v === 0 ? '0' : v)
+                        formatter: function(val, {
+                            dataPointIndex,
+                            w
+                        }) {
+                            if (val === 0) return '';
+                            const label = w.globals.labels[dataPointIndex];
+                            // Show only "Jun 2025" or whatever the x-axis label is + value
+                            return `${label}\n${val}`;
+                        }
                     },
                     xaxis: {
-                        type: 'category', // ← category axis (exact 1:1 with visible bars)
+                        type: 'category',
                         categories: [],
                         tickPlacement: 'on',
                         rangePadding: 'none',
                         labels: {
-                            rotate: -90,
+                            rotate: -45,
                             rotateAlways: true,
                             trim: false,
                             hideOverlappingLabels: false,
                             offsetY: 6,
                             style: {
-                                fontSize: '10px' // Reduce font size to minimize overlap risk
+                                fontSize: '10px',
+                                fontWeight: 500
                             }
                         }
                     },
@@ -1506,32 +1492,38 @@
                         title: {
                             text: seriesName
                         },
-                        min: 0
-                    }, // Ensure y-axis starts at 0 to avoid overlap
+                        min: 0,
+                        labels: {
+                            style: {
+                                fontSize: '10px'
+                            }
+                        }
+                    },
                     tooltip: {
-                        x: {
-                            formatter: (val, {
-                                dataPointIndex
-                            }) => (visibleLabels[dataPointIndex] ?? '')
-                        },
-                        y: {
-                            formatter: isTopChart ?
-                                (val, {
-                                    dataPointIndex
-                                }) => val === 0 ? 'No data' :
-                                `${topNames[dataPointIndex] || 'Unknown'}: ${val} ${unit}` : (val) =>
-                                `${val} ${unit}`
+                        shared: false,
+                        intersect: true,
+                        custom: function({
+                            series,
+                            seriesIndex,
+                            dataPointIndex,
+                            w
+                        }) {
+                            const val = series[seriesIndex][dataPointIndex];
+                            const label = w.globals.labels[dataPointIndex];
+                            const name = (topNames[dataPointIndex] || 'Unknown');
+                            return `<div style="padding:6px 8px;">
+                                <strong>${name}</strong><br>
+                                ${label}<br>
+                                ${val} ${unit}
+                            </div>`;
                         }
                     }
                 };
 
-                // this array mirrors the xaxis categories each update; used by tooltip
                 let visibleLabels = [];
-
                 const chart = new ApexCharts(elMain, mainOpts);
                 chart.render();
 
-                // ---------- Navigator (numeric) ----------
                 let nav = null;
 
                 function renderNav() {
@@ -1542,7 +1534,6 @@
                         y
                     }));
 
-                    // default window = up to 60 bars
                     vMin = 0;
                     vMax = Math.max(0, Math.min(values.length - 1, 60));
 
@@ -1557,7 +1548,6 @@
                             animations: {
                                 enabled: false
                             },
-                            // We manually handle selection; brush is unnecessary with category axis in main.
                             selection: {
                                 enabled: true,
                                 xaxis: {
@@ -1579,8 +1569,7 @@
                         },
                         colors: ['#e0bb20'],
                         stroke: {
-                            width: 1,
-                            colors: ['#e0bb20']
+                            width: 1
                         },
                         series: [{
                             name: 'Range',
@@ -1590,9 +1579,6 @@
                             type: 'numeric',
                             labels: {
                                 show: false
-                            },
-                            tooltip: {
-                                enabled: false
                             }
                         },
                         yaxis: {
@@ -1611,17 +1597,14 @@
                     updateScrollbar();
                 }
 
-                // ---------- Viewport sync (slice to visible window) ----------
                 function applyViewport(minI, maxI, {
                     from = 'code'
                 } = {}) {
                     vMin = Math.max(0, Math.min(minI, maxI));
                     vMax = Math.max(0, Math.max(minI, maxI));
 
-                    // slice visible window for main chart
                     const windowVals = values.slice(vMin, vMax + 1);
                     visibleLabels = displayLabels.slice(vMin, vMax + 1);
-                    const windowTopNames = topNames.slice(vMin, vMax + 1); // for consistency, though not used here
 
                     chart.updateOptions({
                         series: [{
@@ -1633,7 +1616,6 @@
                         }
                     }, false, false);
 
-                    // keep navigator’s selection synced
                     if (nav && from !== 'nav') {
                         nav.updateOptions({
                             chart: {
@@ -1651,7 +1633,6 @@
                     if (from !== 'scroll') updateScrollbar();
                 }
 
-                // ---------- Scrollbar ----------
                 function updateScrollbar() {
                     const windowSize = Math.max(1, vMax - vMin + 1);
                     const maxLeft = Math.max(0, labels.length - windowSize);
@@ -1659,7 +1640,6 @@
                     elScroll.step = '1';
                     elScroll.value = String(clamp(vMin, 0, maxLeft));
                     elScroll.disabled = (maxLeft === 0);
-                    elScroll.title = 'Scroll to pan. Hold Ctrl/Cmd + Wheel to zoom. Wheel to pan.';
                 }
 
                 elScroll.addEventListener('input', () => {
@@ -1670,50 +1650,6 @@
                     });
                 });
 
-                // ---------- Smooth wheel zoom & pan on MAIN ----------
-                elMain.addEventListener('wheel', (e) => {
-                    if (!labels.length) return;
-
-                    const rect = elMain.getBoundingClientRect();
-                    const relX = Math.min(rect.width, Math.max(0, e.clientX - rect.left));
-                    const frac = rect.width > 0 ? (relX / rect.width) : 0.5;
-                    const centerIdx = Math.round(vMin + frac * Math.max(0, (vMax - vMin)));
-
-                    const delta = e.deltaY || e.wheelDelta || 0;
-
-                    if (e.ctrlKey || e.metaKey) {
-                        // ZOOM
-                        e.preventDefault();
-                        const currentWindow = Math.max(1, vMax - vMin + 1);
-                        const scale = delta > 0 ? 1.15 : 1 / 1.15;
-                        let newWindow = Math.round(currentWindow * scale);
-                        newWindow = clamp(newWindow, 5, Math.max(10, Math.ceil(labels.length * 0.9)));
-
-                        const half = Math.floor(newWindow / 2);
-                        let newMin = clamp(centerIdx - half, 0, Math.max(0, labels.length - newWindow));
-                        let newMax = newMin + newWindow - 1;
-                        applyViewport(newMin, newMax);
-                    } else {
-                        // PAN
-                        const panStep = Math.max(1, Math.round((vMax - vMin + 1) * 0.1));
-                        const dir = delta > 0 ? 1 : -1;
-                        const newMin = clamp(vMin + dir * panStep, 0, Math.max(0, labels.length - (vMax -
-                            vMin + 1)));
-                        const newMax = newMin + (vMax - vMin);
-                        applyViewport(newMin, newMax);
-                    }
-                }, {
-                    passive: false
-                });
-
-                // Double-click to reset window
-                elMain.addEventListener('dblclick', () => {
-                    const fullMax = Math.max(0, labels.length - 1);
-                    const initialMax = Math.min(fullMax, 60);
-                    applyViewport(0, initialMax);
-                });
-
-                // ---------- Data fetch & ingest ----------
                 function fetchData(type, startDate = null, endDate = null) {
                     setActiveTabUI(type);
                     chart.updateOptions({
@@ -1743,11 +1679,11 @@
                 }
 
                 function ingest(payload, chartType) {
-                    // keep insertion order, de-dupe keys
                     const seen = new Set();
                     rawLabels = [];
                     values = [];
                     topNames = [];
+
                     Object.keys(payload).forEach(k => {
                         if (!seen.has(k)) {
                             seen.add(k);
@@ -1759,20 +1695,16 @@
                                 topNames.push(val.name || 'None');
                             } else {
                                 values.push(parseInt(val) || 0);
-                                topNames.push(''); // placeholder
+                                topNames.push('');
                             }
                         }
                     });
 
-                    // build display labels
                     displayLabels = rawLabels.map(k => {
-                        if (chartType === 'daily') {
-                            // API gives YYYY-MM-DD → show DD-MMM-YYYY (e.g., 01-Oct-2025)
-                            return moment(k, 'YYYY-MM-DD', true).isValid() ?
-                                moment(k, 'YYYY-MM-DD').format('DD, MMM YY') :
-                                k; // fallback if not a date string
+                        if (chartType === 'daily' && moment(k, 'YYYY-MM-DD', true).isValid()) {
+                            return moment(k, 'YYYY-MM-DD').format('DD, MMM YY');
                         }
-                        return k; // weekly/monthly/yearly already humanized by backend
+                        return k;
                     });
 
                     chart.updateOptions({
@@ -1781,13 +1713,11 @@
                         }
                     });
 
-                    // rebuild navigator + main
-                    labels = rawLabels.slice(); // keep indices aligned for viewport math
-                    renderNav(); // sets vMin/vMax and paints both charts
+                    labels = rawLabels.slice();
+                    renderNav();
                 }
 
-
-                // ---------- Tabs ----------
+                // Tabs
                 document.getElementById(ids.tabs.daily).addEventListener('click', () => {
                     currentType = 'daily';
                     fetchData(currentType, currentStartDate, currentEndDate);
@@ -1805,18 +1735,11 @@
                     fetchData(currentType, currentStartDate, currentEndDate);
                 });
 
-                // ---------- Date picker ----------
                 $('#' + ids.picker).daterangepicker({
                     opens: 'left',
                     autoUpdateInput: true,
                     minDate: moment('2024-01-01'),
-                    maxDate: moment().endOf('year'),
-                }, function(start, end) {
-                    const months = end.diff(start, 'months', true);
-                    if (months < 1) {
-                        this.setStartDate(moment(start));
-                        this.setEndDate(moment(start).add(1, 'months'));
-                    }
+                    maxDate: moment().endOf('year')
                 });
 
                 $('#' + ids.picker).on('apply.daterangepicker', function(ev, picker) {
@@ -1825,17 +1748,11 @@
                     fetchData(currentType, currentStartDate, currentEndDate);
                 });
 
-                // ---------- First load ----------
                 setActiveTabUI('daily');
                 fetchData(currentType);
-
-                // expose if needed
-                return {
-                    refresh: () => fetchData(currentType, currentStartDate, currentEndDate)
-                };
             }
 
-            // ===== Top Selling Vendors =====
+            // Top Selling Vendors
             makeBrushBarChart({
                 ids: {
                     main: 'top_vendor_chart',
@@ -1856,7 +1773,7 @@
                 unit: 'sales'
             });
 
-            // ===== Top Selling Products =====
+            // Top Selling Products
             makeBrushBarChart({
                 ids: {
                     main: 'top_vendors_two_chart',
@@ -1874,10 +1791,12 @@
                 seriesName: 'Units Sold',
                 titleBase: 'Top Selling Products',
                 isTopChart: true,
-                unit: 'items, sold'
+                unit: 'items'
             });
         });
     </script>
+
+
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
