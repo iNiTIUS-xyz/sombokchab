@@ -77,58 +77,66 @@
         /* Base track */
         #new_vendor_signup_scroll,
         #new_customer_signup_scroll {
-        -webkit-appearance: none;
-        appearance: none;
-        height: 6px;
-        border-radius: 4px;
-        background: #e9ecef;
-        outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 6px;
+            border-radius: 4px;
+            background: #e9ecef;
+            outline: none;
         }
 
         /* WebKit thumb */
         #new_vendor_signup_scroll::-webkit-slider-thumb,
         #new_customer_signup_scroll::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        appearance: none;
-        width: 16px;
-        height: 16px;
-        border-radius: 50%;
-        background: #41695a;           /* your green */
-        border: 2px solid #2f4f45;      /* subtle ring */
-        cursor: pointer;
-        margin-top: -5px;               /* vertically center on 6px track */
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #41695a;
+            /* your green */
+            border: 2px solid #2f4f45;
+            /* subtle ring */
+            cursor: pointer;
+            margin-top: -5px;
+            /* vertically center on 6px track */
         }
 
         /* Firefox thumb */
         #new_vendor_signup_scroll::-moz-range-thumb,
         #new_customer_signup_scroll::-moz-range-thumb {
-        width: 16px;
-        height: 16px;
-        border-radius: 50%;
-        background: #41695a;
-        border: 2px solid #2f4f45;
-        cursor: pointer;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #41695a;
+            border: 2px solid #2f4f45;
+            cursor: pointer;
         }
 
         /* Firefox track */
         #new_vendor_signup_scroll::-moz-range-track,
         #new_customer_signup_scroll::-moz-range-track {
-        height: 6px;
-        border-radius: 4px;
-        background: #e9ecef;
+            height: 6px;
+            border-radius: 4px;
+            background: #e9ecef;
         }
 
         /* Focus ring */
         #new_vendor_signup_scroll:focus-visible,
         #new_customer_signup_scroll:focus-visible {
-        outline: 2px solid rgba(65,105,90,.35);
-        outline-offset: 2px;
+            outline: 2px solid rgba(65, 105, 90, .35);
+            outline-offset: 2px;
         }
 
-        #new_vendor_signup_nav, #new_customer_signup_nav {
+        #new_vendor_signup_nav,
+        #new_customer_signup_nav {
             display: none;
         }
-        #top_vendor_nav, #top_products_nav { display: none; }
+
+        #top_vendor_nav,
+        #top_products_nav {
+            display: none;
+        }
 
         /* tilt values drawn on top of bars */
         /* Make all bar values vertical */
@@ -140,7 +148,6 @@
             transform-origin: center center !important;
             transform-box: fill-box !important;
         }
-
     </style>
 @endsection
 
@@ -195,26 +202,32 @@
                                 <div class="col-md-6">
                                     <ul class="nav nav-tabs" role="tablist">
                                         <li class="nav-item" role="presentation">
-                                        <button class="nav-link active" id="new_vendor_signup_daily-tab" type="button">Daily</button>
+                                            <button class="nav-link active" id="new_vendor_signup_daily-tab"
+                                                type="button">Daily</button>
                                         </li>
                                         <li class="nav-item" role="presentation">
-                                        <button class="nav-link" id="new_vendor_signup_weekly-tab" type="button">Weekly</button>
+                                            <button class="nav-link" id="new_vendor_signup_weekly-tab"
+                                                type="button">Weekly</button>
                                         </li>
                                         <li class="nav-item" role="presentation">
-                                        <button class="nav-link" id="new_vendor_signup_monthly-tab" type="button">Monthly</button>
+                                            <button class="nav-link" id="new_vendor_signup_monthly-tab"
+                                                type="button">Monthly</button>
                                         </li>
                                         <li class="nav-item" role="presentation">
-                                        <button class="nav-link" id="new_vendor_signup_yearly-tab" type="button">Yearly</button>
+                                            <button class="nav-link" id="new_vendor_signup_yearly-tab"
+                                                type="button">Yearly</button>
                                         </li>
                                         <li class="nav-item">
-                                        <input type="text" class="form-control dateRangeWebstie" id="vendor_sign_up_picker" placeholder="Custom Date Range">
+                                            <input type="text" class="form-control dateRangeWebstie"
+                                                id="vendor_sign_up_picker" placeholder="Custom Date Range">
                                         </li>
                                     </ul>
 
                                     <div class="mt-3 position-relative">
                                         <div id="new_vendor_signup_chart"></div>
                                         <!-- scroll bar -->
-                                        <input id="new_vendor_signup_scroll" class="form-range mt-2 w-100" type="range" min="0" max="0" value="0" step="1" />
+                                        <input id="new_vendor_signup_scroll" class="form-range mt-2 w-100" type="range"
+                                            min="0" max="0" value="0" step="1" />
                                     </div>
                                     <div class="mt-2" id="new_vendor_signup_nav" style="height:110px;"></div>
                                     <small>Ctrl/⌘ + wheel to zoom in and zoom out</small>
@@ -224,26 +237,33 @@
                                 <div class="col-md-6">
                                     <ul class="nav nav-tabs" role="tablist">
                                         <li class="nav-item" role="presentation">
-                                        <button class="nav-link active" id="new_customer_signup_daily-tab" type="button">Daily</button>
+                                            <button class="nav-link active" id="new_customer_signup_daily-tab"
+                                                type="button">Daily</button>
                                         </li>
                                         <li class="nav-item" role="presentation">
-                                        <button class="nav-link" id="new_customer_signup_weekly-tab" type="button">Weekly</button>
+                                            <button class="nav-link" id="new_customer_signup_weekly-tab"
+                                                type="button">Weekly</button>
                                         </li>
                                         <li class="nav-item" role="presentation">
-                                        <button class="nav-link" id="new_customer_signup_monthly-tab" type="button">Monthly</button>
+                                            <button class="nav-link" id="new_customer_signup_monthly-tab"
+                                                type="button">Monthly</button>
                                         </li>
                                         <li class="nav-item" role="presentation">
-                                        <button class="nav-link" id="new_customer_signup_yearly-tab" type="button">Yearly</button>
+                                            <button class="nav-link" id="new_customer_signup_yearly-tab"
+                                                type="button">Yearly</button>
                                         </li>
                                         <li class="nav-item">
-                                        <input type="text" class="form-control dateWebstieRange" id="customer_sign_up_picker">
+                                            <input type="text" class="form-control dateWebstieRange"
+                                                id="customer_sign_up_picker">
                                         </li>
                                     </ul>
 
                                     <div class="mt-3 position-relative">
                                         <div id="new_customer_signup_chart"></div>
                                         <!-- scroll bar -->
-                                        <input id="new_customer_signup_scroll" class="form-range mt-2 w-100" type="range" min="0" max="0" value="0" step="1" />
+                                        <input id="new_customer_signup_scroll" class="form-range mt-2 w-100"
+                                            type="range" min="0" max="0" value="0"
+                                            step="1" />
                                     </div>
                                     <div class="mt-2" id="new_customer_signup_nav" style="height:110px;"></div>
                                     <small>Ctrl/⌘ + wheel to zoom in and zoom out</small>
@@ -594,27 +614,33 @@
                                 <!-- Top Selling Vendors -->
                                 <div class="col-md-6">
                                     <ul class="nav nav-tabs" role="tablist">
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link active" id="top_vendors_daily-tab" type="button">Daily</button>
-                                    </li>
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link" id="top_vendors_weekly-tab" type="button">Weekly</button>
-                                    </li>
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link" id="top_vendors_monthly-tab" type="button">Monthly</button>
-                                    </li>
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link" id="top_vendors_yearly-tab" type="button">Yearly</button>
-                                    </li>
-                                    <li class="nav-item">
-                                        <input type="text" class="form-control dateRangeTopVendor" id="top_vendors_picker" />
-                                    </li>
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link active" id="top_vendors_daily-tab"
+                                                type="button">Daily</button>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link" id="top_vendors_weekly-tab"
+                                                type="button">Weekly</button>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link" id="top_vendors_monthly-tab"
+                                                type="button">Monthly</button>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link" id="top_vendors_yearly-tab"
+                                                type="button">Yearly</button>
+                                        </li>
+                                        <li class="nav-item">
+                                            <input type="text" class="form-control dateRangeTopVendor"
+                                                id="top_vendors_picker" />
+                                        </li>
                                     </ul>
 
                                     <div class="mt-3 position-relative">
-                                    <div id="top_vendor_chart"></div>
-                                    <!-- scrollbar -->
-                                    <input id="top_vendor_scroll" class="form-range mt-2 w-100" type="range" min="0" max="0" value="0" step="1" />
+                                        <div id="top_vendor_chart"></div>
+                                        <!-- scrollbar -->
+                                        <input id="top_vendor_scroll" class="form-range mt-2 w-100" type="range"
+                                            min="0" max="0" value="0" step="1" />
                                     </div>
                                     <div class="mt-2" id="top_vendor_nav" style="height:110px;"></div>
                                     <small>Ctrl/⌘ + wheel to zoom in and zoom out</small>
@@ -623,27 +649,33 @@
                                 <!-- Top Selling Products -->
                                 <div class="col-md-6">
                                     <ul class="nav nav-tabs" role="tablist">
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link active" id="top_vendors_two_daily-tab" type="button">Daily</button>
-                                    </li>
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link" id="top_vendors_two_weekly-tab" type="button">Weekly</button>
-                                    </li>
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link" id="top_vendors_two_monthly-tab" type="button">Monthly</button>
-                                    </li>
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link" id="top_vendors_two_yearly-tab" type="button">Yearly</button>
-                                    </li>
-                                    <li class="nav-item">
-                                        <input type="text" class="form-control dateTopVendorsRange" id="top_products_picker" />
-                                    </li>
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link active" id="top_vendors_two_daily-tab"
+                                                type="button">Daily</button>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link" id="top_vendors_two_weekly-tab"
+                                                type="button">Weekly</button>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link" id="top_vendors_two_monthly-tab"
+                                                type="button">Monthly</button>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link" id="top_vendors_two_yearly-tab"
+                                                type="button">Yearly</button>
+                                        </li>
+                                        <li class="nav-item">
+                                            <input type="text" class="form-control dateTopVendorsRange"
+                                                id="top_products_picker" />
+                                        </li>
                                     </ul>
 
                                     <div class="mt-3 position-relative">
-                                    <div id="top_vendors_two_chart"></div>
-                                    <!-- scrollbar -->
-                                    <input id="top_products_scroll" class="form-range mt-2 w-100" type="range" min="0" max="0" value="0" step="1" />
+                                        <div id="top_vendors_two_chart"></div>
+                                        <!-- scrollbar -->
+                                        <input id="top_products_scroll" class="form-range mt-2 w-100" type="range"
+                                            min="0" max="0" value="0" step="1" />
                                     </div>
                                     <div class="mt-2" id="top_products_nav" style="height:110px;"></div>
                                     <small>Ctrl/⌘ + wheel to zoom in and zoom out</small>
@@ -1019,704 +1051,991 @@
     <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-    // ---------- Shared helpers ----------
-    const clamp = (n, lo, hi) => Math.min(hi, Math.max(lo, n));
-    
-    function makeBrushBarChart({ ids, url, seriesName, titleBase }) {
-        let currentType = 'daily';
-        let currentStartDate = null;
-        let currentEndDate = null;
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // ---------- Shared helpers ----------
+            const clamp = (n, lo, hi) => Math.min(hi, Math.max(lo, n));
 
-        // full dataset
-        let rawLabels = [];
-        let displayLabels = [];
-
-        let labels = [];      // ["2025-09-01", ...] | ["W36, Sep-2025", ...] | ["Jan 2025", ...] | ["2024","2025",...]
-        let values = [];      // [1,2,0,...]
-        let points = [];      // [{x:i,y:v}]
-
-        // current viewport (inclusive indices into full arrays)
-        let vMin = 0, vMax = 0;
-
-        // DOM
-        const elMain   = document.querySelector('#' + ids.main);
-        const elNav    = document.querySelector('#' + ids.nav);
-        const elScroll = document.querySelector('#' + ids.scroll);
-
-        // ---------- Tabs UI ----------
-        const tabIds = [ids.tabs.daily, ids.tabs.weekly, ids.tabs.monthly, ids.tabs.yearly];
-        function setActiveTabUI(type) {
-        const map = { daily: ids.tabs.daily, weekly: ids.tabs.weekly, monthly: ids.tabs.monthly, yearly: ids.tabs.yearly };
-        const activeId = map[type];
-        tabIds.forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.classList.toggle('active', id === activeId);
-        });
-        }
-
-        // ---------- Main (category) chart ----------
-        const mainOpts = {
-        series: [{ name: seriesName, data: [] }],
-        chart: {
-            id: ids.main + '_chart',
-            type: 'bar',
-            height: 350,
-            background: '#ffffff',
-            toolbar: { show: false },                 // hide apex toolbar
-            zoom: { enabled: false },                 // we'll handle zoom/pan ourselves
-            animations: { easing: 'easeinout', speed: 180 }
-        },
-        title: { text: titleBase, align: 'left' },
-        colors: ['#e0bb20'],
-        grid: { padding: { left: 2, right: 2 } },
-        plotOptions: { bar: { columnWidth: '18%', borderRadius: 6, distributed: false } },
-        dataLabels: {
-            enabled: true,
-            background: { enabled: false },
-            style: {
-                colors: ['#000'],
-                fontWeight: 400,
-                fontSize: '10px',
-                // rotate: -45   // 👈 tilt the numbers
-            },
-            formatter: (v) => v
-        },
-        xaxis: {
-            type: 'category',                         // ← category axis (exact 1:1 with visible bars)
-            categories: [],
-            tickPlacement: 'on',
-            rangePadding: 'none',
-            labels: {
-                rotate: -90,
-                rotateAlways: true,
-                trim: false,
-                hideOverlappingLabels: false
-            }
-        },
-        yaxis: { title: { text: 'Number of Sign-Ups' } },
-        tooltip: {
-            x: { formatter: (val, { dataPointIndex }) => (visibleLabels[dataPointIndex] ?? '') },
-            y: { formatter: (val) => `${val} sign-ups` }
-        }
-        };
-
-        // this array mirrors the xaxis categories each update; used by tooltip
-        let visibleLabels = [];
-
-        const chart = new ApexCharts(elMain, mainOpts);
-        chart.render();
-
-        // ---------- Navigator (numeric) ----------
-        let nav = null;
-        function renderNav() {
-            if (nav) nav.destroy();
-
-            const navData = values.map((y, i) => ({ x: i, y }));
-
-            // default window = up to 60 bars
-            vMin = 0;
-            vMax = Math.max(0, Math.min(values.length - 1, 60));
-
-            nav = new ApexCharts(elNav, {
-                chart: {
-                id: ids.nav + '_chart',
-                height: 110,
-                type: 'area',
-                toolbar: { show: false },
-                animations: { enabled: false },
-                // We manually handle selection; brush is unnecessary with category axis in main.
-                selection: { enabled: true, xaxis: { min: vMin, max: vMax } },
-                events: {
-                    selection: (ctx, { xaxis }) => {
-                    const minI = clamp(Math.round(xaxis.min), 0, labels.length - 1);
-                    const maxI = clamp(Math.round(xaxis.max), 0, labels.length - 1);
-                    applyViewport(minI, maxI, { from: 'nav' });
-                    }
-                }
-                },
-                colors: ['#e0bb20'],
-                stroke: { width: 1, colors: ['#e0bb20'] },
-                series: [{ name: 'Range', data: navData }],
-                xaxis: { type: 'numeric', labels: { show: false }, tooltip: { enabled: false } },
-                yaxis: { show: false },
-                dataLabels: { enabled: false },
-                fill: { opacity: 0.2 }
-            });
-
-            nav.render();
-            applyViewport(vMin, vMax);
-            updateScrollbar();
-        }
-
-        // ---------- Viewport sync (slice to visible window) ----------
-        function applyViewport(minI, maxI, { from = 'code' } = {}) {
-            vMin = Math.max(0, Math.min(minI, maxI));
-            vMax = Math.max(0, Math.max(minI, maxI));
-
-            // slice visible window for main chart
-            const windowVals = values.slice(vMin, vMax + 1);
-            visibleLabels    = displayLabels.slice(vMin, vMax + 1);
-
-            chart.updateOptions({
-                series: [{ name: seriesName, data: windowVals }],
-                xaxis: { categories: visibleLabels }
-            }, false, false);
-
-            // keep navigator’s selection synced
-            if (nav && from !== 'nav') {
-                nav.updateOptions({
-                chart: { selection: { enabled: true, xaxis: { min: vMin, max: vMax } } }
-                }, false, false);
-            }
-
-            if (from !== 'scroll') updateScrollbar();
-        }
-
-        // ---------- Scrollbar ----------
-        function updateScrollbar() {
-            const windowSize = Math.max(1, vMax - vMin + 1);
-            const maxLeft = Math.max(0, labels.length - windowSize);
-            elScroll.max = String(maxLeft);
-            elScroll.step = '1';
-            elScroll.value = String(clamp(vMin, 0, maxLeft));
-            elScroll.disabled = (maxLeft === 0);
-            elScroll.title = 'Scroll to pan. Hold Ctrl/Cmd + Wheel to zoom. Wheel to pan.';
-            }
-
-            elScroll.addEventListener('input', () => {
-            const windowSize = Math.max(1, vMax - vMin + 1);
-            const left = parseInt(elScroll.value || '0', 10);
-            applyViewport(left, left + windowSize - 1, { from: 'scroll' });
-            });
-
-            // ---------- Smooth wheel zoom & pan on MAIN ----------
-            elMain.addEventListener('wheel', (e) => {
-            if (!labels.length) return;
-
-            const rect = elMain.getBoundingClientRect();
-            const relX = Math.min(rect.width, Math.max(0, e.clientX - rect.left));
-            const frac = rect.width > 0 ? (relX / rect.width) : 0.5;
-            const centerIdx = Math.round(vMin + frac * Math.max(0, (vMax - vMin)));
-
-            const delta = e.deltaY || e.wheelDelta || 0;
-
-            if (e.ctrlKey || e.metaKey) {
-                // ZOOM
-                e.preventDefault();
-                const currentWindow = Math.max(1, vMax - vMin + 1);
-                const scale = delta > 0 ? 1.15 : 1 / 1.15;
-                let newWindow = Math.round(currentWindow * scale);
-                newWindow = clamp(newWindow, 5, Math.max(10, Math.ceil(labels.length * 0.9)));
-
-                const half = Math.floor(newWindow / 2);
-                let newMin = clamp(centerIdx - half, 0, Math.max(0, labels.length - newWindow));
-                let newMax = newMin + newWindow - 1;
-                applyViewport(newMin, newMax);
-            } else {
-                // PAN
-                const panStep = Math.max(1, Math.round((vMax - vMin + 1) * 0.1));
-                const dir = delta > 0 ? 1 : -1;
-                const newMin = clamp(vMin + dir * panStep, 0, Math.max(0, labels.length - (vMax - vMin + 1)));
-                const newMax = newMin + (vMax - vMin);
-                applyViewport(newMin, newMax);
-            }
-            }, { passive: false });
-
-            // Double-click to reset window
-            elMain.addEventListener('dblclick', () => {
-            const fullMax = Math.max(0, labels.length - 1);
-            const initialMax = Math.min(fullMax, 60);
-            applyViewport(0, initialMax);
-        });
-
-        // ---------- Data fetch & ingest ----------
-        function fetchData(type, startDate = null, endDate = null) {
-            setActiveTabUI(type);
-            chart.updateOptions({ title: { text: 'Loading…' } });
-            const req = { type };
-            if (startDate && endDate) { req.start_date = startDate; req.end_date = endDate; }
-
-            $.ajax({
+            function makeBrushBarChart({
+                ids,
                 url,
-                type: 'GET',
-                data: req,
-                success: (payload) => ingest(payload, type),
-                error: () => chart.updateOptions({ title: { text: 'Error loading data' } })
-            });
-        }
+                seriesName,
+                titleBase
+            }) {
+                let currentType = 'daily';
+                let currentStartDate = null;
+                let currentEndDate = null;
 
-        function ingest(payload, chartType) {
-            // keep insertion order, de-dupe keys
-            const seen = new Set();
-            rawLabels = [];
-            values = [];
-            Object.keys(payload).forEach(k => {
-                if (!seen.has(k)) { seen.add(k); rawLabels.push(k); values.push(parseInt(payload[k]) || 0); }
-            });
+                // full dataset
+                let rawLabels = [];
+                let displayLabels = [];
 
-            // build display labels
-            displayLabels = rawLabels.map(k => {
-                if (chartType === 'daily') {
-                // API gives YYYY-MM-DD → show DD-MMM-YYYY (e.g., 01-Oct-2025)
-                return moment(k, 'YYYY-MM-DD', true).isValid()
-                    ? moment(k, 'YYYY-MM-DD').format('DD, MMM YY')
-                    : k; // fallback if not a date string
+                let
+                    labels = []; // ["2025-09-01", ...] | ["W36, Sep-2025", ...] | ["Jan 2025", ...] | ["2024","2025",...]
+                let values = []; // [1,2,0,...]
+                let points = []; // [{x:i,y:v}]
+
+                // current viewport (inclusive indices into full arrays)
+                let vMin = 0,
+                    vMax = 0;
+
+                // DOM
+                const elMain = document.querySelector('#' + ids.main);
+                const elNav = document.querySelector('#' + ids.nav);
+                const elScroll = document.querySelector('#' + ids.scroll);
+
+                // ---------- Tabs UI ----------
+                const tabIds = [ids.tabs.daily, ids.tabs.weekly, ids.tabs.monthly, ids.tabs.yearly];
+
+                function setActiveTabUI(type) {
+                    const map = {
+                        daily: ids.tabs.daily,
+                        weekly: ids.tabs.weekly,
+                        monthly: ids.tabs.monthly,
+                        yearly: ids.tabs.yearly
+                    };
+                    const activeId = map[type];
+                    tabIds.forEach(id => {
+                        const el = document.getElementById(id);
+                        if (el) el.classList.toggle('active', id === activeId);
+                    });
                 }
-                return k; // weekly/monthly/yearly already humanized by backend
-            });
 
-            chart.updateOptions({
-                title: { text: `${titleBase} - ${chartType.charAt(0).toUpperCase() + chartType.slice(1)}` }
-            });
-
-            // rebuild navigator + main
-            labels = rawLabels.slice(); // keep indices aligned for viewport math
-            renderNav(); // sets vMin/vMax and paints both charts
-        }
-
-
-        // ---------- Tabs ----------
-        document.getElementById(ids.tabs.daily).addEventListener('click',  () => { currentType = 'daily';  fetchData(currentType, currentStartDate, currentEndDate); });
-        document.getElementById(ids.tabs.weekly).addEventListener('click', () => { currentType = 'weekly'; fetchData(currentType, currentStartDate, currentEndDate); });
-        document.getElementById(ids.tabs.monthly).addEventListener('click',()=> { currentType = 'monthly';fetchData(currentType, currentStartDate, currentEndDate); });
-        document.getElementById(ids.tabs.yearly).addEventListener('click', () => { currentType = 'yearly';  fetchData(currentType, currentStartDate, currentEndDate); });
-
-        // ---------- Date picker ----------
-        $('#' + ids.picker).daterangepicker({
-        opens: 'left',
-        autoUpdateInput: true,
-        minDate: moment('2024-01-01'),
-        maxDate: moment().endOf('year'),
-        }, function(start, end) {
-        const months = end.diff(start, 'months', true);
-        if (months < 1) { this.setStartDate(moment(start)); this.setEndDate(moment(start).add(1, 'months')); }
-        });
-
-        $('#' + ids.picker).on('apply.daterangepicker', function(ev, picker) {
-        currentStartDate = picker.startDate.format('YYYY-MM-DD');
-        currentEndDate   = picker.endDate.format('YYYY-MM-DD');
-        fetchData(currentType, currentStartDate, currentEndDate);
-        });
-
-        // ---------- First load ----------
-        setActiveTabUI('daily');
-        fetchData(currentType);
-
-        // expose if needed
-        return { refresh: () => fetchData(currentType, currentStartDate, currentEndDate) };
-    }
-
-    // ===== Vendors =====
-    makeBrushBarChart({
-        ids: {
-        main: 'new_vendor_signup_chart',
-        nav: 'new_vendor_signup_nav',
-        scroll: 'new_vendor_signup_scroll',
-        picker: 'vendor_sign_up_picker',
-        tabs: {
-            daily:   'new_vendor_signup_daily-tab',
-            weekly:  'new_vendor_signup_weekly-tab',
-            monthly: 'new_vendor_signup_monthly-tab',
-            yearly:  'new_vendor_signup_yearly-tab',
-        }
-        },
-        url: '{{ route('vendors.data') }}',
-        seriesName: 'New Vendors',
-        titleBase: 'New Vendor Sign Up'
-    });
-
-    // ===== Customers =====
-    makeBrushBarChart({
-        ids: {
-        main: 'new_customer_signup_chart',
-        nav: 'new_customer_signup_nav',
-        scroll: 'new_customer_signup_scroll',
-        picker: 'customer_sign_up_picker',
-        tabs: {
-            daily:   'new_customer_signup_daily-tab',
-            weekly:  'new_customer_signup_weekly-tab',
-            monthly: 'new_customer_signup_monthly-tab',
-            yearly:  'new_customer_signup_yearly-tab',
-        }
-        },
-        url: '{{ route('customers.data') }}',
-        seriesName: 'New Customers',
-        titleBase: 'New Customer Sign Up'
-    });
-    });
-</script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // ---------- Shared helpers ----------
-        const clamp = (n, lo, hi) => Math.min(hi, Math.max(lo, n));
-        
-        function makeBrushBarChart({ ids, url, seriesName, titleBase, isTopChart = false, unit = '' }) {
-            let currentType = 'daily';
-            let currentStartDate = null;
-            let currentEndDate = null;
-
-            // full dataset
-            let rawLabels = [];
-            let displayLabels = [];
-            let topNames = [];
-
-            let labels = [];      // ["2025-09-01", ...] | ["W36, Sep-2025", ...] | ["Jan 2025", ...] | ["2024","2025",...]
-            let values = [];      // [1,2,0,...]
-            let points = [];      // [{x:i,y:v}]
-
-            // current viewport (inclusive indices into full arrays)
-            let vMin = 0, vMax = 0;
-
-            // DOM
-            const elMain   = document.querySelector('#' + ids.main);
-            const elNav    = document.querySelector('#' + ids.nav);
-            const elScroll = document.querySelector('#' + ids.scroll);
-
-            // ---------- Tabs UI ----------
-            const tabIds = [ids.tabs.daily, ids.tabs.weekly, ids.tabs.monthly, ids.tabs.yearly];
-            function setActiveTabUI(type) {
-            const map = { daily: ids.tabs.daily, weekly: ids.tabs.weekly, monthly: ids.tabs.monthly, yearly: ids.tabs.yearly };
-            const activeId = map[type];
-            tabIds.forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.classList.toggle('active', id === activeId);
-            });
-            }
-
-            // ---------- Main (category) chart ----------
-            const mainOpts = {
-            series: [{ name: seriesName, data: [] }],
-            chart: {
-                id: ids.main + '_chart',
-                type: 'bar',
-                height: 350,
-                background: '#ffffff',
-                toolbar: { show: false },                 // hide apex toolbar
-                zoom: { enabled: false },                 // we'll handle zoom/pan ourselves
-                animations: { easing: 'easeinout', speed: 180 }
-            },
-            title: { text: titleBase, align: 'left' },
-            colors: ['#e0bb20'],
-            grid: { padding: { left: 2, right: 2, bottom: 22 } },   // more space at the bottom
-            plotOptions: {
-              bar: {
-                columnWidth: '18%',
-                borderRadius: 6,
-                distributed: false,
-                dataLabels: { position: 'bottom' }   // ← anchor labels at bar base (y=0)
-              }
-            },
-            dataLabels: {
-                enabled: true,
-                offsetY: -2,                         // fallback; position is controlled above
-                background: { enabled: false },
-                style: {
-                    colors: ['#000'],
-                    fontWeight: 600,
-                    fontSize: isTopChart ? '10px' : '12px',
-                },
-                formatter: isTopChart 
-                    ? function(v, { dataPointIndex }) { 
-                        if (v === 0) return '0';
-                        return v >= 1 
-                            ? (seriesName === 'Sales' 
-                                ? `${topNames[dataPointIndex]}\n${v} ${unit}` 
-                                : `${v} ${unit.split(' ')[0].toLowerCase()},\n${v} ${unit.split(' ')[1].toLowerCase()}`)
-                            : `${v}`;
-                    }
-                    : (v) => (v === 0 ? '0' : v)
-            },
-            xaxis: {
-                type: 'category',                         // ← category axis (exact 1:1 with visible bars)
-                categories: [],
-                tickPlacement: 'on',
-                rangePadding: 'none',
-                labels: {
-                    rotate: -90,
-                    rotateAlways: true,
-                    trim: false,
-                    hideOverlappingLabels: false,
-                    offsetY: 6,
-                    style: {
-                        fontSize: '10px' // Reduce font size to minimize overlap risk
-                    }
-                }
-            },
-            yaxis: { title: { text: seriesName }, min: 0 }, // Ensure y-axis starts at 0 to avoid overlap
-            tooltip: {
-                x: { formatter: (val, { dataPointIndex }) => (visibleLabels[dataPointIndex] ?? '') },
-                y: { formatter: isTopChart 
-                    ? (val, { dataPointIndex }) => val === 0 ? 'No data' : `${topNames[dataPointIndex] || 'Unknown'}: ${val} ${unit}`
-                    : (val) => `${val} ${unit}` 
-                }
-            }
-            };
-
-            // this array mirrors the xaxis categories each update; used by tooltip
-            let visibleLabels = [];
-
-            const chart = new ApexCharts(elMain, mainOpts);
-            chart.render();
-
-            // ---------- Navigator (numeric) ----------
-            let nav = null;
-            function renderNav() {
-                if (nav) nav.destroy();
-
-                const navData = values.map((y, i) => ({ x: i, y }));
-
-                // default window = up to 60 bars
-                vMin = 0;
-                vMax = Math.max(0, Math.min(values.length - 1, 60));
-
-                nav = new ApexCharts(elNav, {
+                // ---------- Main (category) chart ----------
+                const mainOpts = {
+                    series: [{
+                        name: seriesName,
+                        data: []
+                    }],
                     chart: {
-                    id: ids.nav + '_chart',
-                    height: 110,
-                    type: 'area',
-                    toolbar: { show: false },
-                    animations: { enabled: false },
-                    // We manually handle selection; brush is unnecessary with category axis in main.
-                    selection: { enabled: true, xaxis: { min: vMin, max: vMax } },
-                    events: {
-                        selection: (ctx, { xaxis }) => {
-                        const minI = clamp(Math.round(xaxis.min), 0, labels.length - 1);
-                        const maxI = clamp(Math.round(xaxis.max), 0, labels.length - 1);
-                        applyViewport(minI, maxI, { from: 'nav' });
+                        id: ids.main + '_chart',
+                        type: 'bar',
+                        height: 350,
+                        background: '#ffffff',
+                        toolbar: {
+                            show: false
+                        }, // hide apex toolbar
+                        zoom: {
+                            enabled: false
+                        }, // we'll handle zoom/pan ourselves
+                        animations: {
+                            easing: 'easeinout',
+                            speed: 180
                         }
-                    }
+                    },
+                    title: {
+                        text: titleBase,
+                        align: 'left'
                     },
                     colors: ['#e0bb20'],
-                    stroke: { width: 1, colors: ['#e0bb20'] },
-                    series: [{ name: 'Range', data: navData }],
-                    xaxis: { type: 'numeric', labels: { show: false }, tooltip: { enabled: false } },
-                    yaxis: { show: false },
-                    dataLabels: { enabled: false },
-                    fill: { opacity: 0.2 }
-                });
+                    grid: {
+                        padding: {
+                            left: 2,
+                            right: 2
+                        }
+                    },
+                    plotOptions: {
+                        bar: {
+                            columnWidth: '18%',
+                            borderRadius: 6,
+                            distributed: false
+                        }
+                    },
+                    dataLabels: {
+                        enabled: true,
+                        background: {
+                            enabled: false
+                        },
+                        style: {
+                            colors: ['#000'],
+                            fontWeight: 400,
+                            fontSize: '10px',
+                            // rotate: -45   // 👈 tilt the numbers
+                        },
+                        formatter: (v) => v
+                    },
+                    xaxis: {
+                        type: 'category', // ← category axis (exact 1:1 with visible bars)
+                        categories: [],
+                        tickPlacement: 'on',
+                        rangePadding: 'none',
+                        labels: {
+                            rotate: -90,
+                            rotateAlways: true,
+                            trim: false,
+                            hideOverlappingLabels: false
+                        }
+                    },
+                    yaxis: {
+                        title: {
+                            text: 'Number of Sign-Ups'
+                        }
+                    },
+                    tooltip: {
+                        x: {
+                            formatter: (val, {
+                                dataPointIndex
+                            }) => (visibleLabels[dataPointIndex] ?? '')
+                        },
+                        y: {
+                            formatter: (val) => `${val} sign-ups`
+                        }
+                    }
+                };
 
-                nav.render();
-                applyViewport(vMin, vMax);
-                updateScrollbar();
-            }
+                // this array mirrors the xaxis categories each update; used by tooltip
+                let visibleLabels = [];
 
-            // ---------- Viewport sync (slice to visible window) ----------
-            function applyViewport(minI, maxI, { from = 'code' } = {}) {
-                vMin = Math.max(0, Math.min(minI, maxI));
-                vMax = Math.max(0, Math.max(minI, maxI));
+                const chart = new ApexCharts(elMain, mainOpts);
+                chart.render();
 
-                // slice visible window for main chart
-                const windowVals = values.slice(vMin, vMax + 1);
-                visibleLabels    = displayLabels.slice(vMin, vMax + 1);
-                const windowTopNames = topNames.slice(vMin, vMax + 1); // for consistency, though not used here
+                // ---------- Navigator (numeric) ----------
+                let nav = null;
 
-                chart.updateOptions({
-                    series: [{ name: seriesName, data: windowVals }],
-                    xaxis: { categories: visibleLabels }
-                }, false, false);
+                function renderNav() {
+                    if (nav) nav.destroy();
 
-                // keep navigator’s selection synced
-                if (nav && from !== 'nav') {
-                    nav.updateOptions({
-                    chart: { selection: { enabled: true, xaxis: { min: vMin, max: vMax } } }
-                    }, false, false);
+                    const navData = values.map((y, i) => ({
+                        x: i,
+                        y
+                    }));
+
+                    // default window = up to 60 bars
+                    vMin = 0;
+                    vMax = Math.max(0, Math.min(values.length - 1, 60));
+
+                    nav = new ApexCharts(elNav, {
+                        chart: {
+                            id: ids.nav + '_chart',
+                            height: 110,
+                            type: 'area',
+                            toolbar: {
+                                show: false
+                            },
+                            animations: {
+                                enabled: false
+                            },
+                            // We manually handle selection; brush is unnecessary with category axis in main.
+                            selection: {
+                                enabled: true,
+                                xaxis: {
+                                    min: vMin,
+                                    max: vMax
+                                }
+                            },
+                            events: {
+                                selection: (ctx, {
+                                    xaxis
+                                }) => {
+                                    const minI = clamp(Math.round(xaxis.min), 0, labels.length - 1);
+                                    const maxI = clamp(Math.round(xaxis.max), 0, labels.length - 1);
+                                    applyViewport(minI, maxI, {
+                                        from: 'nav'
+                                    });
+                                }
+                            }
+                        },
+                        colors: ['#e0bb20'],
+                        stroke: {
+                            width: 1,
+                            colors: ['#e0bb20']
+                        },
+                        series: [{
+                            name: 'Range',
+                            data: navData
+                        }],
+                        xaxis: {
+                            type: 'numeric',
+                            labels: {
+                                show: false
+                            },
+                            tooltip: {
+                                enabled: false
+                            }
+                        },
+                        yaxis: {
+                            show: false
+                        },
+                        dataLabels: {
+                            enabled: false
+                        },
+                        fill: {
+                            opacity: 0.2
+                        }
+                    });
+
+                    nav.render();
+                    applyViewport(vMin, vMax);
+                    updateScrollbar();
                 }
 
-                if (from !== 'scroll') updateScrollbar();
-            }
+                // ---------- Viewport sync (slice to visible window) ----------
+                function applyViewport(minI, maxI, {
+                    from = 'code'
+                } = {}) {
+                    vMin = Math.max(0, Math.min(minI, maxI));
+                    vMax = Math.max(0, Math.max(minI, maxI));
 
-            // ---------- Scrollbar ----------
-            function updateScrollbar() {
-                const windowSize = Math.max(1, vMax - vMin + 1);
-                const maxLeft = Math.max(0, labels.length - windowSize);
-                elScroll.max = String(maxLeft);
-                elScroll.step = '1';
-                elScroll.value = String(clamp(vMin, 0, maxLeft));
-                elScroll.disabled = (maxLeft === 0);
-                elScroll.title = 'Scroll to pan. Hold Ctrl/Cmd + Wheel to zoom. Wheel to pan.';
+                    // slice visible window for main chart
+                    const windowVals = values.slice(vMin, vMax + 1);
+                    visibleLabels = displayLabels.slice(vMin, vMax + 1);
+
+                    chart.updateOptions({
+                        series: [{
+                            name: seriesName,
+                            data: windowVals
+                        }],
+                        xaxis: {
+                            categories: visibleLabels
+                        }
+                    }, false, false);
+
+                    // keep navigator’s selection synced
+                    if (nav && from !== 'nav') {
+                        nav.updateOptions({
+                            chart: {
+                                selection: {
+                                    enabled: true,
+                                    xaxis: {
+                                        min: vMin,
+                                        max: vMax
+                                    }
+                                }
+                            }
+                        }, false, false);
+                    }
+
+                    if (from !== 'scroll') updateScrollbar();
+                }
+
+                // ---------- Scrollbar ----------
+                function updateScrollbar() {
+                    const windowSize = Math.max(1, vMax - vMin + 1);
+                    const maxLeft = Math.max(0, labels.length - windowSize);
+                    elScroll.max = String(maxLeft);
+                    elScroll.step = '1';
+                    elScroll.value = String(clamp(vMin, 0, maxLeft));
+                    elScroll.disabled = (maxLeft === 0);
+                    elScroll.title = 'Scroll to pan. Hold Ctrl/Cmd + Wheel to zoom. Wheel to pan.';
                 }
 
                 elScroll.addEventListener('input', () => {
-                const windowSize = Math.max(1, vMax - vMin + 1);
-                const left = parseInt(elScroll.value || '0', 10);
-                applyViewport(left, left + windowSize - 1, { from: 'scroll' });
+                    const windowSize = Math.max(1, vMax - vMin + 1);
+                    const left = parseInt(elScroll.value || '0', 10);
+                    applyViewport(left, left + windowSize - 1, {
+                        from: 'scroll'
+                    });
                 });
 
                 // ---------- Smooth wheel zoom & pan on MAIN ----------
                 elMain.addEventListener('wheel', (e) => {
-                if (!labels.length) return;
+                    if (!labels.length) return;
 
-                const rect = elMain.getBoundingClientRect();
-                const relX = Math.min(rect.width, Math.max(0, e.clientX - rect.left));
-                const frac = rect.width > 0 ? (relX / rect.width) : 0.5;
-                const centerIdx = Math.round(vMin + frac * Math.max(0, (vMax - vMin)));
+                    const rect = elMain.getBoundingClientRect();
+                    const relX = Math.min(rect.width, Math.max(0, e.clientX - rect.left));
+                    const frac = rect.width > 0 ? (relX / rect.width) : 0.5;
+                    const centerIdx = Math.round(vMin + frac * Math.max(0, (vMax - vMin)));
 
-                const delta = e.deltaY || e.wheelDelta || 0;
+                    const delta = e.deltaY || e.wheelDelta || 0;
 
-                if (e.ctrlKey || e.metaKey) {
-                    // ZOOM
-                    e.preventDefault();
-                    const currentWindow = Math.max(1, vMax - vMin + 1);
-                    const scale = delta > 0 ? 1.15 : 1 / 1.15;
-                    let newWindow = Math.round(currentWindow * scale);
-                    newWindow = clamp(newWindow, 5, Math.max(10, Math.ceil(labels.length * 0.9)));
+                    if (e.ctrlKey || e.metaKey) {
+                        // ZOOM
+                        e.preventDefault();
+                        const currentWindow = Math.max(1, vMax - vMin + 1);
+                        const scale = delta > 0 ? 1.15 : 1 / 1.15;
+                        let newWindow = Math.round(currentWindow * scale);
+                        newWindow = clamp(newWindow, 5, Math.max(10, Math.ceil(labels.length * 0.9)));
 
-                    const half = Math.floor(newWindow / 2);
-                    let newMin = clamp(centerIdx - half, 0, Math.max(0, labels.length - newWindow));
-                    let newMax = newMin + newWindow - 1;
-                    applyViewport(newMin, newMax);
-                } else {
-                    // PAN
-                    const panStep = Math.max(1, Math.round((vMax - vMin + 1) * 0.1));
-                    const dir = delta > 0 ? 1 : -1;
-                    const newMin = clamp(vMin + dir * panStep, 0, Math.max(0, labels.length - (vMax - vMin + 1)));
-                    const newMax = newMin + (vMax - vMin);
-                    applyViewport(newMin, newMax);
-                }
-                }, { passive: false });
+                        const half = Math.floor(newWindow / 2);
+                        let newMin = clamp(centerIdx - half, 0, Math.max(0, labels.length - newWindow));
+                        let newMax = newMin + newWindow - 1;
+                        applyViewport(newMin, newMax);
+                    } else {
+                        // PAN
+                        const panStep = Math.max(1, Math.round((vMax - vMin + 1) * 0.1));
+                        const dir = delta > 0 ? 1 : -1;
+                        const newMin = clamp(vMin + dir * panStep, 0, Math.max(0, labels.length - (vMax -
+                            vMin + 1)));
+                        const newMax = newMin + (vMax - vMin);
+                        applyViewport(newMin, newMax);
+                    }
+                }, {
+                    passive: false
+                });
 
                 // Double-click to reset window
                 elMain.addEventListener('dblclick', () => {
-                const fullMax = Math.max(0, labels.length - 1);
-                const initialMax = Math.min(fullMax, 60);
-                applyViewport(0, initialMax);
-            });
-
-            // ---------- Data fetch & ingest ----------
-            function fetchData(type, startDate = null, endDate = null) {
-                setActiveTabUI(type);
-                chart.updateOptions({ title: { text: 'Loading…' } });
-                const req = { type };
-                if (startDate && endDate) { req.start_date = startDate; req.end_date = endDate; }
-
-                $.ajax({
-                    url,
-                    type: 'GET',
-                    data: req,
-                    success: (payload) => ingest(payload, type),
-                    error: () => chart.updateOptions({ title: { text: 'Error loading data' } })
+                    const fullMax = Math.max(0, labels.length - 1);
+                    const initialMax = Math.min(fullMax, 60);
+                    applyViewport(0, initialMax);
                 });
+
+                // ---------- Data fetch & ingest ----------
+                function fetchData(type, startDate = null, endDate = null) {
+                    setActiveTabUI(type);
+                    chart.updateOptions({
+                        title: {
+                            text: 'Loading…'
+                        }
+                    });
+                    const req = {
+                        type
+                    };
+                    if (startDate && endDate) {
+                        req.start_date = startDate;
+                        req.end_date = endDate;
+                    }
+
+                    $.ajax({
+                        url,
+                        type: 'GET',
+                        data: req,
+                        success: (payload) => ingest(payload, type),
+                        error: () => chart.updateOptions({
+                            title: {
+                                text: 'Error loading data'
+                            }
+                        })
+                    });
+                }
+
+                function ingest(payload, chartType) {
+                    // keep insertion order, de-dupe keys
+                    const seen = new Set();
+                    rawLabels = [];
+                    values = [];
+                    Object.keys(payload).forEach(k => {
+                        if (!seen.has(k)) {
+                            seen.add(k);
+                            rawLabels.push(k);
+                            values.push(parseInt(payload[k]) || 0);
+                        }
+                    });
+
+                    // build display labels
+                    displayLabels = rawLabels.map(k => {
+                        if (chartType === 'daily') {
+                            // API gives YYYY-MM-DD → show DD-MMM-YYYY (e.g., 01-Oct-2025)
+                            return moment(k, 'YYYY-MM-DD', true).isValid() ?
+                                moment(k, 'YYYY-MM-DD').format('DD, MMM YY') :
+                                k; // fallback if not a date string
+                        }
+                        return k; // weekly/monthly/yearly already humanized by backend
+                    });
+
+                    chart.updateOptions({
+                        title: {
+                            text: `${titleBase} - ${chartType.charAt(0).toUpperCase() + chartType.slice(1)}`
+                        }
+                    });
+
+                    // rebuild navigator + main
+                    labels = rawLabels.slice(); // keep indices aligned for viewport math
+                    renderNav(); // sets vMin/vMax and paints both charts
+                }
+
+
+                // ---------- Tabs ----------
+                document.getElementById(ids.tabs.daily).addEventListener('click', () => {
+                    currentType = 'daily';
+                    fetchData(currentType, currentStartDate, currentEndDate);
+                });
+                document.getElementById(ids.tabs.weekly).addEventListener('click', () => {
+                    currentType = 'weekly';
+                    fetchData(currentType, currentStartDate, currentEndDate);
+                });
+                document.getElementById(ids.tabs.monthly).addEventListener('click', () => {
+                    currentType = 'monthly';
+                    fetchData(currentType, currentStartDate, currentEndDate);
+                });
+                document.getElementById(ids.tabs.yearly).addEventListener('click', () => {
+                    currentType = 'yearly';
+                    fetchData(currentType, currentStartDate, currentEndDate);
+                });
+
+                // ---------- Date picker ----------
+                $('#' + ids.picker).daterangepicker({
+                    opens: 'left',
+                    autoUpdateInput: true,
+                    minDate: moment('2024-01-01'),
+                    maxDate: moment().endOf('year'),
+                }, function(start, end) {
+                    const months = end.diff(start, 'months', true);
+                    if (months < 1) {
+                        this.setStartDate(moment(start));
+                        this.setEndDate(moment(start).add(1, 'months'));
+                    }
+                });
+
+                $('#' + ids.picker).on('apply.daterangepicker', function(ev, picker) {
+                    currentStartDate = picker.startDate.format('YYYY-MM-DD');
+                    currentEndDate = picker.endDate.format('YYYY-MM-DD');
+                    fetchData(currentType, currentStartDate, currentEndDate);
+                });
+
+                // ---------- First load ----------
+                setActiveTabUI('daily');
+                fetchData(currentType);
+
+                // expose if needed
+                return {
+                    refresh: () => fetchData(currentType, currentStartDate, currentEndDate)
+                };
             }
 
-            function ingest(payload, chartType) {
-                // keep insertion order, de-dupe keys
-                const seen = new Set();
-                rawLabels = [];
-                values = [];
-                topNames = [];
-                Object.keys(payload).forEach(k => {
-                    if (!seen.has(k)) {
-                        seen.add(k);
-                        rawLabels.push(k);
-                        const val = payload[k];
-                        if (isTopChart && typeof val === 'object' && val !== null && 'name' in val && 'value' in val) {
-                            values.push(parseInt(val.value) || 0);
-                            topNames.push(val.name || 'None');
-                        } else {
-                            values.push(parseInt(val) || 0);
-                            topNames.push(''); // placeholder
+            // ===== Vendors =====
+            makeBrushBarChart({
+                ids: {
+                    main: 'new_vendor_signup_chart',
+                    nav: 'new_vendor_signup_nav',
+                    scroll: 'new_vendor_signup_scroll',
+                    picker: 'vendor_sign_up_picker',
+                    tabs: {
+                        daily: 'new_vendor_signup_daily-tab',
+                        weekly: 'new_vendor_signup_weekly-tab',
+                        monthly: 'new_vendor_signup_monthly-tab',
+                        yearly: 'new_vendor_signup_yearly-tab',
+                    }
+                },
+                url: '{{ route('vendors.data') }}',
+                seriesName: 'New Vendors',
+                titleBase: 'New Vendor Sign Up'
+            });
+
+            // ===== Customers =====
+            makeBrushBarChart({
+                ids: {
+                    main: 'new_customer_signup_chart',
+                    nav: 'new_customer_signup_nav',
+                    scroll: 'new_customer_signup_scroll',
+                    picker: 'customer_sign_up_picker',
+                    tabs: {
+                        daily: 'new_customer_signup_daily-tab',
+                        weekly: 'new_customer_signup_weekly-tab',
+                        monthly: 'new_customer_signup_monthly-tab',
+                        yearly: 'new_customer_signup_yearly-tab',
+                    }
+                },
+                url: '{{ route('customers.data') }}',
+                seriesName: 'New Customers',
+                titleBase: 'New Customer Sign Up'
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // ---------- Shared helpers ----------
+            const clamp = (n, lo, hi) => Math.min(hi, Math.max(lo, n));
+
+            function makeBrushBarChart({
+                ids,
+                url,
+                seriesName,
+                titleBase,
+                isTopChart = false,
+                unit = ''
+            }) {
+                let currentType = 'daily';
+                let currentStartDate = null;
+                let currentEndDate = null;
+
+                // full dataset
+                let rawLabels = [];
+                let displayLabels = [];
+                let topNames = [];
+
+                let
+                    labels = []; // ["2025-09-01", ...] | ["W36, Sep-2025", ...] | ["Jan 2025", ...] | ["2024","2025",...]
+                let values = []; // [1,2,0,...]
+                let points = []; // [{x:i,y:v}]
+
+                // current viewport (inclusive indices into full arrays)
+                let vMin = 0,
+                    vMax = 0;
+
+                // DOM
+                const elMain = document.querySelector('#' + ids.main);
+                const elNav = document.querySelector('#' + ids.nav);
+                const elScroll = document.querySelector('#' + ids.scroll);
+
+                // ---------- Tabs UI ----------
+                const tabIds = [ids.tabs.daily, ids.tabs.weekly, ids.tabs.monthly, ids.tabs.yearly];
+
+                function setActiveTabUI(type) {
+                    const map = {
+                        daily: ids.tabs.daily,
+                        weekly: ids.tabs.weekly,
+                        monthly: ids.tabs.monthly,
+                        yearly: ids.tabs.yearly
+                    };
+                    const activeId = map[type];
+                    tabIds.forEach(id => {
+                        const el = document.getElementById(id);
+                        if (el) el.classList.toggle('active', id === activeId);
+                    });
+                }
+
+                // ---------- Main (category) chart ----------
+                const mainOpts = {
+                    series: [{
+                        name: seriesName,
+                        data: []
+                    }],
+                    chart: {
+                        id: ids.main + '_chart',
+                        type: 'bar',
+                        height: 350,
+                        background: '#ffffff',
+                        toolbar: {
+                            show: false
+                        }, // hide apex toolbar
+                        zoom: {
+                            enabled: false
+                        }, // we'll handle zoom/pan ourselves
+                        animations: {
+                            easing: 'easeinout',
+                            speed: 180
+                        }
+                    },
+                    title: {
+                        text: titleBase,
+                        align: 'left'
+                    },
+                    colors: ['#e0bb20'],
+                    grid: {
+                        padding: {
+                            left: 2,
+                            right: 2,
+                            bottom: 22
+                        }
+                    }, // more space at the bottom
+                    plotOptions: {
+                        bar: {
+                            columnWidth: '18%',
+                            borderRadius: 6,
+                            distributed: false,
+                            dataLabels: {
+                                position: 'bottom'
+                            } // ← anchor labels at bar base (y=0)
+                        }
+                    },
+                    dataLabels: {
+                        enabled: true,
+                        offsetY: -2, // fallback; position is controlled above
+                        background: {
+                            enabled: false
+                        },
+                        style: {
+                            colors: ['#000'],
+                            fontWeight: 600,
+                            fontSize: isTopChart ? '10px' : '12px',
+                        },
+                        formatter: isTopChart ?
+                            function(v, {
+                                dataPointIndex
+                            }) {
+                                if (v === 0) return '0';
+                                return v >= 1 ?
+                                    (seriesName === 'Sales' ?
+                                        `${topNames[dataPointIndex]}\n${v} ${unit}` :
+                                        `${v} ${unit.split(' ')[0].toLowerCase()},\n${v} ${unit.split(' ')[1].toLowerCase()}`
+                                    ) :
+                                    `${v}`;
+                            } : (v) => (v === 0 ? '0' : v)
+                    },
+                    xaxis: {
+                        type: 'category', // ← category axis (exact 1:1 with visible bars)
+                        categories: [],
+                        tickPlacement: 'on',
+                        rangePadding: 'none',
+                        labels: {
+                            rotate: -90,
+                            rotateAlways: true,
+                            trim: false,
+                            hideOverlappingLabels: false,
+                            offsetY: 6,
+                            style: {
+                                fontSize: '10px' // Reduce font size to minimize overlap risk
+                            }
+                        }
+                    },
+                    yaxis: {
+                        title: {
+                            text: seriesName
+                        },
+                        min: 0
+                    }, // Ensure y-axis starts at 0 to avoid overlap
+                    tooltip: {
+                        x: {
+                            formatter: (val, {
+                                dataPointIndex
+                            }) => (visibleLabels[dataPointIndex] ?? '')
+                        },
+                        y: {
+                            formatter: isTopChart ?
+                                (val, {
+                                    dataPointIndex
+                                }) => val === 0 ? 'No data' :
+                                `${topNames[dataPointIndex] || 'Unknown'}: ${val} ${unit}` : (val) =>
+                                `${val} ${unit}`
                         }
                     }
-                });
+                };
 
-                // build display labels
-                displayLabels = rawLabels.map(k => {
-                    if (chartType === 'daily') {
-                    // API gives YYYY-MM-DD → show DD-MMM-YYYY (e.g., 01-Oct-2025)
-                    return moment(k, 'YYYY-MM-DD', true).isValid()
-                        ? moment(k, 'YYYY-MM-DD').format('DD, MMM YY')
-                        : k; // fallback if not a date string
+                // this array mirrors the xaxis categories each update; used by tooltip
+                let visibleLabels = [];
+
+                const chart = new ApexCharts(elMain, mainOpts);
+                chart.render();
+
+                // ---------- Navigator (numeric) ----------
+                let nav = null;
+
+                function renderNav() {
+                    if (nav) nav.destroy();
+
+                    const navData = values.map((y, i) => ({
+                        x: i,
+                        y
+                    }));
+
+                    // default window = up to 60 bars
+                    vMin = 0;
+                    vMax = Math.max(0, Math.min(values.length - 1, 60));
+
+                    nav = new ApexCharts(elNav, {
+                        chart: {
+                            id: ids.nav + '_chart',
+                            height: 110,
+                            type: 'area',
+                            toolbar: {
+                                show: false
+                            },
+                            animations: {
+                                enabled: false
+                            },
+                            // We manually handle selection; brush is unnecessary with category axis in main.
+                            selection: {
+                                enabled: true,
+                                xaxis: {
+                                    min: vMin,
+                                    max: vMax
+                                }
+                            },
+                            events: {
+                                selection: (ctx, {
+                                    xaxis
+                                }) => {
+                                    const minI = clamp(Math.round(xaxis.min), 0, labels.length - 1);
+                                    const maxI = clamp(Math.round(xaxis.max), 0, labels.length - 1);
+                                    applyViewport(minI, maxI, {
+                                        from: 'nav'
+                                    });
+                                }
+                            }
+                        },
+                        colors: ['#e0bb20'],
+                        stroke: {
+                            width: 1,
+                            colors: ['#e0bb20']
+                        },
+                        series: [{
+                            name: 'Range',
+                            data: navData
+                        }],
+                        xaxis: {
+                            type: 'numeric',
+                            labels: {
+                                show: false
+                            },
+                            tooltip: {
+                                enabled: false
+                            }
+                        },
+                        yaxis: {
+                            show: false
+                        },
+                        dataLabels: {
+                            enabled: false
+                        },
+                        fill: {
+                            opacity: 0.2
+                        }
+                    });
+
+                    nav.render();
+                    applyViewport(vMin, vMax);
+                    updateScrollbar();
+                }
+
+                // ---------- Viewport sync (slice to visible window) ----------
+                function applyViewport(minI, maxI, {
+                    from = 'code'
+                } = {}) {
+                    vMin = Math.max(0, Math.min(minI, maxI));
+                    vMax = Math.max(0, Math.max(minI, maxI));
+
+                    // slice visible window for main chart
+                    const windowVals = values.slice(vMin, vMax + 1);
+                    visibleLabels = displayLabels.slice(vMin, vMax + 1);
+                    const windowTopNames = topNames.slice(vMin, vMax + 1); // for consistency, though not used here
+
+                    chart.updateOptions({
+                        series: [{
+                            name: seriesName,
+                            data: windowVals
+                        }],
+                        xaxis: {
+                            categories: visibleLabels
+                        }
+                    }, false, false);
+
+                    // keep navigator’s selection synced
+                    if (nav && from !== 'nav') {
+                        nav.updateOptions({
+                            chart: {
+                                selection: {
+                                    enabled: true,
+                                    xaxis: {
+                                        min: vMin,
+                                        max: vMax
+                                    }
+                                }
+                            }
+                        }, false, false);
                     }
-                    return k; // weekly/monthly/yearly already humanized by backend
+
+                    if (from !== 'scroll') updateScrollbar();
+                }
+
+                // ---------- Scrollbar ----------
+                function updateScrollbar() {
+                    const windowSize = Math.max(1, vMax - vMin + 1);
+                    const maxLeft = Math.max(0, labels.length - windowSize);
+                    elScroll.max = String(maxLeft);
+                    elScroll.step = '1';
+                    elScroll.value = String(clamp(vMin, 0, maxLeft));
+                    elScroll.disabled = (maxLeft === 0);
+                    elScroll.title = 'Scroll to pan. Hold Ctrl/Cmd + Wheel to zoom. Wheel to pan.';
+                }
+
+                elScroll.addEventListener('input', () => {
+                    const windowSize = Math.max(1, vMax - vMin + 1);
+                    const left = parseInt(elScroll.value || '0', 10);
+                    applyViewport(left, left + windowSize - 1, {
+                        from: 'scroll'
+                    });
                 });
 
-                chart.updateOptions({
-                    title: { text: `${titleBase} - ${chartType.charAt(0).toUpperCase() + chartType.slice(1)}` }
+                // ---------- Smooth wheel zoom & pan on MAIN ----------
+                elMain.addEventListener('wheel', (e) => {
+                    if (!labels.length) return;
+
+                    const rect = elMain.getBoundingClientRect();
+                    const relX = Math.min(rect.width, Math.max(0, e.clientX - rect.left));
+                    const frac = rect.width > 0 ? (relX / rect.width) : 0.5;
+                    const centerIdx = Math.round(vMin + frac * Math.max(0, (vMax - vMin)));
+
+                    const delta = e.deltaY || e.wheelDelta || 0;
+
+                    if (e.ctrlKey || e.metaKey) {
+                        // ZOOM
+                        e.preventDefault();
+                        const currentWindow = Math.max(1, vMax - vMin + 1);
+                        const scale = delta > 0 ? 1.15 : 1 / 1.15;
+                        let newWindow = Math.round(currentWindow * scale);
+                        newWindow = clamp(newWindow, 5, Math.max(10, Math.ceil(labels.length * 0.9)));
+
+                        const half = Math.floor(newWindow / 2);
+                        let newMin = clamp(centerIdx - half, 0, Math.max(0, labels.length - newWindow));
+                        let newMax = newMin + newWindow - 1;
+                        applyViewport(newMin, newMax);
+                    } else {
+                        // PAN
+                        const panStep = Math.max(1, Math.round((vMax - vMin + 1) * 0.1));
+                        const dir = delta > 0 ? 1 : -1;
+                        const newMin = clamp(vMin + dir * panStep, 0, Math.max(0, labels.length - (vMax -
+                            vMin + 1)));
+                        const newMax = newMin + (vMax - vMin);
+                        applyViewport(newMin, newMax);
+                    }
+                }, {
+                    passive: false
                 });
 
-                // rebuild navigator + main
-                labels = rawLabels.slice(); // keep indices aligned for viewport math
-                renderNav(); // sets vMin/vMax and paints both charts
+                // Double-click to reset window
+                elMain.addEventListener('dblclick', () => {
+                    const fullMax = Math.max(0, labels.length - 1);
+                    const initialMax = Math.min(fullMax, 60);
+                    applyViewport(0, initialMax);
+                });
+
+                // ---------- Data fetch & ingest ----------
+                function fetchData(type, startDate = null, endDate = null) {
+                    setActiveTabUI(type);
+                    chart.updateOptions({
+                        title: {
+                            text: 'Loading…'
+                        }
+                    });
+                    const req = {
+                        type
+                    };
+                    if (startDate && endDate) {
+                        req.start_date = startDate;
+                        req.end_date = endDate;
+                    }
+
+                    $.ajax({
+                        url,
+                        type: 'GET',
+                        data: req,
+                        success: (payload) => ingest(payload, type),
+                        error: () => chart.updateOptions({
+                            title: {
+                                text: 'Error loading data'
+                            }
+                        })
+                    });
+                }
+
+                function ingest(payload, chartType) {
+                    // keep insertion order, de-dupe keys
+                    const seen = new Set();
+                    rawLabels = [];
+                    values = [];
+                    topNames = [];
+                    Object.keys(payload).forEach(k => {
+                        if (!seen.has(k)) {
+                            seen.add(k);
+                            rawLabels.push(k);
+                            const val = payload[k];
+                            if (isTopChart && typeof val === 'object' && val !== null && 'name' in val &&
+                                'value' in val) {
+                                values.push(parseInt(val.value) || 0);
+                                topNames.push(val.name || 'None');
+                            } else {
+                                values.push(parseInt(val) || 0);
+                                topNames.push(''); // placeholder
+                            }
+                        }
+                    });
+
+                    // build display labels
+                    displayLabels = rawLabels.map(k => {
+                        if (chartType === 'daily') {
+                            // API gives YYYY-MM-DD → show DD-MMM-YYYY (e.g., 01-Oct-2025)
+                            return moment(k, 'YYYY-MM-DD', true).isValid() ?
+                                moment(k, 'YYYY-MM-DD').format('DD, MMM YY') :
+                                k; // fallback if not a date string
+                        }
+                        return k; // weekly/monthly/yearly already humanized by backend
+                    });
+
+                    chart.updateOptions({
+                        title: {
+                            text: `${titleBase} - ${chartType.charAt(0).toUpperCase() + chartType.slice(1)}`
+                        }
+                    });
+
+                    // rebuild navigator + main
+                    labels = rawLabels.slice(); // keep indices aligned for viewport math
+                    renderNav(); // sets vMin/vMax and paints both charts
+                }
+
+
+                // ---------- Tabs ----------
+                document.getElementById(ids.tabs.daily).addEventListener('click', () => {
+                    currentType = 'daily';
+                    fetchData(currentType, currentStartDate, currentEndDate);
+                });
+                document.getElementById(ids.tabs.weekly).addEventListener('click', () => {
+                    currentType = 'weekly';
+                    fetchData(currentType, currentStartDate, currentEndDate);
+                });
+                document.getElementById(ids.tabs.monthly).addEventListener('click', () => {
+                    currentType = 'monthly';
+                    fetchData(currentType, currentStartDate, currentEndDate);
+                });
+                document.getElementById(ids.tabs.yearly).addEventListener('click', () => {
+                    currentType = 'yearly';
+                    fetchData(currentType, currentStartDate, currentEndDate);
+                });
+
+                // ---------- Date picker ----------
+                $('#' + ids.picker).daterangepicker({
+                    opens: 'left',
+                    autoUpdateInput: true,
+                    minDate: moment('2024-01-01'),
+                    maxDate: moment().endOf('year'),
+                }, function(start, end) {
+                    const months = end.diff(start, 'months', true);
+                    if (months < 1) {
+                        this.setStartDate(moment(start));
+                        this.setEndDate(moment(start).add(1, 'months'));
+                    }
+                });
+
+                $('#' + ids.picker).on('apply.daterangepicker', function(ev, picker) {
+                    currentStartDate = picker.startDate.format('YYYY-MM-DD');
+                    currentEndDate = picker.endDate.format('YYYY-MM-DD');
+                    fetchData(currentType, currentStartDate, currentEndDate);
+                });
+
+                // ---------- First load ----------
+                setActiveTabUI('daily');
+                fetchData(currentType);
+
+                // expose if needed
+                return {
+                    refresh: () => fetchData(currentType, currentStartDate, currentEndDate)
+                };
             }
 
-
-            // ---------- Tabs ----------
-            document.getElementById(ids.tabs.daily).addEventListener('click',  () => { currentType = 'daily';  fetchData(currentType, currentStartDate, currentEndDate); });
-            document.getElementById(ids.tabs.weekly).addEventListener('click', () => { currentType = 'weekly'; fetchData(currentType, currentStartDate, currentEndDate); });
-            document.getElementById(ids.tabs.monthly).addEventListener('click',()=> { currentType = 'monthly';fetchData(currentType, currentStartDate, currentEndDate); });
-            document.getElementById(ids.tabs.yearly).addEventListener('click', () => { currentType = 'yearly';  fetchData(currentType, currentStartDate, currentEndDate); });
-
-            // ---------- Date picker ----------
-            $('#' + ids.picker).daterangepicker({
-            opens: 'left',
-            autoUpdateInput: true,
-            minDate: moment('2024-01-01'),
-            maxDate: moment().endOf('year'),
-            }, function(start, end) {
-            const months = end.diff(start, 'months', true);
-            if (months < 1) { this.setStartDate(moment(start)); this.setEndDate(moment(start).add(1, 'months')); }
+            // ===== Top Selling Vendors =====
+            makeBrushBarChart({
+                ids: {
+                    main: 'top_vendor_chart',
+                    nav: 'top_vendor_nav',
+                    scroll: 'top_vendor_scroll',
+                    picker: 'top_vendors_picker',
+                    tabs: {
+                        daily: 'top_vendors_daily-tab',
+                        weekly: 'top_vendors_weekly-tab',
+                        monthly: 'top_vendors_monthly-tab',
+                        yearly: 'top_vendors_yearly-tab',
+                    }
+                },
+                url: '{{ route('top-vendors.data') }}',
+                seriesName: 'Sales',
+                titleBase: 'Top Selling Vendors',
+                isTopChart: true,
+                unit: 'sales'
             });
 
-            $('#' + ids.picker).on('apply.daterangepicker', function(ev, picker) {
-            currentStartDate = picker.startDate.format('YYYY-MM-DD');
-            currentEndDate   = picker.endDate.format('YYYY-MM-DD');
-            fetchData(currentType, currentStartDate, currentEndDate);
+            // ===== Top Selling Products =====
+            makeBrushBarChart({
+                ids: {
+                    main: 'top_vendors_two_chart',
+                    nav: 'top_products_nav',
+                    scroll: 'top_products_scroll',
+                    picker: 'top_products_picker',
+                    tabs: {
+                        daily: 'top_vendors_two_daily-tab',
+                        weekly: 'top_vendors_two_weekly-tab',
+                        monthly: 'top_vendors_two_monthly-tab',
+                        yearly: 'top_vendors_two_yearly-tab',
+                    }
+                },
+                url: '{{ route('top-products.data') }}',
+                seriesName: 'Units Sold',
+                titleBase: 'Top Selling Products',
+                isTopChart: true,
+                unit: 'items, sold'
             });
-
-            // ---------- First load ----------
-            setActiveTabUI('daily');
-            fetchData(currentType);
-
-            // expose if needed
-            return { refresh: () => fetchData(currentType, currentStartDate, currentEndDate) };
-        }
-
-        // ===== Top Selling Vendors =====
-        makeBrushBarChart({
-            ids: {
-            main:   'top_vendor_chart',
-            nav:    'top_vendor_nav',
-            scroll: 'top_vendor_scroll',
-            picker: 'top_vendors_picker',
-            tabs: {
-                daily:   'top_vendors_daily-tab',
-                weekly:  'top_vendors_weekly-tab',
-                monthly: 'top_vendors_monthly-tab',
-                yearly:  'top_vendors_yearly-tab',
-            }
-            },
-            url: '{{ route('top-vendors.data') }}',
-            seriesName: 'Sales',
-            titleBase: 'Top Selling Vendors',
-            isTopChart: true,
-            unit: 'sales'
         });
-
-        // ===== Top Selling Products =====
-        makeBrushBarChart({
-            ids: {
-            main:   'top_vendors_two_chart',
-            nav:    'top_products_nav',
-            scroll: 'top_products_scroll',
-            picker: 'top_products_picker',
-            tabs: {
-                daily:   'top_vendors_two_daily-tab',
-                weekly:  'top_vendors_two_weekly-tab',
-                monthly: 'top_vendors_two_monthly-tab',
-                yearly:  'top_vendors_two_yearly-tab',
-            }
-            },
-            url: '{{ route('top-products.data') }}',
-            seriesName: 'Units Sold',
-            titleBase: 'Top Selling Products',
-            isTopChart: true,
-            unit: 'items, sold'
-        });
-    });
-</script>
+    </script>
 
 
 
