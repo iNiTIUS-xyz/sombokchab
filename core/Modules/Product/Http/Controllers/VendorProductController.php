@@ -332,9 +332,8 @@ class VendorProductController extends Controller
 
             return redirect()->back()->with(['type' => 'success', 'msg' => 'Products imported successfully!']);
         } catch (Exception $e) {
-            dd($e);
             DB::rollback();
-            return redirect()->back()->with('error', 'Import failed: ' . $e->getMessage());
+            return redirect()->back()->with(['type' => 'warning', 'msg' => 'Import failed: ' . $e->getMessage()]);
         }
     }
 }
