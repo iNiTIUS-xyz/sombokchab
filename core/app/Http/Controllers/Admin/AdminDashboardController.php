@@ -572,111 +572,265 @@ class AdminDashboardController extends Controller
         return response()->json($data);
     }
 
-    public function getTopVendorsData(Request $request)
-    {
-        $type      = $request->input('type', 'daily');
-        $startDate = $request->input('start_date');
-        $endDate   = $request->input('end_date');
+public function getTopVendorsData(Request $request)
+{
+    $type      = $request->input('type', 'daily');
+    $startDate = $request->input('start_date');
+    $endDate   = $request->input('end_date');
 
-        // ---- Align default windows with your signup charts ----
-        if ($startDate && $endDate) {
-            $start = \Carbon\Carbon::parse($startDate)->startOfDay();
-            $end   = \Carbon\Carbon::parse($endDate)->endOfDay();
-        } else {
-            switch ($type) {
-                case 'daily':
-                    $start = \Carbon\Carbon::now()->startOfMonth();
-                    $end   = \Carbon\Carbon::now()->endOfMonth();
-                    break;
-                case 'weekly':
-                    $start = \Carbon\Carbon::now()->startOfMonth()->startOfWeek(\Carbon\Carbon::MONDAY);
-                    $end   = \Carbon\Carbon::now()->endOfMonth()->endOfWeek(\Carbon\Carbon::SUNDAY);
-                    break;
-                case 'monthly':
-                    $start = \Carbon\Carbon::now()->startOfYear();
-                    $end   = \Carbon\Carbon::now()->endOfYear();
-                    break;
-                case 'yearly':
-                    $start = \Carbon\Carbon::now()->subYears(4)->startOfYear(); // last 5 incl current
-                    $end   = \Carbon\Carbon::now()->endOfYear();
-                    break;
-                default:
-                    $start = \Carbon\Carbon::now()->startOfMonth();
-                    $end   = \Carbon\Carbon::now()->endOfMonth();
-            }
+    // ---- Align default windows with your signup charts ----
+    if ($startDate && $endDate) {
+        $start = \Carbon\Carbon::parse($startDate)->startOfDay();
+        $end   = \Carbon\Carbon::parse($endDate)->endOfDay();
+    } else {
+        switch ($type) {
+            case 'daily':
+                $start = \Carbon\Carbon::now()->startOfMonth();
+                $end   = \Carbon\Carbon::now()->endOfMonth();
+                break;
+            case 'weekly':
+                $start = \Carbon\Carbon::now()->startOfMonth()->startOfWeek(\Carbon\Carbon::MONDAY);
+                $end   = \Carbon\Carbon::now()->endOfMonth()->endOfWeek(\Carbon\Carbon::SUNDAY);
+                break;
+            case 'monthly':
+                $start = \Carbon\Carbon::now()->startOfYear();
+                $end   = \Carbon\Carbon::now()->endOfYear();
+                break;
+            case 'yearly':
+                $start = \Carbon\Carbon::now()->subYears(4)->startOfYear(); // last 5 incl current
+                $end   = \Carbon\Carbon::now()->endOfYear();
+                break;
+            default:
+                $start = \Carbon\Carbon::now()->startOfMonth();
+                $end   = \Carbon\Carbon::now()->endOfMonth();
         }
-
-        // ---- Base query within window (delivered only, like before) ----
-        $base = SubOrder::query()
-            ->join('vendors', 'sub_orders.vendor_id', '=', 'vendors.id')
-            ->whereNotNull('sub_orders.vendor_id')
-            ->whereHas('orderTrack', fn ($q) => $q->where('name', 'delivered'))
-            ->whereBetween('sub_orders.created_at', [$start->copy()->startOfDay(), $end->copy()->endOfDay()]);
-
-        // ---- Aggregate by vendor label, top 10 ----
-        $rows = $base
-            ->selectRaw('COALESCE(vendors.owner_name, "Unknown") as label, SUM(sub_orders.total_amount) as amount')
-            ->groupBy('label')
-            ->orderByDesc('amount')
-            ->limit(10)
-            ->get();
-
-        // flat { label => value } map
-        return response()->json($rows->pluck('amount', 'label'));
     }
 
+    // ---- Base query within window (delivered only, like before) ----
+    $base = SubOrder::query()
+        ->join('vendors', 'sub_orders.vendor_id', '=', 'vendors.id')
+        ->whereNotNull('sub_orders.vendor_id')
+        ->whereHas('orderTrack', fn ($q) => $q->where('name', 'delivered'))
+        ->whereBetween('sub_orders.created_at', [$start->copy()->startOfDay(), $end->copy()->endOfDay()]);
 
-    public function getTopProductsData(Request $request)
-    {
-        $type      = $request->input('type', 'daily');
-        $startDate = $request->input('start_date');
-        $endDate   = $request->input('end_date');
+    $data = [];
 
-        // ---- Align default windows with your signup charts ----
-        if ($startDate && $endDate) {
-            $start = \Carbon\Carbon::parse($startDate)->startOfDay();
-            $end   = \Carbon\Carbon::parse($endDate)->endOfDay();
-        } else {
-            switch ($type) {
-                case 'daily':
-                    $start = \Carbon\Carbon::now()->startOfMonth();
-                    $end   = \Carbon\Carbon::now()->endOfMonth();
-                    break;
-                case 'weekly':
-                    $start = \Carbon\Carbon::now()->startOfMonth()->startOfWeek(\Carbon\Carbon::MONDAY);
-                    $end   = \Carbon\Carbon::now()->endOfMonth()->endOfWeek(\Carbon\Carbon::SUNDAY);
-                    break;
-                case 'monthly':
-                    $start = \Carbon\Carbon::now()->startOfYear();
-                    $end   = \Carbon\Carbon::now()->endOfYear();
-                    break;
-                case 'yearly':
-                    $start = \Carbon\Carbon::now()->subYears(4)->startOfYear(); // last 5 incl current
-                    $end   = \Carbon\Carbon::now()->endOfYear();
-                    break;
-                default:
-                    $start = \Carbon\Carbon::now()->startOfMonth();
-                    $end   = \Carbon\Carbon::now()->endOfMonth();
+    switch ($type) {
+        case 'daily': {
+            $cursor = $start->copy()->startOfDay();
+            while ($cursor->lte($end)) {
+                $bucketStart = $cursor->copy()->startOfDay();
+                $bucketEnd = $cursor->copy()->endOfDay();
+                $top = $base->clone()
+                    ->whereBetween('sub_orders.created_at', [$bucketStart, $bucketEnd])
+                    ->selectRaw('COALESCE(vendors.owner_name, "Unknown") as name, COUNT(sub_orders.id) as value')
+                    ->groupBy('vendors.id', 'vendors.owner_name')
+                    ->orderByDesc('value')
+                    ->first();
+
+                $lbl = $cursor->toDateString(); // YYYY-MM-DD
+                $data[$lbl] = $top ? ['name' => $top->name, 'value' => (int) $top->value] : ['name' => 'None', 'value' => 0];
+                $cursor->addDay();
             }
+            break;
         }
 
-        // ---- Base query within window ----
-        $base = \DB::table('sub_order_items')
-            ->join('orders', 'sub_order_items.order_id', '=', 'orders.id')
-            ->join('products', 'sub_order_items.product_id', '=', 'products.id')
-            ->whereBetween('orders.created_at', [$start->copy()->startOfDay(), $end->copy()->endOfDay()]);
+        case 'weekly': {
+            $cursor = $start->copy()->startOfWeek(\Carbon\Carbon::MONDAY);
+            $rangeEnd = $end->copy()->endOfWeek(\Carbon\Carbon::SUNDAY);
 
-        // ---- Aggregate by product label, top 10 ----
-        $rows = $base
-            ->selectRaw('COALESCE(products.name, "Unknown") as label, SUM(sub_order_items.quantity) as total_quantity')
-            ->groupBy('label')
-            ->orderByDesc('total_quantity')
-            ->limit(10)
-            ->get();
+            while ($cursor->lte($rangeEnd)) {
+                $bucketStart = $cursor->copy()->startOfWeek();
+                $bucketEnd = $cursor->copy()->endOfWeek();
+                $top = $base->clone()
+                    ->whereBetween('sub_orders.created_at', [$bucketStart, $bucketEnd])
+                    ->selectRaw('COALESCE(vendors.owner_name, "Unknown") as name, COUNT(sub_orders.id) as value')
+                    ->groupBy('vendors.id', 'vendors.owner_name')
+                    ->orderByDesc('value')
+                    ->first();
 
-        // flat { label => value } map
-        return response()->json($rows->pluck('total_quantity', 'label'));
+                $isoWeek = (int) $cursor->format('W');
+                $label = 'W' . $isoWeek . ', ' . $cursor->format('M-Y');
+                $data[$label] = $top ? ['name' => $top->name, 'value' => (int) $top->value] : ['name' => 'None', 'value' => 0];
+                $cursor->addWeek();
+            }
+            break;
+        }
+
+        case 'monthly': {
+            $cursor = $start->copy()->startOfMonth();
+            while ($cursor->lte($end)) {
+                $bucketStart = $cursor->copy()->startOfMonth();
+                $bucketEnd = $cursor->copy()->endOfMonth();
+                $top = $base->clone()
+                    ->whereBetween('sub_orders.created_at', [$bucketStart, $bucketEnd])
+                    ->selectRaw('COALESCE(vendors.owner_name, "Unknown") as name, COUNT(sub_orders.id) as value')
+                    ->groupBy('vendors.id', 'vendors.owner_name')
+                    ->orderByDesc('value')
+                    ->first();
+
+                $label = $cursor->format('M Y');
+                $data[$label] = $top ? ['name' => $top->name, 'value' => (int) $top->value] : ['name' => 'None', 'value' => 0];
+                $cursor->addMonth();
+            }
+            break;
+        }
+
+        case 'yearly': {
+            $cursor = $start->copy()->startOfYear();
+            while ($cursor->lte($end)) {
+                $bucketStart = $cursor->copy()->startOfYear();
+                $bucketEnd = $cursor->copy()->endOfYear();
+                $top = $base->clone()
+                    ->whereBetween('sub_orders.created_at', [$bucketStart, $bucketEnd])
+                    ->selectRaw('COALESCE(vendors.owner_name, "Unknown") as name, COUNT(sub_orders.id) as value')
+                    ->groupBy('vendors.id', 'vendors.owner_name')
+                    ->orderByDesc('value')
+                    ->first();
+
+                $label = $cursor->format('Y');
+                $data[$label] = $top ? ['name' => $top->name, 'value' => (int) $top->value] : ['name' => 'None', 'value' => 0];
+                $cursor->addYear();
+            }
+            break;
+        }
+
+        default:
+            $data = [];
     }
+
+    return response()->json($data);
+}
+
+
+public function getTopProductsData(Request $request)
+{
+    $type      = $request->input('type', 'daily');
+    $startDate = $request->input('start_date');
+    $endDate   = $request->input('end_date');
+
+    // ---- Align default windows with your signup charts ----
+    if ($startDate && $endDate) {
+        $start = \Carbon\Carbon::parse($startDate)->startOfDay();
+        $end   = \Carbon\Carbon::parse($endDate)->endOfDay();
+    } else {
+        switch ($type) {
+            case 'daily':
+                $start = \Carbon\Carbon::now()->startOfMonth();
+                $end   = \Carbon\Carbon::now()->endOfMonth();
+                break;
+            case 'weekly':
+                $start = \Carbon\Carbon::now()->startOfMonth()->startOfWeek(\Carbon\Carbon::MONDAY);
+                $end   = \Carbon\Carbon::now()->endOfMonth()->endOfWeek(\Carbon\Carbon::SUNDAY);
+                break;
+            case 'monthly':
+                $start = \Carbon\Carbon::now()->startOfYear();
+                $end   = \Carbon\Carbon::now()->endOfYear();
+                break;
+            case 'yearly':
+                $start = \Carbon\Carbon::now()->subYears(4)->startOfYear(); // last 5 incl current
+                $end   = \Carbon\Carbon::now()->endOfYear();
+                break;
+            default:
+                $start = \Carbon\Carbon::now()->startOfMonth();
+                $end   = \Carbon\Carbon::now()->endOfMonth();
+        }
+    }
+
+    // ---- Base query within window ----
+    $base = \DB::table('sub_order_items')
+        ->join('orders', 'sub_order_items.order_id', '=', 'orders.id')
+        ->join('products', 'sub_order_items.product_id', '=', 'products.id')
+        ->whereBetween('orders.created_at', [$start->copy()->startOfDay(), $end->copy()->endOfDay()]);
+
+    $data = [];
+
+    switch ($type) {
+        case 'daily': {
+            $cursor = $start->copy()->startOfDay();
+            while ($cursor->lte($end)) {
+                $bucketStart = $cursor->copy()->startOfDay();
+                $bucketEnd = $cursor->copy()->endOfDay();
+                $top = $base->clone()
+                    ->whereBetween('orders.created_at', [$bucketStart, $bucketEnd])
+                    ->selectRaw('COALESCE(products.name, "Unknown") as name, SUM(sub_order_items.quantity) as value')
+                    ->groupBy('products.id', 'products.name')
+                    ->orderByDesc('value')
+                    ->first();
+
+                $lbl = $cursor->toDateString(); // YYYY-MM-DD
+                $data[$lbl] = $top ? ['name' => $top->name, 'value' => (int) $top->value] : ['name' => 'None', 'value' => 0];
+                $cursor->addDay();
+            }
+            break;
+        }
+
+        case 'weekly': {
+            $cursor = $start->copy()->startOfWeek(\Carbon\Carbon::MONDAY);
+            $rangeEnd = $end->copy()->endOfWeek(\Carbon\Carbon::SUNDAY);
+
+            while ($cursor->lte($rangeEnd)) {
+                $bucketStart = $cursor->copy()->startOfWeek();
+                $bucketEnd = $cursor->copy()->endOfWeek();
+                $top = $base->clone()
+                    ->whereBetween('orders.created_at', [$bucketStart, $bucketEnd])
+                    ->selectRaw('COALESCE(products.name, "Unknown") as name, SUM(sub_order_items.quantity) as value')
+                    ->groupBy('products.id', 'products.name')
+                    ->orderByDesc('value')
+                    ->first();
+
+                $isoWeek = (int) $cursor->format('W');
+                $label = 'W' . $isoWeek . ', ' . $cursor->format('M-Y');
+                $data[$label] = $top ? ['name' => $top->name, 'value' => (int) $top->value] : ['name' => 'None', 'value' => 0];
+                $cursor->addWeek();
+            }
+            break;
+        }
+
+        case 'monthly': {
+            $cursor = $start->copy()->startOfMonth();
+            while ($cursor->lte($end)) {
+                $bucketStart = $cursor->copy()->startOfMonth();
+                $bucketEnd = $cursor->copy()->endOfMonth();
+                $top = $base->clone()
+                    ->whereBetween('orders.created_at', [$bucketStart, $bucketEnd])
+                    ->selectRaw('COALESCE(products.name, "Unknown") as name, SUM(sub_order_items.quantity) as value')
+                    ->groupBy('products.id', 'products.name')
+                    ->orderByDesc('value')
+                    ->first();
+
+                $label = $cursor->format('M Y');
+                $data[$label] = $top ? ['name' => $top->name, 'value' => (int) $top->value] : ['name' => 'None', 'value' => 0];
+                $cursor->addMonth();
+            }
+            break;
+        }
+
+        case 'yearly': {
+            $cursor = $start->copy()->startOfYear();
+            while ($cursor->lte($end)) {
+                $bucketStart = $cursor->copy()->startOfYear();
+                $bucketEnd = $cursor->copy()->endOfYear();
+                $top = $base->clone()
+                    ->whereBetween('orders.created_at', [$bucketStart, $bucketEnd])
+                    ->selectRaw('COALESCE(products.name, "Unknown") as name, SUM(sub_order_items.quantity) as value')
+                    ->groupBy('products.id', 'products.name')
+                    ->orderByDesc('value')
+                    ->first();
+
+                $label = $cursor->format('Y');
+                $data[$label] = $top ? ['name' => $top->name, 'value' => (int) $top->value] : ['name' => 'None', 'value' => 0];
+                $cursor->addYear();
+            }
+            break;
+        }
+
+        default:
+            $data = [];
+    }
+
+    return response()->json($data);
+}
 
 
     public function getVendorPayoutsData(Request $request)
