@@ -2,31 +2,35 @@
 
 namespace Modules\Product\Http\Controllers;
 
-use App\Helpers\FlashMsg;
+use Exception;
 use App\Status;
-use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
+use App\Helpers\FlashMsg;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Validator;
-use Modules\Attributes\Entities\Brand;
-use Modules\Attributes\Entities\Category;
-use Modules\Attributes\Entities\ChildCategory;
-use Modules\Attributes\Entities\Color;
-use Modules\Attributes\Entities\DeliveryOption;
-use Modules\Attributes\Entities\Size;
-use Modules\Attributes\Entities\SubCategory;
-use Modules\Attributes\Entities\Tag;
-use Modules\Attributes\Entities\Unit;
+use Illuminate\Http\JsonResponse;
 use Modules\Badge\Entities\Badge;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use Modules\Attributes\Entities\Tag;
+use Illuminate\Http\RedirectResponse;
+use Modules\Attributes\Entities\Size;
+use Modules\Attributes\Entities\Unit;
 use Modules\Product\Entities\Product;
-use Modules\Product\Entities\ProductAttribute;
+use Modules\Attributes\Entities\Brand;
+use Modules\Attributes\Entities\Color;
+use Modules\TaxModule\Entities\TaxClass;
+use Illuminate\Support\Facades\Validator;
+use Modules\Attributes\Entities\Category;
+use Modules\Attributes\Entities\SubCategory;
 use Modules\Product\Entities\ProductGallery;
+use Modules\Product\Entities\ProductCategory;
+use Modules\Attributes\Entities\ChildCategory;
+use Modules\Product\Entities\ProductAttribute;
+use Modules\Attributes\Entities\DeliveryOption;
+use Modules\Product\Entities\ProductSubCategory;
 use Modules\Product\Http\Requests\ProductStoreRequest;
 use Modules\Product\Http\Services\Admin\AdminProductServices;
 use Modules\Product\Http\Services\Admin\DummyProductDeleteServices;
-use Modules\TaxModule\Entities\TaxClass;
 
 class ProductController extends Controller
 {
@@ -236,5 +240,97 @@ class ProductController extends Controller
             'status' => true,
             'msg' => 'Product successfully updated',
         ]);
+    }
+
+
+
+    public function productImport()
+    {
+        return view('product::product_import');
+    }
+
+    public function importProduct(Request $request)
+    {
+        try {
+
+            DB::beginTransaction();
+            $validator = Validator::make($request->all(), [
+                'file' => 'required|mimes:xlsx,csv,txt|max:2048',
+            ]);
+
+            if ($validator->fails()) {
+                return back()->withErrors($validator)->withInput();
+            }
+
+            $file = $request->file('file');
+
+            $data = Excel::toArray([], $file);
+
+            if (!empty($data) && count($data) > 0) {
+
+                $rows = $data[0];
+
+                foreach ($rows as $index => $row) {
+
+                    if ($index == 0) {
+                        continue;
+                    }
+
+                    $brand = Brand::firstOrCreate(
+                        ['name' => $row[3]]
+                    );
+
+                    $taxClasess = TaxClass::firstOrCreate(
+                        ['name' => $row[17]]
+                    );
+
+                    $product = Product::create([
+                        "name" => $row[0],
+                        "slug" => strtolower(str_replace(' ', '-', $row[0])),
+                        "brand_id" => $brand->id ?? null,
+                        "summary" => $row[4],
+                        "description" => $row[5],
+                        "price" => $row[6],
+                        "sale_price" => $row[7],
+                        "cost" => $row[8],
+                        "status_id" => $row[9] == 1 ? 1 : 2,
+                        "product_type" => $row[10] == 1 ? 1 : 2,
+                        "min_purchase" => $row[11],
+                        "max_purchase" => $row[12],
+                        "is_inventory_warn_able" => $row[13] == 1 ? 1 : 2,
+                        "is_refundable" => $row[14] == 1 ? 1 : 0,
+                        "is_in_house" => $row[15] == 1 ? 1 : 0,
+                        "admin_id" => auth('admin')->user()->id,
+                        "is_taxable" => $row[16]  == 1 ? 1 : 0,
+                        "tax_class_id" => $taxClasess->id,
+                    ]);
+
+                    $category = Category::firstOrCreate(
+                        ['name' => $row[1]]
+                    );
+
+                    $productCategory = new ProductCategory();
+                    $productCategory->product_id = $product->id;
+                    $productCategory->category_id = $category->id;
+                    $productCategory->save();
+
+                    $subCategory = SubCategory::firstOrCreate(
+                        ['name' => $row[2]]
+                    );
+
+                    $productSubCategory = new ProductSubCategory();
+                    $productSubCategory->product_id = $product->id;
+                    $productSubCategory->sub_category_id = $subCategory->id;
+                    $productSubCategory->save();
+                }
+            }
+
+            DB::commit();
+
+            return redirect()->back()->with(['type' => 'success', 'msg' => 'Products imported successfully!']);
+        } catch (Exception $e) {
+            DB::rollback();
+            return redirect()->back()->with(['type' => 'warning', 'msg' => 'Import failed: ' . $e->getMessage()]);
+        }
     }
 }

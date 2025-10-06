@@ -252,6 +252,7 @@ class VendorProductController extends Controller
     {
         return view('product::vendor.product_import');
     }
+
     public function importProduct(Request $request)
     {
         try {

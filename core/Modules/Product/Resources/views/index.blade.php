@@ -156,14 +156,20 @@
                         @endcan
                     </div>
                     <div class="col-md-6 text-end">
-                        @can('product-trash')
-                            <div class="btn-wrapper-trash margin-right-20">
+                        <div class="btn-wrapper-trash margin-right-20">
+                            @can('product-create')
+                                <a class="cmn_btn btn-success text-white mb-3 mx-2 text-right"
+                                    href="{{ route('admin.products.import.all') }}">
+                                    {{ __('Import Product') }}
+                                </a>
+                            @endcan
+                            @can('product-trash')
                                 <a class="cmn_btn btn_bg_danger btn-sm px-4 me-2"
                                     href="{{ route('admin.products.trash.all') }}">
                                     {{ __('Trash Bin') }}
                                 </a>
-                            </div>
-                        @endcan
+                            @endcan
+                        </div>
                     </div>
                 </div>
                 <div class="dashboard__card">
@@ -345,8 +351,8 @@
     {{-- <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script> --}}
     <script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
 
-    <script> 
-        $(document).ready(function () {
+    <script>
+        $(document).ready(function() {
             if ($('#productDataTable').length) {
                 $('#productDataTable').DataTable({
                     paging: true,
@@ -369,5 +375,4 @@
             }
         });
     </script>
-
 @endsection

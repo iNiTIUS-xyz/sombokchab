@@ -123,6 +123,11 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
             });
 
             Route::get('search', 'productSearch')->name('search')->permission('product-search');
+
+            Route::prefix('import')->name('import.')->group(function () {
+                Route::get('/', 'productImport')->name('all');
+                Route::post('/', 'importProduct')->name('store');
+            });
         });
 
         Route::prefix('settings')->as('settings.')->group(function () {

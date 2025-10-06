@@ -1,4 +1,4 @@
-@extends('vendor.vendor-master')
+@extends('backend.admin-master')
 
 @section('site-title')
     {{ __('Import Products') }}
@@ -31,7 +31,7 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
-                        <form id="productFrom" action="{{ route('vendor.products.import.store') }}" method="POST"
+                        <form id="productFrom" action="{{ route('admin.products.import.store') }}" method="POST"
                             enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
@@ -213,6 +213,5 @@
         </div>
     </div>
 @endsection
-
 @section('script')
 @endsection
