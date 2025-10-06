@@ -831,6 +831,8 @@ public function getTopProductsData(Request $request)
 
     return response()->json($data);
 }
+
+
     public function getVendorPayoutsData(Request $request)
     {
         $type = $request->input('type');

@@ -61,7 +61,6 @@
 
         .subtitle {
             font-size: 0.85rem;
-            text-transform: uppercase;
             font-weight: 600;
             color: #41695a;
             margin-bottom: 20px;
@@ -208,7 +207,7 @@
                                         <button class="nav-link" id="new_vendor_signup_yearly-tab" type="button">Yearly</button>
                                         </li>
                                         <li class="nav-item">
-                                        <input type="text" class="form-control dateRangeWebstie" id="vendor_sign_up_picker">
+                                        <input type="text" class="form-control dateRangeWebstie" id="vendor_sign_up_picker" placeholder="Custom Date Range">
                                         </li>
                                     </ul>
 
@@ -651,15 +650,6 @@
                                 </div>
                             </div>
 
-                            <style>
-                                /* Force data labels to align at the base of the bars, touching the x-axis */
-                                .performer_statistics .apexcharts-datalabel {
-                                    transform: translateY(100%) !important; /* Move label below the bar's base */
-                                    margin-top: 0 !important; /* Remove any default margin */
-                                    padding-bottom: 2px !important; /* Add small padding to touch the x-axis */
-                                    font-size: 10px !important; /* Ensure consistency with x-axis labels */
-                                }
-                            </style>
                         </div>
                     </div>
                 </div>
@@ -1410,17 +1400,23 @@
             },
             title: { text: titleBase, align: 'left' },
             colors: ['#e0bb20'],
-            grid: { padding: { left: 2, right: 2 } },
-            plotOptions: { bar: { columnWidth: '18%', borderRadius: 6, distributed: false } },
+            grid: { padding: { left: 2, right: 2, bottom: 22 } },   // more space at the bottom
+            plotOptions: {
+              bar: {
+                columnWidth: '18%',
+                borderRadius: 6,
+                distributed: false,
+                dataLabels: { position: 'bottom' }   // ← anchor labels at bar base (y=0)
+              }
+            },
             dataLabels: {
                 enabled: true,
-                offsetY: 0, // Set to 0 to position text at the base of the bar, touching x-axis
-                align: 'bottom', // Ensure text starts from the bottom edge of the bar
+                offsetY: -2,                         // fallback; position is controlled above
                 background: { enabled: false },
                 style: {
                     colors: ['#000'],
                     fontWeight: 600,
-                    fontSize: isTopChart ? '10px' : '12px', // smaller for longer labels
+                    fontSize: isTopChart ? '10px' : '12px',
                 },
                 formatter: isTopChart 
                     ? function(v, { dataPointIndex }) { 
@@ -1443,6 +1439,7 @@
                     rotateAlways: true,
                     trim: false,
                     hideOverlappingLabels: false,
+                    offsetY: 6,
                     style: {
                         fontSize: '10px' // Reduce font size to minimize overlap risk
                     }
@@ -1720,6 +1717,8 @@
         });
     });
 </script>
+
+
 
 
     <script>
