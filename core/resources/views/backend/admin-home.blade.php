@@ -851,37 +851,36 @@
                             <h3 class="my-3">Financial Summary</h3>
                             <div class="row g-5">
                                 <div class="col-md-6">
-                                    <ul class="nav nav-tabs" id="chartTabs" role="tablist">
+                                    <ul class="nav nav-tabs" role="tablist">
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link active" id="financial_summary_daily-tab"
-                                                data-bs-toggle="tab" type="button">
-                                                Daily
-                                            </button>
+                                                type="button">Daily</button>
                                         </li>
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link" id="financial_summary_weekly-tab"
-                                                data-bs-toggle="tab" type="button">
-                                                Weekly
-                                            </button>
+                                                type="button">Weekly</button>
                                         </li>
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link" id="financial_summary_monthly-tab"
-                                                data-bs-toggle="tab" type="button">
-                                                Monthly
-                                            </button>
+                                                type="button">Monthly</button>
                                         </li>
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link" id="financial_summary_yearly-tab"
-                                                data-bs-toggle="tab" type="button">
-                                                Yearly
-                                            </button>
+                                                type="button">Yearly</button>
                                         </li>
                                         <li class="nav-item">
                                             <input type="text" class="form-control dateRangeFinancialSummary"
-                                                id="vendor_sign_up">
+                                                id="financial_summary_picker" placeholder="Custom Date Range">
                                         </li>
                                     </ul>
-                                    <div class="mt-3" id="financial_summary_chart"></div>
+
+                                    <div class="mt-3 position-relative">
+                                        <div id="financial_summary_chart"></div>
+                                        <input id="financial_summary_scroll" class="form-range mt-2 w-100" type="range"
+                                            min="0" max="0" value="0" step="1" />
+                                    </div>
+                                    <div class="mt-2" id="financial_summary_nav"></div>
+                                    <small>Ctrl/⌘ + wheel to zoom in and zoom out</small>
                                 </div>
                                 <div class="col-md-6">
                                     <ul class="nav nav-tabs" id="chartTabs" role="tablist">
@@ -2037,242 +2036,514 @@
         });
     </script>
 
-
-
-
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Variables to store current state
-            let currentType = 'daily';
-            let currentStartDate = null;
-            let currentEndDate = null;
+            // ---------- Shared helpers ----------
+            const clamp = (n, lo, hi) => Math.min(hi, Math.max(lo, n));
 
-            // Chart configuration
-            let financial_summary_options = {
-                series: [{
-                    name: 'Net Profit',
-                    data: []
-                }],
-                chart: {
-                    type: 'bar',
-                    height: 350,
-                    background: '#ffffff',
-                    toolbar: {
-                        show: true,
-                        tools: {
-                            download: false,
-                            zoom: true,
-                            zoomin: true,
-                            zoomout: true,
-                            pan: true,
-                            reset: true
-                        }
-                    },
-                    zoom: {
-                        enabled: true,
-                        type: 'x',
-                        autoScaleYaxis: true
-                    }
-                },
-                title: {
-                    text: 'Order Revenue',
-                    align: 'left'
-                },
-                colors: ['#41695a'],
-                dataLabels: {
-                    enabled: true,
-                    formatter: function(val) {
-                        return "$" + val;
-                    },
-                    style: {
-                        colors: ['#ffffff'],
-                        fontSize: '12px'
-                    },
-                    offsetY: -20
-                },
-                plotOptions: {
-                    bar: {
-                        columnWidth: '25%',
-                        borderRadius: 6
-                    }
-                },
-                xaxis: {
-                    categories: [],
-                    labels: {
-                        formatter: function(value) {
-                            return value && value.length > 30 ?
-                                value.substring(0, 20) + '...' :
-                                value || '';
-                        }
-                    }
-                },
-                yaxis: {
-                    title: {
-                        text: '$ (USD)'
-                    }
-                },
-                tooltip: {
-                    y: {
-                        formatter: function(val) {
-                            return "$ " + val + " USD"
-                        }
-                    },
-                    style: {
-                        colors: ['#ffffff']
-                    }
+            function makeBrushBarChart({
+                ids,
+                url,
+                seriesName,
+                titleBase
+            }) {
+                let currentType = 'daily';
+                let currentStartDate = null;
+                let currentEndDate = null;
+
+                // full dataset
+                let rawLabels = [];
+                let displayLabels = [];
+
+                let
+                    labels = []; // ["2025-09-01", ...] | ["W36, Sep-2025", ...] | ["Jan 2025", ...] | ["2024","2025",...]
+                let values = []; // [1,2,0,...]
+
+                // current viewport (inclusive indices into full arrays)
+                let vMin = 0,
+                    vMax = 0;
+
+                // DOM
+                const elMain = document.querySelector('#' + ids.main);
+                const elNav = document.querySelector('#' + ids.nav);
+                const elScroll = document.querySelector('#' + ids.scroll);
+
+                // Charts
+                let chart = null;
+                let nav = null;
+
+                // ---------- Tabs UI ----------
+                const tabIds = [ids.tabs.daily, ids.tabs.weekly, ids.tabs.monthly, ids.tabs.yearly];
+
+                function setActiveTabUI(type) {
+                    const map = {
+                        daily: ids.tabs.daily,
+                        weekly: ids.tabs.weekly,
+                        monthly: ids.tabs.monthly,
+                        yearly: ids.tabs.yearly
+                    };
+                    const activeId = map[type];
+                    tabIds.forEach(id => {
+                        const el = document.getElementById(id);
+                        if (el) el.classList.toggle('active', id === activeId);
+                    });
                 }
-            };
 
-            // Initialize chart
-            let chart = new ApexCharts(
-                document.querySelector("#financial_summary_chart"),
-                financial_summary_options
-            );
-            chart.render();
-
-            // Function to fetch data via AJAX
-            function fetchIncomeData(type, startDate = null, endDate = null) {
-                // Show loading state
-                chart.updateOptions({
-                    title: {
-                        text: 'Loading data...'
+                // ---------- Main (category) chart ----------
+                function initMainChart() {
+                    if (chart) {
+                        chart.destroy();
                     }
+                    elMain.innerHTML = '';
+
+                    const mainOpts = {
+                        series: [{
+                            name: seriesName,
+                            data: []
+                        }],
+                        chart: {
+                            id: ids.main + '_chart',
+                            type: 'bar',
+                            height: 350,
+                            background: '#ffffff',
+                            toolbar: {
+                                show: false
+                            }, // hide apex toolbar
+                            zoom: {
+                                enabled: false
+                            }, // we'll handle zoom/pan ourselves
+                            animations: {
+                                easing: 'easeinout',
+                                speed: 180
+                            }
+                        },
+                        title: {
+                            text: titleBase,
+                            align: 'left'
+                        },
+                        colors: ['#41695a'],
+                        grid: {
+                            padding: {
+                                left: 2,
+                                right: 2
+                            }
+                        },
+                        plotOptions: {
+                            bar: {
+                                columnWidth: '18%',
+                                borderRadius: 6,
+                                distributed: false
+                            }
+                        },
+                        dataLabels: {
+                            enabled: true,
+                            background: {
+                                enabled: false
+                            },
+                            style: {
+                                colors: ['#ffffff'],
+                                fontWeight: 400,
+                                fontSize: '10px',
+                                // rotate: -45   // 👈 tilt the numbers
+                            },
+                            formatter: (v) => `$ ${v}`
+                        },
+                        xaxis: {
+                            type: 'category', // ← category axis (exact 1:1 with visible bars)
+                            categories: [],
+                            tickPlacement: 'on',
+                            rangePadding: 'none',
+                            labels: {
+                                rotate: -90,
+                                rotateAlways: true,
+                                trim: false,
+                                hideOverlappingLabels: false
+                            }
+                        },
+                        yaxis: {
+                            title: {
+                                text: '$ (USD)'
+                            }
+                        },
+                        tooltip: {
+                            x: {
+                                formatter: (val, {
+                                    dataPointIndex
+                                }) => (visibleLabels[dataPointIndex] ?? '')
+                            },
+                            y: {
+                                formatter: (val) => `$ ${val} USD`
+                            }
+                        }
+                    };
+
+                    chart = new ApexCharts(elMain, mainOpts);
+                    chart.render();
+                }
+
+                // this array mirrors the xaxis categories each update; used by tooltip
+                let visibleLabels = [];
+
+                // ---------- Navigator (numeric) ----------
+                function renderNav() {
+                    if (nav) {
+                        nav.destroy();
+                        nav = null;
+                    }
+                    elNav.innerHTML = '';
+
+                    const navData = values.map((y, i) => ({
+                        x: i,
+                        y
+                    }));
+
+                    // default window = up to 60 bars
+                    vMin = 0;
+                    vMax = Math.max(0, Math.min(values.length - 1, 60));
+
+                    nav = new ApexCharts(elNav, {
+                        chart: {
+                            id: ids.nav + '_chart',
+                            height: 110,
+                            type: 'area',
+                            toolbar: {
+                                show: false
+                            },
+                            animations: {
+                                enabled: false
+                            },
+                            // We manually handle selection; brush is unnecessary with category axis in main.
+                            selection: {
+                                enabled: true,
+                                xaxis: {
+                                    min: vMin,
+                                    max: vMax
+                                }
+                            },
+                            events: {
+                                selection: (ctx, {
+                                    xaxis
+                                }) => {
+                                    const minI = clamp(Math.round(xaxis.min), 0, labels.length - 1);
+                                    const maxI = clamp(Math.round(xaxis.max), 0, labels.length - 1);
+                                    applyViewport(minI, maxI, {
+                                        from: 'nav'
+                                    });
+                                }
+                            }
+                        },
+                        colors: ['#41695a'],
+                        stroke: {
+                            width: 1,
+                            colors: ['#41695a']
+                        },
+                        series: [{
+                            name: 'Range',
+                            data: navData
+                        }],
+                        xaxis: {
+                            type: 'numeric',
+                            labels: {
+                                show: false
+                            },
+                            tooltip: {
+                                enabled: false
+                            }
+                        },
+                        yaxis: {
+                            show: false
+                        },
+                        dataLabels: {
+                            enabled: false
+                        },
+                        fill: {
+                            opacity: 0.2
+                        }
+                    });
+
+                    nav.render();
+                    applyViewport(vMin, vMax);
+                    updateScrollbar();
+                }
+
+                // ---------- Viewport sync (slice to visible window) ----------
+                function applyViewport(minI, maxI, {
+                    from = 'code'
+                } = {}) {
+                    vMin = Math.max(0, Math.min(minI, maxI));
+                    vMax = Math.max(0, Math.max(minI, maxI));
+
+                    // slice visible window for main chart
+                    const windowVals = values.slice(vMin, vMax + 1);
+                    visibleLabels = displayLabels.slice(vMin, vMax + 1);
+
+                    chart.updateOptions({
+                        series: [{
+                            name: seriesName,
+                            data: windowVals
+                        }],
+                        xaxis: {
+                            categories: visibleLabels
+                        }
+                    }, false, false);
+
+                    // keep navigator’s selection synced
+                    if (nav && from !== 'nav') {
+                        nav.updateOptions({
+                            chart: {
+                                selection: {
+                                    enabled: true,
+                                    xaxis: {
+                                        min: vMin,
+                                        max: vMax
+                                    }
+                                }
+                            }
+                        }, false, false);
+                    }
+
+                    if (from !== 'scroll') updateScrollbar();
+                }
+
+                // ---------- Scrollbar ----------
+                function updateScrollbar() {
+                    const windowSize = Math.max(1, vMax - vMin + 1);
+                    const maxLeft = Math.max(0, labels.length - windowSize);
+                    elScroll.max = String(maxLeft);
+                    elScroll.step = '1';
+                    elScroll.value = String(clamp(vMin, 0, maxLeft));
+                    elScroll.disabled = (maxLeft === 0);
+                    elScroll.title = 'Scroll to pan. Hold Ctrl/Cmd + Wheel to zoom. Wheel to pan.';
+                }
+
+                elScroll.addEventListener('input', () => {
+                    const windowSize = Math.max(1, vMax - vMin + 1);
+                    const left = parseInt(elScroll.value || '0', 10);
+                    applyViewport(left, left + windowSize - 1, {
+                        from: 'scroll'
+                    });
                 });
 
-                // Prepare request data
-                const requestData = {
-                    type: type,
-                };
+                // ---------- Smooth wheel zoom & pan on MAIN ----------
+                elMain.addEventListener('wheel', (e) => {
+                    if (!labels.length || !chart) return;
 
-                // Add date range if provided
-                if (startDate && endDate) {
-                    requestData.start_date = startDate;
-                    requestData.end_date = endDate;
+                    const rect = elMain.getBoundingClientRect();
+                    const relX = Math.min(rect.width, Math.max(0, e.clientX - rect.left));
+                    const frac = rect.width > 0 ? (relX / rect.width) : 0.5;
+                    const centerIdx = Math.round(vMin + frac * Math.max(0, (vMax - vMin)));
+
+                    const delta = e.deltaY || e.wheelDelta || 0;
+
+                    if (e.ctrlKey || e.metaKey) {
+                        // ZOOM
+                        e.preventDefault();
+                        const currentWindow = Math.max(1, vMax - vMin + 1);
+                        const scale = delta > 0 ? 1.15 : 1 / 1.15;
+                        let newWindow = Math.round(currentWindow * scale);
+                        newWindow = clamp(newWindow, 5, Math.max(10, Math.ceil(labels.length * 0.9)));
+
+                        const half = Math.floor(newWindow / 2);
+                        let newMin = clamp(centerIdx - half, 0, Math.max(0, labels.length - newWindow));
+                        let newMax = newMin + newWindow - 1;
+                        applyViewport(newMin, newMax);
+                    } else {
+                        // PAN
+                        const panStep = Math.max(1, Math.round((vMax - vMin + 1) * 0.1));
+                        const dir = delta > 0 ? 1 : -1;
+                        const newMin = clamp(vMin + dir * panStep, 0, Math.max(0, labels.length - (vMax -
+                            vMin + 1)));
+                        const newMax = newMin + (vMax - vMin);
+                        applyViewport(newMin, newMax);
+                    }
+                }, {
+                    passive: false
+                });
+
+                // Double-click to reset window
+                elMain.addEventListener('dblclick', () => {
+                    if (!labels.length) return;
+                    const fullMax = Math.max(0, labels.length - 1);
+                    const initialMax = Math.min(fullMax, 60);
+                    applyViewport(0, initialMax);
+                });
+
+                // ---------- Data fetch & ingest ----------
+                function fetchData(type, startDate = null, endDate = null) {
+                    currentType = type;
+                    setActiveTabUI(type);
+
+                    // Clear everything
+                    if (chart) {
+                        chart.destroy();
+                        chart = null;
+                    }
+                    elMain.innerHTML = '';
+                    if (nav) {
+                        nav.destroy();
+                        nav = null;
+                    }
+                    elNav.innerHTML = '';
+                    elScroll.value = '0';
+                    elScroll.max = '0';
+                    elScroll.disabled = true;
+
+                    // Re-init main chart with loading title
+                    initMainChart();
+                    chart.updateOptions({
+                        title: {
+                            text: 'Loading…'
+                        }
+                    });
+
+                    const req = {
+                        type
+                    };
+                    if (startDate && endDate) {
+                        req.start_date = startDate;
+                        req.end_date = endDate;
+                    }
+
+                    $.ajax({
+                        url,
+                        type: 'GET',
+                        data: req,
+                        success: (payload) => ingest(payload, type),
+                        error: () => {
+                            if (chart) {
+                                chart.updateOptions({
+                                    title: {
+                                        text: 'Error loading data'
+                                    }
+                                });
+                            }
+                        }
+                    });
                 }
 
-                $.ajax({
-                    url: '{{ route('income.data') }}',
-                    type: 'GET',
-                    data: requestData,
-                    success: function(data) {
-                        updateChart(data, type);
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error fetching data:', error);
+                function ingest(payload, chartType) {
+                    // keep insertion order, de-dupe keys
+                    const seen = new Set();
+                    rawLabels = [];
+                    values = [];
+                    Object.keys(payload).forEach(k => {
+                        if (!seen.has(k)) {
+                            seen.add(k);
+                            rawLabels.push(k);
+                            values.push(parseFloat(payload[k]) || 0);
+                        }
+                    });
+
+                    // build display labels
+                    displayLabels = rawLabels.map(k => {
+                        if (chartType === 'daily') {
+                            // API gives YYYY-MM-DD → show DD-MMM-YYYY (e.g., 01-Oct-2025)
+                            return moment(k, 'YYYY-MM-DD', true).isValid() ?
+                                moment(k, 'YYYY-MM-DD').format('DD, MMM YY') :
+                                k; // fallback if not a date string
+                        }
+                        return k; // weekly/monthly/yearly already humanized by backend
+                    });
+
+                    if (chart) {
                         chart.updateOptions({
                             title: {
-                                text: 'Error loading data'
+                                text: `${titleBase} - ${chartType.charAt(0).toUpperCase() + chartType.slice(1)}`
                             }
                         });
                     }
-                });
-            }
 
-            // Function to update chart with data
-            function updateChart(data, chartType) {
-                const labels = Object.keys(data);
-                const values = Object.values(data).map(val => parseFloat(val) || 0);
+                    // rebuild navigator + main
+                    labels = rawLabels.slice(); // keep indices aligned for viewport math
 
-                chart.updateOptions({
-                    series: [{
-                        name: 'Net Profit',
-                        data: values
-                    }],
-                    chart: {
-                        type: 'bar',
-                        height: 350,
-                        background: '#ffffff',
-                        toolbar: {
-                            show: true,
-                            tools: {
-                                download: false,
-                                zoom: true,
-                                zoomin: true,
-                                zoomout: true,
-                                pan: true,
-                                reset: true
+                    // Update main with full data initially
+                    if (chart) {
+                        const fullVals = values.slice();
+                        visibleLabels = displayLabels.slice();
+                        chart.updateOptions({
+                            series: [{
+                                name: seriesName,
+                                data: fullVals
+                            }],
+                            xaxis: {
+                                categories: displayLabels
                             }
-                        },
-                        zoom: {
-                            enabled: true,
-                            type: 'x',
-                            autoScaleYaxis: true
-                        }
-                    },
-                    xaxis: {
-                        categories: labels
-                    },
-                    title: {
-                        text: 'Order Revenue - ' + chartType.charAt(0).toUpperCase() + chartType.slice(1)
-                    },
-                    plotOptions: {
-                        bar: {
-                            columnWidth: '18%',
-                            borderRadius: 6
-                        }
-                    },
-                    dataLabels: {
-                        enabled: true,
-                        formatter: function(val) {
-                            return "$" + val;
-                        },
-                        style: {
-                            colors: ['#ffffff'],
-                            fontSize: '12px'
-                        },
-                        offsetY: -20
-                    },
-                    tooltip: {
-                        style: {
-                            colors: ['#ffffff']
-                        }
+                        });
+                    }
+
+                    // Render nav only if not daily and enough data
+                    if (chartType !== 'daily' && values.length > 12) {
+                        renderNav();
+                    }
+                }
+
+
+                // ---------- Tabs ----------
+                document.getElementById(ids.tabs.daily).addEventListener('click', (e) => {
+                    e.preventDefault();
+                    fetchData('daily', currentStartDate, currentEndDate);
+                });
+                document.getElementById(ids.tabs.weekly).addEventListener('click', (e) => {
+                    e.preventDefault();
+                    fetchData('weekly', currentStartDate, currentEndDate);
+                });
+                document.getElementById(ids.tabs.monthly).addEventListener('click', (e) => {
+                    e.preventDefault();
+                    fetchData('monthly', currentStartDate, currentEndDate);
+                });
+                document.getElementById(ids.tabs.yearly).addEventListener('click', (e) => {
+                    e.preventDefault();
+                    fetchData('yearly', currentStartDate, currentEndDate);
+                });
+
+                // ---------- Date picker ----------
+                $('#' + ids.picker).daterangepicker({
+                    opens: 'left',
+                    autoUpdateInput: true,
+                    minDate: moment('2024-01-01'),
+                    maxDate: moment().endOf('year'),
+                }, function(start, end) {
+                    const months = end.diff(start, 'months', true);
+                    if (months < 1) {
+                        this.setStartDate(moment(start));
+                        this.setEndDate(moment(start).add(1, 'months'));
                     }
                 });
+
+                $('#' + ids.picker).on('apply.daterangepicker', function(ev, picker) {
+                    currentStartDate = picker.startDate.format('YYYY-MM-DD');
+                    currentEndDate = picker.endDate.format('YYYY-MM-DD');
+                    fetchData(currentType, currentStartDate, currentEndDate);
+                });
+
+                // ---------- First load ----------
+                setActiveTabUI('daily');
+                fetchData('daily');
+
+                // expose if needed
+                return {
+                    refresh: () => fetchData(currentType, currentStartDate, currentEndDate)
+                };
             }
 
-            // Set up tab click handlers
-            document.querySelector('#financial_summary_daily-tab').addEventListener('click', function() {
-                currentType = 'daily';
-                fetchIncomeData(currentType, currentStartDate, currentEndDate);
+            // ===== Financial Summary =====
+            makeBrushBarChart({
+                ids: {
+                    main: 'financial_summary_chart',
+                    nav: 'financial_summary_nav',
+                    scroll: 'financial_summary_scroll',
+                    picker: 'financial_summary_picker',
+                    tabs: {
+                        daily: 'financial_summary_daily-tab',
+                        weekly: 'financial_summary_weekly-tab',
+                        monthly: 'financial_summary_monthly-tab',
+                        yearly: 'financial_summary_yearly-tab',
+                    }
+                },
+                url: '{{ route('income.data') }}',
+                seriesName: 'Net Profit',
+                titleBase: 'Order Revenue'
             });
-
-            document.querySelector('#financial_summary_weekly-tab').addEventListener('click', function() {
-                currentType = 'weekly';
-                fetchIncomeData(currentType, currentStartDate, currentEndDate);
-            });
-
-            document.querySelector('#financial_summary_monthly-tab').addEventListener('click', function() {
-                currentType = 'monthly';
-                fetchIncomeData(currentType, currentStartDate, currentEndDate);
-            });
-
-            document.querySelector('#financial_summary_yearly-tab').addEventListener('click', function() {
-                currentType = 'yearly';
-                fetchIncomeData(currentType, currentStartDate, currentEndDate);
-            });
-
-            // Initialize date range picker
-            $('.dateRangeFinancialSummary').daterangepicker({
-                opens: 'left',
-                autoUpdateInput: true,
-                minDate: moment('2024-01-01'),
-                maxDate: moment().endOf('year'),
-            }, function(start, end) {
-                var months = end.diff(start, 'months', true);
-                if (months < 1) {
-                    this.setStartDate(moment(start));
-                    this.setEndDate(moment(start).add(1, 'months'));
-                }
-            });
-
-            $('.dateRangeFinancialSummary').on('apply.daterangepicker', function(ev, picker) {
-                currentStartDate = picker.startDate.format('YYYY-MM-DD');
-                currentEndDate = picker.endDate.format('YYYY-MM-DD');
-                fetchIncomeData(currentType, currentStartDate, currentEndDate);
-            });
-
-            // Load initial data
-            fetchIncomeData(currentType);
         });
     </script>
 
