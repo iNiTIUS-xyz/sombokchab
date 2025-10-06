@@ -51,7 +51,39 @@
                             <span class="text-bark">
                                 (1)
                                 <b>
-                                    name :
+                                    name:
+                                    required, text
+                                </b>
+                            </span>
+                            <br>
+                            <span class="text-bark">
+                                (1)
+                                <b>
+                                    category:
+                                    required, text
+                                </b>
+                            </span>
+                            <br>
+                            <span class="text-bark">
+                                (1)
+                                <b>
+                                    sub_category_name:
+                                    required, text
+                                </b>
+                            </span>
+                            <br>
+                            <span class="text-bark">
+                                (1)
+                                <b>
+                                    brand name:
+                                    required, text
+                                </b>
+                            </span>
+                            <br>
+                            <span class="text-bark">
+                                (1)
+                                <b>
+                                    summary:
                                     required, text
                                 </b>
                             </span>
@@ -59,7 +91,7 @@
                             <span class="text-bark">
                                 (2)
                                 <b>
-                                    slug :
+                                    description:
                                     required, text
                                 </b>
                             </span>
@@ -67,7 +99,7 @@
                             <span class="text-bark">
                                 (3)
                                 <b>
-                                    summary :
+                                    price:
                                     required, text
                                 </b>
                             </span>
@@ -75,7 +107,7 @@
                             <span class="text-bark">
                                 (4)
                                 <b>
-                                    description :
+                                    sale_price:
                                     required, text
                                 </b>
                             </span>
@@ -83,7 +115,7 @@
                             <span class="text-bark">
                                 (5)
                                 <b>
-                                    price :
+                                    cost:
                                     required, numbar
                                 </b>
                             </span>
@@ -91,7 +123,7 @@
                             <span class="text-bark">
                                 (6)
                                 <b>
-                                    sale price :
+                                    status_id:
                                     required, numbar
                                 </b>
                             </span>
@@ -99,7 +131,7 @@
                             <span class="text-bark">
                                 (7)
                                 <b>
-                                    cost :
+                                    product_type:
                                     required, numbar
                                 </b>
                             </span>
@@ -107,7 +139,7 @@
                             <span class="text-bark">
                                 (8)
                                 <b>
-                                    brand name :
+                                    min_purchase:
                                     required, text
                                 </b>
                             </span>
@@ -115,7 +147,7 @@
                             <span class="text-bark">
                                 (9)
                                 <b>
-                                    status id :
+                                    max_purchase:
                                     required, number, 1/2
                                 </b>
                             </span>
@@ -123,7 +155,7 @@
                             <span class="text-bark">
                                 (10)
                                 <b>
-                                    product type :
+                                    is_inventory_warn_able:
                                     required, number, 1/2
                                 </b>
                             </span>
@@ -131,7 +163,7 @@
                             <span class="text-bark">
                                 (11)
                                 <b>
-                                    min purchase :
+                                    is_refundable:
                                     required, number
                                 </b>
                             </span>
@@ -139,7 +171,7 @@
                             <span class="text-bark">
                                 (12)
                                 <b>
-                                    max purchase :
+                                    is_in_house:
                                     required, number
                                 </b>
                             </span>
@@ -147,7 +179,7 @@
                             <span class="text-bark">
                                 (13)
                                 <b>
-                                    is inventory warn able :
+                                    is_taxable:
                                     nullable, number
                                 </b>
                             </span>
@@ -155,32 +187,8 @@
                             <span class="text-bark">
                                 (14)
                                 <b>
-                                    is refundable :
+                                    tax_class_id:
                                     required, number, 1/0
-                                </b>
-                            </span>
-                            <br>
-                            <span class="text-bark">
-                                (15)
-                                <b>
-                                    is in house :
-                                    required, number 1/0
-                                </b>
-                            </span>
-                            <br>
-                            <span class="text-bark">
-                                (16)
-                                <b>
-                                    is taxable :
-                                    required, number 1/0
-                                </b>
-                            </span>
-                            <br>
-                            <span class="text-bark">
-                                (17)
-                                <b>
-                                    tax class name :
-                                    required, text
                                 </b>
                             </span>
                             <br>

@@ -280,36 +280,36 @@ class VendorProductController extends Controller
                     }
 
                     $brand = Brand::firstOrCreate(
-                        ['name' => $row[4]]
+                        ['name' => $row[3]]
                     );
 
                     $taxClasess = TaxClass::firstOrCreate(
-                        ['name' => $row[18]]
+                        ['name' => $row[17]]
                     );
 
                     $product = Product::create([
-                        "name" => $row[1],
-                        "slug" => strtolower(str_replace(' ', '-', $row[1])),
+                        "name" => $row[0],
+                        "slug" => strtolower(str_replace(' ', '-', $row[0])),
                         "brand_id" => $brand->id ?? null,
-                        "summary" => $row[5],
-                        "description" => $row[6],
-                        "price" => $row[7],
-                        "sale_price" => $row[8],
-                        "cost" => $row[9],
-                        "status_id" => $row[10] == 1 ? 1 : 2,
-                        "product_type" => $row[11] == 1 ? 1 : 2,
-                        "min_purchase" => $row[12],
-                        "max_purchase" => $row[13],
-                        "is_inventory_warn_able" => $row[14] == 1 ? 1 : 2,
-                        "is_refundable" => $row[15] == 1 ? 1 : 0,
-                        "is_in_house" => $row[16] == 1 ? 1 : 0,
+                        "summary" => $row[4],
+                        "description" => $row[5],
+                        "price" => $row[6],
+                        "sale_price" => $row[7],
+                        "cost" => $row[8],
+                        "status_id" => $row[9] == 1 ? 1 : 2,
+                        "product_type" => $row[10] == 1 ? 1 : 2,
+                        "min_purchase" => $row[11],
+                        "max_purchase" => $row[12],
+                        "is_inventory_warn_able" => $row[13] == 1 ? 1 : 2,
+                        "is_refundable" => $row[14] == 1 ? 1 : 0,
+                        "is_in_house" => $row[15] == 1 ? 1 : 0,
                         "vendor_id" => auth('vendor')->user()->id,
-                        "is_taxable" => $row[17]  == 1 ? 1 : 0,
+                        "is_taxable" => $row[16]  == 1 ? 1 : 0,
                         "tax_class_id" => $taxClasess->id,
                     ]);
 
                     $category = Category::firstOrCreate(
-                        ['name' => $row[2]]
+                        ['name' => $row[1]]
                     );
 
                     $productCategory = new ProductCategory();
@@ -318,7 +318,7 @@ class VendorProductController extends Controller
                     $productCategory->save();
 
                     $subCategory = SubCategory::firstOrCreate(
-                        ['name' => $row[3]]
+                        ['name' => $row[2]]
                     );
 
                     $productSubCategory = new ProductSubCategory();
@@ -332,6 +332,7 @@ class VendorProductController extends Controller
 
             return redirect()->back()->with('success', 'Products imported successfully!');
         } catch (Exception $e) {
+            dd($e);
             DB::rollback();
             return redirect()->back()->with('error', 'Import failed: ' . $e->getMessage());
         }
