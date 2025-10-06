@@ -10,6 +10,13 @@
 @section('content')
     <div class="dashboard-top-contents">
         <div class="row">
+            <div class="col-md-12">
+                <x-flash-msg />
+            </div>
+        </div>
+    </div>
+    <div class="dashboard-top-contents">
+        <div class="row">
             <div class="col-lg-12">
                 <div class="top-inner-contents search-area top-searchbar-wrapper">
                     <div class="dashboard-flex-contetns">

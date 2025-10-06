@@ -330,7 +330,7 @@ class VendorProductController extends Controller
 
             DB::commit();
 
-            return redirect()->back()->with('success', 'Products imported successfully!');
+            return redirect()->back()->with(['type' => 'success', 'msg' => 'Products imported successfully!']);
         } catch (Exception $e) {
             dd($e);
             DB::rollback();
