@@ -591,7 +591,7 @@
                     <div class="dashboard__card">
                         <div class="dashboard__card__body">
                             <h3 class="my-3">Top Performer Statistics</h3>
-                            <div class="row g-5">
+                            <div class="row performer_statistics g-5">
                                 <!-- Top Selling Vendors -->
                                 <div class="col-md-6">
                                     <ul class="nav nav-tabs" role="tablist">
@@ -650,6 +650,16 @@
                                     <small>Ctrl/⌘ + wheel to zoom in and zoom out</small>
                                 </div>
                             </div>
+
+                            <style>
+                                /* Force data labels to align at the base of the bars, touching the x-axis */
+                                .performer_statistics .apexcharts-datalabel {
+                                    transform: translateY(100%) !important; /* Move label below the bar's base */
+                                    margin-top: 0 !important; /* Remove any default margin */
+                                    padding-bottom: 2px !important; /* Add small padding to touch the x-axis */
+                                    font-size: 10px !important; /* Ensure consistency with x-axis labels */
+                                }
+                            </style>
                         </div>
                     </div>
                 </div>
