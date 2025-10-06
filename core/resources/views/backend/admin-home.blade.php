@@ -131,16 +131,16 @@
         }
         #top_vendor_nav, #top_products_nav { display: none; }
 
-  /* tilt values drawn on top of bars */
-/* Make all bar values vertical */
-#new_customer_signup_chart .apexcharts-datalabel,
-#new_vendor_signup_chart .apexcharts-datalabel,
-#top_vendor_chart .apexcharts-datalabel,
-#top_vendors_two_chart .apexcharts-datalabel {
-    transform: rotate(-90deg) !important;
-    transform-origin: center center !important;
-    transform-box: fill-box !important;
-}
+        /* tilt values drawn on top of bars */
+        /* Make all bar values vertical */
+        #new_customer_signup_chart .apexcharts-datalabel,
+        #new_vendor_signup_chart .apexcharts-datalabel,
+        #top_vendor_chart .apexcharts-datalabel,
+        #top_vendors_two_chart .apexcharts-datalabel {
+            transform: rotate(-90deg) !important;
+            transform-origin: center center !important;
+            transform-box: fill-box !important;
+        }
 
     </style>
 @endsection
@@ -537,10 +537,10 @@
                 <div class="col-12">
                     <div class="dashboard__card">
                         <div class="dashboard__card__body">
-                            <h3 class="my-3">Top Vendors</h3>
+                            <h3 class="my-3">Top Performers</h3>
                             <div class="row g-4">
                                 <div class="col-md-6">
-                                    <div class="card p-4">
+                                    <div class="p-4">
                                         <p class="subtitle">Top Selling Vendor</p>
                                         <div class="row">
                                             @foreach ($topVendorsInfos as $topVendors)
@@ -590,7 +590,7 @@
                 <div class="col-12">
                     <div class="dashboard__card">
                         <div class="dashboard__card__body">
-                            <h3 class="my-3">Top vendors</h3>
+                            <h3 class="my-3">Top Performer Statistics</h3>
                             <div class="row g-5">
                                 <!-- Top Selling Vendors -->
                                 <div class="col-md-6">
@@ -650,7 +650,6 @@
                                     <small>Ctrl/⌘ + wheel to zoom in and zoom out</small>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -658,9 +657,9 @@
         </div>
         {{-- vendor management  --}}
         <div class="col-lg-12 col-ml-12 mb-3">
-            <div class="card shadow rounded-3">
-                <div class="card-body">
-                    <h4 class="my-3">Vendor managements</h4>
+            <div class="dashboard__card">
+                <div class="dashboard__card__body">
+                    <h4 class="my-3">Vendor Managements</h4>
                     <div class="p-3 bg-light rounded-3">
                         <div class="row g-3 mb-2">
                             <div class="col-md-4">
@@ -690,21 +689,21 @@
                                 <div
                                     class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
                                     <span>Product Verification Pending</span>
-                                    <h4 class="fw-bold text-warning">53</h4>
+                                    <span class="fw-bold text-warning">53</span>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div
                                     class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
                                     <span>Approved</span>
-                                    <h4 class="fw-bold text-success">546</h4>
+                                    <span class="fw-bold text-success">546</span>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div
                                     class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
                                     <span>Rejected</span>
-                                    <h4 class="fw-bold text-danger">3</h4>
+                                    <span class="fw-bold text-danger">3</span>
                                 </div>
                             </div>
                         </div>
@@ -713,21 +712,21 @@
                                 <div
                                     class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
                                     <span>Withdrawal Requests Pending</span>
-                                    <h4 class="fw-bold text-warning">132</h4>
+                                    <span class="fw-bold text-warning">132</span>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div
                                     class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
                                     <span>Approved</span>
-                                    <h4 class="fw-bold text-success">65</h4>
+                                    <span class="fw-bold text-success">65</span>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div
                                     class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
                                     <span>Rejected</span>
-                                    <h4 class="fw-bold text-danger">7</h4>
+                                    <span class="fw-bold text-danger">7</span>
                                 </div>
                             </div>
                         </div>
@@ -742,24 +741,24 @@
                                 <div
                                     class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
                                     <span>Total Tickets Open</span>
-                                    <h4 class="fw-bold text-warning">
-                                        {{ $vendorTicketData['vendorTotalOpenTicket']->count() }}</h4>
+                                    <span class="fw-bold text-warning">
+                                        {{ $vendorTicketData['vendorTotalOpenTicket']->count() }}</span>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div
                                     class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
                                     <span>High Priority Tickets</span>
-                                    <h4 class="fw-bold text-success">
-                                        {{ $vendorTicketData['vendorTotalPriorityTicket']->count() }}</h4>
+                                    <span class="fw-bold text-success">
+                                        {{ $vendorTicketData['vendorTotalPriorityTicket']->count() }}</span>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div
                                     class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
                                     <span>Total Close Tickets</span>
-                                    <h4 class="fw-bold text-danger">
-                                        {{ $vendorTicketData['vendorTotalCloseTicket']->count() }}</h4>
+                                    <span class="fw-bold text-danger">
+                                        {{ $vendorTicketData['vendorTotalCloseTicket']->count() }}</span>
                                 </div>
                             </div>
                         </div>
@@ -774,36 +773,36 @@
                                 <div
                                     class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
                                     <span>Total Tickets Open</span>
-                                    <h4 class="fw-bold text-warning">
+                                    <span class="fw-bold text-warning">
                                         {{ $customerTicketData['totalOpenTicket']->count() }}
-                                    </h4>
+                                    </span>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div
                                     class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
                                     <span>High Priority Tickets</span>
-                                    <h4 class="fw-bold text-success">
+                                    <span class="fw-bold text-success">
                                         {{ $customerTicketData['totalCloseTicket']->count() }}
-                                    </h4>
+                                    </span>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div
                                     class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
                                     <span>Total Close Tickets</span>
-                                    <h4 class="fw-bold text-danger">
+                                    <span class="fw-bold text-danger">
                                         {{ $vendorTicketData['vendorTotalCloseTicket']->count() }}
-                                    </h4>
+                                    </span>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div
                                     class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
                                     <span>Total Close Tickets</span>
-                                    <h4 class="fw-bold text-danger">
+                                    <span class="fw-bold text-danger">
                                         {{ $customerTicketData['refundRequest']->count() }}
-                                    </h4>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -892,8 +891,8 @@
             </div>
         </div>
         <div class="col-lg-12 col-ml-12 mb-3">
-            <div class="card shadow rounded-3 mb-4">
-                <div class="card-body">
+            <div class="dashboard__card">
+                <div class="dashboard__card__body">
                     <h4 class="mb-4">Performance Monitoring</h4>
                     <div class="row g-3">
                         <div class="col-md-4">
@@ -1020,95 +1019,98 @@
     <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-        // ---------- Shared helpers ----------
-        const clamp = (n, lo, hi) => Math.min(hi, Math.max(lo, n));
-        
-        function makeBrushBarChart({ ids, url, seriesName, titleBase }) {
-            let currentType = 'daily';
-            let currentStartDate = null;
-            let currentEndDate = null;
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+    // ---------- Shared helpers ----------
+    const clamp = (n, lo, hi) => Math.min(hi, Math.max(lo, n));
+    
+    function makeBrushBarChart({ ids, url, seriesName, titleBase }) {
+        let currentType = 'daily';
+        let currentStartDate = null;
+        let currentEndDate = null;
 
-            // full dataset
-            let labels = [];      // ["2025-09-01", ...] | ["W36, Sep-2025", ...] | ["Jan 2025", ...] | ["2024","2025",...]
-            let values = [];      // [1,2,0,...]
-            let points = [];      // [{x:i,y:v}]
+        // full dataset
+        let rawLabels = [];
+        let displayLabels = [];
 
-            // current viewport (inclusive indices into full arrays)
-            let vMin = 0, vMax = 0;
+        let labels = [];      // ["2025-09-01", ...] | ["W36, Sep-2025", ...] | ["Jan 2025", ...] | ["2024","2025",...]
+        let values = [];      // [1,2,0,...]
+        let points = [];      // [{x:i,y:v}]
 
-            // DOM
-            const elMain   = document.querySelector('#' + ids.main);
-            const elNav    = document.querySelector('#' + ids.nav);
-            const elScroll = document.querySelector('#' + ids.scroll);
+        // current viewport (inclusive indices into full arrays)
+        let vMin = 0, vMax = 0;
 
-            // ---------- Tabs UI ----------
-            const tabIds = [ids.tabs.daily, ids.tabs.weekly, ids.tabs.monthly, ids.tabs.yearly];
-            function setActiveTabUI(type) {
-            const map = { daily: ids.tabs.daily, weekly: ids.tabs.weekly, monthly: ids.tabs.monthly, yearly: ids.tabs.yearly };
-            const activeId = map[type];
-            tabIds.forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.classList.toggle('active', id === activeId);
-            });
+        // DOM
+        const elMain   = document.querySelector('#' + ids.main);
+        const elNav    = document.querySelector('#' + ids.nav);
+        const elScroll = document.querySelector('#' + ids.scroll);
+
+        // ---------- Tabs UI ----------
+        const tabIds = [ids.tabs.daily, ids.tabs.weekly, ids.tabs.monthly, ids.tabs.yearly];
+        function setActiveTabUI(type) {
+        const map = { daily: ids.tabs.daily, weekly: ids.tabs.weekly, monthly: ids.tabs.monthly, yearly: ids.tabs.yearly };
+        const activeId = map[type];
+        tabIds.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.classList.toggle('active', id === activeId);
+        });
+        }
+
+        // ---------- Main (category) chart ----------
+        const mainOpts = {
+        series: [{ name: seriesName, data: [] }],
+        chart: {
+            id: ids.main + '_chart',
+            type: 'bar',
+            height: 350,
+            background: '#ffffff',
+            toolbar: { show: false },                 // hide apex toolbar
+            zoom: { enabled: false },                 // we'll handle zoom/pan ourselves
+            animations: { easing: 'easeinout', speed: 180 }
+        },
+        title: { text: titleBase, align: 'left' },
+        colors: ['#e0bb20'],
+        grid: { padding: { left: 2, right: 2 } },
+        plotOptions: { bar: { columnWidth: '18%', borderRadius: 6, distributed: false } },
+        dataLabels: {
+            enabled: true,
+            background: { enabled: false },
+            style: {
+                colors: ['#000'],
+                fontWeight: 400,
+                fontSize: '10px',
+                // rotate: -45   // 👈 tilt the numbers
+            },
+            formatter: (v) => v
+        },
+        xaxis: {
+            type: 'category',                         // ← category axis (exact 1:1 with visible bars)
+            categories: [],
+            tickPlacement: 'on',
+            rangePadding: 'none',
+            labels: {
+                rotate: -90,
+                rotateAlways: true,
+                trim: false,
+                hideOverlappingLabels: false
             }
+        },
+        yaxis: { title: { text: 'Number of Sign-Ups' } },
+        tooltip: {
+            x: { formatter: (val, { dataPointIndex }) => (visibleLabels[dataPointIndex] ?? '') },
+            y: { formatter: (val) => `${val} sign-ups` }
+        }
+        };
 
-            // ---------- Main (category) chart ----------
-            const mainOpts = {
-            series: [{ name: seriesName, data: [] }],
-            chart: {
-                id: ids.main + '_chart',
-                type: 'bar',
-                height: 350,
-                background: '#ffffff',
-                toolbar: { show: false },                 // hide apex toolbar
-                zoom: { enabled: false },                 // we'll handle zoom/pan ourselves
-                animations: { easing: 'easeinout', speed: 180 }
-            },
-            title: { text: titleBase, align: 'left' },
-            colors: ['#e0bb20'],
-            grid: { padding: { left: 2, right: 2 } },
-            plotOptions: { bar: { columnWidth: '18%', borderRadius: 6, distributed: false } },
-            dataLabels: {
-                enabled: true,
-                background: { enabled: false },
-                style: {
-                    colors: ['#000'],
-                    fontWeight: 600,
-                    fontSize: '12px',
-                    // rotate: -45   // 👈 tilt the numbers
-                },
-                formatter: (v) => v
-            },
-            xaxis: {
-                type: 'category',                         // ← category axis (exact 1:1 with visible bars)
-                categories: [],
-                tickPlacement: 'on',
-                rangePadding: 'none',
-                labels: {
-                    rotate: -90,
-                    rotateAlways: true,
-                    trim: false,
-                    hideOverlappingLabels: false
-                }
-            },
-            yaxis: { title: { text: 'Number of Sign-Ups' } },
-            tooltip: {
-                x: { formatter: (val, { dataPointIndex }) => (visibleLabels[dataPointIndex] ?? '') },
-                y: { formatter: (val) => `${val} sign-ups` }
-            }
-            };
+        // this array mirrors the xaxis categories each update; used by tooltip
+        let visibleLabels = [];
 
-            // this array mirrors the xaxis categories each update; used by tooltip
-            let visibleLabels = [];
+        const chart = new ApexCharts(elMain, mainOpts);
+        chart.render();
 
-            const chart = new ApexCharts(elMain, mainOpts);
-            chart.render();
-
-            // ---------- Navigator (numeric) ----------
-            let nav = null;
-            function renderNav() {
+        // ---------- Navigator (numeric) ----------
+        let nav = null;
+        function renderNav() {
             if (nav) nav.destroy();
 
             const navData = values.map((y, i) => ({ x: i, y }));
@@ -1146,16 +1148,16 @@
             nav.render();
             applyViewport(vMin, vMax);
             updateScrollbar();
-            }
+        }
 
-            // ---------- Viewport sync (slice to visible window) ----------
-            function applyViewport(minI, maxI, { from = 'code' } = {}) {
+        // ---------- Viewport sync (slice to visible window) ----------
+        function applyViewport(minI, maxI, { from = 'code' } = {}) {
             vMin = Math.max(0, Math.min(minI, maxI));
             vMax = Math.max(0, Math.max(minI, maxI));
 
             // slice visible window for main chart
             const windowVals = values.slice(vMin, vMax + 1);
-            visibleLabels    = labels.slice(vMin, vMax + 1);
+            visibleLabels    = displayLabels.slice(vMin, vMax + 1);
 
             chart.updateOptions({
                 series: [{ name: seriesName, data: windowVals }],
@@ -1170,10 +1172,10 @@
             }
 
             if (from !== 'scroll') updateScrollbar();
-            }
+        }
 
-            // ---------- Scrollbar ----------
-            function updateScrollbar() {
+        // ---------- Scrollbar ----------
+        function updateScrollbar() {
             const windowSize = Math.max(1, vMax - vMin + 1);
             const maxLeft = Math.max(0, labels.length - windowSize);
             elScroll.max = String(maxLeft);
@@ -1227,10 +1229,10 @@
             const fullMax = Math.max(0, labels.length - 1);
             const initialMax = Math.min(fullMax, 60);
             applyViewport(0, initialMax);
-            });
+        });
 
-            // ---------- Data fetch & ingest ----------
-            function fetchData(type, startDate = null, endDate = null) {
+        // ---------- Data fetch & ingest ----------
+        function fetchData(type, startDate = null, endDate = null) {
             setActiveTabUI(type);
             chart.updateOptions({ title: { text: 'Loading…' } });
             const req = { type };
@@ -1243,24 +1245,396 @@
                 success: (payload) => ingest(payload, type),
                 error: () => chart.updateOptions({ title: { text: 'Error loading data' } })
             });
-            }
+        }
 
-            function ingest(payload, chartType) {
+        function ingest(payload, chartType) {
             // keep insertion order, de-dupe keys
             const seen = new Set();
-            labels = [];
+            rawLabels = [];
             values = [];
             Object.keys(payload).forEach(k => {
-                if (!seen.has(k)) { seen.add(k); labels.push(k); values.push(parseInt(payload[k]) || 0); }
+                if (!seen.has(k)) { seen.add(k); rawLabels.push(k); values.push(parseInt(payload[k]) || 0); }
             });
-            points = values.map((y, i) => ({ x: i, y }));
+
+            // build display labels
+            displayLabels = rawLabels.map(k => {
+                if (chartType === 'daily') {
+                // API gives YYYY-MM-DD → show DD-MMM-YYYY (e.g., 01-Oct-2025)
+                return moment(k, 'YYYY-MM-DD', true).isValid()
+                    ? moment(k, 'YYYY-MM-DD').format('DD, MMM YY')
+                    : k; // fallback if not a date string
+                }
+                return k; // weekly/monthly/yearly already humanized by backend
+            });
 
             chart.updateOptions({
                 title: { text: `${titleBase} - ${chartType.charAt(0).toUpperCase() + chartType.slice(1)}` }
             });
 
-            renderNav(); // builds vMin/vMax and paints both charts
+            // rebuild navigator + main
+            labels = rawLabels.slice(); // keep indices aligned for viewport math
+            renderNav(); // sets vMin/vMax and paints both charts
+        }
+
+
+        // ---------- Tabs ----------
+        document.getElementById(ids.tabs.daily).addEventListener('click',  () => { currentType = 'daily';  fetchData(currentType, currentStartDate, currentEndDate); });
+        document.getElementById(ids.tabs.weekly).addEventListener('click', () => { currentType = 'weekly'; fetchData(currentType, currentStartDate, currentEndDate); });
+        document.getElementById(ids.tabs.monthly).addEventListener('click',()=> { currentType = 'monthly';fetchData(currentType, currentStartDate, currentEndDate); });
+        document.getElementById(ids.tabs.yearly).addEventListener('click', () => { currentType = 'yearly';  fetchData(currentType, currentStartDate, currentEndDate); });
+
+        // ---------- Date picker ----------
+        $('#' + ids.picker).daterangepicker({
+        opens: 'left',
+        autoUpdateInput: true,
+        minDate: moment('2024-01-01'),
+        maxDate: moment().endOf('year'),
+        }, function(start, end) {
+        const months = end.diff(start, 'months', true);
+        if (months < 1) { this.setStartDate(moment(start)); this.setEndDate(moment(start).add(1, 'months')); }
+        });
+
+        $('#' + ids.picker).on('apply.daterangepicker', function(ev, picker) {
+        currentStartDate = picker.startDate.format('YYYY-MM-DD');
+        currentEndDate   = picker.endDate.format('YYYY-MM-DD');
+        fetchData(currentType, currentStartDate, currentEndDate);
+        });
+
+        // ---------- First load ----------
+        setActiveTabUI('daily');
+        fetchData(currentType);
+
+        // expose if needed
+        return { refresh: () => fetchData(currentType, currentStartDate, currentEndDate) };
+    }
+
+    // ===== Vendors =====
+    makeBrushBarChart({
+        ids: {
+        main: 'new_vendor_signup_chart',
+        nav: 'new_vendor_signup_nav',
+        scroll: 'new_vendor_signup_scroll',
+        picker: 'vendor_sign_up_picker',
+        tabs: {
+            daily:   'new_vendor_signup_daily-tab',
+            weekly:  'new_vendor_signup_weekly-tab',
+            monthly: 'new_vendor_signup_monthly-tab',
+            yearly:  'new_vendor_signup_yearly-tab',
+        }
+        },
+        url: '{{ route('vendors.data') }}',
+        seriesName: 'New Vendors',
+        titleBase: 'New Vendor Sign Up'
+    });
+
+    // ===== Customers =====
+    makeBrushBarChart({
+        ids: {
+        main: 'new_customer_signup_chart',
+        nav: 'new_customer_signup_nav',
+        scroll: 'new_customer_signup_scroll',
+        picker: 'customer_sign_up_picker',
+        tabs: {
+            daily:   'new_customer_signup_daily-tab',
+            weekly:  'new_customer_signup_weekly-tab',
+            monthly: 'new_customer_signup_monthly-tab',
+            yearly:  'new_customer_signup_yearly-tab',
+        }
+        },
+        url: '{{ route('customers.data') }}',
+        seriesName: 'New Customers',
+        titleBase: 'New Customer Sign Up'
+    });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // ---------- Shared helpers ----------
+        const clamp = (n, lo, hi) => Math.min(hi, Math.max(lo, n));
+        
+        function makeBrushBarChart({ ids, url, seriesName, titleBase, isTopChart = false, unit = '' }) {
+            let currentType = 'daily';
+            let currentStartDate = null;
+            let currentEndDate = null;
+
+            // full dataset
+            let rawLabels = [];
+            let displayLabels = [];
+            let topNames = [];
+
+            let labels = [];      // ["2025-09-01", ...] | ["W36, Sep-2025", ...] | ["Jan 2025", ...] | ["2024","2025",...]
+            let values = [];      // [1,2,0,...]
+            let points = [];      // [{x:i,y:v}]
+
+            // current viewport (inclusive indices into full arrays)
+            let vMin = 0, vMax = 0;
+
+            // DOM
+            const elMain   = document.querySelector('#' + ids.main);
+            const elNav    = document.querySelector('#' + ids.nav);
+            const elScroll = document.querySelector('#' + ids.scroll);
+
+            // ---------- Tabs UI ----------
+            const tabIds = [ids.tabs.daily, ids.tabs.weekly, ids.tabs.monthly, ids.tabs.yearly];
+            function setActiveTabUI(type) {
+            const map = { daily: ids.tabs.daily, weekly: ids.tabs.weekly, monthly: ids.tabs.monthly, yearly: ids.tabs.yearly };
+            const activeId = map[type];
+            tabIds.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.toggle('active', id === activeId);
+            });
             }
+
+            // ---------- Main (category) chart ----------
+            const mainOpts = {
+            series: [{ name: seriesName, data: [] }],
+            chart: {
+                id: ids.main + '_chart',
+                type: 'bar',
+                height: 350,
+                background: '#ffffff',
+                toolbar: { show: false },                 // hide apex toolbar
+                zoom: { enabled: false },                 // we'll handle zoom/pan ourselves
+                animations: { easing: 'easeinout', speed: 180 }
+            },
+            title: { text: titleBase, align: 'left' },
+            colors: ['#e0bb20'],
+            grid: { padding: { left: 2, right: 2 } },
+            plotOptions: { bar: { columnWidth: '18%', borderRadius: 6, distributed: false } },
+            dataLabels: {
+                enabled: true,
+                offsetY: 0, // Set to 0 to position text at the base of the bar, touching x-axis
+                align: 'bottom', // Ensure text starts from the bottom edge of the bar
+                background: { enabled: false },
+                style: {
+                    colors: ['#000'],
+                    fontWeight: 600,
+                    fontSize: isTopChart ? '10px' : '12px', // smaller for longer labels
+                },
+                formatter: isTopChart 
+                    ? function(v, { dataPointIndex }) { 
+                        if (v === 0) return '0';
+                        return v >= 1 
+                            ? (seriesName === 'Sales' 
+                                ? `${topNames[dataPointIndex]}\n${v} ${unit}` 
+                                : `${v} ${unit.split(' ')[0].toLowerCase()},\n${v} ${unit.split(' ')[1].toLowerCase()}`)
+                            : `${v}`;
+                    }
+                    : (v) => (v === 0 ? '0' : v)
+            },
+            xaxis: {
+                type: 'category',                         // ← category axis (exact 1:1 with visible bars)
+                categories: [],
+                tickPlacement: 'on',
+                rangePadding: 'none',
+                labels: {
+                    rotate: -90,
+                    rotateAlways: true,
+                    trim: false,
+                    hideOverlappingLabels: false,
+                    style: {
+                        fontSize: '10px' // Reduce font size to minimize overlap risk
+                    }
+                }
+            },
+            yaxis: { title: { text: seriesName }, min: 0 }, // Ensure y-axis starts at 0 to avoid overlap
+            tooltip: {
+                x: { formatter: (val, { dataPointIndex }) => (visibleLabels[dataPointIndex] ?? '') },
+                y: { formatter: isTopChart 
+                    ? (val, { dataPointIndex }) => val === 0 ? 'No data' : `${topNames[dataPointIndex] || 'Unknown'}: ${val} ${unit}`
+                    : (val) => `${val} ${unit}` 
+                }
+            }
+            };
+
+            // this array mirrors the xaxis categories each update; used by tooltip
+            let visibleLabels = [];
+
+            const chart = new ApexCharts(elMain, mainOpts);
+            chart.render();
+
+            // ---------- Navigator (numeric) ----------
+            let nav = null;
+            function renderNav() {
+                if (nav) nav.destroy();
+
+                const navData = values.map((y, i) => ({ x: i, y }));
+
+                // default window = up to 60 bars
+                vMin = 0;
+                vMax = Math.max(0, Math.min(values.length - 1, 60));
+
+                nav = new ApexCharts(elNav, {
+                    chart: {
+                    id: ids.nav + '_chart',
+                    height: 110,
+                    type: 'area',
+                    toolbar: { show: false },
+                    animations: { enabled: false },
+                    // We manually handle selection; brush is unnecessary with category axis in main.
+                    selection: { enabled: true, xaxis: { min: vMin, max: vMax } },
+                    events: {
+                        selection: (ctx, { xaxis }) => {
+                        const minI = clamp(Math.round(xaxis.min), 0, labels.length - 1);
+                        const maxI = clamp(Math.round(xaxis.max), 0, labels.length - 1);
+                        applyViewport(minI, maxI, { from: 'nav' });
+                        }
+                    }
+                    },
+                    colors: ['#e0bb20'],
+                    stroke: { width: 1, colors: ['#e0bb20'] },
+                    series: [{ name: 'Range', data: navData }],
+                    xaxis: { type: 'numeric', labels: { show: false }, tooltip: { enabled: false } },
+                    yaxis: { show: false },
+                    dataLabels: { enabled: false },
+                    fill: { opacity: 0.2 }
+                });
+
+                nav.render();
+                applyViewport(vMin, vMax);
+                updateScrollbar();
+            }
+
+            // ---------- Viewport sync (slice to visible window) ----------
+            function applyViewport(minI, maxI, { from = 'code' } = {}) {
+                vMin = Math.max(0, Math.min(minI, maxI));
+                vMax = Math.max(0, Math.max(minI, maxI));
+
+                // slice visible window for main chart
+                const windowVals = values.slice(vMin, vMax + 1);
+                visibleLabels    = displayLabels.slice(vMin, vMax + 1);
+                const windowTopNames = topNames.slice(vMin, vMax + 1); // for consistency, though not used here
+
+                chart.updateOptions({
+                    series: [{ name: seriesName, data: windowVals }],
+                    xaxis: { categories: visibleLabels }
+                }, false, false);
+
+                // keep navigator’s selection synced
+                if (nav && from !== 'nav') {
+                    nav.updateOptions({
+                    chart: { selection: { enabled: true, xaxis: { min: vMin, max: vMax } } }
+                    }, false, false);
+                }
+
+                if (from !== 'scroll') updateScrollbar();
+            }
+
+            // ---------- Scrollbar ----------
+            function updateScrollbar() {
+                const windowSize = Math.max(1, vMax - vMin + 1);
+                const maxLeft = Math.max(0, labels.length - windowSize);
+                elScroll.max = String(maxLeft);
+                elScroll.step = '1';
+                elScroll.value = String(clamp(vMin, 0, maxLeft));
+                elScroll.disabled = (maxLeft === 0);
+                elScroll.title = 'Scroll to pan. Hold Ctrl/Cmd + Wheel to zoom. Wheel to pan.';
+                }
+
+                elScroll.addEventListener('input', () => {
+                const windowSize = Math.max(1, vMax - vMin + 1);
+                const left = parseInt(elScroll.value || '0', 10);
+                applyViewport(left, left + windowSize - 1, { from: 'scroll' });
+                });
+
+                // ---------- Smooth wheel zoom & pan on MAIN ----------
+                elMain.addEventListener('wheel', (e) => {
+                if (!labels.length) return;
+
+                const rect = elMain.getBoundingClientRect();
+                const relX = Math.min(rect.width, Math.max(0, e.clientX - rect.left));
+                const frac = rect.width > 0 ? (relX / rect.width) : 0.5;
+                const centerIdx = Math.round(vMin + frac * Math.max(0, (vMax - vMin)));
+
+                const delta = e.deltaY || e.wheelDelta || 0;
+
+                if (e.ctrlKey || e.metaKey) {
+                    // ZOOM
+                    e.preventDefault();
+                    const currentWindow = Math.max(1, vMax - vMin + 1);
+                    const scale = delta > 0 ? 1.15 : 1 / 1.15;
+                    let newWindow = Math.round(currentWindow * scale);
+                    newWindow = clamp(newWindow, 5, Math.max(10, Math.ceil(labels.length * 0.9)));
+
+                    const half = Math.floor(newWindow / 2);
+                    let newMin = clamp(centerIdx - half, 0, Math.max(0, labels.length - newWindow));
+                    let newMax = newMin + newWindow - 1;
+                    applyViewport(newMin, newMax);
+                } else {
+                    // PAN
+                    const panStep = Math.max(1, Math.round((vMax - vMin + 1) * 0.1));
+                    const dir = delta > 0 ? 1 : -1;
+                    const newMin = clamp(vMin + dir * panStep, 0, Math.max(0, labels.length - (vMax - vMin + 1)));
+                    const newMax = newMin + (vMax - vMin);
+                    applyViewport(newMin, newMax);
+                }
+                }, { passive: false });
+
+                // Double-click to reset window
+                elMain.addEventListener('dblclick', () => {
+                const fullMax = Math.max(0, labels.length - 1);
+                const initialMax = Math.min(fullMax, 60);
+                applyViewport(0, initialMax);
+            });
+
+            // ---------- Data fetch & ingest ----------
+            function fetchData(type, startDate = null, endDate = null) {
+                setActiveTabUI(type);
+                chart.updateOptions({ title: { text: 'Loading…' } });
+                const req = { type };
+                if (startDate && endDate) { req.start_date = startDate; req.end_date = endDate; }
+
+                $.ajax({
+                    url,
+                    type: 'GET',
+                    data: req,
+                    success: (payload) => ingest(payload, type),
+                    error: () => chart.updateOptions({ title: { text: 'Error loading data' } })
+                });
+            }
+
+            function ingest(payload, chartType) {
+                // keep insertion order, de-dupe keys
+                const seen = new Set();
+                rawLabels = [];
+                values = [];
+                topNames = [];
+                Object.keys(payload).forEach(k => {
+                    if (!seen.has(k)) {
+                        seen.add(k);
+                        rawLabels.push(k);
+                        const val = payload[k];
+                        if (isTopChart && typeof val === 'object' && val !== null && 'name' in val && 'value' in val) {
+                            values.push(parseInt(val.value) || 0);
+                            topNames.push(val.name || 'None');
+                        } else {
+                            values.push(parseInt(val) || 0);
+                            topNames.push(''); // placeholder
+                        }
+                    }
+                });
+
+                // build display labels
+                displayLabels = rawLabels.map(k => {
+                    if (chartType === 'daily') {
+                    // API gives YYYY-MM-DD → show DD-MMM-YYYY (e.g., 01-Oct-2025)
+                    return moment(k, 'YYYY-MM-DD', true).isValid()
+                        ? moment(k, 'YYYY-MM-DD').format('DD, MMM YY')
+                        : k; // fallback if not a date string
+                    }
+                    return k; // weekly/monthly/yearly already humanized by backend
+                });
+
+                chart.updateOptions({
+                    title: { text: `${titleBase} - ${chartType.charAt(0).toUpperCase() + chartType.slice(1)}` }
+                });
+
+                // rebuild navigator + main
+                labels = rawLabels.slice(); // keep indices aligned for viewport math
+                renderNav(); // sets vMin/vMax and paints both charts
+            }
+
 
             // ---------- Tabs ----------
             document.getElementById(ids.tabs.daily).addEventListener('click',  () => { currentType = 'daily';  fetchData(currentType, currentStartDate, currentEndDate); });
@@ -1293,45 +1667,7 @@
             return { refresh: () => fetchData(currentType, currentStartDate, currentEndDate) };
         }
 
-        // ===== Vendors =====
-        makeBrushBarChart({
-            ids: {
-            main: 'new_vendor_signup_chart',
-            nav: 'new_vendor_signup_nav',
-            scroll: 'new_vendor_signup_scroll',
-            picker: 'vendor_sign_up_picker',
-            tabs: {
-                daily:   'new_vendor_signup_daily-tab',
-                weekly:  'new_vendor_signup_weekly-tab',
-                monthly: 'new_vendor_signup_monthly-tab',
-                yearly:  'new_vendor_signup_yearly-tab',
-            }
-            },
-            url: '{{ route('vendors.data') }}',
-            seriesName: 'New Vendors',
-            titleBase: 'New Vendor Sign Up'
-        });
-
-        // ===== Customers =====
-        makeBrushBarChart({
-            ids: {
-            main: 'new_customer_signup_chart',
-            nav: 'new_customer_signup_nav',
-            scroll: 'new_customer_signup_scroll',
-            picker: 'customer_sign_up_picker',
-            tabs: {
-                daily:   'new_customer_signup_daily-tab',
-                weekly:  'new_customer_signup_weekly-tab',
-                monthly: 'new_customer_signup_monthly-tab',
-                yearly:  'new_customer_signup_yearly-tab',
-            }
-            },
-            url: '{{ route('customers.data') }}',
-            seriesName: 'New Customers',
-            titleBase: 'New Customer Sign Up'
-        });
-
-        // ===== Top Selling Vendors (uses total_amount, same as your controller) =====
+        // ===== Top Selling Vendors =====
         makeBrushBarChart({
             ids: {
             main:   'top_vendor_chart',
@@ -1346,11 +1682,13 @@
             }
             },
             url: '{{ route('top-vendors.data') }}',
-            seriesName: 'Net Profit',
-            titleBase: 'Top Selling Vendors'
+            seriesName: 'Sales',
+            titleBase: 'Top Selling Vendors',
+            isTopChart: true,
+            unit: 'sales'
         });
 
-        // ===== Top Selling Products (uses total sold qty, same as your controller) =====
+        // ===== Top Selling Products =====
         makeBrushBarChart({
             ids: {
             main:   'top_vendors_two_chart',
@@ -1365,19 +1703,13 @@
             }
             },
             url: '{{ route('top-products.data') }}',
-            seriesName: 'Total Sold',
-            titleBase: 'Top Selling Products'
+            seriesName: 'Units Sold',
+            titleBase: 'Top Selling Products',
+            isTopChart: true,
+            unit: 'items, sold'
         });
-        });
-    </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-        
-        });
-    </script>
-
-
+    });
+</script>
 
 
     <script>
