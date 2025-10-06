@@ -7,6 +7,7 @@ use App\Admin;
 use App\Language;
 use Carbon\Carbon;
 use App\ContactInfoItem;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
@@ -757,7 +758,7 @@ class AdminDashboardController extends Controller
                             ->first();
 
                         $lbl = $cursor->toDateString(); // YYYY-MM-DD
-                        $data[$lbl] = $top ? ['name' => $top->name, 'value' => (int) $top->value] : ['name' => 'None', 'value' => 0];
+                        $data[$lbl] = $top ? ['name' => Str::limit($top->name, 100, '...'), 'value' => (int) $top->value] : ['name' => 'None', 'value' => 0];
                         $cursor->addDay();
                     }
                     break;
@@ -779,7 +780,7 @@ class AdminDashboardController extends Controller
 
                         $isoWeek = (int) $cursor->format('W');
                         $label = 'W' . $isoWeek . ', ' . $cursor->format('M-Y');
-                        $data[$label] = $top ? ['name' => $top->name, 'value' => (int) $top->value] : ['name' => 'None', 'value' => 0];
+                        $data[$label] = $top ? ['name' => Str::limit($top->name, 100, '...'), 'value' => (int) $top->value] : ['name' => 'None', 'value' => 0];
                         $cursor->addWeek();
                     }
                     break;
@@ -798,7 +799,7 @@ class AdminDashboardController extends Controller
                             ->first();
 
                         $label = $cursor->format('M Y');
-                        $data[$label] = $top ? ['name' => $top->name, 'value' => (int) $top->value] : ['name' => 'None', 'value' => 0];
+                        $data[$label] = $top ? ['name' => Str::limit($top->name, 100, '...'), 'value' => (int) $top->value] : ['name' => 'None', 'value' => 0];
                         $cursor->addMonth();
                     }
                     break;
@@ -817,7 +818,7 @@ class AdminDashboardController extends Controller
                             ->first();
 
                         $label = $cursor->format('Y');
-                        $data[$label] = $top ? ['name' => $top->name, 'value' => (int) $top->value] : ['name' => 'None', 'value' => 0];
+                        $data[$label] = $top ? ['name' => Str::limit($top->name, 100, '...'), 'value' => (int) $top->value] : ['name' => 'None', 'value' => 0];
                         $cursor->addYear();
                     }
                     break;
@@ -1116,6 +1117,151 @@ class AdminDashboardController extends Controller
         return response()->json($data);
     }
 
+
+    // public function getWebsiteData(Request $request)
+    // {
+    //     $type = $request->input('type');
+    //     $startDate = $request->input('start_date');
+    //     $endDate = $request->input('end_date');
+
+    //     // Demo: Assume a Visit model for website visits
+    //     $query = Visit::query(); // Replace with your actual model
+
+    //     switch ($type) {
+    //         case 'daily':
+    //             $fillStart = $startDate ? Carbon::parse($startDate) : Carbon::now()->startOfMonth();
+    //             $fillEnd = $endDate ? Carbon::parse($endDate) : Carbon::now()->endOfMonth();
+
+    //             if (!$startDate || !$endDate) {
+    //                 $query->whereBetween('created_at', [$fillStart, $fillEnd]);
+    //             } else {
+    //                 $query->whereBetween('created_at', [$fillStart->startOfDay(), $fillEnd->endOfDay()]);
+    //             }
+
+    //             $data = [];
+    //             $date = $fillStart->copy();
+    //             while ($date->lte($fillEnd)) {
+    //                 $key = $date->format('Y-m-d');
+    //                 $data[$key] = 0;
+    //                 $date->addDay();
+    //             }
+
+    //             $counts = $query->selectRaw("DATE_FORMAT(created_at, '%Y-%m-%d') as date, COUNT(*) as count")
+    //                 ->groupBy('date')
+    //                 ->get()
+    //                 ->each(function ($item) use (&$data) {
+    //                     if (isset($data[$item->date])) {
+    //                         $data[$item->date] = (int) $item->count;
+    //                     }
+    //                 });
+    //             break;
+
+    //         case 'weekly':
+    //             $periodStart = $startDate ? Carbon::parse($startDate) : Carbon::now()->startOfMonth();
+    //             $periodEnd = $endDate ? Carbon::parse($endDate) : Carbon::now()->endOfMonth();
+
+    //             if (!$startDate || !$endDate) {
+    //                 $query->whereBetween('created_at', [$periodStart->startOfDay(), $periodEnd->endOfDay()]);
+    //             } else {
+    //                 $query->whereBetween('created_at', [$periodStart->startOfDay(), $periodEnd->endOfDay()]);
+    //             }
+
+    //             // Generate all weeks
+    //             $firstWeekStart = $periodStart->copy()->startOfWeek(Carbon::MONDAY);
+    //             $lastWeekEnd = $periodEnd->copy()->endOfWeek(Carbon::MONDAY);
+    //             $data = [];
+    //             $currentWeek = $firstWeekStart->copy();
+    //             while ($currentWeek->lte($lastWeekEnd)) {
+    //                 $weekEnd = $currentWeek->copy()->endOfWeek();
+    //                 if ($weekEnd->gte($periodStart) && $currentWeek->lte($periodEnd)) {
+    //                     $weekNum = $currentWeek->isoWeek();
+    //                     $month = $currentWeek->format('M');
+    //                     $year = $currentWeek->year;
+    //                     $label = "W{$weekNum}, {$month}-{$year}";
+    //                     $data[$label] = 0;
+    //                 }
+    //                 $currentWeek->addWeek();
+    //             }
+
+    //             // Get counts and fill
+    //             $counts = $query->selectRaw("YEAR(created_at) as year, WEEK(created_at, 1) as week_num, COUNT(*) as count")
+    //                 ->groupBy('year', 'week_num')
+    //                 ->get()
+    //                 ->each(function ($item) use (&$data) {
+    //                     $weekStart = Carbon::createFromDate($item->year, 1, 1)
+    //                         ->startOfWeek(Carbon::MONDAY)
+    //                         ->addWeeks($item->week_num - 1);
+    //                     $month = $weekStart->format('M');
+    //                     $label = "W{$item->week_num}, {$month}-{$item->year}";
+    //                     if (isset($data[$label])) {
+    //                         $data[$label] = (int) $item->count;
+    //                     }
+    //                 });
+    //             break;
+
+    //         case 'monthly':
+    //             $fillStart = $startDate ? Carbon::parse($startDate)->startOfMonth() : Carbon::now()->startOfYear();
+    //             $fillEnd = $endDate ? Carbon::parse($endDate)->endOfMonth() : Carbon::now()->endOfYear();
+
+    //             if (!$startDate || !$endDate) {
+    //                 $query->whereYear('created_at', Carbon::now()->year);
+    //             } else {
+    //                 $query->whereBetween('created_at', [$fillStart->startOfDay(), $fillEnd->endOfDay()]);
+    //             }
+
+    //             $data = [];
+    //             $current = $fillStart->copy();
+    //             while ($current->lte($fillEnd)) {
+    //                 $data[$current->format('M Y')] = 0;
+    //                 $current->addMonth();
+    //             }
+
+    //             $counts = $query->selectRaw("DATE_FORMAT(created_at, '%b %Y') as month_name, COUNT(*) as count")
+    //                 ->groupBy('month_name')
+    //                 ->get()
+    //                 ->each(function ($item) use (&$data) {
+    //                     if (isset($data[$item->month_name])) {
+    //                         $data[$item->month_name] = (int) $item->count;
+    //                     }
+    //                 });
+    //             break;
+
+    //         case 'yearly':
+    //             $startY = $startDate ? Carbon::parse($startDate)->year : Carbon::now()->year - 5;
+    //             $endY = $endDate ? Carbon::parse($endDate)->year : Carbon::now()->year;
+
+    //             if (!$startDate || !$endDate) {
+    //                 $query->where('created_at', '>=', Carbon::now()->subYears(5)->startOfYear())
+    //                     ->where('created_at', '<=', Carbon::now()->endOfYear());
+    //             } else {
+    //                 $query->whereYear('created_at', '>=', $startY)
+    //                     ->whereYear('created_at', '<=', $endY);
+    //             }
+
+    //             $data = [];
+    //             for ($y = $startY; $y <= $endY; $y++) {
+    //                 $data[$y] = 0;
+    //             }
+
+    //             $counts = $query->selectRaw("YEAR(created_at) as year, COUNT(*) as count")
+    //                 ->groupBy('year')
+    //                 ->get()
+    //                 ->each(function ($item) use (&$data) {
+    //                     if (isset($data[$item->year])) {
+    //                         $data[$item->year] = (int) $item->count;
+    //                     }
+    //                 });
+    //             break;
+
+    //         default:
+    //             $data = [];
+    //             break;
+    //     }
+
+    //     return response()->json($data);
+    // }
+
+
     public  function health()
     {
         $all_user = Admin::all()->except(Auth::id());
@@ -1192,6 +1338,7 @@ class AdminDashboardController extends Controller
             'data' => $chart_data,
         ]);
     }
+
 
     public function getOrderCountPerDayChartData()
     {
