@@ -219,85 +219,85 @@ class AdminDashboardController extends Controller
 
         switch ($type) {
             case 'daily': {
-                // counts grouped by date
-                $counts = $base->clone()
-                    ->selectRaw('DATE(created_at) as d, COUNT(*) as c')
-                    ->groupBy('d')
-                    ->pluck('c', 'd');
+                    // counts grouped by date
+                    $counts = $base->clone()
+                        ->selectRaw('DATE(created_at) as d, COUNT(*) as c')
+                        ->groupBy('d')
+                        ->pluck('c', 'd');
 
-                // build full day range with zeros
-                $cursor = $start->copy()->startOfDay();
-                while ($cursor->lte($end)) {
-                    $lbl = $cursor->toDateString(); // YYYY-MM-DD
-                    $data[$lbl] = (int) ($counts[$lbl] ?? 0);
-                    $cursor->addDay();
+                    // build full day range with zeros
+                    $cursor = $start->copy()->startOfDay();
+                    while ($cursor->lte($end)) {
+                        $lbl = $cursor->toDateString(); // YYYY-MM-DD
+                        $data[$lbl] = (int) ($counts[$lbl] ?? 0);
+                        $cursor->addDay();
+                    }
+                    break;
                 }
-                break;
-            }
 
             case 'weekly': {
-                // ISO week key (oW => ISO year + week). Example: 202536
-                $counts = $base->clone()
-                    ->selectRaw('YEARWEEK(created_at, 3) as yw, COUNT(*) as c') // 3 => ISO week, Monday start
-                    ->groupBy('yw')
-                    ->pluck('c', 'yw');
+                    // ISO week key (oW => ISO year + week). Example: 202536
+                    $counts = $base->clone()
+                        ->selectRaw('YEARWEEK(created_at, 3) as yw, COUNT(*) as c') // 3 => ISO week, Monday start
+                        ->groupBy('yw')
+                        ->pluck('c', 'yw');
 
-                // iterate weeks from Monday..Sunday
-                $cursorStart = $start->copy()->startOfWeek(\Carbon\Carbon::MONDAY);
-                $rangeEnd    = $end->copy()->endOfWeek(\Carbon\Carbon::SUNDAY);
+                    // iterate weeks from Monday..Sunday
+                    $cursorStart = $start->copy()->startOfWeek(\Carbon\Carbon::MONDAY);
+                    $rangeEnd    = $end->copy()->endOfWeek(\Carbon\Carbon::SUNDAY);
 
-                while ($cursorStart->lte($rangeEnd)) {
-                    $isoYear = (int) $cursorStart->format('o');  // ISO year
-                    $isoWeek = (int) $cursorStart->format('W');  // 1..53
-                    $key     = (int) ($isoYear . str_pad((string)$isoWeek, 2, '0', STR_PAD_LEFT)); // matches YEARWEEK(...,3)
+                    while ($cursorStart->lte($rangeEnd)) {
+                        $isoYear = (int) $cursorStart->format('o');  // ISO year
+                        $isoWeek = (int) $cursorStart->format('W');  // 1..53
+                        $key     = (int) ($isoYear . str_pad((string)$isoWeek, 2, '0', STR_PAD_LEFT)); // matches YEARWEEK(...,3)
 
-                    // Label: "W{week}, {Mon-YYYY}" using the week *start* month
-                    // $label = 'W' . $isoWeek . ', ' . $cursorStart->format('M-Y');
-                    $label = 'W' . $isoWeek . ', ' . $cursorStart->copy()->endOfWeek(\Carbon\Carbon::SUNDAY)->format('M-Y');
+                        // Label: "W{week}, {Mon-YYYY}" using the week *start* month
+                        // $label = 'W' . $isoWeek . ', ' . $cursorStart->format('M-Y');
+                        $label = 'W' . $isoWeek . ', ' . $cursorStart->copy()->endOfWeek(\Carbon\Carbon::SUNDAY)->format('M-Y');
 
-                    $data[$label] = (int) ($counts[$key] ?? 0);
+                        $data[$label] = (int) ($counts[$key] ?? 0);
 
-                    $cursorStart->addWeek();
+                        $cursorStart->addWeek();
+                    }
+                    break;
                 }
-                break;
-            }
 
             case 'monthly': {
-                // counts grouped by month/year
-                $counts = $base->clone()
-                    ->selectRaw('YEAR(created_at) as y, MONTH(created_at) as m, COUNT(*) as c')
-                    ->groupBy('y', 'm')
-                    ->get()
-                    ->reduce(function ($carry, $row) {
-                        $key = sprintf('%04d-%02d', $row->y, $row->m);
-                        $carry[$key] = (int) $row->c;
-                        return $carry;
-                    }, []);
+                    // counts grouped by month/year
+                    $counts = $base->clone()
+                        ->selectRaw('YEAR(created_at) as y, MONTH(created_at) as m, COUNT(*) as c')
+                        ->groupBy('y', 'm')
+                        ->get()
+                        ->reduce(function ($carry, $row) {
+                            $key = sprintf('%04d-%02d', $row->y, $row->m);
+                            $carry[$key] = (int) $row->c;
+                            return $carry;
+                        }, []);
 
-                $cursor = $start->copy()->startOfMonth();
-                while ($cursor->lte($end)) {
-                    $key   = $cursor->format('Y-m');
-                    $label = $cursor->format('M Y'); // "Jan 2025"
-                    $data[$label] = (int) ($counts[$key] ?? 0);
-                    $cursor->addMonth();
+                    $cursor = $start->copy()->startOfMonth();
+                    while ($cursor->lte($end)) {
+                        $key   = $cursor->format('Y-m');
+                        $label = $cursor->format('M Y'); // "Jan 2025"
+                        $data[$label] = (int) ($counts[$key] ?? 0);
+                        $cursor->addMonth();
+                    }
+                    break;
                 }
-                break;
-            }
 
             case 'yearly': {
-                $counts = $base->clone()
-                    ->selectRaw('YEAR(created_at) as y, COUNT(*) as c')
-                    ->groupBy('y')
-                    ->pluck('c', 'y');
+                    $counts = $base->clone()
+                        ->selectRaw('YEAR(created_at) as y, COUNT(*) as c')
+                        ->groupBy('y')
+                        ->pluck('c', 'y');
 
-                $cursor = $start->copy()->startOfYear();
-                while ($cursor->lte($end)) {
-                    $year = (int) $cursor->format('Y');
-                    $data[(string)$year] = (int) ($counts[$year] ?? 0);
-                    $cursor->addYear();
+                    $cursor = $start->copy()->startOfYear();
+                    while ($cursor->lte($end)) {
+                        $year = (int) $cursor->format('Y');
+                        $data[(string)$year] = (int) ($counts[$year] ?? 0);
+                        $cursor->addYear();
+                    }
+                    break;
                 }
-                break;
-            }
 
             default:
                 // fall back to empty
@@ -348,75 +348,75 @@ class AdminDashboardController extends Controller
 
         switch ($type) {
             case 'daily': {
-                $counts = $base->clone()
-                    ->selectRaw('DATE(created_at) as d, COUNT(*) as c')
-                    ->groupBy('d')
-                    ->pluck('c', 'd');
+                    $counts = $base->clone()
+                        ->selectRaw('DATE(created_at) as d, COUNT(*) as c')
+                        ->groupBy('d')
+                        ->pluck('c', 'd');
 
-                $cursor = $start->copy()->startOfDay();
-                while ($cursor->lte($end)) {
-                    $lbl = $cursor->toDateString(); // YYYY-MM-DD
-                    $out[$lbl] = (int)($counts[$lbl] ?? 0);
-                    $cursor->addDay();
+                    $cursor = $start->copy()->startOfDay();
+                    while ($cursor->lte($end)) {
+                        $lbl = $cursor->toDateString(); // YYYY-MM-DD
+                        $out[$lbl] = (int)($counts[$lbl] ?? 0);
+                        $cursor->addDay();
+                    }
+                    break;
                 }
-                break;
-            }
 
             case 'weekly': {
-                // keyed by ISO YEARWEEK (mode 3 = ISO weeks)
-                $counts = $base->clone()
-                    ->selectRaw('YEARWEEK(created_at, 3) as yw, COUNT(*) as c')
-                    ->groupBy('yw')
-                    ->pluck('c', 'yw');
+                    // keyed by ISO YEARWEEK (mode 3 = ISO weeks)
+                    $counts = $base->clone()
+                        ->selectRaw('YEARWEEK(created_at, 3) as yw, COUNT(*) as c')
+                        ->groupBy('yw')
+                        ->pluck('c', 'yw');
 
-                $cursor = $start->copy()->startOfWeek(\Carbon\Carbon::MONDAY);
-                $rangeEnd = $end->copy()->endOfWeek(\Carbon\Carbon::SUNDAY);
+                    $cursor = $start->copy()->startOfWeek(\Carbon\Carbon::MONDAY);
+                    $rangeEnd = $end->copy()->endOfWeek(\Carbon\Carbon::SUNDAY);
 
-                while ($cursor->lte($rangeEnd)) {
-                    $isoYear = (int)$cursor->format('o');
-                    $isoWeek = (int)$cursor->format('W');
-                    $key     = (int)($isoYear . str_pad((string)$isoWeek, 2, '0', STR_PAD_LEFT));
-                    $label   = 'W' . $isoWeek . ', ' . $cursor->format('M-Y'); // e.g., W36, Sep-2025
-                    $out[$label] = (int)($counts[$key] ?? 0);
-                    $cursor->addWeek();
+                    while ($cursor->lte($rangeEnd)) {
+                        $isoYear = (int)$cursor->format('o');
+                        $isoWeek = (int)$cursor->format('W');
+                        $key     = (int)($isoYear . str_pad((string)$isoWeek, 2, '0', STR_PAD_LEFT));
+                        $label   = 'W' . $isoWeek . ', ' . $cursor->format('M-Y'); // e.g., W36, Sep-2025
+                        $out[$label] = (int)($counts[$key] ?? 0);
+                        $cursor->addWeek();
+                    }
+                    break;
                 }
-                break;
-            }
 
             case 'monthly': {
-                $counts = $base->clone()
-                    ->selectRaw('YEAR(created_at) as y, MONTH(created_at) as m, COUNT(*) as c')
-                    ->groupBy('y', 'm')
-                    ->get()
-                    ->reduce(function($carry, $r) {
-                        $carry[sprintf('%04d-%02d', $r->y, $r->m)] = (int)$r->c;
-                        return $carry;
-                    }, []);
+                    $counts = $base->clone()
+                        ->selectRaw('YEAR(created_at) as y, MONTH(created_at) as m, COUNT(*) as c')
+                        ->groupBy('y', 'm')
+                        ->get()
+                        ->reduce(function ($carry, $r) {
+                            $carry[sprintf('%04d-%02d', $r->y, $r->m)] = (int)$r->c;
+                            return $carry;
+                        }, []);
 
-                $cursor = $start->copy()->startOfMonth();
-                while ($cursor->lte($end)) {
-                    $key   = $cursor->format('Y-m');
-                    $label = $cursor->format('M Y'); // Jan 2025
-                    $out[$label] = (int)($counts[$key] ?? 0);
-                    $cursor->addMonth();
+                    $cursor = $start->copy()->startOfMonth();
+                    while ($cursor->lte($end)) {
+                        $key   = $cursor->format('Y-m');
+                        $label = $cursor->format('M Y'); // Jan 2025
+                        $out[$label] = (int)($counts[$key] ?? 0);
+                        $cursor->addMonth();
+                    }
+                    break;
                 }
-                break;
-            }
 
             case 'yearly': {
-                $counts = $base->clone()
-                    ->selectRaw('YEAR(created_at) as y, COUNT(*) as c')
-                    ->groupBy('y')
-                    ->pluck('c', 'y');
+                    $counts = $base->clone()
+                        ->selectRaw('YEAR(created_at) as y, COUNT(*) as c')
+                        ->groupBy('y')
+                        ->pluck('c', 'y');
 
-                $cursor = $start->copy()->startOfYear();
-                while ($cursor->lte($end)) {
-                    $year = (int)$cursor->format('Y');
-                    $out[(string)$year] = (int)($counts[$year] ?? 0);
-                    $cursor->addYear();
+                    $cursor = $start->copy()->startOfYear();
+                    while ($cursor->lte($end)) {
+                        $year = (int)$cursor->format('Y');
+                        $out[(string)$year] = (int)($counts[$year] ?? 0);
+                        $cursor->addYear();
+                    }
+                    break;
                 }
-                break;
-            }
 
             default:
                 $out = [];
@@ -572,265 +572,265 @@ class AdminDashboardController extends Controller
         return response()->json($data);
     }
 
-public function getTopVendorsData(Request $request)
-{
-    $type      = $request->input('type', 'daily');
-    $startDate = $request->input('start_date');
-    $endDate   = $request->input('end_date');
+    public function getTopVendorsData(Request $request)
+    {
+        $type      = $request->input('type', 'daily');
+        $startDate = $request->input('start_date');
+        $endDate   = $request->input('end_date');
 
-    // ---- Align default windows with your signup charts ----
-    if ($startDate && $endDate) {
-        $start = \Carbon\Carbon::parse($startDate)->startOfDay();
-        $end   = \Carbon\Carbon::parse($endDate)->endOfDay();
-    } else {
+        // ---- Align default windows with your signup charts ----
+        if ($startDate && $endDate) {
+            $start = \Carbon\Carbon::parse($startDate)->startOfDay();
+            $end   = \Carbon\Carbon::parse($endDate)->endOfDay();
+        } else {
+            switch ($type) {
+                case 'daily':
+                    $start = \Carbon\Carbon::now()->startOfMonth();
+                    $end   = \Carbon\Carbon::now()->endOfMonth();
+                    break;
+                case 'weekly':
+                    $start = \Carbon\Carbon::now()->startOfMonth()->startOfWeek(\Carbon\Carbon::MONDAY);
+                    $end   = \Carbon\Carbon::now()->endOfMonth()->endOfWeek(\Carbon\Carbon::SUNDAY);
+                    break;
+                case 'monthly':
+                    $start = \Carbon\Carbon::now()->startOfYear();
+                    $end   = \Carbon\Carbon::now()->endOfYear();
+                    break;
+                case 'yearly':
+                    $start = \Carbon\Carbon::now()->subYears(4)->startOfYear(); // last 5 incl current
+                    $end   = \Carbon\Carbon::now()->endOfYear();
+                    break;
+                default:
+                    $start = \Carbon\Carbon::now()->startOfMonth();
+                    $end   = \Carbon\Carbon::now()->endOfMonth();
+            }
+        }
+
+        // ---- Base query within window (delivered only, like before) ----
+        $base = SubOrder::query()
+            ->join('vendors', 'sub_orders.vendor_id', '=', 'vendors.id')
+            ->whereNotNull('sub_orders.vendor_id')
+            ->whereHas('orderTrack', fn($q) => $q->where('name', 'delivered'))
+            ->whereBetween('sub_orders.created_at', [$start->copy()->startOfDay(), $end->copy()->endOfDay()]);
+
+        $data = [];
+
         switch ($type) {
-            case 'daily':
-                $start = \Carbon\Carbon::now()->startOfMonth();
-                $end   = \Carbon\Carbon::now()->endOfMonth();
-                break;
-            case 'weekly':
-                $start = \Carbon\Carbon::now()->startOfMonth()->startOfWeek(\Carbon\Carbon::MONDAY);
-                $end   = \Carbon\Carbon::now()->endOfMonth()->endOfWeek(\Carbon\Carbon::SUNDAY);
-                break;
-            case 'monthly':
-                $start = \Carbon\Carbon::now()->startOfYear();
-                $end   = \Carbon\Carbon::now()->endOfYear();
-                break;
-            case 'yearly':
-                $start = \Carbon\Carbon::now()->subYears(4)->startOfYear(); // last 5 incl current
-                $end   = \Carbon\Carbon::now()->endOfYear();
-                break;
+            case 'daily': {
+                    $cursor = $start->copy()->startOfDay();
+                    while ($cursor->lte($end)) {
+                        $bucketStart = $cursor->copy()->startOfDay();
+                        $bucketEnd = $cursor->copy()->endOfDay();
+                        $top = $base->clone()
+                            ->whereBetween('sub_orders.created_at', [$bucketStart, $bucketEnd])
+                            ->selectRaw('COALESCE(vendors.owner_name, "Unknown") as name, COUNT(sub_orders.id) as value')
+                            ->groupBy('vendors.id', 'vendors.owner_name')
+                            ->orderByDesc('value')
+                            ->first();
+
+                        $lbl = $cursor->toDateString(); // YYYY-MM-DD
+                        $data[$lbl] = $top ? ['name' => $top->name, 'value' => (int) $top->value] : ['name' => 'None', 'value' => 0];
+                        $cursor->addDay();
+                    }
+                    break;
+                }
+
+            case 'weekly': {
+                    $cursor = $start->copy()->startOfWeek(\Carbon\Carbon::MONDAY);
+                    $rangeEnd = $end->copy()->endOfWeek(\Carbon\Carbon::SUNDAY);
+
+                    while ($cursor->lte($rangeEnd)) {
+                        $bucketStart = $cursor->copy()->startOfWeek();
+                        $bucketEnd = $cursor->copy()->endOfWeek();
+                        $top = $base->clone()
+                            ->whereBetween('sub_orders.created_at', [$bucketStart, $bucketEnd])
+                            ->selectRaw('COALESCE(vendors.owner_name, "Unknown") as name, COUNT(sub_orders.id) as value')
+                            ->groupBy('vendors.id', 'vendors.owner_name')
+                            ->orderByDesc('value')
+                            ->first();
+
+                        $isoWeek = (int) $cursor->format('W');
+                        $label = 'W' . $isoWeek . ', ' . $cursor->format('M-Y');
+                        $data[$label] = $top ? ['name' => $top->name, 'value' => (int) $top->value] : ['name' => 'None', 'value' => 0];
+                        $cursor->addWeek();
+                    }
+                    break;
+                }
+
+            case 'monthly': {
+                    $cursor = $start->copy()->startOfMonth();
+                    while ($cursor->lte($end)) {
+                        $bucketStart = $cursor->copy()->startOfMonth();
+                        $bucketEnd = $cursor->copy()->endOfMonth();
+                        $top = $base->clone()
+                            ->whereBetween('sub_orders.created_at', [$bucketStart, $bucketEnd])
+                            ->selectRaw('COALESCE(vendors.owner_name, "Unknown") as name, COUNT(sub_orders.id) as value')
+                            ->groupBy('vendors.id', 'vendors.owner_name')
+                            ->orderByDesc('value')
+                            ->first();
+
+                        $label = $cursor->format('M Y');
+                        $data[$label] = $top ? ['name' => $top->name, 'value' => (int) $top->value] : ['name' => 'None', 'value' => 0];
+                        $cursor->addMonth();
+                    }
+                    break;
+                }
+
+            case 'yearly': {
+                    $cursor = $start->copy()->startOfYear();
+                    while ($cursor->lte($end)) {
+                        $bucketStart = $cursor->copy()->startOfYear();
+                        $bucketEnd = $cursor->copy()->endOfYear();
+                        $top = $base->clone()
+                            ->whereBetween('sub_orders.created_at', [$bucketStart, $bucketEnd])
+                            ->selectRaw('COALESCE(vendors.owner_name, "Unknown") as name, COUNT(sub_orders.id) as value')
+                            ->groupBy('vendors.id', 'vendors.owner_name')
+                            ->orderByDesc('value')
+                            ->first();
+
+                        $label = $cursor->format('Y');
+                        $data[$label] = $top ? ['name' => $top->name, 'value' => (int) $top->value] : ['name' => 'None', 'value' => 0];
+                        $cursor->addYear();
+                    }
+                    break;
+                }
+
             default:
-                $start = \Carbon\Carbon::now()->startOfMonth();
-                $end   = \Carbon\Carbon::now()->endOfMonth();
+                $data = [];
         }
+
+        return response()->json($data);
     }
 
-    // ---- Base query within window (delivered only, like before) ----
-    $base = SubOrder::query()
-        ->join('vendors', 'sub_orders.vendor_id', '=', 'vendors.id')
-        ->whereNotNull('sub_orders.vendor_id')
-        ->whereHas('orderTrack', fn ($q) => $q->where('name', 'delivered'))
-        ->whereBetween('sub_orders.created_at', [$start->copy()->startOfDay(), $end->copy()->endOfDay()]);
 
-    $data = [];
+    public function getTopProductsData(Request $request)
+    {
+        $type      = $request->input('type', 'daily');
+        $startDate = $request->input('start_date');
+        $endDate   = $request->input('end_date');
 
-    switch ($type) {
-        case 'daily': {
-            $cursor = $start->copy()->startOfDay();
-            while ($cursor->lte($end)) {
-                $bucketStart = $cursor->copy()->startOfDay();
-                $bucketEnd = $cursor->copy()->endOfDay();
-                $top = $base->clone()
-                    ->whereBetween('sub_orders.created_at', [$bucketStart, $bucketEnd])
-                    ->selectRaw('COALESCE(vendors.owner_name, "Unknown") as name, COUNT(sub_orders.id) as value')
-                    ->groupBy('vendors.id', 'vendors.owner_name')
-                    ->orderByDesc('value')
-                    ->first();
-
-                $lbl = $cursor->toDateString(); // YYYY-MM-DD
-                $data[$lbl] = $top ? ['name' => $top->name, 'value' => (int) $top->value] : ['name' => 'None', 'value' => 0];
-                $cursor->addDay();
+        // ---- Align default windows with your signup charts ----
+        if ($startDate && $endDate) {
+            $start = \Carbon\Carbon::parse($startDate)->startOfDay();
+            $end   = \Carbon\Carbon::parse($endDate)->endOfDay();
+        } else {
+            switch ($type) {
+                case 'daily':
+                    $start = \Carbon\Carbon::now()->startOfMonth();
+                    $end   = \Carbon\Carbon::now()->endOfMonth();
+                    break;
+                case 'weekly':
+                    $start = \Carbon\Carbon::now()->startOfMonth()->startOfWeek(\Carbon\Carbon::MONDAY);
+                    $end   = \Carbon\Carbon::now()->endOfMonth()->endOfWeek(\Carbon\Carbon::SUNDAY);
+                    break;
+                case 'monthly':
+                    $start = \Carbon\Carbon::now()->startOfYear();
+                    $end   = \Carbon\Carbon::now()->endOfYear();
+                    break;
+                case 'yearly':
+                    $start = \Carbon\Carbon::now()->subYears(4)->startOfYear(); // last 5 incl current
+                    $end   = \Carbon\Carbon::now()->endOfYear();
+                    break;
+                default:
+                    $start = \Carbon\Carbon::now()->startOfMonth();
+                    $end   = \Carbon\Carbon::now()->endOfMonth();
             }
-            break;
         }
 
-        case 'weekly': {
-            $cursor = $start->copy()->startOfWeek(\Carbon\Carbon::MONDAY);
-            $rangeEnd = $end->copy()->endOfWeek(\Carbon\Carbon::SUNDAY);
+        // ---- Base query within window ----
+        $base = \DB::table('sub_order_items')
+            ->join('orders', 'sub_order_items.order_id', '=', 'orders.id')
+            ->join('products', 'sub_order_items.product_id', '=', 'products.id')
+            ->whereBetween('orders.created_at', [$start->copy()->startOfDay(), $end->copy()->endOfDay()]);
 
-            while ($cursor->lte($rangeEnd)) {
-                $bucketStart = $cursor->copy()->startOfWeek();
-                $bucketEnd = $cursor->copy()->endOfWeek();
-                $top = $base->clone()
-                    ->whereBetween('sub_orders.created_at', [$bucketStart, $bucketEnd])
-                    ->selectRaw('COALESCE(vendors.owner_name, "Unknown") as name, COUNT(sub_orders.id) as value')
-                    ->groupBy('vendors.id', 'vendors.owner_name')
-                    ->orderByDesc('value')
-                    ->first();
+        $data = [];
 
-                $isoWeek = (int) $cursor->format('W');
-                $label = 'W' . $isoWeek . ', ' . $cursor->format('M-Y');
-                $data[$label] = $top ? ['name' => $top->name, 'value' => (int) $top->value] : ['name' => 'None', 'value' => 0];
-                $cursor->addWeek();
-            }
-            break;
-        }
-
-        case 'monthly': {
-            $cursor = $start->copy()->startOfMonth();
-            while ($cursor->lte($end)) {
-                $bucketStart = $cursor->copy()->startOfMonth();
-                $bucketEnd = $cursor->copy()->endOfMonth();
-                $top = $base->clone()
-                    ->whereBetween('sub_orders.created_at', [$bucketStart, $bucketEnd])
-                    ->selectRaw('COALESCE(vendors.owner_name, "Unknown") as name, COUNT(sub_orders.id) as value')
-                    ->groupBy('vendors.id', 'vendors.owner_name')
-                    ->orderByDesc('value')
-                    ->first();
-
-                $label = $cursor->format('M Y');
-                $data[$label] = $top ? ['name' => $top->name, 'value' => (int) $top->value] : ['name' => 'None', 'value' => 0];
-                $cursor->addMonth();
-            }
-            break;
-        }
-
-        case 'yearly': {
-            $cursor = $start->copy()->startOfYear();
-            while ($cursor->lte($end)) {
-                $bucketStart = $cursor->copy()->startOfYear();
-                $bucketEnd = $cursor->copy()->endOfYear();
-                $top = $base->clone()
-                    ->whereBetween('sub_orders.created_at', [$bucketStart, $bucketEnd])
-                    ->selectRaw('COALESCE(vendors.owner_name, "Unknown") as name, COUNT(sub_orders.id) as value')
-                    ->groupBy('vendors.id', 'vendors.owner_name')
-                    ->orderByDesc('value')
-                    ->first();
-
-                $label = $cursor->format('Y');
-                $data[$label] = $top ? ['name' => $top->name, 'value' => (int) $top->value] : ['name' => 'None', 'value' => 0];
-                $cursor->addYear();
-            }
-            break;
-        }
-
-        default:
-            $data = [];
-    }
-
-    return response()->json($data);
-}
-
-
-public function getTopProductsData(Request $request)
-{
-    $type      = $request->input('type', 'daily');
-    $startDate = $request->input('start_date');
-    $endDate   = $request->input('end_date');
-
-    // ---- Align default windows with your signup charts ----
-    if ($startDate && $endDate) {
-        $start = \Carbon\Carbon::parse($startDate)->startOfDay();
-        $end   = \Carbon\Carbon::parse($endDate)->endOfDay();
-    } else {
         switch ($type) {
-            case 'daily':
-                $start = \Carbon\Carbon::now()->startOfMonth();
-                $end   = \Carbon\Carbon::now()->endOfMonth();
-                break;
-            case 'weekly':
-                $start = \Carbon\Carbon::now()->startOfMonth()->startOfWeek(\Carbon\Carbon::MONDAY);
-                $end   = \Carbon\Carbon::now()->endOfMonth()->endOfWeek(\Carbon\Carbon::SUNDAY);
-                break;
-            case 'monthly':
-                $start = \Carbon\Carbon::now()->startOfYear();
-                $end   = \Carbon\Carbon::now()->endOfYear();
-                break;
-            case 'yearly':
-                $start = \Carbon\Carbon::now()->subYears(4)->startOfYear(); // last 5 incl current
-                $end   = \Carbon\Carbon::now()->endOfYear();
-                break;
+            case 'daily': {
+                    $cursor = $start->copy()->startOfDay();
+                    while ($cursor->lte($end)) {
+                        $bucketStart = $cursor->copy()->startOfDay();
+                        $bucketEnd = $cursor->copy()->endOfDay();
+                        $top = $base->clone()
+                            ->whereBetween('orders.created_at', [$bucketStart, $bucketEnd])
+                            ->selectRaw('COALESCE(products.name, "Unknown") as name, SUM(sub_order_items.quantity) as value')
+                            ->groupBy('products.id', 'products.name')
+                            ->orderByDesc('value')
+                            ->first();
+
+                        $lbl = $cursor->toDateString(); // YYYY-MM-DD
+                        $data[$lbl] = $top ? ['name' => $top->name, 'value' => (int) $top->value] : ['name' => 'None', 'value' => 0];
+                        $cursor->addDay();
+                    }
+                    break;
+                }
+
+            case 'weekly': {
+                    $cursor = $start->copy()->startOfWeek(\Carbon\Carbon::MONDAY);
+                    $rangeEnd = $end->copy()->endOfWeek(\Carbon\Carbon::SUNDAY);
+
+                    while ($cursor->lte($rangeEnd)) {
+                        $bucketStart = $cursor->copy()->startOfWeek();
+                        $bucketEnd = $cursor->copy()->endOfWeek();
+                        $top = $base->clone()
+                            ->whereBetween('orders.created_at', [$bucketStart, $bucketEnd])
+                            ->selectRaw('COALESCE(products.name, "Unknown") as name, SUM(sub_order_items.quantity) as value')
+                            ->groupBy('products.id', 'products.name')
+                            ->orderByDesc('value')
+                            ->first();
+
+                        $isoWeek = (int) $cursor->format('W');
+                        $label = 'W' . $isoWeek . ', ' . $cursor->format('M-Y');
+                        $data[$label] = $top ? ['name' => $top->name, 'value' => (int) $top->value] : ['name' => 'None', 'value' => 0];
+                        $cursor->addWeek();
+                    }
+                    break;
+                }
+
+            case 'monthly': {
+                    $cursor = $start->copy()->startOfMonth();
+                    while ($cursor->lte($end)) {
+                        $bucketStart = $cursor->copy()->startOfMonth();
+                        $bucketEnd = $cursor->copy()->endOfMonth();
+                        $top = $base->clone()
+                            ->whereBetween('orders.created_at', [$bucketStart, $bucketEnd])
+                            ->selectRaw('COALESCE(products.name, "Unknown") as name, SUM(sub_order_items.quantity) as value')
+                            ->groupBy('products.id', 'products.name')
+                            ->orderByDesc('value')
+                            ->first();
+
+                        $label = $cursor->format('M Y');
+                        $data[$label] = $top ? ['name' => $top->name, 'value' => (int) $top->value] : ['name' => 'None', 'value' => 0];
+                        $cursor->addMonth();
+                    }
+                    break;
+                }
+
+            case 'yearly': {
+                    $cursor = $start->copy()->startOfYear();
+                    while ($cursor->lte($end)) {
+                        $bucketStart = $cursor->copy()->startOfYear();
+                        $bucketEnd = $cursor->copy()->endOfYear();
+                        $top = $base->clone()
+                            ->whereBetween('orders.created_at', [$bucketStart, $bucketEnd])
+                            ->selectRaw('COALESCE(products.name, "Unknown") as name, SUM(sub_order_items.quantity) as value')
+                            ->groupBy('products.id', 'products.name')
+                            ->orderByDesc('value')
+                            ->first();
+
+                        $label = $cursor->format('Y');
+                        $data[$label] = $top ? ['name' => $top->name, 'value' => (int) $top->value] : ['name' => 'None', 'value' => 0];
+                        $cursor->addYear();
+                    }
+                    break;
+                }
+
             default:
-                $start = \Carbon\Carbon::now()->startOfMonth();
-                $end   = \Carbon\Carbon::now()->endOfMonth();
+                $data = [];
         }
+
+        return response()->json($data);
     }
-
-    // ---- Base query within window ----
-    $base = \DB::table('sub_order_items')
-        ->join('orders', 'sub_order_items.order_id', '=', 'orders.id')
-        ->join('products', 'sub_order_items.product_id', '=', 'products.id')
-        ->whereBetween('orders.created_at', [$start->copy()->startOfDay(), $end->copy()->endOfDay()]);
-
-    $data = [];
-
-    switch ($type) {
-        case 'daily': {
-            $cursor = $start->copy()->startOfDay();
-            while ($cursor->lte($end)) {
-                $bucketStart = $cursor->copy()->startOfDay();
-                $bucketEnd = $cursor->copy()->endOfDay();
-                $top = $base->clone()
-                    ->whereBetween('orders.created_at', [$bucketStart, $bucketEnd])
-                    ->selectRaw('COALESCE(products.name, "Unknown") as name, SUM(sub_order_items.quantity) as value')
-                    ->groupBy('products.id', 'products.name')
-                    ->orderByDesc('value')
-                    ->first();
-
-                $lbl = $cursor->toDateString(); // YYYY-MM-DD
-                $data[$lbl] = $top ? ['name' => $top->name, 'value' => (int) $top->value] : ['name' => 'None', 'value' => 0];
-                $cursor->addDay();
-            }
-            break;
-        }
-
-        case 'weekly': {
-            $cursor = $start->copy()->startOfWeek(\Carbon\Carbon::MONDAY);
-            $rangeEnd = $end->copy()->endOfWeek(\Carbon\Carbon::SUNDAY);
-
-            while ($cursor->lte($rangeEnd)) {
-                $bucketStart = $cursor->copy()->startOfWeek();
-                $bucketEnd = $cursor->copy()->endOfWeek();
-                $top = $base->clone()
-                    ->whereBetween('orders.created_at', [$bucketStart, $bucketEnd])
-                    ->selectRaw('COALESCE(products.name, "Unknown") as name, SUM(sub_order_items.quantity) as value')
-                    ->groupBy('products.id', 'products.name')
-                    ->orderByDesc('value')
-                    ->first();
-
-                $isoWeek = (int) $cursor->format('W');
-                $label = 'W' . $isoWeek . ', ' . $cursor->format('M-Y');
-                $data[$label] = $top ? ['name' => $top->name, 'value' => (int) $top->value] : ['name' => 'None', 'value' => 0];
-                $cursor->addWeek();
-            }
-            break;
-        }
-
-        case 'monthly': {
-            $cursor = $start->copy()->startOfMonth();
-            while ($cursor->lte($end)) {
-                $bucketStart = $cursor->copy()->startOfMonth();
-                $bucketEnd = $cursor->copy()->endOfMonth();
-                $top = $base->clone()
-                    ->whereBetween('orders.created_at', [$bucketStart, $bucketEnd])
-                    ->selectRaw('COALESCE(products.name, "Unknown") as name, SUM(sub_order_items.quantity) as value')
-                    ->groupBy('products.id', 'products.name')
-                    ->orderByDesc('value')
-                    ->first();
-
-                $label = $cursor->format('M Y');
-                $data[$label] = $top ? ['name' => $top->name, 'value' => (int) $top->value] : ['name' => 'None', 'value' => 0];
-                $cursor->addMonth();
-            }
-            break;
-        }
-
-        case 'yearly': {
-            $cursor = $start->copy()->startOfYear();
-            while ($cursor->lte($end)) {
-                $bucketStart = $cursor->copy()->startOfYear();
-                $bucketEnd = $cursor->copy()->endOfYear();
-                $top = $base->clone()
-                    ->whereBetween('orders.created_at', [$bucketStart, $bucketEnd])
-                    ->selectRaw('COALESCE(products.name, "Unknown") as name, SUM(sub_order_items.quantity) as value')
-                    ->groupBy('products.id', 'products.name')
-                    ->orderByDesc('value')
-                    ->first();
-
-                $label = $cursor->format('Y');
-                $data[$label] = $top ? ['name' => $top->name, 'value' => (int) $top->value] : ['name' => 'None', 'value' => 0];
-                $cursor->addYear();
-            }
-            break;
-        }
-
-        default:
-            $data = [];
-    }
-
-    return response()->json($data);
-}
 
 
     public function getVendorPayoutsData(Request $request)
