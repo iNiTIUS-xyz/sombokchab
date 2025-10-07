@@ -1465,10 +1465,9 @@
                             dataPointIndex,
                             w
                         }) {
-                            if (val === 0) return '';
                             const label = w.globals.labels[dataPointIndex];
                             // Show only "Jun 2025" or whatever the x-axis label is + value
-                            return `${label}\n${val}`;
+                            return `${val}`;
                         }
                     },
                     xaxis: {
@@ -1477,7 +1476,7 @@
                         tickPlacement: 'on',
                         rangePadding: 'none',
                         labels: {
-                            rotate: -45,
+                            rotate: -90,
                             rotateAlways: true,
                             trim: false,
                             hideOverlappingLabels: false,
@@ -1512,10 +1511,10 @@
                             const label = w.globals.labels[dataPointIndex];
                             const name = (topNames[dataPointIndex] || 'Unknown');
                             return `<div style="padding:6px 8px;">
-                                <strong>${name}</strong><br>
-                                ${label}<br>
-                                ${val} ${unit}
-                            </div>`;
+                            <strong>${name}</strong><br>
+                            ${label}<br>
+                            ${val} ${unit}
+                        </div>`;
                         }
                     }
                 };
@@ -1796,8 +1795,6 @@
         });
     </script>
 
-
-
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // ---------- Shared helpers ----------
@@ -1903,12 +1900,11 @@
                                 enabled: false
                             },
                             style: {
-                                colors: ['#ffffff'],
+                                colors: ['#000'],
                                 fontWeight: 400,
                                 fontSize: '10px',
-                                // rotate: -45   // 👈 tilt the numbers
                             },
-                            formatter: (v) => `$ ${v}`
+                            formatter: (v) => `${v}`
                         },
                         xaxis: {
                             type: 'category', // ← category axis (exact 1:1 with visible bars)
@@ -1958,6 +1954,10 @@
                         x: i,
                         y
                     }));
+
+                    if (navData.length === 0 || values.length <= 12) {
+                        return; // No data or small dataset, skip nav
+                    }
 
                     // default window = up to 60 bars
                     vMin = 0;
@@ -2414,10 +2414,9 @@
                                 enabled: false
                             },
                             style: {
-                                colors: ['#ffffff'],
+                                colors: ['#000'],
                                 fontWeight: 400,
                                 fontSize: '10px',
-                                // rotate: -45   // 👈 tilt the numbers
                             },
                             formatter: (v) => v,
                             position: 'top'
@@ -2470,6 +2469,10 @@
                         x: i,
                         y
                     }));
+
+                    if (navData.length === 0 || values.length <= 12) {
+                        return; // No data or small dataset, skip nav
+                    }
 
                     // default window = up to 60 bars
                     vMin = 0;
