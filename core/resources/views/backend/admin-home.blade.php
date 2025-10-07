@@ -956,10 +956,10 @@
                         background: '#ffffff',
                         toolbar: {
                             show: false
-                        }, // hide apex toolbar
+                        },
                         zoom: {
                             enabled: false
-                        }, // we'll handle zoom/pan ourselves
+                        },
                         animations: {
                             easing: 'easeinout',
                             speed: 180
@@ -992,12 +992,11 @@
                             colors: ['#000'],
                             fontWeight: 400,
                             fontSize: '10px',
-                            // rotate: -45   // 👈 tilt the numbers
                         },
                         formatter: (v) => v
                     },
                     xaxis: {
-                        type: 'category', // ← category axis (exact 1:1 with visible bars)
+                        type: 'category',
                         categories: [],
                         tickPlacement: 'on',
                         rangePadding: 'none',
@@ -1880,7 +1879,7 @@
                             text: titleBase,
                             align: 'left'
                         },
-                        colors: ['#41695a'],
+                        colors: ['#e0bb20'],
                         grid: {
                             padding: {
                                 left: 2,
@@ -1994,7 +1993,7 @@
                                 }
                             }
                         },
-                        colors: ['#41695a'],
+                        colors: ['#e0bb20'],
                         stroke: {
                             width: 1,
                             colors: ['#41695a']
@@ -2394,7 +2393,7 @@
                             text: titleBase,
                             align: 'left'
                         },
-                        colors: ['#41695a'],
+                        colors: ['#e0bb20'],
                         grid: {
                             padding: {
                                 left: 2,
@@ -2509,7 +2508,7 @@
                                 }
                             }
                         },
-                        colors: ['#41695a'],
+                        colors: ['#e0bb20'],
                         stroke: {
                             width: 1,
                             colors: ['#41695a']
@@ -2909,7 +2908,7 @@
                             text: titleBase,
                             align: 'left'
                         },
-                        colors: ['#41695a'],
+                        colors: ['#e0bb20'],
                         grid: {
                             padding: {
                                 left: 2,
@@ -3024,7 +3023,7 @@
                                 }
                             }
                         },
-                        colors: ['#41695a'],
+                        colors: ['#e0bb20'],
                         stroke: {
                             width: 1,
                             colors: ['#41695a']
@@ -3424,7 +3423,7 @@
                             text: titleBase,
                             align: 'left'
                         },
-                        colors: ['#41695a'],
+                        colors: ['#e0bb20'],
                         grid: {
                             padding: {
                                 left: 2,
@@ -3539,7 +3538,7 @@
                                 }
                             }
                         },
-                        colors: ['#41695a'],
+                        colors: ['#e0bb20'],
                         stroke: {
                             width: 1,
                             colors: ['#41695a']
