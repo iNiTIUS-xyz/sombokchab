@@ -2926,7 +2926,7 @@
                                 enabled: false
                             },
                             style: {
-                                colors: ['#ffffff'],
+                                colors: ['#000'],
                                 fontWeight: 400,
                                 fontSize: '10px',
                                 // rotate: -45   // 👈 tilt the numbers
@@ -2981,6 +2981,10 @@
                         x: i,
                         y
                     }));
+
+                    if (navData.length === 0 || values.length <= 12) {
+                        return; // No data or small dataset, skip nav
+                    }
 
                     // default window = up to 60 bars
                     vMin = 0;
@@ -3332,7 +3336,6 @@
         });
     </script>
 
-
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // ---------- Shared helpers ----------
@@ -3438,7 +3441,7 @@
                                 enabled: false
                             },
                             style: {
-                                colors: ['#ffffff'],
+                                colors: ['#000000'],
                                 fontWeight: 400,
                                 fontSize: '10px',
                                 // rotate: -45   // 👈 tilt the numbers
