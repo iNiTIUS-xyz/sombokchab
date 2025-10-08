@@ -972,10 +972,10 @@
                         background: '#ffffff',
                         toolbar: {
                             show: false
-                        }, // hide apex toolbar
+                        },
                         zoom: {
                             enabled: false
-                        }, // we'll handle zoom/pan ourselves
+                        },
                         animations: {
                             easing: 'easeinout',
                             speed: 180
@@ -1010,12 +1010,11 @@
                             colors: ['#000'],
                             fontWeight: 400,
                             fontSize: '10px',
-                            // rotate: -45   // 👈 tilt the numbers
                         },
                         formatter: (v) => v
                     },
                     xaxis: {
-                        type: 'category', // ← category axis (exact 1:1 with visible bars)
+                        type: 'category',
                         categories: [],
                         tickPlacement: 'on',
                         rangePadding: 'none',
@@ -2469,6 +2468,10 @@
                         y
                     }));
 
+                    if (navData.length === 0 || values.length <= 12) {
+                        return; // No data or small dataset, skip nav
+                    }
+
                     // default window = up to 60 bars
                     vMin = 0;
                     vMax = Math.max(0, Math.min(values.length - 1, 60));
@@ -2924,6 +2927,10 @@
                         y
                     }));
 
+                    if (navData.length === 0 || values.length <= 12) {
+                        return; // No data or small dataset, skip nav
+                    }
+
                     // default window = up to 60 bars
                     vMin = 0;
                     vMax = Math.max(0, Math.min(values.length - 1, 60));
@@ -3229,7 +3236,7 @@
     </script>
 
 
-    {{-- Website Visitors Dummy Graph --}}
+    // {{-- Website Visitors Dummy Graph --}}
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // ---------- Shared helpers ----------
