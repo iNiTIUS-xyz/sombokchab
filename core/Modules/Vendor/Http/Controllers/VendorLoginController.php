@@ -1,6 +1,9 @@
 <?php
+
 namespace Modules\Vendor\Http\Controllers;
 
+use Carbon\Carbon;
+use App\XGNotification;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
@@ -11,7 +14,6 @@ use Illuminate\Support\Facades\Hash;
 use Modules\Vendor\Entities\BusinessType;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Modules\Vendor\Http\Requests\VendorRegistrationRequest;
-use Carbon\Carbon;
 
 class VendorLoginController extends Controller
 {
@@ -158,6 +160,20 @@ class VendorLoginController extends Controller
             ]);
         }
 
+        $notification = new XGNotification();
+        $notification->vendor_id = $vendor->id;
+        $notification->delivery_man_id = null;
+        $notification->user_id = null;
+        $notification->model = 'Modules\Vendor\Entities\Vendor';
+        $notification->model_id  = $vendor->id;
+        $notification->message  = 'A new vendor registerd successfully.';
+        $notification->type  = 'create';
+        $notification->is_read_admin  = 0;
+        $notification->is_read_vendor  = 0;
+        $notification->is_read_delivery_man  = 0;
+        $notification->is_read_user  = 0;
+        $notification->save();
+
         // now make login vendor here
         if (Auth::guard('vendor')->attempt(['username' => $vendor['username'], 'password' => $rawPassword], true)) {
             return redirect()->route('vendor.login')->with([
@@ -189,12 +205,10 @@ class VendorLoginController extends Controller
             $exists = \DB::table('vendors')->where('phone', $value)->exists();
 
             $msg = 'Phone number already exists.';
-
         } elseif ($field === 'email') {
             $exists = \DB::table('vendors')->where('email', $value)->exists();
 
             $msg = 'Email address already exists.';
-
         } elseif ($field === 'username') {
             $exists = \DB::table('vendors')->where('username', $value)->exists();
 
