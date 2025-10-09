@@ -151,13 +151,13 @@
         #top_products_chart .apexcharts-datalabel,
         #order_revenue_chart .apexcharts-datalabel,
         #pending_vendor_payouts_chart .apexcharts-datalabel,
-        #campaign_one_chart .apexcharts-datalabel{
+        #campaign_one_chart .apexcharts-datalabel {
             transform: rotate(-90deg) !important;
             transform-origin: center center !important;
             transform-box: fill-box !important;
         }
 
-        .date_range_picker{
+        .date_range_picker {
             height: 48px !important;
             padding: 0 20px 0 20px !important;
             text-align: center !important
@@ -178,26 +178,30 @@
                                 <div class="col-md-6">
                                     <ul class="nav nav-tabs" role="tablist">
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link active" id="website_daily-tab" type="button">Daily</button>
+                                            <button class="nav-link active" id="website_daily-tab"
+                                                type="button">Daily</button>
                                         </li>
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link" id="website_weekly-tab" type="button">Weekly</button>
                                         </li>
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="website_monthly-tab" type="button">Monthly</button>
+                                            <button class="nav-link" id="website_monthly-tab"
+                                                type="button">Monthly</button>
                                         </li>
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link" id="website_yearly-tab" type="button">Yearly</button>
                                         </li>
                                         <li class="nav-item">
-                                            <input type="text" class="form-control date_range_picker" id="website_picker" placeholder="Custom Date Range">
+                                            <input type="text" class="form-control date_range_picker" id="website_picker"
+                                                placeholder="Custom Date Range">
                                         </li>
                                     </ul>
 
                                     <div class="mt-3 position-relative">
                                         <div id="website_visitor_chart"></div>
                                         <!-- scroll bar -->
-                                        <input id="website_scroll" class="form-range mt-2 w-100" type="range" min="0" max="0" value="0" step="1" />
+                                        <input id="website_scroll" class="form-range mt-2 w-100" type="range"
+                                            min="0" max="0" value="0" step="1" />
                                     </div>
                                     <div class="mt-2" id="website_nav"></div>
                                     <small>Ctrl/⌘ + wheel to zoom in and zoom out</small>
@@ -295,7 +299,8 @@
                         <div class="dashboard__card__body">
                             <h3 class="my-3">Campaign Statistics</h3>
                             <div class="row g-5">
-                                <div class="col-md-6" style="display: flex; justify-content: center; align-items: center;">
+                                <div class="col-md-6"
+                                    style="display: flex; justify-content: center; align-items: center;">
                                     <div class="text-center">
                                         <h5>Active Campaigns</h5>
                                         <h2>
@@ -308,26 +313,32 @@
                                 <div class="col-md-6">
                                     <ul class="nav nav-tabs" role="tablist">
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link active" id="campaign_one_daily-tab" type="button">Daily</button>
+                                            <button class="nav-link active" id="campaign_one_daily-tab"
+                                                type="button">Daily</button>
                                         </li>
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="campaign_one_weekly-tab" type="button">Weekly</button>
+                                            <button class="nav-link" id="campaign_one_weekly-tab"
+                                                type="button">Weekly</button>
                                         </li>
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="campaign_one_monthly-tab" type="button">Monthly</button>
+                                            <button class="nav-link" id="campaign_one_monthly-tab"
+                                                type="button">Monthly</button>
                                         </li>
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="campaign_one_yearly-tab" type="button">Yearly</button>
+                                            <button class="nav-link" id="campaign_one_yearly-tab"
+                                                type="button">Yearly</button>
                                         </li>
                                         <li class="nav-item">
-                                            <input type="text" class="form-control date_range_picker" id="campaign_one_picker" placeholder="Custom Date Range">
+                                            <input type="text" class="form-control date_range_picker"
+                                                id="campaign_one_picker" placeholder="Custom Date Range">
                                         </li>
                                     </ul>
 
                                     <div class="mt-3 position-relative">
                                         <div id="campaign_one_chart"></div>
                                         <!-- scroll bar -->
-                                        <input id="campaign_one_scroll" class="form-range mt-2 w-100" type="range" min="0" max="0" value="0" step="1" />
+                                        <input id="campaign_one_scroll" class="form-range mt-2 w-100" type="range"
+                                            min="0" max="0" value="0" step="1" />
                                     </div>
                                     <div class="mt-2" id="campaign_one_nav" style="height:110px;"></div>
                                     <small>Ctrl/⌘ + wheel to zoom in and zoom out</small>
@@ -349,43 +360,65 @@
                                 <div class="col-md-12">
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            Vendors:
+                                            <a href="{{ route('admin.vendor.all') }}">
+                                                Vendors:
+                                            </a>
                                             <span class="badge bg-primary rounded-pill">
                                                 {{ $vendor->count() }}
                                             </span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            New Vendor Requests:
+                                            <a href="{{ route('admin.vendor.all') }}">
+                                                New Vendor Requests:
+                                            </a>
                                             <span class="badge bg-primary rounded-pill">
                                                 {{ $vendorRequest->count() }}
                                             </span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            Products:
+                                            <a href="{{ route('admin.products.all') }}">
+                                                Products:
+                                            </a>
                                             <span class="badge bg-primary rounded-pill">
                                                 {{ $products->count() }}
                                             </span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            Pending Products:
+                                            <a href="{{ route('admin.products.all') }}">
+                                                Pending Products:
+                                            </a>
                                             <span class="badge bg-primary rounded-pill">
                                                 {{ $productsPending->count() }}
                                             </span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            Vendor Withdrawal Requests:
+                                            <a href="{{ route('admin.wallet.withdraw-request') }}">
+                                                Vendor Withdrawal Requests:
+                                            </a>
                                             <span class="badge bg-primary rounded-pill">
                                                 {{ $vendorWithdrawRequests->count() }}
                                             </span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            High Priority Support Tickets:
+                                            <a href="{{ route('admin.support.ticket.all') }}">
+                                                Customer Support Tickets:
+                                            </a>
                                             <span class="badge bg-primary rounded-pill">
-                                                {{ $supportTickets->count() }}
+                                                {{ $customerSupportTickets->count() }}
                                             </span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            Refund Requests:
+                                            <a href="{{ route('admin.support.ticket.all.vendor') }}">
+                                                Vendor Support Tickets:
+                                            </a>
+                                            <span class="badge bg-primary rounded-pill">
+                                                {{ $vendorSupportTickets->count() }}
+                                            </span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <a href="{{ route('admin.refund.request') }}">
+                                                Refund Requests:
+                                            </a>
                                             <span class="badge bg-primary rounded-pill">
                                                 {{ $refundRequests->count() }}
                                             </span>
@@ -463,26 +496,32 @@
                                 <div class="col-md-6">
                                     <ul class="nav nav-tabs" role="tablist">
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link active" id="top_vendors_daily-tab" type="button">Daily</button>
+                                            <button class="nav-link active" id="top_vendors_daily-tab"
+                                                type="button">Daily</button>
                                         </li>
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="top_vendors_weekly-tab" type="button">Weekly</button>
+                                            <button class="nav-link" id="top_vendors_weekly-tab"
+                                                type="button">Weekly</button>
                                         </li>
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="top_vendors_monthly-tab" type="button">Monthly</button>
+                                            <button class="nav-link" id="top_vendors_monthly-tab"
+                                                type="button">Monthly</button>
                                         </li>
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="top_vendors_yearly-tab" type="button">Yearly</button>
+                                            <button class="nav-link" id="top_vendors_yearly-tab"
+                                                type="button">Yearly</button>
                                         </li>
                                         <li class="nav-item">
-                                            <input type="text" class="form-control date_range_picker" id="top_vendors_picker" />
+                                            <input type="text" class="form-control date_range_picker"
+                                                id="top_vendors_picker" />
                                         </li>
                                     </ul>
 
                                     <div class="mt-3 position-relative">
                                         <div id="top_vendor_chart"></div>
                                         <!-- scrollbar -->
-                                        <input id="top_vendor_scroll" class="form-range mt-2 w-100" type="range" min="0" max="0" value="0" step="1" />
+                                        <input id="top_vendor_scroll" class="form-range mt-2 w-100" type="range"
+                                            min="0" max="0" value="0" step="1" />
                                     </div>
                                     <div class="mt-2" id="top_vendor_nav" style="height:110px;"></div>
                                     <small>Ctrl/⌘ + wheel to zoom in and zoom out</small>
@@ -492,26 +531,32 @@
                                 <div class="col-md-6">
                                     <ul class="nav nav-tabs" role="tablist">
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link active" id="top_products_daily-tab" type="button">Daily</button>
+                                            <button class="nav-link active" id="top_products_daily-tab"
+                                                type="button">Daily</button>
                                         </li>
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="top_products_weekly-tab" type="button">Weekly</button>
+                                            <button class="nav-link" id="top_products_weekly-tab"
+                                                type="button">Weekly</button>
                                         </li>
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="top_products_monthly-tab" type="button">Monthly</button>
+                                            <button class="nav-link" id="top_products_monthly-tab"
+                                                type="button">Monthly</button>
                                         </li>
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="top_products_yearly-tab" type="button">Yearly</button>
+                                            <button class="nav-link" id="top_products_yearly-tab"
+                                                type="button">Yearly</button>
                                         </li>
                                         <li class="nav-item">
-                                            <input type="text" class="form-control date_range_picker" id="top_products_picker" />
+                                            <input type="text" class="form-control date_range_picker"
+                                                id="top_products_picker" />
                                         </li>
                                     </ul>
 
                                     <div class="mt-3 position-relative">
                                         <div id="top_products_chart"></div>
                                         <!-- scrollbar -->
-                                        <input id="top_products_scroll" class="form-range mt-2 w-100" type="range" min="0" max="0" value="0" step="1" />
+                                        <input id="top_products_scroll" class="form-range mt-2 w-100" type="range"
+                                            min="0" max="0" value="0" step="1" />
                                     </div>
                                     <div class="mt-2" id="top_products_nav" style="height:110px;"></div>
                                     <small>Ctrl/⌘ + wheel to zoom in and zoom out</small>
@@ -690,26 +735,32 @@
                                 <div class="col-md-6">
                                     <ul class="nav nav-tabs" role="tablist">
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link active" id="order_revenue_daily-tab" type="button">Daily</button>
+                                            <button class="nav-link active" id="order_revenue_daily-tab"
+                                                type="button">Daily</button>
                                         </li>
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="order_revenue_weekly-tab" type="button">Weekly</button>
+                                            <button class="nav-link" id="order_revenue_weekly-tab"
+                                                type="button">Weekly</button>
                                         </li>
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="order_revenue_monthly-tab" type="button">Monthly</button>
+                                            <button class="nav-link" id="order_revenue_monthly-tab"
+                                                type="button">Monthly</button>
                                         </li>
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="order_revenue_yearly-tab" type="button">Yearly</button>
+                                            <button class="nav-link" id="order_revenue_yearly-tab"
+                                                type="button">Yearly</button>
                                         </li>
                                         <li class="nav-item">
-                                            <input type="text" class="form-control date_range_picker" id="order_revenue_picker" placeholder="Custom Date Range">
+                                            <input type="text" class="form-control date_range_picker"
+                                                id="order_revenue_picker" placeholder="Custom Date Range">
                                         </li>
                                     </ul>
 
                                     <div class="mt-3 position-relative">
                                         <div id="order_revenue_chart"></div>
                                         <!-- scroll bar -->
-                                        <input id="order_revenue_scroll" class="form-range mt-2 w-100" type="range" min="0" max="0" value="0" step="1" />
+                                        <input id="order_revenue_scroll" class="form-range mt-2 w-100" type="range"
+                                            min="0" max="0" value="0" step="1" />
                                     </div>
                                     <div class="mt-2" id="order_revenue_nav" style="height:110px;"></div>
                                     <small>Ctrl/⌘ + wheel to zoom in and zoom out</small>
@@ -719,26 +770,33 @@
                                 <div class="col-md-6">
                                     <ul class="nav nav-tabs" role="tablist">
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link active" id="pending_vendor_payouts_daily-tab" type="button">Daily</button>
+                                            <button class="nav-link active" id="pending_vendor_payouts_daily-tab"
+                                                type="button">Daily</button>
                                         </li>
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="pending_vendor_payouts_weekly-tab" type="button">Weekly</button>
+                                            <button class="nav-link" id="pending_vendor_payouts_weekly-tab"
+                                                type="button">Weekly</button>
                                         </li>
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="pending_vendor_payouts_monthly-tab" type="button">Monthly</button>
+                                            <button class="nav-link" id="pending_vendor_payouts_monthly-tab"
+                                                type="button">Monthly</button>
                                         </li>
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="pending_vendor_payouts_yearly-tab" type="button">Yearly</button>
+                                            <button class="nav-link" id="pending_vendor_payouts_yearly-tab"
+                                                type="button">Yearly</button>
                                         </li>
                                         <li class="nav-item">
-                                            <input type="text" class="form-control date_range_picker" id="pending_vendor_payouts_picker" placeholder="Custom Date Range">
+                                            <input type="text" class="form-control date_range_picker"
+                                                id="pending_vendor_payouts_picker" placeholder="Custom Date Range">
                                         </li>
                                     </ul>
 
                                     <div class="mt-3 position-relative">
                                         <div id="pending_vendor_payouts_chart"></div>
                                         <!-- scroll bar -->
-                                        <input id="pending_vendor_payouts_scroll" class="form-range mt-2 w-100" type="range" min="0" max="0" value="0" step="1" />
+                                        <input id="pending_vendor_payouts_scroll" class="form-range mt-2 w-100"
+                                            type="range" min="0" max="0" value="0"
+                                            step="1" />
                                     </div>
                                     <div class="mt-2" id="pending_vendor_payouts_nav" style="height:110px;"></div>
                                     <small>Ctrl/⌘ + wheel to zoom in and zoom out</small>
@@ -761,7 +819,8 @@
                                     <div class="col">
                                         <div class="p-2 bg-light rounded">
                                             <small>Home Page</small>
-                                            <h5 class="text-success">{{ round((microtime(true) - LARAVEL_START) * 1000, 2) . 's' }}</h5>
+                                            <h5 class="text-success">
+                                                {{ round((microtime(true) - LARAVEL_START) * 1000, 2) . 's' }}</h5>
                                         </div>
                                     </div>
                                     <div class="col">
@@ -876,36 +935,35 @@
     <script>
         // 1) Initialize ALL your pickers with autoUpdateInput: false
         $('.date_range_picker').daterangepicker({
-        opens: 'left',
-        autoUpdateInput: false,          // ← stop autofill
-        minDate: moment('2024-01-01'),
-        maxDate: moment().endOf('year')
+            opens: 'left',
+            autoUpdateInput: false, // ← stop autofill
+            minDate: moment('2024-01-01'),
+            maxDate: moment().endOf('year')
         });
 
         // 2) After init, force the placeholder (run AFTER all inits)
-        $(window).on('load', function () {
-        $('.date_range_picker').val('').attr('placeholder', 'Custom date range');
+        $(window).on('load', function() {
+            $('.date_range_picker').val('').attr('placeholder', 'Custom date range');
         });
 
         // 3) When the user picks a range, set the value yourself
-        $('.date_range_picker').on('apply.date_range_picker', function (ev, picker) {
-        $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+        $('.date_range_picker').on('apply.date_range_picker', function(ev, picker) {
+            $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
         });
 
         // 4) If you need to enforce a minimum span, do it on apply (NOT in the init callback)
-        $('.date_range_picker').on('apply.date_range_picker', function (ev, picker) {
-        const minDays = 1; // example: at least 1 day
-        if (picker.endDate.diff(picker.startDate, 'months', true) < 1) {
-            picker.setEndDate(picker.startDate.clone().add(1, 'months'));
-            $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
-        }
+        $('.date_range_picker').on('apply.date_range_picker', function(ev, picker) {
+            const minDays = 1; // example: at least 1 day
+            if (picker.endDate.diff(picker.startDate, 'months', true) < 1) {
+                picker.setEndDate(picker.startDate.clone().add(1, 'months'));
+                $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+            }
         });
 
         // 5) Optional: handle clear/cancel to restore placeholder
-        $('.date_range_picker').on('cancel.date_range_picker', function () {
-        $(this).val('').attr('placeholder', 'Custom date range');
+        $('.date_range_picker').on('cancel.date_range_picker', function() {
+            $(this).val('').attr('placeholder', 'Custom date range');
         });
-
     </script>
 
     {{-- New Vendor and New Customer Signup --}}
@@ -1002,7 +1060,7 @@
                     dataLabels: {
                         enabled: true,
                         position: 'bottom', // 👈 keep near bottom (for vertical bars)
-                        offsetY: 20,        // 👈 moves up from the x-axis baseline
+                        offsetY: 20, // 👈 moves up from the x-axis baseline
                         background: {
                             enabled: false
                         },
@@ -1476,7 +1534,7 @@
                     dataLabels: {
                         enabled: true,
                         position: 'bottom', // 👈 keep near bottom (for vertical bars)
-                        offsetY: 20,        // 👈 moves up from the x-axis baseline
+                        offsetY: 20, // 👈 moves up from the x-axis baseline
                         background: {
                             enabled: false
                         },
@@ -1926,7 +1984,7 @@
                     dataLabels: {
                         enabled: true,
                         position: 'bottom', // 👈 keep near bottom (for vertical bars)
-                        offsetY: 20,        // 👈 moves up from the x-axis baseline
+                        offsetY: 20, // 👈 moves up from the x-axis baseline
                         background: {
                             enabled: false
                         },
@@ -1983,7 +2041,8 @@
                             const val = series[seriesIndex][dataPointIndex];
                             const label = w.globals.labels[dataPointIndex];
                             const name = topNames[dataPointIndex] || 'Unknown';
-                            const sales = topSales[dataPointIndex] || val; // Use value as proxy for sales if topSales is not populated
+                            const sales = topSales[dataPointIndex] ||
+                                val; // Use value as proxy for sales if topSales is not populated
                             return `<div style="padding:6px 8px;">
                                 <strong>${name}</strong><br>
                                 ${label}<br>
@@ -2208,10 +2267,12 @@
                             seen.add(k);
                             rawLabels.push(k);
                             const val = payload[k];
-                            if (isTopChart && typeof val === 'object' && val !== null && 'name' in val && 'value' in val) {
+                            if (isTopChart && typeof val === 'object' && val !== null && 'name' in val &&
+                                'value' in val) {
                                 values.push(parseInt(val.value) || 0);
                                 topNames.push(val.name || 'None');
-                                topSales.push(parseInt(val.sales || val.value) || 0); // Use value as proxy for sales if not provided
+                                topSales.push(parseInt(val.sales || val.value) ||
+                                    0); // Use value as proxy for sales if not provided
                             } else {
                                 values.push(parseInt(val) || 0);
                                 topNames.push('');
@@ -2410,7 +2471,7 @@
                     dataLabels: {
                         enabled: true,
                         position: 'bottom', // 👈 keep near bottom (for vertical bars)
-                        offsetY: 20,        // 👈 moves up from the x-axis baseline
+                        offsetY: 20, // 👈 moves up from the x-axis baseline
                         background: {
                             enabled: false
                         },
@@ -2869,7 +2930,7 @@
                     dataLabels: {
                         enabled: true,
                         position: 'bottom', // 👈 keep near bottom (for vertical bars)
-                        offsetY: 20,        // 👈 moves up from the x-axis baseline
+                        offsetY: 20, // 👈 moves up from the x-axis baseline
                         background: {
                             enabled: false
                         },
@@ -3256,7 +3317,8 @@
                 let rawLabels = [];
                 let displayLabels = [];
 
-                let labels = []; // ["2025-09-01", ...] | ["W36, Sep-2025", ...] | ["Jan 2025", ...] | ["2024","2025",...]
+                let
+                    labels = []; // ["2025-09-01", ...] | ["W36, Sep-2025", ...] | ["Jan 2025", ...] | ["2024","2025",...]
                 let values = []; // [1,2,0,...]
                 let points = []; // [{x:i,y:v}]
 
@@ -3332,7 +3394,7 @@
                     },
                     dataLabels: {
                         enabled: true,
-                        offsetY: 10,    // Start from the x-axis line; adjust to positive if needed
+                        offsetY: 10, // Start from the x-axis line; adjust to positive if needed
                         background: {
                             enabled: false
                         },
@@ -3724,5 +3786,4 @@
             });
         });
     </script>
-
 @endsection
