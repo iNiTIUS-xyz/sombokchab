@@ -48,7 +48,7 @@ class NotificationService extends \App\Http\Abstracts\XGNotification
         return $data;
     }
 
-    public function fetch($for = null): object|array
+    public function fetch($for = null)
     {
         // check auth is admin or vendor then fetch notification
         $activeGuard = activeGuard();
@@ -58,12 +58,12 @@ class NotificationService extends \App\Http\Abstracts\XGNotification
             $this->notifications = XGNotification::when($activeGuard == 'vendor', function ($query) {
                 $query->where('vendor_id', auth()->id());
             })->when($activeGuard == 'admin', function ($query) {
-                $query->where('vendor_id', null);
-                $query->where('user_id', null);
-                $query->where('delivery_man_id', null);
+                // $query->where('vendor_id', null);
+                // $query->where('user_id', null);
+                // $query->where('delivery_man_id', null);
             })
-            ->whereHas('product')
-            ->latest();
+                ->whereHas('product')
+                ->latest();
 
             if ($for == null) {
                 $this->notifications = $this->notifications->limit(15)->get();
@@ -87,7 +87,7 @@ class NotificationService extends \App\Http\Abstracts\XGNotification
         return $condition;
     }
 
-    public function update(): bool
+    public function update()
     {
         // check a type if a type is admin
         $condition = $this->getActiveColumn();
@@ -151,14 +151,14 @@ class NotificationService extends \App\Http\Abstracts\XGNotification
     {
         $href = '';
 
-        if($type == 'admin'){
-            $href = match($notification->type){
+        if ($type == 'admin') {
+            $href = match ($notification->type) {
                 "product" => route("admin.products.edit", $notification->model_id ?? 0),
                 "sub_order" => route("admin.orders.details", $notification->model_id ?? 0),
                 "order" => route("admin.orders.order.details", $notification->model_id ?? 0),
                 "withdraw_request" => route("admin.wallet.withdraw-request") . '?request=' . $notification->model_id ?? 0,
-                "stock_out" => route("admin.products.inventory.edit",$notification->model_id ?? 0),
-                "refund_request" => route("admin.refund.view-request",$notification->model_id ?? 0),
+                "stock_out" => route("admin.products.inventory.edit", $notification->model_id ?? 0),
+                "refund_request" => route("admin.refund.view-request", $notification->model_id ?? 0),
                 default => "#1"
             };
         } elseif ($type == 'vendor') {

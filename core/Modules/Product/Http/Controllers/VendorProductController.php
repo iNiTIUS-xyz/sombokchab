@@ -6,7 +6,6 @@ use Exception;
 use App\Status;
 use App\Helpers\FlashMsg;
 use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
 use Modules\Badge\Entities\Badge;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
@@ -73,7 +72,7 @@ class VendorProductController extends Controller
     }
 
 
-    public function store(ProductStoreRequest $request): JsonResponse
+    public function store(ProductStoreRequest $request)
     {
         $data = $request->validated();
 
@@ -172,7 +171,7 @@ class VendorProductController extends Controller
         return (new AdminProductServices)->delete($id);
     }
 
-    public function bulk_destroy(Request $request): JsonResponse
+    public function bulk_destroy(Request $request)
     {
         return response()->json((new AdminProductServices)->bulk_delete_action($request->ids) ? ["success" => true, "type" => "success"] : ["success" => false, "type" => "danger"]);
     }

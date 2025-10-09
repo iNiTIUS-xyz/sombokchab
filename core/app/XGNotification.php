@@ -65,7 +65,7 @@ class XGNotification extends Model
         parent::boot();
 
         static::creating(function ($modal){
-            // here check vendor id is not empty
+
             if($modal->vendor_id){
                 // send notification to  vendor app
                 $vendor = Vendor::find($modal->vendor_id);
