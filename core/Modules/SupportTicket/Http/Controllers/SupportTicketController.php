@@ -2,21 +2,23 @@
 
 namespace Modules\SupportTicket\Http\Controllers;
 
-use App\Events\SupportMessage;
+use Str;
+use Storage;
+use App\XGNotification;
 use App\Helpers\FlashMsg;
 use Illuminate\Http\Request;
+use App\Events\SupportMessage;
+use Modules\User\Entities\User;
 use Illuminate\Routing\Controller;
+use Modules\Vendor\Entities\Vendor;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
-use Modules\SupportTicket\Entities\SupportDepartment;
 use Modules\SupportTicket\Entities\SupportTicket;
+use Modules\SupportTicket\Entities\SupportDepartment;
 use Modules\SupportTicket\Entities\SupportTicketMessage;
 use Modules\SupportTicket\Http\Requests\AdminStoreSendMessageRequest;
 use Modules\SupportTicket\Http\Requests\AdminStoreSupportTicketRequest;
-use Modules\User\Entities\User;
-use Modules\Vendor\Entities\Vendor;
-use Str;
-use Storage;
+
 class SupportTicketController extends Controller
 {
     public function page_settings()
@@ -89,6 +91,21 @@ class SupportTicketController extends Controller
             'departments' => $request->departments,
             'admin_id' => Auth::guard('admin')->user()->id,
         ]);
+
+        $notification = new XGNotification();
+        $notification->vendor_id  = $support_ticket->vendor_id ?? null;
+        $notification->delivery_man_id   = null;
+        $notification->user_id   = $support_ticket->user_id ?? null;
+        $notification->model  = 'Modules\SupportTicket\Entities\SupportTicket';
+        $notification->model_id  = $support_ticket->id;
+        $notification->message  = 'A new support ticket created successfully.';
+        $notification->type  = 'create';
+        $notification->is_read_admin  = 0;
+        $notification->is_read_vendor  = 0;
+        $notification->is_read_delivery_man  = 0;
+        $notification->is_read_user  = 0;
+
+        $notification->save();
 
         return $support_ticket->id
             ? back()->with(FlashMsg::create_succeed('Support ticket'))

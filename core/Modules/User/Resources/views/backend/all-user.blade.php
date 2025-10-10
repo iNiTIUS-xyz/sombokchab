@@ -33,14 +33,16 @@
                     <table class="table" id="dataTable">
                         <thead class="text-capitalize">
                             <tr>
+                                <th>{{ __('Serial No') }}</th>
                                 <th>{{ __('Name') }}</th>
                                 <th>{{ __('Email') }}</th>
                                 <th>{{ __('Action') }}</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($all_user as $user)
+                            @foreach ($all_user as $key => $user)
                                 <tr>
+                                    <td>{{ $key + 1 }}</td>
                                     <td class="text-left">{{ $user->name }} ({{ $user->username }})</td>
                                     <td class="text-left">
                                         {{ $user->email }}
@@ -227,7 +229,8 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">{{ __('Close') }}</button>
                             <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                         </div>
                     </div>
@@ -276,7 +279,8 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">{{ __('Close') }}</button>
                             <button type="submit" class="btn btn-primary">{{ __('Change Password') }}</button>
                         </div>
                     </form>
@@ -293,24 +297,24 @@
     <x-media.js />
 
     <script>
-        (function ($) {
+        (function($) {
             "use strict";
 
-            $(document).ready(function () {
+            $(document).ready(function() {
                 // Initialize modals
                 var userEditModal = new bootstrap.Modal(document.getElementById('user_edit_modal'));
                 var passwordChangeModal = new bootstrap.Modal(document.getElementById(
                     'user_change_password_modal'));
 
                 // Password change button handler
-                $(document).on('click', '.user_change_password_btn', function (e) {
+                $(document).on('click', '.user_change_password_btn', function(e) {
                     e.preventDefault();
                     var userId = $(this).data('id');
                     $('#user_password_change_modal_form').find('#ch_user_id').val(userId);
                 });
 
                 // User edit button handler
-                $(document).on('click', '.user_edit_btn', function (e) {
+                $(document).on('click', '.user_edit_btn', function(e) {
                     e.preventDefault();
                     var el = $(this);
                     var form = $('#user_edit_modal_form');
@@ -330,14 +334,14 @@
                     form.find('#country').val(countryId).trigger('change');
 
                     // After a delay (to allow states to load), set the state
-                    setTimeout(function () {
+                    setTimeout(function() {
                         var stateId = el.data('state');
                         if (stateId) {
                             form.find('#state_id').val(stateId).trigger('change');
                         }
 
                         // After another delay (to allow cities to load), set the city
-                        setTimeout(function () {
+                        setTimeout(function() {
                             var cityId = el.data('city');
                             if (cityId) {
                                 form.find('#city_id').val(cityId);

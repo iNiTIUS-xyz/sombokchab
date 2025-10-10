@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Admin;
+use App\XGNotification;
 use Illuminate\Http\Request;
 use App\Helpers\CountryHelper;
 use Illuminate\Http\JsonResponse;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\Validator;
 use Modules\CountryManage\Entities\Country;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Modules\Wallet\Http\Services\WalletService;
+use phpDocumentor\Reflection\Types\Null_;
 
 class RegisterController extends Controller
 {
@@ -98,10 +100,24 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
 
-        // create wallet fot this user if module exists
         if (moduleExists("Wallet")) {
             WalletService::createWallet($user->id, "user");
         }
+
+        $notification = new XGNotification();
+        $notification->vendor_id  = null;
+        $notification->delivery_man_id   = null;
+        $notification->user_id   = $user->user_id;
+        $notification->model  = 'App\User';
+        $notification->model_id  = $user->id;
+        $notification->message  = 'A new customer registerd successfully.';
+        $notification->type  = 'create';
+        $notification->is_read_admin  = 0;
+        $notification->is_read_vendor  = 0;
+        $notification->is_read_delivery_man  = 0;
+        $notification->is_read_user  = 0;
+
+        $notification->save();
 
         return $user;
     }

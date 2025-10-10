@@ -82,9 +82,14 @@ class AdminDashboardController extends Controller
             ->where('request_status', 'pending')
             ->get();
 
-        $supportTickets = SupportTicket::query()
-            ->where('priority', 'high')
+        $customerSupportTickets = SupportTicket::query()
+            ->where('vendor_id', null)
             ->get();
+
+        $vendorSupportTickets = SupportTicket::query()
+            ->where('vendor_id', '!=', null)
+            ->get();
+
         $refundRequests = RefundRequest::query()
             ->where('status', 'pending')
             ->get();
@@ -165,7 +170,8 @@ class AdminDashboardController extends Controller
             'products' => $products,
             'productsPending' => $productsPending,
             'vendorWithdrawRequests' => $vendorWithdrawRequests,
-            'supportTickets' => $supportTickets,
+            'customerSupportTickets' => $customerSupportTickets,
+            'vendorSupportTickets' => $vendorSupportTickets,
             'refundRequests' => $refundRequests,
             'customerTicketData' => $customerTicketData,
             'vendorTicketData' => $vendorTicketData,
