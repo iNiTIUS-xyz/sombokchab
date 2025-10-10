@@ -527,13 +527,14 @@
         <div class="col-lg-12 col-ml-12 mb-3">
             <div class="dashboard__card">
                 <div class="dashboard__card__body">
-                    <h4 class="my-3">Vendor Managements</h4>
+                    <h4 class="my-3">Vendor Verifications</h4>
                     <div class="p-3 bg-light rounded-3">
+                        <h6 class="text-center pb-2">Account Verification</h6>
                         <div class="row g-3 mb-2">
                             <div class="col-md-4">
                                 <div
                                     class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
-                                    <span>Account Verification Pending</span>
+                                    <span>Pending</span>
                                     <span class="fw-bold text-warning">14</span>
                                 </div>
                             </div>
@@ -552,11 +553,12 @@
                                 </div>
                             </div>
                         </div>
+                        <h6 class="text-center pb-2">Product Verification</h6>
                         <div class="row g-3 mb-2">
                             <div class="col-md-4">
                                 <div
                                     class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
-                                    <span>Product Verification Pending</span>
+                                    <span>Pending</span>
                                     <span class="fw-bold text-warning">53</span>
                                 </div>
                             </div>
@@ -575,11 +577,12 @@
                                 </div>
                             </div>
                         </div>
+                        <h6 class="text-center pb-2">Withdrawal Requests</h6>
                         <div class="row g-3">
                             <div class="col-md-4">
                                 <div
                                     class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
-                                    <span>Withdrawal Requests Pending</span>
+                                    <span>Pending</span>
                                     <span class="fw-bold text-warning">132</span>
                                 </div>
                             </div>
@@ -602,7 +605,7 @@
                 </div>
 
                 <div class="card-body">
-                    <h4 class="mb-4">Vendor Support</h4>
+                    <h4 class="mb-2">Vendor Support Tickets</h4>
                     <div class="p-3 bg-light rounded-3">
                         <div class="row g-3 mb-2">
                             <div class="col-md-4">
@@ -624,7 +627,7 @@
                             <div class="col-md-4">
                                 <div
                                     class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
-                                    <span>Total Close Tickets</span>
+                                    <span>Total Tickets Closed</span>
                                     <span class="fw-bold text-danger">
                                         {{ $vendorTicketData['vendorTotalCloseTicket']->count() }}</span>
                                 </div>
@@ -634,10 +637,10 @@
                 </div>
 
                 <div class="card-body">
-                    <h4 class="mb-4">Customer Support</h4>
+                    <h4 class="mb-2">Customer Support Tickets</h4>
                     <div class="p-3 bg-light rounded-3">
                         <div class="row g-3 mb-2">
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div
                                     class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
                                     <span>Total Tickets Open</span>
@@ -646,25 +649,27 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div
                                     class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
                                     <span>High Priority Tickets</span>
                                     <span class="fw-bold text-success">
-                                        {{ $customerTicketData['totalCloseTicket']->count() }}
+                                        {{ $customerTicketData['totalPriorityTicket']->count() }}
+                                        
                                     </span>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div
                                     class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
-                                    <span>Total Close Tickets</span>
+                                    <span>Total Tickets Closed</span>
                                     <span class="fw-bold text-danger">
-                                        {{ $vendorTicketData['vendorTotalCloseTicket']->count() }}
+                                        {{ $customerTicketData['totalCloseTicket']->count() }}
+                                        
                                     </span>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            {{-- <div class="col-md-3">
                                 <div
                                     class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
                                     <span>Total Close Tickets</span>
@@ -672,7 +677,7 @@
                                         {{ $customerTicketData['refundRequest']->count() }}
                                     </span>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -776,8 +781,13 @@
                         <div class="col-md-4">
                             <div class="card shadow-sm rounded-3 text-center p-3">
                                 <h6>API Latency</h6>
-                                <div class="p-2 bg-light rounded mt-2">
-                                    <h5 class="text-success">AVG 200ms</h5>
+                                <div class="row mt-2">
+                                    <div class="col">
+                                        <div class="p-2 bg-light rounded">
+                                            <small>AVG</small>
+                                            <h5 class="text-success">200ms</h5>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -803,7 +813,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row g-3">
+            {{-- <div class="row g-3">
                 <div class="col-md-4">
                     <div class="card shadow-sm rounded-3 p-3">
                         <h6>Website & Version Info</h6>
@@ -862,7 +872,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 @endsection
@@ -1832,7 +1842,7 @@
                 },
                 url: '{{ route('campaigns.data') }}',
                 seriesName: 'Campaigns Created',
-                titleBase: 'Active Campaign(s)'
+                titleBase: 'Active Campaigns'
             });
         });
     </script>

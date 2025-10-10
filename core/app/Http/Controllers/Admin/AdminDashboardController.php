@@ -105,6 +105,11 @@ class AdminDashboardController extends Controller
             ->where('user_id', '!=', null)
             ->get();
 
+        $customerTicketData['totalPriorityTicket'] = SupportTicket::query()
+            ->where('user_id', '!=', null)
+            ->where('priority', 'high')
+            ->get();
+
         $vendorTicketData = [];
 
         $vendorTicketData['vendorTotalOpenTicket'] = SupportTicket::query()
