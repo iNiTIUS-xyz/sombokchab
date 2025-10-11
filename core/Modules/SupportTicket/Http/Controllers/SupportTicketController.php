@@ -96,7 +96,7 @@ class SupportTicketController extends Controller
         $notification->vendor_id  = $support_ticket->vendor_id ?? null;
         $notification->delivery_man_id   = null;
         $notification->user_id   = $support_ticket->user_id ?? null;
-        $notification->model  = 'Modules\SupportTicket\Entities\SupportTicket';
+        $notification->model  = 'Modules\Wallet\Entities\VendorWithdrawRequest';
         $notification->model_id  = $support_ticket->id;
         $notification->message  = 'A new support ticket created successfully.';
         $notification->type  = 'create';

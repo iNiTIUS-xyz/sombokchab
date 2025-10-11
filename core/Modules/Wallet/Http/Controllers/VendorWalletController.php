@@ -2,7 +2,6 @@
 
 namespace Modules\Wallet\Http\Controllers;
 
-use Carbon\Carbon;
 use Illuminate\Routing\Controller;
 use Modules\Order\Entities\SubOrder;
 use Modules\Vendor\Http\Services\VendorServices;
@@ -12,6 +11,7 @@ use Modules\Wallet\Entities\VendorWithdrawRequest;
 use Modules\Wallet\Entities\Wallet;
 use Modules\Wallet\Entities\WalletHistory;
 use Modules\Wallet\Http\Requests\VendorHandleWithdrawRequest;
+use App\XGNotification;
 
 class VendorWalletController extends Controller
 {
@@ -75,6 +75,7 @@ class VendorWalletController extends Controller
         $wallet = Wallet::where("vendor_id", $data["vendor_id"])->first();
 
         if ($wallet->balance >= $data["amount"]) {
+
             $withdraw = VendorWithdrawRequest::create($data);
 
             return back()->with([
