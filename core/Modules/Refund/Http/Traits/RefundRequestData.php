@@ -2,6 +2,7 @@
 
 namespace Modules\Refund\Http\Traits;
 
+use App\XGNotification;
 use Illuminate\Support\Facades\DB;
 use Modules\Order\Entities\SubOrderItem;
 use Modules\Refund\Entities\RefundRequest;
@@ -111,7 +112,9 @@ trait RefundRequestData
 
     private function storeRefundRequest()
     {
-        return $this->refundRequest = RefundRequest::create($this->storeRefundRequestData());
+        $this->refundRequest = RefundRequest::create($this->storeRefundRequestData());
+
+        return $this->refundRequest;
     }
 
     private function storeRefundRequestData()
