@@ -8,6 +8,10 @@
     {{ __('Shipping Zones') }}
 @endsection
 
+@section('style')
+    <x-bulk-action.css />
+@endsection
+
 @section('content')
     <div class="col-lg-12 col-ml-12" id="shipping-zone-wrapper-box">
         <div class="row g-4">
@@ -66,8 +70,9 @@
                                                 @endcan
 
                                                 @can('shipping-zone-delete')
-                                                    <a class="btn btn-sm btn-danger" title="{{ __('Delete Data') }}"
-                                                        href="{{ route('admin.shipping.zone.delete', $zone->id) }}">
+                                                    <a class="btn btn-sm btn-danger swal-delete"
+                                                        title="{{ __('Delete Data') }}" href="javascript:void(0)"
+                                                        data-route="{{ route('admin.shipping.zone.delete', $zone->id) }}">
                                                         <i class="las la-trash"></i>
                                                     </a>
                                                 @endcan
@@ -82,4 +87,52 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('script')
+    <script>
+        (function($) {
+            "use strict";
+            $(document).ready(function() {
+                $(document).on('click', '.swal-delete', function(e) {
+                    e.preventDefault();
+
+                    const $btn = $(this);
+                    const route = $btn.data('route') || $btn.attr('href');
+
+                    Swal.fire({
+                        title: '{{ __('Are you sure?') }}',
+                        text: '{{ __('This action cannot be undone.') }}',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#ee0000',
+                        cancelButtonColor: '#55545b',
+                        confirmButtonText: '{{ __('Yes, delete it!') }}',
+                        cancelButtonText: "{{ __('No') }}"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                url: route,
+                                type: 'GET',
+                                success: function(data) {
+                                    // customize success condition if your API returns more info
+                                    Swal.fire('{{ __('Deleted!') }}', '','success');
+                                    setTimeout(function() {
+                                        location.reload();
+                                    }, 800);
+                                },
+                                error: function(xhr) {
+                                    const msg = xhr.responseJSON && xhr.responseJSON
+                                        .message ?
+                                        xhr.responseJSON.message :
+                                        '{{ __('Something went wrong. Please try again.') }}';
+                                    Swal.fire('{{ __('Error') }}', msg, 'error');
+                                }
+                            });
+                        }
+                    });
+                });
+            });
+        })(jQuery);
+    </script>
 @endsection

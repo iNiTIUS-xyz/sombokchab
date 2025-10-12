@@ -73,10 +73,19 @@ class ZoneController extends Controller
 
     public function destroy($id)
     {
-
         $this->deleteAllCountryStatesAndZone($id, "delete");
 
-        return back()->with(["msg" => "Successfully deleted zone"]);
+        if (request()->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Successfully deleted shipping Zone.',
+            ]);
+        }
+
+        return back()->with([
+            'type' => 'success',
+            'msg' => 'Successfully deleted shipping Zone.',
+        ]);
     }
 
     public function deleteAllCountryStatesAndZone($zoneId, $type = "update")
@@ -146,5 +155,4 @@ class ZoneController extends Controller
 
         return true;
     }
-
 }
