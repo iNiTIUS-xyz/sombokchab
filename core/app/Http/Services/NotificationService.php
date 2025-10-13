@@ -50,24 +50,15 @@ class NotificationService extends \App\Http\Abstracts\XGNotification
 
     public function fetch($for = null)
     {
-        // check auth is admin or vendor then fetch notification
         $activeGuard = activeGuard();
 
-        if ($activeGuard != 'web') {
-            // get last 15 notification admin
-            $this->notifications = XGNotification::when($activeGuard == 'vendor', function ($query) {
-                $query->where('vendor_id', auth()->id());
-            })->when($activeGuard == 'admin', function ($query) {
-                // $query->where('vendor_id', null);
-                // $query->where('user_id', null);
-                // $query->where('delivery_man_id', null);
-            })
-                ->whereHas('product')
+        if ($activeGuard === 'admin') {
+            $this->notifications = XGNotification::query()
                 ->latest();
-
-            if ($for == null) {
-                $this->notifications = $this->notifications->limit(15)->get();
-            }
+        } else {
+            $this->notifications = XGNotification::query()
+                ->where('vendor_id', auth()->id())
+                ->latest();
         }
 
         return $this->notifications;

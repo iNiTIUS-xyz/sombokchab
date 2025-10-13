@@ -52,7 +52,7 @@
                 {{ __('Notifications') }}
             </h6>
             <ul class="notification-list">
-                @foreach (xgNotifications() as $notification)
+                @foreach (xgNotifications()->get() as $notification)
                     @php
                         $namespace = new $notification->model();
                         $productName = '';
