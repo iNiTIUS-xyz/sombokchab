@@ -19,7 +19,7 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th>{{ __("Serial No.") }}</th>
+                        {{-- <th>{{ __("Serial No.") }}</th> --}}
                         <th>{{ __("Message") }}</th>
                     </tr>
                     </thead>
@@ -42,12 +42,12 @@
                         @endphp
 
                         <tr>
-                            <td>
+                            {{-- <td>
                                 {{ ($notifications->perPage() * ($notifications->currentPage() - 1)) + $loop->iteration }}
-                            </td>
+                            </td> --}}
                             <td class="{{ $notification->type == 'stock_out' ? 'bg bg-warning' : '' }}">
-                                <div class="notification-list-flex">
-                                    <div class="notification-icon">
+                                <div class="notification-list-flex  d-flex">
+                                    <div class="notification-icon ml-3">
                                         <i class="las la-bell"></i>
                                     </div>
 
