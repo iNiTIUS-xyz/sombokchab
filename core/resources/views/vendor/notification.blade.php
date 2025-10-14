@@ -19,7 +19,6 @@
                 <table class="table" id="dataTable">
                     <thead>
                         <tr>
-                            {{-- <th>{{ __("Serial No.") }}</th> --}}
                             <th>{{ __('Message') }}</th>
                         </tr>
                     </thead>
@@ -27,24 +26,16 @@
                     <tbody>
                         @foreach ($notifications as $notification)
                             @php
-                                // get model namespace and make a class
                                 $namespace = new $notification->model();
                                 $productName = '';
-
-                                // this line will be executed when a notification type is product
                                 if ($notification->type == 'product') {
                                     $productName = $namespace->select('id', 'name')->find($notification->model_id)
                                         ?->name;
                                 }
-
-                                // this method will generate
                                 $href = \App\Http\Services\NotificationService::generateUrl($type, $notification);
                             @endphp
 
                             <tr>
-                                {{-- <td>
-                                {{ ($notifications->perPage() * ($notifications->currentPage() - 1)) + $loop->iteration }}
-                            </td> --}}
                                 <td class="{{ $notification->type == 'stock_out' ? 'bg bg-warning' : '' }}">
                                     <div class="notification-list-flex  d-flex">
                                         <div class="notification-icon ml-3">
@@ -83,6 +74,7 @@
                     lengthChange: true,
                     searching: true,
                     ordering: true,
+                    order: [],
                     info: true,
                     autoWidth: false,
                     responsive: true,
@@ -93,8 +85,7 @@
                             next: "Next"
                         }
                     },
-                    // Add this for pagination style
-                    pagingType: "simple_numbers" // options: simple, simple_numbers, full, full_numbers
+                    pagingType: "simple_numbers"
                 });
             }
         });

@@ -112,7 +112,7 @@ class NotificationService extends \App\Http\Abstracts\XGNotification
         })->where($condition, 0)->count();
     }
 
-    public function markAsRead(): ?array
+    public function markAsRead()
     {
         $activeGuard = activeGuard();
         $notification = XGNotification::query();
@@ -150,6 +150,10 @@ class NotificationService extends \App\Http\Abstracts\XGNotification
                 "withdraw_request" => route("admin.wallet.withdraw-request") . '?request=' . $notification->model_id ?? 0,
                 "stock_out" => route("admin.products.inventory.edit", $notification->model_id ?? 0),
                 "refund_request" => route("admin.refund.view-request", $notification->model_id ?? 0),
+                'support_ticket_customer' => route('admin.support.ticket.view', $notification->model_id ?? 0),
+                'support_ticket_vendor' => route('admin.support.ticket.view', $notification->model_id ?? 0),
+                'vendor_register' => route('admin.vendor.edit', $notification->model_id ?? 0),
+                'customer_register' => route('admin.all.frontend.user'),
                 default => "#1"
             };
         } elseif ($type == 'vendor') {
@@ -157,9 +161,12 @@ class NotificationService extends \App\Http\Abstracts\XGNotification
                 "product" => route("vendor.products.edit", $notification->model_id ?? 0),
                 'sub_order' => route('vendor.orders.details', $notification->model_id ?? 0),
                 'stock_out' => route('vendor.products.inventory.edit', $notification->model_id ?? 0),
+                'support_ticket_vendor' => route('vendor.support.ticket.view', $notification->model_id ?? 0),
                 default => '#1'
             };
         }
+
+        // dd($href);
 
         return $href;
     }

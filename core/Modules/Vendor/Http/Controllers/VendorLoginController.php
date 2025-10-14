@@ -167,7 +167,7 @@ class VendorLoginController extends Controller
         $notification->model = 'Modules\Vendor\Entities\Vendor';
         $notification->model_id  = $vendor->id;
         $notification->message  = 'A new vendor registerd successfully.';
-        $notification->type  = 'create';
+        $notification->type  = 'vendor_register';
         $notification->is_read_admin  = 0;
         $notification->is_read_vendor  = 0;
         $notification->is_read_delivery_man  = 0;

@@ -2,23 +2,25 @@
 
 namespace App\Http\Controllers\Support;
 
+use App\XGNotification;
 use App\Helpers\FlashMsg;
 use Illuminate\Http\Request;
 use App\Support\SupportTicket;
+use Modules\Order\Entities\Order;
 use App\Support\SupportDepartment;
 use Illuminate\Routing\Controller;
-use Modules\Order\Entities\Order;
 
 class UserSupportTicketController extends Controller
 {
     const BASE_PATH = 'frontend.user.dashboard.support-tickets.';
 
-    public function page() {
+    public function page()
+    {
         $departments = SupportDepartment::where(['status' => 'publish'])->get();
         $user_orders = Order::with('paymentMeta')->where('user_id', auth('web')->user()->id)
             ->orderBy('created_at', 'DESC')
             ->get();
-        return view(self::BASE_PATH.'create', compact('departments', 'user_orders'));
+        return view(self::BASE_PATH . 'create', compact('departments', 'user_orders'));
     }
 
     // public function store(Request $request){
@@ -83,9 +85,23 @@ class UserSupportTicketController extends Controller
             'departments' => $request->departments
         ]);
 
+        $notification = new XGNotification();
+        $notification->vendor_id  = $support_ticket->vendor_id ?? null;
+        $notification->delivery_man_id   = null;
+        $notification->user_id   = $support_ticket->user_id ?? null;
+        $notification->model  = 'Modules\SupportTicket\Entities\SupportTicket';
+        $notification->model_id  = $support_ticket->id;
+        $notification->message  = $request->title . ' "A new support ticket created successfully"';
+        $notification->type  = 'support_ticket_customer';
+        $notification->is_read_admin  = 0;
+        $notification->is_read_vendor  = 0;
+        $notification->is_read_delivery_man  = 0;
+        $notification->is_read_user  = 0;
+
+        $notification->save();
+
         return $support_ticket->id
             ? redirect()->route('user.home.support.tickets')->with(FlashMsg::create_succeed('Support ticket'))
             : back()->with(FlashMsg::create_failed('Support ticket'));
     }
-
 }

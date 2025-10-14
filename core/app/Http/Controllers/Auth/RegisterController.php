@@ -111,7 +111,7 @@ class RegisterController extends Controller
         $notification->model  = 'App\User';
         $notification->model_id  = $user->id;
         $notification->message  = 'A new customer registerd successfully.';
-        $notification->type  = 'create';
+        $notification->type  = 'customer_register';
         $notification->is_read_admin  = 0;
         $notification->is_read_vendor  = 0;
         $notification->is_read_delivery_man  = 0;
