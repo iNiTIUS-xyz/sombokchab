@@ -8,7 +8,7 @@
     <x-bulk-action.css />
 
     <link rel="stylesheet" href="{{ asset('assets/css/dataTables.min.css') }}">
-    
+
 @endsection
 
 @section('content')
@@ -67,7 +67,7 @@
     {{-- <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script> --}}
     <script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
 
-    <script> 
+    <script>
         $(document).ready(function () {
             if ($('#dataTable').length) {
                 $('#dataTable').DataTable({

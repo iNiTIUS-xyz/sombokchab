@@ -6,9 +6,9 @@ class VendorNotificationController
 {
     public function index()
     {
-        $notifications = xgNotifications('page')->paginate();
+        $notifications = xgNotifications('page')->get();
         $type = 'vendor';
 
-        return view("vendor.notification",compact('notifications','type'));
+        return view("vendor.notification", compact('notifications', 'type'));
     }
 }

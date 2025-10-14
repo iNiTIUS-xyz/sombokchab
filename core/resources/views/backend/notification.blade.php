@@ -19,7 +19,7 @@
                 <table class="table" id="dataTable">
                     <thead>
                         <tr>
-                            <th>{{ __('Serial No.') }}</th>
+                            {{-- <th>{{ __('Serial No.') }}</th> --}}
                             <th>{{ __('Message') }}</th>
                         </tr>
                     </thead>
@@ -39,11 +39,14 @@
                             @endphp
 
                             <tr>
-                                <td>
+                                {{-- <td>
                                     {{ $key + 1 }}
-                                </td>
+                                </td> --}}
                                 <td class="{{ $notification->type == 'stock_out' ? 'bg bg-warning' : '' }}">
-                                    <div class="notification-list-flex">
+                                    <div class="notification-list-flex d-flex">
+                                        <div class="notification-icon ml-3">
+                                            <i class="las la-bell"></i>
+                                        </div>
                                         <div class="notification-contents">
                                             <a class="list-title" href="{{ $href }}">
                                                 {!! str_replace(

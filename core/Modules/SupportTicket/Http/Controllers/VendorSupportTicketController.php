@@ -4,6 +4,7 @@ namespace Modules\SupportTicket\Http\Controllers;
 
 use Str;
 use Storage;
+use App\XGNotification;
 use App\Helpers\FlashMsg;
 use Illuminate\Http\Request;
 use App\Events\SupportMessage;
@@ -78,6 +79,21 @@ class VendorSupportTicketController extends Controller
             'departments' => $request->departments,
             'vendor_id' => Auth::guard('vendor')->user()->id,
         ]);
+
+        $notification = new XGNotification();
+        $notification->vendor_id = $support_ticket->vendor_id ?? null;
+        $notification->delivery_man_id = null;
+        $notification->user_id   = $support_ticket->user_id ?? null;
+        $notification->model  = 'Modules\SupportTicket\Entities\SupportTicket';
+        $notification->model_id  = $support_ticket->id;
+        $notification->message  = $request->title . ' "A new support ticket created successfully"';
+        $notification->type  = 'create';
+        $notification->is_read_admin  = 0;
+        $notification->is_read_vendor  = 0;
+        $notification->is_read_delivery_man  = 0;
+        $notification->is_read_user  = 0;
+
+        $notification->save();
 
         return $support_ticket->id
             ? redirect()->route('vendor.support.ticket.all')->with(FlashMsg::create_succeed('Support ticket'))

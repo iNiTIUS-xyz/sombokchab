@@ -98,7 +98,7 @@ class SupportTicketController extends Controller
         $notification->user_id   = $support_ticket->user_id ?? null;
         $notification->model  = 'Modules\SupportTicket\Entities\SupportTicket';
         $notification->model_id  = $support_ticket->id;
-        $notification->message  = 'A new support ticket created successfully.';
+        $notification->message  = $request->title . ' "A new support ticket created successfully"';
         $notification->type  = 'create';
         $notification->is_read_admin  = 0;
         $notification->is_read_vendor  = 0;
