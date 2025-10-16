@@ -39,10 +39,10 @@
                                         required>
                                     <small class="text-primary">{{ __('Only csv files are allowed.') }}</small>
                                 </div>
-                                <button type="submit" class="cmn_btn btn_bg_profile loading-btn">
+                                <button type="submit" class="btn btn-primary loading-btn">
                                     {{ __('Submit') }}
                                 </button>
-                                <a href="{{ asset('province_domo_import_file.csv') }}" class="cmn_btn btn-info" download>
+                                <a href="{{ asset('province_domo_import_file.csv') }}" class="btn btn-info text-white" download>
                                     {{ __('Download Template') }}
                                 </a>
                             </form>
