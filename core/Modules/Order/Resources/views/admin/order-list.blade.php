@@ -35,6 +35,7 @@
                                 <th>{{ __('Amount') }}</th>
                                 <th>{{ __('Order Status') }}</th>
                                 <th>{{ __('Payment Status') }}</th>
+                                <th>{{ __('Created At') }}</th>
                                 <th>{{ __('Action') }}</th>
                             </tr>
                         </thead>
@@ -137,7 +138,8 @@
                                             </button>
                                             <div class="dropdown-menu">
                                                 {{-- Pending --}}
-                                                <form action="{{ route('admin.orders.payment.status.change', $order->id) }}"
+                                                <form
+                                                    action="{{ route('admin.orders.payment.status.change', $order->id) }}"
                                                     method="POST" id="status-form-pending-{{ $order->id }}">
                                                     @csrf
                                                     <input type="hidden" name="payment_status" value="pending">
@@ -146,7 +148,8 @@
                                                     </button>
                                                 </form>
                                                 {{-- Complete --}}
-                                                <form action="{{ route('admin.orders.payment.status.change', $order->id) }}"
+                                                <form
+                                                    action="{{ route('admin.orders.payment.status.change', $order->id) }}"
                                                     method="POST" id="status-form-complete-{{ $order->id }}">
                                                     @csrf
                                                     <input type="hidden" name="payment_status" value="complete">
@@ -155,7 +158,8 @@
                                                     </button>
                                                 </form>
                                                 {{-- Failed --}}
-                                                <form action="{{ route('admin.orders.payment.status.change', $order->id) }}"
+                                                <form
+                                                    action="{{ route('admin.orders.payment.status.change', $order->id) }}"
                                                     method="POST" id="status-form-failed-{{ $order->id }}">
                                                     @csrf
                                                     <input type="hidden" name="payment_status" value="failed">
@@ -165,6 +169,9 @@
                                                 </form>
                                             </div>
                                         </div>
+                                    </td>
+                                    <td>
+                                        {{ date('d M Y', strtotime($order->created_at)) }}
                                     </td>
                                     <td class="table-btn">
                                         <div class="btn-wrapper d-flex flex-wrap gap-2">
@@ -188,7 +195,8 @@
                                             @endcan --}}
                                             @can('orders-update')
                                                 <a href="{{ route('admin.orders.edit', $order->id) }}"
-                                                    class="btn btn-warning text-dark rounded-btn" title="{{ __('Edit Data') }}">
+                                                    class="btn btn-warning text-dark rounded-btn"
+                                                    title="{{ __('Edit Data') }}">
                                                     <i class="ti-pencil"></i>
                                                 </a>
                                             @endcan
@@ -207,18 +215,18 @@
 @section('script')
     <script src="{{ asset('assets/backend/js/sweetalert2.js') }}"></script>
     <script>
-        (function ($) {
+        (function($) {
             "use strict";
-            $(document).ready(function () {
+            $(document).ready(function() {
 
-                $(document).on('click', '.bodyUser_overlay', function () {
+                $(document).on('click', '.bodyUser_overlay', function() {
                     $('.user-dashboard-wrapper, .bodyUser_overlay').removeClass('show');
                 });
-                $(document).on('click', '.mobile_nav', function () {
+                $(document).on('click', '.mobile_nav', function() {
                     $('.user-dashboard-wrapper, .bodyUser_overlay').addClass('show');
                 });
 
-                $(document).on('click', '.swal_delete_button', function (e) {
+                $(document).on('click', '.swal_delete_button', function(e) {
                     e.preventDefault();
                     Swal.fire({
                         title: '{{ __('Are you sure?') }}',

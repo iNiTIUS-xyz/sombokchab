@@ -36,6 +36,7 @@
                                         <th>{{ __('Status') }}</th>
                                         <th>{{ __('Action') }}</th>
                                         <th>{{ __('Note') }}</th>
+                                        <th>{{ __('Created At') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -45,7 +46,11 @@
                                         @endphp
                                         @foreach (json_decode($request->gateway_fields) as $key => $value)
                                             @php
-                                                $fields .= ucwords(str_replace('_', ' ', $key)) . ': <strong>' . $value . '</strong> <br>';
+                                                $fields .=
+                                                    ucwords(str_replace('_', ' ', $key)) .
+                                                    ': <strong>' .
+                                                    $value .
+                                                    '</strong> <br>';
                                             @endphp
                                         @endforeach
                                         <tr>
@@ -111,6 +116,9 @@
                                             <td>
                                                 <div class="table-notes">{{ $request?->note }}</div>
                                             </td>
+                                            <td>
+                                                {{ date('d M Y', strtotime($request?->created_at)) }}
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -164,8 +172,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                             {{ __('Close') }}
                         </button>
                         <button type="submit" class="btn btn-primary">

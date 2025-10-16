@@ -39,6 +39,7 @@
                                             <th class="min-width-250">{{ __('Shop Info') }}</th>
                                             <th class="min-width-100">{{ __('Status') }}</th>
                                             <th class="min-width-100">{{ __('Verify Status') }}</th>
+                                            <th class="min-width-100">{{ __('Created At') }}</th>
                                             <th>{{ __('Actions') }}</th>
                                         </tr>
                                     </thead>
@@ -48,14 +49,16 @@
 
                                                 <td class="price-td" data-label="Name">
                                                     <div class="vendorList__item">
-                                                        <span class="vendorList__label vendor-label">{{ __('Vendor Name:') }}
+                                                        <span
+                                                            class="vendorList__label vendor-label">{{ __('Vendor Name:') }}
                                                         </span>
                                                         <span class="vendorList__value vendor-value">
                                                             {{ $vendor->owner_name }}
                                                         </span>
                                                     </div>
                                                     <div class="vendorList__item">
-                                                        <span class="vendorList__label vendor-label">{{ __('Vendor Email:') }}
+                                                        <span
+                                                            class="vendorList__label vendor-label">{{ __('Vendor Email:') }}
                                                         </span>
                                                         <span class="vendorList__value vendor-value">
                                                             {{ $vendor->vendor_shop_info?->email }}
@@ -158,6 +161,9 @@
                                                             </form>
                                                         </div>
                                                     </div>
+                                                </td>
+                                                <td>
+                                                    {{ date('d M Y', strtotime($vendor->created_at)) }}
                                                 </td>
                                                 <td data-label="Actions">
                                                     <div class="action-icon">

@@ -36,6 +36,7 @@
                                 <th>{{ __('Serial No') }}</th>
                                 <th>{{ __('Name') }}</th>
                                 <th>{{ __('Email') }}</th>
+                                <th>{{ __('Created At') }}</th>
                                 <th>{{ __('Action') }}</th>
                             </tr>
                         </thead>
@@ -49,6 +50,9 @@
                                         {{-- @if ($user->email_verified == 1)
                                         <i class="las la-check-circle text-success"></i>
                                         @endif --}}
+                                    </td>
+                                    <td>
+                                        {{ date('d M Y', strtotime($user->created_at)) }}
                                     </td>
                                     <td>
                                         {{-- @can('frontend-all-user-email-status')

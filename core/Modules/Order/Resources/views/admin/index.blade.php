@@ -27,6 +27,7 @@
                             <th>{{ __('Order Date') }}</th>
                             <th>{{ __('Amount') }}</th>
                             <th>{{ __('Order Status') }}</th>
+                            <th>{{ __('Created At') }}</th>
                             <th>{{ __('Action') }}</th>
                         </tr>
                     </thead>
@@ -55,7 +56,7 @@
                                 <td class="amount">
                                     {{ float_amount_with_currency_symbol($order->total_amount) }}
                                 </td>
-                                 <td class="status">
+                                <td class="status">
                                     <div class="btn-group badge">
                                         <button type="button"
                                             class="status-{{ $status }} {{ $statusClass }} dropdown-toggle"
@@ -91,6 +92,9 @@
                                             </form>
                                         </div>
                                     </div>
+                                </td>
+                                <td>
+                                    {{ date('d M Y', strtotime($order->created_at)) }}
                                 </td>
                                 <td class="table-btn">
                                     @can('orders-details')
