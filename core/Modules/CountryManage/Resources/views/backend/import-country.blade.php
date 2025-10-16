@@ -42,7 +42,8 @@
                                 <button type="submit" class="btn btn-primary loading-btn">
                                     {{ __('Submit') }}
                                 </button>
-                                <a href="{{ asset('country_domo_import_file.csv') }}" class="btn btn-info text-white" download>
+                                <a href="{{ asset('country_domo_import_file.csv') }}" class="btn btn-info text-white"
+                                    download>
                                     {{ __('Download Template') }}
                                 </a>
                             </form>
