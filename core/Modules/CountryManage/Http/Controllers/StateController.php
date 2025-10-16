@@ -139,7 +139,6 @@ class StateController extends Controller
                     'import_data' => $csv_data,
                 ]);
             }
-
         }
         FlashMsg::item_delete(__('something went wrong try again!'));
         return back();
@@ -172,12 +171,12 @@ class StateController extends Controller
                 continue;
             }
 
-            $find_state = State::where('name', $item[$state])->where('country_id', $request->country_id)->count();
+            $find_state = State::where('name', $item[$state])->where('country_id', $request->country_id ?? 31)->count();
 
             if ($find_state < 1) {
                 $state_data = [
                     'name' => $item[$state] ?? '',
-                    'country_id' => $request->country_id,
+                    'country_id' => $request->country_id ?? 31,
                     'status' => $request->status,
                 ];
             }
@@ -192,5 +191,4 @@ class StateController extends Controller
             'type' => 'success',
         ]);
     }
-
 }

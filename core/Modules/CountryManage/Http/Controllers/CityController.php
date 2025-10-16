@@ -64,7 +64,6 @@ class CityController extends Controller
             'msg' => __('City updated successfully.'),
             'type' => 'success',
         ]);
-
     }
 
     public function city_status($id)
@@ -77,7 +76,6 @@ class CityController extends Controller
             'msg' => __('City status changed successfully.'),
             'type' => 'success',
         ]);
-
     }
 
     public function statusUpdate(Request $request, $id)
@@ -99,7 +97,6 @@ class CityController extends Controller
             'msg' => __('City deleted successfully.'),
             'type' => 'success',
         ]);
-
     }
 
     public function bulk_action_city(Request $request)
@@ -110,7 +107,6 @@ class CityController extends Controller
             'msg' => __('Selected city deleted successfully.'),
             'type' => 'success',
         ]);
-
     }
 
     public function import_settings()
@@ -151,7 +147,6 @@ class CityController extends Controller
                     'import_data' => $csv_data,
                 ]);
             }
-
         }
 
         return back()->with([
@@ -211,11 +206,10 @@ class CityController extends Controller
             }
         }
 
-        return back()->route('admin.city.import.csv.settings')->with([
+        return redirect()->route('admin.city.import.csv.settings')->with([
             'msg' => __('City imported successfully.'),
             'type' => 'success',
         ]);
-
     }
 
     function pagination(Request $request)
@@ -242,5 +236,4 @@ class CityController extends Controller
             ]);
         }
     }
-
 }
