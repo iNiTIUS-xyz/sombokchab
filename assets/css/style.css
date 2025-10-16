@@ -18370,6 +18370,7 @@ li.main_dropdown ul {
 
 .notifications-parent .notification-list-wrapper.active {
   visibility: visible;
+  width: 450px;
   opacity: 1;
   top: 100%;
   background: #fff;

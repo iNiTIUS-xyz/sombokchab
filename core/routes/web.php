@@ -20,6 +20,8 @@ use Modules\Vendor\Http\Controllers\FrontendVendorController;
 Route::get('firebase-phone-authentication', [FirebaseController::class, 'index']);
 
 Route::get('update-notification', XgNotificationController::class)->middleware(['setlang:frontend', 'setlang:backend'])->name('update-notification');
+Route::post('/notification/mark-as-read/{id}', [XgNotificationController::class, 'markAsRead'])->name('notification.markAsRead');
+
 
 Route::get('send-otp', '\App\Http\Controllers\Auth\LoginController@sendOtp')->name('send.otp');
 Route::post('verify-otp', '\App\Http\Controllers\Auth\LoginController@verifyOtp')->name('verify.otp');
