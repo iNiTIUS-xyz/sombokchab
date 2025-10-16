@@ -110,7 +110,6 @@ class CountryManageController extends Controller
                     'import_data' => $csv_data,
                 ]);
             }
-
         }
         FlashMsg::item_update(__('something went wrong try again!'));
         return back();
@@ -154,6 +153,4 @@ class CountryManageController extends Controller
             'type' => 'success',
         ]);
     }
-
-
 }
