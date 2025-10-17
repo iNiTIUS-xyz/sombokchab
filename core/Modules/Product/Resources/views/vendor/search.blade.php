@@ -19,6 +19,7 @@
             <th> {{ __('Stock Qty') }} </th>
             <th> {{ __('Publish Status') }} </th>
             <th> {{ __('Status') }} </th>
+            <th> {{ __('Created At') }} </th>
             <th> {{ __('Action') }} </th>
         </tr>
     </thead>
@@ -81,6 +82,9 @@
                         class="badge {{ $product?->product_status == 'publish' ? 'bg-primary status-open' : 'bg-danger status-close' }}">
                         {{ ucfirst($product?->product_status) }}
                     </span>
+                </td>
+                <td>
+                    {{ date('d-M-Y', strtotime($product->created_at)) }}
                 </td>
                 <td data-label="Status">
                     {{-- <x-product::table.status :statuses="$statuses" :statusId="$product?->status_id"

@@ -160,7 +160,11 @@
         .date_range_picker {
             height: 48px !important;
             padding: 0 20px 0 20px !important;
-            text-align: center !important
+            text-align: center !important;
+            border: none;
+            padding: 0px !important;
+            margin: 0px !important;
+            font-weight: 500;
         }
     </style>
 @endsection

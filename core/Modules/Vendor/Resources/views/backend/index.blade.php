@@ -1,7 +1,7 @@
 @extends('backend.admin-master')
 
 @section('site-title')
-    {{ __('Vendor List') }}
+    {{ __('Vendors List') }}
 @endsection
 
 @section('style')
@@ -27,7 +27,7 @@
 
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Vendor List') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('Vendors List') }}</h4>
                     </div>
                     <div class="dashboard__card__body dashboard-recent-order mt-4">
                         <div class="table-wrap dashboard-table">
@@ -131,7 +131,7 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <div class="btn-group badge">
+                                                    <div class="btn btn-sm m-0 p-0" style="font-size: small;">
                                                         <button type="button"
                                                             class="status-{{ $vendor->is_vendor_verified }} {{ $vendor->is_vendor_verified == 0 ? 'bg-danger status-close' : 'bg-primary status-open' }} dropdown-toggle"
                                                             data-bs-toggle="dropdown" aria-haspopup="true"
@@ -163,7 +163,7 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    {{ date('d M Y', strtotime($vendor->created_at)) }}
+                                                    {{ date('d-M-Y', strtotime($vendor->created_at)) }}
                                                 </td>
                                                 <td data-label="Actions">
                                                     <div class="action-icon">

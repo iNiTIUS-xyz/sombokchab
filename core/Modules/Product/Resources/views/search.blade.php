@@ -12,6 +12,7 @@
             <th> {{ __('Stock Qty') }} </th>
             <th> {{ __('Publish Status') }} </th>
             <th> {{ __('Status') }} </th>
+            <th> {{ __('Created At') }} </th>
             <th> {{ __('Actions') }} </th>
         </tr>
     </thead>
@@ -136,7 +137,9 @@
                     </div>
                 </td>
 
-
+                <td>
+                    {{ date('d-M-Y', strtotime($product->created_at)) }}
+                </td>
                 <td>
                     <div class="action-icon">
                         {{-- <a href="{{ route('frontend.products.single', $product->slug) }}"

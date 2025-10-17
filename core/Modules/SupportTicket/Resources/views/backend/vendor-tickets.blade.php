@@ -43,6 +43,7 @@
                                     <th>{{ __('Vendor') }}</th>
                                     <th>{{ __('Priority') }}</th>
                                     <th>{{ __('Status') }}</th>
+                                    <th>{{ __('Created At') }}</th>
                                     <th>{{ __('Action') }}</th>
                                 </thead>
                                 <tbody>
@@ -110,6 +111,9 @@
                                                         </div>
                                                     @endcan
                                                 </div>
+                                            </td>
+                                            <td>
+                                                {{ date('d-M-Y', strtotime($data->created_at)) }}
                                             </td>
                                             <td>
                                                 @can('support-tickets-view')

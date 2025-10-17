@@ -52,7 +52,7 @@
                                         @endif --}}
                                     </td>
                                     <td>
-                                        {{ date('d M Y', strtotime($user->created_at)) }}
+                                        {{ date('d-M-Y', strtotime($user->created_at)) }}
                                     </td>
                                     <td>
                                         {{-- @can('frontend-all-user-email-status')

@@ -18,6 +18,9 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Import City') }} <small>(only csv file)</small></h4>
+                        <a href="{{ asset('city_demo_import_file.csv') }}" class="text-primary" download>
+                            <i class="ti-download"></i> {{ __('Download Template') }}
+                        </a>
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
                         @if ($errors->any())
@@ -41,9 +44,7 @@
                                 <button type="submit" class="btn btn-primary loading-btn">
                                     {{ __('Submit') }}
                                 </button>
-                                <a href="{{ asset('city_domo_import_file.csv') }}" class="btn btn-info text-white" download>
-                                    {{ __('Download Template') }}
-                                </a>
+                                
                             </form>
                         @else
                             @php

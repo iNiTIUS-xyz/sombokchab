@@ -39,14 +39,15 @@
 
                             <tr>
                                 @if ($notification->type == 'product')
-                                    <td class="{{ $notification->type == 'stock_out' ? 'bg bg-warning' : '' }}">
+                                    <td class="">
+                                    {{-- <td class="{{ $notification->type == 'stock_out' ? 'bg bg-warning' : '' }}"> --}}
                                         <div class="notification-list-flex d-flex">
                                             <div class="notification-icon ml-3">
                                                 <i class="las la-bell"></i>
                                             </div>
                                             <div class="notification-contents">
                                                 <a class="list-title" href="javascript:;"
-                                                    onclick="markAsReadAndRedirect('{{ route('notification.markAsRead', $notification->id) }}', '{{ $href }}')">
+                                                    onclick="markAsReadAndRedirect('{{ route('notification.markAsRead', $notification->id) }}', '{{ $href }}')" @if ($notification->is_read_admin == 0) style="font-weight: bold;" @endif
                                                     {!! str_replace(
                                                         ['{product_name}', '{vendor_text}'],
                                                         ["<b>$productName</b>", ''],
@@ -60,18 +61,19 @@
                                     </td>
                                 @else
                                     <td>
-                                        <div class="notification-list-flex d-flex"
-                                            @if ($notification->is_read_admin == 0) style="font-weight: bold;" @endif>
+                                        <div class="notification-list-flex d-flex">
                                             <div class="notification-icon ml-3">
                                                 <i class="las la-bell"></i>
                                             </div>
                                             <a class="list-title" href="javascript:;"
-                                                onclick="markAsReadAndRedirect('{{ route('notification.markAsRead', $notification->id) }}', '{{ $href }}')">
+                                                onclick="markAsReadAndRedirect('{{ route('notification.markAsRead', $notification->id) }}', '{{ $href }}')"
+                                            @if ($notification->is_read_admin == 0) style="font-weight: bold;" @endif>
                                                 {{ $notification->message }}
-                                                <span class="list-sub">
+                                                
+                                            </a>
+                                            <span class="list-sub">
                                                     {{ $notification->created_at->diffForHumans() }}
                                                 </span>
-                                            </a>
                                         </div>
                                     </td>
                                 @endif

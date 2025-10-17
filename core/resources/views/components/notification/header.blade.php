@@ -63,13 +63,14 @@
                         $href = \App\Http\Services\NotificationService::generateUrl($type, $notification);
                     @endphp
 
-                    <li class="list {{ $notification->type == 'stock_out' ? 'bg bg-warning' : '' }}">
+                    <li class="list">
+                    {{-- <li class="list {{ $notification->type == 'stock_out' ? 'bg bg-warning' : '' }}"> --}}
                         <div class="notification-list-flex">
                             <div class="notification-icon">
                                 <i class="las la-bell"></i>
                             </div>
                             <div class="notification-contents">
-                                <a class="list-title" href="{{ $href }}">
+                                <a class="list-title" href="{{ $href }}" @if ($notification->is_read_admin == 0) style="font-weight: bold;" @endif>
                                     {!! str_replace(
                                         ['{product_name}', '{vendor_text}', '{order_id}'],
                                         ["<b>$productName</b>", '', "#$notification->model_id"],
