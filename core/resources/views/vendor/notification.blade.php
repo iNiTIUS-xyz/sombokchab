@@ -51,6 +51,12 @@
                                                         ["<b>$productName</b>", ''],
                                                         formatNotificationText(strip_tags($notification->message)),
                                                     ) !!} </a>
+
+                                                @if ($notification->is_read_vendor == 0)
+                                                    <i class="las la-eye ml-2 text-success" title="Unread"></i>
+                                                @else
+                                                    <i class="las la-eye-slash ml-2 text-muted" title="Read"></i>
+                                                @endif
                                                 <span class="list-sub">
                                                     {{ $notification->created_at->diffForHumans() }}
                                                 </span>
@@ -67,6 +73,12 @@
                                             <a class="list-title" href="javascript:;"
                                                 onclick="markAsReadAndRedirect('{{ route('notification.markAsRead', $notification->id) }}', '{{ $href }}')">
                                                 {{ $notification->message }}
+
+                                                @if ($notification->is_read_vendor == 0)
+                                                    <i class="las la-eye ml-2 text-success" title="Unread"></i>
+                                                @else
+                                                    <i class="las la-eye-slash ml-2 text-muted" title="Read"></i>
+                                                @endif
                                                 <span class="list-sub">
                                                     {{ $notification->created_at->diffForHumans() }}
                                                 </span>
