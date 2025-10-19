@@ -118,14 +118,7 @@
                 <div class="col-12">
                     <div class="dashboard__card">
                         <div class="dashboard__card__body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h3 class="my-3">Vendor Support</h3>
-                                </div>
-                                <div class="col-md-6 text-end">
-                                    <a href="#" class="text-primary">View All</a>
-                                </div>
-                            </div>
+                            <h3 class="my-3">Vendor Support</h3>
                             <div class="row g-5">
                                 <div class="col-md-12">
                                     <div class="mb-2">

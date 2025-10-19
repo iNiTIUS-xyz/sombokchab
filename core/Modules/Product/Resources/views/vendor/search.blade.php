@@ -120,7 +120,7 @@
                 </td>
 
                 <td data-label="Actions">
-                    <div class="action-icon">
+                    <div class="btn-group">
                         {{-- <a href="{{ route('frontend.products.single', $product->slug) }}"
                             class="icon eye btn-sm text-white btn btn-primary">
                             <i class="las la-eye"></i>
