@@ -141,7 +141,7 @@
                     {{ date('d-M-Y', strtotime($product->created_at)) }}
                 </td>
                 <td>
-                    <div class="action-icon">
+                    <div class="btn-group">
                         {{-- <a href="{{ route('frontend.products.single', $product->slug) }}"
                             class="btn btn-success btn-sm" title="{{ __('View Data') }}">
                             <i class="las la-eye"></i>
