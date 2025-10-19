@@ -75,7 +75,15 @@
                                             <a class="list-title" href="javascript:;"
                                                 onclick="markAsReadAndRedirect('{{ route('notification.markAsRead', $notification->id) }}', '{{ $href }}')"
                                                 @if ($notification->is_read_admin == 0) style="font-weight: bold;" @endif>
-                                                {{ $notification->message }}
+
+                                                @if ($notification->is_read_admin == 0)
+                                                    <b>
+                                                        {{ $notification->message }}
+                                                    </b>
+                                                @else
+                                                    {{ $notification->message }}
+                                                @endif
+
                                                 @if ($notification->is_read_admin == 0)
                                                     <i class="las la-eye ml-2 text-success" title="Unread"></i>
                                                 @else

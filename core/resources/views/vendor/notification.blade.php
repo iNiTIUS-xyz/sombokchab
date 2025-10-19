@@ -72,7 +72,14 @@
                                             </div>
                                             <a class="list-title" href="javascript:;"
                                                 onclick="markAsReadAndRedirect('{{ route('notification.markAsRead', $notification->id) }}', '{{ $href }}')">
-                                                {{ $notification->message }}
+
+                                                @if ($notification->is_read_vendor == 0)
+                                                    <b>
+                                                        {{ $notification->message }}
+                                                    </b>
+                                                @else
+                                                    {{ $notification->message }}
+                                                @endif
 
                                                 @if ($notification->is_read_vendor == 0)
                                                     <i class="las la-eye ml-2 text-success" title="Unread"></i>
@@ -126,24 +133,25 @@
 
     <script>
         function markAsReadAndRedirect(markUrl, redirectUrl) {
-            fetch(markUrl, {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                    'Accept': 'application/json'
-                }
-            }).then(response => {
+            console.log("Mark URL:", markUrl);
+            console.log("Redirect URL:", redirectUrl);
 
-                if (response.ok) {
+            fetch(markUrl, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => {
+                    console.log("Fetch response:", response.status);
                     window.location.href = redirectUrl;
-                } else {
-                    console.error('Failed to mark as read.');
-                    window.location.href = redirectUrl; // still redirect
-                }
-            }).catch(err => {
-                console.error(err);
-                window.location.href = redirectUrl;
-            });
+                })
+                .catch(err => {
+                    console.error("Fetch error:", err);
+                    window.location.href = redirectUrl;
+                });
         }
     </script>
 @endsection
