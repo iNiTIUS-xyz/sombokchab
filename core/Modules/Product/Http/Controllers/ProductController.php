@@ -119,7 +119,7 @@ class ProductController extends Controller
         );
     }
 
-    public function clone($id): RedirectResponse
+    public function clone($id)
     {
         return (new AdminProductServices)->clone($id) ? back()->with(FlashMsg::clone_succeed('Product')) : back()->with(FlashMsg::clone_failed('Product'));
     }

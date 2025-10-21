@@ -36,7 +36,7 @@
         }
 
         if (allIds != '' && (bulkOption == 'active' || bulkOption == 'inactive')) {
-            $(this).html('<i class="fas fa-spinner fa-spin mr-1"></i>{{ __('Updateing') }}');
+            $(this).html('<i class="fas fa-spinner fa-spin mr-1"></i>{{ __('Updating') }}');
             $.ajax({
                 'type': "POST",
                 'url': actionUrl,

@@ -28,8 +28,8 @@
                                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
-                                            data-bs-target="#basic-info" type="button" role="tab" aria-controls="basic-info"
-                                            aria-selected="true">
+                                            data-bs-target="#basic-info" type="button" role="tab"
+                                            aria-controls="basic-info" aria-selected="true">
                                             {{ __('Basic') }}
                                         </button>
                                     </li>
@@ -42,15 +42,15 @@
                                     </li>
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
-                                            data-bs-target="#shop-info" type="button" role="tab" aria-controls="shop-info"
-                                            aria-selected="false">
+                                            data-bs-target="#shop-info" type="button" role="tab"
+                                            aria-controls="shop-info" aria-selected="false">
                                             {{ __('Shop Info') }}
                                         </button>
                                     </li>
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
-                                            data-bs-target="#bank-info" type="button" role="tab" aria-controls="bank-info"
-                                            aria-selected="false">
+                                            data-bs-target="#bank-info" type="button" role="tab"
+                                            aria-controls="bank-info" aria-selected="false">
                                             {{ __('Bank Info') }}
                                         </button>
                                     </li>
@@ -127,7 +127,7 @@
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
                                                                 <label class="label-title">
-                                                                    {{ __('Confirmed Password') }}
+                                                                    {{ __('Confirm Password') }}
                                                                     <span class="text-danger">*</span>
                                                                 </label>
                                                                 <input name="password_confirmation" type="text"
@@ -158,9 +158,7 @@
                                                                 <label class="label-title">
                                                                     {{ __('Description') }}
                                                                 </label>
-                                                                <textarea name="description"
-                                                                    class="form--control form--message radius-10"
-                                                                    style="height: 100px"></textarea>
+                                                                <textarea name="description" class="form--control form--message radius-10" style="height: 100px"></textarea>
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
@@ -190,7 +188,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane fade mt-4" id="address" role="tabpanel" aria-labelledby="profile-tab">
+                                <div class="tab-pane fade mt-4" id="address" role="tabpanel"
+                                    aria-labelledby="profile-tab">
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <div class="dashboard__card">
@@ -271,7 +270,8 @@
                                                                     <span class="text-danger">*</span>
                                                                 </label>
                                                                 <input type="text" name="zip_code"
-                                                                    class="form--control radius-10" placeholder="Zip Code">
+                                                                    class="form--control radius-10"
+                                                                    placeholder="Zip Code">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
@@ -279,9 +279,7 @@
                                                                 <label class="label-title">
                                                                     {{ __('Address') }}
                                                                 </label>
-                                                                <textarea name="address" type="text"
-                                                                    class="form--control radius-10"
-                                                                    placeholder="{{ __('Enter address') }}"></textarea>
+                                                                <textarea name="address" type="text" class="form--control radius-10" placeholder="{{ __('Enter address') }}"></textarea>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -398,7 +396,8 @@
                                                                     {{ __('Bank Code') }}
                                                                 </label>
                                                                 <input name="bank_code" type="tel"
-                                                                    class="form--control radius-10" placeholder="Type Code">
+                                                                    class="form--control radius-10"
+                                                                    placeholder="Type Code">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
@@ -441,14 +440,14 @@
     <x-media.js />
     <x-table.btn.swal.js />
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             $("#business_type").select2();
             $("#country_id").select2();
             $("#state_id").select2();
             $("#city_id").select2();
         });
 
-        $(document).on("submit", "#vendor-create-form", function (e) {
+        $(document).on("submit", "#vendor-create-form", function(e) {
             e.preventDefault();
             let url = $(this).data("action-url"),
                 data = new FormData(e.target);
@@ -497,7 +496,7 @@
         //     })
         // });
 
-        $(document).on("keyup keydown click change", "input[name=username]", function () {
+        $(document).on("keyup keydown click change", "input[name=username]", function() {
             $(this).val(convertToSlug($(this).val()))
         });
     </script>

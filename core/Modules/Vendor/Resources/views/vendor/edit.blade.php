@@ -271,12 +271,12 @@
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
                                                                 <label class="label-title color-light mb-2">
-                                                                    {{ __('Location') }}
+                                                                    {{ __('Link/ Url') }}
                                                                 </label>
                                                                 <input value="{{ $vendor?->vendor_shop_info?->location }}"
                                                                     name="location" type="text"
                                                                     class="form--control radius-10"
-                                                                    placeholder="Set Location From Map">
+                                                                    placeholder="Set Link/ Url From Map">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">

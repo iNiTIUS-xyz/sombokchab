@@ -195,7 +195,7 @@
                                     @endif
                                     <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
                                         data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
-                                        {{ __('Advance Search') }}
+                                        {{ __('Advanced Search') }}
                                     </button>
                                 </div>
                             @endcan

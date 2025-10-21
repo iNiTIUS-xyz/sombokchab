@@ -414,6 +414,7 @@ trait ProductGlobalTrait
             "badge_id" => $data->badge_id,
             "brand_id" => $data->brand_id,
             "status_id" => $data->status_id ?? 2,
+            "product_status" => 'unpublish',
             "product_type" => $this->product_type() ?? 2,
             "min_purchase" => $data->min_purchase,
             "max_purchase" => $data->max_purchase,
