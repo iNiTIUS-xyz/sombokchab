@@ -1,7 +1,9 @@
 @extends('backend.admin-master')
+
 @section('site-title')
     {{ __('Product Inventory') }}
 @endsection
+
 @section('style')
     <link rel="stylesheet" href="{{ asset('assets/backend/css/nice-select.css') }}">
     <x-media.css />
@@ -29,9 +31,13 @@
                                 <div class="w-100">
                                     <h5>
                                         <a href="{{ route('admin.products.edit', $product?->id ?? 0) }}"
-                                            class="dashboard__card__product__title featureTittle">{{ $product?->name }}</a>
+                                            class="dashboard__card__product__title featureTittle">
+                                            {{ $product?->name }}
+                                        </a>
                                     </h5>
-                                    <p class="dashboard__card__product__para featureCap">{{ $product?->summary }}</p>
+                                    <p class="dashboard__card__product__para featureCap">
+                                        {{ $product?->summary }}
+                                    </p>
                                 </div>
 
                                 <div class="dashboard__card__product__price mt-2">
@@ -86,7 +92,6 @@
                                     {{ $product?->created_at->diffForHumans() }}
                                 </strong>
                             </div>
-
                             {{-- <a href="{{ route('frontend.products.single', $product?->slug ?? 0) }}"
                                 class="btn btn-secondary mr-10">
                                 <i class="lar la-eye icon"></i>
@@ -105,14 +110,14 @@
                     <input value="{{ $product?->id }}" name="product_id" type="hidden">
 
                     <div class="col-lg-12">
-                        <x-product::product-inventory :inventory_page="true" :units="$data['units']"
-                            :inventory="$product?->inventory" :uom="$product?->uom" />
+                        <x-product::product-inventory :inventory_page="true" :units="$data['units']" :inventory="$product?->inventory"
+                            :uom="$product?->uom" />
                     </div>
 
                     @can('product-category-edit')
                         <div class="col-lg-12">
-                            <x-product::product-attribute :inventorydetails="$inventory?->inventoryDetails"
-                                :colors="$product_colors" :sizes="$product_sizes" :allAttributes="$all_attributes" />
+                            <x-product::product-attribute :inventorydetails="$inventory?->inventoryDetails" :colors="$product_colors" :sizes="$product_sizes"
+                                :allAttributes="$all_attributes" />
                             <div class="form-group">
                                 <button class="cmn_btn btn_bg_profile">{{ __('Update Inventory') }}</button>
                             </div>
@@ -131,28 +136,28 @@
     <script src="{{ asset('assets/backend/js/jquery.nice-select.min.js') }}"></script>
     <x-media.js />
     <script>
-        (function ($) {
+        (function($) {
             'use script'
 
-            $(document).on("submit", "#update-inventory-form", function (e) {
+            $(document).on("submit", "#update-inventory-form", function(e) {
                 e.preventDefault();
                 let data = new FormData(e.target);
 
-                send_ajax_request("post", data, '{{ route('admin.products.inventory.update') }}', function () {
+                send_ajax_request("post", data, '{{ route('admin.products.inventory.update') }}', function() {
 
-                }, function (data) {
+                }, function(data) {
                     if (data.type == 'success') {
                         toastr.success(data.msg);
                     } else {
                         toastr.error(data.msg);
                     }
 
-                }, function () {
+                }, function() {
 
                 });
             });
 
-            $(document).ready(function () {
+            $(document).ready(function() {
                 let nice_select_el = $('.nice-select');
                 if (nice_select_el.length > 0) {
                     nice_select_el.niceSelect();

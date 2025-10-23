@@ -31,7 +31,7 @@ class InventoryController extends Controller
 
     public function index()
     {
-        $all_inventory_products = InventoryServices::fetch_inventory_product()->get();
+        $all_inventory_products = InventoryServices::fetch_inventory_product()->orderBy('id', 'desc')->get();
         return view('inventory::backend.all', compact('all_inventory_products'));
     }
 
@@ -74,7 +74,6 @@ class InventoryController extends Controller
         (new InventoryServices)->update($request->validated());
 
         return response()->json(FlashMsg::update_succeed(__('Product Inventory')));
-
     }
 
     public function destroy(Request $request)
