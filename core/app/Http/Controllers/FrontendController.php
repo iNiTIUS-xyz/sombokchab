@@ -433,7 +433,7 @@ class FrontendController extends Controller
             //throw $th;
         }
 
-        return response()->json(['type' => 'success', 'msg' => __('Thanks for Subscribe Our Newsletter')]);
+        return response()->json(['type' => 'success', 'msg' => __('Thanks for subscribing to our newsletter.')]);
     }
 
     public function subscriber_verify(Request $request)
