@@ -12,16 +12,16 @@
         <div class="row g-3 mt-2">
             <div class="col-sm-12">
                 <div class="form-group">
-                    <label for="min_purchase">{{ __('Minimum quantity of Purchase') }}</label>
+                    <label for="min_purchase">{{ __('Minimum Purchase Quantity') }}</label>
                     <input type="number" id="min_purchase" name="min_purchase" class="form--control"
-                        value="{{ $product?->min_purchase }}" placeholder="{{ __('Minimum quantity of purchase') }}">
+                        value="{{ $product?->min_purchase }}" placeholder="{{ __('Enter minimum purchase quantity') }}">
                 </div>
             </div>
             <div class="col-sm-12">
                 <div class="form-group">
-                    <label for="max_purchase">{{ __('Maximum quantity of Purchase') }}</label>
+                    <label for="max_purchase">{{ __('Maximum Purchase Quantity') }}</label>
                     <input id="max_purchase" name="max_purchase" class="form--control"
-                        value="{{ $product?->max_purchase }}" placeholder="{{ __('Maximum quantity of Purchase') }}">
+                        value="{{ $product?->max_purchase }}" placeholder="{{ __('Enter maximum purchase quantity') }}">
                 </div>
             </div>
             <div class="col-sm-12">
