@@ -11,10 +11,10 @@ class CouponEnum
     {
         return [
             'all' => __('All Products'),
+            'product' => __('Product'),
             'category' => __('Category'),
             'subcategory' => __('Sub Category'),
-            'childcategory' => __('Child Category'),
-            'product' => __('Product'),
+            // 'childcategory' => __('Child Category'),
             'shipping' => __('Shipping')
         ];
     }
