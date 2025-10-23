@@ -97,7 +97,7 @@
                                 </div>
                                 <div class="tab-pane fade" id="v-price-tab" role="tabpanel"
                                     aria-labelledby="v-price-tab">
-                                    <x-product::product-price />
+                                    <x-product::product-price :tax_classes="$data['tax_classes']" />
                                 </div>
                                 <div class="tab-pane fade" id="v-inventory-tab" role="tabpanel"
                                     aria-labelledby="v-inventory-tab">
@@ -138,149 +138,176 @@
                 </div>
             </div>
         </div>
-        <x-media.markup type="vendor" />
-    @endsection
-    @section('script')
-        <x-select2.select2-js />
-        <script src="{{ asset('assets/common/js/jquery-ui.min.js') }}" rel="stylesheet"></script>
-        <x-media.js type="vendor" />
-        <x-summernote.js />
-        <x-product::variant-info.js :colors="$data['product_colors']" :sizes="$data['product_sizes']" :all-attributes="$data['all_attribute']" />
+    </div>
+    <x-media.markup type="vendor" />
+@endsection
 
-        <script>
-            $(document).ready(function() {
-                $("#country_id").select2()
-                $("#state_id").select2();
-                $("#city_id").select2();
+@section('script')
+    <x-select2.select2-js />
+    <script src="{{ asset('assets/common/js/jquery-ui.min.js') }}" rel="stylesheet"></script>
+    <x-media.js type="vendor" />
+    <x-summernote.js />
+    <x-product::variant-info.js :colors="$data['product_colors']" :sizes="$data['product_sizes']" :all-attributes="$data['all_attribute']" />
 
-                $('#child_category').select2({
-                    placeholder: "{{ __('Select Child Category') }}"
-                });
+    <script>
+        $(document).ready(function() {
+            $("#country_id").select2()
+            $("#state_id").select2();
+            $("#city_id").select2();
+
+            $('#child_category').select2({
+                placeholder: "{{ __('Select Child Category') }}"
+            });
+        })
+        $('#product-name , #product-slug').on('keyup', function() {
+            let title_text = $(this).val();
+            $('#product-slug').val(convertToSlug(title_text))
+        });
+
+        $(document).on('change', '.item_attribute_name', function() {
+            let terms = $(this).find('option:selected').data('terms');
+            let terms_html = '<option value=""><?php echo e(__('Select attribute value')); ?></option>';
+            terms.map(function(term) {
+                terms_html += '<option value="' + term + '">' + term + '</option>';
+            });
+            $(this).closest('.inventory_item').find('.item_attribute_value').html(terms_html);
+        })
+
+        $(document).on("submit", "#product-create-form", function(e) {
+            e.preventDefault();
+
+            send_ajax_request("post", new FormData(e.target), $(this).attr("data-request-route"), function() {
+                toastr.warning("Request sent successfully ");
+            }, function(data) {
+                if (data.success) {
+                    toastr.success("Product Created Successfully");
+                    toastr.success("You are redirected to product list page");
+                    setTimeout(function() {
+                        window.location.href = "{{ route('vendor.products.create') }}";
+                    })
+                }
+            }, function(xhr) {
+                ajax_toastr_error_message(xhr);
+            });
+        })
+
+        $(document).on("change", "#category", function() {
+            let data = new FormData();
+            data.append("_token", "{{ csrf_token() }}");
+            data.append("category_id", $(this).val());
+
+            send_ajax_request("post", data, '{{ route('vendor.product.category.sub-category') }}', function() {
+                $("#sub_category").html("<option value=''>{{ __('Select Sub Category') }}</option>");
+                $("#child_category").html("<option value=''>{{ __('Select Child Category') }}</option>");
+            }, function(data) {
+                $("#sub_category").html(data.html);
+            }, function(xhr) {
+                ajax_toastr_error_message(xhr);
+            });
+        });
+
+        $(document).on("change", "#sub_category", function() {
+            let data = new FormData();
+            data.append("_token", "{{ csrf_token() }}");
+            data.append("sub_category_id", $(this).val());
+
+            send_ajax_request("post", data, '{{ route('vendor.product.category.child-category') }}', function() {
+                $("#child_category").html("<option value=''>{{ __('Select Child Category') }}</option>");
+                $("#select2-child_category-container").html('');
+            }, function(data) {
+                $("#child_category").html(data.html);
+            }, function(xhr) {
+                ajax_toastr_error_message(xhr);
+            });
+        });
+
+        $(document).on("click", ".delivery-item", function() {
+            $(this).toggleClass("active");
+            $(this).effect("shake", {
+                direction: "up",
+                times: 1,
+                distance: 2
+            }, 'fast');
+            let delivery_option = "";
+
+            $.each($(".delivery-item.active"), function() {
+                delivery_option += $(this).data("delivery-option-id") + " , ";
             })
-            $('#product-name , #product-slug').on('keyup', function() {
-                let title_text = $(this).val();
-                $('#product-slug').val(convertToSlug(title_text))
+
+            delivery_option = delivery_option.slice(0, -3)
+
+            $(".delivery-option-input").val(delivery_option);
+        });
+
+        $(document).on("change", "#category", function() {
+            let data = new FormData();
+            data.append("_token", "{{ csrf_token() }}");
+            data.append("category_id", $(this).val());
+
+            send_ajax_request("post", data, '{{ route('admin.product.category.sub-category') }}', function() {
+                $("#sub_category").html("<option value=''>Select Sub Category</option>");
+                $("#child_category").html("<option value=''>Select Child Category</option>");
+                $("#select2-child_category-container").html('');
+            }, function(data) {
+                $("#sub_category").html(data.html);
+            }, function() {
+
             });
+        });
 
-            $(document).on('change', '.item_attribute_name', function() {
-                let terms = $(this).find('option:selected').data('terms');
-                let terms_html = '<option value=""><?php echo e(__('Select attribute value')); ?></option>';
-                terms.map(function(term) {
-                    terms_html += '<option value="' + term + '">' + term + '</option>';
-                });
-                $(this).closest('.inventory_item').find('.item_attribute_value').html(terms_html);
-            })
+        $(document).on("change", "#sub_category", function() {
+            let data = new FormData();
+            data.append("_token", "{{ csrf_token() }}");
+            data.append("sub_category_id", $(this).val());
 
-            $(document).on("submit", "#product-create-form", function(e) {
-                e.preventDefault();
+            send_ajax_request("post", data, '{{ route('admin.product.category.child-category') }}', function() {
+                $("#child_category").html("<option value=''>Select Child Category</option>");
+                $("#select2-child_category-container").html('');
+            }, function(data) {
+                $("#child_category").html(data.html);
+            }, function() {
 
-                send_ajax_request("post", new FormData(e.target), $(this).attr("data-request-route"), function() {
-                    toastr.warning("Request sent successfully ");
-                }, function(data) {
-                    if (data.success) {
-                        toastr.success("Product Created Successfully");
-                        toastr.success("You are redirected to product list page");
-                        setTimeout(function() {
-                            window.location.href = "{{ route('vendor.products.create') }}";
-                        })
-                    }
-                }, function(xhr) {
-                    ajax_toastr_error_message(xhr);
-                });
-            })
-
-            $(document).on("change", "#category", function() {
-                let data = new FormData();
-                data.append("_token", "{{ csrf_token() }}");
-                data.append("category_id", $(this).val());
-
-                send_ajax_request("post", data, '{{ route('vendor.product.category.sub-category') }}', function() {
-                    $("#sub_category").html("<option value=''>{{ __('Select Sub Category') }}</option>");
-                    $("#child_category").html("<option value=''>{{ __('Select Child Category') }}</option>");
-                }, function(data) {
-                    $("#sub_category").html(data.html);
-                }, function(xhr) {
-                    ajax_toastr_error_message(xhr);
-                });
             });
+        });
 
-            $(document).on("change", "#sub_category", function() {
-                let data = new FormData();
-                data.append("_token", "{{ csrf_token() }}");
-                data.append("sub_category_id", $(this).val());
+        $(document).on('click', '.badge-item', function(e) {
+            $(".badge-item").removeClass("active");
+            $(this).effect("shake", {
+                direction: "up",
+                times: 1,
+                distance: 2
+            }, 'fast');
+            $(this).addClass("active");
+            $("#badge_id_input").val($(this).attr("data-badge-id"));
+        });
 
-                send_ajax_request("post", data, '{{ route('vendor.product.category.child-category') }}', function() {
-                    $("#child_category").html("<option value=''>{{ __('Select Child Category') }}</option>");
-                    $("#select2-child_category-container").html('');
-                }, function(data) {
-                    $("#child_category").html(data.html);
-                }, function(xhr) {
-                    ajax_toastr_error_message(xhr);
-                });
+        $(document).on("click", ".close-icon", function() {
+            $('#media_upload_modal').modal('hide');
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            function toggleTaxClass() {
+                const isTaxable = $('select[name="is_taxable"]').val();
+                const taxClassDiv = $('select[name="tax_class_id"]').closest('.col-sm-6');
+
+                if (isTaxable === "0") {
+                    // Non-Taxable → hide tax class and remove required
+                    taxClassDiv.hide();
+                    $('select[name="tax_class_id"]').prop('required', false);
+                } else {
+                    // Taxable → show tax class and make required
+                    taxClassDiv.show();
+                    $('select[name="tax_class_id"]').prop('required', true);
+                }
+            }
+
+            toggleTaxClass();
+
+            $('select[name="is_taxable"]').on('change', function() {
+                toggleTaxClass();
             });
-
-            $(document).on("click", ".delivery-item", function() {
-                $(this).toggleClass("active");
-                $(this).effect("shake", {
-                    direction: "up",
-                    times: 1,
-                    distance: 2
-                }, 'fast');
-                let delivery_option = "";
-
-                $.each($(".delivery-item.active"), function() {
-                    delivery_option += $(this).data("delivery-option-id") + " , ";
-                })
-
-                delivery_option = delivery_option.slice(0, -3)
-
-                $(".delivery-option-input").val(delivery_option);
-            });
-
-            $(document).on("change", "#category", function() {
-                let data = new FormData();
-                data.append("_token", "{{ csrf_token() }}");
-                data.append("category_id", $(this).val());
-
-                send_ajax_request("post", data, '{{ route('admin.product.category.sub-category') }}', function() {
-                    $("#sub_category").html("<option value=''>Select Sub Category</option>");
-                    $("#child_category").html("<option value=''>Select Child Category</option>");
-                    $("#select2-child_category-container").html('');
-                }, function(data) {
-                    $("#sub_category").html(data.html);
-                }, function() {
-
-                });
-            });
-
-            $(document).on("change", "#sub_category", function() {
-                let data = new FormData();
-                data.append("_token", "{{ csrf_token() }}");
-                data.append("sub_category_id", $(this).val());
-
-                send_ajax_request("post", data, '{{ route('admin.product.category.child-category') }}', function() {
-                    $("#child_category").html("<option value=''>Select Child Category</option>");
-                    $("#select2-child_category-container").html('');
-                }, function(data) {
-                    $("#child_category").html(data.html);
-                }, function() {
-
-                });
-            });
-
-            $(document).on('click', '.badge-item', function(e) {
-                $(".badge-item").removeClass("active");
-                $(this).effect("shake", {
-                    direction: "up",
-                    times: 1,
-                    distance: 2
-                }, 'fast');
-                $(this).addClass("active");
-                $("#badge_id_input").val($(this).attr("data-badge-id"));
-            });
-
-            $(document).on("click", ".close-icon", function() {
-                $('#media_upload_modal').modal('hide');
-            });
-        </script>
-    @endsection
+        });
+    </script>
+@endsection

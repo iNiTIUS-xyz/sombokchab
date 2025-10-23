@@ -21,7 +21,7 @@
                         <div class="dashboard-left-flex d-flex align-items-center justify-content-between w-100">
                             <h3 class="heading-three fw-500"> {{ __('Update Product') }} </h3>
                             <div class="button-wrappers">
-                                <a href="{{ route('admin.products.all') }}" class="btn btn-info">{{ __("Product List") }}</a>
+                                <a href="{{ route('admin.products.all') }}" class="btn btn-info">{{ __('Product List') }}</a>
                             </div>
                         </div>
                     </div>
@@ -148,93 +148,117 @@
                 </div>
             </div>
         </div>
-        <x-media.markup />
-    @endsection
-    @section('script')
-        <script src="{{ asset('assets/common/js/jquery-ui.min.js') }}" rel="stylesheet"></script>
-        <x-media.js />
-        <x-summernote.js />
-        <x-product::variant-info.js :colors="$data['product_colors']" :sizes="$data['product_sizes']" :all-attributes="$data['all_attribute']" />
+    </div>
+    <x-media.markup />
+@endsection
+@section('script')
+    <script src="{{ asset('assets/common/js/jquery-ui.min.js') }}" rel="stylesheet"></script>
+    <x-media.js />
+    <x-summernote.js />
+    <x-product::variant-info.js :colors="$data['product_colors']" :sizes="$data['product_sizes']" :all-attributes="$data['all_attribute']" />
 
-        <script>
-            $('#product-name , #product-slug').on('keyup', function() {
-                let title_text = $(this).val();
-                $('#product-slug').val(convertToSlug(title_text))
+    <script>
+        $('#product-name , #product-slug').on('keyup', function() {
+            let title_text = $(this).val();
+            $('#product-slug').val(convertToSlug(title_text))
+        });
+
+        $(document).on("submit", "#product-create-form", function(e) {
+            e.preventDefault();
+
+            send_ajax_request("post", new FormData(e.target), $(this).attr("data-request-route"), function() {
+                toastr.warning("Request sent successfully ");
+            }, function(data) {
+                if (data.success) {
+                    toastr.success("Product updated Successfully");
+                }
+            }, function(xhr) {
+                ajax_toastr_error_message(xhr);
             });
+        })
 
-            $(document).on("submit", "#product-create-form", function(e) {
-                e.preventDefault();
+        let inventory_item_id = 0;
+        $(document).on("click", ".delivery-item", function() {
+            $(this).toggleClass("active");
+            $(this).effect("shake", {
+                direction: "up",
+                times: 1,
+                distance: 2
+            }, 500);
 
-                send_ajax_request("post", new FormData(e.target), $(this).attr("data-request-route"), function() {
-                    toastr.warning("Request sent successfully ");
-                }, function(data) {
-                    if (data.success) {
-                        toastr.success("Product updated Successfully");
-                    }
-                }, function(xhr) {
-                    ajax_toastr_error_message(xhr);
-                });
+            let delivery_option = "";
+            $.each($(".delivery-item.active"), function() {
+                delivery_option += $(this).data("delivery-option-id") + " , ";
             })
 
-            let inventory_item_id = 0;
-            $(document).on("click", ".delivery-item", function() {
-                $(this).toggleClass("active");
-                $(this).effect("shake", {
-                    direction: "up",
-                    times: 1,
-                    distance: 2
-                }, 500);
+            delivery_option = delivery_option.slice(0, -3)
 
-                let delivery_option = "";
-                $.each($(".delivery-item.active"), function() {
-                    delivery_option += $(this).data("delivery-option-id") + " , ";
-                })
+            $(".delivery-option-input").val(delivery_option);
+        });
 
-                delivery_option = delivery_option.slice(0, -3)
+        $(document).on("change", "#category", function() {
+            let data = new FormData();
+            data.append("_token", "{{ csrf_token() }}");
+            data.append("category_id", $(this).val());
 
-                $(".delivery-option-input").val(delivery_option);
+            send_ajax_request("post", data, '{{ route('admin.product.category.sub-category') }}', function() {
+                $("#sub_category").html("<option value=''>Select Sub Category</option>");
+                $("#child_category").html("<option value=''>Select Child Category</option>");
+                $("#select2-child_category-container").html('');
+            }, function(data) {
+                $("#sub_category").html(data.html);
+            }, function(xhr) {
+                ajax_toastr_error_message(xhr);
             });
+        });
 
-            $(document).on("change", "#category", function() {
-                let data = new FormData();
-                data.append("_token", "{{ csrf_token() }}");
-                data.append("category_id", $(this).val());
+        $(document).on("change", "#sub_category", function() {
+            let data = new FormData();
+            data.append("_token", "{{ csrf_token() }}");
+            data.append("sub_category_id", $(this).val());
 
-                send_ajax_request("post", data, '{{ route('admin.product.category.sub-category') }}', function() {
-                    $("#sub_category").html("<option value=''>Select Sub Category</option>");
-                    $("#child_category").html("<option value=''>Select Child Category</option>");
-                    $("#select2-child_category-container").html('');
-                }, function(data) {
-                    $("#sub_category").html(data.html);
-                }, function(xhr) {
-                    ajax_toastr_error_message(xhr);
-                });
+            send_ajax_request("post", data, '{{ route('admin.product.category.child-category') }}', function() {
+                $("#child_category").html("<option value=''>Select Child Category</option>");
+                $("#select2-child_category-container").html('');
+            }, function(data) {
+                $("#child_category").html(data.html);
+            }, function(xhr) {
+                ajax_toastr_error_message(xhr);
             });
+        });
 
-            $(document).on("change", "#sub_category", function() {
-                let data = new FormData();
-                data.append("_token", "{{ csrf_token() }}");
-                data.append("sub_category_id", $(this).val());
+        $(document).on('click', '.badge-item', function(e) {
+            $(".badge-item").removeClass("active");
+            // $(this).effect( "shake", { direction: "up", times: 1, distance: 2}, 500 );
+            $(this).addClass("active");
+            $("#badge_id_input").val($(this).attr("data-badge-id"));
+        });
 
-                send_ajax_request("post", data, '{{ route('admin.product.category.child-category') }}', function() {
-                    $("#child_category").html("<option value=''>Select Child Category</option>");
-                    $("#select2-child_category-container").html('');
-                }, function(data) {
-                    $("#child_category").html(data.html);
-                }, function(xhr) {
-                    ajax_toastr_error_message(xhr);
-                });
+        $(document).on("click", ".close-icon", function() {
+            $('#media_upload_modal').modal('hide');
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            function toggleTaxClass() {
+                const isTaxable = $('select[name="is_taxable"]').val();
+                const taxClassDiv = $('select[name="tax_class_id"]').closest('.col-sm-6');
+
+                if (isTaxable === "0") {
+                    taxClassDiv.hide();
+                    $('select[name="tax_class_id"]').prop('required', false);
+                } else {
+                    taxClassDiv.show();
+                    $('select[name="tax_class_id"]').prop('required', true);
+                }
+            }
+
+            toggleTaxClass();
+
+            $('select[name="is_taxable"]').on('change', function() {
+                toggleTaxClass();
             });
-
-            $(document).on('click', '.badge-item', function(e) {
-                $(".badge-item").removeClass("active");
-                // $(this).effect( "shake", { direction: "up", times: 1, distance: 2}, 500 );
-                $(this).addClass("active");
-                $("#badge_id_input").val($(this).attr("data-badge-id"));
-            });
-
-            $(document).on("click", ".close-icon", function() {
-                $('#media_upload_modal').modal('hide');
-            });
-        </script>
-    @endsection
+        });
+    </script>
+@endsection

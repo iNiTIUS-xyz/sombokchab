@@ -4,7 +4,7 @@
 
 @section('style')
     <x-bulk-action.css />
-    <x-niceselect.css />
+    <x-select2.select2-css />
 
     <style>
         #form_category,
@@ -116,8 +116,8 @@
                                     @can('coupons-bulk-action')
                                         <x-bulk-action.th />
                                     @endcan
-                                    {{-- <th>{{ __('ID') }}</th> --}}
                                     <th>{{ __('Code') }}</th>
+                                    <th>{{ __('Coupon Type') }}</th>
                                     <th>{{ __('Discount') }}</th>
                                     <th>{{ __('Expire Date') }}</th>
                                     <th>{{ __('Status') }}</th>
@@ -129,8 +129,14 @@
                                             @can('coupons-bulk-action')
                                                 <x-bulk-action.td :id="$data->id" />
                                             @endcan
-                                            {{-- <td>{{ $data->id }}</td> --}}
                                             <td>{{ $data->code }}</td>
+                                            <td>
+                                                @if ($data->discount_type == 'percentage')
+                                                    <span>Percentage</span>
+                                                @else
+                                                    <span>Amount</span>
+                                                @endif
+                                            </td>
                                             <td>
                                                 @if ($data->discount_type == 'percentage')
                                                     {{ $data->discount }}%
@@ -145,11 +151,13 @@
                                                 <div class="btn-group badge">
                                                     <button type="button"
                                                         class="status-{{ $data->status }} {{ $data->status == 'publish' ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
-                                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        data-bs-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
                                                         {{ ucfirst($data->status == 'publish' ? __('Publish') : __('Draft')) }}
                                                     </button>
                                                     <div class="dropdown-menu">
-                                                        <form action="{{ route('admin.products.coupon.status.change', $data->id) }}"
+                                                        <form
+                                                            action="{{ route('admin.products.coupon.status.change', $data->id) }}"
                                                             method="POST" id="status-form-activate-{{ $data->id }}">
                                                             @csrf
                                                             <input type="hidden" name="status" value="publish">
@@ -157,7 +165,8 @@
                                                                 {{ __('Publish') }}
                                                             </button>
                                                         </form>
-                                                        <form action="{{ route('admin.products.coupon.status.change', $data->id) }}"
+                                                        <form
+                                                            action="{{ route('admin.products.coupon.status.change', $data->id) }}"
                                                             method="POST" id="status-form-deactivate-{{ $data->id }}">
                                                             @csrf
                                                             <input type="hidden" name="status" value="draft">
@@ -205,7 +214,7 @@
                                 <h5 class="modal-title">{{ __('Add Coupon') }}</h5>
                                 <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
                             </div>
-                             <form action="{{ route('admin.products.coupon.new') }}" method="post"
+                            <form action="{{ route('admin.products.coupon.new') }}" method="post"
                                 enctype="multipart/form-data">
                                 @csrf
                                 <div class="modal-body">
@@ -284,7 +293,7 @@
                                         <label for="products">
                                             {{ __('Products') }}
                                         </label>
-                                        <select name="products[]" id="products" class="form-control wide" multiple>
+                                        <select name="products[]" id="products" class="form-control wide select2" multiple>
                                         </select>
                                     </div>
                                     <div class="form-group">
@@ -314,8 +323,8 @@
                                             {{ __('Expire Date') }}
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <input type="date" class="form-control flatpickr" id="expire_date" name="expire_date"
-                                            placeholder="{{ __('Expire Date') }}" required="">
+                                        <input type="date" class="form-control flatpickr" id="expire_date"
+                                            name="expire_date" placeholder="{{ __('Expire Date') }}" required="">
                                     </div>
                                     <div class="form-group">
                                         <label for="status">
@@ -437,22 +446,24 @@
                                         <label for="products">
                                             {{ __('Products') }}
                                         </label>
-                                        <select name="products[]" id="products" class="form-control wide" multiple>
+                                        <select name="products[]" id="edit_products" class="form-control wide select2"
+                                            multiple>
                                         </select>
                                     </div>
                                     <div class="form-group">
                                         <label for="edit_discount">
                                             {{ __('Discount') }}
                                         </label>
-                                        <input type="number" class="form-control" id="edit_discount" name="discount" required=""
-                                            placeholder="{{ __('Discount') }}">
+                                        <input type="number" class="form-control" id="edit_discount" name="discount"
+                                            required="" placeholder="{{ __('Discount') }}">
                                     </div>
                                     <div class="form-group">
                                         <label for="edit_discount_type">
                                             {{ __('Coupon Type') }}
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <select name="discount_type" class="form-control" id="edit_discount_type" required="">
+                                        <select name="discount_type" class="form-control" id="edit_discount_type"
+                                            required="">
                                             <option value="percentage">
                                                 {{ __('Percentage') }}
                                             </option>
@@ -498,7 +509,7 @@
                 </div>
             @endcan
 
-            <div class="lds-ellipsis">
+            <div class="lds-ellipsis" style="display:none;">
                 <div></div>
                 <div></div>
                 <div></div>
@@ -509,11 +520,23 @@
 @endsection
 
 @section('script')
+    <x-select2.select2-js />
     <x-table.btn.swal.js />
     @can('coupons-bulk-action')
         <x-bulk-action.js :route="route('admin.products.coupon.bulk.action')" />
     @endcan
-    <x-niceselect.js />
+
+    <script>
+        $(document).ready(function() {
+            $('.select2').each(function() {
+                if (!$(this).data('select2')) {
+                    $(this).select2({
+                        width: '100%'
+                    });
+                }
+            });
+        })
+    </script>
 
     <script>
         $(document).ready(function() {
@@ -523,6 +546,7 @@
                 dateFormat: "Y-m-d",
             });
 
+            // EDIT modal open -> populate fields
             $(document).on('click', '.category_edit_btn', function() {
                 let el = $(this);
                 let id = el.data('id');
@@ -530,43 +554,44 @@
                 let modal = $('#category_edit_modal');
                 let discount_on = el.data('discount_on');
                 let discount_on_details = el.data('discount_on_details').length > 0 ? el.data(
-                    'discount_on_details') : 0;
+                    'discount_on_details') : [];
 
                 modal.find('#coupon_id').val(id);
-                modal.find('#edit_status option[value="' + status + '"]').attr('selected', true);
+                modal.find('#edit_status').val(status).trigger('change');
                 modal.find('#edit_code').val(el.data('code'));
                 modal.find('#edit_discount').val(el.data('discount'));
-                modal.find('#edit_discount_type').val(el.data('discount_type'));
+                modal.find('#edit_discount_type').val(el.data('discount_type')).trigger('change');
                 modal.find('#edit_expire_date').val(el.data('expire_date'));
-                modal.find('#edit_discount_type[value="' + el.data('discount_type') + '"]').attr('selected',
-                    true);
                 modal.find('#edit_title').val(el.data('title'));
                 modal.find('#edit_discount_on').val(el.data('discount_on')).trigger('change');
 
-                flatpickr(".flatpickr", {
+                // re-init flatpickr for edit expire date with default value
+                flatpickr("#edit_expire_date", {
                     altInput: true,
                     altFormat: "F j, Y",
                     dateFormat: "Y-m-d",
                     defaultDate: el.data('expire_date')
                 });
 
+                // hide all dependent selects initially
                 $('#edit_form_category').hide();
                 $('#edit_form_subcategory').hide();
                 $('#edit_form_childcategory').hide();
                 $('#edit_form_products').hide();
 
                 if (discount_on == 'product') {
-                    $('#edit_form_products').hide();
-                    loadProductDiscountHtml($('#edit_discount_on'), '#edit_form_products select', true,
+                    // load products & pre-select values
+                    loadProductDiscountHtml($('#edit_discount_on'), '#edit_products', true,
                         discount_on_details);
-                } else {
-                    console.log(discount_on_details)
-                    $('#edit_form_' + discount_on + ' option[value=' + discount_on_details + ']').attr(
+                } else if (discount_on) {
+                    // show the correct container and set value
+                    $('#edit_form_' + discount_on + ' option[value="' + discount_on_details + '"]').prop(
                         'selected', true);
                     $('#edit_form_' + discount_on).show();
                 }
             });
 
+            // coupon code validation events
             $('#code').on('keyup', function() {
                 validateCoupon(this);
             });
@@ -575,73 +600,86 @@
                 validateCoupon(this);
             });
 
+            // Discount on change events for create and edit
             $('#discount_on').on('change', function() {
-                loadProductDiscountHtml(this, '#form_products select', false, []);
+                loadProductDiscountHtml(this, '#products', false, []);
             });
 
             $('#edit_discount_on').on('change', function() {
-                loadProductDiscountHtml(this, '#edit_form_products select', true, []);
+                loadProductDiscountHtml(this, '#edit_products', true, []);
             });
         });
+
 
         function loadProductDiscountHtml(context, target_selector, is_edit, values) {
             let product_select = $(target_selector);
 
-            let selector_prefix = '';
-            if (is_edit) {
-                selector_prefix = 'edit_';
-            }
-
+            let selector_prefix = is_edit ? 'edit_' : '';
             $('#' + selector_prefix + 'form_category').hide();
             $('#' + selector_prefix + 'form_subcategory').hide();
             $('#' + selector_prefix + 'form_childcategory').hide();
             $('#' + selector_prefix + 'form_products').hide();
 
-            if ($(context).val() == 'category') {
+            let chosen = $(context).val();
+
+            if (chosen == 'category') {
                 $('#' + selector_prefix + 'form_category').show(500);
-            } else if ($(context).val() == 'subcategory') {
+            } else if (chosen == 'subcategory') {
                 $('#' + selector_prefix + 'form_subcategory').show(500);
-            } else if ($(context).val() == 'childcategory') {
+            } else if (chosen == 'childcategory') {
                 $('#' + selector_prefix + 'form_childcategory').show(500);
-            } else if ($(context).val() == 'product') {
+            } else if (chosen == 'product') {
+
                 $('.lds-ellipsis').show();
-                $.get('{{ route('admin.products.coupon.products') }}').then(function(data) {
-                    $('.lds-ellipsis').hide();
 
-                    let options = '';
-                    let discountd_products = [];
+                $.get('{{ route('admin.products.coupon.products') }}')
+                    .then(function(data) {
+                        $('.lds-ellipsis').hide();
 
-                    if (values.length) {
-                        discountd_products = values;
-                    }
 
-                    if (data.length) {
-                        data.forEach(function(product) {
-                            let selected_class = '';
+                        let options = '';
+                        if (data && data.length) {
+                            data.forEach(function(product) {
+                                options += '<option value="' + product.id + '">' + product.name + '</option>';
+                            });
+                        }
 
-                            if (discountd_products.indexOf(product.id) > -1 || discountd_products.indexOf(
-                                    String(product.id)) > -1) {
-                                selected_class = 'selected';
-                            }
-                            options += '<option value="' + product.id + '" ' + selected_class + '>' +
-                                product.name + '</option>';
+                        // populate select
+                        product_select.html(options);
+
+                        // show wrapper
+                        if (is_edit) {
+                            $('#edit_form_products').show(500);
+                        } else {
+                            $('#form_products').show(500);
+                        }
+
+                        // destroy select2 if initialized previously to avoid duplicates
+                        if (product_select.data('select2')) {
+                            product_select.select2('destroy');
+                        }
+
+                        // initialize select2
+                        product_select.select2({
+                            width: '100%',
+                            placeholder: "{{ __('Select Products') }}"
                         });
 
-                        product_select.html('');
-                        product_select.html(options);
-                        product_select.parent().show(500);
-                        product_select.addClass('nice-select')
-
-                        if ($('.nice-select').length) {
-                            if ($('.nice-select.form-control.wide.has-multiple').length) {
-                                $('.nice-select.form-control.wide.has-multiple').remove();
-                            }
-                            $('.nice-select').niceSelect();
+                        // if any values passed (edit), set them
+                        if (Array.isArray(values) && values.length) {
+                            // ensure values are strings (because option values are strings)
+                            let valArr = values.map(function(v) {
+                                return String(v);
+                            });
+                            product_select.val(valArr).trigger('change');
+                        } else {
+                            product_select.val(null).trigger('change');
                         }
-                    }
-                }).catch(function(err) {
-                    $('.lds-ellipsis').hide();
-                });
+
+                    }).catch(function(err) {
+                        $('.lds-ellipsis').hide();
+                        console.error('Failed to load products:', err);
+                    });
             }
         }
 
@@ -651,12 +689,17 @@
             let status_text = $(context).siblings('#status_text');
             status_text.hide();
 
-            if (code.length) {
-                submit_btn.prop("disabled", true);
+            if (!code || code.length === 0) {
+                submit_btn.prop("disabled", false);
+                return;
+            }
 
-                $.get("{{ route('admin.products.coupon.check') }}", {
+            submit_btn.prop("disabled", true);
+
+            $.get("{{ route('admin.products.coupon.check') }}", {
                     code: code
-                }).then(function(data) {
+                })
+                .then(function(data) {
                     if (data > 0) {
                         let msg = "{{ __('This coupon is already taken') }}";
                         status_text.removeClass('text-success').addClass('text-danger').text(msg).show();
@@ -666,8 +709,12 @@
                         status_text.removeClass('text-danger').addClass('text-success').text(msg).show();
                         submit_btn.prop("disabled", false);
                     }
+                }).catch(function(err) {
+                    // on error, allow submission but hide message
+                    console.error('Coupon check failed:', err);
+                    status_text.hide();
+                    submit_btn.prop("disabled", false);
                 });
-            }
         }
     </script>
 @endsection

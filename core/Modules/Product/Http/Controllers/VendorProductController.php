@@ -224,6 +224,7 @@ class VendorProductController extends Controller
             "all_attribute" => ProductAttribute::all()->groupBy('title')->map(fn($query) => $query[0]),
             "product_colors" => ProductColor::all(),
             "product_sizes" => ProductSize::all(),
+            "tax_classes" => TaxClass::all(),
         ];
     }
 
