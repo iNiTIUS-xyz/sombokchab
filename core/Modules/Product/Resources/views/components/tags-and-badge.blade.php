@@ -14,7 +14,7 @@
 
 <div class="general-info-wrapper dashboard__card">
     <div class="dashboard__card__header">
-        <h4 class="dashboard__card__title"> {{ __('Product Tags and Badge') }} </h4>
+        <h4 class="dashboard__card__title"> {{ __('Tags & Label') }} </h4>
     </div>
     <div class="dashboard__card__body custom__form">
         <div class="row g-3 mt-2">

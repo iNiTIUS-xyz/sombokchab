@@ -106,7 +106,7 @@
             <div class="row g-4">
                 <div class="col">
                     <div class="form-group">
-                        <label>{{ __('Attribute Name') }}</label>
+                        <label>{{ __('Attribute Type') }}</label>
                         <select name="item_attribute_name[]" class="form-select select2 item_attribute_name">
                             <option value="">{{ __('Select Attribute') }}</option>
                             @foreach ($allAvailableAttributes as $name => $attribute)
@@ -134,7 +134,7 @@
         <div class="col-auto">
             <div class="item_repeater_add_remove">
                 <div class="repeater_button">
-                    <button type="button" class="btn btn-primary btn-xs add" title="Add New">
+                    <button type="button" class="btn btn-primary btn-xs add" title="Add New Attribute">
                         <i class="las la-plus"></i>
                     </button>
                 </div>
