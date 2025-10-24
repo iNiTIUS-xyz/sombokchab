@@ -89,8 +89,31 @@
 @section('content')
     <!-- Shop Details area end -->
     <div class="bradecrumb-wraper-div">
-        <x-product::frontend.breadcrumb.frontend-breadcrumb :title="__('Product Details')" :innerTitle="$product->category?->name" :subInnerTitle="$product->subCategory?->name"
-            :chidInnerTitle="$product->childCategorySingle?->name ?? ''" :routeName="route('frontend.products.category', $product->category?->slug ?? 'x')" :subRouteName="route('frontend.products.subcategory', $product->subCategory?->slug ?? 'x')" :childRouteName="route('frontend.products.child-category', $product->childCategorySingle?->slug ?? 'x')" />
+        <x-product::frontend.breadcrumb.frontend-breadcrumb 
+            :title="__('Product Details')" 
+            :innerTitle="$product->category?->name" 
+            :subInnerTitle="$product->subCategory?->name"
+            :chidInnerTitle="$product->childCategorySingle?->name ?? ''"
+
+            :routeName="route('frontend.dynamic.page', [
+                'slug' => 'shop',
+                'category' => $product->category?->name ?? ''
+            ])"
+
+            :subRouteName="route('frontend.dynamic.page', [
+                'slug' => 'shop',
+                'category' => $product->category?->name ?? '',
+                'sub_category' => $product->subCategory?->name ?? ''
+            ])"
+
+            :childRouteName="route('frontend.dynamic.page', [
+                'slug' => 'shop',
+                'category' => $product->category?->name ?? '',
+                'sub_category' => $product->subCategory?->name ?? '',
+                'child_category' => $product->childCategorySingle?->name ?? ''
+            ])"
+        />
+
     </div>
     <section class="shop-details-area padding-top-25 padding-bottom-25">
         <div class="container container-one">

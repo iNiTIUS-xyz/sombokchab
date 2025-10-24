@@ -5,8 +5,14 @@
 @section('style')
     <style>
         .only-img-page-wrapper.cart .img-box img {
-            height: 100%;
+            height: 400px;
         }
+        .compare-thumbs img{
+            height: 400px;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+        
 
         .only-img-page-wrapper.cart .img-box {
             height: 400px;
@@ -71,7 +77,7 @@
                             $stock_count > (int) get_static_option('product_in_stock_limit_set') ? $stock_count : 0;
                     @endphp
                     <div class="col-lg-4 col-md-6">
-                        <div class="single-compare text-center">
+                        <div class="single-compare text-center border border-1">
                             <div class="compare-thumbs">
                                 @if (!is_int($product->options->image))
                                     <a href="#1"> {!! render_image($product->options->image) !!} </a>

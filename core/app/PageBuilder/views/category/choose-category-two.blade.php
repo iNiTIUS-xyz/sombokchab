@@ -22,7 +22,10 @@
                          data-responsive='[{"breakpoint": 1600,"settings": {"slidesToShow": 7}},{"breakpoint": 1200,"settings": {"slidesToShow": 5}},{"breakpoint": 992,"settings": {"slidesToShow": 4}},{"breakpoint": 768,"settings": {"slidesToShow": 3}},{"breakpoint": 500, "settings": {"slidesToShow": 2} }]'>
                         @foreach($categories as $category)
                             <div class="category__slider__item">
-                                <a href="{{ route('frontend.products.category', $category->slug) }}">
+                                <a href="{{ route('frontend.dynamic.page', [
+                                    'slug' => 'shop',
+                                    'category' => $category->name ?? ''
+                                ]) }}">
                                     <div class="single__category text-center">
                                         <div class="single__category__thumb">
                                             {!! render_image($category->image) !!}
@@ -34,6 +37,7 @@
                                 </a>
                             </div>
                         @endforeach
+
                     </div>
                 </div>
             </div>

@@ -99,7 +99,7 @@
                         <div class="form-group">
                             <label for="address">{{ __('Address') }}</label>
                             <input type="text" class="form-control" id="address" name="address"
-                                value="{{ $user_details->address }}" placeholder="{{ __('Enter Postal Code') }}">
+                                value="{{ $user_details->address }}" placeholder="{{ __('Enter Address') }}">
                         </div>
                     </div>
                     <div class="col-md-6">
