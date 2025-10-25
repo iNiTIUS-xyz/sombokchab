@@ -4,7 +4,7 @@
     $cities = DB::table('cities')->get();
 @endphp
 
-<div class="checkout-inner mt-4">
+<div class="checkout-inner mt-1">
     <input type="hidden" id="name" name="full_name">
     <input type="hidden" id="address" name="address">
     <input type="hidden" id="zipcode" name="zip_code">
@@ -14,6 +14,11 @@
     <input type="hidden" id="phone" name="phone">
     <input type="hidden" id="email" name="email">
     <div class="checkout-contents">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h4>New Shipping Address</h4>
+            </div>
+        </div>
         <div class="checkout-form mt-2">
             @if ($modal)
                 <div class="input-flex-item">

@@ -347,7 +347,7 @@
         <div class="billing-details-area-wrapper position-relative">
             <div class="d-flex justify-content-end position-absolute top-0 right-0 w-100">
                 <h3 class="title d-none">
-                    {{ filter_static_option_value('checkout_billing_section_title', $setting_text, __('Billing details')) }}
+                    {{ filter_static_option_value('checkout_billing_section_title', $setting_text, __('Billing Details')) }}
                 </h3>
                 <div class="checkout_modal_close"><i class="las la-times"></i> </div>
             </div>
