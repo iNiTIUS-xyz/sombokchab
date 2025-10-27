@@ -411,12 +411,11 @@
                             <!-- partial -->
                         </div>
                     </div>
+
                     <div id="tab-grid2" class="tab-content-item active">
                         <div class="row mt-4">
                             @foreach ($all_products['items'] as $product)
-                                {{-- <div class="col-xl-4 col-lg-4 col-sm-6 mt-4"> --}}
                                 <x-product::frontend.grid-style-07 :$product :$loop :isAllowBuyNow="get_static_option('enable_buy_now_button_on_shop_page') === 'on'" />
-                                {{-- </div> --}}
                             @endforeach
                         </div>
                     </div>
@@ -441,316 +440,316 @@
                                 </div>
                             </div>
                         </div>
-                    @endcan
+                    @endif
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-@include('frontend.partials.product.product-filter-form')
+    @include('frontend.partials.product.product-filter-form')
 @endsection
 @section('script')
-@include('frontend.partials.product.product-filter-script')
-<script>
-    $(document).ready(function() {
-        // Trigger form submission if category, subcategory, or child category is selected
-        if ($('#category').val() || $('#sub_category').val() || $('#child_category').val()) {
-            submitForm();
-        }
-
-        // Ensure submenu is expanded for active parent category
-        $('.shop-lists .list.active').each(function() {
-            $(this).parents('.submenu').addClass('show');
-            $(this).parents('.shop-left-title').addClass('open');
-        });
-    });
-
-
-    $(document).on("submit", "#search_product", function(e) {
-        e.preventDefault();
-
-        const activeTab = $('.tab-content-item.active');
-        const preloaderWrapper = $('.preloader-parent-wrapper');
-
-        activeTab.removeClass('active');
-        preloaderWrapper.removeClass('d-none');
-        preloaderWrapper.addClass('d-block');
-        send_ajax_request($(this).attr("method"), new FormData(e.target), $(this).attr("action") + "?" + $(this)
-            .serialize(),
-            () => {
-
-            }, (data) => {
-                $("#tab-grid2").html(data.grid);
-                $("#tab-grid").html(data.list);
-                $(".selected-flex-list").html(data.selected_search)
-                $(".showing-results-item-count").html(data.showing_items)
-                $(".pagination").html(data.pagination_list)
-
-                preloaderWrapper.removeClass('d-block');
-                preloaderWrapper.addClass('d-none');
-                activeTab.addClass('active');
-            }, () => {
-                preloaderWrapper.removeClass('d-block');
-                preloaderWrapper.addClass('d-none');
-                activeTab.addClass('active');
+    @include('frontend.partials.product.product-filter-script')
+    <script>
+        $(document).ready(function() {
+            // Trigger form submission if category, subcategory, or child category is selected
+            if ($('#category').val() || $('#sub_category').val() || $('#child_category').val()) {
+                submitForm();
             }
-        );
-    });
 
-    // close-search-selected-item
-    // clear-search
-    $(document).on('click', '.close-search-selected-item', function() {
-        $("#" + $(this).attr('data-key')).val('');
-
-        submitForm();
-    })
-
-    $(document).on('click', '.clear-search', function() {
-        $('.close-search-selected-item').each(function() {
-            $("#" + $(this).attr('data-key')).val('');
-        })
-
-        submitForm();
-    })
-
-    function submitForm() {
-        $("#search_product").trigger("submit");
-    }
-
-    // write code for ajax pagination
-    $(document).on("click", ".pagination a", function(e) {
-        e.preventDefault();
-
-        $("#search_page").val($(this).attr("data-page-index"));
-
-        submitForm();
-    });
-
-    $(document).on("click", ".list[data-type=category] a", function() {
-        $("#" + $(this).parent().attr("data-type")).val($(this).parent().attr("data-val"));
-
-        let categoryName = $(this).parent().attr("data-val");
-
-        $("#page-title-text").text(categoryName);
-        submitForm();
-    });
-
-    $(document).on("click", ".list[data-type=sub_category] a", function() {
-        let $parent = $(this).parent();
-        let subCategoryName = $parent.attr("data-val");
-
-        $parent.siblings("[data-type=sub_category]").removeClass("active");
-
-        $parent.addClass("active");
-
-        $("#" + $parent.attr("data-type")).val(subCategoryName);
-
-        $("#page-title-text").text(subCategoryName);
-
-        submitForm();
-    });
-
-    $(document).on("click", ".list[data-type=child_category] a", function() {
-        let $parent = $(this).parent();
-        let childCategoryName = $parent.attr("data-val");
-
-        $parent.siblings("[data-type=child_category]").removeClass("active");
-
-        $parent.addClass("active");
-
-        $("#" + $parent.attr("data-type")).val(childCategoryName);
-
-        $("#page-title-text").text(childCategoryName);
-
-        submitForm();
-    });
-
-    $(document).on("click", ".color-lists .list[data-type=color] a", function() {
-        $("#" + $(this).parent().attr("data-type")).val($(this).parent().attr("data-val"));
-
-        submitForm();
-    });
-
-    $(document).on("click", ".size-lists .list[data-type=size] a", function() {
-        $("#" + $(this).parent().attr("data-type")).val($(this).parent().attr("data-val"));
-
-        submitForm();
-    });
-
-    $(document).on("click", ".brand-list .list[data-type=brand] a", function() {
-        $("#" + $(this).parent().attr("data-type")).val($(this).parent().attr("data-val"));
-
-        submitForm();
-    });
-
-    $(document).on("click", ".review-filter .list[data-type=rating] a", function() {
-        $("#" + $(this).parent().attr("data-type")).val($(this).parent().attr("data-val"));
-
-        submitForm();
-    });
-
-    $(document).on('click', '.active-list .list a', function() {
-        $(this).parent().siblings().removeClass('active');
-        $(this).parent().siblings().find('.submenu .list').removeClass('active');
-        $(this).parent().addClass('active');
-    });
-
-    $(document).on("change", "#order_by", function() {
-        $("#search_order_by").val($(this).val());
-
-        submitForm();
-    });
-
-    $(document).on("change", "#country", function() {
-        $("#search_country").val($(this).val());
-
-        submitForm();
-    });
-    $(document).on("change", "#state", function() {
-        $("#search_state").val($(this).val());
-
-        submitForm();
-    });
-    $(document).on("change", "#city", function() {
-        $("#search_city").val($(this).val());
-
-        submitForm();
-    });
-
-    $(document).on("change", "#country", function() {
-        // first i need to get all states
-        // get all shipping methods
-        // insert all shipping methods on .all-shipping-options
-        // Add tax amount to all the orders
-        let country_id = $(this).val();
-        let data = new FormData();
-        data.append("id", country_id);
-        data.append("type", "country");
-        data.append("_token", "{{ csrf_token() }}");
-
-        send_ajax_request("POST", data, "{{ route('frontend.shipping.module.methods') }}", () => {
-
-        }, (data) => {
-            if (data.success) {
-                let statehtml = "<option value=''> {{ __('Select an state') }} </option>";
-                data?.states?.forEach((state) => {
-                    statehtml += "<option value='" + state.id + "'>" + state.name +
-                        "</option>";
-                });
-
-                $('#state').html(statehtml);
-
-            }
-        }, function(xhr) {
-            ajax_toastr_error_message(xhr);
-        })
-    });
-    $(document).on("change", "#state", function() {
-        // first, i need to get all states
-        // to get all shipping methods
-        // to insert all shipping methods on .all-shipping-options
-        // Add tax amount to all the orders
-        let state_id = $(this).val();
-        let data = new FormData();
-        data.append("id", state_id);
-        data.append("type", "state");
-        data.append("_token", "{{ csrf_token() }}");
-
-        send_ajax_request("POST", data, "{{ route('frontend.shipping.module.methods') }}", () => {
-
-        }, (data) => {
-            if (data.success) {
-
-
-                let cityhtml = "<option value=''> {{ __('Select an city') }} </option>";
-                data?.cities?.forEach((city) => {
-                    cityhtml += "<option value='" + city.id + "'>" + city.name +
-                        "</option>";
-                });
-                $("#city").html(cityhtml);
-
-            }
-        }, function(xhr) {
-            ajax_toastr_error_message(xhr);
-        })
-    });
-</script>
-<script>
-    $(function() {
-
-        $(document).on('click', '#load_more_button', function(e) {
-            e.preventDefault();
-
-            let button = $(this);
-            if (button.prop('disabled')) return;
-
-            let currentPage = parseInt(button.data('current-page')) + 1;
-            let totalPages = parseInt(button.data('total-pages'));
-            let spinner = button.find('.btn-loading-spinner');
-
-            spinner.removeClass('d-none');
-            button.prop('disabled', true);
-
-            // set page in form
-            $("#search_page").val(currentPage);
-
-            $.ajax({
-                url: $("#search_product").attr('action') + "?" + $("#search_product")
-                    .serialize(),
-                type: $("#search_product").attr('method') || 'GET',
-                data: new FormData($("#search_product")[0]),
-                processData: false,
-                contentType: false,
-                dataType: 'json',
-                success: function(data) {
-
-                    let gridItems = $(data.grid).find(
-                        '.col-xxl-3, .col-xl-4, .col-md-4, .col-sm-6');
-                    gridItems.addClass('new-loaded-item');
-                    $('#tab-grid2 .row').append(gridItems);
-
-                    let listItems = $(data.list);
-                    $('#tab-grid .row').append(listItems);
-
-                    button.data('current-page', currentPage);
-                    if (currentPage >= totalPages) {
-                        button.hide();
-                    }
-
-                    if (data.showing_items !== undefined) {
-                        $(".showing-results-item-count").html(data.showing_items);
-                    }
-
-                    // scroll to first newly-added product
-                    let firstNew = gridItems.first().length ? gridItems.first() : listItems
-                        .first();
-                    if (firstNew.length) {
-                        $('html, body').animate({
-                            scrollTop: firstNew.offset().top - 100
-                        }, 500);
-                    }
-                },
-                error: function(xhr, status, err) {
-                    console.error('AJAX error:', status, err, xhr.responseText);
-                    toastr.error('Error loading more products. Please try again.');
-                },
-                complete: function() {
-                    spinner.addClass('d-none');
-                    button.prop('disabled', false);
-                }
+            // Ensure submenu is expanded for active parent category
+            $('.shop-lists .list.active').each(function() {
+                $(this).parents('.submenu').addClass('show');
+                $(this).parents('.shop-left-title').addClass('open');
             });
         });
 
-        // auto load on scroll
-        $(window).on('scroll', function() {
-            if ($(window).scrollTop() + $(window).height() >= $(document).height() - 300) {
-                let btn = $('#load_more_button');
-                if (btn.length && btn.is(':visible') && !btn.prop('disabled')) {
-                    btn.trigger('click');
+
+        $(document).on("submit", "#search_product", function(e) {
+            e.preventDefault();
+
+            const activeTab = $('.tab-content-item.active');
+            const preloaderWrapper = $('.preloader-parent-wrapper');
+
+            activeTab.removeClass('active');
+            preloaderWrapper.removeClass('d-none');
+            preloaderWrapper.addClass('d-block');
+            send_ajax_request($(this).attr("method"), new FormData(e.target), $(this).attr("action") + "?" + $(this)
+                .serialize(),
+                () => {
+
+                }, (data) => {
+                    $("#tab-grid2").html(data.grid);
+                    $("#tab-grid").html(data.list);
+                    $(".selected-flex-list").html(data.selected_search)
+                    $(".showing-results-item-count").html(data.showing_items)
+                    $(".pagination").html(data.pagination_list)
+
+                    preloaderWrapper.removeClass('d-block');
+                    preloaderWrapper.addClass('d-none');
+                    activeTab.addClass('active');
+                }, () => {
+                    preloaderWrapper.removeClass('d-block');
+                    preloaderWrapper.addClass('d-none');
+                    activeTab.addClass('active');
                 }
-            }
+            );
         });
 
-    });
-</script>
+        // close-search-selected-item
+        // clear-search
+        $(document).on('click', '.close-search-selected-item', function() {
+            $("#" + $(this).attr('data-key')).val('');
+
+            submitForm();
+        })
+
+        $(document).on('click', '.clear-search', function() {
+            $('.close-search-selected-item').each(function() {
+                $("#" + $(this).attr('data-key')).val('');
+            })
+
+            submitForm();
+        })
+
+        function submitForm() {
+            $("#search_product").trigger("submit");
+        }
+
+        // write code for ajax pagination
+        $(document).on("click", ".pagination a", function(e) {
+            e.preventDefault();
+
+            $("#search_page").val($(this).attr("data-page-index"));
+
+            submitForm();
+        });
+
+        $(document).on("click", ".list[data-type=category] a", function() {
+            $("#" + $(this).parent().attr("data-type")).val($(this).parent().attr("data-val"));
+
+            let categoryName = $(this).parent().attr("data-val");
+
+            $("#page-title-text").text(categoryName);
+            submitForm();
+        });
+
+        $(document).on("click", ".list[data-type=sub_category] a", function() {
+            let $parent = $(this).parent();
+            let subCategoryName = $parent.attr("data-val");
+
+            $parent.siblings("[data-type=sub_category]").removeClass("active");
+
+            $parent.addClass("active");
+
+            $("#" + $parent.attr("data-type")).val(subCategoryName);
+
+            $("#page-title-text").text(subCategoryName);
+
+            submitForm();
+        });
+
+        $(document).on("click", ".list[data-type=child_category] a", function() {
+            let $parent = $(this).parent();
+            let childCategoryName = $parent.attr("data-val");
+
+            $parent.siblings("[data-type=child_category]").removeClass("active");
+
+            $parent.addClass("active");
+
+            $("#" + $parent.attr("data-type")).val(childCategoryName);
+
+            $("#page-title-text").text(childCategoryName);
+
+            submitForm();
+        });
+
+        $(document).on("click", ".color-lists .list[data-type=color] a", function() {
+            $("#" + $(this).parent().attr("data-type")).val($(this).parent().attr("data-val"));
+
+            submitForm();
+        });
+
+        $(document).on("click", ".size-lists .list[data-type=size] a", function() {
+            $("#" + $(this).parent().attr("data-type")).val($(this).parent().attr("data-val"));
+
+            submitForm();
+        });
+
+        $(document).on("click", ".brand-list .list[data-type=brand] a", function() {
+            $("#" + $(this).parent().attr("data-type")).val($(this).parent().attr("data-val"));
+
+            submitForm();
+        });
+
+        $(document).on("click", ".review-filter .list[data-type=rating] a", function() {
+            $("#" + $(this).parent().attr("data-type")).val($(this).parent().attr("data-val"));
+
+            submitForm();
+        });
+
+        $(document).on('click', '.active-list .list a', function() {
+            $(this).parent().siblings().removeClass('active');
+            $(this).parent().siblings().find('.submenu .list').removeClass('active');
+            $(this).parent().addClass('active');
+        });
+
+        $(document).on("change", "#order_by", function() {
+            $("#search_order_by").val($(this).val());
+
+            submitForm();
+        });
+
+        $(document).on("change", "#country", function() {
+            $("#search_country").val($(this).val());
+
+            submitForm();
+        });
+        $(document).on("change", "#state", function() {
+            $("#search_state").val($(this).val());
+
+            submitForm();
+        });
+        $(document).on("change", "#city", function() {
+            $("#search_city").val($(this).val());
+
+            submitForm();
+        });
+
+        $(document).on("change", "#country", function() {
+            // first i need to get all states
+            // get all shipping methods
+            // insert all shipping methods on .all-shipping-options
+            // Add tax amount to all the orders
+            let country_id = $(this).val();
+            let data = new FormData();
+            data.append("id", country_id);
+            data.append("type", "country");
+            data.append("_token", "{{ csrf_token() }}");
+
+            send_ajax_request("POST", data, "{{ route('frontend.shipping.module.methods') }}", () => {
+
+            }, (data) => {
+                if (data.success) {
+                    let statehtml = "<option value=''> {{ __('Select an state') }} </option>";
+                    data?.states?.forEach((state) => {
+                        statehtml += "<option value='" + state.id + "'>" + state.name +
+                            "</option>";
+                    });
+
+                    $('#state').html(statehtml);
+
+                }
+            }, function(xhr) {
+                ajax_toastr_error_message(xhr);
+            })
+        });
+        $(document).on("change", "#state", function() {
+            // first, i need to get all states
+            // to get all shipping methods
+            // to insert all shipping methods on .all-shipping-options
+            // Add tax amount to all the orders
+            let state_id = $(this).val();
+            let data = new FormData();
+            data.append("id", state_id);
+            data.append("type", "state");
+            data.append("_token", "{{ csrf_token() }}");
+
+            send_ajax_request("POST", data, "{{ route('frontend.shipping.module.methods') }}", () => {
+
+            }, (data) => {
+                if (data.success) {
+
+
+                    let cityhtml = "<option value=''> {{ __('Select an city') }} </option>";
+                    data?.cities?.forEach((city) => {
+                        cityhtml += "<option value='" + city.id + "'>" + city.name +
+                            "</option>";
+                    });
+                    $("#city").html(cityhtml);
+
+                }
+            }, function(xhr) {
+                ajax_toastr_error_message(xhr);
+            })
+        });
+    </script>
+    <script>
+        $(function() {
+
+            $(document).on('click', '#load_more_button', function(e) {
+                e.preventDefault();
+
+                let button = $(this);
+                if (button.prop('disabled')) return;
+
+                let currentPage = parseInt(button.data('current-page')) + 1;
+                let totalPages = parseInt(button.data('total-pages'));
+                let spinner = button.find('.btn-loading-spinner');
+
+                spinner.removeClass('d-none');
+                button.prop('disabled', true);
+
+                // set page in form
+                $("#search_page").val(currentPage);
+
+                $.ajax({
+                    url: $("#search_product").attr('action') + "?" + $("#search_product")
+                        .serialize(),
+                    type: $("#search_product").attr('method') || 'GET',
+                    data: new FormData($("#search_product")[0]),
+                    processData: false,
+                    contentType: false,
+                    dataType: 'json',
+                    success: function(data) {
+
+                        let gridItems = $(data.grid).find(
+                            '.col-xxl-3, .col-xl-4, .col-md-4, .col-sm-6');
+                        gridItems.addClass('new-loaded-item');
+                        $('#tab-grid2 .row').append(gridItems);
+
+                        let listItems = $(data.list);
+                        $('#tab-grid .row').append(listItems);
+
+                        button.data('current-page', currentPage);
+                        if (currentPage >= totalPages) {
+                            button.hide();
+                        }
+
+                        if (data.showing_items !== undefined) {
+                            $(".showing-results-item-count").html(data.showing_items);
+                        }
+
+                        // scroll to first newly-added product
+                        let firstNew = gridItems.first().length ? gridItems.first() : listItems
+                            .first();
+                        if (firstNew.length) {
+                            $('html, body').animate({
+                                scrollTop: firstNew.offset().top - 100
+                            }, 500);
+                        }
+                    },
+                    error: function(xhr, status, err) {
+                        console.error('AJAX error:', status, err, xhr.responseText);
+                        toastr.error('Error loading more products. Please try again.');
+                    },
+                    complete: function() {
+                        spinner.addClass('d-none');
+                        button.prop('disabled', false);
+                    }
+                });
+            });
+
+            // auto load on scroll
+            $(window).on('scroll', function() {
+                if ($(window).scrollTop() + $(window).height() >= $(document).height() - 300) {
+                    let btn = $('#load_more_button');
+                    if (btn.length && btn.is(':visible') && !btn.prop('disabled')) {
+                        btn.trigger('click');
+                    }
+                }
+            });
+
+        });
+    </script>
 @endsection
