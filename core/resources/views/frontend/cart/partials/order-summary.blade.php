@@ -41,7 +41,7 @@
                         {{ amount_with_currency_symbol(0.0) }}
                     </b>
                 </li>
-                @if ($enableTaxAmount)
+                {{-- @if ($enableTaxAmount)
                     <li class="list">
                         <b>
                             {{ __('Tax amount') }}
@@ -67,7 +67,7 @@
                             {{ get_static_option('display_price_in_the_shop') == 'including' ? __('Tax Inclusive') : '' }}
                         </b>
                     </li>
-                @endif
+                @endif --}}
                 <li class="list">
                     <b>
                         {{ __('Total delivery cost') }}

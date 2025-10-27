@@ -1,4 +1,4 @@
-<div class="checkout-page-content-wrapper mt-4"  style="display: none !important;">
+<div class="checkout-page-content-wrapper mt-4" style="display: none !important;">
     @foreach ($carts as $key => $vendor)
         <div class="card checkout__card mb-3">
             @php
@@ -17,13 +17,17 @@
 
             @if (empty($key))
                 <div class="card-header checkout__card__header">
-                    <h4 class="title checkout__card__title">{{ $adminShopManage?->store_name }}</h4>
+                    <h4 class="title checkout__card__title">
+                        {{ $adminShopManage?->store_name }}
+                    </h4>
                 </div>
             @endif
 
             @if (!empty($c_vendor))
                 <div class="card-header checkout__card__header">
-                    <h4 class="title  checkout__card__title">{{ $c_vendor?->business_name }}</h4>
+                    <h4 class="title  checkout__card__title">
+                        {{ $c_vendor?->business_name }}
+                    </h4>
                 </div>
             @endif
 
@@ -99,39 +103,43 @@
 
             @if (!empty($c_vendor))
                 <div class="card-footer checkout__card__footer">
-                    <h6 class="card-title py-2">{{ __('Select delivery option') }}</h6>
+                    <h6 class="card-title py-2">
+                        {{ __('Select delivery option') }}
+
+                    </h6>
                     <input type="hidden" class="shipping_cost" name="shipping_cost[{{ $c_vendor?->id }}]" />
                     <ul class="shippingMethod__wrapper">
                         @foreach ($c_vendor?->shippingMethod ?? [] as $method)
                             @php
-                            $method->cost = calculatePrice($method->cost, $shippingTaxClass, 'shipping');
-                            if ($method->is_default) { $default_shipping_cost = $method->cost; }
+                                $method->cost = calculatePrice($method->cost, $shippingTaxClass, 'shipping');
+                                if ($method->is_default) {
+                                    $default_shipping_cost = $method->cost;
+                                }
                             @endphp
 
-                            <li class="shippingMethod__wrapper__item"
-                                data-shipping-cost-id="{{ $method->id }}"
+                            <li class="shippingMethod__wrapper__item" data-shipping-cost-id="{{ $method->id }}"
                                 data-shipping-cost="{{ $method->cost }}"
                                 data-shipping-percentage="{{ $shippingTaxClass }}">
-                            
-                            <label class="ship-card">
-                                <input
-                                type="radio"
-                                name="shipping_method_id"
-                                value="{{ $method->id }}"
-                                class="ship-input"
-                                @checked($method->is_default)
-                                />
 
-                                <span class="ship-radio" aria-hidden="true"></span>
+                                <label class="ship-card">
+                                    <input type="radio" name="shipping_method_id" value="{{ $method->id }}"
+                                        class="ship-input" @checked($method->is_default) />
 
-                                <span class="ship-text">
-                                <span class="ship-title">{{ $method?->title }}</span>
-                                <span class="ship-sub">
-                                    ({{ __('Zone:') }} {{ $method?->zone?->name }}) — &nbsp;
-                                    <span class="ship-amount">{{ amount_with_currency_symbol(round($method->cost)) }}</span>
-                                </span>
-                                </span>
-                            </label>
+                                    <span class="ship-radio" aria-hidden="true"></span>
+
+                                    <span class="ship-text">
+                                        <span class="ship-title">
+                                            {{ $method?->title }}
+                                        </span>
+                                        <span class="ship-sub">
+                                            ({{ __('Zone:') }} {{ $method?->zone?->name }})
+                                            — &nbsp;
+                                            <span class="ship-amount">
+                                                {{ amount_with_currency_symbol(round($method->cost)) }}
+                                            </span>
+                                        </span>
+                                    </span>
+                                </label>
 
                             </li>
                         @endforeach
@@ -144,32 +152,49 @@
                             <div class="checkout__card__footer__estimate__list">
                                 <div class="checkout__card__footer__estimate__item d-flex justify-content-between">
 
-                                    <b>{{ __('Sub Total') }}</b> <b id="vendor_subtotal"
-                                        class="vendor_subtotal">{{ float_amount_with_currency_symbol($subtotal) }}</b>
+                                    <b>
+                                        {{ __('Sub Total') }}
+                                    </b>
+                                    <b id="vendor_subtotal" class="vendor_subtotal">
+                                        {{ float_amount_with_currency_symbol($subtotal) }}
+                                    </b>
                                 </div>
 
                                 @if ($enableTaxAmount)
                                     <div class="checkout__card__footer__estimate__item d-flex justify-content-between">
-                                        <b>{{ __('Tax Amount') }}</b> <b id="vendor_tax_amount"
-                                            class="vendor_tax_amount">{{ float_amount_with_currency_symbol($v_tax_total) }}</b>
+                                        <b>
+                                            {{ __('Tax Amount') }}
+                                        </b>
+                                        <b id="vendor_tax_amount" class="vendor_tax_amount">
+                                            {{ float_amount_with_currency_symbol($v_tax_total) }}
+                                        </b>
                                     </div>
                                 @else
                                     <div class="checkout__card__footer__estimate__item d-flex justify-content-between">
-                                        <b>{{ __('Tax Amount') }}</b> <b id="vendor_tax_amount"
-                                            class="vendor_tax_amount">
+                                        <b>
+                                            {{ __('Tax Amount') }}
+                                        </b>
+                                        <b id="vendor_tax_amount" class="vendor_tax_amount">
                                             {{ get_static_option('display_price_in_the_shop') == 'including' ? __('Tax Inclusive') : '' }}
                                         </b>
                                     </div>
                                 @endif
 
                                 <div class="checkout__card__footer__estimate__item d-flex justify-content-between">
-                                    <b>{{ __('Cost Summary') }}</b> <b id="vendor_shipping_cost"
-                                        class="vendor_shipping_cost">{{ float_amount_with_currency_symbol($default_shipping_cost) }}</b>
+                                    <b>
+                                        {{ __('Cost Summary') }}
+                                    </b>
+                                    <b id="vendor_shipping_cost" class="vendor_shipping_cost">
+                                        {{ float_amount_with_currency_symbol($default_shipping_cost) }}
+                                    </b>
                                 </div>
                                 <div class="checkout__card__footer__estimate__item d-flex justify-content-between">
-                                    <b>{{ __('Total') }}</b>
-                                    <b
-                                        id="vendor_total">{{ float_amount_with_currency_symbol($subtotal + $default_shipping_cost) }}</b>
+                                    <b>
+                                        {{ __('Total') }}
+                                    </b>
+                                    <b id="vendor_total">
+                                        {{ float_amount_with_currency_symbol($subtotal + $default_shipping_cost) }}
+                                    </b>
                                 </div>
                             </div>
                         </div>
@@ -179,7 +204,10 @@
 
             @if (empty($key))
                 <div class="card-footer checkout__card__footer">
-                    <h6 class="checkout__card__title card-title py-2">{{ __('Select delivery option') }}</h6>
+                    <h6 class="checkout__card__title card-title py-2">
+                        {{ __('Select delivery option') }}
+
+                    </h6>
                     <input type="hidden" class="shipping_cost" name="shipping_cost[admin]" />
 
                     <ul class="shippingMethod__wrapper shipping-method-wrapper">
@@ -215,8 +243,8 @@
                                     {{ $method?->title }}
                                 </span>
                                 <span class="zone">
-                                    ( {{ __('Zone:') }}
-                                    {{ $method?->zone?->name }} )
+                                    ({{ __('Zone:') }}
+                                    {{ $method?->zone?->name }})
                                 </span>
                                 <span class="">
                                     -
@@ -229,24 +257,33 @@
                     </ul>
 
 
-                    <div class="checkout__card__footer__estimate d-flex justify-content-end" style="display: none !important;">
+                    <div class="checkout__card__footer__estimate d-flex justify-content-end"
+                        style="display: none !important;">
                         <div class="checkout__card__footer__estimate__main">
                             <div class="checkout__card__footer__estimate__list">
                                 <div class="checkout__card__footer__estimate__item d-flex justify-content-between">
-                                    <b>{{ __('Sub Total') }}</b> <b id="vendor_subtotal"
-                                        class="vendor_subtotal">{{ float_amount_with_currency_symbol($subtotal) }}</b>
+                                    <b>
+                                        {{ __('Sub Total') }}
+                                    </b>
+                                    <b id="vendor_subtotal" class="vendor_subtotal">
+                                        {{ float_amount_with_currency_symbol($subtotal) }}
+                                    </b>
                                 </div>
 
                                 @if ($enableTaxAmount)
                                     <div class="checkout__card__footer__estimate__item d-flex justify-content-between">
-                                        <b>{{ __('Tax Amount') }}</b>
+                                        <b>
+                                            {{ __('Tax Amount') }}
+                                        </b>
                                         <b id="vendor_tax_amount" class="vendor_tax_amount">
                                             {{ float_amount_with_currency_symbol($v_tax_total) }}
                                         </b>
                                     </div>
                                 @else
                                     <div class="checkout__card__footer__estimate__item d-flex justify-content-between">
-                                        <b>{{ __('Tax Amount') }}</b>
+                                        <b>
+                                            {{ __('Tax Amount') }}
+                                        </b>
                                         <b id="vendor_tax_amount" class="vendor_tax_amount">
                                             {{ get_static_option('display_price_in_the_shop') == 'including' ? __('Tax Inclusive') : '' }}
                                         </b>
@@ -254,14 +291,18 @@
                                 @endif
 
                                 <div class="checkout__card__footer__estimate__item d-flex justify-content-between">
-                                    <b>{{ __('Cost Summary') }}</b>
+                                    <b>
+                                        {{ __('Cost Summary') }}
+                                    </b>
                                     <b id="vendor_shipping_cost" class="vendor_shipping_cost">
                                         {{ float_amount_with_currency_symbol($default_shipping_cost) }}
                                     </b>
                                 </div>
 
                                 <div class="checkout__card__footer__estimate__item d-flex justify-content-between">
-                                    <b>{{ __('Total') }}</b>
+                                    <b>
+                                        {{ __('Total') }}
+                                    </b>
                                     <b id="vendor_total">
                                         {{ float_amount_with_currency_symbol($subtotal + $default_shipping_cost) }}
                                     </b>
@@ -297,13 +338,17 @@
 
             @if (empty($key))
                 <div class="card-header checkout__card__header">
-                    <h4 class="title checkout__card__title">{{ $adminShopManage?->store_name }}</h4>
+                    <h4 class="title checkout__card__title">
+                        {{ $adminShopManage?->store_name }}
+                    </h4>
                 </div>
             @endif
 
             @if (!empty($c_vendor))
                 <div class="card-header checkout__card__header">
-                    <h4 class="title checkout__card__title">{{ $c_vendor?->business_name }}</h4>
+                    <h4 class="title checkout__card__title">
+                        {{ $c_vendor?->business_name }}
+                    </h4>
                 </div>
             @endif
 
@@ -362,7 +407,8 @@
                                 {{ amount_with_currency_symbol($regular_price) }}
                             </del>
 
-                            <b class="checkout__card__price__main checkout-cart-price color-heading fw-500 font-weight-bold">
+                            <b
+                                class="checkout__card__price__main checkout-cart-price color-heading fw-500 font-weight-bold">
                                 {{ amount_with_currency_symbol($price) }}
                             </b>
                         </div>
@@ -376,8 +422,12 @@
             </div>
 
             <div class="card-footer checkout__card__footer">
-                <h6 class="checkout__card__title card-title py-2">{{ __('Shipping options') }}</h6>
-                <input type="hidden" class="shipping_cost" name="shipping_cost[{{ empty($key) ? 'admin' : $c_vendor?->id }}]" />
+                <h6 class="checkout__card__title card-title py-2">
+                    {{ __('Shipping options') }}
+
+                </h6>
+                <input type="hidden" class="shipping_cost"
+                    name="shipping_cost[{{ empty($key) ? 'admin' : $c_vendor?->id }}]" />
 
                 <ul class="shippingMethod__wrapper shipping-method-wrapper">
                     {{-- Commented out vendor shipping methods
@@ -393,11 +443,17 @@
                                  data-shipping-percentage="{{ $shippingTaxClass }}"
                                  class="shippingMethod__wrapper__item checkout-shipping-method align-items-center gap-3 border-1 d-flex justify-content-between py-2 px-4 {{ $method->is_default ? 'active' : '' }}">
                                 <div class="shippingMethod__wrapper__item__left w-90">
-                                    <b>{{ $method?->title }}</b>
-                                    <p>{{ __('Zone:') }} {{ $method?->zone?->name }}</p>
+                                    <b>
+                                        {{ $method?->title }}
+                                    </b>
+                                    <p>
+                                        {{ __('Zone:') }} {{ $method?->zone?->name }}
+                                    </p>
                                 </div>
                                 <div class="shippingMethod__wrapper__item__right 10">
-                                    <h6>{{ amount_with_currency_symbol(round($method->cost)) }}</h6>
+                                    <h6>
+                                        {{ amount_with_currency_symbol(round($method->cost)) }}
+                                    </h6>
                                 </div>
                             </div>
                         @endforeach
@@ -412,10 +468,11 @@
                             }
                         @endphp
 
-                        <li data-shipping-cost-id="{{ $method->id }}" data-shipping-cost="{{ $method->cost }}"
-                             data-shipping-percentage="{{ $shippingTaxClass }}"
-                             class="shippingMethod__wrapper__item checkout-shipping-method align-items-center border-1 py-2 px-4 {{ $method->is_default ? 'active' : '' }}">
-                            
+                        <li data-shipping-cost-id="{{ $method->id }}"
+                            data-shipping-cost="{{ round($method->cost) }}"
+                            data-shipping-percentage="{{ $shippingTaxClass }}"
+                            class="shippingMethod__wrapper__item checkout-shipping-method align-items-center border-1 py-2 px-4 {{ $method->is_default ? 'active' : '' }}">
+
                             <span class="checkbox">
                                 <span class="inner"></span>
                             </span>
@@ -424,17 +481,21 @@
                                 {{ $method?->title }}
                             </span>
                             <span class="zone">
-                                ( {{ __('Zone: ') }} {{ $method?->zone?->name }} )
+                                ({{ __('Zone: ') }} {{ $method?->zone?->name }})
                             </span>
                             <span class="title">
                                 -
                             </span>
                             <span class="amount">
-                                  {{ amount_with_currency_symbol(round($method->cost)) }}
+                                {{ amount_with_currency_symbol(round($method->cost)) }}
                             </span>
-                             {{-- <div class="shippingMethod__wrapper__item__left w-90">
-                                <b>{{ $method?->title }}</b>
-                                <p>{{ __('Zone: ') }} {{ $method?->zone?->name }}</p>
+                            {{-- <div class="shippingMethod__wrapper__item__left w-90">
+                                <b>
+                                    {{ $method?->title }}
+                                </b>
+                                <p>
+                                    {{ __('Zone: ') }} {{ $method?->zone?->name }}
+                                </p>
                             </div>
                             <div class="shippingMethod__wrapper__item__right 10">
                                 <h6 class="shippingMethod__wrapper__item__right__price">
@@ -451,20 +512,28 @@
                     <div class="checkout__card__footer__estimate__main">
                         <div class="checkout__card__footer__estimate__list">
                             <div class="checkout__card__footer__estimate__item d-flex justify-content-between">
-                                <b>{{ __('Sub Total') }}</b> 
-                                <b id="vendor_subtotal" class="vendor_subtotal">{{ float_amount_with_currency_symbol($subtotal) }}</b>
+                                <b>
+                                    {{ __('Sub Total') }}
+                                </b>
+                                <b id="vendor_subtotal" class="vendor_subtotal">
+                                    {{ float_amount_with_currency_symbol($subtotal) }}
+                                </b>
                             </div>
 
                             @if ($enableTaxAmount)
                                 <div class="checkout__card__footer__estimate__item d-flex justify-content-between">
-                                    <b>{{ __('Tax Amount') }}</b>
+                                    <b>
+                                        {{ __('Tax Amount') }}
+                                        </b>
                                     <b id="vendor_tax_amount" class="vendor_tax_amount">
                                         {{ float_amount_with_currency_symbol($v_tax_total) }}
                                     </b>
                                 </div>
                             @else
                                 <div class="checkout__card__footer__estimate__item d-flex justify-content-between">
-                                    <b>{{ __('Tax Amount') }}</b>
+                                    <b>
+                                        {{ __('Tax Amount') }}
+                                    </b>
                                     <b id="vendor_tax_amount" class="vendor_tax_amount">
                                         {{ get_static_option('display_price_in_the_shop') == 'including' ? __('Tax Inclusive') : '' }}
                                     </b>
@@ -472,14 +541,18 @@
                             @endif
 
                             <div class="checkout__card__footer__estimate__item d-flex justify-content-between">
-                                <b>{{ __('Cost Summary') }}</b>
+                                <b>
+                                    {{ __('Cost Summary') }}
+                                </b>
                                 <b id="vendor_shipping_cost" class="vendor_shipping_cost">
                                     {{ float_amount_with_currency_symbol($default_shipping_cost) }}
                                 </b>
                             </div>
 
                             <div class="checkout__card__footer__estimate__item d-flex justify-content-between">
-                                <b>{{ __('Total') }}</b>
+                                <b>
+                                    {{ __('Total') }}
+                                </b>
                                 <b id="vendor_total">
                                     {{ float_amount_with_currency_symbol($subtotal + $default_shipping_cost) }}
                                 </b>
