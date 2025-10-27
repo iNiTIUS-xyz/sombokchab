@@ -29,7 +29,12 @@
     @endif
 
     <style>
-        /* Style the quantity display to look like an input */
+        .disabled-link {
+            pointer-events: none;
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
         .quantity-display {
             display: inline-block;
             padding: 8px 30px;
@@ -40,19 +45,16 @@
             text-align: center;
             font-weight: 500;
             user-select: none;
-            /* Prevent text selection */
             cursor: default;
             font-size: 14px;
         }
 
-        /* Optional: Add hover effects to plus/minus buttons */
         .product-quantity .plus:hover,
         .product-quantity .substract:hover {
             background-color: #f0f0f0;
             cursor: pointer;
         }
 
-        /* Disable button appearance when at limits */
         .product-quantity .plus.disabled,
         .product-quantity .substract.disabled {
             opacity: 0.5;
@@ -89,30 +91,20 @@
 @section('content')
     <!-- Shop Details area end -->
     <div class="bradecrumb-wraper-div">
-        <x-product::frontend.breadcrumb.frontend-breadcrumb 
-            :title="__('Product Details')" 
-            :innerTitle="$product->category?->name" 
-            :subInnerTitle="$product->subCategory?->name"
-            :chidInnerTitle="$product->childCategorySingle?->name ?? ''"
-
-            :routeName="route('frontend.dynamic.page', [
-                'slug' => 'shop',
-                'category' => $product->category?->name ?? ''
-            ])"
-
-            :subRouteName="route('frontend.dynamic.page', [
+        <x-product::frontend.breadcrumb.frontend-breadcrumb :title="__('Product Details')" :innerTitle="$product->category?->name" :subInnerTitle="$product->subCategory?->name"
+            :chidInnerTitle="$product->childCategorySingle?->name ?? ''" :routeName="route('frontend.dynamic.page', [
                 'slug' => 'shop',
                 'category' => $product->category?->name ?? '',
-                'sub_category' => $product->subCategory?->name ?? ''
-            ])"
-
-            :childRouteName="route('frontend.dynamic.page', [
+            ])" :subRouteName="route('frontend.dynamic.page', [
                 'slug' => 'shop',
                 'category' => $product->category?->name ?? '',
                 'sub_category' => $product->subCategory?->name ?? '',
-                'child_category' => $product->childCategorySingle?->name ?? ''
-            ])"
-        />
+            ])" :childRouteName="route('frontend.dynamic.page', [
+                'slug' => 'shop',
+                'category' => $product->category?->name ?? '',
+                'sub_category' => $product->subCategory?->name ?? '',
+                'child_category' => $product->childCategorySingle?->name ?? '',
+            ])" />
 
     </div>
     <section class="shop-details-area padding-top-25 padding-bottom-25">
@@ -274,8 +266,9 @@
                                     <div class="quantity-btn margin-top-40">
                                         <div class="btn-wrapper">
                                             <a href="#1" data-id="{{ $product->id }}"
-                                                class="cmn-btn btn-bg-1 radius-0 cart-loading add_to_cart_single_page">
-                                                {{ __('Add to Cart') }} </a>
+                                                class="cmn-btn btn-bg-1 radius-0 cart-loading add_to_cart_single_page {{ $stock_count <= 0 ? 'disabled-link' : '' }}">
+                                                {{ __('Add to Cart') }}
+                                            </a>
                                         </div>
                                         <a href="#1" data-id="{{ $product->id }}"
                                             class="btn-wishlist buy_now_single_page btn-details btn-buyNow">

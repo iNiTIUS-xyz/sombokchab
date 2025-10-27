@@ -56,7 +56,9 @@ class UserDashboardController extends Controller
     {
         $product_count = ProductSellInfo::where('user_id', auth('web')->user()->id)->count();
         $support_ticket_count = SupportTicket::where('user_id', auth('web')->user()->id)->count();
-        $all_orders = Order::with(['paymentMeta', 'refundRequest.currentTrackStatus'])->withCount('isDelivered')
+        $all_orders = Order::query()
+            ->with(['paymentMeta', 'refundRequest.currentTrackStatus'])
+            ->withCount('isDelivered')
             ->where('user_id', auth('web')->user()->id)
             ->orderBy('id', 'DESC')
             ->get();
