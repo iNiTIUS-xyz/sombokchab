@@ -541,9 +541,7 @@
                         </div>
                         <div class="row rel-prodc col-control">
                             @forelse ($related_products as $related_product)
-                                <div class="col-6 col-sm-6 col-md-6 col-lg-4">
-                                    <x-frontend.product.product-card-03 :product="$related_product" :model="false" />
-                                </div>
+                                <x-product::frontend.grid-style-05 :$related_product :$loop />
                             @empty
                                 <h4 class="text-center py-4">No product found!</h4>
                             @endforelse

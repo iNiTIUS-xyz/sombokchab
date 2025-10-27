@@ -201,7 +201,7 @@
 
         /* vendor Section title */
         .section-title .title .title-color {
-            color: var(--main-color-two);
+            color: var(--main-color-one);
         }
 
         /* vendor Global card */
@@ -467,7 +467,7 @@
             color: {{ $vendor?->vendor_shop_info?->colors['store_heading_color'] ?? 'var(--heading-color)' }};
         }
         .section-title .title .title-color{
-            color: {{ $vendor?->vendor_shop_info?->colors['store_color'] ?? 'var(--main-color-two)' }};
+            color: {{ $vendor?->vendor_shop_info?->colors['store_color'] ?? 'var(--main-color-one)' }};
         }
         .btn-wrapper .cmn-btn.btn-bg-2 {
             background: {{ $vendor?->vendor_shop_info?->colors['store_secondary_color'] ?? 'var(--main-color-two)' }};
@@ -480,7 +480,7 @@
             color: {{ $vendor?->vendor_shop_info?->colors['store_heading_color'] ?? 'var(--heading-color)' }};
         }
         .vendor-product-isotope .list.active, .vendor-product-isotope .list:hover {
-            background-color: {{ $vendor?->vendor_shop_info?->colors['store_secondary_color'] ?? 'var(--main-color-two)' }};
+            background-color: {{ $vendor?->vendor_shop_info?->colors['store_secondary_color'] ?? 'var(--main-color-one)' }};
         }
         .append-popularProduct .prev-icon, .append-popularProduct .next-icon {
             background-color: {{ $vendor?->vendor_shop_info?->colors['store_secondary_color'] ?? 'rgba(var(--main-color-one-rgb), 0.6)' }};
@@ -538,7 +538,7 @@
                                 </div>
                                 <div class="btn-wrapper">
                                     <a href="{{ route('frontend.vendor.product', $vendor->username) }}"
-                                        class="cmn-btn btn-bg-2 btn-small">{{ $vendor->product_count }}
+                                        class="cmn-btn btn-bg-1 btn-small">{{ $vendor->product_count }}
                                         {{ __('Products are available') }}</a>
                                 </div>
                             </div>
@@ -573,7 +573,7 @@
                             data-responsive='[{"breakpoint": 1600,"settings": {"slidesToShow": 4}},{"breakpoint": 1200,"settings": {"slidesToShow": 3}},{"breakpoint": 992,"settings": {"slidesToShow": 2}},{"breakpoint": 576, "settings": {"slidesToShow": 1} }]'>
 
                             @foreach ($ourPopularProducts as $product)
-                                <x-product::frontend.grid-style-04 :$product :$loop />
+                                <x-product::frontend.grid-style-05 :$product :$loop />
                             @endforeach
                         </div>
                     </div>
@@ -582,110 +582,149 @@
         </section>
         <!-- Vendor Popular Porduct area end -->
 
-        <!-- Vendor All Product area Start -->
-        <section class="vendor-all-product-area padding-top-50 padding-bottom-50">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="section-title text-center">
-                            <h2 class="title">{{ __('Our All') }} <span class="title-color">{{ __('Product') }}</span></h2>
-                        </div>
+    <!-- Vendor All Product area Start -->
+    <section class="vendor-all-product-area padding-top-50 padding-bottom-50">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title text-center">
+                        <h2 class="title">{{ __('Our All') }} <span class="title-color">{{ __('Product') }}</span></h2>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="product-list mt-4">
-                            <ul class="isootope-button vendor-product-isotope">
-                                <li class="list active" data-filter="*">
-                                    {{ __("All Product") }}
-                                </li>
-                                @foreach($ourAllProducts as $category)
-                                    <li class="list" data-filter=".{{ $category->slug }}">
-                                        {{ $category->name }}
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="imageloaded">
-                    <div class="row grid mt-4">
-                        @foreach ($ourAllProducts as $category)
-                            @foreach ($category->product as $product)
-                                <div class="col-xxl-3 col-lg-4 col-md-6 mt-4 grid-item {{ $category->slug }} wow fadeInUp"
-                                    data-wow-delay=".{{ $loop->iteration }}s">
-                                    @php
-                                        $campaign_product = $product->campaign_product ?? null;
-                                        $campaignProductEndDate = $product->campaign->end_date ?? ($product->campaign->end_date->end_date ?? '');
-                                        $sale_price = $campaign_product ? optional($campaign_product)->campaign_price : $product->sale_price;
-                                        $deleted_price = !is_null($campaign_product) ? $product->sale_price : $product->price;
-                                        $campaign_percentage = !is_null($campaign_product) ? getPercentage($product->sale_price, $sale_price) : false;
-                                        $campaignSoldCount = $product?->campaign_sold_product;
-                                        $stock_count = $campaign_product ? $campaign_product->units_for_sale - optional($campaignSoldCount)->sold_count ?? 0 : optional($product->inventory)->stock_count;
-                                        $stock_count = $stock_count > (int) get_static_option('product_in_stock_limit_set') ? $stock_count : 0;
-                                        $rating_width = round(($product->ratings_avg_rating ?? 0) * 20);
-                                    @endphp
+            </div>
 
-                                    <div class="global-card-item vendor-global-card-item radius-10">
-                                        <div class="global-card-thumb radius-10">
-                                            <a href="#1">
-                                                {!! render_image($product->image) !!}
-                                            </a>
-                                            <ul class="global-thumb-icons hover-color-two">
-                                                <x-product::frontend.common.link-option :$product />
-                                            </ul>
+            <!-- Filter Tabs -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="product-list mt-4">
+                        <ul class="isootope-button vendor-product-isotope">
+                            <li class="list active" data-filter="*">{{ __("All Product") }}</li>
+                            @foreach($ourAllProducts as $category)
+                                <li class="list" data-filter=".{{ $category->slug }}">{{ $category->name }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="imageloaded">
+                <div class="row grid mt-4">
+                    @foreach ($ourAllProducts as $category)
+                        @foreach ($category->product as $product)
+                            @php
+                                $attributes = $product?->inventory_detail_count ?? null;
+                                $campaign_product = $product->campaign_product ?? null;
+                                $campaignProductEndDate = $product->campaign->end_date ?? ($product->campaign->end_date->end_date ?? '');
+                                $sale_price = $campaign_product ? optional($campaign_product)->campaign_price : $product->sale_price;
+                                $deleted_price = !is_null($campaign_product) ? $product->sale_price : $product->price;
+                                $campaign_percentage = !is_null($campaign_product) ? getPercentage($product->sale_price, $sale_price) : false;
+                                $campaignSoldCount = $product?->campaign_sold_product;
+                                $stock_count = $campaign_product
+                                    ? $campaign_product->units_for_sale - optional($campaignSoldCount)->sold_count ?? 0
+                                    : optional($product->inventory)->stock_count;
+                                $stock_count = $stock_count > (int) get_static_option('product_in_stock_limit_set') ?? 0 ? $stock_count : 0;
+                            @endphp
+
+                            <!-- Each Product -->
+                            <div class="col-md-3 col-sm-6 mt-4 grid-item {{ $category->slug }} wow fadeInUp"
+                                data-wow-delay=".{{ $loop->iteration }}s">
+                                <div class="product__card my-3">
+                                    @if ($campaign_percentage)
+                                        <div class="product__offer">
+                                            <span class="product__offer__para">{{ round($campaign_percentage) }}% {{ __('Off') }}</span>
                                         </div>
-                                        <div class="global-card-contents">
-                                            <h4 class="common-title">
-                                                <a href="{{ route('frontend.products.single', $product->slug) }}">
-                                                    {{ $product->name }}
-                                                </a>
-                                            </h4>
+                                    @endif
 
-                                            <div class="d-flex flex-wrap justify-content-between">
-                                                <div class="stock mt-2">
-                                                    <span
-                                                        class="stock-available {{ $stock_count ? 'text-success' : 'text-danger' }}">
-                                                        {{ $stock_count ? "In Stock ($stock_count)" : 'Sold out' }} </span>
-                                                </div>
-
-                                                <div class="rating-wrap mt-2">
-                                                    <div class="rating-wrap">
-                                                        <x-product::frontend.common.rating-markup :rating-count="$product->ratings_count"
-                                                            :avg-rattings="$product->ratings_avg_rating ?? 0" />
-                                                    </div>
-                                                </div>
+                                    <div class="product__card__thumb">
+                                        <a href="{{ route('frontend.products.single', $product->slug) }}">
+                                            {!! render_image($product->image) !!}
+                                        </a>
+                                        @if ($product->ratings_count > 0)
+                                            <div class="product__card__review radius-5">
+                                                <span class="product__card__review__icon"><i class="las la-star"></i></span>
+                                                <x-product::frontend.common.rating-markup 
+                                                    :rating-count="$product->ratings_count" 
+                                                    :avg-rattings="$product->ratings_avg_rating ?? 0" />
                                             </div>
-                                            <div class="price-btn-flex mt-2">
-                                                <div class="price-update-through">
-                                                    <span class="fs-24 fw-500 flash-prices color-two">
-                                                        {{ float_amount_with_currency_symbol($sale_price) }} </span>
-                                                    <span class="fs-18 flash-old-prices">
-                                                        {{ float_amount_with_currency_symbol($deleted_price) }} </span>
-                                                </div>
-                                                <div class="btn-wrapper">
-                                                    @if ($product?->inventory_detail_count > 0)
-                                                        <a href="javacript:void(0)"
-                                                            data-action-route="{{ route('frontend.products.single-quick-view', $product->slug) }}"
-                                                            data-attributes="{{ $product->attributes }}"
-                                                            data-id="{{ $product->id }}"
-                                                            class="cmn-btn btn-outline-one color-one btn-small product-quick-view-ajax">{{ __('Buy Now') }}</a>
-                                                    @else
-                                                        <a href="javacript:void(0)" data-id="{{ $product->id }}"
-                                                            class="cmn-btn btn-outline-one color-one btn-small add_to_buy_now_ajax">{{ __('Buy Now') }}</a>
-                                                    @endif
-                                                </div>
+                                        @endif
+                                    </div>
+
+                                    <div class="product__card__contents mt-3">
+                                        <h6 class="product__card__contents__title mt-2">
+                                            <a href="{{ route('frontend.products.single', $product->slug) }}">
+                                                {{ Str::limit($product->name, 25, '...') }}
+                                            </a>
+                                        </h6>
+
+                                        <div class="product__price mt-2">
+                                            <span class="product__price__current color-two">
+                                                {{ float_amount_with_currency_symbol(calculatePrice($sale_price, $product)) }}
+                                            </span>
+                                            <s class="product__price__old">
+                                                {{ $deleted_price ? float_amount_with_currency_symbol(calculatePrice($deleted_price, $product)) : '' }}
+                                            </s>
+                                        </div>
+
+                                        <div class="product__card__cart mt-3">
+                                            @if (isset($attributes) && $attributes > 0)
+                                                <a data-type="text" 
+                                                data-old-text="{{ __('View Details') }}" 
+                                                title="View Details"
+                                                data-action-route="{{ route('frontend.products.single-quick-view', $product->slug) }}"
+                                                data-attributes="{{ $product->attributes }}" 
+                                                data-id="{{ $product->id }}"
+                                                class="product__card__cart__btn radius-30 product-quick-view-ajax {{ $class ?? '' }}">
+                                                    {{ __('View Details') }}
+                                                </a>
+                                            @else
+                                                <a data-type="text" 
+                                                data-old-text="{{ __('Add to Cart') }}" 
+                                                href="#1" 
+                                                title="Add to cart"
+                                                data-attributes="{{ $product->attribute }}" 
+                                                data-id="{{ $product->id }}"
+                                                class="product__card__cart__outline radius-30 add_to_cart_ajax {{ $class ?? '' }}">
+                                                    {{ __('Add to Cart') }}
+                                                </a>
+                                            @endif
+
+                                            <div class="product__card__cart__right">
+                                                <a href="javascript:void(0)" 
+                                                data-id="{{ $product->id }}" 
+                                                title="Add To compare"
+                                                class="{{ $class ?? '' }} product__card__cart__btn__icon cart-loading icon add_to_compare_ajax">
+                                                    <i class="las la-retweet"></i>
+                                                </a>
+
+                                                @if (isset($attributes) && $attributes > 0)
+                                                    <a title="View Details"
+                                                    class="{{ $class ?? '' }} product-quick-view-ajax favourite icon cart-loading product__card__cart__btn__icon"
+                                                    href="#1"
+                                                    data-action-route="{{ route('frontend.products.single-quick-view', $product->slug) }}">
+                                                        <i class="lar la-save"></i>
+                                                    </a>
+                                                @else
+                                                    <a href="#1" 
+                                                    data-id="{{ $product->id }}" 
+                                                    title="Save for later"
+                                                    class="{{ $class ?? '' }} add_to_wishlist_ajax icon cart-loading product__card__cart__btn__icon">
+                                                        <i class="lar la-save"></i>
+                                                    </a>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            @endforeach
+                            </div>
                         @endforeach
-                    </div>
+                    @endforeach
                 </div>
             </div>
-        </section>
-        <!-- Vendor All Product area end -->
+        </div>
+    </section>
+    <!-- Vendor All Product area end -->
+
 
         @if (!$vendorCampaigns->isEmpty())
             <!-- Vendor Product Campaign area Start -->
@@ -769,6 +808,7 @@
         </div>
         <!-- back to top area end -->
     @endif
+    
 @endsection
 
 @section('script')

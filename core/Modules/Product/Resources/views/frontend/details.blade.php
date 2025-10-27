@@ -670,10 +670,7 @@
                                                 data-nextArrow='<div class="next-icon"><i class="las la-arrow-right"></i></div>'
                                                 data-responsive='[{"breakpoint": 1800,"settings": {"slidesToShow": 1}},{"breakpoint": 1200,"settings": {"slidesToShow": 3}},{"breakpoint": 992,"settings": {"slidesToShow": 2,"arrows": false,"dots": true}},{"breakpoint": 768, "settings": {"slidesToShow": 2} },{"breakpoint": 576, "settings": {"slidesToShow": 1} }]'>
                                                 @foreach ($product->vendor->product as $product)
-                                                    <div class="slick-slider-items wow fadeInUp"
-                                                        data-wow-delay=".{{ $loop->iteration }}s">
-                                                        <x-product::frontend.grid-style-03 :$product />
-                                                    </div>
+                                                    <x-product::frontend.grid-style-05 :$product :$loop />
                                                 @endforeach
                                             </div>
                                         </div>
@@ -707,7 +704,7 @@
                         data-nextArrow='<div class="next-icon"><i class="las la-arrow-right"></i></div>'
                         data-responsive='[{"breakpoint": 1800,"settings": {"slidesToShow": 5}},{"breakpoint": 1400,"settings": {"slidesToShow": 4}},{"breakpoint": 1200,"settings": {"slidesToShow": 3}},{"breakpoint": 992,"settings": {"slidesToShow": 2}},{"breakpoint": 768, "settings": {"slidesToShow": 2}},{"breakpoint": 576, "settings": {"slidesToShow": 1} }]'>
                         @foreach ($related_products as $product)
-                            <x-product::frontend.grid-style-03 :$product :$loop />
+                            <x-product::frontend.grid-style-05 :$product :$loop />
                         @endforeach
                     </div>
                 </div>
