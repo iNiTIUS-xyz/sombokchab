@@ -182,9 +182,9 @@
                 if (data.success) {
                     toastr.success("Product Created Successfully");
                     toastr.success("You are redirected to product list page");
-                    setTimeout(function() {
+                    setTimeout(() => {
                         window.location.href = "{{ route('vendor.products.create') }}";
-                    })
+                    }, 800);
                 }
             }, function(xhr) {
                 ajax_toastr_error_message(xhr);
