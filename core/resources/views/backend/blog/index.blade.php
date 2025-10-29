@@ -38,7 +38,7 @@
                                     <th>{{ __('Image') }}</th>
                                     <th>{{ __('Author') }}</th>
                                     <th>{{ __('Category') }}</th>
-                                    <th>{{ __('Status') }}</th>
+                                    <th>{{ __('Publish Status') }}</th>
                                     <th>{{ __('Date') }}</th>
                                     <th>{{ __('Action') }}</th>
                                 </thead>
@@ -63,7 +63,7 @@
                                                     <button type="button"
                                                         class="status-{{ $data->status }} {{ $data->status == 'publish' ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
                                                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        {{ ucfirst($data->status == 'publish' ? __('Publish') : __('Draft')) }}
+                                                        {{ ucfirst($data->status == 'publish' ? __('Publish') : __('Unpublish')) }}
                                                     </button>
                                                     <div class="dropdown-menu">
                                                         <form action="{{ route('admin.blog.status.change', $data->id) }}"
@@ -79,7 +79,7 @@
                                                             @csrf
                                                             <input type="hidden" name="status" value="draft">
                                                             <button type="submit" class="dropdown-item">
-                                                                {{ __('Draft') }}
+                                                                {{ __('Unpublish') }}
                                                             </button>
                                                         </form>
                                                     </div>

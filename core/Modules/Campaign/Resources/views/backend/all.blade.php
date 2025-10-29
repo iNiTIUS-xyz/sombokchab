@@ -39,7 +39,7 @@
                                     @endcan
                                     <th>{{ __('Name') }}</th>
                                     <th>{{ __('Image') }}</th>
-                                    <th>{{ __('Status') }}</th>
+                                    <th>{{ __('Publish Status') }}</th>
                                     <th>{{ __('Created At') }}</th>
                                     <th>{{ __('Action') }}</th>
                                 </thead>
@@ -57,7 +57,7 @@
                                                         class="status-{{ $campaign->status }} {{ $campaign->status == 'publish' ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
                                                         data-bs-toggle="dropdown" aria-haspopup="true"
                                                         aria-expanded="false">
-                                                        {{ ucfirst($campaign->status == 'publish' ? __('Publish') : __('Draft')) }}
+                                                        {{ ucfirst($campaign->status == 'publish' ? __('Publish') : __('Unpublish')) }}
                                                     </button>
                                                     <div class="dropdown-menu">
                                                         <form
@@ -75,7 +75,7 @@
                                                             @csrf
                                                             <input type="hidden" name="status" value="draft">
                                                             <button type="submit" class="dropdown-item">
-                                                                {{ __('Draft') }}
+                                                                {{ __('Unpublish') }}
                                                             </button>
                                                         </form>
                                                     </div>

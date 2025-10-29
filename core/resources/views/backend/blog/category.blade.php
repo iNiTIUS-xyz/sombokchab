@@ -34,7 +34,7 @@
                                 <thead>
                                     <x-bulk-th />
                                     <th>{{ __('Name') }}</th>
-                                    <th>{{ __('Status') }}</th>
+                                    <th>{{ __('Publish Status') }}</th>
                                     <th>{{ __('Action') }}</th>
                                 </thead>
                                 <tbody>
@@ -49,7 +49,7 @@
                                                     <button type="button"
                                                         class="status-{{ $data->status }} {{ $data->status == 'publish' ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
                                                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        {{ ucfirst($data->status == 'publish' ? __('Publish') : __('Draft')) }}
+                                                        {{ ucfirst($data->status == 'publish' ? __('Publish') : __('Unpublish')) }}
                                                     </button>
                                                     <div class="dropdown-menu">
                                                         <form
@@ -67,7 +67,7 @@
                                                             @csrf
                                                             <input type="hidden" name="status" value="draft">
                                                             <button type="submit" class="dropdown-item">
-                                                                {{ __('Draft') }}
+                                                                {{ __('Unpublish') }}
                                                             </button>
                                                         </form>
                                                     </div>
@@ -119,12 +119,12 @@
                             </div>
                             <div class="form-group">
                                 <label for="status">
-                                    {{ __('Status') }}
+                                    {{ __('Publish Status') }}
                                     <span class="text-danger">*</span>
                                 </label>
                                 <select name="status" class="form-control" id="status" required="">
                                     <option value="publish">{{ __('Publish') }}</option>
-                                    <option value="draft">{{ __('Draft') }}</option>
+                                    <option value="draft">{{ __('Unpublish') }}</option>
                                 </select>
                             </div>
                         </div>
@@ -163,11 +163,11 @@
                             </div>
                             <div class="form-group">
                                 <label for="edit_status">
-                                    {{ __('Status') }}
+                                    {{ __('Publish Status') }}
                                     <span class="text-danger">*</span>
                                 </label>
                                 <select name="status" class="form-control" id="edit_status" required="">
-                                    <option value="draft">{{ __('Draft') }}</option>
+                                    <option value="draft">{{ __('Unpublish') }}</option>
                                     <option value="publish">{{ __('Publish') }}</option>
                                 </select>
                             </div>

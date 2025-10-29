@@ -109,12 +109,12 @@
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">
-                                        Campaign Status
+                                        Publish Status
                                         <span class="text-danger">*</span>
                                     </label>
                                     <select name="status" class="form-select" required>
                                         <option value="draft" @if ($campaign->status == 'draft') selected @endif>
-                                            {{ __('Draft') }}
+                                            {{ __('Unpublish') }}
                                         </option>
                                         <option value="publish" @if ($campaign->status == 'publish') selected @endif>
                                             {{ __('Publish') }}

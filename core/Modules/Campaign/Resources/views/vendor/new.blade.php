@@ -102,12 +102,12 @@
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">
-                                        Campaign Status
+                                        Publish Status
                                         <span class="text-danger">*</span>
                                     </label>
                                     <select name="status" class="form-select" required>
                                         <option value="draft" {{ old('status') == 'draft' ? 'selected' : '' }}>
-                                            {{ __('Draft') }}</option>
+                                            {{ __('Unpublish') }}</option>
                                         <option value="publish" {{ old('status') == 'publish' ? 'selected' : '' }}>
                                             {{ __('Publish') }}</option>
                                     </select>

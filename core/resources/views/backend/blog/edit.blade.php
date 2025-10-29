@@ -150,12 +150,12 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="status">
-                                            {{ __('Status') }}
+                                            {{ __('Publish Status') }}
                                             <span class="text-danger">*</span>
                                         </label>
                                         <select name="status" class="form-control" id="status" required="">
                                             <option value="draft" {{ $blog_post->status == 'draft' ? 'selected' : '' }}>
-                                                {{ __('Draft') }}
+                                                {{ __('Unpublish') }}
                                             </option>
                                             <option value="publish" {{ $blog_post->status == 'publish' ? 'selected' : '' }}>
                                                 {{ __('Publish') }}

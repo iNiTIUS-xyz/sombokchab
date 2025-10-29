@@ -11,7 +11,7 @@
                 <th>{{ __('City') }}</th>
                 <th>{{ __('Province') }}</th>
                 <th>{{ __('Country') }}</th>
-                <th>{{ __('Status') }}</th>
+                <th>{{ __('Publish Status') }}</th>
                 <th>{{ __('Action') }}</th>
             </tr>
         </thead>
@@ -30,7 +30,7 @@
                             <button type="button"
                                 class="status-{{ $city->status }} {{ $city->status == 'publish' ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {{ ucfirst($city->status == 'publish' ? __('Publish') : __('Draft')) }}
+                                {{ ucfirst($city->status == 'publish' ? __('Publish') : __('Unpublish')) }}
                             </button>
                             <div class="dropdown-menu">
                                 {{-- Form for activating --}}
@@ -47,7 +47,7 @@
                                     @csrf
                                     <input type="hidden" name="status" value="draft">
                                     <button type="submit" class="dropdown-item">
-                                        {{ __('Draft') }}
+                                        {{ __('Unpublish') }}
                                     </button>
                                 </form>
                             </div>

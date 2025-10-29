@@ -1,5 +1,5 @@
 @if($status === 'draft')
-    <span class="badge bg-warning">{{__('Draft')}}</span>
+    <span class="badge bg-warning">{{__('Unpublish')}}</span>
 @elseif($status === 'archive')
     <span class="badge bg-warning">{{__('Archive')}}</span>
 @elseif($status === 'pending')

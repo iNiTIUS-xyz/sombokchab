@@ -37,7 +37,7 @@
                                     {{-- <th>{{ __('Serial No.') }}</th> --}}
                                     <th>{{ __('Province Name') }}</th>
                                     <th>{{ __('Country') }}</th>
-                                    <th>{{ __('Status') }}</th>
+                                    <th>{{ __('Publish Status') }}</th>
                                     <th>{{ __('Action') }}</th>
                                 </thead>
                                 <tbody>
@@ -53,7 +53,7 @@
                                                     <button type="button"
                                                         class="status-{{ $state->status }} {{ $state->status == 'publish' ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
                                                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        {{ ucfirst($state->status == 'publish' ? __('Publish') : __('Draft')) }}
+                                                        {{ ucfirst($state->status == 'publish' ? __('Publish') : __('Unpublish')) }}
                                                     </button>
                                                     <div class="dropdown-menu">
                                                         {{-- Form for activating --}}
@@ -70,7 +70,7 @@
                                                             @csrf
                                                             <input type="hidden" name="status" value="draft">
                                                             <button type="submit" class="dropdown-item">
-                                                                {{ __('Draft') }}
+                                                                {{ __('Unpublish') }}
                                                             </button>
                                                         </form>
                                                     </div>

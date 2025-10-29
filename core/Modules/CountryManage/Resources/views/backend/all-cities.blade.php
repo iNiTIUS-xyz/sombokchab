@@ -33,7 +33,7 @@
                                     {{-- <th>{{ __('Serial No.') }}</th> --}}
                                     <th>{{ __('Name') }}</th>
                                     <th>{{ __('Country') }}</th>
-                                    <th>{{ __('Status') }}</th>
+                                    <th>{{ __('Publish Status') }}</th>
                                     <th>{{ __('Action') }}</th>
                                 </thead>
                                 <tbody>

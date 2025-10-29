@@ -22,7 +22,8 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">
-                            {{ __('Edit Page') }}</h4>
+                            {{ __('Edit Page') }}
+                        </h4>
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
                         <form action="{{ route('admin.page.update', $page_post->id) }}" method="post"
@@ -60,8 +61,8 @@
                                     <div
                                         class="btn-wrapper page-builder-btn-wrapper @if (empty($page_post->page_builder_status)) d-none @endif ">
                                         <a href="{{ route('admin.dynamic.page.builder', ['type' => 'dynamic-page', 'id' => $page_post->id]) }}"
-                                            class="cmn_btn btn_bg_profile"> <i
-                                                class="fas fa-external-link-alt "></i> {{ __('Open Page Builder') }}
+                                            class="cmn_btn btn_bg_profile"> <i class="fas fa-external-link-alt "></i>
+                                            {{ __('Open Page Builder') }}
                                         </a>
                                     </div>
                                     <div class="navbar_variants mt-5" style="display: none">
@@ -129,15 +130,15 @@
                                     </div> --}}
                                     <div class="form-group">
                                         <label>
-                                            {{ __('Status') }}
+                                            {{ __('Publish Status') }}
                                             <span class="text-danger">*</span>
                                         </label>
                                         <select name="status" id="status" class="form-control">
-                                            <option value="publish">
+                                            <option value="publish" @if ($page_post->status == 'publish') selected @endif>
                                                 {{ __('Publish') }}
                                             </option>
-                                            <option value="draft">
-                                                {{ __('Draft') }}
+                                            <option value="draft" @if ($page_post->status == 'draft') selected @endif>
+                                                {{ __('Unpublish') }}
                                             </option>
                                         </select>
                                     </div>

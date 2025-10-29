@@ -148,11 +148,11 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="status">
-                                            {{ __('Status') }}
+                                            {{ __('Publish Status') }}
                                             <span class="text-danger">*</span>
                                         </label>
                                         <select name="status" class="form-control" id="status" required="">
-                                            <option value="draft">{{ __('Draft') }}</option>
+                                            <option value="draft">{{ __('Unpublish') }}</option>
                                             <option value="publish">{{ __('Publish') }}</option>
                                         </select>
                                     </div>
