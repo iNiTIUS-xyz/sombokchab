@@ -28485,7 +28485,7 @@ button.submit-btn.gd-bg.pay-now {
 .btn-group button.dropdown-toggle.status-unpublish,
 .btn-group button.dropdown-toggle.close {
   background-color: var(--delete-color);
-  border: 1px solid var(--delete-color);
+  border: 1px solid var(--section-bg);
   color: var(--white);
 }
 

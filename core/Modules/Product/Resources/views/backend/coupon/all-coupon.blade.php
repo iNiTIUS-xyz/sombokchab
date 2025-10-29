@@ -120,7 +120,7 @@
                                     <th>{{ __('Discount Type') }}</th>
                                     <th>{{ __('Discount') }}</th>
                                     <th>{{ __('Expire Date') }}</th>
-                                    <th>{{ __('Status') }}</th>
+                                    <th>{{ __('Publish Status') }}</th>
                                     <th>{{ __('Action') }}</th>
                                 </thead>
                                 <tbody>
@@ -153,7 +153,7 @@
                                                         class="status-{{ $data->status }} {{ $data->status == 'publish' ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
                                                         data-bs-toggle="dropdown" aria-haspopup="true"
                                                         aria-expanded="false">
-                                                        {{ ucfirst($data->status == 'publish' ? __('Publish') : __('Draft')) }}
+                                                        {{ ucfirst($data->status == 'publish' ? __('Publish') : __('Unpublish')) }}
                                                     </button>
                                                     <div class="dropdown-menu">
                                                         <form
@@ -171,7 +171,7 @@
                                                             @csrf
                                                             <input type="hidden" name="status" value="draft">
                                                             <button type="submit" class="dropdown-item">
-                                                                {{ __('Draft') }}
+                                                                {{ __('Unpublish') }}
                                                             </button>
                                                         </form>
                                                     </div>
@@ -340,7 +340,7 @@
                                         <div class="col-md-6 mb-3">
                                             <div class="form-group">
                                                 <label for="status">
-                                                    {{ __('Status') }}
+                                                    {{ __('Publish Status') }}
                                                     <span class="text-danger">*</span>
                                                 </label>
                                                 <select name="status" class="form-control form-select" id="status" required="">
@@ -348,7 +348,7 @@
                                                         {{ __('Publish') }}
                                                     </option>
                                                     <option value="draft">
-                                                        {{ __('Draft') }}
+                                                        {{ __('Unpublish') }}
                                                     </option>
                                                 </select>
                                             </div>
@@ -511,12 +511,12 @@
                                         <div class="col-md-6 mb-3">
                                             <div class="form-group">
                                                 <label for="edit_status">
-                                                    {{ __('Status') }}
+                                                    {{ __('Publish Status') }}
                                                     <span class="text-danger">*</span>
                                                 </label>
                                                 <select name="status" class="form-control form-select" id="edit_status">
                                                     <option value="draft">
-                                                        {{ __('Draft') }}
+                                                        {{ __('Unpublish') }}
                                                     </option>
                                                     <option value="publish">
                                                         {{ __('Publish') }}

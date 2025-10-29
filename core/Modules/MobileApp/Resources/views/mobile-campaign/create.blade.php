@@ -43,7 +43,6 @@
             </div>
         </div>
     </div>
-    </div>
     <x-media.markup />
 @endsection
 @section('script')

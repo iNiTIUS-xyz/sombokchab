@@ -10,8 +10,8 @@
             <th> {{ __('Brand') }} </th>
             <th> {{ __('Categories') }} </th>
             <th> {{ __('Stock Qty') }} </th>
+            <th> {{ __('Approval Status') }} </th>
             <th> {{ __('Publish Status') }} </th>
-            <th> {{ __('Status') }} </th>
             <th> {{ __('Created At') }} </th>
             <th> {{ __('Actions') }} </th>
         </tr>
@@ -79,39 +79,61 @@
                 <td>
                     <div class="btn-group badge">
                         <button type="button"
-                            class="status-{{ $product?->product_status }} {{ $product?->product_status == 'publish' ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
+                            class="status-{{ $product?->product_status }}
+                            @if ($product->product_status == 'publish')
+                                bg-primary status-open
+                            @elseif ($product->product_status == 'unpublish')
+                                bg-warning status-close
+                            @elseif($product->product_status == 'rejected')
+                                bg-danger status-close
+                            @endif
+                            dropdown-toggle"
                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{ ucfirst($product->product_status == 'publish' ? __('Publish') : __('Unpublish')) }}
+
+                            @if ($product->product_status == 'publish')
+                                {{ __('Approved') }}
+                            @elseif ($product->product_status == 'unpublish')
+                                {{ __('Pending Approval') }}
+                            @elseif($product->product_status == 'rejected')
+                                {{ __('Rejected') }}
+                            @endif
                         </button>
+
                         <div class="dropdown-menu">
-                            {{-- Form for activating --}}
                             <form action="{{ route('admin.products.status.change', $product->id) }}" method="POST"
-                                id="status-form-activate-{{ $product->id }}">
+                                id="status-form-approve-{{ $product->id }}">
                                 @csrf
                                 <input type="hidden" name="product_status" value="publish">
                                 <button type="submit" class="dropdown-item">
-                                    {{ __('Publish') }}
+                                    {{ __('Approved') }}
                                 </button>
                             </form>
                             <form action="{{ route('admin.products.status.change', $product->id) }}" method="POST"
-                                id="status-form-deactivate-{{ $product->id }}">
+                                id="status-form-pending-{{ $product->id }}">
                                 @csrf
                                 <input type="hidden" name="product_status" value="unpublish">
                                 <button type="submit" class="dropdown-item">
-                                    {{ __('Unpublish') }}
+                                    {{ __('Pending Approval') }}
+                                </button>
+                            </form>
+                            <form action="{{ route('admin.products.status.change', $product->id) }}" method="POST"
+                                id="status-form-reject-{{ $product->id }}">
+                                @csrf
+                                <input type="hidden" name="product_status" value="rejected">
+                                <button type="submit" class="dropdown-item">
+                                    {{ __('Rejected') }}
                                 </button>
                             </form>
                         </div>
                     </div>
+
                 </td>
-
                 <td>
-
                     <div class="btn-group badge">
                         <button type="button"
                             class="status-{{ $product?->status_id }} {{ $product?->status_id == 1 ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{ ucfirst($product->status_id == 1 ? __('Active') : __('Inactive')) }}
+                            {{ ucfirst($product->status_id == 1 ? __('Publish') : __('Unpublish')) }}
                         </button>
                         <div class="dropdown-menu">
                             {{-- Form for activating --}}
@@ -121,7 +143,7 @@
                                 <input type="hidden" name="id" value="{{ $product->id }}">
                                 <input type="hidden" name="status_id" value="1">
                                 <button type="submit" class="dropdown-item">
-                                    {{ __('Active') }}
+                                    {{ __('Publish') }}
                                 </button>
                             </form>
                             <form action="{{ route('admin.products.update.status') }}" method="POST"
@@ -130,13 +152,12 @@
                                 <input type="hidden" name="id" value="{{ $product->id }}">
                                 <input type="hidden" name="status_id" value="2">
                                 <button type="submit" class="dropdown-item">
-                                    {{ __('Inactive') }}
+                                    {{ __('Unpublish') }}
                                 </button>
                             </form>
                         </div>
                     </div>
                 </td>
-
                 <td>
                     {{ date('d-M-Y', strtotime($product->created_at)) }}
                 </td>
@@ -146,7 +167,6 @@
                             class="btn btn-success btn-sm" title="{{ __('View Data') }}">
                             <i class="las la-eye"></i>
                         </a> --}}
-
                         @can('product-update')
                             <a href="{{ route('admin.products.edit', $product->id) }}"
                                 class="btn btn-warning text-dark btn-sm" title="{{ __('Edit Product') }}">

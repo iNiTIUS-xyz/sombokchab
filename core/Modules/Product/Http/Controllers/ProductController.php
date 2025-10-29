@@ -145,11 +145,17 @@ class ProductController extends Controller
 
     public function productStatusChange(Request $request, $id)
     {
+
         $product = Product::findOrFail($id);
         $product->product_status = $request->product_status;
+
+        if ($request->product_status === 'rejected') {
+            $product->status_id = 2;
+        }
+
         $product->save();
 
-        return redirect()->back()->with(FlashMsg::item_new('Product Status changed successfully.'));
+        return redirect()->back()->with(FlashMsg::item_new('Product approval status changed successfully.'));
     }
 
     public function destroy($id)
