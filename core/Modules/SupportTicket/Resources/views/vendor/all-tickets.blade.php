@@ -94,7 +94,7 @@
                                             <x-bulk-action.th />
                                             <th>{{ __('Title') }}</th>
                                             <th>{{ __('Department') }}</th>
-                                            <th>{{ __('Date Created') }}</th>
+                                            <th>{{ __('Created At') }}</th>
                                             <th>{{ __('Status') }}</th>
                                             <th>{{ __('Action') }}</th>
                                         </tr>

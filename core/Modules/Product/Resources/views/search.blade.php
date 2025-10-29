@@ -83,9 +83,9 @@
                             @if ($product->product_status == 'publish')
                                 bg-primary status-open
                             @elseif ($product->product_status == 'unpublish')
-                                bg-warning status-close
-                            @elseif($product->product_status == 'rejected')
                                 bg-danger status-close
+                            @elseif($product->product_status == 'rejected')
+                                bg-warning status-close
                             @endif
                             dropdown-toggle"
                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

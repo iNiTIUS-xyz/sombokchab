@@ -17,8 +17,8 @@
             <th> {{ __('Brand') }} </th>
             <th> {{ __('Categories') }} </th>
             <th> {{ __('Stock Qty') }} </th>
+            <th> {{ __('Approval Status') }} </th>
             <th> {{ __('Publish Status') }} </th>
-            <th> {{ __('Status') }} </th>
             <th> {{ __('Created At') }} </th>
             <th> {{ __('Action') }} </th>
         </tr>
@@ -78,47 +78,33 @@
                     <span class="quantity-number"> {{ $product?->inventory?->stock_count }}</span>
                 </td>
                 <td>
-                    <span
-                        class="badge {{ $product?->product_status == 'publish' ? 'bg-primary status-open' : 'bg-danger status-close' }}">
-                        {{ ucfirst($product?->product_status) }}
+                    <span style="color: white; !important"
+                        class="badge
+                            @if ($product->product_status == 'publish') bg-primary status-open
+                            @elseif ($product->product_status == 'unpublish')
+                                bg-warning status-close
+                            @elseif($product->product_status == 'rejected')
+                                bg-danger status-close @endif
+                        ">
+                        @if ($product->product_status == 'publish')
+                            {{ __('Approved') }}
+                        @elseif ($product->product_status == 'unpublish')
+                            {{ __('Pending Approval') }}
+                        @elseif($product->product_status == 'rejected')
+                            {{ __('Rejected') }}
+                        @endif
                     </span>
+                </td>
+                <td data-label="Status">
+                    @if ($product->status_id == 1)
+                        <span class="badge bg-primary">Publish</span>
+                    @else
+                        <span class="badge bg-warning">Unpublish</span>
+                    @endif
                 </td>
                 <td>
                     {{ date('d-M-Y', strtotime($product->created_at)) }}
                 </td>
-                <td data-label="Status">
-                    {{-- <x-product::table.status :statuses="$statuses" :statusId="$product?->status_id"
-                        :id="$product->id" /> --}}
-                    <div class="btn-group badge">
-                        <button type="button"
-                            class="status-{{ $product?->status_id }} {{ $product?->status_id == 1 ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{ ucfirst($product->status_id == 1 ? __('Active') : __('Inactive')) }}
-                        </button>
-                        <div class="dropdown-menu">
-                            {{-- Form for activating --}}
-                            <form action="{{ route('vendor.products.update.status') }}" method="POST"
-                                id="status-form-activate-{{ $product->id }}">
-                                @csrf
-                                <input type="hidden" name="id" value="{{ $product->id }}">
-                                <input type="hidden" name="status_id" value="1">
-                                <button type="submit" class="dropdown-item">
-                                    {{ __('Active') }}
-                                </button>
-                            </form>
-                            <form action="{{ route('vendor.products.update.status') }}" method="POST"
-                                id="status-form-deactivate-{{ $product->id }}">
-                                @csrf
-                                <input type="hidden" name="id" value="{{ $product->id }}">
-                                <input type="hidden" name="status_id" value="2">
-                                <button type="submit" class="dropdown-item">
-                                    {{ __('Inactive') }}
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </td>
-
                 <td data-label="Actions">
                     <div class="btn-group">
                         {{-- <a href="{{ route('frontend.products.single', $product->slug) }}"

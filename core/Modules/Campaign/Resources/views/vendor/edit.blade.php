@@ -73,6 +73,7 @@
         <form action="{{ route('vendor.campaigns.update') }}" method="POST">
             @csrf
             <input type="hidden" name="id" value="{{ $campaign->id }}">
+            <input type="hidden" name="status" value="{{ $campaign->status }}">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="row g-4">
@@ -107,7 +108,7 @@
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
-                                <div class="mb-3">
+                                {{-- <div class="mb-3">
                                     <label class="form-label">
                                         Publish Status
                                         <span class="text-danger">*</span>
@@ -123,7 +124,7 @@
                                     @error('status')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
-                                </div>
+                                </div> --}}
                                 <div class="form-check mb-2">
                                     <input class="form-check-input" type="checkbox" id="discountCheck">
                                     <label class="form-check-label" for="discountCheck">
