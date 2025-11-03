@@ -94,7 +94,7 @@
                                             <div class="form-group">
                                                 <label class="label-title text-bold mb-2">
                                                     {{ __('Email') }}
-                                                    <span class="text-danger">*</span>
+                                                    {{-- <span class="text-danger">*</span> --}}
                                                 </label>
                                                 <input type="email" name="email" id="email"
                                                     class="form--control radius-10" placeholder="{{ __('Enter email') }}">

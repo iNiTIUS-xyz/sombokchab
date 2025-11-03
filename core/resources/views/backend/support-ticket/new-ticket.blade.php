@@ -62,7 +62,7 @@
                                 <textarea name="description"class="form-control" cols="30" rows="10" placeholder="{{ __('Description') }}"></textarea>
                             </div>
                             @can('support-ticket-create')
-                                <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Submit Ticket') }}</button>
+                                <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Submit') }}</button>
                             @endcan
                         </form>
                     </div>

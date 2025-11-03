@@ -110,22 +110,3 @@
         </div>
     </div>
 </div>
-
-
-<style>
-    .out-of-stock-btn {
-        border: 1px solid var(--danger-color) !important; /* red border */
-        color: var(--danger-color) !important;            /* red text */
-        background-color: transparent !important;
-        cursor: not-allowed !important;
-        opacity: 0.8;
-        transition: all 0.3s ease;
-    }
-
-    .out-of-stock-btn:hover {
-        background-color: var(--danger-color) !important;
-        color: #fff !important;               /* white text on hover */
-        opacity: 1;
-    }
-
-</style>

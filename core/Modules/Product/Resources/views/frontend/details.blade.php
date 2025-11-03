@@ -261,7 +261,7 @@
                                         </div>
                                         <span data-stock-text="{{ $stock_count }}"
                                             class="stock-available {{ $stock_count ? 'text-success' : 'text-danger' }}">
-                                            {{ $stock_count ? "In Stock ($stock_count)" : 'Sold out' }} </span>
+                                            {{ $stock_count ? "In Stock ($stock_count)" : 'Out of Stock' }} </span>
                                     </div>
                                     <div class="quantity-btn margin-top-40">
                                         <div class="btn-wrapper">

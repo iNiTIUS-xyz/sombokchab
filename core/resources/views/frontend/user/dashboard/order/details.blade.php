@@ -670,150 +670,141 @@
                                 @php
                                     $adminShopManage = \App\AdminShopManage::first();
                                     $itemsTotal = null;
+                                    $subtotal = null;
                                 @endphp
                                 <div class="row g-4">
                                     @foreach ($orders as $order)
                                         <div class="col-lg-12">
-                                            <div class="order__details__item">
-                                                <div class="order__item">
-                                                    <div style="border-bottom: 2px solid white;"
-                                                        class="order__item__heading d-flex justify-content-between align-items-center mb-3 border-bottom pb-2">
-                                                        <b class="text-dark">Product</b>
-                                                        <b class="text-dark">Quantity</b>
-                                                        <b class="text-dark">Price</b>
-                                                    </div>
-                                                    @foreach ($order?->orderItem as $orderItem)
-                                                        @php
-                                                            $productInfo = DB::table('products')
-                                                                ->where('id', $orderItem->product_id)
-                                                                ->first();
-                                                            $prd_image = $orderItem->product?->image;
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered align-middle">
+                                                    <thead class="">
+                                                        <tr>
+                                                            <th class="text-dark">Product</th>
+                                                            <th class="text-dark text-center">Quantity</th>
+                                                            <th class="text-dark text-end">Price</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($order?->orderItem as $orderItem)
+                                                            @php
+                                                                $productInfo = DB::table('products')->where('id', $orderItem->product_id)->first();
+                                                                $prd_image = $orderItem->product?->image;
 
-                                                            if (!empty($orderItem->variant?->attr_image)) {
-                                                                $prd_image = $orderItem->variant->attr_image;
-                                                            }
-                                                        @endphp
-                                                        <div class="order__item__single">
-                                                            <div class="order__item__single__flex">
-                                                                <div class="order__item__product">
-                                                                    <div
-                                                                        class="order__item__product__thumb checkout-cart-thumb">
-                                                                        {!! render_image($prd_image, class: 'w-100') !!}
-                                                                    </div>
-                                                                    <div
-                                                                        class="order__item__product__contents checkout-cart-img-contents">
-                                                                        <h6
-                                                                            class="order__item__product__name checkout-cart-title">
-                                                                            <a href="javascript:;">
-                                                                                {{ Str::limit(Str::words($productInfo->name), 50, '...') }}
-                                                                            </a>
-                                                                            <p>
-                                                                                {{ $orderItem?->variant?->productColor ? __('Color:') . $orderItem?->variant?->productColor?->name . ' , ' : '' }}
-                                                                                {{ $orderItem?->variant?->productSize ? __('Size:') . $orderItem?->variant?->productSize?->name . ' , ' : '' }}
+                                                                if (!empty($orderItem->variant?->attr_image)) {
+                                                                    $prd_image = $orderItem->variant->attr_image;
+                                                                }
+                                                            @endphp
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="d-flex align-items-center">
+                                                                        <div class="me-3" style="width: 70px;">
+                                                                            {!! render_image($prd_image, class: 'img-fluid rounded') !!}
+                                                                        </div>
+                                                                        <div>
+                                                                            <h6 class="mb-1">
+                                                                                <a href="javascript:;" class="text-dark text-decoration-none">
+                                                                                    {{ Str::limit(Str::words($productInfo->name), 50, '...') }}
+                                                                                </a>
+                                                                            </h6>
+                                                                            <small class="text-muted d-block">
+                                                                                {{ $orderItem?->variant?->productColor ? __('Color:') . $orderItem?->variant?->productColor?->name . ', ' : '' }}
+                                                                                {{ $orderItem?->variant?->productSize ? __('Size:') . $orderItem?->variant?->productSize?->name . ', ' : '' }}
                                                                                 @foreach ($orderItem?->variant?->attribute ?? [] as $attr)
-                                                                                    {{ $attr->attribute_name }}
-                                                                                    : {{ $attr->attribute_value }}
-
-                                                                                    @if (!$loop->last)
-                                                                                        ,
-                                                                                    @endif
+                                                                                    {{ $attr->attribute_name }}: {{ $attr->attribute_value }}@if(!$loop->last), @endif
                                                                                 @endforeach
-                                                                            </p>
-                                                                        </h6>
-                                                                        @php
-                                                                            $subtotal = null;
-                                                                            $default_shipping_cost = null;
-                                                                        @endphp
-
-                                                                        <p class="order__item__product__span mt-2">
-                                                                            <span class="order__item__product__span__left">
-                                                                                {{ __('Sold By:') }}
-                                                                            </span>
-                                                                            <span
-                                                                                class="order__item__product__span__right">
+                                                                            </small>
+                                                                            <small class="d-block mt-1">
+                                                                                <span class="fw-semibold">{{ __('Sold By:') }}</span>
                                                                                 {{ $order->vendor?->business_name ?? $adminShopManage?->store_name }}
-                                                                            </span>
-                                                                        </p>
+                                                                            </small>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <p class="d-flex product-items text-center">
+                                                                </td>
+                                                                <td class="text-center">
                                                                     {{ $orderItem->quantity ?? '0' }}
-                                                                </p>
-                                                                <div class="d-flex gap-2">
-                                                                    <s class="checkout-cart-price">
+                                                                </td>
+                                                                <td class="text-end">
+                                                                    <s class="text-muted d-block small">
                                                                         {{ amount_with_currency_symbol($orderItem->sale_price) }}
                                                                     </s>
-                                                                    <strong class="color-heading">
+                                                                    <strong class="text-dark">
                                                                         {{ amount_with_currency_symbol($orderItem->price) }}
                                                                     </strong>
-                                                                </div>
-                                                            </div>
+                                                                </td>
+                                                            </tr>
                                                             @php
-                                                                $subtotal +=
-                                                                    $orderItem->sale_price * $orderItem->quantity;
-                                                                $itemsTotal +=
-                                                                    $orderItem->sale_price * $orderItem->quantity;
+                                                                $subtotal += $orderItem->sale_price * $orderItem->quantity;
+                                                                $itemsTotal += $orderItem->sale_price * $orderItem->quantity;
                                                             @endphp
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                                <div class="order__item__footer">
-                                                    @if ($order->order_status === 'order_cancelled')
-                                                        <h4 class="py-2 text-danger text-center pt-4">
-                                                            {{ __('This order is cancelled by the seller') }}
-                                                        </h4>
-                                                    @else
-                                                        <div class="order__item__estimate">
-                                                            <div
-                                                                class="order__item__estimate__single d-flex justify-content-between">
-                                                                <span>
-                                                                    {{ __('Sub Total') }}
-                                                                </span>
-                                                                <strong id="vendor_subtotal">
-                                                                    {{ float_amount_with_currency_symbol($payment_details->paymentMeta?->sub_total) }}
-                                                                </strong>
-                                                            </div>
-                                                            <div
-                                                                class="order__item__estimate__single d-flex justify-content-between">
-                                                                <span>
-                                                                    {{ __('Discount Amount') }}
-                                                                </span>
-                                                                <strong id="vendor_tax_amount">
-                                                                    {{ float_amount_with_currency_symbol($payment_details->paymentMeta?->coupon_amount) }}
-                                                                </strong>
-                                                            </div>
-                                                            <div
-                                                                class="order__item__estimate__single d-flex justify-content-between">
-                                                                <span>
-                                                                    {{ __('Tax Amount') }}
-                                                                </span>
-                                                                <strong id="vendor_tax_amount">
-                                                                    {{ float_amount_with_currency_symbol($payment_details->paymentMeta?->tax_amount) }}
-                                                                </strong>
-                                                            </div>
-                                                            <div
-                                                                class="order__item__estimate__single d-flex justify-content-between">
-                                                                <span>
-                                                                    {{ __('Cost Summary') }}
-                                                                </span>
-                                                                <strong id="vendor_shipping_cost">
-                                                                    {{ float_amount_with_currency_symbol($payment_details->paymentMeta?->shipping_cost) }}
-                                                                </strong>
-                                                            </div>
-                                                            <div
-                                                                class="order__item__estimate__single d-flex justify-content-between">
-                                                                <span>
-                                                                    {{ __('Total') }}
-                                                                </span>
-                                                                <strong id="vendor_total">
-                                                                    {{ float_amount_with_currency_symbol($payment_details->paymentMeta?->total_amount) }}
-                                                                </strong>
-                                                            </div>
-                                                        </div>
-                                                    @endif
-                                                </div>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+
+                                                @if ($order->order_status === 'order_cancelled')
+                                                    <h4 class="py-2 text-danger text-center pt-4">
+                                                        {{ __('This order is cancelled by the seller') }}
+                                                    </h4>
+                                                @else
+                                                    <table class="table table-borderless mt-4 w-50 ms-auto">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>{{ __('Sub Total') }}</td>
+                                                                <td class="text-end">
+                                                                    <strong id="vendor_subtotal">
+                                                                        {{ float_amount_with_currency_symbol($payment_details->paymentMeta?->sub_total) }}
+                                                                    </strong>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>{{ __('Discount Amount') }}</td>
+                                                                <td class="text-end">
+                                                                    <strong id="vendor_discount">
+                                                                        {{ float_amount_with_currency_symbol($payment_details->paymentMeta?->coupon_amount) }}
+                                                                    </strong>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>{{ __('Tax Amount') }}</td>
+                                                                <td class="text-end">
+                                                                    <strong id="vendor_tax_amount">
+                                                                        {{ float_amount_with_currency_symbol($payment_details->paymentMeta?->tax_amount) }}
+                                                                    </strong>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>{{ __('Cost Summary') }}</td>
+                                                                <td class="text-end">
+                                                                    <strong id="vendor_shipping_cost">
+                                                                        {{ float_amount_with_currency_symbol($payment_details->paymentMeta?->shipping_cost) }}
+                                                                    </strong>
+                                                                </td>
+                                                            </tr>
+                                                            <tr class="border-top">
+                                                                <td class="fw-bold">{{ __('Total') }}</td>
+                                                                <td class="text-end fw-bold text-success">
+                                                                    <strong id="vendor_total">
+                                                                        {{ float_amount_with_currency_symbol($payment_details->paymentMeta?->total_amount) }}
+                                                                    </strong>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                @endif
                                             </div>
                                         </div>
+
+                                        <style>
+                                            .table th, .table td {
+                                                vertical-align: middle;
+                                            }
+                                            .table th {
+                                                font-weight: 600;
+                                            }
+                                            .checkout-cart-thumb img {
+                                                border-radius: 5px;
+                                            }
+                                        </style>
+
                                     @endforeach
                                 </div>
                             </div>

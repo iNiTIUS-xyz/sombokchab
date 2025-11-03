@@ -172,7 +172,7 @@
                                         <div class="form-group">
                                             <label class="label-title mb-2">
                                                 {{ __('Email') }}
-                                                <span class="text-danger">*</span>
+                                                {{-- <span class="text-danger">*</span> --}}
                                             </label>
                                             <input name="email" id="email" type="text"
                                                 class="form--control radius-10" placeholder="{{ __('Email') }}" />

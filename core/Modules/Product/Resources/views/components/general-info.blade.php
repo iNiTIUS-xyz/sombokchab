@@ -11,15 +11,26 @@
     <div class="dashboard__card__body custom__form general-info-form">
         <form action="#">
             <div class="row g-3 mt-2">
-                <div class="col-sm-12">
+                <div class="col-sm-6">
                     <div class="dashboard-input">
                         <label class="dashboard-label color-light mb-2">
-                            {{ __('Name') }}
+                            {{ __('Name (English)') }}
                             <span class="text-danger">*</span>
                         </label>
                         <input type="text" class="form--control radius-10 form-control is-invalid" id="product-name"
                             value="{{ $product?->name ?? '' }}" name="name" aria-describedby="product-name-error"
-                            required placeholder="{{ __('Enter product Name') }}">
+                            required placeholder="{{ __('Enter product name in English') }}">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="dashboard-input">
+                        <label class="dashboard-label color-light mb-2">
+                            {{ __('ឈ្មោះ (ខ្មែរ)') }}
+                            <span class="text-danger">*</span>
+                        </label>
+                        <input type="text" class="form--control radius-10 form-control is-invalid" id="product-name"
+                            value="{{ $product?->name ?? '' }}" name="name" aria-describedby="product-name-error"
+                            required placeholder="{{ __('បញ្ចូលឈ្មោះផលិតផលជាភាសាខ្មែរ') }}">
                     </div>
                 </div>
                 <div class="col-sm-12">
@@ -33,24 +44,45 @@
                             placeholder="{{ __('Enter product slug') }}">
                     </div>
                 </div>
-                <div class="col-sm-12">
+                <div class="col-sm-6">
                     <div class="dashboard-input">
                         <label class="dashboard-label color-light mb-2">
-                            {{ __('Short Description') }}
+                            {{ __('Short Description (English)') }}
                             <span class="text-danger">*</span>
                         </label>
                         <textarea style="height: 120px" class="form--control form--message  radius-10 form-control is-invalid" name="summery"
-                            required placeholder="{{ __('Enter Short Description') }}">{{ $product?->summary ?? '' }}</textarea>
+                            required placeholder="{{ __('Enter short description in English') }}">{{ $product?->summary ?? '' }}</textarea>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="dashboard-input">
+                        <label class="dashboard-label color-light mb-2">
+                            {{ __('ការពិពណ៌នាសង្ខេប (ភាសាខ្មែរ)') }}
+                            <span class="text-danger">*</span>
+                        </label>
+                        <textarea style="height: 120px" class="form--control form--message  radius-10 form-control is-invalid" name="summery"
+                            required placeholder="{{ __('បញ្ចូលការពិពណ៌នាខ្លីជាភាសាខ្មែរ') }}">{{ $product?->summary ?? '' }}</textarea>
                     </div>
                 </div>
                 <div class="col-sm-12">
                     <div class="dashboard-input">
                         <label class="dashboard-label color-light mb-2">
-                            {{ __('Description') }}
+                            {{ __('Description (English)') }}
                             <span class="text-danger">*</span>
                         </label>
                         <textarea class="form--control summernote radius-10 form-control is-invalid" name="description"
-                            placeholder="{{ __('Type Description') }}" required>{!! $product?->description !!}</textarea>
+                            placeholder="{{ __('Type description in English') }}" required>{!! $product?->description !!}</textarea>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="dashboard-input">
+                        <label class="dashboard-label color-light mb-2">
+                            {{ __('ការពិពណ៌នា (ខ្មែរ)') }}
+                            <span class="text-danger">*</span>
+                        </label>
+                        <textarea class="form--control summernote radius-10 form-control is-invalid" name="description"
+                            placeholder="{{ __('វាយពណ៌នាជាភាសាខ្មែរ') }}" required>{!! $product?->description !!}</textarea>
                     </div>
                 </div>
                 <div class="col-sm-12">

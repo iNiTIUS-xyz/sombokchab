@@ -60,7 +60,8 @@
                                 <div class="col-md-12 mb-4">
                                     <div class="btn-wrapper">
                                         <button type="submit" class="cmn_btn btn_bg_1 btn-success">
-                                            {{ get_static_option('support_ticket_button_text') }}
+                                            {{-- {{ get_static_option('support_ticket_button_text') }} --}}
+                                            Submit
                                         </button>
                                         <a href="{{ route('vendor.support.ticket.all') }}"
                                             class="cmn_btn default-theme-btn"

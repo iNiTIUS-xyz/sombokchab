@@ -1444,7 +1444,7 @@
                                                 <span class="flash-old-prices">${site_currency_symbol + product.price}</span>
                                             </div>
                                             <span class="${product.stock_count > 0 ? 'stock-in' : 'stock-out'}">
-                                                ${product.stock_count > 0 ? 'In Stock' : 'Sold Out'}
+                                                ${product.stock_count > 0 ? 'In Stock' : 'Out of Stock'}
                                             </span>
                                             </div>
                                         </div>

@@ -47,7 +47,7 @@
                 @if ($stock_count > 0)
                     <span class="availability">{{ __('In stock') }} ({{ $stock_count }})</span>
                 @else
-                    <span class="availability text-danger">{{ __('Sold out') }} ({{ $stock_count }})</span>
+                    <span class="availability text-danger">{{ __('Out of Stock') }} ({{ $stock_count }})</span>
                 @endif
             </div>
             <div class="ratings">

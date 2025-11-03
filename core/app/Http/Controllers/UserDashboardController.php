@@ -328,7 +328,9 @@ class UserDashboardController extends Controller
             return redirect()->route('homepage');
         }
         $all_country = Country::where('status', 'publish')->get();
-        $all_shipping_address = ShippingAddress::where('user_id', getUserByGuard('web')->id)->get();
+        $all_shipping_address = ShippingAddress::where('user_id', getUserByGuard('web')->id)
+        ->orderBy('created_at', 'desc')
+        ->get();
 
         return view(self::BASE_PATH . 'shipping.all', compact('all_shipping_address', 'all_country'));
     }
