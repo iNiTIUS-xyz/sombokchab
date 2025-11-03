@@ -448,6 +448,7 @@
             font-weight: 400;
             color: var(--heading-color);
         }
+
         .only-img-page-wrapper.cart .img-box img {
             height: 100%;
         }
@@ -459,33 +460,44 @@
         }
 
 
-      /* store color settings   */
+        /* store color settings   */
         .vendor-superMarket-para {
             color: {{ $vendor?->vendor_shop_info?->colors['store_paragraph_color'] ?? 'var(--light-color)' }};
         }
+
         .section-title .title {
             color: {{ $vendor?->vendor_shop_info?->colors['store_heading_color'] ?? 'var(--heading-color)' }};
         }
-        .section-title .title .title-color{
+
+        .section-title .title .title-color {
             color: {{ $vendor?->vendor_shop_info?->colors['store_color'] ?? 'var(--main-color-one)' }};
         }
+
         .btn-wrapper .cmn-btn.btn-bg-2 {
             background: {{ $vendor?->vendor_shop_info?->colors['store_secondary_color'] ?? 'var(--main-color-two)' }};
             border: 2px solid {{ $vendor?->vendor_shop_info?->colors['store_secondary_color'] ?? 'var(--main-color-two)' }};
         }
+
         .vendor-banner-contents-title {
             color: {{ $vendor?->vendor_shop_info?->colors['store_heading_color'] ?? '#fff' }};
         }
+
         .vendor-superMarket-title {
             color: {{ $vendor?->vendor_shop_info?->colors['store_heading_color'] ?? 'var(--heading-color)' }};
         }
-        .vendor-product-isotope .list.active, .vendor-product-isotope .list:hover {
+
+        .vendor-product-isotope .list.active,
+        .vendor-product-isotope .list:hover {
             background-color: {{ $vendor?->vendor_shop_info?->colors['store_secondary_color'] ?? 'var(--main-color-one)' }};
         }
-        .append-popularProduct .prev-icon, .append-popularProduct .next-icon {
+
+        .append-popularProduct .prev-icon,
+        .append-popularProduct .next-icon {
             background-color: {{ $vendor?->vendor_shop_info?->colors['store_secondary_color'] ?? 'rgba(var(--main-color-one-rgb), 0.6)' }};
         }
-        .append-popularProduct .prev-icon:hover, .append-popularProduct .next-icon:hover {
+
+        .append-popularProduct .prev-icon:hover,
+        .append-popularProduct .next-icon:hover {
             background-color: {{ $vendor?->vendor_shop_info?->colors['store_color'] ?? 'var(--main-color-two)' }};
         }
     </style>
@@ -502,7 +514,7 @@
     </div>
     <!-- Vendor Banner area end -->
 
-    @if($vendor->product_count < 1)
+    @if ($vendor->product_count < 1)
         <div class="cart-page-wrapper padding-top-20 padding-bottom-20">
             <x-frontend.page.empty :image="get_static_option('empty_cart_image')" :text="__('No products found for this vendor!')" />
         </div>
@@ -511,7 +523,7 @@
         <section class="vendor-superMarker-area padding-top-20 padding-bottom-20">
             <div class="vendor-superMarket-shape">
                 {!! render_image($vendor->logo) !!}
-                <x-badges.store-verify-badge :vendorStatus="$vendor->status_id"/>
+                <x-badges.store-verify-badge :vendorStatus="$vendor->status_id" />
             </div>
             <div class="container">
                 <div class="row">
@@ -555,7 +567,8 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="section-title text-left">
-                            <h2 class="title">{{ __('Our Popular') }} <span class="title-color">{{ __('Product') }}</span>
+                            <h2 class="title">{{ __('Our Popular') }} <span
+                                    class="title-color">{{ __('Product') }}</span>
                             </h2>
                             <div class="append-popularProduct"></div>
                         </div>
@@ -565,9 +578,8 @@
                     <div class="col-lg-12">
                         <div class="global-slick-init slider-inner-margin" data-appendArrows=".append-popularProduct"
                             data-infinite="true" data-arrows="true" data-dots="false" data-slidesToShow="4"
-                            data-swipeToSlide="true"
-                             data-rtl="{{get_user_lang_direction() == 'rtl' ? 'true' : 'false'}}"
-                             data-autoplay="false" data-autoplaySpeed="2500"
+                            data-swipeToSlide="true" data-rtl="{{ get_user_lang_direction() == 'rtl' ? 'true' : 'false' }}"
+                            data-autoplay="false" data-autoplaySpeed="2500"
                             data-prevArrow='<div class="prev-icon"><i class="las la-angle-left"></i></div>'
                             data-nextArrow='<div class="next-icon"><i class="las la-angle-right"></i></div>'
                             data-responsive='[{"breakpoint": 1600,"settings": {"slidesToShow": 4}},{"breakpoint": 1200,"settings": {"slidesToShow": 3}},{"breakpoint": 992,"settings": {"slidesToShow": 2}},{"breakpoint": 576, "settings": {"slidesToShow": 1} }]'>
@@ -580,150 +592,151 @@
                 </div>
             </div>
         </section>
-        <!-- Vendor Popular Porduct area end -->
 
-    <!-- Vendor All Product area Start -->
-    <section class="vendor-all-product-area padding-top-50 padding-bottom-50">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="section-title text-center">
-                        <h2 class="title">{{ __('Our All') }} <span class="title-color">{{ __('Product') }}</span></h2>
+        <section class="vendor-all-product-area padding-top-50 padding-bottom-50">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="section-title text-center">
+                            <h2 class="title">{{ __('Our All') }} <span class="title-color">{{ __('Product') }}</span>
+                            </h2>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Filter Tabs -->
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="product-list mt-4">
-                        <ul class="isootope-button vendor-product-isotope">
-                            <li class="list active" data-filter="*">{{ __("All Product") }}</li>
-                            @foreach($ourAllProducts as $category)
-                                <li class="list" data-filter=".{{ $category->slug }}">{{ $category->name }}</li>
-                            @endforeach
-                        </ul>
+                <!-- Filter Tabs -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="product-list mt-4">
+                            <ul class="isootope-button vendor-product-isotope">
+                                <li class="list active" data-filter="*">{{ __('All Product') }}</li>
+                                @foreach ($ourAllProducts as $category)
+                                    <li class="list" data-filter=".{{ $category->slug }}">{{ $category->name }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Products Grid -->
-            <div class="imageloaded">
-                <div class="row grid mt-4">
-                    @foreach ($ourAllProducts as $category)
-                        @foreach ($category->product as $product)
-                            @php
-                                $attributes = $product?->inventory_detail_count ?? null;
-                                $campaign_product = $product->campaign_product ?? null;
-                                $campaignProductEndDate = $product->campaign->end_date ?? ($product->campaign->end_date->end_date ?? '');
-                                $sale_price = $campaign_product ? optional($campaign_product)->campaign_price : $product->sale_price;
-                                $deleted_price = !is_null($campaign_product) ? $product->sale_price : $product->price;
-                                $campaign_percentage = !is_null($campaign_product) ? getPercentage($product->sale_price, $sale_price) : false;
-                                $campaignSoldCount = $product?->campaign_sold_product;
-                                $stock_count = $campaign_product
-                                    ? $campaign_product->units_for_sale - optional($campaignSoldCount)->sold_count ?? 0
-                                    : optional($product->inventory)->stock_count;
-                                $stock_count = $stock_count > (int) get_static_option('product_in_stock_limit_set') ?? 0 ? $stock_count : 0;
-                            @endphp
+                <!-- Products Grid -->
+                <div class="imageloaded">
+                    <div class="row grid mt-4">
+                        @foreach ($ourAllProducts as $category)
+                            @foreach ($category->product as $product)
+                                @php
+                                    $attributes = $product?->inventory_detail_count ?? null;
+                                    $campaign_product = $product->campaign_product ?? null;
+                                    $campaignProductEndDate =
+                                        $product->campaign->end_date ?? ($product->campaign->end_date->end_date ?? '');
+                                    $sale_price = $campaign_product
+                                        ? optional($campaign_product)->campaign_price
+                                        : $product->sale_price;
+                                    $deleted_price = !is_null($campaign_product)
+                                        ? $product->sale_price
+                                        : $product->price;
+                                    $campaign_percentage = !is_null($campaign_product)
+                                        ? getPercentage($product->sale_price, $sale_price)
+                                        : false;
+                                    $campaignSoldCount = $product?->campaign_sold_product;
+                                    // $stock_count = $campaign_product ? $campaign_product->units_for_sale - optional($campaignSoldCount)->sold_count ?? 0 : optional($product->inventory)->stock_count;
+                                    // $stock_count = $stock_count > (int) get_static_option('product_in_stock_limit_set') ?? 0 ? $stock_count : 0;
 
-                            <!-- Each Product -->
-                            <div class="col-md-3 col-sm-6 mt-4 grid-item {{ $category->slug }} wow fadeInUp"
-                                data-wow-delay=".{{ $loop->iteration }}s">
-                                <div class="product__card my-3">
-                                    @if ($campaign_percentage)
-                                        <div class="product__offer">
-                                            <span class="product__offer__para">{{ round($campaign_percentage) }}% {{ __('Off') }}</span>
-                                        </div>
-                                    @endif
+                                    $stock_count = optional($product->inventory)->stock_count;
+                                @endphp
 
-                                    <div class="product__card__thumb">
-                                        <a href="{{ route('frontend.products.single', $product->slug) }}">
-                                            {!! render_image($product->image) !!}
-                                        </a>
-                                        @if ($product->ratings_count > 0)
-                                            <div class="product__card__review radius-5">
-                                                <span class="product__card__review__icon"><i class="las la-star"></i></span>
-                                                <x-product::frontend.common.rating-markup 
-                                                    :rating-count="$product->ratings_count" 
-                                                    :avg-rattings="$product->ratings_avg_rating ?? 0" />
+                                <!-- Each Product -->
+                                <div class="col-md-3 col-sm-6 mt-4 grid-item {{ $category->slug }} wow fadeInUp"
+                                    data-wow-delay=".{{ $loop->iteration }}s">
+                                    <div class="product__card my-3">
+                                        @if ($campaign_percentage)
+                                            <div class="product__offer">
+                                                <span class="product__offer__para">{{ round($campaign_percentage) }}%
+                                                    {{ __('Off') }}</span>
                                             </div>
                                         @endif
-                                    </div>
 
-                                    <div class="product__card__contents mt-3">
-                                        <h6 class="product__card__contents__title mt-2">
+                                        <div class="product__card__thumb">
                                             <a href="{{ route('frontend.products.single', $product->slug) }}">
-                                                {{ Str::limit($product->name, 25, '...') }}
+                                                {!! render_image($product->image) !!}
                                             </a>
-                                        </h6>
-
-                                        <div class="product__price mt-2">
-                                            <span class="product__price__current color-two">
-                                                {{ float_amount_with_currency_symbol(calculatePrice($sale_price, $product)) }}
-                                            </span>
-                                            <s class="product__price__old">
-                                                {{ $deleted_price ? float_amount_with_currency_symbol(calculatePrice($deleted_price, $product)) : '' }}
-                                            </s>
+                                            @if ($product->ratings_count > 0)
+                                                <div class="product__card__review radius-5">
+                                                    <span class="product__card__review__icon"><i
+                                                            class="las la-star"></i></span>
+                                                    <x-product::frontend.common.rating-markup :rating-count="$product->ratings_count"
+                                                        :avg-rattings="$product->ratings_avg_rating ?? 0" />
+                                                </div>
+                                            @endif
                                         </div>
 
-                                        <div class="product__card__cart mt-3">
-                                            @if (isset($attributes) && $attributes > 0)
-                                                <a data-type="text" 
-                                                data-old-text="{{ __('View Details') }}" 
-                                                title="View Details"
-                                                data-action-route="{{ route('frontend.products.single-quick-view', $product->slug) }}"
-                                                data-attributes="{{ $product->attributes }}" 
-                                                data-id="{{ $product->id }}"
-                                                class="product__card__cart__btn radius-30 product-quick-view-ajax {{ $class ?? '' }}">
-                                                    {{ __('View Details') }}
+                                        <div class="product__card__contents mt-3">
+                                            <h6 class="product__card__contents__title mt-2">
+                                                <a href="{{ route('frontend.products.single', $product->slug) }}">
+                                                    {{ Str::limit($product->name, 25, '...') }}
                                                 </a>
-                                            @else
-                                                <a data-type="text" 
-                                                data-old-text="{{ __('Add to Cart') }}" 
-                                                href="#1" 
-                                                title="Add to cart"
-                                                data-attributes="{{ $product->attribute }}" 
-                                                data-id="{{ $product->id }}"
-                                                class="product__card__cart__outline radius-30 add_to_cart_ajax {{ $class ?? '' }}">
-                                                    {{ __('Add to Cart') }}
-                                                </a>
-                                            @endif
+                                            </h6>
 
-                                            <div class="product__card__cart__right">
-                                                <a href="javascript:void(0)" 
-                                                data-id="{{ $product->id }}" 
-                                                title="Add To compare"
-                                                class="{{ $class ?? '' }} product__card__cart__btn__icon cart-loading icon add_to_compare_ajax">
-                                                    <i class="las la-retweet"></i>
-                                                </a>
-
+                                            <div class="product__price mt-2">
+                                                <span class="product__price__current color-two">
+                                                    {{ float_amount_with_currency_symbol(calculatePrice($sale_price, $product)) }}
+                                                </span>
+                                                <s class="product__price__old">
+                                                    {{ $deleted_price ? float_amount_with_currency_symbol(calculatePrice($deleted_price, $product)) : '' }}
+                                                </s>
+                                            </div>
+                                            <div class="product__card__cart mt-3">
                                                 @if (isset($attributes) && $attributes > 0)
-                                                    <a title="View Details"
-                                                    class="{{ $class ?? '' }} product-quick-view-ajax favourite icon cart-loading product__card__cart__btn__icon"
-                                                    href="#1"
-                                                    data-action-route="{{ route('frontend.products.single-quick-view', $product->slug) }}">
-                                                        <i class="lar la-save"></i>
+                                                    <a data-type="text" data-old-text="{{ __('View Details') }}"
+                                                        title="View Details"
+                                                        data-action-route="{{ route('frontend.products.single-quick-view', $product->slug) }}"
+                                                        data-attributes="{{ $product->attributes }}"
+                                                        data-id="{{ $product->id }}"
+                                                        class="product__card__cart__btn radius-30 product-quick-view-ajax {{ $class ?? '' }}">
+                                                        {{ __('View Details') }}
                                                     </a>
                                                 @else
-                                                    <a href="#1" 
-                                                    data-id="{{ $product->id }}" 
-                                                    title="Save for later"
-                                                    class="{{ $class ?? '' }} add_to_wishlist_ajax icon cart-loading product__card__cart__btn__icon">
-                                                        <i class="lar la-save"></i>
+                                                    <a data-type="text" data-old-text="{{ __('Add to Cart') }}"
+                                                        href="#1" title="Add to cart"
+                                                        data-attributes="{{ $product->attribute }}"
+                                                        data-id="{{ $product->id }}"
+                                                        class="product__card__cart__outline radius-30 add_to_cart_ajax {{ $class ?? '' }}">
+                                                        {{ __('Add to Cart') }}
                                                     </a>
                                                 @endif
+
+                                                <div class="product__card__cart__right">
+                                                    <a href="javascript:void(0)" data-id="{{ $product->id }}"
+                                                        title="Add To compare"
+                                                        class="{{ $class ?? '' }} product__card__cart__btn__icon cart-loading icon add_to_compare_ajax">
+                                                        <i class="las la-retweet"></i>
+                                                    </a>
+
+                                                    @if (isset($attributes) && $attributes > 0)
+                                                        <a title="View Details"
+                                                            class="{{ $class ?? '' }} product-quick-view-ajax favourite icon cart-loading product__card__cart__btn__icon"
+                                                            href="#1"
+                                                            data-action-route="{{ route('frontend.products.single-quick-view', $product->slug) }}">
+                                                            <i class="lar la-save"></i>
+                                                        </a>
+                                                    @else
+                                                        <a href="#1" data-id="{{ $product->id }}"
+                                                            title="Save for later"
+                                                            class="{{ $class ?? '' }} add_to_wishlist_ajax icon cart-loading product__card__cart__btn__icon">
+                                                            <i class="lar la-save"></i>
+                                                        </a>
+                                                    @endif
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endforeach
                         @endforeach
-                    @endforeach
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
-    <!-- Vendor All Product area end -->
+        </section>
+        <!-- Vendor All Product area end -->
 
 
         @if (!$vendorCampaigns->isEmpty())
@@ -774,14 +787,15 @@
 
 
         <!-- vendor location -->
-        @if(!empty($vendor->vendor_address?->google_map_location))
+        @if (!empty($vendor->vendor_address?->google_map_location))
             <section class="vendor-superMarker-area padding-top-50 padding-bottom-50">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="section-title-countdown">
                                 <div class="section-title text-left">
-                                    <h2 class="title">{{ __('Store') }} <span class="title-color">{{ __('Location') }}</span></h2>
+                                    <h2 class="title">{{ __('Store') }} <span
+                                            class="title-color">{{ __('Location') }}</span></h2>
                                 </div>
                             </div>
                         </div>
@@ -790,8 +804,9 @@
                         <div class="col-lg-12">
                             <div class="vendor-superMarket mt-5">
                                 <div class="vendor-superMarket-flex">
-                                     <iframe src="{{$vendor->vendor_address?->google_map_location}}"
-                                            width="1296" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                                    <iframe src="{{ $vendor->vendor_address?->google_map_location }}" width="1296"
+                                        height="400" style="border:0;" allowfullscreen="" loading="lazy"
+                                        referrerpolicy="no-referrer-when-downgrade">
                                     </iframe>
                                 </div>
                             </div>
@@ -808,7 +823,7 @@
         </div>
         <!-- back to top area end -->
     @endif
-    
+
 @endsection
 
 @section('script')

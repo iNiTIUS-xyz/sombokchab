@@ -52,7 +52,7 @@ class FrontendProductController extends Controller
         $products = Product::whereIn('id', array_keys($db_order_details))->get();
         $user_shipping_address = getUserShippingAddress($order_details->shipping_address_id);
         $customPaper = array(0, 0, 1280, 720);
-        // 
+        //
 
         //        return view('frontend.partials.product.pdf', compact('order_details', 'products', 'user_shipping_address'));
 

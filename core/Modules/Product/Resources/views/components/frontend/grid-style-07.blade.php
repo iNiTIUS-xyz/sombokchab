@@ -6,10 +6,12 @@
     $deleted_price = !is_null($campaign_product) ? $product->sale_price : $product->price;
     $campaign_percentage = !is_null($campaign_product) ? getPercentage($product->sale_price, $sale_price) : false;
     $campaignSoldCount = $product?->campaign_sold_product;
-    $stock_count = $campaign_product
-        ? $campaign_product->units_for_sale - optional($campaignSoldCount)->sold_count ?? 0
-        : optional($product->inventory)->stock_count;
-    $stock_count = $stock_count > (int) get_static_option('product_in_stock_limit_set') ?? 0 ? $stock_count : 0;
+    // $stock_count = $campaign_product
+    //     ? $campaign_product->units_for_sale - optional($campaignSoldCount)->sold_count ?? 0
+    //     : optional($product->inventory)->stock_count;
+    // $stock_count = $stock_count > (int) get_static_option('product_in_stock_limit_set') ?? 0 ? $stock_count : 0;
+
+    $stock_count = optional($product->inventory)->stock_count;
     $filter = $filter ?? false;
 @endphp
 
@@ -29,9 +31,7 @@
             @if ($product->ratings_count > 0)
                 <div class="product__card__review radius-5">
                     <span class="product__card__review__icon"><i class="las la-star"></i></span>
-                    <x-product::frontend.common.rating-markup 
-                        :rating-count="$product->ratings_count" 
-                        :avg-rattings="$product->ratings_avg_rating ?? 0" />
+                    <x-product::frontend.common.rating-markup :rating-count="$product->ratings_count" :avg-rattings="$product->ratings_avg_rating ?? 0" />
                 </div>
             @endif
         </div>
@@ -55,9 +55,7 @@
             <div class="product__card__cart mt-3">
                 @if ($stock_count <= 0)
                     {{-- Out of Stock --}}
-                    <button type="button" 
-                        class="product__card__cart__outline radius-30 out-of-stock-btn" 
-                        disabled>
+                    <button type="button" class="product__card__cart__outline radius-30 out-of-stock-btn" disabled>
                         {{ __('Out of Stock') }}
                     </button>
                 @else
@@ -80,10 +78,8 @@
                 <div class="product__card__cart__right">
                     @if ($stock_count <= 0)
                         {{-- Disabled Compare for Out of Stock --}}
-                        <button type="button" 
-                            class="product__card__cart__btn__icon out-of-stock-btn" 
-                            title="Unavailable" 
-                            disabled>
+                        <button type="button" class="product__card__cart__btn__icon out-of-stock-btn"
+                            title="Unavailable" disabled>
                             <i class="las la-retweet"></i>
                         </button>
                     @else
@@ -100,12 +96,10 @@
                             <i class="lar la-save"></i>
                         </a>
                     @else
-                        
-                            <a href="#1" data-id="{{ $product->id }}" title="Save for Later"
-                                class="{{ $class ?? '' }} add_to_wishlist_ajax icon cart-loading product__card__cart__btn__icon">
-                                <i class="lar la-save"></i>
-                            </a>
-                        
+                        <a href="#1" data-id="{{ $product->id }}" title="Save for Later"
+                            class="{{ $class ?? '' }} add_to_wishlist_ajax icon cart-loading product__card__cart__btn__icon">
+                            <i class="lar la-save"></i>
+                        </a>
                     @endif
                 </div>
             </div>
