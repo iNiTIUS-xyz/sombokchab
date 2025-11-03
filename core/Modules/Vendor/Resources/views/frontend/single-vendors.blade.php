@@ -706,7 +706,7 @@
 
                                                 <div class="product__card__cart__right">
                                                     <a href="javascript:void(0)" data-id="{{ $product->id }}"
-                                                        title="Add To compare"
+                                                        title="Add to compare"
                                                         class="{{ $class ?? '' }} product__card__cart__btn__icon cart-loading icon add_to_compare_ajax">
                                                         <i class="las la-retweet"></i>
                                                     </a>

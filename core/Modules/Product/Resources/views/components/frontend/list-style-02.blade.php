@@ -6,10 +6,11 @@
     $deleted_price = !is_null($campaign_product) ? $product?->sale_price : $product->price;
     $campaign_percentage = !is_null($campaign_product) ? getPercentage($product?->sale_price, $sale_price) : false;
     $campaignSoldCount = $product?->campaign_sold_product;
-    $stock_count = $campaign_product
-        ? $campaign_product->units_for_sale - optional($campaignSoldCount)->sold_count ?? 0
-        : optional($product->inventory)->stock_count;
-    $stock_count = $stock_count > (int) get_static_option('product_in_stock_limit_set') ?? 0 ? $stock_count : 0;
+    // $stock_count = $campaign_product
+    //     ? $campaign_product->units_for_sale - optional($campaignSoldCount)->sold_count ?? 0
+    //     : optional($product->inventory)->stock_count;
+    // $stock_count = $stock_count > (int) get_static_option('product_in_stock_limit_set') ?? 0 ? $stock_count : 0;
+    $stock_count = optional($product->inventory)->stock_count;
     $rating_width = round(($product->ratings_avg_rating ?? 0) * 20);
     $isAllowBuyNow = $isAllowBuyNow ?? false;
 @endphp
@@ -23,7 +24,10 @@
                 {!! view('product::components.frontend.common.badge-and-discount', compact('product', 'campaign_percentage')) !!}
 
                 <ul class="flash-thumb-icons hover-color-two">
-                    {!! view('product::components.frontend.common.link-option', compact('product', 'attributes', 'isAllowBuyNow')) !!}
+                    {!! view(
+                        'product::components.frontend.common.link-option',
+                        compact('product', 'attributes', 'isAllowBuyNow', 'stock_count'),
+                    ) !!}
                 </ul>
             </div>
             <div class="flash-item-contents">

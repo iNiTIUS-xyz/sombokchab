@@ -285,7 +285,7 @@
                                                 class="las la-cart-arrow-down"></i> {{ __('Buy Now') }} </a>
                                         <a href="#1" data-id="{{ $product->id }}"
                                             class="btn-wishlist add_to_compare_single_page btn-details btn-buyNow mt-4">
-                                            <i class="las la-retweet"></i> {{ __('Add to Compare') }} </a>
+                                            <i class="las la-retweet"></i> {{ __('Add to compare') }} </a>
                                     </div>
                                 </div>
                                 <div class="shop-details-stock shop-border-top pt-4 mt-4">
