@@ -28,9 +28,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap5.min.css') }}">
 
     <link rel="stylesheet" href="{{ asset('assets/css/dataTables.min.css') }}">
-    {{--
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css"> --}}
-    <!-- animate -->
+
     <link rel="stylesheet" href="{{ asset('assets/css/animate.css') }}">
     <!-- slick carousel  -->
     <link rel="stylesheet" href="{{ asset('assets/css/slick.css') }}">
@@ -176,13 +174,8 @@
     <script src="{{ asset('assets/backend/js/fontawesome-iconpicker.min.js') }}"></script>
     <script src="{{ asset('assets/js/select2.min.js') }}"></script>
 
-    {{-- <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script> --}}
     <script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
-    {{--
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script> --}}
-    {{--
-    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script> --}}
-    <!-- main js -->
+
     <script src="{{ asset('assets/js/main.js') }}"></script>
 
     {!! Toastr::message() !!}

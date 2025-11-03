@@ -173,26 +173,28 @@
             })
         })(jQuery)
     </script>
-
-
-    {{-- <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script> --}}
     <script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
 
     <script>
         $(document).ready(function() {
-            // Initialize DataTable only if the table exists
             if ($('#dataTable').length) {
                 $('#dataTable').DataTable({
                     paging: true,
                     lengthChange: true,
                     searching: true,
                     ordering: true,
+                    order: [],
                     info: true,
                     autoWidth: false,
                     responsive: true,
                     language: {
-                        search: "Filter:"
-                    }
+                        search: "Filter:",
+                        paginate: {
+                            previous: "Prev",
+                            next: "Next"
+                        }
+                    },
+                    pagingType: "simple_numbers"
                 });
             }
         });
