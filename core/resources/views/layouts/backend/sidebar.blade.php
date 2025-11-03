@@ -183,9 +183,8 @@
                     </li>
                 @endcanany
 
-                {{--        if modile app Manage exists then allow those routes        --}}
                 @if (moduleExists('MobileApp'))
-                    @if (auth('admin')->user()->hasRole('Super Admin'))
+                    {{-- @if (auth('admin')->user()->hasRole('Super Admin'))
                         <li class="main_dropdown @if (request()->is(['admin-home/mobile-intro/*', 'admin-home/vendor-intro/*'])) active @endif">
                             <a href="#1" aria-expanded="true">
                                 <i class="ti-mobile"></i>
@@ -214,7 +213,7 @@
                                 </li>
                             </ul>
                         </li>
-                    @endif
+                    @endif --}}
 
                     @if (auth('admin')->user()->hasRole('Super Admin'))
                         <li class="main_dropdown @if (request()->is([
