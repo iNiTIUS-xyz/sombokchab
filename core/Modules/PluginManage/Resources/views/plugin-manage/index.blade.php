@@ -175,7 +175,7 @@
                                             data-status="{{ $plugin->status ? 1 : 0 }}"
                                             data-plugintype="{{ $plugin->category }}" data-plugin="{{ $plugin->name }}"
                                             class="pl-btn pl_active_deactive">
-                                            {{ $plugin->status ? __('Deactivate') : __('Activate') }}
+                                            {{ $plugin->status == 1 ? __('Activate') : __('Deactivate') }}
                                         </a>
 
                                         <a href="javascript:;" data-plugintype="{{ $plugin->category }}"

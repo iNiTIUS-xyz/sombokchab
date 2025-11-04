@@ -24,7 +24,7 @@
                 </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('FAQ Items') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('FAQ Management') }}</h4>
                         <div class="dashboard__card__header__right">
                             @can('faq-faq-bulk-action')
                                 <div class="bulk-delete-wrapper">
@@ -140,7 +140,7 @@
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
-                        <h5 class="modal-title">{{ __('Add FAQ Item') }}</h5>
+                        <h5 class="modal-title">{{ __('Add New FAQ') }}</h5>
                         <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
                     </div>
                     <form action="{{ route('admin.faq') }}" method="post" enctype="multipart/form-data">
@@ -176,7 +176,7 @@
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group mt-3">
-                                    <label for="status">{{ __('Status') }}</label>
+                                    <label for="status">{{ __('Publish Status') }}</label>
                                     <select name="status" id="status" class="form-control">
                                         <option value="publish">{{ __('Publish') }}</option>
                                         <option value="draft">{{ __('Unpublish') }}</option>
@@ -199,7 +199,7 @@
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
-                        <h5 class="modal-title">{{ __('Edit FAQ Item') }}</h5>
+                        <h5 class="modal-title">{{ __('Edit FAQ') }}</h5>
                         <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
                     </div>
                     <form action="{{ route('admin.faq.update') }}" id="faq_edit_modal_form" method="post">
@@ -232,7 +232,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="edit_status">
-                                    {{ __('Status') }}
+                                    {{ __('Publish Status') }}
                                 </label>
                                 <select name="status" id="edit_status" class="form-control">
                                     <option value="publish">{{ __('Publish') }}</option>
