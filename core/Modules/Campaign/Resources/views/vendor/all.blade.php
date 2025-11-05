@@ -46,9 +46,9 @@
                                                 <x-status-span :status="$campaign->status" />
                                             </td>
                                             <td>
-                                                <a class="btn btn-primary btn-xs mb-2 me-1" title="{{ __('View') }}"
+                                                <a class="btn btn-secondary btn-xs mb-2 me-1" title="{{ __('View') }}"
                                                     href="{{ route('frontend.products.campaign', ['id' => $campaign->id, 'slug' => $campaign->slug]) }}">
-                                                    <i class="ti-eye"></i>
+                                                    <i class="las la-file-invoice"></i>
                                                 </a>
 
                                                 <x-table.btn.edit :route="route('vendor.campaigns.edit', $campaign->id)" />

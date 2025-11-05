@@ -17,6 +17,18 @@
         #dataTable th {
             font-weight: 600;
         }
+
+
+        table.dataTable th.dt-type-numeric div.dt-column-header,
+        table.dataTable th.dt-type-numeric div.dt-column-footer,
+        table.dataTable th.dt-type-date div.dt-column-header,
+        table.dataTable th.dt-type-date div.dt-column-footer,
+        table.dataTable td.dt-type-numeric div.dt-column-header,
+        table.dataTable td.dt-type-numeric div.dt-column-footer,
+        table.dataTable td.dt-type-date div.dt-column-header,
+        table.dataTable td.dt-type-date div.dt-column-footer {
+            flex-direction: row !important;
+        }
     </style>
 @endsection
 
@@ -76,7 +88,7 @@
                                                 {{ __('Failed') }}
                                             </span>
                                         @elseif ($order->order->order_status == 'rejected')
-                                            <span class="badge px-2 py-1 bg-danger text-white">
+                                            <span class="badge px-2 py-1 bg-info text-white">
                                                 {{ __('Rejected') }}
                                             </span>
                                         @elseif ($order->order->order_status == 'canceled')
