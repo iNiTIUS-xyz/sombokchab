@@ -57,6 +57,7 @@ trait ProductGlobalTrait
             "vendor_id" => $user["type"] == "vendor" ? $user["id"] : null,
             "is_taxable" => $data["is_taxable"] ?? 0,
             "tax_class_id" => ($data["is_taxable"] ?? 0) == 1 ? $data["tax_class_id"] ?? null : null,
+            "created_at" => ($data["created_at"]),
         ];
     }
 
@@ -316,15 +317,15 @@ trait ProductGlobalTrait
     {
         $product = Product::query();
         if ($type == "edit") {
-            $product->with(["product_category", "uom", "gallery_images", "tag", "uom", "product_sub_category", "product_child_category", "image", "inventory", "delivery_option"]);
+            $product->with(["product_category", "uom", "gallery_images", "tag", "uom", "product_sub_category", "product_child_category", "image", "inventory", "delivery_option", "created_at"]);
         } elseif ($type == "single") {
-            $product->with(["category", "uom", "gallery_images", "tag", "uom", "subCategory", "childCategory", "image", "inventory", "delivery_option"]);
+            $product->with(["category", "uom", "gallery_images", "tag", "uom", "subCategory", "childCategory", "image", "inventory", "delivery_option", "created_at"]);
         } elseif ($type == "list") {
-            $product->with(["category", "uom", "subCategory", "childCategory", "brand", "badge", "image", "inventory"]);
+            $product->with(["category", "uom", "subCategory", "childCategory", "brand", "badge", "image", "inventory", "created_at"]);
         } elseif ($type == "search") {
-            $product->with(["category", "uom", "subCategory", "childCategory", "brand", "badge", "image", "inventory"]);
+            $product->with(["category", "uom", "subCategory", "childCategory", "brand", "badge", "image", "inventory", "created_at"]);
         } else {
-            $product = $product->with(["category", "subCategory", "childCategory", "brand", "badge", "image", "inventory"]);
+            $product = $product->with(["category", "subCategory", "childCategory", "brand", "badge", "image", "inventory", "created_at"]);
         }
 
         return $product;
@@ -664,7 +665,8 @@ trait ProductGlobalTrait
                     "status_id",
                     "image_id",
                     "brand_id",
-                    "product_status"
+                    "product_status",
+                    "created_at"
                 ])
                 ->with([
                     "brand:id,name",
