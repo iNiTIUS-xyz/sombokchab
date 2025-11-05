@@ -12,7 +12,7 @@
             <div class="col-lg-12">
                 <x-msg.error />
                 <x-msg.flash />
-                <div class="dashboard__card">
+                <div class="">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Your Wallet Withdrawals') }}</h4>
                     </div>
