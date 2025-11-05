@@ -41,7 +41,7 @@
                                             <td>{{ $history->sub_order_id ?? '' }}</td>
                                             </td>
                                             <td>
-                                                <span class="badge bg-{{ $history->type ? 'success' : 'warning' }}">
+                                                <span class="badge bg-{{ $history->type ? 'primary' : 'warning' }}">
                                                     {{ $history->type ? __('Incoming') : __('Outgoing') }}
                                                 </span>
                                             </td>

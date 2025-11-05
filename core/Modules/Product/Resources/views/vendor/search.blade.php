@@ -103,7 +103,7 @@
                     @endif
                 </td>
                 <td>
-                    {{ date('d-M-Y', strtotime($product->created_at)) }}
+                     {{ $product->created_at->format('M d, y') }}
                 </td>
                 <td data-label="Actions">
                     <div class="btn-group">

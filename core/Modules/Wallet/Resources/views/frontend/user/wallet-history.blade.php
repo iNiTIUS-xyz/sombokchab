@@ -75,7 +75,7 @@
                                         </td>
                                         <td>
                                             <span
-                                                class="badge bg-{{ $history->type == 4 || $history->type == 1 ? 'success' : ($history->type == 5 ? 'danger' : 'warning') }}">
+                                                class="badge bg-{{ $history->type == 4 || $history->type == 1 ? 'primary' : ($history->type == 5 ? 'danger' : 'warning') }}">
                                                 @if ($history->type == 4)
                                                     {{ __('Deposit') }}
                                                 @elseif($history->type == 5)
