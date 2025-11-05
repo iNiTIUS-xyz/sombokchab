@@ -213,7 +213,7 @@
                                             {{ $supportTickets['all_open_tickets']->count() }}
                                         </span>
                                         <span class="badge badge-custom">
-                                            Total Close Tickets:
+                                            Total Closed Tickets:
                                             {{ $supportTickets['all_close_tickets']->count() }}
                                         </span>
                                         <span class="badge badge-custom">

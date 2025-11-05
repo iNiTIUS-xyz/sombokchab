@@ -140,7 +140,7 @@
                     </a>
                     <ul class="collapse">
                         <li class="{{ Route::is('vendor.campaigns.all') ? 'active' : '' }}">
-                            <a href="{{ route('vendor.campaigns.all') }}">{{ __('Campaigns') }}</a>
+                            <a href="{{ route('vendor.campaigns.all') }}">{{ __('All Campaigns') }}</a>
                         </li>
 
                         <li class="{{ Route::is('vendor.campaigns.new') ? 'active' : '' }}">

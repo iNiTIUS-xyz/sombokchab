@@ -124,8 +124,8 @@
                                                         </a>
                                                     @endif
                                                     <a href="{{ route('vendor.support.ticket.view', $data->id) }}"
-                                                        class="btn btn-primary btn-xs" title="View Support Ticket">
-                                                        <i class="las la-eye"></i>
+                                                        class="btn btn-secondary btn-xs" title="View Support Ticket">
+                                                        <i class="las la-file-invoice"></i>
                                                     </a>
 
                                                     <x-delete-popover :url="route('vendor.support.ticket.delete', $data->id)" style="margin: 0px !important" />
@@ -144,9 +144,8 @@
 @endsection
 
 @section('script')
-    {{-- <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script> --}}
     <script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
-
+    <script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
     <script>
         $(document).ready(function() {
             if ($('#dataTable').length) {
@@ -159,17 +158,20 @@
                     autoWidth: false,
                     responsive: true,
                     language: {
-                        search: "Filter:"
+                        search: "Filter:",
+                        paginate: {
+                            previous: "Prev",
+                            next: "Next"
+                        }
                     },
-                    "order": [
-                        [1, "desc"]
-                    ],
-                    'columnDefs': [{
-                        'targets': 'no-sort',
-                        'orderable': false
-                    }]
+                    pagingType: "simple_numbers"
                 });
             }
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
 
             $(document).on('click', '.ticket_status_change', function(e) {
                 e.preventDefault();
