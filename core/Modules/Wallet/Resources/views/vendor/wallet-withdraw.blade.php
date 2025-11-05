@@ -74,7 +74,7 @@
                                     </div>
                                     <div class="orders-flex-content">
                                         <div class="contents">
-                                            <span class="order-para ff-rubik"> {{ __('Total Earning') }} </span>
+                                            <span class="order-para ff-rubik"> {{ __('Total Earnings') }} </span>
                                             <h2 class="order-titles">
                                                 {{ float_amount_with_currency_symbol($total_order_amount) }} </h2>
                                         </div>
@@ -100,7 +100,8 @@
                                                 <label>
                                                     {{ __('Withdraw Amount') }}
                                                     <small class="text-info">
-                                                        ( Minimum withdrawal amount is = ${{ get_static_option('minimum_withdraw_amount') }})
+                                                        ( Minimum withdrawal amount is =
+                                                        ${{ get_static_option('minimum_withdraw_amount') }})
                                                     </small>
                                                     <span class="text-danger">*</span>
                                                 </label>
