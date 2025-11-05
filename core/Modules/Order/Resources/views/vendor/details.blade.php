@@ -214,11 +214,11 @@
                         <table class="table table-responsive ">
                             <thead>
                                 <tr>
-                                    <th class="text-center">{{ __('Serial No.') }}</th>
-                                    <th class="texdt-center" style="width: 60px">{{ __('Image') }}</th>
-                                    <th class="text-center">{{ __('Info') }}</th>
-                                    <th class="text-center">{{ __('QTY') }}</th>
-                                    <th class="text-center">{{ __('Price') }}</th>
+                                    <th class="text-left">{{ __('Serial No.') }}</th>
+                                    <th class="text-left" style="width: 60px">{{ __('Image') }}</th>
+                                    <th class="text-left">{{ __('Information') }}</th>
+                                    <th class="text-left">{{ __('Quantity') }}</th>
+                                    <th class="text-left">{{ __('Price') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -228,10 +228,10 @@
                                         $variant = $subOrders->productVariant->find($item->variant_id);
                                     @endphp
 
-                                    <tr class="text-center">
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{!! render_image($product?->image, class: 'w-100 h-100') !!}</td>
-                                        <td>
+                                    <tr>
+                                        <td class="text-left">{{ $loop->iteration }}</td>
+                                        <td class="text-left">{!! render_image($product?->image, class: 'w-100 h-100') !!}</td>
+                                        <td class="text-left">
                                             <h6>{{ $product?->name }}</h6>
                                             @if ($variant)
                                                 <p>
@@ -248,10 +248,10 @@
                                                 </p>
                                             @endif
                                         </td>
-                                        <td>
+                                        <td class="text-left">
                                             {{ $item?->quantity }}
                                         </td>
-                                        <td>{{ float_amount_with_currency_symbol($item?->price) }}</td>
+                                        <td class="text-left">{{ float_amount_with_currency_symbol($item?->price) }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

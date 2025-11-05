@@ -106,7 +106,7 @@
                      {{ $product->created_at->format('M d, y') }}
                 </td>
                 <td data-label="Actions">
-                    <div class="btn-group">
+                    {{-- <div> --}}
                         {{-- <a href="{{ route('frontend.products.single', $product->slug) }}"
                             class="icon eye btn-sm text-white btn btn-primary">
                             <i class="las la-eye"></i>
@@ -127,7 +127,7 @@
                             title="{{ __('Delete Data') }}">
                             <i class="las la-trash-alt"></i>
                         </a>
-                    </div>
+                    {{-- </div> --}}
                 </td>
             </tr>
         @empty

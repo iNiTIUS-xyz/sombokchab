@@ -30,6 +30,34 @@
             padding-top: 7px !important;
         }
     </style>
+
+    <style>
+        #dataTable th,
+        #dataTable td {
+            text-align: left !important;
+            vertical-align: middle;
+        }
+
+        #dataTable {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        #dataTable th {
+            font-weight: 600;
+        }
+
+        table.dataTable th.dt-type-numeric div.dt-column-header,
+        table.dataTable th.dt-type-numeric div.dt-column-footer,
+        table.dataTable th.dt-type-date div.dt-column-header,
+        table.dataTable th.dt-type-date div.dt-column-footer,
+        table.dataTable td.dt-type-numeric div.dt-column-header,
+        table.dataTable td.dt-type-numeric div.dt-column-footer,
+        table.dataTable td.dt-type-date div.dt-column-header,
+        table.dataTable td.dt-type-date div.dt-column-footer {
+            flex-direction: row !important;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -345,8 +373,8 @@
     <script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
 
 
-    <script> 
-        $(document).ready(function () {
+    <script>
+        $(document).ready(function() {
             if ($('#productDataTable').length) {
                 $('#productDataTable').DataTable({
                     paging: true,
@@ -369,5 +397,4 @@
             }
         });
     </script>
-
 @endsection

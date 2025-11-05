@@ -1,16 +1,12 @@
 @extends('vendor.vendor-master')
 
 @section('site-title')
-
     {{ __('All Campaigns') }}
 @endsection
 
 @section('style')
-
     <link rel="stylesheet" href="{{ asset('assets/css/dataTables.min.css') }}">
     <x-bulk-action.css />
-
-    
 @endsection
 
 @section('content')
@@ -46,7 +42,9 @@
                                             <x-bulk-action.td :id="$campaign->id" />
                                             <td>{{ $campaign->title }}</td>
                                             <x-table.td-image :image="$campaign->image" />
-                                            <td><x-status-span :status="$campaign->status" /></td>
+                                            <td>
+                                                <x-status-span :status="$campaign->status" />
+                                            </td>
                                             <td>
                                                 <a class="btn btn-primary btn-xs mb-2 me-1" title="{{ __('View') }}"
                                                     href="{{ route('frontend.products.campaign', ['id' => $campaign->id, 'slug' => $campaign->slug]) }}">
@@ -73,8 +71,8 @@
     <x-bulk-action.js :route="route('vendor.campaigns.bulk.action')" />
 
     <script>
-        $(document).ready(function () {
-            $(document).on('click', '.campaign_edit_btn', function () {
+        $(document).ready(function() {
+            $(document).on('click', '.campaign_edit_btn', function() {
                 let el = $(this);
                 let id = el.data('id');
                 let name = el.data('name');
@@ -92,7 +90,7 @@
     <script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             if ($('#dataTable').length) {
                 $('#dataTable').DataTable({
                     paging: true,
@@ -114,5 +112,4 @@
             }
         });
     </script>
-
 @endsection

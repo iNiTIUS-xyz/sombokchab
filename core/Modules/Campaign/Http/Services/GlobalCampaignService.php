@@ -2,15 +2,16 @@
 
 namespace Modules\Campaign\Http\Services;
 
-use Carbon\Carbon;
 use DB;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
+use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Builder;
-use Modules\Campaign\Entities\Campaign;
-use Modules\Campaign\Entities\CampaignProduct;
+use Illuminate\Support\Facades\Auth;
 use Modules\Product\Entities\Product;
+use Illuminate\Contracts\View\Factory;
+use Modules\Campaign\Entities\Campaign;
+use Illuminate\Database\Eloquent\Builder;
+use Modules\Campaign\Entities\CampaignProduct;
+use Illuminate\Contracts\Foundation\Application;
 
 class GlobalCampaignService
 {
@@ -21,16 +22,18 @@ class GlobalCampaignService
 
     private function campaign_for()
     {
-        return $this->campaignInstance()->when(\Auth::guard('vendor')->check(), function ($query) {
-            $query->where('vendor_id', \Auth::guard('vendor')->user()->id)->where('type', 'vendor');
-        })->when(\Auth::guard('admin')->check(), function ($query) {
-            $query->where('vendor_id', null)->where('type', 'admin');
-        });
+        return $this->campaignInstance()
+            ->when(Auth::guard('vendor')->check(), function ($query) {
+                $query->where('vendor_id', Auth::guard('vendor')->user()->id)->where('type', 'vendor');
+            })->when(Auth::guard('admin')->check(), function ($query) {
+                return;
+            });
     }
 
     public static function fetch_campaigns($id = null, $isApiVendor = false)
     {
         $campaign = (new self)->campaign_for();
+
         if ($id != null) {
             return $campaign->where('id', $id)->first();
         }

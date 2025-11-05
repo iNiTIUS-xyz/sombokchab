@@ -5,10 +5,36 @@
 @endsection
 
 @section('style')
+    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.min.css') }}">
     <x-bulk-action.css />
 
-    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.min.css') }}">
+    <style>
+        #dataTable th,
+        #dataTable td {
+            text-align: left !important;
+            vertical-align: middle;
+        }
 
+        #dataTable {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        #dataTable th {
+            font-weight: 600;
+        }
+
+        table.dataTable th.dt-type-numeric div.dt-column-header,
+        table.dataTable th.dt-type-numeric div.dt-column-footer,
+        table.dataTable th.dt-type-date div.dt-column-header,
+        table.dataTable th.dt-type-date div.dt-column-footer,
+        table.dataTable td.dt-type-numeric div.dt-column-header,
+        table.dataTable td.dt-type-numeric div.dt-column-footer,
+        table.dataTable td.dt-type-date div.dt-column-header,
+        table.dataTable td.dt-type-date div.dt-column-footer {
+            flex-direction: row !important;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -31,11 +57,11 @@
                             <table class="table" id="dataTable">
                                 <thead>
                                     <x-bulk-action.th />
-                                    <th>{{ __('Name') }}</th>
-                                    <th>{{ __('SKU') }}</th>
-                                    <th>{{ __('Stock') }}</th>
-                                    <th>{{ __('Sold') }}</th>
-                                    <th>{{ __('Action') }}</th>
+                                    <th style="width: 50%">{{ __('Name') }}</th>
+                                    <th style="width: 10%">{{ __('SKU') }}</th>
+                                    <th style="width: 10%">{{ __('Stock') }}</th>
+                                    <th style="width: 10%">{{ __('Sold') }}</th>
+                                    <th style="width: 10%">{{ __('Action') }}</th>
                                 </thead>
                                 <tbody>
                                     @foreach ($all_inventory_products as $inventory)
@@ -48,7 +74,9 @@
                                             <td>
                                                 <div class="d-flex">
                                                     <x-table.btn.edit :route="route('vendor.products.inventory.edit', $inventory->id)" />
-                                                    <x-table.btn.swal.delete :route="route('vendor.products.inventory.delete', ['id' => $inventory->id,])" />
+                                                    <x-table.btn.swal.delete :route="route('vendor.products.inventory.delete', [
+                                                        'id' => $inventory->id,
+                                                    ])" />
                                                 </div>
                                             </td>
                                         </tr>
@@ -64,11 +92,11 @@
 @endsection
 
 @section('script')
-    {{-- <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script> --}}
+    <x-table.btn.swal.js />
+    <x-bulk-action.js :route="route('admin.products.inventory.bulk.action')" />
     <script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
-
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             if ($('#dataTable').length) {
                 $('#dataTable').DataTable({
                     paging: true,
@@ -85,13 +113,9 @@
                             next: "Next"
                         }
                     },
-                    // Add this for pagination style
-                    pagingType: "simple_numbers" // options: simple, simple_numbers, full, full_numbers
+                    pagingType: "simple_numbers"
                 });
             }
         });
     </script>
-
-    <x-table.btn.swal.js />
-    <x-bulk-action.js :route="route('admin.products.inventory.bulk.action')" />
 @endsection

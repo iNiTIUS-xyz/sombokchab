@@ -2,7 +2,22 @@
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('assets/css/dataTables.min.css') }}">
-    
+    <style>
+        #dataTable th,
+        #dataTable td {
+            text-align: left !important;
+            vertical-align: middle;
+        }
+
+        #dataTable {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        #dataTable th {
+            font-weight: 600;
+        }
+    </style>
 @endsection
 
 @section('site-title')
@@ -12,7 +27,8 @@
 @section('content')
     <div class="dashboard__card">
         <div class="dashboard__card__header">
-            <h3 class="dashboard__card__title">{{ __('Orders List') }}</h3>
+            <h3 class="dashboard__card__title">
+                {{ __('Orders List') }}</h3>
         </div>
         <div class="dashboard__card__body mt-4">
             <div class="all-user-campaign-table">
@@ -20,8 +36,9 @@
                     <table class="table" id="dataTable">
                         <thead>
                             <tr>
-                                <th>{{ __('Order No.') }}</th>
-                                {{-- <th>{{ __('Tracking Number') }}</th> --}}
+                                <th>
+                                    {{ __('Order No.') }}
+                                </th>
                                 <th>
                                     {{ __('Order Date') }}
                                 </th>
@@ -39,9 +56,6 @@
                         <tbody>
                             @foreach ($all_orders as $order)
                                 <tr class="completed">
-                                    {{-- <td class="order-numb">
-                                        {{ $order->id }}
-                                    </td> --}}
                                     <td class="order-numb" style="text-align: left;">
                                         {{ $order->order_number }}
                                     </td>
@@ -50,17 +64,25 @@
                                     </td>
                                     <td class="status">
                                         @if ($order->order->order_status == 'complete')
-                                            <span class="badge bg-primary px-2 py-1">{{ __('Complete') }}</span>
+                                            <span class="badge bg-primary px-2 py-1 text-white">
+                                                {{ __('Completed') }}
+                                            </span>
                                         @elseif ($order->order->order_status == 'pending')
-                                            <span class="badge bg-warning px-2 py-1">{{ __('Pending') }}</span>
+                                            <span class="badge bg-warning px-2 py-1" style="color: white !important">
+                                                {{ __('Pending') }}
+                                            </span>
                                         @elseif ($order->order->order_status == 'failed')
-                                            <span class="badge px-2 py-1"
-                                                style="background: rgb(145, 2, 2) !important;">{{ __('Failed') }}</span>
+                                            <span class="badge px-2 py-1 bg-secondary text-white">
+                                                {{ __('Failed') }}
+                                            </span>
                                         @elseif ($order->order->order_status == 'rejected')
-                                            <span class="badge px-2 py-1"
-                                                style="background: rgb(138, 1, 14) !important;">{{ __('Rejected') }}</span>
+                                            <span class="badge px-2 py-1 bg-danger text-white">
+                                                {{ __('Rejected') }}
+                                            </span>
                                         @elseif ($order->order->order_status == 'canceled')
-                                            <span class="badge bg-danger px-2 py-1">{{ __('Canceled') }}</span>
+                                            <span class="badge bg-danger px-2 py-1 text-white">
+                                                {{ __('Canceled') }}
+                                            </span>
                                         @endif
                                     </td>
                                     <td class="amount">
@@ -92,18 +114,18 @@
     <script src="{{ asset('assets/backend/js/sweetalert2.js') }}"></script>
 
     <script>
-        (function ($) {
+        (function($) {
             "use strict";
-            $(document).ready(function () {
+            $(document).ready(function() {
 
-                $(document).on('click', '.bodyUser_overlay', function () {
+                $(document).on('click', '.bodyUser_overlay', function() {
                     $('.user-dashboard-wrapper, .bodyUser_overlay').removeClass('show');
                 });
-                $(document).on('click', '.mobile_nav', function () {
+                $(document).on('click', '.mobile_nav', function() {
                     $('.user-dashboard-wrapper, .bodyUser_overlay').addClass('show');
                 });
 
-                $(document).on('click', '.swal_delete_button', function (e) {
+                $(document).on('click', '.swal_delete_button', function(e) {
                     e.preventDefault();
                     Swal.fire({
                         title: '{{ __('Are you sure?') }}',
@@ -127,8 +149,8 @@
     {{-- <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script> --}}
     <script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
 
-    <script> 
-        $(document).ready(function () {
+    <script>
+        $(document).ready(function() {
             if ($('#dataTable').length) {
                 $('#dataTable').DataTable({
                     paging: true,
@@ -151,5 +173,4 @@
             }
         });
     </script>
-
 @endsection

@@ -10,6 +10,21 @@
         .payment_attachment {
             width: 100px;
         }
+
+        #dataTable th,
+        #dataTable td {
+            text-align: left !important;
+            vertical-align: middle;
+        }
+
+        #dataTable {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        #dataTable th {
+            font-weight: 600;
+        }
     </style>
 @endsection
 
@@ -34,7 +49,6 @@
                                         <th>{{ __('Amount') }}</th>
                                         <th>{{ __('Payment Method') }}</th>
                                         <th style="width: 30%">{{ __('Payment Method Details') }}</th>
-                                        
                                         <th>{{ __('Image') }}</th>
                                         <th>{{ __('Status') }}</th>
                                         <th>{{ __('Note') }}</th>
@@ -65,7 +79,7 @@
                                             <td>
                                                 <div class="table-fields">{{ $fields }}</div>
                                             </td>
-                                            
+
                                             <td>
                                                 @if (!empty($request->image))
                                                     <div class="table-image">
@@ -96,8 +110,8 @@
     {{-- <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script> --}}
     <script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
 
-    <script> 
-        $(document).ready(function () {
+    <script>
+        $(document).ready(function() {
             if ($('#dataTable').length) {
                 $('#dataTable').DataTable({
                     paging: true,
@@ -120,5 +134,4 @@
             }
         });
     </script>
-
 @endsection

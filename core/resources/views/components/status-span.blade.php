@@ -1,13 +1,13 @@
 @if($status === 'draft')
-    <span class="badge bg-warning">{{__('Unpublish')}}</span>
+    <span class="badge bg-danger text-white">{{__('Unpublish')}}</span>
 @elseif($status === 'archive')
     <span class="badge bg-warning">{{__('Archive')}}</span>
 @elseif($status === 'pending')
-    <span class="badge bg-warning">{{__('Pending')}}</span>
+    <span class="badge bg-danger text-white">{{__('Pending')}}</span>
 @elseif($status === 'Active')
     <span class="badge bg-primary">{{__('Active')}}</span>
 @elseif($status === 'In-Active' || $status === 'Inactive')
-    <span class="badge bg-danger">{{__('In Active')}}</span>
+    <span class="badge bg-danger">{{__('Inactive')}}</span>
 @elseif($status === 'complete' || $status === 'completed')
     <span class="badge bg-primary">{{__('Complete')}}</span>
 @elseif($status === 'close')

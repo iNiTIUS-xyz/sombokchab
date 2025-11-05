@@ -10,6 +10,21 @@
         .payment_attachment {
             width: 100px;
         }
+
+        #dataTable th,
+        #dataTable td {
+            text-align: left !important;
+            vertical-align: middle;
+        }
+
+        #dataTable {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        #dataTable th {
+            font-weight: 600;
+        }
     </style>
 @endsection
 
@@ -24,7 +39,7 @@
                         <h4 class="dashboard__card__title">{{ __('Wallet History') }}</h4>
                     </div>
                     <div class="dashboard__card__body mt-4">
-                        <div class="table-responsive ">
+                        <div class="table-responsive">
                             <table class="table" id="dataTable">
                                 <thead>
                                     <tr>
@@ -38,16 +53,14 @@
                                     @foreach ($histories as $history)
                                         <tr>
                                             <td>{{ $history->amount ? float_amount_with_currency_symbol($history->amount) : '' }}
-                                            <td>{{ $history->sub_order_id ?? '' }}</td>
                                             </td>
+                                            <td>{{ $history->sub_order_id ?? '' }}</td>
                                             <td>
                                                 <span class="badge bg-{{ $history->type ? 'primary' : 'warning' }}">
                                                     {{ $history->type ? __('Incoming') : __('Outgoing') }}
                                                 </span>
                                             </td>
-                                            <td>
-                                                {{ $history->created_at->format('M j, Y') }}
-                                            </td>
+                                            <td>{{ $history->created_at->format('M j, Y') }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -61,11 +74,10 @@
 @endsection
 
 @section('script')
-    {{-- <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script> --}}
     <script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
 
-    <script> 
-        $(document).ready(function () {
+    <script>
+        $(document).ready(function() {
             if ($('#dataTable').length) {
                 $('#dataTable').DataTable({
                     paging: true,
@@ -82,11 +94,9 @@
                             next: "Next"
                         }
                     },
-                    // Add this for pagination style
-                    pagingType: "simple_numbers" // options: simple, simple_numbers, full, full_numbers
+                    pagingType: "simple_numbers"
                 });
             }
         });
     </script>
-
 @endsection

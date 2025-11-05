@@ -80,13 +80,11 @@
                     <div class="btn-group badge">
                         <button type="button"
                             class="status-{{ $product?->product_status }}
-                            @if ($product->product_status == 'publish')
-                                bg-primary status-open
+                            @if ($product->product_status == 'publish') bg-primary status-open
                             @elseif ($product->product_status == 'unpublish')
                                 bg-danger status-close
                             @elseif($product->product_status == 'rejected')
-                                bg-warning status-close
-                            @endif
+                                bg-warning status-close @endif
                             dropdown-toggle"
                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
@@ -162,32 +160,31 @@
                     {{ $product->created_at->format('M d, y') }}
                 </td>
                 <td>
-                    <div class="btn-group">
-                        {{-- <a href="{{ route('frontend.products.single', $product->slug) }}"
+                    {{-- <a href="{{ route('frontend.products.single', $product->slug) }}"
                             class="btn btn-success btn-sm" title="{{ __('View Data') }}">
                             <i class="las la-eye"></i>
                         </a> --}}
-                        @can('product-update')
-                            <a href="{{ route('admin.products.edit', $product->id) }}"
-                                class="btn btn-warning text-dark btn-sm" title="{{ __('Edit Product') }}">
-                                <i class="las la-pencil-alt"></i>
-                            </a>
-                        @endcan
+                    @can('product-update')
+                        <a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-warning text-dark btn-sm"
+                            title="{{ __('Edit Product') }}">
+                            <i class="las la-pencil-alt"></i>
+                        </a>
+                    @endcan
 
-                        @can('product-clone')
-                            <a href="{{ route('admin.products.clone', $product->id) }}" class="btn btn-secondary btn-sm"
-                                title="{{ __('Duplicate Data') }}">
-                                <i class="las la-copy"></i>
-                            </a>
-                        @endcan
+                    @can('product-clone')
+                        <a href="{{ route('admin.products.clone', $product->id) }}" class="btn btn-secondary btn-sm"
+                            title="{{ __('Duplicate Data') }}">
+                            <i class="las la-copy"></i>
+                        </a>
+                    @endcan
 
-                        @can('product-destroy')
-                            <a data-product-url="{{ route('admin.products.destroy', $product->id) }}" href="#1"
-                                class="delete-row btn btn-danger btn-sm deleted" title="{{ __('Delete Data') }}">
-                                <i class="las la-trash-alt"></i>
-                            </a>
-                        @endcan
-                    </div>
+                    @can('product-destroy')
+                        <a data-product-url="{{ route('admin.products.destroy', $product->id) }}" href="#1"
+                            class="delete-row btn btn-danger btn-sm deleted" title="{{ __('Delete Data') }}">
+                            <i class="las la-trash-alt"></i>
+                        </a>
+                    @endcan
+
                 </td>
             </tr>
         @empty
