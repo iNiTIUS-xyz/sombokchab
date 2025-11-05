@@ -1019,18 +1019,17 @@
                                 </a>
                             </li>
                         @endcan
-                        @can('blog-category')
-                            <li class="{{ active_menu('admin-home/blog/category') }}">
-                                <a href="{{ route('admin.blog.category') }}">
-                                    {{ __('Category') }}
-
-                                </a>
-                            </li>
-                        @endcan
                         @can('blog-new')
                             <li class="{{ active_menu('admin-home/blog/new') }}">
                                 <a href="{{ route('admin.blog.new') }}">
-                                    {{ __('Add New Post') }}
+                                    {{ __('Add New Blog') }}
+                                </a>
+                            </li>
+                        @endcan
+                        @can('blog-category')
+                            <li class="{{ active_menu('admin-home/blog/category') }}">
+                                <a href="{{ route('admin.blog.category') }}">
+                                    {{ __('All Categories') }}
                                 </a>
                             </li>
                         @endcan

@@ -14,13 +14,13 @@
             </div>
             @can('blog-new')
                 <div class="btn-wrapper mb-4">
-                    <a href="{{ route('admin.blog.new') }}" class="cmn_btn btn_bg_profile">{{ __('Add New') }}</a>
+                    <a href="{{ route('admin.blog.new') }}" class="cmn_btn btn_bg_profile">{{ __('Add New Blog') }}</a>
                 </div>
             @endcan
             <div class="col-lg-12 mt-2">
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('All Blog Items') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('Blog Management') }}</h4>
                         <div class="dashboard__card__header__right">
                             <div class="bulk-delete-wrapper">
                                 @can('blog-bulk-action')
@@ -93,9 +93,9 @@
                                                 @can('blog-clone')
                                                     <x-clone-icon :action="route('admin.blog.clone')" :id="$data->id" />
                                                 @endcan
-                                                @can('blog-delete')
+                                                {{-- @can('blog-delete')
                                                     <x-view-icon :url="route('frontend.blog.single', $data->slug)" />
-                                                @endcan
+                                                @endcan --}}
                                                 @can('blog-delete')
                                                     <x-delete-popover :url="route('admin.blog.delete', $data->id)" />
                                                 @endcan

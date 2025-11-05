@@ -5,7 +5,7 @@
     <x-media.css />
 @endsection
 @section('site-title')
-    {{ __('Edit Blog Post') }}
+    {{ __('Edit Blog') }}
 @endsection
 @section('content')
     <div class="col-lg-12 col-ml-12">
@@ -16,7 +16,7 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">
-                            {{ __('Edit Blog Post') }}
+                            {{ __('Edit Blog') }}
                         </h4>
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">

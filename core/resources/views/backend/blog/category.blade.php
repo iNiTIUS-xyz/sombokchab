@@ -1,6 +1,6 @@
 @extends('backend.admin-master')
 @section('site-title')
-    {{ __('Category Page') }}
+    {{ __('All Blog Categories') }}
 @endsection
 
 @section('content')
@@ -13,7 +13,7 @@
                     <div class="btn-wrapper mb-4">
                         <a data-bs-toggle="modal" data-bs-target="#new_category_modal" class="cmn_btn btn_bg_profile pull-right"
                             title="{{ __('New category') }}">
-                            {{ __('New Category') }}
+                            {{ __('Add New Category') }}
                         </a>
                     </div>
                 @endcan
@@ -146,7 +146,7 @@
             <div class="modal-dialog">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
-                        <h5 class="modal-title">{{ __('Update Category') }}</h5>
+                        <h5 class="modal-title">{{ __('Update Blog Category') }}</h5>
                         <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
                     </div>
                     <form action="{{ route('admin.blog.category.update') }}" method="post">

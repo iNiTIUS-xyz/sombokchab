@@ -7,7 +7,7 @@
 @endsection
 
 @section('site-title')
-    {{ __('New Blog Post') }}
+    {{ __('Add New Blog') }}
 @endsection
 
 @section('content')
@@ -16,7 +16,7 @@
             <div class="col-lg-12">
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Add New Blog Post') }} </h4>
+                        <h4 class="dashboard__card__title">{{ __('Add New Blog') }} </h4>
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
                         @if ($errors->any())
