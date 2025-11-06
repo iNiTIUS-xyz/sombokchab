@@ -1,25 +1,45 @@
 @extends('backend.admin-master')
+
 @section('site-title')
-    {{ __('State Tax') }}
+    {{ __('All State Tax') }}
 @endsection
+
 @section('style')
-    <x-datatable.css />
     <x-bulk-action.css />
+    <style>
+        table.dataTable th.dt-type-numeric div.dt-column-header,
+        table.dataTable th.dt-type-numeric div.dt-column-footer,
+        table.dataTable th.dt-type-date div.dt-column-header,
+        table.dataTable th.dt-type-date div.dt-column-footer,
+        table.dataTable td.dt-type-numeric div.dt-column-header,
+        table.dataTable td.dt-type-numeric div.dt-column-footer,
+        table.dataTable td.dt-type-date div.dt-column-header,
+        table.dataTable td.dt-type-date div.dt-column-footer {
+            flex-direction: row !important;
+        }
+    </style>
 @endsection
+
 @section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row">
             <div class="col-lg-12 mt-2">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="header-title">{{ __('All State Tax') }}</h4>
-                        @can('tax-state-delete')
-                            <x-bulk-action.dropdown />
-                        @endcan
-                        <button class="btn btn-info btn-sm text-light" data-bs-toggle="modal"
-                            data-bs-target="#state_tax_new_modal">Add new state tax</button>
+                <div class="dashboard__card">
+                    <div class="dashboard__card__header">
+                        <h4 class="dashboard__card__title">{{ __('All State Tax') }}</h4>
+                        <div class="dashboard__card__header__right">
+                            <button class="btn btn-primary text-white" data-bs-toggle="modal"
+                                data-bs-target="#state_tax_new_modal">
+                                Add New State Tax
+                            </button>
+                            @can('tax-state-delete')
+                                <x-bulk-action.dropdown />
+                            @endcan
+                        </div>
+                    </div>
+                    <div class="dashboard__card__body">
                         <div class="table-wrap table-responsive">
-                            <table class="table table-default">
+                            <table id="dataTable" class="table table-default">
                                 <thead>
                                     <x-bulk-action.th />
                                     <th>{{ __('ID') }}</th>
@@ -41,7 +61,7 @@
                                                 @can('tax-state-update')
                                                     <a href="#1" data-bs-toggle="modal"
                                                         data-bs-target="#state_tax_edit_modal"
-                                                        class="btn btn-primary btn-sm btn-xs mb-2 me-1 state_tax_edit_btn"
+                                                        class="btn btn-warning text-white btn-sm btn-xs mb-2 me-1 state_tax_edit_btn"
                                                         data-id="{{ $tax->id }}" data-country_id="{{ $tax->country_id }}"
                                                         data-state_id="{{ $tax->state_id }}"
                                                         data-tax_percentage="{{ $tax->tax_percentage }}">
@@ -94,9 +114,12 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-sm btn-secondary"
-                                data-bs-dismiss="modal">{{ __('Close') }}</button>
-                            <button type="submit" class="btn btn-sm btn-primary">{{ __('Save Change') }}</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                {{ __('Close') }}
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                {{ __('Update') }}
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -135,7 +158,14 @@
                                 <input type="number" class="form-control" id="tax_percentage" name="tax_percentage"
                                     placeholder="{{ __('Tax Percentage') }}">
                             </div>
-                            <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4">{{ __('Add New') }}</button>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                    {{ __('Close') }}
+                                </button>
+                                <button type="submit" class="btn btn-primary">
+                                    {{ __('Add') }}
+                                </button>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -143,10 +173,85 @@
         </div>
     @endcan
 @endsection
+
 @section('script')
-    <x-datatable.js />
     <x-table.btn.swal.js />
-    <x-bulk-action.js :route="route('admin.tax.state.bulk.action')" />
+
+    <script>
+        (function($) {
+            $(document).ready(function() {
+                $(document).on('click', '#bulk_delete_btn', function(e) {
+                    e.preventDefault();
+
+                    var bulkOption = $('#bulk_option').val();
+                    var allCheckbox = $('.bulk-checkbox:checked');
+                    var allIds = [];
+
+                    allCheckbox.each(function(index, value) {
+                        allIds.push($(this).val());
+                    });
+
+                    if (allIds.length > 0 && bulkOption == 'delete') {
+                        Swal.fire({
+                            title: '{{ __('Are you sure?') }}',
+                            text: '{{ __('You would not be able to revert this action!') }}',
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#ee0000',
+                            cancelButtonColor: '#55545b',
+                            confirmButtonText: '{{ __('Yes, delete them!') }}',
+                            cancelButtonText: "{{ __('No') }}"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $('#bulk_delete_btn').text('{{ __('Deleting...') }}');
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: "{{ route('admin.tax.state.bulk.action') }}",
+                                    data: {
+                                        _token: "{{ csrf_token() }}",
+                                        ids: allIds,
+                                    },
+                                    success: function(data) {
+                                        Swal.fire(
+                                            '{{ __('Deleted!') }}',
+                                            '{{ __('Selected data have been deleted.') }}',
+                                            'success'
+                                        );
+                                        setTimeout(function() {
+                                            location.reload();
+                                        }, 1000);
+                                    },
+                                    error: function() {
+                                        Swal.fire(
+                                            'Error!',
+                                            'Failed to delete data.',
+                                            'error'
+                                        );
+                                    }
+                                });
+                            }
+                        });
+                    } else {
+                        Swal.fire(
+                            'Warning!',
+                            '{{ __('Please select at least one item and choose delete option.') }}',
+                            'warning'
+                        );
+                    }
+                });
+
+                // Handle "select all" checkbox
+                $('.all-checkbox').on('change', function(e) {
+                    e.preventDefault();
+                    var value = $(this).is(':checked');
+                    var allChek = $(this).closest('table').find('.bulk-checkbox');
+
+                    allChek.prop('checked', value);
+                });
+            });
+        })(jQuery);
+    </script>
 
     <script>
         $(document).ready(function() {

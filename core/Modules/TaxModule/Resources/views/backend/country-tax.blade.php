@@ -1,11 +1,25 @@
 @extends('backend.admin-master')
+
 @section('site-title')
-    {{ __('Country Tax') }}
+    {{ __('All Country Tax') }}
 @endsection
+
 @section('style')
-    <x-datatable.css />
     <x-bulk-action.css />
+    <style>
+        table.dataTable th.dt-type-numeric div.dt-column-header,
+        table.dataTable th.dt-type-numeric div.dt-column-footer,
+        table.dataTable th.dt-type-date div.dt-column-header,
+        table.dataTable th.dt-type-date div.dt-column-footer,
+        table.dataTable td.dt-type-numeric div.dt-column-header,
+        table.dataTable td.dt-type-numeric div.dt-column-footer,
+        table.dataTable td.dt-type-date div.dt-column-header,
+        table.dataTable td.dt-type-date div.dt-column-footer {
+            flex-direction: row !important;
+        }
+    </style>
 @endsection
+
 @section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row">
@@ -29,7 +43,7 @@
                     </div>
                     <div class="dashboard__card__body mt-4">
                         <div class="table-wrap table-responsive">
-                            <table class="table table-default">
+                            <table id="dataTable" class="table table-default">
                                 <thead>
                                     @can('tax-country-bulk-action')
                                         <x-bulk-action.th />
@@ -55,7 +69,7 @@
                                                 @can('tax-country-update')
                                                     <a href="#1" data-bs-toggle="modal"
                                                         data-bs-target="#country_tax_edit_modal"
-                                                        class="btn btn-sm btn-primary btn-xs mb-2 me-1 country_tax_edit_btn"
+                                                        class="btn btn-sm btn-warning text-dark btn-xs mb-2 me-1 country_tax_edit_btn"
                                                         data-id="{{ $tax->id }}" data-country_id="{{ $tax->country_id }}"
                                                         data-tax_percentage="{{ $tax->tax_percentage }}">
                                                         <i class="ti-pencil"></i>
@@ -101,7 +115,7 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-sm btn-secondary"
                                 data-bs-dismiss="modal">{{ __('Close') }}</button>
-                            <button type="submit" class="btn btn-primary btn-sm">{{ __('Save Change') }}</button>
+                            <button type="submit" class="btn btn-primary btn-sm">{{ __('Update') }}</button>
                         </div>
                     </form>
                 </div>
@@ -114,7 +128,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">{{ __('Update Country Tax') }}</h5>
+                        <h5 class="modal-title">{{ __('Add New Country Tax') }}</h5>
                         <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
                     </div>
                     <form action="{{ route('admin.tax.country.new') }}" method="post" enctype="multipart/form-data">
@@ -141,10 +155,85 @@
         </div>
     @endcan
 @endsection
+
 @section('script')
-    <x-datatable.js />
     <x-table.btn.swal.js />
-    <x-bulk-action.js :route="route('admin.tax.country.bulk.action')" />
+
+    <script>
+        (function($) {
+            $(document).ready(function() {
+                $(document).on('click', '#bulk_delete_btn', function(e) {
+                    e.preventDefault();
+
+                    var bulkOption = $('#bulk_option').val();
+                    var allCheckbox = $('.bulk-checkbox:checked');
+                    var allIds = [];
+
+                    allCheckbox.each(function(index, value) {
+                        allIds.push($(this).val());
+                    });
+
+                    if (allIds.length > 0 && bulkOption == 'delete') {
+                        Swal.fire({
+                            title: '{{ __('Are you sure?') }}',
+                            text: '{{ __('You would not be able to revert this action!') }}',
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#ee0000',
+                            cancelButtonColor: '#55545b',
+                            confirmButtonText: '{{ __('Yes, delete them!') }}',
+                            cancelButtonText: "{{ __('No') }}"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $('#bulk_delete_btn').text('{{ __('Deleting...') }}');
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: "{{ route('admin.tax.country.bulk.action') }}",
+                                    data: {
+                                        _token: "{{ csrf_token() }}",
+                                        ids: allIds,
+                                    },
+                                    success: function(data) {
+                                        Swal.fire(
+                                            '{{ __('Deleted!') }}',
+                                            '{{ __('Selected data have been deleted.') }}',
+                                            'success'
+                                        );
+                                        setTimeout(function() {
+                                            location.reload();
+                                        }, 1000);
+                                    },
+                                    error: function() {
+                                        Swal.fire(
+                                            'Error!',
+                                            'Failed to delete data.',
+                                            'error'
+                                        );
+                                    }
+                                });
+                            }
+                        });
+                    } else {
+                        Swal.fire(
+                            'Warning!',
+                            '{{ __('Please select at least one item and choose delete option.') }}',
+                            'warning'
+                        );
+                    }
+                });
+
+                // Handle "select all" checkbox
+                $('.all-checkbox').on('change', function(e) {
+                    e.preventDefault();
+                    var value = $(this).is(':checked');
+                    var allChek = $(this).closest('table').find('.bulk-checkbox');
+
+                    allChek.prop('checked', value);
+                });
+            });
+        })(jQuery);
+    </script>
 
     <script>
         $(document).ready(function() {

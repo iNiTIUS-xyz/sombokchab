@@ -215,7 +215,7 @@
                         </li>
                     @endif --}}
 
-                    @if (auth('admin')->user()->hasRole('Super Admin'))
+                    {{-- @if (auth('admin')->user()->hasRole('Super Admin'))
                         <li class="main_dropdown @if (request()->is([
                                 'admin-home/mobile-slider-two/*',
                                 'admin-home/mobile-slider-three/*',
@@ -289,7 +289,7 @@
                                 @endif
                             </ul>
                         </li>
-                    @endif
+                    @endif --}}
                 @endif
 
                 @if (moduleExists('DeliveryMan'))
@@ -735,7 +735,7 @@
                             @can('tax-country')
                                 <li class="{{ active_menu('admin-home/tax/country') }}">
                                     <a href="{{ route('admin.tax.country.all') }}">
-                                        {{ __('Country Tax') }}
+                                        {{ __('All Country Tax') }}
 
                                     </a>
                                 </li>
@@ -744,8 +744,7 @@
                             @can('tax-state')
                                 <li class="{{ active_menu('admin-home/tax/state') }}">
                                     <a href="{{ route('admin.tax.state.all') }}">
-                                        {{ __('State Tax') }}
-
+                                        {{ __('All State Tax') }}
                                     </a>
                                 </li>
                             @endcan
