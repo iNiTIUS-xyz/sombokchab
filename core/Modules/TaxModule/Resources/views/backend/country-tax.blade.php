@@ -26,18 +26,22 @@
             <div class="col-lg-12">
                 <x-msg.error />
                 <x-msg.flash />
+                <div class="mb-4">
+                    @can('tax-country-new')
+                        <div class="btn-wrapper">
+                            <a href="#1" data-bs-toggle="modal" data-bs-target="#country_tax_new_modal"
+                                class="btn btn-primary text-white">
+                                {{ __('Add New Country Tax') }}
+                            </a>
+                        </div>
+                    @endcan
+                </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('All Country Tax') }}</h4>
                         <div class="dashboard__card__header__right">
                             @can('tax-country-bulk-action')
                                 <x-bulk-action.dropdown />
-                            @endcan
-                            @can('tax-country-new')
-                                <div class="btn-wrapper">
-                                    <a href="#1" data-bs-toggle="modal" data-bs-target="#country_tax_new_modal"
-                                        class="cmn_btn btn_bg_profile">{{ __('Add New Country Tax') }}</a>
-                                </div>
                             @endcan
                         </div>
                     </div>
@@ -147,7 +151,14 @@
                                 <input type="number" class="form-control" id="tax_percentage" name="tax_percentage"
                                     placeholder="{{ __('Tax Percentage') }}">
                             </div>
-                            <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4">{{ __('Add New') }}</button>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">
+                                    {{ __('Close') }}
+                                </button>
+                                <button type="submit" class="btn btn-primary btn-sm">
+                                    {{ __('Add') }}
+                                </button>
+                            </div>
                         </div>
                     </form>
                 </div>

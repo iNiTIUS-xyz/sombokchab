@@ -24,14 +24,15 @@
     <div class="col-lg-12 col-ml-12">
         <div class="row">
             <div class="col-lg-12 mt-2">
+                <div class="mb-4">
+                    <button class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#state_tax_new_modal">
+                        Add New State Tax
+                    </button>
+                </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('All State Tax') }}</h4>
                         <div class="dashboard__card__header__right">
-                            <button class="btn btn-primary text-white" data-bs-toggle="modal"
-                                data-bs-target="#state_tax_new_modal">
-                                Add New State Tax
-                            </button>
                             @can('tax-state-delete')
                                 <x-bulk-action.dropdown />
                             @endcan
