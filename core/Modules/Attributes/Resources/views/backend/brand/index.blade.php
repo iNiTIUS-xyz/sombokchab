@@ -5,7 +5,6 @@
 @endsection
 
 @section('style')
-    <x-bulk-action.css />
     <x-media.css />
 @endsection
 
@@ -22,12 +21,14 @@
                 <div class="mb-4">
                     @can('brand-manage-new')
                         <a href="#1" data-bs-toggle="modal" data-bs-target="#brand_manage_create_modal"
-                            class="cmn_btn btn_bg_profile">{{ __('Add New Brand') }}</a>
+                            class="cmn_btn btn_bg_profile">
+                            {{ __('Add New Brand') }}
+                        </a>
                     @endcan
                 </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('All Brands') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('Brands') }}</h4>
                         <div class="dashboard__card__header__right">
                             @can('brand-manage-bulk-action')
                                 <x-bulk-action.dropdown />
@@ -64,7 +65,8 @@
                                             <td class="w-40">{{ $item->description }}</td>
                                             <td>
                                                 @can('brand-manage-update')
-                                                    <a href="#1" data-bs-toggle="modal" data-bs-target="#brand_manage_edit_modal"
+                                                    <a href="#1" data-bs-toggle="modal"
+                                                        data-bs-target="#brand_manage_edit_modal"
                                                         class="btn  btn-warning text-dark btn-sm brand_manage_edit_btn"
                                                         data-id="{{ $item->id }}" data-name="{{ $item->name }}"
                                                         data-slug="{{ $item->slug }}" data-title="{{ $item->title }}"
@@ -77,8 +79,7 @@
                                                     </a>
                                                 @endcan
                                                 @can('brand-manage-delete')
-                                                    <x-table.btn.swal.delete class="margin-bottom-0"
-                                                        :route="route('admin.brand.manage.delete', $item->id)" />
+                                                    <x-table.btn.swal.delete class="margin-bottom-0" :route="route('admin.brand.manage.delete', $item->id)" />
                                                 @endcan
                                             </td>
                                         </tr>
@@ -147,7 +148,8 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">{{ __('Close') }}</button>
                             <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                         </div>
                     </form>
@@ -211,7 +213,8 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">{{ __('Close') }}</button>
                             <button type="submit" class="btn btn-primary">{{ __('Add') }}</button>
                         </div>
                     </form>
@@ -223,18 +226,90 @@
 @endsection
 
 @section('script')
-
     <x-table.btn.swal.js />
     <x-backend.icon-picker-js />
     <x-media.js />
-
     @can('brand-manage-bulk-action')
-        <x-bulk-action-js :url="route('admin.brand.manage.bulk.action')" />
+        <script>
+            (function($) {
+                $(document).ready(function() {
+                    $(document).on('click', '#bulk_delete_btn', function(e) {
+                        e.preventDefault();
+
+                        var bulkOption = $('#bulk_option').val();
+                        var allCheckbox = $('.bulk-checkbox:checked');
+                        var allIds = [];
+
+                        allCheckbox.each(function(index, value) {
+                            allIds.push($(this).val());
+                        });
+
+                        if (allIds.length > 0 && bulkOption == 'delete') {
+                            Swal.fire({
+                                title: '{{ __('Are you sure?') }}',
+                                text: '{{ __('You would not be able to revert this action!') }}',
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#ee0000',
+                                cancelButtonColor: '#55545b',
+                                confirmButtonText: '{{ __('Yes, delete them!') }}',
+                                cancelButtonText: "{{ __('No') }}"
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    $('#bulk_delete_btn').text('{{ __('Deleting...') }}');
+
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "{{ route('admin.brand.manage.bulk.action') }}",
+                                        data: {
+                                            _token: "{{ csrf_token() }}",
+                                            ids: allIds,
+                                        },
+                                        success: function(data) {
+                                            Swal.fire(
+                                                '{{ __('Deleted!') }}',
+                                                '{{ __('Selected data have been deleted.') }}',
+                                                'success'
+                                            );
+                                            setTimeout(function() {
+                                                location.reload();
+                                            }, 1000);
+                                        },
+                                        error: function() {
+                                            Swal.fire(
+                                                'Error!',
+                                                'Failed to delete data.',
+                                                'error'
+                                            );
+                                        }
+                                    });
+                                }
+                            });
+                        } else {
+                            Swal.fire(
+                                'Warning!',
+                                '{{ __('Please select at least one item and choose delete option.') }}',
+                                'warning'
+                            );
+                        }
+                    });
+
+                    // Handle "select all" checkbox
+                    $('.all-checkbox').on('change', function(e) {
+                        e.preventDefault();
+                        var value = $(this).is(':checked');
+                        var allChek = $(this).closest('table').find('.bulk-checkbox');
+
+                        allChek.prop('checked', value);
+                    });
+                });
+            })(jQuery);
+        </script>
     @endcan
 
     <script>
-        $(document).ready(function () {
-            $(document).on('click', '.brand_manage_edit_btn', function () {
+        $(document).ready(function() {
+            $(document).on('click', '.brand_manage_edit_btn', function() {
                 let el = $(this);
                 let id = el.data('id');
                 let name = el.data('name');
@@ -276,12 +351,12 @@
             });
         });
 
-        $('#create-name , #create-slug').on('keyup', function () {
+        $('#create-name , #create-slug').on('keyup', function() {
             let title_text = $(this).val();
             $('#create-slug').val(convertToSlug(title_text))
         });
 
-        $('#edit-name , #edit-slug').on('keyup', function () {
+        $('#edit-name , #edit-slug').on('keyup', function() {
             let title_text = $(this).val();
             $('#edit-slug').val(convertToSlug(title_text))
         });

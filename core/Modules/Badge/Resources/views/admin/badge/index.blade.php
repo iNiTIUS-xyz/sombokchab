@@ -5,9 +5,7 @@
 @endsection
 
 @section('style')
-    <x-bulk-action.css />
     <x-media.css />
-
     <style>
         .badge_image {
             width: 50px;
@@ -36,7 +34,8 @@
                                 <x-bulk-action.dropdown />
                             @endcan
                             @can('badge-trash')
-                                <a class="cmn_btn btn_bg_danger" href="{{ route('admin.badge.trash') }}">{{ __('Trash Bin') }}</a>
+                                <a class="cmn_btn btn_bg_danger"
+                                    href="{{ route('admin.badge.trash') }}">{{ __('Trash Bin') }}</a>
                             @endcan
                         </div>
                     </div>
@@ -63,7 +62,8 @@
                                                 <div class="btn-group badge">
                                                     <button type="button"
                                                         class="status-{{ $badge->status }} {{ $badge->status == 'active' ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
-                                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        data-bs-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
                                                         {{ ucfirst($badge->status == 'active' ? __('Active') : __('Inactive')) }}
                                                     </button>
                                                     <div class="dropdown-menu">
@@ -119,7 +119,7 @@
         </div>
     </div>
 
-     @can('badge-new')
+    @can('badge-new')
         <div class="modal fade" id="badge_add_modal" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content custom__form">
@@ -128,7 +128,7 @@
                         <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
                     </div>
                     <form action="{{ route('admin.badge.store') }}" method="post" enctype="multipart/form-data">
-                            @csrf
+                        @csrf
                         <div class="modal-body mx-3">
                             <div class="row">
                                 <div class="form-group">
@@ -148,7 +148,7 @@
                                     <select class="form-control" name="status" id="status" required="">
                                         <option value="" selected disabled>Select One</option>
                                         <option value="active">{{ __('Active') }}</option>
-                                        <option value="in_active">{{ __('In Active') }}</option>
+                                        <option value="in_active">{{ __('Inactive') }}</option>
                                     </select>
                                 </div>
 
@@ -156,7 +156,8 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">{{ __('Close') }}</button>
                             <button type="submit" class="btn btn-primary">
                                 {{ __('Add') }}
                             </button>
@@ -185,7 +186,7 @@
                                     <div class="form-group">
                                         <label for="edit_name">
                                             {{ __('Name') }}
-                                        <span class="text-danger">*</span>
+                                            <span class="text-danger">*</span>
                                         </label>
                                         <input type="text" class="form-control" id="edit_name" name="name"
                                             placeholder="{{ __('Enter name') }}" required="">
@@ -195,12 +196,12 @@
                                     <div class="form-group">
                                         <label for="status">
                                             {{ __('Status') }}
-                                        <span class="text-danger">*</span>
+                                            <span class="text-danger">*</span>
                                         </label>
                                         <select class="form-control" name="status" id="edit-status" required="">
                                             <option value="" selected disabled>{{ __('Select One') }}</option>
                                             <option value="active">{{ __('Active') }}</option>
-                                            <option value="in_active">{{ __('In Active') }}</option>
+                                            <option value="in_active">{{ __('Inactive') }}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -210,7 +211,8 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">{{ __('Close') }}</button>
                             <button type="submit" class="btn btn-primary">
                                 {{ __('Update') }}
                             </button>
@@ -229,12 +231,86 @@
     <x-media.js />
 
     @can('badge-bulk-action')
-        <x-bulk-action.js :route="route('admin.badge.bulk.action.delete')" />
+        <script>
+            (function($) {
+                $(document).ready(function() {
+                    $(document).on('click', '#bulk_delete_btn', function(e) {
+                        e.preventDefault();
+
+                        var bulkOption = $('#bulk_option').val();
+                        var allCheckbox = $('.bulk-checkbox:checked');
+                        var allIds = [];
+
+                        allCheckbox.each(function(index, value) {
+                            allIds.push($(this).val());
+                        });
+
+                        if (allIds.length > 0 && bulkOption == 'delete') {
+                            Swal.fire({
+                                title: '{{ __('Are you sure?') }}',
+                                text: '{{ __('You would not be able to revert this action!') }}',
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#ee0000',
+                                cancelButtonColor: '#55545b',
+                                confirmButtonText: '{{ __('Yes, delete them!') }}',
+                                cancelButtonText: "{{ __('No') }}"
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    $('#bulk_delete_btn').text('{{ __('Deleting...') }}');
+
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "{{ route('admin.badge.bulk.action.delete') }}",
+                                        data: {
+                                            _token: "{{ csrf_token() }}",
+                                            ids: allIds,
+                                        },
+                                        success: function(data) {
+                                            Swal.fire(
+                                                '{{ __('Deleted!') }}',
+                                                '{{ __('Selected data have been deleted.') }}',
+                                                'success'
+                                            );
+                                            setTimeout(function() {
+                                                location.reload();
+                                            }, 1000);
+                                        },
+                                        error: function() {
+                                            Swal.fire(
+                                                'Error!',
+                                                'Failed to delete data.',
+                                                'error'
+                                            );
+                                        }
+                                    });
+                                }
+                            });
+                        } else {
+                            Swal.fire(
+                                'Warning!',
+                                '{{ __('Please select at least one item and choose delete option.') }}',
+                                'warning'
+                            );
+                        }
+                    });
+
+                    // Handle "select all" checkbox
+                    $('.all-checkbox').on('change', function(e) {
+                        e.preventDefault();
+                        var value = $(this).is(':checked');
+                        var allChek = $(this).closest('table').find('.bulk-checkbox');
+
+                        allChek.prop('checked', value);
+                    });
+                });
+            })(jQuery);
+        </script>
     @endcan
 
     <script>
-        $(function () {
-            $(document).on('click', '.badge_edit_btn', function () {
+        $(function() {
+            $(document).on('click', '.badge_edit_btn', function() {
                 var el = $(this);
                 var id = el.data('id');
                 var name = el.data('name');

@@ -7,6 +7,7 @@
 @section('site-title')
     {{ __('All Attributes') }}
 @endsection
+
 @section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row">
@@ -16,8 +17,9 @@
                 <div class="mb-4">
                     @can('attributes-new')
                         <div class="btn-wrapper">
-                            <a href="{{ route('admin.products.attributes.store') }}"
-                                class="cmn_btn btn_bg_profile">{{ __('Add New Attribute') }}</a>
+                            <a href="{{ route('admin.products.attributes.store') }}" class="cmn_btn btn_bg_profile">
+                                {{ __('Add New Attribute') }}
+                            </a>
                         </div>
                     @endcan
                 </div>
@@ -77,8 +79,82 @@
 @endsection
 
 @section('script')
-    @can('attributes-delete')
-        <x-bulk-action.js :route="route('admin.products.attributes.bulk.action')" />
-    @endcan
     <x-table.btn.swal.js />
+    @can('attributes-delete')
+        <script>
+            (function($) {
+                $(document).ready(function() {
+                    $(document).on('click', '#bulk_delete_btn', function(e) {
+                        e.preventDefault();
+
+                        var bulkOption = $('#bulk_option').val();
+                        var allCheckbox = $('.bulk-checkbox:checked');
+                        var allIds = [];
+
+                        allCheckbox.each(function(index, value) {
+                            allIds.push($(this).val());
+                        });
+
+                        if (allIds.length > 0 && bulkOption == 'delete') {
+                            Swal.fire({
+                                title: '{{ __('Are you sure?') }}',
+                                text: '{{ __('You would not be able to revert this action!') }}',
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#ee0000',
+                                cancelButtonColor: '#55545b',
+                                confirmButtonText: '{{ __('Yes, delete them!') }}',
+                                cancelButtonText: "{{ __('No') }}"
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    $('#bulk_delete_btn').text('{{ __('Deleting...') }}');
+
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "{{ route('admin.products.attributes.bulk.action') }}",
+                                        data: {
+                                            _token: "{{ csrf_token() }}",
+                                            ids: allIds,
+                                        },
+                                        success: function(data) {
+                                            Swal.fire(
+                                                '{{ __('Deleted!') }}',
+                                                '{{ __('Selected data have been deleted.') }}',
+                                                'success'
+                                            );
+                                            setTimeout(function() {
+                                                location.reload();
+                                            }, 1000);
+                                        },
+                                        error: function() {
+                                            Swal.fire(
+                                                'Error!',
+                                                'Failed to delete data.',
+                                                'error'
+                                            );
+                                        }
+                                    });
+                                }
+                            });
+                        } else {
+                            Swal.fire(
+                                'Warning!',
+                                '{{ __('Please select at least one item and choose delete option.') }}',
+                                'warning'
+                            );
+                        }
+                    });
+
+                    // Handle "select all" checkbox
+                    $('.all-checkbox').on('change', function(e) {
+                        e.preventDefault();
+                        var value = $(this).is(':checked');
+                        var allChek = $(this).closest('table').find('.bulk-checkbox');
+
+                        allChek.prop('checked', value);
+                    });
+                });
+            })(jQuery);
+        </script>
+    @endcan
 @endsection
