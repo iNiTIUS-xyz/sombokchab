@@ -42,7 +42,7 @@
                                         <th>{{ __('Payment Method') }}</th>
                                         <th>{{ __('Method Field/s') }}</th>
                                         <th>{{ __('Is File') }}</th>
-                                        <th>{{ __('Method Status') }}</th>
+                                        <th>{{ __('Status') }}</th>
                                         <th>{{ __('Action') }}</th>
                                     </tr>
                                 </thead>

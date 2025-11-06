@@ -35,18 +35,19 @@
                         <form action="{{ route('admin.newsletter.mail') }}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
-                                <label for="edit_icon">
+                                <label for="subject">
                                     {{ __('Subject') }}
                                     <span class="text-danger">*</span>
                                 </label>
                                 <input type="text" class="form-control" id="subject" name="subject"
-                                    placeholder="{{ __('Enter subject') }}" required="">
+                                    placeholder="{{ __('Enter subject') }}" required>
                             </div>
+
                             <div class="form-group">
                                 <label for="message">{{ __('Message') }}</label>
-                                <input type="hidden" name="message">
-                                <div class="summernote"></div>
+                                <textarea name="message" id="message" class="summernote" placeholder="{{ __('Write your message...') }}"></textarea>
                             </div>
+
                             <div class="form-group">
                                 <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Send Mail') }}</button>
                                 <a href="{{ route('admin.newsletter') }}" class="cmn_btn default-theme-btn"
@@ -66,4 +67,18 @@
     <script src="{{ asset('assets/backend/js/summernote-bs4.js') }}"></script>
     <x-summernote.js />
     <script src="{{ asset('assets/backend/js/dropzone.js') }}"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Initialize Summernote
+            $('.summernote').summernote({
+                height: 250,
+                placeholder: '{{ __('Write your email message here...') }}'
+            });
+            $('form').on('submit', function() {
+                var content = $('.summernote').summernote('code');
+                $('textarea[name="message"]').val(content);
+            });
+        });
+    </script>
 @endsection

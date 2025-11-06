@@ -24,7 +24,7 @@
                                         {{ __('Login Notice') }}
                                         <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" placeholder="{{ __('Enter logn notices') }}"
+                                    <input type="text" placeholder="{{ __('Enter login notices') }}"
                                         name="support_ticket_login_notice" class="form-control"
                                         value="{{ get_static_option('support_ticket_login_notice') }}">
                                 </div>

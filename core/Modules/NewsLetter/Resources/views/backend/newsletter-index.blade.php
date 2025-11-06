@@ -68,8 +68,8 @@
                                                 </td>
                                             @endcan
                                             <td>{{ $data->email }} @if ($data->verified > 0)
-                                                <i class="las la-check-circle text-primary"></i>
-                                            @endif
+                                                    <i class="las la-check-circle text-primary"></i>
+                                                @endif
                                             </td>
                                             <td>
                                                 @if ($data->subscribe_status == 0)
@@ -80,8 +80,9 @@
                                             </td>
                                             <td>
                                                 @can('newsletter-newsletter-verify-mail-send')
-                                                    <a class="btn btn-lg btn-success btn-sm mb-2 me-2 send_mail_modal_btn" href="#1"
-                                                        data-bs-toggle="modal" data-bs-target="#send_mail_to_subscriber_modal"
+                                                    <a class="btn btn-lg btn-success btn-sm mb-2 me-2 send_mail_modal_btn"
+                                                        href="#1" data-bs-toggle="modal"
+                                                        data-bs-target="#send_mail_to_subscriber_modal"
                                                         data-email="{{ $data->email }}" data-id="{{ $data->id }}"
                                                         title="{{ __('Send Mail') }}">
                                                         <i class="ti-email"></i>
@@ -102,9 +103,9 @@
                                                         @endif --}}
                                                 @endcan
 
-                                                    @can('newsletter-delete')
-                                                        <x-delete-popover :url="route('admin.newsletter.delete', $data->id)" />
-                                                    @endcan
+                                                @can('newsletter-delete')
+                                                    <x-delete-popover :url="route('admin.newsletter.delete', $data->id)" />
+                                                @endcan
                                             </td>
                                         </tr>
                                     @endforeach
@@ -134,7 +135,8 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">{{ __('Close') }}</button>
                             <button id="submit" type="submit" class="btn btn-primary">{{ __('Add') }}</button>
                         </div>
                     </form>
@@ -180,7 +182,8 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">{{ __('Close') }}</button>
                             <button id="submit" type="submit" class="btn btn-primary">{{ __('Send Mail') }}</button>
                         </div>
                     </form>
@@ -196,17 +199,91 @@
     <script src="{{ asset('assets/backend/js/summernote-bs4.js') }}"></script>
     <x-summernote.js />
     <script src="{{ asset('assets/backend/js/dropzone.js') }}"></script>
-    @can('newsletter-bulk-action')
-        <x-bulk-action-js :url="route('admin.newsletter.bulk.action')" />
-    @endcan
-    <script>
-        (function ($) {
-            "use strict";
-            $(document).ready(function () {
-                <
-                    x - btn.submit / >
 
-                    $(document).on('click', '.send_mail_modal_btn', function () {
+    <script>
+        (function($) {
+            $(document).ready(function() {
+                $(document).on('click', '#bulk_delete_btn', function(e) {
+                    e.preventDefault();
+
+                    var bulkOption = $('#bulk_option').val();
+                    var allCheckbox = $('.bulk-checkbox:checked');
+                    var allIds = [];
+
+                    allCheckbox.each(function(index, value) {
+                        allIds.push($(this).val());
+                    });
+
+                    if (allIds.length > 0 && bulkOption == 'delete') {
+                        Swal.fire({
+                            title: '{{ __('Are you sure?') }}',
+                            text: '{{ __('You would not be able to revert this action!') }}',
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#ee0000',
+                            cancelButtonColor: '#55545b',
+                            confirmButtonText: '{{ __('Yes, delete them!') }}',
+                            cancelButtonText: "{{ __('No') }}"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $('#bulk_delete_btn').text('{{ __('Deleting...') }}');
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: "{{ route('admin.newsletter.bulk.action') }}",
+                                    data: {
+                                        _token: "{{ csrf_token() }}",
+                                        ids: allIds,
+                                    },
+                                    success: function(data) {
+                                        Swal.fire(
+                                            '{{ __('Deleted!') }}',
+                                            '{{ __('Selected data have been deleted.') }}',
+                                            'success'
+                                        );
+                                        setTimeout(function() {
+                                            location.reload();
+                                        }, 1000);
+                                    },
+                                    error: function() {
+                                        Swal.fire(
+                                            'Error!',
+                                            'Failed to delete data.',
+                                            'error'
+                                        );
+                                    }
+                                });
+                            }
+                        });
+                    } else {
+                        Swal.fire(
+                            'Warning!',
+                            '{{ __('Please select at least one item and choose delete option.') }}',
+                            'warning'
+                        );
+                    }
+                });
+
+                // Handle "select all" checkbox
+                $('.all-checkbox').on('change', function(e) {
+                    e.preventDefault();
+                    var value = $(this).is(':checked');
+                    var allChek = $(this).closest('table').find('.bulk-checkbox');
+
+                    allChek.prop('checked', value);
+                });
+            });
+        })(jQuery);
+    </script>
+
+    <script>
+        (function($) {
+            "use strict";
+            $(document).ready(function() {
+                <
+                x - btn.submit / >
+
+                    $(document).on('click', '.send_mail_modal_btn', function() {
                         var el = $(this);
                         var id = el.data('id');
                         var email = el.data('email');
@@ -215,7 +292,7 @@
                         form.find('#newsletter_id').val(id);
                     });
 
-                $(document).on('click', '.swal_delete_button', function (e) {
+                $(document).on('click', '.swal_delete_button', function(e) {
                     e.preventDefault();
                     Swal.fire({
                         title: '{{ __('Are you sure?') }}',
@@ -239,10 +316,10 @@
                         theme: 'monokai'
                     },
                     callbacks: {
-                        onChange: function (contents, $editable) {
+                        onChange: function(contents, $editable) {
                             $(this).prev('input').val(contents);
                         },
-                        onPaste: function (e) {
+                        onPaste: function(e) {
                             let bufferText = ((e.originalEvent || e).clipboardData || window
                                 .clipboardData).getData('text/plain');
                             e.preventDefault();

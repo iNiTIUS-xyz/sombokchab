@@ -65,11 +65,13 @@
                                                 <div class="btn-group badge">
                                                     <button type="button"
                                                         class="status-{{ $category->status_id }} {{ $category->status_id == 1 ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
-                                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        data-bs-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
                                                         {{ ucfirst($category->status_id == 1 ? __('Active') : __('Inactive')) }}
                                                     </button>
                                                     <div class="dropdown-menu">
-                                                        <form action="{{ route('admin.category.status.change', $category->id) }}"
+                                                        <form
+                                                            action="{{ route('admin.category.status.change', $category->id) }}"
                                                             method="POST" id="status-form-activate-{{ $category->id }}">
                                                             @csrf
                                                             <input type="hidden" name="status" value="1">
@@ -77,7 +79,8 @@
                                                                 {{ __('Active') }}
                                                             </button>
                                                         </form>
-                                                        <form action="{{ route('admin.category.status.change', $category->id) }}"
+                                                        <form
+                                                            action="{{ route('admin.category.status.change', $category->id) }}"
                                                             method="POST" id="status-form-deactivate-{{ $category->id }}">
                                                             @csrf
                                                             <input type="hidden" name="status" value="2">
@@ -94,7 +97,8 @@
                                                         data-bs-target="#category_edit_modal"
                                                         class="btn btn-sm btn-warning text-dark btn-xs mb-2 me-1 category_edit_btn"
                                                         data-id="{{ $category->id }}" data-name="{{ $category->name }}"
-                                                        data-status="{{ $category->status_id }}" data-slug="{{ $category->slug }}"
+                                                        data-status="{{ $category->status_id }}"
+                                                        data-slug="{{ $category->slug }}"
                                                         data-description="{{ $category->description }}"
                                                         data-imageid="{{ $category->image_id }}"
                                                         data-image="{{ \App\Http\Services\Media::render_image($category->image, render_type: 'path') }}">
@@ -166,7 +170,8 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">{{ __('Close') }}</button>
                             <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                         </div>
                     </form>
@@ -225,7 +230,8 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
+                        <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">{{ __('Close') }}</button>
                         <button type="submit" class="btn btn-primary">{{ __('Add') }}</button>
                     </div>
                     </form>
@@ -241,12 +247,85 @@
     <x-media.js />
     <x-table.btn.swal.js />
     @can('categories-delete')
-        <x-bulk-action.js :route="route('admin.category.bulk.action')" />
-    @endcan
+        <script>
+            (function($) {
+                $(document).ready(function() {
+                    $(document).on('click', '#bulk_delete_btn', function(e) {
+                        e.preventDefault();
 
+                        var bulkOption = $('#bulk_option').val();
+                        var allCheckbox = $('.bulk-checkbox:checked');
+                        var allIds = [];
+
+                        allCheckbox.each(function(index, value) {
+                            allIds.push($(this).val());
+                        });
+
+                        if (allIds.length > 0 && bulkOption == 'delete') {
+                            Swal.fire({
+                                title: '{{ __('Are you sure?') }}',
+                                text: '{{ __('You would not be able to revert this action!') }}',
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#ee0000',
+                                cancelButtonColor: '#55545b',
+                                confirmButtonText: '{{ __('Yes, delete them!') }}',
+                                cancelButtonText: "{{ __('No') }}"
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    $('#bulk_delete_btn').text('{{ __('Deleting...') }}');
+
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "{{ route('admin.category.bulk.action') }}",
+                                        data: {
+                                            _token: "{{ csrf_token() }}",
+                                            ids: allIds,
+                                        },
+                                        success: function(data) {
+                                            Swal.fire(
+                                                '{{ __('Deleted!') }}',
+                                                '{{ __('Selected data have been deleted.') }}',
+                                                'success'
+                                            );
+                                            setTimeout(function() {
+                                                location.reload();
+                                            }, 1000);
+                                        },
+                                        error: function() {
+                                            Swal.fire(
+                                                'Error!',
+                                                'Failed to delete data.',
+                                                'error'
+                                            );
+                                        }
+                                    });
+                                }
+                            });
+                        } else {
+                            Swal.fire(
+                                'Warning!',
+                                '{{ __('Please select at least one item and choose delete option.') }}',
+                                'warning'
+                            );
+                        }
+                    });
+
+                    // Handle "select all" checkbox
+                    $('.all-checkbox').on('change', function(e) {
+                        e.preventDefault();
+                        var value = $(this).is(':checked');
+                        var allChek = $(this).closest('table').find('.bulk-checkbox');
+
+                        allChek.prop('checked', value);
+                    });
+                });
+            })(jQuery);
+        </script>
+    @endcan
     <script>
-        $(document).ready(function () {
-            $(document).on('click', '.category_edit_btn', function () {
+        $(document).ready(function() {
+            $(document).on('click', '.category_edit_btn', function() {
                 let el = $(this);
                 let id = el.data('id');
                 let name = el.data('name');
@@ -276,12 +355,12 @@
 
             });
 
-            $('#create-name , #create-slug').on('keyup', function () {
+            $('#create-name , #create-slug').on('keyup', function() {
                 let title_text = $(this).val();
                 $('#create-slug').val(convertToSlug(title_text))
             });
 
-            $('#edit_name , #edit_slug').on('keyup', function () {
+            $('#edit_name , #edit_slug').on('keyup', function() {
                 let title_text = $(this).val();
                 $('#edit_slug').val(convertToSlug(title_text))
             });

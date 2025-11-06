@@ -1,6 +1,6 @@
 @extends('backend.admin-master')
 @section('site-title')
-    {{ __('All Colors') }}
+    {{ __('All New Colors') }}
 @endsection
 @section('style')
     <x-bulk-action.css />
@@ -31,7 +31,6 @@
                                     @can('colors-bulk-action')
                                         <x-bulk-action.th />
                                     @endcan
-                                    {{-- <th>{{ __('ID') }}</th> --}}
                                     <th>{{ __('Name') }}</th>
                                     <th>{{ __('Color Code') }}</th>
                                     <th>{{ __('Slug') }}</th>
@@ -57,7 +56,8 @@
                                                     <a href="#1" title="{{ __('Edit Data') }}" data-bs-toggle="modal"
                                                         data-bs-target="#color_edit_modal"
                                                         class="btn btn-warning text-dark btn-xs mb-2 me-1 color_edit_btn"
-                                                        data-id="{{ $product_color->id }}" data-name="{{ $product_color->name }}"
+                                                        data-id="{{ $product_color->id }}"
+                                                        data-name="{{ $product_color->name }}"
                                                         data-color_code="{{ $product_color->color_code }}"
                                                         data-slug="{{ $product_color->slug }}">
                                                         <i class="mdi mdi-pencil"></i>
@@ -83,7 +83,7 @@
             <div class="modal-dialog">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
-                        <h5 class="modal-title">{{ __('Add Color') }}</h5>
+                        <h5 class="modal-title">{{ __('Add New Color') }}</h5>
                         <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
                     </div>
                     <form action="{{ route('admin.product.colors.new') }}" method="POST">
@@ -102,7 +102,8 @@
                                     {{ __('Color Code') }}
                                     <span class="text-danger">*</span>
                                 </label>
-                                <input type="color" class="form-control w-25 p-1" id="color_code" name="color_code" required="">
+                                <input type="color" class="form-control w-25 p-1" id="color_code" name="color_code"
+                                    required="">
                             </div>
                             {{-- <div class="form-group">
                                 <label for="slug">{{ __('Slug') }}</label>
@@ -111,7 +112,8 @@
                             </div> --}}
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">{{ __('Close') }}</button>
                             <button type="submit" class="btn btn-primary">
                                 {{ __('Add') }}
                             </button>
@@ -126,7 +128,7 @@
             <div class="modal-dialog">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
-                        <h5 class="modal-title">{{ __('Edit Product Color') }}</h5>
+                        <h5 class="modal-title">{{ __('Edit Color') }}</h5>
                         <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
                     </div>
                     <form action="{{ route('admin.product.colors.update') }}" method="post">
@@ -146,7 +148,8 @@
                                     {{ __('Color Code') }}
                                     <span class="text-danger">*</span>
                                 </label>
-                                <input type="color" class="form-control w-25 p-1" id="edit_color_code" name="color_code" required="">
+                                <input type="color" class="form-control w-25 p-1" id="edit_color_code" name="color_code"
+                                    required="">
                             </div>
                             {{-- <div class="form-group">
                                 <label for="slug">{{ __('Slug') }}</label>
@@ -155,7 +158,8 @@
                             </div> --}}
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">{{ __('Close') }}</button>
                             <button type="submit" class="btn btn-primary">
                                 {{ __('Update') }}
                             </button>
@@ -169,12 +173,87 @@
 
 @section('script')
     <x-table.btn.swal.js />
+
     @can('colors-bulk-action')
-        <x-bulk-action.js :route="route('admin.product.colors.bulk.action')" />
+        <script>
+            (function($) {
+                $(document).ready(function() {
+                    $(document).on('click', '#bulk_delete_btn', function(e) {
+                        e.preventDefault();
+                        var bulkOption = $('#bulk_option').val();
+                        var allCheckbox = $('.bulk-checkbox:checked');
+                        var allIds = [];
+
+                        allCheckbox.each(function(index, value) {
+                            allIds.push($(this).val());
+                        });
+
+                        if (allIds.length > 0 && bulkOption == 'delete') {
+                            Swal.fire({
+                                title: '{{ __('Are you sure?') }}',
+                                text: '{{ __('You would not be able to revert this action!') }}',
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#ee0000',
+                                cancelButtonColor: '#55545b',
+                                confirmButtonText: '{{ __('Yes, delete them!') }}',
+                                cancelButtonText: "{{ __('No') }}"
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    $('#bulk_delete_btn').text('{{ __('Deleting...') }}');
+
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "{{ route('admin.product.colors.bulk.action') }}",
+                                        data: {
+                                            _token: "{{ csrf_token() }}",
+                                            ids: allIds,
+                                        },
+                                        success: function(data) {
+                                            Swal.fire(
+                                                '{{ __('Deleted!') }}',
+                                                '{{ __('Selected data have been deleted.') }}',
+                                                'success'
+                                            );
+                                            setTimeout(function() {
+                                                location.reload();
+                                            }, 1000);
+                                        },
+                                        error: function() {
+                                            Swal.fire(
+                                                'Error!',
+                                                'Failed to delete data.',
+                                                'error'
+                                            );
+                                        }
+                                    });
+                                }
+                            });
+                        } else {
+                            Swal.fire(
+                                'Warning!',
+                                '{{ __('Please select at least one item and choose delete option.') }}',
+                                'warning'
+                            );
+                        }
+                    });
+
+                    // Handle "select all" checkbox
+                    $('.all-checkbox').on('change', function(e) {
+                        e.preventDefault();
+                        var value = $(this).is(':checked');
+                        var allChek = $(this).closest('table').find('.bulk-checkbox');
+
+                        allChek.prop('checked', value);
+                    });
+                });
+            })(jQuery);
+        </script>
     @endcan
+
     <script>
-        $(document).ready(function () {
-            $(document).on('click', '.color_edit_btn', function () {
+        $(document).ready(function() {
+            $(document).on('click', '.color_edit_btn', function() {
                 let el = $(this);
                 let modal = $('#color_edit_modal');
 

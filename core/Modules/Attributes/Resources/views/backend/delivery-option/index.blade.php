@@ -24,10 +24,9 @@
                 </div>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Delivery Options') }}</h4>
-                        @can('product-delivery-manage-delete')
-                            <x-bulk-action.dropdown />
-                        @endcan
+                        <h4 class="dashboard__card__title">
+                            {{ __('Delivery Options') }}
+                        </h4>
                     </div>
                     <div class="dashboard__card__body mt-4">
                         <div class="table-responsive">
@@ -80,8 +79,7 @@
                         <h5 class="modal-title">{{ __('Add Delivery Option') }}</h5>
                         <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
                     </div>
-                    <form action="{{ route('admin.delivery.option.store') }}" method="post"
-                                enctype="multipart/form-data">
+                    <form action="{{ route('admin.delivery.option.store') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="id" id="delivery_manage_id">
                         <div class="modal-body">
@@ -92,7 +90,7 @@
                                     <span class="text-danger">*</span>
                                 </label>
                                 <input type="text" class="form-control" id="title" name="title"
-                                    placeholder="{{ __('Enter tfitle') }}" required="">
+                                    placeholder="{{ __('Enter title') }}" required="">
                             </div>
                             <div class="form-group">
                                 <label for="name">
@@ -163,7 +161,6 @@
 @section('script')
     <x-table.btn.swal.js />
     <x-backend.icon-picker-js />
-
     <script>
         $(document).ready(function() {
             $(document).on('click', '.delivery_manage_edit_btn', function() {

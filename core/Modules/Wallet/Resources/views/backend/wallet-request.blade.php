@@ -187,13 +187,18 @@
 
 @section('script')
     <x-media.js />
-
     <script>
         $(document).on("click", "#update-wallet-request", function() {
-            $("#updateWalletStatus input[name=id]").val($(this).attr("data-id"));
-            $("#updateWalletStatus select[name=request_status] option[value=" + $(this).attr(
-                "data-request-status") + "]").attr("selected", true)
-            $("#updateWalletStatus .request-fields-data").text($(this).attr("data-fields"))
+            let id = $(this).data("id");
+            let status = $(this).data("request-status");
+            let fields = $(this).data("fields");
+
+            $("#updateWalletStatus input[name=id]").val(id);
+            $("#updateWalletStatus select[name=request_status]")
+                .val(status)
+                .change();
+
+            $("#updateWalletStatus .request-fields-data").html(fields);
         });
     </script>
 @endsection
