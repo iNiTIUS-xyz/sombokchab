@@ -22,7 +22,8 @@ class AdminNewsLetterController extends Controller
     }
 
 
-    public function send_mail(Request $request){
+    public function send_mail(Request $request)
+    {
 
         $request->validate([
             'email' => 'required|email',
@@ -31,24 +32,24 @@ class AdminNewsLetterController extends Controller
         ]);
 
         $id = $request->id;
-        $message = '<br><div class="btn-wrap"> <a class="anchor-btn" href="' . route('frontend.newsletter.unsubscribe.visitor',$id) . '">' . __('Unsubscribe') . '</a></div>';
+        $message = '<br><div class="btn-wrap"> <a class="anchor-btn" href="' . route('frontend.newsletter.unsubscribe.visitor', $id) . '">' . __('Unsubscribe') . '</a></div>';
         $data = [
             'email' => $request->email,
             'subject' => $request->subject,
-            'message' => $request->message .$message,
+            'message' => $request->message . $message,
         ];
         try {
             Mail::to($request->email)->send(new BasicMail($data));
-
-        }catch (\Throwable $th) {
+        } catch (\Throwable $th) {
             //throw $th;
         }
 
         return redirect()->back()->with(['msg' => __('Mail sent successfully.'), 'type' => 'success']);
     }
 
-    public function newsletter_unsubscribe($id){
-        Newsletter::where('id',$id)->update(['subscribe_status'=> 0]);
+    public function newsletter_unsubscribe($id)
+    {
+        Newsletter::where('id', $id)->update(['subscribe_status' => 0]);
         return redirect()->back()->with(['msg' => __('Successfully unsubscribed.'), 'type' => 'danger']);
     }
 
@@ -78,6 +79,7 @@ class AdminNewsLetterController extends Controller
                 Mail::to($subscriber->email)->send(new SubscriberMessage($data));
             } catch (\Throwable $th) {
                 //throw $th;
+
             }
         }
 
@@ -89,12 +91,14 @@ class AdminNewsLetterController extends Controller
 
     public function add_new_sub(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email|unique:newsletters',
-        ],
+        $request->validate(
+            [
+                'email' => 'required|email|unique:newsletters',
+            ],
             [
                 'email.required' => __('email field required'),
-            ]);
+            ]
+        );
 
         Newsletter::create($request->all());
 
@@ -122,7 +126,7 @@ class AdminNewsLetterController extends Controller
             $subscriber_details->token = $token;
             $subscriber_details->save();
         }
-        $message = __('Verify your email to get all news from ').get_static_option('site_title').'<div class="btn-wrap"> <a class="anchor-btn" href="'.route('subscriber.verify', ['token' => $token]).'">'.__('verify email').'</a></div>';
+        $message = __('Verify your email to get all news from ') . get_static_option('site_title') . '<div class="btn-wrap"> <a class="anchor-btn" href="' . route('subscriber.verify', ['token' => $token]) . '">' . __('verify email') . '</a></div>';
         $data = [
             'message' => $message,
             'subject' => __('verify your email'),

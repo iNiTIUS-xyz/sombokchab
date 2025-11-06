@@ -84,12 +84,6 @@
                                             @can('newsletter-delete')
                                                 <x-delete-popover :url="route('admin.support.ticket.department.delete', $data->id)" />
                                             @endcan
-                                            {{-- <a tabindex="0" class="btn btn-lg btn-danger btn-sm mb-2 me-1" role="button"
-                                                data-bs-toggle="popover" data-bs-trigger="focus" data-bs-html="true"
-                                                title="{{ __('Delete Data') }}"
-                                                data-content="<h6>{{ __('Are you sure to delete this category item?') }}</h6><form method='post' action='{{ route('admin.support.ticket.department.delete', $data->id) }}'><input type='hidden' name='_token' value='{{ csrf_token() }}'><br><input type='submit' class='btn btn-danger btn-sm' value='{{ __('Yes, Please') }}'></form>">
-                                                <i class="ti-trash"></i>
-                                            </a> --}}
                                         @endcan
                                     </td>
                                 </tr>
@@ -125,17 +119,18 @@
                             </div>
                             <div class="form-group">
                                 <label for="status">
-                                    {{ __('Status') }}
+                                    {{ __('Publish Status') }}
                                     <span class="text-danger">*</span>
                                 </label>
                                 <select name="status" class="form-select" id="status">
                                     <option value="publish">{{ __('Publish') }}</option>
-                                    <option value="draft">{{ __('Draft') }}</option>
+                                    <option value="draft">{{ __('Unpublish') }}</option>
                                 </select>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">{{ __('Close') }}</button>
                             <button type="submit" class="btn btn-primary">{{ __('Add') }}</button>
                         </div>
                     </form>
@@ -167,17 +162,18 @@
                             </div>
                             <div class="form-group">
                                 <label for="edit_status">
-                                    {{ __('Status') }}
+                                    {{ __('Publish Status') }}
                                     <span class="text-danger">*</span>
                                 </label>
                                 <select name="status" class="form-select" id="edit_status">
-                                    <option value="draft">{{ __('Draft') }}</option>
+                                    <option value="draft">{{ __('Unpublish') }}</option>
                                     <option value="publish">{{ __('Publish') }}</option>
                                 </select>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">{{ __('Close') }}</button>
                             <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                         </div>
                     </form>
@@ -189,10 +185,85 @@
 
 @section('script')
     @can('support-tickets-department-bulk-action')
-        <x-bulk-action.js :route="route('admin.support.ticket.department.bulk.action')" />
+        <script>
+            (function($) {
+                $(document).ready(function() {
+                    $(document).on('click', '#bulk_delete_btn', function(e) {
+                        e.preventDefault();
+
+                        var bulkOption = $('#bulk_option').val();
+                        var allCheckbox = $('.bulk-checkbox:checked');
+                        var allIds = [];
+
+                        allCheckbox.each(function(index, value) {
+                            allIds.push($(this).val());
+                        });
+
+                        if (allIds.length > 0 && bulkOption == 'delete') {
+                            Swal.fire({
+                                title: '{{ __('Are you sure?') }}',
+                                text: '{{ __('You would not be able to revert this action!') }}',
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#ee0000',
+                                cancelButtonColor: '#55545b',
+                                confirmButtonText: '{{ __('Yes, delete them!') }}',
+                                cancelButtonText: "{{ __('No') }}"
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    $('#bulk_delete_btn').text('{{ __('Deleting...') }}');
+
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "{{ route('admin.support.ticket.department.bulk.action') }}",
+                                        data: {
+                                            _token: "{{ csrf_token() }}",
+                                            ids: allIds,
+                                        },
+                                        success: function(data) {
+                                            Swal.fire(
+                                                '{{ __('Deleted!') }}',
+                                                '{{ __('Selected data have been deleted.') }}',
+                                                'success'
+                                            );
+                                            setTimeout(function() {
+                                                location.reload();
+                                            }, 1000);
+                                        },
+                                        error: function() {
+                                            Swal.fire(
+                                                'Error!',
+                                                'Failed to delete data.',
+                                                'error'
+                                            );
+                                        }
+                                    });
+                                }
+                            });
+                        } else {
+                            Swal.fire(
+                                'Warning!',
+                                '{{ __('Please select at least one item and choose delete option.') }}',
+                                'warning'
+                            );
+                        }
+                    });
+
+                    // Handle "select all" checkbox
+                    $('.all-checkbox').on('change', function(e) {
+                        e.preventDefault();
+                        var value = $(this).is(':checked');
+                        var allChek = $(this).closest('table').find('.bulk-checkbox');
+
+                        allChek.prop('checked', value);
+                    });
+                });
+            })(jQuery);
+        </script>
     @endcan
+
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             $('.table-wrap > table').DataTable({
                 "order": [
                     [1, "desc"]
@@ -206,7 +277,7 @@
                 }
             });
 
-            $('.all-checkbox').on('change', function (e) {
+            $('.all-checkbox').on('change', function(e) {
                 e.preventDefault();
                 var value = $('.all-checkbox').is(':checked');
                 var allChek = $(this).parent().parent().parent().parent().parent().find('.bulk-checkbox');
@@ -218,7 +289,7 @@
                 }
             });
 
-            $(document).on('click', '.category_edit_btn', function () {
+            $(document).on('click', '.category_edit_btn', function() {
                 var el = $(this);
                 var id = el.data('id');
                 var name = el.data('name');
