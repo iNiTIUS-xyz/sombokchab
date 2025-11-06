@@ -281,10 +281,10 @@
                                 <div class="wishlist-compare">
                                     <div class="wishlist-compare-btn">
                                         <a href="#1" data-id="{{ $product->id }}"
-                                            class="btn-wishlist buy_now_single_page btn-details btn-buyNow mt-4"> <i
+                                            class="btn-wishlist buy_now_single_page btn-details btn-buyNow mt-4 {{ $stock_count <= 0 ? 'disabled-link' : '' }}"> <i
                                                 class="las la-cart-arrow-down"></i> {{ __('Buy Now') }} </a>
                                         <a href="#1" data-id="{{ $product->id }}"
-                                            class="btn-wishlist add_to_compare_single_page btn-details btn-buyNow mt-4">
+                                            class="btn-wishlist add_to_compare_single_page btn-details btn-buyNow mt-4 {{ $stock_count <= 0 ? 'disabled-link' : '' }}">
                                             <i class="las la-retweet"></i> {{ __('Add to compare') }} </a>
                                     </div>
                                 </div>

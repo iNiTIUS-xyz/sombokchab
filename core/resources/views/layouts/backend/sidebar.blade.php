@@ -215,7 +215,7 @@
                         </li>
                     @endif --}}
 
-                    @if (auth('admin')->user()->hasRole('Super Admin'))
+                    {{-- @if (auth('admin')->user()->hasRole('Super Admin'))
                         <li class="main_dropdown @if (request()->is([
                                 'admin-home/mobile-slider-two/*',
                                 'admin-home/mobile-slider-three/*',
@@ -289,7 +289,7 @@
                                 @endif
                             </ul>
                         </li>
-                    @endif
+                    @endif --}}
                 @endif
 
                 @if (moduleExists('DeliveryMan'))
@@ -1519,14 +1519,14 @@
                 </li>
             @endcanany
 
-            @can('languages')
+            {{-- @can('languages')
                 <li class="@if (request()->is('admin-home/languages/*') || request()->is('admin-home/languages')) active @endif" style="display: none;">
                     <a href="{{ route('admin.languages') }}" aria-expanded="true">
                         <i class="ti-signal"></i>
                         <span>{{ __('Languages Management') }}</span>
                     </a>
                 </li>
-            @endcan
+            @endcan --}}
 
             @if (moduleExists('PluginManage') && auth('admin')->user()->hasRole('Super Admin'))
                 <li
