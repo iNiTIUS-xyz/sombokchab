@@ -139,9 +139,8 @@
 
     @include('backend.partials.media-upload.media-upload-markup')
 @endsection
+
 @section('script')
-    <!-- Start datatable js -->
-    {{-- @include('backend.partials.datatable.script-enqueue') --}}
     <script src="{{ asset('assets/backend/js/dropzone.js') }}"></script>
     @include('backend.partials.media-upload.media-js')
     <script>

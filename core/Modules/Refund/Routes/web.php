@@ -32,7 +32,7 @@ Route::prefix('admin-home/refund')->as("admin.refund.")->middleware(['setlang:ba
         Route::get("/", "index")->name("index")->permission("refund-reason");
         Route::post("/store", "store")->name("store")->permission("refund-reason-store");
         Route::put("/update", "update")->name("update")->permission("refund-reason-update");
-        Route::get("/delete/{reason}", "destroy")->name("delete")->permission("refund-reason-delete");
+        Route::post("/delete/{reason}", "destroy")->name("delete")->permission("refund-reason-delete");
     });
 
     Route::controller(RefundPreferredOptionController::class)->prefix("preferred-option")->as("preferred-option.")->group(function () {

@@ -39,7 +39,6 @@ class AdminReasonController extends Controller
                 "msg" => $reason ? __("Successfully updated reason") : __("Failed to update reason"),
                 "success" => (bool) $reason,
             ]);
-
         } catch (\Throwable $e) {
             return response()->json([
                 "msg" => __("Failed to update reason"),
@@ -58,5 +57,4 @@ class AdminReasonController extends Controller
             "success" => (bool) $reason,
         ]);
     }
-
 }

@@ -44,16 +44,18 @@
                                             @can('refund-reason-update')
                                                 <button data-id="{{ $reason->id }}" data-name="{{ $reason->name }}"
                                                     data-bs-toggle="modal" data-bs-target="#editRefundReasonModal"
-                                                    class="btn btn-warning text-dark btn-sm edit-reason"
+                                                    class="btn btn-warning text-dark btn-sm mb-2 edit-reason"
                                                     title="{{ __('Edit Data') }}">
                                                     <i class="ti-pencil"></i>
                                                 </button>
                                             @endcan
                                             @can('refund-reason-delete')
-                                                <a href="{{ route('admin.refund.reason.delete', $reason->id) }}"
+                                                {{-- <a href=""
                                                     class="btn btn-danger btn-sm" title="{{ __('Delete Data') }}">
                                                     <i class="ti-trash"></i>
-                                                </a>
+                                                </a> --}}
+
+                                                <x-delete-popover :url="route('admin.refund.reason.delete', $reason->id)" />
                                             @endcan
                                         </td>
                                     </tr>
