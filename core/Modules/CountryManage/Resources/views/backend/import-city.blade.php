@@ -44,7 +44,6 @@
                                 <button type="submit" class="btn btn-primary loading-btn">
                                     {{ __('Submit') }}
                                 </button>
-                                
                             </form>
                         @else
                             @php

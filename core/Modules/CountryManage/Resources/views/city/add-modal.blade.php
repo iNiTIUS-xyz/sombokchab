@@ -31,7 +31,7 @@
                         <select name="state" id="state" class="form-select" required="">
                             <option value="">{{ __('Select Province') }}</option>
                             @foreach ($all_states as $state)
-                            <option value="{{ $state->id }}">{{ $state->name }}</option>
+                                <option value="{{ $state->id }}">{{ $state->name }}</option>
                             @endforeach
                         </select>
                         <span class="info_msg"></span>
@@ -42,12 +42,13 @@
                             {{ __('City') }}
                             <span class="text-danger">*</span>
                         </label>
-                        <input type="text" class="form-control" name="city" id="city" placeholder="Enter City Name" required="">
+                        <input type="text" class="form-control" name="city" id="city"
+                            placeholder="Enter City Name" required="">
                         <span class="info_msg"></span>
                     </div>
 
                     <div class="form-group">
-                        <label class="label-title">{{ __('Status') }}</label>
+                        <label class="label-title">{{ __('Publish Status') }}</label>
                         <select name="status" id="status" class="form-select">
                             <option value="publish">{{ __('Publish') }}</option>
                             <option value="draft">{{ __('Unpublish') }}</option>
@@ -57,7 +58,8 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary mt-4" data-bs-dismiss="modal">{{ __('Close') }}</button>
+                    <button type="button" class="btn btn-secondary mt-4"
+                        data-bs-dismiss="modal">{{ __('Close') }}</button>
                     <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4 add_city">{{ __('Add') }}</button>
                 </div>
             </form>

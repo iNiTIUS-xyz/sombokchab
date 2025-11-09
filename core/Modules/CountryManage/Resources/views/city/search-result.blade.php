@@ -54,12 +54,12 @@
                         </div>
                     </td>
                     <td>
-                        {{-- <x-status.table.status-change :url="route('admin.city.status', $city->id)" /> --}}
                         <a href="javascript:;" title="{{ __('Edit Data') }}"
                             class="btn btn-warning btn-sm text-dark edit_city_modal" data-bs-toggle="modal"
-                            data-bs-target="#editCityModal" data-city="{{ $city->name }}" data-city_id="{{ $city->id }}"
-                            title="{{ __('Edit Data') }}" data-state_id="{{ $city->state_id }}"
-                            data-country_id="{{ $city->country_id }}" data-city_status="{{ $city->status }}">
+                            data-bs-target="#editCityModal" data-city="{{ $city->name }}"
+                            data-city_id="{{ $city->id }}" title="{{ __('Edit Data') }}"
+                            data-state_id="{{ $city->state_id }}" data-country_id="{{ $city->country_id }}"
+                            data-city_status="{{ $city->status }}">
                             <i class="ti-pencil"></i>
                         </a>
                         <x-popup.delete-popup :url="route('admin.city.delete', $city->id)" />

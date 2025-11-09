@@ -103,10 +103,7 @@ class CityController extends Controller
     {
         City::whereIn('id', $request->ids)->delete();
 
-        return back()->with([
-            'msg' => __('Selected city deleted successfully.'),
-            'type' => 'success',
-        ]);
+        return response()->json(['status' => true]);
     }
 
     public function import_settings()

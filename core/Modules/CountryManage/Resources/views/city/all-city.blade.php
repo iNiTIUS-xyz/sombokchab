@@ -32,7 +32,7 @@
                         {{ __('All Cities') }}
                     </h4>
                     <div class="dashboard__card__header__right">
-                        <x-bulk-action.bulk-action />
+                        <x-bulk-action.dropdown />
                     </div>
                 </div>
                 <div class="dashboard__card__body mt-4">
@@ -51,11 +51,89 @@
 @endsection
 
 @section('script')
+
     <x-select2.select2-js />
-    <x-bulk-action.bulk-delete-js :url="route('admin.city.delete.bulk.action')" />
-    @include('countrymanage::city.city-js')
+
     <script>
-        $(document).on('click', '.swal_status_change_button', function (e) {
+        (function($) {
+            $(document).ready(function() {
+                $(document).on('click', '#bulk_delete_btn', function(e) {
+                    e.preventDefault();
+
+                    var bulkOption = $('#bulk_option').val();
+                    var allCheckbox = $('.bulk-checkbox:checked');
+                    var allIds = [];
+
+                    allCheckbox.each(function(index, value) {
+                        allIds.push($(this).val());
+                    });
+
+                    if (allIds.length > 0 && bulkOption == 'delete') {
+                        Swal.fire({
+                            title: '{{ __('Are you sure?') }}',
+                            text: '{{ __('You would not be able to revert this action!') }}',
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#ee0000',
+                            cancelButtonColor: '#55545b',
+                            confirmButtonText: '{{ __('Yes, delete them!') }}',
+                            cancelButtonText: "{{ __('No') }}"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $('#bulk_delete_btn').text('{{ __('Deleting...') }}');
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: "{{ route('admin.city.delete.bulk.action') }}",
+                                    data: {
+                                        _token: "{{ csrf_token() }}",
+                                        ids: allIds,
+                                    },
+                                    success: function(data) {
+                                        Swal.fire(
+                                            '{{ __('Deleted!') }}',
+                                            '{{ __('Selected data have been deleted.') }}',
+                                            'success'
+                                        );
+                                        setTimeout(function() {
+                                            location.reload();
+                                        }, 1000);
+                                    },
+                                    error: function() {
+                                        Swal.fire(
+                                            'Error!',
+                                            'Failed to delete data.',
+                                            'error'
+                                        );
+                                    }
+                                });
+                            }
+                        });
+                    } else {
+                        Swal.fire(
+                            'Warning!',
+                            '{{ __('Please select at least one item and choose delete option.') }}',
+                            'warning'
+                        );
+                    }
+                });
+
+                // Handle "select all" checkbox
+                $('.all-checkbox').on('change', function(e) {
+                    e.preventDefault();
+                    var value = $(this).is(':checked');
+                    var allChek = $(this).closest('table').find('.bulk-checkbox');
+
+                    allChek.prop('checked', value);
+                });
+            });
+        })(jQuery);
+    </script>
+
+    @include('countrymanage::city.city-js')
+
+    <script>
+        $(document).on('click', '.swal_status_change_button', function(e) {
             e.preventDefault();
             Swal.fire({
                 title: '{{ __('Are you sure?') }}',

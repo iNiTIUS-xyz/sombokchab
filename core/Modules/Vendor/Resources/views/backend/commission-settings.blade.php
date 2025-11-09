@@ -10,7 +10,7 @@
         <x-msg.error />
         <x-msg.flash />
         <div class="row g-4">
-            <div class="col-lg-12">
+            <div class="col-lg-6">
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">
@@ -77,7 +77,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-12">
+            <div class="col-lg-6">
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">
