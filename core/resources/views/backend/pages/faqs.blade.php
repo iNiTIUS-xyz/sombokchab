@@ -27,19 +27,7 @@
                         <h4 class="dashboard__card__title">{{ __('FAQ Management') }}</h4>
                         <div class="dashboard__card__header__right">
                             @can('faq-faq-bulk-action')
-                                <div class="bulk-delete-wrapper">
-                                    <div class="select-box-wrap">
-                                        <select name="bulk_option" id="bulk_option">
-                                            <option value="">{{ __('Bulk Action') }}</option>
-                                            <option value="delete">{{ __('Delete') }}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="btn-wrapper">
-                                    <button class="btn btn-primary" id="bulk_delete_btn">
-                                        {{ __('Apply') }}
-                                    </button>
-                                </div>
+                                <x-bulk-action.dropdown />
                             @endcan
                         </div>
                     </div>
@@ -74,7 +62,8 @@
                                                 <div class="btn-group badge">
                                                     <button type="button"
                                                         class="status-{{ $data->status }} {{ $data->status == 'publish' ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
-                                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        data-bs-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
                                                         {{ ucfirst($data->status == 'publish' ? __('Publish') : __('Unpublish')) }}
                                                     </button>
                                                     <div class="dropdown-menu">
@@ -99,7 +88,8 @@
                                             </td>
                                             <td>
                                                 @can('faq-edit-faq')
-                                                    <a href="#1" data-bs-toggle="modal" data-bs-target="#faq_item_edit_modal"
+                                                    <a href="#1" data-bs-toggle="modal"
+                                                        data-bs-target="#faq_item_edit_modal"
                                                         class="btn btn-warning btn-xs text-dark mb-2 me-1 faq_edit_btn"
                                                         data-id="{{ $data->id }}" data-title="{{ $data->title }}"
                                                         data-lang="{{ $data->lang }}" data-is_open="{{ $data->is_open }}"
@@ -185,7 +175,8 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">{{ __('Close') }}</button>
                             <button id="update" type="submit" class="btn btn-primary">{{ __('Add') }}</button>
                         </div>
                     </form>
@@ -241,7 +232,8 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">{{ __('Close') }}</button>
                             <button id="update" type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                         </div>
                     </form>
@@ -254,13 +246,87 @@
 @section('script')
     <x-summernote.js />
     @can('faq-faq-bulk-action')
-        <x-bulk-action-js :url="route('admin.faq.bulk.action')" />
+        <script>
+            (function($) {
+                $(document).ready(function() {
+                    $(document).on('click', '#bulk_delete_btn', function(e) {
+                        e.preventDefault();
+
+                        var bulkOption = $('#bulk_option').val();
+                        var allCheckbox = $('.bulk-checkbox:checked');
+                        var allIds = [];
+
+                        allCheckbox.each(function(index, value) {
+                            allIds.push($(this).val());
+                        });
+
+                        if (allIds.length > 0 && bulkOption == 'delete') {
+                            Swal.fire({
+                                title: '{{ __('Are you sure?') }}',
+                                text: '{{ __('You would not be able to revert this action!') }}',
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#ee0000',
+                                cancelButtonColor: '#55545b',
+                                confirmButtonText: '{{ __('Yes, delete them!') }}',
+                                cancelButtonText: "{{ __('No') }}"
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    $('#bulk_delete_btn').text('{{ __('Deleting...') }}');
+
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "{{ route('admin.faq.bulk.action') }}",
+                                        data: {
+                                            _token: "{{ csrf_token() }}",
+                                            ids: allIds,
+                                        },
+                                        success: function(data) {
+                                            Swal.fire(
+                                                '{{ __('Deleted!') }}',
+                                                '{{ __('Selected data have been deleted.') }}',
+                                                'success'
+                                            );
+                                            setTimeout(function() {
+                                                location.reload();
+                                            }, 1000);
+                                        },
+                                        error: function() {
+                                            Swal.fire(
+                                                'Error!',
+                                                'Failed to delete data.',
+                                                'error'
+                                            );
+                                        }
+                                    });
+                                }
+                            });
+                        } else {
+                            Swal.fire(
+                                'Warning!',
+                                '{{ __('Please select at least one item and choose delete option.') }}',
+                                'warning'
+                            );
+                        }
+                    });
+
+                    // Handle "select all" checkbox
+                    $('.all-checkbox').on('change', function(e) {
+                        e.preventDefault();
+                        var value = $(this).is(':checked');
+                        var allChek = $(this).closest('table').find('.bulk-checkbox');
+
+                        allChek.prop('checked', value);
+                    });
+                });
+            })(jQuery);
+        </script>
     @endcan
     <script>
-        (function ($) {
+        (function($) {
             "use strict";
 
-            $(document).ready(function () {
+            $(document).ready(function() {
                 // Initialize summernote
                 $('.summernote').summernote({
                     height: 250, //set editable area's height
@@ -268,14 +334,14 @@
                         theme: 'monokai'
                     },
                     callbacks: {
-                        onChange: function (contents, $editable) {
+                        onChange: function(contents, $editable) {
                             $(this).val(contents);
                         }
                     }
                 });
 
                 // Edit FAQ button click handler
-                $(document).on('click', '.faq_edit_btn', function () {
+                $(document).on('click', '.faq_edit_btn', function() {
                     var el = $(this);
                     var id = el.data('id');
                     var title = el.data('title');
@@ -303,7 +369,7 @@
                 });
 
                 // Handle form submission to include summernote content
-                $('#faq_edit_modal_form').on('submit', function () {
+                $('#faq_edit_modal_form').on('submit', function() {
                     var description = $(this).find('.summernote').summernote('code');
                     $(this).find('#edit_description').val(description);
                     return true;

@@ -225,36 +225,36 @@ trait ProductGlobalTrait
 
     private function userId()
     {
-        if (\Auth::guard("admin")->check()) {
-            return \Auth::guard("admin")->user()->id;
+        if (Auth::guard("admin")->check()) {
+            return Auth::guard("admin")->user()->id;
         }
 
-        if (\Auth::guard("vendor")->check()) {
-            return \Auth::guard("vendor")->user()->id;
+        if (Auth::guard("vendor")->check()) {
+            return Auth::guard("vendor")->user()->id;
         }
 
-        if (\Auth::guard("sanctum")->check()) {
-            return \Auth::guard("sanctum")->user()->id;
+        if (Auth::guard("sanctum")->check()) {
+            return Auth::guard("sanctum")->user()->id;
         }
 
-        return \Auth::guard("admin")->check() ? \Auth::guard("admin")->user()->id : \Auth::guard("vendor")->user()->id;
+        return Auth::guard("admin")->check() ? Auth::guard("admin")->user()->id : Auth::guard("vendor")->user()->id;
     }
 
     private function user_info(): array
     {
-        return \Auth::guard("admin")->check() ?
+        return Auth::guard("admin")->check() ?
             [
-                "id" => \Auth::guard("admin")->user()->id,
+                "id" => Auth::guard("admin")->user()->id,
                 "type" => "admin",
             ] : [
-                "id" => \Auth::guard("vendor")->user()->id,
+                "id" => Auth::guard("vendor")->user()->id,
                 "type" => "vendor",
             ];
     }
 
     private function getGuardName(): string
     {
-        return \Auth::guard("admin")->check() ? "admin" : "vendor";
+        return Auth::guard("admin")->check() ? "admin" : "vendor";
     }
 
 
@@ -317,23 +317,22 @@ trait ProductGlobalTrait
     {
         $product = Product::query();
         if ($type == "edit") {
-            $product->with(["product_category", "uom", "gallery_images", "tag", "uom", "product_sub_category", "product_child_category", "image", "inventory", "delivery_option", "created_at"]);
+            $product->with(["product_category", "uom", "gallery_images", "tag", "uom", "product_sub_category", "product_child_category", "image", "inventory", "delivery_option"]);
         } elseif ($type == "single") {
-            $product->with(["category", "uom", "gallery_images", "tag", "uom", "subCategory", "childCategory", "image", "inventory", "delivery_option", "created_at"]);
+            $product->with(["category", "uom", "gallery_images", "tag", "uom", "subCategory", "childCategory", "image", "inventory", "delivery_option"]);
         } elseif ($type == "list") {
-            $product->with(["category", "uom", "subCategory", "childCategory", "brand", "badge", "image", "inventory", "created_at"]);
+            $product->with(["category", "uom", "subCategory", "childCategory", "brand", "badge", "image", "inventory"]);
         } elseif ($type == "search") {
-            $product->with(["category", "uom", "subCategory", "childCategory", "brand", "badge", "image", "inventory", "created_at"]);
+            $product->with(["category", "uom", "subCategory", "childCategory", "brand", "badge", "image", "inventory"]);
         } else {
-            $product = $product->with(["category", "subCategory", "childCategory", "brand", "badge", "image", "inventory", "created_at"]);
+            $product = $product->with(["category", "subCategory", "childCategory", "brand", "badge", "image", "inventory"]);
         }
 
         return $product;
     }
 
-    private function get_product($id, $type = "single"): Model|Builder|null
+    private function get_product($id, $type = "single")
     {
-        // get product instance
         $product = $this->productInstance($type);
 
         return $product->find($id);
@@ -694,7 +693,7 @@ trait ProductGlobalTrait
         });
 
         $all_products->when(Auth::guard("vendor")->check(), function ($query) use ($request) {
-            $query->where("vendor_id", \Auth::guard("vendor")->id());
+            $query->where("vendor_id", Auth::guard("vendor")->id());
         })
             ->when(!Auth::guard("vendor")->check() && $request->vendor_username, function ($query) use ($request) {
                 $query->whereHas("vendor", function ($vendor) use ($request) {
@@ -883,9 +882,9 @@ trait ProductGlobalTrait
     public static function fetch_inventory_product()
     {
         return ProductInventory::query()->with("product")
-            ->when(\Auth::guard("vendor")->check(), function ($query) {
+            ->when(Auth::guard("vendor")->check(), function ($query) {
                 $query->whereHas("product", function ($ven_query) {
-                    $ven_query->where("vendor_id", \Auth::guard("vendor")->id());
+                    $ven_query->where("vendor_id", Auth::guard("vendor")->id());
                 });
             });
     }

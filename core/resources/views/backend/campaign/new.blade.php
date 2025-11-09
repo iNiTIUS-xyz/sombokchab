@@ -55,7 +55,8 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <input type="checkbox" id="set_fixed_percentage">
-                                                    <label for="set_fixed_percentage">{{ __('Set Discount Percentage') }}</label>
+                                                    <label
+                                                        for="set_fixed_percentage">{{ __('Set Discount Percentage') }}</label>
                                                     <p class="text-small">
                                                         {{ __('when you set discount percentage, you have to click on sync price button, to sync price selection with all prodcuts') }}
                                                     </p>
@@ -103,8 +104,9 @@
                                     <div class="col-sm-12 text-center">
                                         @can('campaign-create')
                                             <hr>
-                                            <button type="submit"
-                                                class="cmn_btn btn_bg_profile">{{ __('Create Campaign') }}</button>
+                                            <button type="submit" class="cmn_btn btn_bg_profile">
+                                                {{ __('Create Campaign') }}
+                                            </button>
                                         @endcan
                                     </div>
                                 </div>

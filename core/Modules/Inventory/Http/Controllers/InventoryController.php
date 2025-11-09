@@ -51,6 +51,7 @@ class InventoryController extends Controller
         ];
 
         $inventory = $item->where('id', $item->id)->with('inventoryDetails')->first();
+
         $all_products = Product::all();
         $all_attribute = ProductAttribute::all()->groupBy('title')->map(fn($query) => $query[0]);
         $product_colors = Color::all();
@@ -90,10 +91,7 @@ class InventoryController extends Controller
     public function bulk_action(Request $request)
     {
         $deleted = ProductInventory::whereIn('id', $request->ids)->delete();
-        if ($deleted) {
-            back()->with(FlashMsg::delete_succeed(__('Product Inventory')));
-        }
-        return back()->with(FlashMsg::delete_failed(__('Product Inventory')));
+        return response()->json(['status' => $deleted ? true : false]);
     }
 
     private function insertInventoryDetails($inventory_id, $inventory_details)

@@ -160,10 +160,6 @@
                     {{ $product->created_at->format('M d, y') }}
                 </td>
                 <td>
-                    {{-- <a href="{{ route('frontend.products.single', $product->slug) }}"
-                            class="btn btn-success btn-sm" title="{{ __('View Data') }}">
-                            <i class="las la-eye"></i>
-                        </a> --}}
                     @can('product-update')
                         <a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-warning text-dark btn-sm"
                             title="{{ __('Edit Product') }}">
@@ -196,39 +192,3 @@
         @endforelse
     </tbody>
 </table>
-
-{{-- <div class="custom-pagination-wrapper">
-    <div class="pagination-info d-flex gap-3">
-        <p>
-            <strong>{{ __('Per Page:') }}</strong>
-            <span>{{ $products['per_page'] }}</span>
-        </p>
-        <p>
-            <strong>{{ __('From:') }}</strong>
-            <span>{{ $products['from'] }}</span>
-            <strong> {{ __('To:') }}</strong>
-            <span>{{ $products['to'] }}</span>
-        </p>
-        <p>
-            <strong>{{ __('Total Page:') }}</strong>
-            <span>{{ $products['total_page'] }}</span>
-        </p>
-        <p>
-            <strong>{{ __('Total Products:') }}</strong>
-            <span>{{ $products['total_items'] }}</span>
-        </p>
-    </div>
-
-    <div class="pagination">
-        <ul class="pagination-list">
-            @foreach ($products['links'] as $link)
-                <li>
-                    <a href="{{ $link }}"
-                        class="page-number {{ $loop->iteration == $products['current_page'] ? 'current' : '' }}">
-                        {{ $loop->iteration }}
-                    </a>
-                </li>
-            @endforeach
-        </ul>
-    </div>
-</div> --}}

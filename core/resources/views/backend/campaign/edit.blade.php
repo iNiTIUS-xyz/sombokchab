@@ -68,7 +68,8 @@
 
                                                 <div class="form-group mt-5">
                                                     <input type="checkbox" id="set_fixed_percentage">
-                                                    <label for="set_fixed_percentage">{{ __('Set Discount Percentage') }}</label>
+                                                    <label
+                                                        for="set_fixed_percentage">{{ __('Set Discount Percentage') }}</label>
                                                     <p class="text-small">
                                                         {{ __('when you set discount percentage, you have to click on sync price button, to sync price selection with all prodcuts') }}
                                                     </p>
@@ -203,12 +204,15 @@
                                                 </div>
                                                 <div class="btn-wrapper">
                                                     <button type="button" class="cmn_btn btn_bg_profile"
-                                                        id="add_product_btn">{{ __('Add Product') }}</button>
+                                                        id="add_product_btn">
+                                                        {{ __('Add Product') }}
+                                                    </button>
                                                 </div>
                                             </div>
                                             <div class="co-sm-12">
-                                                <button type="submit"
-                                                    class="cmn_btn btn_bg_profile">{{ __('Update Campaign') }}</button>
+                                                <button type="submit" class="cmn_btn btn_bg_profile">
+                                                    {{ __('Update Campaign') }}
+                                                </button>
                                             </div>
                                         </div>
                                     </div>

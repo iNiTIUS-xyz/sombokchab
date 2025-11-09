@@ -216,14 +216,7 @@
                     @endif --}}
 
                     {{-- @if (auth('admin')->user()->hasRole('Super Admin'))
-                        <li class="main_dropdown @if (request()->is([
-                                'admin-home/mobile-slider-two/*',
-                                'admin-home/mobile-slider-three/*',
-                                'admin-home/mobile-slider/*',
-                                'admin-home/mobile-featured-product/*',
-                                'admin-home/mobile-campaign/*',
-                                'admin-home/mobile-settings/*',
-                            ])) active @endif">
+                        <li class="main_dropdown @if (request()->is(['admin-home/mobile-slider-two/*', 'admin-home/mobile-slider-three/*', 'admin-home/mobile-slider/*', 'admin-home/mobile-featured-product/*', 'admin-home/mobile-campaign/*', 'admin-home/mobile-settings/*'])) active @endif">
                             <a href="#1" aria-expanded="true">
                                 <i class="ti-mobile"></i>
                                 <span>{{ __('Buyer App Management') }}</span>
@@ -353,8 +346,7 @@
                                     </li>
                                 @endcan
                                 @if (auth('admin')->user()->hasRole('Super Admin'))
-                                    <li class="{{ active_menu('admin-home/delivery-man/update') }}"
-                                        style="display: none;">
+                                    <li class="{{ active_menu('admin-home/delivery-man/update') }}" style="display: none;">
                                         <a href="{{ route('admin.delivery-man.license_update') }}">
                                             <span>{{ __('Update Plugin') }}</span>
                                         </a>
@@ -962,15 +954,31 @@
                     </ul>
                 </li>
             @endcanany
-            {{-- Campaign route wrapper --}}
             @can('campaigns')
-                <li class="{{ active_menu('admin-home/campaigns') }}">
-                    <a href="{{ route('admin.campaigns.all') }}" aria-expanded="true">
+                <li class="main_dropdown @if (request()->is(['admin-home/campaigns', 'admin-home/campaigns/*'])) active open @endif">
+                    <a href="#1" aria-expanded="true">
                         <i class="ti-announcement"></i>
                         <span>{{ __('Campaign Management') }}</span>
                     </a>
+                    <ul class="collapse">
+                        @can('product-all')
+                            <li class="{{ active_menu('admin-home/campaigns') }}">
+                                <a href="{{ route('admin.campaigns.all') }}">
+                                    {{ __('All Campaigns') }}
+                                </a>
+                            </li>
+                        @endcan
+
+                        @can('product-create')
+                            <li class="{{ active_menu('admin-home/campaigns/new') }}">
+                                <a href="{{ route('admin.campaigns.new') }}">
+                                    {{ __('Add New Campaign') }}
+                                </a>
+                            </li>
+                        @endcan
+                    </ul>
                 </li>
-            @endcan
+            @endcanany
             {{-- Shipping zone route wrapper --}}
             @canany(['shipping-zone', 'shipping-method'])
                 <li class="main_dropdown @if (request()->is([
@@ -1042,7 +1050,7 @@
                         @can('blog-single-page-settings')
                             <li class="{{ active_menu('admin-home/blog/single-settings') }}">
                                 <a href="{{ route('admin.blog.single.settings') }}">
-                                    {{ __('Blog Single Settings') }}
+                                    {{ __('Blog Single Page Settings') }}
                                 </a>
                             </li>
                         @endcan

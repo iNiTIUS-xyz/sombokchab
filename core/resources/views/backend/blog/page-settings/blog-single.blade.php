@@ -56,6 +56,10 @@
                                     <button id="update" type="submit" class="cmn_btn btn_bg_profile">
                                         {{ __('Update') }}
                                     </button>
+                                    <a href="{{ route('admin.blog') }}" class="cmn_btn default-theme-btn"
+                                        style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                                        {{ __('Back') }}
+                                    </a>
                                 </div>
                             </div>
                         </form>
