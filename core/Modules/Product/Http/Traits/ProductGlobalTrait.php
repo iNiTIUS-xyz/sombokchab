@@ -317,25 +317,26 @@ trait ProductGlobalTrait
     {
         $product = Product::query();
         if ($type == "edit") {
-            $product->with(["product_category", "uom", "gallery_images", "tag", "uom", "product_sub_category", "product_child_category", "image", "inventory", "delivery_option"]);
+            $product->with(["product_category", "uom", "gallery_images", "tag", "uom", "product_sub_category", "product_child_category", "image", "inventory", "delivery_option", "created_at"]);
         } elseif ($type == "single") {
             $product->with(["category", "uom", "gallery_images", "tag", "uom", "subCategory", "childCategory", "image", "inventory", "delivery_option"]);
         } elseif ($type == "list") {
-            $product->with(["category", "uom", "subCategory", "childCategory", "brand", "badge", "image", "inventory"]);
+            $product->with(["category", "uom", "subCategory", "childCategory", "brand", "badge", "image", "inventory", "created_at"]);
         } elseif ($type == "search") {
-            $product->with(["category", "uom", "subCategory", "childCategory", "brand", "badge", "image", "inventory"]);
+            $product->with(["category", "uom", "subCategory", "childCategory", "brand", "badge", "image", "inventory", "created_at"]);
         } else {
-            $product = $product->with(["category", "subCategory", "childCategory", "brand", "badge", "image", "inventory"]);
+            $product = $product->with(["category", "subCategory", "childCategory", "brand", "badge", "image", "inventory", "created_at"]);
         }
 
         return $product;
     }
 
-    private function get_product($id, $type = "single")
+    private function get_product($id, $type = "single"): Model|Builder|null
     {
+        // get product instance
         $product = $this->productInstance($type);
 
-        return $product->find($id);
+        return $product->findOrFail($id);
     }
 
     public function productStore($data): bool
