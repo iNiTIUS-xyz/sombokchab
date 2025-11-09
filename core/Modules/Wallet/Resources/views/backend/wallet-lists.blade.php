@@ -6,6 +6,18 @@
 
 @section('style')
     <x-media.css />
+    <style>
+        table.dataTable th.dt-type-numeric div.dt-column-header,
+        table.dataTable th.dt-type-numeric div.dt-column-footer,
+        table.dataTable th.dt-type-date div.dt-column-header,
+        table.dataTable th.dt-type-date div.dt-column-footer,
+        table.dataTable td.dt-type-numeric div.dt-column-header,
+        table.dataTable td.dt-type-numeric div.dt-column-footer,
+        table.dataTable td.dt-type-date div.dt-column-header,
+        table.dataTable td.dt-type-date div.dt-column-footer {
+            flex-direction: row !important;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -110,7 +122,8 @@
                                                 <div class="btn-group badge">
                                                     <button type="button"
                                                         class="status-{{ $data->status }} {{ $data->status == 0 ? 'bg-danger status-close' : 'bg-primary status-open' }} dropdown-toggle"
-                                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        data-bs-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
                                                         {{ ucfirst($data->status == 0 ? __('Inactive') : __('Active')) }}
                                                     </button>
                                                     <div class="dropdown-menu">
@@ -153,6 +166,6 @@
 
 @section('script')
     <script>
-        // No custom script needed for now since forms handle the submission
+        // For only script tag
     </script>
 @endsection

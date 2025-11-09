@@ -54,9 +54,7 @@ class CountryManageController extends Controller
     public function bulk_action(Request $request)
     {
         $deleted = Country::whereIn('id', $request->ids)->delete();
-        if ($deleted) {
-            return 'ok';
-        }
+        return response()->json(['status' => $deleted ? true : false]);
     }
 
     public function statusUpdate(Request $request, $id)

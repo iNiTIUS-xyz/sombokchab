@@ -9,6 +9,17 @@
         .font-size-14 {
             font-size: 14px;
         }
+
+        table.dataTable th.dt-type-numeric div.dt-column-header,
+        table.dataTable th.dt-type-numeric div.dt-column-footer,
+        table.dataTable th.dt-type-date div.dt-column-header,
+        table.dataTable th.dt-type-date div.dt-column-footer,
+        table.dataTable td.dt-type-numeric div.dt-column-header,
+        table.dataTable td.dt-type-numeric div.dt-column-footer,
+        table.dataTable td.dt-type-date div.dt-column-header,
+        table.dataTable td.dt-type-date div.dt-column-footer {
+            flex-direction: row !important;
+        }
     </style>
 @endsection
 

@@ -50,12 +50,14 @@
                                                 <div class="btn-group badge">
                                                     <button type="button"
                                                         class="status-{{ $country->status }} {{ $country->status == 'publish' ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
-                                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        data-bs-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
                                                         {{ ucfirst($country->status == 'publish' ? __('Publish') : __('Unpublish')) }}
                                                     </button>
                                                     <div class="dropdown-menu">
                                                         {{-- Form for activating --}}
-                                                        <form action="{{ route('admin.country.status.update', $country->id) }}"
+                                                        <form
+                                                            action="{{ route('admin.country.status.update', $country->id) }}"
                                                             method="POST" id="status-form-activate-{{ $country->id }}">
                                                             @csrf
                                                             <input type="hidden" name="status" value="publish">
@@ -63,7 +65,8 @@
                                                                 {{ __('Publish') }}
                                                             </button>
                                                         </form>
-                                                        <form action="{{ route('admin.country.status.update', $country->id) }}"
+                                                        <form
+                                                            action="{{ route('admin.country.status.update', $country->id) }}"
                                                             method="POST" id="status-form-deactivate-{{ $country->id }}">
                                                             @csrf
                                                             <input type="hidden" name="status" value="draft">
@@ -119,7 +122,7 @@
                                     placeholder="{{ __('Enter country name') }}" required="">
                             </div>
                             <div class="form-group">
-                                <label for="edit_status">{{ __('Status') }}</label>
+                                <label for="edit_status">{{ __('Publish Status') }}</label>
                                 <select name="status" class="form-control" id="edit_status">
                                     <option value="publish">{{ __('Publish') }}</option>
                                     <option value="draft">{{ __('Unpublish') }}</option>
@@ -127,7 +130,8 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">{{ __('Close') }}</button>
                             <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                         </div>
                     </form>
@@ -157,7 +161,7 @@
                                     placeholder="{{ __('Enter country name') }}" required="">
                             </div>
                             <div class="form-group">
-                                <label for="status">{{ __('Status') }}</label>
+                                <label for="status">{{ __('Publish Status') }}</label>
                                 <select name="status" class="form-control" id="status">
                                     <option value="publish">{{ __('Publish') }}</option>
                                     <option value="draft">{{ __('Unpublish') }}</option>
@@ -165,7 +169,8 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">{{ __('Close') }}</button>
                             <button type="submit" class="btn btn-primary">{{ __('Add') }}</button>
                         </div>
                     </form>
@@ -174,15 +179,91 @@
         </div>
     @endcan
 @endsection
+
 @section('script')
     <x-table.btn.swal.js />
+
     @can('country-bulk-action')
-        <x-bulk-action.js :route="route('admin.country.bulk.action')" />
+        <script>
+            (function($) {
+                $(document).ready(function() {
+                    $(document).on('click', '#bulk_delete_btn', function(e) {
+                        e.preventDefault();
+
+                        var bulkOption = $('#bulk_option').val();
+                        var allCheckbox = $('.bulk-checkbox:checked');
+                        var allIds = [];
+
+                        allCheckbox.each(function(index, value) {
+                            allIds.push($(this).val());
+                        });
+
+                        if (allIds.length > 0 && bulkOption == 'delete') {
+                            Swal.fire({
+                                title: '{{ __('Are you sure?') }}',
+                                text: '{{ __('You would not be able to revert this action!') }}',
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#ee0000',
+                                cancelButtonColor: '#55545b',
+                                confirmButtonText: '{{ __('Yes, delete them!') }}',
+                                cancelButtonText: "{{ __('No') }}"
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    $('#bulk_delete_btn').text('{{ __('Deleting...') }}');
+
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "{{ route('admin.country.bulk.action') }}",
+                                        data: {
+                                            _token: "{{ csrf_token() }}",
+                                            ids: allIds,
+                                        },
+                                        success: function(data) {
+                                            Swal.fire(
+                                                '{{ __('Deleted!') }}',
+                                                '{{ __('Selected data have been deleted.') }}',
+                                                'success'
+                                            );
+                                            setTimeout(function() {
+                                                location.reload();
+                                            }, 1000);
+                                        },
+                                        error: function() {
+                                            Swal.fire(
+                                                'Error!',
+                                                'Failed to delete data.',
+                                                'error'
+                                            );
+                                        }
+                                    });
+                                }
+                            });
+                        } else {
+                            Swal.fire(
+                                'Warning!',
+                                '{{ __('Please select at least one item and choose delete option.') }}',
+                                'warning'
+                            );
+                        }
+                    });
+
+                    // Handle "select all" checkbox
+                    $('.all-checkbox').on('change', function(e) {
+                        e.preventDefault();
+                        var value = $(this).is(':checked');
+                        var allChek = $(this).closest('table').find('.bulk-checkbox');
+
+                        allChek.prop('checked', value);
+                    });
+                });
+            })(jQuery);
+        </script>
     @endcan
 
     <script>
-        $(document).ready(function () {
-            $(document).on('click', '.country_edit_btn', function () {
+        $(document).ready(function() {
+            $(document).on('click', '.country_edit_btn', function() {
                 let el = $(this);
                 let id = el.data('id');
                 let name = el.data('name');

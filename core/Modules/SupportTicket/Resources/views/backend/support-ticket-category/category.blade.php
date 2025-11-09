@@ -1,20 +1,20 @@
 @extends('backend.admin-master')
 
 @section('site-title')
-    {{ __('Support Departments') }}
+    {{ __('Support Ticket Departments') }}
 @endsection
 
 @section('style')
     <x-bulk-action.css />
 @endsection
+
 @section('content')
     <div class="col-lg-12 col-ml-12">
-
         <x-msg.flash />
         <x-msg.error />
         <div class="btn-wrapper mb-4">
             <button class="cmn_btn btn_bg_profile" data-bs-toggle="modal" data-bs-target="#new_support_modal">
-                {{ __('Add New Department') }}
+                {{ __('Add New Support Ticket Department') }}
             </button>
         </div>
         <div class="dashboard__card">
@@ -129,9 +129,12 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">{{ __('Close') }}</button>
-                            <button type="submit" class="btn btn-primary">{{ __('Add') }}</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                {{ __('Close') }}
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                {{ __('Add') }}
+                            </button>
                         </div>
                     </form>
 
@@ -145,7 +148,7 @@
             <div class="modal-dialog">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
-                        <h5 class="modal-title">{{ __('Update Support Ticket Department') }}</h5>
+                        <h5 class="modal-title">{{ __('Edit Support Ticket Department') }}</h5>
                         <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
                     </div>
                     <form action="{{ route('admin.support.ticket.department.update') }}" method="post">
@@ -172,9 +175,12 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">{{ __('Close') }}</button>
-                            <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                {{ __('Close') }}
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                {{ __('Update') }}
+                            </button>
                         </div>
                     </form>
                 </div>

@@ -77,9 +77,7 @@ class StateController extends Controller
     public function bulk_action(Request $request)
     {
         $deleted = State::whereIn('id', $request->ids)->delete();
-        if ($deleted) {
-            return 'ok';
-        }
+        return response()->json(['status' => $deleted ? true : false]);
     }
 
     public function getStateByCountry(Request $request)

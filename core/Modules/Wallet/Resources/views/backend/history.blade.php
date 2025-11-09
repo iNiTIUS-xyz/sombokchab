@@ -14,6 +14,17 @@
         .btn-group button.dropdown-toggle {
             border: none !important;
         }
+
+        table.dataTable th.dt-type-numeric div.dt-column-header,
+        table.dataTable th.dt-type-numeric div.dt-column-footer,
+        table.dataTable th.dt-type-date div.dt-column-header,
+        table.dataTable th.dt-type-date div.dt-column-footer,
+        table.dataTable td.dt-type-numeric div.dt-column-header,
+        table.dataTable td.dt-type-numeric div.dt-column-footer,
+        table.dataTable td.dt-type-date div.dt-column-header,
+        table.dataTable td.dt-type-date div.dt-column-footer {
+            flex-direction: row !important;
+        }
     </style>
 @endsection
 
@@ -50,8 +61,7 @@
                                                 <p><strong>{{ __('Phone: ') }}</strong>{{ $history->user?->phone }}</p>
                                                 <p>
                                                     <strong>{{ __('Email Verified Status: ') }}</strong>
-                                                    <x-status.table.verified-status
-                                                        :status="$history->user?->user_verified_status" />
+                                                    <x-status.table.verified-status :status="$history->user?->user_verified_status" />
                                                 </p>
                                             </td>
                                             <td>
@@ -65,7 +75,8 @@
                                             <td>
                                                 <span class="img_100">
                                                     @if (empty($history->manual_payment_image))
-                                                        <img src="{{ asset('assets/static/img/no_image.png') }}" alt="">
+                                                        <img src="{{ asset('assets/static/img/no_image.png') }}"
+                                                            alt="">
                                                     @else
                                                         <img src="{{ asset('assets/uploads/manual-payment/' . $history->manual_payment_image) }}"
                                                             alt="">
@@ -77,11 +88,13 @@
                                                 <div class="btn-group badge">
                                                     <button type="button"
                                                         class="status-{{ $history->payment_status }} {{ $history->payment_status == 'pending' ? 'bg-danger status-close' : '' }} {{ $history->payment_status === 'complete' ? 'bg-primary status-open' : '' }} {{ $history->payment_status === 'cancel' ? 'bg-warning status-open' : '' }} dropdown-toggle"
-                                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        data-bs-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
                                                         {{ ucfirst($history->payment_status) }}
                                                     </button>
                                                     <div class="dropdown-menu">
-                                                        <form action="{{ route('admin.wallet.history.status', $history->id) }}"
+                                                        <form
+                                                            action="{{ route('admin.wallet.history.status', $history->id) }}"
                                                             method="POST" id="status-form-activate-{{ $history->id }}">
                                                             @csrf
                                                             <input type="hidden" name="status" value="pending">
@@ -90,7 +103,8 @@
                                                             </button>
                                                         </form>
 
-                                                        <form action="{{ route('admin.wallet.history.status', $history->id) }}"
+                                                        <form
+                                                            action="{{ route('admin.wallet.history.status', $history->id) }}"
                                                             method="POST" id="status-form-deactivate-{{ $history->id }}">
                                                             @csrf
                                                             <input type="hidden" name="status" value="complete">
@@ -98,7 +112,8 @@
                                                                 {{ __('Complete') }}
                                                             </button>
                                                         </form>
-                                                        <form action="{{ route('admin.wallet.history.status', $history->id) }}"
+                                                        <form
+                                                            action="{{ route('admin.wallet.history.status', $history->id) }}"
                                                             method="POST" id="status-form-deactivate-{{ $history->id }}">
                                                             @csrf
                                                             <input type="hidden" name="status" value="cancel">
@@ -132,10 +147,10 @@
     <x-media.js />
     @can('wallet-history-records-status')
         <script>
-            (function ($) {
+            (function($) {
                 "use strict";
 
-                $(document).on('click', '.swal_status_change_button', function (e) {
+                $(document).on('click', '.swal_status_change_button', function(e) {
                     e.preventDefault();
 
                     Swal.fire({

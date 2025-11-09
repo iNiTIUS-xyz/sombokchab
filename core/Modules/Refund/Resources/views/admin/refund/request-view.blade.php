@@ -1,6 +1,6 @@
 @extends('backend.admin-master')
 
-@section("site-title", __("Refund request view"))
+@section('site-title', __('Refund request view'))
 
 @section('style')
     <style>
@@ -471,7 +471,11 @@
                         <div class="dashboard__card__body custom__form mt-4">
                             <form action="{{ route('admin.refund.update-track-status', $request->id) }}" method="post">
                                 @php
-                                    $current_status = str_replace(' ', '_', strtolower($request->currentTrackStatus?->name));
+                                    $current_status = str_replace(
+                                        ' ',
+                                        '_',
+                                        strtolower($request->currentTrackStatus?->name),
+                                    );
                                 @endphp
                                 @csrf
                                 @method('PUT')
@@ -507,14 +511,19 @@
 
                                     <div class="form-group">
                                         <button class="cmn_btn btn_bg_profile">
-                                            {{ __('Update Status') }}</button>
+                                            {{ __('Update') }}
+                                        </button>
+                                        <a href="{{ route('admin.refund.request') }}" class="cmn_btn default-theme-btn"
+                                            style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                                            {{ __('Back') }}
+                                        </a>
                                     </div>
                                 @endif
                             </form>
                         </div>
                     </div>
                 </div>
-                @if(isset($request->qr_file))
+                @if (isset($request->qr_file))
                     <div class="col-md-3 mt-4">
                         <div class="dashboard__card">
                             <div class="dashboard__card__header">
@@ -523,8 +532,9 @@
                                 </h3>
                             </div>
                             <div class="dashboard__card__body mt-4">
-                                <a href="{{ asset($request->qr_file) }}" target="__blanck">
-                                    <img src="{{ asset($request->qr_file) }}" alt="" width="100%" height="100%">
+                                <a href="{{ asset($request->qr_file) }}" target="__blank">
+                                    <img src="{{ asset($request->qr_file) }}" alt="" width="100%"
+                                        height="100%">
                                 </a>
                             </div>
                         </div>
@@ -541,7 +551,8 @@
                             <div class="track">
                                 @foreach ($request->requestTrack as $track)
                                     @php
-                                        $trackCondition = $track->reason->count() > 0 || $track->deductedAmount->count() > 0;
+                                        $trackCondition =
+                                            $track->reason->count() > 0 || $track->deductedAmount->count() > 0;
                                     @endphp
                                     <div class="step active">
                                         <span class="icon">
@@ -570,7 +581,7 @@
 
 @section('script')
     <script>
-        $(document).on("click", ".stepText", function () {
+        $(document).on("click", ".stepText", function() {
             let requestTrackJson = JSON.parse($(this).attr("data-collection"));
             let requestTrackType = $(this).attr("data-type");
             let refundFee = $(this).attr("data-refund_fee");
@@ -580,7 +591,7 @@
                     `<table class='table table-responsive'><thead><tr><th>{{ __('Cause') }}</th><th>{{ __('Amount') }}</th></tr></thead><tbody>`
             }
 
-            Object.keys(requestTrackJson).forEach(function (key) {
+            Object.keys(requestTrackJson).forEach(function(key) {
                 let item = requestTrackJson[key] ?? [];
 
                 // here need to check request track type
@@ -588,22 +599,22 @@
                     requestTrackHTML += `<p>${item.reason}</p>`;
                 } else if (requestTrackType == 'deductedAmount') {
                     requestTrackHTML += `
-                                                                    <tr>
-                                                                        <td>${item.reason}</td>
-                                                                        <td>${item.amount}</td>
-                                                                    </tr>
-                                                                `;
+                    <tr>
+                        <td>${item.reason}</td>
+                        <td>${item.amount}</td>
+                    </tr>
+                `;
                 }
             });
 
 
             if (requestTrackType === 'deductedAmount') {
                 requestTrackHTML += `
-                                                                    <tr>
-                                                                        <td>{{ __('Refund fee') }}</td>
-                                                                        <td>${refundFee}</td>
-                                                                    </tr>
-                                                                `;
+                    <tr>
+                        <td>{{ __('Refund fee') }}</td>
+                        <td>${refundFee}</td>
+                    </tr>
+                `;
                 requestTrackHTML += `</tbody></table>`;
             }
 
@@ -611,72 +622,72 @@
             $('.stepDetails').html(requestTrackHTML);
         });
 
-        $(document).on("click", ".reason-add", function () {
+        $(document).on("click", ".reason-add", function() {
             let tr = $(this).closest("tr"),
                 newRow = tr.clone();
 
             tr.after(newRow);
         })
 
-        $(document).on("click", ".reason-remove", function () {
+        $(document).on("click", ".reason-remove", function() {
             if ($('.reason-remove').length > 1) {
                 $(this).closest("tr").remove();
             }
         })
 
-        $(document).on("change", "#track_status", function () {
+        $(document).on("change", "#track_status", function() {
             if ($(this).val() == "cancel" || $(this).val() == "canceled_by_delivery_man") {
                 let table = `<table class="reason-table table table-responsive">
-                                                                            <thead>
-                                                                                <tr>
-                                                                                    <th>{{ __('Reason') }}</th>
-                                                                                    <th>{{ __('Action') }}</th>
-                                                                                </tr>
-                                                                            </thead>
-                                                                            <tbody>
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <textarea type="text" rows="4" name="reason[]"></textarea>
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <button type="button" class="reason-add btn btn-sm btn-info"><i class="las la-plus"></i></button>
-                                                                                        <button type="button" class="reason-remove btn btn-sm btn-danger"><i class="las la-minus"></i></button>
-                                                                                    </td>
-                                                                                </tr>
-                                                                            </tbody>
-                                                                        </table>`;
+                <thead>
+                    <tr>
+                        <th>{{ __('Reason') }}</th>
+                        <th>{{ __('Action') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <textarea type="text" rows="4" name="reason[]"></textarea>
+                        </td>
+                        <td>
+                            <button type="button" class="reason-add btn btn-sm btn-info"><i class="las la-plus"></i></button>
+                            <button type="button" class="reason-remove btn btn-sm btn-danger"><i class="las la-minus"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>`;
 
                 $(".reason-table-wrapper").html(table);
             } else if ($(this).val() == "payment_returned") {
                 let table = `<table class="reason-table table table-responsive">
-                                                                            <thead>
-                                                                                <tr>
-                                                                                    <th>{{ __('Reason') }}</th>
-                                                                                    <th>{{ __('Amount') }}</th>
-                                                                                    <th>{{ __('Action') }}</th>
-                                                                                </tr>
-                                                                            </thead>
-                                                                            <tbody>
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <input type="text" rows="4" name="deducted_amount_reason[]" class="form-control" />
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <input type="text" rows="4" name="deducted_amount[]" class="form-control" />
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <button type="button" class="reason-add btn btn-sm btn-info"><i class="las la-plus"></i></button>
-                                                                                        <button type="button" class="reason-remove btn btn-sm btn-danger"><i class="las la-minus"></i></button>
-                                                                                    </td>
-                                                                                </tr>
-                                                                            </tbody>
-                                                                        </table>
-                                                                        <div class="form-group">
-                                                                            <label>
-                                                                                {{ __('Refund Fee') }}
-                                                                                <input class="form-control" name="refund_fee" value="" />
-                                                                            </label>
-                                                                        </div>`;
+                    <thead>
+                        <tr>
+                            <th>{{ __('Reason') }}</th>
+                            <th>{{ __('Amount') }}</th>
+                            <th>{{ __('Action') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <input type="text" rows="4" name="deducted_amount_reason[]" class="form-control" />
+                            </td>
+                            <td>
+                                <input type="text" rows="4" name="deducted_amount[]" class="form-control" />
+                            </td>
+                            <td>
+                                <button type="button" class="reason-add btn btn-sm btn-info"><i class="las la-plus"></i></button>
+                                <button type="button" class="reason-remove btn btn-sm btn-danger"><i class="las la-minus"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="form-group">
+                    <label>
+                        {{ __('Refund Fee') }}
+                        <input class="form-control" name="refund_fee" value="" />
+                    </label>
+                </div>`;
 
                 $(".reason-table-wrapper").html(table);
             } else {

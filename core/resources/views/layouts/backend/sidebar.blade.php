@@ -166,7 +166,7 @@
                             @can('support-tickets-department')
                                 <li class="{{ active_menu('admin-home/support-tickets/department') }}">
                                     <a href="{{ route('admin.support.ticket.department') }}">
-                                        {{ __('Support Departments') }}
+                                        {{ __('Support Ticket Departments') }}
                                     </a>
                                 </li>
                             @endcan
