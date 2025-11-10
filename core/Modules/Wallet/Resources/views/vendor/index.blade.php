@@ -129,17 +129,17 @@
                     <div class="dashboard__card__body mt-4">
                         <div class="row g-4 justify-content-center">
                             <div class="col-xxl-3 col-xl-4 col-sm-6 orders-child">
-                                <div class="single-orders">
-                                    <div class="orders-shapes">
+                                <div class="single-orders bg-primary">
+                                    <div class="orders-shapes text-white">
                                     </div>
                                     <div class="orders-flex-content">
                                         <div class="contents">
-                                            <span class="order-para ff-rubik"> {{ __('Current Balance') }} </span>
-                                            <h2 class="order-titles">
+                                            <span class="order-para ff-rubik text-white"> {{ __('Available Balance for Withdraw') }} </span>
+                                            <h2 class="order-titles text-white">
                                                 {{ float_amount_with_currency_symbol($current_balance) }} </h2>
                                         </div>
-                                        <div class="icon">
-                                            <i class="las la-tasks"></i>
+                                        <div class="icon text-white">
+                                            <i class="las la-tasks text-white"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -150,7 +150,7 @@
                                     </div>
                                     <div class="orders-flex-content">
                                         <div class="contents">
-                                            <span class="order-para"> {{ __('Pending Balance') }} </span>
+                                            <span class="order-para"> {{ __('Order Pending Balance') }} </span>
                                             <h2 class="order-titles">
                                                 {{ float_amount_with_currency_symbol($pending_balance) }} </h2>
                                         </div>
@@ -178,18 +178,17 @@
                                 </div>
                             </div>
                             <div class="col-xxl-3 col-xl-4 col-sm-6 orders-child">
-                                <div class="single-orders">
+                                <div class="single-orders bg-primary">
                                     <div class="orders-shapes">
                                     </div>
                                     <div class="orders-flex-content">
                                         <div class="contents">
-                                            <span class="order-para ff-rubik"> {{ __('Total Earnings') }} </span>
-                                            <h2 class="order-titles">
-                                                {{ float_amount_with_currency_symbol($pending_balance + $total_complete_order_amount) }}
-                                            </h2>
+                                            <span class="order-para ff-rubik text-white"> {{ __('Total Earnings from Orders') }} </span>
+                                            <h2 class="order-titles text-white">
+                                                {{ float_amount_with_currency_symbol($total_order_amount) }} </h2>
                                         </div>
-                                        <div class="icon">
-                                            <i class="las la-dollar-sign"></i>
+                                        <div class="icon text-white">
+                                            <i class="las la-dollar-sign text-white"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -203,31 +202,36 @@
             <div class="col-12">
                 <div class="card p-3">
                     <ul class="nav nav-tabs" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="financial_summary_daily-tab" type="button">Daily</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="financial_summary_weekly-tab" type="button">Weekly</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="financial_summary_monthly-tab" type="button">Monthly</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="financial_summary_yearly-tab" type="button">Yearly</button>
-                        </li>
-                        <li class="nav-item">
-                            <input type="text" class="form-control date_range_picker" id="financial_summary_picker" />
-                        </li>
-                    </ul>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="financial_summary_daily-tab"
+                            type="button">Daily</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="financial_summary_weekly-tab"
+                            type="button">Weekly</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="financial_summary_monthly-tab"
+                            type="button">Monthly</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="financial_summary_yearly-tab"
+                            type="button">Yearly</button>
+                    </li>
+                    <li class="nav-item">
+                        <input type="text" class="form-control date_range_picker"
+                            id="financial_summary_picker" />
+                    </li>
+                </ul>
 
-                    <div class="mt-3 position-relative">
-                        <div id="financial_summary_chart"></div>
-                        <!-- scrollbar -->
-                        <input id="financial_summary_scroll" class="form-range mt-2 w-100" type="range" min="0"
-                            max="0" value="0" step="1" />
-                    </div>
-                    <div class="mt-2" id="financial_summary_nav" style="height:110px;"></div>
-                    <small>Ctrl/⌘ + wheel to zoom in and zoom out</small>
+                <div class="mt-3 position-relative">
+                    <div id="financial_summary_chart"></div>
+                    <!-- scrollbar -->
+                    <input id="financial_summary_scroll" class="form-range mt-2 w-100" type="range"
+                        min="0" max="0" value="0" step="1" />
+                </div>
+                <div class="mt-2" id="financial_summary_nav" style="height:110px;"></div>
+                <small>Ctrl/⌘ + wheel to zoom in and zoom out</small>
                 </div>
             </div>
         </div>
@@ -651,9 +655,9 @@
                     // Format display labels
                     displayLabels = rawLabels.map(k => {
                         if (chartType === 'daily') {
-                            return moment(k, 'YYYY-MM-DD', true).isValid() ?
-                                moment(k, 'YYYY-MM-DD').format('DD, MMM YY') :
-                                k;
+                            return moment(k, 'YYYY-MM-DD', true).isValid()
+                                ? moment(k, 'YYYY-MM-DD').format('DD, MMM YY')
+                                : k;
                         }
                         return k; // weekly, monthly, yearly already humanized
                     });
@@ -731,22 +735,22 @@
             }
 
             // ===== Order Revenue =====
-            makeBrushBarChart({
-                ids: {
-                    main: 'financial_summary_chart',
-                    nav: 'financial_summary_nav',
-                    scroll: 'financial_summary_scroll',
-                    picker: 'financial_summary_picker',
-                    tabs: {
-                        daily: 'financial_summary_daily-tab',
-                        weekly: 'financial_summary_weekly-tab',
-                        monthly: 'financial_summary_monthly-tab',
-                        yearly: 'financial_summary_yearly-tab',
-                    }
-                },
-                url: '{{ route('vendor.income.data') }}',
-                seriesName: 'Order Revenue',
-                titleBase: 'Order Revenue'
+           makeBrushBarChart({
+            ids: {
+                main: 'financial_summary_chart',
+                nav: 'financial_summary_nav',
+                scroll: 'financial_summary_scroll',
+                picker: 'financial_summary_picker',
+                tabs: {
+                daily: 'financial_summary_daily-tab',
+                weekly: 'financial_summary_weekly-tab',
+                monthly: 'financial_summary_monthly-tab',
+                yearly: 'financial_summary_yearly-tab',
+                }
+            },
+            url: '{{ route('vendor.income.data') }}',
+            seriesName: 'Order Revenue',
+            titleBase: 'Order Revenue'
             });
         });
     </script>

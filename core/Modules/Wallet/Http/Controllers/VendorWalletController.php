@@ -24,17 +24,10 @@ class VendorWalletController extends Controller
 
     public function withdraw()
     {
-        $wallet = Wallet::query()
-            ->where("vendor_id", auth()->guard("vendor")->id())
-            ->first();
-
-        $adminGateways = VendorWalletGateway::query()
-            ->where("status_id", 1)
-            ->get();
-        $savedGateway = VendorWalletGatewaySetting::query()
-            ->where(["vendor_id" => auth("vendor")->id()])
-            ->first();
-
+        $wallet = Wallet::where("vendor_id", auth()->guard("vendor")->id())->first();
+        // first og all get all list of payment gateway that is created bu admin
+        $adminGateways = VendorWalletGateway::where("status_id", 1)->get();
+        $savedGateway = VendorWalletGatewaySetting::where(["vendor_id" => auth("vendor")->id()])->first();
         $data = [
             "total_order_amount" => (float) SubOrder::where("vendor_id", auth()->guard("vendor")->id())->sum("total_amount"),
             "total_complete_order_amount" => (float) SubOrder::where("vendor_id", auth()->guard("vendor")->id())->where("order_status", "complete")->whereHas("orderTrack", function ($orderTrack) {
