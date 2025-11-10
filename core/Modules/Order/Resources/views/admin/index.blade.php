@@ -11,6 +11,10 @@
             color: #ffffff !important;
         }
 
+        .btn-group button.dropdown-toggle.status-pending {
+            color: #000000 !important;
+        }
+
         table.dataTable th.dt-type-numeric div.dt-column-header,
         table.dataTable th.dt-type-numeric div.dt-column-footer,
         table.dataTable th.dt-type-date div.dt-column-header,

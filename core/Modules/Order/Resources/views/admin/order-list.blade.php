@@ -11,6 +11,15 @@
             color: #ffffff !important;
         }
 
+        .btn-group button.dropdown-toggle.status-failed {
+            color: #000000 !important;
+        }
+
+        .bg-warning,
+        .status-failed.bg-warning {
+            color: #000 !important;
+        }
+
         table.dataTable th.dt-type-numeric div.dt-column-header,
         table.dataTable th.dt-type-numeric div.dt-column-footer,
         table.dataTable th.dt-type-date div.dt-column-header,
@@ -21,8 +30,9 @@
         table.dataTable td.dt-type-date div.dt-column-footer {
             flex-direction: row !important;
         }
+
         .status-failed .bg-warning {
-            color: #020202 !important;
+            color: #000 !important;
         }
     </style>
 @endsection
@@ -63,7 +73,7 @@
                                         'canceled' => 'bg-danger',
                                         'pending' => 'bg-secondary',
                                         'complete' => 'bg-success',
-                                        'failed' => 'bg-warning',
+                                        'failed' => 'bg-warning text-dark',
                                         'rejected' => 'bg-info',
                                         default => 'bg-secondary',
                                     };
@@ -73,7 +83,7 @@
                                         'canceled' => 'bg-danger',
                                         'pending' => 'bg-secondary',
                                         'complete' => 'bg-success',
-                                        'failed' => 'bg-warning',
+                                        'failed' => 'bg-warning text-dark',
                                         'rejected' => 'bg-info',
                                         default => 'bg-secondary',
                                     };
@@ -96,46 +106,40 @@
                                                 {{ ucfirst($status) }}
                                             </button>
                                             <div class="dropdown-menu">
-                                                {{-- Pending --}}
                                                 <form action="{{ route('admin.orders.change.status', $order->id) }}"
-                                                    method="POST" id="status-form-pending-{{ $order->id }}">
+                                                    method="POST">
                                                     @csrf
                                                     <input type="hidden" name="order_status" value="pending">
                                                     <button type="submit" class="dropdown-item">
                                                         {{ __('Pending') }}
                                                     </button>
                                                 </form>
-                                                {{-- Complete --}}
                                                 <form action="{{ route('admin.orders.change.status', $order->id) }}"
-                                                    method="POST" id="status-form-complete-{{ $order->id }}">
+                                                    method="POST">
                                                     @csrf
                                                     <input type="hidden" name="order_status" value="complete">
                                                     <button type="submit" class="dropdown-item">
                                                         {{ __('Complete') }}
                                                     </button>
                                                 </form>
-                                                {{-- Failed --}}
                                                 <form action="{{ route('admin.orders.change.status', $order->id) }}"
-                                                    method="POST" id="status-form-failed-{{ $order->id }}">
+                                                    method="POST">
                                                     @csrf
                                                     <input type="hidden" name="order_status" value="failed">
                                                     <button type="submit" class="dropdown-item">
                                                         {{ __('Failed') }}
                                                     </button>
                                                 </form>
-
-                                                {{-- Rejected --}}
                                                 <form action="{{ route('admin.orders.change.status', $order->id) }}"
-                                                    method="POST" id="status-form-rejected-{{ $order->id }}">
+                                                    method="POST">
                                                     @csrf
                                                     <input type="hidden" name="order_status" value="rejected">
                                                     <button type="submit" class="dropdown-item">
                                                         {{ __('Rejected') }}
                                                     </button>
                                                 </form>
-                                                {{-- Canceled --}}
                                                 <form action="{{ route('admin.orders.change.status', $order->id) }}"
-                                                    method="POST" id="status-form-canceled-{{ $order->id }}">
+                                                    method="POST">
                                                     @csrf
                                                     <input type="hidden" name="order_status" value="canceled">
                                                     <button type="submit" class="dropdown-item">
@@ -153,30 +157,27 @@
                                                 {{ ucfirst($paymentStatus) }}
                                             </button>
                                             <div class="dropdown-menu">
-                                                {{-- Pending --}}
                                                 <form
                                                     action="{{ route('admin.orders.payment.status.change', $order->id) }}"
-                                                    method="POST" id="status-form-pending-{{ $order->id }}">
+                                                    method="POST">
                                                     @csrf
                                                     <input type="hidden" name="payment_status" value="pending">
                                                     <button type="submit" class="dropdown-item">
                                                         {{ __('Pending') }}
                                                     </button>
                                                 </form>
-                                                {{-- Complete --}}
                                                 <form
                                                     action="{{ route('admin.orders.payment.status.change', $order->id) }}"
-                                                    method="POST" id="status-form-complete-{{ $order->id }}">
+                                                    method="POST">
                                                     @csrf
                                                     <input type="hidden" name="payment_status" value="complete">
                                                     <button type="submit" class="dropdown-item">
                                                         {{ __('Complete') }}
                                                     </button>
                                                 </form>
-                                                {{-- Failed --}}
                                                 <form
                                                     action="{{ route('admin.orders.payment.status.change', $order->id) }}"
-                                                    method="POST" id="status-form-failed-{{ $order->id }}">
+                                                    method="POST">
                                                     @csrf
                                                     <input type="hidden" name="payment_status" value="failed">
                                                     <button type="submit" class="dropdown-item">
@@ -203,12 +204,6 @@
                                                     <i class="las la-file-invoice"></i>
                                                 </a>
                                             @endcan
-                                            {{-- @can('orders-download-invoice')
-                                            <a href="{{ route('admin.orders.download.invoice', $order->id) }}"
-                                                class="btn btn-primary rounded-btn" title="{{ __('Download Data') }}">
-                                                <i class="las la-download"></i>
-                                            </a>
-                                            @endcan --}}
                                             @can('orders-update')
                                                 <a href="{{ route('admin.orders.edit', $order->id) }}"
                                                     class="btn btn-warning text-dark rounded-btn"
@@ -234,14 +229,6 @@
         (function($) {
             "use strict";
             $(document).ready(function() {
-
-                $(document).on('click', '.bodyUser_overlay', function() {
-                    $('.user-dashboard-wrapper, .bodyUser_overlay').removeClass('show');
-                });
-                $(document).on('click', '.mobile_nav', function() {
-                    $('.user-dashboard-wrapper, .bodyUser_overlay').addClass('show');
-                });
-
                 $(document).on('click', '.swal_delete_button', function(e) {
                     e.preventDefault();
                     Swal.fire({
@@ -259,7 +246,7 @@
                         }
                     });
                 });
-            })
-        })(jQuery)
+            });
+        })(jQuery);
     </script>
 @endsection
