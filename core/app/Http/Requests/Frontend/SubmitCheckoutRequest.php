@@ -55,7 +55,7 @@ class SubmitCheckoutRequest extends FormRequest
     {
         return $this->merge([
             'name' => $this->full_name ?? "",
-            'payment_gateway' => $this->selected_payment_gateway,
+            'payment_gateway' => $this->payment_gateway,
             'zipcode' => $this->zip_code,
         ]);
     }
