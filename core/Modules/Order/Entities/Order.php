@@ -8,6 +8,7 @@ use Modules\DeliveryMan\Entities\DeliveryManOrder;
 use Modules\Refund\Entities\RefundRequest;
 use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Modules\User\Entities\User;
 
 class Order extends Model
 {
@@ -108,4 +109,10 @@ class Order extends Model
     {
         return Attribute::get(fn() => $this->refundRequest()->exists());
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
 }

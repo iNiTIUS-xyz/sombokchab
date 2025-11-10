@@ -8187,8 +8187,8 @@ textarea {
   height: 36px;
   width: 36px;
   border-radius: 5px;
-  background: #fff;
-  color: var(--paragraph-color);
+  background: var(--main-color-one);
+  color: var(--white);
   font-size: 16px;
   -webkit-box-shadow: 0 0 5px rgba(221, 221, 221, 0.2);
   box-shadow: 0 0 5px rgba(221, 221, 221, 0.2);
@@ -8197,8 +8197,8 @@ textarea {
 }
 
 .single-flash-item .flash-flex-item .flash-item-image .flash-thumb-icons .lists .icon:hover {
-  background: var(--main-color-one);
-  color: var(--white);
+  background: var(--main-color-two);
+  color: var(--black);
 }
 
 .single-flash-item .flash-flex-item .flash-item-contents {
@@ -33746,6 +33746,9 @@ shop-nice-select select,
   font-size: 14px;
   line-height: 20px;
   color: var(--review-color);
+  background: var(--white);
+  border-radius: 35px;
+  margin-bottom: 10px;
 }
 
 .product__card__thumb {
@@ -38584,4 +38587,8 @@ table.dataTable thead tr th:first-child {
     background-color: var(--danger-color) !important;
     color: #fff !important;               /* white text on hover */
     opacity: 1;
+}
+
+table.dataTable th.dt-type-numeric, table.dataTable th.dt-type-date, table.dataTable td.dt-type-numeric, table.dataTable td.dt-type-date{
+  text-align: left !important;
 }

@@ -33,11 +33,14 @@
             <div class="flash-item-contents">
                 <h6 class="title hover-color-two">
                     <a href="{{ route('frontend.products.single', $product->slug) }}">
-                        {{ Str::limit($product->name, 25, '...') }}</a>
+                        {{ $product->name }}</a>
                 </h6>
-                <div class="rating-wrap mt-2 {{ $product->reviews_avg_rating < 1 ? 'd-none' : '' }}">
-                    {!! view('product::components.frontend.common.rating-markup', compact('product', 'attributes')) !!}
-                </div>
+                @if ($product->ratings_count > 0)
+                    <div class="d-flex radius-5" style="height: 15px;">
+                        <span class="product__card__review__icon"><i class="las la-star" style="color: var(--review-color);"></i></span>
+                        <x-product::frontend.common.rating-markup :rating-count="$product->ratings_count" :avg-rattings="$product->ratings_avg_rating ?? 0" />
+                    </div>
+                @endif
                 <div class="price-update-through margin-top-15">
                     <span class="fs-20 fw-500 ff-rubik flash-prices color-one">
                         {{ float_amount_with_currency_symbol(calculatePrice($sale_price, $product)) }} </span>

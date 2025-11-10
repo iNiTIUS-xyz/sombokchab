@@ -72,7 +72,7 @@ Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_
     Route::get('attribute-data', 'FrontendController@getProductAttributeHtml')->name('frontend.products.attribute.html');
     // LANDING PAGES
     Route::prefix('land')->group(function () {
-        // PRODUCT SHOP PAGES
+        // PRODUCT SHOP 
         Route::prefix('home')->group(function () {
             Route::get('01', 'LandingController@homeOne');
             Route::get('02', 'LandingController@homeTwo');

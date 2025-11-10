@@ -3,6 +3,7 @@
     $isOutOfStock = $stock_count <= 0;
 @endphp
 
+{{-- Add to Cart --}}
 @if (isset($attributes) && $attributes > 0)
     <li class="lists">
         <a class="product-quick-view-ajax favourite icon cart-loading {{ $isOutOfStock ? 'text-danger disabled-link' : '' }}"
@@ -22,42 +23,36 @@
     </li>
 @endif
 
+{{-- Compare (Disable if Out of Stock) --}}
+<li class="lists">
+    <a href="#1" data-id="{{ $product->id }}"
+        class="favourite add_to_compare_ajax icon cart-loading {{ $isOutOfStock ? 'text-danger disabled-link' : '' }}"
+        title="Add to compare"
+        @if ($isOutOfStock) disabled aria-disabled="true" @endif>
+        <i class="las la-retweet"></i>
+    </a>
+</li>
+
+{{-- Save for Later (Always enabled) --}}
 @if (isset($attributes) && $attributes > 0)
     <li class="lists">
-        <a class="product-quick-view-ajax favourite icon cart-loading {{ $isOutOfStock ? 'text-danger disabled-link' : '' }}"
+        <a class="product-quick-view-ajax favourite icon cart-loading"
             href="#1" title="Save for Later"
-            data-action-route="{{ route('frontend.products.single-quick-view', $product->slug) }}"
-            @if ($isOutOfStock) disabled aria-disabled="true" @endif>
+            data-action-route="{{ route('frontend.products.single-quick-view', $product->slug) }}">
             <i class="lar la-save"></i>
         </a>
     </li>
 @else
     <li class="lists">
         <a href="#1" data-id="{{ $product->id }}"
-            class="favourite add_to_wishlist_ajax icon cart-loading {{ $isOutOfStock ? 'text-danger disabled-link' : '' }}"
-            title="Save for Later" @if ($isOutOfStock) disabled aria-disabled="true" @endif>
+            class="favourite add_to_wishlist_ajax icon cart-loading"
+            title="Save for Later">
             <i class="lar la-save"></i>
         </a>
     </li>
 @endif
 
-<li class="lists">
-    <a href="#1" data-id="{{ $product->id }}" class="favourite add_to_compare_ajax icon cart-loading "
-        title="Add to compare" @if ($isOutOfStock) disabled aria-disabled="true" @endif>
-        <i class="las la-retweet"></i>
-    </a>
-</li>
 
-{{-- Optional Quick View --}}
-{{--
-<li class="lists">
-    <a class="product-quick-view-ajax favourite icon cart-loading"
-       href="#1"
-       data-action-route="{{ route('frontend.products.single-quick-view', $product->slug) }}">
-        <i class="lar la-eye"></i>
-    </a>
-</li>
---}}
 
 <style>
     .disabled-link {

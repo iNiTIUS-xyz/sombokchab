@@ -634,34 +634,25 @@ class FrontendController extends Controller
         return redirect()->back()->with(['msg' => __('Unable to change the Password. Please try again or check your old Password..'), 'type' => 'danger']);
     }
 
+
+
     public function ajax_login(Request $request)
     {
-        // Custom validation to check phone number content
+        // Custom validation
         $validator = \Validator::make($request->all(), [
-            // $request->validate([
-            //     'phone' => 'required|string',
-            //     'password' => 'required|min:8',
-            // ], [
-            //     'phone.required' => __('Phone number or email is required.'),
-            //     'password.required' => __('Password is required.'),
-            //     'password.min' => __('Password must be at least 8 characters.'),
-            // ]);
             'phone' => [
                 'required_without:email',
                 function ($attribute, $value, $fail) {
-                    $countryCode = ['+1', '+880', '+855']; // Match your country code options
-                    $phoneNumber = str_replace($countryCode, '', $value); // Remove country code
+                    $countryCode = ['+1', '+880', '+855']; // Adjust as needed
+                    $phoneNumber = str_replace($countryCode, '', $value);
                     if (empty(trim($phoneNumber))) {
                         $fail(__('Phone number or email is required.'));
                     }
                 },
             ],
-            // 'email' => 'required_without:phone|email',
             'password' => 'required|min:8',
         ], [
             'phone.required_without' => __('Phone number or email is required.'),
-            // 'email.required_without' => __('Phone number or email is required.'),
-            // 'email.email' => __('Invalid email format.'),
             'password.required' => __('Password is required.'),
             'password.min' => __('Password must be at least 8 characters.'),
         ]);
@@ -674,6 +665,7 @@ class FrontendController extends Controller
             ], 422);
         }
 
+        // Determine login field
         $login_key = 'phone';
         $input_value = $request->phone;
 
@@ -702,21 +694,34 @@ class FrontendController extends Controller
             ]);
         }
 
+        // Attempt login
         if (Auth::guard('web')->attempt([$login_key => $input_value, 'password' => $request->password], $request->get('remember'))) {
+            try {
+                // 🛒 Restore all cart instances for this user
+                $userId = Auth::guard('web')->id();
+
+                Cart::instance('default')->restore($userId);
+                Cart::instance('wishlist')->restore($userId);
+                Cart::instance('compare')->restore($userId);
+            } catch (\Exception $e) {
+                \Log::warning("Cart restore failed for user {$userId}: " . $e->getMessage());
+            }
+
             return response()->json([
                 'msg' => __('Signed in successfully... Redirecting...'),
                 'type' => 'success',
                 'status' => 'valid',
-                'user_identification' => random_int(11111111, 99999999) . auth()->guard('web')->id() . random_int(11111111, 99999999),
+                'user_identification' => random_int(11111111, 99999999) . $user->id . random_int(11111111, 99999999),
             ]);
         }
 
         return response()->json([
-            'msg' => 'Account credentials do not match.',
+            'msg' => __('Account credentials do not match.'),
             'type' => 'danger',
             'status' => 'invalid',
         ]);
     }
+
 
 
     public function user_campaign()
@@ -778,6 +783,106 @@ class FrontendController extends Controller
         return view('frontend.cart.all', compact('all_cart_items', 'products', 'subtotal', 'default_shipping_cost', 'total'));
     }
 
+    // public function checkoutPage(Request $request): Application|Factory|View
+    // {
+    //     $default_shipping_cost = CartAction::getDefaultShippingCost();
+    //     $default_shipping = CartAction::getDefaultShipping();
+    //     $user = getUserByGuard('web');
+
+    //     $all_user_shipping = [];
+    //     $defaultShippingAddress = null;
+
+    //     if (auth('web')->check()) {
+    //         $all_user_shipping = ShippingAddress::with(['get_cities', 'get_states', 'country:id,name', 'state:id,name,country_id', 'cities:id,name', 'country_taxs', 'state_taxs'])
+    //             ->where('user_id', getUserByGuard('web')->id)->get();
+
+    //         // Fetch the default shipping address
+    //         $defaultShippingAddress = ShippingAddress::with(['get_cities', 'get_states', 'country:id,name', 'state:id,name,country_id', 'cities:id,name', 'country_taxs', 'state_taxs'])
+    //             ->where('user_id', getUserByGuard('web')->id)
+    //             ->where('is_default', true) // Assuming 'is_default' is the column indicating default address
+    //             ->first();
+    //     }
+
+    //     $countries = Country::where('status', 'publish')->get();
+
+    //     // if not campaign
+    //     $all_cart_items = Cart::content();
+
+    //     $prd_ids = $all_cart_items?->pluck('id')?->toArray();
+
+    //     $products = Product::with('category', 'subCategory', 'childCategory')->whereIn('id', $prd_ids)->get();
+
+    //     $subtotal = Cart::subtotal(2, '.', '');
+    //     $subtotal_with_tax = $subtotal + $default_shipping_cost;
+    //     $coupon_amount = CartService::calculateCoupon($request, $subtotal, $products, 'DISCOUNT', $default_shipping_cost);
+
+    //     $tax_data = CartService::getDefaultTax($subtotal);
+    //     $tax = $tax_data['tax'];
+    //     $tax_percentage = $tax_data['tax_percentage'];
+
+    //     $total = CartService::calculateCoupon($request, $subtotal_with_tax, $products);
+
+    //     $setting_text = StaticOption::select('option_name', 'option_value')->whereIn('option_name', [
+    //         'checkout_page_no_product_text',
+    //         'returning_customer_text',
+    //         'toggle_login_text',
+    //         'checkout_username',
+    //         'checkout_password',
+    //         'checkout_remember_text',
+    //         'checkout_forgot_password',
+    //         'checkout_login_btn_text',
+    //         'have_coupon_text',
+    //         'enter_coupon_text',
+    //         'coupon_placeholder',
+    //         'apply_coupon_btn_text',
+    //         'checkout_billing_section_title',
+    //         'checkout_billing_city',
+    //         'checkout_billing_zipcode',
+    //         'checkout_billing_address',
+    //         'checkout_billing_email',
+    //         'checkout_billing_phone',
+    //         'checkout_order_note',
+    //         'create_account_text',
+    //         'create_account_username',
+    //         'create_account_password',
+    //         'create_account_confirmed_password',
+    //         'ship_to_another_text',
+    //         'shipping_state',
+    //         'shipping_city',
+    //         'shipping_zipcode',
+    //         'shipping_address',
+    //         'shipping_email',
+    //         'shipping_phone',
+    //         'order_summary_title',
+    //         'subtotal_text',
+    //         'discount_text',
+    //         'vat_text',
+    //         'shipping_text',
+    //         'total_text',
+    //         'checkout_place_order',
+    //         'checkout_return_cart',
+    //         'checkout_page_terms_text',
+    //         'checkout_page_terms_link_url',
+    //     ])->pluck('option_value', 'option_name')->toArray();
+
+    //     return view('frontend.cart.checkout', compact(
+    //         'all_cart_items',
+    //         'all_user_shipping',
+    //         'products',
+    //         'subtotal',
+    //         'countries',
+    //         'default_shipping_cost',
+    //         'default_shipping',
+    //         'total',
+    //         'user',
+    //         'coupon_amount',
+    //         'tax',
+    //         'tax_percentage',
+    //         'setting_text',
+    //         'defaultShippingAddress' // Pass the default shipping address to the view
+    //     ));
+    // }
+
     public function checkoutPage(Request $request): Application|Factory|View
     {
         $default_shipping_cost = CartAction::getDefaultShippingCost();
@@ -794,7 +899,7 @@ class FrontendController extends Controller
             // Fetch the default shipping address
             $defaultShippingAddress = ShippingAddress::with(['get_cities', 'get_states', 'country:id,name', 'state:id,name,country_id', 'cities:id,name', 'country_taxs', 'state_taxs'])
                 ->where('user_id', getUserByGuard('web')->id)
-                ->where('is_default', true) // Assuming 'is_default' is the column indicating default address
+                ->where('is_default', true)
                 ->first();
         }
 
@@ -808,14 +913,10 @@ class FrontendController extends Controller
         $products = Product::with('category', 'subCategory', 'childCategory')->whereIn('id', $prd_ids)->get();
 
         $subtotal = Cart::subtotal(2, '.', '');
-        $subtotal_with_tax = $subtotal + $default_shipping_cost;
+        $subtotal_with_shipping = $subtotal + $default_shipping_cost;
         $coupon_amount = CartService::calculateCoupon($request, $subtotal, $products, 'DISCOUNT', $default_shipping_cost);
 
-        $tax_data = CartService::getDefaultTax($subtotal);
-        $tax = $tax_data['tax'];
-        $tax_percentage = $tax_data['tax_percentage'];
-
-        $total = CartService::calculateCoupon($request, $subtotal_with_tax, $products);
+        $total = CartService::calculateCoupon($request, $subtotal_with_shipping, $products);
 
         $setting_text = StaticOption::select('option_name', 'option_value')->whereIn('option_name', [
             'checkout_page_no_product_text',
@@ -851,7 +952,6 @@ class FrontendController extends Controller
             'order_summary_title',
             'subtotal_text',
             'discount_text',
-            'vat_text',
             'shipping_text',
             'total_text',
             'checkout_place_order',
@@ -871,12 +971,11 @@ class FrontendController extends Controller
             'total',
             'user',
             'coupon_amount',
-            'tax',
-            'tax_percentage',
             'setting_text',
-            'defaultShippingAddress' // Pass the default shipping address to the view
+            'defaultShippingAddress'
         ));
     }
+
 
     public function cartItemsBasedOnBillingAddress(Request $request)
     {
@@ -1480,4 +1579,6 @@ class FrontendController extends Controller
         Session::put('new_currency_symbol', $request->currency);
         return true;
     }
+
+    
 }

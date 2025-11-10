@@ -12,6 +12,7 @@ use Twilio\Rest\Client;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use HTTP_Request2;
 use HTTP_Request2_Exception;
+use Gloudemans\Shoppingcart\Facades\Cart;
 
 class LoginController extends Controller
 {
@@ -187,5 +188,31 @@ class LoginController extends Controller
     {
         $all_country = CountryHelper::getAllCountries();
         return view('frontend.user.login', compact('all_country'));
+    }
+
+
+    public function logout(Request $request)
+    {
+        if (Auth::guard('web')->check()) {
+            $userId = Auth::guard('web')->id();
+
+            try {
+                // Store all cart instances before session is destroyed
+                Cart::instance('default')->store($userId);
+                Cart::instance('wishlist')->store($userId);
+                Cart::instance('compare')->store($userId);
+            } catch (\Exception $e) {
+                \Log::warning("Cart store failed for user {$userId}: " . $e->getMessage());
+            }
+
+            Auth::guard('web')->logout();
+        }
+
+        // Invalidate session and regenerate CSRF token
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        // Redirect safely to login or home
+        return redirect()->route('homepage')->with('status', __('You have been logged out successfully.'));
     }
 }

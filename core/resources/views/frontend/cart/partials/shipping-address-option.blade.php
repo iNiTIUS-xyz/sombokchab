@@ -1,4 +1,3 @@
-
 @php
     $isDefault = $shipping_address->is_default ?? false;
 @endphp
@@ -16,13 +15,13 @@
 
     <span class="option-text">
         <span class="option-title">
-        {{ $shipping_address->shipping_address_name ?? $shipping_address->name }}
+            {{ $shipping_address->shipping_address_name ?? $shipping_address->name }}
         </span>
         <span class="option-sub">
-        ({{ $shipping_address->phone }}) - {{ $shipping_address->address }}
-        @if ($isDefault)
-            <span class="option-badge">Default</span>
-        @endif
+            ({{ $shipping_address->phone }}) - {{ $shipping_address->address }}
+            @if ($isDefault)
+                <span class="option-badge">Default</span>
+            @endif
         </span>
     </span>
 </label>
@@ -38,7 +37,5 @@
     data-phone="{{ $shipping_address->phone }}"
     data-zipcode="{{ $shipping_address->zip_code }}"
     data-states='@json($shipping_address?->get_states?->toArray() ?? [])'
-    data-cities='@json($shipping_address?->get_cities?->toArray() ?? [])'
-    data-country-tax='@json($shipping_address?->country_taxs?->toArray() ?? [])'
-    data-state-tax='@json($shipping_address?->state_taxs?->toArray() ?? [])'>
+    data-cities='@json($shipping_address?->get_cities?->toArray() ?? [])'>
 </div>

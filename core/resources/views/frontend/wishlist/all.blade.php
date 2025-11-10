@@ -116,7 +116,7 @@
             <x-frontend.page.empty :image="get_static_option('empty_wishlist_image')" :text="get_static_option('empty_wishlist_text')" />
         @else
             <div id="cart-container">
-                @include('frontend.cart.cart-partial')
+                @include('frontend.wishlist.wishlist-partial')
             </div>
         @endif
 

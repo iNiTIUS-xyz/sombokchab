@@ -7,41 +7,38 @@
 @endsection
 
 @section('content')
-    <div class="sign-in-area-wrapper padding-top-100 padding-bottom-50">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-6 col-lg-4">
-                    <div class="sign-in register">
-                        <h4 class="single-title">{{ __('Order Tracking') }}</h4>
-                        <div class="form-wrapper custom__form mt-4">
-                            <x-msg.flash />
-                            <x-msg.error />
+<div class="track-order-section py-5">
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-md-6">
+                <div class="card shadow-sm border-0 p-4">
+                    <h4 class="mb-3 text-center">{{ __('Track Your Order') }}</h4>
+                    <x-msg.flash />
+                    <x-msg.error />
 
-                            @if (session()->has('info'))
-                                <div class="alert alert-{{ session('type') }}">
-                                    {!! session('info') !!}
-                                </div>
-                            @endif
-                            <form method="POST" action="{{ route('frontend.products.track.order') }}">
-                                @csrf
-                                <div class="form-group">
-                                    <input type="text" name="order_id" class="form-control" id="order_id"
-                                        placeholder="{{ __('Order Id') }}">
-                                </div>
-                                <div class="form-group">
-                                    <input type="number" name="phone" class="form-control" id="phone"
-                                        placeholder="{{ __('Phone Number') }}">
-                                </div>
-                                <div class="btn-wrapper">
-                                    <button type="submit" class="btn-default rounded-btn">
-                                        {{ __('Track your order') }}
-                                    </button>
-                                </div>
-                            </form>
+                    <form method="GET" action="{{ route('frontend.track.order') }}">
+                        <div class="mb-3">
+                            <label class="form-label">{{ __('Order Number') }}</label>
+                            <input type="text" name="order_number" class="form-control"
+                                   value="{{ request('order_number') }}"
+                                   placeholder="Enter your order number" required>
                         </div>
-                    </div>
+                        <div class="mb-3">
+                            <label class="form-label">{{ __('Phone Number') }}</label>
+                            <input type="text" name="phone" class="form-control"
+                                   value="{{ request('phone') }}"
+                                   placeholder="+8801XXXXXXXXX" required>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">
+                            {{ __('Track Order') }}
+                        </button>
+                    </form>
                 </div>
+            </div>
+            <div class="col-md-5 d-none d-md-block text-center">
+                <img src="{{ asset('assets/frontend/img/track-order.png') }}" class="img-fluid" alt="Track Order">
             </div>
         </div>
     </div>
+</div>
 @endsection
