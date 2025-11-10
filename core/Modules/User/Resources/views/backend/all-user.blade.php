@@ -47,34 +47,11 @@
                                     <td class="text-left">{{ $user->name }} ({{ $user->username }})</td>
                                     <td class="text-left">
                                         {{ $user->email }}
-                                        {{-- @if ($user->email_verified == 1)
-                                        <i class="las la-check-circle text-success"></i>
-                                        @endif --}}
                                     </td>
                                     <td>
-                                        {{ date('d-M-Y', strtotime($user->created_at)) }}
+                                        {{ $user->created_at->format('M j, Y') }}
                                     </td>
                                     <td>
-                                        {{-- @can('frontend-all-user-email-status')
-                                        <form action="{{ route('admin.all.frontend.user.email.status') }}" method="post"
-                                            style="display: inline">
-                                            @csrf
-                                            <input type="hidden" value="{{ $user->id }}" name="user_id">
-                                            <input type="hidden" value="{{ $user->email_verified }}" name="email_verified">
-                                            @if ($user->email_verified == 1)
-                                            <button type="submit" class="btn btn-sm btn-xs mb-2 me-1 btn-success"
-                                                title="{{ __('Enable Email Verif') }}">
-                                                <i class="ti-email"></i>
-                                            </button>
-                                            @else
-                                            <button type="submit" class="btn btn-sm btn-xs mb-2 me-1 btn-dark"
-                                                title="{{ __('Disable Email Verify') }}">
-                                                <i class="ti-email"></i>
-                                            </button>
-                                            @endif
-                                        </form>
-                                        @endcan --}}
-
                                         @can('frontend-user-password-change')
                                             <a href="#" data-id="{{ $user->id }}" data-bs-toggle="modal"
                                                 data-bs-target="#user_change_password_modal"

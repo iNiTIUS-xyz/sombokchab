@@ -83,7 +83,7 @@
                                                     @endif
                                                 </span>
                                             </td>
-                                            <td>{{ $history->created_at }}</td>
+                                            <td>{{ date('M j, Y H:i A', strtotime($history->created_at)) }}</td>
                                             <td>
                                                 <div class="btn-group badge">
                                                     <button type="button"

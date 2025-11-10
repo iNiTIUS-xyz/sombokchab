@@ -86,7 +86,7 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>{{ date_format($data->created_at, 'd M Y') }}</td>
+                                            <td>{{ date('M j, Y', strtotime($data->created_at)) }}</td>
                                             <td>
                                                 @can('blog-edit')
                                                     <x-edit-icon :url="route('admin.blog.edit', $data->id)" />

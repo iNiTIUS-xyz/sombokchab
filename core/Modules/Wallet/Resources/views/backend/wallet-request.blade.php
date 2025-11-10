@@ -117,7 +117,7 @@
                                                 <div class="table-notes">{{ $request?->note }}</div>
                                             </td>
                                             <td>
-                                                {{ date('d M Y', strtotime($request?->created_at)) }}
+                                                {{ date('M j, Y', strtotime($request?->created_at)) }}
                                             </td>
                                         </tr>
                                     @endforeach

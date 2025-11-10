@@ -137,7 +137,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                {{ date('d-M-Y', strtotime($data->created_at)) }}
+                                                {{ date('M j, Y', strtotime($data->created_at)) }}
                                             </td>
                                             <td>
                                                 @can('support-tickets-view')
@@ -272,6 +272,10 @@
                     success: function(data) {
                         if (data == 'ok') {
                             toastr.success('Support ticket priority changed successfully.');
+
+                            setTimeout(function() {
+                                location.reload();
+                            }, 800);
                         }
                     }
                 })
@@ -306,6 +310,10 @@
 
                         if (data == 'ok') {
                             toastr.success('Support ticket status changed successfully.');
+
+                            setTimeout(function() {
+                                location.reload();
+                            }, 800);
                         }
                     }
                 })

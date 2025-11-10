@@ -114,7 +114,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                {{ date('d-M-Y', strtotime($data->created_at)) }}
+                                                {{ date('M j, Y', strtotime($data->created_at)) }}
                                             </td>
                                             <td>
                                                 @can('support-tickets-view')
@@ -238,9 +238,12 @@
 
                         if (data == 'ok') {
                             toastr.success('Support ticket priority changed successfully.');
+
+                            setTimeout(function() {
+                                location.reload();
+                            }, 800);
                         }
-                        $(this).parent().find('button.' + currentPriority).removeClass(
-                            currentPriority).addClass(priority).text(priority);
+                        $(this).parent().find('button.' + currentPriority).removeClass(currentPriority).addClass(priority).text(priority);
                     }
                 })
             });
@@ -266,9 +269,11 @@
 
                         if (data == 'ok') {
                             toastr.success('Support ticket status changed successfully.');
+                            setTimeout(function() {
+                                location.reload();
+                            }, 800);
                         }
-                        $(this).parent().prev('button').removeClass(currentStatus).addClass(status)
-                            .text(status);
+                        $(this).parent().prev('button').removeClass(currentStatus).addClass(status).text(status);
                     }
                 })
             });

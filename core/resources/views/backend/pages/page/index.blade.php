@@ -68,7 +68,7 @@
                                                     @endif
                                                 @endif
                                             </td>
-                                            <td>{{ $page->created_at->diffForHumans() }}</td>
+                                            <td>{{ date('M j, Y', strtotime($page->created_at)) }}</td>
                                             <td>
                                                 <div class="btn-group badge">
                                                     <button type="button"

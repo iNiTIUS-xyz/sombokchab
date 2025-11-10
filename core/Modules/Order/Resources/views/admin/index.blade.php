@@ -3,6 +3,7 @@
 @section('site-title')
     {{ __('All Store Sub Orders') }}
 @endsection
+
 @section('style')
     <style>
         .btn-group button.dropdown-toggle {
@@ -62,7 +63,7 @@
                                     {{ $order->vendor?->business_name }}
                                 </td>
                                 <td class="date">
-                                    {{ $order->order->created_at->format('F d, Y') }}
+                                    {{ $order->order->created_at->format('M j, Y') }}
                                 </td>
                                 <td class="amount">
                                     {{ float_amount_with_currency_symbol($order->total_amount) }}
@@ -105,7 +106,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    {{ date('d M Y', strtotime($order->created_at)) }}
+                                    {{ date('M j, Y', strtotime($order->created_at)) }}
                                 </td>
                                 <td class="table-btn">
                                     @can('orders-details')

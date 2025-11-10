@@ -163,7 +163,7 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    {{ date('d-M-Y', strtotime($vendor->created_at)) }}
+                                                    {{ date('M j, Y', strtotime($vendor->created_at)) }}
                                                 </td>
                                                 <td data-label="Actions">
                                                     <div class="action-icon">

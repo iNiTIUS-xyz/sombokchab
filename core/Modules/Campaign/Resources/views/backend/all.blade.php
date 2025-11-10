@@ -82,7 +82,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                {{ date('d-M-Y', strtotime($campaign->created_at)) }}
+                                                {{ date('M j, Y', strtotime($campaign->created_at)) }}
                                             </td>
                                             <td>
                                                 <a class="btn btn-success btn-xs mb-2 me-1"

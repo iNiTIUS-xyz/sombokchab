@@ -21,6 +21,9 @@
         table.dataTable td.dt-type-date div.dt-column-footer {
             flex-direction: row !important;
         }
+        .status-failed .bg-warning {
+            color: #020202 !important;
+        }
     </style>
 @endsection
 
@@ -79,8 +82,8 @@
                                     <td class="order-numb">
                                         {{ $order->order_number }}
                                     </td>
-                                    <td class="date">
-                                        {{ $order->created_at->format('F d, Y') }}
+                                    <td>
+                                        {{ $order->created_at->format('M j, Y') }}
                                     </td>
                                     <td class="amount">
                                         {{ float_amount_with_currency_symbol($order->paymentMeta->total_amount ?? 0) }}
@@ -184,13 +187,13 @@
                                         </div>
                                     </td>
                                     <td>
-                                        {{ date('d M Y', strtotime($order->created_at)) }}
+                                        {{ $order->created_at->format('M j, Y') }}
                                     </td>
                                     <td class="table-btn">
                                         <div class="btn-wrapper d-flex flex-wrap gap-2">
                                             @can('orders-generate-invoice')
                                                 <a href="{{ route('admin.orders.generate.invoice', $order->id) }}"
-                                                    class="btn btn-info rounded-btn" title="{{ __('View Invoice') }}">
+                                                    class="btn btn-primary rounded-btn" title="{{ __('View Invoice') }}">
                                                     <i class="ti-info"></i>
                                                 </a>
                                             @endcan

@@ -103,7 +103,7 @@
                     @endif
                 </td>
                 <td>
-                     {{ $product->created_at->format('M d, y') }}
+                     {{ $product->created_at->format('M j, Y') }}
                 </td>
                 <td data-label="Actions">
                     {{-- <div> --}}

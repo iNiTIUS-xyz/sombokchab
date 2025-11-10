@@ -145,7 +145,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                {{ date('d M Y', strtotime($data->expire_date)) }}
+                                                {{ date('M j, Y', strtotime($data->expire_date)) }}
                                             </td>
                                             <td>
                                                 <div class="btn-group badge">
