@@ -128,11 +128,15 @@ class VendorServices
         $wallet = Wallet::where("vendor_id", $vendor_id)->first();
 
         return [
-            "total_order_amount" => (double) SubOrder::where("vendor_id", $vendor_id)->sum("total_amount"),
-            "total_complete_order_amount" => (double) SubOrder::where("vendor_id", $vendor_id)
+            "total_order_amount" => (float) SubOrder::query()
+                ->where("vendor_id", $vendor_id)
+                ->sum("total_amount"),
+            "total_complete_order_amount" => (float) SubOrder::query()
+                ->where("vendor_id", $vendor_id)
                 ->whereHas("orderTrack", function ($order) {
                     $order->where("name", "delivered");
-                })->sum("total_amount"),
+                })
+                ->sum("total_amount"),
             "pending_balance" => toFixed($wallet->pending_balance ?? 0, 0),
             "current_balance" => toFixed($wallet->balance ?? 0, 0),
             "yearly_income_statement" => self::generateReport($vendor_id, now()->subYear(1)->format("Y-m-d")),
