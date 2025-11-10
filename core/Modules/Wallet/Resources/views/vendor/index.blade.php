@@ -129,17 +129,17 @@
                     <div class="dashboard__card__body mt-4">
                         <div class="row g-4 justify-content-center">
                             <div class="col-xxl-3 col-xl-4 col-sm-6 orders-child">
-                                <div class="single-orders">
-                                    <div class="orders-shapes">
+                                <div class="single-orders bg-primary">
+                                    <div class="orders-shapes text-white">
                                     </div>
                                     <div class="orders-flex-content">
                                         <div class="contents">
-                                            <span class="order-para ff-rubik"> {{ __('Current Balance') }} </span>
-                                            <h2 class="order-titles">
+                                            <span class="order-para ff-rubik text-white"> {{ __('Available Balance for Withdraw') }} </span>
+                                            <h2 class="order-titles text-white">
                                                 {{ float_amount_with_currency_symbol($current_balance) }} </h2>
                                         </div>
-                                        <div class="icon">
-                                            <i class="las la-tasks"></i>
+                                        <div class="icon text-white">
+                                            <i class="las la-tasks text-white"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -150,7 +150,7 @@
                                     </div>
                                     <div class="orders-flex-content">
                                         <div class="contents">
-                                            <span class="order-para"> {{ __('Pending Balance') }} </span>
+                                            <span class="order-para"> {{ __('Order Pending Balance') }} </span>
                                             <h2 class="order-titles">
                                                 {{ float_amount_with_currency_symbol($pending_balance) }} </h2>
                                         </div>
@@ -178,17 +178,17 @@
                                 </div>
                             </div>
                             <div class="col-xxl-3 col-xl-4 col-sm-6 orders-child">
-                                <div class="single-orders">
+                                <div class="single-orders bg-primary">
                                     <div class="orders-shapes">
                                     </div>
                                     <div class="orders-flex-content">
                                         <div class="contents">
-                                            <span class="order-para ff-rubik"> {{ __('Total Earnings') }} </span>
-                                            <h2 class="order-titles">
+                                            <span class="order-para ff-rubik text-white"> {{ __('Total Earnings from Orders') }} </span>
+                                            <h2 class="order-titles text-white">
                                                 {{ float_amount_with_currency_symbol($total_order_amount) }} </h2>
                                         </div>
-                                        <div class="icon">
-                                            <i class="las la-dollar-sign"></i>
+                                        <div class="icon text-white">
+                                            <i class="las la-dollar-sign text-white"></i>
                                         </div>
                                     </div>
                                 </div>
