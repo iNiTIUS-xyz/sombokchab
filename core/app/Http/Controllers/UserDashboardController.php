@@ -61,6 +61,7 @@ class UserDashboardController extends Controller
             ->withCount('isDelivered')
             ->where('user_id', auth('web')->user()->id)
             ->orderBy('id', 'DESC')
+            ->latest()
             ->get();
 
         return view(self::BASE_PATH . 'user-home', compact('all_orders', 'product_count', 'support_ticket_count'));
@@ -269,7 +270,7 @@ class UserDashboardController extends Controller
 
             DB::commit();
 
-            return redirect()->back()->with(['msg' => __('User phone number chnaged successfully.'), 'type' => 'success']);
+            return redirect()->back()->with(['msg' => __('User phone number changed successfully.'), 'type' => 'success']);
         } catch (\Throwable $e) {
             DB::rollBack();
             return redirect()->back()->with(['msg' => __('Something went wrong. Please try again.'), 'type' => 'warning']);
@@ -329,8 +330,8 @@ class UserDashboardController extends Controller
         }
         $all_country = Country::where('status', 'publish')->get();
         $all_shipping_address = ShippingAddress::where('user_id', getUserByGuard('web')->id)
-        ->orderBy('created_at', 'desc')
-        ->get();
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         return view(self::BASE_PATH . 'shipping.all', compact('all_shipping_address', 'all_country'));
     }
@@ -505,7 +506,7 @@ class UserDashboardController extends Controller
         $shippingAddress->is_default = 1;
         $shippingAddress->save();
 
-        return redirect()->route('user.shipping.address.all')->with(FlashMsg::update_succeed('Default shippging address'));
+        return redirect()->route('user.shipping.address.all')->with(FlashMsg::update_succeed('Default Shipping address'));
     }
 
     public function deleteShippingAddress($id)

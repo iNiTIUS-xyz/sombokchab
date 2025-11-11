@@ -112,8 +112,8 @@
                                             <i class="las la-file-alt"></i>
                                         </a>
                                         @if ($order->isCancelableStatus && $order->order_status == 'pending')
-                                            <button class="btn btn-danger btn-sm rounded-btn swal_cancel_button" title="Cancel"
-                                                data-order-id="{{ $order->id }}" style="width: 40px;">
+                                            <button class="btn btn-danger btn-sm rounded-btn swal_cancel_button"
+                                                title="Cancel" data-order-id="{{ $order->id }}" style="width: 40px;">
                                                 {{-- {{ __('Cancel Order') }} --}}
                                                 <i class="las la-times"></i>
                                             </button>
@@ -133,19 +133,20 @@
 @section('script')
     <script src="{{ asset('assets/backend/js/sweetalert2.js') }}"></script>
     <script>
-        $(document).ready(function () {
-            $(document).on('click', '.bodyUser_overlay', function () {
+        $(document).ready(function() {
+            $(document).on('click', '.bodyUser_overlay', function() {
                 $('.user-dashboard-wrapper, .bodyUser_overlay').removeClass('show');
             });
-            $(document).on('click', '.mobile_nav', function () {
+            $(document).on('click', '.mobile_nav', function() {
                 $('.user-dashboard-wrapper, .bodyUser_overlay').addClass('show');
             });
         });
     </script>
     {{-- <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script> --}}
     <script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
-    <script> 
-        $(document).ready(function () {
+
+    <script>
+        $(document).ready(function() {
             if ($('#dataTable').length) {
                 $('#dataTable').DataTable({
                     paging: true,
@@ -155,6 +156,9 @@
                     info: true,
                     autoWidth: false,
                     responsive: true,
+                    order: [
+                        [0, 'desc']
+                    ],
                     language: {
                         search: "Filter:",
                         paginate: {
@@ -162,18 +166,17 @@
                             next: "Next"
                         }
                     },
-                    // Add this for pagination style
-                    pagingType: "simple_numbers" // options: simple, simple_numbers, full, full_numbers
+                    pagingType: "simple_numbers"
                 });
             }
         });
     </script>
 
     <script>
-        (function ($) {
+        (function($) {
             "use strict";
-            $(document).ready(function () {
-                $(document).on('click', '.swal_cancel_button', function (e) {
+            $(document).ready(function() {
+                $(document).on('click', '.swal_cancel_button', function(e) {
                     e.preventDefault();
                     const orderId = $(this).data('order-id');
                     Swal.fire({
@@ -189,24 +192,28 @@
                         if (result.isConfirmed) {
                             $.ajax({
                                 type: 'get',
-                                url: "{{ url('/user-home/orders/cancel') }}/" + orderId,
+                                url: "{{ url('/user-home/orders/cancel') }}/" +
+                                    orderId,
                                 data: {
                                     _token: "{{ csrf_token() }}",
                                 },
-                                success: function (data) {
+                                success: function(data) {
                                     console.log('AJAX Response:', data);
                                     if (data.success) {
                                         Swal.fire('Cancelled!', '', 'success');
-                                        setTimeout(function () {
+                                        setTimeout(function() {
                                             location.reload();
                                         }, 1000);
                                     } else {
-                                        Swal.fire('Error!', data.message || 'Failed to cancel order.', 'error');
+                                        Swal.fire('Error!', data.message ||
+                                            'Failed to cancel order.', 'error');
                                     }
                                 },
-                                error: function (xhr, status, error) {
-                                    console.error('AJAX Error:', xhr.responseText, status, error);
-                                    Swal.fire('Error!', 'Failed to cancel order.', 'error');
+                                error: function(xhr, status, error) {
+                                    console.error('AJAX Error:', xhr.responseText,
+                                        status, error);
+                                    Swal.fire('Error!', 'Failed to cancel order.',
+                                        'error');
                                 }
                             });
                         }
