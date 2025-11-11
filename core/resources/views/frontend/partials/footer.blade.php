@@ -470,7 +470,7 @@
                     success: function(data) {
                         if (data.type ?? false) {
                             if (data.quantity_msg) {
-                                toastr.warning(data.quantity_msg)
+                                toastr.error(data.quantity_msg)
                                 return;
                             } else {
                                 toastr[data.type](data.msg);

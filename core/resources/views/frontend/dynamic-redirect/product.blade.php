@@ -6,7 +6,13 @@
     @endsection
 @else
     @section('page-title')
-        <span id="page-title-text">{{ __('Products') }}</span>
+        <span id="page-title-text">
+            @if (request()->has('category'))
+                {{ request()->get('category') }}
+            @else
+                {{ __('Products') }}
+            @endif
+        </span>
     @endsection
 @endif
 
@@ -525,29 +531,62 @@
             submitForm();
         });
 
+        // $(document).on("click", ".list[data-type=category] a", function() {
+        //     $("#" + $(this).parent().attr("data-type")).val($(this).parent().attr("data-val"));
+
+        //     let categoryName = $(this).parent().attr("data-val");
+
+        //     $("#page-title-text").text(categoryName);
+        //     submitForm();
+        // });
+
+        // $(document).on("click", ".list[data-type=sub_category] a", function() {
+        //     let $parent = $(this).parent();
+        //     let subCategoryName = $parent.attr("data-val");
+
+        //     $parent.siblings("[data-type=sub_category]").removeClass("active");
+
+        //     $parent.addClass("active");
+
+        //     $("#" + $parent.attr("data-type")).val(subCategoryName);
+
+        //     $("#page-title-text").text(subCategoryName);
+
+        //     submitForm();
+        // });
+
         $(document).on("click", ".list[data-type=category] a", function() {
-            $("#" + $(this).parent().attr("data-type")).val($(this).parent().attr("data-val"));
+            const $li = $(this).parent();
+            const catName = $li.attr("data-val");
 
-            let categoryName = $(this).parent().attr("data-val");
+            $("#category").val(catName);
+            $("#sub_category").val('');
+            $("#child_category").val('');
 
-            $("#page-title-text").text(categoryName);
+            $("#page-title-text").text(catName);
+
             submitForm();
         });
 
         $(document).on("click", ".list[data-type=sub_category] a", function() {
-            let $parent = $(this).parent();
-            let subCategoryName = $parent.attr("data-val");
+            const $li = $(this).parent();
+            const subCatName = $li.attr("data-val");
 
-            $parent.siblings("[data-type=sub_category]").removeClass("active");
+            const $parentCatLi = $li.closest('.menu-item-has-children[data-type=category]');
+            const parentCatName = $parentCatLi.attr("data-val") || '';
 
-            $parent.addClass("active");
+            $("#category").val(parentCatName);
+            $("#sub_category").val(subCatName);
+            $("#child_category").val('');
 
-            $("#" + $parent.attr("data-type")).val(subCategoryName);
+            $li.siblings("[data-type=sub_category]").removeClass("active");
+            $li.addClass("active");
 
-            $("#page-title-text").text(subCategoryName);
+            $("#page-title-text").text(subCatName);
 
             submitForm();
         });
+
 
         $(document).on("click", ".list[data-type=child_category] a", function() {
             let $parent = $(this).parent();
