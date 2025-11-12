@@ -8,7 +8,8 @@ use Illuminate\Http\Request;
 
 class CheckoutController extends Controller
 {
-    public function checkout(SubmitCheckoutRequest $request){
-        dd(CheckoutService::storeBillingAddress($request->validated()),$request->validated());
+    public function checkout(SubmitCheckoutRequest $request)
+    {
+        CheckoutService::storeBillingAddress($request->validated());
     }
 }

@@ -21,10 +21,7 @@ use Modules\TaxModule\Services\CalculateTaxBasedOnCustomerAddress;
 
 class ApiOrderController extends Controller
 {
-    /**
-     * @throws NotArrayObjectException
-     * @throws Throwable
-     */
+
     public function calculateTaxAmount(Request $request)
     {
         $data = $request->validate([
@@ -109,9 +106,7 @@ class ApiOrderController extends Controller
         return $taxInformation;
     }
 
-    /**
-     * @throws Throwable
-     */
+
     public function placeOrder(SubmitCheckoutRequest $data)
     {
         $data = $data->validated();

@@ -42,55 +42,21 @@ trait OrderTrait
         return "options.vendor_id";
     }
 
-    /**
-    "": {
-     *      product_id: 12,
-     *      image: 12,
-     *      price: 120,
-     *      options: {
-     *          categories: 2.
-     *          subCategories: 1,
-     *          childCategories: []
-     *      }
-     * },{
-     *      product_id: 12,
-     *      image: 12,
-     *      price: 120,
-     *      options: {
-     *          categories: 2.
-     *          subCategories: 1,
-     *          childCategories: []
-     *      }
-     * }
-     */
-
-    /**
-     * @return bool
-     */
     protected static function isVendorMailable(): bool
     {
         return true;
     }
 
-    /**
-     * @return bool
-     */
     protected static function isAdminMailable(): bool
     {
         return true;
     }
 
-    /**
-     * @return bool
-     */
     protected static function isUserMailable(): bool
     {
         return true;
     }
 
-    /**
-     * @return bool
-     */
     protected static function isMailSendWithQueue(): bool
     {
         return true;
@@ -109,35 +75,26 @@ trait OrderTrait
         return (is_null($type) || is_null($request)) ? Cart::instance(self::cartInstanceName())->content() : ApiCartServices::prepareRequestDataForCartContent($request);
     }
 
-    /**
-     * @throws Exception
-     * @throws Throwable
-     */
     protected static function orderProcess($request, $type = null): array
     {
-        // get all cart items and make a group by with vendor_id
+
         $cartContent = self::cartContent($request, $type);
         $groupedData = self::groupByCartContent($cartContent);
 
-        // Initialize OrderShippingChargeService for
-        // declare a temporary variable for storing totalAmount
         $total_amount = 0;
         $shippingTaxClass = new stdClass();
 
-        // if request comes from pos then go forward with totalShippingCharge 0 if request is not coming from pos then store shipping address and totalShippingCharge from database
         if ($type != 'pos') {
             $shippingTaxClass = TaxClassOption::where("class_id", get_static_option("shipping_tax_class"))->sum("rate");
             $shippingCost = OrderShippingChargeService::getShippingCharge($request["shipping_cost"]);
             $shippingCostTemp = 0;
 
-            // this loop will care of all available vendor shipping charges
             foreach ($shippingCost["vendor"] ?? [] as $s_cost) {
                 $shippingCostTemp += calculatePrice($s_cost->cost, $shippingTaxClass, "shipping");
             }
 
-            // this line of code will take care of admin shipping charge if you do not have then plus with 0
             $shippingCostTemp += calculatePrice($shippingCost["admin"]?->cost ?? 0, $shippingTaxClass, "shipping") ?? 0;
-            // sum total Cost Summary
+
             $totalShippingCharge = $shippingCostTemp;
         } else {
             $totalShippingCharge = 0;
@@ -146,7 +103,7 @@ trait OrderTrait
         // create order
         $order = self::storeOrder($request, $type);
         // update unique order number
-        $uniqueNumber=self::uniqueOrderNumber($order->id);
+        $uniqueNumber = self::uniqueOrderNumber($order->id);
 
         // if request comes not from pos, then store OrderShippingAddress and stores it in a variable
         if ($type != 'pos') {
@@ -160,7 +117,7 @@ trait OrderTrait
 
         // now get taxPercentage from a database based on customer billing address if request not comes from pos
         $taxPercentage = $type == 'pos' ? get_static_option("default_shopping_tax") :
-        (int) OrderTaxService::taxAmount($orderAddress->country_id, $orderAddress->state_id ?? null, $orderAddress->city ?? null);
+            (int) OrderTaxService::taxAmount($orderAddress->country_id, $orderAddress->state_id ?? null, $orderAddress->city ?? null);
 
         $tax = CalculateTaxBasedOnCustomerAddress::init();
         $uniqueProductIds = $cartContent->pluck("id")->unique()->toArray();
@@ -263,7 +220,6 @@ trait OrderTrait
 
             $vendor_id = $vendor_id == "admin" ? null : $vendor_id;
 
-            // get a commission of this suborder by sending two parameter one is vendor id another one is sub-total
             $subOrder = self::storeSubOrder($order->id, $vendor_id, $subOrderTotal, $subOrderShippingCost, $subOrderTaxAmount, $price_type, $orderAddress->id ?? null);
             // store suborder commissions
             self::createSubOrderCommission($subOrderTotal, $subOrder->id, $vendor_id);
@@ -283,17 +239,13 @@ trait OrderTrait
         }
 
         $finalAmount = $orderSubTotal + $totalTaxAmount + $totalShippingCharge;
-        // now store OrderPaymentMeta
+
         $orderPaymentMeta = self::storePaymentMeta($order->id, $total_amount, $coupon_amount, $totalShippingCharge, $totalTaxAmount, $finalAmount);
 
-        // check wallet module if exist then move forward for next action
-        // check for selecting wallet as a payment gateway
         if (($request['payment_gateway'] == 'Wallet' && auth('web')->check()) && moduleExists("Wallet")) {
-            // before update database checks user wallet amount if it is a getter then finalAmount or equal then user will be eligible for next action
             WalletService::updateUserWallet(auth('web')->user()?->id, $finalAmount, false, 'balance', $order->id, checkBalance: true);
         }
 
-        // now update product inventory
         FrontendInventoryService::updateInventory($order->id);
 
         return $orderPaymentMeta ? [
@@ -307,7 +259,8 @@ trait OrderTrait
             "invoice_number" => $order->invoice_number,
             "created_at" => $order->created_at->format("Y-m-d H:i:s"),
         ] : [
-            "success" => false, "type" => "danger",
+            "success" => false,
+            "type" => "danger",
             "order_id" => null,
         ];
     }
@@ -324,20 +277,12 @@ trait OrderTrait
 
     public static function sendOrder($request)
     {
-
+        //
     }
 
-    /**
-     * @param $request
-     * @param null $type
-     * @return mixed
-     * @throws Throwable
-     */
     public static function testOrder($request, $type = null)
     {
 
-//        try {
-//            \DB::beginTransaction();
         $order_process = self::orderProcess($request, $type);
         if ($type != 'pos') {
             if (isset($request['create_account']) && $request['create_account']) {
@@ -345,25 +290,19 @@ trait OrderTrait
                 $user = $registration_action->createUser($request);
                 $user_id = optional($user)->id;
 
-                // update order
                 if (isset($order_process['order_id'])) {
-                    // Find the order by ID
                     $order_data = Order::find($order_process['order_id']);
 
-                    // Check if the order exists
                     if (!empty($order_data)) {
-                        // Update the order with the user ID
+
                         $order_data->update([
                             'user_id' => $user_id,
                         ]);
                     }
                 }
-
             }
             if ($request["payment_gateway"] == 'cash_on_delivery') {
-                // do something for Cash on Delivery
-                // now send email using this method,
-                // and this method will take care all the process
+
                 self::sendOrderMail(order_process: $order_process, request: $request);
                 WalletService::updateWallet($order_process["order_id"]);
 
@@ -385,14 +324,13 @@ trait OrderTrait
 
                 Cart::instance(self::cartInstanceName())->destroy();
             } else {
-//                    \DB::commit();
+                //                    \DB::commit();
                 Cart::instance(self::cartInstanceName())->destroy();
 
                 return (new PaymentGatewayService)->payment_with_gateway($request['payment_gateway'], $request, $order_process["order_id"], round($order_process['total_amount'], 0));
             }
         } else {
-            // do something for Cash on Delivery
-            // now send email using this method, and this method will take care all the process
+
             if (!empty($request->selected_customer ?? '') && $request->send_email == 'on') {
                 self::sendOrderMail(order_process: $order_process, request: $request, type: 'pos');
             }
@@ -450,36 +388,15 @@ trait OrderTrait
                     "order_details" => [],
                 ]);
             }
-
         }
 
-//            \DB::commit();
         return redirect()->route('frontend.order.payment.success', $order_process['order_id']);
-
-//        }catch(Exception $e){
-//            Cart::instance(self::cartInstanceName())->destroy();
-//            $response = [
-//                "type" => "danger",
-//                "msg" => $e->getMessage()
-//            ];
-//
-//            if($type == 'pos'){
-//                return response()->json($response);
-//            }
-//
-//            return back()->with($response);
-//        }
     }
 
-    /**
-     * @param $request
-     * @return mixed
-     * @throws Throwable
-     */
     public static function apiOrder($request): mixed
     {
-    Log::info("api order", $request);
-//        try {
+        Log::info("api order", $request);
+        //        try {
         // now check order process status if truer than send email if mailable is true
         $order = self::orderProcess($request, "api");
 
@@ -521,9 +438,9 @@ trait OrderTrait
         }
 
         return $order + ["hash" => \Hash::make(json_encode($order)), "hash-two" => Crypt::encryptString(json_encode($order))];
-//        } catch (Exception $e) {
-//            return $e->getMessage();
-//        }
+        //        } catch (Exception $e) {
+        //            return $e->getMessage();
+        //        }
     }
 
     protected static function prepareOrderForVendor($vendor_id, $order_id, $total_amount, $shipping_cost, $tax_amount, $order_address_id): array

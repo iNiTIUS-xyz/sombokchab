@@ -18,12 +18,11 @@ use Throwable;
 class OrderController extends Controller
 {
 
-    /**
-     * @throws Throwable
-     */
-    public function checkout(SubmitCheckoutRequest $request){
+    public function checkout(SubmitCheckoutRequest $request)
+    {
+
         $data = $request->validated();
-        
+
         return OrderService::testOrder($data);
     }
 
@@ -82,7 +81,5 @@ class OrderController extends Controller
         return $data;
     }
 
-    public function orderTracking($orderId){
-
-    }
+    public function orderTracking($orderId) {}
 }
