@@ -26,7 +26,6 @@ use App\Action\RegistrationAction;
 use Log;
 use stdClass;
 use Str;
-use Throwable;
 
 trait OrderTrait
 {
@@ -77,7 +76,6 @@ trait OrderTrait
 
     protected static function orderProcess($request, $type = null): array
     {
-
         $cartContent = self::cartContent($request, $type);
         $groupedData = self::groupByCartContent($cartContent);
 
@@ -85,6 +83,7 @@ trait OrderTrait
         $shippingTaxClass = new stdClass();
 
         if ($type != 'pos') {
+
             $shippingTaxClass = TaxClassOption::where("class_id", get_static_option("shipping_tax_class"))->sum("rate");
             $shippingCost = OrderShippingChargeService::getShippingCharge($request["shipping_cost"]);
             $shippingCostTemp = 0;
@@ -97,25 +96,32 @@ trait OrderTrait
 
             $totalShippingCharge = $shippingCostTemp;
         } else {
-            $totalShippingCharge = 0;
+
+            $shippingTaxClass = TaxClassOption::where("class_id", get_static_option("shipping_tax_class"))->sum("rate");
+            $shippingCost = OrderShippingChargeService::getShippingCharge($request["shipping_cost"]);
+            $shippingCostTemp = 0;
+
+            foreach ($shippingCost["vendor"] ?? [] as $s_cost) {
+                $shippingCostTemp += calculatePrice($s_cost->cost, $shippingTaxClass, "shipping");
+            }
+
+            $shippingCostTemp += calculatePrice($shippingCost["admin"]?->cost ?? 0, $shippingTaxClass, "shipping") ?? 0;
+
+            $totalShippingCharge = $shippingCostTemp;
         }
 
-        // create order
         $order = self::storeOrder($request, $type);
-        // update unique order number
+
         $uniqueNumber = self::uniqueOrderNumber($order->id);
 
-        // if request comes not from pos, then store OrderShippingAddress and stores it in a variable
         if ($type != 'pos') {
             $orderAddress = self::storeOrderShippingAddress($request, $order->id);
         } else {
             $orderAddress = self::storeOrderShippingAddress($request->validated(), $order->id);
         }
 
-        // create order track status default ordered
         self::storeOrderTrack($order->id, "ordered", auth('web')?->user()?->id ?? 0, 'users');
 
-        // now get taxPercentage from a database based on customer billing address if request not comes from pos
         $taxPercentage = $type == 'pos' ? get_static_option("default_shopping_tax") :
             (int) OrderTaxService::taxAmount($orderAddress->country_id, $orderAddress->state_id ?? null, $orderAddress->city ?? null);
 
@@ -142,27 +148,27 @@ trait OrderTrait
 
         $totalTaxAmount = 0;
 
-        // now we need to run a loop for managing admin and vendor order and those data should be stored into this two methods prepareOrderForVendor , prepareOrderForAdmin
         foreach ($groupedData as $key => $data) {
             $subOrderTotal = 0;
-            // get shipping charge amount from request
-            $vendor_id = $key;
-            // sub order Cost Summary store on a temporary variable
-            $subOrderShippingCost = 0;
 
-            if ($key == "") {
-                // This is admin
-                $vendor_id = null;
-                // :
-                if ($type != 'pos') {
-                    $subOrderShippingCost = $shippingCost['admin']->cost ?? 0;
-                }
-            } else {
-                if ($type != 'pos') {
-                    $subOrderShippingCost = $shippingCost['vendor']
-                        ->where("vendor_id", $key)->first()->cost ?? 0;
-                }
-            }
+            $vendor_id = $key;
+
+            $subOrderShippingCost = $totalShippingCharge;
+
+            // after it will be worked
+            // if ($key == "") {
+            //     // This is admin
+            //     $vendor_id = null;
+            //     // :
+            //     if ($type != 'pos') {
+            //         $subOrderShippingCost = $shippingCost['admin']->cost ?? 0;
+            //     }
+
+            // } else {
+            //     if ($type != 'pos') {
+            //         $subOrderShippingCost = $shippingCost['vendor']->where("vendor_id", $key)->first()->cost ?? 0;
+            //     }
+            // }
 
             // declare a temporary variable for orderItem
             $orderItem = [];
@@ -221,7 +227,7 @@ trait OrderTrait
             $vendor_id = $vendor_id == "admin" ? null : $vendor_id;
 
             $subOrder = self::storeSubOrder($order->id, $vendor_id, $subOrderTotal, $subOrderShippingCost, $subOrderTaxAmount, $price_type, $orderAddress->id ?? null);
-            // store suborder commissions
+
             self::createSubOrderCommission($subOrderTotal, $subOrder->id, $vendor_id);
 
             for ($i = 0, $length = count($orderItem ?? []); $i < $length; $i++) {
@@ -308,23 +314,19 @@ trait OrderTrait
 
                 Cart::instance(self::cartInstanceName())->destroy();
             } elseif ($request["payment_gateway"] == 'manual_payment') {
-                // do something for manual payment
-                // now send email using this method,
-                // and this method will take care all the process
+
                 self::sendOrderMail(order_process: $order_process, request: $request);
                 WalletService::updateWallet($order_process["order_id"]);
 
                 Cart::instance(self::cartInstanceName())->destroy();
             } elseif ($request["payment_gateway"] == 'Wallet') {
-                // do something for manual payment
-                // now send email using this method,
-                //and this method will take care all the process
+
                 self::sendOrderMail(order_process: $order_process, request: $request);
                 WalletService::updateWallet($order_process["order_id"]);
 
                 Cart::instance(self::cartInstanceName())->destroy();
             } else {
-                //                    \DB::commit();
+
                 Cart::instance(self::cartInstanceName())->destroy();
 
                 return (new PaymentGatewayService)->payment_with_gateway($request['payment_gateway'], $request, $order_process["order_id"], round($order_process['total_amount'], 0));
@@ -396,8 +398,7 @@ trait OrderTrait
     public static function apiOrder($request): mixed
     {
         Log::info("api order", $request);
-        //        try {
-        // now check order process status if truer than send email if mailable is true
+
         $order = self::orderProcess($request, "api");
 
         if ($order["success"]) {
@@ -405,8 +406,7 @@ trait OrderTrait
         }
 
         if ($request["payment_gateway"] == 'cash_on_delivery') {
-            // do something for Cash on Delivery
-            // now send email using this method, and this method will take care all the process
+
             self::sendOrderMail(order_process: $order, request: $request);
 
             WalletService::updateWallet($order["order_id"]);
@@ -425,29 +425,20 @@ trait OrderTrait
                 $path = 'assets/uploads/payment_attachments/';
                 $image->move($path, $image_db);
 
-                //  :: now update payment metas table with this column
                 OrderPaymentMeta::where("order_id", $order["order_id"])->update([
                     "payment_attachments" => $image_db,
                 ]);
             }
 
-            // do something for manual payment
-            // now send email using this method, and this method will take care all the process
             self::sendOrderMail(order_process: $order, request: $request);
             WalletService::updateWallet($order["order_id"]);
         }
 
         return $order + ["hash" => \Hash::make(json_encode($order)), "hash-two" => Crypt::encryptString(json_encode($order))];
-        //        } catch (Exception $e) {
-        //            return $e->getMessage();
-        //        }
     }
 
     protected static function prepareOrderForVendor($vendor_id, $order_id, $total_amount, $shipping_cost, $tax_amount, $order_address_id): array
     {
-        // for preparing cart data we should add those in a array key order_id    vendor_id    total_amount    shipping_cost    tax_amount    order_address_id
-        // and after this we should prepareOrderItems like  sub_order_id    order_id    product_id    variant_id    quantity    price    sale_price
-
         return [
             "order_id" => $order_id,
             "vendor_id" => $vendor_id,

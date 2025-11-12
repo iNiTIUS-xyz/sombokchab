@@ -10,34 +10,33 @@ class OrderShippingChargeService
 {
     public static function getShippingCharge($shippingCost): array
     {
-        // first get admin shippingCost id and store it in a temporary variable
-        // after store in temporary variable unset this key and value from shipingCost variable
+
         $adminShippingMethodId = $shippingCost["admin"] ?? 0;
         unset($shippingCost["admin"]);
 
-        // return an array with all vendor and admin Cost Summary eloquent collection
         return [
             "vendor" => !empty($shippingCost) ? self::vendorShippingCharge($shippingCost) : collect([]),
             "admin" => self::adminShippingCharge($adminShippingMethodId),
         ];
     }
 
-    private static function adminShippingCharge(int $id): ?AdminShippingMethod
+    private static function adminShippingCharge(int $id)
     {
-        return AdminShippingMethod::where("status_id", 1)
-            ->where("id", $id)
+        return AdminShippingMethod::query()
+            ->where("status_id", 1)
+            // ->where("id", $id)
             ->first();
     }
 
-    private static function vendorShippingCharge($shippingMethods): Collection|array
+    private static function vendorShippingCharge($shippingMethods)
     {
         $shippingMethodQuery = VendorShippingMethod::query();
         // run a loop for getting multiple Cost Summary and for that I am using orWhere method
-        foreach($shippingMethods as $vendorId => $methodId){
+        foreach ($shippingMethods as $vendorId => $methodId) {
             $shippingMethodQuery->where([
-                ["id" ,"=",$methodId] ,
-                ["vendor_id" ,"=",$vendorId] ,
-                ["status_id" ,"=",1]
+                ["id", "=", $methodId],
+                ["vendor_id", "=", $vendorId],
+                ["status_id", "=", 1]
             ]);
         }
 

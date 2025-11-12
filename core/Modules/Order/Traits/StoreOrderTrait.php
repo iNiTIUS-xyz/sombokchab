@@ -12,23 +12,20 @@ use Modules\Order\Entities\SubOrderItem;
 
 trait StoreOrderTrait
 {
-    /**
-     * @param $request
-     * @return mixed
-     */
-    private static function storeOrder($request, $type=null): mixed
+
+    private static function storeOrder($request, $type = null): mixed
     {
         $self = (new self);
-        $invoiceNumber = Order::select('id','invoice_number')->orderBy("id","desc")->first()?->invoice_number;
+        $invoiceNumber = Order::select('id', 'invoice_number')->orderBy("id", "desc")->first()?->invoice_number;
 
         $userId = null;
-        if($type != 'pos'){
-            if(auth('sanctum')->check()){
+        if ($type != 'pos') {
+            if (auth('sanctum')->check()) {
                 $userId = auth('sanctum')->user()->id;
-            }elseif (auth()->check()){
+            } elseif (auth()->check()) {
                 $userId = auth()->user()->id;
             }
-        }else{
+        } else {
             $userId = $request["selected_customer"] ?? null;
         }
 
@@ -38,8 +35,8 @@ trait StoreOrderTrait
             "payment_track" => Str::random(10) . Str::random(10),
             "payment_gateway" => $request['payment_gateway'],
             "transaction_id" => Str::random(10) . Str::random(10),
-            "order_status" => $request['payment_gateway'] == 'Wallet' ? 'complete' : 'pending' ,
-            "payment_status" => $request['payment_gateway'] == 'Wallet' ? 'complete' : 'pending' ,
+            "order_status" => $request['payment_gateway'] == 'Wallet' ? 'complete' : 'pending',
+            "payment_status" => $request['payment_gateway'] == 'Wallet' ? 'complete' : 'pending',
             "invoice_number" => $invoiceNumber ? $invoiceNumber + 1 : 111111,
             "user_id" => $userId,
             "type" => $type,
@@ -48,11 +45,13 @@ trait StoreOrderTrait
         ]);
     }
 
-    private static function storeOrderShippingAddress($data, $order_id){
+    private static function storeOrderShippingAddress($data, $order_id)
+    {
         return OrderAddress::create(["order_id" => $order_id] + $data);
     }
 
-    private static function storePaymentMeta($order_id, $sub_total, $coupon_amount, $shipping_cost,$tax_amount,$total_amount){
+    private static function storePaymentMeta($order_id, $sub_total, $coupon_amount, $shipping_cost, $tax_amount, $total_amount)
+    {
         return OrderPaymentMeta::create([
             "order_id" => $order_id,
             "sub_total" => $sub_total,
@@ -63,13 +62,6 @@ trait StoreOrderTrait
         ]);
     }
 
-    /**
-     * @param $order_id
-     * @param $name
-     * @param $updated_by
-     * @param $table
-     * @return mixed
-     */
     public static function storeOrderTrack($order_id, $name, $updated_by, $table): mixed
     {
         return OrderTrack::create([
@@ -80,15 +72,7 @@ trait StoreOrderTrait
         ]);
     }
 
-    /**
-     * @param $order_id
-     * @param $vendor_id
-     * @param $total_amount
-     * @param $shipping_cost
-     * @param $tax_amount
-     * @param $order_address_id
-     * @return mixed
-     */
+
     private static function storeSubOrder($order_id, $vendor_id, $total_amount, $shipping_cost, $tax_amount, $type, $order_address_id): mixed
     {
         return SubOrder::create(array(
@@ -99,7 +83,7 @@ trait StoreOrderTrait
             "tax_amount" => $tax_amount,
             "tax_type" => $type,
             "order_address_id" => $order_address_id,
-            "order_number" => rand(000000000000,999999999999),
+            "order_number" => rand(000000000000, 999999999999),
             "payment_status" => 'pending',
             "order_status" => 'pending',
         ));
@@ -115,11 +99,11 @@ trait StoreOrderTrait
     }
     private static function uniqueOrderNumber($id)
     {
-        $order=Order::find($id);
-        if($order){
-           $order->order_number= mt_rand(10000, 99999).$id.mt_rand(10000, 99999);
-           $order->save();
-           return true;
+        $order = Order::find($id);
+        if ($order) {
+            $order->order_number = mt_rand(10000, 99999) . $id . mt_rand(10000, 99999);
+            $order->save();
+            return true;
         }
         return false;
     }
