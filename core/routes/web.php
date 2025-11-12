@@ -23,7 +23,7 @@ Route::get('update-notification', XgNotificationController::class)->middleware([
 Route::post('/notification/mark-as-read/{id}', [XgNotificationController::class, 'markAsRead'])->name('notification.markAsRead');
 
 
-Route::get('send-otp', '\App\Http\Controllers\Auth\LoginController@sendOtp')->name('send.otp');
+Route::post('send-otp', '\App\Http\Controllers\Auth\LoginController@sendOtp')->name('send.otp');
 Route::post('verify-otp', '\App\Http\Controllers\Auth\LoginController@verifyOtp')->name('verify.otp');
 
 Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_mode', 'check.auth.vendor']], function () {

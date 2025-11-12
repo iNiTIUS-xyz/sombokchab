@@ -301,12 +301,12 @@
                 },
                 success: function(response) {
 
-                    $("#showMessage").text(`
+                    $("#showMessage").html(`
                         <span class="text-success"> OTP Code has been sent successfully! Please check you inbox.</span>
                     `);
                 },
                 error: function(xhr) {
-                    $("#showMessage").text(`
+                    $("#showMessage").html(`
                         <span class="text-danger">Failed to send OTP. Please try again.</span>
                     `);
                 },

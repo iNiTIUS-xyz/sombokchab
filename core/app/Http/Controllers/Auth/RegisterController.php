@@ -19,25 +19,9 @@ use phpDocumentor\Reflection\Types\Null_;
 
 class RegisterController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Register Controller
-    |--------------------------------------------------------------------------
-    |
-
-    | This controller handles the registration of new users as well as their
-    | validation and creation. By default this controller uses a trait to
-    | provide this functionality without requiring any additional code.
-    |
-    */
 
     use RegistersUsers;
 
-    /**
-     * Where to redirect users after registration.
-     *
-     * @return string
-     */
     public function redirectTo()
     {
         return route('user.home');
@@ -110,7 +94,7 @@ class RegisterController extends Controller
         $notification->user_id   = $user->user_id;
         $notification->model  = 'App\User';
         $notification->model_id  = $user->id;
-        $notification->message  = 'A new customer registerd successfully.';
+        $notification->message  = 'A new customer registered successfully.';
         $notification->type  = 'customer_register';
         $notification->is_read_admin  = 0;
         $notification->is_read_vendor  = 0;

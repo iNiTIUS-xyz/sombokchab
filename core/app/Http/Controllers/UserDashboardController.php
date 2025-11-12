@@ -200,6 +200,52 @@ class UserDashboardController extends Controller
         return redirect()->route('homepage')->with('success', 'Your account has been deactivated.');
     }
 
+    // public function sendOtopCode(Request $request)
+    // {
+
+    //     $request->validate([
+    //         'phone' => 'required|string'
+    //     ]);
+
+    //     $phone = $request->input('phone');
+
+    //     $otpCode = Str::upper(Str::random(4));
+
+    //     $user = User::query()
+    //         ->findOrFail(Auth::user()->id);
+
+    //     $user->otp_code = $otpCode;
+    //     $user->save();
+
+    //     // Prepare SMS gateway API
+    //     $apiUrl = "http://smpp.revesms.com:7788/sendtext";
+    //     $apiKey = "3878204a3dcfa224";
+    //     $secretKey = "cbbbdb73";
+    //     $callerID = "8801635396061";
+    //     $messageContent = "Your one time OTP code is: $otpCode.";
+
+    //     // Send GET request to SMS API
+    //     $response = Http::get($apiUrl, [
+    //         'apikey' => $apiKey,
+    //         'secretkey' => $secretKey,
+    //         'callerID' => $callerID,
+    //         'toUser' => $phone,
+    //         'messageContent' => $messageContent,
+    //     ]);
+
+    //     if ($response->successful()) {
+    //         return response()->json([
+    //             'status' => true,
+    //             'message' => 'OTP sent successfully!'
+    //         ]);
+    //     } else {
+    //         return response()->json([
+    //             'status' => false,
+    //             'message' => 'Failed to send OTP.'
+    //         ], 500);
+    //     }
+    // }
+
     public function sendOtopCode(Request $request)
     {
 
@@ -217,20 +263,15 @@ class UserDashboardController extends Controller
         $user->otp_code = $otpCode;
         $user->save();
 
-        // Prepare SMS gateway API
-        $apiUrl = "http://smpp.revesms.com:7788/sendtext";
-        $apiKey = "3878204a3dcfa224";
-        $secretKey = "cbbbdb73";
-        $callerID = "8801635396061";
-        $messageContent = "Your one time OTP code is: $otpCode.";
+        // PlasGate credentials
+        $apiKey = '$5$rounds=535000$tnyb7wdR4yyObXuy$XyyR4qHUkXZsbPZM6F8jsUI/CB.ndQWZMg3J1juww03';
+        $sender = 'oi8-uaNHqBkJ2yX7OLULVBbdwdz2bUjy-x3aSozfFXKeBIrK5S7WUjPZiCC9CvRY9zo-QHXWgUxqVMeEyQf3jA';
 
-        // Send GET request to SMS API
-        $response = Http::get($apiUrl, [
-            'apikey' => $apiKey,
-            'secretkey' => $secretKey,
-            'callerID' => $callerID,
-            'toUser' => $phone,
-            'messageContent' => $messageContent,
+        $response = Http::get('https://cloud.plasgate.com/api/send', [
+            'api_key' => $apiKey,
+            'sender' => $sender,
+            'to' => $phone,
+            'message' => "Your verification code is: $otpCode",
         ]);
 
         if ($response->successful()) {

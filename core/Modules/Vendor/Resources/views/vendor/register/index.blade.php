@@ -1,5 +1,4 @@
 @extends('frontend.frontend-master')
-
 @section('style')
     <style>
         #vendor-form label {
@@ -78,7 +77,6 @@
         }
     </style>
 @endsection
-
 @section('content')
     <div class="breadcrumb-area breadcrumb-padding bg-item-badge">
         <div class="breadcrumb-shapes">
@@ -96,14 +94,12 @@
             </div>
         </div>
     </div>
-
     <section class="vendor-registration-area padding-top-20 padding-bottom-20">
         <div class="container container-one">
             <div class="row justify-content-center flex-lg-row flex-column-reverse">
                 <div class="col-lg-5">
                     <x-error-msg />
                     <x-msg.success />
-
                     <div class="dashboard__card">
                         <div class="alert alert-danger" id="error" style="display: none;"></div>
                         <div class="alert alert-success" id="sentSuccess" style="display: none;">
@@ -118,7 +114,6 @@
                                 <input type="hidden" name="captcha_token" id="gcaptcha_token">
                                 <input type="hidden" name="phone" id="verified_phone">
                                 <input type="hidden" name="country_id" value="31">
-
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
@@ -132,7 +127,6 @@
                                             <small class="text-danger" id="businessNameError"></small>
                                         </div>
                                     </div>
-
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="label-title mb-2">
@@ -153,7 +147,6 @@
                                             <small class="text-danger" id="phoneError"></small>
                                         </div>
                                     </div>
-
                                     <!-- Username -->
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -167,7 +160,6 @@
                                             <small class="text-danger" id="usernameError"></small>
                                         </div>
                                     </div>
-
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="label-title mb-2">
@@ -179,7 +171,6 @@
                                             <small class="text-danger" id="emailError"></small>
                                         </div>
                                     </div>
-
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="label-title mb-2">
@@ -215,7 +206,6 @@
                                             <small class="text-danger" id="passwordError"></small>
                                         </div>
                                     </div>
-
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="label-title mb-2">
@@ -263,10 +253,8 @@
                                         <i class="las la-arrow-right"></i>
                                     </button>
                                 </div>
-
                             </form>
                         </div>
-
                         <!-- STEP 2: OTP Verification -->
                         <div id="step-2" style="display: none;">
                             <div class="col-12 pb-3 mb-4">
@@ -282,7 +270,6 @@
                                     </button>
                                 </div>
                             </div>
-
                             <div class="col-12 pb-3">
                                 <div class="mt-4">
                                     <button type="button" class="btn btn-prev p-2 mb-4" onclick="prevStep()">
@@ -302,14 +289,11 @@
         </div>
     </section>
 @endsection
-
 @section('script')
     <script
         src="https://www.google.com/recaptcha/api.js?render={{ get_static_option('site_google_captcha_v3_site_key') }}">
     </script>
-
     <script>
-
         grecaptcha.ready(function() {
             grecaptcha.execute("{{ get_static_option('site_google_captcha_v3_site_key') }}", {
                 action: 'homepage'
@@ -317,61 +301,39 @@
                 document.getElementById('gcaptcha_token').value = token;
             });
         });
-
         const phoneCountryCode = document.getElementById('phone_country_code');
         const phoneField = document.getElementById('number');
-        const ownerNameField = document.getElementById('owner_name');
         const businessNameField = document.getElementById('business_name');
         const emailField = document.getElementById('email');
         const usernameField = document.getElementById('username');
         const passwordField = document.getElementById('password');
         const confirmField = document.getElementById('password_confirmation');
-        const businessTypeField = document.getElementById('business_type');
         const passportNidField = document.getElementById('passport_nid');
         const termsCheckbox = document.getElementById('toc_and_privacy');
-
         // Error displays
         const phoneErrorEl = document.getElementById('phoneError');
-        const ownerNameErrorEl = document.getElementById('ownerNameError');
         const businessNameErrorEl = document.getElementById('businessNameError');
         const emailErrorEl = document.getElementById('emailError');
         const usernameErrorEl = document.getElementById('usernameError');
         const passwordErrorEl = document.getElementById('passwordError');
         const confirmErrorEl = document.getElementById('passwordConfirmError');
-        const businessTypeErrorEl = document.getElementById('businessTypeError');
         const passportNidErrorEl = document.getElementById('passportNidError');
         const termsErrorEl = document.getElementById('termsError');
-
         const continueButton = document.getElementById('continueButton');
-
         // Timer references
         let resendTimer = null;
         let timeLeft = 60;
 
         function validatePhone(countryCode, rawNumber) {
             const fullPhone = (countryCode + rawNumber).trim();
-
             if (!rawNumber.trim()) return 'Phone number is required';
-
-            const phoneDigitsOnly = fullPhone.replace(/\D/g, ''); // Remove non-digit characters
-
+            const phoneDigitsOnly = fullPhone.replace(/\D/g, '');
             if (phoneDigitsOnly.length < 8 || phoneDigitsOnly.length > 14) {
                 return 'Phone number must be between 8 and 14 digits';
             }
-
             if (!/^\+?\d+$/.test(fullPhone)) {
                 return 'Phone number must contain only digits and optional leading +';
             }
-
-            return '';
-        }
-
-        function validateOwnerName(value) {
-            const trimmed = value.trim();
-            if (!trimmed) return 'Vendor name is required';
-            if (trimmed.length < 3) return 'Vendor name must be at least 3 characters';
-            if (trimmed.length > 30) return 'Vendor name cannot exceed 30 characters';
-            if (/@/.test(trimmed)) return 'Vendor name cannot contain "@" character';
             return '';
         }
 
@@ -392,25 +354,12 @@
             return re.test(trimmed) ? '' : 'Invalid email';
         }
 
-        // function validateUsername(value) {
-        //     const trimmed = value.trim();
-        //     if (!trimmed) return 'Username is required';
-        //     if (trimmed.includes(' ')) return 'Username cannot contain spaces';
-
-        //     const re = /^[A-Za-z0-9._]{3,20}$/;
-        //     return re.test(trimmed) ?
-        //         '' :
-        //         'Username must be 3–20 characters (letters, numbers, ., _)';
-        // }
-
         function validateUsername(value) {
             if (!value.trim()) return 'Username is required';
-
-            const re = /^[A-Za-z0-9_]{3,20}$/; // Removed '.' from the character set
+            const re = /^[A-Za-z0-9_]{3,20}$/;
             if (!re.test(value)) {
                 return 'Username must be 3–20 characters (letters, numbers, underscore( _ )) with no spaces';
             }
-
             return '';
         }
 
@@ -426,10 +375,6 @@
             return confirmVal !== passwordVal ? 'Passwords do not match' : '';
         }
 
-        function validateBusinessType(value) {
-            return !value.trim() ? 'Business type is required' : '';
-        }
-
         function validatePassportNid(value) {
             return !value.trim() ? 'Passport/National ID is required' : '';
         }
@@ -437,7 +382,6 @@
         function validateTerms(isChecked) {
             return !isChecked ? 'You must accept the terms and conditions' : '';
         }
-
         async function checkFieldAvailability(field, value) {
             if (!value.trim()) return '';
             try {
@@ -471,7 +415,6 @@
                 el.style.display = 'none';
             }, seconds * 1000);
         }
-
         // ----------------- REAL-TIME VALIDATION ----------------- //
         phoneField.addEventListener('input', async () => {
             const errorMsg = validatePhone(phoneCountryCode.value, phoneField.value);
@@ -484,7 +427,6 @@
             }
             updateContinueButton();
         });
-
         phoneCountryCode.addEventListener('change', async () => {
             const errorMsg = validatePhone(phoneCountryCode.value, phoneField.value);
             if (!errorMsg) {
@@ -496,17 +438,10 @@
             }
             updateContinueButton();
         });
-
-        ownerNameField.addEventListener('input', () => {
-            ownerNameErrorEl.textContent = validateOwnerName(ownerNameField.value);
-            updateContinueButton();
-        });
-
         businessNameField.addEventListener('input', () => {
             businessNameErrorEl.textContent = validateBusinessName(businessNameField.value);
             updateContinueButton();
         });
-
         emailField.addEventListener('input', async () => {
             const localErr = validateEmail(emailField.value);
             if (!localErr && emailField.value.trim()) {
@@ -517,7 +452,6 @@
             }
             updateContinueButton();
         });
-
         usernameField.addEventListener('input', async () => {
             const localErr = validateUsername(usernameField.value);
             if (!localErr && usernameField.value.trim()) {
@@ -528,62 +462,45 @@
             }
             updateContinueButton();
         });
-
         passwordField.addEventListener('input', () => {
             passwordErrorEl.textContent = validatePassword(passwordField.value);
             updateContinueButton();
         });
-
         confirmField.addEventListener('input', () => {
             confirmErrorEl.textContent = validateConfirmPassword(confirmField.value, passwordField.value);
             updateContinueButton();
         });
-
-        businessTypeField.addEventListener('change', () => {
-            businessTypeErrorEl.textContent = validateBusinessType(businessTypeField.value);
-            updateContinueButton();
-        });
-
         passportNidField.addEventListener('input', () => {
             passportNidErrorEl.textContent = validatePassportNid(passportNidField.value);
             updateContinueButton();
         });
-
         termsCheckbox.addEventListener('change', () => {
             termsErrorEl.textContent = validateTerms(termsCheckbox.checked);
             updateContinueButton();
         });
-
         // ----------------- Enable/Disable Continue Button ----------------- //
         function updateContinueButton() {
             const errorsPresent = (
                 phoneErrorEl.textContent ||
-                ownerNameErrorEl.textContent ||
                 businessNameErrorEl.textContent ||
                 emailErrorEl.textContent ||
                 usernameErrorEl.textContent ||
                 passwordErrorEl.textContent ||
                 confirmErrorEl.textContent ||
-                businessTypeErrorEl.textContent ||
                 passportNidErrorEl.textContent ||
                 termsErrorEl.textContent
             );
-
             const requiredFilled = (
                 phoneField.value.trim() &&
-                ownerNameField.value.trim() &&
                 businessNameField.value.trim() &&
                 usernameField.value.trim() &&
                 passwordField.value.trim() &&
                 confirmField.value.trim() &&
-                businessTypeField.value.trim() &&
                 passportNidField.value.trim() &&
                 termsCheckbox.checked
             );
-
             continueButton.disabled = (!!errorsPresent || !requiredFilled);
         }
-
         // ----------------- OTP Logic ----------------- //
         function startResendTimer() {
             const resendBtn = document.getElementById('resendOtpButton');
@@ -591,7 +508,6 @@
             timeLeft = 60;
             resendBtn.disabled = true;
             resendTimerSpan.textContent = '(60s)';
-
             resendTimer = setInterval(() => {
                 timeLeft--;
                 resendTimerSpan.textContent = `(${timeLeft}s)`;
@@ -602,7 +518,6 @@
                 }
             }, 1000);
         }
-
         async function sendCodeAndContinue() {
             const fullPhone = phoneCountryCode.value + phoneField.value;
             const phoneErr = validatePhone(phoneCountryCode.value, phoneField.value);
@@ -610,7 +525,6 @@
                 phoneErrorEl.textContent = phoneErr;
                 return;
             }
-
             try {
                 const response = await fetch("{{ route('send.otp') }}", {
                     method: 'POST',
@@ -622,7 +536,6 @@
                         phone: fullPhone
                     })
                 });
-
                 const data = await response.json();
                 if (response.ok) {
                     displayTempMessage('sentSuccess', 'OTP Sent Successfully!', 5);
@@ -639,18 +552,15 @@
                 displayTempMessage('error', 'Server error. Please try again later.', 5);
             }
         }
-
         async function verifyAndCreateAccount() {
             const code = document.getElementById('verificationCode').value.trim();
             const fullPhone = phoneCountryCode.value + phoneField.value;
-
             if (!code) {
                 document.getElementById('verificationCodeError').textContent = 'Verification code is required';
                 return;
             } else {
                 document.getElementById('verificationCodeError').textContent = '';
             }
-
             try {
                 const response = await fetch("{{ route('verify.otp') }}", {
                     method: 'POST',
@@ -663,7 +573,6 @@
                         otp: code
                     })
                 });
-
                 const data = await response.json();
                 if (response.ok) {
                     document.getElementById('verified_phone').value = fullPhone;
@@ -697,19 +606,16 @@
             updateContinueButton();
         };
     </script>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const passwordInput = document.getElementById('password');
             const showIcon = document.querySelector('.show-icon');
             const hideIcon = document.querySelector('.hide-icon');
-
             showIcon.addEventListener('click', function() {
                 passwordInput.type = 'text';
                 showIcon.style.display = 'none';
                 hideIcon.style.display = 'inline';
             });
-
             hideIcon.addEventListener('click', function() {
                 passwordInput.type = 'password';
                 showIcon.style.display = 'inline';
@@ -717,19 +623,16 @@
             });
         });
     </script>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const passwordInput = document.getElementById('password_confirmation');
             const showIcon = document.querySelector('.show-icon-two');
             const hideIcon = document.querySelector('.hide-icon-two');
-
             showIcon.addEventListener('click', function() {
                 passwordInput.type = 'text';
                 showIcon.style.display = 'none';
                 hideIcon.style.display = 'inline';
             });
-
             hideIcon.addEventListener('click', function() {
                 passwordInput.type = 'password';
                 showIcon.style.display = 'inline';

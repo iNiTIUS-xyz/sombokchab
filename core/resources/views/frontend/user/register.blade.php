@@ -26,7 +26,6 @@
                             <x-msg.error />
                             <x-msg.flash />
 
-                            {{-- Alert messages --}}
                             <div class="alert alert-danger" id="error" style="display: none;"></div>
                             <div class="alert alert-success" id="sentSuccess" style="display: none;">
                                 OTP sent successfully.
@@ -35,7 +34,6 @@
                                 Account created successfully.
                             </div>
 
-                            {{-- Step 1: Registration Form --}}
                             <div id="step-1">
                                 <form id="account-form" method="post" enctype="multipart/form-data" novalidate>
                                     @csrf
