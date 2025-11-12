@@ -1,7 +1,6 @@
 @extends('backend.admin-master')
+
 @section('style')
-    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/responsive/2.2.3/css/responsive.jqueryui.min.css">
     <style>
         .dataTables_wrapper .dataTables_paginate .paginate_button {
             padding: 0 !important;
@@ -61,7 +60,7 @@
                     </div>
                     <div class="dashboard__card-body mt-4">
                         <div class="table-wrap table-responsive">
-                            <table class="table table-default" id="all_blog_table dataTable">
+                            <table class="table table-default" id="dataTable">
                                 <thead>
                                     @can('form-builder-custom-bulk-action')
                                         <th class="no-sort">
@@ -166,42 +165,85 @@
 @endsection
 
 @section('script')
-    <!-- Start datatable js -->
-    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
-    <script src="//cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
-    <script src="//cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
-    <script src="//cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
-    <script src="//cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script>
     <script>
-        $(document).ready(function () {
+        (function($) {
+            $(document).ready(function() {
+                $(document).on('click', '#bulk_delete_btn', function(e) {
+                    e.preventDefault();
 
-            $(document).on('click', '#bulk_delete_btn', function (e) {
-                e.preventDefault();
+                    var bulkOption = $('#bulk_option').val();
+                    var allCheckbox = $('.bulk-checkbox:checked');
+                    var allIds = [];
 
-                var bulkOption = $('#bulk_option').val();
-                var allCheckbox = $('.bulk-checkbox:checked');
-                var allIds = [];
-                allCheckbox.each(function (index, value) {
-                    allIds.push($(this).val());
-                });
-                if (allIds != '' && bulkOption == 'delete') {
-                    $(this).text('{{ __('Deleting...') }}');
-                    $.ajax({
-                        'type': "POST",
-                        'url': "{{ route('admin.form.builder.bulk.action') }}",
-                        'data': {
-                            _token: "{{ csrf_token() }}",
-                            ids: allIds
-                        },
-                        success: function (data) {
-                            location.reload();
-                        }
+                    allCheckbox.each(function(index, value) {
+                        allIds.push($(this).val());
                     });
-                }
 
+                    if (allIds.length > 0 && bulkOption == 'delete') {
+                        Swal.fire({
+                            title: '{{ __('Are you sure?') }}',
+                            text: '{{ __('You would not be able to revert this action!') }}',
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#ee0000',
+                            cancelButtonColor: '#55545b',
+                            confirmButtonText: '{{ __('Yes, delete them!') }}',
+                            cancelButtonText: "{{ __('No') }}"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $('#bulk_delete_btn').text('{{ __('Deleting...') }}');
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: "{{ route('admin.form.builder.bulk.action') }}",
+                                    data: {
+                                        _token: "{{ csrf_token() }}",
+                                        ids: allIds,
+                                    },
+                                    success: function(data) {
+                                        Swal.fire(
+                                            '{{ __('Deleted!') }}',
+                                            '{{ __('Selected data have been deleted.') }}',
+                                            'success'
+                                        );
+                                        setTimeout(function() {
+                                            location.reload();
+                                        }, 1000);
+                                    },
+                                    error: function() {
+                                        Swal.fire(
+                                            'Error!',
+                                            'Failed to delete data.',
+                                            'error'
+                                        );
+                                    }
+                                });
+                            }
+                        });
+                    } else {
+                        Swal.fire(
+                            'Warning!',
+                            '{{ __('Please select at least one item and choose delete option.') }}',
+                            'warning'
+                        );
+                    }
+                });
+
+                // Handle "select all" checkbox
+                $('.all-checkbox').on('change', function(e) {
+                    e.preventDefault();
+                    var value = $(this).is(':checked');
+                    var allChek = $(this).closest('table').find('.bulk-checkbox');
+
+                    allChek.prop('checked', value);
+                });
             });
+        })(jQuery);
+    </script>
+    <script>
+        $(document).ready(function() {
 
-            $('.all-checkbox').on('change', function (e) {
+            $('.all-checkbox').on('change', function(e) {
                 e.preventDefault();
                 var value = $('.all-checkbox').is(':checked');
                 var allChek = $(this).parent().parent().parent().parent().parent().find('.bulk-checkbox');
