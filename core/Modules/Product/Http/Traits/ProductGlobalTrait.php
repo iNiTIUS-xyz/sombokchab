@@ -664,6 +664,7 @@ trait ProductGlobalTrait
                     "id",
                     'slug',
                     "name",
+                    "name_km",
                     "status_id",
                     "image_id",
                     "brand_id",

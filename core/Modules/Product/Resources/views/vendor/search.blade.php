@@ -45,8 +45,12 @@
                             @endif
                         </div>
                         <div class="product-summary">
-                            <p class="font-weight-bold mb-1">{{ Str::limit($product->name, 50, '...') }}</p>
-                            <p>{{ Str::words($product->summary, 5) }}</p>
+                            <p class="font-weight-bold mb-1">
+                                <strong>English :</strong> {{ Str::limit($product->name, 50, '...') }}
+                            </p>
+                            @if ($product->name_km)
+                                <p><strong>Khm :</strong> {{ Str::limit($product->name_km, 50) }}</p>
+                            @endif
                         </div>
                     </div>
                 </td>
@@ -103,30 +107,24 @@
                     @endif
                 </td>
                 <td>
-                     {{ $product->created_at->format('M j, Y') }}
+                    {{ $product->created_at->format('M j, Y') }}
                 </td>
                 <td data-label="Actions">
-                    {{-- <div> --}}
-                        {{-- <a href="{{ route('frontend.products.single', $product->slug) }}"
-                            class="icon eye btn-sm text-white btn btn-primary">
-                            <i class="las la-eye"></i>
-                        </a> --}}
-                        <a href="{{ route($route . '.products.clone', $product->id) }}"
-                            class="icon clone btn-sm text-white btn btn-secondary"
-                            title="{{ __('Create Duplicate') }}">
-                            <i class="las la-copy"></i>
-                        </a>
+                    <a href="{{ route($route . '.products.clone', $product->id) }}"
+                        class="icon clone btn-sm text-white btn btn-secondary" title="{{ __('Create Duplicate') }}">
+                        <i class="las la-copy"></i>
+                    </a>
 
-                        <a href="{{ route($route . '.products.edit', $product->id) }}"
-                            class="icon edit btn-sm text-dark btn btn-warning" title="{{ __('Edit Product') }}">
-                            <i class="las la-pencil-alt"></i>
-                        </a>
+                    <a href="{{ route($route . '.products.edit', $product->id) }}"
+                        class="icon edit btn-sm text-dark btn btn-warning" title="{{ __('Edit Product') }}">
+                        <i class="las la-pencil-alt"></i>
+                    </a>
 
-                        <a data-product-url="{{ route($route . '.products.destroy', $product->id) }}" href="#1"
-                            class="delete-row icon deleted btn-sm text-white btn btn-danger"
-                            title="{{ __('Delete Data') }}">
-                            <i class="las la-trash-alt"></i>
-                        </a>
+                    <a data-product-url="{{ route($route . '.products.destroy', $product->id) }}" href="#1"
+                        class="delete-row icon deleted btn-sm text-white btn btn-danger"
+                        title="{{ __('Delete Data') }}">
+                        <i class="las la-trash-alt"></i>
+                    </a>
                     {{-- </div> --}}
                 </td>
             </tr>
@@ -137,51 +135,3 @@
         @endforelse
     </tbody>
 </table>
-
-{{-- <div class="custom-pagination-wrapper">
-    <div class="pagination-info">
-        <p>
-            <strong>{{ __('Per Page:') }}</strong>
-            <span>{{ $products['per_page'] }}</span>
-        </p>
-        <p>
-            <strong>{{ __('From:') }}</strong>
-            <span>{{ $products['from'] }}</span>
-            <strong> {{ __('To:') }}</strong>
-            <span>{{ $products['to'] }}</span>
-        </p>
-        <p>
-            <strong>{{ __('Total Page:') }}</strong>
-            <span>{{ $products['total_page'] }}</span>
-        </p>
-        <p>
-            <strong>{{ __('Total Products:') }}</strong>
-            <span>{{ $products['total_items'] }}</span>
-        </p>
-    </div>
-
-    <div class="pagination">
-        <ul class="pagination-list">
-            <li class="wow ladeInRight" data-wow-delay="0.0s">
-                <a disabled readonly="" href="{{ !$products['on_first_page'] ? $products['previous_page'] : '#1' }}"
-                    class="page-number-arrow">
-                    <i class="las la-angle-left"></i>
-                </a>
-            </li>
-            @foreach ($products['links'] as $link)
-                <li>
-                    <a href="{{ $link }}"
-                        class="page-number {{ $loop->iteration == $products['current_page'] ? 'current' : '' }}">
-                        {{ $loop->iteration }}
-                    </a>
-                </li>
-            @endforeach
-
-            <li class="wow ladeInLeft" data-wow-delay="0.0s">
-                <a href="{{ $products['hasMorePages'] ? $products['next_page'] : '#1' }}" class="page-number-arrow">
-                    <i class="las la-angle-right"></i>
-                </a>
-            </li>
-        </ul>
-    </div>
-</div> --}}
