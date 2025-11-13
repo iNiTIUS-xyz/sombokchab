@@ -12,9 +12,12 @@ class ProductStoreRequest extends FormRequest
     {
         return [
             "name" => "required",
+            "name_km" => "required",
             "slug" => "required|unique:products,id," . $this->id ?? 0,
             "summery" => "required",
+            "summery_km" => "required",
             "description" => "required",
+            "description_km" => "required",
             "brand" => "nullable",
             "cost" => "required|numeric",
             "price" => "nullable|numeric",
@@ -95,5 +98,4 @@ class ProductStoreRequest extends FormRequest
     {
         return true;
     }
-
 }

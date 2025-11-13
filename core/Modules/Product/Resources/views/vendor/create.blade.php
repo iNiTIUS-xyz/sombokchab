@@ -31,53 +31,62 @@
                             aria-orientation="vertical">
                             <button class="nav-link active" id="v-pills-general-info-tab" data-bs-toggle="pill"
                                 data-bs-target="#v-general-info-tab" type="button" role="tab"
-                                aria-controls="v-general-info-tab" aria-selected="true"><span
-                                    style='font-size:15px; padding-right: 7px;'>&#9679;</span> {{ __('General Info') }}
+                                aria-controls="v-general-info-tab" aria-selected="true">
+                                <span style='font-size:15px; padding-right: 7px;'>&#9679;</span>
+                                {{ __('General Info') }}
                             </button>
                             <button class="nav-link" id="v-pills-price-tab" data-bs-toggle="pill"
                                 data-bs-target="#v-price-tab" type="button" role="tab" aria-controls="v-price-tab"
-                                aria-selected="false"><span style='font-size:15px; padding-right: 7px;'>&#9679;</span>
+                                aria-selected="false">
+                                <span style='font-size:15px; padding-right: 7px;'>&#9679;</span>
                                 {{ __('Price') }}
                             </button>
                             <button class="nav-link" id="v-pills-images-tab-tab" data-bs-toggle="pill"
                                 data-bs-target="#v-images-tab" type="button" role="tab" aria-controls="v-images-tab"
-                                aria-selected="false"><span style='font-size:15px; padding-right: 7px;'>&#9679;</span>
+                                aria-selected="false">
+                                <span style='font-size:15px; padding-right: 7px;'>&#9679;</span>
                                 {{ __('Images') }}
                             </button>
                             <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill"
                                 data-bs-target="#v-inventory-tab" type="button" role="tab"
-                                aria-controls="v-inventory-tab" aria-selected="false"><span
-                                    style='font-size:15px; padding-right: 7px;'>&#9679;</span> {{ __('Inventory') }}
+                                aria-controls="v-inventory-tab" aria-selected="false">
+                                <span style='font-size:15px; padding-right: 7px;'>&#9679;</span>
+                                {{ __('Inventory') }}
                             </button>
                             <button class="nav-link" id="v-pills-tags-and-label" data-bs-toggle="pill"
                                 data-bs-target="#v-tags-and-label" type="button" role="tab"
-                                aria-controls="v-tags-and-label" aria-selected="false"><span
-                                    style='font-size:15px; padding-right: 7px;'>&#9679;</span> {{ __('Tags & Label') }}
+                                aria-controls="v-tags-and-label" aria-selected="false">
+                                <span style='font-size:15px; padding-right: 7px;'>&#9679;</span>
+                                {{ __('Tags & Label') }}
                             </button>
                             <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill"
                                 data-bs-target="#v-attributes-tab" type="button" role="tab"
-                                aria-controls="v-attributes-tab" aria-selected="false"><span
-                                    style='font-size:15px; padding-right: 7px;'>&#9679;</span> {{ __('Attributes') }}
+                                aria-controls="v-attributes-tab" aria-selected="false">
+                                <span style='font-size:15px; padding-right: 7px;'>&#9679;</span>
+                                {{ __('Attributes') }}
                             </button>
                             <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill"
                                 data-bs-target="#v-categories-tab" type="button" role="tab"
-                                aria-controls="v-categories-tab" aria-selected="false"><span
-                                    style='font-size:15px; padding-right: 7px;'>&#9679;</span> {{ __('Categories') }}
+                                aria-controls="v-categories-tab" aria-selected="false">
+                                <span style='font-size:15px; padding-right: 7px;'>&#9679;</span>
+                                {{ __('Categories') }}
                             </button>
                             <button class="nav-link" id="v-pills-delivery-option-tab" data-bs-toggle="pill"
                                 data-bs-target="#v-delivery-option-tab" type="button" role="tab"
-                                aria-controls="v-delivery-option-tab" aria-selected="false"><span
-                                    style='font-size:15px; padding-right: 7px;'>&#9679;</span> {{ __('Delivery Options') }}
+                                aria-controls="v-delivery-option-tab" aria-selected="false">
+                                <span style='font-size:15px; padding-right: 7px;'>&#9679;</span>
+                                {{ __('Delivery Options') }}
                             </button>
                             <button class="nav-link" id="v-pills-meta-tag-tab" data-bs-toggle="pill"
                                 data-bs-target="#v-meta-tag-tab" type="button" role="tab"
-                                aria-controls="v-meta-tag-tab" aria-selected="false"><span
-                                    style='font-size:15px; padding-right: 7px;'>&#9679;</span> {{ __('Product Meta') }}
+                                aria-controls="v-meta-tag-tab" aria-selected="false">
+                                <span style='font-size:15px; padding-right: 7px;'>&#9679;</span>
+                                {{ __('Product Meta') }}
                             </button>
                             <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill"
                                 data-bs-target="#v-settings-tab" type="button" role="tab"
-                                aria-controls="v-settings-tab" aria-selected="false"><span
-                                    style='font-size:15px; padding-right: 7px;'>&#9679;</span>
+                                aria-controls="v-settings-tab" aria-selected="false">
+                                <span style='font-size:15px; padding-right: 7px;'>&#9679;</span>
                                 {{ __('Product Settings') }}
                             </button>
                         </div>
@@ -87,9 +96,10 @@
                             method="post" id="product-create-form">
                             @csrf
                             <div class="form-button">
-                                <button class="cmn_btn btn_bg_profile">{{ __('Add New Product') }}</button>
+                                <button class="cmn_btn btn_bg_profile">
+                                    {{ __('Add New Product') }}
+                                </button>
                             </div>
-
                             <div class="tab-content margin-top-10" id="v-pills-tabContent">
                                 <div class="tab-pane fade show active" id="v-general-info-tab" role="tabpanel"
                                     aria-labelledby="v-general-info-tab">

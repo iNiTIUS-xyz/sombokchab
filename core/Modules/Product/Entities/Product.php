@@ -28,50 +28,78 @@ use Modules\TaxModule\Entities\TaxClass;
 use Modules\TaxModule\Entities\TaxClassOption;
 use Modules\Vendor\Entities\Vendor;
 use Modules\Vendor\Entities\VendorAddress;
+
 class Product extends Model
 {
     use SoftDeletes, NotificationRelation;
 
-    protected $with = ["image","badge","uom","uom.unit"];
-    protected $fillable = ["name","slug","summary","description","brand_id","status_id","cost","price","sale_price","image_id","badge_id","min_purchase","max_purchase","is_refundable","is_inventory_warn_able","is_in_house","admin_id","vendor_id","is_taxable","tax_class_id", "product_status"];
+    protected $with = ["image", "badge", "uom", "uom.unit"];
+    protected $fillable = [
+        "name",
+        "name_km",
+        "slug",
+        "summary",
+        "summary_km",
+        "description",
+        "description_km",
+        "brand_id",
+        "status_id",
+        "cost",
+        "price",
+        "sale_price",
+        "image_id",
+        "badge_id",
+        "min_purchase",
+        "max_purchase",
+        "is_refundable",
+        "is_inventory_warn_able",
+        "is_in_house",
+        "admin_id",
+        "vendor_id",
+        "is_taxable",
+        "tax_class_id",
+        "product_status",
+        "created_at",
+        "updated_at"
+    ];
 
-    public function category() : HasOneThrough
+    public function category(): HasOneThrough
     {
-        return $this->hasOneThrough(Category::class,ProductCategory::class,'product_id','id','id','category_id');
+        return $this->hasOneThrough(Category::class, ProductCategory::class, 'product_id', 'id', 'id', 'category_id');
     }
 
     public function subCategory(): HasOneThrough
     {
-        return $this->hasOneThrough(SubCategory::class,ProductSubCategory::class,"product_id","id","id","sub_category_id");
+        return $this->hasOneThrough(SubCategory::class, ProductSubCategory::class, "product_id", "id", "id", "sub_category_id");
     }
 
     public function subCategories()
     {
         return $this->belongsToMany(SubCategory::class, 'product_sub_categories', 'product_id', 'sub_category_id');
     }
-    
-    public function taxOptions() : HasManyThrough
+
+    public function taxOptions(): HasManyThrough
     {
-        return $this->hasManyThrough(TaxClassOption::class,TaxClass::class,'id','class_id','tax_class_id','id');
+        return $this->hasManyThrough(TaxClassOption::class, TaxClass::class, 'id', 'class_id', 'tax_class_id', 'id');
     }
 
     public function manySubCategory(): HasManyThrough
     {
-        return $this->hasManyThrough(SubCategory::class,ProductSubCategory::class,"product_id","id","id","sub_category_id");
+        return $this->hasManyThrough(SubCategory::class, ProductSubCategory::class, "product_id", "id", "id", "sub_category_id");
     }
     public function childCategory(): hasManyThrough
     {
-        return $this->hasManyThrough(ChildCategory::class, ProductChildCategory::class,"product_id","id","id","child_category_id");
+        return $this->hasManyThrough(ChildCategory::class, ProductChildCategory::class, "product_id", "id", "id", "child_category_id");
     }
     public function childCategorySingle(): HasOneThrough
     {
-        return $this->hasOneThrough(ChildCategory::class, ProductChildCategory::class,"product_id","id","id","child_category_id");
+        return $this->hasOneThrough(ChildCategory::class, ProductChildCategory::class, "product_id", "id", "id", "child_category_id");
     }
 
     // this is changed old version is above this line
     public function color(): HasManyThrough
     {
-        return $this->hasManyThrough(Color::class,ProductInventoryDetail::class,"product_id","id","id","color");
+        return $this->hasManyThrough(Color::class, ProductInventoryDetail::class, "product_id", "id", "id", "color");
     }
 
     public function vendor(): HasOne
@@ -81,7 +109,7 @@ class Product extends Model
 
     public function vendorAddress(): HasOneThrough
     {
-        return $this->hasOneThrough(VendorAddress::class, Vendor::class,"id","vendor_id","vendor_id","id");
+        return $this->hasOneThrough(VendorAddress::class, Vendor::class, "id", "vendor_id", "vendor_id", "id");
     }
 
     public function vendor_product(): HasMany
@@ -92,121 +120,124 @@ class Product extends Model
     //    this is changed an old version is above this line
     public function size(): HasManyThrough
     {
-        return $this->hasManyThrough(Size::class,ProductInventoryDetail::class,"product_id","id","id","size");
+        return $this->hasManyThrough(Size::class, ProductInventoryDetail::class, "product_id", "id", "id", "size");
     }
 
     public function productDeliveryOption(): hasManyThrough
     {
-        return $this->hasManyThrough(DeliveryOption::class, ProductDeliveryOption::class,"product_id","id","id","delivery_option_id");
+        return $this->hasManyThrough(DeliveryOption::class, ProductDeliveryOption::class, "product_id", "id", "id", "delivery_option_id");
     }
 
-    public function brand() : hasOne
+    public function brand(): hasOne
     {
-        return $this->hasOne(Brand::class,"id","brand_id");
+        return $this->hasOne(Brand::class, "id", "brand_id");
     }
 
-    public function status() : hasOne
+    public function status(): hasOne
     {
-        return $this->hasOne(Status::class,"id","status_id");
+        return $this->hasOne(Status::class, "id", "status_id");
     }
 
-    public function badge() : hasOne
+    public function badge(): hasOne
     {
-        return $this->hasOne(Badge::class, "id","badge_id");
+        return $this->hasOne(Badge::class, "id", "badge_id");
     }
 
     public function metaData(): MorphOne
     {
-        return $this->morphOne(MetaData::class,"meta_taggable");
+        return $this->morphOne(MetaData::class, "meta_taggable");
     }
 
     public function image(): hasOne
     {
-        return $this->hasOne(MediaUpload::class,"id","image_id");
+        return $this->hasOne(MediaUpload::class, "id", "image_id");
     }
 
     public function inventory(): hasOne
     {
-        return $this->hasOne(ProductInventory::class,"product_id","id");
+        return $this->hasOne(ProductInventory::class, "product_id", "id");
     }
 
-    public function product_category(){
-        return $this->hasOne(ProductCategory::class,"product_id","id");
+    public function product_category()
+    {
+        return $this->hasOne(ProductCategory::class, "product_id", "id");
     }
 
     public function product_sub_category(): HasOne
     {
-        return $this->hasOne(ProductSubCategory::class,"product_id","id");
+        return $this->hasOne(ProductSubCategory::class, "product_id", "id");
     }
 
     public function delivery_option(): hasMany
     {
-        return $this->hasMany(ProductDeliveryOption::class,"product_id","id");
+        return $this->hasMany(ProductDeliveryOption::class, "product_id", "id");
     }
 
-    public function product_child_category() : hasMany
+    public function product_child_category(): hasMany
     {
-        return $this->hasMany(ProductChildCategory::class,"product_id","id");
+        return $this->hasMany(ProductChildCategory::class, "product_id", "id");
     }
 
-    public function product_gallery() : hasMany
+    public function product_gallery(): hasMany
     {
-        return $this->hasMany(ProductGallery::class,"product_id","id");
+        return $this->hasMany(ProductGallery::class, "product_id", "id");
     }
 
-    public function inventoryDetail() : hasMany
+    public function inventoryDetail(): hasMany
     {
-        return $this->hasMany(ProductInventoryDetail::class,"product_id","id");
+        return $this->hasMany(ProductInventoryDetail::class, "product_id", "id");
     }
 
-    public function uom() : hasOne
+    public function uom(): hasOne
     {
-        return $this->hasOne(ProductUom::class,"product_id","id");
+        return $this->hasOne(ProductUom::class, "product_id", "id");
     }
 
-    public function tag() : hasMany
+    public function tag(): hasMany
     {
-        return $this->hasMany(ProductTag::class, "product_id","id");
+        return $this->hasMany(ProductTag::class, "product_id", "id");
     }
 
     public function gallery_images(): HasManyThrough
     {
-        return $this->hasManyThrough(MediaUpload::class, ProductGallery::class,"product_id","id","id","image_id");
+        return $this->hasManyThrough(MediaUpload::class, ProductGallery::class, "product_id", "id", "id", "image_id");
     }
 
     public function campaign_sold_product(): HasOne
     {
-        return $this->hasOne(CampaignSoldProduct::class,"product_id","id");
+        return $this->hasOne(CampaignSoldProduct::class, "product_id", "id");
     }
 
     public function campaign_product(): HasOne
     {
-        return $this->hasOne(CampaignProduct::class,"product_id","id");
+        return $this->hasOne(CampaignProduct::class, "product_id", "id");
     }
 
     public function ratings(): HasMany
     {
-        return $this->hasMany(ProductRating::class,"product_id","id");
+        return $this->hasMany(ProductRating::class, "product_id", "id");
     }
 
     public function reviews(): HasMany
     {
-        return $this->hasMany(ProductRating::class,"product_id","id");
+        return $this->hasMany(ProductRating::class, "product_id", "id");
     }
 
-    function ratingCount() {
+    function ratingCount()
+    {
         return $this->ratings->count();
     }
 
-    public function orderItems(){
-        return $this->hasMany(SubOrderItem::class,"product_id", "id");
+    public function orderItems()
+    {
+        return $this->hasMany(SubOrderItem::class, "product_id", "id");
     }
 
     protected static function boot()
     {
         parent::boot(); //  Change the autogenerated stub
 
-        static::updated(function (){
+        static::updated(function () {
             \Log::info("Product model update event triggered");
         });
     }

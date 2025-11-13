@@ -37,9 +37,12 @@ trait ProductGlobalTrait
 
         return [
             "name" => $data["name"],
+            "name_km" => $data["name_km"],
             "slug" => Str::slug($data["slug"] ?? $data["name"]),
             "summary" => $data["summery"],
+            "summary_km" => $data["summery_km"],
             "description" => $data["description"],
+            "description_km" => $data["description_km"],
             "image_id" => $data["image_id"],
             "price" => $data["price"] ?? null,
             "sale_price" => $data["sale_price"],
@@ -57,7 +60,7 @@ trait ProductGlobalTrait
             "vendor_id" => $user["type"] == "vendor" ? $user["id"] : null,
             "is_taxable" => $data["is_taxable"] ?? 0,
             "tax_class_id" => ($data["is_taxable"] ?? 0) == 1 ? $data["tax_class_id"] ?? null : null,
-            "created_at" => ($data["created_at"]),
+            "created_at" => isset($data["created_at"]) ? $data["created_at"] : now(),
         ];
     }
 
@@ -345,10 +348,9 @@ trait ProductGlobalTrait
         $product = Product::create($product_data);
         $id = $product->id;
 
-        //      $product->metaData() ? $product->metaData()->update($this->prepareMetaData($data)): $product->metaData()->create($this->prepareMetaData($data));
+        // $product->metaData() ? $product->metaData()->update($this->prepareMetaData($data)) : $product->metaData()->create($this->prepareMetaData($data));
         $product->metaData()->create($this->prepareMetaData($data));
 
-        // store created by info in product created by table
         $this->createdByUpdatedBy($id);
         return $this->product_relational_data_insert($data, $id, $data);
     }

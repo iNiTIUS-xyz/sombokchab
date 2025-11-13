@@ -28,9 +28,9 @@
                             {{ __('ឈ្មោះ (ខ្មែរ)') }}
                             <span class="text-danger">*</span>
                         </label>
-                        <input type="text" class="form--control radius-10 form-control is-invalid" id="product-name"
-                            value="{{ $product?->name ?? '' }}" name="name" aria-describedby="product-name-error"
-                            required placeholder="{{ __('បញ្ចូលឈ្មោះផលិតផលជាភាសាខ្មែរ') }}">
+                        <input type="text" class="form--control radius-10 form-control is-invalid"
+                            value="{{ $product?->name_km ?? '' }}" name="name_km" required
+                            placeholder="{{ __('បញ្ចូលឈ្មោះផលិតផលជាភាសាខ្មែរ') }}">
                     </div>
                 </div>
                 <div class="col-sm-12">
@@ -61,8 +61,8 @@
                             {{ __('ការពិពណ៌នាសង្ខេប (ភាសាខ្មែរ)') }}
                             <span class="text-danger">*</span>
                         </label>
-                        <textarea style="height: 120px" class="form--control form--message  radius-10 form-control is-invalid" name="summery"
-                            required placeholder="{{ __('បញ្ចូលការពិពណ៌នាខ្លីជាភាសាខ្មែរ') }}">{{ $product?->summary ?? '' }}</textarea>
+                        <textarea style="height: 120px" class="form--control form--message  radius-10 form-control is-invalid" name="summery_km"
+                            required placeholder="{{ __('បញ្ចូលការពិពណ៌នាខ្លីជាភាសាខ្មែរ') }}">{{ $product?->summary_km ?? '' }}</textarea>
                     </div>
                 </div>
                 <div class="col-sm-12">
@@ -81,8 +81,8 @@
                             {{ __('ការពិពណ៌នា (ខ្មែរ)') }}
                             <span class="text-danger">*</span>
                         </label>
-                        <textarea class="form--control summernote radius-10 form-control is-invalid" name="description"
-                            placeholder="{{ __('វាយពណ៌នាជាភាសាខ្មែរ') }}" required>{!! $product?->description !!}</textarea>
+                        <textarea class="form--control summernote radius-10 form-control is-invalid" name="description_km"
+                            placeholder="{{ __('វាយពណ៌នាជាភាសាខ្មែរ') }}" required>{!! $product?->description_km !!}</textarea>
                     </div>
                 </div>
                 <div class="col-sm-12">
