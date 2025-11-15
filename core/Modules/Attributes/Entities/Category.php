@@ -15,9 +15,16 @@ use Modules\Product\Entities\ProductCategory;
 
 class Category extends Model
 {
-    use HasFactory , SoftDeletes;
+    use HasFactory, SoftDeletes;
 
-    protected $fillable = ['name', 'slug', 'description', 'image_id', 'status_id'];
+    protected $fillable = [
+        'name',
+        'name_km',
+        'slug',
+        'description',
+        'image_id',
+        'status_id'
+    ];
 
     public function image(): HasOne
     {

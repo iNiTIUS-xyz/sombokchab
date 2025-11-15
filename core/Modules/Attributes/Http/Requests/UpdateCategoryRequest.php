@@ -14,12 +14,13 @@ class UpdateCategoryRequest extends FormRequest
      * @return array
      */
 
-    #[ArrayShape(['name' => "string[]", 'slug' => "array", 'description' => "string", 'status_id' => "string", 'image_id' => "string"])]
+    #[ArrayShape(['name' => "string[]", 'name_km' => "string[]", 'slug' => "array", 'description' => "string", 'status_id' => "string", 'image_id' => "string"])]
 
     public function rules(): array
     {
         return [
             'name' => ['required', 'string', 'max:191', Rule::unique('categories')->ignore($this->id)],
+            'name_km' => ['required', 'string', 'max:191', Rule::unique('categories')->ignore($this->id)],
             // 'slug' => ['required','string','max:191', Rule::unique('categories')->ignore($this->id)],
             'description' => 'nullable',
             'status_id' => 'required|string|max:191',

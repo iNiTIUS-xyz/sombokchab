@@ -52,7 +52,16 @@
                                                 <x-bulk-action.td :id="$category->id" />
                                             @endcan
                                             {{-- <td>{{ $loop->iteration }}</td> --}}
-                                            <td>{{ $category->name }}</td>
+                                            <td>
+                                                <p>
+                                                    <strong>English :</strong> {{ $category->name }}
+                                                </p>
+                                                @if ($category->name_km)
+                                                    <p>
+                                                        <strong>Khmer :</strong> {{ $category->name_km }}
+                                                    </p>
+                                                @endif
+                                            </td>
                                             <td>{{ $category->category->name }}</td>
                                             <td>
                                                 <div class="attachment-preview">
@@ -99,6 +108,7 @@
                                                         data-id="{{ $category->id }}"
                                                         data-category="{{ $category->category?->id }}"
                                                         data-name="{{ $category->name }}"
+                                                        data-name_km="{{ $category->name_km }}"
                                                         data-status="{{ $category->status_id }}"
                                                         data-slug="{{ $category->slug }}"
                                                         data-description="{{ $category->description }}"
@@ -137,11 +147,21 @@
                                 <div class="col-md-12 mb-4">
                                     <div class="form-group">
                                         <label for="edit_name">
-                                            {{ __('Name') }}
+                                            {{ __('Name (English)') }}
                                             <span class="text-danger">*</span>
                                         </label>
                                         <input type="text" class="form-control" id="edit_name" name="name"
-                                            placeholder="{{ __('Enter name') }}" required="">
+                                            placeholder="{{ __('Enter name (English)') }}" required="">
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mb-4">
+                                    <div class="form-group">
+                                        <label for="edit_name">
+                                            {{ __('ឈ្មោះ (ខ្មែរ)') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" id="edit_name_km" name="name_km"
+                                            placeholder="{{ __('បញ្ចូលឈ្មោះ (ខ្មែរ)') }}" required="">
                                     </div>
                                 </div>
                                 {{-- <div class="col-md-6 mb-4">
@@ -222,11 +242,21 @@
                                 <div class="col-md-12 mb-4">
                                     <div class="form-group">
                                         <label for="name">
-                                            {{ __('Name') }}
+                                            {{ __('Name (English)') }}
                                             <span class="text-danger">*</span>
                                         </label>
                                         <input type="text" class="form-control" id="create-name" name="name"
-                                            placeholder="{{ __('Enter name') }}" required="">
+                                            placeholder="{{ __('Enter name (english)') }}" required="">
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mb-4">
+                                    <div class="form-group">
+                                        <label for="name">
+                                            {{ __('ឈ្មោះ (ខ្មែរ)') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" id="create-name" name="name"
+                                            placeholder="{{ __('បញ្ចូលឈ្មោះ (ខ្មែរ)') }}" required="">
                                     </div>
                                 </div>
                                 {{-- <div class="col-md-6 mb-4">
@@ -380,6 +410,7 @@
                 let el = $(this);
                 let id = el.data('id');
                 let name = el.data('name');
+                let name_km = el.data('name_km');
                 let slug = el.data('slug');
                 let description = el.data('description');
                 let category = el.data("category");
@@ -391,6 +422,7 @@
                 modal.find('#category_id').val(category);
                 modal.find('#edit_status option[value="' + status + '"]').attr('selected', true);
                 modal.find('#edit_name').val(name);
+                modal.find('#edit_name_km').val(name_km);
                 modal.find('#edit_slug').val(slug);
                 modal.find('#edit_description').val(description);
                 modal.find(".edit-status-wrapper .list li[data-value='" + status + "']").trigger("click");

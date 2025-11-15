@@ -49,7 +49,16 @@
                                             @can('units-bulk-action')
                                                 <x-bulk-action.td :id="$unit->id" />
                                             @endcan
-                                            <td>{{ $unit->name }}</td>
+                                            <td>
+                                                <p>
+                                                    <strong>English :</strong> {{ $unit->name }}
+                                                </p>
+                                                @if ($unit->name_km)
+                                                    <p>
+                                                        <strong>Khmer :</strong> {{ $unit->name_km }}
+                                                    </p>
+                                                @endif
+                                            </td>
                                             <td>
                                                 @can('units-update')
                                                     <a href="#1" title="{{ __('Edit Data') }}" data-bs-toggle="modal"

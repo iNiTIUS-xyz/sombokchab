@@ -10,7 +10,10 @@ class Unit extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ["name"];
+    protected $fillable = [
+        "name",
+        "name_km"
+    ];
 
     protected static function newFactory()
     {
