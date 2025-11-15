@@ -10,7 +10,13 @@ class DeliveryOption extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ["icon","title","sub_title"];
+    protected $fillable = [
+        "icon",
+        "title",
+        "sub_title",
+        "title_km",
+        "sub_title_km"
+    ];
 
     protected static function newFactory()
     {

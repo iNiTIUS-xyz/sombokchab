@@ -156,7 +156,7 @@
                                 </div>
                                 <div class="col-md-12 mb-4">
                                     <div class="form-group">
-                                        <label for="edit_name">
+                                        <label for="edit_name_km">
                                             {{ __('ឈ្មោះ (ខ្មែរ)') }}
                                             <span class="text-danger">*</span>
                                         </label>
@@ -241,7 +241,7 @@
                             <div class="row">
                                 <div class="col-md-12 mb-4">
                                     <div class="form-group">
-                                        <label for="name">
+                                        <label for="create-name">
                                             {{ __('Name (English)') }}
                                             <span class="text-danger">*</span>
                                         </label>
@@ -251,11 +251,11 @@
                                 </div>
                                 <div class="col-md-12 mb-4">
                                     <div class="form-group">
-                                        <label for="name">
+                                        <label for="name_km">
                                             {{ __('ឈ្មោះ (ខ្មែរ)') }}
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <input type="text" class="form-control" id="create-name" name="name"
+                                        <input type="text" class="form-control" id="name_km" name="name_km"
                                             placeholder="{{ __('បញ្ចូលឈ្មោះ (ខ្មែរ)') }}" required="">
                                     </div>
                                 </div>

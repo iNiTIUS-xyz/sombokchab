@@ -3,11 +3,12 @@
 namespace Modules\Attributes\Http\Controllers;
 
 use App\Helpers\FlashMsg;
-use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Routing\Controller;
+use Illuminate\Http\RedirectResponse;
 use Modules\Attributes\Entities\Unit;
+use Illuminate\Contracts\Support\Renderable;
 
 class UnitController extends Controller
 {
@@ -40,8 +41,19 @@ class UnitController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'name' => 'required|exists:units',
-            'name_km' => 'required|exists:units',
+            'id' => 'required|exists:units,id',
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('units', 'name')->ignore($request->id),
+            ],
+            'name_km' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('units', 'name_km')->ignore($request->id),
+            ],
         ]);
 
         $unit = Unit::findOrFail($request->id)->update([
