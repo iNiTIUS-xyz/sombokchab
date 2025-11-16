@@ -174,7 +174,7 @@
                     <div class="content text-center">
                         <img src="{{ asset('assets/frontend/img/icon/check-icon.svg') }}" alt="icon">
                         <h2 class="page-status-title margin-top-40">
-                            {{ __('Your order is Completed!') }}
+                            {{ __('Your Order is Completed!') }}
                         </h2>
                     </div>
                 </div>
@@ -185,7 +185,7 @@
                         <div class="payment-contents">
                             <h4 class="title">
                                 <div class="icon">
-                                    {{ __('Payment Successful') }}
+                                    {{ __('Order Successful') }}
                                     <i class="las la-check text-success"></i>
                                 </div>
                             </h4>
@@ -288,11 +288,11 @@
                             <thead>
                                 <tr>
                                     <th>{{ __('Order No.') }}</th>
-                                    <th>{{ __('Tracking No.') }}</th>
+                                    {{-- <th>{{ __('Tracking No.') }}</th> --}}
                                     <th>{{ __('Date') }}</th>
                                     <th>{{ __('Sub Total') }}</th>
-                                    <th>{{ __('Cost Summary') }}</th>
-                                    <th>{{ __('Tax Amount') }}</th>
+                                    <th>{{ __('Shipping Cost') }}</th>
+                                    {{-- <th>{{ __('Tax Amount') }}</th> --}}
                                     <th>{{ __('Discount Amount') }}</th>
                                     <th>{{ __('Payable Amount') }}</th>
                                     <th>{{ __('Payment Method') }}</th>
@@ -303,9 +303,9 @@
                                     <td>
                                         {{ $payment_details->order_number }}
                                     </td>
-                                    <td>
+                                    {{-- <td>
                                         {{ $payment_details->tracking_code }}
-                                    </td>
+                                    </td> --}}
                                     <td>
                                         {{ $payment_details->created_at->format('d/m/Y') }}
                                     </td>
@@ -315,9 +315,9 @@
                                     <td>
                                         {{ float_amount_with_currency_symbol($payment_details->paymentMeta?->shipping_cost) }}
                                     </td>
-                                    <td>
+                                    {{-- <td>
                                         {{ float_amount_with_currency_symbol($payment_details->paymentMeta?->tax_amount) }}
-                                    </td>
+                                    </td> --}}
                                     <td>
                                         {{ float_amount_with_currency_symbol($payment_details->paymentMeta?->coupon_amount) }}
                                     </td>
@@ -424,7 +424,7 @@
                                                             {{ float_amount_with_currency_symbol($order->total_amount) }}
                                                         </b>
                                                     </div>
-                                                    <div class="d-flex justify-content-between">
+                                                    {{-- <div class="d-flex justify-content-between">
                                                         <b>
                                                             {{ __('Tax Amount') }}
                                                         </b>
@@ -435,10 +435,10 @@
                                                                 {{ float_amount_with_currency_symbol($order->tax_amount) }}
                                                             @endif
                                                         </b>
-                                                    </div>
+                                                    </div> --}}
                                                     <div class="d-flex justify-content-between">
                                                         <b>
-                                                            {{ __('Cost Summary') }}
+                                                            {{ __('Shipping Cost') }}
                                                         </b>
                                                         <b id="vendor_shipping_cost">
                                                             {{ float_amount_with_currency_symbol($payment_details->paymentMeta?->shipping_cost) }}
