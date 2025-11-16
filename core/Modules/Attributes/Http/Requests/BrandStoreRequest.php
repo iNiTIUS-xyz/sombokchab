@@ -20,9 +20,11 @@ class BrandStoreRequest extends FormRequest
     {
         return [
             "name" => ["required", "string", Rule::unique('brands')->ignore($this->id ?? 0)],
+            "name_km" => ["required", "string", Rule::unique('brands')->ignore($this->id ?? 0)],
             // "slug" => ["required", "string", Rule::unique('brands')->ignore($this->id ?? 0)],
             // "title" => ["required","string"],
             "description" => ["required", "string"],
+            "description_km" => ["required", "string"],
             "image_id" => ["required", "string"],
             "banner_id" => ["required", "string"],
         ];

@@ -19,7 +19,10 @@ class ColorController extends Controller
 
     public function index(): Factory|View
     {
-        $product_colors = Color::all();
+        $product_colors = Color::query()
+            ->latest()
+            ->get();
+
         return view(self::BASE_PATH . 'all-color', compact('product_colors'));
     }
 
@@ -27,8 +30,8 @@ class ColorController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:191',
+            'name_km' => 'required|string|max:191',
             'color_code' => 'required|string|max:191',
-            // 'slug' => 'nullable|string|max:191',
         ]);
 
         $colorExit = Color::query()
@@ -48,6 +51,7 @@ class ColorController extends Controller
 
         $product_color = Color::create([
             'name' => $request->name,
+            'name_km' => $request->name_km,
             'color_code' => $request->color_code,
             'slug' => strtolower(str_replace(' ', '-', $request->name)),
         ]);
@@ -61,8 +65,8 @@ class ColorController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:191',
+            'name_km' => 'required|string|max:191',
             'color_code' => 'required|string|max:191',
-            // 'slug' => 'nullable|string|max:191',
         ]);
 
         $colorExit = Color::query()
@@ -88,6 +92,7 @@ class ColorController extends Controller
 
         $product_color = $product_color->update([
             'name' => $request->name,
+            'name_km' => $request->name_km,
             'color_code' => $request->color_code,
             'slug' => strtolower(str_replace(' ', '-', $request->name)),
         ]);

@@ -12,11 +12,17 @@ class Color extends Model
 {
     use HasFactory;
 
-    protected $fillable = ["name","color_code","slug"];
+    protected $fillable = [
+        "name",
+        "name_km",
+        "color_code",
+        "slug"
+    ];
 
     public $timestamps = false;
 
-    public function product(){
-        return $this->belongsToMany(Product::class, ProductInventoryDetail::class, "color","product_id","id","id");
+    public function product()
+    {
+        return $this->belongsToMany(Product::class, ProductInventoryDetail::class, "color", "product_id", "id", "id");
     }
 }
