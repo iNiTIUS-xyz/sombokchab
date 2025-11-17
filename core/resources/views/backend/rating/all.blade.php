@@ -15,7 +15,7 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Product Ratings') }}</h4>
-                        @can('product-rating-delete')
+                        @can('edit-product')
                             <x-bulk-action.dropdown />
                         @endcan
                     </div>
@@ -39,7 +39,7 @@
                                             <td>{{ optional($rating->user)->name }}</td>
                                             <td>{{ Str::limit(strip_tags($rating->review_msg), 20) }}</td>
                                             <td>
-                                                @can('product-rating-delete')
+                                                @can('edit-product')
                                                     <x-table.btn.swal.delete :route="route('admin.products.ratings.delete', $rating->id)" />
                                                 @endcan
                                             </td>
@@ -57,7 +57,7 @@
 @section('script')
     <x-datatable.js />
     <x-table.btn.swal.js />
-    @can('product-rating-delete')
+    @can('edit-product')
         <x-bulk-action.js :route="route('admin.products.ratings.bulk.action')" />
     @endcan
 @endsection

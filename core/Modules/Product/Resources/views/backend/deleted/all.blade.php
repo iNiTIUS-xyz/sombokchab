@@ -15,7 +15,7 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('All Deleted Product') }}</h4>
-                        @can('deleted-product-delete')
+                        @can('delete-product')
                             <x-bulk-action.dropdown />
                         @endcan
                     </div>
@@ -41,14 +41,14 @@
                                             <td>{{ amount_with_currency_symbol($product->price) }}</td>
                                             <x-table.td-image :image="$product->image" />
                                             <td>
-                                                @can('deleted-product-restore')
+                                                @can('add-product')
                                                     <a class="btn btn-success btn-xs mb-2 me-1 swal-restore" title="Restore"
                                                         href="#1"
                                                         data-route="{{ route('admin.products.deleted.restore', $product->id) }}">
                                                         <i class="ti-back-right"></i>
                                                     </a>
                                                 @endcan
-                                                @can('deleted-product-delete')
+                                                @can('delete-product')
                                                     <x-table.btn.swal.delete :route="route(
                                                         'admin.products.deleted.permanent.delete',
                                                         $product->id,
@@ -69,7 +69,7 @@
 @section('script')
     <x-datatable.js />
     <x-table.btn.swal.js />
-    @can('deleted-product-delete')
+    @can('delete-product')
         <x-bulk-action.js :route="route('admin.products.deleted.bulk.action')" />
     @endcan
 

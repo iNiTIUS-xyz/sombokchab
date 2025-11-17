@@ -16,7 +16,7 @@
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('All Products') }}</h4>
                         <div class="dashboard__card__header__right">
-                            @can('product-delete')
+                            @can('delete-product')
                                 <x-bulk-action.dropdown />
                                 <div class="mb-3">
                                     <form method="GET">
@@ -28,7 +28,7 @@
                                     </form>
                                 </div>
                             @endcan
-                            @can('product-list')
+                            @can('view-product')
                                 <div class="btn-wrapper">
                                     <a href="{{ route('admin.products.new') }}"
                                         class="cmn_btn btn_bg_profile">{{ __('Add New Product') }}</a>
@@ -69,17 +69,17 @@
                                             </td>
                                             <x-table.td-image :image="$product->image" />
                                             <td>
-                                                @can('product-delete')
-                                                    <x-table.btn.swal.delete :route="route('admin.products.delete', $product->id)" />
-                                                @endcan
-                                                @can('product-edit')
-                                                    <x-table.btn.edit :route="route('admin.products.edit', $product->id)" />
-                                                @endcan
-                                                @can('product-clone')
+                                                @can('add-product')
                                                     <x-table.btn.clone :route="route('admin.products.clone', $product->id)" :id="$product->id" />
                                                 @endcan
-                                                @can('product-view')
+                                                @can('view-product')
                                                     <x-table.btn.view :route="route('frontend.products.single', $product->slug)" />
+                                                @endcan
+                                                @can('edit-product')
+                                                    <x-table.btn.edit :route="route('admin.products.edit', $product->id)" />
+                                                @endcan
+                                                @can('delete-product')
+                                                    <x-table.btn.swal.delete :route="route('admin.products.delete', $product->id)" />
                                                 @endcan
                                             </td>
                                         </tr>

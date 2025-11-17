@@ -22,11 +22,11 @@
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('All Products Sub-Categories') }}</h4>
                         <div class="dashboard__card__header__right">
-                            @can('product-subcategory-delete')
+                            @can('delete-category')
                                 <x-bulk-action.dropdown />
                             @endcan
 
-                            @can('product-subcategory-create')
+                            @can('add-category')
                                 <a href="#1" data-bs-toggle="modal" data-bs-target="#subcategory_create_modal"
                                     class="cmn_btn btn-sm btn_bg_profile">New Sub Category</a>
                             @endcan
@@ -62,13 +62,13 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                @can('product-subcategory-delete')
+                                                @can('delete-category')
                                                     <x-table.btn.swal.delete :route="route(
                                                         'admin.products.subcategory.delete',
                                                         $subcategory->id,
                                                     )" />
                                                 @endcan
-                                                @can('product-subcategory-edit')
+                                                @can('edit-category')
                                                     <a href="#1" data-bs-toggle="modal"
                                                         data-bs-target="#subcategory_edit_modal"
                                                         class="btn btn-sm btn-primary btn-xs mb-2 me-1 subcategory_edit_btn"
@@ -93,7 +93,7 @@
         </div>
     </div>
 
-    @can('product-subcategory-edit')
+    @can('edit-category')
         <div class="modal fade" id="subcategory_edit_modal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content custom__form">
@@ -145,7 +145,7 @@
         </div>
     @endcan
 
-    @can('product-subcategory-create')
+    @can('add-category')
         <div class="modal fade" id="subcategory_create_modal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -201,7 +201,7 @@
     <x-datatable.js />
     <x-media.js />
     <x-table.btn.swal.js />
-    @can('product-subcategory-delete')
+    @can('delete-category')
         <x-bulk-action.js :route="route('admin.products.subcategory.bulk.action')" />
     @endcan
 

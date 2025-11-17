@@ -11,7 +11,7 @@
         <x-msg.flash />
         <div class="row">
             <div class="col-lg-12">
-                @can('country-new')
+                @can('add-country')
                     <div class="btn-wrapper mb-4">
                         <button class="cmn_btn btn_bg_profile" data-bs-toggle="modal"
                             data-bs-target="#country_new_modal">{{ __('Add New Country') }}</button>
@@ -21,7 +21,7 @@
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('All Countries') }}</h4>
                         <div class="dashboard__card__header__right">
-                            @can('country-bulk-action')
+                            @can('manage-country')
                                 <x-bulk-action.dropdown />
                             @endcan
                         </div>
@@ -30,7 +30,7 @@
                         <div class="table-responsive">
                             <table class="table table-default" id="dataTable">
                                 <thead>
-                                    @can('country-bulk-action')
+                                    @can('manage-country')
                                         <x-bulk-action.th />
                                     @endcan
                                     {{-- <th>{{ __('Serial No.') }}</th> --}}
@@ -41,7 +41,7 @@
                                 <tbody>
                                     @foreach ($all_countries as $country)
                                         <tr>
-                                            @can('country-bulk-action')
+                                            @can('manage-country')
                                                 <x-bulk-action.td :id="$country->id" />
                                             @endcan
                                             {{-- <td>{{ $loop->iteration }}</td> --}}
@@ -78,7 +78,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                @can('country-update')
+                                                @can('edit-country')
                                                     <a href="javascript:;" title="{{ __('Edit Data') }}" data-bs-toggle="modal"
                                                         data-bs-target="#country_edit_modal"
                                                         class="btn btn-warning text-dark btn-sm btn-xs mb-2 me-1 country_edit_btn"
@@ -87,7 +87,7 @@
                                                         <i class="ti-pencil"></i>
                                                     </a>
                                                 @endcan
-                                                @can('country-delete')
+                                                @can('delete-country')
                                                     <x-table.btn.swal.delete :route="route('admin.country.delete', $country->id)" />
                                                 @endcan
                                             </td>
@@ -101,7 +101,7 @@
             </div>
         </div>
     </div>
-    @can('country-update')
+    @can('edit-country')
         <div class="modal fade" id="country_edit_modal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content custom__form">
@@ -141,7 +141,7 @@
     @endcan
 
 
-    @can('country-new')
+    @can('add-country')
         <div class="modal fade" id="country_new_modal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content custom__form">
@@ -183,7 +183,7 @@
 @section('script')
     <x-table.btn.swal.js />
 
-    @can('country-bulk-action')
+    @can('manage-country')
         <script>
             (function($) {
                 $(document).ready(function() {

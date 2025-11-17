@@ -39,7 +39,7 @@
                     <x-msg.flash />
                 </div>
             </div>
-            @can('product-category-create')
+            @can('add-product-inventory')
                 <div class="col-lg-12">
                     <div class="dashboard__card">
                         <div class="dashboard__card__header">

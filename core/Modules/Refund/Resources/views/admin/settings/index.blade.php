@@ -14,7 +14,7 @@
             <h3 class="dashboard__card__title">{{ __('Refund Settings') }}</h3>
         </div>
         <div class="dashboard__card__body custom__form mt-4">
-            @can('refund-settings-update')
+            @can('manage-refund-request')
                 <form method="POST" action="{{ route('admin.refund.settings.update') }}">
                     @csrf
                     @method('PUT')
@@ -34,7 +34,7 @@
                         placeholder="{{ __('Enter courier address') }}">{{ get_static_option('courier_address') }}</textarea>
                 </div>
 
-                @can('refund-settings-update')
+                @can('manage-refund-request')
                         <div class="form-group">
                             <button class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
                         </div>

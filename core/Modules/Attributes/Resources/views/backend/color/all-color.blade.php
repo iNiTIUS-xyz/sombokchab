@@ -12,7 +12,7 @@
                 <x-error-msg />
                 <x-flash-msg />
                 <div class="mb-4">
-                    @can('colors-new')
+                    @can('add-attribute')
                         <a href="#1" data-bs-toggle="modal" data-bs-target="#color_add_modal"
                             class="cmn_btn btn_bg_profile">{{ __('Add New Color') }}</a>
                     @endcan
@@ -20,7 +20,7 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Product Variant Colors') }}</h4>
-                        @can('colors-bulk-action')
+                        @can('manage-attribute')
                             <x-bulk-action.dropdown />
                         @endcan
                     </div>
@@ -28,7 +28,7 @@
                         <div class="table-responsive">
                             <table class="table table-default" id="dataTable">
                                 <thead>
-                                    @can('colors-bulk-action')
+                                    @can('manage-attribute')
                                         <x-bulk-action.th />
                                     @endcan
                                     <th>{{ __('Name') }}</th>
@@ -39,7 +39,7 @@
                                 <tbody>
                                     @foreach ($product_colors as $product_color)
                                         <tr>
-                                            @can('colors-bulk-action')
+                                            @can('manage-attribute')
                                                 <x-bulk-action.td :id="$product_color->id" />
                                             @endcan
                                             <td>
@@ -60,7 +60,7 @@
                                             </td>
                                             <td>{{ $product_color->slug }}</td>
                                             <td>
-                                                @can('colors-delete')
+                                                @can('edit-attribute')
                                                     <a href="#1" title="{{ __('Edit Data') }}" data-bs-toggle="modal"
                                                         data-bs-target="#color_edit_modal"
                                                         class="btn btn-warning text-dark btn-xs mb-2 me-1 color_edit_btn"
@@ -72,7 +72,7 @@
                                                         <i class="mdi mdi-pencil"></i>
                                                     </a>
                                                 @endcan
-                                                @can('colors-delete')
+                                                @can('delete-attribute')
                                                     <x-table.btn.swal.delete :route="route('admin.product.colors.delete', $product_color->id)" />
                                                 @endcan
                                             </td>
@@ -87,7 +87,7 @@
         </div>
     </div>
 
-    @can('colors-new')
+    @can('add-attribute')
         <div class="modal fade" id="color_add_modal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content custom__form">
@@ -140,7 +140,7 @@
             </div>
         </div>
     @endcan
-    @can('colors-update')
+    @can('edit-attribute')
         <div class="modal fade" id="color_edit_modal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content custom__form">
@@ -199,7 +199,7 @@
 @section('script')
     <x-table.btn.swal.js />
 
-    @can('colors-bulk-action')
+    @can('manage-attribute')
         <script>
             (function($) {
                 $(document).ready(function() {

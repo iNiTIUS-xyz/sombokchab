@@ -116,7 +116,7 @@
         </div>
     </div>
 
-    @can('form-builder-custom-new')
+    @can('add-form')
         <div class="modal fade" id="create_new_custom_form" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content custom__form">

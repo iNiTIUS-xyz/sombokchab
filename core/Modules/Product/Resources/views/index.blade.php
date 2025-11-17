@@ -33,7 +33,7 @@
 @endsection
 
 @section('content')
-    @can('product-search')
+    @can('manage-product')
         <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
             <div class="offcanvas-header">
                 <h5 id="offcanvasTopLabel">Advance Search</h5>
@@ -147,7 +147,7 @@
             <div class="col-lg-12">
                 <div class="row mx-2 mb-4">
                     <div class="col-md-6">
-                        @can('product-create')
+                        @can('add-product')
                             <div class="dashboard__card__header__right">
                                 <a class="cmn_btn btn_bg_profile" href="{{ route('admin.products.create') }}">
                                     {{ __('Add New Product') }}
@@ -157,13 +157,13 @@
                     </div>
                     <div class="col-md-6 text-end">
                         <div class="btn-wrapper-trash margin-right-20">
-                            @can('product-create')
+                            @can('add-product')
                                 <a class="cmn_btn btn-success text-white mb-3 mx-2 text-right"
                                     href="{{ route('admin.products.import.all') }}">
                                     {{ __('Import Product') }}
                                 </a>
                             @endcan
-                            @can('product-trash')
+                            @can('delete-product')
                                 <a class="cmn_btn btn_bg_danger btn-sm px-4 me-2"
                                     href="{{ route('admin.products.trash.all') }}">
                                     {{ __('Trash Bin') }}
@@ -179,7 +179,7 @@
                             <div class="d-flex flex-wrap bulk-delete-wrapper gap-2"></div>
                         </div>
                         <div class="dashboard__card__header__right">
-                            @can('product-search')
+                            @can('manage-product')
                                 <div class="btn-wrapper">
                                     @if (request('name') ||
                                             request('sku') ||
@@ -222,11 +222,11 @@
 
     <script src="{{ asset('assets/js/flatpickr.js') }}"></script>
 
-    @can('product-status-update')
+    @can('edit-product')
         <x-product::table.status-js />
     @endcan
 
-    @can('product-bulk-destroy')
+    @can('delete-product')
         <script>
             (function($) {
                 $(document).ready(function() {
@@ -314,23 +314,23 @@
                 dateFormat: "Y-m-d",
             });
 
-            $("#product-search-form").fadeOut();
+            $("#manage-product-form").fadeOut();
 
             $(document).on("click", "#product-list-title-flex h3", function() {
-                $("#product-search-form").fadeToggle();
+                $("#manage-product-form").fadeToggle();
             })
 
             $(document).ready(function() {
                 $(".load-ajax-data").fadeOut();
             })
 
-            $(document).on("click", "#product-search-button", function() {
-                $("#product-search-form").trigger("submit");
+            $(document).on("click", "#manage-product-button", function() {
+                $("#manage-product-form").trigger("submit");
             });
 
-            $(document).on("submit", "#product-search-form", function(e) {
+            $(document).on("submit", "#manage-product-form", function(e) {
                 e.preventDefault();
-                let form_data = $("#product-search-form").serialize().toString();
+                let form_data = $("#manage-product-form").serialize().toString();
                 form_data += "&count=" + $("#number-of-item").val();
 
                 // product-table-body
@@ -347,11 +347,11 @@
 
             $(document).on("change", "#number-of-item", function(e) {
                 e.preventDefault();
-                let form_data = $("#product-search-form").serialize().toString()
+                let form_data = $("#manage-product-form").serialize().toString()
                 form_data += "&count=" + $(this).val();
 
                 // product-table-body
-                send_ajax_request("GET", null, $("#product-search-form").attr("action") + "?" + form_data,
+                send_ajax_request("GET", null, $("#manage-product-form").attr("action") + "?" + form_data,
                     () => {
                         // before send request
                         $(".load-ajax-data").fadeIn();

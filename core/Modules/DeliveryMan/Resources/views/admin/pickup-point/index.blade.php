@@ -13,7 +13,7 @@
         <div class="dashboard__card__header">
             <h3 class="dashboard__card__title">{{ __('Pickup Point List') }}</h3>
 
-            @can('delivery-man-pickup-point-create')
+            @can('manage-site-settings')
                 <div class="btn-wrapper">
                     <a href="{{ route('admin.delivery-man.pickup-point.create') }}"
                         class="cmn_btn btn_bg_profile">{{ __('Create Pickup Point') }}</a>
@@ -71,11 +71,11 @@
                                     <b>{{ $pickupPoint->address }}</b>
                                 </td>
                                 <td>
-                                    @can('delivery-man-pickup-point-edit')
+                                    @can('manage-site-settings')
                                         <a class="btn btn-primary btn-sm"
                                             href="{{ route('admin.delivery-man.pickup-point.edit', $pickupPoint->id) }}">{{ __('Edit') }}</a>
                                     @endcan
-                                    @can('delivery-man-pickup-point-delete')
+                                    @can('manage-site-settings')
                                         <a class="btn btn-danger btn-sm"
                                             href="{{ route('admin.delivery-man.pickup-point.delete', $pickupPoint->id) }}">{{ __('Delete') }}</a>
                                     @endcan

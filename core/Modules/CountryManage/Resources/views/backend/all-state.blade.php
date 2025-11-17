@@ -11,7 +11,7 @@
         <x-msg.flash />
         <div class="row">
             <div class="col-lg-12">
-                @can('state-new')
+                @can('add-province')
                     <div class="btn-wrapper mb-4">
                         <button class="cmn_btn btn_bg_profile" data-bs-target="#state_create_modal" data-bs-toggle="modal">
                             {{ __('Add New Province') }}
@@ -22,7 +22,7 @@
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('All Provinces') }}</h4>
                         <div class="dashboard__card__header__right">
-                            @can('state-bulk-action')
+                            @can('manage-province')
                                 <x-bulk-action.dropdown />
                             @endcan
                         </div>
@@ -31,7 +31,7 @@
                         <div class="table-responsive">
                             <table class="table table-default" id="dataTable">
                                 <thead>
-                                    @can('state-bulk-action')
+                                    @can('manage-province')
                                         <x-bulk-action.th />
                                     @endcan
                                     {{-- <th>{{ __('Serial No.') }}</th> --}}
@@ -43,7 +43,7 @@
                                 <tbody>
                                     @foreach ($all_states as $state)
                                         <tr>
-                                            @can('state-bulk-action')
+                                            @can('manage-province')
                                                 <x-bulk-action.td :id="$state->id" />
                                             @endcan
                                             <td>{{ $state->name }}</td>
@@ -78,7 +78,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                @can('state-update')
+                                                @can('edit-province')
                                                     <a href="javascript:;" title="{{ __('Edit Data') }}" data-bs-toggle="modal"
                                                         data-bs-target="#state_edit_modal"
                                                         class="btn btn-warning text-dark btn-sm btn-xs mb-2 me-1 state_edit_btn"
@@ -88,7 +88,7 @@
                                                         <i class="ti-pencil"></i>
                                                     </a>
                                                 @endcan
-                                                @can('state-delete')
+                                                @can('delete-province')
                                                     <x-table.btn.swal.delete :route="route('admin.state.delete', $state->id)" />
                                                 @endcan
                                             </td>
@@ -102,7 +102,7 @@
             </div>
         </div>
     </div>
-    @can('state-update')
+    @can('edit-province')
         <div class="modal fade" id="state_edit_modal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content custom__form">
@@ -147,7 +147,7 @@
             </div>
         </div>
     @endcan
-    @can('state-new')
+    @can('add-province')
         <div class="modal fade" id="state_create_modal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content custom__form">
@@ -206,7 +206,7 @@
 @section('script')
     <x-table.btn.swal.js />
 
-    @can('state-bulk-action')
+    @can('manage-province')
         <script>
             (function($) {
                 $(document).ready(function() {

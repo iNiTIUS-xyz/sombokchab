@@ -14,7 +14,7 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Edit Category Menu') }}</h4>
-                        @can('category-menu')
+                        @can('view-menu')
                             <div class="btn-wrapper">
                                 <a href="{{ route('admin.category.menu.settings') }}" class="btn btn-primary btn-xs">
                                     {{ __('All Category Menus') }}

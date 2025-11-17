@@ -11,7 +11,7 @@
                 <x-msg.error />
                 <x-msg.flash />
                 <div class="mb-4">
-                    @can('shipping-method-create')
+                    @can('add-shipping')
                         <a href="{{ route('admin.shipping-method.create') }}" class="cmn_btn btn_bg_profile"
                             title="{{ __('Create Shipping Method') }}">
                             {{ __('Create Shipping Method') }}
@@ -70,7 +70,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                @can('shipping-method-edit')
+                                                @can('edit-shipping')
                                                     <a href="{{ route('admin.shipping-method.edit', $method->id) }}"
                                                         class="btn btn-warning text-dark btn-xs mb-2 me-1"
                                                         title="{{ __('Edit Data') }}">
@@ -78,7 +78,7 @@
                                                     </a>
                                                 @endcan
 
-                                                @can('shipping-method-make-default')
+                                                @can('edit-shipping')
                                                     @if (!$method->is_default)
                                                         <form action="{{ route('admin.shipping-method.make-default') }}" method="post"
                                                             style="display: inline">
@@ -94,7 +94,7 @@
                                                         </button>
                                                     @endif
                                                 @endcan
-                                                @can('shipping-method-delete')
+                                                @can('delete-shipping')
                                                     @if (!$method->is_default)
                                                         <a href="{{ route('admin.shipping-method.destroy', $method->id) }}"
                                                             class="btn btn-danger btn-xs mb-2 me-1" title="{{ __('Delete Data') }}">

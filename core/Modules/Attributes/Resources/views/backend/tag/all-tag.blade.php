@@ -15,7 +15,7 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h3 class="dashboard__card__title">{{ __("All Product Tags") }}</h3>
-                        @can('tags-bulk-action')
+                        @can('manage-attribute')
                             <x-bulk-action.dropdown />
                         @endcan
                     </div>
@@ -23,7 +23,7 @@
                         <div class="table-wrap table-responsive">
                             <table class="table table-default">
                                 <thead>
-                                    @can('tags-bulk-action')
+                                    @can('manage-attribute')
                                         <x-bulk-action.th />
                                     @endcan
                                     <th>{{__('ID')}}</th>
@@ -33,17 +33,13 @@
                                 <tbody>
                                     @foreach($all_tag as $tag)
                                     <tr>
-                                        @can('tags-bulk-action')
+                                        @can('manage-attribute')
                                             <x-bulk-action.td :id="$tag->id" />
                                         @endcan
                                         <td>{{$loop->iteration}}</td>
                                         <td>{{$tag->tag_text}}</td>
                                         <td>
-                                            @can('tags-delete')
-                                                <x-table.btn.swal.delete class="margin-bottom-0" :route="route('admin.tag.delete', $tag->id)" />
-                                            @endcan
-
-                                            @can('tags-update')
+                                            @can('edit-attribute')
                                                 <a href="#1"
                                                     data-bs-toggle="modal"
                                                     data-bs-target="#tag_edit_modal"
@@ -54,6 +50,9 @@
                                                     <i class="ti-pencil"></i>
                                                 </a>
                                             @endcan
+                                            @can('delete-attribute')
+                                                <x-table.btn.swal.delete class="margin-bottom-0" :route="route('admin.tag.delete', $tag->id)" />
+                                            @endcan
                                         </td>
                                     </tr>
                                 @endforeach
@@ -63,7 +62,7 @@
                     </div>
                 </div>
             </div>
-            @can('tags-new')
+            @can('add-attribute')
             <div class="col-lg-5">
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
@@ -86,7 +85,7 @@
             @endcan
         </div>
     </div>
-    @can('tags-update')
+    @can('edit-attribute')
     <div class="modal fade" id="tag_edit_modal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -116,7 +115,7 @@
 @section('script')
     <x-datatable.js />
     <x-table.btn.swal.js />
-    @can('tags-bulk-action')
+    @can('manage-attribute')
         <x-bulk-action.js :route="route('admin.tag.bulk.action')" />
     @endcan
 

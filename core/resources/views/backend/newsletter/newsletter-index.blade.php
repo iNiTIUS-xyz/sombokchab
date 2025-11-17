@@ -18,7 +18,7 @@
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{__('All Newsletter Subscriber')}}</h4>
                         <div class="dashboard__card__header__right">
-                            @can('newsletter-delete')
+                            @can('delete-subscriber')
                                 <div class="bulk-delete-wrapper">
                                     <div class="select-box-wrap d-flex">
                                         <select name="bulk_option" id="bulk_option">
@@ -56,10 +56,10 @@
                                         <td>{{$data->id}}</td>
                                         <td>{{$data->email}} @if($data->verified > 0) <i class="las la-check-circle"></i>@endif</td>
                                         <td>
-                                            @can('newsletter-delete')
+                                            @can('delete-subscriber')
                                             <x-delete-popover :url="route('admin.newsletter.delete',$data->id)"/>
                                             @endcan
-                                            @can('newsletter-mail-send')
+                                            @can('manage-newsletter')
                                             <a class="btn btn-lg btn-primary btn-sm mb-2 me-1 send_mail_modal_btn"
                                                href="#1"
                                                data-bs-toggle="modal"
@@ -87,7 +87,7 @@
             </div>
         </div>
     </div>
-    @can('newsletter-mail-send')
+    @can('manage-newsletter')
     <div class="modal fade" id="send_mail_to_subscriber_modal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content custom__form">

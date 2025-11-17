@@ -35,7 +35,7 @@
             <div class="col-lg-12">
                 <x-msg.flash />
                 <x-msg.error />
-                @can('support-tickets-create')
+                @can('add-support-ticket')
                     <div class="btn-wrapper d-flex mb-4">
                         <a href="{{ route('admin.support.ticket.new') }}" class="cmn_btn btn_bg_profile">
                             {{ __('Add New Ticket') }}
@@ -46,7 +46,7 @@
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Customer Support Tickets') }}</h4>
                         <div class="dashboard__card__header__right d-flex">
-                            @can('support-tickets-bulk-action')
+                            @can('manage-support-ticket')
                                 <x-bulk-action.dropdown />
                             @endcan
                         </div>
@@ -55,7 +55,7 @@
                         <div class="table-responsive">
                             <table id="dataTable" class="table table-default">
                                 <thead class="text-center">
-                                    @can('support-tickets-bulk-action')
+                                    @can('manage-support-ticket')
                                         <x-bulk-action.th />
                                     @endcan
                                     <th class="text-center">{{ __('Ticket ID') }}</th>
@@ -70,7 +70,7 @@
                                 <tbody>
                                     @foreach ($all_tickets as $data)
                                         <tr>
-                                            @can('support-tickets-bulk-action')
+                                            @can('manage-support-ticket')
                                                 <x-bulk-action.td :id="$data->id" />
                                             @endcan
                                             <td>{{ $data->id }}</td>
@@ -86,7 +86,7 @@
                                                         style="width: 90px; text-align: left;">
                                                         {{ $data->priority ? ucfirst($data->priority) : 'Set Priority' }}
                                                     </button>
-                                                    @can('support-tickets-priority-change')
+                                                    @can('edit-support-ticket')
                                                         <div class="dropdown-menu">
                                                             <a class="dropdown-item change_priority"
                                                                 data-id="{{ $data->id }}" data-val="low"
@@ -120,7 +120,7 @@
                                                         aria-expanded="false">
                                                         {{ ucfirst($data->status == 'close' ? __('Closed') : __($data->status)) }}
                                                     </button>
-                                                    @can('support-tickets-status-change')
+                                                    @can('edit-support-ticket')
                                                         <div class="dropdown-menu">
                                                             <a class="dropdown-item status_change"
                                                                 data-id="{{ $data->id }}" data-val="open"
@@ -140,10 +140,10 @@
                                                 {{ date('M j, Y', strtotime($data->created_at)) }}
                                             </td>
                                             <td>
-                                                @can('support-tickets-view')
+                                                @can('view-support-ticket')
                                                     <x-view-icon :url="route('admin.support.ticket.view', $data->id)" />
                                                 @endcan
-                                                @can('support-tickets-delete')
+                                                @can('delete-support-ticket')
                                                     <x-delete-popover :url="route('admin.support.ticket.delete', $data->id)" />
                                                 @endcan
                                             </td>
@@ -160,7 +160,7 @@
 @endsection
 
 @section('script')
-    @can('support-tickets-bulk-action')
+    @can('manage-support-ticket')
         <script>
             (function($) {
                 $(document).ready(function() {

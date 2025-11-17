@@ -15,7 +15,7 @@
                     <x-msg.flash />
                 </div>
             </div>
-            @can('product-category-edit')
+            @can('edit-product-inventory')
                 <div class="col-lg-12 mt-5">
                     <form action="{{ route('admin.products.inventory.update') }}" method="POST" id="update-inventory-form">
                         @csrf

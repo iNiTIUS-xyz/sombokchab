@@ -15,10 +15,10 @@
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('All Pages') }} </h4>
                         <div class="dashboard__card__header__right">
-                            @can('page-delete')
+                            @can('delete-page')
                                 <x-bulk-action />
                             @endcan
-                            @can('page-create')
+                            @can('add-page')
                                 <div class="btn-wrapper">
                                     <a href="{{ route('admin.page.new') }}"
                                         class="cmn_btn btn_bg_profile">{{ __('Add New Page') }}</a>
@@ -55,10 +55,10 @@
                                             </td>
                                             <td>
                                                 <x-view-icon :url="route('frontend.dynamic.page', [$data->slug, $data->id])" />
-                                                @can('page-delete')
+                                                @can('delete-page')
                                                     <x-delete-popover :url="route('admin.page.delete', $data->id)" />
                                                 @endcan
-                                                @can('page-edit')
+                                                @can('edit-page')
                                                     <x-edit-icon :url="route('admin.page.edit', $data->id)" />
                                                 @endcan
                                             </td>

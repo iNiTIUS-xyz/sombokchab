@@ -29,7 +29,7 @@
             <div class="col-lg-12">
                 <x-flash-msg />
                 <div class="btn-wrapper mb-4">
-                    @can('product-all')
+                    @can('manage-product')
                         <a class="cmn_btn btn_bg_profile" href="{{ route('admin.products.all') }}">
                             {{ __('Back') }}
                         </a>
@@ -40,12 +40,12 @@
                         <h3 class="dashboard__card__title">{{ __('Product Trash') }}</h3>
                         <div class="dashboard__card__header__right">
                             <div class="dashboard__card__header__right__item">
-                                @can('product-trash-bulk-action')
+                                @can('manage-product')
                                     <x-product::table.bulk-action />
                                 @endcan
                             </div>
                             <div class="dashboard__card__header__right__item">
-                                @can('product-trash-empty')
+                                @can('delete-product')
                                     <a href="#1" class="cmn_btn btn_bg_danger delete-all"
                                         data-product-delete-all-url="{{ route('admin.products.trash.empty') }}">
                                         {{ __('Empty Trash') }}
@@ -59,7 +59,7 @@
                             <table class="table custom--table" id="myTable">
                                 <thead class="head-bg">
                                     <tr>
-                                        @can('product-trash-bulk-action')
+                                        @can('manage-product')
                                             <th class="check-all-rows">
                                                 <div class="mark-all-checkbox">
                                                     <input type="checkbox" class="all-checkbox">
@@ -77,7 +77,7 @@
                                 <tbody>
                                     @forelse($products as $product)
                                         <tr class="table-cart-row">
-                                            @can('product-trash-bulk-action')
+                                            @can('manage-product')
                                                 <td data-label="Check All">
                                                     <x-product::table.bulk-delete-checkbox :id="$product->id" />
                                                 </td>
@@ -121,14 +121,14 @@
 
                                             <td data-label="Actions">
                                                 <div class="action-icon">
-                                                    @can('product-trash-restore')
+                                                    @can('add-product')
                                                         <a href="{{ route('admin.products.trash.restore', $product->id) }}"
                                                             class="product-restore btn btn-success btn-sm"
                                                             title="{{ __('Restore') }}">
                                                             <i class="las la-sync-alt"></i>
                                                         </a>
                                                     @endcan
-                                                    @can('product-trash-delete')
+                                                    @can('delete-product')
                                                         <a data-product-delete-url="{{ route('admin.products.trash.delete', $product->id) }}"
                                                             href="#1" class="product-delete btn btn-danger btn-sm"
                                                             title="{{ __('Permanent Delete') }}">
@@ -155,7 +155,7 @@
 @endsection
 
 @section('script')
-    @can('product-trash-bulk-action')
+    @can('manage-product')
         <x-product::table.bulk-action-js :url="route('admin.products.trash.bulk.destroy')" />
     @endcan
     <script>

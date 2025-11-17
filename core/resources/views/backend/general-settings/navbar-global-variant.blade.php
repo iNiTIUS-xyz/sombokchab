@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    @can('general-settings-global-navbar-settings')
+    @can('manage-site-settings')
         <div class="col-lg-12 col-ml-12">
             <div class="row">
                 <div class="col-12">

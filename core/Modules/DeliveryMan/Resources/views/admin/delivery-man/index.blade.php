@@ -33,7 +33,7 @@
                             <h2 class="dashboard__card__title">{{ __('Delivery Man List') }}</h2>
                         </div>
                         <div class="dashboard__card__header__right d-flex">
-                            @can('delivery-man-search')
+                            @can('manage-site-settings')
                                 <div class="dashboard__card__search">
                                     <div class="dashboard__card__search__icon">
                                         <input value="{{ request()->name ?? '' }}" id="delivery_man_search_name" type="text"
@@ -60,7 +60,7 @@
                                 @endif
                             @endcan
 
-                            @can('delivery-man-add')
+                            @can('manage-site-settings')
                                 <div class="dashboard__card__header__right__item">
                                     <div class="btn-wrapper">
                                         <a href="{{ route('admin.delivery-man.add') }}"
@@ -82,7 +82,7 @@
         </div>
     </div>
 
-    @can('delivery-man-change-status')
+    @can('manage-site-settings')
         <!-- Modal -->
         <div class="modal fade" id="changeStatusModal" tabindex="-1" role="dialog" aria-labelledby="changeStatusModalTitle"
             aria-hidden="true">

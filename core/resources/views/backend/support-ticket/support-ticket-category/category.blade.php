@@ -15,7 +15,7 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title mb-4">{{ __('Support Departments') }}</h4>
-                        @can('support-ticket-department-delete')
+                        @can('manage-support-ticket')
                             <x-bulk-action.dropdown />
                         @endcan
                     </div>
@@ -43,7 +43,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @can('support-ticket-department-delete')
+                                                @can('manage-support-ticket')
                                                     <a tabindex="0" class="btn btn-lg btn-danger btn-sm mb-2 me-1" role="button"
                                                         data-bs-toggle="popover" data-trigger="focus" data-html="true" title=""
                                                         data-content="
@@ -57,7 +57,7 @@
                                                         <i class="ti-trash"></i>
                                                     </a>
                                                 @endcan
-                                                @can('support-ticket-department-edit')
+                                                @can('manage-support-ticket')
                                                     <a href="#1" data-bs-toggle="modal" data-bs-target="#category_edit_modal"
                                                         class="btn btn-lg btn-primary btn-sm mb-2 me-1 category_edit_btn"
                                                         data-id="{{ $data->id }}" data-name="{{ $data->name }}"
@@ -74,7 +74,7 @@
                     </div>
                 </div>
             </div>
-            @can('support-ticket-department-create')
+            @can('manage-support-ticket')
                 <div class="col-lg-5">
                     <div class="dashboard__card">
                         <div class="dashboard__card__header">

@@ -20,7 +20,7 @@
         <div class="dashboard__card">
             <div class="dashboard__card__header">
                 <h4 class="dashboard__card__title">{{ __('Support Ticket Departments') }}</h4>
-                @can('support-tickets-department-bulk-action')
+                @can('manage-support-ticket')
                     <x-bulk-action.dropdown />
                 @endcan
             </div>
@@ -28,7 +28,7 @@
                 <div class="table-responsive">
                     <table class="table table-default" id="dataTable">
                         <thead>
-                            @can('support-tickets-department-bulk-action')
+                            @can('manage-support-ticket')
                                 <x-bulk-action.th />
                             @endcan
                             <th>{{ __('Name') }}</th>
@@ -38,7 +38,7 @@
                         <tbody>
                             @foreach ($all_category as $data)
                                 <tr>
-                                    @can('support-tickets-department-bulk-action')
+                                    @can('manage-support-ticket')
                                         <x-bulk-action.td :id="$data->id" />
                                     @endcan
                                     <td>{{ $data->name }}</td>
@@ -71,7 +71,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        @can('support-tickets-department-update')
+                                        @can('edit-support-ticket')
                                             <a href="#1" title="{{ __('Edit Data') }}" data-bs-toggle="modal"
                                                 data-bs-target="#category_edit_modal"
                                                 class="btn btn-lg btn-warning text-dark btn-sm mb-2 me-1 category_edit_btn"
@@ -80,10 +80,8 @@
                                                 <i class="ti-pencil"></i>
                                             </a>
                                         @endcan
-                                        @can('support-tickets-department-delete')
-                                            @can('newsletter-delete')
-                                                <x-delete-popover :url="route('admin.support.ticket.department.delete', $data->id)" />
-                                            @endcan
+                                        @can('delete-support-ticket')
+                                            <x-delete-popover :url="route('admin.support.ticket.department.delete', $data->id)" />
                                         @endcan
                                     </td>
                                 </tr>
@@ -95,7 +93,7 @@
         </div>
     </div>
 
-    @can('support-tickets-department')
+    @can('manage-support-ticket')
         <div class="modal fade" id="new_support_modal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content custom__form">
@@ -143,7 +141,7 @@
         </div>
     @endcan
 
-    @can('support-tickets-department-update')
+    @can('manage-support-ticket')
         <div class="modal fade" id="category_edit_modal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content custom__form">
@@ -190,7 +188,7 @@
 @endsection
 
 @section('script')
-    @can('support-tickets-department-bulk-action')
+    @can('manage-support-ticket')
         <script>
             (function($) {
                 $(document).ready(function() {

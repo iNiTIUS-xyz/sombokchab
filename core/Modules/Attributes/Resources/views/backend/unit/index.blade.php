@@ -15,7 +15,7 @@
                 <x-msg.error />
                 <x-msg.flash />
                 <div class="mb-4">
-                    @can('units-new')
+                    @can('add-attribute')
                         <a href="#1" data-bs-toggle="modal" data-bs-target="#unit_add_modal" class="cmn_btn btn_bg_profile">
                             {{ __('Add New Unit') }}
                         </a>
@@ -27,7 +27,7 @@
                             {{ __('Units') }}
                         </h3>
                         <div class="dashboard__card__header__right">
-                            @can('units-bulk-action')
+                            @can('manage-attribute')
                                 <x-bulk-action.dropdown />
                             @endcan
                         </div>
@@ -36,7 +36,7 @@
                         <div class="table-responsive">
                             <table class="table table-default" id="dataTable">
                                 <thead>
-                                    @can('units-bulk-action')
+                                    @can('manage-attribute')
                                         <x-bulk-action.th />
                                     @endcan
                                     {{-- <th>{{ __('ID') }}</th> --}}
@@ -46,7 +46,7 @@
                                 <tbody>
                                     @foreach ($product_units as $unit)
                                         <tr>
-                                            @can('units-bulk-action')
+                                            @can('manage-attribute')
                                                 <x-bulk-action.td :id="$unit->id" />
                                             @endcan
                                             <td>
@@ -60,7 +60,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @can('units-update')
+                                                @can('edit-attribute')
                                                     <a href="#1" title="{{ __('Edit Data') }}" data-bs-toggle="modal"
                                                         data-bs-target="#unit_edit_modal"
                                                         class="btn btn-warning text-dark btn-sm btn-xs mb-2 me-1 unit_edit_btn"
@@ -68,7 +68,7 @@
                                                         <i class="ti-pencil"></i>
                                                     </a>
                                                 @endcan
-                                                @can('units-delete')
+                                                @can('delete-attribute')
                                                     <x-table.btn.swal.delete :route="route('admin.units.delete', $unit->id)" />
                                                 @endcan
                                             </td>
@@ -82,7 +82,7 @@
             </div>
         </div>
     </div>
-    @can('units-new')
+    @can('add-attribute')
         <div class="modal fade" id="unit_add_modal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content custom__form">
@@ -120,7 +120,7 @@
             </div>
         </div>
     @endcan
-    @can('units-update')
+    @can('edit-attribute')
         <div class="modal fade" id="unit_edit_modal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content custom__form">
@@ -164,7 +164,7 @@
 
 @section('script')
     <x-table.btn.swal.js />
-    @can('units-delete')
+    @can('delete-attribute')
         <script>
             (function($) {
                 $(document).ready(function() {

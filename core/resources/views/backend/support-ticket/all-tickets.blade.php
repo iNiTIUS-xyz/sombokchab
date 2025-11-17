@@ -17,7 +17,7 @@
                         <h4 class="dashboard__card__title">{{ __('All Tickets') }}</h4>
                         <div class="dashboard__card__header__right d-flex">
                             <x-bulk-action.dropdown />
-                            @can('support-ticket-create')
+                            @can('add-support-ticket')
                                 <div class="btn-wrapper d-flex">
                                     <a href="{{ route('admin.support.ticket.new') }}"
                                         class="cmn_btn btn_bg_profile">{{ __('New Ticket') }}</a>
@@ -54,7 +54,7 @@
                                                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                         {{ $data->priority }}
                                                     </button>
-                                                    @can('support-ticket-priority-change')
+                                                    @can('edit-support-ticket')
                                                         <div class="dropdown-menu">
                                                             <a class="dropdown-item change_priority"
                                                                 data-id="{{ $data->id }}" data-val="low"
@@ -79,7 +79,7 @@
                                                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                         {{ $data->status }}
                                                     </button>
-                                                    @can('support-ticket-status-change')
+                                                    @can('edit-support-ticket')
                                                         <div class="dropdown-menu">
                                                             <a class="dropdown-item status_change"
                                                                 data-id="{{ $data->id }}" data-val="open"
@@ -92,10 +92,10 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                @can('support-ticket-delete')
+                                                @can('delete-support-ticket')
                                                     <x-delete-popover :url="route('admin.support.ticket.delete', $data->id)" />
                                                 @endcan
-                                                @can('support-ticket-view')
+                                                @can('view-support-ticket')
                                                     <x-view-icon :url="route('admin.support.ticket.view', $data->id)" />
                                                 @endcan
                                             </td>

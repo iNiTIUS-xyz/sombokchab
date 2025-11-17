@@ -17,7 +17,7 @@
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Create Campaign') }}</h4>
                         <hr>
-                        @can('campaign-list')
+                        @can('view-campaign')
                             <div class="btn-wrapper">
                                 <a href="{{ route('admin.campaigns.all') }}"
                                     class="cmn_btn btn_bg_profile">{{ __('All Campaigns') }}</a>
@@ -25,7 +25,7 @@
                         @endcan
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
-                        @can('campaign-create')
+                        @can('add-campaign')
                             <form action="{{ route('admin.campaigns.new') }}" method="POST">
                                 @csrf
                                 <div class="row new_campaign g-4">
@@ -102,7 +102,7 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-12 text-center">
-                                        @can('campaign-create')
+                                        @can('add-campaign')
                                             <hr>
                                             <button type="submit" class="cmn_btn btn_bg_profile">
                                                 {{ __('Create Campaign') }}

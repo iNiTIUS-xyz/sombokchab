@@ -14,12 +14,12 @@
                 <div class="dashboard__card__header">
                     <h4 class="dashboard__card__title">{{ $page->title }} - {{ __('Page Builder') }}</h4>
                     <div class="dashboard__card__header__right">
-                        @can('page-edit')
+                        @can('edit-page')
                             <a class="btn btn-lg btn-secondary btn-sm mb-2 me-1" href="{{ route('admin.page.edit', $page->id) }}">
                                 {{ __('Back') }}
                             </a>
                         @endcan
-                        @can('page-all')
+                        @can('manage-page')
                             <a class="btn btn-lg btn-primary btn-sm mb-2 me-1" href="{{ route('admin.page') }}">
                                 {{ __('All pages') }}
                             </a>

@@ -6,7 +6,7 @@
     <x-media.css />
 @endsection
 @section('content')
-    @can('general-settings-reading-settings')
+    @can('manage-site-settings')
         <div class="col-lg-12 col-ml-12">
             <div class="row">
                 <div class="col-md-6">

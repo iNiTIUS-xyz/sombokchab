@@ -14,7 +14,7 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('New Ticket') }}</h4>
-                        @can('support-ticket-list')
+                        @can('view-support-ticket')
                             <a href="{{ route('admin.support.ticket.all') }}"
                                 class="cmn_btn btn_bg_profile">{{ __('All Support Tickets') }}</a>
                         @endcan
@@ -61,9 +61,7 @@
                                 <label>{{ __('Description') }}</label>
                                 <textarea name="description"class="form-control" cols="30" rows="10" placeholder="{{ __('Description') }}"></textarea>
                             </div>
-                            @can('support-ticket-create')
-                                <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Submit') }}</button>
-                            @endcan
+                            <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Submit') }}</button>
                         </form>
                     </div>
                 </div>

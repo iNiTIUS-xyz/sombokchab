@@ -90,10 +90,10 @@ class BlogController extends Controller
                 ->addColumn('action', function($row)use($default_lang){
                     $admin = auth()->guard('admin')->user();
                     $action = '';
-                    if($admin->can('blog-delete')):
+                    if($admin->can('delete-blog')):
                         $action .= General::deletePopover(route(route_prefix().'admin.blog.delete.all.lang',$row->id));
                     endif;
-                    if($admin->can('blog-edit')):
+                    if($admin->can('edit-blog')):
                         $action .= General::editIcon(route(route_prefix().'admin.blog.edit',$row->id).'?lang='.$default_lang);
                         $action .= General::cloneIcon(route(route_prefix().'admin.blog.clone'),$row->id);
                      endif;

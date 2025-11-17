@@ -3,7 +3,7 @@
     {{ __('Page Settings') }}
 @endsection
 @section('content')
-    @can('support-ticket-page-settings')
+    @can('manage-page-settings')
         <div class="col-lg-12 col-ml-12">
             <div class="row">
                 <div class="col-12">

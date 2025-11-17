@@ -17,7 +17,7 @@
             <div class="col-lg-12">
                 <x-error-msg />
                 <x-flash-msg />
-                @can('shipping-method-list')
+                @can('add-shipping')
                     <div class="btn-wrapper mb-4">
                         <a href="{{ route('admin.shipping.method.new') }}"
                             class="cmn_btn btn_bg_profile">{{ __('Create Shipping Method') }}</a>
@@ -27,7 +27,7 @@
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('All Shipping Methods') }}</h4>
                         <div class="dashboard__card__header__right">
-                            @can('shipping-method-delete')
+                            @can('delete-shipping')
                                 <x-bulk-action.dropdown />
                             @endcan
                         </div>
@@ -64,13 +64,13 @@
                                             <td>{{ amount_with_currency_symbol(optional($method->options)->minimum_order_amount) }}
                                             </td>
                                             <td>
-                                                @can('shipping-method-edit')
+                                                @can('edit-shipping')
                                                     <a href="{{ route('admin.shipping.method.edit', $method->id) }}"
                                                         class="btn btn-warning btn-xs mb-2 me-1">
                                                         <i class="mdi mdi-pencil"></i>
                                                     </a>
                                                 @endcan
-                                                @can('shipping-method-make-default')
+                                                @can('edit-shipping')
                                                     @if (!$method->is_default)
                                                         <form action="{{ route('admin.shipping.method.make.default') }}"
                                                             method="post" style="display: inline">
@@ -89,7 +89,7 @@
                                                         </button>
                                                     @endif
                                                 @endcan
-                                                @can('shipping-method-delete')
+                                                @can('delete-shipping')
                                                     @if (!$method->is_default)
                                                         <x-table.btn.swal.delete :route="route('admin.shipping.method.delete', $method->id)" />
                                                     @endif

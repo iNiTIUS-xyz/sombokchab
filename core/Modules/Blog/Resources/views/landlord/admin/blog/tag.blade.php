@@ -48,7 +48,7 @@
                                 <td>{{ $data->title }}</td>
                                 <td>{{ $data->slug }}</td>
                                 <td>
-                                    @can('blog-tag-edit')
+                                    @can('edit-blog')
                                         <a href="#1" data-bs-toggle="modal"
                                             data-bs-target="#tag_item_edit_modal"
                                             class="btn btn-warning btn-xs mb-2 me-1 tag_edit_btn" data-bs-placement="top"
@@ -70,7 +70,7 @@
         </div>
     </div>
 
-    @can('blog-tag-create')
+    @can('add-blog')
         <div class="modal fade" id="new_tag" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -96,7 +96,7 @@
         </div>
     @endcan
 
-    @can('blog-category-edit')
+    @can('edit-blog')
         <div class="modal fade" id="tag_item_edit_modal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">

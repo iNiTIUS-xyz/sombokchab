@@ -10,7 +10,7 @@
             <div class="col-lg-12">
                 <x-msg.error />
                 <x-msg.success />
-                @can('blog-category-create')
+                @can('manage-blog-settings')
                     <div class="btn-wrapper mb-4">
                         <a data-bs-toggle="modal" data-bs-target="#new_category_modal" class="cmn_btn btn_bg_profile pull-right"
                             title="{{ __('New category') }}">
@@ -23,7 +23,7 @@
                         <h4 class="dashboard__card__title">{{ __('All Categories') }}</h4>
                         <div class="dashboard__card__header__right">
                             <div class="bulk-delete-wrapper">
-                                @can('blog-category-delete')
+                                @can('manage-blog-settings')
                                     <x-bulk-action.dropdown />
                                 @endcan
                             </div>
@@ -76,7 +76,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                @can('blog-category-edit')
+                                                @can('manage-blog-settings')
                                                     <a href="javascript;;" data-bs-toggle="modal"
                                                         data-bs-target="#category_edit_modal" title="{{ __('Edit Data') }}"
                                                         class="btn btn-warning btn-xs text-dark mb-2 me-1 category_edit_btn"
@@ -85,7 +85,7 @@
                                                         <i class="ti-pencil"></i>
                                                     </a>
                                                 @endcan
-                                                @can('blog-category-delete')
+                                                @can('manage-blog-settings')
                                                     <x-delete-popover :url="route('admin.blog.category.delete', $data->id)" />
                                                 @endcan
                                             </td>
@@ -99,7 +99,7 @@
             </div>
         </div>
     </div>
-    @can('blog-category-create')
+    @can('manage-blog-settings')
         <div class="modal fade" id="new_category_modal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -142,7 +142,7 @@
             </div>
         </div>
     @endcan
-    @can('blog-category-edit')
+    @can('manage-blog-settings')
         <div class="modal fade" id="category_edit_modal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content custom__form">

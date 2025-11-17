@@ -11,13 +11,13 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Add New Variant') }}</h4>
-                        @can('product-attribute-list')
+                        @can('manage-attribute')
                             <a href="{{ route('admin.products.attributes.all') }}"
                                 class="btn btn-primary">{{ __('All Variants') }}</a>
                         @endcan
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
-                        @can('product-attribute-create')
+                        @can('add-attribute')
                             <form action="{{ route('admin.products.attributes.store') }}" method="post"
                                 enctype="multipart/form-data">
                                 @csrf

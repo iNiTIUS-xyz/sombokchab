@@ -15,7 +15,7 @@
             <div class="col-lg-12">
                 <x-msg.success />
                 <x-msg.error />
-                @can('newsletter-new')
+                @can('add-subscriber')
                     <div class="btn-wrapper mb-4">
                         <button class="cmn_btn btn_bg_profile" data-bs-toggle="modal" data-bs-target="#new_subscribe_model">
                             {{ __('Add New Subscribe') }}
@@ -26,7 +26,7 @@
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Newsletter Subscribers') }}</h4>
                         <div class="btn-wrapper d-flex">
-                            @can('newsletter-bulk-action')
+                            @can('manage-newsletter')
                                 <div class="bulk-delete-wrapper">
                                     <div class="select-box-wrap d-flex">
                                         <select name="bulk_option" id="bulk_option">
@@ -45,7 +45,7 @@
                         <div class="table-responsive">
                             <table class="table" id="dataTable">
                                 <thead>
-                                    @can('newsletter-bulk-action')
+                                    @can('manage-newsletter')
                                         <th class="no-sort">
                                             <div class="mark-all-checkbox">
                                                 <input type="checkbox" class="all-checkbox">
@@ -59,7 +59,7 @@
                                 <tbody>
                                     @foreach ($all_subscriber as $data)
                                         <tr>
-                                            @can('newsletter-bulk-action')
+                                            @can('manage-newsletter')
                                                 <td>
                                                     <div class="bulk-checkbox-wrapper">
                                                         <input type="checkbox" class="bulk-checkbox" name="bulk_delete[]"
@@ -79,7 +79,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @can('newsletter-newsletter-verify-mail-send')
+                                                @can('manage-newsletter')
                                                     <a class="btn btn-lg btn-success btn-sm mb-2 me-2 send_mail_modal_btn"
                                                         href="#1" data-bs-toggle="modal"
                                                         data-bs-target="#send_mail_to_subscriber_modal"
@@ -103,7 +103,7 @@
                                                         @endif --}}
                                                 @endcan
 
-                                                @can('newsletter-delete')
+                                                @can('delete-subscriber')
                                                     <x-delete-popover :url="route('admin.newsletter.delete', $data->id)" />
                                                 @endcan
                                             </td>
@@ -117,7 +117,7 @@
             </div>
         </div>
     </div>
-    @can('newsletter-newsletter-verify-mail-send')
+    @can('manage-newsletter')
         <div class="modal fade" id="new_subscribe_model" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content custom__form">

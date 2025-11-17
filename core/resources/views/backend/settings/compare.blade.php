@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-    @can('page-settings-compare-page')
+    @can('manage-page-settings')
         <div class="col-lg-12 col-ml-12">
             <div class="row">
                 <div class="col-lg-12">

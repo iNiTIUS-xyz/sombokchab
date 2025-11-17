@@ -15,7 +15,7 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('All Provinces') }}</h4>
-                        @can('state-delete')
+                        @can('delete-province')
                             <x-bulk-action.dropdown />
                         @endcan
                     </div>
@@ -39,10 +39,10 @@
                                             <td>{{ optional($state->country)->name }}</td>
                                             <td><x-status-span :status="$state->status" /></td>
                                             <td>
-                                                @can('state-delete')
+                                                @can('delete-province')
                                                     <x-table.btn.swal.delete :route="route('admin.state.delete', $state->id)" />
                                                 @endcan
-                                                @can('state-edit')
+                                                @can('edit-province')
                                                     <a href="#1" data-bs-toggle="modal" data-bs-target="#state_edit_modal"
                                                         class="btn btn-warning btn-xs mb-2 me-1 state_edit_btn"
                                                         data-id="{{ $state->id }}" data-name="{{ $state->name }}"
@@ -63,7 +63,7 @@
                     </div>
                 </div>
             </div>
-            @can('state-create')
+            @can('add-province')
                 <div class="col-lg-5">
                     <div class="dashboard__card">
                         <div class="dashboard__card__header">
@@ -100,7 +100,7 @@
             @endcan
         </div>
     </div>
-    @can('state-edit')
+    @can('edit-province')
         <div class="modal fade" id="state_edit_modal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">

@@ -11,13 +11,13 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Edit Attribute') }}</h4>
-                        @can('attributes')
+                        @can('view-attribute')
                             <a href="{{ route('admin.products.attributes.all') }}"
                                 class="cmn_btn btn_bg_profile">{{ __('All Attributes') }}</a>
                         @endcan
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
-                        @can('attributes-update')
+                        @can('edit-attribute')
                             <form action="{{ route('admin.products.attributes.update') }}" method="post"
                                 enctype="multipart/form-data">
                                 @csrf

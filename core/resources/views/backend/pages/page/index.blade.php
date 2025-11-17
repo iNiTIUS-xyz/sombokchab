@@ -17,7 +17,7 @@
             <div class="col-lg-12">
                 <x-msg.error />
                 <x-msg.flash />
-                @can('page-new')
+                @can('add-page')
                     <div class="btn-wrapper mb-4">
                         <a href="{{ route('admin.page.new') }}" class="cmn_btn btn_bg_profile" title="{{ __('Add New Page') }}">
                             {{ __('Add New Page') }}
@@ -30,7 +30,7 @@
                             {{ __('All Pages') }}
                         </h4>
                         <div class="dashboard__card__header__right">
-                            @can('page-bulk-action')
+                            @can('manage-page')
                                 <x-bulk-action.dropdown />
                             @endcan
                         </div>
@@ -39,7 +39,7 @@
                         <div class="table-responsive">
                             <table class="table table-default" id="dataTable">
                                 <thead>
-                                    @can('page-bulk-action')
+                                    @can('manage-page')
                                         <x-bulk-action.th />
                                     @endcan
                                     <th>{{ __('Title') }}</th>
@@ -50,7 +50,7 @@
                                 <tbody>
                                     @foreach ($all_pages as $page)
                                         <tr>
-                                            @can('page-bulk-action')
+                                            @can('manage-page')
                                                 <x-bulk-action.td :id="$page->id" />
                                             @endcan
                                             <td>
@@ -98,7 +98,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                @can('page-edit')
+                                                @can('edit-page')
                                                     <a class="btn btn-xs btn-warning text-dark btn-sm mb-2 me-1"
                                                         title="{{ __('Edit Data') }}"
                                                         href="{{ route('admin.page.edit', $page->id) }}">
@@ -106,11 +106,11 @@
                                                     </a>
                                                 @endcan
                                                 @if (empty($dynamic_page_ids[$page->id]))
-                                                    @can('page-delete')
+                                                    @can('delete-page')
                                                         <x-delete-popover :url="route('admin.page.delete', $page->id)" />
                                                     @endcan
                                                 @endif
-                                                @can('page-builder-dynamic-page')
+                                                @can('edit-page')
                                                     @if (!empty($page->page_builder_status))
                                                         <a href="{{ route('admin.dynamic.page.builder', ['type' => 'dynamic-page', 'id' => $page->id]) }}"
                                                             class="btn btn-xs btn-primary mb-2 me-1">
@@ -132,7 +132,7 @@
 @endsection
 
 @section('script')
-    @can('page-bulk-action')
+    @can('manage-page')
         <script>
             (function($) {
                 $(document).ready(function() {

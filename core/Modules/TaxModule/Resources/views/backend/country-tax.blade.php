@@ -27,7 +27,7 @@
                 <x-msg.error />
                 <x-msg.flash />
                 <div class="mb-4">
-                    @can('tax-country-new')
+                    @can('add-tax')
                         <div class="btn-wrapper">
                             <a href="#1" data-bs-toggle="modal" data-bs-target="#country_tax_new_modal"
                                 class="btn btn-primary text-white">
@@ -40,7 +40,7 @@
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('All Country Tax') }}</h4>
                         <div class="dashboard__card__header__right">
-                            @can('tax-country-bulk-action')
+                            @can('manage-tax')
                                 <x-bulk-action.dropdown />
                             @endcan
                         </div>
@@ -49,7 +49,7 @@
                         <div class="table-wrap table-responsive">
                             <table id="dataTable" class="table table-default">
                                 <thead>
-                                    @can('tax-country-bulk-action')
+                                    @can('manage-tax')
                                         <x-bulk-action.th />
                                     @endcan
                                     <th>{{ __('ID') }}</th>
@@ -60,17 +60,17 @@
                                 <tbody>
                                     @foreach ($all_country_tax as $tax)
                                         <tr>
-                                            @can('tax-country-bulk-action')
+                                            @can('manage-tax')
                                                 <x-bulk-action.td :id="$tax->id" />
                                             @endcan
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ optional($tax->country)->name }}</td>
                                             <td>{{ $tax->tax_percentage }}</td>
                                             <td>
-                                                @can('tax-country-delete')
+                                                @can('delete-tax')
                                                     <x-table.btn.swal.delete :route="route('admin.tax.country.delete', $tax->id)" />
                                                 @endcan
-                                                @can('tax-country-update')
+                                                @can('update-tax')
                                                     <a href="#1" data-bs-toggle="modal"
                                                         data-bs-target="#country_tax_edit_modal"
                                                         class="btn btn-sm btn-warning text-dark btn-xs mb-2 me-1 country_tax_edit_btn"
@@ -90,7 +90,7 @@
             </div>
         </div>
     </div>
-    @can('tax-country-update')
+    @can('edit-tax')
         <div class="modal fade" id="country_tax_edit_modal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content custom__form">
@@ -127,7 +127,7 @@
         </div>
     @endcan
 
-    @can('tax-country-new')
+    @can('add-tax')
         <div class="modal fade" id="country_tax_new_modal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">

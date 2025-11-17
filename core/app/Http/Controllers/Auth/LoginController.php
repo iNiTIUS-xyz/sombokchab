@@ -120,22 +120,27 @@ class LoginController extends Controller
         // Generate OTP
         $otp = mt_rand(100000, 999999);
 
-        // Store OTP in cache for 5 minutes
+        // Store OTP for 5 minutes
         Cache::put('otp_' . $phone, $otp, now()->addMinutes(5));
 
-        // PlasGate credentials
-        $apiKey = '$5$rounds=535000$tnyb7wdR4yyObXuy$XyyR4qHUkXZsbPZM6F8jsUI/CB.ndQWZMg3J1juww03';
-        $sender = 'oi8-uaNHqBkJ2yX7OLULVBbdwdz2bUjy-x3aSozfFXKeBIrK5S7WUjPZiCC9CvRY9zo-QHXWgUxqVMeEyQf3jA';
+        // Your PlasGate API Credentials
+        $secretKey = '$5$rounds=535000$tnyb7wdR4yyObXuy$XyyR4qHUkXZsbPZM6F8jsUI/CB.ndQWZMg3J1juww03';
+        $privateKey = 'oi8-uaNHqBkJ2yX7OLULVBbdwdz2bUjy-x3aSozfFXKeBIrK5S7WUjPZiCC9CvRY9zo-QHXWgUxqVMeEyQf3jA';
 
-        $response = Http::get('https://cloud.plasgate.com/api/send', [
-            'api_key' => $apiKey,
-            'sender' => $sender,
-            'to' => $phone,
-            'message' => "Your verification code is: $otp",
+        // Your sender name
+        $senderName = "SMS Info"; // Or your allowed sender name
+
+        $response = Http::withHeaders([
+            'X-Secret' => $secretKey,
+            'Content-Type' => 'application/json',
+        ])->post("https://cloudapi.plasgate.com/rest/send?private_key={$privateKey}", [
+            'sender'  => $senderName,
+            'to'      => $phone,
+            'content' => "Your verification code is: {$otp}",
         ]);
 
         if ($response->successful()) {
-            return response()->json(['success' => true, 'message' => 'OTP sent']);
+            return response()->json(['success' => true, 'message' => 'OTP sent successfully']);
         }
 
         return response()->json([
@@ -143,6 +148,8 @@ class LoginController extends Controller
             'details' => $response->body()
         ], 500);
     }
+
+
 
     public function verifyOtp(Request $request)
     {

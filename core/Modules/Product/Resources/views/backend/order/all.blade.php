@@ -22,7 +22,7 @@
                                 <button class="btn btn-primary btn-sm" id="bulk_delete_btn">{{ __('Apply') }}</button>
                             </div>
                         </div>
-                        @can('product-order-create')
+                        @can('add-order')
                             <div class="righ-wrap">
                                 <a href="{{ route('admin.product.order.new') }}" class="btn btn-primary">
                                     {{ __('Create An Order') }}
@@ -92,16 +92,16 @@
                                         </td>
                                         <td>{{ date_format($data->created_at, 'd M Y') }}</td>
                                         <td>
-                                            @can('product-order-delete')
+                                            @can('delete-order')
                                                 <x-table.btn.swal.delete :route="route('admin.product.order.payment.delete', $data->id)" />
                                             @endcan
-                                            @can('product-order-view-details')
+                                            @can('view-order')
                                                 <a href="{{ route('admin.product.order.view', $data->id) }}"
                                                     class="btn btn-xs btn-primary btn-sm mb-2 me-1">
                                                     <i class="ti-eye"></i>
                                                 </a>
                                             @endcan
-                                            @can('product-order-send-alert-mail')
+                                            @can('manage-order')
                                                 @if (!empty($data->user_id) && $data->payment_status == 'pending')
                                                     <form action="{{ route('admin.product.order.reminder') }}" method="post"
                                                         class="d-inline-block">
@@ -112,13 +112,13 @@
                                                     </form>
                                                 @endif
                                             @endcan
-                                            @can('product-order-generate-invoice')
+                                            @can('manage-order')
                                                 <a href="{{ route('frontend.product.invoice.generate') }}"
                                                     data-id="{{ $data->id }}"
                                                     class="btn btn-xs btn-secondary download_invoice mb-2 me-1"
                                                    >{{ __('Invoice') }}</a>
                                             @endcan
-                                            @can('product-order-update-status')
+                                            @can('edit-order')
                                                 <a href="#1" data-id="{{ $data->id }}"
                                                     data-status="{{ $data->status }}" data-bs-toggle="modal"
                                                     data-bs-target="#order_status_change_modal"
@@ -126,7 +126,7 @@
                                                     {{ __('Update Status') }}
                                                 </a>
                                             @endcan
-                                            @can('product-order-approve-payment')
+                                            @can('edit-order')
                                                 @if (
                                                     ($data->payment_gateway == 'cash_on_delivery' || $data->payment_gateway == 'manual_payment') &&
                                                         $data->payment_status == 'pending')

@@ -6,7 +6,7 @@
     <div class="dashboard__card">
         <div class="dashboard__card__header">
             <h4 class="dashboard__card__title">{{ __('Delivery zone list') }}</h4>
-            @can('delivery-man-zone-create')
+            @can('manage-site-settings')
                 <div class="btn-wrapper">
                     <a href="{{ route('admin.delivery-man.zone.create') }}"
                         class="cmn_btn btn_bg_profile">{{ __('Create Zone') }}</a>
@@ -38,10 +38,10 @@
                                         <x-status-span :status="$zone->is_active == 1 ? 'Active' : 'In-Active'" />
                                     </td>
                                     <td>
-                                        @can('delivery-man-zone-delete')
+                                        @can('manage-site-settings')
                                             <x-table.btn.swal.delete :route="route('admin.delivery-man.zone.destroy', $zone->id)" />
                                         @endcan
-                                        @can('delivery-man-zone-update')
+                                        @can('manage-site-settings')
                                             <x-table.btn.edit :route="route('admin.delivery-man.zone.edit', $zone->id)" />
                                         @endcan
                                     </td>
