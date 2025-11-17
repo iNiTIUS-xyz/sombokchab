@@ -21,8 +21,14 @@ class SubCategoryController extends Controller
 
     public function index(): View|Factory|Application
     {
-        $all_category = Category::with(["image:id,path", "status"])->get();
-        $all_sub_category = SubCategory::with("image:id,path", "status", "category:id,name")->get();
+        $all_category = Category::query()
+            ->with(["image:id,path", "status"])
+            ->latest()
+            ->get();
+        $all_sub_category = SubCategory::query()
+            ->with("image:id,path", "status", "category:id,name")
+            ->latest()
+            ->get();
 
         return view('attributes::backend.sub_category.all', compact(['all_category', "all_sub_category"]));
     }

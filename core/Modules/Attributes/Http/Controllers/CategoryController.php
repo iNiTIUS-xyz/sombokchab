@@ -18,7 +18,10 @@ class CategoryController extends Controller
 
     public function index(): View|Factory|Application
     {
-        $all_category = Category::with(["image:id,path", "status"])->paginate(20);
+        $all_category = Category::query()
+            ->with(["image:id,path", "status"])
+            ->latest()
+            ->get();
 
         return view('attributes::backend.category.all')->with(['all_category' => $all_category]);
     }

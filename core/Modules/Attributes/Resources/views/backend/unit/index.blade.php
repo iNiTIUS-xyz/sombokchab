@@ -49,13 +49,22 @@
                                             @can('manage-attribute')
                                                 <x-bulk-action.td :id="$unit->id" />
                                             @endcan
-                                            <td>{{ $unit->name }}</td>
+                                            <td>
+                                                <p>
+                                                    <strong>English :</strong> {{ $unit->name }}
+                                                </p>
+                                                @if ($unit->name_km)
+                                                    <p>
+                                                        <strong>Khmer :</strong> {{ $unit->name_km }}
+                                                    </p>
+                                                @endif
+                                            </td>
                                             <td>
                                                 @can('edit-attribute')
                                                     <a href="#1" title="{{ __('Edit Data') }}" data-bs-toggle="modal"
                                                         data-bs-target="#unit_edit_modal"
                                                         class="btn btn-warning text-dark btn-sm btn-xs mb-2 me-1 unit_edit_btn"
-                                                        data-id="{{ $unit->id }}" data-name="{{ $unit->name }}">
+                                                        data-id="{{ $unit->id }}" data-name="{{ $unit->name }}"  data-name_km="{{ $unit->name_km }}">
                                                         <i class="ti-pencil"></i>
                                                     </a>
                                                 @endcan
@@ -86,11 +95,19 @@
                             @csrf
                             <div class="form-group">
                                 <label for="name">
-                                    {{ __('Name') }}
+                                    {{ __('Name (English)') }}
                                     <span class="text-danger">*</span>
                                 </label>
                                 <input type="text" class="form-control" id="name" name="name"
-                                    placeholder="{{ __('Enter name') }}" required="">
+                                    placeholder="{{ __('Enter name (English)') }}" required="">
+                            </div>
+                            <div class="form-group">
+                                <label for="name_km">
+                                    {{ __('ឈ្មោះ (ខ្មែរ)') }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="name_km" name="name_km"
+                                    placeholder="{{ __('បញ្ចូលឈ្មោះ (ខ្មែរ)') }}" required="">
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -123,6 +140,14 @@
                                 </label>
                                 <input type="text" class="form-control" id="edit_name" name="name"
                                     placeholder="{{ __('Enter name') }}" required="">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit_name_km">
+                                    {{ __('ឈ្មោះ (ខ្មែរ)') }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="edit_name_km" name="name_km"
+                                    placeholder="{{ __('បញ្ចូលឈ្មោះ (ខ្មែរ)') }}" required="">
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -223,10 +248,12 @@
                 let el = $(this);
                 let id = el.data('id');
                 let name = el.data('name');
+                let name_km = el.data('name_km');
                 let modal = $('#unit_edit_modal');
 
                 modal.find('#unit_id').val(id);
                 modal.find('#edit_name').val(name);
+                modal.find('#edit_name_km').val(name_km);
 
                 modal.show();
             });

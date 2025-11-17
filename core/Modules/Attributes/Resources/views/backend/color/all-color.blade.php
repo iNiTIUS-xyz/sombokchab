@@ -42,8 +42,16 @@
                                             @can('manage-attribute')
                                                 <x-bulk-action.td :id="$product_color->id" />
                                             @endcan
-                                            {{-- <td>{{ $loop->iteration }}</td> --}}
-                                            <td>{{ $product_color->name }}</td>
+                                            <td>
+                                                <p>
+                                                    <strong>English :</strong> {{ $product_color->name }}
+                                                </p>
+                                                @if ($product_color->name_km)
+                                                    <p>
+                                                        <strong>Khmer :</strong> {{ $product_color->name_km }}
+                                                    </p>
+                                                @endif
+                                            </td>
                                             <td>
                                                 <p class="mb-0">{{ $product_color->color_code }}</p>
                                                 <p
@@ -58,6 +66,7 @@
                                                         class="btn btn-warning text-dark btn-xs mb-2 me-1 color_edit_btn"
                                                         data-id="{{ $product_color->id }}"
                                                         data-name="{{ $product_color->name }}"
+                                                        data-name_km="{{ $product_color->name_km }}"
                                                         data-color_code="{{ $product_color->color_code }}"
                                                         data-slug="{{ $product_color->slug }}">
                                                         <i class="mdi mdi-pencil"></i>
@@ -91,11 +100,19 @@
                             @csrf
                             <div class="form-group">
                                 <label for="name">
-                                    {{ __('Name') }}
+                                    {{ __('Name (English)') }}
                                     <span class="text-danger">*</span>
                                 </label>
                                 <input type="text" class="form-control" id="name" name="name"
                                     placeholder="{{ __('Enter name') }}" required="">
+                            </div>
+                            <div class="form-group">
+                                <label for="name_km">
+                                    {{ __('ឈ្មោះ (ខ្មែរ)') }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="name_km" name="name_km"
+                                    placeholder="{{ __('បញ្ចូលឈ្មោះ (ខ្មែរ)') }}" required="">
                             </div>
                             <div class="form-group">
                                 <label for="color_code">
@@ -137,11 +154,19 @@
                             @csrf
                             <div class="form-group">
                                 <label for="name">
-                                    {{ __('Name') }}
+                                    {{ __('Name (English)') }}
                                     <span class="text-danger">*</span>
                                 </label>
                                 <input type="text" class="form-control" id="edit_name" name="name"
                                     placeholder="{{ __('Enter name') }}" required="">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit_name_km">
+                                    {{ __('ឈ្មោះ (ខ្មែរ)') }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="edit_name_km" name="name_km"
+                                    placeholder="{{ __('បញ្ចូលឈ្មោះ (ខ្មែរ)') }}" required="">
                             </div>
                             <div class="form-group">
                                 <label for="color_code">
@@ -259,6 +284,7 @@
 
                 modal.find('#color_id').val(el.data('id'));
                 modal.find('#edit_name').val(el.data('name'));
+                modal.find('#edit_name_km').val(el.data('name_km'));
                 modal.find('#edit_color_code').val(el.data('color_code'));
                 modal.find('#edit_slug').val(el.data('slug'));
             });

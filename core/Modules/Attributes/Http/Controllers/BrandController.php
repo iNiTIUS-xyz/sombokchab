@@ -14,7 +14,10 @@ class BrandController extends Controller
 
     public function index(): Renderable
     {
-        $brands = Brand::with(["logo", "banner"])->latest()->get();
+        $brands = Brand::query()
+            ->with(["logo", "banner"])
+            ->latest()
+            ->get();
 
         return view('attributes::backend.brand.index', compact('brands'));
     }

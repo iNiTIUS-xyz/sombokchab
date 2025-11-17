@@ -1,7 +1,9 @@
 @extends('backend.admin-master')
+
 @section('site-title')
     {{ __('Product Category') }}
 @endsection
+
 @section('style')
     <x-media.css />
     <x-bulk-action.css />
@@ -53,7 +55,16 @@
                                             @can('manage-category')
                                                 <x-bulk-action.td :id="$category->id" />
                                             @endcan
-                                            <td>{{ $category->name }}</td>
+                                            <td>
+                                                <p>
+                                                    <strong>English :</strong> {{ $category->name }}
+                                                </p>
+                                                @if ($category->name_km)
+                                                    <p>
+                                                        <strong>Khmer :</strong> {{ $category->name_km }}
+                                                    </p>
+                                                @endif
+                                            </td>
                                             <td>
                                                 <div class="attachment-preview">
                                                     <div class="img-wrap">
@@ -98,6 +109,7 @@
                                                         class="btn btn-sm btn-warning text-dark btn-xs mb-2 me-1 category_edit_btn"
                                                         data-id="{{ $category->id }}" data-name="{{ $category->name }}"
                                                         data-status="{{ $category->status_id }}"
+                                                        data-name_km="{{ $category->name_km }}"
                                                         data-slug="{{ $category->slug }}"
                                                         data-description="{{ $category->description }}"
                                                         data-imageid="{{ $category->image_id }}"
@@ -114,9 +126,6 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                            <div class="category-pagination">
-                                {{ $all_category->links() }}
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -137,11 +146,19 @@
                             @csrf
                             <div class="form-group">
                                 <label for="edit_name">
-                                    {{ __('Name') }}
+                                    {{ __('Name (English)') }}
                                     <span class="text-danger">*</span>
                                 </label>
                                 <input type="text" class="form-control" id="edit_name" name="name"
                                     placeholder="{{ __('Enter name') }}" required="">
+                            </div>
+                            <div class="form-group">
+                                <label for="name">
+                                    {{ __('ឈ្មោះ (ខ្មែរ)') }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="edit_name_km" name="name_km"
+                                    placeholder="{{ __('បញ្ចូលឈ្មោះ (ខ្មែរ)') }}" required="">
                             </div>
                             {{-- <div class="form-group">
                                 <label for="edit_slug">{{ __('Slug') }}</label>
@@ -192,11 +209,19 @@
                             @csrf
                             <div class="form-group">
                                 <label for="name">
-                                    {{ __('Name') }}
+                                    {{ __('Name (English)') }}
                                     <span class="text-danger">*</span>
                                 </label>
                                 <input type="text" class="form-control" id="create-name" name="name"
-                                    placeholder="{{ __('Enter name') }}" required="">
+                                    placeholder="{{ __('Enter name (English)') }}" required="">
+                            </div>
+                            <div class="form-group">
+                                <label for="name">
+                                    {{ __('ឈ្មោះ (ខ្មែរ)') }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="create-name" name="name_km"
+                                    placeholder="{{ __('បញ្ចូលឈ្មោះ (ខ្មែរ)') }}" required="">
                             </div>
 
                             {{-- <div class="form-group">
@@ -329,6 +354,7 @@
                 let el = $(this);
                 let id = el.data('id');
                 let name = el.data('name');
+                let name_km = el.data('name_km');
                 let slug = el.data('slug');
                 let description = el.data('description');
                 let status = el.data('status');
@@ -337,6 +363,7 @@
                 modal.find('#category_id').val(id);
                 modal.find('#edit_status option[value="' + status + '"]').attr('selected', true);
                 modal.find('#edit_name').val(name);
+                modal.find('#edit_name_km').val(name_km);
                 modal.find('#edit_slug').val(slug);
                 modal.find('#edit_description').val(description);
                 modal.find(".edit-status-wrapper .list li[data-value='" + status + "']").trigger("click");

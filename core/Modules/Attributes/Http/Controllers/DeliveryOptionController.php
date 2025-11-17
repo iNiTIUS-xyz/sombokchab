@@ -8,61 +8,67 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Attributes\Entities\DeliveryOption;
+use Illuminate\Validation\Rule;
 
 class DeliveryOptionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     * @return Renderable
-     */
+
     public function index(): Renderable
     {
-        $delivery_manages = DeliveryOption::all();
+        $delivery_manages = DeliveryOption::query()
+            ->latest()
+            ->get();
+
         return view('attributes::backend.delivery-option.index', compact('delivery_manages'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return RedirectResponse
-     */
     public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
-            'title' => 'required|string|max:191|unique:delivery_options',
+            'title' => 'required|string|max:191|unique:delivery_options,title',
+            'title_km' => 'required|string|max:191|unique:delivery_options,title_km',
             'sub_title' => 'required|string|max:191',
+            'sub_title_km' => 'required|string|max:191',
             'icon' => 'required|string|max:191'
         ]);
 
-        $unit = DeliveryOption::create($data);
-        return $unit
-            ? back()->with(FlashMsg::create_succeed('Product Unit'))
-            : back()->with(FlashMsg::create_failed('Product Unit'));
+        $option = DeliveryOption::create($data);
+
+        return $option
+            ? back()->with(FlashMsg::create_succeed('Delivery Option'))
+            : back()->with(FlashMsg::create_failed('Delivery Option'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @return RedirectResponse
-     */
     public function update(Request $request): RedirectResponse
     {
-        $unit = DeliveryOption::findOrFail($request->id)->update($request->validate([
-            'title' => 'required|exists:delivery_options',
-            'sub_title' => 'required|string|max:191',
-            'icon' => 'required|string|max:191'
-        ]));
+        $id = $request->id;
 
-        return $unit
-            ? back()->with(FlashMsg::update_succeed('Product Unit'))
-            : back()->with(FlashMsg::update_failed('Product Unit'));
+        $data = $request->validate([
+            'title' => [
+                'required',
+                'string',
+                'max:191',
+                Rule::unique('delivery_options', 'title')->ignore($id)
+            ],
+            'title_km' => [
+                'required',
+                'string',
+                'max:191',
+                Rule::unique('delivery_options', 'title_km')->ignore($id)
+            ],
+            'sub_title' => 'required|string|max:191',
+            'sub_title_km' => 'required|string|max:191',
+            'icon' => 'required|string|max:191'
+        ]);
+
+        $option = DeliveryOption::findOrFail($id);
+        $updated = $option->update($data);
+
+        return $updated
+            ? back()->with(FlashMsg::update_succeed('Delivery Option'))
+            : back()->with(FlashMsg::update_failed('Delivery Option'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     * @param DeliveryOption $item
-     * @return RedirectResponse
-     */
     public function destroy(DeliveryOption $item): RedirectResponse
     {
         return $item->delete()
@@ -70,11 +76,6 @@ class DeliveryOptionController extends Controller
             : back()->with(FlashMsg::delete_failed('Product Unit'));
     }
 
-    /**
-     * Remove all the specified resources from storage.
-     * @param Request $request
-     * @return boolean
-     */
     public function bulk_action(Request $request): bool
     {
         $units = DeliveryOption::whereIn('id', $request->ids)->get();

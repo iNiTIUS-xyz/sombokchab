@@ -43,8 +43,26 @@
                                             <td>
                                                 <x-backend.preview-icon :class="$item->icon" />
                                             </td>
-                                            <td>{{ $item->title }}</td>
-                                            <td>{{ $item->sub_title }}</td>
+                                            <td>
+                                                <p>
+                                                    <strong>English :</strong> {{ $item->title }}
+                                                </p>
+                                                @if ($item->title_km)
+                                                    <p>
+                                                        <strong>Khmer :</strong> {{ $item->title_km }}
+                                                    </p>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <p>
+                                                    <strong>English :</strong> {{ $item->sub_title }}
+                                                </p>
+                                                @if ($item->sub_title_km)
+                                                    <p>
+                                                        <strong>Khmer :</strong> {{ $item->sub_title_km }}
+                                                    </p>
+                                                @endif
+                                            </td>
                                             <td>
                                                 @can('edit-attribute')
                                                     <a href="#1" data-bs-toggle="modal" title="{{ __('Edit Data') }}"
@@ -52,6 +70,8 @@
                                                         class="btn btn-warning btn-sm btn-xs mb-2 me-1 text-dark delivery_manage_edit_btn"
                                                         data-id="{{ $item->id }}" data-title="{{ $item->title }}"
                                                         data-sub-title="{{ $item->sub_title }}"
+                                                        data-title_km="{{ $item->title_km }}"
+                                                        data-sub-title_km="{{ $item->sub_title_km }}"
                                                         data-icon="{{ $item->icon }}">
                                                         <i class="ti-pencil"></i>
                                                     </a>
@@ -86,19 +106,35 @@
                             @csrf
                             <div class="form-group">
                                 <label for="name">
-                                    {{ __('Title') }}
+                                    {{ __('Title (English)') }}
                                     <span class="text-danger">*</span>
                                 </label>
                                 <input type="text" class="form-control" id="title" name="title"
-                                    placeholder="{{ __('Enter title') }}" required="">
+                                    placeholder="{{ __('Enter title (English)') }}" required="">
                             </div>
                             <div class="form-group">
-                                <label for="name">
-                                    {{ __('Sub Title') }}
+                                <label for="km_title">
+                                    {{ __('ចំណងជើង (ភាសាខ្មែរ)') }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="km_title" name="title_km"
+                                    placeholder="{{ __('បញ្ចូលចំណងជើង (ភាសាខ្មែរ)') }}" required="">
+                            </div>
+                            <div class="form-group">
+                                <label for="sub_title">
+                                    {{ __('Sub Title (English)') }}
                                     <span class="text-danger">*</span>
                                 </label>
                                 <input type="text" class="form-control" id="sub_title" name="sub_title"
                                     placeholder="{{ __('Enter sub title') }}" required="">
+                            </div>
+                            <div class="form-group">
+                                <label for="km_sub_title">
+                                    {{ __('ចំណងជើងរង (ភាសាខ្មែរ)') }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="km_sub_title" name="sub_title_km"
+                                    placeholder="{{ __('បញ្ចូលចំណងជើងរង (ភាសាខ្មែរ)') }}" required="">
                             </div>
                             <div class="form-group">
                                 <x-backend.icon-picker />
@@ -129,7 +165,7 @@
                         <div class="modal-body">
                             @csrf
                             <div class="form-group">
-                                <label for="name">
+                                <label for="edit-title">
                                     {{ __('Title') }}
                                     <span class="text-danger">*</span>
                                 </label>
@@ -137,12 +173,28 @@
                                     placeholder="{{ __('Enter title') }}" required="">
                             </div>
                             <div class="form-group">
-                                <label for="name">
-                                    {{ __('Name') }}
+                                <label for="edit-title-km">
+                                    {{ __('ចំណងជើង (ខ្មែរ)') }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="edit-title-km" name="title_km"
+                                    placeholder="{{ __('បញ្ចូលចំណងជើង (ខ្មែរ)') }}" required="">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-sub-title">
+                                    {{ __('Sub Title (English)') }}
                                     <span class="text-danger">*</span>
                                 </label>
                                 <input type="text" class="form-control" id="edit-sub-title" name="sub_title"
                                     placeholder="{{ __('Enter sub title') }}" required="">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-sub-title">
+                                    {{ __('ចំណងជើងរង (ខ្មែរ)') }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="edit-sub-title-km" name="sub_title_km"
+                                    placeholder="{{ __('បញ្ចូលចំណងជើងរង (ខ្មែរ)') }}" required="">
                             </div>
                             <x-backend.icon-picker />
                         </div>
@@ -167,12 +219,16 @@
                 let el = $(this);
                 let id = el.data('id');
                 let title = el.data('title');
+                let title_km = el.data('title_km');
                 let sub_title = el.data('sub-title');
+                let sub_title_km = el.data('sub-title_km');
                 let modal = $('#delivery_manage_edit_modal');
 
                 modal.find('#delivery_manage_id').val(id);
                 modal.find('#edit-title').val(title);
+                modal.find('#edit-title-km').val(title_km);
                 modal.find('#edit-sub-title').val(sub_title);
+                modal.find('#edit-sub-title-km').val(sub_title_km);
                 // modal.find('#edit-icon').val(icon);
                 modal.find('.icp-dd').attr('data-selected', el.data('icon'));
                 modal.find('.iconpicker-component i').attr('class', el.data('icon'));

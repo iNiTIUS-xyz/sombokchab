@@ -17,31 +17,39 @@ class SubCategory extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ["category_id","name","slug","description","image_id","status_id"];
+    protected $fillable = [
+        "category_id",
+        "name",
+        "name_km",
+        "slug",
+        "description",
+        "image_id",
+        "status_id"
+    ];
 
     public function category(): HasOne
     {
-        return $this->hasOne(Category::class,"id","category_id");
+        return $this->hasOne(Category::class, "id", "category_id");
     }
 
     public function childcategory(): HasMany
     {
-        return $this->hasMany(ChildCategory::class,"sub_category_id","id");
+        return $this->hasMany(ChildCategory::class, "sub_category_id", "id");
     }
 
     public function image(): HasOne
     {
-        return $this->hasOne(MediaUpload::class,"id","image_id");
+        return $this->hasOne(MediaUpload::class, "id", "image_id");
     }
 
     public function status(): HasOne
     {
-        return $this->hasOne(Status::class,"id","status_id");
+        return $this->hasOne(Status::class, "id", "status_id");
     }
 
     public function product(): HasManyThrough
     {
-        return $this->hasManyThrough(Product::class, ProductSubCategory::class,"sub_category_id","id", "id","product_id");
+        return $this->hasManyThrough(Product::class, ProductSubCategory::class, "sub_category_id", "id", "id", "product_id");
     }
 
     public function products()

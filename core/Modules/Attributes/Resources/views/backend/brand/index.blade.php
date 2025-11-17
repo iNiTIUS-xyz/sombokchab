@@ -61,16 +61,36 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>{{ $item->name }}</td>
-                                            <td class="w-40">{{ $item->description }}</td>
+                                            <td>
+                                                <p>
+                                                    <strong>English :</strong> {{ $item->name }}
+                                                </p>
+                                                @if ($item->name_km)
+                                                    <p>
+                                                        <strong>Khmer :</strong> {{ $item->name_km }}
+                                                    </p>
+                                                @endif
+                                            </td>
+                                            <td class="w-40">
+                                                <p>
+                                                    <strong>English :</strong> {{ $item->description }}
+                                                </p>
+                                                @if ($item->description_km)
+                                                    <p>
+                                                        <strong>Khmer :</strong> {{ $item->description_km }}
+                                                    </p>
+                                                @endif
+                                            </td>
                                             <td>
                                                 @can('edit-brand')
                                                     <a href="#1" data-bs-toggle="modal"
                                                         data-bs-target="#brand_manage_edit_modal"
                                                         class="btn  btn-warning text-dark btn-sm brand_manage_edit_btn"
                                                         data-id="{{ $item->id }}" data-name="{{ $item->name }}"
-                                                        data-slug="{{ $item->slug }}" data-title="{{ $item->title }}"
+                                                        data-name_km="{{ $item->name_km }}" data-slug="{{ $item->slug }}"
+                                                        data-title="{{ $item->title }}"
                                                         data-description="{{ $item->description }}"
+                                                        data-description_km="{{ $item->description_km }}"
                                                         data-logo-id="{{ $item->image_id }}"
                                                         data-logo="{{ \App\Http\Services\Media::render_image($item->logo, render_type: 'path') }}"
                                                         data-banner-id="{{ $item->banner_id }}"
@@ -107,36 +127,42 @@
                             <div class="row">
                                 <div class="col-md-12 mb-4">
                                     <div class="form-group">
-                                        <label for="name">
-                                            {{ __('Name') }}
+                                        <label for="edit-name">
+                                            {{ __('Name (English)') }}
                                             <span class="text-danger">*</span>
                                         </label>
                                         <input type="text" class="form-control" id="edit-name" name="name"
                                             placeholder="{{ __('Enter brand name') }}">
                                     </div>
                                 </div>
-                                {{-- <div class="col-md-6 mb-4">
+                                <div class="col-md-12 mb-4">
                                     <div class="form-group">
-                                        <label for="name">{{ __('Slug') }}</label>
-                                        <input type="text" class="form-control" id="edit-slug" name="slug"
-                                            placeholder="{{ __('Enter brand slug') }}">
+                                        <label for="edit-name-km">
+                                            {{ __('ឈ្មោះ (ខ្មែរ)') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" id="edit-name-km" name="name_km"
+                                            placeholder="{{ __('បញ្ចូលឈ្មោះម៉ាក (ខ្មែរ)') }}">
                                     </div>
-                                </div> --}}
-                                {{-- <div class="col-md-12 mb-4">
-                                    <div class="form-group">
-                                        <label for="name">{{ __('Title') }}</label>
-                                        <input type="text" class="form-control" id="edit-title" name="title"
-                                            placeholder="{{ __('Enter Title') }}">
-                                    </div>
-                                </div> --}}
+                                </div>
                                 <div class="col-md-12 mb-4">
                                     <div class="form-group">
                                         <label for="name">
-                                            {{ __('Description') }}
+                                            {{ __('Description (English)') }}
                                             <span class="text-danger">*</span>
                                         </label>
                                         <textarea class="form-control" id="edit-description" name="description"
                                             placeholder="{{ __('Enter brand Description Optional') }}"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mb-4">
+                                    <div class="form-group">
+                                        <label for="edit-description-km">
+                                            {{ __('ការពិពណ៌នា (ខ្មែរ)') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <textarea class="form-control" id="edit-description-km" name="description_km"
+                                            placeholder="{{ __('បញ្ចូលម៉ាក ការពិពណ៌នា ស្រេចចិត្ត (ខ្មែរ)') }}"></textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-4">
@@ -180,28 +206,34 @@
                                             placeholder="{{ __('Enter brand name') }}">
                                     </div>
                                 </div>
-                                {{-- <div class="col-md-6 mb-4">
-                                    <div class="form-group">
-                                        <label for="name">{{ __('Slug') }}</label>
-                                        <input type="text" class="form-control" id="create-slug" name="slug"
-                                            placeholder="{{ __('Enter brand Slug') }}">
-                                    </div>
-                                </div> --}}
-                                {{-- <div class="col-md-12 mb-4">
-                                    <div class="form-group">
-                                        <label for="name">{{ __('Title') }}</label>
-                                        <input type="text" class="form-control" id="title" name="title"
-                                            placeholder="{{ __('Enter Title') }}">
-                                    </div>
-                                </div> --}}
                                 <div class="col-md-12 mb-4">
                                     <div class="form-group">
-                                        <label for="name">
+                                        <label for="create-name-km">
+                                            {{ __('ឈ្មោះ (ខ្មែរ)') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" id="create-name-km" name="name_km"
+                                            placeholder="{{ __('បញ្ចូលឈ្មោះម៉ាក (ខ្មែរ)') }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mb-4">
+                                    <div class="form-group">
+                                        <label for="description">
                                             {{ __('Description') }}
                                             <span class="text-danger">*</span>
                                         </label>
                                         <textarea class="form-control" id="description" name="description"
                                             placeholder="{{ __('Enter brand Description Optional') }}"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mb-4">
+                                    <div class="form-group">
+                                        <label for="description-km">
+                                            {{ __('ការពិពណ៌នា (ខ្មែរ)') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <textarea class="form-control" id="description-km" name="description_km"
+                                            placeholder="{{ __('បញ្ចូលម៉ាក ការពិពណ៌នា ស្រេចចិត្ត (ខ្មែរ)') }}"></textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-4">
@@ -315,12 +347,16 @@
                 let name = el.data('name');
                 let slug = el.data('slug');
                 let title = el.data('title');
+                let name_km = el.data('name_km');
                 let description = el.data('description');
+                let description_km = el.data('description_km');
                 let modal = $('#brand_manage_edit_modal');
 
                 modal.find('#edit-brand-id').val(id);
                 modal.find('#edit-title').val(title);
+                modal.find('#edit-name-km').val(name_km);
                 modal.find('#edit-description').val(description);
+                modal.find('#edit-description-km').val(description_km);
                 modal.find('#edit-name').val(name);
                 modal.find('#edit-slug').val(slug);
 

@@ -12,29 +12,38 @@ use Modules\Product\Entities\Product;
 
 class Brand extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $with = ['logo'];
 
-    protected $fillable = ["name","slug","description","title","image_id","banner_id"];
+    protected $fillable = [
+        "name",
+        "name_km",
+        "description",
+        "description_km",
+        "slug",
+        "title",
+        "image_id",
+        "banner_id"
+    ];
 
     public function logo(): HasOne
     {
-        return $this->hasOne(MediaUpload::class,"id","image_id");
+        return $this->hasOne(MediaUpload::class, "id", "image_id");
     }
 
     public function banner(): HasOne
     {
-        return $this->hasOne(MediaUpload::class,"id","banner_id");
+        return $this->hasOne(MediaUpload::class, "id", "banner_id");
     }
 
     public function product(): HasOne
     {
-        return $this->hasOne(Product::class, 'brand_id','id');
+        return $this->hasOne(Product::class, 'brand_id', 'id');
     }
 
     public function products(): HasMany
     {
-        return $this->hasMany(Product::class, 'brand_id','id');
+        return $this->hasMany(Product::class, 'brand_id', 'id');
     }
 }
