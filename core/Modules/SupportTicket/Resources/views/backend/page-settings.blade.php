@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    @can('support-ticket-page-settings')
+    @can('manage-support-ticket')
         <div class="col-lg-12 col-ml-12">
             <div class="row">
                 <div class="col-12">

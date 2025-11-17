@@ -71,7 +71,7 @@
                     </div>
                 </div>
             </div>
-            @can('support-ticket-department-create')
+            @can('manage-support-ticket')
                 <div class="col-lg-5 mt-5">
                     <div class="dashboard__card">
                         <div class="dashboard__card__header">

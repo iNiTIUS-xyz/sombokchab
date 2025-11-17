@@ -69,9 +69,7 @@
                     </li>
                 @endif
 
-                @canany(['frontend-all-user', 'frontend-new-user', 'frontend-user-update',
-                    'frontend-user-password-change', 'frontend-delete-user', 'frontend-all-user-bulk-action',
-                    'frontend-all-user-email-status'])
+                @canany(['manage-user', 'view-user', 'add-user', 'edit-user', 'delete-user'])
                     <li class="main_dropdown
                         @if (request()->is([
                                 'admin-home/frontend/new-user',
@@ -83,14 +81,14 @@
                             <span>{{ __('Customers Management') }}</span>
                         </a>
                         <ul class="collapse">
-                            @can('frontend-all-user')
+                            @can('view-user')
                                 <li class="{{ active_menu('admin-home/frontend/all-user') }}">
                                     <a href="{{ route('admin.all.frontend.user') }}">
                                         {{ __('Customer Accounts') }}
                                     </a>
                                 </li>
                             @endcan
-                            @can('frontend-new-user')
+                             @can('add-user')
                                 <li class="{{ active_menu('admin-home/frontend/new-user') }}">
                                     <a href="{{ route('admin.frontend.new.user') }}">
                                         {{ __('Add New Customer') }}
@@ -101,14 +99,14 @@
                     </li>
                 @endcanany
 
-                @canany(['newsletter', 'newsletter-all'])
+                @canany(['manage-newsletter', 'view-subscriber'])
                     <li class="main_dropdown @if (request()->is(['admin-home/newsletter/*', 'admin-home/newsletter'])) active open @endif ">
                         <a href="#1" aria-expanded="true">
                             <i class="ti-email"></i>
                             <span>{{ __('Newsletter Management') }}</span>
                         </a>
                         <ul class="collapse">
-                            @can('newsletter')
+                            @can('view-subscriber')
                                 <li class="{{ active_menu('admin-home/newsletter') }}">
                                     <a href="{{ route('admin.newsletter') }}">
                                         {{ __('Newsletter Subscribers') }}
@@ -116,7 +114,7 @@
                                     </a>
                                 </li>
                             @endcan
-                            @can('newsletter-all')
+                            @can('manage-newsletter')
                                 <li class="{{ active_menu('admin-home/newsletter/all') }}">
                                     <a href="{{ route('admin.newsletter.mail') }}">
                                         {{ __('Send Mail to All Subscribers') }}
@@ -128,8 +126,7 @@
                     </li>
                 @endcanany
 
-                @canany(['support-tickets', 'support-ticket-vendor-tickets', 'support-ticket-new',
-                    'support-ticket-department', 'support-ticket-page-settings'])
+                @canany(['view-support-ticket', 'add-support-ticket', 'manage-support-ticket'])
                     <li
                         class="main_dropdown {{ active_menu('admin-home/support-tickets') }} @if (request()->is('admin-home/support-tickets/*')) active open @endif">
                         <a href="#1" aria-expanded="true">
@@ -137,7 +134,7 @@
                             <span>{{ __('Support Tickets Management') }}</span>
                         </a>
                         <ul class="collapse">
-                            @can('support-tickets')
+                            @can('view-support-ticket')
                                 <li class="{{ active_menu('admin-home/support-tickets') }}">
                                     <a href="{{ route('admin.support.ticket.all') }}">
                                         {{ __('Customer Support Tickets') }}
@@ -146,7 +143,7 @@
                                 </li>
                             @endcan
 
-                            @can('support-tickets-vendor-tickets')
+                            @can('view-support-ticket')
                                 <li class="{{ active_menu('admin-home/support-tickets/vendor-tickets') }}">
                                     <a href="{{ route('admin.support.ticket.all.vendor') }}">
                                         {{ __('Vendors Support Tickets') }}
@@ -163,7 +160,7 @@
                                 </li>
                             @endcan
 
-                            @can('support-tickets-department')
+                            @can('manage-support-ticket')
                                 <li class="{{ active_menu('admin-home/support-tickets/department') }}">
                                     <a href="{{ route('admin.support.ticket.department') }}">
                                         {{ __('Support Ticket Departments') }}
@@ -171,7 +168,7 @@
                                 </li>
                             @endcan
 
-                            @can('support-tickets-page-settings')
+                            @can('manage-support-ticket')
                                 <li class="{{ active_menu('admin-home/support-tickets/page-settings') }}"
                                     style="display: none;">
                                     <a href="{{ route('admin.support.ticket.page.settings') }}">
@@ -286,15 +283,14 @@
                 @endif
 
                 @if (moduleExists('DeliveryMan'))
-                    @canany(['delivery-man-zone', 'delivery-man-pickup-point', 'delivery-man-add',
+                    {{-- @canany(['delivery-man-zone', 'delivery-man-pickup-point', 'delivery-man-add',
                         'delivery-man-settings', 'delivery-man-wallet-gateway'])
-                        {{--                Wallet Manage                 --}}
+
                         <li class="main_dropdown @if (request()->is(['admin-home/delivery-man/*', 'admin-home/delivery-man/pickup-point/*', 'admin-home/delivery-man'])) active open @endif addon-module">
                             <a href="#1" aria-expanded="true">
                                 <i class="ti-truck"></i>
                                 <span>
                                     {{ __('Delivery Man Management') }}
-                                    {{-- <span class="badge bg-danger ml-5-px">{{ __("Plugin") }}</span> --}}
                                 </span>
                             </a>
                             <ul class="collapse">
@@ -354,21 +350,19 @@
                                 @endif
                             </ul>
                         </li>
-                    @endcanany
+                    @endcanany --}}
                 @endif
 
                 @if (moduleExists('Wallet'))
-                    @canany(['wallet-withdraw-request', 'wallet-vendor-lists', 'wallet-delivery-man-lists',
-                        'wallet-customer-lists', 'wallet-history-records', 'wallet-withdraw-gateway',
-                        'wallet-settings-update'])
-                        {{--                Wallet Manage                 --}}
+                    @canany(['manage-wallet', 'view-wallet', 'add-wallet', 'edit-wallet', 'delete-wallet'])
+
                         <li class="main_dropdown @if (request()->is(['admin-home/wallet/*'])) active open @endif ">
                             <a href="#1" aria-expanded="true">
                                 <i class="ti-wallet"></i>
                                 <span>{{ __('Wallet Management') }}</span>
                             </a>
                             <ul class="collapse">
-                                @can('wallet-withdraw-request')
+                                @can('manage-wallet')
                                     <li class="{{ active_menu('admin-home/wallet/withdraw-request') }}">
                                         <a href="{{ route('admin.wallet.withdraw-request') }}">
                                             {{ __('Withdraw Request') }}
@@ -377,7 +371,7 @@
                                 @endcan
 
                                 @if (moduleExists('DeliveryMan'))
-                                    @can('wallet-delivery-man-withdraw-request')
+                                    @can('manage-wallet')
                                         <li class="{{ active_menu('admin-home/wallet/delivery-man-withdraw-request') }}">
                                             <a href="{{ route('admin.wallet.delivery-man-withdraw-request') }}">
                                                 {{ __('Delivery man Withdraw Request') }}
@@ -386,7 +380,7 @@
                                     @endcan
                                 @endcan
 
-                                @can('wallet-vendor-lists')
+                                @can('view-wallet')
                                     <li class="{{ active_menu('admin-home/wallet/vendor/lists') }}">
                                         <a href="{{ route('admin.wallet.lists') }}">
                                             {{ __('Vendor Wallet List') }}
@@ -395,7 +389,7 @@
                                 @endcan
 
                                 @if (moduleExists('DeliveryMan'))
-                                    @can('wallet-delivery-man-lists')
+                                    @can('view-wallet')
                                         <li class="{{ active_menu('admin-home/wallet/delivery-man/lists') }}">
                                             <a href="{{ route('admin.wallet.delivery-man.lists') }}">
                                                 {{ __('Delivery man List') }}
@@ -403,28 +397,28 @@
                                         </li>
                                     @endcan
                                 @endif
-                                @can('wallet-customer-lists')
+                                @can('view-wallet')
                                     <li class="{{ active_menu('admin-home/wallet/customer/lists') }}">
                                         <a href="{{ route('admin.wallet.customer.lists') }}">
                                             {{ __('Customer Wallet List') }}
                                         </a>
                                     </li>
                                 @endcan
-                                @can('wallet-history-records')
+                                @can('view-wallet')
                                     <li class="{{ active_menu('admin-home/wallet/history/records') }}">
                                         <a href="{{ route('admin.wallet.history') }}">
                                             {{ __('Customer Deposit History') }}
                                         </a>
                                     </li>
                                 @endcan
-                                @can('wallet-withdraw-gateway')
+                                @can('manage-wallet')
                                     <li class="{{ active_menu('admin-home/wallet/withdraw/gateway') }}">
                                         <a href="{{ route('admin.wallet.withdraw.gateway') }}">
                                             {{ __('Wallet Payment Methods') }}
                                         </a>
                                     </li>
                                 @endcan
-                                @can('wallet-settings-update')
+                                @can('manage-wallet')
                                     <li class="{{ active_menu('admin-home/wallet/settings/update') }}">
                                         <a href="{{ route('admin.wallet.settings') }}">
                                             {{ __('Wallet Settings') }}
@@ -437,7 +431,7 @@
             @endcan
 
             @if (moduleExists('Refund'))
-                @canany(['refund-request', 'refund-reason', 'refund-preferred-option', 'refund-settings'])
+                @canany(['manage-refund-request'])
                     {{--                Wallet Manage                 --}}
                     <li class="main_dropdown @if (request()->is(['admin-home/refund/*'])) active open @endif ">
                         <a href="#1" aria-expanded="true">
@@ -447,7 +441,7 @@
                             </span>
                         </a>
                         <ul class="collapse">
-                            @can('refund-request')
+                            @can('manage-refund-request')
                                 <li class="{{ active_menu('admin-home/refund/request') }}">
                                     <a href="{{ route('admin.refund.request') }}">
                                         {{ __('Refund Requests') }}
@@ -455,21 +449,21 @@
                                     </a>
                                 </li>
                             @endcan
-                            @can('refund-reason')
+                            @can('manage-refund-request')
                                 <li class="{{ active_menu('admin-home/refund/reason') }}">
                                     <a href="{{ route('admin.refund.reason.index') }}">
                                         {{ __('Refund Reasons') }}
                                     </a>
                                 </li>
                             @endcan
-                            @can('refund-preferred-option')
+                            @can('manage-refund-request')
                                 <li class="{{ active_menu('admin-home/refund/preferred-option') }}">
                                     <a href="{{ route('admin.refund.preferred-option.index') }}">
                                         {{ __('Refund Payment Methods') }}
                                     </a>
                                 </li>
                             @endcan
-                            @can('refund-settings')
+                            @can('manage-refund-request')
                                 <li class="{{ active_menu('admin-home/refund/settings') }}">
                                     <a href="{{ route('admin.refund.settings.index') }}">
                                         {{ __('Refund Settings') }}
@@ -490,7 +484,7 @@
             @endif
 
             @if (moduleExists('EmailTemplate'))
-                @can('email-template-all-templates')
+                @can('manage-email-template')
                     {{--                Wallet Manage                 --}}
                     <li class="main_dropdown @if (request()->is(['admin-home/email-template/*'])) active open @endif "
                         style="display: none">
@@ -510,7 +504,7 @@
             @endif
 
             @if (moduleExists('Wallet'))
-                @canany(['shop-manage', 'invoice-note'])
+                @canany(['manage-admin-shop'])
                     {{--                Shop Manage Manage                 --}}
                     <li class="main_dropdown @if (request()->is(['admin-home/shop-manage/*', 'admin-home/shop-manage', 'admin-home/invoice-note'])) active open @endif "
                         style="display: none">
@@ -519,28 +513,24 @@
                             <span>{{ __('Shop Management') }}</span>
                         </a>
                         <ul class="collapse">
-                            @can('shop-manage')
                                 <li class="{{ active_menu('admin-home/shop-manage') }}">
                                     <a href="{{ route('admin.shop-manage.update') }}">
                                         {{ __('Shop Manage') }}
 
                                     </a>
                                 </li>
-                            @endcan
-                            @can('invoice-note')
                                 <li class="{{ active_menu('admin-home/invoice-note') }}">
                                     <a href="{{ route('admin.shop-manage.invoice-note') }}">
                                         {{ __('Invoice Notes') }}
                                     </a>
                                 </li>
-                            @endcan
                         </ul>
                     </li>
                 @endcanany
             @endif
 
             @if (moduleExists('Order'))
-                @canany(['assign-delivery-man-orders', 'orders-vendor-list', 'orders', 'orders-sub-order'])
+                @canany(['manage-order', 'add-order', 'edit-order', 'view-order'])
                     {{-- Order Manage --}}
                     <li class="main_dropdown @if (request()->is([
                             'admin-home/orders/*',
@@ -554,7 +544,7 @@
                         </a>
 
                         <ul class="collapse">
-                            @if (moduleExists('DeliveryMan'))
+                            {{-- @if (moduleExists('DeliveryMan'))
                                 @can('assign-delivery-man-orders')
                                     <li class="{{ active_menu('admin-home/assign-delivery-man/orders') }}">
                                         <a href="{{ route('admin.assign-delivery-man.orders') }}">
@@ -562,22 +552,22 @@
                                         </a>
                                     </li>
                                 @endcan
-                            @endif
-                            @can('orders-vendor-list')
+                            @endif --}}
+                            @can('view-order')
                                 <li class="{{ active_menu('admin-home/orders/vendor/list') }}">
                                     <a href="{{ route('admin.orders.vendor.list') }}">
                                         {{ __('Store Order Summary') }}
                                     </a>
                                 </li>
                             @endcan
-                            @can('orders')
+                            @can('manage-order')
                                 <li class="{{ active_menu('admin-home/orders') }}">
                                     <a href="{{ route('admin.orders.list') }}">
                                         {{ __('All Store Orders') }}
                                     </a>
                                 </li>
                             @endcan
-                            @can('orders-sub-order')
+                            @can('manage-order')
                                 <li class="{{ active_menu('admin-home/orders/sub-order') }}">
                                     <a href="{{ route('admin.orders.sub_order.list') }}">
                                         {{ __('All Store Sub Orders') }}
@@ -590,13 +580,11 @@
             @endif
 
             @if (moduleExists('Pos'))
-                @canany(['pos-view', 'pos-payment-gateway-settings'])
-                    {{-- Order Manage --}}
+                {{-- @canany(['pos-view', 'pos-payment-gateway-settings'])
                     <li class="main_dropdown @if (request()->is(['admin-home/pos/*'])) active open @endif ">
                         <a href="#1" aria-expanded="true">
                             <i class="ti-layout-sidebar-2"></i>
                             <span>{{ __('Pos Management') }}
-                                {{-- <span class="badge bg-danger ml-5-px">{{ __("Plugin") }}</span> --}}
                             </span>
                         </a>
 
@@ -626,12 +614,12 @@
                             @endif
                         </ul>
                     </li>
-                @endcanany
+                @endcanany --}}
             @endif
 
 
 
-            @canany(['country', 'state', 'city'])
+            @canany(['manage-country', 'manage-province', 'manage-city'])
                 <li class="main_dropdown @if (request()->is([
                         'admin-home/country',
                         'admin-home/country/*',
@@ -645,7 +633,7 @@
                         <span>{{ __('Country Management') }}</span>
                     </a>
                     <ul class="collapse">
-                        @can('country')
+                        @can('manage-country')
                             <li class="{{ active_menu('admin-home/country') }}">
                                 <a href="{{ route('admin.country.all') }}">
                                     {{ __('All Countries') }}
@@ -653,7 +641,7 @@
                             </li>
                         @endcan
 
-                        @can('country')
+                        @can('add-country')
                             <li class="{{ active_menu('admin-home/country/csv/import') }}">
                                 <a href="{{ route('admin.country.import.csv.settings') }}">
                                     {{ __('Import Country') }}
@@ -661,7 +649,7 @@
                             </li>
                         @endcan
 
-                        @can('state')
+                        @can('manage-province')
                             <li class="{{ active_menu('admin-home/state') }}">
                                 <a href="{{ route('admin.state.all') }}">
                                     {{ __('All Provinces') }}
@@ -669,7 +657,7 @@
                             </li>
                         @endcan
 
-                        @can('state')
+                        @can('add-province')
                             <li class="{{ active_menu('admin-home/state/csv/import') }}">
                                 <a href="{{ route('admin.state.import.csv.settings') }}">
                                     {{ __('Import Province') }}
@@ -677,7 +665,7 @@
                             </li>
                         @endcan
 
-                        @can('city')
+                        @can('manage-city')
                             <li class="{{ active_menu('admin-home/city') }}">
                                 <a href="{{ route('admin.city.all') }}">
                                     {{ __('All Cities') }}
@@ -685,7 +673,7 @@
                             </li>
                         @endcan
 
-                        @can('city')
+                        @can('add-city')
                             <li class="{{ active_menu('admin-home/city/csv/import') }}">
                                 <a href="{{ route('admin.city.import.csv.settings') }}">
                                     {{ __('Import City') }}
@@ -697,14 +685,14 @@
                 </li>
             @endcanany
 
-            @canany(['tax-module-settings', 'tax-module-tax-class'])
+            @canany(['manage-tax', 'add-tax'])
                 <li class="main_dropdown @if (request()->is(['admin-home/tax/*', 'admin-home/tax-module/*'])) active open @endif ">
                     <a href="#1" aria-expanded="true">
                         <i class="ti-money"></i>
                         <span>{{ __('Tax Settings Management') }}</span>
                     </a>
                     <ul class="collapse">
-                        @can('tax-module-settings')
+                        @can('manage-tax')
                             <li class="{{ active_menu('admin-home/tax-module/settings') }}">
                                 <a href="{{ route('admin.tax-module.settings') }}">
                                     {{ __('Tax Settings') }}
@@ -713,7 +701,7 @@
                         @endcan
 
                         @if (get_static_option('tax_system') == 'advance_tax_system')
-                            @can('tax-module-tax-class')
+                            @can('manage-tax')
                                 <li class="{{ active_menu('admin-home/tax-module/tax-class') }}">
                                     <a href="{{ route('admin.tax-module.tax-class') }}">
                                         {{ __('Manage Tax Class') }}
@@ -724,7 +712,7 @@
                         @endif
 
                         @if (get_static_option('tax_system') == 'zone_wise_tax_system')
-                            @can('tax-country')
+                            @can('manage-tax')
                                 <li class="{{ active_menu('admin-home/tax/country') }}">
                                     <a href="{{ route('admin.tax.country.all') }}">
                                         {{ __('All Country Tax') }}
@@ -733,10 +721,10 @@
                                 </li>
                             @endcan
 
-                            @can('tax-state')
+                            @can('manage-tax')
                                 <li class="{{ active_menu('admin-home/tax/state') }}">
                                     <a href="{{ route('admin.tax.state.all') }}">
-                                        {{ __('All State Tax') }}
+                                        {{ __('All Province Tax') }}
                                     </a>
                                 </li>
                             @endcan
@@ -745,8 +733,14 @@
                 </li>
             @endcanany
 
-            @canany(['categories', 'sub-categories', 'child-categories', 'units', 'tags', 'delivery-option',
-                'brand-manage', 'colors', 'sizes', 'attributes', 'badge'])
+            @canany([
+                    'manage-category','view-category','add-category',
+                    'manage-category-menu','view-category-menu','add-category-menu',
+                    'manage-attribute','view-attribute','add-attribute',
+                    'manage-brand','view-brand','add-brand',
+                    'manage-badge','view-badge','add-badge',
+                    'manage-product-variant','view-product-variant','add-product-variant'
+                ])
                 {{--                  Attribute Manage menu bar                 --}}
                 <li class="main_dropdown @if (request()->is([
                         'admin-home/categories',
@@ -767,7 +761,7 @@
                         <span>{{ __('Attributes Management') }}</span>
                     </a>
                     <ul class="collapse">
-                        @can('categories')
+                        @can('view-category')
                             <li class="{{ active_menu('admin-home/categories') }}">
                                 <a href="{{ route('admin.category.all') }}">
                                     {{ __('Product Categories') }}
@@ -776,7 +770,7 @@
                             </li>
                         @endcan
 
-                        @can('sub-categories')
+                        @can('view-category')
                             <li class="{{ active_menu('admin-home/sub-categories') }}">
                                 <a href="{{ route('admin.subcategory.all') }}">
                                     {{ __('Product Sub-Categories') }}
@@ -785,7 +779,7 @@
                             </li>
                         @endcan
 
-                        @can('child-categories')
+                        @can('view-category')
                             <li class="{{ active_menu('admin-home/child-categories') }}" style="display: none">
                                 <a href="{{ route('admin.child-category.all') }}">
                                     {{ __('Child-Category') }}
@@ -794,7 +788,7 @@
                             </li>
                         @endcan
 
-                        @can('units')
+                        @can('view-attribute')
                             <li class="{{ active_menu('admin-home/units') }}">
                                 <a href="{{ route('admin.units.all') }}">
                                     {{ __('Units') }}
@@ -803,7 +797,7 @@
                             </li>
                         @endcan
 
-                        {{-- @can('tags')
+                        {{-- @can('view-attribute')
                                 <li class="{{ active_menu('admin-home/tags') }}">
                                     <a href="{{ route('admin.tag.all') }}">
                                         {{ __('Tag') }}
@@ -812,7 +806,7 @@
                                 </li>
                             @endcan --}}
 
-                        @can('delivery-option')
+                        @can('view-attribute')
                             <li class="{{ active_menu('admin-home/delivery-manage') }}">
                                 <a href="{{ route('admin.delivery.option.all') }}">
                                     {{ __('Delivery Options') }}
@@ -820,7 +814,7 @@
                             </li>
                         @endcan
 
-                        @can('brand-manage')
+                        @can('view-brand')
                             <li class="{{ active_menu('admin-home/brand-manage') }}">
                                 <a href="{{ route('admin.brand.manage.all') }}">
                                     {{ __('Brands') }}
@@ -829,7 +823,7 @@
                             </li>
                         @endcan
 
-                        @can('colors')
+                        @can('view-attribute')
                             <li class="{{ active_menu('admin-home/colors') }}">
                                 <a href="{{ route('admin.product.colors.all') }}">
                                     {{ __('Product Variant Colors') }}
@@ -838,7 +832,7 @@
                             </li>
                         @endcan
 
-                        @can('sizes')
+                        @can('view-attribute')
                             <li class="{{ active_menu('admin-home/sizes') }}">
                                 <a href="{{ route('admin.product.sizes.all') }}">
                                     {{ __('Sizes') }}
@@ -847,14 +841,14 @@
                             </li>
                         @endcan
 
-                        @can('attributes')
+                        @can('view-attribute')
                             <li class="{{ active_menu('admin-home/attributes') }}">
                                 <a href="{{ route('admin.products.attributes.all') }}">
                                     {{ __('Custom Attributes') }} </a>
                             </li>
                         @endcan
 
-                        @can('badge')
+                        @can('view-badge')
                             <li class="{{ active_menu('admin-home/badge') }}">
                                 <a href="{{ route('admin.badge.all') }}">
                                     {{ __('Badges') }}
@@ -866,7 +860,7 @@
                 </li>
             @endcanany
 
-            @canany(['vendor-index', 'vendor-create', 'vendor-settings', 'vendor-commission-settings'])
+            @canany(['manage-vendor', 'view-vendor', 'add-vendor'])
                 {{--                Vendor Manage                 --}}
                 <li class="main_dropdown @if (request()->is(['admin-home/vendor/*'])) active open @endif ">
                     <a href="#1" aria-expanded="true">
@@ -874,7 +868,7 @@
                         <span>{{ __('Vendor Management') }}</span>
                     </a>
                     <ul class="collapse">
-                        @can('vendor-index')
+                        @can('view-vendor')
                             <li class="{{ active_menu('admin-home/vendor/index') }}">
                                 <a href="{{ route('admin.vendor.all') }}">
                                     {{ __('Vendor List') }}
@@ -882,7 +876,7 @@
                                 </a>
                             </li>
                         @endcan
-                        @can('vendor-create')
+                        @can('add-vendor')
                             <li class="{{ active_menu('admin-home/vendor/create') }}">
                                 <a href="{{ route('admin.vendor.create') }}">
                                     {{ __('Create Vendor') }}
@@ -890,7 +884,7 @@
                                 </a>
                             </li>
                         @endcan
-                        @can('vendor-settings')
+                        @can('manage-vendor')
                             <li class="{{ active_menu('admin-home/vendor/settings') }}">
                                 <a href="{{ route('admin.vendor.settings') }}">
                                     {{ __('Vendor Settings') }}
@@ -898,7 +892,7 @@
                                 </a>
                             </li>
                         @endcan
-                        @can('vendor-commission-settings')
+                        @can('manage-vendor')
                             <li class="{{ active_menu('admin-home/vendor/commission-settings') }}">
                                 <a href="{{ route('admin.vendor.commission-settings') }}">
                                     {{ __('Vendor Commission') }}
@@ -910,7 +904,7 @@
             @endcanany
 
             {{--        Product Inventory manage        --}}
-            @can('product-inventory')
+            @can('manage-product-variant')
                 <li class="{{ active_menu('admin-home/product-inventory') }}">
                     <a href="{{ route('admin.products.inventory.all') }}">
                         <i class="ti-package"></i>
@@ -920,7 +914,7 @@
             @endcan
 
             {{-- Product Manage Sidebar menu list --}}
-            @canany(['coupons', 'coupons-new'])
+            @canany(['manage-coupon', 'view-coupon', 'add-coupon'])
                 <li class="@if (request()->is(['admin-home/coupons', 'admin-home/coupons/*'])) active open @endif">
                     <a href="{{ route('admin.products.coupon.all') }}" aria-expanded="true">
                         <i class="ti-layout-tab"></i>
@@ -929,13 +923,13 @@
                 </li>
             @endcanany
             {{-- Product Manage Sidebar menu list --}}
-            @canany(['product-all', 'product-create'])
+            @canany(['manage-product', 'view-product', 'add-product'])
                 <li class="main_dropdown @if (request()->is(['admin-home/product', 'admin-home/product/*'])) active open @endif">
                     <a href="#1" aria-expanded="true">
                         <i class="ti-layout-tab"></i><span>{{ __('Product Management') }}</span>
                     </a>
                     <ul class="collapse">
-                        @can('product-all')
+                        @can('view-product')
                             <li class="{{ active_menu('admin-home/product/all') }}">
                                 <a href="{{ route('admin.products.all') }}">
                                     {{ __('Products List') }}
@@ -944,7 +938,7 @@
                             </li>
                         @endcan
 
-                        @can('product-create')
+                        @can('add-product')
                             <li class="{{ active_menu('admin-home/product/create') }}">
                                 <a href="{{ route('admin.products.create') }}">
                                     {{ __('Add New Product') }}
@@ -954,14 +948,14 @@
                     </ul>
                 </li>
             @endcanany
-            @can('campaigns')
+            @canany(['manage-campaign', 'view-campaign', 'add-campaign'])
                 <li class="main_dropdown @if (request()->is(['admin-home/campaigns', 'admin-home/campaigns/*'])) active open @endif">
                     <a href="#1" aria-expanded="true">
                         <i class="ti-announcement"></i>
                         <span>{{ __('Campaign Management') }}</span>
                     </a>
                     <ul class="collapse">
-                        @can('product-all')
+                        @can('view-campaign')
                             <li class="{{ active_menu('admin-home/campaigns') }}">
                                 <a href="{{ route('admin.campaigns.all') }}">
                                     {{ __('All Campaigns') }}
@@ -969,7 +963,7 @@
                             </li>
                         @endcan
 
-                        @can('product-create')
+                        @can('add-campaign')
                             <li class="{{ active_menu('admin-home/campaigns/new') }}">
                                 <a href="{{ route('admin.campaigns.new') }}">
                                     {{ __('Add New Campaign') }}
@@ -980,7 +974,7 @@
                 </li>
             @endcanany
             {{-- Shipping zone route wrapper --}}
-            @canany(['shipping-zone', 'shipping-method'])
+            @canany(['manage-shipping', 'add-shipping'])
                 <li class="main_dropdown @if (request()->is([
                         'admin-home/shipping/*',
                         'admin-home/shipping-method/*',
@@ -991,7 +985,7 @@
                         <i class="ti-truck"></i><span>{{ __('Shipping Management') }}</span>
                     </a>
                     <ul class="collapse">
-                        @can('shipping-zone')
+                        @can('manage-shipping')
                             <li class="{{ active_menu('admin-home/shipping/zone') }}">
                                 <a href="{{ route('admin.shipping.zone.all') }}">
                                     {{ __('Shipping Zones') }}
@@ -999,7 +993,7 @@
                                 </a>
                             </li>
                         @endcan
-                        @can('shipping-method')
+                        @can('manage-shipping')
                             <li class="@if (request()->is(['admin-home/shipping-method', 'admin-home/shipping-method/*'])) open active @endif">
                                 <a href="{{ route('admin.shipping-method.index') }}">
                                     {{ __('Shipping Methods') }}
@@ -1011,14 +1005,14 @@
             @endcanany
 
             {{-- Blog Routes Wrapper --}}
-            @canany(['blog', 'blog-category', 'blog-new', 'blog-page-settings', 'blog-single-page-settings'])
+            @canany(['manage-blog', 'view-blog', 'add-blog', 'manage-blog-settings'])
                 <li class="main_dropdown @if (request()->is(['admin-home/blog/*', 'admin-home/blog'])) active open @endif ">
                     <a href="#1" aria-expanded="true">
                         <i class="ti-write"></i>
                         <span>{{ __('Blogs Management') }}</span>
                     </a>
                     <ul class="collapse">
-                        @can('blog')
+                        @can('view-blog')
                             <li class="{{ active_menu('admin-home/blog') }}">
                                 <a href="{{ route('admin.blog') }}">
                                     {{ __('All Blog') }}
@@ -1026,28 +1020,28 @@
                                 </a>
                             </li>
                         @endcan
-                        @can('blog-new')
+                        @can('add-blog')
                             <li class="{{ active_menu('admin-home/blog/new') }}">
                                 <a href="{{ route('admin.blog.new') }}">
                                     {{ __('Add New Blog') }}
                                 </a>
                             </li>
                         @endcan
-                        @can('blog-category')
+                        @can('manage-blog-settings')
                             <li class="{{ active_menu('admin-home/blog/category') }}">
                                 <a href="{{ route('admin.blog.category') }}">
                                     {{ __('All Categories') }}
                                 </a>
                             </li>
                         @endcan
-                        @can('blog-page-settings')
+                        @can('manage-blog-settings')
                             <li class="{{ active_menu('admin-home/blog/page-settings') }}">
                                 <a href="{{ route('admin.blog.page.settings') }}">
                                     {{ __('Blog Page Settings') }}
                                 </a>
                             </li>
                         @endcan
-                        @can('blog-single-page-settings')
+                        @can('manage-blog-settings')
                             <li class="{{ active_menu('admin-home/blog/single-settings') }}">
                                 <a href="{{ route('admin.blog.single.settings') }}">
                                     {{ __('Blog Single Page Settings') }}
@@ -1058,7 +1052,7 @@
                 </li>
             @endcanany
 
-            @can('faq')
+            @can('manage-faq')
                 <li class="{{ active_menu('admin-home/faq') }}">
                     <a href="{{ route('admin.faq') }}" aria-expanded="true">
                         <i class="ti-control-forward"></i>
@@ -1068,36 +1062,38 @@
             @endcan
 
             @if (moduleExists('Chat'))
-                <li class="main_dropdown @if (request()->is(['admin-home/livechat/*'])) open active @endif ">
-                    <a href="#1" aria-expanded="true">
-                        <i class="ti-write"></i>
-                        <span>{{ __('Livechat Management') }}</span>
-                        {{-- <span class="badge bg-danger ml-5-px">
-                                {{ __("Plugin") }}
-                            </span> --}}
-                    </a>
-                    <ul class="collapse">
-                        @can('livechat-settings')
-                            <li class="{{ active_menu('admin-home/livechat/settings') }}">
-                                <a href="{{ route('admin.livechat.settings') }}">
-                                    <i class="ti-comment-alt"></i>
-                                    <span>{{ __('Livechat Settings') }}</span>
-                                </a>
-                            </li>
-                        @endcan
-                        @if (auth('admin')->user()->hasRole('Super Admin'))
-                            <li class="{{ active_menu('admin-home/livechat/update-plugin') }}"
-                                style="display: none;">
-                                <a href="{{ route('admin.livechat.chat_plugin_license_update') }}">
-                                    <span>{{ __('Update Plugin') }}</span>
-                                </a>
-                            </li>
-                        @endif
-                    </ul>
-                </li>
+                @can('manage-site-settings')
+                    <li class="main_dropdown @if (request()->is(['admin-home/livechat/*'])) open active @endif ">
+                        <a href="#1" aria-expanded="true">
+                            <i class="ti-write"></i>
+                            <span>{{ __('Livechat Management') }}</span>
+                            {{-- <span class="badge bg-danger ml-5-px">
+                                    {{ __("Plugin") }}
+                                </span> --}}
+                        </a>
+                        <ul class="collapse">
+                            @can('manage-site-settings')
+                                <li class="{{ active_menu('admin-home/livechat/settings') }}">
+                                    <a href="{{ route('admin.livechat.settings') }}">
+                                        <i class="ti-comment-alt"></i>
+                                        <span>{{ __('Livechat Settings') }}</span>
+                                    </a>
+                                </li>
+                            @endcan
+                            @if (auth('admin')->user()->hasRole('Super Admin'))
+                                <li class="{{ active_menu('admin-home/livechat/update-plugin') }}"
+                                    style="display: none;">
+                                    <a href="{{ route('admin.livechat.chat_plugin_license_update') }}">
+                                        <span>{{ __('Update Plugin') }}</span>
+                                    </a>
+                                </li>
+                            @endif
+                        </ul>
+                    </li>
+                @endcan
             @endif
 
-            @canany(['page-all', 'page-new'])
+            @canany(['manage-page', 'view-page', 'add-page'])
                 <li class="main_dropdown @if (request()->is(['admin-home/page-edit/*', 'admin-home/page/edit/*', 'admin-home/page/all', 'admin-home/page/new'])) open active @endif ">
                     <a href="#1" aria-expanded="true">
                         <i class="ti-write"></i>
@@ -1105,7 +1101,7 @@
                     </a>
 
                     <ul class="collapse">
-                        @can('page-all')
+                        @can('view-page')
                             <li class="{{ active_menu('admin-home/page/all') }}">
                                 <a href="{{ route('admin.page') }}">
                                     {{ __('All Pages') }}
@@ -1114,7 +1110,7 @@
                             </li>
                         @endcan
 
-                        @can('page-new')
+                        @can('add-page')
                             <li class="{{ active_menu('admin-home/page/new') }}">
                                 <a href="{{ route('admin.page.new') }}">
                                     {{ __('Add New Page') }}
@@ -1126,8 +1122,7 @@
                 </li>
             @endcanany
 
-            @canany(['appearance-settings-topbar-all', 'menu', 'category-menu', 'widgets-all',
-                'form-builder-custom-all', 'media-upload-page'])
+            @canany(['manage-topbar', 'manage-menu', 'manage-widget', 'manage-form', 'add-media'])
                 <li
                     class="main_dropdown
                         @if (request()->is([
@@ -1149,7 +1144,7 @@
                         <span>{{ __('Appearance Settings Management') }}</span>
                     </a>
                     <ul class="collapse ">
-                        @can(['appearance-settings-topbar-all'])
+                        @can(['manage-topbar'])
                             <li class="{{ active_menu('admin-home/appearance-settings/topbar/all') }}">
                                 <a href="{{ route('admin.topbar.settings') }}" aria-expanded="true">
                                     {{ __('Topbar Manage') }}
@@ -1157,7 +1152,7 @@
                             </li>
                         @endcan
 
-                        @can('menu')
+                        @can('manage-menu')
                             <li
                                 class="main_dropdown {{ active_menu('admin-home/menu') }} @if (request()->is('admin-home/menu-edit/*')) active open @endif ">
                                 <a href="#1" aria-expanded="true">
@@ -1175,7 +1170,7 @@
                             </li>
                         @endcan
 
-                        @can('category-menu')
+                        @can('manage-menu')
                             <li class="{{ active_menu('admin-home/category-menu') }}" style="display: none">
                                 <a href="{{ route('admin.category.menu.settings') }}" aria-expanded="true">
                                     {{ __('Category Menu Manage') }}
@@ -1183,7 +1178,7 @@
                             </li>
                         @endcan
 
-                        @can('widgets-all')
+                        @can('manage-widget')
                             <li
                                 class="main_dropdown {{ active_menu('admin-home/widgets/all') }} @if (request()->is('admin-home/widgets/*')) active open @endif ">
                                 <a href="#1" aria-expanded="true">
@@ -1200,7 +1195,7 @@
                             </li>
                         @endcan
 
-                        @can('form-builder-custom-all')
+                        @can('manage-form')
                             <li class="main_dropdown @if (request()->is('admin-home/form-builder/*')) active open @endif ">
                                 <a href="#1" aria-expanded="true">
                                     {{ __('Form Builder') }}
@@ -1216,7 +1211,7 @@
                             </li>
                         @endcan
 
-                        @can('media-upload-page')
+                        @can('add-media')
                             <li class="{{ active_menu('admin-home/media-upload/page') }}">
                                 <a href="{{ route('admin.upload.media.images.page') }}"
                                     class="{{ active_menu('admin-home/form-builder/custom/all') }}">
@@ -1228,11 +1223,7 @@
                 </li>
             @endcanany
 
-            @canany(['page-settings-wishlist', 'page-settings-cart', 'page-settings-checkout',
-                'page-settings-compare', 'page-settings-login-register', 'page-settings-shop-page',
-                'page-settings-product-page', 'page-all', 'page-new', 'page-edit', 'page-update', 'page-delete',
-                'page-builk-action', 'page-builder-update', 'page-builder-new', 'page-builder-delete',
-                'page-builder-dynamic-page', 'page-builder-update-order', 'page-builder-get-admin-markup'])
+            @canany(['manage-page-settings'])
                 <li
                     class="main_dropdown
                                                 @if (request()->is([
@@ -1269,56 +1260,56 @@
                                 {{ __('Page Settings') }}
                             </a>
                             <ul class="collapse">
-                                @can('page-settings-wishlist')
+                                @can('manage-page-settings')
                                     <li class="{{ active_menu('admin-home/page-settings/wishlist') }}">
                                         <a href="{{ route('admin.page.settings.wishlist') }}">
                                             {{ __('Wishlist Page') }}
                                         </a>
                                     </li>
                                 @endcan
-                                @can('page-settings-cart')
+                                @can('manage-page-settings')
                                     <li class="{{ active_menu('admin-home/page-settings/cart') }}">
                                         <a href="{{ route('admin.page.settings.cart') }}">
                                             {{ __('Cart Page') }}
                                         </a>
                                     </li>
                                 @endcan
-                                @can('page-settings-checkout')
+                                @can('manage-page-settings')
                                     <li class="{{ active_menu('admin-home/page-settings/checkout') }}">
                                         <a href="{{ route('admin.page.settings.checkout') }}">
                                             {{ __('Checkout Page') }}
                                         </a>
                                     </li>
                                 @endcan
-                                @can('page-settings-compare')
+                                @can('manage-page-settings')
                                     <li class="{{ active_menu('admin-home/page-settings/compare') }}">
                                         <a href="{{ route('admin.page.settings.compare') }}">
                                             {{ __('Compare Page') }}
                                         </a>
                                     </li>
                                 @endcan
-                                @can('page-settings-login-register')
+                                @can('manage-page-settings')
                                     <li class="{{ active_menu('admin-home/page-settings/login-register') }}">
                                         <a href="{{ route('admin.page.settings.user.auth') }}">
                                             {{ __('Sign In /Sign Up Page') }}
                                         </a>
                                     </li>
                                 @endcan
-                                @can('page-settings-shop-page')
+                                @can('manage-page-settings')
                                     <li class="{{ active_menu('admin-home/page-settings/shop-page') }}">
                                         <a href="{{ route('admin.page.settings.shop.page') }}">
                                             {{ __('Shop Page') }}
                                         </a>
                                     </li>
                                 @endcan
-                                @can('page-settings-product-details-page')
+                                @can('manage-page-settings')
                                     <li class="{{ active_menu('admin-home/page-settings/product-details-page') }}">
                                         <a href="{{ route('admin.page.settings.product.detail.page') }}">
                                             {{ __('Product Details Page') }}
                                         </a>
                                     </li>
                                 @endcan
-                                @can('page-settings-product-details-page')
+                                @can('manage-page-settings')
                                     <li class="{{ active_menu('admin-home/page-settings/product-settings-page') }}">
                                         <a href="{{ route('admin.page.settings.product.settings.page') }}">
                                             {{ __('Product Settings') }}
@@ -1346,21 +1337,14 @@
                 </li>
             @endcanany
 
-            @canany(['shipping-charge-settings', 'general-settings-reading', 'general-settings-global-navbar',
-                'general-settings-site-identity', 'general-settings-basic-settings',
-                'general-settings-color-settings', 'general-settings-typography-settings',
-                'general-settings-seo-settings', 'general-settings-scripts', 'general-settings-email-template',
-                'general-settings-smtp-settings', 'general-settings-payment-gateway', 'general-settings-custom-css',
-                'general-settings-custom-js', 'general-settings-cache-settings', 'general-settings-gdpr-settings',
-                'general-settings-sitemap-settings', 'general-settings-rss-settings',
-                'general-settings-license-setting'])
+            @canany(['manage-site-settings'])
                 <li class="main_dropdown @if (request()->is('admin-home/general-settings/*') || request()->is('admin-home/shipping-charge-settings')) active open @endif ">
                     <a href="#1" aria-expanded="true">
                         <i class="ti-new-window"></i>
                         <span>{{ __('Website Settings Management') }}</span>
                     </a>
                     <ul class="collapse">
-                        @can('shipping-charge-settings')
+                        @can('manage-site-settings')
                             <li class="{{ active_menu('admin-home/shipping-charge-settings') }}">
                                 <a href="{{ route('admin.shipping-charge-settings') }}">
                                     {{ __('Shipping Charge Settings') }}
@@ -1368,7 +1352,7 @@
                             </li>
                         @endcan
 
-                        @can('general-settings-reading')
+                        @can('manage-site-settings')
                             <li class="{{ active_menu('admin-home/general-settings/reading') }}"
                                 style="display: none;">
                                 <a href="{{ route('admin.general.reading') }}">
@@ -1377,7 +1361,7 @@
                                 </a>
                             </li>
                         @endcan
-                        @can('general-settings-global-navbar')
+                        @can('manage-site-settings')
                             <li class="{{ active_menu('admin-home/general-settings/global-variant-navbar') }}"
                                 style="display: none;">
                                 <a href="{{ route('admin.general.global.variant.navbar') }}">
@@ -1385,7 +1369,7 @@
                                 </a>
                             </li>
                         @endcan
-                        @can('general-settings-site-identity')
+                        @can('manage-site-settings')
                             <li class="{{ active_menu('admin-home/general-settings/site-identity') }}">
                                 <a href="{{ route('admin.general.site.identity') }}">
                                     {{ __('Site Identity') }}
@@ -1393,28 +1377,28 @@
                                 </a>
                             </li>
                         @endcan
-                        @can('general-settings-basic-settings')
+                        @can('manage-site-settings')
                             <li class="{{ active_menu('admin-home/general-settings/basic-settings') }}">
                                 <a href="{{ route('admin.general.basic.settings') }}">
                                     {{ __('Basic Settings') }}
                                 </a>
                             </li>
                         @endcan
-                        @can('general-settings-color-settings')
+                        @can('manage-site-settings')
                             <li class="{{ active_menu('admin-home/general-settings/color-settings') }}">
                                 <a href="{{ route('admin.general.color.settings') }}">
                                     {{ __('Color Settings') }}
                                 </a>
                             </li>
                         @endcan
-                        @can('general-settings-typography-settings')
+                        @can('manage-site-settings')
                             <li class="{{ active_menu('admin-home/general-settings/typography-settings') }}">
                                 <a href="{{ route('admin.general.typography.settings') }}">
                                     {{ __('Typography Settings') }}
                                 </a>
                             </li>
                         @endcan
-                        @can('general-settings-seo-settings')
+                        @can('manage-site-settings')
                             <li class="{{ active_menu('admin-home/general-settings/seo-settings') }}">
                                 <a href="{{ route('admin.general.seo.settings') }}">
                                     {{ __('SEO Settings') }}
@@ -1422,21 +1406,21 @@
                                 </a>
                             </li>
                         @endcan
-                        @can('general-settings-scripts')
+                        @can('manage-site-settings')
                             <li class="{{ active_menu('admin-home/general-settings/scripts') }}">
                                 <a href="{{ route('admin.general.scripts.settings') }}">
                                     {{ __('Third Party Scripts') }}
                                 </a>
                             </li>
                         @endcan
-                        @can('general-settings-email-template')
+                        @can('manage-site-settings')
                             <li class="{{ active_menu('admin-home/general-settings/email-template') }}">
                                 <a href="{{ route('admin.general.email.template') }}">
                                     {{ __('Email Template') }}
                                 </a>
                             </li>
                         @endcan
-                        @can('general-settings-smtp-settings')
+                        @can('manage-site-settings')
                             <li class="{{ active_menu('admin-home/general-settings/smtp-settings') }}">
                                 <a href="{{ route('admin.general.smtp.settings') }}">
                                     {{ __('SMTP Settings') }}
@@ -1444,7 +1428,7 @@
                                 </a>
                             </li>
                         @endcan
-                        @can('general-settings-payment-gateway')
+                        @can('manage-site-settings')
                             @if (!empty(get_static_option('site_payment_gateway')))
                                 <li class="{{ active_menu('admin-home/general-settings/payment-settings') }}">
                                     <a href="{{ route('admin.general.payment.settings') }}">
@@ -1453,7 +1437,7 @@
                                 </li>
                             @endif
                         @endcan
-                        @can('general-settings-custom-css')
+                        @can('manage-site-settings')
                             <li class="{{ active_menu('admin-home/general-settings/custom-css') }}">
                                 <a href="{{ route('admin.general.custom.css') }}">
                                     {{ __('Custom CSS') }}
@@ -1461,7 +1445,7 @@
                                 </a>
                             </li>
                         @endcan
-                        @can('general-settings-custom-js')
+                        @can('manage-site-settings')
                             <li class="{{ active_menu('admin-home/general-settings/custom-js') }}">
                                 <a href="{{ route('admin.general.custom.js') }}">
                                     {{ __('Custom JS') }}
@@ -1469,21 +1453,21 @@
                                 </a>
                             </li>
                         @endcan
-                        @can('general-settings-cache-settings')
+                        @can('manage-site-settings')
                             <li class="{{ active_menu('admin-home/general-settings/cache-settings') }}">
                                 <a href="{{ route('admin.general.cache.settings') }}">
                                     {{ __('Cache Settings') }}
                                 </a>
                             </li>
                         @endcan
-                        @can('general-settings-gdpr-settings')
+                        @can('manage-site-settings')
                             <li class="{{ active_menu('admin-home/general-settings/gdpr-settings') }}">
                                 <a href="{{ route('admin.general.gdpr.settings') }}">
                                     {{ __('GDPR Compliant Cookies Settings') }}
                                 </a>
                             </li>
                         @endcan
-                        @can('general-settings-sitemap-settings')
+                        @can('manage-site-settings')
                             <li class="{{ active_menu('admin-home/general-settings/sitemap-settings') }}"
                                 style="display: none;">
                                 <a href="{{ route('admin.general.sitemap.settings') }}">
@@ -1491,7 +1475,7 @@
                                 </a>
                             </li>
                         @endcan
-                        @can('general-settings-rss-settings')
+                        @can('manage-site-settings')
                             <li class="{{ active_menu('admin-home/general-settings/rss-settings') }}"
                                 style="display: none;">
                                 <a href="{{ route('admin.general.rss.feed.settings') }}">
@@ -1499,7 +1483,7 @@
                                 </a>
                             </li>
                         @endcan
-                        @can('general-settings-license-setting')
+                        @can('manage-site-settings')
                             <li class="{{ active_menu('admin-home/general-settings/license-setting') }}"
                                 style="display: none;">
                                 <a href="{{ route('admin.general.license.settings') }}">
@@ -1514,7 +1498,7 @@
                                 </a>
                             </li>
                         @endcan
-                        @can('general-settings-license-setting')
+                        @can('manage-site-settings')
                             <li class="{{ active_menu('admin-home/general-settings/database-upgrade') }}"
                                 style="display: none;">
                                 <a href="{{ route('admin.general.database.upgrade') }}">
@@ -1536,6 +1520,7 @@
             @endcan --}}
 
             @if (moduleExists('PluginManage') && auth('admin')->user()->hasRole('Super Admin'))
+            @can('manage-site-settings')
                 <li
                     class="main_dropdown
                      @if (request()->is(['admin-home/plugin-manage', 'admin-home/plugin-manage/*'])) active @endif ">
@@ -1544,7 +1529,7 @@
                         <span>{{ __('Plugin Management') }}</span>
                     </a>
                     <ul class="collapse">
-                        @can('country')
+                        @can('manage-site-settings')
                             <li class="{{ active_menu('admin-home/plugin-manage/all') }}">
                                 <a href="{{ route('admin.plugin.manage.all') }}">
                                     {{ __('All Plugins') }}
@@ -1553,7 +1538,7 @@
                             </li>
                         @endcan
 
-                        @can('state')
+                        @can('manage-site-settings')
                             <li class="{{ active_menu('admin-home/plugin-manage/new') }}">
                                 <a href="{{ route('admin.plugin.manage.new') }}">
                                     {{ __('Add New Plugin') }}
@@ -1563,6 +1548,7 @@
                         @endcan
                     </ul>
                 </li>
+            @endcan
             @endif
     </ul>
 </div>

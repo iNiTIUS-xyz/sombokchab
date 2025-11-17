@@ -19,11 +19,13 @@
     <x-msg.success />
 
     <div class="col-12">
+        @can('add-user')
         <div class="btn-wrapper mb-4">
             <a href="{{ route('admin.frontend.new.user') }}" class="cmn_btn btn_bg_profile">
                 Add New Customer
             </a>
         </div>
+        @endcan
         <div class="dashboard__card">
             <div class="dashboard__card__header">
                 <h4 class="dashboard__card__title">{{ __('Customer Accounts') }}</h4>
@@ -52,7 +54,7 @@
                                         {{ $user->created_at->format('M j, Y') }}
                                     </td>
                                     <td>
-                                        @can('frontend-user-password-change')
+                                        @can('edit-user')
                                             <a href="#" data-id="{{ $user->id }}" data-bs-toggle="modal"
                                                 data-bs-target="#user_change_password_modal"
                                                 class="btn btn-secondary btn-sm mb-2 me-1 user_change_password_btn"
@@ -61,7 +63,7 @@
                                             </a>
                                         @endcan
 
-                                        @can('frontend-user-update')
+                                        @can('edit-user')
                                             <a href="javascript:;" title="{{ __('Edit Data') }}" data-id="{{ $user->id }}"
                                                 data-username="{{ $user->username }}" data-name="{{ $user->name }}"
                                                 data-email="{{ $user->email }}" data-phone="{{ $user->phone }}"
@@ -74,7 +76,7 @@
                                             </a>
                                         @endcan
 
-                                        @can('frontend-delete-user')
+                                        @can('delete-user')
                                             <x-delete-popover :url="route('admin.frontend.delete.user', $user->id)" />
                                         @endcan
                                     </td>
@@ -87,7 +89,7 @@
         </div>
     </div>
 
-    @can('frontend-user-update')
+    @can('edit-user')
         <div class="modal fade" id="user_edit_modal" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <form action="{{ route('admin.frontend.user.update') }}" id="user_edit_modal_form" method="post"
@@ -134,6 +136,7 @@
                                     <div class="form-group">
                                         <label for="phone">
                                             {{ __('Phone') }}
+                                            <span class="text-danger">*</span>
                                         </label>
                                         <input type="text" class="form-control" id="phone" name="phone"
                                             placeholder="{{ __('Phone') }}">
@@ -220,7 +223,7 @@
         </div>
     @endcan
 
-    @can('frontend-user-password-change')
+    @can('edit-user')
         <div class="modal fade" id="user_change_password_modal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content custom__form">

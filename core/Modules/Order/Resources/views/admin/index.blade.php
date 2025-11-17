@@ -113,7 +113,7 @@
                                     {{ date('M j, Y', strtotime($order->created_at)) }}
                                 </td>
                                 <td class="table-btn">
-                                    @can('orders-details')
+                                    @can('view-order')
                                         <div class="btn-wrapper">
                                             <a href="{{ route('admin.orders.details', $order->id) }}"
                                                 class="btn btn-secondary rounded-btn" title="{{ __('View details') }}">

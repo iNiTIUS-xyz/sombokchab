@@ -29,7 +29,7 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Product Inventory') }}</h4>
-                        @can('product-inventory-delete')
+                        @can('delete-product-inventory')
                             <x-bulk-action.dropdown />
                         @endcan
                     </div>
@@ -37,7 +37,7 @@
                         <div class="table-responsive">
                             <table class="table" id="dataTable">
                                 <thead>
-                                    @can('product-inventory-bulk-action')
+                                    @can('manage-product-inventory')
                                         <x-bulk-action.th />
                                     @endcan
                                     <th>{{ __('Name') }}</th>
@@ -49,7 +49,7 @@
                                 <tbody>
                                     @foreach ($all_inventory_products as $inventory)
                                         <tr>
-                                            @can('product-inventory-bulk-action')
+                                            @can('manage-product-inventory')
                                                 <x-bulk-action.td :id="$inventory->id" />
                                             @endcan
                                             <td>{{ $inventory?->product?->name }}</td>
@@ -57,10 +57,10 @@
                                             <td>{{ $inventory->stock_count ?? 0 }}</td>
                                             <td>{{ $inventory->sold_count ?? 0 }}</td>
                                             <td>
-                                                @can('product-inventory-edit')
+                                                @can('edit-product-inventory')
                                                     <x-table.btn.edit :route="route('admin.products.inventory.edit', $inventory->id)" />
                                                 @endcan
-                                                @can('product-inventory-delete')
+                                                @can('delete-product-inventory')
                                                     <x-table.btn.swal.delete :route="route('admin.products.inventory.delete', [
                                                         'id' => $inventory->id,
                                                     ])" />
@@ -79,7 +79,7 @@
 @endsection
 @section('script')
     <x-table.btn.swal.js />
-    @can('product-inventory-bulk-action')
+    @can('manage-product-inventory')
         <script>
             (function($) {
                 $(document).ready(function() {

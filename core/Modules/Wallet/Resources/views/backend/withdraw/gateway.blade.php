@@ -90,7 +90,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                @can('wallet-withdraw-gateway-update')
+                                                @can('manage-wallet')
                                                     <button type="button" title="{{ __('Edit Data') }}"
                                                         data-name="{{ $gateway->name }}" data-id="{{ $gateway->id }}"
                                                         data-status="{{ $gateway->status_id }}"
@@ -102,7 +102,7 @@
                                                     </button>
                                                 @endcan
 
-                                                @can('wallet-withdraw-gateway-delete')
+                                                @can('manage-wallet')
                                                     <x-table.btn.swal.delete :route="route(
                                                         'admin.wallet.withdraw.gateway.delete',
                                                         $gateway->id,
@@ -187,7 +187,7 @@
         </div>
     </div>
 
-    @can('wallet-withdraw-gateway-update')
+    @can('manage-wallet')
         <!-- Edit Gateway Modal -->
         <div class="modal fade" id="edit-gateway-modal" tabindex="-1" aria-labelledby="edit-gateway-modalLabel"
             aria-hidden="true">

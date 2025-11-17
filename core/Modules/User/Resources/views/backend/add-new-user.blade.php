@@ -53,6 +53,7 @@
                                     <div class="form-group">
                                         <label for="phone">
                                             {{ __('Phone') }}
+                                            <span class="text-danger">*</span>
                                         </label>
                                         <input type="text" class="form-control" id="phone" name="phone"
                                             placeholder="{{ __('Enter phone') }}">
@@ -147,6 +148,7 @@
                                     </div>
                                 </div>
                             </div>
+                            @can('add-user')
                             <button type="submit" class="cmn_btn btn_bg_profile mt-4">
                                 {{ __('Add') }}
                             </button>
@@ -154,6 +156,7 @@
                                 style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
                                 {{ __('Back') }}
                             </a>
+                            @endcan
                         </form>
                     </div>
                 </div>

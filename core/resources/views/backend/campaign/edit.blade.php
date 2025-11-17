@@ -16,7 +16,7 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Update Campaign') }}</h4>
-                        @can('campaign-list')
+                        @can('view-campaign')
                             <div class="btn-wrapper">
                                 <a href="{{ route('admin.campaigns.all') }}"
                                     class="cmn_btn btn_bg_profile">{{ __('All Campaigns') }}</a>
@@ -26,7 +26,7 @@
                         @endcan
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
-                        @can('campaign-edit')
+                        @can('edit-campaign')
                             <form action="{{ route('admin.campaigns.update') }}" method="POST">
                                 @csrf
                                 <div class="row g-4 new_campaign mt-3">

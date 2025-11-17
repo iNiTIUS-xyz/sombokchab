@@ -12,7 +12,7 @@
                 <x-msg.error />
                 <x-msg.success />
             </div>
-            @can('blog-new')
+            @can('add-blog')
                 <div class="btn-wrapper mb-4">
                     <a href="{{ route('admin.blog.new') }}" class="cmn_btn btn_bg_profile">{{ __('Add New Blog') }}</a>
                 </div>
@@ -23,7 +23,7 @@
                         <h4 class="dashboard__card__title">{{ __('Blog Management') }}</h4>
                         <div class="dashboard__card__header__right">
                             <div class="bulk-delete-wrapper">
-                                @can('blog-bulk-action')
+                                @can('manage-blog')
                                     <x-bulk-action.dropdown />
                                 @endcan
                             </div>
@@ -88,16 +88,16 @@
                                             </td>
                                             <td>{{ date('M j, Y', strtotime($data->created_at)) }}</td>
                                             <td>
-                                                @can('blog-edit')
+                                                @can('edit-blog')
                                                     <x-edit-icon :url="route('admin.blog.edit', $data->id)" />
                                                 @endcan
-                                                @can('blog-clone')
+                                                @can('add-blog')
                                                     <x-clone-icon :action="route('admin.blog.clone')" :id="$data->id" />
                                                 @endcan
                                                 {{-- @can('blog-delete')
                                                     <x-view-icon :url="route('frontend.blog.single', $data->slug)" />
                                                 @endcan --}}
-                                                @can('blog-delete')
+                                                @can('delete-blog')
                                                     <x-delete-popover :url="route('admin.blog.delete', $data->id)" />
                                                 @endcan
                                             </td>
@@ -115,7 +115,7 @@
 @endsection
 
 @section('script')
-    @can('blog-bulk-action')
+    @can('manage-blog')
         <script>
             (function($) {
                 $(document).ready(function() {

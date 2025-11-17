@@ -16,7 +16,7 @@
                     <div class="dashboard__card__header">
                         <h3 class="dashboard__card__title">{{ __('All Units') }}</h3>
                         <div class="dashboard__card__header__right">
-                            @can('product-unit-delete')
+                            @can('delete-attribute')
                                 <x-bulk-action.dropdown />
                             @endcan
                         </div>
@@ -37,10 +37,10 @@
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $unit->name }}</td>
                                             <td>
-                                                @can('product-unit-delete')
+                                                @can('delete-attribute')
                                                     <x-table.btn.swal.delete :route="route('admin.products.units.delete', $unit->id)" />
                                                 @endcan
-                                                @can('product-unit-edit')
+                                                @can('edit-attribute')
                                                     <a href="#1" data-bs-toggle="modal" data-bs-target="#unit_edit_modal"
                                                         class="btn btn-warning btn-xs mb-2 me-1 unit_edit_btn"
                                                         data-id="{{ $unit->id }}" data-name="{{ $unit->name }}">
@@ -56,7 +56,7 @@
                     </div>
                 </div>
             </div>
-            @can('product-unit-create')
+            @can('add-attribute')
                 <div class="col-lg-5">
                     <div class="dashboard__card">
                         <div class="dashboard__card__header">
@@ -81,7 +81,7 @@
             @endcan
         </div>
     </div>
-    @can('product-unit-edit')
+    @can('edit-attribute')
         <div class="modal fade" id="unit_edit_modal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content custom__form">
@@ -114,7 +114,7 @@
 @section('script')
     <x-datatable.js />
     <x-table.btn.swal.js />
-    @can('product-unit-delete')
+    @can('delete-attribute')
         <x-bulk-action.js :route="route('admin.products.units.bulk.action')" />
     @endcan
 

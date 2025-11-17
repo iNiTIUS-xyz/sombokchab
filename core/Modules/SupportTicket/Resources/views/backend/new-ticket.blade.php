@@ -163,7 +163,7 @@
                                     </div>
                                 </div>
                             </div>
-                            @can('support-tickets-create')
+                            @can('add-support-ticket')
                                 <div class="btn-wrapper mt-4">
                                     <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Add') }}</button>
                                     <a href="{{ route('admin.support.ticket.all') }}" class="cmn_btn default-theme-btn"

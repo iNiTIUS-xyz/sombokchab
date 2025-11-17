@@ -17,7 +17,7 @@
     <div class="dashboard__card">
         <div class="dashboard__card__header">
             <h4 class="dashboard__card__title">{{ __('Update delivery zone') }}</h4>
-            @can('delivery-man-zone')
+            @can('manage-site-settings')
                 <div class="btn-wrapper">
                     <a href="{{ route('admin.delivery-man.zone.index') }}"
                         class="cmn_btn btn_bg_profile">{{ __('Delivery Zones') }}</a>

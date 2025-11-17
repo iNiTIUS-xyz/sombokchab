@@ -67,27 +67,27 @@
                 <div class="status-action">
                     <span class="status-action-icon" data-bs-toggle="dropdown" aria-expanded="false"> <i class="las la-ellipsis-v"></i> </span>
                     <ul class="dropdown-menu">
-                        @can('delivery-man-details')
+                        @can('manage-site-settings')
                             <li class="single-item">
                                 <a class="dropdown-item" data-route="{{ route("admin.delivery-man.details", $deliveryMan->id) }}" href="{{ route("admin.delivery-man.details", $deliveryMan->id) }}">{{ __("View") }}</a>
                             </li>
                         @endcan
-                        @can('delivery-man-ratings')
+                        @can('manage-site-settings')
                             <li class="single-item">
                                 <a class="dropdown-item" data-route="{{ route("admin.delivery-man.ratings", $deliveryMan->id) }}" href="{{ route("admin.delivery-man.ratings", $deliveryMan->id) }}">{{ __("Ratings") }}</a>
                             </li>
                         @endcan
-                        @can('delivery-man-tracking')
+                        @can('manage-site-settings')
                             <li class="single-item">
                                 <a class="dropdown-item" data-route="{{ route("admin.delivery-man.tracking", $deliveryMan->id) }}" href="{{ route("admin.delivery-man.tracking", $deliveryMan->id) }}">{{ __("On Going Tracking") }}</a>
                             </li>
                         @endcan
-                        @can('delivery-man-history')
+                        @can('manage-site-settings')
                             <li class="single-item">
                                 <a class="dropdown-item" href="{{ route("admin.delivery-man.history", $deliveryMan->id) }}">{{ __("History") }}</a>
                             </li>
                         @endcan
-                        @can('delivery-man-edit')
+                        @can('manage-site-settings')
                             <li class="single-item">
                                 <a class="dropdown-item" href="{{ route("admin.delivery-man.edit", $deliveryMan->id) }}">{{ __("Edit") }}</a>
                             </li>

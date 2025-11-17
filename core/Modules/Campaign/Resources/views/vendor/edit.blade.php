@@ -54,7 +54,7 @@
                             {{ __('Update Campaign') }}
                         </h4>
                         <div class="dashboard__card__header__right">
-                            @can('campaigns')
+                            @can('view-campaign')
                                 <a href="{{ route('admin.campaigns.all') }}" class="cmn_btn btn_bg_profile">
                                     {{ __('All Campaigns') }}
                                 </a>

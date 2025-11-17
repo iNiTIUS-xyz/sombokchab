@@ -45,7 +45,7 @@
                                                 <x-status-span :status="$gateway->status->name" />
                                             </td>
                                             <td>
-                                                @can('delivery-man-wallet-gateway-update')
+                                                @can('manage-site-settings')
                                                     <button type="button" data-name="{{ $gateway->name }}"
                                                         data-id="{{ $gateway->id }}" data-status="{{ $gateway->status_id }}"
                                                         data-blog-filed="{{ json_encode(unserialize($gateway->fields)) }}"
@@ -55,7 +55,7 @@
                                                     </button>
                                                 @endcan
 
-                                                @can('delivery-man-wallet-gateway-delete')
+                                                @can('manage-site-settings')
                                                     <x-table.btn.swal.delete :route="route(
                                                         'admin.delivery-man.wallet.withdraw.gateway.delete',
                                                         $gateway->id,
@@ -71,7 +71,7 @@
                 </div>
             </div>
 
-            @can('delivery-man-wallet-gateway')
+            @can('manage-site-settings')
                 <div class="col-lg-5">
                     <div class="dashboard__card card__two">
                         <div class="dashboard__card__header">
@@ -131,7 +131,7 @@
         </div>
     </div>
 
-    @can('delivery-man-wallet-gateway-update')
+    @can('manage-site-settings')
         <!-- Modal -->
         <div class="modal fade" id="edit-gateway-modal" tabindex="-1" aria-labelledby="edit-gateway-modalLabel"
             aria-hidden="true">

@@ -22,7 +22,7 @@
                         <h4 class="dashboard__card__title">Edit Profile</h4>
                     </div>
                     <div class="card-body">
-                        @can('profile-update')
+                        @can('manage-profile')
                             <form action="{{ route('admin.profile.update') }}" method="post" enctype="multipart/form-data">
                                 @csrf
                             @endcan
@@ -75,7 +75,7 @@
                                 <small
                                     class="info-text">{{ __('Recommended Image Size 100x100. Only Accept: jpg,png.jpeg. Size less than 2MB') }}</small>
                             </div>
-                            @can('profile-update')
+                            @can('manage-profile')
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-primary">{{ __('Save Changes') }}</button>
                                 </div>

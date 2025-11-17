@@ -59,7 +59,7 @@
                                 <td>{{ $data->title }}</td>
                                 <td>{{ \App\Enums\StatusEnums::getText($data->status) }}</td>
                                 <td>
-                                    @can('blog-category-edit')
+                                    @can('manage-blog-settings')
                                         <a href="#1" data-bs-toggle="modal" data-bs-target="#category_item_edit_modal"
                                             class="btn btn-warning btn-xs mb-2 me-1 category_edit_btn" data-bs-placement="top"
                                             title="{{ __('Edit') }}" data-id="{{ $data->id }}"
@@ -81,7 +81,7 @@
         </div>
     </div>
 
-    @can('blog-category-create')
+    @can('manage-blog-settings')
         <div class="modal fade" id="new_category" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -116,7 +116,7 @@
         </div>
     @endcan
 
-    @can('blog-category-edit')
+    @can('manage-blog-settings')
         <div class="modal fade" id="category_item_edit_modal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">

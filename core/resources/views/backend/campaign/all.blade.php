@@ -16,10 +16,10 @@
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('All Campaigns') }}</h4>
                         <div class="dashboard__card__header__right">
-                            @can('campaign-delete')
+                            @can('delete-campaign')
                                 <x-bulk-action.dropdown />
                             @endcan
-                            @can('campaign-create')
+                            @can('add-campaign')
                                 <div class="btn-wrapper">
                                     <a href="{{ route('admin.campaigns.new') }}"
                                         class="cmn_btn btn_bg_profile">{{ __('Add New Campaign') }}</a>
@@ -48,11 +48,11 @@
                                             <td><x-status-span :status="$campaign->status" /></td>
                                             <td>
                                                 @if ($campaign->id != 1)
-                                                    @can('campaign-delete')
+                                                    @can('delete-campaign')
                                                         <x-delete-popover :url="route('admin.campaigns.delete', $campaign->id)" />
                                                     @endcan
                                                 @endif
-                                                @can('campaign-edit')
+                                                @can('edit-campaign')
                                                     <x-table.btn.edit :route="route('admin.campaigns.edit', $campaign->id)" />
                                                 @endcan
                                                 <a class="btn btn-info btn-xs mb-2 me-1"

@@ -192,19 +192,19 @@
                                     </td>
                                     <td class="table-btn">
                                         <div class="btn-wrapper d-flex flex-wrap gap-2">
-                                            @can('orders-generate-invoice')
+                                            @can('manage-order')
                                                 <a href="{{ route('admin.orders.generate.invoice', $order->id) }}"
                                                     class="btn btn-primary rounded-btn" title="{{ __('View Invoice') }}">
                                                     <i class="ti-info"></i>
                                                 </a>
                                             @endcan
-                                            @can('orders-details')
+                                            @can('view-order')
                                                 <a href="{{ route('admin.orders.order.details', $order->id) }}"
                                                     class="btn btn-secondary rounded-btn" title="{{ __('View details') }}">
                                                     <i class="las la-file-invoice"></i>
                                                 </a>
                                             @endcan
-                                            @can('orders-update')
+                                            @can('edit-order')
                                                 <a href="{{ route('admin.orders.edit', $order->id) }}"
                                                     class="btn btn-warning text-dark rounded-btn"
                                                     title="{{ __('Edit Data') }}">

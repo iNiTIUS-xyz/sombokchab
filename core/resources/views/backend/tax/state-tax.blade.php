@@ -15,7 +15,7 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('All State Tax') }}</h4>
-                        @can('state-tax-delete')
+                        @can('delete-tax')
                             <x-bulk-action.dropdown />
                         @endcan
                     </div>
@@ -37,10 +37,10 @@
                                             <td>{{ optional($tax->state)->name }}</td>
                                             <td>{{ $tax->tax_percentage }}</td>
                                             <td>
-                                                @can('state-tax-delete')
+                                                @can('delete-tax')
                                                     <x-table.btn.swal.delete :route="route('admin.tax.state.delete', $tax->id)" />
                                                 @endcan
-                                                @can('state-tax-edit')
+                                                @can('edit-tax')
                                                     <a href="#1" data-bs-toggle="modal" data-bs-target="#state_tax_edit_modal"
                                                         class="btn btn-warning btn-xs mb-2 me-1 state_tax_edit_btn"
                                                         data-id="{{ $tax->id }}" data-country_id="{{ $tax->country_id }}"
@@ -58,7 +58,7 @@
                     </div>
                 </div>
             </div>
-            @can('state-tax-create')
+            @can('add-tax')
                 <div class="col-lg-5">
                     <div class="dashboard__card">
                         <div class="dashboard__card__header">
@@ -95,7 +95,7 @@
             @endcan
         </div>
     </div>
-    @can('state-tax-edit')
+    @can('delete-tax')
         <div class="modal fade" id="state_tax_edit_modal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">

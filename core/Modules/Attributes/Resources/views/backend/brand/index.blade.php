@@ -19,7 +19,7 @@
             </div>
             <div class="col-lg-12">
                 <div class="mb-4">
-                    @can('brand-manage-new')
+                    @can('add-brand')
                         <a href="#1" data-bs-toggle="modal" data-bs-target="#brand_manage_create_modal"
                             class="cmn_btn btn_bg_profile">
                             {{ __('Add New Brand') }}
@@ -30,7 +30,7 @@
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Brands') }}</h4>
                         <div class="dashboard__card__header__right">
-                            @can('brand-manage-bulk-action')
+                            @can('manage-brand')
                                 <x-bulk-action.dropdown />
                             @endcan
                         </div>
@@ -39,7 +39,7 @@
                         <div class="table-responsive">
                             <table class="table table-default" id="dataTable">
                                 <thead>
-                                    @can('brand-manage-bulk-action')
+                                    @can('manage-brand')
                                         <x-bulk-action.th />
                                     @endcan
                                     <th>{{ __('Logo') }}</th>
@@ -50,7 +50,7 @@
                                 <tbody>
                                     @foreach ($brands as $item)
                                         <tr>
-                                            @can('brand-manage-bulk-action')
+                                            @can('manage-brand')
                                                 <x-bulk-action.td :id="$item->id" />
                                             @endcan
                                             {{-- <td width="80px">{{ $loop->iteration }}</td> --}}
@@ -64,7 +64,7 @@
                                             <td>{{ $item->name }}</td>
                                             <td class="w-40">{{ $item->description }}</td>
                                             <td>
-                                                @can('brand-manage-update')
+                                                @can('edit-brand')
                                                     <a href="#1" data-bs-toggle="modal"
                                                         data-bs-target="#brand_manage_edit_modal"
                                                         class="btn  btn-warning text-dark btn-sm brand_manage_edit_btn"
@@ -78,7 +78,7 @@
                                                         <i class="ti-pencil"></i>
                                                     </a>
                                                 @endcan
-                                                @can('brand-manage-delete')
+                                                @can('delete-brand')
                                                     <x-table.btn.swal.delete class="margin-bottom-0" :route="route('admin.brand.manage.delete', $item->id)" />
                                                 @endcan
                                             </td>
@@ -92,7 +92,7 @@
             </div>
         </div>
     </div>
-    @can('brand-manage-update')
+    @can('edit-brand')
         <div class="modal fade" id="brand_manage_edit_modal" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content custom__form">
@@ -158,7 +158,7 @@
         </div>
     @endcan
 
-    @can('brand-manage-new')
+    @can('add-brand')
         <div class="modal fade" id="brand_manage_create_modal" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content custom__form">
@@ -229,7 +229,7 @@
     <x-table.btn.swal.js />
     <x-backend.icon-picker-js />
     <x-media.js />
-    @can('brand-manage-bulk-action')
+    @can('manage-brand')
         <script>
             (function($) {
                 $(document).ready(function() {

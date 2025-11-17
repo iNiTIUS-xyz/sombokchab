@@ -49,32 +49,32 @@
                                                     <a href="#1"
                                                         class="btn btn-success btn-sm mb-2 me-1">{{ __('Default') }}</a>
                                                 @else
-                                                    @can('languages-default')
+                                                    @can('manage-site-settings')
                                                         <x-change-default-lang :url="route('admin.languages.default', $data->id)" />
                                                     @endcan
                                                 @endif
                                             </td>
                                             <td>
-                                                @can('languages-delete')
+                                                @can('manage-site-settings')
                                                     @if ($data->default != 1)
                                                         <x-delete-popover :url="route('admin.languages.delete', $data->id)" />
                                                     @endif
                                                 @endcan
-                                                @can('languages-words-backend')
+                                                @can('manage-site-settings')
                                                     <a href="{{ route('admin.languages.words.backend', $data->slug) }}"
                                                         title="{{ __('Admin Panel Words') }}"
                                                         class="btn btn-sm btn-secondary btn-xs mb-2 me-1 text-white">
                                                         <i class="ti-pencil"></i> {{ __('Admin Words') }}
                                                     </a>
                                                 @endcan
-                                                @can('languages-words-frontend')
+                                                @can('manage-site-settings')
                                                     <a href="{{ route('admin.languages.words.frontend', $data->slug) }}"
                                                         title="{{ __('Frontend Words') }}"
                                                         class="btn btn-info btn-xs mb-2 me-1 text-white">
                                                         <i class="ti-pencil"></i> {{ __('Frontend Words') }}
                                                     </a>
                                                 @endcan
-                                                @can('languages-words-update')
+                                                @can('manage-site-settings')
                                                     <a href="#1" data-bs-toggle="modal"
                                                         data-bs-target="#language_item_edit_modal"
                                                         class="btn btn-warning btn-xs mb-2 me-1 lang_edit_btn"
@@ -94,7 +94,7 @@
                 </div>
             </div>
 
-            @can('languages-new')
+            @can('manage-site-settings')
                 <div class="col-lg-6">
                     <div class="dashboard__card">
                         <div class="dashboard__card__header">
@@ -266,7 +266,7 @@
         </div>
     </div>
 
-    @can('languages-update')
+    @can('manage-site-settings')
         <div class="modal fade" id="language_item_edit_modal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">

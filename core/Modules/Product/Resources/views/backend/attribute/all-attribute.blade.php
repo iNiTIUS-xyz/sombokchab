@@ -16,10 +16,10 @@
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{__('All Product Attributes')}}</h4>
                         <div class="dashboard__card__header__right">
-                            @can('product-attribute-delete')
+                            @can('delete-attribute')
                             <x-bulk-action.dropdown />
                             @endcan
-                           @can('product-attribute-create')
+                           @can('add-attribute')
                            <div class="btn-wrapper">
                                <a href="{{ route('admin.products.attributes.store') }}" class="cmn_btn btn_bg_profile">{{ __('Add New Attribute') }}</a>
                            </div>
@@ -50,11 +50,11 @@
                                             </ul>
                                         </td>
                                         <td>
-                                            @can('product-attribute-edit')
+                                            @can('edit-attribute')
                                                 <x-table.btn.edit
                                                         :route="route('admin.products.attributes.edit', $attribute->id)"/>
                                             @endcan
-                                            @can('product-attribute-delete')
+                                            @can('delete-attribute')
                                                 <x-table.btn.swal.delete
                                                         :route="route('admin.products.attributes.delete', $attribute->id)"/>
                                             @endcan
@@ -73,7 +73,7 @@
 
 @section('script')
     <x-datatable.js/>
-    @can('product-attribute-delete')
+    @can('delete-attribute')
         <x-bulk-action.js :route="route('admin.products.attributes.bulk.action')"/>
     @endcan
     <x-table.btn.swal.js/>

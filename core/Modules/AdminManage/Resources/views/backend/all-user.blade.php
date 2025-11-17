@@ -65,7 +65,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @can('admin-user-password-change')
+                                                @can('manage-site-settings')
                                                     <a href="#1" data-id="{{ $data->id }}" data-bs-toggle="modal"
                                                         title="{{ __('Change Password') }}"
                                                         data-bs-target="#user_change_password_modal"
@@ -74,14 +74,14 @@
                                                     </a>
                                                 @endcan
 
-                                                @can('admin-user-edit')
+                                                @can('manage-site-settings')
                                                     <a href="{{ route('admin.user.edit', $data->id) }}"
                                                         class="btn btn-lg btn-warning text-dark btn-sm mb-2 me-1 user_edit_btn" title="Edit Data">
                                                         <i class="ti-pencil"></i>
                                                     </a>
                                                 @endcan
 
-                                                @can('admin-delete-user')
+                                                @can('manage-site-settings')
                                                     <x-delete-popover :url="route('admin.delete.user', $data->id)" />
                                                 @endcan
                                             </td>

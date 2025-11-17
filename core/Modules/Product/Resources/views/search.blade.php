@@ -20,7 +20,7 @@
         @forelse($products as $product)
             <tr class="table-cart-row" data-product-id-row="{{ $product->id }}">
                 <td>
-                    @can('product-bulk-destroy')
+                    @can('delete-product')
                         <x-product::table.bulk-delete-checkbox :id="$product->id" />
                     @endcan
                 </td>
@@ -160,21 +160,21 @@
                     {{ $product->created_at->format('M j, Y') }}
                 </td>
                 <td>
-                    @can('product-update')
+                    @can('edit-product')
                         <a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-warning text-dark btn-sm"
                             title="{{ __('Edit Product') }}">
                             <i class="las la-pencil-alt"></i>
                         </a>
                     @endcan
 
-                    @can('product-clone')
+                    @can('add-product')
                         <a href="{{ route('admin.products.clone', $product->id) }}" class="btn btn-secondary btn-sm"
                             title="{{ __('Duplicate Data') }}">
                             <i class="las la-copy"></i>
                         </a>
                     @endcan
 
-                    @can('product-destroy')
+                    @can('delete-product')
                         <a data-product-url="{{ route('admin.products.destroy', $product->id) }}" href="#1"
                             class="delete-row btn btn-danger btn-sm deleted" title="{{ __('Delete Data') }}">
                             <i class="las la-trash-alt"></i>

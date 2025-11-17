@@ -48,7 +48,7 @@
                         <h4 class="dashboard__card__title">
                             {{ __('Product Inventory') }}
                         </h4>
-                        @can('product-inventory-delete')
+                        @can('delete-product-inventory')
                             <x-bulk-action.dropdown />
                         @endcan
                     </div>

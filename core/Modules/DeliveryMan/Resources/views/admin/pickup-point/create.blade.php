@@ -13,7 +13,7 @@
     <div class="dashboard__card card__two">
         <div class="dashboard__card__header">
             <h3 class="dashboard__card__title">{{ __("Create Pickup Point") }}</h3>
-            @can('delivery-man-pickup-point')
+            @can('manage-site-settings')
                 <div class="btn-wrapper">
                     <a href="{{ route('admin.delivery-man.pickup-point.index') }}" class="cmn_btn btn_bg_profile">{{ __("Pickup Point List") }}</a>
                 </div>

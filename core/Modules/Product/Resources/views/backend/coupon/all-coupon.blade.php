@@ -96,7 +96,7 @@
                 <x-error-msg />
                 <x-flash-msg />
                 <div class="mb-4">
-                    @can('coupons-new')
+                    @can('add-coupon')
                         <a href="#1" data-bs-toggle="modal" data-bs-target="#coupon_add_modal"
                             class="cmn_btn btn_bg_profile">{{ __('Add New Coupon') }}</a>
                     @endcan
@@ -105,7 +105,7 @@
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">
                             {{ __('All Coupons') }}</h4>
-                        @can('coupons-bulk-action')
+                        @can('manage-coupon')
                             <x-bulk-action.dropdown />
                         @endcan
                     </div>
@@ -113,7 +113,7 @@
                         <div class="table-responsive">
                             <table class="table table-default" id="dataTable">
                                 <thead>
-                                    @can('coupons-bulk-action')
+                                    @can('manage-coupon')
                                         <x-bulk-action.th />
                                     @endcan
                                     <th>{{ __('Code') }}</th>
@@ -126,7 +126,7 @@
                                 <tbody>
                                     @foreach ($all_product_coupon as $data)
                                         <tr>
-                                            @can('coupons-bulk-action')
+                                            @can('manage-coupon')
                                                 <x-bulk-action.td :id="$data->id" />
                                             @endcan
                                             <td>{{ $data->code }}</td>
@@ -178,7 +178,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                @can('coupons-update')
+                                                @can('edit-coupon')
                                                     <a href="#1" data-bs-toggle="modal" title="{{ __('Edit Data') }}"
                                                         data-bs-target="#category_edit_modal"
                                                         class="btn btn-warning btn-xs text-dark mb-2 me-1 category_edit_btn"
@@ -193,7 +193,7 @@
                                                         <i class="ti-pencil"></i>
                                                     </a>
                                                 @endcan
-                                                @can('coupons-delete')
+                                                @can('delete-coupon')
                                                     <x-table.btn.swal.delete :route="route('admin.products.coupon.delete', $data->id)" />
                                                 @endcan
                                             </td>
@@ -206,7 +206,7 @@
                 </div>
             </div>
 
-            @can('coupons-new')
+            @can('add-coupon')
                 <div class="modal fade" id="coupon_add_modal" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-scrollable modal-lg">
                         <div class="modal-content custom__form">
@@ -367,7 +367,7 @@
                 </div>
             @endcan
 
-            @can('coupons-update')
+            @can('edit-coupon')
                 <div class="modal fade" id="category_edit_modal" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content custom__form">
@@ -556,7 +556,7 @@
     <x-select2.select2-js />
     <x-table.btn.swal.js />
 
-    @can('coupons-bulk-action')
+    @can('manage-coupon')
         <script>
             (function($) {
                 $(document).ready(function() {

@@ -15,7 +15,7 @@
                 <x-msg.error />
                 <x-msg.flash />
                 <div class="mb-4">
-                    @can('attributes-new')
+                    @can('add-attribute')
                         <div class="btn-wrapper">
                             <a href="{{ route('admin.products.attributes.store') }}" class="cmn_btn btn_bg_profile">
                                 {{ __('Add New Attribute') }}
@@ -27,7 +27,7 @@
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('All Attributes') }}</h4>
                         <div class="dashboard__card__header__right">
-                            @can('attributes-bulk-action')
+                            @can('manage-attribute')
                                 <x-bulk-action.dropdown />
                             @endcan
                         </div>
@@ -56,10 +56,10 @@
                                                 </ul>
                                             </td>
                                             <td>
-                                                @can('attributes-edit')
+                                                @can('edit-attribute')
                                                     <x-table.btn.edit :route="route('admin.products.attributes.edit', $attribute->id)" />
                                                 @endcan
-                                                @can('attributes-delete')
+                                                @can('delete-attribute')
                                                     <x-table.btn.swal.delete :route="route(
                                                         'admin.products.attributes.delete',
                                                         $attribute->id,
@@ -80,7 +80,7 @@
 
 @section('script')
     <x-table.btn.swal.js />
-    @can('attributes-delete')
+    @can('delete-attribute')
         <script>
             (function($) {
                 $(document).ready(function() {

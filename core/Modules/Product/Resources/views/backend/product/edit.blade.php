@@ -26,7 +26,7 @@
             </div>
             <div class="col-lg-12">
                 <div class="text-right mb-5">
-                    @can('product-view')
+                    @can('view-product')
                         <a href="{{ route('frontend.products.single', $product->slug) }}" class="btn btn-info">
                             <i class="ti-arrow-top-right"></i>
                         </a>

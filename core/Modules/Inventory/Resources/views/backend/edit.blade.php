@@ -114,7 +114,7 @@
                             :uom="$product?->uom" />
                     </div>
 
-                    @can('product-category-edit')
+                    @can('edit-product-inventory')
                         <div class="col-lg-12">
                             <x-product::product-attribute :inventorydetails="$inventory?->inventoryDetails" :colors="$product_colors" :sizes="$product_sizes"
                                 :allAttributes="$all_attributes" />

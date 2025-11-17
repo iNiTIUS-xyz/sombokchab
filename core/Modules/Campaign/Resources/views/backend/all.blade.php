@@ -15,7 +15,7 @@
                 <x-msg.error />
                 <x-msg.flash />
                 <div class="mb-4">
-                    @can('campaigns-new')
+                    @can('add-campaign')
                         <a href="{{ route('admin.campaigns.new') }}" class="cmn_btn btn_bg_profile">
                             {{ __('Add New Campaign') }}
                         </a>
@@ -25,7 +25,7 @@
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('All Campaigns') }}</h4>
                         <div class="dashboard__card__header__right">
-                            @can('campaigns-delete')
+                            @can('delete-campaign')
                                 <x-bulk-action.dropdown />
                             @endcan
                         </div>
@@ -34,7 +34,7 @@
                         <div class="table-responsive">
                             <table class="table table-default" id="dataTable">
                                 <thead>
-                                    @can('campaigns-bulk-action')
+                                    @can('manage-campaign')
                                         <x-bulk-action.th />
                                     @endcan
                                     <th>{{ __('Name') }}</th>
@@ -46,7 +46,7 @@
                                 <tbody>
                                     @foreach ($all_campaigns as $campaign)
                                         <tr>
-                                            @can('campaigns-bulk-action')
+                                            @can('manage-campaign')
                                                 <x-bulk-action.td :id="$campaign->id" />
                                             @endcan
                                             <td>{{ $campaign->title }}</td>
@@ -90,11 +90,11 @@
                                                     href="{{ route('frontend.products.campaign', ['id' => $campaign->id, 'slug' => $campaign->slug]) }}">
                                                     <i class="ti-eye"></i>
                                                 </a>
-                                                @can('campaigns-edit')
+                                                @can('edit-campaign')
                                                     <x-table.btn.edit :route="route('admin.campaigns.edit', $campaign->id)" />
                                                 @endcan
 
-                                                @can('campaigns-delete')
+                                                @can('delete-campaign')
                                                     <x-delete-popover :url="route('admin.campaigns.delete', $campaign->id)" />
                                                 @endcan
                                             </td>
@@ -113,7 +113,7 @@
 @section('script')
     <x-table.btn.swal.js />
 
-    @can('campaigns-bulk-action')
+    @can('manage-campaign')
         <script>
             (function($) {
                 $(document).ready(function() {

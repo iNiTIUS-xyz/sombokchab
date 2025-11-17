@@ -167,7 +167,7 @@
                                                 </td>
                                                 <td data-label="Actions">
                                                     <div class="action-icon">
-                                                        @can('vendor-details')
+                                                        @can('view-vendor')
                                                             <a href="#" class="btn btn-secondary btn-sm vendor-detail"
                                                                 data-id="{{ $vendor->id }}" data-bs-toggle="modal"
                                                                 data-bs-target="#vendor-details">
@@ -175,7 +175,7 @@
                                                             </a>
                                                         @endcan
 
-                                                        @can('vendor-edit')
+                                                        @can('edit-vendor')
                                                             <a href="{{ route('admin.vendor.edit', $vendor->id) }}"
                                                                 class="btn btn-sm btn-warning text-dark"
                                                                 title="{{ __('Edit Data') }}">
@@ -183,7 +183,7 @@
                                                             </a>
                                                         @endcan
 
-                                                        @can('vendor-delete')
+                                                        @can('delete-vendor')
                                                             <a data-vendor-url="{{ route('admin.vendor.delete', $vendor->id) }}"
                                                                 href="#1" class="btn btn-danger btn-sm delete-row"
                                                                 title="{{ __('Delete Data') }}">

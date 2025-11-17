@@ -145,7 +145,7 @@
 
 @section('script')
     <x-media.js />
-    @can('wallet-history-records-status')
+    @can('manage-wallet')
         <script>
             (function($) {
                 "use strict";

@@ -45,7 +45,7 @@
                         <div class="dashboard__card__left">
                             <h2 class="dashboard__card__title">{{ $deliveryMan->full_name . ' ' . __('rating list') }}</h2>
                         </div>
-                        @can('delivery-man')
+                        @can('manage-site-settings')
                             <div class="dashboard__card__header__right">
                                 <div class="btn-wrapper">
                                     <a href="{{ route('admin.delivery-man.index') }}" class="cmn_btn btn_bg_profile">

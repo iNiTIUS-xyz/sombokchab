@@ -19,7 +19,7 @@
                 <x-flash-msg />
                 <x-error-msg />
                 <div class="mb-4">
-                    @can('shipping-zone-create')
+                    @can('add-shipping')
                         <a href="{{ route('admin.shipping.zone.create') }}" class="cmn_btn btn_bg_profile">
                             {{ __('Add New Shipping Zone') }}
                         </a>
@@ -62,14 +62,14 @@
                                                 @endforeach
                                             </td>
                                             <td>
-                                                @can('shipping-zone-edit')
+                                                @can('edit-shipping')
                                                     <a class="btn btn-sm btn-warning text-dark" title="{{ __('Edit Data') }}"
                                                         href="{{ route('admin.shipping.zone.edit', $zone->id) }}">
                                                         <i class="las la-pen"></i>
                                                     </a>
                                                 @endcan
 
-                                                @can('shipping-zone-delete')
+                                                @can('delete-shipping')
                                                     <a class="btn btn-sm btn-danger swal-delete"
                                                         title="{{ __('Delete Data') }}" href="javascript:void(0)"
                                                         data-route="{{ route('admin.shipping.zone.delete', $zone->id) }}">

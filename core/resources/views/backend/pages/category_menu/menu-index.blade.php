@@ -29,13 +29,13 @@
                                             <td>{{ $data->title }}</td>
                                             {{-- <td>{{ $data->created_at->diffForHumans() }}</td> --}}
                                             <td>
-                                                @can('category-menu-edit')
+                                                @can('edit-menu')
                                                     <a class="btn btn-lg btn-warning btn-sm mb-2 me-1"
                                                         href="{{ route('admin.category.menu.edit', $data->id) }}">
                                                         <i class="ti-pencil"></i>
                                                     </a>
                                                 @endcan
-                                                @can('category-menu-delete')
+                                                @can('delete-menu')
                                                     @if ($data->status != 'default')
                                                         <x-delete-popover :url="route('admin.category.menu.delete', $data->id)" />
                                                     @endif
@@ -49,7 +49,7 @@
                     </div>
                 </div>
             </div>
-            @can('category-menu-new-menu')
+            @can('add-menu')
                 <div class="col-lg-6">
                     <div class="dashboard__card">
                         <div class="dashboard__card__header">

@@ -106,7 +106,7 @@
                                                     </div>
                                                 </li>
                                             </ul>
-                                            @can('media-upload-delete')
+                                            @can('delete-media')
                                                 <form method="post" action="{{ route('admin.upload.media.file.delete') }}"
                                                     class="delete_image_form" style="display: none">
                                                     @csrf

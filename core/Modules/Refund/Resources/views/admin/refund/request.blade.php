@@ -74,7 +74,7 @@
                                 </td>
 
                                 <td>
-                                    @can('refund-request')
+                                    @can('manage-refund-request')
                                         <a class="btn btn-secondary btn-sm" title="{{ __('View') }}"
                                             href="{{ route('admin.refund.view-request', $request->id) }}">
                                             <i class="ti-receipt"></i>
@@ -89,7 +89,7 @@
         </div>
     </div>
 
-    @can('refund-reason-update')
+    @can('manage-refund-request')
         <!-- Modal -->
         <div class="modal fade" id="editRefundReasonModal" tabindex="-1" aria-labelledby="editRefundReasonModalLabel"
             aria-hidden="true">
@@ -132,7 +132,7 @@
         </div>
     @endcan
 
-    @can('refund-reason-store')
+    @can('manage-refund-request')
         <!-- Modal -->
         <div class="modal fade" id="refundReasonModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">

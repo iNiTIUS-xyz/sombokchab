@@ -6,7 +6,7 @@
     {{ __('Sign In /Sign Up Page Settings') }}
 @endsection
 @section('content')
-    @can('page-settings-login-register-page')
+    @can('manage-page-settings')
         <div class="col-lg-12 col-ml-12">
             <div class="row">
                 <div class="col-lg-12">
@@ -64,7 +64,7 @@
     @endcan
 @endsection
 @section('script')
-    @can('page-settings-login-register-page')
+    @can('manage-page-settings')
         <x-media.js />
         <x-iconpicker.js />
         <script>

@@ -46,7 +46,7 @@
                                     </td>
                                     <td class="table-btn">
                                         <div class="btn-wrapper">
-                                            @can('assign-delivery-man-orders')
+                                            @can('manage-site-settings')
                                                 <a href="{{ route('admin.assign-delivery-man.assign', $order->id) }}"
                                                     class="btn btn-secondary btn-sm rounded-btn">
                                                     {{ __('Assign') }}

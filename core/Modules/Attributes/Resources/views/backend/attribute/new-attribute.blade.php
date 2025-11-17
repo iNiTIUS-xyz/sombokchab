@@ -13,7 +13,7 @@
                         <h4 class="dashboard__card__title">{{ __('Add New Variant') }}</h4>
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
-                        @can('product-attribute-create')
+                        @can('add-attribute')
                             <form action="{{ route('admin.products.attributes.store') }}" method="post"
                                 enctype="multipart/form-data">
                                 @csrf

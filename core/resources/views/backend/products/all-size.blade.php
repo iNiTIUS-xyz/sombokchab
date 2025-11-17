@@ -15,7 +15,7 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('All Product Sizes') }}</h4>
-                        @can('product-size-delete')
+                        @can('delete-attribute')
                             <x-bulk-action.dropdown />
                         @endcan
                     </div>
@@ -39,10 +39,10 @@
                                             <td>{{ $product_size->size_code }}</td>
                                             <td>{{ $product_size->slug }}</td>
                                             <td>
-                                                @can('product-size-delete')
+                                                @can('delete-attribute')
                                                     <x-table.btn.swal.delete :route="route('admin.products.size.delete', $product_size->id)" />
                                                 @endcan
-                                                @can('product-size-edit')
+                                                @can('edit-attribute')
                                                     <a href="#1" data-bs-toggle="modal" data-bs-target="#size_edit_modal"
                                                         class="btn btn-warning btn-xs mb-2 me-1 size_edit_btn"
                                                         data-id="{{ $product_size->id }}"
@@ -61,7 +61,7 @@
                     </div>
                 </div>
             </div>
-            @can('product-size-create')
+            @can('add-attribute')
                 <div class="col-md-5">
                     <div class="dashboard__card">
                         <div class="dashboard__card__header">
@@ -94,7 +94,7 @@
             @endcan
         </div>
     </div>
-    @can('product-size-edit')
+    @can('edit-attribute')
         <div class="modal fade" id="size_edit_modal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content custom__form">
@@ -135,7 +135,7 @@
 @endsection
 @section('script')
     <x-datatable.js />
-    @can('product-size-delete')
+    @can('delete-attribute')
         <x-bulk-action.js :route="route('admin.products.size.bulk.action')" />
     @endcan
     <script>

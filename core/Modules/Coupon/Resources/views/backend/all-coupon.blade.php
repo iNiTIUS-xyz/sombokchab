@@ -99,7 +99,7 @@
                 <x-error-msg />
                 <x-flash-msg />
                 <div class="mb-4">
-                    @can('product-coupon-create')
+                    @can('add-coupon')
                         <a href="#1" data-bs-toggle="modal" data-bs-target="#coupon_add_modal"
                             class="cmn_btn btn_bg_profile">{{ __('Add New Coupon') }}</a>
                     @endcan
@@ -108,7 +108,7 @@
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">
                             {{ __('All Coupons') }}</h4>
-                        @can('coupons-bulk-action')
+                        @can('manage-coupon')
                             <x-bulk-action.dropdown />
                         @endcan
                     </div>
@@ -142,10 +142,10 @@
                                                 <x-status-span :status="$data->status" />
                                             </td>
                                             <td>
-                                                @can('product-coupon-delete')
+                                                @can('delete-coupon')
                                                     <x-table.btn.swal.delete :route="route('admin.products.coupon.delete', $data->id)" />
                                                 @endcan
-                                                @can('product-coupon-edit')
+                                                @can('edit-coupon')
                                                     <a href="#1" data-bs-toggle="modal"
                                                         data-bs-target="#category_edit_modal"
                                                         class="btn btn-sm btn-primary btn-xs mb-2 me-1 category_edit_btn"
@@ -170,7 +170,7 @@
                 </div>
             </div>
 
-            @can('product-coupon-create')
+            @can('add-coupon')
                 <div class="col-lg-5">
                     <div class="dashboard__card">
                         <div class="dashboard__card__header">
@@ -266,7 +266,7 @@
             @endcan
         </div>
     </div>
-    @can('product-coupon-edit')
+    @can('edit-coupon')
         <div class="modal fade" id="category_edit_modal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">

@@ -132,7 +132,7 @@
                                     @endforelse
                                 </div>
                             </div>
-                            @can('support-ticket-send-message')
+                            @can('manage-support-ticket')
                                 @if($ticket_details->status !== 'close')
                                     <div class="reply-message-wrap custom__form">
                                         {{-- <h5 class="dashboard__card__title mb-3">{{ __('Reply To Message') }}</h5> --}}

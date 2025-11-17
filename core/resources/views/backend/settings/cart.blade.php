@@ -6,7 +6,7 @@
     {{ __('Cart Page Settings') }}
 @endsection
 @section('content')
-    @can('page-settings-cart-page')
+    @can('manage-page-settings')
         <div class="col-lg-12 col-ml-12">
             <div class="row">
                 <div class="col-lg-12">

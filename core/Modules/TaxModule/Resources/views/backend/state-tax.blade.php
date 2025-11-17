@@ -33,7 +33,7 @@
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('All State Tax') }}</h4>
                         <div class="dashboard__card__header__right">
-                            @can('tax-state-delete')
+                            @can('delete-tax')
                                 <x-bulk-action.dropdown />
                             @endcan
                         </div>
@@ -56,10 +56,7 @@
                                             <td>{{ optional($tax->state)->name }}</td>
                                             <td>{{ $tax->tax_percentage }}</td>
                                             <td>
-                                                @can('tax-state-delete')
-                                                    <x-table.btn.swal.delete :route="route('admin.tax.state.delete', $tax->id)" />
-                                                @endcan
-                                                @can('tax-state-update')
+                                                @can('edit-tax')
                                                     <a href="#1" data-bs-toggle="modal"
                                                         data-bs-target="#state_tax_edit_modal"
                                                         class="btn btn-warning text-white btn-sm btn-xs mb-2 me-1 state_tax_edit_btn"
@@ -68,6 +65,9 @@
                                                         data-tax_percentage="{{ $tax->tax_percentage }}">
                                                         <i class="ti-pencil"></i>
                                                     </a>
+                                                @endcan
+                                                @can('delete-tax')
+                                                    <x-table.btn.swal.delete :route="route('admin.tax.state.delete', $tax->id)" />
                                                 @endcan
                                             </td>
                                         </tr>

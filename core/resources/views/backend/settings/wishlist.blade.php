@@ -6,7 +6,7 @@
     {{ __('Wishlist Page Settings') }}
 @endsection
 @section('content')
-    @can('page-settings-wishlist-page')
+    @can('manage-page-settings')
         <div class="col-lg-12 col-ml-12">
             <div class="row g-4">
                 <div class="col-lg-12">

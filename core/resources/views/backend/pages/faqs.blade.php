@@ -17,7 +17,7 @@
                 <x-error-msg />
                 <x-flash-msg />
                 <div class="mb-4">
-                    @can('faq-create-faq')
+                    @can('add-faq')
                         <a href="#1" data-bs-toggle="modal" data-bs-target="#faq_add_modal"
                             class="cmn_btn btn_bg_profile">{{ __('Add New FAQ') }}</a>
                     @endcan
@@ -26,7 +26,7 @@
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('FAQ Management') }}</h4>
                         <div class="dashboard__card__header__right">
-                            @can('faq-faq-bulk-action')
+                            @can('manage-faq')
                                 <x-bulk-action.dropdown />
                             @endcan
                         </div>
@@ -35,7 +35,7 @@
                         <div class="table-wrap table-responsive">
                             <table class="table table-default" id="dataTable">
                                 <thead>
-                                    @can('faq-faq-bulk-action')
+                                    @can('manage-faq')
                                         <th class="no-sort">
                                             <div class="mark-all-checkbox">
                                                 <input type="checkbox" class="all-checkbox">
@@ -49,7 +49,7 @@
                                 <tbody>
                                     @foreach ($all_faqs as $data)
                                         <tr>
-                                            @can('faq-faq-bulk-action')
+                                            @can('manage-faq')
                                                 <td>
                                                     <div class="bulk-checkbox-wrapper">
                                                         <input type="checkbox" class="bulk-checkbox" name="bulk_delete[]"
@@ -87,7 +87,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                @can('faq-edit-faq')
+                                                @can('edit-faq')
                                                     <a href="#1" data-bs-toggle="modal"
                                                         data-bs-target="#faq_item_edit_modal"
                                                         class="btn btn-warning btn-xs text-dark mb-2 me-1 faq_edit_btn"
@@ -98,7 +98,7 @@
                                                         <i class="ti-pencil"></i>
                                                     </a>
                                                 @endcan
-                                                @can('faq-clone-faq')
+                                                @can('add-faq')
                                                     <form action="{{ route('admin.faq.clone') }}" method="post"
                                                         style="display: inline-block">
                                                         @csrf
@@ -109,7 +109,7 @@
                                                         </button>
                                                     </form>
                                                 @endcan
-                                                @can('faq-delete-faq')
+                                                @can('delete-faq')
                                                     <x-delete-popover :url="route('admin.faq.delete', $data->id)" />
                                                 @endcan
                                             </td>
@@ -125,7 +125,7 @@
     </div>
 
 
-    @can('faq-edit-faq')
+    @can('edit-faq')
         <div class="modal fade" id="faq_add_modal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content custom__form">
@@ -185,7 +185,7 @@
         </div>
     @endcan
 
-    @can('faq-edit-faq')
+    @can('edit-faq')
         <div class="modal fade" id="faq_item_edit_modal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content custom__form">
@@ -245,7 +245,7 @@
 @endsection
 @section('script')
     <x-summernote.js />
-    @can('faq-faq-bulk-action')
+    @can('manage-faq')
         <script>
             (function($) {
                 $(document).ready(function() {

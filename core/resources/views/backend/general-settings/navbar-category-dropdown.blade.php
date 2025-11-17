@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-    @can('general-settings-navbar-category-dropdown')
+    @can('manage-site-settings')
         <div class="col-lg-12 col-ml-12">
             <div class="row">
                 <div class="col-lg-12">
