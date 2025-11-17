@@ -15,7 +15,9 @@ class SizeController extends Controller
 
     public function index(): Factory|View
     {
-        $product_sizes = Size::all();
+        $product_sizes = Size::query()
+            ->latest()
+            ->get();
         return view('attributes::backend.size.all-size', compact('product_sizes'));
     }
 
@@ -23,6 +25,7 @@ class SizeController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:191',
+            'name_km' => 'required|string|max:191',
             'size_code' => 'required|string|max:191',
             // 'slug' => 'nullable|string|max:191',
         ]);
@@ -44,6 +47,7 @@ class SizeController extends Controller
 
         $product_size = Size::create([
             'name' => $request->name,
+            'name_km' => $request->name_km,
             'size_code' => $request->size_code,
             'slug' => strtolower(str_replace(' ', '-', $request->name)),
         ]);
@@ -57,6 +61,7 @@ class SizeController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:191',
+            'name_km' => 'required|string|max:191',
             'size_code' => 'required|string|max:191',
             // 'slug' => 'required|string|max:191',
         ]);
@@ -74,8 +79,6 @@ class SizeController extends Controller
             ]);
         }
 
-
-
         $product_size = Size::findOrFail($request->id);
 
         if ($product_size->slug != $request->slug) {
@@ -86,6 +89,7 @@ class SizeController extends Controller
 
         $product_size = $product_size->update([
             'name' => $request->name,
+            'name_km' => $request->name_km,
             'size_code' => $request->size_code,
             'slug' => strtolower(str_replace(' ', '-', $request->name)),
         ]);

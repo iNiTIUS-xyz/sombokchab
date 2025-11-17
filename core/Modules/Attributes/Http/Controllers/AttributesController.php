@@ -23,7 +23,9 @@ class AttributesController extends Controller
 
     public function index(): Application|Factory|View
     {
-        $all_attributes = ProductAttribute::all();
+        $all_attributes = ProductAttribute::query()
+            ->latest()
+            ->all();
         $ids = DummyAttributeDeleteServices::dummyAttributeId();
         $dummyCount = DB::table('product_attributes')->whereIn('id', $ids)->count();
         return view(self::BASE_PATH . "all-attribute", compact('all_attributes', 'dummyCount'));

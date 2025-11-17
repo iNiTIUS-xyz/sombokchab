@@ -1,7 +1,9 @@
 @extends('backend.admin-master')
+
 @section('site-title')
     {{ __('New Variant') }}
 @endsection
+
 @section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row">
@@ -18,33 +20,58 @@
                                 enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="title">
-                                                {{ __('Title') }}
+                                                {{ __('Title (English)') }}
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <input type="text" class="form-control" name="title"
-                                                value="{{ old('title') }}" placeholder="{{ __('Enter title') }}" required="">
+                                                value="{{ old('title') }}" placeholder="{{ __('Enter title') }}"
+                                                required="">
                                         </div>
-                                        <div class="form-group attributes-field product-variants">
+                                    </div>
+                                    <div class="col-lg-6 mb-2">
+                                        <div class="form-group">
+                                            <label>
+                                                {{ __('ចំណងជើង (ខ្មែរ)') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <input type="text" class="form-control" name="title_km"
+                                                value="{{ old('title_km') }}" placeholder="{{ __('បញ្ចូលចំណងជើង (ខ្មែរ)') }}"
+                                                required="">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 mb-2">
+                                        <div class="form-group">
                                             <label for="attributes">
                                                 {{ __('Terms') }}
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <div class="attribute-field-wrapper">
-                                                <input type="text" class="form-control" name="terms[]"
-                                                    placeholder="{{ __('terms') }}" required="">
-                                                <div class="icon-wrapper">
-                                                    <span class="add_attributes"><i class="ti-plus"></i></span>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <input type="text" class="form-control" name="terms[]"
+                                                        placeholder="{{ __('Enter terms (English)') }}" required="">
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <input type="text" class="form-control" name="terms_km[]"
+                                                        placeholder="{{ __('Enter terms (ខ្មែរ)') }}" required="">
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <button type="button" class="mt-2 add_attributes btn btn-sm btn-success">
+                                                        <i class="ti-plus"></i>
+                                                    </button>
                                                 </div>
                                             </div>
+                                            <div class="attributes-field"></div>
                                         </div>
+                                    </div>
+                                    <div class="col-md-12">
                                         <button type="submit" class="cmn_btn btn_bg_profile">
                                             {{ __('Add') }}
                                         </button>
-
-                                        <a href="{{ route('admin.products.attributes.all') }}" class="cmn_btn default-theme-btn"
+                                        <a href="{{ route('admin.products.attributes.all') }}"
+                                            class="cmn_btn default-theme-btn"
                                             style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
                                             {{ __('Back') }}
                                         </a>
@@ -62,24 +89,24 @@
     <script>
         (function($) {
             $(document).ready(function() {
-                $(document).on('click', '.attribute-field-wrapper .add_attributes', function(e) {
+                $(document).on('click', '.add_attributes', function(e) {
                     e.preventDefault();
-                    $(this).parent().parent().parent().append(
-                        ' <div class="attribute-field-wrapper">\n' +
-                        '<input type="text" class="form-control" name="terms[]" placeholder="{{ __('terms') }}" required="">\n' +
-                        '<div class="icon-wrapper">\n' +
-                        '<span class="btn btn-sm btn-info add_attributes"><i class="las la-plus"></i></span>\n' +
-                        '<span class="btn btn-sm btn-danger remove_attributes"><i class="las la-minus"></i></span>\n' +
-                        '</div>\n' +
-                        '</div>');
+                    var el = `<div class="col-md-6 mb-2">
+                                <input type="text" class="form-control" name="terms[]" placeholder="{{ __('Enter terms (English)') }}" required="">
+                            </div>
+                            <div class="col-md-5 mb-2">
+                                <input type="text" class="form-control" name="terms_km[]" placeholder="{{ __('Enter terms (ខ្មែរ)') }}" required="">
+                            </div>
+                            <div class="col-md-1 mb-2">
+                                <span class="mt-2 remove_attributes btn btn-sm btn-danger">
+                                    <i class="ti-minus"></i>
+                                </span>
+                            </div>`;
+                    $('.attributes-field').append(el);
                 });
 
-                $(document).on('click', '.attribute-field-wrapper .remove_attributes', function(e) {
+                $(document).on('click', '.remove_attributes', function(e) {
                     e.preventDefault();
-
-                    if ($(".attribute-field-wrapper").length > 1) {
-                        $(this).parent().parent().remove();
-                    }
                 });
             });
         })(jQuery)
