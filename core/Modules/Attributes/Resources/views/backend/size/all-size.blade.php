@@ -48,7 +48,16 @@
                                                 <x-bulk-action.td :id="$product_size->id" />
                                             @endcan
                                             {{-- <td>{{ $loop->iteration }}</td> --}}
-                                            <td>{{ $product_size->name }}</td>
+                                            <td>
+                                                <p>
+                                                    <strong>English :</strong> {{ $product_size->name }}
+                                                </p>
+                                                @if ($product_size->name_km)
+                                                    <p>
+                                                        <strong>Khmer :</strong> {{ $product_size->name_km }}
+                                                    </p>
+                                                @endif
+                                            </td>
                                             <td>{{ $product_size->size_code }}</td>
                                             <td>{{ $product_size->slug }}</td>
                                             <td>
@@ -57,6 +66,7 @@
                                                         class="btn btn-warning text-dark btn-xs mb-2 me-1 size_edit_btn"
                                                         data-id="{{ $product_size->id }}"
                                                         data-name="{{ $product_size->name }}"
+                                                        data-name_km="{{ $product_size->name_km }}"
                                                         data-size_code="{{ $product_size->size_code }}"
                                                         data-slug="{{ $product_size->slug }}">
                                                         <i class="mdi mdi-pencil"></i>
@@ -90,11 +100,19 @@
                             @csrf
                             <div class="form-group">
                                 <label for="name">
-                                    {{ __('Name') }}
+                                    {{ __('Name (English)') }}
                                     <span class="text-danger">*</span>
                                 </label>
                                 <input type="text" class="form-control" id="name" name="name"
-                                    placeholder="{{ __('Enter name') }}" required="">
+                                    placeholder="{{ __('Enter name (English)') }}" required="">
+                            </div>
+                            <div class="form-group">
+                                <label for="name_km">
+                                    {{ __('ឈ្មោះ (ខ្មែរ)') }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="name_km" name="name_km"
+                                    placeholder="{{ __('បញ្ចូលឈ្មោះ (ខ្មែរ)') }}" required="">
                             </div>
                             <div class="form-group">
                                 <label for="size_code">
@@ -138,11 +156,19 @@
                             @csrf
                             <div class="form-group">
                                 <label for="edit_name">
-                                    {{ __('Name') }}
+                                    {{ __('Name (English)') }}
                                     <span class="text-danger">*</span>
                                 </label>
                                 <input type="text" class="form-control" id="edit_name" name="name"
-                                    placeholder="{{ __('Enter name') }}" required="">
+                                    placeholder="{{ __('Enter name (English)') }}" required="">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit_name_km">
+                                    {{ __('ឈ្មោះ (ខ្មែរ)') }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="edit_name_km" name="name_km"
+                                    placeholder="{{ __('បញ្ចូលឈ្មោះ (ខ្មែរ)') }}" required="">
                             </div>
                             <div class="form-group">
                                 <label for="edit_size_code">
@@ -261,6 +287,7 @@
 
                 modal.find('#size_id').val(el.data('id'));
                 modal.find('#edit_name').val(el.data('name'));
+                modal.find('#edit_name_km').val(el.data('name_km'));
                 modal.find('#edit_size_code').val(el.data('size_code'));
                 modal.find('#edit_slug').val(el.data('slug'));
             });

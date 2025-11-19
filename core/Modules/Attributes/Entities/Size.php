@@ -12,11 +12,17 @@ class Size extends Model
 {
     use HasFactory;
 
-    protected $fillable = ["name","size_code","slug"];
+    protected $fillable = [
+        "name",
+        "name_km",
+        "size_code",
+        "slug"
+    ];
 
     public $timestamps = false;
 
-    public function product(){
-        return $this->belongsToMany(Product::class, ProductInventoryDetail::class, "size","product_id","id","id");
+    public function product()
+    {
+        return $this->belongsToMany(Product::class, ProductInventoryDetail::class, "size", "product_id", "id", "id");
     }
 }

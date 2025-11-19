@@ -1,7 +1,9 @@
 @extends('backend.admin-master')
+
 @section('site-title')
     {{ __('Edit Attribute') }}
 @endsection
+
 @section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row">
@@ -16,61 +18,86 @@
                                 class="cmn_btn btn_bg_profile">{{ __('All Attributes') }}</a>
                         @endcan
                     </div>
+
                     <div class="dashboard__card__body custom__form mt-4">
                         @can('edit-attribute')
-                            <form action="{{ route('admin.products.attributes.update') }}" method="post"
-                                enctype="multipart/form-data">
+                            <form action="{{ route('admin.products.attributes.update') }}" method="post">
                                 @csrf
                                 <input type="hidden" name="id" value="{{ $attribute->id }}">
                                 <div class="row">
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-6 mb-2">
                                         <div class="form-group">
-                                            <label for="title">
-                                                {{ __('Title') }}
-                                                <span class="text-danger">*</span>
-                                            </label>
+                                            <label>{{ __('Title (English)') }} <span class="text-danger">*</span></label>
                                             <input type="text" class="form-control" name="title"
-                                                value="{{ $attribute->title }}" placeholder="{{ __('Enter title') }}">
+                                                value="{{ $attribute->title }}" required>
                                         </div>
-                                        <div class="form-group attributes-field attributess">
-                                            <label for="attributes">
-                                                {{ __('Terms') }}
-                                                <span class="text-danger">*</span>
-                                            </label>
-                                            @forelse(json_decode($attribute->terms) as $terms)
-                                                <div class="attribute-field-wrapper">
-                                                    <input type="text" class="form-control" name="terms[]"
-                                                        value="{{ $terms }}" required="">
-                                                    <div class="icon-wrapper">
-                                                        <span class="btn btn-sm btn-info add_attributes"><i
-                                                                class="las la-plus"></i></span>
-                                                        <span class="btn btn-sm btn-danger remove_attributes"><i
-                                                                class="las la-minus"></i></span>
-                                                    </div>
-                                                </div>
-                                            @empty
-                                                <div class="attribute-field-wrapper">
-                                                    <input type="text" class="form-control" name="terms[]"
-                                                        placeholder="{{ __('terms') }}" required="">
-                                                    <div class="icon-wrapper">
-                                                        <span class="btn btn-sm btn-info add_attributes"><i
-                                                                class="las la-plus"></i></span>
-                                                        <span class="btn btn-sm btn-danger remove_attributes"><i
-                                                                class="las la-minus"></i></span>
-                                                    </div>
-                                                </div>
-                                            @endforelse
+                                    </div>
+                                    <div class="col-lg-6 mb-2">
+                                        <div class="form-group">
+                                            <label>{{ __('ចំណងជើង (ខ្មែរ)') }} <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" name="title_km"
+                                                value="{{ $attribute->title_km }}" required>
                                         </div>
-                                        <button type="submit" class="cmn_btn btn_bg_profile">
-                                            {{ __('Update') }}
-                                        </button>
+                                    </div>
+                                    <div class="col-lg-12 mb-2">
+                                        <div class="form-group attributes-field product-variants">
+                                            <label>{{ __('Terms') }} <span class="text-danger">*</span></label>
+                                            <div class="row attribute-term-wrapper">
+                                                @php
+                                                    $terms_en = json_decode($attribute->terms) ?? [];
+                                                    $terms_km = json_decode($attribute->terms_km) ?? [];
+                                                @endphp
+
+                                                @foreach ($terms_en as $key => $term)
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-6 mb-2">
+                                                                <input type="text" class="form-control" name="terms[]"
+                                                                    value="{{ $term }}"
+                                                                    placeholder="Enter terms (English)" required>
+                                                            </div>
+
+                                                            <div class="col-md-5 mb-2">
+                                                                <input type="text" class="form-control" name="terms_km[]"
+                                                                    value="{{ $terms_km[$key] ?? '' }}"
+                                                                    placeholder="បញ្ចូលលក្ខខណ្ឌ (ខ្មែរ)" required>
+                                                            </div>
+
+                                                            <div class="col-md-1 mb-2">
+                                                                <div class="icon-wrapper">
+                                                                    @if ($loop->index == 0)
+                                                                        <button type="button"
+                                                                            class="btn btn-sm btn-success mt-2 addAttributeTerms">
+                                                                            <i class="las la-plus"></i>
+                                                                        </button>
+                                                                    @endif
+                                                                    @if ($loop->index > 0)
+                                                                        <button type="button"
+                                                                            class="btn btn-sm btn-danger mt-2 removeAttributeTerms">
+                                                                            <i class="las la-minus"></i>
+                                                                        </button>
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
                                         <a href="{{ route('admin.products.attributes.all') }}"
                                             class="cmn_btn default-theme-btn"
                                             style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
                                             {{ __('Back') }}
                                         </a>
                                     </div>
+
                                 </div>
+
                             </form>
                         @endcan
                     </div>
@@ -79,27 +106,47 @@
         </div>
     </div>
 @endsection
+
 @section('script')
     <script>
-        $(document).ready(function() {
-            $(document).on('click', '.attribute-field-wrapper .add_attributes', function(e) {
-                e.preventDefault();
-                $(this).parent().parent().parent().append(' <div class="attribute-field-wrapper">\n' +
-                    '<input type="text" class="form-control" name="terms[]" placeholder="{{ __('terms') }}" required="">\n' +
-                    '<div class="icon-wrapper">\n' +
-                    '<span class="btn btn-sm btn-info add_attributes"><i class="las la-plus"></i></span>\n' +
-                    '<span class="btn btn-sm btn-danger remove_attributes"><i class="las la-minus"></i></span>\n' +
-                    '</div>\n' +
-                    '</div>');
-            });
+        (function($) {
+            $(document).ready(function() {
 
-            $(document).on('click', '.attribute-field-wrapper .remove_attributes', function(e) {
-                e.preventDefault();
+                // Add new Term
+                $(document).on('click', '.addAttributeTerms', function(e) {
+                    e.preventDefault();
 
-                if ($(".attribute-field-wrapper").length > 1) {
-                    $(this).parent().parent().remove();
-                }
+                    var termField = `
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6 mb-2">
+                                    <input type="text" class="form-control" name="terms[]"
+                                        placeholder="Enter terms (English)" required>
+                                </div>
+                                <div class="col-md-5 mb-2">
+                                    <input type="text" class="form-control" name="terms_km[]"
+                                        placeholder="បញ្ចូលលក្ខខណ្ឌ (ខ្មែរ)" required>
+                                </div>
+                                <div class="col-md-1 mb-2">
+                                    <div class="icon-wrapper">
+                                        <button type="button" class="btn btn-sm btn-danger mt-2 removeAttributeTerms">
+                                            <i class="las la-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    $('.attribute-term-wrapper').append(termField);
+                });
+
+                // Remove Term
+                $(document).on('click', '.removeAttributeTerms', function(e) {
+                    e.preventDefault();
+                    $(this).closest('.col-md-12').remove();
+                });
             });
-        });
+        })(jQuery)
     </script>
 @endsection
