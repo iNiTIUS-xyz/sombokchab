@@ -117,30 +117,64 @@ class LoginController extends Controller
     {
         $phone = $request->input('phone');
 
+        // Ensure phone is in PlasGate format (Bangladesh example)
+        $phone = preg_replace('/[^0-9]/', '', $phone); // keep numbers only
+        if (str_starts_with($phone, '0')) {
+            $phone = '88' . $phone; // convert 017xx → 88017xx
+        }
+
         // Generate OTP
         $otp = mt_rand(100000, 999999);
 
         // Store OTP for 5 minutes
         Cache::put('otp_' . $phone, $otp, now()->addMinutes(5));
 
-        // Your PlasGate API Credentials
-        $secretKey = '$5$rounds=535000$tnyb7wdR4yyObXuy$XyyR4qHUkXZsbPZM6F8jsUI/CB.ndQWZMg3J1juww03';
+        // PlasGate credentials
+        $secretKey  = '$5$rounds=535000$tnyb7wdR4yyObXuy$XyyR4qHUkXZsbPZM6F8jsUI/CB.ndQWZMg3J1juww03';
         $privateKey = 'oi8-uaNHqBkJ2yX7OLULVBbdwdz2bUjy-x3aSozfFXKeBIrK5S7WUjPZiCC9CvRY9zo-QHXWgUxqVMeEyQf3jA';
+        $senderName = 'PlasGateUAT';
 
-        // Your sender name
-        $senderName = "SMS Info"; // Or your allowed sender name
+        // Build payload
+        $payload = [
+            'sender'     => $senderName,
+            'to'         => $phone,
+            'content'    => "Your login OTP code is: {$otp}",
+            'dlr'        => 'yes',
+            'dlr_method' => 'GET',
+            'dlr_level'  => 2,
+            'dlr_url'    => url('/sms/dlr-callback')
+        ];
 
+        // Send request
         $response = Http::withHeaders([
-            'X-Secret' => $secretKey,
-            'Content-Type' => 'application/json',
-        ])->post("https://cloudapi.plasgate.com/rest/send?private_key={$privateKey}", [
-            'sender'  => $senderName,
-            'to'      => $phone,
-            'content' => "Your verification code is: {$otp}",
+            'X-Secret'      => $secretKey,
+            'Accept'        => 'application/json',
+            'Content-Type'  => 'application/json',
+        ])->post("https://cloudapi.plasgate.com/rest/send?private_key={$privateKey}", $payload);
+
+        // ⛔️ DEBUG HERE
+        dd([
+            'phone'      => $phone,
+            'otp'        => $otp,
+            'cached_otp' => Cache::get('otp_' . $phone),
+            'payload'    => $payload,
+            'status'     => $response->status(),
+            'response'   => $response->json(),
+            'raw'        => $response->body(),
         ]);
 
+        // Debug raw body
+        // Log::info('PlasGate Response', ['body' => $response->body()]);
+
         if ($response->successful()) {
-            return response()->json(['success' => true, 'message' => 'OTP sent successfully']);
+            $result = $response->json();
+
+            // PlasGate returns status inside JSON. We must check it.
+            if (isset($result['status']) && $result['status'] == 'ACCEPTED') {
+                return response()->json(['success' => true, 'message' => 'OTP sent successfully']);
+            }
+
+            return response()->json(['error' => 'API returned non-success', 'details' => $result], 500);
         }
 
         return response()->json([
@@ -148,6 +182,7 @@ class LoginController extends Controller
             'details' => $response->body()
         ], 500);
     }
+
 
 
 
