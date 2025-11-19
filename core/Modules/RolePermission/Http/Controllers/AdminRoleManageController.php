@@ -53,7 +53,7 @@ class AdminRoleManageController extends Controller
             "name" => "required"
         ]);
         Role::create([
-            // "hierarchy" => $request->hierarchy,
+            "hierarchy" => 0,
             "name" => $request->name
         ]);
 
@@ -74,7 +74,7 @@ class AdminRoleManageController extends Controller
             "name" => "required"
         ]);
         Role::find($id)->update([
-            // "hierarchy" => $request->hierarchy,
+           "hierarchy" => 0,
             "name" => $request->name
         ]);
 
