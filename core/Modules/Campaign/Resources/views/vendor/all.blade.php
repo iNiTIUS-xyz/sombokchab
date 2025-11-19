@@ -40,7 +40,16 @@
                                     @foreach ($all_campaigns as $campaign)
                                         <tr>
                                             <x-bulk-action.td :id="$campaign->id" />
-                                            <td>{{ $campaign->title }}</td>
+                                            <td>
+                                                <p>
+                                                    <strong>English :</strong> {{ $campaign->title }}
+                                                </p>
+                                                @if ($campaign->title_km)
+                                                    <p>
+                                                        <strong>Khmer :</strong> {{ $campaign->title_km }}
+                                                    </p>
+                                                @endif
+                                            </td>
                                             <x-table.td-image :image="$campaign->image" />
                                             <td>
                                                 <x-status-span :status="$campaign->status" />

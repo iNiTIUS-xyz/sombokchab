@@ -85,6 +85,18 @@
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">
+                                        ឈ្មោះយុទ្ធនាការ (ខ្មែរ)
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" name="campaign_name_km"
+                                        placeholder="បញ្ចូលឈ្មោះយុទ្ធនាការ (ខ្មែរ)" value="{{ old('campaign_name_km') }}"
+                                        required>
+                                    @error('campaign_name_km')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">
                                         Campaign Subtitle
                                         <span class="text-danger">*</span>
                                     </label>
@@ -92,6 +104,18 @@
                                         placeholder="Enter campaign subtitle" value="{{ old('campaign_subtitle') }}"
                                         required>
                                     @error('campaign_subtitle')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">
+                                        ចំណងជើងរងយុទ្ធនាការ (ខ្មែរ)
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" name="campaign_subtitle_km"
+                                        placeholder="បញ្ចូលចំណងជើងរងយុទ្ធនាការ (ខ្មែរ)"
+                                        value="{{ old('campaign_subtitle_km') }}" required>
+                                    @error('campaign_subtitle_km')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>

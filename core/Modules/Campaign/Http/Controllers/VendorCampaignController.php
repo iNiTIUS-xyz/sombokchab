@@ -62,7 +62,9 @@ class VendorCampaignController extends Controller
             // Prepare campaign data
             $campaignData = [
                 'title' => $data['campaign_name'],
+                'title_km' => $data['campaign_name_km'],
                 'subtitle' => $data['campaign_subtitle'],
+                'subtitle_km' => $data['campaign_subtitle_km'],
                 'image' => $data['image'],
                 'status' => $data['status'],
                 'start_date' => $data['campaign_start_date'],
@@ -127,7 +129,9 @@ class VendorCampaignController extends Controller
 
             $campaignData = [
                 'title' => $data['campaign_name'],
+                'title_km' => $data['campaign_name_km'],
                 'subtitle' => $data['campaign_subtitle'],
+                'subtitle_km' => $data['campaign_subtitle_km'],
                 'image' => $data['image'],
                 'status' => $data['status'],
                 'start_date' => $data['campaign_start_date'],
