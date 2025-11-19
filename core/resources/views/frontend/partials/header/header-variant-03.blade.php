@@ -660,44 +660,46 @@
                         {{-- no toggle here for “All Categories” --}}
                     </li>
 
-                    @foreach($categories as $category)
-                                        <li class="nav-item d-flex align-items-center justify-content-between">
-                                            {{-- 1) Category‐name link --}}
-                                            <a href="{{ route('frontend.dynamic.page', [
-                            'slug' => 'shop',
-                            'category' => $category->name
-                        ]) }}" class="nav-link {{ request('category') === $category->name ? 'active' : '' }}">
-                                                {{ $category->name }}
+                    @foreach ($categories as $category)
+                        <li class="nav-item d-flex align-items-center justify-content-between">
+                            {{-- 1) Category‐name link --}}
+                            <a href="{{ route('frontend.dynamic.page', [
+                                'slug' => 'shop',
+                                'category' => $category->name,
+                            ]) }}"
+                                class="nav-link {{ request('category') === $category->name ? 'active' : '' }}">
+                                {{ $category->name }}
+                            </a>
+
+                            @if ($category->subcategory->count())
+                                {{-- 2) Icon‐only toggle link --}}
+                                <a href="#submenu-{{ $category->id }}" class="toggle-icon" data-bs-toggle="collapse"
+                                    role="button"
+                                    aria-expanded="{{ request('category') === $category->name ? 'true' : 'false' }}"
+                                    aria-controls="submenu-{{ $category->id }}">
+                                    <i class="las la-plus"></i>
+                                </a>
+                            @endif
+
+                            {{-- 3) The in-flow submenu (collapsed by default) --}}
+                            @if ($category->subcategory->count())
+                                <ul id="submenu-{{ $category->id }}"
+                                    class="collapse submenu-list {{ request('category') === $category->name ? 'show' : '' }}">
+                                    @foreach ($category->subcategory as $sub_cat)
+                                        <li class="{{ request('sub_category') === $sub_cat->name ? 'active' : '' }}">
+                                            <a
+                                                href="{{ route('frontend.dynamic.page', [
+                                                    'slug' => 'shop',
+                                                    'category' => $category->name,
+                                                    'sub_category' => $sub_cat->name,
+                                                ]) }}">
+                                                {{ $sub_cat->name }}
                                             </a>
-
-                                            @if($category->subcategory->count())
-                                                {{-- 2) Icon‐only toggle link --}}
-                                                <a href="#submenu-{{ $category->id }}" class="toggle-icon" data-bs-toggle="collapse"
-                                                    role="button"
-                                                    aria-expanded="{{ request('category') === $category->name ? 'true' : 'false' }}"
-                                                    aria-controls="submenu-{{ $category->id }}">
-                                                    <i class="las la-plus"></i>
-                                                </a>
-                                            @endif
-
-                                            {{-- 3) The in-flow submenu (collapsed by default) --}}
-                                            @if($category->subcategory->count())
-                                                <ul id="submenu-{{ $category->id }}"
-                                                    class="collapse submenu-list {{ request('category') === $category->name ? 'show' : '' }}">
-                                                    @foreach($category->subcategory as $sub_cat)
-                                                                        <li class="{{ request('sub_category') === $sub_cat->name ? 'active' : '' }}">
-                                                                            <a href="{{ route('frontend.dynamic.page', [
-                                                            'slug' => 'shop',
-                                                            'category' => $category->name,
-                                                            'sub_category' => $sub_cat->name
-                                                        ]) }}">
-                                                                                {{ $sub_cat->name }}
-                                                                            </a>
-                                                                        </li>
-                                                    @endforeach
-                                                </ul>
-                                            @endif
                                         </li>
+                                    @endforeach
+                                </ul>
+                            @endif
+                        </li>
                     @endforeach
                 </ul>
 
@@ -740,7 +742,7 @@
 <script src="https://cdn.gtranslate.net/widgets/latest/dropdown.js" defer></script>
 
 <script>
-    document.addEventListener("DOMContentLoaded", async function () {
+    document.addEventListener("DOMContentLoaded", async function() {
         const CURRENCYFREAKS_API_KEY = "24b96ee77023425b95d417d36bc4a830";
         const currencySelector = document.getElementById("currency-selector");
         const INACTIVITY_LIMIT = 20 * 60 * 1000; // 5 minutes in milliseconds
@@ -764,7 +766,7 @@
         }
 
         // Event listener for currency change
-        currencySelector.addEventListener("change", async function () {
+        currencySelector.addEventListener("change", async function() {
             const selectedCurrency = this.value;
 
             // Store currency in localStorage and update activity time
@@ -779,7 +781,7 @@
                 data: {
                     currency: selectedCurrency
                 },
-                success: function (data) {
+                success: function(data) {
                     if (data == 1) {
                         window.location.reload();
                     }
@@ -844,7 +846,8 @@
 
             // Fetch conversion rate if not USD
             try {
-                const url = `https://api.currencyfreaks.com/latest?apikey=${CURRENCYFREAKS_API_KEY}&symbols=KHR`;
+                const url =
+                    `https://api.currencyfreaks.com/latest?apikey=${CURRENCYFREAKS_API_KEY}&symbols=KHR`;
                 const response = await fetch(url);
                 const data = await response.json();
 
@@ -891,12 +894,12 @@
     });
 </script>
 <script>
-    document.getElementById("imageSearchInput").addEventListener("change", function () {
+    document.getElementById("imageSearchInput").addEventListener("change", function() {
         const file = this.files[0];
 
         if (file) {
             const reader = new FileReader();
-            reader.onload = function (e) {
+            reader.onload = function(e) {
                 document.getElementById("imagePreview").src = e.target.result;
                 document.getElementById("imagePreview").style.display = "block";
             };
@@ -918,9 +921,9 @@
         formData.append("_token", document.querySelector('input[name="_token"]').value);
 
         fetch("{{ route('search.image') }}", {
-            method: "POST",
-            body: formData
-        })
+                method: "POST",
+                body: formData
+            })
             .then(response => response.json())
             .then(data => {
                 if (data.products.length > 0) {

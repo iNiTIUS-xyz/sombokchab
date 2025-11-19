@@ -43,11 +43,13 @@
 
     <link rel="stylesheet" href="{{ asset('assets/common/css/toastr.css') }}">
 
-    @if (!empty(filter_static_option_value('site_rtl_enabled', $global_static_field_data)) || get_user_lang_direction() == 'rtl')
+    @if (
+        !empty(filter_static_option_value('site_rtl_enabled', $global_static_field_data)) ||
+            get_user_lang_direction() == 'rtl')
         <link rel="stylesheet" href="{{ asset('assets/frontend/css/rtl.css') }}">
     @endif
 
-    <link rel="stylesheet" href="{{asset('assets/frontend/css/dynamic-style.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/frontend/css/dynamic-style.css') }}">
     @include('frontend.partials.og-meta')
     <script>
         let siteurl = "{{ url('/') }}";
@@ -71,7 +73,9 @@
         @include('frontend.partials.preloader')
 
         @if ($navbar_type == 3 || $navbar_type == 2)
-            @include('frontend.partials.header.header-variant-03', ['containerClass' => $navbar_type == 2 ? "container_1608" : ""])
+            @include('frontend.partials.header.header-variant-03', [
+                'containerClass' => $navbar_type == 2 ? 'container_1608' : '',
+            ])
         @else
             @include('frontend.partials.topbar')
             @include('frontend.partials.navbar')

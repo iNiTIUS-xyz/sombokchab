@@ -142,14 +142,12 @@
                 e.preventDefault();
 
                 const email = $(this).find('input[type="email"]');
-                const errrContaner = $(this).parent().parent().parent().find('.form-message-show');
+                const errorContainer = $(this).parent().parent().parent().find('.form-message-show');
                 const paperIcon = 'la-paper-plane';
                 const spinnerIcon = 'la-spinner la-spin';
                 const el = $(this);
 
-                // $(this).find("button").attr('disabled', true);
-
-                errrContaner.html('');
+                errorContainer.html('');
 
                 el.find('i').removeClass(paperIcon).removeClass('lar').addClass(spinnerIcon).addClass('las');
 
@@ -162,7 +160,7 @@
                     },
                     success: function(data) {
                         email.val('')
-                        errrContaner.html('<div class="alert alert-' + data.type + '">' + data.msg +
+                        errorContainer.html('<div class="alert alert-' + data.type + '">' + data.msg +
                             '</div>');
                         el.find('i').addClass(paperIcon).addClass('lar').removeClass(spinnerIcon)
                             .removeClass('las');
@@ -173,7 +171,8 @@
                         el.find('i').addClass(paperIcon).addClass('lar').removeClass(spinnerIcon)
                             .removeClass('las');
                         const errors = data.responseJSON.errors;
-                        errrContaner.html('<div class="alert alert-danger">' + errors.email[0] + '</div>');
+                        errorContainer.html('<div class="alert alert-danger">' + errors.email[0] +
+                            '</div>');
                         $(this).find("button").removeAttr('disabled');
                     }
                 });
