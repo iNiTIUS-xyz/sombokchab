@@ -1187,9 +1187,6 @@ class FrontendController extends Controller
         return view('frontend.campaign.index', compact('campaign'));
     }
 
-    /** ======================================================================
-     *                          FRONTEND ACTION FUNCTIONS
-     * ======================================================================*/
     public function changeSiteCurrency(Request $request)
     {
         $request->validate(['currency' => 'required|string|max:191']);
@@ -1203,14 +1200,14 @@ class FrontendController extends Controller
     public function changeSiteLanguage(Request $request)
     {
         $language = Language::where('slug', $request->language)->first();
+
         session()->put('lang', $request->language);
 
-        return response()->json(
-            FlashMsg::explain(
-                'success',
-                sprintf(__('Language changed to %s'), $language->name)
-            )
-        );
+
+        return redirect()->back()->with([
+            'msg' => __('Site language successfully changed.'),
+            'type' => 'success',
+        ]);
     }
 
     /** =====================================================================
@@ -1579,6 +1576,4 @@ class FrontendController extends Controller
         Session::put('new_currency_symbol', $request->currency);
         return true;
     }
-
-    
 }

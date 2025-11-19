@@ -311,7 +311,18 @@
                         </div>
                     </div>
                     <div class="col-lg-1 d-none d-lg-block">
-                        <div class="gtranslate_wrapper"></div>
+                        {{-- <div class="gtranslate_wrapper"></div> --}}
+                        <form action="{{ route('frontend.change.language') }}" method="POST">
+                            @csrf
+                            <select name="language" class="form-control" onchange="this.form.submit()">
+                                <option value="en_US" @if (session()->get('lang') == 'en_US') selected @endif>
+                                    English
+                                </option>
+                                <option value="km" @if (session()->get('lang') == 'km') selected @endif>
+                                    Khmer
+                                </option>
+                            </select>
+                        </form>
                     </div>
                     <div class="col-lg-8 col-md-6">
                         <div class="category-searchbar">
@@ -319,7 +330,7 @@
                                 class="single-searchbar searchbar-suggetions formSubmitAction">
                                 <div class="input-group">
                                     <select class="form--control category-select" id="search_category_id">
-                                        <option value="all">All Categories</option>
+                                        <option value="all">{{ __('All Categories') }}</option>
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->id }}">
                                                 {{ $category->name }}
