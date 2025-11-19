@@ -12,7 +12,9 @@ class CampaignValidationRequest extends FormRequest
     {
         return [
             'campaign_name' => 'required|string|max:191',
+            'campaign_name_km' => 'required|string|max:191',
             'campaign_subtitle' => 'required|string',
+            'campaign_subtitle_km' => 'required|string',
             'image' => 'required|string',
             'status' => 'required|string',
             'campaign_start_date' => 'required|date',
@@ -38,7 +40,9 @@ class CampaignValidationRequest extends FormRequest
         return $this->merge(
             [
                 'title' => $this->campaign_name,
+                'title_km' => $this->campaign_name_km,
                 'subtitle' => $this->campaign_subtitle,
+                'subtitle_km' => $this->campaign_subtitle_km,
                 'image' => $this->image,
                 'status' => $this->status,
                 'slug' => strtolower(str_replace(' ', '-', $this->campaign_name)),

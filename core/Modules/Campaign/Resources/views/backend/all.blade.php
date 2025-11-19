@@ -49,7 +49,16 @@
                                             @can('manage-campaign')
                                                 <x-bulk-action.td :id="$campaign->id" />
                                             @endcan
-                                            <td>{{ $campaign->title }}</td>
+                                            <td>
+                                                <p>
+                                                    <strong>English :</strong> {{ $campaign->title }}
+                                                </p>
+                                                @if ($campaign->title_km)
+                                                    <p>
+                                                        <strong>Khmer :</strong> {{ $campaign->title_km }}
+                                                    </p>
+                                                @endif
+                                            </td>
                                             <x-table.td-image :image="$campaign->image" />
                                             <td>
                                                 <div class="btn-group badge">

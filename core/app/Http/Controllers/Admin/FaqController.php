@@ -21,13 +21,17 @@ class FaqController extends Controller
     {
         $request->validate([
             'title' => 'required|string',
+            'title_km' => 'required|string',
             'description' => 'required|string',
+            'description_km' => 'required|string',
             'status' => 'nullable|string|max:191',
         ]);
 
         Faq::create([
             'title' => $request->title,
+            'title_km' => $request->title_km,
             'description' => $request->description,
+            'description_km' => $request->description_km,
             'status' => $request->status,
             'is_open' => !empty($request->is_open) ? 'on' : '',
         ]);
@@ -40,13 +44,17 @@ class FaqController extends Controller
 
         $request->validate([
             'title' => 'required|string',
+            'title_km' => 'required|string',
             'description' => 'required|string',
+            'description_km' => 'required|string',
             'status' => 'nullable|string|max:191',
         ]);
 
         Faq::find($request->id)->update([
             'title' => $request->title,
+            'title_km' => $request->title_km,
             'description' => $request->description,
+            'description_km' => $request->description_km,
             'status' => $request->status,
             'is_open' => !empty($request->is_open) ? 'on' : '',
         ]);

@@ -29,5 +29,13 @@ use Illuminate\Database\Eloquent\Model;
 class Faq extends Model
 {
     protected $table = 'faqs';
-    protected $fillable = ['title','status','is_open','description'];
+
+    protected $fillable = [
+        'title',
+        'title_km',
+        'description',
+        'description_km',
+        'status',
+        'is_open',
+    ];
 }

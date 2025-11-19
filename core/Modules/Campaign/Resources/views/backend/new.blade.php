@@ -75,24 +75,49 @@
                             <div class="dashboard__card">
                                 <div class="mb-3">
                                     <label class="form-label">
-                                        Campaign Name
+                                        Campaign Name (English)
                                         <span class="text-danger">*</span>
                                     </label>
                                     <input type="text" class="form-control" name="campaign_name"
-                                        placeholder="Enter campaign name" value="{{ old('campaign_name') }}" required>
+                                        placeholder="Enter campaign name (English)" value="{{ old('campaign_name') }}"
+                                        required>
                                     @error('campaign_name')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">
-                                        Campaign Subtitle
+                                        ឈ្មោះយុទ្ធនាការ (ខ្មែរ)
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" name="campaign_name_km"
+                                        placeholder="បញ្ចូលឈ្មោះយុទ្ធនាការ (ខ្មែរ)" value="{{ old('campaign_name_km') }}"
+                                        required>
+                                    @error('campaign_name_km')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">
+                                        Campaign Subtitle (English)
                                         <span class="text-danger">*</span>
                                     </label>
                                     <input type="text" class="form-control" name="campaign_subtitle"
-                                        placeholder="Enter campaign subtitle" value="{{ old('campaign_subtitle') }}"
-                                        required>
+                                        placeholder="Enter campaign subtitle (English)"
+                                        value="{{ old('campaign_subtitle') }}" required>
                                     @error('campaign_subtitle')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">
+                                        ចំណងជើងរងយុទ្ធនាការ (ខ្មែរ)
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" name="campaign_subtitle_km"
+                                        placeholder="បញ្ចូលចំណងជើងរងយុទ្ធនាការ (ខ្មែរ)"
+                                        value="{{ old('campaign_subtitle_km') }}" required>
+                                    @error('campaign_subtitle_km')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>

@@ -54,18 +54,14 @@
                                                 <x-bulk-action.td :id="$page->id" />
                                             @endcan
                                             <td>
-                                                {{ $page->title }}
-                                                @if (isset($dynamic_page_ids[$page->id]))
-                                                    @if ($dynamic_page_ids[$page->id] == 'home_page')
-                                                        <strong class="text-primary"> -
-                                                            {{ __('Current Home Page') }}</strong>
-                                                    @elseif($dynamic_page_ids[$page->id] == 'blog_page')
-                                                        <strong class="text-primary"> -
-                                                            {{ __('Current Blog Page') }}</strong>
-                                                    @elseif($dynamic_page_ids[$page->id] == 'product_page')
-                                                        <strong class="text-primary"> -
-                                                            {{ __('Current Product Page') }}</strong>
-                                                    @endif
+                                                <p>
+                                                    <strong>English :</strong> {{ $page->title }}
+
+                                                </p>
+                                                @if ($page->title_km)
+                                                    <p>
+                                                        <strong>Khmer :</strong> {{ $page->title_km }}
+                                                    </p>
                                                 @endif
                                             </td>
                                             <td>{{ date('M j, Y', strtotime($page->created_at)) }}</td>

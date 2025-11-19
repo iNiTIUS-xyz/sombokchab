@@ -1,12 +1,15 @@
 @extends('backend.admin-master')
+
 @section('style')
     <link rel="stylesheet" href="{{ asset('assets/backend/css/bootstrap-tagsinput.css') }}">
     <x-summernote.css />
     <x-media.css />
 @endsection
+
 @section('site-title')
     {{ __('New Page') }}
 @endsection
+
 @section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row">
@@ -26,11 +29,21 @@
                                         <div class="col-sm-12">
                                             <div class="form-group">
                                                 <label for="title">
-                                                    {{ __('Title') }}
+                                                    {{ __('Title (English)') }}
                                                     <span class="text-danger">*</span>
                                                 </label>
                                                 <input type="text" class="form-control" id="title" name="title"
-                                                    placeholder="{{ __('Enter title') }}" required="">
+                                                    placeholder="{{ __('Enter title (English)') }}" required="">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label for="title_km">
+                                                    {{ __('ចំណងជើង (ខ្មែរ)') }}
+                                                    <span class="text-danger">*</span>
+                                                </label>
+                                                <input type="text" class="form-control" id="title_km" name="title_km"
+                                                    placeholder="{{ __('បញ្ចូលចំណងជើង (ខ្មែរ)') }}" required="">
                                             </div>
                                         </div>
                                         <div class="col-sm-12">
@@ -45,8 +58,18 @@
                                         </div>
                                         <div class="col-sm-12">
                                             <div class="form-group classic-editor-wrapper">
-                                                <label>{{ __('Content') }}</label>
+                                                <label>
+                                                    {{ __('Content (English)') }}
+                                                </label>
                                                 <textarea class="summernote" type="hidden" name="page_content"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="form-group classic-editor-wrapper">
+                                                <label>
+                                                    {{ __('ខ្លឹមសារ (ខ្មែរ)') }}
+                                                </label>
+                                                <textarea class="summernote" type="hidden" name="page_content_km"></textarea>
                                             </div>
                                         </div>
                                         <div class="row g-4 mt-1">
@@ -61,14 +84,16 @@
                                                         <div class="navbar_variants">
                                                             <div class="form-group">
                                                                 <input type="hidden" class="form-control"
-                                                                    id="navbar_variant" value="2" name="navbar_variant">
+                                                                    id="navbar_variant" value="2"
+                                                                    name="navbar_variant">
                                                             </div>
 
                                                             @for ($i = 1; $i <= 3; $i++)
                                                                 <div class="img-select img-select-nav">
                                                                     <div class="img-wrap">
                                                                         <img src="{{ asset('assets/frontend/navbar-variant/0' . $i . '.jpg') }}"
-                                                                            data-nav_id="{{ $i }}" alt="">
+                                                                            data-nav_id="{{ $i }}"
+                                                                            alt="">
                                                                     </div>
                                                                 </div>
                                                             @endfor
@@ -118,7 +143,9 @@
                                         </div>
                                         <div class="col-sm-12">
                                             <div class="form-group">
-                                                <label for="slug">{{ __('Slug') }}</label>
+                                                <label for="slug">{{ __('Slug') }}
+
+                                                </label>
                                                 <input type="text" class="form-control" id="slug" name="slug"
                                                     placeholder="{{ __('Enter slug') }}">
                                             </div>
@@ -129,7 +156,8 @@
                                                     {{ __('Publish Status') }}
                                                     <span class="text-danger">*</span>
                                                 </label>
-                                                <select name="status" id="status" class="form-control" required="">
+                                                <select name="status" id="status" class="form-control"
+                                                    required="">
                                                     <option value="publish">{{ __('Publish') }}</option>
                                                     <option value="draft">{{ __('Unpublish') }}</option>
                                                 </select>
@@ -137,7 +165,9 @@
                                         </div>
                                         <div class="col-sm-12">
                                             <div class="form-group">
-                                                <label>{{ __('Visibility') }}</label>
+                                                <label>
+                                                    {{ __('Visibility') }}
+                                                </label>
                                                 <select name="visibility" class="form-control">
                                                     <option value="all">{{ __('All') }}</option>
                                                     <option value="user">{{ __('Only Logged In User') }}</option>
@@ -146,17 +176,40 @@
                                         </div>
                                         <div class="col-sm-12">
                                             <div class="form-group">
-                                                <label for="meta_tags">{{ __('Page Meta Tags') }}</label>
+                                                <label for="meta_tags">
+                                                    {{ __('Page Meta Tags (English)') }}
+                                                </label>
                                                 <input type="text" name="meta_tags" class="form-control"
                                                     data-role="tagsinput" id="meta_tags"
-                                                    placeholder="{{ __('Enter page meta tags') }}">
+                                                    placeholder="{{ __('Enter page meta tags (ខ្មែរ)') }}">
                                             </div>
                                         </div>
                                         <div class="col-sm-12">
                                             <div class="form-group">
-                                                <label for="meta_description">{{ __('Page Meta Description') }}</label>
+                                                <label for="meta_tags_km">
+                                                    {{ __('ស្លាកមេតាទំព័រ (ខ្មែរ)') }}
+                                                </label>
+                                                <input type="text" name="meta_tags_km" class="form-control"
+                                                    data-role="tagsinput" id="meta_tags"
+                                                    placeholder="{{ __('បញ្ចូលស្លាកមេតាទំព័រ (ខ្មែរ)') }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label for="meta_description">
+                                                    {{ __('Page Meta Description (English)') }}
+                                                </label>
                                                 <textarea name="meta_description" class="form-control" id="meta_description"
-                                                    placeholder="{{ __('Enter page meta description') }}"></textarea>
+                                                    placeholder="{{ __('Enter page meta description (English)') }}"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label for="meta_description_km">
+                                                    {{ __('ការពិពណ៌នាមេតាទំព័រ (ខ្មែរ)') }}
+                                                </label>
+                                                <textarea name="meta_description_km" class="form-control" id="meta_description_km"
+                                                    placeholder="{{ __('បញ្ចូលការពិពណ៌នាមេតាទំព័រ (ខ្មែរ)') }}"></textarea>
                                             </div>
                                         </div>
                                         <div class="col-sm-12">
@@ -179,13 +232,14 @@
     </div>
     <x-media.markup />
 @endsection
+
 @section('script')
     <x-summernote.js />
     <x-media.js />
     <script src="{{ asset('assets/backend/js/bootstrap-tagsinput.js') }}"></script>
     <script>
-        $(document).ready(function () {
-            $(document).on('change', 'input[name="page_builder_status"]', function () {
+        $(document).ready(function() {
+            $(document).on('change', 'input[name="page_builder_status"]', function() {
                 if ($(this).is(':checked')) {
                     $('.classic-editor-wrapper').addClass('d-none');
                     $('.page-builder-btn-wrapper').removeClass('d-none');
@@ -195,7 +249,7 @@
                 }
             });
 
-            $(document).on('click', '.category_edit_btn', function () {
+            $(document).on('click', '.category_edit_btn', function() {
                 var el = $(this);
                 var id = el.data('id');
                 var name = el.data('name');
@@ -211,7 +265,7 @@
             var id = $('#navbar_variant').val();
             imgSelect1.removeClass('selected');
             $('img[data-nav_id="' + id + '"]').parent().parent().addClass('selected');
-            $(document).on('click', '.img-select-nav img', function (e) {
+            $(document).on('click', '.img-select-nav img', function(e) {
                 e.preventDefault();
                 imgSelect1.removeClass('selected');
                 $(this).parent().parent().addClass('selected').siblings();
@@ -223,7 +277,7 @@
             var id = $('#footer_variant').val();
             imgSelect2.removeClass('selected');
             $('img[data-foot_id="' + id + '"]').parent().parent().addClass('selected');
-            $(document).on('click', '.img-select-footer img', function (e) {
+            $(document).on('click', '.img-select-footer img', function(e) {
                 e.preventDefault();
                 imgSelect2.removeClass('selected');
                 $(this).parent().parent().addClass('selected').siblings();

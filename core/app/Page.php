@@ -48,6 +48,10 @@ class Page extends Model
     protected $fillable = [
         'title',
         'slug',
+        'title_km',
+        'meta_tags_km',
+        'meta_description_km',
+        'content_km',
         'meta_tags',
         'meta_description',
         'content',

@@ -14,11 +14,16 @@ class PagesController extends Controller
     {
         $all_pages = Page::all();
 
-        $dynamic_page_ids = StaticOption::select('option_name', 'option_value')->whereIn('option_name', [
-            'home_page',
-            'product_page',
-            'blog_page',
-        ])->get()->pluck('option_name', 'option_value');
+        $dynamic_page_ids = StaticOption::query()
+            ->select('option_name', 'option_value')
+            ->whereIn('option_name', [
+                'home_page',
+                'product_page',
+                'blog_page',
+            ])
+            ->latest()
+            ->get()
+            ->pluck('option_name', 'option_value');
 
         return view('backend.pages.page.index')->with([
             'dynamic_page_ids' => $dynamic_page_ids,
@@ -35,9 +40,13 @@ class PagesController extends Controller
     {
         $request->validate([
             'content' => 'nullable',
+            'content_km' => 'nullable',
             'meta_tags' => 'nullable',
+            'meta_tags_km' => 'nullable',
             'meta_description' => 'nullable',
+            'meta_description_km' => 'nullable',
             'title' => 'required',
+            'title_km' => 'required',
             'slug' => 'nullable',
             'visibility' => 'nullable',
             'status' => 'required|string|max:191',
@@ -53,13 +62,17 @@ class PagesController extends Controller
 
         Page::create([
             'title' => $request->title,
+            'title_km' => $request->title_km,
             'slug' => $slug,
             'meta_tags' => $request->meta_tags,
+            'meta_tags_km' => $request->meta_tags_km,
             'meta_description' => $request->meta_description,
+            'meta_description_km' => $request->meta_description_km,
             'content' => $request->page_content,
+            'content_km' => $request->page_content_km,
             'status' => $request->status,
             'visibility' => $request->visibility,
-            'page_builder_status' => (boolean) $request->page_builder_status,
+            'page_builder_status' => (bool) $request->page_builder_status,
             'page_container_option' => (int) !!$request->page_container_option,
             'navbar_variant' => $request->navbar_variant ?? 0,
             'navbar_category_dropdown_open' => (int) !!$request->navbar_category_dropdown_open,
@@ -85,9 +98,13 @@ class PagesController extends Controller
 
         $request->validate([
             'content' => 'nullable',
+            'content_km' => 'nullable',
             'meta_tags' => 'nullable',
+            'meta_tags_km' => 'nullable',
             'meta_description' => 'nullable',
+            'meta_description_km' => 'nullable',
             'title' => 'required',
+            'title_km' => 'required',
             'slug' => 'nullable',
             'visibility' => 'nullable',
             'status' => 'required|string|max:191',
@@ -108,13 +125,17 @@ class PagesController extends Controller
 
         Page::where('id', $id)->update([
             'title' => $request->title,
+            'title_km' => $request->title_km,
             'slug' => $slug,
             'meta_tags' => $request->meta_tags,
+            'meta_tags_km' => $request->meta_tags_km,
             'meta_description' => $request->meta_description,
+            'meta_description_km' => $request->meta_description_km,
             'content' => $request->page_content,
+            'content_km' => $request->page_content_km,
             'status' => $request->status,
             'visibility' => $request->visibility,
-            'page_builder_status' => (boolean) $request->page_builder_status,
+            'page_builder_status' => (bool) $request->page_builder_status,
             'navbar_variant' => $request->navbar_variant,
             'breadcrumb_status' => $request->breadcrumb_status ? 1 : 0,
             'page_container_option' => (int) !!$request->page_container_option,

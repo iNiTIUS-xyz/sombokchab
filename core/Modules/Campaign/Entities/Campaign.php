@@ -48,8 +48,10 @@ class Campaign extends Model
 {
     protected $fillable = [
         'title',
+        'title_km',
         'slug',
         'subtitle',
+        'subtitle_km',
         'image',
         'status',
         'start_date',
@@ -63,12 +65,12 @@ class Campaign extends Model
 
     public function product(): HasManyThrough
     {
-        return $this->hasManyThrough(Product::class,CampaignProduct::class,"campaign_id","id","id","product_id");
+        return $this->hasManyThrough(Product::class, CampaignProduct::class, "campaign_id", "id", "id", "product_id");
     }
 
     public function campaignImage(): HasOne
     {
-        return $this->hasOne(MediaUpload::class,"id","image");
+        return $this->hasOne(MediaUpload::class, "id", "image");
     }
 
     public function products(): HasMany
@@ -78,18 +80,19 @@ class Campaign extends Model
 
     public function admin(): HasOne
     {
-        return $this->hasOne(Admin::class,"id","admin_id");
+        return $this->hasOne(Admin::class, "id", "admin_id");
     }
 
     public function vendor(): HasOne
     {
-        return $this->hasOne(Vendor::class,"id","vendor_id");
+        return $this->hasOne(Vendor::class, "id", "vendor_id");
     }
 
-    public function scopeProfile($query){
-        return $query->when($this->type == 'admin', function ($q){
+    public function scopeProfile($query)
+    {
+        return $query->when($this->type == 'admin', function ($q) {
             $q->with("admin");
-        })->when($this->type == "vendor" , function ($q){
+        })->when($this->type == "vendor", function ($q) {
             $q->with("vendor");
         });
     }

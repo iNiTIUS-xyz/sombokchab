@@ -81,12 +81,24 @@
                             <div class="dashboard__card">
                                 <div class="mb-3">
                                     <label class="form-label">
-                                        Campaign Name
+                                        Campaign Name (English)
                                         <span class="text-danger">*</span>
                                     </label>
                                     <input type="text" class="form-control" name="campaign_name"
                                         placeholder="Enter campaign name" value="{{ $campaign->title }}" required>
                                     @error('campaign_name')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">
+                                        ឈ្មោះយុទ្ធនាការ (ខ្មែរ)
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" name="campaign_name_km"
+                                        placeholder="បញ្ចូលឈ្មោះយុទ្ធនាការ (ខ្មែរ)" value="{{ $campaign->title_km }}"
+                                        required>
+                                    @error('campaign_name_km')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -99,6 +111,18 @@
                                         placeholder="Enter campaign subtitle"
                                         value="{{ html_entity_decode($campaign->subtitle) }}" required>
                                     @error('campaign_subtitle')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">
+                                        ចំណងជើងរងយុទ្ធនាការ (ខ្មែរ)
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" name="campaign_subtitle_km"
+                                        placeholder="បញ្ចូលចំណងជើងរងយុទ្ធនាការ (ខ្មែរ)"
+                                        value="{{ html_entity_decode($campaign->subtitle_km) }}" required>
+                                    @error('campaign_subtitle_km')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -187,7 +211,8 @@
                             <div class="accordion" id="campaignProducts">
                                 @if ($campaign->products)
                                     @foreach ($campaign->products as $campaignProduct)
-                                        <input type="hidden" name="campaign_product_id[]" class="campaign_product_id" value="{{ $campaignProduct->id }}">
+                                        <input type="hidden" name="campaign_product_id[]" class="campaign_product_id"
+                                            value="{{ $campaignProduct->id }}">
                                         <div class="accordion-item mb-2"
                                             id="accordion-{{ $campaignProduct->product_id }}">
                                             <h2 class="accordion-header d-flex align-items-center">

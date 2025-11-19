@@ -1,12 +1,15 @@
 @extends('backend.admin-master')
+
 @section('style')
     <link rel="stylesheet" href="{{ asset('assets/backend/css/bootstrap-tagsinput.css') }}">
     <x-summernote.css />
     <x-media.css />
 @endsection
+
 @section('site-title')
     {{ __('Edit Page') }}
 @endsection
+
 @section('content')
     @php
         use App\CategoryMenu;
@@ -33,11 +36,20 @@
                                 <div class="col-lg-8">
                                     <div class="form-group">
                                         <label for="title">
-                                            {{ __('Title') }}
+                                            {{ __('Title (English)') }}
                                             <span class="text-danger">*</span>
                                         </label>
                                         <input type="text" class="form-control" id="title" name="title"
-                                            placeholder="{{ __('Enter title') }}" value="{{ $page_post->title }}">
+                                            placeholder="{{ __('Enter title (English)') }}" value="{{ $page_post->title }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="title_km">
+                                            {{ __('ចំណងជើង (ខ្មែរ)') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" id="title_km" name="title_km"
+                                            placeholder="{{ __('បញ្ចូលចំណងជើង (ខ្មែរ)') }}"
+                                            value="{{ $page_post->title_km }}">
                                     </div>
                                     <div class="form-group mt-5">
                                         <label for="page_builder_status">
@@ -53,10 +65,17 @@
                                     </div>
                                     <div
                                         class="form-group classic-editor-wrapper @if (!empty($page_post->page_builder_status)) d-none @endif ">
-                                        <label>{{ __('Content') }}
-
+                                        <label>
+                                            {{ __('Content') }}
                                         </label>
                                         <textarea class="summernote" type="hidden" name="page_content">{!! $page_post->content !!}</textarea>
+                                    </div>
+                                    <div
+                                        class="form-group classic-editor-wrapper @if (!empty($page_post->page_builder_status)) d-none @endif ">
+                                        <label>
+                                            {{ __('ខ្លឹមសារ (ខ្មែរ)') }}
+                                        </label>
+                                        <textarea class="summernote" type="hidden" name="page_content_km">{!! $page_post->content_km !!}</textarea>
                                     </div>
                                     <div
                                         class="btn-wrapper page-builder-btn-wrapper @if (empty($page_post->page_builder_status)) d-none @endif ">
@@ -97,37 +116,7 @@
                                             <span class="slider-yes-no"></span>
                                         </label>
                                     </div>
-                                    {{-- <div class="form-group">
-                                        <label>
-                                            <strong>
-                                                {{ __('Full Page Width') }}
-                                            </strong>
-                                        </label>
-                                        <label class="switch role">
-                                            <input type="checkbox" name="page_container_option"
-                                                @if (!empty($page_post->page_container_option)) checked @endif>
-                                            <span class="slider-yes-no"></span>
-                                        </label>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>
-                                            <strong>
-                                                {{ __('Navbar Category Dropdown Open') }}
-                                            </strong>
-                                        </label>
-                                        <label class="switch role">
-                                            <input type="checkbox" name="navbar_category_dropdown_open"
-                                                @if (!empty($page_post->navbar_category_dropdown_open)) checked @endif>
-                                            <span class="slider-yes-no"></span>
-                                        </label>
-                                    </div> --}}
-                                    {{-- <div class="form-group">
-                                        <label for="slug">
-                                            {{ __('Slug') }}
-                                        </label>
-                                        <input type="text" class="form-control" id="slug" name="slug"
-                                            placeholder="{{ __('Enter slug') }}" value="{{ $page_post->slug }}">
-                                    </div> --}}
+
                                     <div class="form-group">
                                         <label>
                                             {{ __('Publish Status') }}
@@ -142,19 +131,7 @@
                                             </option>
                                         </select>
                                     </div>
-                                    {{-- <div class="form-group" id="megamenu">
-                                        <label>{{ __('Select Mega Menu') }}
 
-                                        </label>
-                                        <select name="megamenu" class="form-control">
-                                            @foreach ($mega_menu_categories as $key => $value)
-                                                <option value="{{ $key }}"
-                                                    {{ $key == $selected_megamenu ? 'selected' : '' }}>
-                                                    {{ html_entity_decode($value) }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div> --}}
                                     <div class="form-group">
                                         <label>
                                             {{ __('Visibility') }}
@@ -170,11 +147,20 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="meta_tags">
-                                            {{ __('Page Meta Tags') }}
+                                            {{ __('Page Meta Tags (English)') }}
                                         </label>
                                         <input type="text" name="meta_tags" class="form-control"
                                             placeholder="{{ __('Enter page meta tags') }}"
                                             value="{{ $page_post->meta_tags }}" data-role="tagsinput" id="meta_tags">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="meta_tags_km">
+                                            {{ __('ស្លាកមេតាទំព័រ (ខ្មែរ)') }}
+                                        </label>
+                                        <input type="text" name="meta_tags_km" class="form-control"
+                                            placeholder="{{ __('បញ្ចូលស្លាកមេតាទំព័រ (ខ្មែរ)') }}"
+                                            value="{{ $page_post->meta_tags_km }}" data-role="tagsinput"
+                                            id="meta_tags_km">
                                     </div>
                                     <div class="form-group">
                                         <label for="meta_description">
@@ -182,6 +168,13 @@
                                         </label>
                                         <textarea name="meta_description" class="form-control" id="meta_description"
                                             placeholder="{{ __('Enter page meta description') }}">{{ $page_post->meta_description }}</textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="meta_description_km">
+                                            {{ __('ការពិពណ៌នាមេតាទំព័រ (ខ្មែរ)') }}
+                                        </label>
+                                        <textarea name="meta_description_km" class="form-control" id="meta_description_km"
+                                            placeholder="{{ __('បញ្ចូលការពិពណ៌នាមេតាទំព័រ (ខ្មែរ)') }}">{{ $page_post->meta_description_km }}</textarea>
                                     </div>
                                     <div class="col-sm-12">
                                         <button type="submit" class="cmn_btn btn_bg_profile">

@@ -57,7 +57,16 @@
                                                     </div>
                                                 </td>
                                             @endcan
-                                            <td>{{ $data->title }}</td>
+                                            <td>
+                                                <p>
+                                                    <strong>English :</strong> {{ $data->title }}
+                                                </p>
+                                                @if ($data->title_km)
+                                                    <p>
+                                                        <strong>Khmer :</strong> {{ $data->title_km }}
+                                                    </p>
+                                                @endif
+                                            </td>
                                             <td>
                                                 <div class="btn-group badge">
                                                     <button type="button"
@@ -92,8 +101,10 @@
                                                         data-bs-target="#faq_item_edit_modal"
                                                         class="btn btn-warning btn-xs text-dark mb-2 me-1 faq_edit_btn"
                                                         data-id="{{ $data->id }}" data-title="{{ $data->title }}"
-                                                        data-lang="{{ $data->lang }}" data-is_open="{{ $data->is_open }}"
+                                                        data-title_km="{{ $data->title_km }}" data-lang="{{ $data->lang }}"
+                                                        data-is_open="{{ $data->is_open }}"
                                                         data-description="{{ $data->description }}"
+                                                        data-description_km="{{ $data->description_km }}"
                                                         data-status="{{ $data->status }}" title="{{ __('Edit Data') }}">
                                                         <i class="ti-pencil"></i>
                                                     </a>
@@ -128,7 +139,7 @@
     @can('edit-faq')
         <div class="modal fade" id="faq_add_modal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
-                <div class="modal-content custom__form">
+                <div class="modal-content custom__form" style="min-height: 450px; overflow-y: scroll;">
                     <div class="modal-header">
                         <h5 class="modal-title">{{ __('Add New FAQ') }}</h5>
                         <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
@@ -139,11 +150,21 @@
                             <div class="col-sm-12">
                                 <div class="form-group mt-3">
                                     <label for="title">
-                                        {{ __('Title') }}
+                                        {{ __('Title (English)') }}
                                         <span class="text-danger">*</span>
                                     </label>
                                     <input type="text" class="form-control" id="title" name="title"
-                                        placeholder="{{ __('Title') }}" required="">
+                                        placeholder="{{ __('Enter title (English)') }}" required="">
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group mt-3">
+                                    <label for="title_km">
+                                        {{ __('ចំណងជើង (ខ្មែរ)') }}
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" id="title_km" name="title_km"
+                                        placeholder="{{ __('បញ្ចូលចំណងជើង (ខ្មែរ)') }}" required="">
                                 </div>
                             </div>
                             <div class="col-sm-12">
@@ -158,10 +179,19 @@
                             <div class="col-sm-12">
                                 <div class="form-group mt-3">
                                     <label for="description">
-                                        {{ __('Description') }}
+                                        {{ __('Description (English)') }}
                                         <span class="text-danger">*</span>
                                     </label>
                                     <textarea name="description" class="summernote"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group mt-3">
+                                    <label for="description">
+                                        {{ __('ការពិពណ៌នា (ខ្មែរ)') }}
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <textarea name="description_km" class="summernote"></textarea>
                                 </div>
                             </div>
                             <div class="col-sm-12">
@@ -188,7 +218,7 @@
     @can('edit-faq')
         <div class="modal fade" id="faq_item_edit_modal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
-                <div class="modal-content custom__form">
+                <div class="modal-content custom__form" style="min-height: 450px; overflow-y: scroll;">
                     <div class="modal-header">
                         <h5 class="modal-title">{{ __('Edit FAQ') }}</h5>
                         <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
@@ -198,14 +228,21 @@
                             @csrf
                             <input type="hidden" name="id" id="faq_id" value="">
                             <input type="hidden" name="lang" id="faq_lang" value="">
-
                             <div class="form-group">
                                 <label for="edit_title">
-                                    {{ __('Title') }}
+                                    {{ __('Title (English)') }}
                                     <span class="text-danger">*</span>
                                 </label>
                                 <input type="text" class="form-control" id="edit_title" name="title"
                                     placeholder="{{ __('Title') }}" required="">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit_title_km">
+                                    {{ __('ចំណងជើង (ខ្មែរ)') }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="edit_title_km" name="title_km"
+                                    placeholder="{{ __('បញ្ចូលចំណងជើង (ខ្មែរ)') }}" required="">
                             </div>
                             <div class="form-group">
                                 <label for="edit_is_open">{{ __('Is Open by Default') }}</label>
@@ -216,10 +253,17 @@
                             </div>
                             <div class="form-group">
                                 <label for="edit_description">
-                                    {{ __('Description') }}
+                                    {{ __('Description (English)') }}
                                     <span class="text-danger">*</span>
                                 </label>
                                 <textarea name="description" id="edit_description" class="summernote"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit_description_km">
+                                    {{ __('ការពិពណ៌នា (ខ្មែរ)') }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <textarea name="description_km" id="edit_description_km" class="summernote summernote_km"></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="edit_status">
@@ -345,7 +389,9 @@
                     var el = $(this);
                     var id = el.data('id');
                     var title = el.data('title');
+                    var title_km = el.data('title_km');
                     var description = el.data('description');
+                    var description_km = el.data('description_km');
                     var status = el.data('status');
                     var is_open = el.data('is_open');
                     var lang = el.data('lang');
@@ -354,11 +400,13 @@
 
                     form.find('#faq_id').val(id);
                     form.find('#edit_title').val(title);
+                    form.find('#edit_title_km').val(title_km);
                     form.find('#faq_lang').val(lang);
                     form.find('#edit_status').val(status);
 
                     // Set the summernote content
                     form.find('.summernote').summernote('code', description);
+                    form.find('.summernote_km').summernote('code', description_km);
 
                     // Set the checkbox state
                     if (is_open == 1) {
@@ -368,10 +416,11 @@
                     }
                 });
 
-                // Handle form submission to include summernote content
                 $('#faq_edit_modal_form').on('submit', function() {
                     var description = $(this).find('.summernote').summernote('code');
+                    var description_km = $(this).find('.summernote_km').summernote('code');
                     $(this).find('#edit_description').val(description);
+                    $(this).find('#edit_description_km').val(description_km);
                     return true;
                 });
             });
