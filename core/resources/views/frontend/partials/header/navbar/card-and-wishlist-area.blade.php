@@ -86,33 +86,43 @@
                                 </div>
                             </div>
                         </div>
-
-                        <span class="addto-cart-counts color-heading fw-500 px-3"> {{ $cart_item->qty }} </span>
-
+                        <span class="addto-cart-counts color-heading fw-500 px-3">
+                            {{ $cart_item->qty }}
+                        </span>
                         <a data-label="Close" data-product_hash_id="{{ $cart_item->rowId }}" href="#1"
                             class="ff-jost close-cart px-3">
-                            <span class="icon-close color-heading"> <i class="las la-times"></i> </span>
+                            <span class="icon-close color-heading">
+                                <i class="las la-times"></i>
+                            </span>
                         </a>
                     </div>
                 @empty
                     <div class="single-addto-carts">
-                        <p class="text-center">{{ __('No Item in Cart') }}</p>
+                        <p class="text-center">
+                            {{ __('No Item in Cart') }}
+                        </p>
                     </div>
                 @endforelse
             </div>
 
             @if ($cart->count() != 0)
                 <div class="cart-total-amount">
-                    <h6 class="amount-title"> {{ __('Total Amount:') }} </h6> <span class="fs-18 fw-500 color-light">
-                        {{ site_currency_symbol() . $subtotal }} </span>
+                    <h6 class="amount-title">
+                        {{ __('Total Amount:') }}
+                    </h6>
+                    <span class="fs-18 fw-500 color-light">
+                        {{ site_currency_symbol() . $subtotal }}
+                    </span>
                 </div>
                 <div class="btn-wrapper mt-3">
-                    <a href="{{ route('frontend.checkout') }}" class="cart-btn radius-0 w-100"> {{ __('Checkout') }}
+                    <a href="{{ route('frontend.checkout') }}" class="cart-btn radius-0 w-100">
+                        {{ __('Checkout') }}
                     </a>
                 </div>
                 <div class="btn-wrapper mt-3">
                     <a href="{{ route('frontend.products.cart') }}" class="cart-btn cart-btn-outline radius-0 w-100">
-                        {{ __('View Cart') }} </a>
+                        {{ __('View Cart') }}
+                    </a>
                 </div>
             @endif
         </div>
@@ -234,7 +244,6 @@
         @else
             <a class="accounts" href="#1">
                 <i class="las la-user"></i>
-                {{-- <span class="icon-title">{{ __('Account') }}</span> --}}
             </a>
             <ul class="account-list-item">
                 <li class="list">

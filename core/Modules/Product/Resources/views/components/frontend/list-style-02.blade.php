@@ -33,11 +33,13 @@
             <div class="flash-item-contents">
                 <h6 class="title hover-color-two">
                     <a href="{{ route('frontend.products.single', $product->slug) }}">
-                        {{ $product->name }}</a>
+                        {{ $product->name }}
+                    </a>
                 </h6>
                 @if ($product->ratings_count > 0)
                     <div class="d-flex radius-5" style="height: 15px;">
-                        <span class="product__card__review__icon"><i class="las la-star" style="color: var(--review-color);"></i></span>
+                        <span class="product__card__review__icon"><i class="las la-star"
+                                style="color: var(--review-color);"></i></span>
                         <x-product::frontend.common.rating-markup :rating-count="$product->ratings_count" :avg-rattings="$product->ratings_avg_rating ?? 0" />
                     </div>
                 @endif

@@ -289,11 +289,8 @@
         transition: transform 0.3s ease;
     }
 </style>
-
-<!-- Header area Starts -->
 <header class="header-style-01 topbar-bg-4">
     <div class="desktop-navbar">
-        <!-- Topbar area Starts -->
         <div class="topbar-bottom-area topbar-bottom-four py-2">
             <div class="" style="padding: 0px 10px">
                 <div class="row align-items-center">
@@ -339,9 +336,6 @@
                                     </select>
                                     <input autocomplete="off" class="form--control radius-5" id="search_form_input"
                                         type="text" placeholder="{{ 'Search For Products' }}">
-
-
-
                                     <span class="margin-2 radius-5 dismissSearcSection text-danger"
                                         style="display: none;">
                                         <i class="las la-times"></i>
@@ -375,7 +369,7 @@
                                                     <a href="" id="showMoreProduct"
                                                         class="showMoreProduct btn btn-primary"
                                                         style="border-radius: 30px">
-                                                        View More
+                                                        {{ __('View More') }}
                                                     </a>
                                                 </span>
                                             </h6>
@@ -387,16 +381,14 @@
                     </div>
                     <div class="col-lg-2 d-none d-lg-block">
                         <div class="single-right-content" style="display: flex; justify-content: center;">
-
                             <div class="track-icon-list header-card-area-content-wrapper">
                                 <!-- Currency Selector with Dropdown Icon -->
                                 <div class="custom-dropdown" style="float: right; margin-left: 10px;">
                                     <select id="currency-selector" class="form-control" style="width: 70px">
-                                        <option value="USD" selected>USD</option>
-                                        <option value="KHR">KHR</option>
+                                        <option value="USD" selected>{{ __('USD') }}</option>
+                                        <option value="KHR">{{ __('KHR') }}</option>
                                     </select>
                                 </div>
-
                                 @include('frontend.partials.header.navbar.card-and-wishlist-area')
                             </div>
                         </div>
@@ -412,7 +404,10 @@
                 <div class="navbar-inner-all">
                     <div class="navbar-inner-all--left">
                         <div class="nav-category category_bars">
-                            <span class="nav-category-bars"><i class="las la-bars"></i> {{ __('Categories') }}</span>
+                            <span class="nav-category-bars">
+                                <i class="las la-bars"></i>
+                                {{ __('Categories') }}
+                            </span>
                         </div>
                         <div class="responsive-mobile-menu d-lg-none d-block">
                             <div class="logo-wrapper">
@@ -509,8 +504,6 @@
                                     @endif
                                 </a>
                             </div>
-
-
                             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#mares_main_menu">
                                 <span class="">
@@ -524,14 +517,27 @@
                             <div class="topbar-right-offer">
                                 <ul class="list">
                                     <li>
-                                        <div class="gtranslate_wrapper"></div>
+                                        {{-- <div class="gtranslate_wrapper"></div> --}}
+                                        <form action="{{ route('frontend.change.language') }}" method="POST">
+                                            @csrf
+                                            <select name="language" class="form-control"
+                                                onchange="this.form.submit()">
+                                                <option value="en_US"
+                                                    @if (session()->get('lang') == 'en_US') selected @endif>
+                                                    {{ __('English') }}
+                                                </option>
+                                                <option value="km"
+                                                    @if (session()->get('lang') == 'km') selected @endif>
+                                                    {{ __('English') }}
+                                                </option>
+                                            </select>
+                                        </form>
                                     </li>
                                     <li>
-                                        <!-- Currency Selector with Dropdown Icon -->
                                         <div class="custom-dropdown">
                                             <select id="currency-selector">
-                                                <option value="USD" selected>USD</option>
-                                                <option value="KHR">KHR</option>
+                                                <option value="USD" selected>{{ __('USD') }}</option>
+                                                <option value="KHR">{{ __('KHR') }}</option>
                                             </select>
                                         </div>
                                     </li>
@@ -570,28 +576,25 @@
                                             </li>
                                         @endif
                                     @endif
-
                                 </ul>
                             </div>
                         </div>
                         <ul class="navbar-nav">
                             {!! render_frontend_menu($primary_menu) !!}
                         </ul>
-
                     </div>
-
                 </div>
             </div>
         </nav>
-        <!-- Menu area end -->
-
         <!-- Topbar area Starts -->
         <div class="topbar-bottom-area topbar-bottom-four py-2">
             <div class="" style="padding: 0px 10px">
                 <div class="row align-items-center">
                     <div class="col-2">
                         <div class="nav-category category_bars text-center">
-                            <span class="nav-category-bars"><i class="las la-bars"></i></span>
+                            <span class="nav-category-bars">
+                                <i class="las la-bars"></i>
+                            </span>
                         </div>
                     </div>
                     <div class="col-10">
@@ -599,7 +602,7 @@
                             <form action="#" class="single-searchbar searchbar-suggetions">
                                 <div class="input-group">
                                     <select class="form--control category-select" id="search_category_id">
-                                        <option value="all">All Categories</option>
+                                        <option value="all">{{ __('All Categories') }}</option>
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->id }}">
                                                 {{ $category->name }}
@@ -607,11 +610,8 @@
                                         @endforeach
                                     </select>
                                     <input autocomplete="off" class="form--control radius-5" id="search_form_input"
-                                        type="text" placeholder="{{ 'Search For Products' }}">
+                                        type="text" placeholder="{{ __('Search For Products') }}">
 
-                                    {{-- <button type="submit" class="right-position-button margin-2 radius-5">
-                                        <i class="las la-search"></i>
-                                    </button> --}}
                                 </div>
                                 <div class="search-suggestions" id="search_suggestions_wrap">
                                     <div class="search-inner">
@@ -623,14 +623,10 @@
                                             </div>
                                         </div>
                                         <div class="product-suggestion item-suggestions">
-                                            {{-- <h6 class="item-title text-center">{{ __('Product Suggestions') }}</h6>
-                                            --}}
-                                            <ul id="search_result_products" class="product-suggestion-list mt-4">
-
-                                            </ul>
+                                            <ul id="search_result_products" class="product-suggestion-list mt-4"></ul>
                                             <a href="" class="showMoreProduct"
                                                 style="text-align: center; display: block;">
-                                                View More
+                                                {{ __('View More') }}
                                             </a>
                                         </div>
 
@@ -650,16 +646,17 @@
                 </div>
             </div>
         </div>
-        <!-- Topbar area Ends -->
-
     </div>
 
-    <!-- Category nav wrapper  -->
     <div class="categoryNav_overlay"></div>
     <div class="categoryNav">
-        <div class="categoryNav__close"><i class="las la-times"></i></div>
+        <div class="categoryNav__close">
+            <i class="las la-times"></i>
+        </div>
         <div class="categoryNav_sidebar">
-            <h3 class="categoryNav__title">{{ __('All Categories') }}</h3>
+            <h3 class="categoryNav__title">
+                {{ __('All Categories') }}
+            </h3>
             <div class="categoryNav__inner mt-3">
                 <ul class="categoryNav__list parent_menu menu_visible">
                     {{-- “All Categories” --}}
@@ -668,9 +665,7 @@
                             class="nav-link {{ !request('category') ? 'active' : '' }}">
                             {{ __('All Categories') }}
                         </a>
-                        {{-- no toggle here for “All Categories” --}}
                     </li>
-
                     @foreach ($categories as $category)
                         <li class="nav-item d-flex align-items-center justify-content-between">
                             {{-- 1) Category‐name link --}}
@@ -683,7 +678,6 @@
                             </a>
 
                             @if ($category->subcategory->count())
-                                {{-- 2) Icon‐only toggle link --}}
                                 <a href="#submenu-{{ $category->id }}" class="toggle-icon" data-bs-toggle="collapse"
                                     role="button"
                                     aria-expanded="{{ request('category') === $category->name ? 'true' : 'false' }}"
@@ -692,7 +686,6 @@
                                 </a>
                             @endif
 
-                            {{-- 3) The in-flow submenu (collapsed by default) --}}
                             @if ($category->subcategory->count())
                                 <ul id="submenu-{{ $category->id }}"
                                     class="collapse submenu-list {{ request('category') === $category->name ? 'show' : '' }}">
@@ -713,8 +706,6 @@
                         </li>
                     @endforeach
                 </ul>
-
-
             </div>
         </div>
     </div>
@@ -726,18 +717,19 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Upload an Image for Search</h5>
+                <h5 class="modal-title">{{ __('Upload an Image for Search') }}</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body text-center">
                 <input type="file" id="imageSearchInput" accept="image/*" class="form-control">
-                <img id="imagePreview" src="#" alt="Image Preview" class="img-fluid mt-3"
+                <img id="imagePreview" src="#" alt="{{ __('Image Preview') }}" class="img-fluid mt-3"
                     style="display:none; max-height: 200px;">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="uploadImageForSearch()">Search</button>
+                <button type="button" class="btn btn-primary"
+                    onclick="uploadImageForSearch()">{{ __('Search') }}</button>
             </div>
         </div>
     </div>

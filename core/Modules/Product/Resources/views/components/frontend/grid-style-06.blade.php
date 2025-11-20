@@ -53,14 +53,14 @@
             </div>
             <div class="product__card__cart mt-3">
                 @if (isset($attributes) && $attributes > 0)
-                    <a data-type="text" data-old-text="{{ __('View Details') }}" title="View Details"
+                    <a data-type="text" data-old-text="{{ __('View Details') }}" title="{{ __('View Details') }}"
                         data-action-route="{{ route('frontend.products.single-quick-view', $product->slug) }}"
                         data-attributes="{{ $product->attributes }}" data-id="{{ $product->id }}"
                         class="product__card__cart__btn radius-30 product-quick-view-ajax {{ $class ?? '' }}">
                         {{ __('View Details') }}
                     </a>
                 @else
-                    <a data-type="text" data-old-text="{{ __('Add to Cart') }}" href="#1" title="Add to cart"
+                    <a data-type="text" data-old-text="{{ __('Add to Cart') }}" href="#1" title="{{ __('Add to cart') }}"
                         data-attributes="{{ $product->attribute }}" data-id="{{ $product->id }}"
                         class="product__card__cart__outline radius-30 add_to_cart_ajax {{ $class ?? '' }}">
                         {{ __('Add to Cart') }}
@@ -68,19 +68,19 @@
                 @endif
 
                 <div class="product__card__cart__right">
-                    <a href="javascript:void(0)" data-id="{{ $product->id }}" title="Add to compare"
+                    <a href="javascript:void(0)" data-id="{{ $product->id }}" title="{{ __('Add to compare') }}"
                         class="{{ $class ?? '' }} product__card__cart__btn__icon cart-loading icon add_to_compare_ajax">
                         <i class="las la-retweet"></i>
                     </a>
 
                     @if (isset($attributes) && $attributes > 0)
                         <a class="{{ $class ?? '' }} product-quick-view-ajax favourite icon cart-loading product__card__cart__btn__icon"
-                            href="#1" title="View Details"
+                            href="#1" title="{{ __('View Details') }}"
                             data-action-route="{{ route('frontend.products.single-quick-view', $product->slug) }}">
                             <i class="lar la-save"></i>
                         </a>
                     @else
-                        <a href="#1" data-id="{{ $product->id }}" title="Save for Later"
+                        <a href="#1" data-id="{{ $product->id }}" title="{{ __('Save for Later') }}"
                             class="{{ $class ?? '' }} add_to_wishlist_ajax icon cart-loading product__card__cart__btn__icon">
                             <i class="lar la-save"></i>
                         </a>

@@ -7,10 +7,9 @@
             <div class="col-lg-9">
                 <div class="banner-middle-content bg-item-two radius-10">
                     <div class="global-slick-init dot-style-one banner-dots dot-color-two dot-absolute"
-                         data-infinite="true" data-arrows="true" data-dots="true"
-                         data-rtl="{{get_user_lang_direction() == 'rtl' ? 'true' : 'false'}}"
-                         data-autoplaySpeed="3000"
-                         data-autoplay="true">
+                        data-infinite="true" data-arrows="true" data-dots="true"
+                        data-rtl="{{ get_user_lang_direction() == 'rtl' ? 'true' : 'false' }}" data-autoplaySpeed="3000"
+                        data-autoplay="true">
                         @for ($i = 0; $i < count($sliders['subtitle_'] ?? []); $i++)
                             <div class="banner-middle-image">
                                 <div class="banner-single-thumb">

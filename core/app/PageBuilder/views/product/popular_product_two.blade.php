@@ -6,7 +6,8 @@
                     <h2 class="title">{{ $section_title ?? '' }}</h2>
                     <div class="btn_wrapper">
                         <a href="{{ route('frontend.products.all') }}" class="viewAll_btn">
-                            {{ __('View All') }} <i class="las la-angle-right"></i>
+                            {{ __('View All') }}
+                            <i class="las la-angle-right"></i>
                         </a>
                     </div>
                 </div>
@@ -19,5 +20,3 @@
         </div>
     </div>
 </section>
-<!-- Popular Porduct end -->
-

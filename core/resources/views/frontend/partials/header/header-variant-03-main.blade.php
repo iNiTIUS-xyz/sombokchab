@@ -103,7 +103,10 @@
             <div class="navbar-inner-all">
                 <div class="navbar-inner-all--left">
                     <div class="nav-category category_bars">
-                        <span class="nav-category-bars"><i class="las la-bars"></i> {{ __('Categories') }}</span>
+                        <span class="nav-category-bars">
+                            <i class="las la-bars"></i>
+                            {{ __('Categories') }}
+                        </span>
                     </div>
                     <div class="responsive-mobile-menu d-lg-none d-block">
                         <div class="logo-wrapper">
@@ -112,7 +115,8 @@
                                     {!! render_image_markup_by_attachment_id(filter_static_option_value('site_logo', $global_static_field_data)) !!}
                                 @else
                                     <h2 class="site-title">
-                                        {{ filter_static_option_value('site_title', $global_static_field_data) }}</h2>
+                                        {{ filter_static_option_value('site_title', $global_static_field_data) }}
+                                    </h2>
                                 @endif
                             </a>
                         </div>

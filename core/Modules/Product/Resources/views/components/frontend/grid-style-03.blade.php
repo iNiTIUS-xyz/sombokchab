@@ -19,9 +19,7 @@
             <a href="{{ route('frontend.products.single', $product->slug) }}">
                 {!! render_image($product->image) !!}
             </a>
-
             {!! view('product::components.frontend.common.badge-and-discount', compact('product', 'campaign_percentage')) !!}
-
             <ul class="global-thumb-icons">
                 {!! view('product::components.frontend.common.link-option', compact('product', 'attributes', 'isAllowBuyNow')) !!}
             </ul>
@@ -52,8 +50,12 @@
                 <div class="single-global-card mt-2">
                     <div class="global-card-left">
                         <div class="price-update-through">
-                            <span class="fs-24 fw-500 ff-rubik flash-prices color-one"> {!! amount_with_currency_symbol(calculatePrice($sale_price, $product)) !!} </span>
-                            <span class="fs-18 flash-old-prices ff-rubik">{!! amount_with_currency_symbol(calculatePrice($deleted_price, $product)) !!}</span>
+                            <span class="fs-24 fw-500 ff-rubik flash-prices color-one">
+                                {!! amount_with_currency_symbol(calculatePrice($sale_price, $product)) !!}
+                            </span>
+                            <span class="fs-18 flash-old-prices ff-rubik">
+                                {!! amount_with_currency_symbol(calculatePrice($deleted_price, $product)) !!}
+                            </span>
                         </div>
                     </div>
                 </div>

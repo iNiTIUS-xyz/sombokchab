@@ -53,13 +53,12 @@
 
             <div class="product__card__cart mt-3">
                 @if ($stock_count <= 0)
-                    {{-- Out of Stock --}}
                     <button type="button" class="product__card__cart__outline radius-30 out-of-stock-btn" disabled>
                         {{ __('Out of Stock') }}
                     </button>
                 @else
                     @if (isset($attributes) && $attributes > 0)
-                        <a data-type="text" data-old-text="{{ __('View Details') }}" title="View Details"
+                        <a data-type="text" data-old-text="{{ __('View Details') }}" title="{{ __('View Details') }}"
                             data-action-route="{{ route('frontend.products.single-quick-view', $product->slug) }}"
                             data-attributes="{{ $product->attributes }}" data-id="{{ $product->id }}"
                             class="product__card__cart__btn radius-30 product-quick-view-ajax {{ $class ?? '' }}">
