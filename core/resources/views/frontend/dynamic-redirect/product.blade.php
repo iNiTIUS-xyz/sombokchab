@@ -167,7 +167,7 @@
                                             <li data-val="{{ $category->name }}" data-type="category"
                                                 class="list menu-item-has-children {{ request('category') === $category->name ? 'active open' : '' }}">
                                                 <a href="javascript:void(0)" class="text-dark">
-                                                    {{ $category->name }}
+                                                    {{ langWiseShowValue($category->name, $category->name_km) }}
                                                 </a>
                                                 <ul class="submenu {{ request('category') === $category->name ? 'show' : 'none' }}"
                                                     style="display: {{ request('category') === $category->name ? 'block' : 'none' }};">
@@ -175,7 +175,7 @@
                                                         <li data-val="{{ $sub_cat->name }}" data-type="sub_category"
                                                             class="list {{ request('sub_category') === $sub_cat->name ? 'active' : '' }}">
                                                             <a href="javascript:void(0)" class="text-dark">
-                                                                {{ $sub_cat->name }}
+                                                                {{ langWiseShowValue($sub_cat->name, $sub_cat->name_km) }}
                                                             </a>
                                                         </li>
                                                     @endforeach
@@ -183,7 +183,6 @@
                                             </li>
                                         @endforeach
                                     </ul>
-
                                 </div>
                             </div>
                         </div>
@@ -299,7 +298,7 @@
                                         @foreach ($all_brands as $brand)
                                             <li data-type="brand" data-val="{{ $brand->name }}" class="list">
                                                 <a href="#1" class="text-dark">
-                                                    {{ $brand->name }}
+                                                    {{ langWiseShowValue($brand->name, $brand->name_km) }}
                                                 </a>
                                             </li>
                                         @endforeach
@@ -326,7 +325,8 @@
                                                     class="search_location">
                                                     <option value="">{{ __('Select an Country') }}</option>
                                                     @foreach ($countries as $country)
-                                                        <option value="{{ $country->id }}"> {{ $country->name }}
+                                                        <option value="{{ $country->id }}">
+                                                            {{ $country->name }}
                                                         </option>
                                                     @endforeach
                                                 </select>

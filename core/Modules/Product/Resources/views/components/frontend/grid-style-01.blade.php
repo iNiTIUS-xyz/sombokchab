@@ -26,9 +26,11 @@
             </ul>
         </div>
         <div class="global-card-contents">
-            <h4 class="common-title-two hover-color-two"><a
-                    href="{{ route('frontend.products.single', $product->slug) }}">
-                    {{ Str::limit($product->name, 25, '...') }}</a></h4>
+            <h4 class="common-title-two hover-color-two">
+                <a href="{{ route('frontend.products.single', $product->slug) }}">
+                    {{ langWiseShowValue(Str::limit($product->name, 25, '...'), Str::limit($product->name_km, 25, '...')) }}
+                </a>
+            </h4>
             <div class="global-card-flex-contents">
                 <div class="single-global-card">
                     <div class="global-card-left {{ $product->reviews_avg_rating < 1 ? 'd-none' : '' }}">

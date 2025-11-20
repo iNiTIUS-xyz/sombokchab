@@ -25,8 +25,9 @@
             </ul>
         </div>
         <div class="global-card-contents">
-            <h4 class="common-title-two"> <a href="{{ route('frontend.products.single', $product->slug) }}">
-                    {{ Str::limit($product->name, 25, '...') }}
+            <h4 class="common-title-two">
+                <a href="{{ route('frontend.products.single', $product->slug) }}">
+                    {{ langWiseShowValue(Str::limit($product->name, 25, '...'), Str::limit($product->name_km, 25, '...')) }}
                 </a>
             </h4>
             <div class="global-card-flex-contents">

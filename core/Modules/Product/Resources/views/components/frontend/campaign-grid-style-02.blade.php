@@ -5,7 +5,9 @@
     $deleted_price = !is_null($campaign_product) ? $product->sale_price : $product->price;
     $campaign_percentage = !is_null($campaign_product) ? getPercentage($product->sale_price, $sale_price) : false;
     $campaignSoldCount = $product?->campaign_sold_product;
-    $stock_count = $campaign_product ? $campaign_product->units_for_sale - optional($campaignSoldCount)->sold_count ?? 0 : optional($product->inventory)->stock_count;
+    $stock_count = $campaign_product
+        ? $campaign_product->units_for_sale - optional($campaignSoldCount)->sold_count ?? 0
+        : optional($product->inventory)->stock_count;
     $stock_count = $stock_count > (int) get_static_option('product_in_stock_limit_set') ?? 0 ? $stock_count : 0;
     $rating_width = round(($product->ratings_avg_rating ?? 0) * 20);
     $campaign_percentage = round($campaign_percentage, 0);
@@ -28,11 +30,15 @@
             </ul>
         </div>
         <div class="product_card__contents">
-            <h5 class="product_card__title"> <a
-                    href="{{ route('frontend.products.single', $product->slug) }}">{{ Str::limit($product->name, 25, '...') }} </a> </h5>
+            <h5 class="product_card__title">
+                <a href="{{ route('frontend.products.single', $product->slug) }}">
+                    {{ langWiseShowValue(Str::limit($product->name, 25, '...'), Str::limit($product->name_km, 25, '...')) }}
+                </a>
+            </h5>
             <h4 class="product_card__price mt-2">
                 {{ float_amount_with_currency_symbol(calculatePrice($sale_price, $product)) }}
-                <s>{{ float_amount_with_currency_symbol(calculatePrice($deleted_price, $product)) }}</s></h4>
+                <s>{{ float_amount_with_currency_symbol(calculatePrice($deleted_price, $product)) }}</s>
+            </h4>
 
             <div class="rating-wrap mt-2">
                 <div class="rating-wrap">

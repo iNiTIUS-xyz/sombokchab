@@ -24,7 +24,7 @@
         <div class="products-contents">
             <h5 class="common-title-three hover-color-two">
                 <a href="{{ route('frontend.products.single', $product->slug) }}">
-                    {{ Str::limit($product->name, 25, '...') }}
+                    {{ langWiseShowValue(Str::limit($product->name, 25, '...'), Str::limit($product->name_km, 25, '...')) }}
                 </a>
             </h5>
             <div class="price-update-through mt-3">

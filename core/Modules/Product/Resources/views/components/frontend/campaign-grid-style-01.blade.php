@@ -38,8 +38,10 @@
                 <div><span class="counter-seconds"></span></div>
             </div>
 
-            <h4 class="common-title"> <a
-                    href="{{ route('frontend.products.single', $product->slug) }}">{{ Str::limit($product->name, 25, '...') }}</a>
+            <h4 class="common-title">
+                <a href="{{ route('frontend.products.single', $product->slug) }}">
+                    {{ langWiseShowValue(Str::limit($product->name, 25, '...'), Str::limit($product->name_km, 25, '...')) }}
+                </a>
             </h4>
 
             <div class="global-card-flex-contents">

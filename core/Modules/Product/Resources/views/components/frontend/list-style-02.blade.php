@@ -33,7 +33,7 @@
             <div class="flash-item-contents">
                 <h6 class="title hover-color-two">
                     <a href="{{ route('frontend.products.single', $product->slug) }}">
-                        {{ $product->name }}
+                        {{ langWiseShowValue($product->name, $product->name_km) }}
                     </a>
                 </h6>
                 @if ($product->ratings_count > 0)

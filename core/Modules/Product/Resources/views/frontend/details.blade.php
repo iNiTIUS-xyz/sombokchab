@@ -64,6 +64,7 @@
 @endsection
 
 @php
+
     $attributes = $product?->inventory_detail_count ?? null;
     $campaign_product = $product->campaign_product ?? null;
     $campaignProductEndDate = $product->campaign->end_date ?? ($product->campaign->end_date->end_date ?? '');
@@ -147,7 +148,9 @@
                         </div>
                         <div class="col-lg-4 col-xl-5">
                             <div class="single-shop-details-wrapper padding-left-50">
-                                <h2 class="details-title">{{ $product->name }}</h2>
+                                <h2 class="details-title">
+                                    {{ langWiseShowValue($product->name, $product->name_km) }}
+                                </h2>
                                 <div class="rating-wrap">
                                     {!! view('product::components.frontend.common.rating-markup', compact('product')) !!}
                                 </div>
@@ -274,18 +277,23 @@
                                         </div>
                                         <a href="#1" data-id="{{ $product->id }}"
                                             class="btn-wishlist btn-details add_to_wishlist_ajax  btn-buyNow">
-                                            <i class="lar la-save"></i> {{ __('Save for Later') }}
+                                            <i class="lar la-save"></i>
+                                            {{ __('Save for Later') }}
                                         </a>
                                     </div>
                                 </div>
                                 <div class="wishlist-compare">
                                     <div class="wishlist-compare-btn">
                                         <a href="#1" data-id="{{ $product->id }}"
-                                            class="btn-wishlist buy_now_single_page btn-details btn-buyNow mt-4 {{ $stock_count <= 0 ? 'disabled-link' : '' }}"> <i
-                                                class="las la-cart-arrow-down"></i> {{ __('Buy Now') }} </a>
+                                            class="btn-wishlist buy_now_single_page btn-details btn-buyNow mt-4 {{ $stock_count <= 0 ? 'disabled-link' : '' }}">
+                                            <i class="las la-cart-arrow-down"></i>
+                                            {{ __('Buy Now') }}
+                                        </a>
                                         <a href="#1" data-id="{{ $product->id }}"
                                             class="btn-wishlist add_to_compare_single_page btn-details btn-buyNow mt-4 {{ $stock_count <= 0 ? 'disabled-link' : '' }}">
-                                            <i class="las la-retweet"></i> {{ __('Add to compare') }} </a>
+                                            <i class="las la-retweet"></i>
+                                            {{ __('Add to compare') }}
+                                        </a>
                                     </div>
                                 </div>
                                 <div class="shop-details-stock shop-border-top pt-4 mt-4">

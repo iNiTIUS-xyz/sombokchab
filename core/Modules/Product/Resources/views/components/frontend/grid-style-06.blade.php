@@ -40,7 +40,7 @@
         <div class="product__card__contents mt-3">
             <h6 class="product__card__contents__title mt-2">
                 <a href="{{ route('frontend.products.single', $product->slug) }}">
-                    {{ Str::limit($product->name, 25, '...') }}
+                    {{ langWiseShowValue(Str::limit($product->name, 25, '...'), Str::limit($product->name_km, 25, '...')) }}
                 </a>
             </h6>
             <div class="product__price mt-2">
@@ -60,8 +60,9 @@
                         {{ __('View Details') }}
                     </a>
                 @else
-                    <a data-type="text" data-old-text="{{ __('Add to Cart') }}" href="#1" title="{{ __('Add to cart') }}"
-                        data-attributes="{{ $product->attribute }}" data-id="{{ $product->id }}"
+                    <a data-type="text" data-old-text="{{ __('Add to Cart') }}" href="#1"
+                        title="{{ __('Add to cart') }}" data-attributes="{{ $product->attribute }}"
+                        data-id="{{ $product->id }}"
                         class="product__card__cart__outline radius-30 add_to_cart_ajax {{ $class ?? '' }}">
                         {{ __('Add to Cart') }}
                     </a>
