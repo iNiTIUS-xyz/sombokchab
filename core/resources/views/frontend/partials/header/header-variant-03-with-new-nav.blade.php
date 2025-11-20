@@ -39,18 +39,6 @@
                                         <option value="{{ $category->id }}" style="font-weight: bold;">
                                             {{ $category->name }}
                                         </option>
-                                        {{-- @foreach ($category->subcategory as $subcategory)
-                                            <option value="{{ $subcategory->id }}">
-                                                - {{ $subcategory->name }}
-                                            </option>
-                                            @if ($subcategory->childcategory->count())
-                                                @foreach ($subcategory->childcategory as $childcategory)
-                                                    <option value="{{ $childcategory->id }}">
-                                                        -- {{ $childcategory->name }}
-                                                    </option>
-                                                @endforeach
-                                            @endif
-                                        @endforeach --}}
                                     @endforeach
                                 </select>
 
@@ -157,6 +145,7 @@
                                             <i class="las la-map-marker-alt text-white"></i>
                                         </span>
                                         {{ __('Order Tracking') }}
+
                                     </a>
                                 </li>
                                 @if (!auth('web')->check())

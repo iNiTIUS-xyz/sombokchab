@@ -356,6 +356,20 @@ function get_attachment_image_by_id($id, $size = null, $default = false)
     return $return_val;
 }
 
+if (!function_exists('langWiseShowValue')) {
+    function langWiseShowValue($enValue, $kmValue = null)
+    {
+        $lang = session()->get('lang', 'en_US');
+
+        if ($lang === 'km' && !empty($kmValue)) {
+            return $kmValue;
+        }
+
+        return $enValue;
+    }
+}
+
+
 function get_user_lang()
 {
     return $lang = LanguageHelper::user_lang_slug();

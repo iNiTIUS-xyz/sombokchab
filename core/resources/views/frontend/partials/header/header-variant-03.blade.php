@@ -1,8 +1,8 @@
 @php
     $categories = Modules\Attributes\Entities\Category::where('status_id', 1)
-        ->select(['id', 'name', 'slug'])
+        ->select(['id', 'name', 'name_km', 'slug'])
         ->with([
-            'subcategory' => fn($q) => $q->select(['id', 'category_id', 'name', 'slug']),
+            'subcategory' => fn($q) => $q->select(['id', 'category_id', 'name', 'name_km', 'slug']),
         ])
         ->get();
 
@@ -330,12 +330,12 @@
                                         <option value="all">{{ __('All Categories') }}</option>
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->id }}">
-                                                {{ $category->name }}
+                                                {{ langWiseShowValue($category->name, $category->name_km) }}
                                             </option>
                                         @endforeach
                                     </select>
                                     <input autocomplete="off" class="form--control radius-5" id="search_form_input"
-                                        type="text" placeholder="{{ 'Search For Products' }}">
+                                        type="text" placeholder="{{ __('Search For Products') }}">
                                     <span class="margin-2 radius-5 dismissSearcSection text-danger"
                                         style="display: none;">
                                         <i class="las la-times"></i>
@@ -674,7 +674,7 @@
                                 'category' => $category->name,
                             ]) }}"
                                 class="nav-link {{ request('category') === $category->name ? 'active' : '' }}">
-                                {{ $category->name }}
+                                {{ langWiseShowValue($category->name, $category->name_km) }}
                             </a>
 
                             @if ($category->subcategory->count())
@@ -697,7 +697,7 @@
                                                     'category' => $category->name,
                                                     'sub_category' => $sub_cat->name,
                                                 ]) }}">
-                                                {{ $sub_cat->name }}
+                                                {{ langWiseShowValue($sub_cat->name, $sub_cat->name_km) }}
                                             </a>
                                         </li>
                                     @endforeach

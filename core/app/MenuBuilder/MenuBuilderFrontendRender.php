@@ -32,7 +32,10 @@ class MenuBuilderFrontendRender
             return '';
         }
 
-        $default_lang = $menu_details_from_db->lang ?? LanguageHelper::default_slug();
+        // $default_lang = $menu_details_from_db->lang ?? LanguageHelper::default_slug();
+        $current_lang = session('lang') ?? app()->getLocale() ?? LanguageHelper::default_slug();
+        $default_lang = $current_lang;
+
         $menu_data = json_decode($menu_details_from_db->content);
 
         $this->page_id = 1;

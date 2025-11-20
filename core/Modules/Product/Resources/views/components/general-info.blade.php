@@ -17,7 +17,7 @@
                             {{ __('Name (English)') }}
                             <span class="text-danger">*</span>
                         </label>
-                        <input type="text" class="form--control radius-10 form-control is-invalid" id="product-name"
+                        <input type="text" class="form--control radius-10 form-control" id="product-name"
                             value="{{ $product?->name ?? '' }}" name="name" aria-describedby="product-name-error"
                             required placeholder="{{ __('Enter product name in English') }}">
                     </div>
@@ -28,7 +28,7 @@
                             {{ __('ឈ្មោះ (ខ្មែរ)') }}
                             <span class="text-danger">*</span>
                         </label>
-                        <input type="text" class="form--control radius-10 form-control is-invalid"
+                        <input type="text" class="form--control radius-10 form-control"
                             value="{{ $product?->name_km ?? '' }}" name="name_km" required
                             placeholder="{{ __('បញ្ចូលឈ្មោះផលិតផលជាភាសាខ្មែរ') }}">
                     </div>
@@ -50,8 +50,8 @@
                             {{ __('Short Description (English)') }}
                             <span class="text-danger">*</span>
                         </label>
-                        <textarea style="height: 120px" class="form--control form--message  radius-10 form-control is-invalid" name="summery"
-                            required placeholder="{{ __('Enter short description in English') }}">{{ $product?->summary ?? '' }}</textarea>
+                        <textarea style="height: 120px" class="form--control form--message  radius-10 form-control" name="summery" required
+                            placeholder="{{ __('Enter short description in English') }}">{{ $product?->summary ?? '' }}</textarea>
                     </div>
                 </div>
 
@@ -61,8 +61,8 @@
                             {{ __('ការពិពណ៌នាសង្ខេប (ភាសាខ្មែរ)') }}
                             <span class="text-danger">*</span>
                         </label>
-                        <textarea style="height: 120px" class="form--control form--message  radius-10 form-control is-invalid" name="summery_km"
-                            required placeholder="{{ __('បញ្ចូលការពិពណ៌នាខ្លីជាភាសាខ្មែរ') }}">{{ $product?->summary_km ?? '' }}</textarea>
+                        <textarea style="height: 120px" class="form--control form--message  radius-10 form-control" name="summery_km" required
+                            placeholder="{{ __('បញ្ចូលការពិពណ៌នាខ្លីជាភាសាខ្មែរ') }}">{{ $product?->summary_km ?? '' }}</textarea>
                     </div>
                 </div>
                 <div class="col-sm-12">
@@ -71,7 +71,7 @@
                             {{ __('Description (English)') }}
                             <span class="text-danger">*</span>
                         </label>
-                        <textarea class="form--control summernote radius-10 form-control is-invalid" name="description"
+                        <textarea class="form--control summernote radius-10 form-control" name="description"
                             placeholder="{{ __('Type description in English') }}" required>{!! $product?->description !!}</textarea>
                     </div>
                 </div>
@@ -81,7 +81,7 @@
                             {{ __('ការពិពណ៌នា (ខ្មែរ)') }}
                             <span class="text-danger">*</span>
                         </label>
-                        <textarea class="form--control summernote radius-10 form-control is-invalid" name="description_km"
+                        <textarea class="form--control summernote radius-10 form-control" name="description_km"
                             placeholder="{{ __('វាយពណ៌នាជាភាសាខ្មែរ') }}" required>{!! $product?->description_km !!}</textarea>
                     </div>
                 </div>
