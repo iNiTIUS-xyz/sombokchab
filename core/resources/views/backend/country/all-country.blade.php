@@ -15,7 +15,7 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('All Countries') }}</h4>
-                        @can('delete-country')
+                        @can('manage-country-province-city')
                             <x-bulk-action.dropdown />
                         @endcan
                     </div>
@@ -37,10 +37,10 @@
                                             <td>{{ $country->name }}</td>
                                             <td><x-status-span :status="$country->status" /></td>
                                             <td>
-                                                @can('delete-country')
+                                                @can('manage-country-province-city')
                                                     <x-table.btn.swal.delete :route="route('admin.country.delete', $country->id)" />
                                                 @endcan
-                                                @can('edit-country')
+                                                @can('manage-country-province-city')
                                                     <a href="#1" data-bs-toggle="modal" data-bs-target="#country_edit_modal"
                                                         class="btn btn-warning btn-xs mb-2 me-1 country_edit_btn"
                                                         data-id="{{ $country->id }}" data-name="{{ $country->name }}"
@@ -57,7 +57,7 @@
                     </div>
                 </div>
             </div>
-            @can('create-country')
+            @can('manage-country-province-city')
                 <div class="col-lg-5">
                     <div class="dashboard__card">
                         <div class="dashboard__card__header">
@@ -86,7 +86,7 @@
             @endcan
         </div>
     </div>
-    @can('edit-country')
+    @can('manage-country-province-city')
         <div class="modal fade" id="country_edit_modal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content custom__form">

@@ -16,7 +16,7 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('All Shipping Zones') }}</h4>
-                        @can('delete-shipping')
+                        @can('manage-shipping-settings')
                             <x-bulk-action.dropdown />
                         @endcan
                     </div>
@@ -36,10 +36,10 @@
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $zone->name }}</td>
                                             <td>
-                                                @can('delete-shipping')
+                                                @can('manage-shipping-settings')
                                                     <x-table.btn.swal.delete :route="route('admin.shipping.zone.delete', $zone->id)" />
                                                 @endcan
-                                                @can('edit-shipping')
+                                                @can('manage-shipping-settings')
                                                     <a href="#1" data-bs-toggle="modal"
                                                         data-bs-target="#shipping_zone_edit_modal"
                                                         class="btn btn-warning btn-xs mb-2 me-1 shipping_zone_edit_btn"
@@ -59,7 +59,7 @@
                     </div>
                 </div>
             </div>
-            @can('add-shipping')
+            @can('manage-shipping-settings')
                 <div class="col-lg-5">
                     <div class="dashboard__card">
                         <div class="dashboard__card__header">
@@ -96,7 +96,7 @@
             @endcan
         </div>
     </div>
-    @can('edit-shipping')
+    @can('manage-shipping-settings')
         <div class="modal fade" id="shipping_zone_edit_modal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content custom__form">

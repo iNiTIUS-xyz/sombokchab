@@ -81,7 +81,7 @@
         </div>
     </div>
 
-    @can('tax-state-update')
+    @can('edit-tax')
         <div class="modal fade" id="state_tax_edit_modal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -128,7 +128,7 @@
         </div>
     @endcan
 
-    @can('tax-state-create')
+    @can('add-tax')
         <div class="modal fade" id="state_tax_new_modal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">

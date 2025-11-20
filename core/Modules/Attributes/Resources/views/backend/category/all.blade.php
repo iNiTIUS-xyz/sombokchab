@@ -31,7 +31,7 @@
                     <div class="dashboard__card__header">
                         <h3 class="dashboard__card__title">{{ __('Product Categories') }}</h3>
                         <div class="dashboard__card__header__right">
-                            @can('manage-category')
+                            @can('view-category')
                                 <x-bulk-action.dropdown />
                             @endcan
                         </div>
@@ -40,7 +40,7 @@
                         <div class="table-responsive">
                             <table class="table table-default" id="dataTable">
                                 <thead>
-                                    @can('manage-category')
+                                    @can('view-category')
                                         <x-bulk-action.th />
                                     @endcan
                                     <th>{{ __('Category Name') }}</th>
@@ -52,7 +52,7 @@
 
                                     @foreach ($all_category as $category)
                                         <tr>
-                                            @can('manage-category')
+                                            @can('view-category')
                                                 <x-bulk-action.td :id="$category->id" />
                                             @endcan
                                             <td>

@@ -27,7 +27,7 @@
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('All Attributes') }}</h4>
                         <div class="dashboard__card__header__right">
-                            @can('manage-attribute')
+                            @can('view-attribute')
                                 <x-bulk-action.dropdown />
                             @endcan
                         </div>

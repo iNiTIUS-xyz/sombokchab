@@ -17,13 +17,13 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title mb-4">{{ __('Edit Shipping Method') }}</h4>
-                        @can('view-shipping')
+                        @can('manage-shipping-settings')
                             <a href="{{ route('admin.shipping.method.all') }}"
                                 class="btn btn-primary">{{ __('All Shipping Methods') }}</a>
                         @endcan
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
-                        @can('edit-shipping')
+                        @can('manage-shipping-settings')
                             <form action="{{ route('admin.shipping.method.update') }}" method="post"
                                 enctype="multipart/form-data">
                                 @csrf

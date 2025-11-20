@@ -65,25 +65,17 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @can('manage-site-settings')
-                                                    <a href="#1" data-id="{{ $data->id }}" data-bs-toggle="modal"
-                                                        title="{{ __('Change Password') }}"
-                                                        data-bs-target="#user_change_password_modal"
-                                                        class="btn btn-sm btn-secondary mb-2 me-1 user_change_password_btn">
-                                                        <i class="ti-key"></i>
-                                                    </a>
-                                                @endcan
-
-                                                @can('manage-site-settings')
-                                                    <a href="{{ route('admin.user.edit', $data->id) }}"
-                                                        class="btn btn-lg btn-warning text-dark btn-sm mb-2 me-1 user_edit_btn" title="Edit Data">
-                                                        <i class="ti-pencil"></i>
-                                                    </a>
-                                                @endcan
-
-                                                @can('manage-site-settings')
-                                                    <x-delete-popover :url="route('admin.delete.user', $data->id)" />
-                                                @endcan
+                                                <a href="#1" data-id="{{ $data->id }}" data-bs-toggle="modal"
+                                                    title="{{ __('Change Password') }}"
+                                                    data-bs-target="#user_change_password_modal"
+                                                    class="btn btn-sm btn-secondary mb-2 me-1 user_change_password_btn">
+                                                    <i class="ti-key"></i>
+                                                </a>
+                                                <a href="{{ route('admin.user.edit', $data->id) }}"
+                                                    class="btn btn-lg btn-warning text-dark btn-sm mb-2 me-1 user_edit_btn" title="Edit Data">
+                                                    <i class="ti-pencil"></i>
+                                                </a>
+                                                <x-delete-popover :url="route('admin.delete.user', $data->id)" />
                                             </td>
                                         </tr>
                                     @endforeach
@@ -96,46 +88,44 @@
         </div>
     </div>
 
-    @can('admin-user-password-change')
-        <div class="modal fade" id="user_change_password_modal" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content custom__form">
-                    <div class="modal-header">
-                        <h5 class="modal-title">{{ __('Change Admin Password') }}</h5>
-                        <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
-                    </div>
-                    @include('backend/partials/error')
-                    <form action="{{ route('admin.user.password.change') }}" id="user_password_change_modal_form" method="post"
-                        enctype="multipart/form-data">
-                        @csrf
-                        <div class="modal-body">
-                            <input type="hidden" name="ch_user_id" id="ch_user_id">
-                            <div class="form-group">
-                                <label for="password">
-                                    {{ __('Password') }}
-                                    <span class="text-danger">*</span>
-                                </label>
-                                <input type="password" class="form-control" name="password"
-                                    placeholder="{{ __('Enter Password') }}"  required="">
-                            </div>
-                            <div class="form-group">
-                                <label for="password_confirmation">
-                                    {{ __('Confirm Password') }}
-                                    <span class="text-danger">*</span>
-                                </label>
-                                <input type="password" class="form-control" id="password_confirmation"
-                                    name="password_confirmation" placeholder="{{ __('Enter confirm Password') }}" required="">
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
-                            <button type="submit" class="btn btn-primary">{{ __('Change Password') }}</button>
-                        </div>
-                    </form>
+    <div class="modal fade" id="user_change_password_modal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content custom__form">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ __('Change Admin Password') }}</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
                 </div>
+                @include('backend/partials/error')
+                <form action="{{ route('admin.user.password.change') }}" id="user_password_change_modal_form" method="post"
+                    enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <input type="hidden" name="ch_user_id" id="ch_user_id">
+                        <div class="form-group">
+                            <label for="password">
+                                {{ __('Password') }}
+                                <span class="text-danger">*</span>
+                            </label>
+                            <input type="password" class="form-control" name="password"
+                                placeholder="{{ __('Enter Password') }}"  required="">
+                        </div>
+                        <div class="form-group">
+                            <label for="password_confirmation">
+                                {{ __('Confirm Password') }}
+                                <span class="text-danger">*</span>
+                            </label>
+                            <input type="password" class="form-control" id="password_confirmation"
+                                name="password_confirmation" placeholder="{{ __('Enter confirm Password') }}" required="">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
+                        <button type="submit" class="btn btn-primary">{{ __('Change Password') }}</button>
+                    </div>
+                </form>
             </div>
         </div>
-    @endcan
+    </div>
 
     @include('backend.partials.media-upload.media-upload-markup')
 @endsection

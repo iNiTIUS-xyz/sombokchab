@@ -30,7 +30,7 @@
                             {{ __('All Pages') }}
                         </h4>
                         <div class="dashboard__card__header__right">
-                            @can('manage-page')
+                            @can('view-page')
                                 <x-bulk-action.dropdown />
                             @endcan
                         </div>
@@ -39,7 +39,7 @@
                         <div class="table-responsive">
                             <table class="table table-default" id="dataTable">
                                 <thead>
-                                    @can('manage-page')
+                                    @can('view-page')
                                         <x-bulk-action.th />
                                     @endcan
                                     <th>{{ __('Title') }}</th>
@@ -50,7 +50,7 @@
                                 <tbody>
                                     @foreach ($all_pages as $page)
                                         <tr>
-                                            @can('manage-page')
+                                            @can('view-page')
                                                 <x-bulk-action.td :id="$page->id" />
                                             @endcan
                                             <td>
@@ -128,7 +128,7 @@
 @endsection
 
 @section('script')
-    @can('manage-page')
+    @can('view-page')
         <script>
             (function($) {
                 $(document).ready(function() {

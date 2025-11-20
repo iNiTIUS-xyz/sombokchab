@@ -15,7 +15,7 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Product Inventory') }}</h4>
-                        @can('delete-product-inventory')
+                        @can('view-product-inventory')
                             <x-bulk-action.dropdown />
                         @endcan
                     </div>
@@ -62,7 +62,7 @@
 @section('script')
     <x-datatable.js />
     <x-table.btn.swal.js />
-    @can('delete-product-inventory')
+    @can('view-product-inventory')
         <x-bulk-action.js :route="route('admin.products.inventory.bulk.action')" />
     @endcan
 @endsection

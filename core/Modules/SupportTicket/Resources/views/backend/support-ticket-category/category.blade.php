@@ -20,7 +20,7 @@
         <div class="dashboard__card">
             <div class="dashboard__card__header">
                 <h4 class="dashboard__card__title">{{ __('Support Ticket Departments') }}</h4>
-                @can('manage-support-ticket')
+                @can('view-support-ticket')
                     <x-bulk-action.dropdown />
                 @endcan
             </div>
@@ -28,7 +28,7 @@
                 <div class="table-responsive">
                     <table class="table table-default" id="dataTable">
                         <thead>
-                            @can('manage-support-ticket')
+                            @can('view-support-ticket')
                                 <x-bulk-action.th />
                             @endcan
                             <th>{{ __('Name') }}</th>
@@ -38,7 +38,7 @@
                         <tbody>
                             @foreach ($all_category as $data)
                                 <tr>
-                                    @can('manage-support-ticket')
+                                    @can('view-support-ticket')
                                         <x-bulk-action.td :id="$data->id" />
                                     @endcan
                                     <td>{{ $data->name }}</td>
@@ -93,7 +93,7 @@
         </div>
     </div>
 
-    @can('manage-support-ticket')
+    @can('add-support-ticket')
         <div class="modal fade" id="new_support_modal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content custom__form">
@@ -141,7 +141,7 @@
         </div>
     @endcan
 
-    @can('manage-support-ticket')
+    @can('edit-support-ticket')
         <div class="modal fade" id="category_edit_modal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content custom__form">
@@ -188,7 +188,7 @@
 @endsection
 
 @section('script')
-    @can('manage-support-ticket')
+    @can('view-support-ticket')
         <script>
             (function($) {
                 $(document).ready(function() {

@@ -17,7 +17,7 @@
     <div class="col-lg-12 col-ml-12">
         <x-msg.error />
         <x-msg.flash />
-        @can('manage-refund-request')
+        @can('manage-refund-request-settings')
             <button data-bs-toggle="modal" data-bs-target="#refundReasonModal" class="cmn_btn btn_bg_profile mb-4">
                 {{ __('Add Reason') }}
             </button>
@@ -41,7 +41,7 @@
                                     <tr>
                                         <td>{{ $reason->name }}</td>
                                         <td>
-                                            @can('manage-refund-request')
+                                            @can('manage-refund-request-settings')
                                                 <button data-id="{{ $reason->id }}" data-name="{{ $reason->name }}"
                                                     data-bs-toggle="modal" data-bs-target="#editRefundReasonModal"
                                                     class="btn btn-warning text-dark btn-sm mb-2 edit-reason"
@@ -49,7 +49,7 @@
                                                     <i class="ti-pencil"></i>
                                                 </button>
                                             @endcan
-                                            @can('manage-refund-request')
+                                            @can('manage-refund-request-settings')
                                                 {{-- <a href=""
                                                     class="btn btn-danger btn-sm" title="{{ __('Delete Data') }}">
                                                     <i class="ti-trash"></i>
@@ -67,7 +67,7 @@
             </div>
         </div>
 
-        @can('manage-refund-request')
+        @can('manage-refund-request-settings')
             <!-- Modal -->
             <div class="modal fade" id="editRefundReasonModal" tabindex="-1" aria-labelledby="editRefundReasonModalLabel"
                 aria-hidden="true">
@@ -106,7 +106,7 @@
             </div>
         @endcan
 
-        @can('manage-refund-request')
+        @can('manage-refund-request-settings')
             <!-- Modal -->
             <div class="modal fade" id="refundReasonModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">

@@ -25,7 +25,7 @@
                 <x-msg.error />
                 <x-msg.flash />
 
-                @can('add-form')
+                @can('manage-appearance-settings')
                     <div class="btn-wrapper mb-4">
                         <a href="#1" data-bs-toggle="modal" data-bs-target="#create_new_custom_form"
                             class="btn btn-primary btn-lg text-light" title="{{ __('Add New Form') }}">
@@ -39,7 +39,7 @@
                             {{ __('All Custom Form') }}
                         </h4>
                         <div class="dashboard__card__header__right">
-                            @can('manage-form')
+                            @can('manage-appearance-settings')
                                 <div class="bulk-delete-wrapper">
                                     <div class="select-box-wrap">
                                         <select name="bulk_option" id="bulk_option">
@@ -62,7 +62,7 @@
                         <div class="table-wrap table-responsive">
                             <table class="table table-default" id="dataTable">
                                 <thead>
-                                    @can('manage-form')
+                                    @can('manage-appearance-settings')
                                         <th class="no-sort">
                                             <div class="mark-all-checkbox">
                                                 <input type="checkbox" class="all-checkbox">
@@ -75,7 +75,7 @@
                                 <tbody>
                                     @foreach ($all_forms as $data)
                                         <tr>
-                                            @can('manage-form')
+                                            @can('manage-appearance-settings')
                                                 <td>
                                                     <div class="bulk-checkbox-wrapper">
                                                         <input type="checkbox" class="bulk-checkbox" name="bulk_delete[]"
@@ -85,10 +85,10 @@
                                             @endcan
                                             <td>{{ $data->title }}</td>
                                             <td>
-                                                @can('edit-form')
+                                                @can('manage-appearance-settings')
                                                     <x-edit-icon :url="route('admin.form.builder.edit', $data->id)" />
                                                 @endcan
-                                                @can('delete-form')
+                                                @can('manage-appearance-settings')
                                                     <x-delete-popover :url="route('admin.form.builder.delete', $data->id)" />
                                                 @endcan
                                             </td>
@@ -102,7 +102,7 @@
             </div>
         </div>
     </div>
-    @can('add-form')
+    @can('manage-appearance-settings')
         <div class="modal fade" id="create_new_custom_form" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content custom__form">

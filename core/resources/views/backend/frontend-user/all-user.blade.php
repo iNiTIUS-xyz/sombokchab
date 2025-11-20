@@ -15,7 +15,7 @@
             <div class="dashboard__card__header">
                 <h4 class="dashboard__card__title">{{__('All Users')}}</h4>
                 <div class="dashboard__card__header__right">
-                    @can('delete-user')
+                    {{-- @can('delete-user') --}}
                     <div class="bulk-delete-wrapper">
                         <div class="select-box-wrap">
                             <select name="bulk_option" id="bulk_option">
@@ -25,7 +25,7 @@
                             <button class="cmn_btn btn_bg_profile" id="bulk_delete_btn">{{__('Apply')}}</button>
                         </div>
                     </div>
-                    @endcan
+                    {{-- @endcan --}}
                 </div>
             </div>
             <div class="dashboard__card__body mt-4">                                    
@@ -57,10 +57,10 @@
                                 <td>{{$data->email}} @if($data->email_verified == 1) <i class="las la-check-circle text-success"></i> @endif</td>
 
                                 <td>
-                                    @can('delete-user')
+                                    {{-- @can('delete-user') --}}
                                     <x-delete-popover :url="route('admin.frontend.delete.user',$data->id)"/>
-                                    @endcan
-                                    @can('edit-user')
+                                    {{-- @endcan
+                                    @can('edit-user') --}}
                                     <a href="#1"
                                         data-id="{{$data->id}}"
                                         data-username="{{$data->username}}"
@@ -95,7 +95,7 @@
                                             @if($data->email_verified == 1) {{__('Enable Email Verify')}} @else {{__('Disable Email Verify')}} @endif
                                         </button>
                                     </form>
-                                    @endcan
+                                    {{-- @endcan --}}
                                 </td>
                             </tr>
                         @endforeach

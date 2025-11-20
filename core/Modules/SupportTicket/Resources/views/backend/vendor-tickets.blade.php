@@ -25,7 +25,7 @@
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Vendor Support Tickets') }}</h4>
                         <div class="dashboard__card__header__right d-flex">
-                            @can('manage-support-ticket')
+                            @can('view-support-ticket')
                                 <x-bulk-action.dropdown />
                             @endcan
                         </div>
@@ -34,7 +34,7 @@
                         <div class="table-responsive">
                             <table class="table table-default" id="dataTable">
                                 <thead>
-                                    @can('manage-support-ticket')
+                                    @can('view-support-ticket')
                                         <x-bulk-action.th />
                                     @endcan
                                     <th>{{ __('Ticket ID') }}</th>
@@ -49,7 +49,7 @@
                                 <tbody>
                                     @foreach ($all_tickets as $data)
                                         <tr>
-                                            @can('manage-support-ticket')
+                                            @can('view-support-ticket')
                                                 <x-bulk-action.td :id="$data->id" />
                                             @endcan
                                             <td>{{ $data->id }}</td>
@@ -137,7 +137,7 @@
 @endsection
 
 @section('script')
-    @can('manage-support-ticket')
+    @can('view-support-ticket')
         <script>
             (function($) {
                 $(document).ready(function() {

@@ -11,7 +11,7 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Add New Variant') }}</h4>
-                        @can('manage-attribute')
+                        @can('view-attribute')
                             <a href="{{ route('admin.products.attributes.all') }}"
                                 class="btn btn-primary">{{ __('All Variants') }}</a>
                         @endcan

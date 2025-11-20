@@ -192,7 +192,7 @@
                                     </td>
                                     <td class="table-btn">
                                         <div class="btn-wrapper d-flex flex-wrap gap-2">
-                                            @can('manage-order')
+                                            @can('view-order')
                                                 <a href="{{ route('admin.orders.generate.invoice', $order->id) }}"
                                                     class="btn btn-primary rounded-btn" title="{{ __('View Invoice') }}">
                                                     <i class="ti-info"></i>

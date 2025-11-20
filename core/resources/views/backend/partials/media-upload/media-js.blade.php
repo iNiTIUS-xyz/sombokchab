@@ -27,7 +27,7 @@
         });
 
 
-        @can('add-media')
+        @can('manage-appearance-settings')
             //delete image form media uploader
             $(document).on('click','.media_library_image_delete_btn',function (e) {
                 e.preventDefault();
@@ -142,14 +142,14 @@
             // $('.media_upload_modal_submit_btn').hide();
         });
 
-        @can('view-media')
+        @can('manage-appearance-settings')
             $(document).on('click', '#load_all_media_images', function (e) {
                 e.preventDefault();
                 loadAllImages();
             });
         @endcan
 
-        @can('edit-media')
+        @can('manage-appearance-settings')
             $(document).on('click', '.img_alt_submit_btn', function (e) {
                 e.preventDefault();
                 //admin.upload.media.file.alt.change

@@ -15,7 +15,7 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('All Product Tags') }}</h4>
-                        @can('delete-attribute')
+                        @can('view-attribute')
                             <x-bulk-action.dropdown />
                         @endcan
                     </div>
@@ -110,7 +110,7 @@
 @section('script')
     <x-datatable.js />
     <x-table.btn.swal.js />
-    @can('delete-attribute')
+    @can('view-attribute')
         <x-bulk-action.js :route="route('admin.products.tag.bulk.action')" />
     @endcan
 

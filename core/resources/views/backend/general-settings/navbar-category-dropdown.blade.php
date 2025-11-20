@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-    @can('manage-site-settings')
+    @can('manage-appearance-settings')
         <div class="col-lg-12 col-ml-12">
             <div class="row">
                 <div class="col-lg-12">

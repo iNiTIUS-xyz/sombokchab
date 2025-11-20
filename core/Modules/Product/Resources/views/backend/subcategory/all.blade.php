@@ -22,7 +22,7 @@
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('All Products Sub-Categories') }}</h4>
                         <div class="dashboard__card__header__right">
-                            @can('delete-category')
+                            @can('view-category')
                                 <x-bulk-action.dropdown />
                             @endcan
 
@@ -201,7 +201,7 @@
     <x-datatable.js />
     <x-media.js />
     <x-table.btn.swal.js />
-    @can('delete-category')
+    @can('view-category')
         <x-bulk-action.js :route="route('admin.products.subcategory.bulk.action')" />
     @endcan
 

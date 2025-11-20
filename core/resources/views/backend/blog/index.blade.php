@@ -23,7 +23,7 @@
                         <h4 class="dashboard__card__title">{{ __('Blog Management') }}</h4>
                         <div class="dashboard__card__header__right">
                             <div class="bulk-delete-wrapper">
-                                @can('manage-blog')
+                                @can('view-blog')
                                     <x-bulk-action.dropdown />
                                 @endcan
                             </div>
@@ -115,7 +115,7 @@
 @endsection
 
 @section('script')
-    @can('manage-blog')
+    @can('view-blog')
         <script>
             (function($) {
                 $(document).ready(function() {

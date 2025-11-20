@@ -15,7 +15,7 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Product Ratings') }}</h4>
-                        @can('edit-product')
+                        @can('view-product')
                             <x-bulk-action.dropdown />
                         @endcan
                     </div>
@@ -57,7 +57,7 @@
 @section('script')
     <x-datatable.js />
     <x-table.btn.swal.js />
-    @can('edit-product')
+    @can('view-product')
         <x-bulk-action.js :route="route('admin.products.ratings.bulk.action')" />
     @endcan
 @endsection

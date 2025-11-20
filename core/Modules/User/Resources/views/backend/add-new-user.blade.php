@@ -148,7 +148,7 @@
                                     </div>
                                 </div>
                             </div>
-                            @can('add-user')
+                            @can('add-customer')
                             <button type="submit" class="cmn_btn btn_bg_profile mt-4">
                                 {{ __('Add') }}
                             </button>

@@ -40,7 +40,7 @@
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('All Country Tax') }}</h4>
                         <div class="dashboard__card__header__right">
-                            @can('manage-tax')
+                            @can('view-tax')
                                 <x-bulk-action.dropdown />
                             @endcan
                         </div>
@@ -49,7 +49,7 @@
                         <div class="table-wrap table-responsive">
                             <table id="dataTable" class="table table-default">
                                 <thead>
-                                    @can('manage-tax')
+                                    @can('view-tax')
                                         <x-bulk-action.th />
                                     @endcan
                                     <th>{{ __('ID') }}</th>
@@ -60,7 +60,7 @@
                                 <tbody>
                                     @foreach ($all_country_tax as $tax)
                                         <tr>
-                                            @can('manage-tax')
+                                            @can('view-tax')
                                                 <x-bulk-action.td :id="$tax->id" />
                                             @endcan
                                             <td>{{ $loop->iteration }}</td>

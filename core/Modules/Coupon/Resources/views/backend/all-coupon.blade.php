@@ -108,7 +108,7 @@
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">
                             {{ __('All Coupons') }}</h4>
-                        @can('manage-coupon')
+                        @can('view-coupon')
                             <x-bulk-action.dropdown />
                         @endcan
                     </div>

@@ -19,7 +19,7 @@
                         <h4 class="dashboard__card__title">{{ __('Topbar Menu') }}</h4>
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
-                        @can('edit-social-item')
+                        @can('manage-appearance-settings')
                             <form action="{{ route('admin.topbar.select.menu') }}" method="post">
                                 @csrf
                                 <div class="form-group">
@@ -50,7 +50,7 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Social Icons') }}</h4>
-                        @can('add-social-item')
+                        @can('manage-appearance-settings')
                             <div class="right-cotnent">
                                 <a class="cmn_btn btn_bg_profile" data-bs-target="#add_social_icon" data-bs-toggle="modal"
                                     href="javascript:;" title="{{ __('Add New Social Item') }}">
@@ -60,7 +60,7 @@
                         @endcan
                     </div>
                     <div class="dashboard__card__body mt-4">
-                        @can('manage-topbar')
+                        @can('manage-appearance-settings')
                             <table class="table table-default" id="dataTable">
                                 <thead>
                                     <th>{{ __('URL') }}</th>
@@ -77,7 +77,7 @@
                                             </td>
                                             <td><i class="{{ $data->icon }}"></i></td>
                                             <td>
-                                                @can('edit-social-item')
+                                                @can('manage-appearance-settings')
                                                     <a href="#1" data-bs-toggle="modal" data-bs-target="#social_item_edit_modal"
                                                         class="btn btn-xs btn-warning text-dark mb-2 me-1 social_item_edit_btn"
                                                         data-id="{{ $data->id }}" data-url="{{ $data->url }}"
@@ -85,7 +85,7 @@
                                                         <i class="ti-pencil"></i>
                                                     </a>
                                                 @endcan
-                                                @can('delete-social-item')
+                                                @can('manage-appearance-settings')
                                                     <x-delete-popover :url="route('admin.delete.social.item', $data->id)" />
                                                 @endcan
                                             </td>
@@ -99,7 +99,7 @@
             </div>
         </div>
     </div>
-    @can('add-social-item')
+    @can('manage-appearance-settings')
         <div class="modal fade" id="add_social_icon" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content custom__form">
@@ -134,7 +134,7 @@
         </div>
     @endcan
 
-    @can('edit-social-item')
+    @can('manage-appearance-settings')
         <div class="modal fade" id="social_item_edit_modal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content custom__form">

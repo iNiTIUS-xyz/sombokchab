@@ -27,7 +27,7 @@
                             {{ __('Units') }}
                         </h3>
                         <div class="dashboard__card__header__right">
-                            @can('manage-attribute')
+                            @can('view-attribute')
                                 <x-bulk-action.dropdown />
                             @endcan
                         </div>
@@ -36,7 +36,7 @@
                         <div class="table-responsive">
                             <table class="table table-default" id="dataTable">
                                 <thead>
-                                    @can('manage-attribute')
+                                    @can('view-attribute')
                                         <x-bulk-action.th />
                                     @endcan
                                     {{-- <th>{{ __('ID') }}</th> --}}
@@ -46,7 +46,7 @@
                                 <tbody>
                                     @foreach ($product_units as $unit)
                                         <tr>
-                                            @can('manage-attribute')
+                                            @can('view-attribute')
                                                 <x-bulk-action.td :id="$unit->id" />
                                             @endcan
                                             <td>

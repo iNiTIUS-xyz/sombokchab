@@ -23,7 +23,7 @@
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Customer Support Tickets') }}</h4>
                         <div class="dashboard__card__header__right d-flex">
-                            @can('manage-support-ticket')
+                            @can('view-support-ticket')
                                 <x-bulk-action.dropdown />
                             @endcan
 
@@ -33,7 +33,7 @@
                         <div class="table-wrap table-responsive">
                             <table id="dataTable" class="table table-default">
                                 <thead class="text-center">
-                                    @can('manage-support-ticket')
+                                    @can('view-support-ticket')
                                         <x-bulk-action.th />
                                     @endcan
                                     <th class="text-center">{{ __('Serial No.') }}</th>
@@ -48,7 +48,7 @@
                                 <tbody>
                                     @foreach ($all_tickets as $data)
                                         <tr>
-                                            @can('manage-support-ticket')
+                                            @can('view-support-ticket')
                                                 <x-bulk-action.td :id="$data->id" />
                                             @endcan
                                             <td>{{ $loop->iteration }}</td>
@@ -64,7 +64,7 @@
                                                         aria-expanded="false">
                                                         {{ $data->priority }}
                                                     </button>
-                                                    @can('manage-support-ticket')
+                                                    @can('edit-support-ticket')
                                                         <div class="dropdown-menu">
                                                             <a class="dropdown-item change_priority"
                                                                 data-id="{{ $data->id }}" data-val="low"
@@ -90,7 +90,7 @@
                                                         aria-expanded="false">
                                                         {{ $data->status }}
                                                     </button>
-                                                    @can('manage-support-ticket')
+                                                    @can('edit-support-ticket')
                                                         <div class="dropdown-menu">
                                                             <a class="dropdown-item status_change"
                                                                 data-id="{{ $data->id }}" data-val="open"
@@ -127,7 +127,7 @@
 @endsection
 
 @section('script')
-    @can('manage-support-ticket')
+    @can('view-support-ticket')
         <x-bulk-action.js :route="route('admin.support.ticket.bulk.action')" />
     @endcan
 

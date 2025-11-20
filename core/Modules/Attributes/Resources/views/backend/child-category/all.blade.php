@@ -30,7 +30,7 @@
                     <div class="dashboard__card__header">
                         <h3 class="dashboard__card__title">{{ __('All Products Child-Categories') }}</h3>
                         <div class="dashboard__card__header__right">
-                            @can('manage-category')
+                            @can('view-category')
                                 <x-bulk-action.dropdown />
                             @endcan
                         </div>
@@ -39,7 +39,7 @@
                         <div class="table-responsive">
                             <table class="table table-default" id="dataTable">
                                 <thead>
-                                    @can('manage-category')
+                                    @can('view-category')
                                         <x-bulk-action.th />
                                     @endcan
                                     <th>{{ __('ID') }}</th>
@@ -57,7 +57,7 @@
                                             $sub_category = $child_category->sub_category?->name;
                                         @endphp
                                         <tr>
-                                            @can('manage-category')
+                                            @can('view-category')
                                                 <x-bulk-action.td :id="$child_category->id" />
                                             @endcan
                                             <td>{{ $all_child_category->perPage() * ($all_child_category->currentPage() - 1) + $loop->iteration }}
@@ -347,7 +347,7 @@
 
     <x-media.js />
     <x-table.btn.swal.js />
-    @can('manage-category')
+    @can('view-category')
         <x-bulk-action.js :route="route('admin.child-category.bulk.action')" />
     @endcan
 @endsection

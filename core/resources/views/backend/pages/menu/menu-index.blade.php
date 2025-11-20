@@ -28,7 +28,7 @@
                                                 @if ($data->status == 'default')
                                                     <span class="badge bg-primary">{{ __('Default Menu') }}</span>
                                                 @else
-                                                    @can('edit-menu')
+                                                    @can('manage-appearance-settings')
                                                         <form action="{{ route('admin.menu.default', $data->id) }}" method="post">
                                                             @csrf
                                                             <button type="submit" title="{{ __('Set Default') }}"
@@ -47,14 +47,14 @@
                                             </td>
                                             <td>
 
-                                                @can('edit-menu')
+                                                @can('manage-appearance-settings')
                                                     <a class="btn btn-lg btn-warning text-dark btn-sm mb-2 me-1"
                                                         title="{{ __('Edit Data') }}"
                                                         href="{{ route('admin.menu.edit', $data->id) }}">
                                                         <i class="ti-pencil"></i>
                                                     </a>
                                                 @endcan
-                                                @can('delete-menu')
+                                                @can('manage-appearance-settings')
                                                     @if ($data->status != 'default')
                                                         <x-delete-popover :url="route('admin.menu.delete', $data->id)" />
                                                     @endif
@@ -68,7 +68,7 @@
                     </div>
                 </div>
             </div>
-            @can('add-menu')
+            @can('manage-appearance-settings')
                 <div class="col-lg-6">
                     <div class="dashboard__card">
                         <div class="dashboard__card__header">

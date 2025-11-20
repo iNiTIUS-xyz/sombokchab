@@ -37,7 +37,7 @@
                         <div class="table-responsive">
                             <table class="table" id="dataTable">
                                 <thead>
-                                    @can('manage-product-inventory')
+                                    @can('view-product-inventory')
                                         <x-bulk-action.th />
                                     @endcan
                                     <th>{{ __('Name') }}</th>
@@ -49,7 +49,7 @@
                                 <tbody>
                                     @foreach ($all_inventory_products as $inventory)
                                         <tr>
-                                            @can('manage-product-inventory')
+                                            @can('view-product-inventory')
                                                 <x-bulk-action.td :id="$inventory->id" />
                                             @endcan
                                             <td>{{ $inventory?->product?->name }}</td>
@@ -79,7 +79,7 @@
 @endsection
 @section('script')
     <x-table.btn.swal.js />
-    @can('manage-product-inventory')
+    @can('view-product-inventory')
         <script>
             (function($) {
                 $(document).ready(function() {

@@ -48,7 +48,7 @@
 
                                     @foreach ($all_sub_category as $category)
                                         <tr>
-                                            @can('manage-category')
+                                            @can('view-category')
                                                 <x-bulk-action.td :id="$category->id" />
                                             @endcan
                                             {{-- <td>{{ $loop->iteration }}</td> --}}
@@ -326,7 +326,7 @@
 @section('script')
     <x-media.js />
     <x-table.btn.swal.js />
-    @can('manage-category')
+    @can('view-category')
         <script>
             (function($) {
                 $(document).ready(function() {

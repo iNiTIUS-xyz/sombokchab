@@ -16,7 +16,7 @@
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('All Campaigns') }}</h4>
                         <div class="dashboard__card__header__right">
-                            @can('delete-campaign')
+                            @can('view-campaign')
                                 <x-bulk-action.dropdown />
                             @endcan
                             @can('add-campaign')

@@ -29,7 +29,7 @@
             <div class="col-lg-12">
                 <x-flash-msg />
                 <div class="btn-wrapper mb-4">
-                    @can('manage-product')
+                    @can('view-product')
                         <a class="cmn_btn btn_bg_profile" href="{{ route('admin.products.all') }}">
                             {{ __('Back') }}
                         </a>
@@ -40,7 +40,7 @@
                         <h3 class="dashboard__card__title">{{ __('Product Trash') }}</h3>
                         <div class="dashboard__card__header__right">
                             <div class="dashboard__card__header__right__item">
-                                @can('manage-product')
+                                @can('view-product')
                                     <x-product::table.bulk-action />
                                 @endcan
                             </div>
@@ -59,7 +59,7 @@
                             <table class="table custom--table" id="myTable">
                                 <thead class="head-bg">
                                     <tr>
-                                        @can('manage-product')
+                                        @can('view-product')
                                             <th class="check-all-rows">
                                                 <div class="mark-all-checkbox">
                                                     <input type="checkbox" class="all-checkbox">
@@ -77,7 +77,7 @@
                                 <tbody>
                                     @forelse($products as $product)
                                         <tr class="table-cart-row">
-                                            @can('manage-product')
+                                            @can('view-product')
                                                 <td data-label="Check All">
                                                     <x-product::table.bulk-delete-checkbox :id="$product->id" />
                                                 </td>
@@ -155,7 +155,7 @@
 @endsection
 
 @section('script')
-    @can('manage-product')
+    @can('view-product')
         <x-product::table.bulk-action-js :url="route('admin.products.trash.bulk.destroy')" />
     @endcan
     <script>

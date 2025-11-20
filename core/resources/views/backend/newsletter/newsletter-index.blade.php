@@ -59,7 +59,7 @@
                                             @can('delete-subscriber')
                                             <x-delete-popover :url="route('admin.newsletter.delete',$data->id)"/>
                                             @endcan
-                                            @can('manage-newsletter')
+                                            @can('send-mail-to-subscriber')
                                             <a class="btn btn-lg btn-primary btn-sm mb-2 me-1 send_mail_modal_btn"
                                                href="#1"
                                                data-bs-toggle="modal"
@@ -87,7 +87,7 @@
             </div>
         </div>
     </div>
-    @can('manage-newsletter')
+    @can('send-mail-to-subscriber')
     <div class="modal fade" id="send_mail_to_subscriber_modal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content custom__form">

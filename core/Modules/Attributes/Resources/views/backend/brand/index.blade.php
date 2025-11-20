@@ -19,7 +19,7 @@
             </div>
             <div class="col-lg-12">
                 <div class="mb-4">
-                    @can('add-brand')
+                    @can('add-attribute')
                         <a href="#1" data-bs-toggle="modal" data-bs-target="#brand_manage_create_modal"
                             class="cmn_btn btn_bg_profile">
                             {{ __('Add New Brand') }}
@@ -30,7 +30,7 @@
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Brands') }}</h4>
                         <div class="dashboard__card__header__right">
-                            @can('manage-brand')
+                            @can('view-attribute')
                                 <x-bulk-action.dropdown />
                             @endcan
                         </div>
@@ -39,7 +39,7 @@
                         <div class="table-responsive">
                             <table class="table table-default" id="dataTable">
                                 <thead>
-                                    @can('manage-brand')
+                                    @can('view-attribute')
                                         <x-bulk-action.th />
                                     @endcan
                                     <th>{{ __('Logo') }}</th>
@@ -50,7 +50,7 @@
                                 <tbody>
                                     @foreach ($brands as $item)
                                         <tr>
-                                            @can('manage-brand')
+                                            @can('view-attribute')
                                                 <x-bulk-action.td :id="$item->id" />
                                             @endcan
                                             {{-- <td width="80px">{{ $loop->iteration }}</td> --}}
@@ -82,7 +82,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @can('edit-brand')
+                                                @can('edit-attribute')
                                                     <a href="#1" data-bs-toggle="modal"
                                                         data-bs-target="#brand_manage_edit_modal"
                                                         class="btn  btn-warning text-dark btn-sm brand_manage_edit_btn"
@@ -98,7 +98,7 @@
                                                         <i class="ti-pencil"></i>
                                                     </a>
                                                 @endcan
-                                                @can('delete-brand')
+                                                @can('delete-attribute')
                                                     <x-table.btn.swal.delete class="margin-bottom-0" :route="route('admin.brand.manage.delete', $item->id)" />
                                                 @endcan
                                             </td>
@@ -112,7 +112,7 @@
             </div>
         </div>
     </div>
-    @can('edit-brand')
+    @can('edit-attribute')
         <div class="modal fade" id="brand_manage_edit_modal" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content custom__form">
@@ -184,7 +184,7 @@
         </div>
     @endcan
 
-    @can('add-brand')
+    @can('add-attribute')
         <div class="modal fade" id="brand_manage_create_modal" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content custom__form">
@@ -261,7 +261,7 @@
     <x-table.btn.swal.js />
     <x-backend.icon-picker-js />
     <x-media.js />
-    @can('manage-brand')
+    @can('view-attribute')
         <script>
             (function($) {
                 $(document).ready(function() {

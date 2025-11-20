@@ -105,7 +105,7 @@
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">
                             {{ __('All Coupons') }}</h4>
-                        @can('manage-coupon')
+                        @can('view-coupon')
                             <x-bulk-action.dropdown />
                         @endcan
                     </div>
@@ -113,7 +113,7 @@
                         <div class="table-responsive">
                             <table class="table table-default" id="dataTable">
                                 <thead>
-                                    @can('manage-coupon')
+                                    @can('view-coupon')
                                         <x-bulk-action.th />
                                     @endcan
                                     <th>{{ __('Code') }}</th>
@@ -126,7 +126,7 @@
                                 <tbody>
                                     @foreach ($all_product_coupon as $data)
                                         <tr>
-                                            @can('manage-coupon')
+                                            @can('view-coupon')
                                                 <x-bulk-action.td :id="$data->id" />
                                             @endcan
                                             <td>{{ $data->code }}</td>
@@ -556,7 +556,7 @@
     <x-select2.select2-js />
     <x-table.btn.swal.js />
 
-    @can('manage-coupon')
+    @can('view-coupon')
         <script>
             (function($) {
                 $(document).ready(function() {

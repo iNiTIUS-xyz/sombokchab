@@ -19,7 +19,7 @@
                                 {{ __('Back') }}
                             </a>
                         @endcan
-                        @can('manage-page')
+                        @can('view-page')
                             <a class="btn btn-lg btn-primary btn-sm mb-2 me-1" href="{{ route('admin.page') }}">
                                 {{ __('All pages') }}
                             </a>

@@ -24,7 +24,7 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('All Sizes') }}</h4>
-                        @can('manage-attribute')
+                        @can('view-attribute')
                             <x-bulk-action.dropdown />
                         @endcan
                     </div>
@@ -32,7 +32,7 @@
                         <div class="table-responsive">
                             <table class="table table-default" id="dataTable">
                                 <thead>
-                                    @can('manage-attribute')
+                                    @can('view-attribute')
                                         <x-bulk-action.th />
                                     @endcan
                                     {{-- <th>{{ __('ID') }}</th> --}}
@@ -44,7 +44,7 @@
                                 <tbody>
                                     @foreach ($product_sizes as $product_size)
                                         <tr>
-                                            @can('manage-attribute')
+                                            @can('view-attribute')
                                                 <x-bulk-action.td :id="$product_size->id" />
                                             @endcan
                                             {{-- <td>{{ $loop->iteration }}</td> --}}
@@ -202,7 +202,7 @@
 @section('script')
     <x-table.btn.swal.js />
 
-    @can('manage-attribute')
+    @can('view-attribute')
         <script>
             (function($) {
                 $(document).ready(function() {

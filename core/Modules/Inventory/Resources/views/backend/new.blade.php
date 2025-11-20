@@ -33,7 +33,7 @@
 @section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row">
-            @can('add-product-inventory')
+            @can('edit-product-inventory')
                 <div class="col-lg-12">
                     <x-msg.error />
                     <x-msg.flash />

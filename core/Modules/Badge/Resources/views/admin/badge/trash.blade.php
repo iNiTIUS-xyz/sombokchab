@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div class="col-lg-12">
-                @can('view-badge')
+                @can('view-attribute')
                     <div class="btn-wrapper mb-4">
                         <a class="cmn_btn btn_bg_profile" href="{{ route('admin.badge.all') }}">{{ __('Back') }}</a>
                     </div>
@@ -33,7 +33,7 @@
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Trash Badges') }}</h4>
                         <div class="dashboard__card__header__right">
-                            @can('delete-badge')
+                            @can('delete-attribute')
                                 <x-bulk-action.dropdown />
                             @endcan
                         </div>
@@ -60,13 +60,13 @@
                                             </td>
                                             <td>{{ $badge->status }}</td>
                                             <td>
-                                                @can('add-badge')
+                                                @can('add-attribute')
                                                     <a class="btn btn-info btn-sm btn-xs mb-2"
                                                         href="{{ route('admin.badge.trash.restore', $badge->id) }}">
                                                         {{ __('Restore') }}
                                                     </a>
                                                 @endcan
-                                                @can('delete-badge')
+                                                @can('delete-attribute')
                                                     <x-delete-popover permissions="badge-delete"
                                                         url="{{ route('admin.badge.trash.delete', $badge->id) }}" />
                                                 @endcan
@@ -88,7 +88,7 @@
     <x-datatable.js />
     <x-table.btn.swal.js />
     <x-media.js />
-    @can('delete-badge')
+    @can('delete-attribute')
         <x-bulk-action.js :route="route('admin.badge.trash.bulk.action.delete')" />
     @endcan
 @endsection

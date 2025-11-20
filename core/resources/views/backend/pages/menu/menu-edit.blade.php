@@ -18,7 +18,7 @@
                         </h4>
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
-                        @can('edit-menu')
+                        @can('manage-appearance-settings')
                             <form action="{{ route('admin.menu.update', $page_post->id) }}" id="menu_update_form" method="post"
                                 enctype="multipart/form-data">
                                 <input type="hidden" name="menu_id" id="menu_id" value="{{ $page_post->id }}">

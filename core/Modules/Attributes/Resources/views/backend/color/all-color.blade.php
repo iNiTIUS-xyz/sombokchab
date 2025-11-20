@@ -20,7 +20,7 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Product Variant Colors') }}</h4>
-                        @can('manage-attribute')
+                        @can('view-attribute')
                             <x-bulk-action.dropdown />
                         @endcan
                     </div>
@@ -28,7 +28,7 @@
                         <div class="table-responsive">
                             <table class="table table-default" id="dataTable">
                                 <thead>
-                                    @can('manage-attribute')
+                                    @can('view-attribute')
                                         <x-bulk-action.th />
                                     @endcan
                                     <th>{{ __('Name') }}</th>
@@ -39,7 +39,7 @@
                                 <tbody>
                                     @foreach ($product_colors as $product_color)
                                         <tr>
-                                            @can('manage-attribute')
+                                            @can('view-attribute')
                                                 <x-bulk-action.td :id="$product_color->id" />
                                             @endcan
                                             <td>
@@ -199,7 +199,7 @@
 @section('script')
     <x-table.btn.swal.js />
 
-    @can('manage-attribute')
+    @can('view-attribute')
         <script>
             (function($) {
                 $(document).ready(function() {

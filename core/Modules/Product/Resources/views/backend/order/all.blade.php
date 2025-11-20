@@ -101,7 +101,7 @@
                                                     <i class="ti-eye"></i>
                                                 </a>
                                             @endcan
-                                            @can('manage-order')
+                                            @can('view-order')
                                                 @if (!empty($data->user_id) && $data->payment_status == 'pending')
                                                     <form action="{{ route('admin.product.order.reminder') }}" method="post"
                                                         class="d-inline-block">
@@ -112,7 +112,7 @@
                                                     </form>
                                                 @endif
                                             @endcan
-                                            @can('manage-order')
+                                            @can('view-order')
                                                 <a href="{{ route('frontend.product.invoice.generate') }}"
                                                     data-id="{{ $data->id }}"
                                                     class="btn btn-xs btn-secondary download_invoice mb-2 me-1"

@@ -20,7 +20,7 @@
             <x-error-msg />
             <x-flash-msg />
             <div class="mb-4">
-                @can('add-badge')
+                @can('add-attribute')
                     <a href="#1" data-bs-toggle="modal" data-bs-target="#badge_add_modal"
                         class="cmn_btn btn_bg_profile">{{ __('Add New Badge') }}</a>
                 @endcan
@@ -30,10 +30,10 @@
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('All Badges') }}</h4>
                         <div class="dashboard__card__header__right">
-                            @can('manage-badge')
+                            @can('view-attribute')
                                 <x-bulk-action.dropdown />
                             @endcan
-                            @can('delete-badge')
+                            @can('delete-attribute')
                                 <a class="cmn_btn btn_bg_danger"
                                     href="{{ route('admin.badge.trash') }}">{{ __('Trash Bin') }}</a>
                             @endcan
@@ -88,7 +88,7 @@
                                             </td>
 
                                             <td>
-                                                @can('edit-badge')
+                                                @can('edit-attribute')
                                                     @php
                                                         $img = get_attachment_image_by_id($badge->image);
                                                         $img_url = !empty($img) ? $img['img_url'] : '';
@@ -103,7 +103,7 @@
                                                         <i class="mdi mdi-pencil"></i>
                                                     </a>
                                                 @endcan
-                                                @can('delete-badge')
+                                                @can('delete-attribute')
                                                     <x-delete-popover permissions="delete-badge"
                                                         url="{{ route('admin.badge.delete', $badge->id) }}" />
                                                 @endcan
@@ -119,7 +119,7 @@
         </div>
     </div>
 
-    @can('add-badge')
+    @can('add-attribute')
         <div class="modal fade" id="badge_add_modal" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content custom__form">
@@ -169,7 +169,7 @@
     @endcan
 
 
-    @can('edit-badge')
+    @can('edit-attribute')
         <div class="modal fade" id="badge_edit_modal" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content custom__form">
@@ -230,7 +230,7 @@
 
     <x-media.js />
 
-    @can('manage-badge')
+    @can('view-attribute')
         <script>
             (function($) {
                 $(document).ready(function() {

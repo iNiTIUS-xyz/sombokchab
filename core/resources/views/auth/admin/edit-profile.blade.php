@@ -22,10 +22,10 @@
                         <h4 class="dashboard__card__title">Edit Profile</h4>
                     </div>
                     <div class="card-body">
-                        @can('manage-profile')
+                        {{-- @can('manage-profile') --}}
                             <form action="{{ route('admin.profile.update') }}" method="post" enctype="multipart/form-data">
                                 @csrf
-                            @endcan
+                            {{-- @endcan --}}
                             <div class="form-group">
                                 <label for="username">{{ __('Username') }}</label>
                                 <input type="text" class="form-control" readonly value="{{ auth()->user()->username }} ">
@@ -75,12 +75,12 @@
                                 <small
                                     class="info-text">{{ __('Recommended Image Size 100x100. Only Accept: jpg,png.jpeg. Size less than 2MB') }}</small>
                             </div>
-                            @can('manage-profile')
+                            {{-- @can('manage-profile') --}}
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-primary">{{ __('Save Changes') }}</button>
                                 </div>
                             </form>
-                        @endcan
+                        {{-- @endcan --}}
                     </div>
                 </div>
             </div>

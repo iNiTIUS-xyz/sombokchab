@@ -15,7 +15,7 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h3 class="dashboard__card__title">{{ __("All Product Tags") }}</h3>
-                        @can('manage-attribute')
+                        @can('view-attribute')
                             <x-bulk-action.dropdown />
                         @endcan
                     </div>
@@ -23,7 +23,7 @@
                         <div class="table-wrap table-responsive">
                             <table class="table table-default">
                                 <thead>
-                                    @can('manage-attribute')
+                                    @can('view-attribute')
                                         <x-bulk-action.th />
                                     @endcan
                                     <th>{{__('ID')}}</th>
@@ -33,7 +33,7 @@
                                 <tbody>
                                     @foreach($all_tag as $tag)
                                     <tr>
-                                        @can('manage-attribute')
+                                        @can('view-attribute')
                                             <x-bulk-action.td :id="$tag->id" />
                                         @endcan
                                         <td>{{$loop->iteration}}</td>
@@ -115,7 +115,7 @@
 @section('script')
     <x-datatable.js />
     <x-table.btn.swal.js />
-    @can('manage-attribute')
+    @can('view-attribute')
         <x-bulk-action.js :route="route('admin.tag.bulk.action')" />
     @endcan
 

@@ -33,7 +33,7 @@
 @endsection
 
 @section('content')
-    @can('manage-product')
+    @can('view-product')
         <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
             <div class="offcanvas-header">
                 <h5 id="offcanvasTopLabel">Advance Search</h5>
@@ -179,7 +179,7 @@
                             <div class="d-flex flex-wrap bulk-delete-wrapper gap-2"></div>
                         </div>
                         <div class="dashboard__card__header__right">
-                            @can('manage-product')
+                            @can('view-product')
                                 <div class="btn-wrapper">
                                     @if (request('name') ||
                                             request('sku') ||

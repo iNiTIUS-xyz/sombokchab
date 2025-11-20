@@ -26,7 +26,7 @@
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('FAQ Management') }}</h4>
                         <div class="dashboard__card__header__right">
-                            @can('manage-faq')
+                            @can('view-faq')
                                 <x-bulk-action.dropdown />
                             @endcan
                         </div>
@@ -35,7 +35,7 @@
                         <div class="table-wrap table-responsive">
                             <table class="table table-default" id="dataTable">
                                 <thead>
-                                    @can('manage-faq')
+                                    @can('view-faq')
                                         <th class="no-sort">
                                             <div class="mark-all-checkbox">
                                                 <input type="checkbox" class="all-checkbox">
@@ -49,7 +49,7 @@
                                 <tbody>
                                     @foreach ($all_faqs as $data)
                                         <tr>
-                                            @can('manage-faq')
+                                            @can('view-faq')
                                                 <td>
                                                     <div class="bulk-checkbox-wrapper">
                                                         <input type="checkbox" class="bulk-checkbox" name="bulk_delete[]"
@@ -136,7 +136,7 @@
     </div>
 
 
-    @can('edit-faq')
+    @can('add-faq')
         <div class="modal fade" id="faq_add_modal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content custom__form" style="min-height: 450px; overflow-y: scroll;">
@@ -289,7 +289,7 @@
 @endsection
 @section('script')
     <x-summernote.js />
-    @can('manage-faq')
+    @can('view-faq')
         <script>
             (function($) {
                 $(document).ready(function() {

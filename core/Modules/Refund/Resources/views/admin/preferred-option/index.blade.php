@@ -90,7 +90,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                @can('manage-refund-request')
+                                                @can('manage-refund-request-settings')
                                                     <a href="javascript:;" title="{{ __('Edit Data') }}"
                                                         data-name="{{ $preferredOption->name }}"
                                                         data-id="{{ $preferredOption->id }}"
@@ -103,7 +103,7 @@
                                                     </a>
                                                 @endcan
 
-                                                @can('manage-refund-request')
+                                                @can('manage-refund-request-settings')
                                                                                 <x-table.btn.swal.delete :route="route(
                                                         'admin.refund.preferred-option.delete',
                                                         $preferredOption->id,
@@ -210,7 +210,7 @@
             @csrf
             <div class="modal-dialog">
                 <div class="modal-content custom__form">
-                    @can('manage-refund-request')
+                    @can('manage-refund-request-settings')
                         <input type="hidden" value="" name="id" />
 
                         <div class="modal-header">

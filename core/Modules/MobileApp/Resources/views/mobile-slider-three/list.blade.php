@@ -44,14 +44,14 @@
                                         <td>{{ $slider->button_text }}</td>
                                         <td>{{ $slider->url }}</td>
                                         <td>
-                                            @can('edit-province')
+                                            @can('manage-country-province-city')
                                                 <a class="btn btn-warning text-dark btn-xs mb-2 me-1"
                                                     title="{{ __('Edit Data') }}"
                                                     href="{{ route('admin.mobile.slider.three.edit', $slider->id) }}">
                                                     <i class="ti-pencil"></i>
                                                 </a>
                                             @endcan
-                                            @can('delete-province')
+                                           @can('manage-country-province-city')
                                                 <x-table.btn.swal.delete :route="route('admin.mobile.slider.three.delete', $slider->id)" />
                                             @endcan
                                         </td>

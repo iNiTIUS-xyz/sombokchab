@@ -34,7 +34,7 @@
                         <div class="table-responsive">
                             <table class="table table-default" id="dataTable">
                                 <thead>
-                                    @can('manage-campaign')
+                                    @can('view-campaign')
                                         <x-bulk-action.th />
                                     @endcan
                                     <th>{{ __('Name') }}</th>
@@ -46,7 +46,7 @@
                                 <tbody>
                                     @foreach ($all_campaigns as $campaign)
                                         <tr>
-                                            @can('manage-campaign')
+                                            @can('view-campaign')
                                                 <x-bulk-action.td :id="$campaign->id" />
                                             @endcan
                                             <td>
@@ -122,7 +122,7 @@
 @section('script')
     <x-table.btn.swal.js />
 
-    @can('manage-campaign')
+    @can('view-campaign')
         <script>
             (function($) {
                 $(document).ready(function() {
