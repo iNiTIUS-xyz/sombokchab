@@ -39,8 +39,11 @@ class MenuBuilderFrontendRender
 
         if (count((array)$menu_data) > 0) {
             foreach ($menu_data as $menu_item) {
-                if (!is_null($type))
+
+                if (!is_null($type)) {
                     $this->page_id++;
+                }
+
                 $output .= $this->render_menu_item($menu_item, $this->page_id, $default_lang, $type);
             }
         }

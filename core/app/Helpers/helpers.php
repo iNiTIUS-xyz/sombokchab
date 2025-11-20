@@ -1526,7 +1526,9 @@ function render_frontend_menu($id, $type = null): string
 {
     $instance = new MenuBuilderFrontendRender();
 
-    return $instance->render_frrontend_panel_menu($id, $type);
+    $data = $instance->render_frrontend_panel_menu($id, $type);
+
+    return $data;
 }
 
 function ratings_markup($ratings, $type = '')
