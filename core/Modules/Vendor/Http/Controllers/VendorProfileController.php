@@ -7,28 +7,25 @@ use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
-use Modules\Vendor\Entities\Vendor;
 use Modules\CountryManage\Entities\City;
+use Modules\CountryManage\Entities\Country;
 use Modules\CountryManage\Entities\State;
 use Modules\Vendor\Entities\BusinessType;
-use Modules\CountryManage\Entities\Country;
-use Illuminate\Contracts\Support\Renderable;
-use Modules\Vendor\Http\Services\VendorServices;
+use Modules\Vendor\Entities\Vendor;
 use Modules\Vendor\Http\Requests\Backend\UpdateVendorRequest;
+use Modules\Vendor\Http\Services\VendorServices;
 
-class VendorProfileController extends Controller
-{
-    function vendor_profile()
-    {
+class VendorProfileController extends Controller {
+    function vendor_profile() {
         // prepare data for updating vendor profile
         $vendor = auth("vendor")->id();
 
         $data = [
-            "country" => Country::select("id", "name")->orderBy("name", "ASC")->get(),
+            "country"       => Country::select("id", "name")->orderBy("name", "ASC")->get(),
             "business_type" => BusinessType::select()->get(),
-            "vendor" => Vendor::with(["vendor_address", "vendor_shop_info", "business_type", "vendor_bank_info", "vendor_shop_info.cover_photo", "vendor_shop_info.logo"])->where("id", $vendor)->first(),
-            'states' => State::where("country_id", 31)->orderBy("name", "ASC")->get(),
-            'cities' => City::orderBy("name", "ASC")->get(),
+            "vendor"        => Vendor::with(["vendor_address", "vendor_shop_info", "business_type", "vendor_bank_info", "vendor_shop_info.cover_photo", "vendor_shop_info.logo"])->where("id", $vendor)->first(),
+            'states'        => State::where("country_id", 31)->orderBy("name", "ASC")->get(),
+            'cities'        => City::orderBy("name", "ASC")->get(),
         ];
 
         $location = $data['vendor']->vendor_address?->google_map_location;
@@ -41,8 +38,7 @@ class VendorProfileController extends Controller
         return view("vendor::vendor.edit", $data);
     }
 
-    function vendor_profile_update(UpdateVendorRequest $request)
-    {
+    function vendor_profile_update(UpdateVendorRequest $request) {
 
         $request->validate([
             'google_map_location' => 'nullable|string',
@@ -58,8 +54,8 @@ class VendorProfileController extends Controller
 
         // colors set
         $colors = [
-            'store_color' => $request->store_color ?? null,
-            'store_heading_color' => $request->store_heading_color ?? null,
+            'store_color'           => $request->store_color ?? null,
+            'store_heading_color'   => $request->store_heading_color ?? null,
             'store_secondary_color' => $request->store_secondary_color ?? null,
             'store_paragraph_color' => $request->store_paragraph_color ?? null,
         ];
@@ -85,31 +81,36 @@ class VendorProfileController extends Controller
             dd($e);
             DB::rollBack();
             return response()->json([
-                "msg" => $e,
+                "msg"        => $e,
                 "custom_msg" => "Failed to create vendor account..",
-                "success" => false,
-                "type" => "danger"
+                "success"    => false,
+                "type"       => "danger",
             ])->setStatusCode(422);
         }
     }
 
-    public function vendor_password()
-    {
+    public function vendor_password() {
         return view("vendor::vendor.password.change_password");
     }
-    public function vendor_password_change(Request $request)
-    {
+    public function vendor_password_change(Request $request) {
         $request->validate([
             'old_password' => 'required|string',
-            'password' => 'required|string|min:8|confirmed',
+            'password'     => 'required|string|min:8|confirmed',
         ]);
         $vendor = Vendor::findOrFail(Auth::id());
         if (Hash::check($request->old_password, $vendor->password)) {
             $vendor->password = Hash::make($request->password);
             $vendor->save();
             Auth::logout();
-            return redirect()->route('vendor.login')->with(['msg' => __('Password Changed Successfully.'), 'type' => 'success']);
+            return redirect()->route('vendor.login')->with([
+                'message'    => __('Password Changed Successfully.'),
+                'alert-type' => 'success',
+            ]);
         }
-        return redirect()->back()->with(['msg' => __('Unable to change the Password. Please try again or check your old Password.'), 'type' => 'danger']);
+        return redirect()->back()->with([
+            'message'    => __('Unable to change the Password. Please try again or check your old Password.'),
+            'alert-type' => 'error',
+        ]);
+
     }
 }

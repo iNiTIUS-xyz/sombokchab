@@ -8,6 +8,7 @@ use App\CategoryMenu;
 use App\Helpers\LanguageHelper;
 use App\Helpers\SanitizeInput;
 use App\Menu;
+use App\Page;
 use Modules\Attributes\Entities\Category;
 use Illuminate\Support\Str;
 
@@ -134,6 +135,26 @@ class MenuBuilderFrontendRender
                 // get anchor data
                 $output .= $this->get_anchor_markup($title, [
                     'href' => route('frontend.products.category', ['id' => $model->id, 'slug' => $model->slug]),
+                    'target' => $menu_item->antarget ?? '',
+                ], $menu_item->icon ?? '');
+            }
+        } elseif ($ptype === 'pages') {
+
+            $page = Page::where('id', $menu_item->pid)->first();
+
+            if (!empty($page)) {
+
+                // Decide which title column to use
+                if ($default_lang === 'km') {
+                    $title = $page->title_km ?: $page->title;
+                } else {
+                    $title = $page->title;
+                }
+
+                $output .= $this->render_li_start($title, $attributes_string, $default_lang);
+
+                $output .= $this->get_anchor_markup($title, [
+                    'href' => url('/'.$page->slug),
                     'target' => $menu_item->antarget ?? '',
                 ], $menu_item->icon ?? '');
             }

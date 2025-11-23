@@ -1,236 +1,238 @@
 @extends('vendor.vendor-master')
 
 @section('site-title')
-    {{ __('Create Campaign') }}
+{{ __('Create Campaign') }}
 @endsection
 
 @section('style')
-    <link rel="stylesheet" href="{{ asset('assets/backend/css/flatpickr.min.css') }}">
-    <x-media.css />
-    <style>
-        .form-section {
-            background: transparent;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-        }
+<link rel="stylesheet" href="{{ asset('assets/backend/css/flatpickr.min.css') }}">
+<x-media.css />
+<style>
+    .form-section {
+        background: transparent;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+    }
 
-        .accordion-button::after {
-            margin-left: auto;
-        }
+    .accordion-button::after {
+        margin-left: auto;
+    }
 
-        .delete-btn {
-            background: none;
-            border: none;
-            color: red;
-            font-size: 18px;
-        }
+    .delete-btn {
+        background: none;
+        border: none;
+        color: red;
+        font-size: 18px;
+    }
 
-        .accordion-item {
-            background: var(--gray-two) !important;
-        }
+    .accordion-item {
+        background: var(--gray-two) !important;
+    }
 
-        .dashboard__card {
-            height: auto !important;
-        }
+    .dashboard__card {
+        height: auto !important;
+    }
 
-        .accordion-button:not(.collapsed) {
-            color: var(--main-color-one) !important;
-            background-color: var(--white) !important;
-            box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .125);
-        }
-    </style>
+    .accordion-button:not(.collapsed) {
+        color: var(--main-color-one) !important;
+        background-color: var(--white) !important;
+        box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .125);
+    }
+</style>
 @endsection
 
 @section('content')
-    <div class="col-lg-12 col-ml-12">
-        <div class="row">
-            <div class="col-lg-12 mb-2">
-                <x-msg.error />
-                <x-msg.flash />
-                <div class="dashboard__card">
-                    <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">
-                            {{ __('Create Campaign') }}
-                        </h4>
-                        <div class="btn-wrapper">
-                            <a href="{{ route('vendor.campaigns.all') }}" class="cmn_btn btn_bg_profile">
-                                {{ __('All Campaigns') }}
-                            </a>
-                        </div>
+<div class="col-lg-12 col-ml-12">
+    <div class="row">
+        <div class="col-lg-12 mb-2">
+            {{--
+            <x-msg.error />
+            <x-msg.flash /> --}}
+            <div class="dashboard__card">
+                <div class="dashboard__card__header">
+                    <h4 class="dashboard__card__title">
+                        {{ __('Create Campaign') }}
+                    </h4>
+                    <div class="btn-wrapper">
+                        <a href="{{ route('vendor.campaigns.all') }}" class="cmn_btn btn_bg_profile">
+                            {{ __('All Campaigns') }}
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-lg-12 col-ml-12">
-        <form action="{{ route('vendor.campaigns.new') }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            <input type="hidden" name="status" value="draft">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="row g-4">
-                        <div class="col-md-4">
-                            <div class="dashboard__card">
-                                <div class="mb-3">
-                                    <label class="form-label">
-                                        Campaign Name
-                                        <span class="text-danger">*</span>
-                                    </label>
-                                    <input type="text" class="form-control" name="campaign_name"
-                                        placeholder="Enter campaign name" value="{{ old('campaign_name') }}" required>
-                                    @error('campaign_name')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">
-                                        ឈ្មោះយុទ្ធនាការ (ខ្មែរ)
-                                        <span class="text-danger">*</span>
-                                    </label>
-                                    <input type="text" class="form-control" name="campaign_name_km"
-                                        placeholder="បញ្ចូលឈ្មោះយុទ្ធនាការ (ខ្មែរ)" value="{{ old('campaign_name_km') }}"
-                                        required>
-                                    @error('campaign_name_km')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">
-                                        Campaign Subtitle
-                                        <span class="text-danger">*</span>
-                                    </label>
-                                    <input type="text" class="form-control" name="campaign_subtitle"
-                                        placeholder="Enter campaign subtitle" value="{{ old('campaign_subtitle') }}"
-                                        required>
-                                    @error('campaign_subtitle')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">
-                                        ចំណងជើងរងយុទ្ធនាការ (ខ្មែរ)
-                                        <span class="text-danger">*</span>
-                                    </label>
-                                    <input type="text" class="form-control" name="campaign_subtitle_km"
-                                        placeholder="បញ្ចូលចំណងជើងរងយុទ្ធនាការ (ខ្មែរ)"
-                                        value="{{ old('campaign_subtitle_km') }}" required>
-                                    @error('campaign_subtitle_km')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <div class="mb-3">
-                                    <x-media-upload :title="__('Campaign Image')" :name="'image'" :dimentions="'1920x1080'" />
-                                    @error('image')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                {{-- <div class="mb-3">
-                                    <label class="form-label">
-                                        Publish Status
-                                        <span class="text-danger">*</span>
-                                    </label>
-                                    <select name="status" class="form-select" required>
-                                        <option value="draft" {{ old('status') == 'draft' ? 'selected' : '' }}>
-                                            {{ __('Unpublish') }}</option>
-                                        <option value="publish" {{ old('status') == 'publish' ? 'selected' : '' }}>
-                                            {{ __('Publish') }}</option>
-                                    </select>
-                                    @error('status')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div> --}}
-                                <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" id="discountCheck">
-                                    <label class="form-check-label" for="discountCheck">
-                                        Set Discount Percentage
-                                    </label>
-                                </div>
-                                <div class="mb-3">
-                                    <input type="number" class="form-control" id="discountPercentage"
-                                        placeholder="Set Discount Percentage" min="0" max="100" step="0.01">
-                                </div>
-                                <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" id="set_fixed_date"
-                                        name="use_fixed_dates">
-                                    <label class="form-check-label" for="set_fixed_date">
-                                        Set Fixed Date Range
-                                    </label>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Start Date</label>
-                                    <input type="text" class="form-control flatpickr" id="fixed_from_date"
-                                        name="campaign_start_date" value="{{ old('campaign_start_date') }}" required>
-                                    @error('campaign_start_date')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">End Date</label>
-                                    <input type="text" class="form-control flatpickr" id="fixed_to_date"
-                                        name="campaign_end_date" value="{{ old('campaign_end_date') }}" required>
-                                    @error('campaign_end_date')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <button class="btn btn-success w-100" type="submit">
-                                    {{ __('Add Campaign') }}
-                                </button>
-                            </div>
-                        </div>
-                        <div class="col-md-8">
-                            <div class="dashboard__card campain_product_section">
+</div>
+<div class="col-lg-12 col-ml-12">
+    <form action="{{ route('vendor.campaigns.new') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        <input type="hidden" name="status" value="draft">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="dashboard__card">
+                            <div class="mb-3">
                                 <label class="form-label">
-                                    Campaign Products
+                                    Campaign Name
                                     <span class="text-danger">*</span>
                                 </label>
-                                <select class="form-control select2 product_select" id="productId"
-                                    onchange="selectCampaignProduct(this)">
-                                    <option selected disabled>
-                                        Select One
-                                    </option>
-                                    @foreach ($all_products as $product)
-                                        <option value="{{ $product->id }}" data-product_id="{{ $product->id }}"
-                                            data-product_name="{{ $product->name }}" data-price="{{ $product->price }}"
-                                            data-sale_price="{{ $product->sale_price }}"
-                                            data-stock="{{ optional($product->inventory)->stock_count ?? 0 }}">
-                                            {{ Str::limit($product->name, 100, '...') }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                                <input type="text" class="form-control" name="campaign_name"
+                                    placeholder="Enter campaign name" value="{{ old('campaign_name') }}" required>
+                                @error('campaign_name')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
-                            <div class="accordion" id="campaignProducts"></div>
-                            @error('product_id')
+                            <div class="mb-3">
+                                <label class="form-label">
+                                    ឈ្មោះយុទ្ធនាការ (ខ្មែរ)
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" name="campaign_name_km"
+                                    placeholder="បញ្ចូលឈ្មោះយុទ្ធនាការ (ខ្មែរ)" value="{{ old('campaign_name_km') }}"
+                                    required>
+                                @error('campaign_name_km')
                                 <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                            @error('campaign_price')
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">
+                                    Campaign Subtitle
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" name="campaign_subtitle"
+                                    placeholder="Enter campaign subtitle" value="{{ old('campaign_subtitle') }}"
+                                    required>
+                                @error('campaign_subtitle')
                                 <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                            @error('units_for_sale')
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">
+                                    ចំណងជើងរងយុទ្ធនាការ (ខ្មែរ)
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" name="campaign_subtitle_km"
+                                    placeholder="បញ្ចូលចំណងជើងរងយុទ្ធនាការ (ខ្មែរ)"
+                                    value="{{ old('campaign_subtitle_km') }}" required>
+                                @error('campaign_subtitle_km')
                                 <span class="text-danger">{{ $message }}</span>
-                            @enderror
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <x-media-upload :title="__('Campaign Image')" :name="'image'"
+                                    :dimentions="'1920x1080'" />
+                                @error('image')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            {{-- <div class="mb-3">
+                                <label class="form-label">
+                                    Publish Status
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <select name="status" class="form-select" required>
+                                    <option value="draft" {{ old('status')=='draft' ? 'selected' : '' }}>
+                                        {{ __('Unpublish') }}</option>
+                                    <option value="publish" {{ old('status')=='publish' ? 'selected' : '' }}>
+                                        {{ __('Publish') }}</option>
+                                </select>
+                                @error('status')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div> --}}
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="discountCheck">
+                                <label class="form-check-label" for="discountCheck">
+                                    Set Discount Percentage
+                                </label>
+                            </div>
+                            <div class="mb-3">
+                                <input type="number" class="form-control" id="discountPercentage"
+                                    placeholder="Set Discount Percentage" min="0" max="100" step="0.01">
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="set_fixed_date"
+                                    name="use_fixed_dates">
+                                <label class="form-check-label" for="set_fixed_date">
+                                    Set Fixed Date Range
+                                </label>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Start Date</label>
+                                <input type="text" class="form-control flatpickr" id="fixed_from_date"
+                                    name="campaign_start_date" value="{{ old('campaign_start_date') }}" required>
+                                @error('campaign_start_date')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">End Date</label>
+                                <input type="text" class="form-control flatpickr" id="fixed_to_date"
+                                    name="campaign_end_date" value="{{ old('campaign_end_date') }}" required>
+                                @error('campaign_end_date')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <button class="btn btn-success w-100" type="submit">
+                                {{ __('Add Campaign') }}
+                            </button>
                         </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="dashboard__card campain_product_section">
+                            <label class="form-label">
+                                Campaign Products
+                                <span class="text-danger">*</span>
+                            </label>
+                            <select class="form-control select2 product_select" id="productId"
+                                onchange="selectCampaignProduct(this)">
+                                <option selected disabled>
+                                    Select One
+                                </option>
+                                @foreach ($all_products as $product)
+                                <option value="{{ $product->id }}" data-product_id="{{ $product->id }}"
+                                    data-product_name="{{ $product->name }}" data-price="{{ $product->price }}"
+                                    data-sale_price="{{ $product->sale_price }}"
+                                    data-stock="{{ optional($product->inventory)->stock_count ?? 0 }}">
+                                    {{ Str::limit($product->name, 100, '...') }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="accordion" id="campaignProducts"></div>
+                        @error('product_id')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                        @error('campaign_price')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                        @error('units_for_sale')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
                 </div>
             </div>
-        </form>
-    </div>
-    <x-media.markup type="vendor" />
+        </div>
+    </form>
+</div>
+<x-media.markup type="vendor" />
 @endsection
 
 @section('script')
-    <x-media.js type="vendor" />
-    <script src="{{ asset('assets/backend/js/flatpickr.js') }}"></script>
-    <script>
-        $(document).ready(function() {
+<x-media.js type="vendor" />
+<script src="{{ asset('assets/backend/js/flatpickr.js') }}"></script>
+<script>
+    $(document).ready(function() {
             // Initialize Select2
             $('.select2.product_select').select2({
                 placeholder: "{{ __('Select Product') }}",
             });
         });
-    </script>
-    <script>
-        flatpickr(".flatpickr", {
+</script>
+<script>
+    flatpickr(".flatpickr", {
             altInput: true,
             altFormat: "F j, Y",
             dateFormat: "Y-m-d",
@@ -432,5 +434,5 @@
                 });
             }
         });
-    </script>
+</script>
 @endsection

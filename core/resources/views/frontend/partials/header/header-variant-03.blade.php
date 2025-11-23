@@ -313,10 +313,10 @@
                             @csrf
                             <select name="language" class="form-control" onchange="this.form.submit()">
                                 <option value="en_US" @if (session()->get('lang') == 'en_US') selected @endif>
-                                    English
+                                    {{ __('English') }}
                                 </option>
                                 <option value="km" @if (session()->get('lang') == 'km') selected @endif>
-                                    Khmer
+                                    {{ __('Khmer') }}
                                 </option>
                             </select>
                         </form>
@@ -518,17 +518,14 @@
                                 <ul class="list">
                                     <li>
                                         {{-- <div class="gtranslate_wrapper"></div> --}}
-                                        <form action="{{ route('frontend.change.language') }}" method="POST">
+                                       <form action="{{ route('frontend.change.language') }}" method="POST">
                                             @csrf
-                                            <select name="language" class="form-control"
-                                                onchange="this.form.submit()">
-                                                <option value="en_US"
-                                                    @if (session()->get('lang') == 'en_US') selected @endif>
+                                            <select name="language" class="form-control" onchange="this.form.submit()">
+                                                <option value="en_US" @if (session()->get('lang') == 'en_US') selected @endif>
                                                     {{ __('English') }}
                                                 </option>
-                                                <option value="km"
-                                                    @if (session()->get('lang') == 'km') selected @endif>
-                                                    {{ __('English') }}
+                                                <option value="km" @if (session()->get('lang') == 'km') selected @endif>
+                                                    {{ __('Khmer') }}
                                                 </option>
                                             </select>
                                         </form>

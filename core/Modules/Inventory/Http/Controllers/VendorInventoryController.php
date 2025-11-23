@@ -27,39 +27,34 @@ use Modules\Product\Entities\ProductSize;
 use Modules\Product\Http\Services\Admin\AdminProductServices;
 use Modules\Product\Http\Traits\ProductGlobalTrait;
 
-class VendorInventoryController extends Controller
-{
+class VendorInventoryController extends Controller {
     const BASE_URL = 'inventory::vendor.';
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('auth:vendor');
     }
 
-    public function index(): Application|Factory|View
-    {
+    public function index(): Application | Factory | View {
         $all_inventory_products = ProductGlobalTrait::fetch_inventory_product()->get();
 
         return view(self::BASE_URL . 'all', compact('all_inventory_products'));
     }
 
-    public function create(Request $request): View|Factory|Application
-    {
+    public function create(Request $request): View | Factory | Application {
         $all_products = AdminProductServices::productSearch($request);
         $all_attributes = ProductAttribute::select('id', 'title', 'terms')->get();
 
         return view(self::BASE_URL . 'new')->with([
-            'all_products' => $all_products,
+            'all_products'   => $all_products,
             'all_attributes' => $all_attributes,
         ]);
     }
 
-    public function store(Request $request): JsonResponse
-    {
+    public function store(Request $request): JsonResponse {
         $request->validate([
-            'product_id' => 'required|exists:products,id',
-            'sku' => 'required|string|unique:product_inventories,sku',
-            'stock_count' => 'nullable|numeric',
+            'product_id'        => 'required|exists:products,id',
+            'sku'               => 'required|string|unique:product_inventories,sku',
+            'stock_count'       => 'nullable|numeric',
             'inventory_details' => 'nullable|array',
         ]);
 
@@ -67,8 +62,8 @@ class VendorInventoryController extends Controller
             DB::beginTransaction();
 
             $product_inventory = ProductInventory::create([
-                'product_id' => $request->sanitize_html('product_id'),
-                'sku' => 'SKU-' . $request->sanitize_html('sku'),
+                'product_id'  => $request->sanitize_html('product_id'),
+                'sku'         => 'SKU-' . $request->sanitize_html('sku'),
                 'stock_count' => $request->sanitize_html('stock_count'),
             ]);
 
@@ -78,26 +73,31 @@ class VendorInventoryController extends Controller
 
             DB::commit();
 
-            return response()->json(FlashMsg::create_succeed(__('Product Inventory')));
+            return response()->with([
+                'message'    => 'Product Inventory created successfully.',
+                'alert-type' => 'success',
+            ]);
         } catch (\Throwable $th) {
             DB::rollBack();
 
-            return response()->json(FlashMsg::create_failed(__('Product Inventory')), 400);
+            return response()->with([
+                'message'    => 'Product Inventory creation failed.',
+                'alert-type' => 'error',
+            ]);
         }
     }
 
-    public function edit(ProductInventory $item)
-    {
+    public function edit(ProductInventory $item) {
         $data = [
-            'brands' => Brand::select('id', 'name')->get(),
-            'badges' => Badge::where('status', 'active')->get(),
-            'units' => Unit::select('id', 'name')->get(),
-            'tags' => Tag::select('id', 'tag_text as name')->get(),
-            'categories' => Category::select('id', 'name')->get(),
+            'brands'          => Brand::select('id', 'name')->get(),
+            'badges'          => Badge::where('status', 'active')->get(),
+            'units'           => Unit::select('id', 'name')->get(),
+            'tags'            => Tag::select('id', 'tag_text as name')->get(),
+            'categories'      => Category::select('id', 'name')->get(),
             'deliveryOptions' => DeliveryOption::select('id', 'title', 'sub_title', 'icon')->get(),
-            'all_attribute' => ProductAttribute::all()->groupBy('title')->map(fn($query) => $query[0]),
-            'product_colors' => ProductColor::all(),
-            'product_sizes' => ProductSize::all(),
+            'all_attribute'   => ProductAttribute::all()->groupBy('title')->map(fn($query) => $query[0]),
+            'product_colors'  => ProductColor::all(),
+            'product_sizes'   => ProductSize::all(),
         ];
 
         $inventory = $item->where('id', $item->id)->with('inventoryDetails')->first();
@@ -108,18 +108,17 @@ class VendorInventoryController extends Controller
         $product = (new AdminProductServices)->get_edit_product($item->product_id);
 
         return view(self::BASE_URL . 'edit')->with([
-            'inventory' => $inventory,
-            'all_products' => $all_products,
+            'inventory'      => $inventory,
+            'all_products'   => $all_products,
             'all_attributes' => $all_attribute,
             'product_colors' => $product_colors,
-            'product_sizes' => $product_sizes,
-            'data' => $data,
-            'product' => $product,
+            'product_sizes'  => $product_sizes,
+            'data'           => $data,
+            'product'        => $product,
         ]);
     }
 
-    public function update(UpdateInventoryRequest $request)
-    {
+    public function update(UpdateInventoryRequest $request) {
         try {
             Db::beginTransaction();
 
@@ -135,39 +134,41 @@ class VendorInventoryController extends Controller
         }
     }
 
-    public function destroy(Request $request)
-    {
+    public function destroy(Request $request) {
         $productInventoryDetails = ProductInventory::find($request->id);
         $productInventoryDetails->delete();
         return response()->json(['success']);
     }
 
-    public function bulk_action(Request $request)
-    {
+    public function bulk_action(Request $request) {
         $deleted = ProductInventory::whereIn('id', $request->ids)->delete();
         if ($deleted) {
-            back()->with(FlashMsg::delete_succeed(__('Product Inventory')));
+            back()->with([
+                'message'    => 'Product Inventory deleted successfully.',
+                'alert-type' => 'success',
+            ]);
         }
 
-        return back()->with(FlashMsg::delete_failed(__('Product Inventory')));
+        return back()->with([
+            'message'    => 'Product Inventory deleting failed.',
+            'alert-type' => 'error',
+        ]);
     }
 
-    private function insertInventoryDetails($inventory_id, $inventory_details)
-    {
+    private function insertInventoryDetails($inventory_id, $inventory_details) {
         foreach ($inventory_details as $details) {
             $product_inventory_details = ProductInventoryDetails::create([
-                'inventory_id' => $inventory_id,
-                'attribute_id' => $details['attribute_id'],
+                'inventory_id'    => $inventory_id,
+                'attribute_id'    => $details['attribute_id'],
                 'attribute_value' => $details['attribute_value'],
-                'stock_count' => $details['stock_count'],
+                'stock_count'     => $details['stock_count'],
             ]);
         }
 
         return true;
     }
 
-    private function deleteAllDetailsOfInventory($inventory_id)
-    {
+    private function deleteAllDetailsOfInventory($inventory_id) {
         return (bool) ProductInventoryDetails::where('inventory_id', $inventory_id)->delete();
     }
 }
