@@ -16,7 +16,7 @@
 @else
     <li class="lists">
         <a href="#1" data-attributes="{{ $product->attribute }}" data-id="{{ $product->id }}"
-            title="{{ __('Add to cart') }}"
+            title="{{ __('Add To Cart') }}"
             class="icon cart-loading {{ $isOutOfStock ? 'text-danger disabled-link' : '' }} {{ $isAllowBuyNow ?? false ? 'add_to_buy_now_ajax' : 'add_to_cart_ajax' }}"
             @if ($isOutOfStock) disabled aria-disabled="true" @endif>
             <i class="las la-shopping-bag"></i>
