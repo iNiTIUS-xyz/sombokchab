@@ -2,38 +2,35 @@
 
 namespace Modules\SupportTicket\Http\Controllers;
 
-use Str;
-use Storage;
-use App\XGNotification;
-use App\Helpers\FlashMsg;
-use Illuminate\Http\Request;
 use App\Events\SupportMessage;
-use App\Mail\SupportTicketMail;
-use Modules\User\Entities\User;
+use App\Helpers\FlashMsg;
 use App\Http\Controllers\Controller;
+use App\Mail\SupportTicketMail;
+use App\XGNotification;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Intervention\Image\Facades\Image;
 use Modules\AdminManage\Entities\Admin;
-use Modules\SupportTicket\Entities\SupportTicket;
 use Modules\SupportTicket\Entities\SupportDepartment;
+use Modules\SupportTicket\Entities\SupportTicket;
 use Modules\SupportTicket\Entities\SupportTicketMessage;
 use Modules\SupportTicket\Http\Requests\AdminStoreSendMessageRequest;
 use Modules\SupportTicket\Http\Requests\AdminStoreSupportTicketRequest;
+use Modules\User\Entities\User;
+use Storage;
+use Str;
 
-class VendorSupportTicketController extends Controller
-{
-    public function page_settings()
-    {
+class VendorSupportTicketController extends Controller {
+    public function page_settings() {
         return view('supportticket::vendor.page-settings');
     }
 
-    public function update_page_settings(Request $request)
-    {
+    public function update_page_settings(Request $request) {
         $field_rules = [
-            'support_ticket_login_notice' => 'nullable|string',
-            'support_ticket_form_title' => 'nullable|string',
-            'support_ticket_button_text' => 'nullable|string',
+            'support_ticket_login_notice'    => 'nullable|string',
+            'support_ticket_form_title'      => 'nullable|string',
+            'support_ticket_button_text'     => 'nullable|string',
             'support_ticket_success_message' => 'nullable|string',
         ];
 
@@ -46,8 +43,7 @@ class VendorSupportTicketController extends Controller
         return back()->with(FlashMsg::settings_update());
     }
 
-    public function all_tickets()
-    {
+    public function all_tickets() {
         $all_tickets = SupportTicket::with('department', 'user')
             ->where('vendor_id', auth('vendor')->id())
             ->orderBy('id', 'desc')
@@ -56,72 +52,76 @@ class VendorSupportTicketController extends Controller
         return view('supportticket::vendor.all-tickets')->with(['all_tickets' => $all_tickets]);
     }
 
-    public function new_ticket()
-    {
+    public function new_ticket() {
         $all_users = User::all();
         $all_departments = SupportDepartment::where(['status' => 'publish'])->get();
 
         return view('supportticket::vendor.new-ticket')->with(['all_users' => $all_users, 'departments' => $all_departments]);
     }
 
-    public function store_ticket(AdminStoreSupportTicketRequest $request)
-    {
+    public function store_ticket(AdminStoreSupportTicketRequest $request) {
         $support_ticket = SupportTicket::create([
-            'title' => $request->title,
-            'via' => 'vendor',
+            'title'            => $request->title,
+            'via'              => 'vendor',
             'operating_system' => null,
-            'user_agent' => null,
-            'description' => $request->description,
-            'subject'  => null,
-            'status' => 'open',
+            'user_agent'       => null,
+            'description'      => $request->description,
+            'subject'          => null,
+            'status'           => 'open',
             // 'priority' => $request->priority,
-            'user_id' => null,
-            'departments' => $request->departments,
-            'vendor_id' => Auth::guard('vendor')->user()->id,
+            'user_id'          => null,
+            'departments'      => $request->departments,
+            'vendor_id'        => Auth::guard('vendor')->user()->id,
         ]);
 
         $notification = new XGNotification();
         $notification->vendor_id = $support_ticket->vendor_id ?? null;
         $notification->delivery_man_id = null;
-        $notification->user_id   = $support_ticket->user_id ?? null;
-        $notification->model  = 'Modules\SupportTicket\Entities\SupportTicket';
-        $notification->model_id  = $support_ticket->id;
-        $notification->message  = $request->title . ' "A new support ticket created successfully"';
-        $notification->type  = 'support_ticket_vendor';
-        $notification->is_read_admin  = 0;
-        $notification->is_read_vendor  = 0;
-        $notification->is_read_delivery_man  = 0;
-        $notification->is_read_user  = 0;
+        $notification->user_id = $support_ticket->user_id ?? null;
+        $notification->model = 'Modules\SupportTicket\Entities\SupportTicket';
+        $notification->model_id = $support_ticket->id;
+        $notification->message = $request->title . ' "A new support ticket created successfully"';
+        $notification->type = 'support_ticket_vendor';
+        $notification->is_read_admin = 0;
+        $notification->is_read_vendor = 0;
+        $notification->is_read_delivery_man = 0;
+        $notification->is_read_user = 0;
 
         $notification->save();
 
         return $support_ticket->id
-            ? redirect()->route('vendor.support.ticket.all')->with(FlashMsg::create_succeed('Support ticket'))
-            : back()->with(FlashMsg::create_failed('Support ticket'));
+        ? redirect()->route('vendor.support.ticket.all')->with([
+            'message'    => 'Vendor support ticket successfully created.',
+            'alert-type' => 'success',
+        ])
+        : back()->with([
+            'message'    => 'Support ticket successfully failed.',
+            'alert-type' => 'error',
+        ]);
     }
 
-    public function listView(Request $request, $id)
-    {
+    public function listView(Request $request, $id) {
         $ticket_details = SupportTicket::with('vendor')->findOrFail($id);
         $all_messages = SupportTicketMessage::where(['support_ticket_id' => $id])->get();
         $q = $request->q ?? '';
 
         return view('supportticket::vendor.view-ticket')->with([
             'ticket_details' => $ticket_details,
-            'all_messages' => $all_messages,
-            'q' => $q,
+            'all_messages'   => $all_messages,
+            'q'              => $q,
         ]);
     }
 
-    public function delete(Request $request, $id)
-    {
+    public function delete(Request $request, $id) {
         SupportTicket::findOrFail($id)->delete();
 
-        return back()->with(FlashMsg::delete_succeed('Support ticket'));
+        return back()->with([
+            'message'    => 'Support ticket deleted successfully.',
+            'alert-type' => 'success',
+        ]);
     }
 
-    public function priority_change(Request $request)
-    {
+    public function priority_change(Request $request) {
         $request->validate(['priority' => 'required|string|max:191']);
         SupportTicket::findOrFail($request->id)->update([
             'priority' => $request->priority,
@@ -130,8 +130,7 @@ class VendorSupportTicketController extends Controller
         return 'ok';
     }
 
-    public function status_change(Request $request)
-    {
+    public function status_change(Request $request) {
         // $request->validate(['status' => 'required|string|max:191']);
         // SupportTicket::findOrFail($request->id)->update([
         //     'status' => $request->status,
@@ -147,12 +146,12 @@ class VendorSupportTicketController extends Controller
 
         // return 'ok';
         $request->validate([
-            'id' => 'required|exists:support_tickets,id',
+            'id'     => 'required|exists:support_tickets,id',
             'status' => 'required|in:open,close',
         ]);
 
         $ticket = SupportTicket::where('id', $request->id)
-            // ->where('user_id', auth('web')->id())
+        // ->where('user_id', auth('web')->id())
             ->firstOrFail();
 
         $ticket->status = $request->status;
@@ -161,14 +160,13 @@ class VendorSupportTicketController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function send_message(AdminStoreSendMessageRequest $request)
-    {
+    public function send_message(AdminStoreSendMessageRequest $request) {
         $ticket_info = SupportTicketMessage::create([
             'support_ticket_id' => $request->ticket_id,
-            'type' => $request->user_type,
-            'vendor_id' => Auth::guard('vendor')->user()->id,
-            'message' => $request->message,
-            'notify' => $request->send_notify_mail ? 'on' : 'off',
+            'type'              => $request->user_type,
+            'vendor_id'         => Auth::guard('vendor')->user()->id,
+            'message'           => $request->message,
+            'notify'            => $request->send_notify_mail ? 'on' : 'off',
         ]);
 
         $imageExtensions = ['png', 'gif', 'jpg', 'jpeg'];
@@ -196,20 +194,22 @@ class VendorSupportTicketController extends Controller
                 ->first();
 
             $details = [
-                'name' => "Hi " . $admin->name,
+                'name'              => "Hi " . $admin->name,
                 'support_ticket_id' => $request->ticket_id,
-                "form_name" => Auth::guard('vendor')->user()->name,
-                "message" => $request->message,
+                "form_name"         => Auth::guard('vendor')->user()->name,
+                "message"           => $request->message,
             ];
 
             Mail::to($admin->email)->send(new SupportTicketMail($details));
         }
 
-        return back()->with(FlashMsg::settings_update(__('Message sent')));
+        return back()->with([
+            'message'    => 'Message sent successfully.',
+            'alert-type' => 'success',
+        ]);
     }
 
-    public function bulk_action(Request $request)
-    {
+    public function bulk_action(Request $request) {
         SupportTicket::whereIn('id', $request->ids)->delete();
 
         return response()->json(['status' => 'ok']);

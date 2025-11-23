@@ -26,7 +26,7 @@
     </div>
     <div class="btn-wrapper">
         <a href="#1" data-attributes="{{ $product->attributes }}" data-id="{{ $product->id }}" class="btn-default rounded-btn add-cart-style-02 add_to_cart_ajax">
-            {{ __('add to cart') }}
+            {{ __('Add To Cart') }}
         </a>
 
         <a href="#1" data-attributes="{{ $product->attributes }}" data-id="{{ $product->id }}" class="btn-default rounded-btn add-cart-style-02 buy_now_single_quick_view_btn">

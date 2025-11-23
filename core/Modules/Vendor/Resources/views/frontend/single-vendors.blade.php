@@ -687,7 +687,7 @@
                                             <div class="product__card__cart mt-3">
                                                 @if (isset($attributes) && $attributes > 0)
                                                     <a data-type="text" data-old-text="{{ __('View Details') }}"
-                                                        title="View Details"
+                                                        title="{{ __('View Details') }}"
                                                         data-action-route="{{ route('frontend.products.single-quick-view', $product->slug) }}"
                                                         data-attributes="{{ $product->attributes }}"
                                                         data-id="{{ $product->id }}"
@@ -695,12 +695,12 @@
                                                         {{ __('View Details') }}
                                                     </a>
                                                 @else
-                                                    <a data-type="text" data-old-text="{{ __('Add to Cart') }}"
-                                                        href="#1" title="Add to cart"
+                                                    <a data-type="text" data-old-text="{{ __('Add To Cart') }}"
+                                                        href="#1" title="{{ __('Add To Cart') }}"
                                                         data-attributes="{{ $product->attribute }}"
                                                         data-id="{{ $product->id }}"
                                                         class="product__card__cart__outline radius-30 add_to_cart_ajax {{ $class ?? '' }}">
-                                                        {{ __('Add to Cart') }}
+                                                        {{ __('Add To Cart') }}
                                                     </a>
                                                 @endif
 
@@ -712,7 +712,7 @@
                                                     </a>
 
                                                     @if (isset($attributes) && $attributes > 0)
-                                                        <a title="View Details"
+                                                        <a title="{{ __('View Details') }}"
                                                             class="{{ $class ?? '' }} product-quick-view-ajax favourite icon cart-loading product__card__cart__btn__icon"
                                                             href="#1"
                                                             data-action-route="{{ route('frontend.products.single-quick-view', $product->slug) }}">
@@ -720,7 +720,7 @@
                                                         </a>
                                                     @else
                                                         <a href="#1" data-id="{{ $product->id }}"
-                                                            title="Save for later"
+                                                            title="{{ __('Save For Later') }}"
                                                             class="{{ $class ?? '' }} add_to_wishlist_ajax icon cart-loading product__card__cart__btn__icon">
                                                             <i class="lar la-save"></i>
                                                         </a>

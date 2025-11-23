@@ -13,7 +13,7 @@
                                             data-bs-toggle="collapse" data-bs-target="#collapse{{ $faq->id }}"
                                             aria-expanded="<?php echo $loop->first ? 'true' : 'false'; ?>"
                                             aria-controls="collapse{{ $faq->id }}">
-                                            {{ langWiseShowValue($faq->title, $faq->title_km) }}
+                                            {{ __($faq->title) }}
                                             <span class="faq__icons color-1">
                                                 <i class="las la-plus open"></i>
                                                 <i class="las la-minus close"></i>
@@ -37,9 +37,7 @@
             </div>
             <div class="col-md-6 col-lg-6">
                 <div class="faq-form-wrapper">
-                    <h3 class="faq-form-title">
-                        {{ $ask_question_form_title }}
-                    </h3>
+                    <h3 class="faq-form-title">{{ __($ask_question_form_title) }}</h3>
                     <div class="faq_container mt-4">
                         {!! $custom_form_markup !!}
                     </div>

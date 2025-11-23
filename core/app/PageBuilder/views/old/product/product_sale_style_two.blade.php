@@ -55,12 +55,14 @@
                         @if (is_array($attributes) && count($attributes))
                             <a class="default-btn color-orange"
                                 href="{{ route('frontend.products.single', $item->slug) }}">
-                                <i class="las la-shopping-cart icon"></i> Add to Cart
+                                <i class="las la-shopping-cart icon"></i>
+                                {{ __('Add To Cart') }}
                             </a>
                         @else
                             <a href="#1" data-attributes="{{ $item->attributes }}" data-id="{{ $item->id }}"
                                 class="default-btn color-orange add_to_cart_ajax">
-                                <i class="las la-shopping-cart icon"></i> Add to Cart
+                                <i class="las la-shopping-cart icon"></i>
+                                {{ __('Add To Cart') }}
                             </a>
                         @endif
                         <a href="#1" data-id="{{ $item->id }}"

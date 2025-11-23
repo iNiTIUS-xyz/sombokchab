@@ -272,13 +272,13 @@
                                         <div class="btn-wrapper">
                                             <a href="#1" data-id="{{ $product->id }}"
                                                 class="cmn-btn btn-bg-1 radius-0 cart-loading add_to_cart_single_page {{ $stock_count <= 0 ? 'disabled-link' : '' }}">
-                                                {{ __('Add to Cart') }}
+                                                {{ __('Add To Cart') }}
                                             </a>
                                         </div>
                                         <a href="#1" data-id="{{ $product->id }}"
                                             class="btn-wishlist btn-details add_to_wishlist_ajax  btn-buyNow">
                                             <i class="lar la-save"></i>
-                                            {{ __('Save for Later') }}
+                                            {{ __('Save For Later') }}
                                         </a>
                                     </div>
                                 </div>
@@ -292,7 +292,7 @@
                                         <a href="#1" data-id="{{ $product->id }}"
                                             class="btn-wishlist add_to_compare_single_page btn-details btn-buyNow mt-4 {{ $stock_count <= 0 ? 'disabled-link' : '' }}">
                                             <i class="las la-retweet"></i>
-                                            {{ __('Add to compare') }}
+                                            {{ __('Add To Compare') }}
                                         </a>
                                     </div>
                                 </div>
