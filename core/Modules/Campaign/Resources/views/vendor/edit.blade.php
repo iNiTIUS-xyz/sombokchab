@@ -162,9 +162,9 @@
                                     placeholder="Set Discount Percentage" min="0" max="100" step="0.01">
                             </div>
                             <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="set_fixed_date" @if
-                                    ($campaign->start_date || $campaign->end_date) checked @endif
-                                name="use_fixed_dates">
+                                <input class="form-check-input" type="checkbox" id="set_fixed_date"
+                                    name="use_fixed_dates" @checked($campaign->start_date || $campaign->end_date)>
+
                                 <label class="form-check-label" for="set_fixed_date">
                                     Set Fixed Date Range
                                 </label>
