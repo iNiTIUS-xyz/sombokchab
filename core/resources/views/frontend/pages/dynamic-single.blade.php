@@ -5,15 +5,15 @@
 @endsection
 
 @section('site-title')
-    {{ $page_post->title }}
+    {{ __($page_post->title) }}
 @endsection
 
 @section('page-title')
-    {{ $page_post->title }}
+    {{ __($page_post->title) }}
 @endsection
 
 @section('og-meta')
-    <meta name="og:title" content="{{ $page_post->title }}">
+    <meta name="og:title" content="{{ __($page_post->title) }}">
     <meta name="og:description" content="{{ $page_post->meta_description }}">
 @endsection
 

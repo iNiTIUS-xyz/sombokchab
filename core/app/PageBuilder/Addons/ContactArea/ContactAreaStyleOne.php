@@ -73,7 +73,7 @@ class ContactAreaStyleOne extends PageBuilderBase
                     'type' => RepeaterField::TEXTAREA,
                     'name' => 'description',
                     'label' => __('Details'),
-                    'info' => __('new line count as a separate text')
+                    'info' => __('New line count as a separate text')
                 ],
                 [
                     'type' => RepeaterField::ICON_PICKER,
@@ -88,11 +88,11 @@ class ContactAreaStyleOne extends PageBuilderBase
             'value' => $widget_saved_values['form_title'] ?? null,
         ]);
         $output .= Select::get([
-           'name' => 'custom_form_id',
-           'label' => __('Custom Form'),
-           'placeholder' => __('Select form'),
-           'options' => FormBuilder::all()->pluck('title','id')->toArray(),
-           'value' =>   $widget_saved_values['custom_form_id'] ?? []
+            'name' => 'custom_form_id',
+            'label' => __('Custom Form'),
+            'placeholder' => __('Select form'),
+            'options' => FormBuilder::all()->pluck('title', 'id')->toArray(),
+            'value' =>   $widget_saved_values['custom_form_id'] ?? []
         ]);
         $output .= Slider::get([
             'name' => 'padding_top',
@@ -121,9 +121,10 @@ class ContactAreaStyleOne extends PageBuilderBase
     public function frontend_render(): string
     {
         $all_settings = $this->get_settings();
+
         $section_data = [
             'title' => SanitizeInput::esc_html($this->setting_item('title')),
-            'form_title' => SanitizeInput::esc_html($this->setting_item('form_title')),
+            'form_title' => __(SanitizeInput::esc_html($this->setting_item('form_title'))),
             'custom_form_id' => SanitizeInput::esc_html($this->setting_item('custom_form_id')),
             'padding_top' => SanitizeInput::esc_html($this->setting_item('padding_top')),
             'padding_bottom' => SanitizeInput::esc_html($this->setting_item('padding_bottom')),

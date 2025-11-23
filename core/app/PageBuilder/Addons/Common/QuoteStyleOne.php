@@ -148,29 +148,28 @@ class QuoteStyleOne extends PageBuilderBase
         }
 
         return <<<HTML
-<div class="faq-area-wrapper">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6">
-                <!-- faq accordion start -->
-                <div class="faq-accordion">
-                    <div class="accordion" id="accordionExample">
-                        {$faq_markup}
+            <div class="faq-area-wrapper">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <!-- faq accordion start -->
+                            <div class="faq-accordion">
+                                <div class="accordion" id="accordionExample">
+                                    {$faq_markup}
+                                </div>
+                            </div>
+                            <!-- faq accordion end -->
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="ask-wrapper">
+                                <h4 class="title">{$ask_question_form_title}</h4>
+                                {$custom_form_markup}
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <!-- faq accordion end -->
             </div>
-            <div class="col-lg-6">
-                <div class="ask-wrapper">
-                    <h4 class="title">{$ask_question_form_title}</h4>
-                    {$custom_form_markup}
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-HTML;
-
+        HTML;
     }
 
     public function getFaqItem($index, $faq)
@@ -186,27 +185,27 @@ HTML;
         }
 
         return <<<HTML
-<div class="card">
-    <div class="card-header" id="headingOne">
-        <h5 class="mb-0">
-            <a href="#1" class="accordion-btn btn-link" data-bs-toggle="collapse"
-                data-bs-target="#faq_collapse_{$index}" aria-expanded="{$aria_expanded}" aria-controls="faq_collapse_{$index}">
-                {$title}
-                <span class="color-1">
-                    <i class="las la-angle-down"></i>
-                    <i class="las la-angle-up"></i>
-                </span>
-            </a>
-        </h5>
-    </div>
+            <div class="card">
+                <div class="card-header" id="headingOne">
+                    <h5 class="mb-0">
+                        <a href="#1" class="accordion-btn btn-link" data-bs-toggle="collapse"
+                            data-bs-target="#faq_collapse_{$index}" aria-expanded="{$aria_expanded}" aria-controls="faq_collapse_{$index}">
+                            {$title}
+                            <span class="color-1">
+                                <i class="las la-angle-down"></i>
+                                <i class="las la-angle-up"></i>
+                            </span>
+                        </a>
+                    </h5>
+                </div>
 
-    <div id="faq_collapse_{$index}" class="collapse {$collapse}" aria-labelledby="headingOne"
-        data-parent="#accordionExample">
-        <div class="card-body">
-            <p class="info">{$description}</p>
-        </div>
-    </div>
-</div>
-HTML;
+                <div id="faq_collapse_{$index}" class="collapse {$collapse}" aria-labelledby="headingOne"
+                    data-parent="#accordionExample">
+                    <div class="card-body">
+                        <p class="info">{$description}</p>
+                    </div>
+                </div>
+            </div>
+            HTML;
     }
 }

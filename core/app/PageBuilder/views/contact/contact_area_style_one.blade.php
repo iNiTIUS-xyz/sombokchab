@@ -14,7 +14,9 @@
                                         class="{{ $settings['contact_page_contact_info_01']['icon_'][$loop->index] }} icon"></i>
                                 </div>
                                 <div class="content">
-                                    <h5 class="title">{{ $title }}</h5>
+                                    <h5 class="title">
+                                        {{ $title }}
+                                    </h5>
                                     <p class="info">
                                         {{ $settings['contact_page_contact_info_01']['description_'][$loop->index] }}
                                     </p>
@@ -26,14 +28,14 @@
             </div>
             <div class="col-md-7 col-lg-8">
                 <div class="get-in-touch-wrapper">
-                    <h3 class="title">{{ $form_title }}</h3>
-
+                    <h3 class="title">
+                        {{ $form_title }}
+                    </h3>
                     <div class="w-100">
                         @if (session('msg') !== null && session('type') !== null)
                             <div class="alert alert-{{ session('type') }}">{{ session('msg') }}</div>
                         @endif
                     </div>
-
                     @if (!empty($custom_form_id))
                         @php $form_details = App\FormBuilder::find($custom_form_id); @endphp
                         {!! App\Helpers\FormBuilderCustom::render_form(optional($form_details)->id, null, null, 'btn-default') !!}
