@@ -1,7 +1,7 @@
 @extends('frontend.frontend-page-master')
 
 @section('page-title')
-    {{ __('Save for Later') }}
+    {{ __('Save For Later') }}
 @endsection
 
 @section('style')

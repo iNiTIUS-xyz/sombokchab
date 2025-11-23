@@ -60,16 +60,16 @@
                         {{ __('View Details') }}
                     </a>
                 @else
-                    <a data-type="text" data-old-text="{{ __('Add to Cart') }}" href="#1"
-                        title="{{ __('Add to cart') }}" data-attributes="{{ $product->attribute }}"
+                    <a data-type="text" data-old-text="{{ __('Add To Cart') }}" href="#1"
+                        title="{{ __('Add To Cart') }}" data-attributes="{{ $product->attribute }}"
                         data-id="{{ $product->id }}"
                         class="product__card__cart__outline radius-30 add_to_cart_ajax {{ $class ?? '' }}">
-                        {{ __('Add to Cart') }}
+                        {{ __('Add To Cart') }}
                     </a>
                 @endif
 
                 <div class="product__card__cart__right">
-                    <a href="javascript:void(0)" data-id="{{ $product->id }}" title="{{ __('Add to compare') }}"
+                    <a href="javascript:void(0)" data-id="{{ $product->id }}" title="{{ __('Add To Compare') }}"
                         class="{{ $class ?? '' }} product__card__cart__btn__icon cart-loading icon add_to_compare_ajax">
                         <i class="las la-retweet"></i>
                     </a>
@@ -81,7 +81,7 @@
                             <i class="lar la-save"></i>
                         </a>
                     @else
-                        <a href="#1" data-id="{{ $product->id }}" title="{{ __('Save for Later') }}"
+                        <a href="#1" data-id="{{ $product->id }}" title="{{ __('Save For Later') }}"
                             class="{{ $class ?? '' }} add_to_wishlist_ajax icon cart-loading product__card__cart__btn__icon">
                             <i class="lar la-save"></i>
                         </a>

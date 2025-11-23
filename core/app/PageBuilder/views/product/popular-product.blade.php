@@ -63,9 +63,9 @@
                                             {{ __("View Details") }}
                                         </a>
                                     @else
-                                        <a data-type="text" data-old-text="{{ __('Add to cart') }}" href="#1" data-attributes="{{ $product->attributes }}" data-id="{{ $product->id }}"
+                                        <a data-type="text" data-old-text="{{ __('Add To Cart') }}" href="#1" data-attributes="{{ $product->attributes }}" data-id="{{ $product->id }}"
                                            class="cmn-btn btn-outline-5 btn-small color-five radius-0 add_to_cart_ajax">
-                                            {{ __("Add to cart") }}
+                                            {{ __("Add To Cart") }}
                                         </a>
                                     @endif
                                 </div>

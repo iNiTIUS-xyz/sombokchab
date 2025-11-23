@@ -56,7 +56,7 @@
                 <div class="shop-cart-flex mt-3">
                     <div class="btn-wrapper">
                         <a href="#1" class="cmn-btn btn-bg-1  btn-small radius-0 cart-loading">
-                            {{ __('Add to Cart') }} </a>
+                            {{ __('Add To Cart') }} </a>
                     </div>
                 </div>
                 <div class="btn-shop-botttom mt-3">

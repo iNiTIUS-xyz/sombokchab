@@ -65,10 +65,10 @@
                             {{ __('View Details') }}
                         </a>
                     @else
-                        <a data-type="text" data-old-text="{{ __('Add to Cart') }}" href="#1" title="Add to cart"
+                        <a data-type="text" data-old-text="{{ __('Add To Cart') }}" href="#1" title="{{ __('Add To Cart') }}"
                             data-attributes="{{ $product->attribute }}" data-id="{{ $product->id }}"
                             class="product__card__cart__outline radius-30 add_to_cart_ajax {{ $class ?? '' }}">
-                            {{ __('Add to Cart') }}
+                            {{ __('Add To Cart') }}
                         </a>
                     @endif
                 @endif

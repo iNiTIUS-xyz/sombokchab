@@ -154,7 +154,7 @@ class MenuBuilderFrontendRender
                 $output .= $this->render_li_start($title, $attributes_string, $default_lang);
 
                 $output .= $this->get_anchor_markup($title, [
-                    'href' => url('/'.$page->slug),
+                    'href' => url('/' . $page->slug),
                     'target' => $menu_item->antarget ?? '',
                 ], $menu_item->icon ?? '');
             }

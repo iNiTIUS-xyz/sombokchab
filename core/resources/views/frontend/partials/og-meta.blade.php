@@ -20,8 +20,7 @@
         filter_static_option_value('blog_page_slug', $global_static_field_data) . '/*',
     ]))
     <title>
-        @yield('site-title') - {{ filter_static_option_value('site_title', $global_static_field_data) }}
-
+        @yield('site-title') - {{ __(filter_static_option_value('site_title', $global_static_field_data)) }}
     </title>
     @yield('og-meta')
 @else

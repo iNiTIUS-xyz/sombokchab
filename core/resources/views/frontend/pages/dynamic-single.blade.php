@@ -5,11 +5,11 @@
 @endsection
 
 @section('site-title')
-    {{ $page_post->title }}
+    {{ __($page_post->title) }}
 @endsection
 
 @section('page-title')
-    {{ $page_post->title }}
+    {{ __($page_post->title) }}
 @endsection
 
 @section('og-meta')
