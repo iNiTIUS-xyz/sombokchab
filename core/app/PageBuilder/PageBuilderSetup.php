@@ -134,8 +134,8 @@ class PageBuilderSetup
 
     private static function render_admin_addon_item($args): string
     {
-        return '<li class="ui-state-default widget-handler" data-name="'.$args['addon_name'].'" data-namespace="'.base64_encode($args['addon_namespace']).'">
-                    <h4 class="top-part"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>'.$args['addon_title'].$args['preview_image'].'</h4>
+        return '<li class="ui-state-default widget-handler" data-name="' . $args['addon_name'] . '" data-namespace="' . base64_encode($args['addon_namespace']) . '">
+                    <h4 class="top-part"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>' . $args['addon_title'] . $args['preview_image'] . '</h4>
                 </li>';
     }
 
@@ -221,9 +221,9 @@ class PageBuilderSetup
     public static function render_frontend_pagebuilder_content_for_dynamic_page($page_type, $page_id): string
     {
         $output = '';
-        //         $all_widgets = Cache::remember($page_type.'-'.$page_id, 600 ,function () use($page_type,$page_id) {
-        //            return PageBuilder::where(['addon_page_type' => $page_type, 'addon_page_id' => $page_id])->orderBy('addon_order', 'asc')->get();
-        //        });
+        // $all_widgets = Cache::remember($page_type . '-' . $page_id, 600, function () use ($page_type, $page_id) {
+        //     return PageBuilder::where(['addon_page_type' => $page_type, 'addon_page_id' => $page_id])->orderBy('addon_order', 'asc')->get();
+        // });
 
         $all_widgets = PageBuilder::where(['addon_page_type' => $page_type, 'addon_page_id' => $page_id])->orderBy('addon_order', 'asc')->get();
         foreach ($all_widgets as $widget) {
