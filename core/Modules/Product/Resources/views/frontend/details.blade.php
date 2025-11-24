@@ -265,7 +265,7 @@
                                             </span>
                                         </div>
                                         <span data-stock-text="{{ $stock_count }}"
-                                            class="stock-available {{ $stock_count ? 'text-success' : 'text-danger' }}">
+                                            class="stock-available {{ $stock_count ? 'text-primary' : 'text-danger' }}">
                                             {{ $stock_count ? "In Stock ($stock_count)" : 'Out of Stock' }} </span>
                                     </div>
                                     <div class="quantity-btn margin-top-40">
@@ -319,22 +319,46 @@
                                     <ul class="stock-category mt-4">
                                         @if ($product?->category)
                                             <li class="category-list">
-                                                <strong> {{ __('Category:') }} </strong>
-                                                <a class="list-item text-success"
-                                                    href="{{ route('frontend.products.category', $product?->category?->slug) }}">
-                                                    {{ $product?->category?->name }}
+                                                <strong>{{ __('Category:') }}</strong>
+                                                <a class="list-item text-primary"
+                                                href="{{ route('frontend.dynamic.page', [
+                                                    'slug' => 'shop',
+                                                    'category' => $product->category?->name,
+                                                ]) }}">
+                                                    {{ $product->category?->name }}
                                                 </a>
                                             </li>
                                         @endif
+
                                         @if ($product?->subCategory)
                                             <li class="category-list">
-                                                <strong> {{ __('Sub Category:') }} </strong>
-                                                <a class="list-item text-success"
-                                                    href="{{ route('frontend.products.subcategory', $product?->subCategory?->slug) }}">
-                                                    {{ $product?->subCategory?->name }}
+                                                <strong>{{ __('Sub Category:') }}</strong>
+                                                <a class="list-item text-primary"
+                                                href="{{ route('frontend.dynamic.page', [
+                                                    'slug' => 'shop',
+                                                    'category' => $product->category?->name,
+                                                    'sub_category' => $product->subCategory?->name,
+                                                ]) }}">
+                                                    {{ $product->subCategory?->name }}
                                                 </a>
                                             </li>
                                         @endif
+
+                                        @if ($product?->childCategorySingle)
+                                            <li class="category-list">
+                                                <strong>{{ __('Child Category:') }}</strong>
+                                                <a class="list-item text-primary"
+                                                href="{{ route('frontend.dynamic.page', [
+                                                    'slug' => 'shop',
+                                                    'category' => $product->category?->name,
+                                                    'sub_category' => $product->subCategory?->name,
+                                                    'child_category' => $product->childCategorySingle?->name,
+                                                ]) }}">
+                                                    {{ $product->childCategorySingle?->name }}
+                                                </a>
+                                            </li>
+                                        @endif
+
                                         @if (!empty(get_static_option('product_sku_show_hide')))
                                             <li class="category-list">
                                                 <strong> {{ __('Sku:') }} </strong>
@@ -344,7 +368,7 @@
                                         @if ($product->brand)
                                             <li class="category-list">
                                                 <strong> {{ __('Brand:') }} </strong>
-                                                <a class="list-item text-success" href="javascript:;">
+                                                <a class="list-item text-primary" href="javascript:;">
                                                     {{ $product?->brand?->name }}
                                                 </a>
                                             </li>
@@ -352,9 +376,9 @@
                                         @if ($product->is_refundable)
                                             <li class="category-list">
                                                 <strong> {{ __('Refundable:') }} </strong>
-                                                <a class="list-item text-success" href="javascript:;">
+                                                <span class="list-item text-primary">
                                                     {{ $product?->is_refundable == 1 ? 'Yes' : 'No' }}
-                                                </a>
+                                                </span>
                                             </li>
                                         @endif
                                         @if ($product->tag)
@@ -367,11 +391,8 @@
                                                     </span>
                                                     <ul class="tags-shop-list">
                                                         @foreach ($product->tag ?? [] as $tag)
-                                                            <li class="list">
-                                                                <a class="text-success"
-                                                                    href="{{ route('frontend.products.all', ['tag-name' => $tag->tag_name]) }}">
-                                                                    {{ $tag->tag_name }}
-                                                                </a>
+                                                            <li class="list text-primary">
+                                                                {{ $tag->tag_name }}
                                                             </li>
                                                         @endforeach
                                                     </ul>
@@ -399,7 +420,7 @@
                                             ({{ $product->reviews_count }}) </li>
                                     </ul>
                                     <div id="description"
-                                        class="tab-content-item text-success {{ $product->reviews_count > 0 ? '' : 'active' }}"
+                                        class="tab-content-item {{ $product->reviews_count > 0 ? '' : 'active' }}"
                                         style="text-align: justify;">
                                         {!! $product->description !!}
                                     </div>
@@ -637,7 +658,7 @@
                                                 <div class="icon"> <i class="{{ $option->icon }}"></i> </div>
                                                 <div class="promon-icon-contents">
                                                     <h6 class="promo-title fw-500"> {{ $option->title }} </h6>
-                                                    <span class="promo-para text-success"> {{ $option->sub_title }}
+                                                    <span class="promo-para text-primary"> {{ $option->sub_title }}
                                                     </span>
                                                 </div>
                                             </li>
@@ -705,7 +726,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-12 mt-5">
+                <div class="col-lg-12">
                     <div class="global-slick-init relatedProducts-slider recent-slider nav-style-one slider-inner-margin"
                         data-infinite="true" data-arrows="true" data-dots="false" data-slidesToShow="6"
                         data-swipeToSlide="true" data-rtl="{{ get_user_lang_direction() == 'rtl' ? 'true' : 'false' }}"
@@ -1169,15 +1190,15 @@
 
                 let stock_message = '';
                 if (Number(stock_count) > 0) {
-                    stock_message = `<span class="text-success">{{ __('In Stock') }}</span>`;
+                    stock_message = `<span class="text-primary">{{ __('In Stock') }}</span>`;
                     product_item_left_el.text(`Only! ${stock_count} Item Left!`);
-                    product_item_left_el.addClass('text-success');
+                    product_item_left_el.addClass('text-primary');
                     product_item_left_el.removeClass('text-danger');
                 } else {
                     stock_message = `<span class="text-danger">{{ __('Our fo Stock') }}</span>`;
                     product_item_left_el.text(`No Item Left!`);
                     product_item_left_el.addClass('text-danger');
-                    product_item_left_el.removeClass('text-success');
+                    product_item_left_el.removeClass('text-primary');
                 }
 
                 product_stock_el.html(stock_message);

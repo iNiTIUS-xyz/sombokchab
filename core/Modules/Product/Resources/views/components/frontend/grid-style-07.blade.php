@@ -27,13 +27,6 @@
             <a href="{{ route('frontend.products.single', $product->slug) }}">
                 {!! render_image($product->image) !!}
             </a>
-
-            @if ($product->ratings_count > 0)
-                <div class="product__card__review radius-5">
-                    <span class="product__card__review__icon"><i class="las la-star"></i></span>
-                    <x-product::frontend.common.rating-markup :rating-count="$product->ratings_count" :avg-rattings="$product->ratings_avg_rating ?? 0" />
-                </div>
-            @endif
         </div>
 
         <div class="product__card__contents mt-3">
@@ -43,7 +36,11 @@
                 </a>
             </h6>
 
-            <div class="product__price mt-2">
+            <div class="rating-wrap">
+                <x-product::frontend.common.rating-markup :rating-count="$product->ratings_count" :avg-rattings="$product->ratings_avg_rating ?? 0" />
+            </div>
+
+            <div class="product__price">
                 <span class="product__price__current color-two">
                     {{ float_amount_with_currency_symbol(calculatePrice($sale_price, $product)) }}
                 </span>

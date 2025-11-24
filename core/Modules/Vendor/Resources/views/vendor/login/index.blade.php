@@ -108,78 +108,98 @@
     <script src="{{ asset('assets/common/js/toastr.min.js') }}"></script>
 
     <script>
-        (function($) {
+        (function($){
             "use strict";
 
-            $(document).ready(function() {
+            $(document).ready(function(){
 
-                // Prefill form if cookies exist
-                const rememberedType = getCookie("remembered_type");
-                const rememberedValue = getCookie("remembered_value");
-                const rememberedCode = getCookie("remembered_code");
+                /* ===============================
+                    READ COOKIES & PREFILL FORM
+                =============================== */
+                const rememberedType = getCookie("vendor_remembered_type");
+                const rememberedValue = getCookie("vendor_remembered_value");
+                const rememberedCode  = getCookie("vendor_remembered_code");
+                const rememberedMe    = getCookie("vendor_remember_me_checked");
 
-                if (rememberedType === "email") {
-                    $('.phone-input').hide();
-                    $('.email-input').show();
-                    $('#togglePhoneEmail').text('{{ __('Use Phone') }}');
-                    $('#login_email').val(rememberedValue);
-                } else if (rememberedType === "phone") {
-                    $('.phone-input').show();
-                    $('.email-input').hide();
-                    $('#togglePhoneEmail').text('{{ __('Use Email') }}');
-                    $('#number').val(rememberedValue);
-                    $('#phone_country_code').val(rememberedCode);
+                const phoneDiv = $('.phone-input');
+                const emailDiv = $('.email-input');
+                const phoneInput = $('#number');
+                const emailInput = $('#login_email');
+                const codeInput  = $('#phone_country_code');
+                const toggleBtn  = $('#togglePhoneEmail');
+                const rememberCheckbox = $('#login_remember');
+
+                // Restore "Remember Me" checkbox state
+                rememberCheckbox.prop("checked", rememberedMe === "yes");
+
+                // Only restore phone/email if Remember Me was used
+                if (rememberedMe === "yes") {
+
+                    if (rememberedType === "email") {
+                        phoneDiv.hide();
+                        emailDiv.show();
+                        toggleBtn.text('{{ __("Use Phone") }}');
+                        emailInput.val(rememberedValue);
+
+                    } else if (rememberedType === "phone") {
+                        phoneDiv.show();
+                        emailDiv.hide();
+                        toggleBtn.text('{{ __("Use Email") }}');
+                        phoneInput.val(rememberedValue);
+                        if (rememberedCode) codeInput.val(rememberedCode);
+                    }
+
+                } else {
+                    // User did NOT choose remember me → Reset fields
+                    phoneInput.val("");
+                    emailInput.val("");
                 }
 
-                // Toggle between phone and email input
-                $('#togglePhoneEmail').on('click', function() {
-                    if ($('.phone-input').is(':visible')) {
-                        $('.phone-input').hide();
-                        $('.email-input').show();
-                        $(this).text('{{ __('Use Phone') }}');
+
+                /* ===============================
+                    TOGGLE PHONE / EMAIL FIELDS
+                =============================== */
+                toggleBtn.on("click", function(){
+                    if (phoneDiv.is(":visible")) {
+                        phoneDiv.hide();
+                        emailDiv.show();
+                        toggleBtn.text('{{ __("Use Phone") }}');
                     } else {
-                        $('.phone-input').show();
-                        $('.email-input').hide();
-                        $(this).text('{{ __('Use Email') }}');
+                        phoneDiv.show();
+                        emailDiv.hide();
+                        toggleBtn.text('{{ __("Use Email") }}');
                     }
                 });
 
+
+                /* ===============================
+                    PASSWORD SHOW/HIDE
+                =============================== */
                 $('.toggle-password').on('click', function() {
                     const input = $('#login_password');
-                    const hideIcon = $(this).find('.hide-icon');
-                    const showIcon = $(this).find('.show-icon');
-
-                    if (input.attr('type') === 'password') {
-                        input.attr('type', 'text');
-                        hideIcon.hide();
-                        showIcon.show();
-                    } else {
-                        input.attr('type', 'password');
-                        showIcon.hide();
-                        hideIcon.show();
-                    }
-                });
-
-                $('.toggle-password').on('click', function() {
-                    const input = $('#login_password');
-                    const isPassword = input.attr('type') === 'password';
-                    input.attr('type', isPassword ? 'text' : 'password');
+                    const isPass = input.attr('type') === 'password';
+                    input.attr('type', isPass ? 'text' : 'password');
                     $('.show-icon, .hide-icon').toggle();
                 });
 
-                $('#login_btn').on('click', function(e) {
+
+                /* ===============================
+                    LOGIN CLICK HANDLER
+                =============================== */
+                $('#login_btn').on('click', function(e){
                     e.preventDefault();
 
                     let form = $('#login_form_order_page');
                     let el = $(this);
-                    let isEmail = $('.email-input').is(':visible');
-                    let email = $('#login_email').val();
-                    let phone = $('#number').val();
-                    let code = $('#phone_country_code').val();
-                    let password = $('#login_password').val();
-                    let remember = $('#login_remember').is(':checked');
+                    let isEmail = emailDiv.is(':visible');
 
-                    el.text('{{ __('Please Wait') }}');
+                    let phone = $('#number').val();
+                    let email = $('#login_email').val();
+                    let code  = $('#phone_country_code').val();
+                    let password = $('#login_password').val();
+                    let remember = rememberCheckbox.is(':checked');
+
+                    el.text('{{ __("Please Wait") }}');
 
                     $.ajax({
                         type: 'POST',
@@ -188,91 +208,108 @@
                             _token: "{{ csrf_token() }}",
                             [isEmail ? 'phone' : 'phone']: isEmail ? email : (code + phone),
                             password: password,
-                            remember: remember
+                            remember: remember,
                         },
                         success: function(response) {
-                            if (response.status === 'invalid') {
-                                el.text('{{ __('Sign In') }}');
+
+                            if (response.status === "invalid") {
+                                el.text('{{ __("Sign In") }}');
                                 form.find('.error-wrap').html(
                                     `<div class="alert alert-danger">${response.msg}</div>`
                                 );
-                            } else {
-                                // Save cookies
-                                if (remember) {
-                                    if (isEmail) {
-                                        setCookie("remembered_type", "email", 7);
-                                        setCookie("remembered_value", email, 7);
-                                        eraseCookie("remembered_code");
-                                    } else {
-                                        setCookie("remembered_type", "phone", 7);
-                                        setCookie("remembered_value", phone, 7);
-                                        setCookie("remembered_code", code, 7);
-                                    }
+                                return;
+                            }
+
+                            // =======================
+                            // SAVE COOKIES
+                            // =======================
+                            if (remember) {
+
+                                if (isEmail) {
+                                    setCookie("vendor_remembered_type", "email", 7);
+                                    setCookie("vendor_remembered_value", email, 7);
+                                    eraseCookie("vendor_remembered_code");
+
                                 } else {
-                                    eraseCookie("remembered_type");
-                                    eraseCookie("remembered_value");
-                                    eraseCookie("remembered_code");
+                                    setCookie("vendor_remembered_type", "phone", 7);
+                                    setCookie("vendor_remembered_value", phone, 7);
+                                    setCookie("vendor_remembered_code", code, 7);
                                 }
 
-                                form.find('.error-wrap').html('');
-                                $(".showLoginRedirect").show().text(response.msg);
-                                setTimeout(() => {
-                                    location.reload();
-                                }, 800);
-                            }
-                        },
-                        error: function(xhr) {
-                            el.text('{{ __('Sign In') }}');
-                            const res = xhr.responseJSON;
-                            let errorHtml = '<div class="alert alert-danger"><ul>';
-                            if (res && res.errors) {
-                                $.each(res.errors, function(key, messages) {
-                                    errorHtml +=
-                                        `<li>${capitalizeFirstLetter(messages[0])}</li>`;
-                                });
-                            } else if (res && res.msg) {
-                                errorHtml += `<li>${res.msg}</li>`;
+                                setCookie("vendor_remember_me_checked", "yes", 7);
+
                             } else {
-                                errorHtml +=
-                                    `<li>{{ __('Something went wrong. Please try again.') }}</li>`;
+                                eraseCookie("vendor_remembered_type");
+                                eraseCookie("vendor_remembered_value");
+                                eraseCookie("vendor_remembered_code");
+                                eraseCookie("vendor_remember_me_checked");
                             }
-                            errorHtml += '</ul></div>';
-                            form.find('.error-wrap').html(errorHtml);
+
+                            form.find('.error-wrap').html('');
+                            $(".showLoginRedirect").show().text(response.msg);
+
+                            setTimeout(() => location.reload(), 800);
+                        },
+
+                        error: function(xhr){
+                            el.text('{{ __("Sign In") }}');
+
+                            let res = xhr.responseJSON;
+                            let html = '<div class="alert alert-danger"><ul>';
+
+                            if (res?.errors) {
+                                $.each(res.errors, function(key, msgs){
+                                    html += `<li>${capitalizeFirstLetter(msgs[0])}</li>`;
+                                });
+                            } else if (res?.msg) {
+                                html += `<li>${res.msg}</li>`;
+                            } else {
+                                html += `<li>{{ __("Something went wrong.") }}</li>`;
+                            }
+
+                            html += '</ul></div>';
+                            form.find('.error-wrap').html(html);
                         }
                     });
                 });
 
-                function capitalizeFirstLetter(string) {
-                    return string.charAt(0).toUpperCase() + string.slice(1);
+
+                /* ===============================
+                    HELPERS
+                =============================== */
+
+                function capitalizeFirstLetter(s){
+                    return s.charAt(0).toUpperCase() + s.slice(1);
                 }
 
-                function setCookie(name, value, days) {
+                function setCookie(name, value, days){
                     let expires = "";
-                    if (days) {
-                        const date = new Date();
-                        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-                        expires = "; expires=" + date.toUTCString();
+                    if (days){
+                        const d = new Date();
+                        d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000);
+                        expires = "; expires=" + d.toUTCString();
                     }
                     document.cookie = name + "=" + (value || "") + expires + "; path=/";
                 }
 
-                function getCookie(name) {
+                function getCookie(name){
                     const nameEQ = name + "=";
-                    const ca = document.cookie.split(';');
-                    for (let i = 0; i < ca.length; i++) {
-                        let c = ca[i];
-                        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-                        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+                    const parts = document.cookie.split(";");
+                    for (let c of parts){
+                        while (c.charAt(0) === " ") c = c.substring(1);
+                        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length);
                     }
                     return null;
                 }
 
-                function eraseCookie(name) {
-                    document.cookie = name + '=; Max-Age=0; path=/;';
+                // FIXED DELETE FUNCTION
+                function eraseCookie(name){
+                    document.cookie = name + "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
                 }
 
             });
 
         })(jQuery);
     </script>
+
 @endsection
