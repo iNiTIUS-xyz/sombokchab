@@ -90,22 +90,26 @@
                         <div class="form-group">
                             <label for="zipcode">{{ __('Postal Code') }}</label>
                             <input type="text" class="form-control" name="zipcode" id="zipcode"
-                                value="{{ $address->zip_code }}">
+                                placeholder="{{ __('Enter Postal Code') }}" value="{{ $address->zip_code }}">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="country">{{ __('Is Default') }}</label>
                             <select class="form-select" name="is_default" required>
-                                <option value="1" @if ($address->is_default == 1) selected @endif>Yes</option>
-                                <option value="0" @if ($address->is_default == 0) selected @endif>No</option>
+                                <option value="1" @if ($address->is_default == 1) selected @endif>
+                                    {{ __('Yes') }}
+                                </option>
+                                <option value="0" @if ($address->is_default == 0) selected @endif>
+                                    {{ __('No') }}
+                                </option>
                             </select>
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="address">{{ __('Address') }}<span class="text-danger">*</span></label>
-                            <textarea class="form-control" name="address" id="address" rows="3">{{ $address->address }}</textarea>
+                            <textarea class="form-control" name="address" placeholder="{{ __('Enter Address') }}" id="address" rows="3">{{ $address->address }}</textarea>
                         </div>
                     </div>
                     <div class="col-md-12">

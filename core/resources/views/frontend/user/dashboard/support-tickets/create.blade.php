@@ -1,14 +1,18 @@
 @extends('frontend.frontend-page-master')
+
 @section('site-title')
-    {{ get_static_option('support_ticket_page_name') ?? 'Add New Support Ticket' }}
+    {{ get_static_option('support_ticket_page_name') ?? __('Add New Support Ticket') }}
 @endsection
+
 @section('page-title')
-    {{ get_static_option('support_ticket_page_name') ?? 'Add New Support Ticket' }}
+    {{ get_static_option('support_ticket_page_name') ?? __('Add New Support Ticket') }}
 @endsection
+
 @section('page-meta-data')
     <meta name="description" content="{{ get_static_option('about_page_meta_description') }}">
     <meta name="tags" content="{{ get_static_option('about_page_meta_tags') }}">
 @endsection
+
 @section('style')
     <style>
         .support-ticket-wrapper .login-form p {
@@ -31,21 +35,6 @@
             text-align: center;
             margin-bottom: 40px
         }
-
-        /* .support-ticket-wrapper button[type=submit]:hover {
-                background-color: var(--secondary-color);
-                color: #fff
-            }
-
-            .support-ticket-wrapper button[type=submit] {
-                display: inline-block;
-                border: none;
-                background-color: var(--main-color-two);
-                color: #fff;
-                padding: 10px 30px;
-                font-weight: 600;
-                transition: all .4s
-            } */
 
         .support-ticket-wrapper textarea:focus {
             outline: 0;
@@ -82,15 +71,14 @@
     </style>
 @endsection
 @section('content')
-    <section class="support-ticket-page-area padding-top-120 padding-bottom-120">
+    <section class="support-ticket-page-area padding-top-50 padding-bottom-50">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
                     <div class="dashboard__card support-ticket-wrapper">
                         @if (auth()->guard('web')->check())
                             <div class="dashboard__card__header">
-                                {{-- <h3 class="dashboard__card__title">
-                                    Add New Support Ticket</h3> --}}
+                                {{-- <h3 class="dashboard__card__title">Add New Support Ticket</h3> --}}
                             </div>
                             <div class="dashboard__card__body custom__form mt-4">
                                 <x-msg.flash />
@@ -130,7 +118,7 @@
                                             <span class="text-danger">*</span>
                                         </label>
                                         <select name="order_id" class="form-select" required>
-                                            <option value="" selected>Select A Order No</option>
+                                            <option value="" selected>{{ __('Select A Order No') }}</option>
                                             @foreach ($user_orders as $order)
                                                 <option value="{{ $order->order_number }}">
                                                     {{ $order->order_number }} -
@@ -157,7 +145,7 @@
                                     <div class="btn-wrapper">
                                         <button type="submit" class="cmn_btn btn_bg_1 btn-success">
                                             {{-- {{ get_static_option('support_ticket_button_text') }} --}}
-                                            Submit
+                                            {{ __('Submit') }}
                                         </button>
                                         <a href="{{ route('user.home.support.tickets') }}"
                                             class="cmn_btn default-theme-btn"

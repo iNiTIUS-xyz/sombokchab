@@ -26,7 +26,9 @@
 @endsection
 
 @section('section')
-    <a href="{{ route('frontend.support.ticket') }}" class="cmn_btn btn_bg_1">{{ __('Add New Support Ticket') }}</a>
+    <a href="{{ route('frontend.support.ticket') }}" class="cmn_btn btn_bg_1">
+        {{ __('Add New Support Ticket') }}
+    </a>
     @if (count($all_tickets) > 0)
         <div class="mt-4">
             <div class="table-responsive" style="overflow-x: unset !important;">
@@ -56,12 +58,14 @@
                                 </td>
                                 <td>
                                     <a href="{{ route('user.dashboard.support.ticket.view', $data->id) }}"
-                                        class="btn btn-secondary btn-sm rounded-btn" title="{{ __('View Support Ticket') }}">
+                                        class="btn btn-secondary btn-sm rounded-btn"
+                                        title="{{ __('View Support Ticket') }}">
                                         <i class="las la-file-alt"></i>
                                     </a>
                                     @if ($data->status == 'open')
-                                        <a href="javascript:;" class="status_change btn btn-danger btn-xs" data-id="{{ $data->id }}"
-                                            data-val="close" title="{{ __('Close Ticket') }}">
+                                        <a href="javascript:;" class="status_change btn btn-danger btn-xs"
+                                            data-id="{{ $data->id }}" data-val="close"
+                                            title="{{ __('Close Ticket') }}">
                                             <i class="las la-times"></i>
                                         </a>
                                     @endif
@@ -86,51 +90,56 @@
     <script src="{{ asset('assets/frontend/js/popper.min.js') }}"></script>
     <script src="{{ asset('assets/common/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('assets/backend/js/sweetalert2.js') }}"></script>
-
-    {{-- <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script> --}}
     <script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
-
-    <script> 
-        $(document).ready(function () {
+    <script>
+        $(document).ready(function() {
             if ($('#dataTable').length) {
                 $('#dataTable').DataTable({
                     paging: true,
                     lengthChange: true,
                     searching: true,
-                    // ordering: true,
+                    ordering: true,
                     info: true,
                     autoWidth: false,
                     responsive: true,
+                    order: [
+                        [0, 'desc']
+                    ],
+                    pagingType: "simple_numbers",
                     language: {
-                        search: "Filter:",
+                        lengthMenu: "{{ __('_MENU_ entries per page') }}",
+                        search: "{{ __('Filter:') }}",
+                        info: "{{ __('Showing _START_ to _END_ of _TOTAL_ entries') }}",
+                        infoEmpty: "{{ __('No entries available') }}",
+                        infoFiltered: "{{ __('(filtered from _MAX_ total entries)') }}",
+
+                        zeroRecords: "{{ __('No matching records found') }}",
+                        emptyTable: "{{ __('No entries available') }}",
                         paginate: {
-                            previous: "Prev",
-                            next: "Next"
-                        }
-                    },
-                    // Add this for pagination style
-                    pagingType: "simple_numbers" // options: simple, simple_numbers, full, full_numbers
+                            previous: "{{ __('Prev') }}",
+                            next: "{{ __('Next') }}"
+                        },
+                        emptyTable: "{{ __('No data available in table') }}"
+                    }
                 });
             }
         });
     </script>
-
-
     <script>
-        (function ($) {
+        (function($) {
             "use strict";
 
-            $(document).ready(function () {
+            $(document).ready(function() {
                 // Mobile navigation toggle
-                $(document).on('click', '.bodyUser_overlay', function () {
+                $(document).on('click', '.bodyUser_overlay', function() {
                     $('.user-dashboard-wrapper, .bodyUser_overlay').removeClass('show');
                 });
-                $(document).on('click', '.mobile_nav', function () {
+                $(document).on('click', '.mobile_nav', function() {
                     $('.user-dashboard-wrapper, .bodyUser_overlay').addClass('show');
                 });
 
                 // Priority change handler
-                $(document).on('click', '.change_priority', function (e) {
+                $(document).on('click', '.change_priority', function(e) {
                     e.preventDefault();
                     var priority = $(this).data('val');
                     var id = $(this).data('id');
@@ -155,17 +164,17 @@
                                     priority: priority,
                                     id: id,
                                 },
-                                success: function (data) {
+                                success: function(data) {
                                     if (data.success) {
                                         Swal.fire('Updated!',
                                             'Priority changed successfully.',
                                             'success');
-                                        setTimeout(function () {
+                                        setTimeout(function() {
                                             location.reload();
                                         }, 1000);
                                     }
                                 }.bind(this),
-                                error: function () {
+                                error: function() {
                                     Swal.fire('Error!',
                                         'Failed to change priority.', 'error');
                                 }
@@ -175,7 +184,7 @@
                 });
 
                 // Status change handler with SweetAlert2
-                $(document).on('click', '.status_change', function (e) {
+                $(document).on('click', '.status_change', function(e) {
                     e.preventDefault();
                     var status = $(this).data('val');
                     var id = $(this).data('id');
@@ -199,15 +208,15 @@
                                     status: status,
                                     id: id,
                                 },
-                                success: function (data) {
+                                success: function(data) {
                                     if (data.success) {
                                         Swal.fire('Closed!', '', 'success');
-                                        setTimeout(function () {
+                                        setTimeout(function() {
                                             location.reload();
                                         }, 1000);
                                     }
                                 },
-                                error: function () {
+                                error: function() {
                                     Swal.fire('Error!', 'Failed to change status.',
                                         'error');
                                 }

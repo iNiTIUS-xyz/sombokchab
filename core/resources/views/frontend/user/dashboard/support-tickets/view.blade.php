@@ -1,7 +1,9 @@
 @extends('frontend.frontend-page-master')
+
 @section('page-title')
     {{ __('Support Ticket Details') }}
 @endsection
+
 @section('style')
     <link rel="stylesheet" href="{{ asset('assets/backend/css/summernote-bs4.css') }}">
     <style>
@@ -31,8 +33,6 @@
             color: var(--white);
         }
 
-
-        /* support ticket  */
 
         .reply-message-wrap {
             padding: 20px;
@@ -210,12 +210,6 @@
         .single-message-item ul {
             padding-left: 15px;
         }
-
-        /* .anchor-btn {
-                color: #345990;
-                text-decoration: underline;
-                margin: 5px 0;
-            } */
     </style>
 @endsection
 @section('content')
@@ -227,8 +221,7 @@
                         <div class="gig-chat-message-heading">
                             <div class="dashboard__card__header">
                                 {{-- <h4 class="dashboard__card__title">{{ __('Support Ticket Details') }}</h4> --}}
-                                {{-- <a href="{{ route('user.home.support.tickets') }}"
-                                    class="cmn_btn btn_bg_profile">{{ __('All Tickets') }}</a> --}}
+                                {{-- <a href="{{ route('user.home.support.tickets') }}" class="cmn_btn btn_bg_profile">{{ __('All Tickets') }}</a> --}}
                             </div>
                             <div class="dashboard__card__body custom__form mt-4">
                                 <div class="gig-order-info">
@@ -242,7 +235,7 @@
                                                 {{ ucfirst($ticket_details->status == 'close' ? __('Closed') : __($ticket_details->status)) }}
                                             </span>
                                         </li>
-                                        {{-- <li><strong>{{ __('Priority:') }}</strong> 
+                                        {{-- <li><strong>{{ __('Priority:') }}</strong>
                                             <span class="badge priority-status {{ $ticket_details->priority }} bg-{{ $ticket_details->priority }}">
                                                 {{ ucfirst($ticket_details->priority) }}
                                             </span>
@@ -276,7 +269,7 @@
                                                         </span>
                                                         @if ($msg->notify == 'on')
                                                             <i class="fas fa-envelope mt-2"
-                                                                title="{{ __('Notified by email') }}"></i>
+                                                                title="{{ __('Notified By Email') }}"></i>
                                                         @endif
                                                     </div>
                                                     <div class="content">
@@ -299,7 +292,7 @@
                                                         @if (!empty($msg->attachment) && file_exists(public_path('assets/uploads/ticket/' . $msg->attachment)))
                                                             <a href="{{ asset('assets/uploads/ticket/' . $msg->attachment) }}"
                                                                 download class="anchor-btn text-info">
-                                                                <strong class="text-info">File:</strong>
+                                                                <strong class="text-info">{{ __('File') }}:</strong>
                                                                 <span class="text-info">{{ $msg->attachment }}</span>
                                                             </a>
                                                         @else
@@ -349,8 +342,10 @@
                                                 <label for="send_notify_mail">{{ __('Notify via mail') }}</label>
                                             </div>
                                             <div class="form-group d-flex align-items-start gap-3">
-                                                <input type="checkbox" name="send_notify_phone" id="send_notify_phone_number">
-                                                <label for="send_notify_phone_number">{{ __('Notify via phone number') }}</label>
+                                                <input type="checkbox" name="send_notify_phone"
+                                                    id="send_notify_phone_number">
+                                                <label
+                                                    for="send_notify_phone_number">{{ __('Notify via phone number') }}</label>
                                             </div>
                                             <div class="btn-wrapper">
                                                 <button type="submit" class="cmn_btn btn_bg_1 btn-success">

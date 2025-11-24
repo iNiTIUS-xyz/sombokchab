@@ -67,7 +67,7 @@
                                 </td>
                                 <td class="status">
                                     @if ($order->hasRefundRequest && $order->refundRequest->currentTrackStatus)
-                                        Refund:
+                                        {{ __('Refund:') }}
                                         <span class="badge bg-light text-dark px-2 py-1">
                                             {{ __(ucwords(str_replace('_', ' ', $order->refundRequest->currentTrackStatus->name))) }}
                                         </span>
