@@ -217,7 +217,7 @@
             e.preventDefault();
 
             send_ajax_request("post", new FormData(e.target), $(this).attr("data-request-route"), function() {
-                toastr.warning("Request sent successfully ");
+
             }, function(data) {
                 if (data.success) {
                     toastr.success("Product Created Successfully");

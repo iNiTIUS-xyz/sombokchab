@@ -21,7 +21,9 @@
                         <div class="dashboard-left-flex d-flex align-items-center justify-content-between w-100">
                             <h3 class="heading-three fw-500"> {{ __('Update Product') }} </h3>
                             <div class="button-wrappers">
-                                <a href="{{ route('admin.products.all') }}" class="btn btn-info">{{ __('Product List') }}</a>
+                                <a href="{{ route('admin.products.all') }}" class="cmn_btn btn_bg_profile">
+                                    {{ __('Product List') }}
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -96,7 +98,7 @@
                             <input name="id" type="hidden" value="{{ $product?->id }}">
 
                             <div class="form-button">
-                                <button class="cmn_btn btn_bg_profile">{{ __('Save Changes') }}</button>
+                                <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Save Changes') }}</button>
                             </div>
 
                             <div class="tab-content margin-top-10" id="v-pills-tabContent">
@@ -167,10 +169,15 @@
             e.preventDefault();
 
             send_ajax_request("post", new FormData(e.target), $(this).attr("data-request-route"), function() {
-                toastr.warning("Request sent successfully ");
+                // toastr.warning("Request sent successfully ");
             }, function(data) {
+
                 if (data.success) {
                     toastr.success("Product updated Successfully");
+                    toastr.success("You are redirected to product list page");
+                    setTimeout(() => {
+                        window.location.href = "{{ route('admin.products.create') }}";
+                    }, 800);
                 }
             }, function(xhr) {
                 ajax_toastr_error_message(xhr);
