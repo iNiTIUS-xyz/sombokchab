@@ -134,9 +134,9 @@
                                     </label>
                                     <select name="status" class="form-select" required>
                                         <option value="draft" {{ old('status') == 'draft' ? 'selected' : '' }}>
-                                            {{ __('Unpublish') }}</option>
+                                            {{ __('Unpublished') }}</option>
                                         <option value="publish" {{ old('status') == 'publish' ? 'selected' : '' }}>
-                                            {{ __('Publish') }}</option>
+                                            {{ __('Published') }}</option>
                                     </select>
                                     @error('status')
                                         <span class="text-danger">{{ $message }}</span>

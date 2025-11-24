@@ -366,9 +366,6 @@
         }
     </style>
 @endsection
-@section('page-title')
-    {{ __('Payment Success') }}
-@endsection
 
 @php
     use Modules\DeliveryMan\Entities\DeliveryManRating;
@@ -382,17 +379,14 @@
         <div class="col-lg-12">
             <div class="breadcrumb-contents">
                 <h2 class="breadcrumb-title">
-                    Order Details
+                    {{ __('Order Details') }}
                 </h2>
             </div>
         </div>
     </div>
     <div class="patment-success-area padding-top-100 padding-bottom-100">
         @if (moduleExists('DeliveryMan'))
-            @if (
-                !empty($payment_details->deliveryMan) &&
-                    DeliveryManRating::where('delivery_man_id', $payment_details->deliveryMan?->delivery_man_id)->count() < 1)
-                <!-- End Contract area Starts -->
+            @if (!empty($payment_details->deliveryMan) && DeliveryManRating::where('delivery_man_id', $payment_details->deliveryMan?->delivery_man_id)->count() < 1)
                 <div class="end-contract-area section-bg-2">
                     <div class="container">
                         <div class="row gy-4 justify-content-center">
@@ -415,7 +409,7 @@
                                                         method="post">
                                                         @csrf
                                                         <input id="delivery-man-ratting-input" type="hidden" name="ratting"
-                                                            value="" />
+                                                            value=""/>
 
                                                         <div class="end-contract-reaction">
                                                             <div class="end-contract-reaction-item reaction-list"
@@ -566,12 +560,13 @@
                     <div class="order__details__single">
                         <div class="payment-success-wrapper">
                             <div class="payment-contents">
-                                <h4 class="title__two"> {{ __('Payment Details') }} </h4>
+                                <h4 class="title__two">
+                                    {{ __('Payment Details') }}
+                                </h4>
                                 <ul class="payment-list margin-top-40">
                                     <li>
                                         <span class="payment-list-left">
                                             {{ __('Payment Gateway:') }}
-
                                         </span>
                                         <span class="payment-list-right text-capitalize">
                                             {{ render_payment_gateway_name($payment_details->payment_gateway) }}
@@ -610,7 +605,9 @@
                     <div class="order__details__single">
                         <div class="payment-success-wrapper">
                             <div class="payment-contents">
-                                <h4 class="title__two"> {{ __('Order Info') }} </h4>
+                                <h4 class="title__two">
+                                    {{ __('Order Info') }}
+                                </h4>
                                 <ul class="payment-list payment-list-two margin-top-30">
                                     <li>
                                         <span class="payment-list-left list-bold">
@@ -679,15 +676,17 @@
                                                 <table class="table table-bordered align-middle">
                                                     <thead class="">
                                                         <tr>
-                                                            <th class="text-dark">Product</th>
-                                                            <th class="text-dark text-center">Quantity</th>
-                                                            <th class="text-dark text-end">Price</th>
+                                                            <th class="text-dark">{{ __('Product') }}</th>
+                                                            <th class="text-dark text-center">{{ __('Quantity') }}</th>
+                                                            <th class="text-dark text-end">{{ __('Price') }}</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         @foreach ($order?->orderItem as $orderItem)
                                                             @php
-                                                                $productInfo = DB::table('products')->where('id', $orderItem->product_id)->first();
+                                                                $productInfo = DB::table('products')
+                                                                    ->where('id', $orderItem->product_id)
+                                                                    ->first();
                                                                 $prd_image = $orderItem->product?->image;
 
                                                                 if (!empty($orderItem->variant?->attr_image)) {
@@ -702,7 +701,8 @@
                                                                         </div>
                                                                         <div>
                                                                             <h6 class="mb-1">
-                                                                                <a href="javascript:;" class="text-dark text-decoration-none">
+                                                                                <a href="javascript:;"
+                                                                                    class="text-dark text-decoration-none">
                                                                                     {{ Str::limit(Str::words($productInfo->name), 50, '...') }}
                                                                                 </a>
                                                                             </h6>
@@ -710,11 +710,16 @@
                                                                                 {{ $orderItem?->variant?->productColor ? __('Color:') . $orderItem?->variant?->productColor?->name . ', ' : '' }}
                                                                                 {{ $orderItem?->variant?->productSize ? __('Size:') . $orderItem?->variant?->productSize?->name . ', ' : '' }}
                                                                                 @foreach ($orderItem?->variant?->attribute ?? [] as $attr)
-                                                                                    {{ $attr->attribute_name }}: {{ $attr->attribute_value }}@if(!$loop->last), @endif
+                                                                                    {{ $attr->attribute_name }}:
+                                                                                    {{ $attr->attribute_value }}
+                                                                                    @if (!$loop->last)
+                                                                                        ,
+                                                                                    @endif
                                                                                 @endforeach
                                                                             </small>
                                                                             <small class="d-block mt-1">
-                                                                                <span class="fw-semibold">{{ __('Sold By:') }}</span>
+                                                                                <span
+                                                                                    class="fw-semibold">{{ __('Sold By:') }}</span>
                                                                                 {{ $order->vendor?->business_name ?? $adminShopManage?->store_name }}
                                                                             </small>
                                                                         </div>
@@ -733,8 +738,10 @@
                                                                 </td>
                                                             </tr>
                                                             @php
-                                                                $subtotal += $orderItem->sale_price * $orderItem->quantity;
-                                                                $itemsTotal += $orderItem->sale_price * $orderItem->quantity;
+                                                                $subtotal +=
+                                                                    $orderItem->sale_price * $orderItem->quantity;
+                                                                $itemsTotal +=
+                                                                    $orderItem->sale_price * $orderItem->quantity;
                                                             @endphp
                                                         @endforeach
                                                     </tbody>
@@ -794,17 +801,19 @@
                                         </div>
 
                                         <style>
-                                            .table th, .table td {
+                                            .table th,
+                                            .table td {
                                                 vertical-align: middle;
                                             }
+
                                             .table th {
                                                 font-weight: 600;
                                             }
+
                                             .checkout-cart-thumb img {
                                                 border-radius: 5px;
                                             }
                                         </style>
-
                                     @endforeach
                                 </div>
                             </div>

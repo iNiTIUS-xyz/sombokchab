@@ -2,36 +2,30 @@
     $product = $product ?? null;
     $avg_rattings = $avgRattings ?? null;
     $ratingCount = $ratingCount ?? null;
+
+    // determine rating and count
+    $ratingValue = !empty($product)
+        ? ($product->reviews_avg_rating ?? 0)
+        : ($avg_rattings ?? 0);
+
+    $ratingCountValue = !empty($product)
+        ? ($product->reviews_count ?? 0)
+        : ($ratingCount ?? 0);
+
+    // convert rating to width percentage
+    $rating_width = round($ratingValue * 20);
 @endphp
 
-@if (!empty($product))
-    @php
-        $rating_width = round(($product->reviews_avg_rating ?? 0) * 20);
-    @endphp
+<div class="ratings">
+    {{-- always show background 5 stars --}}
+    <span class="hide-rating"></span>
 
-    <div class="ratings {{ $rating_width == 0 ? 'd-none' : '' }}">
-        <span class="hide-rating"></span>
-        <span class="show-rating" style="width: {{ $rating_width }}%!important"></span>
-    </div>
-    <p>
-        <span class="total-ratings">
-            {{ $product->reviews_count ? '(' . $product->reviews_count . ')' : '' }}
-        </span>
-    </p>
-@elseif(!empty($avg_rattings))
-    @php
-        $rating_width = round($avg_rattings * 20);
-    @endphp
+    {{-- filled stars --}}
+    <span class="show-rating" style="width: {{ $rating_width }}%!important"></span>
+</div>
 
-    <div class="ratings {{ $rating_width == 0 ? 'd-none' : '' }}">
-        <span class="hide-rating"></span>
-        <span class="show-rating" style="width: {{ $rating_width }}%!important"></span>
-    </div>
-    @if ($ratingCount)
-        <p>
-            <span class="total-ratings">
-                {{ $ratingCount ? '(' . $ratingCount . ')' : '' }}
-            </span>
-        </p>
-    @endif
-@endif
+<p>
+    <span class="total-ratings">
+        ({{ $ratingCountValue }})
+    </span>
+</p>

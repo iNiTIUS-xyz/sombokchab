@@ -9,9 +9,9 @@
         <div class="dashboard__card__header">
             <h4 class="dashboard__card__title">
                 {{ $title }}
-                <small class="text-info" style="font-size: 13px;">
-                    {{ __('Image size should be 1080 X 1080') }}
-                </small>
+                {{-- <small class="text-secondary" style="font-size: 13px;">
+                    {{ __('Image size should be 400px X 108400px0') }}
+                </small> --}}
             </h4>
         </div>
         <div class="dashboard__card__body profile-photo-upload">
@@ -56,9 +56,9 @@
         <div class="dashboard__card__header">
             <h4 class="dashboard__card__title">
                 {{ $title }}
-                <small class="text-info" style="font-size: 13px;">
-                    ({{ __('Image size should be 1080 X 1080') }})
-                </small>
+                {{-- <small class="text-secondary" style="font-size: 13px;">
+                    ({{ __('Image size should be 400px X 400px') }})
+                </small> --}}
             </h4>
         </div>
         <div class="dashboard__card__body profile-photo-upload">
@@ -89,9 +89,9 @@
                     <h5 class="dashboard-common-title">
                         {{ __("Select Files to Upload Image") }}
                     </h5>
-                    <span class="upload-para mt-2">
+                    {{-- <span class="upload-para mt-2">
                         {{ __('Dimension of the logo image should be 600 x 600px') }}
-                    </span>
+                    </span> --}}
                 </button>
             </div>
         </div>

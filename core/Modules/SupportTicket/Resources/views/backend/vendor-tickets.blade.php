@@ -1,146 +1,145 @@
 @extends('backend.admin-master')
 
 @section('site-title')
-{{ __('Vendor Support Tickets') }}
+    {{ __('Vendor Support Tickets') }}
 @endsection
 
 @section('style')
-<x-bulk-action.css />
+    <x-bulk-action.css />
 @endsection
 
 @section('content')
-<div class="col-lg-12 col-ml-12">
-    <div class="row">
-        <div class="col-lg-12">
-            {{--
-            <x-msg.flash />
-            <x-msg.error /> --}}
-            @can('add-support-ticket')
-            <div class="btn-wrapper">
-                <a href="{{ route('admin.support.ticket.new') }}" class="cmn_btn btn_bg_profile">{{ __('Add New Ticket')
-                    }}
-                </a>
-            </div>
-            @endcan
-            <div class="dashboard__card mt-4">
-                <div class="dashboard__card__header">
-                    <h4 class="dashboard__card__title">{{ __('Vendor Support Tickets') }}</h4>
-                    <div class="dashboard__card__header__right d-flex">
-                        @can('view-support-ticket')
-                        <x-bulk-action.dropdown />
-                        @endcan
+    <div class="col-lg-12 col-ml-12">
+        <div class="row">
+            <div class="col-lg-12">
+                <x-msg.flash />
+                <x-msg.error />
+                @can('add-support-ticket')
+                    <div class="btn-wrapper">
+                        <a href="{{ route('admin.support.ticket.new') }}"
+                            class="cmn_btn btn_bg_profile">{{ __('Add New Ticket') }}
+                        </a>
                     </div>
-                </div>
-                <div class="dashboard__card__body mt-4">
-                    <div class="table-responsive">
-                        <table class="table table-default" id="dataTable">
-                            <thead>
-                                @can('view-support-ticket')
-                                <x-bulk-action.th />
-                                @endcan
-                                <th>{{ __('Ticket ID') }}</th>
-                                <th>{{ __('Title') }}</th>
-                                <th>{{ __('Department') }}</th>
-                                <th>{{ __('Vendor') }}</th>
-                                <th>{{ __('Priority') }}</th>
-                                <th>{{ __('Status') }}</th>
-                                <th>{{ __('Created At') }}</th>
-                                <th>{{ __('Action') }}</th>
-                            </thead>
-                            <tbody>
-                                @foreach ($all_tickets as $data)
-                                <tr>
+                @endcan
+                <div class="dashboard__card mt-4">
+                    <div class="dashboard__card__header">
+                        <h4 class="dashboard__card__title">{{ __('Vendor Support Tickets') }}</h4>
+                        <div class="dashboard__card__header__right d-flex">
+                            @can('view-support-ticket')
+                                <x-bulk-action.dropdown />
+                            @endcan
+                        </div>
+                    </div>
+                    <div class="dashboard__card__body mt-4">
+                        <div class="table-responsive">
+                            <table class="table table-default" id="dataTable">
+                                <thead>
                                     @can('view-support-ticket')
-                                    <x-bulk-action.td :id="$data->id" />
+                                        <x-bulk-action.th />
                                     @endcan
-                                    <td>{{ $data->id }}</td>
-                                    <td>{{ $data->title }}</td>
-                                    <td>{{ $data->department->name ?? __('anonymous') }}</td>
-                                    <td>
-                                        {{ __('Vendor:') }}
-                                        {{ $data->vendor?->owner_name ?? __('anonymous') }},<br>
-                                        @if ($data->vendor?->business_name)
-                                        {{ __('Business Name') }} : {{ $data->vendor?->business_name }}
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <div class="btn-group badge">
-                                            <button type="button" class="{{ $data->priority }} dropdown-toggle"
-                                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                                                style="width: 90px; text-align: left;">
-                                                {{ $data->priority ? ucfirst($data->priority) : 'Set Priority' }}
-                                            </button>
-                                            @can('edit-support-ticket')
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item change_priority" data-id="{{ $data->id }}"
-                                                    data-val="low" href="#1">
-                                                    {{ __('Low') }}
-                                                </a>
-                                                <a class="dropdown-item change_priority" data-id="{{ $data->id }}"
-                                                    data-val="medium" href="#1">
-                                                    {{ __('Medium') }}
-                                                </a>
-                                                <a class="dropdown-item change_priority" data-id="{{ $data->id }}"
-                                                    data-val="high" href="#1">
-                                                    {{ __('High') }}
-                                                </a>
-                                                <a class="dropdown-item change_priority" data-id="{{ $data->id }}"
-                                                    data-val="urgent" href="#1">
-                                                    {{ __('Urgent') }}
-                                                </a>
-                                            </div>
+                                    <th>{{ __('Ticket ID') }}</th>
+                                    <th>{{ __('Title') }}</th>
+                                    <th>{{ __('Department') }}</th>
+                                    <th>{{ __('Vendor') }}</th>
+                                    <th>{{ __('Priority') }}</th>
+                                    <th>{{ __('Status') }}</th>
+                                    <th>{{ __('Created On') }}</th>
+                                    <th>{{ __('Action') }}</th>
+                                </thead>
+                                <tbody>
+                                    @foreach ($all_tickets as $data)
+                                        <tr>
+                                            @can('view-support-ticket')
+                                                <x-bulk-action.td :id="$data->id" />
                                             @endcan
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="btn-group badge">
-                                            <button type="button"
-                                                class="status-{{ $data->status }} {{ $data->status == 'close' ? __('bg-danger status-close') : __('bg-primary status-open') }} dropdown-toggle"
-                                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                {{ ucfirst($data->status == 'close' ? __('Closed') : __($data->status))
-                                                }}
-                                            </button>
-                                            @can('edit-support-ticket')
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item status_change" data-id="{{ $data->id }}"
-                                                    data-val="open" href="#1">
-                                                    {{ __('Open') }}
-                                                </a>
-                                                <a class="dropdown-item status_change" data-id="{{ $data->id }}"
-                                                    data-val="close" href="#1">
-                                                    {{ __('Close') }}
-                                                </a>
-                                            </div>
-                                            @endcan
-                                        </div>
-                                    </td>
-                                    <td>
-                                        {{ date('M j, Y', strtotime($data->created_at)) }}
-                                    </td>
-                                    <td>
-                                        @can('view-support-ticket')
-                                        <x-view-icon :url="route('admin.support.ticket.view', $data->id)" />
-                                        @endcan
-                                        @can('delete-support-ticket')
-                                        <x-delete-popover :url="route('admin.support.ticket.delete', $data->id)" />
-                                        @endcan
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                            <td>{{ $data->id }}</td>
+                                            <td>{{ $data->title }}</td>
+                                            <td>{{ $data->department->name ?? __('anonymous') }}</td>
+                                            <td>
+                                                {{ __('Vendor:') }}
+                                                {{ $data->vendor?->owner_name ?? __('anonymous') }},<br>
+                                                @if ($data->vendor?->business_name)
+                                                    {{ __('Business Name') }} : {{ $data->vendor?->business_name }}
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <div class="btn-group badge">
+                                                    <button type="button" class="{{ $data->priority }} dropdown-toggle"
+                                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                                        style="width: 90px; text-align: left;">
+                                                        {{ $data->priority ? ucfirst($data->priority) : 'Set Priority' }}
+                                                    </button>
+                                                    @can('edit-support-ticket')
+                                                        <div class="dropdown-menu">
+                                                            <a class="dropdown-item change_priority"
+                                                                data-id="{{ $data->id }}" data-val="low" href="#1">
+                                                                {{ __('Low') }}
+                                                            </a>
+                                                            <a class="dropdown-item change_priority"
+                                                                data-id="{{ $data->id }}" data-val="medium" href="#1">
+                                                                {{ __('Medium') }}
+                                                            </a>
+                                                            <a class="dropdown-item change_priority"
+                                                                data-id="{{ $data->id }}" data-val="high" href="#1">
+                                                                {{ __('High') }}
+                                                            </a>
+                                                            <a class="dropdown-item change_priority"
+                                                                data-id="{{ $data->id }}" data-val="urgent" href="#1">
+                                                                {{ __('Urgent') }}
+                                                            </a>
+                                                        </div>
+                                                    @endcan
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="btn-group badge">
+                                                    <button type="button"
+                                                        class="status-{{ $data->status }} {{ $data->status == 'close' ? __('bg-danger status-close') : __('bg-primary status-open') }} dropdown-toggle"
+                                                        data-bs-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                        {{ ucfirst($data->status == 'close' ? __('Closed') : __($data->status)) }}
+                                                    </button>
+                                                    @can('edit-support-ticket')
+                                                        <div class="dropdown-menu">
+                                                            <a class="dropdown-item status_change"
+                                                                data-id="{{ $data->id }}" data-val="open" href="#1">
+                                                                {{ __('Open') }}
+                                                            </a>
+                                                            <a class="dropdown-item status_change"
+                                                                data-id="{{ $data->id }}" data-val="close" href="#1">
+                                                                {{ __('Close') }}
+                                                            </a>
+                                                        </div>
+                                                    @endcan
+                                                </div>
+                                            </td>
+                                            <td>
+                                                {{ date('M j, Y', strtotime($data->created_at)) }}
+                                            </td>
+                                            <td>
+                                                @can('view-support-ticket')
+                                                    <x-view-icon :url="route('admin.support.ticket.view', $data->id)" />
+                                                @endcan
+                                                @can('delete-support-ticket')
+                                                    <x-delete-popover :url="route('admin.support.ticket.delete', $data->id)" />
+                                                @endcan
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 @endsection
 
 @section('script')
-@can('view-support-ticket')
-<script>
-    (function($) {
+    @can('view-support-ticket')
+        <script>
+            (function($) {
                 $(document).ready(function() {
                     $(document).on('click', '#bulk_delete_btn', function(e) {
                         e.preventDefault();
@@ -213,10 +212,10 @@
                     });
                 });
             })(jQuery);
-</script>
-@endcan
-<script>
-    (function() {
+        </script>
+    @endcan
+    <script>
+        (function() {
             "use strict";
             $(document).on('click', '.change_priority', function(e) {
                 e.preventDefault();
@@ -280,5 +279,5 @@
             });
 
         })(jQuery);
-</script>
+    </script>
 @endsection

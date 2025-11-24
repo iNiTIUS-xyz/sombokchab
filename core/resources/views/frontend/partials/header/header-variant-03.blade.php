@@ -213,6 +213,8 @@
         display: flex;
     }
 
+    .language-dropdown,
+    .language-dropdown:focus,
     .gtranslate_wrapper .gt_selector,
     #currency-selector {
         width: 100px;
@@ -232,10 +234,12 @@
         text-align: center;
     }
 
+    .language-dropdown option,
     .gtranslate_wrapper .gt_selector option,
     #currency-selector option {
         background: var(--main-color-one) !important;
         border-radius: 0px !important;
+        color: #FFF !important;
     }
 
     .single-searchbar.searchbar-suggetions .input-group {
@@ -311,7 +315,7 @@
                         {{-- <div class="gtranslate_wrapper"></div> --}}
                         <form action="{{ route('frontend.change.language') }}" method="POST">
                             @csrf
-                            <select name="language" class="form-control" onchange="this.form.submit()">
+                            <select name="language" class="form-control language-dropdown" onchange="this.form.submit()">
                                 <option value="en_US" @if (session()->get('lang') == 'en_US') selected @endif>
                                     {{ __('English') }}
                                 </option>

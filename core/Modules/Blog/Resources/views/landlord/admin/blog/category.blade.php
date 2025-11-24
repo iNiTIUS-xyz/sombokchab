@@ -100,7 +100,7 @@
 
                             <x-fields.select name="status" title="{{ __('Status') }}">
                                 <option value="{{ \App\Enums\StatusEnums::PUBLISH }}">{{ __('Publish') }}</option>
-                                <option value="{{ \App\Enums\StatusEnums::DRAFT }}">{{ __('Draft') }}</option>
+                                <option value="{{ \App\Enums\StatusEnums::DRAFT }}">{{ __('Unpublish') }}</option>
                             </x-fields.select>
 
 
@@ -135,7 +135,7 @@
 
                             <x-fields.select name="status" title="{{ __('Status') }}" class="edit_status">
                                 <option value="{{ \App\Enums\StatusEnums::PUBLISH }}">{{ __('Publish') }}</option>
-                                <option value="{{ \App\Enums\StatusEnums::DRAFT }}">{{ __('Draft') }}</option>
+                                <option value="{{ \App\Enums\StatusEnums::DRAFT }}">{{ __('Unpublish') }}</option>
                             </x-fields.select>
 
                         </div>

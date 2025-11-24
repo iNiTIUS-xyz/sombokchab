@@ -16,7 +16,6 @@
             max-width: 50%;
         }
 
-        /* Optional: Align content inside each column */
         #DataTables_Table_0_length {
             text-align: left;
         }
@@ -34,7 +33,6 @@
 @section('section')
     <div class="dashboard__card__order">
         <div class="dashboard__card__header">
-            {{-- <h3 class="dashboard__card__title">{{ __('My Orders') }}</h3> --}}
         </div>
         <div class="dashboard__card__table mt-4">
             <div class="table-responsive">
@@ -44,9 +42,6 @@
                             <th>
                                 {{ __('Order No.') }}
                             </th>
-                            {{-- <th>
-                                {{ __('Tracking Number') }}
-                            </th> --}}
                             <th>
                                 {{ __('Order Date') }}
                             </th>
@@ -67,9 +62,6 @@
                                 <td class="order-numb">
                                     {{ $order->order_number }}
                                 </td>
-                                {{-- <td class="order-numb">
-                                    {{ $order->tracking_code }}
-                                </td> --}}
                                 <td class="date">
                                     {{ $order->created_at->format('M j, Y') }}
                                 </td>
@@ -106,26 +98,28 @@
                                     <div class="btn-wrapper">
                                         @if ($order->isDeliveredStatus && !$order->hasRefundRequest)
                                             <a href="{{ route('user.product.order.refund', $order->id) }}"
-                                                class="btn btn-warning btn-sm rounded-btn" title="Request Refund"
-                                                style="width: 40px;">
+                                                class="btn btn-warning btn-sm rounded-btn"
+                                                title="{{ __('Request Refund') }}" style="width: 40px;">
                                                 <i class="las la-undo"></i>
                                             </a>
                                         @endif
 
                                         <a href="{{ route('user.product.order.details', $order->order_number) }}"
-                                            class="btn btn-secondary btn-sm rounded-btn" title="View Details"
+                                            class="btn btn-secondary btn-sm rounded-btn" title="{{ __('Request Refund') }}"
                                             style="width: 40px;">
                                             <i class="las la-file-alt"></i>
                                         </a>
                                         @if ($order->isCancelableStatus && $order->order_status == 'pending')
                                             <button class="btn btn-danger btn-sm rounded-btn swal_cancel_button"
-                                                title="Cancel" data-order-id="{{ $order->id }}" style="width: 40px;">
+                                                title="{{ __('Request Refund') }}" data-order-id="{{ $order->id }}"
+                                                style="width: 40px;">
                                                 <i class="las la-times"></i>
                                             </button>
                                         @endif
 
                                         <a href="{{ route('user.product.order.reorder', $order->id) }}"
-                                            class="btn btn-info btn-sm rounded-btn" title="Re-Order" style="width: 40px;">
+                                            class="btn btn-info btn-sm rounded-btn" title="{{ __('Request Refund') }}"
+                                            style="width: 40px;">
                                             <i class="las la-retweet"></i>
                                         </a>
                                     </div>
@@ -183,23 +177,32 @@
                     lengthChange: true,
                     searching: true,
                     ordering: true,
-                    order: [],
                     info: true,
                     autoWidth: false,
                     responsive: true,
+                    order: [
+                        [0, 'desc']
+                    ],
+                    pagingType: "simple_numbers",
                     language: {
-                        search: "Filter:",
+                        lengthMenu: "{{ __('_MENU_ entries per page') }}",
+                        search: "{{ __('Filter:') }}",
+                        info: "{{ __('Showing _START_ to _END_ of _TOTAL_ entries') }}",
+                        infoEmpty: "{{ __('No entries available') }}",
+                        infoFiltered: "{{ __('(filtered from _MAX_ total entries)') }}",
+
+                        zeroRecords: "{{ __('No matching records found') }}",
+                        emptyTable: "{{ __('No entries available') }}",
                         paginate: {
-                            previous: "Prev",
-                            next: "Next"
-                        }
-                    },
-                    pagingType: "simple_numbers"
+                            previous: "{{ __('Prev') }}",
+                            next: "{{ __('Next') }}"
+                        },
+                        emptyTable: "{{ __('No data available in table') }}"
+                    }
                 });
             }
         });
     </script>
-
     <script>
         (function($) {
             "use strict";

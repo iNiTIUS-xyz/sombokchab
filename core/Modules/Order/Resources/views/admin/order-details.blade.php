@@ -62,7 +62,7 @@
                             </div>
                             <div class="col-xxl-4 col-md-6">
                                 <div class="subOrder__single__item">
-                                    <span class="subOrder__single__item__left">{{ __('Total Product') }}</span>
+                                    <span class="subOrder__single__item__left">{{ __('Total Products') }}</span>
                                     <h6 class="subOrder__single__item__right">{{ $subOrders?->vendor?->product_count }}
                                     </h6>
                                 </div>
@@ -112,7 +112,7 @@
                             class="subOrder__single__item__right">{{ str($subOrders?->order->order_status)->ucfirst() }}</span>
                     </div>
                     <div class="subOrder__single__item">
-                        <span class="subOrder__single__item__left">{{ __('Total Product') }}</span>
+                        <span class="subOrder__single__item__left">{{ __('Total Products') }}</span>
                         <span class="subOrder__single__item__right">{{ $subOrders?->order_item_count }}</span>
                     </div>
                     <div class="subOrder__single__item">

@@ -84,7 +84,7 @@
                             <div class="col-md-1"></div>
                             <div class="col-md-4 col-sm-4">
                                 <div class="d-flex justify-content-between mb-1">
-                                    <b>{{ __('Total Product') }}</b>
+                                    <b>{{ __('Total Products') }}</b>
                                     <h6>{{ $subOrders?->vendor?->product_count }}</h6>
                                 </div>
                                 <div class="d-flex justify-content-between mb-1">
@@ -148,7 +148,7 @@
                         <h6>{{ str($subOrders->order?->order_status)->ucfirst() }}</h6>
                     </div>
                     <div class="d-flex justify-content-between mb-2">
-                        <b>{{ __('Total Product') }}</b>
+                        <b>{{ __('Total Products') }}</b>
                         <h6>{{ $subOrders->order_item_count }}</h6>
                     </div>
                     <div class="d-flex justify-content-between mb-2">

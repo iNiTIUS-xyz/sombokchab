@@ -225,27 +225,41 @@
             const rememberedType = getCookie("remembered_type");
             const rememberedValue = getCookie("remembered_value");
             const rememberedCode = getCookie("remembered_code");
+            const rememberedMe = getCookie("remember_me_checked");
 
-            if (rememberedType === "email") {
-                phoneInputDiv.style.display = "none";
-                emailInputDiv.style.display = "block";
-                toggleButton.textContent = '{{ __('Use Phone') }}';
-                emailInput.value = rememberedValue;
-                rememberCheckbox.checked = true;
-            } else if (rememberedType === "phone") {
-                phoneInputDiv.style.display = "block";
-                emailInputDiv.style.display = "none";
-                toggleButton.textContent = '{{ __('Use Email') }}';
-                phoneInput.value = rememberedValue;
-                if (rememberedCode) {
-                    countryCode.value = rememberedCode;
+            // Set checkbox checked status
+            rememberCheckbox.checked = rememberedMe === "yes";
+
+            // Only restore phone/email IF remember me was checked
+            if (rememberedMe === "yes") {
+
+                if (rememberedType === "email") {
+                    phoneInputDiv.style.display = "none";
+                    emailInputDiv.style.display = "block";
+                    toggleButton.textContent = '{{ __("Use Phone") }}';
+                    emailInput.value = rememberedValue;
+
+                } else if (rememberedType === "phone") {
+                    phoneInputDiv.style.display = "block";
+                    emailInputDiv.style.display = "none";
+                    toggleButton.textContent = '{{ __("Use Email") }}';
+                    phoneInput.value = rememberedValue;
+
+                    if (rememberedCode) {
+                        countryCode.value = rememberedCode;
+                    }
                 }
-                rememberCheckbox.checked = true;
+
+            } else {
+                // User did NOT choose remember me → Ensure fields reset
+                phoneInput.value = "";
+                emailInput.value = "";
             }
 
             // Save input value on login click
             document.getElementById('login_btn').addEventListener('click', function() {
                 const isEmail = emailInputDiv.style.display === "block";
+
                 if (rememberCheckbox.checked) {
                     if (isEmail) {
                         setCookie("remembered_type", "email", 7);
@@ -255,15 +269,19 @@
                         setCookie("remembered_value", phoneInput.value, 7);
                         setCookie("remembered_code", countryCode.value, 7);
                     }
+                    setCookie("remember_me_checked", "yes", 7);
+
                 } else {
                     eraseCookie("remembered_type");
                     eraseCookie("remembered_value");
                     eraseCookie("remembered_code");
+                    eraseCookie("remember_me_checked");
                 }
             });
         });
 
-        // Cookie Helpers
+
+        // Cookie helpers
         function setCookie(name, value, days) {
             let expires = "";
             if (days) {
@@ -279,14 +297,15 @@
             const ca = document.cookie.split(';');
             for (let i = 0; i < ca.length; i++) {
                 let c = ca[i];
-                while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-                if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+                while (c.charAt(0) === ' ') c = c.substring(1);
+                if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length);
             }
             return null;
         }
 
         function eraseCookie(name) {
-            document.cookie = name + "=; Max-Age=-99999999;";
+            document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
         }
     </script>
+
 @endsection

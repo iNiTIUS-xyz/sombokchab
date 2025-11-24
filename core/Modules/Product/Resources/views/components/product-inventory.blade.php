@@ -19,11 +19,11 @@
         @endif
         <div class="@if (isset($inventoryPage)) col-md-4 @else dashboard-input @endif">
             <label class="dashboard-label">
-                {{ __('Sku') }}
+                {{ __('SKU') }}
                 <span class="text-danger">*</span>
             </label>
             <input type="text" class="form--control radius-10 form-control" name="sku"
-                value="{{ $inventory?->sku }}" required placeholder="Enter Sku">
+                value="{{ $inventory?->sku }}" required placeholder="Enter SKU">
             <small class="mt-2 mb-0 d-block">{{ __('Custom Unique Code for this product.') }}</small>
         </div>
 

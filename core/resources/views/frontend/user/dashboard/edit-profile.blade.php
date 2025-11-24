@@ -88,16 +88,21 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="email">{{ __('Email') }}</label>
+                            <label for="email">
+                                {{ __('Email') }}
+                            </label>
                             <input type="email" class="form-control" id="email" name="email"
                                 value="{{ $user_details->email }}" placeholder="{{ __('Enter Email') }}">
-                            <span id="email-error" class="text-danger" style="display:none;">Please enter a valid email
-                                address.</span>
+                            <span id="email-error" class="text-danger" style="display:none;">
+                                {{ __('Please enter a valid email address.') }}
+                            </span>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="address">{{ __('Address') }}</label>
+                            <label for="address">
+                                {{ __('Address') }}
+                            </label>
                             <input type="text" class="form-control" id="address" name="address"
                                 value="{{ $user_details->address }}" placeholder="{{ __('Enter Address') }}">
                         </div>
@@ -126,7 +131,9 @@
                                 {{ __('Province') }}
                             </label>
                             <select class="form-select" id="city" name="city">
-                                <option value="">{{ __('Select Province') }}</option>
+                                <option value="">
+                                    {{ __('Select Province') }}
+                                </option>
                                 @foreach ($cities as $city)
                                     <option value="{{ $city->id }}"
                                         {{ $user_details->city == $city->id ? 'selected' : '' }}>
@@ -175,14 +182,18 @@
                     </div>
                 </div>
                 <div class="btn-wrapper mt-4">
-                    <button type="submit" class="btn btn-primary">{{ __('Update Profile Data') }}</button>
+                    <button type="submit" class="btn btn-primary">
+                        {{ __('Update Profile Data') }}
+                    </button>
                 </div>
             </form>
         </div>
     </div>
     <hr>
     <div class="dashboard-form-wrapper" style="margin-top: 20px">
-        <h2 class="dashboard__card__title">{{ __('Change Phone Number') }}</h2>
+        <h2 class="dashboard__card__title">
+            {{ __('Change Phone Number') }}
+        </h2>
         <div class="custom__form mt-4">
             <form action="{{ route('user.chnage.phone') }}" method="post">
                 @csrf
@@ -203,7 +214,7 @@
                             style="width: 70% !important; border-radius: 0px;">
                         <button type="button" onclick="sendOtpCode()" class="btn btn-secondary"
                             style="width: 15% !important;">
-                            Send Code
+                            {{ __('Send Code') }}
                         </button>
                     </div>
                     <p id="showMessage"></p>
@@ -226,7 +237,9 @@
     </div>
     <hr>
     <div class="dashboard-form-wrapper" style="margin-top: 20px">
-        <h2 class="dashboard__card__title">{{ __('Deactivate Account') }}</h2>
+        <h2 class="dashboard__card__title">
+            {{ __('Deactivate Account') }}
+        </h2>
         <div class="custom__form mt-4">
             <form action="{{ route('user.deactivate') }}" method="post">
                 @csrf

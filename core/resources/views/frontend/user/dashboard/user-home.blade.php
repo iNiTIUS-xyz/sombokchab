@@ -98,22 +98,23 @@
                                     <div class="btn-wrapper">
                                         @if ($order->isDeliveredStatus && !$order->hasRefundRequest)
                                             <a href="{{ route('user.product.order.refund', $order->id) }}"
-                                                class="btn btn-warning btn-sm rounded-btn" title="Request Refund"
-                                                style="width: 40px;">
+                                                class="btn btn-warning btn-sm rounded-btn"
+                                                title="{{ __('Request Refund') }}" style="width: 40px;">
                                                 {{-- {{ __('Request Refund') }} --}}
                                                 <i class="las la-undo"></i>
                                             </a>
                                         @endif
 
                                         <a href="{{ route('user.product.order.details', $order->order_number) }}"
-                                            class="btn btn-secondary btn-sm rounded-btn" title="View Details"
+                                            class="btn btn-secondary btn-sm rounded-btn" title="{{ __('View Details') }}"
                                             style="width: 40px;">
                                             {{-- {{ __('View Details') }} --}}
                                             <i class="las la-file-alt"></i>
                                         </a>
                                         @if ($order->isCancelableStatus && $order->order_status == 'pending')
                                             <button class="btn btn-danger btn-sm rounded-btn swal_cancel_button"
-                                                title="Cancel" data-order-id="{{ $order->id }}" style="width: 40px;">
+                                                title="{{ __('Cancel') }}" data-order-id="{{ $order->id }}"
+                                                style="width: 40px;">
                                                 {{-- {{ __('Cancel Order') }} --}}
                                                 <i class="las la-times"></i>
                                             </button>
@@ -142,9 +143,7 @@
             });
         });
     </script>
-    {{-- <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script> --}}
     <script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
-
     <script>
         $(document).ready(function() {
             if ($('#dataTable').length) {
@@ -159,14 +158,22 @@
                     order: [
                         [0, 'desc']
                     ],
+                    pagingType: "simple_numbers",
                     language: {
-                        search: "Filter:",
+                        lengthMenu: "{{ __('_MENU_ entries per page') }}",
+                        search: "{{ __('Filter:') }}",
+                        info: "{{ __('Showing _START_ to _END_ of _TOTAL_ entries') }}",
+                        infoEmpty: "{{ __('No entries available') }}",
+                        infoFiltered: "{{ __('(filtered from _MAX_ total entries)') }}",
+
+                        zeroRecords: "{{ __('No matching records found') }}",
+                        emptyTable: "{{ __('No entries available') }}",
                         paginate: {
-                            previous: "Prev",
-                            next: "Next"
-                        }
-                    },
-                    pagingType: "simple_numbers"
+                            previous: "{{ __('Prev') }}",
+                            next: "{{ __('Next') }}"
+                        },
+                        emptyTable: "{{ __('No data available in table') }}"
+                    }
                 });
             }
         });

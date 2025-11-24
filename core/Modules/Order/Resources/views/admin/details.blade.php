@@ -322,7 +322,7 @@
                     </div>
                     <div class="request__item">
                         <span class="request__left">
-                            {{ __('Total Product') }}
+                            {{ __('Total Products') }}
                         </span>
                         <span class="request__right">
                             {{ $order->order_items_count }}
@@ -552,7 +552,7 @@
                                             <div class="subOrder__single">
                                                 <div class="subOrder__single__item">
                                                     <span class="subOrder__single__item__left">
-                                                        {{ __('Total Product') }}
+                                                        {{ __('Total Products') }}
                                                     </span>
                                                     <h6 class="badge badge-sm bg-success subOrder__single__item__right">
                                                         {{ $adminProductCount }}
@@ -693,7 +693,7 @@
                                             <div class="subOrder__single">
                                                 <div class="subOrder__single__item">
                                                     <span class="subOrder__single__item__left">
-                                                        {{ __('Total Product') }}
+                                                        {{ __('Total Products') }}
                                                     </span>
                                                     <h6 class="badge badge-sm bg-success subOrder__single__item__right">
                                                         {{ $subOrders->vendor->product_count }}

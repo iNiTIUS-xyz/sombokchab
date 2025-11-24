@@ -54,7 +54,7 @@
                                                         class="status-{{ $state->status }} {{ $state->status == 'publish' ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
                                                         data-bs-toggle="dropdown" aria-haspopup="true"
                                                         aria-expanded="false">
-                                                        {{ ucfirst($state->status == 'publish' ? __('Publish') : __('Unpublish')) }}
+                                                        {{ ucfirst($state->status == 'publish' ? __('Published') : __('Unpublished')) }}
                                                     </button>
                                                     <div class="dropdown-menu">
                                                         {{-- Form for activating --}}

@@ -53,7 +53,11 @@
                                     </td>
                                     <x-table.td-image :image="$campaign->image" />
                                     <td>
-                                        <x-status-span :status="$campaign->status" />
+                                        @if($campaign->status === 'publish')
+                                            <span class="badge bg-success btn-sm">{{ __('Published') }}</span>
+                                        @else
+                                            <span class="badge bg-danger btn-sm">{{ __('Unpublished') }}</span>
+                                        @endif
                                     </td>
                                     <td>
                                         <a class="btn btn-secondary btn-xs mb-2 me-1" title="{{ __('View') }}"
