@@ -141,10 +141,10 @@
                                 </label>
                                 <select name="status" class="form-select" required>
                                     <option value="draft" @if ($campaign->status == 'draft') selected @endif>
-                                        {{ __('Unpublish') }}
+                                        {{ __('Unpublished') }}
                                     </option>
                                     <option value="publish" @if ($campaign->status == 'publish') selected @endif>
-                                        {{ __('Publish') }}
+                                        {{ __('Published') }}
                                     </option>
                                 </select>
                                 @error('status')

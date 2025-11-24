@@ -36,7 +36,7 @@
                                         <th>{{ __('Status') }}</th>
                                         <th>{{ __('Action') }}</th>
                                         <th>{{ __('Note') }}</th>
-                                        <th>{{ __('Created At') }}</th>
+                                        <th>{{ __('Created On') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>

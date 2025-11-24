@@ -196,7 +196,7 @@
                                     <div class="form-group">
                                         <label for="status">{{ __('Status') }}</label>
                                         <select class="form-control" name="status" id="status">
-                                            <option value="draft">{{ __('Draft') }}</option>
+                                            <option value="draft">{{ __('Unpublish') }}</option>
                                             <option value="publish">{{ __('Publish') }}</option>
                                         </select>
                                     </div>

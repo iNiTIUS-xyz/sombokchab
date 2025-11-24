@@ -233,7 +233,7 @@
                                                             <input type="text" name="zip_code"
                                                                 class="form--control radius-10"
                                                                 value="{{ $vendor?->vendor_address?->zip_code }}"
-                                                                placeholder="{{ __('Postal Code') }}" required="">
+                                                                placeholder="{{ __('Enter Postal Code') }}" required="">
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-12">
@@ -283,12 +283,12 @@
                                                     <div class="col-sm-12">
                                                         <div class="single-input">
                                                             <label class="label-title color-light mb-2">
-                                                                {{ __('Link/ Url') }}
+                                                                {{ __('Link/URL') }}
                                                             </label>
                                                             <input value="{{ $vendor?->vendor_shop_info?->location }}"
                                                                 name="location" type="text"
                                                                 class="form--control radius-10"
-                                                                placeholder="Set Link/ Url From Map">
+                                                                placeholder="Set Link/URL From Map">
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-12">
@@ -328,13 +328,13 @@
                                                     <div class="col-sm-12">
                                                         <div class="single-input">
                                                             <label class="label-title color-light mb-2">
-                                                                Website
+                                                                Website Link
                                                             </label>
                                                             <input
                                                                 value="{{ $vendor?->vendor_shop_info?->website_url }}"
                                                                 type="text" name="website_url"
                                                                 class="form--control radius-10"
-                                                                placeholder="{{ __('Enter Website') }}">
+                                                                placeholder="{{ __('Enter Website Link') }}">
                                                         </div>
                                                     </div>
                                                     <!--color settings start -->
@@ -384,8 +384,7 @@
                                                                 class="form-control" placeholder="Select color"
                                                                 value="{{ $vendor?->vendor_shop_info?->colors['store_paragraph_color'] ?? '' }}"
                                                                 id="store_paragraph_color">
-                                                            <small>{{ __('you can change site paragraph color from
-                                                                there') }}</small>
+                                                            <small class="text-danger">{{ __('You can change the site paragraph color from here') }}</small>
                                                         </div>
                                                     </div>
                                                     <!--color settings end -->
@@ -479,6 +478,28 @@
 <x-table.btn.swal.js />
 <x-select2.select2-js />
 <script>
+
+    function validateZipCode(value) {
+        const trimmed = value.trim();
+
+        if (!trimmed) return "Postal Code is required";
+
+        // Cambodia uses exactly 5 digits
+        if (!/^[0-9]{5}$/.test(trimmed)) {
+            return "Postal Code must be exactly 5 digits (Cambodia format)";
+        }
+
+        return "";
+    }
+
+    const zipField = document.querySelector('input[name="zip_code"]');
+    const zipErrorEl = document.getElementById('zipCodeError');
+
+    zipField.addEventListener('input', () => {
+        zipErrorEl.textContent = validateZipCode(zipField.value);
+    });
+
+
     $('#country_id,#state_id,#city_id').select2()
         $(document).on("submit", "#vendor-create-form", function(e) {
             e.preventDefault();

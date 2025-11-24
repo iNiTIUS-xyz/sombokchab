@@ -12,7 +12,7 @@
             <th> {{ __('Stock Qty') }} </th>
             <th> {{ __('Approval Status') }} </th>
             <th> {{ __('Publish Status') }} </th>
-            <th> {{ __('Created At') }} </th>
+            <th> {{ __('Created On') }} </th>
             <th> {{ __('Actions') }} </th>
         </tr>
     </thead>

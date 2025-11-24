@@ -300,7 +300,7 @@
                                         <label for="status">{{ __('Status') }}</label>
                                         <select class="form-control" name="status" id="status">
                                             <option value="draft" @if ($product->status == 'draft') selected @endif>
-                                                {{ __('Draft') }}</option>
+                                                {{ __('Unpublish') }}</option>
                                             <option value="publish" @if ($product->status == 'publish') selected @endif>
                                                 {{ __('Publish') }}</option>
                                         </select>

@@ -157,7 +157,7 @@
                                     <option @if ($service->status == 'publish') selected @endif value="publish">
                                         {{ __('Publish') }}</option>
                                     <option @if ($service->status == 'draft') selected @endif value="draft">
-                                        {{ __('Draft') }}</option>
+                                        {{ __('Unpublish') }}</option>
                                 </select>
                             </div>
                             <div class="form-group">

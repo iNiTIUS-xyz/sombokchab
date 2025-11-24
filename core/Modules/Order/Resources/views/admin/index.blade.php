@@ -43,7 +43,7 @@
                             <th>{{ __('Order Date') }}</th>
                             <th>{{ __('Amount') }}</th>
                             <th>{{ __('Order Status') }}</th>
-                            <th>{{ __('Created At') }}</th>
+                            <th>{{ __('Created On') }}</th>
                             <th>{{ __('Action') }}</th>
                         </tr>
                     </thead>

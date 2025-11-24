@@ -208,7 +208,7 @@
                                 <p class="orderRequest__item__right">{{ str($order->order_status)->ucfirst() }}</p>
                             </div>
                             <div class="orderRequest__item">
-                                <span class="orderRequest__item__left">{{ __('Total Product') }}</span>
+                                <span class="orderRequest__item__left">{{ __('Total Products') }}</span>
                                 <p class="orderRequest__item__right">{{ $order->order_items_count }}</p>
                             </div>
                             <div class="orderRequest__item">
@@ -261,7 +261,7 @@
                             </div>
 
                             <div class="orderRequest__item">
-                                <span class="orderRequest__item__left">{{ __('Total Product') }}</span>
+                                <span class="orderRequest__item__left">{{ __('Total Products') }}</span>
                                 <p class="orderRequest__item__right">{{ $request->order?->order_items_count }}</p>
                             </div>
                             @if (json_decode($request->preferred_option_fields))
