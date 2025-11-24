@@ -22,7 +22,7 @@
                             <h3 class="heading-three fw-500"> {{ __('Update Product') }} </h3>
                             <div class="button-wrappers">
                                 <a href="{{ route('admin.products.all') }}" class="cmn_btn btn_bg_profile">
-                                    {{ __('Product List') }}
+                                    {{ __('Products List') }}
                                 </a>
                             </div>
                         </div>
@@ -174,9 +174,9 @@
 
                 if (data.success) {
                     toastr.success("Product updated Successfully");
-                    toastr.success("You are redirected to product list page");
+                    toastr.success("You are redirected to products list page");
                     setTimeout(() => {
-                        window.location.href = "{{ route('admin.products.create') }}";
+                        window.location.href = "{{ route('admin.products.all') }}";
                     }, 800);
                 }
             }, function(xhr) {
