@@ -5,79 +5,91 @@ namespace Modules\CountryManage\Http\Controllers;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Modules\CountryManage\Entities\Country;
-use App\Helpers\FlashMsg;
-use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use Modules\CountryManage\Http\Requests\StoreCountryManageRequest;
 use Modules\CountryManage\Http\Requests\UpdateCountryManageRequest;
 
-class CountryManageController extends Controller
-{
+class CountryManageController extends Controller {
     const BASE_URL = 'backend.country.';
 
-    public function index(): Application|Factory|View
-    {
+    public function index(): Application | Factory | View {
         $all_countries = Country::all();
         return view('countrymanage::backend.all-country', compact('all_countries'));
     }
 
-    public function store(StoreCountryManageRequest $request)
-    {
+    public function store(StoreCountryManageRequest $request) {
         $country = Country::create([
-            'name' => $request->sanitize_html('name'),
+            'name'   => $request->sanitize_html('name'),
             'status' => $request->sanitize_html('status'),
         ]);
 
-        return $country->id ? back()->with(FlashMsg::create_succeed('Country')) : back()->with(FlashMsg::create_failed('Country'));
+        return $country->id ? back()->with([
+            'message'    => 'Country Created Successfully',
+            'alert-type' => 'success',
+        ]) : back()->with([
+            'message'    => 'Country Creation Failed',
+            'alert-type' => 'error',
+        ]);
     }
 
-    public function update(UpdateCountryManageRequest $request)
-    {
+    public function update(UpdateCountryManageRequest $request) {
         $updated = Country::findOrFail($request->id)->update([
-            'name' => $request->sanitize_html('name'),
+            'name'   => $request->sanitize_html('name'),
             'status' => $request->sanitize_html('status'),
         ]);
 
-        return $updated ? back()->with(FlashMsg::update_succeed('Country')) : back()->with(FlashMsg::update_failed('Country'));
+        return $updated ? back()->with([
+            'message'    => 'Country Updated Successfully',
+            'alert-type' => 'success',
+        ]) : back()->with([
+            'message'    => 'Country Updating Failed',
+            'alert-type' => 'error',
+        ]);
     }
 
-    public function destroy(Country $item)
-    {
-        return $item->delete() ? back()->with(FlashMsg::delete_succeed('Country')) : back()->with(FlashMsg::delete_failed('Country'));
+    public function destroy(Country $item) {
+        return $item->delete() ? back()->with([
+            'message'    => 'Country Deleted Successfully',
+            'alert-type' => 'success',
+        ]) : back()->with([
+            'message'    => 'Country Deleting Failed',
+            'alert-type' => 'error',
+        ]);
     }
 
-    public function bulk_action(Request $request)
-    {
+    public function bulk_action(Request $request) {
         $deleted = Country::whereIn('id', $request->ids)->delete();
         return response()->json(['status' => $deleted ? true : false]);
     }
 
-    public function statusUpdate(Request $request, $id)
-    {
+    public function statusUpdate(Request $request, $id) {
         $updated = Country::findOrFail($request->id)->update([
             'status' => $request->status,
         ]);
 
         return $updated
-            ? back()->with(['msg' => __('Country status changed successfully.'), 'type' => 'success'])
-            : back()->with(['msg' => __('Something went wrong. Please try again.'), 'type' => 'error']);
+        ? back()->with([
+            'message'    => __('Country status changed successfully.'),
+            'alert-type' => 'success',
+        ])
+        : back()->with([
+            'message'    => __('Something went wrong. Please try again.'),
+            'alert-type' => 'error',
+        ]);
     }
 
-
-    public function import_settings()
-    {
+    public function import_settings() {
         return view('countrymanage::backend.import-country');
     }
 
-    public function update_import_settings(Request $request)
-    {
+    public function update_import_settings(Request $request) {
         $request->validate([
-            'csv_file' => 'required|file|mimes:csv,txt|max:150000'
+            'csv_file' => 'required|file|mimes:csv,txt|max:150000',
         ]);
 
         //: work on file mapping
@@ -109,12 +121,14 @@ class CountryManageController extends Controller
                 ]);
             }
         }
-        FlashMsg::item_update(__('something went wrong try again!'));
-        return back();
+        // FlashMsg::item_update(__('something went wrong try again!'));
+        return back()->with([
+            'message'    => 'Something went wrong. Please try again',
+            'alert-type' => 'error',
+        ]);
     }
 
-    public function import_to_database_settings(Request $request)
-    {
+    public function import_to_database_settings(Request $request) {
         $file_tmp_name = Session::get('import_csv_file_name');
         $data = array_map('str_getcsv', file('assets/uploads/import/' . $file_tmp_name));
 
@@ -136,7 +150,7 @@ class CountryManageController extends Controller
 
             if ($find_country < 1) {
                 $country_data = [
-                    'name' => $item[$country] ?? '',
+                    'name'   => $item[$country] ?? '',
                     'status' => $request->status,
                 ];
             }
@@ -147,8 +161,8 @@ class CountryManageController extends Controller
         }
 
         return redirect()->route('admin.country.import.csv.settings')->with([
-            'msg' => __('Countries imported successfully'),
-            'type' => 'success',
+            'message'    => __('Countries imported successfully'),
+            'alert-type' => 'success',
         ]);
     }
 }

@@ -2,94 +2,106 @@
 
 namespace Modules\CountryManage\Http\Controllers;
 
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Modules\CountryManage\Entities\Country;
 use Modules\CountryManage\Entities\State;
-use App\Helpers\FlashMsg;
-use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use Modules\CountryManage\Http\Requests\UpdateStateRequest;
 
-class StateController extends Controller
-{
+class StateController extends Controller {
     private const BASE_URL = "countrymanage::backend.";
 
     // note city make state , and state make city. that why this change you see.
 
-    public function index()
-    {
+    public function index() {
         $all_countries = Country::all();
         $all_states = State::where('country_id', 31)->with('country')->get();
 
         return view(self::BASE_URL . 'all-state', compact('all_countries', 'all_states'));
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
 
         $state = State::create([
-            'name' => $request->sanitize_html('name'),
+            'name'       => $request->sanitize_html('name'),
             'country_id' => $request->sanitize_html('country_id'),
-            'status' => $request->sanitize_html('status'),
+            'status'     => $request->sanitize_html('status'),
         ]);
 
         return $state->id
-            ? back()->with(FlashMsg::create_succeed('City'))
-            : back()->with(FlashMsg::create_failed('City'));
+        ? back()->with([
+            'message'    => 'City Created Successfully',
+            'alert-type' => 'success',
+        ])
+        : back()->with([
+            'message'    => 'Country Creation Failed',
+            'alert-type' => 'error',
+        ]);
     }
 
-    public function update(UpdateStateRequest $request, State $state)
-    {
+    public function update(UpdateStateRequest $request, State $state) {
         $updated = State::findOrFail($request->id)->update([
-            'name' => $request->sanitize_html('name'),
+            'name'       => $request->sanitize_html('name'),
             'country_id' => $request->sanitize_html('country_id'),
             // 'status' => $request->sanitize_html('status'),
         ]);
 
         return $updated
-            ? back()->with(['msg' => __('Province updated successfully.'), 'type' => 'success'])
-            : back()->with(['msg' => __('Something went wrong. Please try again.'), 'type' => 'error']);
+        ? back()->with([
+            'message'    => __('Province updated successfully.'),
+            'alert-type' => 'success',
+        ])
+        : back()->with([
+            'message'    => __('Something went wrong. Please try again.'),
+            'alert-type' => 'error',
+        ]);
     }
 
-    public function statusUpdate(Request $request, $id)
-    {
+    public function statusUpdate(Request $request, $id) {
         $updated = State::findOrFail($request->id)->update([
             'status' => $request->status,
         ]);
 
         return $updated
-            ? back()->with(['msg' => __('Province status changed successfully.'), 'type' => 'success'])
-            : back()->with(['msg' => __('Something went wrong. Please try again.'), 'type' => 'error']);
+        ? back()->with([
+            'message'    => __('Province status changed successfully.'),
+            'alert-type' => 'success',
+        ])
+        : back()->with([
+            'message'    => __('Something went wrong. Please try again.'),
+            'alert-type' => 'error',
+        ]);
     }
 
-    public function destroy(State $item)
-    {
+    public function destroy(State $item) {
         return $item->delete()
-            ? back()->with(['msg' => __('Province deleted successfully.'), 'type' => 'success'])
-            : back()->with(['msg' => __('Something went wrong. Please try again.'), 'type' => 'error']);
+        ? back()->with([
+            'message'    => __('Province deleted successfully.'),
+            'alert-type' => 'success',
+        ])
+        : back()->with([
+            'message'    => __('Something went wrong. Please try again.'),
+            'alert-type' => 'error',
+        ]);
     }
 
-    public function bulk_action(Request $request)
-    {
+    public function bulk_action(Request $request) {
         $deleted = State::whereIn('id', $request->ids)->delete();
         return response()->json(['status' => $deleted ? true : false]);
     }
 
-    public function getStateByCountry(Request $request)
-    {
+    public function getStateByCountry(Request $request) {
         $request->validate(['id' => 'required|exists:countries']);
         return State::select('id', 'name')
             ->where('country_id', $request->id)
             ->where('status', 'publish')
             ->get();
     }
-    public function getMultipleStateByCountry(Request $request)
-    {
+    public function getMultipleStateByCountry(Request $request) {
         $request->validate(['id' => 'required']);
 
         return State::select('id', 'name')
@@ -98,15 +110,13 @@ class StateController extends Controller
             ->get();
     }
 
-    public function import_settings()
-    {
+    public function import_settings() {
         return view(self::BASE_URL . 'import-state');
     }
 
-    public function update_import_settings(Request $request)
-    {
+    public function update_import_settings(Request $request) {
         $request->validate([
-            'csv_file' => 'required|file|mimes:csv,txt|max:150000'
+            'csv_file' => 'required|file|mimes:csv,txt|max:150000',
         ]);
 
         // work on file mapping
@@ -138,12 +148,14 @@ class StateController extends Controller
                 ]);
             }
         }
-        FlashMsg::item_delete(__('something went wrong try again!'));
-        return back();
+        // FlashMsg::item_delete(__('something went wrong try again!'));
+        return back()->with([
+            'message'    => 'Something went wrong. Please try again',
+            'alert-type' => 'error',
+        ]);
     }
 
-    public function import_to_database_settings(Request $request)
-    {
+    public function import_to_database_settings(Request $request) {
 
         $file_tmp_name = Session::get('import_csv_file_name');
         $data = array_map('str_getcsv', file('assets/uploads/import/' . $file_tmp_name));
@@ -173,9 +185,9 @@ class StateController extends Controller
 
             if ($find_state < 1) {
                 $state_data = [
-                    'name' => $item[$state] ?? '',
+                    'name'       => $item[$state] ?? '',
                     'country_id' => $request->country_id ?? 31,
-                    'status' => $request->status,
+                    'status'     => $request->status,
                 ];
             }
             if ($find_state < 1) {
@@ -185,8 +197,8 @@ class StateController extends Controller
         }
 
         return redirect()->route('admin.state.import.csv.settings')->with([
-            'msg' => __('Province imported successfully'),
-            'type' => 'success',
+            'message'    => __('Province imported successfully'),
+            'alert-type' => 'success',
         ]);
     }
 }

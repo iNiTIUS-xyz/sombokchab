@@ -2,7 +2,6 @@
 
 namespace Modules\Attributes\Http\Controllers;
 
-use App\Helpers\FlashMsg;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -10,22 +9,19 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Str;
 use Modules\Attributes\Entities\Size;
 
-class SizeController extends Controller
-{
+class SizeController extends Controller {
 
-    public function index(): Factory|View
-    {
+    public function index(): Factory | View {
         $product_sizes = Size::query()
             ->latest()
             ->get();
         return view('attributes::backend.size.all-size', compact('product_sizes'));
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $request->validate([
-            'name' => 'required|string|max:191',
-            'name_km' => 'required|string|max:191',
+            'name'      => 'required|string|max:191',
+            'name_km'   => 'required|string|max:191',
             'size_code' => 'required|string|max:191',
             // 'slug' => 'nullable|string|max:191',
         ]);
@@ -36,8 +32,8 @@ class SizeController extends Controller
 
         if ($sizeExit) {
             return back()->with([
-                'type' => 'danger',
-                'msg' => __('Size already exist with this name.')
+                'alert-type' => 'error',
+                'message'    => __('Size already exist with this name.'),
             ]);
         }
 
@@ -46,26 +42,30 @@ class SizeController extends Controller
         $data['slug'] = $slug;
 
         $product_size = Size::create([
-            'name' => $request->name,
-            'name_km' => $request->name_km,
+            'name'      => $request->name,
+            'name_km'   => $request->name_km,
             'size_code' => $request->size_code,
-            'slug' => strtolower(str_replace(' ', '-', $request->name)),
+            'slug'      => strtolower(str_replace(' ', '-', $request->name)),
         ]);
 
         return $product_size
-            ? back()->with(FlashMsg::create_succeed('Product Size'))
-            : back()->with(FlashMsg::create_failed('Product Size'));
+        ? back()->with([
+            'message'    => 'Product Size Created Successfully.',
+            'alert-type' => 'success',
+        ])
+        : back()->with([
+            'message'    => 'Product Size Creation Failed.',
+            'alert-type' => 'error',
+        ]);
     }
 
-    public function update(Request $request)
-    {
+    public function update(Request $request) {
         $request->validate([
-            'name' => 'required|string|max:191',
-            'name_km' => 'required|string|max:191',
+            'name'      => 'required|string|max:191',
+            'name_km'   => 'required|string|max:191',
             'size_code' => 'required|string|max:191',
             // 'slug' => 'required|string|max:191',
         ]);
-
 
         $sizeExit = Size::query()
             ->where('id', '!=', $request->id)
@@ -74,8 +74,8 @@ class SizeController extends Controller
 
         if ($sizeExit) {
             return back()->with([
-                'type' => 'danger',
-                'msg' => __('Size already exist with this name.')
+                'alert-type' => 'error',
+                'message'    => __('Size already exist with this name.'),
             ]);
         }
 
@@ -88,28 +88,38 @@ class SizeController extends Controller
         }
 
         $product_size = $product_size->update([
-            'name' => $request->name,
-            'name_km' => $request->name_km,
+            'name'      => $request->name,
+            'name_km'   => $request->name_km,
             'size_code' => $request->size_code,
-            'slug' => strtolower(str_replace(' ', '-', $request->name)),
+            'slug'      => strtolower(str_replace(' ', '-', $request->name)),
         ]);
 
         return $product_size
-            ? back()->with(FlashMsg::update_succeed('Product Size'))
-            : back()->with(FlashMsg::update_failed('Product Size'));
+        ? back()->with([
+            'message'    => 'Product Size Updated Successfully.',
+            'alert-type' => 'success',
+        ])
+        : back()->with([
+            'message'    => 'Product Size Updating Failed.',
+            'alert-type' => 'error',
+        ]);
     }
 
-    public function destroy(Request $request, $id): \Illuminate\Http\RedirectResponse
-    {
+    public function destroy(Request $request, $id): \Illuminate\Http\RedirectResponse {
         $product_size = Size::findOrFail($id);
 
         return $product_size->delete()
-            ? back()->with(FlashMsg::delete_succeed('Product Size'))
-            : back()->with(FlashMsg::delete_failed('Product Size'));
+        ? back()->with([
+            'message'    => 'Product Size Deleted Successfully.',
+            'alert-type' => 'success',
+        ])
+        : back()->with([
+            'message'    => 'Product Size Deleting Failed.',
+            'alert-type' => 'error',
+        ]);
     }
 
-    public function bulk_action(Request $request)
-    {
+    public function bulk_action(Request $request) {
         Size::whereIn('id', $request->ids)->delete();
         return response()->json(['status' => 'ok']);
     }

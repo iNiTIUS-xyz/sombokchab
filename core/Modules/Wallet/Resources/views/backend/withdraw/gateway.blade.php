@@ -126,17 +126,18 @@
 <!-- Add Gateway Modal -->
 <div class="modal fade" id="add-gateway-modal" tabindex="-1" aria-hidden="true"
     aria-labelledby="add-gateway-modalLabel">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content custom__form">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"> <b>{{ __('Create Wallet Payment Method') }}</b> </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form class="" method="POST" action="{{ route('admin.wallet.withdraw.gateway') }}">
-                @csrf
-                <div class="modal-body">
+    <form method="POST" action="{{ route('admin.wallet.withdraw.gateway') }}">
+        @csrf
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content custom__form">
+                <div class="modal-header">
+                    <h5 class="modal-title"><b>{{ __('Create Wallet Payment Method') }}</b></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body overflow-auto" style="max-height:550px;">
                     <div class="form-group">
-                        <label class="w-100">{{ __('Name:') }}</label>
+                        <label class="w-100">{{ __('Name:') }} <span class="text-danger">*</span></label>
                         <input class="form-control" name="gateway_name" required
                             placeholder="{{ __('Enter method name') }}">
                     </div>
@@ -148,35 +149,36 @@
                         </label>
                     </div>
 
-                    <div class="dashboard__card card__two overflow-auto" id="filed_container"
-                        style="max-height: 400px;">
+                    <div class="dashboard__card card__two overflow-auto" id="filed_container">
                         <div class="dashboard__card__header">
-                            <h4 class="dashboard__card__title">
-                                {{ __('Method field') }}
-                            </h4>
+                            <h4 class="dashboard__card__title">{{ __('Method field') }}</h4>
                         </div>
                         <div class="dashboard__card__body">
-                            <div class="form-group row">
-                                <div class="w-90 d-flex align-items-center">
-                                    <input class="form-control" name="filed[]" required
-                                        placeholder="{{ __('Enter filed name') }}">
-                                </div>
-                                <div
-                                    class="col-md-1 d-flex flex-column align-items-center justify-content-center pb-2 gap-2">
-                                    <button type="button" class="btn btn-primary btn-sm gateway-filed-add"
-                                        title="{{ __('Add') }}">
-                                        <i class="las la-plus"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-danger btn-sm gateway-filed-remove"
-                                        title="{{ __('Remove') }}">
-                                        <i class="las la-trash-alt"></i>
-                                    </button>
+                            <div class="form-group row gateway-filed-body" id="add_gateway_filed_body">
+                                <!-- initial one row -->
+                                <div class="form-group row mb-2">
+                                    <div class="w-90 d-flex align-items-center">
+                                        <input class="form-control" name="filed[]"
+                                            placeholder="{{ __('Enter filed name') }}">
+                                    </div>
+                                    <div
+                                        class="col-md-1 d-flex flex-column align-items-center justify-content-center pb-2 gap-2">
+                                        <button type="button" class="btn btn-primary btn-sm gateway-filed-add"
+                                            title="{{ __('Add') }}">
+                                            <i class="las la-plus"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-sm gateway-filed-remove"
+                                            title="{{ __('Remove') }}">
+                                            <i class="las la-trash-alt"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                     <div class="form-group">
-                        <label>{{ __('Select Status') }}</label>
+                        <label>{{ __('Select Status') }} <span class="text-danger">*</span></label>
                         <select name="status_id" class="form-control" required>
                             <option value="">{{ __('Select Status') }}</option>
                             <option value="1">{{ __('Active') }}</option>
@@ -184,34 +186,40 @@
                         </select>
                     </div>
                 </div>
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
                     <button type="submit" class="btn btn-primary">{{ __('Add') }}</button>
                 </div>
-            </form>
+            </div>
         </div>
-    </div>
+    </form>
 </div>
 
 @can('manage-wallet')
 <!-- Edit Gateway Modal -->
 <div class="modal fade" id="edit-gateway-modal" tabindex="-1" aria-labelledby="edit-gateway-modalLabel"
     aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content custom__form">
-            <form class="" method="POST" action="{{ route('admin.wallet.withdraw.gateway.update') }}">
-                @method('PUT')
-                @csrf
-                <input type="hidden" value="" name="id" />
+    <form method="POST" action="{{ route('admin.refund.preferred-option.update') }}">
+        @method('PUT')
+        @csrf
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content custom__form">
+                @can('manage-refund-request-settings')
+                <input type="hidden" id="edit_gateway_id" name="id" value="">
+
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">{{ __('Update wallet withdraw gateway') }}</h5>
+                    <h5 class="modal-title">{{ __('Refund Payment Method Update') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+
+                <div class="modal-body overflow-auto" style="max-height:550px;">
                     <div class="form-group">
-                        <label class="w-100">{{ __('Name:') }}</label>
-                        <input class="form-control" name="gateway_name" required
+                        <label class="w-100">{{ __('Name') }} <span class="text-danger">*</span></label>
+                        <input class="form-control" id="edit_gateway_name" name="gateway_name"
                             placeholder="{{ __('Enter gateway name') }}">
+                        <small class="info">{{ __('If you want to merge refund value to user wallet, then use Wallet
+                            like this') }}. {{ __('Only for wallet') }}</small>
                     </div>
 
                     <div class="form-group">
@@ -221,32 +229,37 @@
                         </label>
                     </div>
 
-                    <div class="dashboard__card" id="edit_filed_container">
+                    <div class="dashboard__card card__two overflow-auto" id="edit_fields_container">
                         <div class="dashboard__card__header">
-                            <h4 class="dashboard__card__title">{{ __('Gateway field') }}</h4>
+                            <h4 class="dashboard__card__title">{{ __('Method field') }}</h4>
                         </div>
-                        <div class="card-body gateway-filed-body">
-                            <!-- Fields will be added dynamically -->
+                        <div class="dashboard__card__body">
+                            <div class="form-group row gateway-filed-body" id="edit_gateway_filed_body">
+                                <!-- dynamic rows inserted by JS -->
+                            </div>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label>{{ __('Select Status') }}</label>
-                        <select name="status_id" class="form-control" required>
+                        <label>{{ __('Select Status') }} <span class="text-danger">*</span></label>
+                        <select id="edit_status_id" name="status_id" class="form-control" required>
                             <option value="">{{ __('Select Status') }}</option>
                             <option value="1">{{ __('Active') }}</option>
                             <option value="2">{{ __('Inactive') }}</option>
                         </select>
                     </div>
                 </div>
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
                     <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                 </div>
-            </form>
+                @endcan
+            </div>
         </div>
-    </div>
+    </form>
 </div>
+
 @endcan
 @endsection
 

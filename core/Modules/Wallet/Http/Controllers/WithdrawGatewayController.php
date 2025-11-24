@@ -33,7 +33,7 @@ class WithdrawGatewayController extends Controller {
         return back()->with([
             "status"     => (bool) $data,
             "alert-type" => $data ? "success" : "error",
-            "message"    => $data ? __("Payment Gateway created successfully.") : __("Failed to create payment gateway try again."),
+            "message"    => $data ? __("Payment Gateway Created Successfully.") : __("Failed to create payment gateway try again."),
         ]);
     }
 

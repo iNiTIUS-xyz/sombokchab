@@ -3,59 +3,60 @@
 @section('site-title', __('All Cities'))
 
 @section('style')
-    <x-select2.select2-css />
-    <style>
-        .select2-container--default .select2-selection--single {
-            background-color: #fff;
-            border: 1px solid #aaa;
-            border-radius: 4px;
-            margin-top: 0px;
-            height: 46px;
-        }
-    </style>
+<x-select2.select2-css />
+<style>
+    .select2-container--default .select2-selection--single {
+        background-color: #fff;
+        border: 1px solid #aaa;
+        border-radius: 4px;
+        margin-top: 0px;
+        height: 46px;
+    }
+</style>
 @endsection
 @section('content')
-    <div class="row">
-        <div class="col-md-12">
-            <x-msg.error />
-            <x-msg.flash />
-        </div>
+<div class="row">
+    <div class="col-md-12">
+        {{--
+        <x-msg.error />
+        <x-msg.flash /> --}}
     </div>
-    <div class="row g-4">
-        <div class="col-lg-12">
-            <div class="mb-4">
-                <x-btn.add-modal :title="__('Add New City')" />
-            </div>
-            <div class="dashboard__card">
-                <div class="dashboard__card__header">
-                    <h4 class="dashboard__card__title">
-                        {{ __('All Cities') }}
-                    </h4>
-                    <div class="dashboard__card__header__right">
-                        <x-bulk-action.dropdown />
-                    </div>
-                </div>
-                <div class="dashboard__card__body mt-4">
-                    <!-- Table Start -->
-                    <div class="custom_table table-wrap style-04 search_result">
-                        @include('countrymanage::city.search-result')
-                    </div>
-                    <!-- Table End -->
+</div>
+<div class="row g-4">
+    <div class="col-lg-12">
+        <div class="mb-4">
+            <x-btn.add-modal :title="__('Add New City')" />
+        </div>
+        <div class="dashboard__card">
+            <div class="dashboard__card__header">
+                <h4 class="dashboard__card__title">
+                    {{ __('All Cities') }}
+                </h4>
+                <div class="dashboard__card__header__right">
+                    <x-bulk-action.dropdown />
                 </div>
             </div>
+            <div class="dashboard__card__body mt-4">
+                <!-- Table Start -->
+                <div class="custom_table table-wrap style-04 search_result">
+                    @include('countrymanage::city.search-result')
+                </div>
+                <!-- Table End -->
+            </div>
         </div>
     </div>
+</div>
 
-    @include('countrymanage::city.add-modal')
-    @include('countrymanage::city.edit-modal')
+@include('countrymanage::city.add-modal')
+@include('countrymanage::city.edit-modal')
 @endsection
 
 @section('script')
 
-    <x-select2.select2-js />
+<x-select2.select2-js />
 
-    <script>
-        (function($) {
+<script>
+    (function($) {
             $(document).ready(function() {
                 $(document).on('click', '#bulk_delete_btn', function(e) {
                     e.preventDefault();
@@ -128,12 +129,12 @@
                 });
             });
         })(jQuery);
-    </script>
+</script>
 
-    @include('countrymanage::city.city-js')
+@include('countrymanage::city.city-js')
 
-    <script>
-        $(document).on('click', '.swal_status_change_button', function(e) {
+<script>
+    $(document).on('click', '.swal_status_change_button', function(e) {
             e.preventDefault();
             Swal.fire({
                 title: '{{ __('Are you sure?') }}',
@@ -149,5 +150,5 @@
                 }
             });
         });
-    </script>
+</script>
 @endsection

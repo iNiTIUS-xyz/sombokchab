@@ -2,38 +2,38 @@
 
 namespace Modules\CountryManage\Http\Controllers;
 
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 use Modules\CountryManage\Entities\City;
 use Modules\CountryManage\Entities\Country;
 use Modules\CountryManage\Entities\State;
 
-class CityController extends Controller
-{
-    public function __construct()
-    {
+class CityController extends Controller {
+    public function __construct() {
         $this->middleware("auth:admin");
     }
 
-    public function all_city(Request $request)
-    {
+    public function all_city(Request $request) {
         if ($request->isMethod('post')) {
             $request->validate([
                 'country' => 'required',
-                'state' => 'required',
-                'city' => 'required|unique:cities,name|max:191',
+                'state'   => 'required',
+                'city'    => 'required|unique:cities,name|max:191',
             ]);
 
             City::create([
-                'name' => $request->city,
+                'name'       => $request->city,
                 'country_id' => $request->country,
-                'state_id' => $request->state,
-                'status' => $request->status,
+                'state_id'   => $request->state,
+                'status'     => $request->status,
             ]);
 
-            return back()->with(['msg' => __('City created successfully.'), 'type' => 'success',]);
+            return back()->with([
+                'message'    => __('City created successfully.'),
+                'alert-type' => 'success',
+            ]);
         }
 
         $all_countries = Country::get();
@@ -43,78 +43,76 @@ class CityController extends Controller
         return view('countrymanage::city.all-city', compact('all_states', 'all_countries', 'all_cities'));
     }
 
-    public function edit_city(Request $request)
-    {
+    public function edit_city(Request $request) {
         $request->validate([
-            'city' => 'required|max:191|unique:cities,name,' . $request->city_id,
+            'city'    => 'required|max:191|unique:cities,name,' . $request->city_id,
             'country' => 'required',
-            'state' => 'nullable',
+            'state'   => 'nullable',
         ]);
-
 
         City::where('id', $request->city_id)
             ->update([
-                'name' => $request->city,
-                'state_id' => $request->state,
+                'name'       => $request->city,
+                'state_id'   => $request->state,
                 'country_id' => $request->country,
                 // 'status' => $request->status,
             ]);
 
         return back()->with([
-            'msg' => __('City updated successfully.'),
-            'type' => 'success',
+            'message'    => __('City updated successfully.'),
+            'alert-type' => 'success',
         ]);
     }
 
-    public function city_status($id)
-    {
+    public function city_status($id) {
         $city = City::select('status')->where('id', $id)->first();
         $city->status == 'publish' ? $status = 'draft' : $status = 'publish';
         City::where('id', $id)->update(['status' => $status]);
 
         return back()->with([
-            'msg' => __('City status changed successfully.'),
-            'type' => 'success',
+            'message'    => __('City status changed successfully.'),
+            'alert-type' => 'success',
         ]);
     }
 
-    public function statusUpdate(Request $request, $id)
-    {
+    public function statusUpdate(Request $request, $id) {
         $updated = City::findOrFail($request->id)->update([
             'status' => $request->status,
         ]);
 
         return $updated
-            ? back()->with(['msg' => __('City status changed successfully.'), 'type' => 'success'])
-            : back()->with(['msg' => __('Something went wrong. Please try again.'), 'type' => 'error']);
-    }
-
-    public function delete_city($id)
-    {
-        City::find($id)->delete();
-
-        return back()->with([
-            'msg' => __('City deleted successfully.'),
-            'type' => 'success',
+        ? back()->with([
+            'message'    => __('City status changed successfully.'),
+            'alert-type' => 'success',
+        ])
+        : back()->with([
+            'message'    => __('Something went wrong. Please try again.'),
+            'alert-type' => 'error',
         ]);
     }
 
-    public function bulk_action_city(Request $request)
-    {
+    public function delete_city($id) {
+        City::find($id)->delete();
+
+        return back()->with([
+            'message'    => __('City deleted successfully.'),
+            'alert-type' => 'success',
+        ]);
+    }
+
+    public function bulk_action_city(Request $request) {
         City::whereIn('id', $request->ids)->delete();
 
         return response()->json(['status' => true]);
     }
 
-    public function import_settings()
-    {
+    public function import_settings() {
         return view('countrymanage::backend.import-city');
     }
 
-    public function update_import_settings(Request $request)
-    {
+    public function update_import_settings(Request $request) {
         $request->validate([
-            'csv_file' => 'required|file|mimes:csv,txt|max:150000'
+            'csv_file' => 'required|file|mimes:csv,txt|max:150000',
         ]);
 
         // work on file mapping
@@ -147,17 +145,16 @@ class CityController extends Controller
         }
 
         return back()->with([
-            'msg' => __('something went wrong try again!'),
-            'type' => 'success',
+            'message'    => __('something went wrong try again!'),
+            'alert-type' => 'error',
         ]);
     }
 
-    public function import_to_database_settings(Request $request)
-    {
+    public function import_to_database_settings(Request $request) {
         $request->validate([
-            'city' => 'required',
+            'city'       => 'required',
             'country_id' => 'required',
-            'state_id' => 'required',
+            'state_id'   => 'required',
         ]);
 
         $file_tmp_name = Session::get('import_csv_file_name');
@@ -191,10 +188,10 @@ class CityController extends Controller
 
             if ($find_city < 1) {
                 $city_data = [
-                    'name' => $item[$city] ?? '',
+                    'name'       => $item[$city] ?? '',
                     'country_id' => $request->country_id,
-                    'state_id' => $request->state_id,
-                    'status' => $request->status,
+                    'state_id'   => $request->state_id,
+                    'status'     => $request->status,
                 ];
             }
             if ($find_city < 1) {
@@ -204,13 +201,12 @@ class CityController extends Controller
         }
 
         return redirect()->route('admin.city.import.csv.settings')->with([
-            'msg' => __('City imported successfully.'),
-            'type' => 'success',
+            'message'    => __('City imported successfully.'),
+            'alert-type' => 'success',
         ]);
     }
 
-    function pagination(Request $request)
-    {
+    function pagination(Request $request) {
         if ($request->ajax()) {
             $all_cities = City::with("state", "country")
                 ->latest()
@@ -220,8 +216,7 @@ class CityController extends Controller
         }
     }
 
-    public function search_city(Request $request)
-    {
+    public function search_city(Request $request) {
         $all_cities = City::with("state", "country")
             ->where('name', 'LIKE', "%" . strip_tags($request->string_search) . "%")
             ->paginate(10);
@@ -229,7 +224,7 @@ class CityController extends Controller
             return view('countrymanage::city.search-result', compact('all_cities'))->render();
         } else {
             return response()->json([
-                'status' => __('nothing')
+                'status' => __('nothing'),
             ]);
         }
     }
