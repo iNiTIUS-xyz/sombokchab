@@ -11,9 +11,11 @@
                                 {!! render_image($settings['iconBoxThree']["image_"][$key] ?? 0) !!}
                             </div>
                             <div class="promo__item__contents">
-                                <h4 class="promo__item__title">{{ $title }}</h4>
+                                <h4 class="promo__item__title">
+                                    {{ __($title) }}
+                                </h4>
                                 <p class="promo__item__para mt-1">
-                                    {{ $settings['iconBoxThree']['description_'][$key] ?? '' }}
+                                    {{ __($settings['iconBoxThree']['description_'][$key] ?? '') }}
                                 </p>
                             </div>
                         </div>

@@ -24,7 +24,7 @@
                             </label>
                             <input class="form--control" type="text" name="shipping_address_name"
                                 value="{{ old('shipping_address_name') ?? '' }}" required
-                                placeholder="{{ __('Shipping Address Name.') }}">
+                                placeholder="{{ __('Shipping Address Name') }}">
                         </div>
                     </div>
 
@@ -99,8 +99,8 @@
                         <div class="form-group">
                             <label for="country">{{ __('Is Default') }}</label>
                             <select class="form-select" name="is_default" required>
-                                <option value="1">Yes</option>
-                                <option value="0">No</option>
+                                <option value="1">{{ __('Yes') }}</option>
+                                <option value="0">{{ __('No') }}</option>
                             </select>
                         </div>
                     </div>

@@ -1,6 +1,6 @@
 @extends('frontend.frontend-page-master')
 @section('page-title')
-    {{__('Deposit Cancelled')}}
+    {{ __('Deposit Cancelled') }}
 @endsection
 @section('content')
     <div class="error-page-content padding-120">
@@ -12,8 +12,10 @@
                             <h6 class="title">{{ __('Your deposit has been canceled') }}</h6>
                         </div>
                         <div class="btn-wrapper mt-5">
-                            @if(Auth::guard('web')->check())
-                               <a href="{{route('buyer.wallet.history')}}" class="btn btn-success">{{__('Back To Wallet')}}</a>
+                            @if (Auth::guard('web')->check())
+                                <a href="{{ route('buyer.wallet.history') }}" class="btn btn-success">
+                                    {{ __('Back To Wallet') }}
+                                </a>
                             @endif
                         </div>
                     </div>

@@ -25,28 +25,43 @@ trait RefundRequestData
         try {
             DB::beginTransaction();
 
-            // first need to get all products from request data
+            // 1. Prepare item data
             $this->prepareRequestItemData();
-            // this method will fetch and store into products property
+
+            // 2. Load products
             $this->requestItemProduct();
-            // now store refundRequest data
+
+            // 3. Store main refund request
             $this->storeRefundRequest();
-            // now store refund Request product items with validation
+
+            // 4. Store refund product items
             $this->storeRefundProductItems();
-            // now store refund request track
+
+            // 5. Store request track
             $this->storeRefundRequestTrack($this->refundRequest->id, 'Request sent', auth()->id());
-            // save files into the server
+
+            // 6. Upload files
             $this->storeFile();
-            // store file information into database
+
+            // 7. Save file names in DB
             $this->saveRefundRequestFiles();
 
             DB::commit();
             return true;
         } catch (\Exception $exception) {
             DB::rollBack();
+
+            // DEBUG PROPER ERROR (IMPORTANT)
+            // dd([
+            //     "error" => $exception->getMessage(),
+            //     "line"  => $exception->getLine(),
+            //     "file"  => $exception->getFile(),
+            // ]);
+
             return false;
         }
     }
+
 
     private function saveRefundRequestFiles(): bool
     {
@@ -79,9 +94,16 @@ trait RefundRequestData
     private function refundProductsValidation(): array
     {
         $refundRequestProducts = [];
+
         foreach ($this->items as $item) {
+
             $item = (object) $item;
+
             $productItem = $this->products->find($item->item_id);
+
+            if (!$productItem) {
+                throw new \Exception("Invalid product item id: {$item->item_id}");
+            }
 
             $refundRequestProducts[] = [
                 'refund_request_id' => $this->refundRequest->id,
@@ -97,6 +119,7 @@ trait RefundRequestData
 
         return $refundRequestProducts;
     }
+
 
     public function storeRefundRequestTrack(int $id, string $name, int $userId, string $type = 'create')
     {
@@ -145,11 +168,15 @@ trait RefundRequestData
 
     private function requestItemProduct()
     {
-
         $this->products = SubOrderItem::query()
             ->with($this->with)
             ->whereRelation("product", "is_refundable", 1)
-            ->whereIn('id', $this->itemIds)->get();
+            ->whereIn('id', $this->itemIds)
+            ->get();
+
+        if ($this->products->count() !== count($this->itemIds)) {
+            throw new \Exception("Some product items not found or not refundable.");
+        }
 
         return $this->products;
     }

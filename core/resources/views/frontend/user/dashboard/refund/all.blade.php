@@ -41,10 +41,8 @@
                 <table class="table" id="dataTable">
                     <thead>
                         <tr>
-                            {{-- <th>{{ __('Serial No.') }}</th> --}}
                             <th>{{ __('Refund Details') }}</th>
                             <th>{{ __('Order Details') }}</th>
-                            
                             <th>{{ __('Refund Request Date') }}</th>
                             <th>{{ __('Action') }}</th>
                         </tr>
@@ -82,11 +80,14 @@
                                         <br>
                                         {{-- <span class="text-capitalize badge bg-light text-dark">{{
                                             $request->order?->order_status }}</span> <br> --}}
-                                        {{ __('Amount') }}
-                                        {{ float_amount_with_currency_symbol($request->order?->paymentMeta?->total_amount) }}<br>
+                                        <b>
+                                            {{ __('Amount:') }}
+                                        </b>
+                                        {{ float_amount_with_currency_symbol($request->order?->paymentMeta?->total_amount) }}
+                                        <br>
                                     </span>
                                 </td>
-                                
+
                                 <td>{{ $request->created_at->format('M j, Y') }}</td>
                                 <td>
                                     <a href="{{ route('user.product.refund-request.view', $request->id) }}"
@@ -106,11 +107,9 @@
 
 @section('script')
     <script src="{{ asset('assets/backend/js/sweetalert2.js') }}"></script>
-    {{-- <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script> --}}
     <script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
-
-    <script> 
-        $(document).ready(function () {
+    <script>
+        $(document).ready(function() {
             if ($('#dataTable').length) {
                 $('#dataTable').DataTable({
                     paging: true,
@@ -120,34 +119,42 @@
                     info: true,
                     autoWidth: false,
                     responsive: true,
+                    order: [
+                        [0, 'desc']
+                    ],
+                    pagingType: "simple_numbers",
                     language: {
-                        search: "Filter:",
+                        lengthMenu: "{{ __('_MENU_ entries per page') }}",
+                        search: "{{ __('Filter:') }}",
+                        info: "{{ __('Showing _START_ to _END_ of _TOTAL_ entries') }}",
+                        infoEmpty: "{{ __('No entries available') }}",
+                        infoFiltered: "{{ __('(filtered from _MAX_ total entries)') }}",
+
+                        zeroRecords: "{{ __('No matching records found') }}",
+                        emptyTable: "{{ __('No entries available') }}",
                         paginate: {
-                            previous: "Prev",
-                            next: "Next"
-                        }
-                    },
-                    // Add this for pagination style
-                    pagingType: "simple_numbers" // options: simple, simple_numbers, full, full_numbers
+                            previous: "{{ __('Prev') }}",
+                            next: "{{ __('Next') }}"
+                        },
+                        emptyTable: "{{ __('No data available in table') }}"
+                    }
                 });
             }
         });
     </script>
-
-
     <script>
-        (function ($) {
+        (function($) {
             "use strict";
-            $(document).ready(function () {
+            $(document).ready(function() {
 
-                $(document).on('click', '.bodyUser_overlay', function () {
+                $(document).on('click', '.bodyUser_overlay', function() {
                     $('.user-dashboard-wrapper, .bodyUser_overlay').removeClass('show');
                 });
-                $(document).on('click', '.mobile_nav', function () {
+                $(document).on('click', '.mobile_nav', function() {
                     $('.user-dashboard-wrapper, .bodyUser_overlay').addClass('show');
                 });
 
-                $(document).on('click', '.swal_delete_button', function (e) {
+                $(document).on('click', '.swal_delete_button', function(e) {
                     e.preventDefault();
                     Swal.fire({
                         title: '{{ __('Are you sure?') }}',

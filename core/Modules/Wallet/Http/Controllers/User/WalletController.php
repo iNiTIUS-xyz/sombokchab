@@ -88,7 +88,7 @@ class WalletController extends Controller
             'amount' => $total,
             'payment_gateway' => $request->selected_payment_gateway,
             'payment_status' => 'pending',
-            'type' => 5,// this one mean's incoming
+            'type' => 5, // this one mean's incoming
         ]);
 
         $last_deposit_id = $deposit->id;
@@ -128,7 +128,6 @@ class WalletController extends Controller
             }
             toastr_success('Manual deposit success. Your wallet will credited after admin approval');
             return back();
-
         } else {
             $gateway_function = 'get_' . $request->selected_payment_gateway . '_credential';
             $gateway = PaymentGatewayCredential::$gateway_function();
