@@ -32,7 +32,7 @@
                                         </div>
                                         <div class="single__category__contents mt-3">
                                             <h6 class="single__category__title">
-                                                {{ $category->name }}
+                                                {{ langWiseShowValue($category->name, $category->name_km) }}
                                             </h6>
                                         </div>
                                     </div>
