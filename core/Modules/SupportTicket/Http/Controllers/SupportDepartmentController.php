@@ -2,63 +2,65 @@
 
 namespace Modules\SupportTicket\Http\Controllers;
 
-use App\Helpers\FlashMsg;
-use Modules\SupportTicket\Entities\SupportDepartment;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\SupportTicket\Entities\SupportDepartment;
 use Modules\SupportTicket\Http\Requests\AdminStoreDepartmentRequest;
 use Modules\SupportTicket\Http\Requests\AdminUpdateDepartmentRequest;
 
-class SupportDepartmentController extends Controller
-{
-    public function category()
-    {
+class SupportDepartmentController extends Controller {
+    public function category() {
         $all_category = SupportDepartment::all();
         return view('supportticket::backend.support-ticket-category.category')->with([
             'all_category' => $all_category,
         ]);
     }
 
-    public function new_category(AdminStoreDepartmentRequest $request)
-    {
+    public function new_category(AdminStoreDepartmentRequest $request) {
         SupportDepartment::create([
-            'name' => $request->name,
+            'name'   => $request->name,
             'status' => $request->status,
         ]);
 
-        return redirect()->back()->with(FlashMsg::item_new());
+        return redirect()->back()->with([
+            'message'    => 'Item Added Successfully.',
+            'alert_type' => 'success',
+        ]);
     }
 
-    public function update(AdminUpdateDepartmentRequest $request)
-    {
+    public function update(AdminUpdateDepartmentRequest $request) {
         SupportDepartment::find($request->id)->update([
-            'name' => $request->name,
+            'name'   => $request->name,
             'status' => $request->status,
         ]);
 
-        return redirect()->back()->with(FlashMsg::item_update());
+        return redirect()->back()->with([
+            'message'    => 'Item Updated Successfully.',
+            'alert_type' => 'success',
+        ]);
     }
 
-    public function statusChange(Request $request)
-    {
+    public function statusChange(Request $request) {
         SupportDepartment::find($request->id)->update([
             'status' => $request->status,
         ]);
 
         return redirect()->back()->with([
-            'type' => 'success',
-            'msg' => 'Satatus changed Successfully.',
+            'alert-type' => 'success',
+            'message'    => 'Status changed Successfully.',
         ]);
     }
 
-    public function delete(Request $request, $id)
-    {
+    public function delete(Request $request, $id) {
         SupportDepartment::find($id)->delete();
-        return redirect()->back()->with(FlashMsg::item_delete());
+        return redirect()->back()->with([
+            'message'    => ' Item Deleted Successfully.',
+            'alert_type' => 'success',
+        ]);
+
     }
 
-    public function bulk_action(Request $request)
-    {
+    public function bulk_action(Request $request) {
         SupportDepartment::whereIn('id', $request->ids)->delete();
         return response()->json(['status' => 'ok']);
     }

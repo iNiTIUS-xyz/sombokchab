@@ -2,23 +2,19 @@
 
 namespace Modules\Wallet\Http\Controllers\Backend;
 
-use Exception;
-use App\Helpers\FlashMsg;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Modules\Wallet\Entities\Wallet;
-use Illuminate\Http\RedirectResponse;
-use Modules\Wallet\Entities\WalletHistory;
-use Modules\Wallet\Http\Services\WalletService;
+use Modules\DeliveryMan\Entities\DeliveryManWithdrawRequest;
 use Modules\Wallet\Entities\VendorWalletGateway;
 use Modules\Wallet\Entities\VendorWithdrawRequest;
+use Modules\Wallet\Entities\Wallet;
+use Modules\Wallet\Entities\WalletHistory;
 use Modules\Wallet\Http\Requests\AdminUpdateWithdrawRequest;
-use Modules\DeliveryMan\Entities\DeliveryManWithdrawRequest;
+use Modules\Wallet\Http\Services\WalletService;
 
-class WalletController extends Controller
-{
-    public function wallet_lists()
-    {
+class WalletController extends Controller {
+    public function wallet_lists() {
         $type = "user";
         $wallet_lists = Wallet::query()
             ->with('user')
@@ -30,8 +26,7 @@ class WalletController extends Controller
         return view('wallet::backend.wallet-lists', compact('wallet_lists', 'type'));
     }
 
-    public function vendor_wallet_list()
-    {
+    public function vendor_wallet_list() {
         $type = "vendor";
         $wallet_lists = Wallet::query()
             ->with('vendor', 'vendor.vendor_shop_info')
@@ -43,8 +38,7 @@ class WalletController extends Controller
         return view('wallet::backend.wallet-lists', compact('wallet_lists', 'type'));
     }
 
-    public function delivery_man_wallet_list()
-    {
+    public function delivery_man_wallet_list() {
         $type = "delivery_man";
         $wallet_lists = Wallet::with('deliveryMan')->whereNull("user_id")
             ->whereNull("vendor_id")->latest()->get(['id', 'delivery_man_id', 'balance', 'status']);
@@ -52,8 +46,7 @@ class WalletController extends Controller
         return view('wallet::backend.wallet-lists', compact('wallet_lists', 'type'));
     }
 
-    public function customer_wallet_list()
-    {
+    public function customer_wallet_list() {
         $type = "user";
         $wallet_lists = Wallet::with('user')
             ->whereNull("vendor_id")
@@ -65,17 +58,18 @@ class WalletController extends Controller
         return view('wallet::backend.customer-wallet-lists', compact('wallet_lists', 'type'));
     }
 
-    public function change_status(Request $request, $id)
-    {
+    public function change_status(Request $request, $id) {
         $wallet = Wallet::findOrFail($id);
         $wallet->status = $request->input('status', $wallet->status);
         $wallet->save();
 
-        return redirect()->back()->with(FlashMsg::item_new('Status changed successfully.'));
+        return redirect()->back()->with([
+            'message'    => 'Status changed successfully.',
+            'alert-type' => 'success',
+        ]);
     }
 
-    public function wallet_history()
-    {
+    public function wallet_history() {
         $wallet_history_lists = WalletHistory::with('user')
             ->latest()
             ->whereHas("user")
@@ -84,8 +78,7 @@ class WalletController extends Controller
         return view('wallet::backend.history', compact('wallet_history_lists'));
     }
 
-    public function wallet_history_status(Request $request, $id)
-    {
+    public function wallet_history_status(Request $request, $id) {
         $wallet_history = WalletHistory::find($id);
 
         WalletHistory::where('id', $id)->update(['payment_status' => $request->status]);
@@ -95,30 +88,30 @@ class WalletController extends Controller
             'balance' => $wallet->balance + $wallet_history->amount,
         ]);
 
-        return redirect()->back()->with(FlashMsg::item_new('Status changed successfully.'));
+        return redirect()->back()->with([
+            'message'    => 'Status changed successfully.',
+            'alert-type' => 'success',
+        ]);
     }
 
-    public function settings()
-    {
+    public function settings() {
         // now load blade file
         $adminGateways = VendorWalletGateway::all();
 
         return view("wallet::backend.settings", compact('adminGateways'));
     }
 
-    public function settings_update(Request $request)
-    {
+    public function settings_update(Request $request) {
         update_static_option("minimum_withdraw_amount", $request->minimum_withdraw_amount ?? 1);
 
         return back()->with([
-            'success' => true,
-            "type" => "success",
-            "msg" => "Wallet settings updated successfully."
+            'success'    => true,
+            "alert-type" => "success",
+            "message"    => "Wallet settings updated successfully.",
         ]);
     }
 
-    public function withdrawRequestPage()
-    {
+    public function withdrawRequestPage() {
         $withdrawRequests = VendorWithdrawRequest::with("gateway", "vendor", "wallet")
             ->whereHas("gateway")
             ->orderByDesc("id")
@@ -127,16 +120,14 @@ class WalletController extends Controller
         return view("wallet::backend.wallet-request", compact("withdrawRequests"));
     }
 
-    public function deliveryManWithdrawRequest()
-    {
+    public function deliveryManWithdrawRequest() {
         $withdrawRequests = DeliveryManWithdrawRequest::with("gateway", "deliveryMan", "wallet")
             ->orderByDesc("id")->paginate(20);
 
         return view("wallet::backend.delivery-man-wallet-request", compact("withdrawRequests"));
     }
 
-    public function updateDeliveryManWithdrawRequest(AdminUpdateWithdrawRequest $request): RedirectResponse
-    {
+    public function updateDeliveryManWithdrawRequest(AdminUpdateWithdrawRequest $request): RedirectResponse {
         $data = $request->validated();
         $filename = "";
 
@@ -175,14 +166,13 @@ class WalletController extends Controller
         }
 
         return back()->with([
-            "success" => (bool) $update ?? false,
-            "msg" => $update ? __("Withdraw request updated Successfully.") : __("Failed to update"),
-            "type" => $update ? "success" : "danger"
+            "success"    => (bool) $update ?? false,
+            "message"    => $update ? __("Withdraw request updated Successfully.") : __("Failed to update"),
+            "alert-type" => $update ? "success" : "error",
         ]);
     }
 
-    public function updateWithdrawRequest(AdminUpdateWithdrawRequest $request)
-    {
+    public function updateWithdrawRequest(AdminUpdateWithdrawRequest $request) {
         $data = $request->validated();
         $filename = "";
 
@@ -205,7 +195,6 @@ class WalletController extends Controller
         $query = VendorWithdrawRequest::where("id", $data["id"])->first();
         $update = $query->update($data);
 
-
         if ($data["request_status"] == 'completed') {
             WalletService::updateVendorWallet(
                 $query->vendor_id,
@@ -222,28 +211,26 @@ class WalletController extends Controller
         }
 
         return back()->with([
-            "success" => (bool) $query ?? false,
-            "msg" => $query ? __("withdraw request updated successfully.") : __("Failed to update"),
-            "type" => $query ? "success" : "danger"
+            "success"    => (bool) $query ?? false,
+            "message"    => $query ? __("Withdraw request updated successfully.") : __("Failed to update"),
+            "alert-type" => $query ? "success" : "error",
         ]);
     }
 
-    public function history_details($id)
-    {
+    public function history_details($id) {
         $history_details = WalletHistory::with('user')->where('id', $id)->first();
 
         return view('wallet::backend.history-details', compact('history_details'));
     }
 
-    public function search_history(Request $request)
-    {
+    public function search_history(Request $request) {
         $all_histories = WalletHistory::where('created_at', 'LIKE', "%" . strip_tags($request->string_search) . "%")
             ->paginate(10);
         if ($all_histories->total() >= 1) {
             return view('wallet::admin.wallet.search-result', compact('all_histories'))->render();
         } else {
             return response()->json([
-                'status' => __('nothing')
+                'status' => __('nothing'),
             ]);
         }
     }

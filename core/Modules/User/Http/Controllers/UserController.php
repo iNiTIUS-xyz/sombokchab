@@ -2,80 +2,81 @@
 
 namespace Modules\User\Http\Controllers;
 
-use App\Http\Services\Media;
-use Modules\User\Entities\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
 use Modules\CountryManage\Entities\City;
+use Modules\CountryManage\Entities\Country;
+use Modules\CountryManage\Entities\State;
+use Modules\User\Entities\User;
 use Modules\User\Http\Requests\StoreUserRequest;
 use Modules\User\Http\Requests\UpdatePasswordRequest;
 use Modules\User\Http\Requests\UpdateUserRequest;
 use Modules\Wallet\Http\Services\WalletService;
-use Modules\CountryManage\Entities\Country;
-use Modules\CountryManage\Entities\State;
 
-class UserController extends Controller
-{
-    public function all_user()
-    {
+class UserController extends Controller {
+    public function all_user() {
         $all_user = User::all();
         $country = Country::select("id", "name")->orderBy("name", "ASC")->get();
         $states = State::where("country_id", 31)->orderBy("name", "ASC")->get();
         $cities = City::orderBy("name", "ASC")->get();
         return view('user::backend.all-user')->with(['all_user' => $all_user, 'country' => $country, 'states' => $states, 'cities' => $cities]);
     }
-    public function user_password_change(UpdatePasswordRequest $request)
-    {
+    public function user_password_change(UpdatePasswordRequest $request) {
         $user = User::findOrFail($request->ch_user_id);
         $user->password = Hash::make($request->password);
         $user->save();
-        return redirect()->back()->with(['msg' => __('Password changed Successfully.'), 'type' => 'success']);
+        return redirect()->back()->with([
+            'message'    => __('Password changed Successfully.'),
+            'alert-type' => 'success',
+        ]);
     }
-    public function user_update(UpdateUserRequest $request)
-    {
+    public function user_update(UpdateUserRequest $request) {
         User::find($request->user_id)->update([
-            'name' => $request->name,
-            'email' => $request->email,
+            'name'    => $request->name,
+            'email'   => $request->email,
             'address' => $request->address,
             'zipcode' => $request->zipcode,
-            'city' => $request->city,
-            'state' => $request->state,
+            'city'    => $request->city,
+            'state'   => $request->state,
             'country' => $request->country,
-            'phone' => $request->phone,
+            'phone'   => $request->phone,
         ]);
-        return redirect()->back()->with(['msg' => __('User profile updated successfully.'), 'type' => 'success']);
+        return redirect()->back()->with([
+            'message'    => __('User profile updated successfully.'),
+            'alert-type' => 'success',
+        ]);
     }
-    public function new_user_delete(Request $request, $id)
-    {
+    public function new_user_delete(Request $request, $id) {
         User::find($id)->delete();
-        return redirect()->back()->with(['msg' => __('User profile deleted.'), 'type' => 'danger']);
+        return redirect()->back()->with([
+            'message'    => __('User profile deleted.'),
+            'alert-type' => 'success',
+        ]);
     }
 
-    public function new_user()
-    {
+    public function new_user() {
         $data = [
             "country" => Country::select("id", "name")->orderBy("name", "ASC")->get(),
-            "states" => State::where("country_id", 31)->orderBy("name", "ASC")->get(),
-            "cities" => City::orderBy("name", "ASC")->get(),
+            "states"  => State::where("country_id", 31)->orderBy("name", "ASC")->get(),
+            "cities"  => City::orderBy("name", "ASC")->get(),
         ];
 
         return view('user::backend.add-new-user', with($data));
     }
 
-    public function new_user_add(StoreUserRequest $request)
-    {
+    public function new_user_add(StoreUserRequest $request) {
         $user = User::create([
             'username' => $request->username,
-            'name' => $request->name,
-            'email' => $request->email,
-            'address' => $request->address,
-            'zipcode' => $request->zipcode,
-            'city' => $request->city,
-            'state' => $request->state,
-            'country' => $request->country,
-            'phone' => $request->phone,
-            'password' => Hash::make($request->password)
+            'name'     => $request->name,
+            'email'    => $request->email,
+            'address'  => $request->address,
+            'zipcode'  => $request->zipcode,
+            'city'     => $request->city,
+            'state'    => $request->state,
+            'country'  => $request->country,
+            'phone'    => $request->phone,
+            'password' => Hash::make($request->password),
         ]);
 
         // create wallet fot this user if module exists
@@ -83,11 +84,13 @@ class UserController extends Controller
             WalletService::createWallet($user->id, "user");
         }
 
-        return redirect()->back()->with(['msg' => __('New user created successfully.'), 'type' => 'success']);
+        return redirect()->back()->with([
+            'message'    => __('New user created successfully.'),
+            'alert-type' => 'success',
+        ]);
     }
 
-    public function bulk_action(Request $request)
-    {
+    public function bulk_action(Request $request) {
         $all = User::find($request->ids);
         foreach ($all as $item) {
             $item->delete();
@@ -95,11 +98,13 @@ class UserController extends Controller
         return response()->json(['status' => 'ok']);
     }
 
-    public function email_status(Request $request)
-    {
+    public function email_status(Request $request) {
         User::where('id', $request->user_id)->update([
-            'email_verified' => $request->email_verified == 0 ? 1 : 0
+            'email_verified' => $request->email_verified == 0 ? 1 : 0,
         ]);
-        return redirect()->back()->with(['msg' => __('Email verification status changed.'), 'type' => 'success']);
+        return redirect()->back()->with([
+            'message'    => __('Email verification status changed.'),
+            'alert-type' => 'success',
+        ]);
     }
 }
