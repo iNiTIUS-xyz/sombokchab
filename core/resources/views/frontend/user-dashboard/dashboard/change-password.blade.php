@@ -18,17 +18,17 @@
                 <div class="form-group">
                     <label for="old_password">{{__('Old Password')}}</label>
                     <input type="password" class="form-control" id="old_password" name="old_password"
-                           placeholder="{{__('Old Password')}}">
+                           placeholder="{{__('Enter Old Password')}}">
                 </div>
                 <div class="form-group">
                     <label for="password">{{__('New Password')}}</label>
                     <input type="password" class="form-control" id="password" name="password"
-                           placeholder="{{__('New Password')}}">
+                           placeholder="{{__('Enter New Password')}}">
                 </div>
                 <div class="form-group">
                     <label for="password_confirmation">{{__('Confirm Password')}}</label>
                     <input type="password" class="form-control" id="password_confirmation"
-                           name="password_confirmation" placeholder="{{__('Confirm Password')}}">
+                           name="password_confirmation" placeholder="{{__('Enter Confirm Password')}}">
                 </div>
                 <div class="btn-wrapper">
                     <button id="save" type="submit" class="btn-default boxed-btn">{{__('Save Changes')}}</button>

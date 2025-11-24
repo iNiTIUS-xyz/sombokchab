@@ -19,7 +19,7 @@
                                 <thead>
                                     <th>{{ __('Serial No.') }}</th>
                                     <th>{{ __('Title') }}</th>
-                                    {{-- <th>{{ __('Created At') }}</th> --}}
+                                    {{-- <th>{{ __('Created On') }}</th> --}}
                                     <th>{{ __('Action') }}</th>
                                 </thead>
                                 <tbody>

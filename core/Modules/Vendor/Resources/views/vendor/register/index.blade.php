@@ -8,6 +8,10 @@
             font-weight: 500 !important;
         }
 
+        small.text-danger{
+            font-size: 12px;
+        }
+
         .btn {
             font-size: 16px;
         }
@@ -122,7 +126,7 @@
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <input name="business_name" id="business_name" type="text"
-                                                class="form--control radius-10" placeholder="{{ __('Store Name') }}"
+                                                class="form--control radius-10" placeholder="{{ __('Enter Store Name') }}"
                                                 required />
                                             <small class="text-danger" id="businessNameError"></small>
                                         </div>
@@ -141,7 +145,7 @@
                                                     <option value="+855">+855</option>
                                                 </select>
                                                 <input id="number" name="phone" type="number"
-                                                    class="form--control radius-10" placeholder="Phone Number" required
+                                                    class="form--control radius-10" placeholder="{{ __('Enter Phone Number') }}" required
                                                     style="width: 85% !important;" />
                                             </div>
                                             <small class="text-danger" id="phoneError"></small>
@@ -155,7 +159,7 @@
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <input name="username" id="username" type="text"
-                                                class="form--control radius-10" placeholder="{{ __('Username') }}"
+                                                class="form--control radius-10" placeholder="{{ __('Enter Username') }}"
                                                 required />
                                             <small class="text-danger" id="usernameError"></small>
                                         </div>
@@ -167,7 +171,7 @@
                                                 {{-- <span class="text-danger">*</span> --}}
                                             </label>
                                             <input name="email" id="email" type="text"
-                                                class="form--control radius-10" placeholder="{{ __('Email') }}" />
+                                                class="form--control radius-10" placeholder="{{ __('Enter Email') }}" />
                                             <small class="text-danger" id="emailError"></small>
                                         </div>
                                     </div>
@@ -179,7 +183,7 @@
                                             </label>
                                             <input name="passport_nid" id="passport_nid" type="text"
                                                 class="form--control radius-10"
-                                                placeholder="{{ __('Passport or National ID') }}" required />
+                                                placeholder="{{ __('Enter Passport or National ID') }}" required />
                                             <small class="text-danger" id="passportNidError"></small>
                                         </div>
                                     </div>
@@ -191,7 +195,7 @@
                                             </label>
                                             <div class="position-relative">
                                                 <input name="password" id="password" type="password"
-                                                    class="form--control radius-10" placeholder="{{ __('Password') }}"
+                                                    class="form--control radius-10" placeholder="{{ __('Enter Password') }}"
                                                     required />
                                                 <div class="toggle-password position-absolute"
                                                     style="right: 10px; top: 45%; transform: translateY(-50%); cursor: pointer;">
@@ -215,7 +219,7 @@
                                             <div class="position-relative">
                                                 <input name="password_confirmation" id="password_confirmation"
                                                     type="password" class="form--control radius-10"
-                                                    placeholder="{{ __('Confirm Password') }}" required />
+                                                    placeholder="{{ __('Enter Confirm Password') }}" required />
                                                 <div class="toggle-password position-absolute"
                                                     style="right: 10px; top: 45%; transform: translateY(-50%); cursor: pointer;">
                                                     <span class="hide-icon-two" style="display: inline;">
@@ -339,12 +343,23 @@
 
         function validateBusinessName(value) {
             const trimmed = value.trim();
+
             if (!trimmed) return 'Store name is required';
             if (trimmed.length < 3) return 'Store name must be at least 3 characters';
-            if (trimmed.length > 30) return 'Store name cannot exceed 30 characters';
-            if (/@/.test(trimmed)) return 'Store name cannot contain "@" character';
+
+            // only letters, numbers and spaces allowed
+            if (!/^[A-Za-z0-9 ]+$/.test(trimmed)) {
+                return 'Store name can contain only letters, numbers and spaces';
+            }
+
+            // cannot be only digits
+            if (/^\d+$/.test(trimmed)) {
+                return 'Store name cannot be only numbers';
+            }
+
             return '';
         }
+
 
         function validateEmail(value) {
             const trimmed = value.trim();
@@ -376,8 +391,27 @@
         }
 
         function validatePassportNid(value) {
-            return !value.trim() ? 'Passport/National ID is required' : '';
+            const trimmed = value.trim();
+
+            if (!trimmed) return 'Passport/National ID is required';
+
+            // Only alphanumeric allowed
+            if (!/^[A-Za-z0-9]+$/.test(trimmed)) {
+                return 'Passport/National ID can contain only letters and numbers';
+            }
+
+            // Cannot be only letters
+            if (/^[A-Za-z]+$/.test(trimmed)) {
+                return 'Passport/National ID cannot be only letters';
+            }
+
+            // Numbers only → OK
+            // Mix letters + numbers → OK
+
+            return '';
         }
+
+
 
         function validateTerms(isChecked) {
             return !isChecked ? 'You must accept the terms and conditions' : '';

@@ -13,15 +13,15 @@
                     <div class="single-dashboard-input">
                         <div class="single-info-input margin-top-30">
                             <label class="info-title"> {{__('Old Password')}}<span class="text-danger">*</span>  </label>
-                            <input class="form--control" type="password" name="old_password" id="old_password" placeholder="Old Password">
+                            <input class="form--control" type="password" name="old_password" id="old_password" placeholder="{{__('Enter Old Password')}}">
                         </div>
                         <div class="single-info-input margin-top-30">
                             <label class="info-title"> {{__('New Password')}}<span class="text-danger">*</span>  </label>
-                            <input class="form--control" type="password" name="password" id="password" placeholder="New Password">
+                            <input class="form--control" type="password" name="password" id="password" placeholder="{{__('Enter New Password')}}">
                         </div>
                         <div class="single-info-input margin-top-30">
                             <label class="info-title"> {{__('Confirm Password')}}<span class="text-danger">*</span>  </label>
-                            <input class="form--control" type="password" name="password_confirmation" id="password_confirmation" placeholder="Confirm Password">
+                            <input class="form--control" type="password" name="password_confirmation" id="password_confirmation" placeholder="{{__('Enter Confirm Password')}}">
                         </div>
                     </div>
                 </div>

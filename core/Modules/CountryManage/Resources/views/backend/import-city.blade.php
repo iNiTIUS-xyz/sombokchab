@@ -137,7 +137,7 @@
                                                 <div class="form-group">
                                                     <select class="form-control mapping_select" required>
                                                         <option value="publish">{{ __('Publish') }}</option>
-                                                        <option value="draft">{{ __('Draft') }}</option>
+                                                        <option value="draft">{{ __('Unpublish') }}</option>
                                                     </select>
                                                     <input type="hidden" name="status" value="publish">
                                                 </div>

@@ -92,9 +92,9 @@
                                                 <td>{{$data->title}}</td>
                                                 <td>
                                                     @if($data->status == 'draft')
-                                                        <span class="alert alert-warning" style="margin-top: 20px;display: inline-block;">{{__('Draft')}}</span>
+                                                        <span class="alert alert-warning" style="margin-top: 20px;display: inline-block;">{{__('Unpublished')}}</span>
                                                     @else
-                                                        <span class="alert alert-success" style="margin-top: 20px;display: inline-block;">{{__('Publish')}}</span>
+                                                        <span class="alert alert-success" style="margin-top: 20px;display: inline-block;">{{__('Published')}}</span>
                                                     @endif
                                                 </td>
                                                 <td>

@@ -38,7 +38,7 @@
                                 <th>{{ __('Serial No') }}</th>
                                 <th>{{ __('Name') }}</th>
                                 <th>{{ __('Email') }}</th>
-                                <th>{{ __('Created At') }}</th>
+                                <th>{{ __('Created On') }}</th>
                                 <th>{{ __('Action') }}</th>
                             </tr>
                         </thead>

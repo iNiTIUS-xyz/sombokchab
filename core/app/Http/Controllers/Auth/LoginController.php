@@ -153,15 +153,15 @@ class LoginController extends Controller
         ])->post("https://cloudapi.plasgate.com/rest/send?private_key={$privateKey}", $payload);
 
         // ⛔️ DEBUG HERE
-        dd([
-            'phone'      => $phone,
-            'otp'        => $otp,
-            'cached_otp' => Cache::get('otp_' . $phone),
-            'payload'    => $payload,
-            'status'     => $response->status(),
-            'response'   => $response->json(),
-            'raw'        => $response->body(),
-        ]);
+        // dd([
+        //     'phone'      => $phone,
+        //     'otp'        => $otp,
+        //     'cached_otp' => Cache::get('otp_' . $phone),
+        //     'payload'    => $payload,
+        //     'status'     => $response->status(),
+        //     'response'   => $response->json(),
+        //     'raw'        => $response->body(),
+        // ]);
 
         // Debug raw body
         // Log::info('PlasGate Response', ['body' => $response->body()]);

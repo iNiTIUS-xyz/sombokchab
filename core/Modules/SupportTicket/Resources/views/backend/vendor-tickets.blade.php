@@ -43,7 +43,7 @@
                                     <th>{{ __('Vendor') }}</th>
                                     <th>{{ __('Priority') }}</th>
                                     <th>{{ __('Status') }}</th>
-                                    <th>{{ __('Created At') }}</th>
+                                    <th>{{ __('Created On') }}</th>
                                     <th>{{ __('Action') }}</th>
                                 </thead>
                                 <tbody>

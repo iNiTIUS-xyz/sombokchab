@@ -228,7 +228,7 @@
                             </div>
                             <div class="request__item">
                                 <span class="request__left">
-                                    {{ __('Total Product') }}
+                                    {{ __('Total Products') }}
                                 </span>
                                 <span class="request__right">{{ $order?->order_items_count }}</span>
                             </div>
@@ -316,7 +316,7 @@
 
                             <div class="request__item">
                                 <span class="request__left">
-                                    {{ __('Total Product') }}
+                                    {{ __('Total Products') }}
 
                                 </span>
                                 <span class="request__right">{{ $request->order?->order_items_count }}</span>

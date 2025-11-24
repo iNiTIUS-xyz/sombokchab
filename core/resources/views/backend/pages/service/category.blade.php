@@ -85,10 +85,10 @@
                                                 <td>{{$data->id}}</td>
                                                 <td>{{$data->name}}</td>
                                                 <td>
-                                                    @if('publish' == $data->status)
-                                                        <span class="btn btn-success btn-sm">{{ucfirst($data->status)}}</span>
+                                                    @if($data->status === 'publish')
+                                                        <span class="btn btn-success btn-sm">{{__('Published')}}</span>
                                                     @else
-                                                        <span class="btn btn-warning btn-sm">{{ucfirst($data->status)}}</span>
+                                                        <span class="btn btn-warning btn-sm">{{__('Unpublished')}}</span>
                                                     @endif
                                                 </td>
                                                 <td>

@@ -39,7 +39,7 @@
                                             <th class="min-width-250">{{ __('Shop Info') }}</th>
                                             <th class="min-width-100">{{ __('Status') }}</th>
                                             <th class="min-width-100">{{ __('Verify Status') }}</th>
-                                            <th class="min-width-100">{{ __('Created At') }}</th>
+                                            <th class="min-width-100">{{ __('Created On') }}</th>
                                             <th>{{ __('Actions') }}</th>
                                         </tr>
                                     </thead>

@@ -129,7 +129,7 @@
                                 <label for="status">{{ __('Status') }}</label>
                                 <select name="status" id="status" class="form-control">
                                     <option value="publish">{{ __('Publish') }}</option>
-                                    <option value="draft">{{ __('Draft') }}</option>
+                                    <option value="draft">{{ __('Unpublish') }}</option>
                                 </select>
                             </div>
                             <div class="form-group">

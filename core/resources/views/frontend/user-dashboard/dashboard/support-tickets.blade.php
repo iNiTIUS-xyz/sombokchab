@@ -71,7 +71,7 @@
                             <tr>
                                 <td>#{{ $data->id }}</td>
                                 <td>{{ $data->title }}
-                                    <p>{{ __('created at:') }} <small>{{ $data->created_at->format('D, d M Y') }}</small>
+                                    <p>{{ __('Created On:') }} <small>{{ $data->created_at->format('D, d M Y') }}</small>
                                     </p>
                                 </td>
                                 <td>

@@ -52,7 +52,7 @@
                                                         class="status-{{ $country->status }} {{ $country->status == 'publish' ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
                                                         data-bs-toggle="dropdown" aria-haspopup="true"
                                                         aria-expanded="false">
-                                                        {{ ucfirst($country->status == 'publish' ? __('Publish') : __('Unpublish')) }}
+                                                        {{ ucfirst($country->status == 'publish' ? __('Published') : __('Unpublished')) }}
                                                     </button>
                                                     <div class="dropdown-menu">
                                                         {{-- Form for activating --}}
@@ -62,7 +62,7 @@
                                                             @csrf
                                                             <input type="hidden" name="status" value="publish">
                                                             <button type="submit" class="dropdown-item">
-                                                                {{ __('Publish') }}
+                                                                {{ __('Published') }}
                                                             </button>
                                                         </form>
                                                         <form
@@ -71,7 +71,7 @@
                                                             @csrf
                                                             <input type="hidden" name="status" value="draft">
                                                             <button type="submit" class="dropdown-item">
-                                                                {{ __('Unpublish') }}
+                                                                {{ __('Unpublished') }}
                                                             </button>
                                                         </form>
                                                     </div>

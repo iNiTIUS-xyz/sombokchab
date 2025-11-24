@@ -40,7 +40,7 @@
                                     <th>{{ __('Name') }}</th>
                                     <th>{{ __('Image') }}</th>
                                     <th>{{ __('Publish Status') }}</th>
-                                    <th>{{ __('Created At') }}</th>
+                                    <th>{{ __('Created On') }}</th>
                                     <th>{{ __('Action') }}</th>
                                 </thead>
                                 <tbody>
@@ -66,7 +66,7 @@
                                                         class="status-{{ $campaign->status }} {{ $campaign->status == 'publish' ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
                                                         data-bs-toggle="dropdown" aria-haspopup="true"
                                                         aria-expanded="false">
-                                                        {{ ucfirst($campaign->status == 'publish' ? __('Publish') : __('Unpublish')) }}
+                                                        {{ ucfirst($campaign->status == 'publish' ? __('Published') : __('Unpublished')) }}
                                                     </button>
                                                     <div class="dropdown-menu">
                                                         <form

@@ -42,7 +42,7 @@
                                     <th class="text-center">{{ __('User') }}</th>
                                     <th class="text-center">{{ __('Priority') }}</th>
                                     <th class="text-center">{{ __('Status') }}</th>
-                                    <th class="text-center">{{ __('Created At') }}</th>
+                                    <th class="text-center">{{ __('Created On') }}</th>
                                     <th class="text-center">{{ __('Action') }}</th>
                                 </thead>
                                 <tbody>
