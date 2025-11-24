@@ -106,8 +106,9 @@
                         </span>
                     </div>
                     <small id="confirmHelp" class="form-text text-danger" style="display: none;"></small>
-                    <small id="confirmSuccess" class="form-text text-success" style="display: none;">Passwords
-                        match!</small>
+                    <small id="confirmSuccess" class="form-text text-success" style="display: none;">
+                        {{ __('Passwords match!') }}
+                    </small>
                 </div>
                 <div class="btn-wrapper mt-4">
                     <button type="submit" id="submitBtn" class="cmn_btn btn_bg_1" disabled>{{ __('Update') }}</button>

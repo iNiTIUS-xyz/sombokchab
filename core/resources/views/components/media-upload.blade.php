@@ -8,9 +8,7 @@
     <div class="form-group" id="{{ $name }}">
         <label for="{{ $name }}">
             {{ __($title) }}
-            {{-- <span class="text-danger">*</span> --}}
         </label>
-        @php $signature_image_upload_btn_label = __('Upload Image'); @endphp
         <div class="media-upload-btn-wrapper">
             <div class="img-wrap">
                 @if (isset($oldimage) && !empty($oldimage))
@@ -24,8 +22,7 @@
                             </div>
                         </div>
                     </div>
-
-                    @php $signature_image_upload_btn_label = __('Update Image'); @endphp
+                    {{ __('Update Image') }}
                 @endif
             </div>
             <br>
@@ -33,11 +30,13 @@
             <button type="button" class="btn btn-secondary media_upload_form_btn popup-modal"
                 data-btntitle="{{ __('Select Image') }}" data-modaltitle="{{ __('Upload Image') }}"
                 data-imgid="{{ $imageId ?? '' }}" data-bs-toggle="modal" data-bs-target="#media_upload_modal">
-                {{ __($signature_image_upload_btn_label) }}
+                {{ __('Update Image') }}
             </button>
         </div>
         @if (isset($hint) && is_string($hint))
-            <small class="text-secondary"> ({{ $hint }})</small>
+            <small class="text-secondary">
+                ({{ $hint }})
+            </small>
         @endif
     </div>
 @endif
