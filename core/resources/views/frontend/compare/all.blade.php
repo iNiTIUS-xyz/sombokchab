@@ -58,7 +58,7 @@
 @endphp
 
 @section('content')
-    <section class="compare-area padding-top-100 padding-bottom-100">
+    <section class="compare-area padding-top-50 padding-bottom-50">
         <div class="container ">
             <div class="row g-4">
                 @forelse($products as $product)
@@ -146,13 +146,15 @@
                                     @endif
                                 </ul>
                                 <div class="btn-wrapper mt-2 d-flex">
-                                    <a href="javascript:;" data-id="{{ $product->id }}"
+                                    <a href="javascript:;" data-id="{{ $product->id }}" title="{{ __('Add To Cart') }}"
                                         class="product__card__cart__outline radius-30 add_to_cart_ajax">
                                         <span class="icon-close">
-                                            <i class="las la-shopping-cart"></i> Add to Cart
+                                            <i class="las la-shopping-cart"></i>
+                                            {{ __('Add To Cart') }}
                                         </span>
                                     </a>
                                     <a href="javascript:;" data-id="{{ $product->id }}"
+                                        title="{{ __('Save For Later') }}"
                                         class="add_to_wishlist_ajax icon cart-loading product__card__cart__btn__icon">
                                         <span class="icon-close">
                                             <i class="lar la-save"></i>
@@ -160,7 +162,7 @@
                                     </a>
                                     <a href="#1" data-product_hash_id="{{ $product->rowId }}"
                                         class="icon cart-loading product__card__cart__btn__icon remove_compare_item_ajax"
-                                        title="Remove">
+                                        title="{{ __('Remove') }}">
                                         <i class="la la-times"></i>
                                     </a>
                                 </div>
