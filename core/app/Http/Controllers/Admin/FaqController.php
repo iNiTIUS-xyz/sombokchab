@@ -6,10 +6,8 @@ use App\Faq;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-class FaqController extends Controller
-{
-    public function index()
-    {
+class FaqController extends Controller {
+    public function index() {
         $all_faqs = Faq::query()
             ->latest()
             ->get();
@@ -17,73 +15,80 @@ class FaqController extends Controller
         return view('backend.pages.faqs')->with('all_faqs', $all_faqs);
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $request->validate([
-            'title' => 'required|string',
-            'title_km' => 'required|string',
-            'description' => 'required|string',
+            'title'          => 'required|string',
+            'title_km'       => 'required|string',
+            'description'    => 'required|string',
             'description_km' => 'required|string',
-            'status' => 'nullable|string|max:191',
+            'status'         => 'nullable|string|max:191',
         ]);
 
         Faq::create([
-            'title' => $request->title,
-            'title_km' => $request->title_km,
-            'description' => $request->description,
+            'title'          => $request->title,
+            'title_km'       => $request->title_km,
+            'description'    => $request->description,
             'description_km' => $request->description_km,
-            'status' => $request->status,
-            'is_open' => !empty($request->is_open) ? 'on' : '',
+            'status'         => $request->status,
+            'is_open'        => !empty($request->is_open) ? 'on' : '',
         ]);
 
-        return redirect()->back()->with(['msg' => __('FAQ added successfully.'), 'type' => 'success']);
+        return redirect()->back()->with([
+            'message'    => __('FAQ added successfully.'),
+            'alert-type' => 'success',
+        ]);
     }
 
-    public function update(Request $request)
-    {
+    public function update(Request $request) {
 
         $request->validate([
-            'title' => 'required|string',
-            'title_km' => 'required|string',
-            'description' => 'required|string',
+            'title'          => 'required|string',
+            'title_km'       => 'required|string',
+            'description'    => 'required|string',
             'description_km' => 'required|string',
-            'status' => 'nullable|string|max:191',
+            'status'         => 'nullable|string|max:191',
         ]);
 
         Faq::find($request->id)->update([
-            'title' => $request->title,
-            'title_km' => $request->title_km,
-            'description' => $request->description,
+            'title'          => $request->title,
+            'title_km'       => $request->title_km,
+            'description'    => $request->description,
             'description_km' => $request->description_km,
-            'status' => $request->status,
-            'is_open' => !empty($request->is_open) ? 'on' : '',
+            'status'         => $request->status,
+            'is_open'        => !empty($request->is_open) ? 'on' : '',
         ]);
 
-        return redirect()->back()->with(['msg' => __('FAQ updated successfully.'), 'type' => 'success']);
+        return redirect()->back()->with([
+            'message'    => __('FAQ updated successfully.'),
+            'alert-type' => 'success',
+        ]);
     }
 
-    public function delete($id)
-    {
+    public function delete($id) {
         Faq::find($id)->delete();
 
-        return redirect()->back()->with(['msg' => __('FAQ deleted successfully.'), 'type' => 'danger']);
+        return redirect()->back()->with([
+            'message'    => __('FAQ deleted successfully.'),
+            'alert-type' => 'error',
+        ]);
     }
 
-    public function clone(Request $request)
-    {
+    public function clone (Request $request) {
         $faq_item = Faq::find($request->item_id);
         Faq::create([
-            'title' => $faq_item->title,
+            'title'       => $faq_item->title,
             'description' => $faq_item->description,
-            'status' => 'draft',
-            'is_open' => !empty($faq_item->is_open) ? 'on' : '',
+            'status'      => 'draft',
+            'is_open'     => !empty($faq_item->is_open) ? 'on' : '',
         ]);
 
-        return redirect()->back()->with(['msg' => __('FAQ clone successfully.'), 'type' => 'success']);
+        return redirect()->back()->with([
+            'message'    => __('FAQ clone successfully.'),
+            'alert-type' => 'success',
+        ]);
     }
 
-    public function bulk_action(Request $request)
-    {
+    public function bulk_action(Request $request) {
         $all = Faq::find($request->ids);
         foreach ($all as $item) {
             $item->delete();
@@ -92,15 +97,14 @@ class FaqController extends Controller
         return response()->json(['status' => 'ok']);
     }
 
-    public function statusChange(Request $request, $id)
-    {
+    public function statusChange(Request $request, $id) {
         Faq::find($id)->update([
             'status' => $request->status,
         ]);
 
         return redirect()->back()->with([
-            'type' => 'success',
-            'msg' => __('FAQ status changed successfully.'),
+            'alert-type' => 'success',
+            'message'    => __('FAQ status changed successfully.'),
         ]);
     }
 }

@@ -1,207 +1,214 @@
 @extends('backend.admin-master')
 
 @section('site-title')
-    {{ __('Typography Settings') }}
+{{ __('Typography Settings') }}
 @endsection
 
 @section('style')
-    <link rel="stylesheet" href="{{ asset('assets/css/select2.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/select2.min.css') }}">
 @endsection
 @section('content')
-    <div class="col-lg-12 col-ml-12">
-        <div class="row">
-            <div class="col-12">
-                @include('backend.partials.message')
-                <div class="dashboard__card">
-                    <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Body Typography Settings') }}</h4>
-                    </div>
-                    <div class="dashboard__card__body custom__form mt-4">
-                        <form action="{{ route('admin.general.typography.settings') }}" method="POST"
-                            enctype="multipart/form-data">
-                            @csrf
-                            <div class="row g-4">
-                                <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <label for="body_font_family">
-                                            {{ __('Font Family') }}
-                                            <span class="text-danger">*</span>
-                                        </label>
-                                        <select class="form-control " name="body_font_family" id="body_font_family" required="">
-                                            @foreach ($google_fonts as $font_family => $font_variant)
-                                                <option value="{{ $font_family }}"
-                                                    @if ($font_family == get_static_option('body_font_family')) selected @endif>{{ $font_family }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <label for="body_font_variant">
-                                            {{ __('Font Variant') }}
-                                            <span class="text-danger">*</span>
-                                        </label>
-                                        @php
-                                            $font_family_selected =
-                                                get_static_option('body_font_family') ??
-                                                get_static_option('body_font_family');
-                                            $get_font_family_variants = property_exists(
-                                                $google_fonts,
-                                                $font_family_selected,
-                                            )
-                                                ? (array) $google_fonts->$font_family_selected
-                                                : ['variants' => ['regular']];
-                                        @endphp
-                                        <select class="form-control select2" multiple id="body_font_variant" required=""
-                                            name="body_font_variant[]">
-                                            @foreach ($get_font_family_variants['variants'] as $variant)
-                                                @php
-                                                    $selected_variant = !empty(get_static_option('body_font_variant'))
-                                                        ? unserialize(get_static_option('body_font_variant'))
-                                                        : [];
-                                                @endphp
-                                                <option value="{{ $variant }}"
-                                                    @if (in_array($variant, $selected_variant)) selected @endif>
-                                                    {{ str_replace(['0,', '1,'], ['', 'i'], $variant) }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <h4 class="dashboard__card__title mb-3">{{ __('Heading Typography Settings') }}</h4>
-                                    <div class="form-group">
-                                        <label for="heading_font">
-                                            {{ __('Heading Font') }}
-                                        </label>
-                                        <label class="switch">
-                                            <input type="checkbox" name="heading_font"
-                                                @if (!empty(get_static_option('heading_font'))) checked @endif id="heading_font">
-                                            <span class="slider"></span>
-                                        </label>
-                                        <small>{{ __('Use different font family for heading tags ( h1,h2,h3,h4,h5,h6)') }}</small>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <label for="heading_font_family">
-                                            {{ __('Font Family') }}
-                                        </label>
-                                        <select class="form-control " name="heading_font_family" id="heading_font_family">
-                                            @foreach ($google_fonts as $font_family => $font_variant)
-                                                <option value="{{ $font_family }}"
-                                                    @if ($font_family == get_static_option('heading_font_family')) selected @endif>{{ $font_family }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <label for="heading_font_variant">
-                                            {{ __('Font Variant') }}
-                                        </label>
-                                        @php
-                                            $font_family_selected = get_static_option('heading_font_family') ?? '';
-                                            $get_font_family_variants = property_exists(
-                                                $google_fonts,
-                                                $font_family_selected,
-                                            )
-                                                ? (array) $google_fonts->$font_family_selected
-                                                : ['variants' => ['regular']];
-                                        @endphp
-                                        <select class="form-control select2" multiple name="heading_font_variant[]"
-                                            id="heading_font_variant">
-                                            @foreach ($get_font_family_variants['variants'] as $variant)
-                                                @php
-                                                    $selected_variant = !empty(
-                                                        get_static_option('heading_font_variant')
-                                                    )
-                                                        ? unserialize(get_static_option('heading_font_variant'))
-                                                        : [];
-                                                @endphp
-                                                <option value="{{ $variant }}"
-                                                    @if (in_array($variant, $selected_variant)) selected @endif>
-                                                    {{ str_replace(['0,', '1,'], ['', 'i'], $variant) }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <h4 class="dashboard__card__title mb-3">
-                                        {{ __('Extra Font Typography Settings') }}
-                                    </h4>
-                                    <div class="form-group">
-                                        <label for="heading_font">{{ __('Extra Font') }}</label>
-                                        <label class="switch">
-                                            <input type="checkbox" name="extra_font"
-                                                @if (!empty(get_static_option('extra_font'))) checked @endif id="extra_font">
-                                            <span class="slider"></span>
-                                        </label>
-                                        <small>{{ __('Use different font family for heading tags ( h1,h2,h3,h4,h5,h6)') }}</small>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <label for="heading_font_family">
-                                            {{ __('Font Family') }}
-                                        </label>
-                                        <select class="form-control " name="extra_font_family" id="extra_font_family">
-                                            @foreach ($google_fonts as $font_family => $font_variant)
-                                                <option value="{{ $font_family }}"
-                                                    @if ($font_family == get_static_option('extra_font_family')) selected @endif>{{ $font_family }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <label for="extra_font_variant">
-                                            {{ __('Font Variant') }}
-                                        </label>
-                                        @php
-                                            $font_family_selected = get_static_option('extra_font_family') ?? '';
-                                            $get_font_family_variants = property_exists(
-                                                $google_fonts,
-                                                $font_family_selected,
-                                            )
-                                                ? (array) $google_fonts->$font_family_selected
-                                                : ['variants' => ['regular']];
-                                        @endphp
-                                        <select class="form-control select2" multiple name="extra_font_variant[]"
-                                            id="extra_font_variant">
-                                            @foreach ($get_font_family_variants['variants'] as $variant)
-                                                @php
-                                                    $selected_variant = !empty(get_static_option('extra_font_variant'))
-                                                        ? unserialize(get_static_option('extra_font_variant'))
-                                                        : [];
-                                                @endphp
-                                                <option value="{{ $variant }}"
-                                                    @if (in_array($variant, $selected_variant)) selected @endif>
-                                                    {{ str_replace(['0,', '1,'], ['', 'i'], $variant) }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <button type="submit" id="typography_submit_btn" class="cmn_btn btn_bg_profile">
-                                        {{ __('Update') }}
-                                    </button>
+<div class="col-lg-12 col-ml-12">
+    <div class="row">
+        <div class="col-12">
+            {{-- @include('backend.partials.message') --}}
+            <div class="dashboard__card">
+                <div class="dashboard__card__header">
+                    <h4 class="dashboard__card__title">{{ __('Body Typography Settings') }}</h4>
+                </div>
+                <div class="dashboard__card__body custom__form mt-4">
+                    <form action="{{ route('admin.general.typography.settings') }}" method="POST"
+                        enctype="multipart/form-data">
+                        @csrf
+                        <div class="row g-4">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="body_font_family">
+                                        {{ __('Font Family') }}
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-control " name="body_font_family" id="body_font_family"
+                                        required="">
+                                        @foreach ($google_fonts as $font_family => $font_variant)
+                                        <option value="{{ $font_family }}" @if
+                                            ($font_family==get_static_option('body_font_family')) selected @endif>{{
+                                            $font_family }}
+                                        </option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
-                        </form>
-                    </div>
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="body_font_variant">
+                                        {{ __('Font Variant') }}
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    @php
+                                    $font_family_selected =
+                                    get_static_option('body_font_family') ??
+                                    get_static_option('body_font_family');
+                                    $get_font_family_variants = property_exists(
+                                    $google_fonts,
+                                    $font_family_selected,
+                                    )
+                                    ? (array) $google_fonts->$font_family_selected
+                                    : ['variants' => ['regular']];
+                                    @endphp
+                                    <select class="form-control select2" multiple id="body_font_variant" required=""
+                                        name="body_font_variant[]">
+                                        @foreach ($get_font_family_variants['variants'] as $variant)
+                                        @php
+                                        $selected_variant = !empty(get_static_option('body_font_variant'))
+                                        ? unserialize(get_static_option('body_font_variant'))
+                                        : [];
+                                        @endphp
+                                        <option value="{{ $variant }}" @if (in_array($variant, $selected_variant))
+                                            selected @endif>
+                                            {{ str_replace(['0,', '1,'], ['', 'i'], $variant) }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <h4 class="dashboard__card__title mb-3">{{ __('Heading Typography Settings') }}</h4>
+                                <div class="form-group">
+                                    <label for="heading_font">
+                                        {{ __('Heading Font') }}
+                                    </label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="heading_font" @if
+                                            (!empty(get_static_option('heading_font'))) checked @endif
+                                            id="heading_font">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <small>{{ __('Use different font family for heading tags ( h1,h2,h3,h4,h5,h6)')
+                                        }}</small>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="heading_font_family">
+                                        {{ __('Font Family') }}
+                                    </label>
+                                    <select class="form-control " name="heading_font_family" id="heading_font_family">
+                                        @foreach ($google_fonts as $font_family => $font_variant)
+                                        <option value="{{ $font_family }}" @if
+                                            ($font_family==get_static_option('heading_font_family')) selected @endif>{{
+                                            $font_family }}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="heading_font_variant">
+                                        {{ __('Font Variant') }}
+                                    </label>
+                                    @php
+                                    $font_family_selected = get_static_option('heading_font_family') ?? '';
+                                    $get_font_family_variants = property_exists(
+                                    $google_fonts,
+                                    $font_family_selected,
+                                    )
+                                    ? (array) $google_fonts->$font_family_selected
+                                    : ['variants' => ['regular']];
+                                    @endphp
+                                    <select class="form-control select2" multiple name="heading_font_variant[]"
+                                        id="heading_font_variant">
+                                        @foreach ($get_font_family_variants['variants'] as $variant)
+                                        @php
+                                        $selected_variant = !empty(
+                                        get_static_option('heading_font_variant')
+                                        )
+                                        ? unserialize(get_static_option('heading_font_variant'))
+                                        : [];
+                                        @endphp
+                                        <option value="{{ $variant }}" @if (in_array($variant, $selected_variant))
+                                            selected @endif>
+                                            {{ str_replace(['0,', '1,'], ['', 'i'], $variant) }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <h4 class="dashboard__card__title mb-3">
+                                    {{ __('Extra Font Typography Settings') }}
+                                </h4>
+                                <div class="form-group">
+                                    <label for="heading_font">{{ __('Extra Font') }}</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="extra_font" @if
+                                            (!empty(get_static_option('extra_font'))) checked @endif id="extra_font">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <small>{{ __('Use different font family for heading tags ( h1,h2,h3,h4,h5,h6)')
+                                        }}</small>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="heading_font_family">
+                                        {{ __('Font Family') }}
+                                    </label>
+                                    <select class="form-control " name="extra_font_family" id="extra_font_family">
+                                        @foreach ($google_fonts as $font_family => $font_variant)
+                                        <option value="{{ $font_family }}" @if
+                                            ($font_family==get_static_option('extra_font_family')) selected @endif>{{
+                                            $font_family }}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="extra_font_variant">
+                                        {{ __('Font Variant') }}
+                                    </label>
+                                    @php
+                                    $font_family_selected = get_static_option('extra_font_family') ?? '';
+                                    $get_font_family_variants = property_exists(
+                                    $google_fonts,
+                                    $font_family_selected,
+                                    )
+                                    ? (array) $google_fonts->$font_family_selected
+                                    : ['variants' => ['regular']];
+                                    @endphp
+                                    <select class="form-control select2" multiple name="extra_font_variant[]"
+                                        id="extra_font_variant">
+                                        @foreach ($get_font_family_variants['variants'] as $variant)
+                                        @php
+                                        $selected_variant = !empty(get_static_option('extra_font_variant'))
+                                        ? unserialize(get_static_option('extra_font_variant'))
+                                        : [];
+                                        @endphp
+                                        <option value="{{ $variant }}" @if (in_array($variant, $selected_variant))
+                                            selected @endif>
+                                            {{ str_replace(['0,', '1,'], ['', 'i'], $variant) }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <button type="submit" id="typography_submit_btn" class="cmn_btn btn_bg_profile">
+                                    {{ __('Update') }}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
 @endsection
 
 @section('script')
-    <script src="{{ asset('assets/js/select2.min.js') }}"></script>
-    <script>
-        (function($) {
+<script src="{{ asset('assets/js/select2.min.js') }}"></script>
+<script>
+    (function($) {
             "use strict";
             $(document).ready(function() {
 
@@ -306,8 +313,8 @@
                 });
             });
         }(jQuery));
-    </script>
-    <script>
-        $(".select2").select2();
-    </script>
+</script>
+<script>
+    $(".select2").select2();
+</script>
 @endsection

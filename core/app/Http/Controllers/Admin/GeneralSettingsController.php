@@ -2,38 +2,34 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Page;
 use App\Language;
 use App\Mail\BasicMail;
+use App\Page;
 use App\PaymentGateway;
-use App\Helpers\FlashMsg;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Routing\Controller;
-use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Http\RedirectResponse;
-use Spatie\Sitemap\SitemapGenerator;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Support\Facades\Artisan;
 use Gloudemans\Shoppingcart\Facades\Cart;
-use Xgenious\XgApiClient\Facades\XgApiClient;
-use Modules\Product\Entities\ProductCategory;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+use Modules\Product\Entities\ProductCategory;
 use Modules\Product\Entities\ProductSubCategory;
+use Spatie\Sitemap\SitemapGenerator;
+use Xgenious\XgApiClient\Facades\XgApiClient;
 
-class GeneralSettingsController extends Controller
-{
+class GeneralSettingsController extends Controller {
     private $base_path = 'backend.general-settings.';
 
-    public function database_upgrade(): Factory|View|Application
-    {
+    public function database_upgrade(): Factory | View | Application {
         return view('backend.general-settings.database-upgrade');
     }
 
-    public function database_upgrade_post(): RedirectResponse
-    {
+    public function database_upgrade_post(): RedirectResponse {
         setEnvValue(['APP_ENV' => 'local']);
         Artisan::call('migrate', ['--force' => true]);
         if (class_exists('StaticOptionUpgrade')) {
@@ -41,36 +37,35 @@ class GeneralSettingsController extends Controller
         }
         setEnvValue(['APP_ENV' => 'production']);
 
-        return back()->with(FlashMsg::item_update('Database Upgrade Success'));
+        return back()->with([
+            "message"    => __("Database Upgrade Successfully."),
+            'alert-type' => 'success',
+        ]);
     }
 
-    public function smtp_settings()
-    {
+    public function smtp_settings() {
         return view($this->base_path . 'smtp-settings');
     }
 
-    public function others()
-    {
+    public function others() {
         $all_pages = Page::where(['status' => 'publish'])->get();
 
         return view('backend.general-settings.others', compact('all_pages'));
     }
 
-    public function update_others(Request $request)
-    {
+    public function update_others(Request $request) {
         // update on database
         update_static_option('others_page_terms_and_condition_page_id', $request->others_page_terms_and_condition_page_id);
 
-        return back()->with(['msg' => 'Successfully Updated']);
+        return back()->with(['message' => 'Successfully Updated']);
     }
 
-    public function update_smtp_settings(Request $request)
-    {
+    public function update_smtp_settings(Request $request) {
         $request->validate([
-            'site_smtp_mail_host' => 'required|string',
-            'site_smtp_mail_port' => 'required|string',
-            'site_smtp_mail_username' => 'required|string',
-            'site_smtp_mail_password' => 'required|string',
+            'site_smtp_mail_host'       => 'required|string',
+            'site_smtp_mail_port'       => 'required|string',
+            'site_smtp_mail_username'   => 'required|string',
+            'site_smtp_mail_password'   => 'required|string',
             'site_smtp_mail_encryption' => 'required|string',
         ]);
 
@@ -82,27 +77,29 @@ class GeneralSettingsController extends Controller
         update_static_option('site_smtp_mail_encryption', $request->site_smtp_mail_encryption);
 
         setEnvValue([
-            'MAIL_MAILER' => $request->site_smtp_mail_mailer,
-            'MAIL_HOST' => $request->site_smtp_mail_host,
-            'MAIL_PORT' => $request->site_smtp_mail_port,
-            'MAIL_USERNAME' => $request->site_smtp_mail_username,
-            'MAIL_PASSWORD' => '"' . $request->site_smtp_mail_password . '"',
+            'MAIL_MAILER'     => $request->site_smtp_mail_mailer,
+            'MAIL_HOST'       => $request->site_smtp_mail_host,
+            'MAIL_PORT'       => $request->site_smtp_mail_port,
+            'MAIL_USERNAME'   => $request->site_smtp_mail_username,
+            'MAIL_PASSWORD'   => '"' . $request->site_smtp_mail_password . '"',
             'MAIL_ENCRYPTION' => $request->site_smtp_mail_encryption,
         ]);
 
-        return redirect()->back()->with(['msg' => __('SMTP settings updated successfully.'), 'type' => 'success']);
+        return redirect()->back()->with([
+            'message'    => __('SMTP settings updated successfully.'),
+            'alert-type' => 'success',
+        ]);
     }
 
-    public function test_smtp_settings(Request $request)
-    {
+    public function test_smtp_settings(Request $request) {
         $request->validate([
             'subject' => 'required|string|max:191',
-            'email' => 'required|email|max:191',
+            'email'   => 'required|email|max:191',
             'message' => 'required|string',
         ]);
         $res_data = [
-            'msg' => __('Mail Send Success'),
-            'type' => 'success',
+            'message'    => __('Mail Send Success'),
+            'alert-type' => 'success',
         ];
         try {
             $send = Mail::to($request->email)->send(new BasicMail([
@@ -113,22 +110,20 @@ class GeneralSettingsController extends Controller
         } catch (\Exception $e) {
             if (Mail::fake()) {
                 $res_data = [
-                    'msg' => __('Mail Send Failed'),
-                    'type' => 'danger',
+                    'message'    => __('Mail Send Failed'),
+                    'alert-type' => 'error',
                 ];
             }
             return redirect()->back()->with([
-                'type' => 'danger',
-                'msg' => $e->getMessage(),
+                'alert-type' => 'error',
+                'message'    => $e->getMessage(),
             ]);
         }
-
 
         return redirect()->back()->with($res_data);
     }
 
-    public function custom_js_settings()
-    {
+    public function custom_js_settings() {
         $custom_js = '/* Write Custom js Here */';
         if (file_exists('assets/frontend/js/dynamic-script.js')) {
             $custom_js = file_get_contents('assets/frontend/js/dynamic-script.js');
@@ -137,36 +132,36 @@ class GeneralSettingsController extends Controller
         return view($this->base_path . 'custom-js')->with(['custom_js' => $custom_js]);
     }
 
-    public function update_custom_js_settings(Request $request)
-    {
+    public function update_custom_js_settings(Request $request) {
         file_put_contents('assets/frontend/js/dynamic-script.js', $request->custom_js_area);
 
-        return redirect()->back()->with(['msg' => __('Custom script updated successfully.'), 'type' => 'success']);
+        return redirect()->back()->with([
+            'message'    => __('Custom script updated successfully.'),
+            'alert-type' => 'success',
+        ]);
     }
 
-    public function gdpr_settings()
-    {
+    public function gdpr_settings() {
         return view($this->base_path . 'gdpr');
     }
 
-    public function update_gdpr_cookie_settings(Request $request)
-    {
+    public function update_gdpr_cookie_settings(Request $request) {
 
         $request->validate([
             'site_gdpr_cookie_enabled' => 'nullable|string|max:191',
-            'site_gdpr_cookie_expire' => 'required|string|max:191',
-            'site_gdpr_cookie_delay' => 'required|string|max:191',
+            'site_gdpr_cookie_expire'  => 'required|string|max:191',
+            'site_gdpr_cookie_delay'   => 'required|string|max:191',
         ]);
 
         $all_language = Language::orderBy('default', 'desc')->get();
 
         foreach ($all_language as $lang) {
             $request->validate([
-                'site_gdpr_cookie_title' => 'nullable|string',
-                'site_gdpr_cookie_message' => 'nullable|string',
-                'site_gdpr_cookie_more_info_label' => 'nullable|string',
-                'site_gdpr_cookie_more_info_link' => 'nullable|string',
-                'site_gdpr_cookie_accept_button_label' => 'nullable|string',
+                'site_gdpr_cookie_title'                => 'nullable|string',
+                'site_gdpr_cookie_message'              => 'nullable|string',
+                'site_gdpr_cookie_more_info_label'      => 'nullable|string',
+                'site_gdpr_cookie_more_info_link'       => 'nullable|string',
+                'site_gdpr_cookie_accept_button_label'  => 'nullable|string',
                 'site_gdpr_cookie_decline_button_label' => 'nullable|string',
             ]);
             $_title = 'site_gdpr_cookie_title';
@@ -188,16 +183,17 @@ class GeneralSettingsController extends Controller
         update_static_option('site_gdpr_cookie_enabled', $request->site_gdpr_cookie_enabled);
         update_static_option('site_gdpr_cookie_expire', $request->site_gdpr_cookie_expire);
 
-        return redirect()->back()->with(['msg' => __('GDPR cookie settings updated successfully.'), 'type' => 'success']);
+        return redirect()->back()->with([
+            'message'    => __('GDPR cookie settings updated successfully.'),
+            'alert-type' => 'success',
+        ]);
     }
 
-    public function cache_settings()
-    {
+    public function cache_settings() {
         return view($this->base_path . 'cache-settings');
     }
 
-    public function update_cache_settings(Request $request)
-    {
+    public function update_cache_settings(Request $request) {
 
         $request->validate([
             'cache_type' => 'required|string',
@@ -205,37 +201,40 @@ class GeneralSettingsController extends Controller
         Cart::instance("default")->destroy();
         Artisan::call($request->cache_type . ':clear');
 
-        return redirect()->back()->with(['msg' => __('Cache Cleaned.'), 'type' => 'success']);
+        return redirect()->back()->with([
+            'message'    => __('Cache Cleaned.'),
+            'alert-type' => 'success',
+        ]);
     }
 
-    public function license_settings()
-    {
+    public function license_settings() {
         return view($this->base_path . 'license-settings');
     }
 
-    public function update_license_settings(Request $request)
-    {
+    public function update_license_settings(Request $request) {
         $request->validate([
             'site_license_key' => 'required|string|max:191',
-            'envato_username' => 'required|string|max:191',
+            'envato_username'  => 'required|string|max:191',
         ]);
 
         $result = XgApiClient::activeLicense($request->site_license_key, $request->envato_username);
-        $type = "danger";
+        $type = "error";
         $msg = __("could not able to verify your license key, please try after sometime, if you still face this issue, contact support");
         if (!empty($result["success"]) && $result["success"]) {
             update_static_option('site_license_key', $request->site_license_key);
             update_static_option('item_license_status', $result['success'] ? 'verified' : "");
             update_static_option('item_license_msg', $result['message']);
-            $type = $result['success'] ? 'success' : "danger";
+            $type = $result['success'] ? 'success' : "error";
             $msg = $result['message'];
         }
 
-        return redirect()->back()->with(['msg' => $msg, 'type' => $type]);
+        return redirect()->back()->with([
+            'message'    => $msg,
+            'alert-type' => $type,
+        ]);
     }
 
-    public function custom_css_settings()
-    {
+    public function custom_css_settings() {
         $custom_css = '/* Write Custom Css Here */';
         if (file_exists('assets/frontend/css/dynamic-style.css')) {
             $custom_css = file_get_contents('assets/frontend/css/dynamic-style.css');
@@ -244,39 +243,38 @@ class GeneralSettingsController extends Controller
         return view($this->base_path . 'custom-css')->with(['custom_css' => $custom_css]);
     }
 
-    public function update_custom_css_settings(Request $request)
-    {
+    public function update_custom_css_settings(Request $request) {
         file_put_contents('assets/frontend/css/dynamic-style.css', $request->custom_css_area);
 
-        return redirect()->back()->with(['msg' => __('Custom style update Successfully.'), 'type' => 'success']);
+        return redirect()->back()->with([
+            'message'    => __('Custom style update Successfully.'),
+            'alert-type' => 'success',
+        ]);
     }
 
-    public function typography_settings()
-    {
+    public function typography_settings() {
         $all_google_fonts = file_get_contents('assets/frontend/fonts/google-fonts.json');
 
         return view($this->base_path . 'typograhpy')->with(['google_fonts' => json_decode($all_google_fonts)]);
     }
 
-    public function get_single_font_variant(Request $request): JsonResponse
-    {
+    public function get_single_font_variant(Request $request): JsonResponse {
         $all_google_fonts = file_get_contents('assets/frontend/fonts/google-fonts.json');
         $decoded_fonts = json_decode($all_google_fonts, true);
 
         return response()->json($decoded_fonts[$request->font_family]);
     }
 
-    public function update_typography_settings(Request $request): RedirectResponse
-    {
+    public function update_typography_settings(Request $request): RedirectResponse {
         $request->validate([
-            'body_font_family' => 'required|string|max:191',
-            'body_font_variant' => 'required',
-            'heading_font' => 'nullable|string',
-            'heading_font_family' => 'nullable|string|max:191',
+            'body_font_family'     => 'required|string|max:191',
+            'body_font_variant'    => 'required',
+            'heading_font'         => 'nullable|string',
+            'heading_font_family'  => 'nullable|string|max:191',
             'heading_font_variant' => 'nullable',
-            'extra_font' => 'nullable|string',
-            'extra_font_family' => 'nullable|string|max:191',
-            'extra_font_variant' => 'nullable',
+            'extra_font'           => 'nullable|string',
+            'extra_font_family'    => 'nullable|string|max:191',
+            'extra_font_variant'   => 'nullable',
         ]);
 
         $save_data = [
@@ -297,16 +295,17 @@ class GeneralSettingsController extends Controller
         update_static_option('heading_font_variant', serialize($heading_font_variant));
         update_static_option('extra_font_variant', serialize($extra_font_variant));
 
-        return redirect()->back()->with(['msg' => __('Typography settings updated successfully.'), 'type' => 'success']);
+        return redirect()->back()->with([
+            'message'    => __('Typography settings updated successfully.'),
+            'alert-type' => 'success',
+        ]);
     }
 
-    public function page_settings(): Factory|View|Application
-    {
+    public function page_settings(): Factory | View | Application {
         return view($this->base_path . 'page-settings');
     }
 
-    public function update_page_settings(Request $request): RedirectResponse
-    {
+    public function update_page_settings(Request $request): RedirectResponse {
         $all_page_slug_settings = [
             'about_page',
             'product_page',
@@ -333,29 +332,30 @@ class GeneralSettingsController extends Controller
             update_static_option($meta_description, $request->$meta_description);
         }
 
-        return redirect()->back()->with(['msg' => __('settings updated successfully.'), 'type' => 'success']);
+        return redirect()->back()->with([
+            'message'    => __('settings updated successfully.'),
+            'alert-type' => 'success',
+        ]);
     }
 
-    public function basic_settings(): Factory|View|Application
-    {
+    public function basic_settings(): Factory | View | Application {
         return view($this->base_path . 'basic');
     }
 
-    public function update_basic_settings(Request $request): RedirectResponse
-    {
+    public function update_basic_settings(Request $request): RedirectResponse {
         $request->validate([
-            'site_secondary_color' => 'nullable|string',
-            'site_sticky_navbar_enabled' => 'nullable|string',
-            'disable_backend_preloader' => 'nullable|string',
-            'disable_user_email_verify' => 'nullable|string',
-            'og_meta_image_for_site' => 'nullable|string',
+            'site_secondary_color'        => 'nullable|string',
+            'site_sticky_navbar_enabled'  => 'nullable|string',
+            'disable_backend_preloader'   => 'nullable|string',
+            'disable_user_email_verify'   => 'nullable|string',
+            'og_meta_image_for_site'      => 'nullable|string',
             'site_admin_panel_nav_sticky' => 'nullable|string',
-            'site_force_ssl_redirection' => 'nullable|string',
+            'site_force_ssl_redirection'  => 'nullable|string',
         ]);
 
         $request->validate([
-            'site_title' => 'nullable|string',
-            'site_tag_line' => 'nullable|string',
+            'site_title'            => 'nullable|string',
+            'site_tag_line'         => 'nullable|string',
             'site_footer_copyright' => 'nullable|string',
         ]);
         $_title = 'site_title';
@@ -384,24 +384,25 @@ class GeneralSettingsController extends Controller
             update_static_option($field, $request->$field);
         }
 
-        return redirect()->back()->with(['msg' => __('Basic settings updated successfully.'), 'type' => 'success']);
+        return redirect()->back()->with([
+            'message'    => __('Basic settings updated successfully.'),
+            'alert-type' => 'success',
+        ]);
     }
 
-    public function color_settings()
-    {
+    public function color_settings() {
         return view($this->base_path . 'color-settings');
     }
 
-    public function update_color_settings(Request $request)
-    {
+    public function update_color_settings(Request $request) {
         try {
             $request->validate([
-                'site_color' => 'required|string',
+                'site_color'           => 'required|string',
                 'site_secondary_color' => 'required|string',
-                'site_heading_color' => 'required|string',
-                'site_special_color' => 'required|string',
+                'site_heading_color'   => 'required|string',
+                'site_special_color'   => 'required|string',
                 'site_paragraph_color' => 'required|string',
-                'site_form_bg_color' => 'required|string',
+                'site_form_bg_color'   => 'required|string',
                 'site_footer_bg_color' => 'required|string',
             ]);
 
@@ -419,22 +420,23 @@ class GeneralSettingsController extends Controller
                 update_static_option($field, $request->$field);
             }
 
-            return redirect()->back()->with(['msg' => __('Color settings updated successfully.'), 'type' => 'success']);
+            return redirect()->back()->with([
+                'message'    => __('Color settings updated successfully.'),
+                'alert-type' => 'success',
+            ]);
         } catch (\Throwable $e) {
 
-            return redirect()->back()->with(['msg' => __('Something went worng. Please try again.'), 'type' => 'warning']);
+            return redirect()->back()->with(['message' => __('Something went worng. Please try again.'), 'alert-type' => 'warning']);
         }
     }
 
-    public function seo_settings(): Factory|View|Application
-    {
+    public function seo_settings(): Factory | View | Application {
         return view($this->base_path . 'seo');
     }
 
-    public function update_seo_settings(Request $request): RedirectResponse
-    {
+    public function update_seo_settings(Request $request): RedirectResponse {
         $request->validate([
-            'site_meta_tags' => 'required|string',
+            'site_meta_tags'        => 'required|string',
             'site_meta_description' => 'required|string',
         ]);
 
@@ -444,24 +446,22 @@ class GeneralSettingsController extends Controller
         update_static_option($site_tags, $request->$site_tags);
         update_static_option($site_description, $request->$site_description);
 
-        return redirect()->back()->with(['msg' => __('SEO settings updated successfully.'), 'type' => 'success']);
+        return redirect()->back()->with(['message' => __('SEO settings updated successfully.'), 'alert-type' => 'success']);
     }
 
-    public function scripts_settings()
-    {
+    public function scripts_settings() {
         return view($this->base_path . 'thid-party');
     }
 
-    public function update_scripts_settings(Request $request)
-    {
+    public function update_scripts_settings(Request $request) {
 
         $request->validate([
-            'site_disqus_key' => 'nullable|string',
-            'tawk_api_key' => 'nullable|string',
-            'site_third_party_tracking_code' => 'nullable|string',
-            'site_google_analytics' => 'nullable|string',
+            'site_disqus_key'                   => 'nullable|string',
+            'tawk_api_key'                      => 'nullable|string',
+            'site_third_party_tracking_code'    => 'nullable|string',
+            'site_google_analytics'             => 'nullable|string',
             'site_google_captcha_v3_secret_key' => 'nullable|string',
-            'site_google_captcha_v3_site_key' => 'nullable|string',
+            'site_google_captcha_v3_site_key'   => 'nullable|string',
         ]);
 
         update_static_option('site_disqus_key', $request->site_disqus_key);
@@ -490,48 +490,44 @@ class GeneralSettingsController extends Controller
         }
 
         setEnvValue([
-            'FACEBOOK_CLIENT_ID' => $request->facebook_client_id,
+            'FACEBOOK_CLIENT_ID'     => $request->facebook_client_id,
             'FACEBOOK_CLIENT_SECRET' => $request->facebook_client_secret,
-            'FACEBOOK_CALLBACK_URL' => route('facebook.callback'),
-            'GOOGLE_CLIENT_ID' => $request->google_client_id,
-            'GOOGLE_CLIENT_SECRET' => $request->google_client_secret,
-            'GOOGLE_CALLBACK_URL' => route('google.callback'),
+            'FACEBOOK_CALLBACK_URL'  => route('facebook.callback'),
+            'GOOGLE_CLIENT_ID'       => $request->google_client_id,
+            'GOOGLE_CLIENT_SECRET'   => $request->google_client_secret,
+            'GOOGLE_CALLBACK_URL'    => route('google.callback'),
         ]);
 
-        return redirect()->back()->with(['msg' => __('Third party scripts settings updated successfully.'), 'type' => 'success']);
+        return redirect()->back()->with(['message' => __('Third party scripts settings updated successfully.'), 'alert-type' => 'success']);
     }
 
-    public function email_template_settings()
-    {
+    public function email_template_settings() {
         return view($this->base_path . 'email-template');
     }
 
-    public function update_email_template_settings(Request $request)
-    {
+    public function update_email_template_settings(Request $request) {
 
         $request->validate([
-            'site_global_email' => 'required|string',
+            'site_global_email'          => 'required|string',
             'site_global_email_template' => 'required|string',
         ]);
 
         update_static_option('site_global_email', $request->site_global_email);
         update_static_option('site_global_email_template', $request->site_global_email_template);
 
-        return redirect()->back()->with(['msg' => __('Email settings updated successfully.'), 'type' => 'success']);
+        return redirect()->back()->with(['message' => __('Email settings updated successfully.'), 'alert-type' => 'success']);
     }
 
-    public function site_identity()
-    {
+    public function site_identity() {
         return view($this->base_path . 'site-identity');
     }
 
-    public function update_site_identity(Request $request)
-    {
+    public function update_site_identity(Request $request) {
         $request->validate([
-            'site_logo' => 'nullable|string|max:191',
-            'site_favicon' => 'nullable|string|max:191',
+            'site_logo'          => 'nullable|string|max:191',
+            'site_favicon'       => 'nullable|string|max:191',
             'site_breadcrumb_bg' => 'nullable|string|max:191',
-            'site_white_logo' => 'nullable|string|max:191',
+            'site_white_logo'    => 'nullable|string|max:191',
         ]);
         update_static_option('site_logo', $request->site_logo);
         update_static_option('site_favicon', $request->site_favicon);
@@ -539,24 +535,22 @@ class GeneralSettingsController extends Controller
         update_static_option('site_white_logo', $request->site_white_logo);
 
         return redirect()->back()->with([
-            'msg' => __('Site identity has been updated successfully.'),
-            'type' => 'success',
+            'message'    => __('Site identity has been updated successfully.'),
+            'alert-type' => 'success',
         ]);
     }
 
-    public function payment_settings()
-    {
+    public function payment_settings() {
         $all_gateway = PaymentGateway::all();
 
         return view('backend.general-settings.payment-gateway', compact('all_gateway'));
     }
 
-    public function update_payment_settings(Request $request)
-    {
+    public function update_payment_settings(Request $request) {
         $request->validate([
-            'site_global_currency' => 'nullable|string|max:191',
+            'site_global_currency'          => 'nullable|string|max:191',
             'site_currency_symbol_position' => 'nullable|string|max:191',
-            'site_default_payment_gateway' => 'nullable|string|max:191',
+            'site_default_payment_gateway'  => 'nullable|string|max:191',
         ]);
 
         $global_currency = get_static_option('site_global_currency');
@@ -599,9 +593,9 @@ class GeneralSettingsController extends Controller
             }
 
             PaymentGateway::where(['name' => $gateway->name])->update([
-                'image' => $request->$image_name,
-                'status' => isset($request->$status_name) ? 1 : 0,
-                'test_mode' => isset($request->$test_mode_name) ? 1 : 0,
+                'image'       => $request->$image_name,
+                'status'      => isset($request->$status_name) ? 1 : 0,
+                'test_mode'   => isset($request->$test_mode_name) ? 1 : 0,
                 'credentials' => json_encode($update_credentials),
             ]);
         }
@@ -609,23 +603,21 @@ class GeneralSettingsController extends Controller
         Artisan::call('cache:clear');
 
         return redirect()->back()->with([
-            'msg' => __('Payment settings updated successfully.'),
-            'type' => 'success',
+            'message'    => __('Payment settings updated successfully.'),
+            'alert-type' => 'success',
         ]);
     }
 
-    public function sitemap_settings()
-    {
+    public function sitemap_settings() {
         $all_sitemap = glob('sitemap/*');
 
         return view($this->base_path . 'sitemap-settings')->with(['all_sitemap' => $all_sitemap]);
     }
 
-    public function update_sitemap_settings(Request $request)
-    {
+    public function update_sitemap_settings(Request $request) {
         $request->validate([
             'site_url' => 'required|url',
-            'title' => 'nullable|string',
+            'title'    => 'nullable|string',
         ]);
 
         $title = $request->title ? $request->title : time();
@@ -633,30 +625,27 @@ class GeneralSettingsController extends Controller
         SitemapGenerator::create(Str::slug($request->site_url))->writeToFile('sitemap/sitemap-' . $title . '.xml');
 
         return redirect()->back()->with([
-            'msg' => __('Sitemap generated successfully.'),
-            'type' => 'success',
+            'message'    => __('Sitemap generated successfully.'),
+            'alert-type' => 'success',
         ]);
     }
 
-    public function delete_sitemap_settings(Request $request)
-    {
+    public function delete_sitemap_settings(Request $request) {
         if (file_exists($request->sitemap_name)) {
             @unlink($request->sitemap_name);
         }
 
-        return redirect()->back()->with(['msg' => __('Sitemap Deleted.'), 'type' => 'danger']);
+        return redirect()->back()->with(['message' => __('Sitemap Deleted.'), 'alert-type' => 'success']);
     }
 
-    public function rss_feed_settings()
-    {
+    public function rss_feed_settings() {
         return view($this->base_path . 'rss-feed-settings');
     }
 
-    public function update_rss_feed_settings(Request $request)
-    {
+    public function update_rss_feed_settings(Request $request) {
         $request->validate([
-            'site_rss_feed_url' => 'required|string',
-            'site_rss_feed_title' => 'required|string',
+            'site_rss_feed_url'         => 'required|string',
+            'site_rss_feed_title'       => 'required|string',
             'site_rss_feed_description' => 'required|string',
         ]);
         update_static_option('site_rss_feed_description', $request->site_rss_feed_description);
@@ -668,31 +657,26 @@ class GeneralSettingsController extends Controller
         $env_val['RSS_FEED_DESCRIPTION'] = $request->site_rss_feed_description ? '"' . $request->site_rss_feed_description . '"' : '"' . get_static_option('site_tag_line') . '"';
 
         setEnvValue([
-            'RSS_FEED_URL' => $env_val['RSS_FEED_URL'],
-            'RSS_FEED_TITLE' => $env_val['RSS_FEED_TITLE'],
+            'RSS_FEED_URL'         => $env_val['RSS_FEED_URL'],
+            'RSS_FEED_TITLE'       => $env_val['RSS_FEED_TITLE'],
             'RSS_FEED_DESCRIPTION' => $env_val['RSS_FEED_DESCRIPTION'],
-            'RSS_FEED_LANGUAGE' => get_default_language(),
+            'RSS_FEED_LANGUAGE'    => get_default_language(),
         ]);
 
-        return redirect()->back()->with([
-            'msg' => __('RSS settings updated successfully.'),
-            'type' => 'success',
-        ]);
+        return redirect()->back()->with(['message' => __('RSS settings updated successfully.'), 'alert-type' => 'success']);
     }
 
-    public function popup_settings()
-    {
+    public function popup_settings() {
         $all_languages = Language::orderBy('default', 'desc')->get();
         $all_popup = PopupBuilder::all()->groupBy('lang');
 
         return view($this->base_path . 'popup-settings')->with(['all_popup' => $all_popup, 'all_languages' => $all_languages]);
     }
 
-    public function update_popup_settings(Request $request)
-    {
+    public function update_popup_settings(Request $request) {
         $request->validate([
             'popup_enable_status' => 'nullable|string',
-            'popup_delay_time' => 'nullable|string',
+            'popup_delay_time'    => 'nullable|string',
         ]);
         update_static_option('popup_enable_status', $request->popup_enable_status);
         update_static_option('popup_delay_time', $request->popup_delay_time);
@@ -705,48 +689,45 @@ class GeneralSettingsController extends Controller
             update_static_option($field, $request->$field);
         }
 
-        return redirect()->back()->with(['msg' => __('settings updated successfully.'), 'type' => 'success']);
+        return redirect()->back()->with(['message' => __('settings updated successfully.'), 'alert-type' => 'success']);
     }
 
-    public function update_script_settings()
-    {
+    public function update_script_settings() {
         return view($this->base_path . 'update-script');
     }
 
-    public function reading()
-    {
+    public function reading() {
         $all_pages = Page::where(['status' => 'publish'])->get();
 
         return view('backend.general-settings.reading', compact('all_pages'));
     }
 
-    public function update_reading(Request $request)
-    {
+    public function update_reading(Request $request) {
         return $this->update_fields($request, [
-            'home_page' => 'nullable|string',
+            'home_page'    => 'nullable|string',
             'product_page' => 'nullable|string',
-            'blog_page' => 'nullable|string',
+            'blog_page'    => 'nullable|string',
         ]);
     }
 
-    public function global_variant_navbar()
-    {
+    public function global_variant_navbar() {
         return view('backend.general-settings.navbar-global-variant');
     }
 
-    public function update_global_variant_navbar(Request $request)
-    {
+    public function update_global_variant_navbar(Request $request) {
         $request->validate(['global_navbar_variant' => 'nullable|string']);
 
         if ($request->has('global_navbar_variant')) {
             update_static_option('global_navbar_variant', $request->global_navbar_variant);
         }
 
-        return redirect()->back()->with(FlashMsg::settings_update());
+        return redirect()->back()->with([
+            'message'    => 'Settings Updated Successfully.',
+            'alert-type' => 'success',
+        ]);
     }
 
-    public function navbar_category_dropdown()
-    {
+    public function navbar_category_dropdown() {
         $all_categories = ProductCategory::where('status', 'publish')->get();
         $all_sub_categories = ProductSubCategory::where('status', 'publish')->get();
         $selected_sub_categories = null;
@@ -774,11 +755,10 @@ class GeneralSettingsController extends Controller
         ));
     }
 
-    public function update_navbar_category_dropdown(Request $request): RedirectResponse
-    {
+    public function update_navbar_category_dropdown(Request $request): RedirectResponse {
         $request->validate([
-            'navbar_categories' => 'required|array',
-            'navbar_sub_categories' => 'nullable|array',
+            'navbar_categories'          => 'required|array',
+            'navbar_sub_categories'      => 'nullable|array',
             'navbar_sub_category_styles' => 'nullable|array',
         ]);
 
@@ -806,17 +786,22 @@ class GeneralSettingsController extends Controller
 
         update_static_option('navbar_category_dropdown', json_encode($store_data));
 
-        return redirect()->back()->with(FlashMsg::settings_update());
+        return redirect()->back()->with([
+            'message'    => 'Settings Updated Successfully.',
+            'alert-type' => 'success',
+        ]);
     }
 
-    private function update_fields(Request $request, array $field_rules): RedirectResponse
-    {
+    private function update_fields(Request $request, array $field_rules): RedirectResponse {
         $request->validate($field_rules);
 
         foreach ($field_rules as $field => $rules) {
             update_static_option($field, $request->$field);
         }
 
-        return redirect()->back()->with(FlashMsg::settings_update());
+        return redirect()->back()->with([
+            'message'    => 'Settings Updated Successfully.',
+            'alert-type' => 'success',
+        ]);
     }
 }

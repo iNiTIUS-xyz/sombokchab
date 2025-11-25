@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Helpers\FlashMsg;
 use App\Menu;
 use App\SocialIcons;
 use Illuminate\Contracts\Foundation\Application;
@@ -12,70 +11,67 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-class TopBarController extends Controller
-{
-    public function topbar_settings(): Factory|View|Application
-    {
+class TopBarController extends Controller {
+    public function topbar_settings(): Factory | View | Application {
         $all_social_icons = SocialIcons::all();
         $menus = Menu::all();
 
         return view('backend.pages.topbar-settings')->with([
             'all_social_icons' => $all_social_icons,
-            'menus' => $menus,
+            'menus'            => $menus,
         ]);
     }
 
-    public function selectTopBarMenu(Request $request): RedirectResponse
-    {
+    public function selectTopBarMenu(Request $request): RedirectResponse {
         $request->validate(['topbar_menu' => 'exists:menus,id']);
         update_static_option('topbar_menu', $request->topbar_menu);
 
-        return back()->with(FlashMsg::explain('success', __('Topbar menu updated')));
+        return back()->with([
+            'message'    => 'Topbar Menu Updated Successfully.',
+            'alert-type' => 'success',
+        ]);
     }
 
-    public function new_social_item(Request $request): RedirectResponse
-    {
+    public function new_social_item(Request $request): RedirectResponse {
         $request->validate([
             'icon' => 'required|string',
-            'url' => 'required|string',
+            'url'  => 'required|string',
         ]);
 
         SocialIcons::create([
             'icon' => $request->sanitize_html('icon'),
-            'url' => $request->sanitize_html('url'),
+            'url'  => $request->sanitize_html('url'),
         ]);
 
         return redirect()->back()->with([
-            'msg' => __('Social item added successfully.'),
-            'type' => 'success',
+            'message'    => __('Social item added successfully.'),
+            'alert-type' => 'success',
         ]);
     }
 
-    public function update_social_item(Request $request): RedirectResponse
-    {
+    public function update_social_item(Request $request): RedirectResponse {
         $request->validate([
             'icon' => 'required|string',
-            'url' => 'required|string',
+            'url'  => 'required|string',
         ]);
 
         SocialIcons::find($request->id)->update([
             'icon' => $request->sanitize_html('icon'),
-            'url' => $request->sanitize_html('url'),
+            'url'  => $request->sanitize_html('url'),
         ]);
 
         return redirect()->back()->with([
-            'msg' => __('Social item updated successfully.'),
-            'type' => 'success',
+            'message'    => __('Social item updated successfully.'),
+            'alert-type' => 'success',
         ]);
     }
 
-    public function delete_social_item(Request $request, $id): RedirectResponse
-    {
+    public function delete_social_item(Request $request, $id): RedirectResponse {
         SocialIcons::find($id)->delete();
 
         return redirect()->back()->with([
-            'msg' => __('Social item deleted successfully.'),
-            'type' => 'danger',
+            'message'    => __('Social item deleted successfully.'),
+            'alert-type' => 'success',
         ]);
     }
 }
