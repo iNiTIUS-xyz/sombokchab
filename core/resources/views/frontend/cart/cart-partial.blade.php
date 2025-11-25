@@ -72,7 +72,7 @@
                                                         <a
                                                             href="{{ route('frontend.products.single', $cart_item->options->slug ?? '') }}">
                                                             <span class="name-title" title="{{ $cart_item->name }}">
-                                                                {{ Str::limit($cart_item->name, 60, '...') }}
+                                                                {{ Str::limit($cart_item->name, 50, '...') }}
                                                             </span>
                                                         </a>
 
@@ -135,7 +135,7 @@
                                             <td data-label="Close" class="text-center">
                                                 <div class="btn-group">
                                                     @if ($wishlist)
-                                                        <a data-label="Move" title="Move to cart" data-type="tr"
+                                                        <a data-label="Move" title="{{ __('Remove') }}" data-type="tr"
                                                             data-product_hash_id="{{ $cart_item->rowId }}"
                                                             href="#1"
                                                             class="ff-jost move-cart px-3 btn btn-info mx-2">
@@ -143,7 +143,7 @@
                                                                 <i class="las la-shopping-cart"></i>
                                                             </span>
                                                         </a>
-                                                        <a title="Remove" data-type="tr"
+                                                        <a title="{{ __('Remove') }}" data-type="tr"
                                                             data-product_hash_id="{{ $cart_item->rowId }}"
                                                             href="#1"
                                                             class="ff-jost remove-wishlist px-3 btn btn-danger">
@@ -152,8 +152,7 @@
                                                             </span>
                                                         </a>
                                                     @else
-                                                        <a data-label="Move" title="Add to save for later"
-                                                            data-type="tr"
+                                                        <a data-label="Move" title="{{ __('Remove') }}" data-type="tr"
                                                             data-product_hash_id="{{ $cart_item->rowId }}"
                                                             href="#1"
                                                             class="ff-jost move-wishlist px-3 btn btn-info mx-2">
@@ -161,7 +160,8 @@
                                                                 <i class="lar la-save"></i>
                                                             </span>
                                                         </a>
-                                                        <a data-label="Close" title="Remove" data-type="tr"
+                                                        <a data-label="Close" title="{{ __('Remove') }}"
+                                                            data-type="tr"
                                                             data-product_hash_id="{{ $cart_item->rowId }}"
                                                             href="#1"
                                                             class="ff-jost remove-cart px-3 btn btn-danger">

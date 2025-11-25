@@ -7,12 +7,12 @@
         .only-img-page-wrapper.cart .img-box img {
             height: 400px;
         }
-        .compare-thumbs img{
+
+        .compare-thumbs img {
             height: 400px;
             width: 100%;
             margin-bottom: 15px;
         }
-        
 
         .only-img-page-wrapper.cart .img-box {
             height: 400px;

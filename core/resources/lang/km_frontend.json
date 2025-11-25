@@ -35,7 +35,9 @@
     "Out of Stock": "អស់ពីស្តុក",
     "Buy Now": "ទិញឥឡូវនេះ",
     "Off": "បញ្ចុះ",
+    "View Cart": "មើលរទេះ",
     "View Details": "មើលព័ត៌មានលម្អិត",
+    "Adding To Cart": "កំពុងបន្ថែមទៅក្នុងរទេះ",
     "Add To Cart": "បញ្ចូលទៅរទេះ",
     "Save For Later": "រក្សាទុកសម្រាប់ពេលក្រោយ",
     "Add To Compare": "បន្ថែមដើម្បីប្រៀបធៀប",
@@ -226,5 +228,13 @@
     "NAILS CARE? GET YOUR WINTER KIT NOW": "ការថែទាំក្រចក? ទទួលបានឧបករណ៍រដូវរងារបស់អ្នកឥឡូវនេះ",
     "View Products": "មើលផលិតផល",
     "Winter ON the Door": "រដូវរងា នៅលើទ្វារ",
+    "Cart": "រទេះ",
+    "Product Name": "ឈ្មោះផលិតផល",
+    "Unit Price": "តម្លៃឯកតា",
+    "Total Price": "តម្លៃសរុប",
+    "Move to cart": "ផ្លាស់ទីទៅរទេះ",
+    "Remove": "ដកចេញ",
+    "Compare": "ប្រៀបធៀប",
+    "Add to save for later": "បន្ថែមដើម្បីរក្សាទុកសម្រាប់ពេលក្រោយ",
     "jk": ""
 }
