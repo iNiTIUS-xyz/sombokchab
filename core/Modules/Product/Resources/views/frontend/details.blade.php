@@ -1,22 +1,21 @@
 @extends('frontend.frontend-page-master')
 
 @section('product-name')
-    {{ Str::limit($product->name, 25, '...') }}
+    {{ langWiseShowValue(Str::limit($product->name, 25, '...'), Str::limit($product->name_km, 25, '...')) }}
 @endsection
 
 @section('product-category')
     @if ($product?->category)
         <li class="category-list">
             <a class="list-item" href="{{ route('frontend.products.category', $product?->category?->slug) }}">
-                {{ $product?->category?->name }}
+                {{ langWiseShowValue($product?->category?->name, $product?->category?->name_km) }}
             </a>
         </li>
     @endif
-
     @if ($product?->subCategory)
         <li class="category-list">
             <a class="list-item" href="{{ route('frontend.products.subcategory', $product?->subCategory?->slug) }}">
-                {{ $product?->subCategory?->name }}
+                {{ langWiseShowValue($product?->subCategory?->name, $product?->subCategory?->name_km) }}
             </a>
         </li>
     @endif
@@ -94,19 +93,15 @@
 @section('content')
     <!-- Shop Details area end -->
     <div class="bradecrumb-wraper-div">
-        <x-product::frontend.breadcrumb.frontend-breadcrumb :title="__('Product Details')" :innerTitle="$product->category?->name" :subInnerTitle="$product->subCategory?->name"
-            :chidInnerTitle="$product->childCategorySingle?->name ?? ''" :routeName="route('frontend.dynamic.page', [
+
+        <x-product::frontend.breadcrumb.frontend-breadcrumb :title="langWiseShowValue('Product Details', 'ព័តជាគ្រឿងអេឡិចត្រូនិច')" :innerTitle="langWiseShowValue($product->category?->name, $product->category?->name_km)" :subInnerTitle="langWiseShowValue($product->subCategory?->name, $product->subCategory?->name_km)"
+            :routeName="route('frontend.dynamic.page', [
                 'slug' => 'shop',
                 'category' => $product->category?->name ?? '',
             ])" :subRouteName="route('frontend.dynamic.page', [
                 'slug' => 'shop',
                 'category' => $product->category?->name ?? '',
                 'sub_category' => $product->subCategory?->name ?? '',
-            ])" :childRouteName="route('frontend.dynamic.page', [
-                'slug' => 'shop',
-                'category' => $product->category?->name ?? '',
-                'sub_category' => $product->subCategory?->name ?? '',
-                'child_category' => $product->childCategorySingle?->name ?? '',
             ])" />
 
     </div>
@@ -169,7 +164,11 @@
 
                                 <div class="short-description mt-3">
                                     <p class="info">
-                                        {!! purify_html($product->summary) !!}
+                                        @if (langInfo() == 'km')
+                                            {!! purify_html($product->summary_km) !!}
+                                        @else
+                                            {!! purify_html($product->summary) !!}
+                                        @endif
                                     </p>
                                 </div>
 
@@ -249,7 +248,7 @@
                                 <div class="quantity-area mt-4">
                                     <div class="quantity-flex">
                                         <span class="quantity-title color-light">
-                                            {{ __('Quantity:') }}
+                                            {{ __('Quantity') }}:
                                         </span>
                                         <div class="product-quantity">
                                             <span class="substract">
@@ -266,7 +265,12 @@
                                         </div>
                                         <span data-stock-text="{{ $stock_count }}"
                                             class="stock-available {{ $stock_count ? 'text-primary' : 'text-danger' }}">
-                                            {{ $stock_count ? "In Stock ($stock_count)" : 'Out of Stock' }} </span>
+                                            @if ($stock_count)
+                                                {{ __('In Stock') }} ({{ $stock_count }})
+                                            @else
+                                                {{ __('Out of Stock') }}
+                                            @endif
+                                        </span>
                                     </div>
                                     <div class="quantity-btn margin-top-40">
                                         <div class="btn-wrapper">
@@ -321,11 +325,11 @@
                                             <li class="category-list">
                                                 <strong>{{ __('Category:') }}</strong>
                                                 <a class="list-item text-primary"
-                                                href="{{ route('frontend.dynamic.page', [
-                                                    'slug' => 'shop',
-                                                    'category' => $product->category?->name,
-                                                ]) }}">
-                                                    {{ $product->category?->name }}
+                                                    href="{{ route('frontend.dynamic.page', [
+                                                        'slug' => 'shop',
+                                                        'category' => $product->category?->name,
+                                                    ]) }}">
+                                                    {{ langWiseShowValue($product->category?->name, $product->category?->name_km) }}
                                                 </a>
                                             </li>
                                         @endif
@@ -334,12 +338,12 @@
                                             <li class="category-list">
                                                 <strong>{{ __('Sub Category:') }}</strong>
                                                 <a class="list-item text-primary"
-                                                href="{{ route('frontend.dynamic.page', [
-                                                    'slug' => 'shop',
-                                                    'category' => $product->category?->name,
-                                                    'sub_category' => $product->subCategory?->name,
-                                                ]) }}">
-                                                    {{ $product->subCategory?->name }}
+                                                    href="{{ route('frontend.dynamic.page', [
+                                                        'slug' => 'shop',
+                                                        'category' => $product->category?->name,
+                                                        'sub_category' => $product->subCategory?->name,
+                                                    ]) }}">
+                                                    {{ langWiseShowValue($product->subCategory?->name, $product->subCategory?->name_km) }}
                                                 </a>
                                             </li>
                                         @endif
@@ -348,12 +352,12 @@
                                             <li class="category-list">
                                                 <strong>{{ __('Child Category:') }}</strong>
                                                 <a class="list-item text-primary"
-                                                href="{{ route('frontend.dynamic.page', [
-                                                    'slug' => 'shop',
-                                                    'category' => $product->category?->name,
-                                                    'sub_category' => $product->subCategory?->name,
-                                                    'child_category' => $product->childCategorySingle?->name,
-                                                ]) }}">
+                                                    href="{{ route('frontend.dynamic.page', [
+                                                        'slug' => 'shop',
+                                                        'category' => $product->category?->name,
+                                                        'sub_category' => $product->subCategory?->name,
+                                                        'child_category' => $product->childCategorySingle?->name,
+                                                    ]) }}">
                                                     {{ $product->childCategorySingle?->name }}
                                                 </a>
                                             </li>
@@ -377,7 +381,7 @@
                                             <li class="category-list">
                                                 <strong> {{ __('Refundable:') }} </strong>
                                                 <span class="list-item text-primary">
-                                                    {{ $product?->is_refundable == 1 ? 'Yes' : 'No' }}
+                                                    {{ $product?->is_refundable == 1 ? __('Yes') : __('No') }}
                                                 </span>
                                             </li>
                                         @endif
@@ -416,13 +420,19 @@
                                         <li class="ff-rubik fw-500 {{ empty($product?->vendor) ? 'd-none' : '' }}"
                                             data-tab="information"> {{ __('Information') }} </li>
                                         <li class="{{ $product->reviews_count > 0 ? 'active' : '' }} ff-rubik fw-500"
-                                            data-tab="reviews"> {{ __('Reviews') }}
-                                            ({{ $product->reviews_count }}) </li>
+                                            data-tab="reviews">
+                                            {{ __('Reviews') }}
+                                            ({{ $product->reviews_count }})
+                                        </li>
                                     </ul>
                                     <div id="description"
                                         class="tab-content-item {{ $product->reviews_count > 0 ? '' : 'active' }}"
                                         style="text-align: justify;">
-                                        {!! $product->description !!}
+                                        @if (langInfo() == 'km')
+                                            {!! $product->description_km !!}
+                                        @else
+                                            {!! $product->description !!}
+                                        @endif
                                     </div>
                                     <div id="information" class="tab-content-item">
                                         <div class="single-details-tab mt-2">
@@ -455,12 +465,18 @@
                                                     </div>
                                                     <div class="seller-details-box">
                                                         <ul class="seller-box-list">
-                                                            <li class="box-list"> {{ __('From') }} <strong>
+                                                            <li class="box-list">
+                                                                {{ __('From') }}
+                                                                <strong>
                                                                     {{ $product?->vendor?->vendor_address?->country?->name }}
-                                                                </strong> </li>
-                                                            <li class="box-list"> {{ __('About Since') }} <strong>
+                                                                </strong>
+                                                            </li>
+                                                            <li class="box-list">
+                                                                {{ __('About Since') }}
+                                                                <strong>
                                                                     {{ $product?->vendor?->created_at?->format('Y') }}
-                                                                </strong> </li>
+                                                                </strong>
+                                                            </li>
                                                         </ul>
                                                         <p class="seller-details-para">{!! $product?->vendor?->description !!}</p>
                                                     </div>
@@ -519,27 +535,29 @@
                                                                 class="register-form" id="login_form_order_page">
                                                                 @csrf
                                                                 <div class="error-wrap"></div>
-
                                                                 <div class="row">
                                                                     <div class="form-group col-12">
-                                                                        <label
-                                                                            for="login_email">{{ __('Email or User Name') }}
-                                                                            <span class="ex">*</span></label>
+                                                                        <label for="login_email">
+                                                                            {{ __('Email or Username') }}
+                                                                            <span class="text-danger">*</span>
+                                                                        </label>
                                                                         <input class="form-control" type="text"
-                                                                            name="username" id="login_email" required />
+                                                                            name="username" id="login_email" required placeholder="{{ __('Enter email or username') }}"/>
                                                                     </div>
                                                                     <div class="form-group col-12">
-                                                                        <label for="login_password">{{ __('Password') }}
-                                                                            <span class="ex">*</span></label>
+                                                                        <label for="login_password">
+                                                                            {{ __('Password') }}
+                                                                            <span class="text-danger">*</span>
+                                                                        </label>
                                                                         <input class="form-control" type="password"
                                                                             name="password" id="login_password"
-                                                                            required />
+                                                                            required placeholder="{{ __('Enter password') }}"/>
                                                                     </div>
                                                                     <div class="form-group form-check col-12 mx-4">
                                                                         <input type="checkbox" name="remember"
                                                                             class="form-check-input" id="login_remember">
-                                                                        <label class="form-check-label"
-                                                                            for="remember">{{ __('Remember me') }}
+                                                                        <label class="form-check-label" for="remember">
+                                                                            {{ __('Remember me') }}
                                                                         </label>
                                                                     </div>
                                                                 </div>
@@ -547,15 +565,15 @@
                                                                     <div class="btn-wrapper">
                                                                         <button type="button"
                                                                             class="cmn-btn btn-bg-1 radius-0"
-                                                                            id="login_btn">{{ __('SIGN IN') }}</button>
+                                                                            id="login_btn">
+                                                                            {{ __('Sign In') }}
+                                                                        </button>
                                                                     </div>
                                                                 </div>
                                                             </form>
                                                         </div>
                                                     </div>
                                                 @endif
-
-
                                                 <div class="tab-review">
                                                     @forelse($product->reviews as $review)
                                                         <div class="about-seller-flex-content">

@@ -96,7 +96,10 @@
                                             <span class="show-rating"
                                                 style="width: {{ $product->options->avg_review * 20 }}%!important"></span>
                                         </div>
-                                        <p> <span class="total-ratings">({{ $product->options->review_count ?? 0 }})</span>
+                                        <p>
+                                            <span class="total-ratings">
+                                                ({{ $product->options->review_count ?? 0 }})
+                                            </span>
                                         </p>
                                     </li>
                                 </ul>
