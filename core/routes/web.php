@@ -1,10 +1,10 @@
 <?php
 
+use App\Http\Controllers\AdminNotificationController;
+use App\Http\Controllers\AdminShopManageController;
 use App\Http\Controllers\Admin\CategoryMenuController;
 use App\Http\Controllers\Admin\LicenseController;
 use App\Http\Controllers\Admin\SiteSettingsController;
-use App\Http\Controllers\AdminNotificationController;
-use App\Http\Controllers\AdminShopManageController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\FirebaseController;
 use App\Http\Controllers\FrontendController;
@@ -15,13 +15,12 @@ use Illuminate\Support\Facades\Route;
 use Modules\CountryManage\Http\Controllers\Product\ProductCartController;
 use Modules\Order\Http\Controllers\OrderController;
 use Modules\Vendor\Http\Controllers\FrontendVendorController;
-
+use Modules\Vendor\Http\Controllers\VendorProfileController;
 
 Route::get('firebase-phone-authentication', [FirebaseController::class, 'index']);
 
 Route::get('update-notification', XgNotificationController::class)->middleware(['setlang:frontend', 'setlang:backend'])->name('update-notification');
 Route::post('/notification/mark-as-read/{id}', [XgNotificationController::class, 'markAsRead'])->name('notification.markAsRead');
-
 
 Route::post('send-otp', '\App\Http\Controllers\Auth\LoginController@sendOtp')->name('send.otp');
 Route::post('verify-otp', '\App\Http\Controllers\Auth\LoginController@verifyOtp')->name('verify.otp');
@@ -114,8 +113,8 @@ Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_
 
     Route::prefix("shipping-address")->as("frontend.shipping.address.")
         ->controller(FrontendShippingAddresssController::class)->group(function () {
-            Route::post("/add", "store")->name("store");
-        });
+        Route::post("/add", "store")->name("store");
+    });
     // BLOG AREA FRONTEND ROUTES
     Route::get('/' . $blog_page_slug . '/{slug}', 'FrontendController@blog_single_page')->name('frontend.blog.single');
     Route::get('/' . $blog_page_slug . '-search', 'FrontendController@blog_search_page')->name('frontend.blog.search');
@@ -166,7 +165,7 @@ Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_
         Route::get('shipping-address', 'UserDashboardController@allShippingAddress')->name('user.shipping.address.all');
         Route::get('shipping-address/new', 'UserDashboardController@createShippingAddress')->name('user.shipping.address.new');
         Route::post('shipping-address/new', 'UserDashboardController@storeShippingAddress');
-        Route::post('/check-name-availability',  'UserDashboardController@checkNameAvailability')->name('user.shipping.address.exists');
+        Route::post('/check-name-availability', 'UserDashboardController@checkNameAvailability')->name('user.shipping.address.exists');
         Route::post('shipping-address/delete/{id}', 'UserDashboardController@deleteShippingAddress')->name('shipping.address.delete');
         Route::get('shipping-address/edit/{id}', 'UserDashboardController@editShippingAddress')->name('user.shipping.address.edit');
         Route::put('shipping-address/update', 'UserDashboardController@updateShippingAddress')->name('user.shipping.address.update');
@@ -702,3 +701,6 @@ Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_
     Route::get('/vendor/{slug?}/products', 'FrontendController@dynamic_single_page')->name('frontend.vendor.product');
     Route::get('/{slug?}', 'FrontendController@dynamic_single_page')->name('frontend.dynamic.page');
 });
+
+Route::post('vendor/validate-field', [VendorProfileController::class, 'validateField'])
+    ->name('vendor.validate-field');

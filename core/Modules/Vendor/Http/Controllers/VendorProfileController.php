@@ -113,4 +113,37 @@ class VendorProfileController extends Controller {
         ]);
 
     }
+    public function validateField(Request $request) {
+        $field = $request->input('field');
+        $value = $request->input('value');
+        $id = $request->input('id') ?: null;
+
+        // allow only these fields
+        $allowed = ['username', 'email', 'number'];
+        if (!in_array($field, $allowed)) {
+            return response()->json(['valid' => false, 'message' => 'Invalid field.'], 200);
+        }
+
+        // map form field name -> DB column
+        $column = ($field === 'number') ? 'phone' : $field;
+
+        // if empty, treat as valid (so user can clear it)
+        if ($value === null || $value === '') {
+            return response()->json(['valid' => true], 200);
+        }
+
+        // unique check ignoring current vendor id (when updating)
+        $exists = Vendor::where($column, $value)
+            ->when($id, fn($q) => $q->where('id', '!=', $id))
+            ->exists();
+
+        if ($exists) {
+            return response()->json([
+                'valid'   => false,
+                'message' => ucfirst($field) . ' already taken.',
+            ], 200);
+        }
+
+        return response()->json(['valid' => true], 200);
+    }
 }
