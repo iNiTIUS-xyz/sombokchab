@@ -3,28 +3,22 @@
 namespace Modules\Vendor\Http\Controllers;
 
 use App\City;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Contracts\View\View;
-use App\Helpers\FlashMsg;
-use Modules\Vendor\Entities\Vendor;
-use Illuminate\Contracts\View\Factory;
+use Modules\CountryManage\Entities\Country;
 use Modules\CountryManage\Entities\State;
 use Modules\Vendor\Entities\BusinessType;
-use Modules\CountryManage\Entities\Country;
-use Modules\Wallet\Http\Services\WalletService;
-use Illuminate\Contracts\Foundation\Application;
-use Modules\Vendor\Http\Services\VendorServices;
-use Modules\Vendor\Http\Services\DummyVendorDeleteServices;
-use Modules\Vendor\Http\Requests\Backend\VendorStoreRequest;
+use Modules\Vendor\Entities\Vendor;
 use Modules\Vendor\Http\Requests\Backend\UpdateVendorRequest;
+use Modules\Vendor\Http\Requests\Backend\VendorStoreRequest;
+use Modules\Vendor\Http\Services\DummyVendorDeleteServices;
+use Modules\Vendor\Http\Services\VendorServices;
+use Modules\Wallet\Http\Services\WalletService;
 
-class VendorBackendController extends Controller
-{
-    public function index()
-    {
+class VendorBackendController extends Controller {
+    public function index() {
         $vendors = Vendor::query()
             ->with(["vendor_address", "vendor_shop_info", "business_type:id,name"])
             ->latest()
@@ -35,8 +29,7 @@ class VendorBackendController extends Controller
         return view("vendor::backend.index", compact("vendors", 'dummyCount'));
     }
 
-    public function show(Request $request): string
-    {
+    public function show(Request $request): string {
         $id = $request->validate(["id" => "required"]);
         $vendor = Vendor::with(["vendor_address", "vendor_shop_info", "business_type", "vendor_bank_info"])
             ->where($id)->first();
@@ -44,34 +37,31 @@ class VendorBackendController extends Controller
         return view("vendor::backend.details", compact("vendor"))->render();
     }
 
-    public function update_status(Request $request)
-    {
+    public function update_status(Request $request) {
         $data = $request->validate([
             "status_id" => "required",
             "vendor_id" => "required",
         ]);
 
         Vendor::where("id", $data["vendor_id"])->update([
-            "status_id" => $data["status_id"]
+            "status_id" => $data["status_id"],
         ]);
 
         return response()->json(["success" => true, "type" => "success"]);
     }
 
-    public function create()
-    {
+    public function create() {
         $data = [
-            "country" => Country::select("id", "name")->orderBy("name", "ASC")->get(),
+            "country"       => Country::select("id", "name")->orderBy("name", "ASC")->get(),
             "business_type" => BusinessType::select()->get(),
-            'states' => State::where("country_id", 31)->orderBy("name", "ASC")->get(),
-            'cities' => City::orderBy("name", "ASC")->get(),
+            'states'        => State::where("country_id", 31)->orderBy("name", "ASC")->get(),
+            'cities'        => City::orderBy("name", "ASC")->get(),
         ];
 
         return view("vendor::backend.create", with($data));
     }
 
-    public function store(VendorStoreRequest $request)
-    {
+    public function store(VendorStoreRequest $request) {
         $data = $request->validated();
         $data["password"] = \Hash::make($data["password"]);
 
@@ -104,46 +94,46 @@ class VendorBackendController extends Controller
         }
     }
 
-    public function edit($vendor)
-    {
+    public function edit($vendor) {
         $data = [
-            "country" => Country::select("id", "name")->orderBy("name", "ASC")->get(),
+            "country"       => Country::select("id", "name")->orderBy("name", "ASC")->get(),
             "business_type" => BusinessType::select()->get(),
-            "vendor" => Vendor::with([
+            "vendor"        => Vendor::with([
                 "vendor_address",
                 "vendor_shop_info",
                 "business_type",
                 "vendor_bank_info",
                 "vendor_shop_info.cover_photo",
-                "vendor_shop_info.logo"
+                "vendor_shop_info.logo",
             ])->findOrFail($vendor),
-            'states' => State::where("country_id", 31)->orderBy("name", "ASC")->get(),
-            'cities' => City::orderBy("name", "ASC")->get(),
+            'states'        => State::where("country_id", 31)->orderBy("name", "ASC")->get(),
+            'cities'        => City::orderBy("name", "ASC")->get(),
         ];
 
         return view("vendor::backend.edit", with($data));
     }
 
-    public function varifyStatus(Request $request, $id)
-    {
+    public function varifyStatus(Request $request, $id) {
         $vendor = Vendor::findOrFail($id);
         $vendor->is_vendor_verified = $request->verify_status == 1 ? 1 : 0;
         $vendor->verified_at = $request->verify_status == 1 ? now() : null;
         $vendor->save();
 
-        return redirect()->back()->with(FlashMsg::item_new('Vendor verify status changed successfully.'));
+        return redirect()->back()->with([
+            'message'    => 'Vendor verify status changed successfully.',
+            'alert-type' => 'success',
+        ]);
     }
 
-    public function update($vendor, UpdateVendorRequest $request)
-    {
+    public function update($vendor, UpdateVendorRequest $request) {
         $data = $request->validated();
 
         DB::beginTransaction();
 
         // colors set
         $colors = [
-            'store_color' => $request->store_color ?? null,
-            'store_heading_color' => $request->store_heading_color ?? null,
+            'store_color'           => $request->store_color ?? null,
+            'store_heading_color'   => $request->store_heading_color ?? null,
             'store_secondary_color' => $request->store_secondary_color ?? null,
             'store_paragraph_color' => $request->store_paragraph_color ?? null,
         ];
@@ -168,42 +158,37 @@ class VendorBackendController extends Controller
         }
     }
 
-    public function get_state(Request $request)
-    {
+    public function get_state(Request $request) {
         $id = $request->validate(["country_id" => "required"]);
         $states = State::where("country_id", $id)->get();
 
         return response()->json(["success" => true, "type" => "success"] + render_view_for_nice_select($states));
     }
 
-    public function get_city(Request $request)
-    {
+    public function get_city(Request $request) {
         $id = $request->validate(["country_id" => "required", "state_id" => "required"]);
         $states = City::where($id)->get();
 
         return response()->json(["success" => true, "type" => "success"] + render_view_for_nice_select($states));
     }
 
-    public function destroy(Vendor $vendor): ?bool
-    {
+    public function destroy(Vendor $vendor): ?bool {
         return $vendor->delete();
     }
 
-    public function settings()
-    {
+    public function settings() {
 
         return view("vendor::backend.settings");
     }
 
-    public function updateSettings(Request $req)
-    {
+    public function updateSettings(Request $req) {
         // update all vendor settings in
         $reqSettings = $req->validate([
-            "vendor_enable" => "nullable",
-            "enable_vendor_registration" => "nullable",
+            "vendor_enable"               => "nullable",
+            "enable_vendor_registration"  => "nullable",
             "disable_vendor_email_verify" => "nullable",
-            "order_vendor_list" => "nullable",
-            "vendor_firebase_server_key" => "nullable"
+            "order_vendor_list"           => "nullable",
+            "vendor_firebase_server_key"  => "nullable",
         ]);
 
         $reqSettings["vendor_enable"] = $reqSettings["vendor_enable"] ?? null;
@@ -215,65 +200,59 @@ class VendorBackendController extends Controller
         update_static_option("vendor_firebase_server_key", $reqSettings["vendor_firebase_server_key"] ?? null);
 
         return back()->with([
-            "msg" => __("Vendor settings updated successfully."),
-            "type" => "success"
+            "message"    => __("Vendor settings updated successfully."),
+            "alert-type" => "success",
         ]);
     }
 
-    public function commissionSettings()
-    {
+    public function commissionSettings() {
         $vendor = Vendor::select(["id", "owner_name", "username"])->get();
 
         return view("vendor::backend.commission-settings", compact("vendor"));
     }
 
-    public function updateCommissionSettings(Request $request)
-    {
+    public function updateCommissionSettings(Request $request) {
         $data = $request->validate([
-            "system_type" => "required",
-            "commission_type" => "nullable",
-            "commission_amount" => "nullable"
+            "system_type"       => "required",
+            "commission_type"   => "nullable",
+            "commission_amount" => "nullable",
         ]);
         // step two is to saving data on database
         update_static_option("system_type", $data["system_type"]);
         update_static_option("commission_type", $data["commission_type"]);
         update_static_option("commission_amount", $data["commission_amount"]);
 
-
         return response()->json([
-            "msg" => __("Global vendor commission settings updated successfully."),
+            "msg"     => __("Global vendor commission settings updated successfully."),
             "success" => true,
-            "type" => "success"
+            "type"    => "success",
         ]);
     }
-    public function updateIndividualCommissionSettings(Request $request)
-    {
+    public function updateIndividualCommissionSettings(Request $request) {
         // step one is need to validate vendor commission data
         $data = $request->validate([
-            "vendor_id" => "required|exists:vendors,id",
-            "commission_type" => "required|string",
-            "commission_amount" => "required"
+            "vendor_id"         => "required|exists:vendors,id",
+            "commission_type"   => "required|string",
+            "commission_amount" => "required",
         ]);
 
         $query = Vendor::where("id", $data["vendor_id"])->update([
-            "commission_type" => $data["commission_type"],
+            "commission_type"   => $data["commission_type"],
             "commission_amount" => $data["commission_amount"],
         ]);
 
         return response()->json([
-            "msg" => $query ? __("Successfully updated individual vendor commission") : __("Failed to update vendor commission data"),
+            "msg"     => $query ? __("Successfully updated individual vendor commission") : __("Failed to update vendor commission data"),
             "success" => (bool) $query,
         ]);
     }
 
-    public function getVendorCommissionInformation($id)
-    {
+    public function getVendorCommissionInformation($id) {
         // this method will send vendor commission type and vendor commission amount
         return Vendor::select("commission_type", "commission_amount")
             ->without('status')->where("id", $id)->first();
     }
-    public function delete_dummy_vendor()
-    {
+    public function delete_dummy_vendor() {
         $delete = DummyVendorDeleteServices::destroy();
         if ($delete) {
             return response()->json(['success' => true, 'type' => 'success']);
