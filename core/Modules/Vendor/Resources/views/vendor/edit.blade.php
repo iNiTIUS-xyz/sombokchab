@@ -85,7 +85,7 @@
                                                                 Vendor Name
                                                                 <span class="text-danger">*</span>
                                                             </label>
-                                                            <input name="owner_name" type="text"
+                                                            <input name="owner_name" type="text" maxlength="30"
                                                                 class="form--control radius-10" pattern="[A-Za-z\s]+"
                                                                 title="Only letters allowed"
                                                                 value="{{ $vendor->owner_name }}" required=""
@@ -98,7 +98,7 @@
                                                                 Business Name
                                                                 <span class="text-danger">*</span>
                                                             </label>
-                                                            <input name="business_name" type="text"
+                                                            <input name="business_name" type="text" maxlength="30"
                                                                 class="form--control radius-10" pattern="[A-Za-z\s]+"
                                                                 title="Only letters allowed"
                                                                 value="{{ $vendor->business_name }}" required=""
@@ -111,7 +111,7 @@
                                                                 Username
                                                                 <span class="text-danger">*</span>
                                                             </label>
-                                                            <input name="username" type="text"
+                                                            <input name="username" type="text" maxlength="25"
                                                                 class="form--control radius-10"
                                                                 value="{{ $vendor->username }}" required=""
                                                                 placeholder="{{ __('Enter Username') }}">
@@ -240,10 +240,12 @@
                                                                 {{ __('Postal Code') }}
                                                                 <span class="text-danger">*</span>
                                                             </label>
-                                                            <input type="text" name="zip_code"
+                                                            <input type="text" name="zip_code" maxlength="5"
                                                                 class="form--control radius-10"
                                                                 value="{{ $vendor?->vendor_address?->zip_code }}"
-                                                                placeholder="{{ __('Enter Postal Code') }}" required="">
+                                                                placeholder="{{ __('Enter Postal Code') }}" required
+                                                                oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-12">
@@ -307,10 +309,13 @@
                                                                 {{ __('Phone Number') }}
                                                                 <span class="text-danger">*</span>
                                                             </label>
-                                                            <input value="{{ $vendor?->phone }}" name="number"
-                                                                type="tel" class="form--control radius-10"
+                                                            <input type="text" name="number"
+                                                                value="{{ $vendor?->phone }}"
+                                                                class="form--control radius-10"
                                                                 placeholder="{{ __('Enter Phone Number') }}"
-                                                                required="">
+                                                                maxlength="15" required
+                                                                oninput="this.value = this.value.replace(/[^0-9+]/g, '');">
+
                                                             <small class="text-danger" id="number_error"></small>
                                                         </div>
                                                     </div>
@@ -423,7 +428,7 @@
                                                                 <span class="text-danger">*</span>
                                                             </label>
                                                             <input value="{{ $vendor?->vendor_bank_info?->bank_name }}"
-                                                                name="bank_name" type="text"
+                                                                name="bank_name" type="text" maxlength="30"
                                                                 class="form--control radius-10"
                                                                 placeholder="{{ __('Enter name') }}" required="">
                                                         </div>
