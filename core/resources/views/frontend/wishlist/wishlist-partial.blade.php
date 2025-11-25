@@ -25,18 +25,20 @@
                                 <tbody class="cart-table-body">
                                     @foreach ($all_cart_items as $key => $cart_item)
                                         @php
-                                            // Calculate stock_count using same logic as product card
                                             $productModel = \Modules\Product\Entities\Product::find($cart_item->id);
                                             $campaign_product = $productModel->campaign_product ?? null;
                                             $campaignSoldCount = $productModel->campaign_sold_product ?? null;
-
-                                            // Calculate stock
                                             $stock_count = $campaign_product
-                                                ? max(0, ($campaign_product->units_for_sale - optional($campaignSoldCount)->sold_count) ?? 0)
+                                                ? max(
+                                                    0,
+                                                    $campaign_product->units_for_sale -
+                                                        optional($campaignSoldCount)->sold_count ??
+                                                        0,
+                                                )
                                                 : optional($productModel->inventory)->stock_count;
 
-                                            // Apply in_stock_limit setting
-                                            $in_stock_limit = (int) get_static_option('product_in_stock_limit_set') ?? 0;
+                                            $in_stock_limit =
+                                                (int) get_static_option('product_in_stock_limit_set') ?? 0;
                                             $stock_count = $stock_count > $in_stock_limit ? $stock_count : 0;
                                         @endphp
                                         <tr class="table-cart-row" data-product_hash_id="{{ $cart_item->rowId }}"
@@ -57,7 +59,6 @@
                                                                 {{ Str::limit($cart_item->name, 60, '...') }}
                                                             </span>
                                                             <br>
-                                                            {{-- Optional: Show Out of Stock badge --}}
                                                             @if ($stock_count <= 0)
                                                                 <span class="badge bg-danger">Out of Stock</span>
                                                             @endif
@@ -122,8 +123,6 @@
                                             <td data-label="Close" class="text-center">
                                                 <div class="btn-group">
                                                     @if ($wishlist)
-                                                        
-
                                                         {{-- Move to Cart Button --}}
                                                         <a data-label="Move"
                                                             title="{{ $stock_count > 0 ? 'Move to cart' : 'Out of stock' }}"
@@ -142,8 +141,7 @@
                                                             <span class="badge bg-danger ms-2">Out of Stock</span>
                                                         @endif --}}
 
-                                                        {{-- Remove from Wishlist Button --}}
-                                                        <a title="Remove" data-type="tr"
+                                                        <a title="{{ __('Remove') }}" data-type="tr"
                                                             data-product_hash_id="{{ $cart_item->rowId }}"
                                                             href="#1"
                                                             class="ff-jost remove-wishlist px-3 btn btn-danger">

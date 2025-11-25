@@ -396,7 +396,7 @@
                 const condition = (currentEl.attr('data-type') ?? false) === 'text';
 
                 if (condition) {
-                    currentEl.text('{{ __('Adding to cart') }}...').append(
+                    currentEl.text('{{ __('Adding To Cart') }}...').append(
                         `<i class='las la-spinner icon la-spin'></i>`);
                 } else {
                     icon.attr("class", "las la-spinner icon la-spin");

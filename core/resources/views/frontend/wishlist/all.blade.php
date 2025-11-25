@@ -129,11 +129,9 @@
     </div>
 @endsection
 @section('script')
-    {{-- <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script> --}}
     <script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
     <script>
         $(document).ready(function() {
-            // Initialize DataTable only if the table exists
             if ($('#dataTable').length) {
                 $('#dataTable').DataTable({
                     paging: true,
@@ -143,14 +141,29 @@
                     info: true,
                     autoWidth: false,
                     responsive: true,
+                    order: [
+                        [0, 'desc']
+                    ],
+                    pagingType: "simple_numbers",
                     language: {
-                        search: "Filter:"
+                        lengthMenu: "{{ __('_MENU_ entries per page') }}",
+                        search: "{{ __('Filter:') }}",
+                        info: "{{ __('Showing _START_ to _END_ of _TOTAL_ entries') }}",
+                        infoEmpty: "{{ __('No entries available') }}",
+                        infoFiltered: "{{ __('(filtered from _MAX_ total entries)') }}",
+
+                        zeroRecords: "{{ __('No matching records found') }}",
+                        emptyTable: "{{ __('No entries available') }}",
+                        paginate: {
+                            previous: "{{ __('Prev') }}",
+                            next: "{{ __('Next') }}"
+                        },
+                        emptyTable: "{{ __('No data available in table') }}"
                     }
                 });
             }
         });
     </script>
-
     <script>
         (function($) {
             'use script'
