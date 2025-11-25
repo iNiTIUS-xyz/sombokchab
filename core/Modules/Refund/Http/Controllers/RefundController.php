@@ -9,21 +9,18 @@ use Modules\Refund\Entities\RefundDeductedAmount;
 use Modules\Refund\Entities\RefundRequest;
 use Modules\Refund\Entities\RefundTrackStatusReason;
 use Modules\Refund\Http\Services\RefundMailServices;
-use Modules\Refund\Http\Services\RefundServices;
 use Modules\Refund\Http\Services\RefundTransaction;
 use Modules\Refund\Http\Traits\RefundRequestData;
 use Modules\Wallet\Http\Services\WalletService;
 
-class RefundController extends Controller
-{
+class RefundController extends Controller {
     use RefundRequestData;
 
     /**
      * Display a listing of the resource.
      * @return Renderable
      */
-    public function index()
-    {
+    public function index() {
         $refundRequests = RefundRequest::withCount("requestProduct")
             ->with("currentTrackStatus", "user:id,name,email,phone", "order:id,order_number,order_status,created_at", "order.paymentMeta")
             ->paginate(20);
@@ -31,8 +28,7 @@ class RefundController extends Controller
         return view('refund::admin.refund.request', compact('refundRequests'));
     }
 
-    public function viewRequest($id)
-    {
+    public function viewRequest($id) {
         // fetch all information about this request
         $request = RefundRequest::query()
             ->with([
@@ -49,24 +45,23 @@ class RefundController extends Controller
                 "requestProduct",
                 "productVariant",
                 "productVariant.productColor",
-                "productVariant.productSize"
+                "productVariant.productSize",
             ])
             ->findOrFail($id);
 
         return view("refund::admin.refund.request-view", compact('request'));
     }
 
-    public function updateTrackStatus($id, Request $request)
-    {
+    public function updateTrackStatus($id, Request $request) {
         $data = $request->validate([
-            "track_status" => "required|string",
-            "reason" => "nullable|array",
-            "reason.*" => "nullable|string",
-            "deducted_amount_reason" => "nullable|array",
+            "track_status"             => "required|string",
+            "reason"                   => "nullable|array",
+            "reason.*"                 => "nullable|string",
+            "deducted_amount_reason"   => "nullable|array",
             "deducted_amount_reason.*" => "nullable|string",
-            "deducted_amount" => "nullable|array",
-            "deducted_amount.*" => "nullable",
-            "refund_fee" => "nullable"
+            "deducted_amount"          => "nullable|array",
+            "deducted_amount.*"        => "nullable",
+            "refund_fee"               => "nullable",
         ]);
 
         $mailableData = [];
@@ -81,7 +76,7 @@ class RefundController extends Controller
             foreach ($data["reason"] as $item) {
                 $reason[] = [
                     "request_track_id" => $trackId->id,
-                    "reason" => $item,
+                    "reason"           => $item,
                 ];
             }
 
@@ -96,9 +91,9 @@ class RefundController extends Controller
                 $deducted_amount = $data["deducted_amount"][$key] ?? 0;
                 $refund_deducted_amounts[] = [
                     "refund_request_track_id" => $trackId->id,
-                    "reason" => $value ?? '',
-                    "amount" => $deducted_amount,
-                    "created_at" => now()
+                    "reason"                  => $value ?? '',
+                    "amount"                  => $deducted_amount,
+                    "created_at"              => now(),
                 ];
 
                 $total_amount -= $deducted_amount;
@@ -110,7 +105,7 @@ class RefundController extends Controller
             // update refund_requests table column
             if (!empty($data["refund_fee"])) {
                 RefundRequest::where("id", $id)->update([
-                    "refund_fee" => $data["refund_fee"]
+                    "refund_fee" => $data["refund_fee"],
                 ]);
 
                 $mailableData["refund_fee"] = $data["refund_fee"];
@@ -132,8 +127,8 @@ class RefundController extends Controller
         RefundMailServices::sendMail($refundRequest, $data["track_status"], $mailableData);
 
         return back()->with([
-            "msg" => __("Successfully updated refund request status"),
-            "type" => "success"
+            "message"    => __("Successfully Updated Refund Request Status"),
+            "alert-type" => "success",
         ]);
     }
 }

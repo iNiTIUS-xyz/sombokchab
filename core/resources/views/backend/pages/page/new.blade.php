@@ -1,244 +1,242 @@
 @extends('backend.admin-master')
 
 @section('style')
-    <link rel="stylesheet" href="{{ asset('assets/backend/css/bootstrap-tagsinput.css') }}">
-    <x-summernote.css />
-    <x-media.css />
+<link rel="stylesheet" href="{{ asset('assets/backend/css/bootstrap-tagsinput.css') }}">
+<x-summernote.css />
+<x-media.css />
 @endsection
 
 @section('site-title')
-    {{ __('New Page') }}
+{{ __('New Page') }}
 @endsection
 
 @section('content')
-    <div class="col-lg-12 col-ml-12">
-        <div class="row">
-            <div class="col-lg-12">
-                <x-msg.error />
-                <x-msg.flash />
-                <div class="dashboard__card">
-                    <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Add New Page') }}</h4>
-                    </div>
-                    <div class="dashboard__card__body custom__form mt-4">
-                        <form action="{{ route('admin.page.new') }}" method="post" enctype="multipart/form-data">
-                            @csrf
-                            <div class="row g-4">
-                                <div class="col-lg-8">
-                                    <div class="row g-4">
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label for="title">
-                                                    {{ __('Title (English)') }}
-                                                    <span class="text-danger">*</span>
-                                                </label>
-                                                <input type="text" class="form-control" id="title" name="title"
-                                                    placeholder="{{ __('Enter title (English)') }}" required="">
-                                            </div>
+<div class="col-lg-12 col-ml-12">
+    <div class="row">
+        <div class="col-lg-12">
+            {{--
+            <x-msg.error />
+            <x-msg.flash /> --}}
+            <div class="dashboard__card">
+                <div class="dashboard__card__header">
+                    <h4 class="dashboard__card__title">{{ __('Add New Page') }}</h4>
+                </div>
+                <div class="dashboard__card__body custom__form mt-4">
+                    <form action="{{ route('admin.page.new') }}" method="post" enctype="multipart/form-data">
+                        @csrf
+                        <div class="row g-4">
+                            <div class="col-lg-8">
+                                <div class="row g-4">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label for="title">
+                                                {{ __('Title (English)') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <input type="text" class="form-control" id="title" name="title"
+                                                placeholder="{{ __('Enter title (English)') }}" required="">
                                         </div>
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label for="title_km">
-                                                    {{ __('ចំណងជើង (ខ្មែរ)') }}
-                                                    <span class="text-danger">*</span>
-                                                </label>
-                                                <input type="text" class="form-control" id="title_km" name="title_km"
-                                                    placeholder="{{ __('បញ្ចូលចំណងជើង (ខ្មែរ)') }}" required="">
-                                            </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label for="title_km">
+                                                {{ __('ចំណងជើង (ខ្មែរ)') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <input type="text" class="form-control" id="title_km" name="title_km"
+                                                placeholder="{{ __('បញ្ចូលចំណងជើង (ខ្មែរ)') }}" required="">
                                         </div>
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label
-                                                    for="page_builder_status"><strong>{{ __('Page Builder Enable/Disable') }}</strong></label>
-                                                <label class="switch">
-                                                    <input type="checkbox" name="page_builder_status">
-                                                    <span class="slider onff"></span>
-                                                </label>
-                                            </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label for="page_builder_status"><strong>{{ __('Page Builder
+                                                    Enable/Disable') }}</strong></label>
+                                            <label class="switch">
+                                                <input type="checkbox" name="page_builder_status">
+                                                <span class="slider onff"></span>
+                                            </label>
                                         </div>
-                                        <div class="col-sm-12">
-                                            <div class="form-group classic-editor-wrapper">
-                                                <label>
-                                                    {{ __('Content (English)') }}
-                                                </label>
-                                                <textarea class="summernote" type="hidden" name="page_content"></textarea>
-                                            </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group classic-editor-wrapper">
+                                            <label>
+                                                {{ __('Content (English)') }}
+                                            </label>
+                                            <textarea class="summernote" type="hidden" name="page_content"></textarea>
                                         </div>
-                                        <div class="col-sm-12">
-                                            <div class="form-group classic-editor-wrapper">
-                                                <label>
-                                                    {{ __('ខ្លឹមសារ (ខ្មែរ)') }}
-                                                </label>
-                                                <textarea class="summernote" type="hidden" name="page_content_km"></textarea>
-                                            </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group classic-editor-wrapper">
+                                            <label>
+                                                {{ __('ខ្លឹមសារ (ខ្មែរ)') }}
+                                            </label>
+                                            <textarea class="summernote" type="hidden"
+                                                name="page_content_km"></textarea>
                                         </div>
-                                        <div class="row g-4 mt-1">
-                                            <div class="col-lg-12" style="display: none">
-                                                <div class="dashboard__card">
-                                                    <div class="dashboard__card__header">
-                                                        <h4 class="mb-3 lead dashboard__card__title">
-                                                            {{ __('Navbar Variant') }}
-                                                        </h4>
-                                                    </div>
-                                                    <div class="dashboard__card__body mt-4">
-                                                        <div class="navbar_variants">
-                                                            <div class="form-group">
-                                                                <input type="hidden" class="form-control"
-                                                                    id="navbar_variant" value="2"
-                                                                    name="navbar_variant">
-                                                            </div>
-
-                                                            @for ($i = 1; $i <= 3; $i++)
-                                                                <div class="img-select img-select-nav">
-                                                                    <div class="img-wrap">
-                                                                        <img src="{{ asset('assets/frontend/navbar-variant/0' . $i . '.jpg') }}"
-                                                                            data-nav_id="{{ $i }}"
-                                                                            alt="">
-                                                                    </div>
-                                                                </div>
-                                                            @endfor
+                                    </div>
+                                    <div class="row g-4 mt-1">
+                                        <div class="col-lg-12" style="display: none">
+                                            <div class="dashboard__card">
+                                                <div class="dashboard__card__header">
+                                                    <h4 class="mb-3 lead dashboard__card__title">
+                                                        {{ __('Navbar Variant') }}
+                                                    </h4>
+                                                </div>
+                                                <div class="dashboard__card__body mt-4">
+                                                    <div class="navbar_variants">
+                                                        <div class="form-group">
+                                                            <input type="hidden" class="form-control"
+                                                                id="navbar_variant" value="2" name="navbar_variant">
                                                         </div>
+
+                                                        @for ($i = 1; $i <= 3; $i++) <div
+                                                            class="img-select img-select-nav">
+                                                            <div class="img-wrap">
+                                                                <img src="{{ asset('assets/frontend/navbar-variant/0' . $i . '.jpg') }}"
+                                                                    data-nav_id="{{ $i }}" alt="">
+                                                            </div>
                                                     </div>
+                                                    @endfor
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-12">
-                                            <div class="btn-wrapper page-builder-btn-wrapper d-none">
-                                                <a href="#1"
-                                                    class="cmn_btn btn_bg_profile">{{ __('Open Page Builder') }}</a>
-                                                <small
-                                                    class="info-text">{{ __('Page builder option is available in page edit only') }}</small>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
-                                    <div class="row g-4">
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label><strong>{{ __('Breadcrumb Show/Hide') }}</strong></label>
-                                                <label class="switch role">
-                                                    <input type="checkbox" name="breadcrumb_status">
-                                                    <span class="slider-yes-no"></span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label><strong>{{ __('Full Page Width') }}</strong></label>
-                                                <label class="switch role">
-                                                    <input type="checkbox" name="page_container_option">
-                                                    <span class="slider-yes-no"></span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label><strong>{{ __('Navbar Category Dropdown Open') }}</strong></label>
-                                                <label class="switch role">
-                                                    <input type="checkbox" name="navbar_category_dropdown_open">
-                                                    <span class="slider-yes-no"></span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label for="slug">{{ __('Slug') }}
-
-                                                </label>
-                                                <input type="text" class="form-control" id="slug" name="slug"
-                                                    placeholder="{{ __('Enter slug') }}">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label>
-                                                    {{ __('Publish Status') }}
-                                                    <span class="text-danger">*</span>
-                                                </label>
-                                                <select name="status" id="status" class="form-control"
-                                                    required="">
-                                                    <option value="publish">{{ __('Publish') }}</option>
-                                                    <option value="draft">{{ __('Unpublish') }}</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label>
-                                                    {{ __('Visibility') }}
-                                                </label>
-                                                <select name="visibility" class="form-control">
-                                                    <option value="all">{{ __('All') }}</option>
-                                                    <option value="user">{{ __('Only Logged In User') }}</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label for="meta_tags">
-                                                    {{ __('Page Meta Tags (English)') }}
-                                                </label>
-                                                <input type="text" name="meta_tags" class="form-control"
-                                                    data-role="tagsinput" id="meta_tags"
-                                                    placeholder="{{ __('Enter page meta tags (ខ្មែរ)') }}">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label for="meta_tags_km">
-                                                    {{ __('ស្លាកមេតាទំព័រ (ខ្មែរ)') }}
-                                                </label>
-                                                <input type="text" name="meta_tags_km" class="form-control"
-                                                    data-role="tagsinput" id="meta_tags"
-                                                    placeholder="{{ __('បញ្ចូលស្លាកមេតាទំព័រ (ខ្មែរ)') }}">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label for="meta_description">
-                                                    {{ __('Page Meta Description (English)') }}
-                                                </label>
-                                                <textarea name="meta_description" class="form-control" id="meta_description"
-                                                    placeholder="{{ __('Enter page meta description (English)') }}"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label for="meta_description_km">
-                                                    {{ __('ការពិពណ៌នាមេតាទំព័រ (ខ្មែរ)') }}
-                                                </label>
-                                                <textarea name="meta_description_km" class="form-control" id="meta_description_km"
-                                                    placeholder="{{ __('បញ្ចូលការពិពណ៌នាមេតាទំព័រ (ខ្មែរ)') }}"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <button type="submit" class="cmn_btn btn_bg_profile">
-                                                {{ __('Add') }}
-                                            </button>
-                                            <a href="{{ route('admin.page') }}" class="cmn_btn default-theme-btn"
-                                                style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
-                                                {{ __('Back') }}
-                                            </a>
-                                        </div>
+                                <div class="col-sm-12">
+                                    <div class="btn-wrapper page-builder-btn-wrapper d-none">
+                                        <a href="#1" class="cmn_btn btn_bg_profile">{{ __('Open Page Builder') }}</a>
+                                        <small class="info-text">{{ __('Page builder option is available in page edit
+                                            only') }}</small>
                                     </div>
                                 </div>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="row g-4">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label><strong>{{ __('Breadcrumb Show/Hide') }}</strong></label>
+                                        <label class="switch role">
+                                            <input type="checkbox" name="breadcrumb_status">
+                                            <span class="slider-yes-no"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label><strong>{{ __('Full Page Width') }}</strong></label>
+                                        <label class="switch role">
+                                            <input type="checkbox" name="page_container_option">
+                                            <span class="slider-yes-no"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label><strong>{{ __('Navbar Category Dropdown Open') }}</strong></label>
+                                        <label class="switch role">
+                                            <input type="checkbox" name="navbar_category_dropdown_open">
+                                            <span class="slider-yes-no"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label for="slug">{{ __('Slug') }}
+
+                                        </label>
+                                        <input type="text" class="form-control" id="slug" name="slug"
+                                            placeholder="{{ __('Enter slug') }}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label>
+                                            {{ __('Publish Status') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <select name="status" id="status" class="form-control" required="">
+                                            <option value="publish">{{ __('Publish') }}</option>
+                                            <option value="draft">{{ __('Unpublish') }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label>
+                                            {{ __('Visibility') }}
+                                        </label>
+                                        <select name="visibility" class="form-control">
+                                            <option value="all">{{ __('All') }}</option>
+                                            <option value="user">{{ __('Only Logged In User') }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label for="meta_tags">
+                                            {{ __('Page Meta Tags (English)') }}
+                                        </label>
+                                        <input type="text" name="meta_tags" class="form-control" data-role="tagsinput"
+                                            id="meta_tags" placeholder="{{ __('Enter page meta tags (ខ្មែរ)') }}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label for="meta_tags_km">
+                                            {{ __('ស្លាកមេតាទំព័រ (ខ្មែរ)') }}
+                                        </label>
+                                        <input type="text" name="meta_tags_km" class="form-control"
+                                            data-role="tagsinput" id="meta_tags"
+                                            placeholder="{{ __('បញ្ចូលស្លាកមេតាទំព័រ (ខ្មែរ)') }}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label for="meta_description">
+                                            {{ __('Page Meta Description (English)') }}
+                                        </label>
+                                        <textarea name="meta_description" class="form-control" id="meta_description"
+                                            placeholder="{{ __('Enter page meta description (English)') }}"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label for="meta_description_km">
+                                            {{ __('ការពិពណ៌នាមេតាទំព័រ (ខ្មែរ)') }}
+                                        </label>
+                                        <textarea name="meta_description_km" class="form-control"
+                                            id="meta_description_km"
+                                            placeholder="{{ __('បញ្ចូលការពិពណ៌នាមេតាទំព័រ (ខ្មែរ)') }}"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <button type="submit" class="cmn_btn btn_bg_profile">
+                                        {{ __('Add') }}
+                                    </button>
+                                    <a href="{{ route('admin.page') }}" class="cmn_btn default-theme-btn"
+                                        style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                                        {{ __('Back') }}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                 </div>
+                </form>
             </div>
         </div>
     </div>
-    <x-media.markup />
+</div>
+</div>
+<x-media.markup />
 @endsection
 
 @section('script')
-    <x-summernote.js />
-    <x-media.js />
-    <script src="{{ asset('assets/backend/js/bootstrap-tagsinput.js') }}"></script>
-    <script>
-        $(document).ready(function() {
+<x-summernote.js />
+<x-media.js />
+<script src="{{ asset('assets/backend/js/bootstrap-tagsinput.js') }}"></script>
+<script>
+    $(document).ready(function() {
             $(document).on('change', 'input[name="page_builder_status"]', function() {
                 if ($(this).is(':checked')) {
                     $('.classic-editor-wrapper').addClass('d-none');
@@ -284,7 +282,7 @@
                 $('#footer_variant').val($(this).data('foot_id'));
             });
         });
-    </script>
-    <script src="{{ asset('assets/backend/js/dropzone.js') }}"></script>
-    @include('backend.partials.media-upload.media-js')
+</script>
+<script src="{{ asset('assets/backend/js/dropzone.js') }}"></script>
+@include('backend.partials.media-upload.media-js')
 @endsection

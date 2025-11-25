@@ -1,48 +1,50 @@
 @extends('backend.admin-master')
 @section('site-title')
-    {{ __('Payment Settings') }}
+{{ __('Payment Settings') }}
 @endsection
 @section('style')
-    <x-summernote.css />
-    <x-media.css />
+<x-summernote.css />
+<x-media.css />
 @endsection
 @section('content')
-    <div class="col-lg-12 col-ml-12">
-        <div class="row">
-            <div class="col-12">
-                <x-flash-msg />
-                <div class="dashboard__card">
-                    <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Payment Gateway Settings') }}</h4>
-                    </div>
-                    <div class="dashboard__card__body custom__form mt-4">
-                        <x-error-msg />
-                        <form action="{{ route('admin.general.payment.settings') }}" method="POST"
-                            enctype="multipart/form-data">
-                            @csrf
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    @include('backend.general-settings.payment-settings.payment-common-settings')
-                                    @include('backend.general-settings.payment-settings.payment-credential-settings')
-                                </div>
+<div class="col-lg-12 col-ml-12">
+    <div class="row">
+        <div class="col-12">
+            {{--
+            <x-flash-msg /> --}}
+            <div class="dashboard__card">
+                <div class="dashboard__card__header">
+                    <h4 class="dashboard__card__title">{{ __('Payment Gateway Settings') }}</h4>
+                </div>
+                <div class="dashboard__card__body custom__form mt-4">
+                    {{--
+                    <x-error-msg /> --}}
+                    <form action="{{ route('admin.general.payment.settings') }}" method="POST"
+                        enctype="multipart/form-data">
+                        @csrf
+                        <div class="row">
+                            <div class="col-lg-12">
+                                @include('backend.general-settings.payment-settings.payment-common-settings')
+                                @include('backend.general-settings.payment-settings.payment-credential-settings')
                             </div>
-                            <div class="btn-wrapper mt-4">
-                                <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
-                            </div>
-                        </form>
-                    </div>
+                        </div>
+                        <div class="btn-wrapper mt-4">
+                            <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <x-media.markup />
+<x-media.markup />
 @endsection
 @section('script')
-    <x-summernote.js />
-    <x-media.js />
-    <script>
-        (function($) {
+<x-summernote.js />
+<x-media.js />
+<script>
+    (function($) {
             "use strict";
             $(document).ready(function($) {
                 $('.summernote').summernote({
@@ -69,5 +71,5 @@
                 }
             });
         })(jQuery);
-    </script>
+</script>
 @endsection

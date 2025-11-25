@@ -10,23 +10,18 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Modules\NewsLetter\Entities\NewsLetter;
 use Modules\NewsLetter\Http\Requests\AdminSendAllEmailRequest;
-use Modules\NewsLetter\Http\Requests\AdminSendMailReqeuest;
 
-class AdminNewsLetterController extends Controller
-{
-    public function index()
-    {
+class AdminNewsLetterController extends Controller {
+    public function index() {
         $all_subscriber = Newsletter::all();
 
         return view('newsletter::backend.newsletter-index')->with(['all_subscriber' => $all_subscriber]);
     }
 
-
-    public function send_mail(Request $request)
-    {
+    public function send_mail(Request $request) {
 
         $request->validate([
-            'email' => 'required|email',
+            'email'   => 'required|email',
             'subject' => 'required|string|max:255',
             'message' => 'required|string',
         ]);
@@ -34,7 +29,7 @@ class AdminNewsLetterController extends Controller
         $id = $request->id;
         $message = '<br><div class="btn-wrap"> <a class="anchor-btn" href="' . route('frontend.newsletter.unsubscribe.visitor', $id) . '">' . __('Unsubscribe') . '</a></div>';
         $data = [
-            'email' => $request->email,
+            'email'   => $request->email,
             'subject' => $request->subject,
             'message' => $request->message . $message,
         ];
@@ -44,29 +39,34 @@ class AdminNewsLetterController extends Controller
             //throw $th;
         }
 
-        return redirect()->back()->with(['msg' => __('Mail sent successfully.'), 'type' => 'success']);
+        return redirect()->back()->with([
+            'message'    => __('Mail sent successfully.'),
+            'alert-type' => 'success',
+        ]);
     }
 
-    public function newsletter_unsubscribe($id)
-    {
+    public function newsletter_unsubscribe($id) {
         Newsletter::where('id', $id)->update(['subscribe_status' => 0]);
-        return redirect()->back()->with(['msg' => __('Successfully unsubscribed.'), 'type' => 'danger']);
+        return redirect()->back()->with([
+            'message'    => __('Successfully unsubscribed.'),
+            'alert-type' => 'success',
+        ]);
     }
 
-    public function delete($id)
-    {
+    public function delete($id) {
         Newsletter::find($id)->delete();
 
-        return redirect()->back()->with(['msg' => __('Subscriber deleted successfully.'), 'type' => 'danger']);
+        return redirect()->back()->with([
+            'message'    => __('Subscriber deleted successfully.'),
+            'alert-type' => 'success',
+        ]);
     }
 
-    public function send_mail_all_index()
-    {
+    public function send_mail_all_index() {
         return view('newsletter::backend.send-main-to-all');
     }
 
-    public function send_mail_all(AdminSendAllEmailRequest $request)
-    {
+    public function send_mail_all(AdminSendAllEmailRequest $request) {
         $all_subscriber = Newsletter::all();
 
         foreach ($all_subscriber as $subscriber) {
@@ -84,13 +84,12 @@ class AdminNewsLetterController extends Controller
         }
 
         return redirect()->back()->with([
-            'msg' => __('Mail Send Success..'),
-            'type' => 'success',
+            'message'    => __('Mail Send Success..'),
+            'alert-type' => 'success',
         ]);
     }
 
-    public function add_new_sub(Request $request)
-    {
+    public function add_new_sub(Request $request) {
         $request->validate(
             [
                 'email' => 'required|email|unique:newsletters',
@@ -103,13 +102,12 @@ class AdminNewsLetterController extends Controller
         Newsletter::create($request->all());
 
         return redirect()->back()->with([
-            'msg' => __('New Subscriber Added..'),
-            'type' => 'success',
+            'message'    => __('New Subscriber Added..'),
+            'alert-type' => 'success',
         ]);
     }
 
-    public function bulk_action(Request $request)
-    {
+    public function bulk_action(Request $request) {
         $all = Newsletter::find($request->ids);
         foreach ($all as $item) {
             $item->delete();
@@ -118,8 +116,7 @@ class AdminNewsLetterController extends Controller
         return response()->json(['status' => 'ok']);
     }
 
-    public function verify_mail_send(Request $request)
-    {
+    public function verify_mail_send(Request $request) {
         $subscriber_details = Newsletter::findOrFail($request->id);
         $token = $subscriber_details->token ?? Str::random(32);
         if (empty($subscriber_details->token)) {
@@ -140,8 +137,8 @@ class AdminNewsLetterController extends Controller
         }
 
         return redirect()->back()->with([
-            'msg' => __('Email verification mail sent successfully.'),
-            'type' => 'success',
+            'message'    => __('Email verification mail sent successfully.'),
+            'alert-type' => 'success',
         ]);
     }
 }

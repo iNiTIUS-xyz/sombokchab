@@ -1,48 +1,48 @@
 @extends('backend.admin-master')
 @section('site-title')
-    {{ __('Others') }}
+{{ __('Others') }}
 @endsection
 @section('style')
-    <x-media.css />
+<x-media.css />
 @endsection
 @section('content')
-    @can('manage-site-settings')
-        <div class="col-lg-12 col-ml-12">
-            <div class="row">
-                <div class="col-md-6">
-                    @include('backend.partials.message')
-                    <div class="dashboard__card">
-                        <div class="dashboard__card__header">
-                            <h4 class="dashboard__card__title">{{ __('Others Settings') }}</h4>
+@can('manage-site-settings')
+<div class="col-lg-12 col-ml-12">
+    <div class="row">
+        <div class="col-md-6">
+            {{-- @include('backend.partials.message') --}}
+            <div class="dashboard__card">
+                <div class="dashboard__card__header">
+                    <h4 class="dashboard__card__title">{{ __('Others Settings') }}</h4>
+                </div>
+                <div class="dashboard__card__body custom__form mt-4">
+                    <form action="{{ route('admin.general.others') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="form-group">
+                            <label for="blog_page">{{ __('Blog Page') }}</label>
+                            <select name="others_page_terms_and_condition_page_id" id="blog_page" class="form-control">
+                                @foreach ($all_pages as $page)
+                                <option value="{{ $page->id }}" @if ($page->id ==
+                                    get_static_option('others_page_terms_and_condition_page_id')) selected @endif>{{
+                                    $page->title }}</option>
+                                @endforeach
+                            </select>
                         </div>
-                        <div class="dashboard__card__body custom__form mt-4">
-                            <form action="{{ route('admin.general.others') }}" method="POST" enctype="multipart/form-data">
-                                @csrf
-                                <div class="form-group">
-                                    <label for="blog_page">{{ __('Blog Page') }}</label>
-                                    <select name="others_page_terms_and_condition_page_id" id="blog_page" class="form-control">
-                                        @foreach ($all_pages as $page)
-                                            <option value="{{ $page->id }}"
-                                                @if ($page->id == get_static_option('others_page_terms_and_condition_page_id')) selected @endif>{{ $page->title }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <button type="submit" id="update"
-                                    class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
-                            </form>
-                        </div>
-                    </div>
+                        <button type="submit" id="update" class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
+                    </form>
                 </div>
             </div>
         </div>
+    </div>
+</div>
 
-        <x-media.markup />
-    @endcan
+<x-media.markup />
+@endcan
 @endsection
 @section('script')
-    <x-media.js />
-    <script>
-        (function($) {
+<x-media.js />
+<script>
+    (function($) {
             "use strict";
             $(document).ready(function() {
                 $(document).on('click', '#update', function() {
@@ -58,5 +58,5 @@
                 });
             });
         })(jQuery);
-    </script>
+</script>
 @endsection

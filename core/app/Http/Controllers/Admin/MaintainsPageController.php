@@ -2,25 +2,21 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Helpers\FlashMsg;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-class MaintainsPageController extends Controller
-{
-    public function maintains_page_settings()
-    {
+class MaintainsPageController extends Controller {
+    public function maintains_page_settings() {
         return view('backend.pages.maintain-page.maintain-page');
     }
 
-    public function update_maintains_page_settings(Request $request)
-    {
+    public function update_maintains_page_settings(Request $request) {
         $request->validate([
-            'maintain_page_logo' => 'nullable|string|max:191',
+            'maintain_page_logo'             => 'nullable|string|max:191',
             'maintain_page_background_image' => 'nullable|string|max:191',
-            'maintain_page__title' => 'nullable|string',
-            'maintain_page_description' => 'nullable|string',
-            'maintain_page_datepicker' => 'nullable|string',
+            'maintain_page__title'           => 'nullable|string',
+            'maintain_page_description'      => 'nullable|string',
+            'maintain_page_datepicker'       => 'nullable|string',
         ]);
 
         $fields = [
@@ -40,6 +36,9 @@ class MaintainsPageController extends Controller
             update_static_option('maintain_page_background_image', $request->maintain_page_background_image);
         }
 
-        return redirect()->back()->with(FlashMsg::settings_update());
+        return redirect()->back()->with([
+            'message'    => 'Settings Updated Successfully.',
+            'alert-type' => 'success',
+        ]);
     }
 }

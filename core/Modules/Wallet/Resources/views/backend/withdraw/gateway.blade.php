@@ -3,160 +3,166 @@
 @section('site-title', __('Vendor wallet payment methods'))
 
 @section('style')
-    <style>
-        .w-90 {
-            width: 90%;
-        }
+<style>
+    .w-90 {
+        width: 90%;
+    }
 
-        .w-20 {
-            width: 20%;
-        }
-    </style>
+    .w-20 {
+        width: 20%;
+    }
+</style>
 @endsection
 
 @section('content')
-    <div class="col-lg-12 col-ml-12">
-        <div class="row">
-            <x-msg.error />
-            <x-flash-msg />
-            <div class="col-12">
-                <div class="btn-wrapper mb-4">
-                    <a data-bs-toggle="modal" data-bs-target="#add-gateway-modal" href="#1" class="cmn_btn btn_bg_profile"
-                        data-text="Create New Role">
-                        {{ __('Add New Payment Method') }}
-                    </a>
-                </div>
+<div class="col-lg-12 col-ml-12">
+    <div class="row">
+        {{--
+        <x-msg.error />
+        <x-flash-msg /> --}}
+        <div class="col-12">
+            <div class="btn-wrapper mb-4">
+                <a data-bs-toggle="modal" data-bs-target="#add-gateway-modal" href="#1" class="cmn_btn btn_bg_profile"
+                    data-text="Create New Role">
+                    {{ __('Add New Payment Method') }}
+                </a>
             </div>
-            <div class="col-lg-12">
-                <div class="dashboard__card card__two">
-                    <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">
-                            {{ __('Vendor Wallet Payment Methods') }}
-                        </h4>
-                    </div>
-                    <div class="dashboard__card__body">
-                        <div class="table-responsive">
-                            <table class="table" id="dataTable">
-                                <thead>
-                                    <tr>
-                                        <th>{{ __('Payment Method') }}</th>
-                                        <th>{{ __('Method Field/s') }}</th>
-                                        <th>{{ __('Is File') }}</th>
-                                        <th>{{ __('Status') }}</th>
-                                        <th>{{ __('Action') }}</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($gateways as $gateway)
-                                        <tr>
-                                            <td>{{ $gateway->name }}</td>
-                                            <td>
-                                                @if($gateway->is_file == 'yes')
-                                                    {{ __('File Upload Required') }}
-                                                @else
-                                                    @if($gateway->filed)
-                                                        {{ implode(' , ', unserialize($gateway->filed)) }}
-                                                    @endif
-                                                @endif
-                                            </td>
-                                            <td>
-                                                <x-status-span :status="$gateway->is_file" />
-                                            </td>
-                                            <td>
-                                                <div class="btn-group badge">
-                                                    <button type="button"
-                                                        class="status-{{ $gateway->status_id }} {{ $gateway->status_id == 1 ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
-                                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        {{ ucfirst($gateway->status_id == 1 ? __('Active') : __('Inactive')) }}
+        </div>
+        <div class="col-lg-12">
+            <div class="dashboard__card card__two">
+                <div class="dashboard__card__header">
+                    <h4 class="dashboard__card__title">
+                        {{ __('Vendor Wallet Payment Methods') }}
+                    </h4>
+                </div>
+                <div class="dashboard__card__body">
+                    <div class="table-responsive">
+                        <table class="table" id="dataTable">
+                            <thead>
+                                <tr>
+                                    <th>{{ __('Payment Method') }}</th>
+                                    <th>{{ __('Method Field/s') }}</th>
+                                    <th>{{ __('Is File') }}</th>
+                                    <th>{{ __('Status') }}</th>
+                                    <th>{{ __('Action') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($gateways as $gateway)
+                                <tr>
+                                    <td>{{ $gateway->name }}</td>
+                                    <td>
+                                        @if($gateway->is_file == 'yes')
+                                        {{ __('File Upload Required') }}
+                                        @else
+                                        @if($gateway->filed)
+                                        {{ implode(' , ', unserialize($gateway->filed)) }}
+                                        @endif
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <x-status-span :status="$gateway->is_file" />
+                                    </td>
+                                    <td>
+                                        <div class="btn-group badge">
+                                            <button type="button"
+                                                class="status-{{ $gateway->status_id }} {{ $gateway->status_id == 1 ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
+                                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                {{ ucfirst($gateway->status_id == 1 ? __('Active') : __('Inactive')) }}
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <form
+                                                    action="{{ route('admin.wallet.withdraw.gateway.status.change', $gateway->id) }}"
+                                                    method="POST" id="status-form-activate-{{ $gateway->id }}">
+                                                    @csrf
+                                                    <input type="hidden" name="status" value="1">
+                                                    <button type="submit" class="dropdown-item">
+                                                        {{ __('Active') }}
                                                     </button>
-                                                    <div class="dropdown-menu">
-                                                        <form action="{{ route('admin.wallet.withdraw.gateway.status.change', $gateway->id) }}"
-                                                            method="POST" id="status-form-activate-{{ $gateway->id }}">
-                                                            @csrf
-                                                            <input type="hidden" name="status" value="1">
-                                                            <button type="submit" class="dropdown-item">
-                                                                {{ __('Active') }}
-                                                            </button>
-                                                        </form>
-                                                        <form action="{{ route('admin.wallet.withdraw.gateway.status.change', $gateway->id) }}"
-                                                            method="POST" id="status-form-deactivate-{{ $gateway->id }}">
-                                                            @csrf
-                                                            <input type="hidden" name="status" value="2">
-                                                            <button type="submit" class="dropdown-item">
-                                                                {{ __('Inactive') }}
-                                                            </button>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                @can('manage-wallet')
-                                                    <button type="button" title="{{ __('Edit Data') }}"
-                                                        data-name="{{ $gateway->name }}" data-id="{{ $gateway->id }}"
-                                                        data-status="{{ $gateway->status_id }}"
-                                                        data-is-file="{{ $gateway->is_file }}"
-                                                        data-blog-filed="{{ json_encode(unserialize($gateway->filed)) }}"
-                                                        class="btn btn-sm btn-warning text-dark mb-2 me-1 update-gateway"
-                                                        data-bs-toggle="modal" data-bs-target="#edit-gateway-modal">
-                                                        <i class="ti-pencil"></i>
+                                                </form>
+                                                <form
+                                                    action="{{ route('admin.wallet.withdraw.gateway.status.change', $gateway->id) }}"
+                                                    method="POST" id="status-form-deactivate-{{ $gateway->id }}">
+                                                    @csrf
+                                                    <input type="hidden" name="status" value="2">
+                                                    <button type="submit" class="dropdown-item">
+                                                        {{ __('Inactive') }}
                                                     </button>
-                                                @endcan
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @can('manage-wallet')
+                                        <button type="button" title="{{ __('Edit Data') }}"
+                                            data-name="{{ $gateway->name }}" data-id="{{ $gateway->id }}"
+                                            data-status="{{ $gateway->status_id }}"
+                                            data-is-file="{{ $gateway->is_file }}"
+                                            data-blog-filed="{{ json_encode(unserialize($gateway->filed)) }}"
+                                            class="btn btn-sm btn-warning text-dark mb-2 me-1 update-gateway"
+                                            data-bs-toggle="modal" data-bs-target="#edit-gateway-modal">
+                                            <i class="ti-pencil"></i>
+                                        </button>
+                                        @endcan
 
-                                                @can('manage-wallet')
-                                                    <x-table.btn.swal.delete :route="route(
+                                        @can('manage-wallet')
+                                        <x-table.btn.swal.delete :route="route(
                                                         'admin.wallet.withdraw.gateway.delete',
                                                         $gateway->id,
                                                     )" />
-                                                @endcan
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                                        @endcan
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Add Gateway Modal -->
-    <div class="modal fade" id="add-gateway-modal" tabindex="-1" aria-hidden="true" aria-labelledby="add-gateway-modalLabel">
+<!-- Add Gateway Modal -->
+<div class="modal fade" id="add-gateway-modal" tabindex="-1" aria-hidden="true"
+    aria-labelledby="add-gateway-modalLabel">
+    <form method="POST" action="{{ route('admin.wallet.withdraw.gateway') }}">
+        @csrf
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content custom__form">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel"> <b>{{ __('Create Wallet Payment Method') }}</b> </h5>
+                    <h5 class="modal-title"><b>{{ __('Create Wallet Payment Method') }}</b></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form class="" method="POST" action="{{ route('admin.wallet.withdraw.gateway') }}">
-                    @csrf
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label class="w-100">{{ __('Name:') }}</label>
-                            <input class="form-control" name="gateway_name" required
-                                placeholder="{{ __('Enter method name') }}">
-                        </div>
 
-                        <div class="form-group">
-                            <label>
-                                <input type="checkbox" name="is_file" id="is_file_checkbox" value="yes">
-                                {{ __('Is File') }}
-                            </label>
-                        </div>
+                <div class="modal-body overflow-auto" style="max-height:550px;">
+                    <div class="form-group">
+                        <label class="w-100">{{ __('Name:') }} <span class="text-danger">*</span></label>
+                        <input class="form-control" name="gateway_name" required
+                            placeholder="{{ __('Enter method name') }}">
+                    </div>
 
-                        <div class="dashboard__card card__two overflow-auto" id="filed_container" style="max-height: 400px;">
-                            <div class="dashboard__card__header">
-                                <h4 class="dashboard__card__title">
-                                    {{ __('Method field') }}
-                                </h4>
-                            </div>
-                            <div class="dashboard__card__body">
-                                <div class="form-group row">
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" name="is_file" id="is_file_checkbox" value="yes">
+                            {{ __('Is File') }}
+                        </label>
+                    </div>
+
+                    <div class="dashboard__card card__two overflow-auto" id="filed_container">
+                        <div class="dashboard__card__header">
+                            <h4 class="dashboard__card__title">{{ __('Method field') }}</h4>
+                        </div>
+                        <div class="dashboard__card__body">
+                            <div class="form-group row gateway-filed-body" id="add_gateway_filed_body">
+                                <!-- initial one row -->
+                                <div class="form-group row mb-2">
                                     <div class="w-90 d-flex align-items-center">
-                                        <input class="form-control" name="filed[]" required
+                                        <input class="form-control" name="filed[]"
                                             placeholder="{{ __('Enter filed name') }}">
                                     </div>
-                                    <div class="col-md-1 d-flex flex-column align-items-center justify-content-center pb-2 gap-2">
+                                    <div
+                                        class="col-md-1 d-flex flex-column align-items-center justify-content-center pb-2 gap-2">
                                         <button type="button" class="btn btn-primary btn-sm gateway-filed-add"
                                             title="{{ __('Add') }}">
                                             <i class="las la-plus"></i>
@@ -169,85 +175,98 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label>{{ __('Select Status') }}</label>
-                            <select name="status_id" class="form-control" required>
-                                <option value="">{{ __('Select Status') }}</option>
-                                <option value="1">{{ __('Active') }}</option>
-                                <option value="2">{{ __('Inactive') }}</option>
-                            </select>
-                        </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
-                        <button type="submit" class="btn btn-primary">{{ __('Add') }}</button>
+
+                    <div class="form-group">
+                        <label>{{ __('Select Status') }} <span class="text-danger">*</span></label>
+                        <select name="status_id" class="form-control" required>
+                            <option value="">{{ __('Select Status') }}</option>
+                            <option value="1">{{ __('Active') }}</option>
+                            <option value="2">{{ __('Inactive') }}</option>
+                        </select>
                     </div>
-                </form>
-            </div>
-        </div>
-    </div>
+                </div>
 
-    @can('manage-wallet')
-        <!-- Edit Gateway Modal -->
-        <div class="modal fade" id="edit-gateway-modal" tabindex="-1" aria-labelledby="edit-gateway-modalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content custom__form">
-                    <form class="" method="POST" action="{{ route('admin.wallet.withdraw.gateway.update') }}">
-                        @method('PUT')
-                        @csrf
-                        <input type="hidden" value="" name="id" />
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">{{ __('Update wallet withdraw gateway') }}</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label class="w-100">{{ __('Name:') }}</label>
-                                <input class="form-control" name="gateway_name" required placeholder="{{ __('Enter gateway name') }}">
-                            </div>
-
-                            <div class="form-group">
-                                <label>
-                                    <input type="checkbox" name="is_file" id="edit_is_file_checkbox" value="yes">
-                                    {{ __('Is File') }}
-                                </label>
-                            </div>
-
-                            <div class="dashboard__card" id="edit_filed_container">
-                                <div class="dashboard__card__header">
-                                    <h4 class="dashboard__card__title">{{ __('Gateway field') }}</h4>
-                                </div>
-                                <div class="card-body gateway-filed-body">
-                                    <!-- Fields will be added dynamically -->
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label>{{ __('Select Status') }}</label>
-                                <select name="status_id" class="form-control" required>
-                                    <option value="">{{ __('Select Status') }}</option>
-                                    <option value="1">{{ __('Active') }}</option>
-                                    <option value="2">{{ __('Inactive') }}</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">{{ __('Close') }}</button>
-                            <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
-                        </div>
-                    </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
+                    <button type="submit" class="btn btn-primary">{{ __('Add') }}</button>
                 </div>
             </div>
         </div>
-    @endcan
+    </form>
+</div>
+
+@can('manage-wallet')
+<!-- Edit Gateway Modal -->
+<div class="modal fade" id="edit-gateway-modal" tabindex="-1" aria-labelledby="edit-gateway-modalLabel"
+    aria-hidden="true">
+    <form method="POST" action="{{ route('admin.refund.preferred-option.update') }}">
+        @method('PUT')
+        @csrf
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content custom__form">
+                @can('manage-refund-request-settings')
+                <input type="hidden" id="edit_gateway_id" name="id" value="">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ __('Refund Payment Method Update') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body overflow-auto" style="max-height:550px;">
+                    <div class="form-group">
+                        <label class="w-100">{{ __('Name') }} <span class="text-danger">*</span></label>
+                        <input class="form-control" id="edit_gateway_name" name="gateway_name"
+                            placeholder="{{ __('Enter gateway name') }}">
+                        <small class="info">{{ __('If you want to merge refund value to user wallet, then use Wallet
+                            like this') }}. {{ __('Only for wallet') }}</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" name="is_file" id="edit_is_file_checkbox" value="yes">
+                            {{ __('Is File') }}
+                        </label>
+                    </div>
+
+                    <div class="dashboard__card card__two overflow-auto" id="edit_fields_container">
+                        <div class="dashboard__card__header">
+                            <h4 class="dashboard__card__title">{{ __('Method field') }}</h4>
+                        </div>
+                        <div class="dashboard__card__body">
+                            <div class="form-group row gateway-filed-body" id="edit_gateway_filed_body">
+                                <!-- dynamic rows inserted by JS -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>{{ __('Select Status') }} <span class="text-danger">*</span></label>
+                        <select id="edit_status_id" name="status_id" class="form-control" required>
+                            <option value="">{{ __('Select Status') }}</option>
+                            <option value="1">{{ __('Active') }}</option>
+                            <option value="2">{{ __('Inactive') }}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
+                    <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
+                </div>
+                @endcan
+            </div>
+        </div>
+    </form>
+</div>
+
+@endcan
 @endsection
 
 @section('script')
-    <x-table.btn.swal.js />
-    <script>
-        $(document).ready(function() {
+<x-table.btn.swal.js />
+<script>
+    $(document).ready(function() {
             // For add modal - show/hide fields based on checkbox
             $('#is_file_checkbox').change(function() {
                 if(this.checked) {
@@ -348,5 +367,5 @@
             e.preventDefault();
             send_ajax_request("PUT")
         });
-    </script>
+</script>
 @endsection

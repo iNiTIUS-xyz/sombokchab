@@ -11,6 +11,13 @@
 <x-select2.select2-css />
 @endsection
 @section('content')
+<style>
+    .btn-disabled {
+        pointer-events: none !important;
+        opacity: 0.5 !important;
+        cursor: not-allowed !important;
+    }
+</style>
 <div class="col-lg-12 col-ml-12">
     <div class="row">
         <div class="col-lg-12">
@@ -79,7 +86,8 @@
                                                                 <span class="text-danger">*</span>
                                                             </label>
                                                             <input name="owner_name" type="text"
-                                                                class="form--control radius-10"
+                                                                class="form--control radius-10" pattern="[A-Za-z\s]+"
+                                                                title="Only letters allowed"
                                                                 value="{{ $vendor->owner_name }}" required=""
                                                                 placeholder="{{ __('Enter Vendor Name') }}">
                                                         </div>
@@ -91,7 +99,8 @@
                                                                 <span class="text-danger">*</span>
                                                             </label>
                                                             <input name="business_name" type="text"
-                                                                class="form--control radius-10"
+                                                                class="form--control radius-10" pattern="[A-Za-z\s]+"
+                                                                title="Only letters allowed"
                                                                 value="{{ $vendor->business_name }}" required=""
                                                                 placeholder="{{ __('Enter Business Name') }}">
                                                         </div>
@@ -106,6 +115,7 @@
                                                                 class="form--control radius-10"
                                                                 value="{{ $vendor->username }}" required=""
                                                                 placeholder="{{ __('Enter Username') }}">
+                                                            <small class="text-danger" id="username_error"></small>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-12">
@@ -301,6 +311,7 @@
                                                                 type="tel" class="form--control radius-10"
                                                                 placeholder="{{ __('Enter Phone Number') }}"
                                                                 required="">
+                                                            <small class="text-danger" id="number_error"></small>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-12">
@@ -311,6 +322,7 @@
                                                             <input value="{{ $vendor?->vendor_shop_info?->email }}"
                                                                 type="text" name="email" class="form--control radius-10"
                                                                 placeholder="{{ __('Enter Email') }}">
+                                                            <small class="text-danger" id="email_error"></small>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-12">
@@ -384,7 +396,8 @@
                                                                 class="form-control" placeholder="Select color"
                                                                 value="{{ $vendor?->vendor_shop_info?->colors['store_paragraph_color'] ?? '' }}"
                                                                 id="store_paragraph_color">
-                                                            <small class="text-danger">{{ __('You can change the site paragraph color from here') }}</small>
+                                                            <small class="text-danger">{{ __('You can change the site
+                                                                paragraph color from here') }}</small>
                                                         </div>
                                                     </div>
                                                     <!--color settings end -->
@@ -434,7 +447,7 @@
                                                                 <span class="text-danger">*</span>
                                                             </label>
                                                             <input value="{{ $vendor?->vendor_bank_info?->bank_code }}"
-                                                                name="bank_code" type="tel"
+                                                                name="bank_code" type="number"
                                                                 class="form--control radius-10"
                                                                 placeholder="{{ __('Enter code') }}" required="">
                                                         </div>
@@ -447,7 +460,7 @@
                                                             </label>
                                                             <input
                                                                 value="{{ $vendor?->vendor_bank_info?->account_number }}"
-                                                                name="account_number" type="tel"
+                                                                name="account_number" type="number"
                                                                 class="form--control radius-10"
                                                                 placeholder="{{ __('Enter account number') }}"
                                                                 required="">
@@ -472,13 +485,149 @@
 <x-media.markup type="vendor" />
 @endsection
 @section('script')
+<script>
+    (function($) {
+        "use strict";
+
+        // fields we will validate
+        const fields = ['username','email','number'];
+
+        // track errors
+        const errors = { username: false, email: false, number: false };
+
+        // find submit button (your markup has .submit_button > button)
+        const $submitBtn = $('.submit_button button').first();
+        if (!$submitBtn.length) {
+            // fallback to first submit button
+            $submitBtn = $('button[type="submit"]').first();
+        }
+
+       function updateSubmitState() {
+    const hasError = Object.values(errors).some(v => v === true);
+
+    if (hasError) {
+        $submitBtn.prop('disabled', true);      // stops keyboard firing
+        $submitBtn.addClass('btn-disabled');    // makes it not-clickable
+    } else {
+        $submitBtn.prop('disabled', false);
+        $submitBtn.removeClass('btn-disabled');
+    }
+}
+
+
+        function setFieldError(field, message) {
+            const $input = $('input[name="' + field + '"]');
+            const $err   = $('#' + field + '_error');
+
+            if (message) {
+                errors[field] = true;
+                $input.addClass('is-invalid');
+                $err.text(message);
+            } else {
+                errors[field] = false;
+                $input.removeClass('is-invalid');
+                $err.text('');
+            }
+            updateSubmitState();
+        }
+
+        // debounce helper
+        function debounce(fn, wait = 400) {
+            let t;
+            return function() {
+                const ctx = this, args = arguments;
+                clearTimeout(t);
+                t = setTimeout(() => fn.apply(ctx, args), wait);
+            };
+        }
+
+        // AJAX check
+        function checkFieldUnique(field, value) {
+            const vendorId = $('input[name="id"]').val() || '';
+
+            // if empty, clear error and do not call server
+            if (!value) {
+                setFieldError(field, null);
+                return;
+            }
+
+            $.ajax({
+                url: '{{ route("vendor.validate-field") }}',
+                method: 'POST',
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content'),
+                    field: field,
+                    value: value,
+                    id: vendorId
+                },
+                success: function(res) {
+                    // res.valid expected true/false
+                    if (res && res.valid === false) {
+                        setFieldError(field, res.message || (field + ' already taken.'));
+                    } else {
+                        setFieldError(field, null);
+                    }
+                },
+                error: function(xhr) {
+                    console.error('Unique check failed', xhr);
+                    // keep existing UX: don't block submit permanently on server hiccup
+                    // optionally show soft message: setFieldError(field, 'Validation server error');
+                }
+            });
+        }
+
+        // attach debounced listeners on page ready
+        $(function() {
+            // ensure csrf meta exists
+            if (!$('meta[name="csrf-token"]').length) {
+                $('head').append('<meta name="csrf-token" content="{{ csrf_token() }}">');
+            }
+
+            fields.forEach(function(field) {
+                const $el = $('input[name="' + field + '"]');
+                if (!$el.length) return;
+
+                const deb = debounce(function() {
+                    checkFieldUnique(field, $el.val().trim());
+                }, 450);
+
+                // trigger on input & change
+                $el.on('input change', deb);
+
+                // initial check for pre-filled page values
+                const initial = $el.val() ? $el.val().trim() : '';
+                if (initial) setTimeout(() => checkFieldUnique(field, initial), 250);
+            });
+
+            // final safeguard on submit
+            $('#vendor-create-form').on('submit', function(e) {
+                const hasError = Object.values(errors).some(v => v === true);
+                if (hasError) {
+                    e.preventDefault();
+                    const first = Object.keys(errors).find(k => errors[k]);
+                    if (first) {
+                        const $firstEl = $('input[name="' + first + '"]');
+                        if ($firstEl.length) {
+                            $('html,body').animate({ scrollTop: $firstEl.offset().top - 100 }, 250);
+                            $firstEl.focus();
+                        }
+                    }
+                    return false;
+                }
+                // allow normal submit (your existing ajax submit handles form submission)
+            });
+
+            updateSubmitState();
+        });
+    })(jQuery);
+</script>
+
 <script src="{{ asset('assets/backend/js/colorpicker.js') }}"></script>
 <x-datatable.js />
 <x-media.js type="vendor" />
 <x-table.btn.swal.js />
 <x-select2.select2-js />
 <script>
-
     function validateZipCode(value) {
         const trimmed = value.trim();
 

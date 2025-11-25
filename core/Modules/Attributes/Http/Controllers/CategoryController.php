@@ -2,7 +2,6 @@
 
 namespace Modules\Attributes\Http\Controllers;
 
-use App\Helpers\FlashMsg;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -13,11 +12,9 @@ use Modules\Attributes\Entities\Category;
 use Modules\Attributes\Http\Requests\StoreCategoryRequest;
 use Modules\Attributes\Http\Requests\UpdateCategoryRequest;
 
-class CategoryController extends Controller
-{
+class CategoryController extends Controller {
 
-    public function index(): View|Factory|Application
-    {
+    public function index(): View | Factory | Application {
         $all_category = Category::query()
             ->with(["image:id,path", "status"])
             ->latest()
@@ -26,8 +23,7 @@ class CategoryController extends Controller
         return view('attributes::backend.category.all')->with(['all_category' => $all_category]);
     }
 
-    public function store(StoreCategoryRequest $request)
-    {
+    public function store(StoreCategoryRequest $request) {
         $data = $request->validated();
         $data['slug'] = strtolower(str_replace(' ', '-', $request->name));
 
@@ -37,20 +33,25 @@ class CategoryController extends Controller
 
         if ($subCategoryExit) {
             return back()->with([
-                'type' => 'danger',
-                'msg' => __('Category already exist with this name.')
+                'alert-type' => 'error',
+                'message'    => __('Category already exist with this name.'),
             ]);
         }
 
         $product_category = Category::create($data);
 
         return $product_category
-            ? back()->with(FlashMsg::create_succeed(__('Product Category')))
-            : back()->with(FlashMsg::create_failed(__('Product Category')));
+        ? back()->with([
+            'message'    => 'Product Category Created Successfully.',
+            'alert-type' => 'success',
+        ])
+        : back()->with([
+            'message'    => 'Product Category Creation failed.',
+            'alert-type' => 'error',
+        ]);
     }
 
-    public function update(UpdateCategoryRequest $request)
-    {
+    public function update(UpdateCategoryRequest $request) {
 
         $data = $request->validated();
         $data['slug'] = strtolower(str_replace(' ', '-', $request->name));
@@ -62,38 +63,41 @@ class CategoryController extends Controller
 
         if ($subCategoryExit) {
             return back()->with([
-                'type' => 'danger',
-                'msg' => __('Category already exist with this name.')
+                'alert-type' => 'danger',
+                'message'    => __('Category already exist with this name.'),
             ]);
         }
 
         $updated = Category::find($request->id)->update($data);
 
         return $updated
-            ? back()->with(FlashMsg::update_succeed(__('Product Category')))
-            : back()->with(FlashMsg::update_failed(__('Product Category')));
+        ? back()->with([
+            'message'    => 'Product Category Updated Successfully.',
+            'alert-type' => 'success',
+        ])
+        : back()->with([
+            'message'    => 'Product Category Updating failed.',
+            'alert-type' => 'error',
+        ]);
     }
 
-    public function destroy(Category $item): ?bool
-    {
+    public function destroy(Category $item): ?bool {
         return $item->delete();
     }
 
-    public function bulk_action(Request $request): JsonResponse
-    {
+    public function bulk_action(Request $request): JsonResponse {
         Category::WhereIn('id', $request->ids)->delete();
         return response()->json(['status' => 'ok']);
     }
 
-    public function statusChange(Request $request, $id)
-    {
+    public function statusChange(Request $request, $id) {
         Category::where('id', $id)->update([
             'status_id' => $request->status,
         ]);
 
         return redirect()->back()->with([
-            'msg' => __('Category status changed successfully.'),
-            'type' => 'success'
+            'message'    => __('Category status changed successfully.'),
+            'alert-type' => 'success',
         ]);
     }
 }

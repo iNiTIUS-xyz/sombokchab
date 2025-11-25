@@ -3,13 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Menu;
-use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 
-class MenuController extends Controller
-{
-    public function __construct()
-    {
+class MenuController extends Controller {
+    public function __construct() {
         $this->middleware('auth:admin');
         $this->middleware('permission:appearance-menu-manage-list|appearance-menu-manage-create|appearance-menu-manage-edit|appearance-menu-manage-delete', ['only' => ['index']]);
         $this->middleware('permission:appearance-menu-manage-create', ['only' => ['store_new_menu']]);
@@ -17,34 +15,31 @@ class MenuController extends Controller
         $this->middleware('permission:appearance-menu-manage-delete', ['only' => ['delete_menu']]);
     }
 
-    public function index()
-    {
+    public function index() {
         $all_menu = Menu::all();
         return view('backend.pages.menu.menu-index')->with([
             'all_menu' => $all_menu,
         ]);
     }
 
-    public function store_new_menu(Request $request)
-    {
+    public function store_new_menu(Request $request) {
         $request->validate([
             'content' => 'nullable',
-            'title' => 'required',
+            'title'   => 'required',
         ]);
 
         Menu::create([
             'content' => $request->page_content,
-            'title' => $request->title,
+            'title'   => $request->title,
         ]);
 
         return redirect()->back()->with([
-            'msg' => __('New Menu created successfully.'),
-            'type' => 'success'
+            'message'    => __('New Menu created successfully.'),
+            'alert-type' => 'success',
         ]);
     }
 
-    public function edit_menu($id)
-    {
+    public function edit_menu($id) {
         $page_post = Menu::find($id);
 
         return view('backend.pages.menu.menu-edit')->with([
@@ -52,36 +47,33 @@ class MenuController extends Controller
         ]);
     }
 
-    public function update_menu(Request $request, $id)
-    {
+    public function update_menu(Request $request, $id) {
 
         $request->validate([
             'content' => 'nullable',
-            'title' => 'required',
+            'title'   => 'required',
         ]);
 
         Menu::where('id', $id)->update([
             'content' => $request->menu_content,
-            'title' => $request->title,
+            'title'   => $request->title,
         ]);
 
         return redirect()->back()->with([
-            'msg' => __('Menu updated successfully.'),
-            'type' => 'success'
+            'message'    => __('Menu updated successfully.'),
+            'alert-type' => 'success',
         ]);
     }
 
-    public function delete_menu(Request $request, $id)
-    {
+    public function delete_menu(Request $request, $id) {
         Menu::find($id)->delete();
         return redirect()->back()->with([
-            'msg' => __('Menu delete successfully.'),
-            'type' => 'danger'
+            'message'    => __('Menu delete successfully.'),
+            'alert-type' => 'success',
         ]);
     }
 
-    public function set_default_menu(Request $request, $id)
-    {
+    public function set_default_menu(Request $request, $id) {
         $lang = Menu::find($id);
         Menu::where(['status' => 'default'])->update(['status' => '']);
 
@@ -89,13 +81,12 @@ class MenuController extends Controller
         $lang->status = 'default';
         $lang->save();
         return redirect()->back()->with([
-            'msg' => 'Default Menu Set To ' . $lang->title,
-            'type' => 'success'
+            'message'    => 'Default Menu Set To ' . $lang->title,
+            'alert-type' => 'success',
         ]);
     }
 
-    public function mega_menu_item_select_markup(Request $request)
-    {
+    public function mega_menu_item_select_markup(Request $request) {
         $output = '';
         $class_name = '\\' . $request->type;
         $instance = new $class_name();
@@ -107,7 +98,7 @@ class MenuController extends Controller
             $item_details = $model->with([
                 'lang_query' => function ($query) use ($request) {
                     $query->where('lang', $request->lang);
-                }
+                },
             ])->get();
         } else {
             $item_details = $model->get();
@@ -120,14 +111,14 @@ class MenuController extends Controller
             if ($instance->query_type() === 'old_lang') {
                 $title = $item->$title_param ?? '';
             } elseif ($instance->query_type() === 'new_lang') {
-                $title = $item->lang_query->$title_param ?? '';
-            } else {
-                $title = $item->$title_param ?? '';
-            }
+            $title = $item->lang_query->$title_param ?? '';
+        } else {
+            $title = $item->$title_param ?? '';
+        }
 
-            $title = $instance->query_type() === 'old_lang' ? $item->$title_param : $title;
+        $title = $instance->query_type() === 'old_lang' ? $item->$title_param : $title;
 
-            $output .= '<option value="' . $item->id . '" >' . htmlspecialchars(strip_tags($title)) ?? '' . '</option>';
+        $output .= '<option value="' . $item->id . '" >' . htmlspecialchars(strip_tags($title)) ?? '' . '</option>';
         endforeach;
         $output .= '</select>';
         return $output;

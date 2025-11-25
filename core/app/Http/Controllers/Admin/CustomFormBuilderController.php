@@ -3,50 +3,43 @@
 namespace App\Http\Controllers\Admin;
 
 use App\FormBuilder;
-use App\Helpers\FlashMsg;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Str;
 
-class CustomFormBuilderController extends Controller
-{
+class CustomFormBuilderController extends Controller {
     protected const BASE_PATH = 'backend.form-builder.custom.';
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('auth:admin');
     }
 
-    public function all()
-    {
+    public function all() {
         $all_forms = FormBuilder::all();
 
         return view('backend.form-builder.custom.all', compact('all_forms'));
     }
 
-    public function bulk_action(Request $request)
-    {
+    public function bulk_action(Request $request) {
         FormBuilder::whereIn('id', $request->ids)->delete();
 
         return response()->json('ok');
     }
 
-    public function edit($id)
-    {
+    public function edit($id) {
         $form = FormBuilder::findOrFail($id);
 
         return view('backend.form-builder.custom.edit', compact('form'));
     }
 
-    public function update(Request $request)
-    {
+    public function update(Request $request) {
         $request->validate([
-            'title' => 'required|string',
-            'email' => 'required|string',
-            'button_title' => 'required|string',
-            'field_name' => 'required|max:191',
+            'title'             => 'required|string',
+            'email'             => 'required|string',
+            'button_title'      => 'required|string',
+            'field_name'        => 'required|max:191',
             'field_placeholder' => 'required|max:191',
-            'success_message' => 'required',
+            'success_message'   => 'required',
         ]);
         $id = $request->id;
         $title = $request->title;
@@ -62,38 +55,45 @@ class CustomFormBuilderController extends Controller
         $json_encoded_data = json_encode($all_request_except_token);
 
         FormBuilder::findOrfail($id)->update([
-            'title' => $title,
-            'email' => $email,
-            'button_text' => $button_title,
+            'title'           => $title,
+            'email'           => $email,
+            'button_text'     => $button_title,
             'success_message' => $request->success_message,
-            'fields' => $json_encoded_data,
+            'fields'          => $json_encoded_data,
         ]);
 
-        return back()->with(FlashMsg::item_update());
+        return back()->with([
+            'message'    => 'Item Updated Successfully.',
+            'alert-type' => 'success',
+        ]);
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $request->validate([
-            'title' => 'required|string',
-            'email' => 'required|string',
-            'button_title' => 'required|string',
+            'title'           => 'required|string',
+            'email'           => 'required|string',
+            'button_title'    => 'required|string',
             'success_message' => 'required|string',
         ]);
         FormBuilder::create([
-            'title' => $request->title,
-            'email' => $request->email,
-            'button_text' => $request->button_title,
+            'title'           => $request->title,
+            'email'           => $request->email,
+            'button_text'     => $request->button_title,
             'success_message' => $request->success_message,
         ]);
 
-        return back()->with(FlashMsg::item_new());
+        return back()->with([
+            'message'    => 'Item Added Successfully.',
+            'alert-type' => 'success',
+        ]);
     }
 
-    public function delete($id)
-    {
+    public function delete($id) {
         FormBuilder::findOrFail($id)->delete();
 
-        return back()->with(FlashMsg::item_delete());
+        return back()->with([
+            'message'    => 'Item Deleted Successfully.',
+            'alert-type' => 'success',
+        ]);
     }
 }

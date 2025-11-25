@@ -7,27 +7,23 @@ use Modules\Refund\Entities\RefundReason;
 use Modules\Refund\Http\Requests\StoreReasonRequest;
 use Modules\Refund\Http\Requests\UpdateReasonRequest;
 
-class AdminReasonController extends Controller
-{
-    public function index()
-    {
+class AdminReasonController extends Controller {
+    public function index() {
         $reasons = RefundReason::all();
 
         return view("refund::admin.reason.index", compact('reasons'));
     }
 
-    public function store(StoreReasonRequest $request)
-    {
+    public function store(StoreReasonRequest $request) {
         $reason = RefundReason::create($request->validated());
 
         return response()->json([
-            "msg" => $reason ? __("Successfully created reason") : __("Failed to create reason"),
+            "msg"     => $reason ? __("Successfully created reason") : __("Failed to create reason"),
             "success" => (bool) $reason,
         ]);
     }
 
-    public function update(UpdateReasonRequest $request)
-    {
+    public function update(UpdateReasonRequest $request) {
         try {
             $reason = RefundReason::query()
                 ->where("id", $request->id ?? 0)
@@ -36,25 +32,24 @@ class AdminReasonController extends Controller
                 ]);
 
             return response()->json([
-                "msg" => $reason ? __("Successfully updated reason") : __("Failed to update reason"),
+                "msg"     => $reason ? __("Successfully updated reason") : __("Failed to update reason"),
                 "success" => (bool) $reason,
             ]);
         } catch (\Throwable $e) {
             return response()->json([
-                "msg" => __("Failed to update reason"),
-                "success" => false
+                "msg"     => __("Failed to update reason"),
+                "success" => false,
             ]);
         }
     }
 
-    public function destroy(RefundReason $reason)
-    {
+    public function destroy(RefundReason $reason) {
         $reason = $reason->delete();
 
         return back()->with([
-            "msg" => $reason ? __("Successfully deleted reason") : __("Failed to delete reason"),
-            "type" => 'success',
-            "success" => (bool) $reason,
+            "message"    => $reason ? __("Successfully deleted reason") : __("Failed to delete reason"),
+            "alert-type" => 'success',
+            "success"    => (bool) $reason,
         ]);
     }
 }

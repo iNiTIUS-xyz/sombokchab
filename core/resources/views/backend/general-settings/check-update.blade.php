@@ -1,31 +1,32 @@
 @extends('backend.admin-master')
 
 @section('site-title')
-    {{__('Check Update')}}
+{{__('Check Update')}}
 @endsection
 @section('content')
-    <div class="col-lg-12 col-ml-12">
-        <div class="row">
-            <div class="col-12">
-                @include('backend.partials.message')
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="header-title"> {{__("Check Update")}}</h4>
-                        <button type="button" class="btn btn-primary mt-4 pr-4 pl-4" id="click_for_check_update"> <i class="fas fa-spinner fa-spin d-none"></i> {{__('Click to check For Update')}}</button>
+<div class="col-lg-12 col-ml-12">
+    <div class="row">
+        <div class="col-12">
+            {{-- @include('backend.partials.message') --}}
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title"> {{__("Check Update")}}</h4>
+                    <button type="button" class="btn btn-primary mt-4 pr-4 pl-4" id="click_for_check_update"> <i
+                            class="fas fa-spinner fa-spin d-none"></i> {{__('Click to check For Update')}}</button>
 
-                        <div id="update_notice_wrapper" class="d-none text-center">
+                    <div id="update_notice_wrapper" class="d-none text-center">
 
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <x-media.markup/>
+</div>
+<x-media.markup />
 @endsection
 @section('script')
-    <script>
-        (function($){
+<script>
+    (function($){
             "use strict";
             $(document).ready(function() {
                 //todo write code
@@ -87,5 +88,5 @@
 
             });
         }(jQuery));
-    </script>
+</script>
 @endsection

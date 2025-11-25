@@ -12,12 +12,10 @@ use Modules\Order\Traits\OrderDetailsTrait;
 use Modules\Vendor\Entities\Vendor;
 use Modules\Wallet\Http\Services\WalletService;
 
-class AdminOrderController extends Controller
-{
+class AdminOrderController extends Controller {
     use OrderDetailsTrait;
 
-    public function index()
-    {
+    public function index() {
         $all_orders = SubOrder::with("order:id,payment_status,created_at", "vendor")
             ->withCount("orderItem")
             ->orderByDesc("id")
@@ -26,15 +24,14 @@ class AdminOrderController extends Controller
         return view('order::admin.index', compact("all_orders"));
     }
 
-    public function orders()
-    {
+    public function orders() {
 
         $all_orders = Order::query()
             ->with([
                 "paymentMeta",
                 "orderTrack" => function ($query) {
                     $query->orderByDesc('id')->limit(1);
-                }
+                },
             ])
             ->orderByDesc("id")
             ->get();
@@ -42,25 +39,23 @@ class AdminOrderController extends Controller
         return view('order::admin.order-list', compact("all_orders"));
     }
 
-    public function subOrderDetails($id)
-    {
+    public function subOrderDetails($id) {
         return OrderService::subOrderDetails($id);
     }
 
-    public function orderVendorList()
-    {
+    public function orderVendorList() {
         $vendors = Vendor::with("logo", "cover_photo")
             ->withCount([
-                "order as total_order" => function ($order) {
+                "order as total_order"    => function ($order) {
                     $order->orderByDesc("orders.id");
                 },
                 "order as complete_order" => function ($order) {
                     $order->where("orders.order_status", "complete");
                 },
-                "order as pending_order" => function ($order) {
+                "order as pending_order"  => function ($order) {
                     $order->where("orders.order_status", "pending");
                 },
-                "product"
+                "product",
             ])
             ->whereHas("order")
             ->withSum("subOrder as total_earning", "sub_orders.total_amount")
@@ -69,15 +64,13 @@ class AdminOrderController extends Controller
         return view("order::admin.vendors", compact("vendors"));
     }
 
-    public function details($id)
-    {
+    public function details($id) {
         $order = $this->orderDetailsMethod($id);
 
         return view("order::admin.details", compact("order"));
     }
 
-    public function vendorOrders($username)
-    {
+    public function vendorOrders($username) {
         $vendor = Vendor::select("id", "username")->where("username", $username)->firstOrFail();
 
         $all_orders = SubOrder::with("order:id,payment_status,created_at", "vendor")
@@ -89,8 +82,7 @@ class AdminOrderController extends Controller
         return view('order::admin.index', compact("all_orders"));
     }
 
-    public function edit($orderId)
-    {
+    public function edit($orderId) {
         $order = $this->orderDetailsMethod($orderId);
 
         if ($order->SubOrders->count() == 1 && !empty($order->SubOrders->first()->vendor_id)) {
@@ -101,12 +93,11 @@ class AdminOrderController extends Controller
         return view("order::admin.details", compact("order", "edit"));
     }
 
-    public function updateOrderTrack(Request $request)
-    {
+    public function updateOrderTrack(Request $request) {
         $orderTrack = $request->validate([
-            "order_id" => "required",
-            "order_track" => "required",
-            "order_track.*" => "required"
+            "order_id"      => "required",
+            "order_track"   => "required",
+            "order_track.*" => "required",
         ]);
 
         foreach ($orderTrack["order_track"] as $track) {
@@ -118,49 +109,60 @@ class AdminOrderController extends Controller
             OrderServices::storeOrderTrack($orderTrack["order_id"], $track, auth()->user()->id, 'admin');
         }
 
-        return back()->with(["type" => "success", "msg" => __("Order track updated successfully.")]);
+        return back()->with([
+            "alert-type" => "success",
+            "message"    => __("Order track updated successfully."),
+        ]);
     }
 
-    public function updateOrderStatus(Request $request)
-    {
+    public function updateOrderStatus(Request $request) {
         $orderData = $request->validate([
-            "order_status" => "required",
+            "order_status"   => "required",
             "payment_status" => "required",
-            "order_id" => "required"
+            "order_id"       => "required",
         ]);
 
         Order::where("id", $orderData["order_id"])->update([
-            "order_status" => $orderData["order_status"],
+            "order_status"   => $orderData["order_status"],
             "payment_status" => $orderData["payment_status"],
         ]);
 
-        return back()->with(["type" => "success", "msg" => __("Status updated successfully.")]);
+        return back()->with([
+            "alert-type" => "success",
+            "message"    => __("Status updated successfully."),
+        ]);
     }
 
-    public function orderStatusChange(Request $request, $id)
-    {
+    public function orderStatusChange(Request $request, $id) {
         Order::where("id", $id)->update([
             "order_status" => $request->order_status,
         ]);
 
-        return back()->with(["type" => "success", "msg" => __("Order status changed successfully.")]);
+        return back()->with([
+            "alert-type" => "success",
+            "message"    => __("Order status changed successfully."),
+        ]);
     }
-    public function subOrderStatusChange(Request $request, $id)
-    {
+    public function subOrderStatusChange(Request $request, $id) {
         SubOrder::where("id", $id)->update([
             "order_status" => $request->order_status,
         ]);
 
-        return back()->with(["type" => "success", "msg" => __("Sub Order status changed successfully.")]);
+        return back()->with([
+            "alert-type" => "success",
+            "message"    => __("Sub Order status changed successfully."),
+        ]);
     }
 
-    public function paymentStatusChange(Request $request, $id)
-    {
+    public function paymentStatusChange(Request $request, $id) {
 
         Order::where("id", $id)->update([
             "payment_status" => $request->payment_status,
         ]);
 
-        return back()->with(["type" => "success", "msg" => __("Order payment status changed successfully.")]);
+        return back()->with([
+            "alert-type" => "success",
+            "message"    => __("Order payment status changed successfully."),
+        ]);
     }
 }

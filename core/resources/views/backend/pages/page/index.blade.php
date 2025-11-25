@@ -1,136 +1,137 @@
 @extends('backend.admin-master')
 
 @section('site-title')
-    {{ __('All Pages') }}
+{{ __('All Pages') }}
 @endsection
 
 @section('style')
-    <x-bulk-action.css />
+<x-bulk-action.css />
 @endsection
 
 @section('content')
-    @php
-        $pages = [];
-    @endphp
-    <div class="col-lg-12 col-ml-12">
-        <div class="row">
-            <div class="col-lg-12">
-                <x-msg.error />
-                <x-msg.flash />
-                @can('add-page')
-                    <div class="btn-wrapper mb-4">
-                        <a href="{{ route('admin.page.new') }}" class="cmn_btn btn_bg_profile" title="{{ __('Add New Page') }}">
-                            {{ __('Add New Page') }}
-                        </a>
+@php
+$pages = [];
+@endphp
+<div class="col-lg-12 col-ml-12">
+    <div class="row">
+        <div class="col-lg-12">
+            {{--
+            <x-msg.error />
+            <x-msg.flash /> --}}
+            @can('add-page')
+            <div class="btn-wrapper mb-4">
+                <a href="{{ route('admin.page.new') }}" class="cmn_btn btn_bg_profile" title="{{ __('Add New Page') }}">
+                    {{ __('Add New Page') }}
+                </a>
+            </div>
+            @endcan
+            <div class="dashboard__card">
+                <div class="dashboard__card__header">
+                    <h4 class="dashboard__card__title">
+                        {{ __('All Pages') }}
+                    </h4>
+                    <div class="dashboard__card__header__right">
+                        @can('view-page')
+                        <x-bulk-action.dropdown />
+                        @endcan
                     </div>
-                @endcan
-                <div class="dashboard__card">
-                    <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">
-                            {{ __('All Pages') }}
-                        </h4>
-                        <div class="dashboard__card__header__right">
-                            @can('view-page')
-                                <x-bulk-action.dropdown />
-                            @endcan
-                        </div>
-                    </div>
-                    <div class="dashboard__card__body mt-4">
-                        <div class="table-responsive">
-                            <table class="table table-default" id="dataTable">
-                                <thead>
+                </div>
+                <div class="dashboard__card__body mt-4">
+                    <div class="table-responsive">
+                        <table class="table table-default" id="dataTable">
+                            <thead>
+                                @can('view-page')
+                                <x-bulk-action.th />
+                                @endcan
+                                <th>{{ __('Title') }}</th>
+                                <th>{{ __('Date') }}</th>
+                                <th>{{ __('Publish Status') }}</th>
+                                <th>{{ __('Action') }}</th>
+                            </thead>
+                            <tbody>
+                                @foreach ($all_pages as $page)
+                                <tr>
                                     @can('view-page')
-                                        <x-bulk-action.th />
+                                    <x-bulk-action.td :id="$page->id" />
                                     @endcan
-                                    <th>{{ __('Title') }}</th>
-                                    <th>{{ __('Date') }}</th>
-                                    <th>{{ __('Publish Status') }}</th>
-                                    <th>{{ __('Action') }}</th>
-                                </thead>
-                                <tbody>
-                                    @foreach ($all_pages as $page)
-                                        <tr>
-                                            @can('view-page')
-                                                <x-bulk-action.td :id="$page->id" />
-                                            @endcan
-                                            <td>
-                                                <p>
-                                                    <strong>English :</strong> {{ $page->title }}
+                                    <td>
+                                        <p>
+                                            <strong>English :</strong> {{ $page->title }}
 
-                                                </p>
-                                                @if ($page->title_km)
-                                                    <p>
-                                                        <strong>Khmer :</strong> {{ $page->title_km }}
-                                                    </p>
-                                                @endif
-                                            </td>
-                                            <td>{{ date('M j, Y', strtotime($page->created_at)) }}</td>
-                                            <td>
-                                                <div class="btn-group badge">
-                                                    <button type="button"
-                                                        class="status-{{ $page->status }} {{ $page->status == 'publish' ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
-                                                        data-bs-toggle="dropdown" aria-haspopup="true"
-                                                        aria-expanded="false">
-                                                        {{ ucfirst($page->status == 'publish' ? __('Publish') : __('Unpublish')) }}
+                                        </p>
+                                        @if ($page->title_km)
+                                        <p>
+                                            <strong>Khmer :</strong> {{ $page->title_km }}
+                                        </p>
+                                        @endif
+                                    </td>
+                                    <td>{{ date('M j, Y', strtotime($page->created_at)) }}</td>
+                                    <td>
+                                        <div class="btn-group badge">
+                                            <button type="button"
+                                                class="status-{{ $page->status }} {{ $page->status == 'publish' ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
+                                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                {{ ucfirst($page->status == 'publish' ? __('Publish') : __('Unpublish'))
+                                                }}
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <form action="{{ route('admin.page.status.change', $page->id) }}"
+                                                    method="POST" id="status-form-activate-{{ $page->id }}">
+                                                    @csrf
+                                                    <input type="hidden" name="status" value="publish">
+                                                    <button type="submit" class="dropdown-item">
+                                                        {{ __('Publish') }}
                                                     </button>
-                                                    <div class="dropdown-menu">
-                                                        <form action="{{ route('admin.page.status.change', $page->id) }}"
-                                                            method="POST" id="status-form-activate-{{ $page->id }}">
-                                                            @csrf
-                                                            <input type="hidden" name="status" value="publish">
-                                                            <button type="submit" class="dropdown-item">
-                                                                {{ __('Publish') }}
-                                                            </button>
-                                                        </form>
-                                                        <form action="{{ route('admin.page.status.change', $page->id) }}"
-                                                            method="POST" id="status-form-deactivate-{{ $page->id }}">
-                                                            @csrf
-                                                            <input type="hidden" name="status" value="draft">
-                                                            <button type="submit" class="dropdown-item">
-                                                                {{ __('Unpublish') }}
-                                                            </button>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                @can('edit-page')
-                                                    <a class="btn btn-xs btn-warning text-dark btn-sm mb-2 me-1"
-                                                        title="{{ __('Edit Data') }}"
-                                                        href="{{ route('admin.page.edit', $page->id) }}">
-                                                        <i class="ti-pencil"></i>
-                                                    </a>
-                                                @endcan
-                                                @if (empty($dynamic_page_ids[$page->id]))
-                                                    @can('delete-page')
-                                                        <x-delete-popover :url="route('admin.page.delete', $page->id)" />
-                                                    @endcan
-                                                @endif
-                                                @can('edit-page')
-                                                    @if (!empty($page->page_builder_status))
-                                                        <a href="{{ route('admin.dynamic.page.builder', ['type' => 'dynamic-page', 'id' => $page->id]) }}"
-                                                            class="btn btn-xs btn-primary mb-2 me-1">
-                                                            {{ __('Open Page Builder') }}
-                                                        </a>
-                                                    @endif
-                                                @endcan
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                                                </form>
+                                                <form action="{{ route('admin.page.status.change', $page->id) }}"
+                                                    method="POST" id="status-form-deactivate-{{ $page->id }}">
+                                                    @csrf
+                                                    <input type="hidden" name="status" value="draft">
+                                                    <button type="submit" class="dropdown-item">
+                                                        {{ __('Unpublish') }}
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @can('edit-page')
+                                        <a class="btn btn-xs btn-warning text-dark btn-sm mb-2 me-1"
+                                            title="{{ __('Edit Data') }}"
+                                            href="{{ route('admin.page.edit', $page->id) }}">
+                                            <i class="ti-pencil"></i>
+                                        </a>
+                                        @endcan
+                                        @if (empty($dynamic_page_ids[$page->id]))
+                                        @can('delete-page')
+                                        <x-delete-popover :url="route('admin.page.delete', $page->id)" />
+                                        @endcan
+                                        @endif
+                                        @can('edit-page')
+                                        @if (!empty($page->page_builder_status))
+                                        <a href="{{ route('admin.dynamic.page.builder', ['type' => 'dynamic-page', 'id' => $page->id]) }}"
+                                            class="btn btn-xs btn-primary mb-2 me-1">
+                                            {{ __('Open Page Builder') }}
+                                        </a>
+                                        @endif
+                                        @endcan
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 @endsection
 
 @section('script')
-    @can('view-page')
-        <script>
-            (function($) {
+@can('view-page')
+<script>
+    (function($) {
                 $(document).ready(function() {
                     $(document).on('click', '#bulk_delete_btn', function(e) {
                         e.preventDefault();
@@ -203,6 +204,6 @@
                     });
                 });
             })(jQuery);
-        </script>
-    @endcan
+</script>
+@endcan
 @endsection
