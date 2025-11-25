@@ -369,6 +369,18 @@ if (!function_exists('langWiseShowValue')) {
     }
 }
 
+if (!function_exists('langInfo')) {
+    function langInfo()
+    {
+        $lang = session()->get('lang', 'en_US');
+
+        return $lang;
+    }
+}
+
+
+
+
 
 function get_user_lang()
 {
@@ -2578,7 +2590,7 @@ function render_page_meta_data_for_product($product_details)
     $twitter_meta_tags = $product_details->metaData->twitter_meta_tags ?? '';
     $twitter_meta_description = $product_details->metaData->twitter_meta_description ?? '';
     $twitter_meta_image = get_attachment_image_by_id($product_details->metaData->twitter_meta_image ?? '')['img_url'] ?? '';
-    $title = $product_details->name;
+    $title = langWiseShowValue($product_details->name, $product_details->name_km);
 
     return <<<HTML
        <title>{$title}</title>
