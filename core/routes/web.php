@@ -14,6 +14,7 @@ use App\Http\Controllers\XgNotificationController;
 use Illuminate\Support\Facades\Route;
 use Modules\CountryManage\Http\Controllers\Product\ProductCartController;
 use Modules\Order\Http\Controllers\OrderController;
+use Modules\User\Http\Controllers\UserController;
 use Modules\Vendor\Http\Controllers\FrontendVendorController;
 use Modules\Vendor\Http\Controllers\VendorBackendController;
 use Modules\Vendor\Http\Controllers\VendorProfileController;
@@ -708,3 +709,6 @@ Route::post('vendor/validate-field', [VendorProfileController::class, 'validateF
 
 Route::post('admin/vendor/validate-field', [VendorBackendController::class, 'validateField'])
     ->name('admin.vendor.validate-field');
+
+Route::post('admin/user/validate-field', [UserController::class, 'validateField'])
+    ->name('admin.frontend.validate-field');

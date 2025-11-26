@@ -5,6 +5,7 @@ namespace Modules\User\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Modules\CountryManage\Entities\City;
 use Modules\CountryManage\Entities\Country;
 use Modules\CountryManage\Entities\State;
@@ -106,5 +107,50 @@ class UserController extends Controller {
             'message'    => __('Email verification status changed.'),
             'alert-type' => 'success',
         ]);
+    }
+    public function validateField(Request $request) {
+        $field = $request->input('field');
+        $value = $request->input('value');
+        $id = $request->input('id'); // optional for updates
+
+        // allow both 'phone' and legacy 'number'
+        $allowed = ['username', 'email', 'number', 'phone'];
+
+        if (!in_array($field, $allowed)) {
+            return response()->json(['valid' => false, 'message' => 'Invalid field.'], 400);
+        }
+
+        // map form field names to DB columns
+        $column = match ($field) {
+            'number', 'phone' => 'phone', // use DB column "phone"
+            default => $field,
+        };
+
+        // basic format checks
+        $rules = [];
+        if ($field === 'email') {
+            $rules[$field] = 'required|email';
+        } elseif (in_array($field, ['number', 'phone'])) {
+            $rules[$field] = 'required'; // you can add numeric|min:length rules here
+        } else {
+            $rules[$field] = 'required';
+        }
+
+        $validator = Validator::make([$field => $value], $rules);
+        if ($validator->fails()) {
+            return response()->json(['valid' => false, 'message' => $validator->errors()->first($field)], 422);
+        }
+
+        // uniqueness check
+        $exists = User::where($column, $value)
+            ->when($id, fn($q) => $q->where('id', '!=', $id))
+            ->exists();
+
+        if ($exists) {
+            $pretty = $field === 'phone' || $field === 'number' ? 'Phone number' : ucfirst($field);
+            return response()->json(['valid' => false, 'message' => $pretty . ' already taken.']);
+        }
+
+        return response()->json(['valid' => true]);
     }
 }
