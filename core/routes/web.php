@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 use Modules\CountryManage\Http\Controllers\Product\ProductCartController;
 use Modules\Order\Http\Controllers\OrderController;
 use Modules\Vendor\Http\Controllers\FrontendVendorController;
+use Modules\Vendor\Http\Controllers\VendorBackendController;
 use Modules\Vendor\Http\Controllers\VendorProfileController;
 
 Route::get('firebase-phone-authentication', [FirebaseController::class, 'index']);
@@ -704,3 +705,6 @@ Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_
 
 Route::post('vendor/validate-field', [VendorProfileController::class, 'validateField'])
     ->name('vendor.validate-field');
+
+Route::post('admin/vendor/validate-field', [VendorBackendController::class, 'validateField'])
+    ->name('admin.vendor.validate-field');

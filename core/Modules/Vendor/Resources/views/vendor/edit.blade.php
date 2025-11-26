@@ -96,10 +96,11 @@
                                                                 <span class="text-danger">*</span>
                                                             </label>
                                                             <input name="owner_name" type="text" maxlength="30"
-                                                                class="form--control radius-10" pattern="[A-Za-z\s]+"
-                                                                title="Only letters allowed"
-                                                                value="{{ $vendor->owner_name }}" required=""
-                                                                placeholder="{{ __('Enter Vendor Name') }}">
+                                                                class="form--control radius-10"
+                                                                value="{{ $vendor->owner_name }}" required
+                                                                placeholder="{{ __('Enter Vendor Name') }}"
+                                                                oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '');">
+
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-12">
@@ -323,7 +324,7 @@
                                                                 value="{{ $vendor?->phone }}"
                                                                 class="form--control radius-10"
                                                                 placeholder="{{ __('Enter Phone Number') }}"
-                                                                maxlength="15" required
+                                                                maxlength="15"
                                                                 oninput="this.value = this.value.replace(/[^0-9+]/g, '');">
 
                                                             <small class="text-danger" id="number_error"></small>
