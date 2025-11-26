@@ -17,6 +17,16 @@
         opacity: 0.5 !important;
         cursor: not-allowed !important;
     }
+
+    .field-error {
+        color: #dc3545 !important;
+        /* red */
+    }
+
+    .field-success {
+        color: #28a745 !important;
+        /* green */
+    }
 </style>
 <div class="col-lg-12 col-ml-12">
     <div class="row">
@@ -490,144 +500,211 @@
 <x-media.markup type="vendor" />
 @endsection
 @section('script')
+
+
 <script>
-    (function($) {
-        "use strict";
+    (function($){
+    "use strict";
 
-        // fields we will validate
-        const fields = ['username','email','number'];
+    // fields we will validate
+    const fields = ['username','email','number'];
 
-        // track errors
-        const errors = { username: false, email: false, number: false };
+    // track invalid state (true = invalid)
+    const errors = { username: false, email: false, number: false };
 
-        // find submit button (your markup has .submit_button > button)
-        const $submitBtn = $('.submit_button button').first();
-        if (!$submitBtn.length) {
-            // fallback to first submit button
-            $submitBtn = $('button[type="submit"]').first();
-        }
+    // track whether user has interacted with field (only show "available" after interaction)
+    const touched = { username: false, email: false, number: false };
 
-       function updateSubmitState() {
-    const hasError = Object.values(errors).some(v => v === true);
-
-    if (hasError) {
-        $submitBtn.prop('disabled', true);      // stops keyboard firing
-        $submitBtn.addClass('btn-disabled');    // makes it not-clickable
-    } else {
-        $submitBtn.prop('disabled', false);
-        $submitBtn.removeClass('btn-disabled');
+    // submit button
+    let $submitBtn = $('.submit_button button').first();
+    if (!$submitBtn.length) {
+        $submitBtn = $('button[type="submit"]').first();
     }
-}
 
+    function updateSubmitState() {
+        const hasError = Object.values(errors).some(v => v === true);
+        if (hasError) {
+            $submitBtn.prop('disabled', true);
+            $submitBtn.addClass('btn-disabled');
+        } else {
+            $submitBtn.prop('disabled', false);
+            $submitBtn.removeClass('btn-disabled');
+        }
+    }
 
-        function setFieldError(field, message) {
-            const $input = $('input[name="' + field + '"]');
-            const $err   = $('#' + field + '_error');
+    function setFieldError(field, message) {
+        const $input = $('input[name="' + field + '"]');
+        const $err   = $('#' + field + '_error');
 
-            if (message) {
-                errors[field] = true;
-                $input.addClass('is-invalid');
-                $err.text(message);
-            } else {
-                errors[field] = false;
-                $input.removeClass('is-invalid');
-                $err.text('');
-            }
-            updateSubmitState();
+        errors[field] = true;
+        $input.removeClass('is-valid').addClass('is-invalid');
+        $err.removeClass('field-success').addClass('field-error').text(message);
+
+        updateSubmitState();
+    }
+
+    function setFieldSuccess(field, message) {
+        const $input = $('input[name="' + field + '"]');
+        const $err   = $('#' + field + '_error');
+
+        errors[field] = false;
+        // only show success when user has interacted with the field
+        if (touched[field]) {
+            $input.removeClass('is-invalid').addClass('is-valid');
+            $err.removeClass('field-error').addClass('field-success').text(message);
+        } else {
+            // if not touched, clear messages and classes (silence)
+            $input.removeClass('is-invalid is-valid');
+            $err.removeClass('field-error field-success').text('');
         }
 
-        // debounce helper
-        function debounce(fn, wait = 400) {
-            let t;
-            return function() {
-                const ctx = this, args = arguments;
-                clearTimeout(t);
-                t = setTimeout(() => fn.apply(ctx, args), wait);
-            };
+        updateSubmitState();
+    }
+
+    function clearFieldMessage(field) {
+        const $input = $('input[name="' + field + '"]');
+        const $err   = $('#' + field + '_error');
+        errors[field] = false;
+        $input.removeClass('is-invalid is-valid');
+        $err.removeClass('field-error field-success').text('');
+        updateSubmitState();
+    }
+
+    // debounce helper
+    function debounce(fn, wait = 400) {
+        let t;
+        return function() {
+            const ctx = this, args = arguments;
+            clearTimeout(t);
+            t = setTimeout(() => fn.apply(ctx, args), wait);
+        };
+    }
+
+    // AJAX check
+    function checkFieldUnique(field, value) {
+        const vendorId = $('input[name="id"]').val() || '';
+
+        if (!value) {
+            clearFieldMessage(field);
+            return;
         }
 
-        // AJAX check
-        function checkFieldUnique(field, value) {
-            const vendorId = $('input[name="id"]').val() || '';
-
-            // if empty, clear error and do not call server
-            if (!value) {
-                setFieldError(field, null);
-                return;
-            }
-
-            $.ajax({
-                url: '{{ route("vendor.validate-field") }}',
-                method: 'POST',
-                data: {
-                    _token: $('meta[name="csrf-token"]').attr('content'),
-                    field: field,
-                    value: value,
-                    id: vendorId
-                },
-                success: function(res) {
-                    // res.valid expected true/false
-                    if (res && res.valid === false) {
-                        setFieldError(field, res.message || (field + ' already taken.'));
-                    } else {
-                        setFieldError(field, null);
-                    }
-                },
-                error: function(xhr) {
-                    console.error('Unique check failed', xhr);
-                    // keep existing UX: don't block submit permanently on server hiccup
-                    // optionally show soft message: setFieldError(field, 'Validation server error');
+        $.ajax({
+            url: '{{ route("vendor.validate-field") }}',
+            method: 'POST',
+            data: {
+                _token: $('meta[name="csrf-token"]').attr('content'),
+                field: field,
+                value: value,
+                id: vendorId
+            },
+            success: function(res) {
+                // res: { valid: true } or { valid: false, message: "..." }
+                if (res && res.valid === false) {
+                    // always show error (even if not touched) because it's a real problem
+                    setFieldError(field, res.message || (field + ' already taken.'));
+                } else {
+                    // available — show success only if user touched the field
+                    const nice = {
+                        username: 'Username available',
+                        email: 'Email available',
+                        number: 'Phone number available'
+                    };
+                    setFieldSuccess(field, nice[field] || 'Available');
                 }
-            });
-        }
-
-        // attach debounced listeners on page ready
-        $(function() {
-            // ensure csrf meta exists
-            if (!$('meta[name="csrf-token"]').length) {
-                $('head').append('<meta name="csrf-token" content="{{ csrf_token() }}">');
+            },
+            error: function(xhr) {
+                console.error('Unique check failed', xhr);
+                // treat server error as temporary problem — show a soft error and block submit
+                setFieldError(field, 'Validation server error');
             }
-
-            fields.forEach(function(field) {
-                const $el = $('input[name="' + field + '"]');
-                if (!$el.length) return;
-
-                const deb = debounce(function() {
-                    checkFieldUnique(field, $el.val().trim());
-                }, 450);
-
-                // trigger on input & change
-                $el.on('input change', deb);
-
-                // initial check for pre-filled page values
-                const initial = $el.val() ? $el.val().trim() : '';
-                if (initial) setTimeout(() => checkFieldUnique(field, initial), 250);
-            });
-
-            // final safeguard on submit
-            $('#vendor-create-form').on('submit', function(e) {
-                const hasError = Object.values(errors).some(v => v === true);
-                if (hasError) {
-                    e.preventDefault();
-                    const first = Object.keys(errors).find(k => errors[k]);
-                    if (first) {
-                        const $firstEl = $('input[name="' + first + '"]');
-                        if ($firstEl.length) {
-                            $('html,body').animate({ scrollTop: $firstEl.offset().top - 100 }, 250);
-                            $firstEl.focus();
-                        }
-                    }
-                    return false;
-                }
-                // allow normal submit (your existing ajax submit handles form submission)
-            });
-
-            updateSubmitState();
         });
-    })(jQuery);
+    }
+
+    // attach listeners
+    $(function() {
+        if (!$('meta[name="csrf-token"]').length) {
+            $('head').append('<meta name="csrf-token" content="{{ csrf_token() }}">');
+        }
+
+        fields.forEach(function(field) {
+            const $el = $('input[name="' + field + '"]');
+            if (!$el.length) return;
+
+            // mark touched on first user input/interaction
+            $el.on('focus', function() {
+                // don't flip touched on focus if already true
+                if (!touched[field]) {
+                    // only mark touched on actual typing/change (not just focus)
+                    // so we set a flag that focus happened; actual typing will set touched true below
+                    $el.data('hadFocus', true);
+                }
+            });
+
+            // debounced check
+            const debounced = debounce(function() {
+                checkFieldUnique(field, $el.val().trim());
+            }, 450);
+
+            $el.on('input change', function() {
+                const v = $(this).val().trim();
+
+                // mark touched when the user types (first time)
+                if (!touched[field]) {
+                    // require the user to actually change the value after focusing
+                    if ($el.data('hadFocus') || v.length > 0) {
+                        touched[field] = true;
+                    }
+                }
+
+                if (!v) {
+                    clearFieldMessage(field);
+                    return;
+                }
+
+                // clear existing success while typing
+                $('#' + field + '_error').removeClass('field-success').text('');
+                $(this).removeClass('is-valid is-invalid');
+
+                debounced();
+            });
+
+            // Initial server check: only show errors (taken) on load, but do NOT show "available" messages
+            const initial = $el.val() ? $el.val().trim() : '';
+            if (initial) {
+                // call but ensure touched[field] is false so setFieldSuccess will be silent
+                setTimeout(() => checkFieldUnique(field, initial), 250);
+            }
+        });
+
+        // final safeguard on submit
+        $('#vendor-create-form').on('submit', function(e) {
+            const hasError = Object.values(errors).some(v => v === true);
+            if (hasError) {
+                e.preventDefault();
+                const first = Object.keys(errors).find(k => errors[k]);
+                if (first) {
+                    const $firstEl = $('input[name="' + first + '"]');
+                    if ($firstEl.length) {
+                        $('html,body').animate({ scrollTop: $firstEl.offset().top - 100 }, 250);
+                        $firstEl.focus();
+                    }
+                }
+                return false;
+            }
+            // allow submit
+        });
+
+        updateSubmitState();
+    });
+
+})(jQuery);
 </script>
 
-<script src="{{ asset('assets/backend/js/colorpicker.js') }}"></script>
+
+
+<script src="{{ asset('assets/backend/js/colorpicker.js') }}">
+    </>
 <x-datatable.js />
 <x-media.js type="vendor" />
 <x-table.btn.swal.js />
