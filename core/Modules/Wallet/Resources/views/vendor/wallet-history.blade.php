@@ -1,83 +1,84 @@
 @extends('vendor.vendor-master')
 
 @section('site-title')
-    {{ __('Wallet Settings') }}
+{{ __('Wallet Settings') }}
 @endsection
 
 @section('style')
-    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.min.css') }}">
-    <style>
-        .payment_attachment {
-            width: 100px;
-        }
+<link rel="stylesheet" href="{{ asset('assets/css/dataTables.min.css') }}">
+<style>
+    .payment_attachment {
+        width: 100px;
+    }
 
-        #dataTable th,
-        #dataTable td {
-            text-align: left !important;
-            vertical-align: middle;
-        }
+    #dataTable th,
+    #dataTable td {
+        text-align: left !important;
+        vertical-align: middle;
+    }
 
-        #dataTable {
-            width: 100%;
-            border-collapse: collapse;
-        }
+    #dataTable {
+        width: 100%;
+        border-collapse: collapse;
+    }
 
-        #dataTable th {
-            font-weight: 600;
-        }
-    </style>
+    #dataTable th {
+        font-weight: 600;
+    }
+</style>
 @endsection
 
 @section('content')
-    <div class="col-lg-12 col-ml-12">
-        <div class="row">
-            <div class="col-lg-12">
-                <x-error-msg />
-                <x-flash-msg />
-                <div class="dashboard__card">
-                    <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Wallet History') }}</h4>
-                    </div>
-                    <div class="dashboard__card__body mt-4">
-                        <div class="table-responsive">
-                            <table class="table" id="dataTable">
-                                <thead>
-                                    <tr>
-                                        <th>{{ __('Amount') }}</th>
-                                        <th>{{ __('Sub Order ID') }}</th>
-                                        <th>{{ __('Type') }}</th>
-                                        <th>{{ __('Date Time') }}</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($histories as $history)
-                                        <tr>
-                                            <td>{{ $history->amount ? float_amount_with_currency_symbol($history->amount) : '' }}
-                                            </td>
-                                            <td>{{ $history->sub_order_id ?? '' }}</td>
-                                            <td>
-                                                <span class="badge bg-{{ $history->type ? 'primary' : 'warning' }}">
-                                                    {{ $history->type ? __('Incoming') : __('Outgoing') }}
-                                                </span>
-                                            </td>
-                                            <td>{{ $history->created_at->format('M j, Y') }}</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+<div class="col-lg-12 col-ml-12">
+    <div class="row">
+        <div class="col-lg-12">
+            <x-error-msg />
+            <x-flash-msg />
+            <div class="dashboard__card">
+                <div class="dashboard__card__header">
+                    <h4 class="dashboard__card__title">{{ __('Wallet History') }}</h4>
+                </div>
+                <div class="dashboard__card__body mt-4">
+                    <div class="table-responsive">
+                        <table class="table" id="dataTable">
+                            <thead>
+                                <tr>
+                                    <th>{{ __('Amount') }}</th>
+                                    <th>{{ __('Sub Order ID') }}</th>
+                                    <th>{{ __('Type') }}</th>
+                                    <th>{{ __('Date') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($histories as $history)
+                                <tr>
+                                    <td>{{ $history->amount ? float_amount_with_currency_symbol($history->amount) : ''
+                                        }}
+                                    </td>
+                                    <td>{{ $history->sub_order_id ?? '' }}</td>
+                                    <td>
+                                        <span class="badge bg-{{ $history->type ? 'primary' : 'warning' }}">
+                                            {{ $history->type ? __('Incoming') : __('Outgoing') }}
+                                        </span>
+                                    </td>
+                                    <td>{{ $history->created_at->format('M j, Y') }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 @endsection
 
 @section('script')
-    <script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
 
-    <script>
-        $(document).ready(function() {
+<script>
+    $(document).ready(function() {
             if ($('#dataTable').length) {
                 $('#dataTable').DataTable({
                     paging: true,
@@ -98,5 +99,5 @@
                 });
             }
         });
-    </script>
+</script>
 @endsection

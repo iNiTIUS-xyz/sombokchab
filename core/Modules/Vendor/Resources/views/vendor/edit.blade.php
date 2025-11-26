@@ -273,20 +273,46 @@
                                                     <div class="col-sm-12">
                                                         <div class="single-input">
                                                             <label class="label-title color-light mb-2">
-                                                                {{ __('Google Map Location') }}</label>
-                                                            <textarea cols="30" rows="10" name="google_map_location"
-                                                                type="text" class="form--control radius-10"
-                                                                placeholder="{{ __('Enter Google Map Location') }}">
-                                                                    @if (!empty($vendor?->vendor_address?->google_map_location))
-                                                                        {!! $location_iframeHtml !!}
-                                                                    @endif
-                                                                </textarea>
-                                                            <span class="mt-3">
+                                                                {{ __('Google Map Location') }}
+                                                            </label>
+
+                                                            <div class="embed-map-container">
+                                                                <iframe class="embed-map-frame" frameborder="0"
+                                                                    scrolling="no" marginheight="0" marginwidth="0"
+                                                                    src="https://maps.google.com/maps?hl=en&q=Dhaka&t=&z=14&ie=UTF8&iwloc=B&output=embed">
+                                                                </iframe>
+                                                            </div>
+
+                                                            {{-- <span class="mt-3">
                                                                 {{ __('Example: Google Map Embed Code.') }}
                                                             </span>
-                                                            <pre><code>  &lt;iframe src="https://www.example.com" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"&gt;&lt;/iframe&gt;</code></pre>
+                                                            <pre><code>&lt;iframe src="https://www.example.com" width="600" height="450"&gt;&lt;/iframe&gt;</code></pre>
+                                                            --}}
                                                         </div>
                                                     </div>
+
+                                                    <style>
+                                                        .embed-map-container {
+                                                            width: 100%;
+                                                            /* Full width */
+                                                            height: 300px;
+                                                            /* Increase height (you can change this) */
+                                                            position: relative;
+                                                            overflow: hidden;
+                                                            border-radius: 10px;
+                                                            /* Optional rounded corners */
+                                                        }
+
+                                                        .embed-map-frame {
+                                                            width: 100% !important;
+                                                            /* Full width */
+                                                            height: 100% !important;
+                                                            /* Match container height */
+                                                            border: 0;
+                                                        }
+                                                    </style>
+
+
 
                                                 </div>
                                             </div>
