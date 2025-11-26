@@ -27,14 +27,18 @@
 
                             <form method="get" action="{{ route('frontend.products.track.order') }}">
                                 <div class="form-group mt-2">
-                                    <label for="order_id">{{ __('Order Number ') }}</label>
+                                    <label for="order_id">
+                                        {{ __('Order Number') }}
+                                    </label>
                                     <input type="text" name="order_number" class="form-control" id="order_id"
-                                        placeholder="{{ __('Order Number ') }}">
+                                        placeholder="{{ __('Enter order number') }}">
                                 </div>
                                 <div class="form-group mt-2">
-                                    <label for="phone">{{ __('Phone') }}</label>
+                                    <label for="phone">
+                                        {{ __('Phone') }}
+                                    </label>
                                     <input type="number" name="phone" class="form-control" id="phone"
-                                        placeholder="{{ __('Phone Number') }}">
+                                        placeholder="{{ __('Enter phone') }}">
                                 </div>
 
                                 <div class="btn-wrapper mt-4">

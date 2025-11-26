@@ -15,7 +15,9 @@
 
 <div class="dashboard__card">
     <div class="dashboard__card__header">
-        <h4 class="dashboard__card__title">{{ __('Update order track status') }}</h4>
+        <h4 class="dashboard__card__title">
+            {{ __('Update order track status') }}
+        </h4>
     </div>
     <div class="dashboard__card__body mt-4">
         @if ($disableForm === false)
@@ -42,8 +44,6 @@
                             $isChecked = true;
                             $isDisabled = true;
                         }
-
-                        // Special case for delivery man assignment
                         if (in_array('assigned_delivery_man', $orderTrack) && $track == 'picked_by_courier') {
                             $track = 'assigned_delivery_man';
                             $isChecked = true;
@@ -52,7 +52,9 @@
                     @endphp
 
                     <div class="form-group text-center">
-                        <label for="{{ $track }}">{{ ucwords(str_replace(['-', '_'], ' ', $track)) }}</label>
+                        <label for="{{ $track }}">
+                            {{ __(ucwords(str_replace(['-', '_'], ' ', $track))) }}
+                        </label>
                         @if (!$disableForm)
                             <input {{ $isChecked ? 'checked' : '' }} {{ $isDisabled ? 'disabled' : '' }}
                                 class="order-track-input" id="{{ $track }}" value="{{ $track }}"
@@ -75,9 +77,11 @@
                         @endphp
 
                         <div class="step {{ $isActive ? 'active' : '' }}">
-                            <span class="icon"> <i class="las la-check"></i> </span>
+                            <span class="icon">
+                                <i class="las la-check"></i>
+                            </span>
                             <small class="text">
-                                {{ ucwords(str_replace(['-', '_'], ' ', $track)) }}
+                                {{ __(ucwords(str_replace(['-', '_'], ' ', $track))) }}
                             </small>
                         </div>
                     @endforeach
@@ -93,9 +97,13 @@
             <div class="form-group">
                 @if (!empty($order))
                     <button {{ count(array_diff($orderTracks, $orderTrack)) === 0 ? 'disabled' : '' }}
-                        class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
+                        class="cmn_btn btn_bg_profile">
+                        {{ __('Update') }}
+                    </button>
                 @else
-                    <button disabled class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
+                    <button disabled class="cmn_btn btn_bg_profile">
+                        {{ __('Update') }}
+                    </button>
                 @endif
             </div>
             </form>

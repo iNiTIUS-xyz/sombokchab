@@ -84,7 +84,8 @@
                             <del class="checkout__card__price__del checkout-cart-price color-heading fw-500">
                                 {{ amount_with_currency_symbol($regular_price) }}
                             </del>
-                            <b class="checkout__card__price__main checkout-cart-price color-heading fw-500 font-weight-bold">
+                            <b
+                                class="checkout__card__price__main checkout-cart-price color-heading fw-500 font-weight-bold">
                                 {{ amount_with_currency_symbol($price) }}
                             </b>
                         </div>
@@ -115,15 +116,22 @@
                             <span class="checkbox">
                                 <span class="inner"></span>
                             </span>
-                            <span class="title">{{ $method?->title }}</span>
-                            <span class="zone">({{ __('Zone: ') }} {{ $method?->zone?->name }})</span>
+                            <span class="title">
+                                {{ $method?->title }}
+                            </span>
+                            <span class="zone">
+                                ({{ __('Zone:') }} {{ $method?->zone?->name }})
+                            </span>
                             <span class="title">-</span>
-                            <span class="amount">{{ amount_with_currency_symbol(round($method->cost)) }}</span>
+                            <span class="amount">
+                                {{ amount_with_currency_symbol(round($method->cost)) }}
+                            </span>
                         </li>
                     @endforeach
                 </ul>
 
-                <div class="checkout__card__footer__estimate d-flex justify-content-end" style="display: none !important;">
+                <div class="checkout__card__footer__estimate d-flex justify-content-end"
+                    style="display: none !important;">
                     <div class="checkout__card__footer__estimate__main">
                         <div class="checkout__card__footer__estimate__list">
                             <div class="checkout__card__footer__estimate__item d-flex justify-content-between">

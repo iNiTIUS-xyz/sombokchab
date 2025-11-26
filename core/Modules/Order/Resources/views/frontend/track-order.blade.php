@@ -167,7 +167,7 @@
 @endsection
 
 @section('content')
-    <div class="sign-in-area-wrapper padding-top-100 padding-bottom-50">
+    <div class="sign-in-area-wrapper padding-top-50 padding-bottom-50">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="form-wrapper">
