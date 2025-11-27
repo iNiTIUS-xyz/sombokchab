@@ -1,8 +1,11 @@
-@extends('frontend.frontend-master')
+@extends('frontend.frontend-page-master')
+
+@section('page-title')
+    {{ __('Payment Success') }}
+@endsection
+
 @section('style')
     <style>
-        @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
-
         .card {
             position: relative;
             display: -webkit-box;
@@ -162,10 +165,6 @@
     </style>
 @endsection
 
-@section('page-title')
-    {{ __('Payment Success') }}
-@endsection
-
 @section('content')
     <div class="patment-success-area padding-top-100 padding-bottom-50">
         <div class="container">
@@ -186,30 +185,29 @@
                             <h4 class="title">
                                 <div class="icon">
                                     {{ __('Order Successful') }}
-                                    <i class="las la-check text-success"></i>
                                 </div>
                             </h4>
                             <ul class="payment-list margin-top-40">
                                 <li>
-                                    {{ __('Payment Gateway') }}:&nbsp;
+                                    {{ __('Payment Gateway') }}
                                     <span class="payment-strong">
                                         {{ render_payment_gateway_name($payment_details->payment_gateway) }}
                                     </span>
                                 </li>
                                 <li>
-                                    {{ __('Phone') }}:&nbsp;
+                                    {{ __('Phone') }}
                                     <span class="payment-strong">
                                         {{ $payment_details->address->phone }}
                                     </span>
                                 </li>
                                 <li>
-                                    {{ __('Name') }}:&nbsp;
+                                    {{ __('Name') }}
                                     <span class="payment-strong">
                                         {{ $payment_details->address->name }}
                                     </span>
                                 </li>
                                 <li>
-                                    {{ __('Email') }}:&nbsp;
+                                    {{ __('Email') }}
                                     <span class="payment-strong">
                                         {{ $payment_details->address->email }}
                                     </span>
@@ -220,7 +218,7 @@
                                 @if ($payment_details->payment_gateway == 'cash_on_delivery')
                                     <li>
                                         <span class="list-bold">
-                                            {{ __('Total Amount') }}:&nbsp;
+                                            {{ __('Total Amount') }}
                                         </span>
                                         <span class="payment-strong payment-bold">
                                             {{ float_amount_with_currency_symbol($payment_details->paymentMeta->total_amount) }}
@@ -229,7 +227,7 @@
                                 @else
                                     <li>
                                         <span class="list-bold">
-                                            {{ __('Amount Paid') }}:&nbsp;
+                                            {{ __('Amount Paid') }}
                                         </span>
                                         <span class="payment-strong payment-bold">
                                             {{ float_amount_with_currency_symbol($payment_details->paymentMeta->total_amount) }}
@@ -237,19 +235,19 @@
                                     </li>
                                 @endif
                                 <li>
-                                    {{ __('Transaction ID') }}:&nbsp;
+                                    {{ __('Transaction ID') }}
                                     <span class="payment-strong">
                                         {{ $payment_details->transaction_id }}
                                     </span>
                                 </li>
                                 <li>
-                                    {{ __('Order Number') }}:&nbsp;
+                                    {{ __('Order Number') }}
                                     <span class="payment-strong">
                                         {{ $payment_details->order_number }}
                                     </span>
                                 </li>
                                 {{-- <li>
-                                    {{ __('Tracking No.') }}:&nbsp;
+                                    {{ __('Tracking No.') }}
                                     <span class="payment-strong">
                                         {{ $payment_details->tracking_code }}
                                     </span>

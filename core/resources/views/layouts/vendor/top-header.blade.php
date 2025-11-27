@@ -6,15 +6,15 @@
                     <div class="dashboard-left-flex">
                         <span class="date-text"></span>
                         @if (auth('vendor')->user()->is_vendor_verified && auth('vendor')->user()->verified_at)
-                            <h3 class="text-success">
-                                <i class="las la-user-check"></i>
-                                {{ __('Verified Vendor') }}
-                            </h3>
+                        <h3 class="text-success">
+                            <i class="las la-user-check"></i>
+                            {{ __('Verified Vendor') }}
+                        </h3>
                         @else
-                            <h3 class="text-danger">
-                                <i class="las la-times-circle"></i>
-                                {{ __('Not Verified Yet') }}
-                            </h3>
+                        <h3 class="text-danger">
+                            <i class="las la-times-circle"></i>
+                            {{ __('Not Verified Yet') }}
+                        </h3>
                         @endif
                     </div>
                     <div class="dashboard-right-flex">
@@ -36,13 +36,13 @@
                             <div class="author-thumb-contents">
                                 <div class="author-thumb" style="font-size: 24px !important; font-weight: normal;">
                                     @php
-                                        $vendor = auth()->guard('vendor')->user();
-                                        $profile_img = get_attachment_image_by_id($vendor->image, null, true);
+                                    $vendor = auth()->guard('vendor')->user();
+                                    $profile_img = get_attachment_image_by_id($vendor->image, null, true);
                                     @endphp
                                     @if (!empty($profile_img))
-                                        <img src="{{ $profile_img['img_url'] }}" alt="{{ $vendor->owner_name }}">
+                                    <img src="{{ $profile_img['img_url'] }}" alt="{{ $vendor->owner_name }}">
                                     @else
-                                        <i class="las la-user"></i>
+                                    <i class="las la-user"></i>
                                     @endif
                                 </div>
                                 <ul class="author-account-list">

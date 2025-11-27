@@ -259,4 +259,36 @@ class VendorBackendController extends Controller {
         }
         return response()->json(['success' => false, 'type' => 'danger']);
     }
+
+    public function validateField(Request $request) {
+        $field = $request->input('field');
+        $value = $request->input('value');
+        $id = $request->input('id') ?: null; // vendor id to ignore when updating
+
+        $allowed = ['username', 'email', 'number'];
+        if (!in_array($field, $allowed)) {
+            return response()->json(['valid' => false, 'message' => 'Invalid field.'], 200);
+        }
+
+        // map form field -> db column
+        $column = ($field === 'number') ? 'phone' : $field;
+
+        // empty = valid (no check)
+        if ($value === null || $value === '') {
+            return response()->json(['valid' => true], 200);
+        }
+
+        $exists = Vendor::where($column, $value)
+            ->when($id, fn($q) => $q->where('id', '!=', $id))
+            ->exists();
+
+        if ($exists) {
+            return response()->json([
+                'valid'   => false,
+                'message' => ucfirst($field) . ' already taken.',
+            ], 200);
+        }
+
+        return response()->json(['valid' => true], 200);
+    }
 }

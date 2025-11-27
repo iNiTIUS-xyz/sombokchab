@@ -603,7 +603,7 @@ class PaymentGatewayController extends Controller
                 "transaction_id" => $transaction_id,
                 "status" => $status
             ];
-            
+
             // $this->update_database($order_id, $transaction_id);
             Order::where('id', $order_id)->update([
                 'transaction_id' => $transaction_id,
@@ -660,8 +660,18 @@ class PaymentGatewayController extends Controller
 
     public function order_payment_success($id)
     {
-        $orders = SubOrder::with(["order", "vendor", "orderItem", "orderItem.product", "orderItem.variant", "orderItem.variant.productColor", "orderItem.variant.productSize"])
+        $orders = SubOrder::query()
+            ->with([
+                "order",
+                "vendor",
+                "orderItem",
+                "orderItem.product",
+                "orderItem.variant",
+                "orderItem.variant.productColor",
+                "orderItem.variant.productSize"
+            ])
             ->where("order_id", $id)->get();
+
         $payment_details = Order::with("address", "paymentMeta", "orderTrack")->find($id);
 
         return view('frontend.payment.payment-success', compact('orders', 'payment_details'));

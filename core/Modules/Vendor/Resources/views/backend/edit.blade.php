@@ -91,17 +91,18 @@
                                                     </label>
                                                     <input name="owner_name" type="text"
                                                         placeholder="{{ __('Enter vendor name') }}"
-                                                        class="form--control radius-10" pattern="[A-Za-z\s]+"
-                                                        title="Only letters allowed" value="{{ $vendor->owner_name }}">
+                                                        class="form--control radius-10" maxlength="30"
+                                                        oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '');"
+                                                        value="{{ $vendor->owner_name }}">
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="label-title color-light mb-2">
                                                         {{ __('Business Name') }}
                                                         <span class="text-danger">*</span>
                                                     </label>
-                                                    <input name="business_name" type="text"
-                                                        class="form--control radius-10" pattern="[A-Za-z\s]+"
-                                                        title="Only letters allowed"
+                                                    <input name="business_name" type="text" maxlength="30"
+                                                        class="form--control radius-10"
+                                                        oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '');"
                                                         placeholder="{{ __('Enter business name') }}"
                                                         value="{{ $vendor->business_name }}">
                                                 </div>
@@ -110,9 +111,10 @@
                                                         {{ __('Username') }}
                                                         <span class="text-danger">*</span>
                                                     </label>
-                                                    <input name="username" type="text"
+                                                    <input id="username" name="username" type="text" maxlength="25"
                                                         placeholder="{{ __('Enter username') }}"
                                                         class="form--control radius-10" value="{{ $vendor->username }}">
+                                                    <small id="username_error" class="text-muted"></small>
                                                 </div>
 
 
@@ -121,9 +123,10 @@
                                                         {{ __('Email') }}
                                                         <span class="text-danger">*</span>
                                                     </label>
-                                                    <input name="email" type="text"
+                                                    <input id="email" name="email" type="email"
                                                         placeholder="{{ __('Enter email') }}"
                                                         class="form--control radius-10" value="{{ $vendor->email }}">
+                                                    <small id="email_error" class="text-muted"></small>
                                                 </div>
 
                                                 <div class="form-group">
@@ -255,6 +258,8 @@
                                                         <span class="text-danger">*</span>
                                                     </label>
                                                     <input type="text" name="zip_code" class="form--control radius-10"
+                                                        maxlength="5"
+                                                        oninput="this.value = this.value.replace(/[^0-9]/g, '');"
                                                         value="{{ $vendor?->vendor_address?->zip_code }}">
                                                 </div>
                                                 <div class="form-group">
@@ -291,17 +296,21 @@
                                                         {{ __('Phone Number') }}
                                                         <span class="text-danger">*</span>
                                                     </label>
-                                                    <input value="{{ $vendor?->phone }}" name="number" type="tel"
-                                                        class="form--control radius-10"
-                                                        placeholder="{{ __('Enter Number') }}">
+                                                    <input id="number" name="number" type="tel" maxlength="15"
+                                                        oninput="this.value = this.value.replace(/[^0-9+]/g, '');"
+                                                        placeholder="{{ __('Enter Number') }}"
+                                                        class="form--control radius-10" value="{{ $vendor->phone }}">
+                                                    <small id="number_error" class="text-muted"></small>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="label-title color-light mb-2">
                                                         {{ __('Email') }}
+                                                        <span class="text-danger">*</span>
                                                     </label>
-                                                    <input value="{{ $vendor?->vendor_shop_info?->email }}" type="text"
-                                                        name="shop_email" class="form--control radius-10"
-                                                        placeholder="{{ __('Enter email') }}">
+                                                    <input id="email" name="email" type="email"
+                                                        placeholder="{{ __('Enter email') }}"
+                                                        class="form--control radius-10" value="{{ $vendor->email }}">
+                                                    <small id="email_error" class="text-muted"></small>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="label-title color-light mb-2">
@@ -405,7 +414,8 @@
                                                         <span class="text-danger">*</span>
                                                     </label>
                                                     <input value="{{ $vendor?->vendor_bank_info?->bank_name }}"
-                                                        name="bank_name" type="text" class="form--control radius-10"
+                                                        maxlength="30" name="bank_name" type="text"
+                                                        class="form--control radius-10"
                                                         placeholder="{{ __('Enter name') }}">
                                                 </div>
                                                 <div class="form-group">
@@ -473,6 +483,215 @@
 @endsection
 
 @section('script')
+<style>
+    /* add if you don't already have them in your stylesheet */
+    .field-error {
+        color: #dc3545 !important;
+    }
+
+    .field-success {
+        color: #28a745 !important;
+    }
+
+
+    .btn-disabled {
+        pointer-events: none !important;
+        opacity: 0.5 !important;
+        cursor: not-allowed !important;
+    }
+</style>
+
+<script>
+    (function($){
+    "use strict";
+
+    // fields to validate
+    const fields = ['username','email','number'];
+
+    // state
+    const errors = { username: false, email: false, number: false }; // true = invalid
+    const touched = { username: false, email: false, number: false }; // show "available" only after user types
+
+    // submit button (find first)
+    let $submitBtn = $('.submit_button button').first();
+    if (!$submitBtn.length) $submitBtn = $('button[type="submit"]').first();
+
+    // toggle submit state + add/remove unclickable class
+    function updateSubmitState() {
+        const hasError = Object.values(errors).some(v => v === true);
+        if (hasError) {
+            $submitBtn.prop('disabled', true);
+            $submitBtn.addClass('btn-disabled');
+        } else {
+            $submitBtn.prop('disabled', false);
+            $submitBtn.removeClass('btn-disabled');
+        }
+    }
+
+    // show error under the field
+    function setFieldError(field, message) {
+        const $input = $('input[name="' + field + '"]');
+        const $err   = $('#' + field + '_error');
+
+        errors[field] = true;
+        $input.removeClass('is-valid').addClass('is-invalid');
+        $err.removeClass('field-success').addClass('field-error').text(message);
+
+        updateSubmitState();
+    }
+
+    // show available message (only if touched[field] === true)
+    function setFieldSuccess(field, message) {
+        const $input = $('input[name="' + field + '"]');
+        const $err   = $('#' + field + '_error');
+
+        errors[field] = false;
+        if (touched[field]) {
+            $input.removeClass('is-invalid').addClass('is-valid');
+            $err.removeClass('field-error').addClass('field-success').text(message);
+        } else {
+            // keep silent if not touched
+            $input.removeClass('is-invalid is-valid');
+            $err.removeClass('field-error field-success').text('');
+        }
+
+        updateSubmitState();
+    }
+
+    // clear both states/messages (used when field empty)
+    function clearFieldMessage(field) {
+        const $input = $('input[name="' + field + '"]');
+        const $err   = $('#' + field + '_error');
+
+        errors[field] = false;
+        $input.removeClass('is-invalid is-valid');
+        $err.removeClass('field-error field-success').text('');
+
+        updateSubmitState();
+    }
+
+    // debounce helper
+    function debounce(fn, wait = 400) {
+        let t;
+        return function() {
+            const ctx = this, args = arguments;
+            clearTimeout(t);
+            t = setTimeout(() => fn.apply(ctx, args), wait);
+        };
+    }
+
+    // ajax uniqueness check (admin route)
+    function checkFieldUnique(field, value) {
+        const vendorId = $('input[name="id"]').val() || '';
+
+        if (!value) {
+            clearFieldMessage(field);
+            return;
+        }
+
+        $.ajax({
+            url: '{{ route("admin.vendor.validate-field") }}',
+            method: 'POST',
+            data: {
+                _token: $('meta[name="csrf-token"]').attr('content'),
+                field: field,
+                value: value,
+                id: vendorId
+            },
+            success: function(res) {
+                // expecting { valid: true } or { valid: false, message: "..." }
+                if (res && res.valid === false) {
+                    setFieldError(field, res.message || (field + ' already taken.'));
+                } else {
+                    const nice = {
+                        username: 'Username is available',
+                        email: 'Email is available',
+                        number: 'Phone number is available'
+                    };
+                    setFieldSuccess(field, nice[field] || 'Available');
+                }
+            },
+            error: function(xhr) {
+                console.error('Unique check failed', xhr);
+                // soft server error – block submit and show message
+                setFieldError(field, 'Validation server error');
+            }
+        });
+    }
+
+    // attach handlers
+    $(function(){
+        // ensure CSRF meta present
+        if (!$('meta[name="csrf-token"]').length) {
+            $('head').append('<meta name="csrf-token" content="{{ csrf_token() }}">');
+        }
+
+        fields.forEach(function(field){
+            const $el = $('input[name="' + field + '"]');
+            if (!$el.length) return;
+
+            // on focus mark hadFocus so we can require actual typing for "touched"
+            $el.on('focus', function() {
+                if (!touched[field]) $el.data('hadFocus', true);
+            });
+
+            const debounced = debounce(function() {
+                checkFieldUnique(field, $el.val().trim());
+            }, 450);
+
+            $el.on('input change', function() {
+                const v = $(this).val().trim();
+
+                // mark touched only when user actually types or had focus and changed
+                if (!touched[field]) {
+                    if ($el.data('hadFocus') || v.length > 0) touched[field] = true;
+                }
+
+                if (!v) {
+                    clearFieldMessage(field);
+                    return;
+                }
+
+                // while typing clear previous success so UX is clear
+                $('#' + field + '_error').removeClass('field-success').text('');
+                $(this).removeClass('is-valid is-invalid');
+
+                debounced();
+            });
+
+            // initial server check: run to detect taken values on load (show only errors)
+            const initial = $el.val() ? $el.val().trim() : '';
+            if (initial) {
+                // touched remains false so successes won't display
+                setTimeout(() => checkFieldUnique(field, initial), 250);
+            }
+        });
+
+        // final safeguard on submit
+        $('#vendor-create-form').on('submit', function(e) {
+            const hasError = Object.values(errors).some(v => v === true);
+            if (hasError) {
+                e.preventDefault();
+                // focus first invalid
+                const first = Object.keys(errors).find(k => errors[k]);
+                if (first) {
+                    const $firstEl = $('input[name="' + first + '"]');
+                    if ($firstEl.length) {
+                        $('html,body').animate({ scrollTop: $firstEl.offset().top - 100 }, 250);
+                        $firstEl.focus();
+                    }
+                }
+                return false;
+            }
+            // allow submit (your existing AJAX submit code will handle the request)
+        });
+
+        // initial button state
+        updateSubmitState();
+    });
+})(jQuery);
+</script>
+
 <script src="{{ asset('assets/backend/js/colorpicker.js') }}"></script>
 <x-media.js />
 <x-table.btn.swal.js />
