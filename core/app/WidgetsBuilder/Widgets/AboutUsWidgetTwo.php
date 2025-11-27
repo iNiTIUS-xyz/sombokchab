@@ -38,7 +38,7 @@ class AboutUsWidgetTwo extends WidgetBase
         $output .= '<div class="footer-inner mt-4">';
         $output .= '<h6 class="widget-title logo-style-one footer-logo-wrapper">'. render_image_markup_by_attachment_id(get_static_option("site_logo"), 'footer-logo') .'</h6>';
         $output .= '<h6 class="widget-title logo-style-two footer-logo-wrapper">'. render_image_markup_by_attachment_id(get_static_option("site_white_logo"), 'footer-logo') .'</h6>';
-        $output .= '<p class="widget-para mt-4">' . purify_html($description) . '</p>';
+        $output .= '<p class="widget-para mt-4">' . __(purify_html($description)) . '</p>';
 
         if(!empty($all_social_item) && $all_social_item->count()):
             $output .= '<ul class="footer-social-list mt-4">';

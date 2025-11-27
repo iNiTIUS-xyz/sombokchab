@@ -56,7 +56,7 @@ class NavigationMenuWidget extends WidgetBase
         $output = $this->widget_before(); //render widget before content
         $output .= "<div class='footer-widget widget'>";
         if (!empty($widget_title)) {
-            $output .= '<h6 class="widget-title">' . $widget_title . '</h6>';
+            $output .= '<h6 class="widget-title">' . __($widget_title) . '</h6>';
         }
 
         // Get the menu HTML

@@ -47,7 +47,7 @@ class ContactInfoWidget extends WidgetBase
 
         $output .= '<div class="footer-widget widget">';
         if (!empty($widget_title)) {
-            $output .= '<h4 class="widget-title">' . purify_html($widget_title) . '</h4>';
+            $output .= '<h4 class="widget-title">' . __(purify_html($widget_title)) . '</h4>';
         }
         $output .= '<div class="footer-inner mt-4">';
 
@@ -64,22 +64,22 @@ class ContactInfoWidget extends WidgetBase
         // }
 
         if (!empty($phone)) {
-            $output .= 
-            '<li class="list">
+            $output .=
+                '<li class="list">
                 <span class="address">
                     <a href="#1"> <i class="las la-mobile icon icon-address"></i>
-                        '.purify_html($phone).'
+                        ' . __(purify_html($phone)) . '
                     </a>
                 </span>
             </li>';
         }
 
         if (!empty($email)) {
-            $output .= 
-            '<li class="list">
+            $output .=
+                '<li class="list">
                 <span class="address">
                     <a href="#1"> <i class="lar la-envelope icon icon-address"></i>
-                        '.purify_html($email).'
+                        ' . __(purify_html($email)) . '
                     </a>
                 </span>
             </li>';
