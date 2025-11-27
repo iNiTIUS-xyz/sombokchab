@@ -191,7 +191,7 @@
                                 <li>
                                     {{ __('Payment Gateway') }}
                                     <span class="payment-strong">
-                                        {{ render_payment_gateway_name($payment_details->payment_gateway) }}
+                                        {{-- {{ render_payment_gateway_name($payment_details->payment_gateway) }} --}}
                                     </span>
                                 </li>
                                 <li>

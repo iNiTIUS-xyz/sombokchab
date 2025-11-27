@@ -49,12 +49,12 @@ class NewsletterWidget extends WidgetBase
         $output .= '<div class="footer-widget widget">';
 
         if (!empty($widget_title)) {
-            $output .= '<h4 class="widget-title">' . purify_html($widget_title) . '</h4>';
+            $output .= '<h4 class="widget-title">' . __(purify_html($widget_title)) . '</h4>';
         }
 
         $output .= '<div class="footer-inner mt-4">';
         if (!empty($description)) {
-            $output .= '<p class="info">' . purify_html($description) . '</p>';
+            $output .= '<p class="info">' . __(purify_html($description)) . '</p>';
         }
 
         $output .=
@@ -63,7 +63,7 @@ class NewsletterWidget extends WidgetBase
                 <div class="form-message-show"></div>
                 <div class="widget-form-single">
                     <input type="hidden" name="_token" value="' . csrf_token() . '">
-                    <input type="email" name="email" class="form--control" placeholder="' . __("Your mail here") . '">
+                    <input type="email" name="email" class="form--control" placeholder="' . __("Enter your mail") . '">
                     <button type="submit">
                         <i class="lar la-paper-plane"></i>
                     </button>

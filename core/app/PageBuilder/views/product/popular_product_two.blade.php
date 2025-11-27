@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="section__title text-left section_borderBottom">
-                    <h2 class="title">{{ $section_title ?? '' }}</h2>
+                    <h2 class="title">{{ __($section_title ?? '') }}</h2>
                     <div class="btn_wrapper">
                         <a href="{{ route('frontend.products.all') }}" class="viewAll_btn">
                             {{ __('View All') }}

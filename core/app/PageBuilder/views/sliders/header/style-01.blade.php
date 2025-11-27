@@ -22,16 +22,17 @@
                                 {{-- Banner Image --}}
                                 {!! render_image($sliders['image_'][$i] ?? 0) !!}
                                 <div class="carousel-caption d-none d-md-block">
-                                    <span
-                                        class="middle-span fw-500 text-light">{{ $sliders['subtitle_'][$i] ?? '' }}</span>
+                                    <span class="middle-span fw-500 text-light">
+                                        {{ __($sliders['subtitle_'][$i] ?? '') }}
+                                    </span>
                                     <h2 class="banner-middle-title text-light fw-700 mt-3">
                                         <a href="{{ $sliders['btn_url_'][$i] ?? '#' }}">
-                                            {!! str_replace(['[cl]', '[/cl]'], ["<span class='color-two'>", '</span>'], $sliders['title_'][$i] ?? '') !!}
+                                            {!! __(str_replace(['[cl]', '[/cl]'], ["<span class='color-two'>", '</span>'], $sliders['title_'][$i] ?? '')) !!}
                                         </a>
                                     </h2>
                                     <div class="btn-wrapper">
                                         <a href="{{ $sliders['btn_url_'][$i] ?? '#' }}" class="cmn-btn btn-bg-1 mt-4">
-                                            {{ $sliders['btn_text_'][$i] ?? '' }}
+                                            {{ __($sliders['btn_text_'][$i] ?? '') }}
                                         </a>
                                     </div>
                                 </div>

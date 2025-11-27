@@ -1409,7 +1409,7 @@ class FrontendController extends Controller
         $grid = view('product::frontend.search.grid', compact('all_products'))->render();
         $list = view('product::frontend.search.list', compact(['all_products']))->render();
         $paginationList = view('components.search-product-list-pagination', compact('all_products'))->render();
-        $showing_items = ' Showing ' . $all_products['from'] . '-' . $all_products['to'] . ' of ' . $all_products['total_items'] . ' results ';
+        $showing_items = __('Showing') . ' ' . $all_products['from'] . '-' .  $all_products['to'] . ' ' . __('of') . ' ' . $all_products['total_items'] . ' ' . __('results');
 
         return [
             'pagination_list' => $paginationList,

@@ -7,13 +7,20 @@
                 <div class="section__title text-left section_borderBottom">
                     <div class="allProduct__tab">
                         <ul class="tabs tabs_two">
-                            <li data-tab-two="top_rated" class="tabs_list_two">{{ __('Top Rated') }}</li>
-                            <li data-tab-two="top_selling" class="tabs_list_two">{{ __('Top Selling') }}</li>
-                            <li data-tab-two="weekly_top" class="tabs_list_two">{{ __('Weekly Top') }}</li>
+                            <li data-tab-two="top_rated" class="tabs_list_two">
+                                {{ __('Top Rated') }}
+                            </li>
+                            <li data-tab-two="top_selling" class="tabs_list_two">
+                                {{ __('Top Selling') }}
+                            </li>
+                            <li data-tab-two="weekly_top" class="tabs_list_two">
+                                {{ __('Weekly Top') }}
+                            </li>
                         </ul>
                     </div>
                     <div class="btn_wrapper">
-                        <a href="{{ route('frontend.vendors') }}" class="viewAll_btn">{{ __('View All') }}
+                        <a href="{{ route('frontend.vendors') }}" class="viewAll_btn">
+                            {{ __('View All') }}
                             <i class="las la-angle-right"></i>
                         </a>
                     </div>

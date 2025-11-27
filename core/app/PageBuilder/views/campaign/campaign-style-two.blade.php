@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="section__title text-left section_borderBottom">
-                        <h2 class="title">{{ $campaign->title ?? '' }}</h2>
+                        <h2 class="title">{{ __($campaign->title ?? '') }}</h2>
                         <div class="global__countdown">
                             <div class="flashCountdown"
                                 data-date="{{ $campaign?->end_date ? $campaign->end_date->format('Y-m-d') ?? '' : '' }}">

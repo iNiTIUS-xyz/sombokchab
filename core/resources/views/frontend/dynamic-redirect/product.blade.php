@@ -317,7 +317,8 @@
                                     <div class="row">
                                         <div class="col-12 col-md-4">
                                             <div class="shop-nice-select ">
-                                                <label for="" class="d-block text-black mb-2">{{ __('Country') }}</label>
+                                                <label for=""
+                                                    class="d-block text-black mb-2">{{ __('Country') }}</label>
                                                 @php
                                                     $countries = \Modules\CountryManage\Entities\Country::all();
                                                 @endphp
@@ -334,7 +335,8 @@
                                         </div>
                                         <div class="col-12 col-md-4">
                                             <div class="shop-nice-select">
-                                                <label for="" class="d-block text-black mb-2">{{ __('City') }}</label>
+                                                <label for=""
+                                                    class="d-block text-black mb-2">{{ __('City') }}</label>
                                                 <select id="city" data-type="city" data-val="city"
                                                     class="search_location">
                                                     <option value="">{{ __('Select an City') }}</option>
@@ -343,7 +345,8 @@
                                         </div>
                                         <div class="col-12 col-md-4">
                                             <div class="shop-nice-select">
-                                                <label for="" class="d-block text-black mb-2">{{ __('State') }}</label>
+                                                <label for=""
+                                                    class="d-block text-black mb-2">{{ __('State') }}</label>
                                                 <select id="state" data-type="state" data-val="state"
                                                     class="search_location">
                                                     <option value="">{{ __('Select an State') }}</option>
@@ -374,9 +377,11 @@
 
                         <div class="col-lg-7 col-md-7">
                             <div class="shop-right">
-                                <span class="showing-results showing-results-item-count color-light"> {{ __('Showing') }}
+                                <span class="showing-results showing-results-item-count color-light">
+                                    {{ __('Showing') }}
                                     {{ $all_products['from'] }}-{{ $all_products['to'] }} {{ __('of') }}
-                                    {{ $all_products['total_items'] }} {{ __('results') }} </span>
+                                    {{ $all_products['total_items'] }} {{ __('results') }}
+                                </span>
                                 <div class="single-shops">
                                     <div class="shop-nice-select">
                                         <select id="order_by" data-type="order_by" data-val="order_by">
