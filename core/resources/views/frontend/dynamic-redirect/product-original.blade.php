@@ -80,7 +80,7 @@
             animation-delay: 0.2s;
         }
 
-        .border-1{
+        .border-1 {
             border-color: var(--main-color-one) !important;
         }
 
@@ -371,9 +371,11 @@
 
                         <div class="col-lg-7 col-md-7">
                             <div class="shop-right">
-                                <span class="showing-results showing-results-item-count color-light"> {{ __('Showing') }}
+                                <span class="showing-results showing-results-item-count color-light">
+                                    {{ __('Showing') }}
                                     {{ $all_products['from'] }}-{{ $all_products['to'] }} {{ __('of') }}
-                                    {{ $all_products['total_items'] }} {{ __('results') }} </span>
+                                    {{ $all_products['total_items'] }} {{ __('results') }}
+                                </span>
                                 <div class="single-shops">
                                     <div class="shop-nice-select">
                                         <select id="order_by" data-type="order_by" data-val="order_by">
@@ -417,7 +419,7 @@
                         <div class="row mt-4">
                             @foreach ($all_products['items'] as $product)
                                 {{-- <div class="col-xl-4 col-lg-4 col-sm-6 mt-4"> --}}
-                                    <x-product::frontend.grid-style-07 :$product :$loop :isAllowBuyNow="get_static_option('enable_buy_now_button_on_shop_page') === 'on'" />
+                                <x-product::frontend.grid-style-07 :$product :$loop :isAllowBuyNow="get_static_option('enable_buy_now_button_on_shop_page') === 'on'" />
                                 {{-- </div> --}}
                             @endforeach
                         </div>
@@ -430,7 +432,7 @@
                                     <x-product::frontend.list-style-02 :$product :$loop :isAllowBuyNow="get_static_option('enable_buy_now_button_on_shop_page') === 'on'" />
                                 </div>
                             @endforeach
-                            
+
                         </div>
                     </div>
 
@@ -643,25 +645,24 @@
             ajax_toastr_error_message(xhr);
         })
     });
-    
 </script>
 
 <script>
     $(document).on('click', '#load_more_button', function(e) {
         e.preventDefault();
-        
+
         let button = $(this);
         let currentPage = parseInt(button.data('current-page')) + 1;
         let totalPages = parseInt(button.data('total-pages'));
         let spinner = button.find('.btn-loading-spinner');
-        
+
         // Show loading spinner and disable button
         spinner.removeClass('d-none');
         button.prop('disabled', true);
-        
+
         // Update the page number in the form
         $("#search_page").val(currentPage);
-        
+
         // Submit the form via AJAX
         $.ajax({
             url: $("#search_product").attr('action') + "?" + $("#search_product").serialize(),
@@ -674,7 +675,7 @@
                 let gridItems = $(data.grid).find('.col-xxl-3, .col-xl-4, .col-md-4, .col-sm-6');
                 gridItems.addClass('new-loaded-item');
                 $('#tab-grid2 .row').append(gridItems);
-                
+
                 // Append new products to the list view with fade-in animation
                 let listItems = $(data.list).find('.col-xl-6, .col-lg-6, .col-sm-12');
                 listItems.addClass('new-loaded-item');
@@ -682,15 +683,15 @@
 
                 // Update the button's data attributes
                 button.data('current-page', currentPage);
-                
+
                 // Hide the button if we've reached the last page
                 if (currentPage >= totalPages) {
                     button.hide();
                 }
-                
+
                 // Update showing results count
                 $(".showing-results-item-count").html(data.showing_items);
-                
+
                 // Smooth scroll to the newly loaded items
                 $('html, body').animate({
                     scrollTop: gridItems.first().offset().top - 100
