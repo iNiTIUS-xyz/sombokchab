@@ -105,20 +105,20 @@
                                         @endif
 
                                         <a href="{{ route('user.product.order.details', $order->order_number) }}"
-                                            class="btn btn-secondary btn-sm rounded-btn" title="{{ __('Request Refund') }}"
+                                            class="btn btn-secondary btn-sm rounded-btn" title="{{ __('View Details') }}"
                                             style="width: 40px;">
                                             <i class="las la-file-alt"></i>
                                         </a>
                                         @if ($order->isCancelableStatus && $order->order_status == 'pending')
                                             <button class="btn btn-danger btn-sm rounded-btn swal_cancel_button"
-                                                title="{{ __('Request Refund') }}" data-order-id="{{ $order->id }}"
+                                                title="{{ __('Cancel Order') }}" data-order-id="{{ $order->id }}"
                                                 style="width: 40px;">
                                                 <i class="las la-times"></i>
                                             </button>
                                         @endif
 
                                         <a href="{{ route('user.product.order.reorder', $order->id) }}"
-                                            class="btn btn-info btn-sm rounded-btn" title="{{ __('Request Refund') }}"
+                                            class="btn btn-info btn-sm rounded-btn" title="{{ __('Re-order') }}"
                                             style="width: 40px;">
                                             <i class="las la-retweet"></i>
                                         </a>

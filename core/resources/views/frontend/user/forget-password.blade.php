@@ -27,13 +27,13 @@
                                     <input type="hidden" name="verified_phone" id="verified_phone">
 
                                     <div class="form-group">
-                                        <label>Phone Number *</label>
+                                        <label>Phone Number <span class="text-danger">*</span></label>
                                         <input type="text" id="phone" name="phone" class="form-control"
                                             placeholder="Enter Phone Number" required>
                                         <small class="text-danger" id="phoneError"></small>
                                     </div>
 
-                                    <button type="button" class="btn btn-next step-button-outline my-2"
+                                    <button type="button" class="btn btn-next step-button-outline mt-2"
                                         onclick="checkPhoneAndSendOTP()" id="sendOtpButton" disabled>
                                         Send OTP
                                     </button>
