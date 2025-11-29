@@ -78,7 +78,7 @@ class AdminManageController extends Controller {
 
         return redirect()->back()->with([
             'message'    => __('Admin Deleted'),
-            'alert-type' => 'danger',
+            'alert-type' => 'success',
         ]);
     }
 

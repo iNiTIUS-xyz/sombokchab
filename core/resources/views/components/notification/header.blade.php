@@ -44,7 +44,7 @@ $type = $type ?? 'admin';
     @endif
     @endif
     @endif
-    <div class="single-icon notifications-parent">
+    <div class="single-icon notifications-parent cursor-pointer">
         <span class="notification-icon" id="top-bar-notification-icon">
             <i class="las la-bell"></i>
         </span>
