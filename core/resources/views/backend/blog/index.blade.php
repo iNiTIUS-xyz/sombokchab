@@ -21,7 +21,7 @@
         <div class="col-lg-12 mt-2">
             <div class="dashboard__card">
                 <div class="dashboard__card__header">
-                    <h4 class="dashboard__card__title">{{ __('Blog Management') }}</h4>
+                    <h4 class="dashboard__card__title">{{ __('All Blog') }}</h4>
                     <div class="dashboard__card__header__right">
                         <div class="bulk-delete-wrapper">
                             @can('view-blog')

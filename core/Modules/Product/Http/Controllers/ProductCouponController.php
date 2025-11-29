@@ -141,7 +141,23 @@ class ProductCouponController extends Controller {
     }
 
     public function check(Request $request) {
-        return (bool) ProductCoupon::where('code', $request->code)->count();
+        $code = $request->query('code');
+        $excludeId = $request->query('id'); // may be null
+
+        if (empty($code)) {
+            return response()->json(0);
+        }
+
+        $query = ProductCoupon::where('code', $code);
+
+        // If id provided (editing), exclude that record from the uniqueness check
+        if (!empty($excludeId)) {
+            $query->where('id', '!=', $excludeId);
+        }
+
+        $count = $query->count();
+
+        return response()->json($count);
     }
 
     public function bulk_action(Request $request) {

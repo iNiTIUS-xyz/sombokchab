@@ -796,37 +796,47 @@
         }
 
         function validateCoupon(context) {
-            let code = $(context).val();
-            let submit_btn = $(context).closest('form').find('button[type=submit]');
-            let status_text = $(context).siblings('#status_text');
-            status_text.hide();
+    let code = $(context).val();
+    let submit_btn = $(context).closest('form').find('button[type=submit]');
+    // find the hidden coupon id if present (edit form has <input id="coupon_id">)
+    let couponId = $(context).closest('form').find('#coupon_id').val() || null;
+    // locate the status text element relative to this input (works for both add/edit)
+    let status_text = $(context).closest('.form-group').find('#status_text');
 
-            if (!code || code.length === 0) {
+    // hide message initially
+    status_text.hide();
+
+    if (!code || code.length === 0) {
+        submit_btn.prop("disabled", false);
+        return;
+    }
+
+    // optimistically disable submit while checking
+    submit_btn.prop("disabled", true);
+
+    // send coupon id (if present) so backend can exclude it from the uniqueness check
+    $.get("{{ route('admin.products.coupon.check') }}", {
+            code: code,
+            id: couponId
+        })
+        .then(function(data) {
+            // data is expected to be an integer count
+            if (data > 0) {
+                let msg = "{{ __('This coupon is already taken') }}";
+                status_text.removeClass('text-success').addClass('text-danger').text(msg).show();
+                submit_btn.prop("disabled", true);
+            } else {
+                let msg = "{{ __('This coupon is available') }}";
+                status_text.removeClass('text-danger').addClass('text-success').text(msg).show();
                 submit_btn.prop("disabled", false);
-                return;
             }
+        }).catch(function(err) {
+            // on error, allow submission but hide message
+            console.error('Coupon check failed:', err);
+            status_text.hide();
+            submit_btn.prop("disabled", false);
+        });
+}
 
-            submit_btn.prop("disabled", true);
-
-            $.get("{{ route('admin.products.coupon.check') }}", {
-                    code: code
-                })
-                .then(function(data) {
-                    if (data > 0) {
-                        let msg = "{{ __('This coupon is already taken') }}";
-                        status_text.removeClass('text-success').addClass('text-danger').text(msg).show();
-                        submit_btn.prop("disabled", true);
-                    } else {
-                        let msg = "{{ __('This coupon is available') }}";
-                        status_text.removeClass('text-danger').addClass('text-success').text(msg).show();
-                        submit_btn.prop("disabled", false);
-                    }
-                }).catch(function(err) {
-                    // on error, allow submission but hide message
-                    console.error('Coupon check failed:', err);
-                    status_text.hide();
-                    submit_btn.prop("disabled", false);
-                });
-        }
 </script>
 @endsection

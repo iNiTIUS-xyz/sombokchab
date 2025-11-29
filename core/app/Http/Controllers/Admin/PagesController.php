@@ -75,7 +75,7 @@ class PagesController extends Controller {
             'breadcrumb_status'             => (int) !!$request->breadcrumb_status,
         ]);
 
-        return redirect()->back()->with([
+        return redirect()->route('admin.page')->with([
             'message'    => __('Page created successfully.'),
             'alert-type' => 'success',
         ]);
