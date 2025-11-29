@@ -127,13 +127,43 @@ class ProductCompareController extends Controller
         $options['avg_review'] = $product->reviews_avg_rating;
 
 
-        Cart::instance('compare')->add(['id' => $cart_data['product_id'], 'name' => $product->name, 'qty' => $cart_data['quantity'], 'price' => $final_sale_price, 'weight' => '0', 'options' => $options]);
+        // Check if product is already in compare list
+        $existing = Cart::instance('compare')->content()->first(function ($item) use ($cart_data) {
+
+            // Variant-specific check
+            if (!empty($cart_data['product_variant'])) {
+                return $item->id == $cart_data['product_id']
+                    && ($item->options->variant_id ?? null) == $cart_data['product_variant'];
+            }
+
+            // Regular product check
+            return $item->id == $cart_data['product_id'];
+        });
+
+        if ($existing) {
+            return response()->json([
+                'type' => 'warning',
+                'msg'  => 'This item is already in your compare list.',
+                'header_area' => view('frontend.partials.header.navbar.card-and-wishlist-area')->render(),
+            ]);
+        }
+
+        // If not existing → add normally
+        Cart::instance('compare')->add([
+            'id' => $cart_data['product_id'],
+            'name' => $product->name,
+            'qty' => $cart_data['quantity'],
+            'price' => $final_sale_price,
+            'weight' => '0',
+            'options' => $options
+        ]);
 
         return response()->json([
             'type' => 'success',
             'msg' => 'Item added to compare.',
             'header_area' => view('frontend.partials.header.navbar.card-and-wishlist-area')->render(),
         ]);
+
 
     }
 
