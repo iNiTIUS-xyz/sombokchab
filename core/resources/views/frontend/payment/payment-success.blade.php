@@ -166,7 +166,7 @@
 @endsection
 
 @section('content')
-    <div class="patment-success-area padding-top-100 padding-bottom-50">
+    <div class="patment-success-area padding-top-50 padding-bottom-50">
         <div class="container">
             <div class="row padding-bottom-50">
                 <div class="col-lg-12">
@@ -277,7 +277,7 @@
         </div>
     </div>
 
-    <div class="order-completed-area-wrapper padding-top-50 padding-bottom-100">
+    <div class="order-completed-area-wrapper padding-top-50 padding-bottom-50">
         <div class="container">
             <div class="row padding-bottom-50">
                 <div class="col-lg-12">
