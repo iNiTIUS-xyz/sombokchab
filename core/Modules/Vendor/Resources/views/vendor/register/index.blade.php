@@ -181,7 +181,7 @@
                                             {{ __('Passport or National ID') }}
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <input name="passport_nid" id="passport_nid" type="text"
+                                        <input name="passport_nid" id="passport_nid" type="number"
                                             class="form--control radius-10"
                                             placeholder="{{ __('Enter Passport or National ID') }}" required />
                                         <small class="text-danger" id="passportNidError"></small>
