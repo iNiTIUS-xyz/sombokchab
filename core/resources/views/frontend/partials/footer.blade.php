@@ -1,111 +1,108 @@
-        @php
-            $page_details = $page_details ?? ($page_post ?? '');
-            $navbar_type = $page_details->navbar_variant ?? (get_static_option('global_navbar_variant') ?? 1);
-        @endphp
-        <!-- footer area start -->
-        <footer data-footer-variant="{{ $navbar_type }}" @class([
-            'footer-area',
-            'white-color footer-four homeFour-bg' =>
-                $navbar_type == 2 || $navbar_type == 3,
-            'footer-bg footer-color-two margin-top-50' => $navbar_type == 1,
-        ])>
-            <div class="container container_1608">
+@php
+$page_details = $page_details ?? ($page_post ?? '');
+$navbar_type = $page_details->navbar_variant ?? (get_static_option('global_navbar_variant') ?? 1);
+@endphp
+<!-- footer area start -->
+<footer data-footer-variant="{{ $navbar_type }}" @class([ 'footer-area' , 'white-color footer-four homeFour-bg'=>
+    $navbar_type == 2 || $navbar_type == 3,
+    'footer-bg footer-color-two margin-top-50' => $navbar_type == 1,
+    ])>
+    <div class="container container_1608">
 
-                <div @class([
-                    'footer-middle padding-top-20 padding-bottom-20' => $navbar_type == 3,
-                    'footer-top-contents footer-top-border padding-top-30 padding-bottom-20' =>
-                        $navbar_type == 2 || $navbar_type == 1,
-                ])>
-                    <div class="row g-4">
-                        {!! render_frontend_sidebar('footer', ['column' => true]) !!}
-                    </div>
-                </div>
-                <div class="copyright-area copyright-border">
-                    <div class="row align-items-center">
-                        <div class="col-lg-12">
-                            <div class="copyright-contents">
-                                <span> {!! render_footer_copyright_text() !!} </span>
-                            </div>
-                        </div>
+        <div @class([ 'footer-middle padding-top-20 padding-bottom-20'=> $navbar_type == 3,
+            'footer-top-contents footer-top-border padding-top-30 padding-bottom-20' =>
+            $navbar_type == 2 || $navbar_type == 1,
+            ])>
+            <div class="row g-4">
+                {!! render_frontend_sidebar('footer', ['column' => true]) !!}
+            </div>
+        </div>
+        <div class="copyright-area copyright-border">
+            <div class="row align-items-center">
+                <div class="col-lg-12">
+                    <div class="copyright-contents">
+                        <span> {!! render_footer_copyright_text() !!} </span>
                     </div>
                 </div>
             </div>
-        </footer>
-        <!-- footer area end -->
-
-        {{-- new product modal - start --}}
-        <div class="modal product-quick-view-bg-color" id="product_quick_view" tabindex="-1" role="dialog"
-            aria-labelledby="productModal" aria-hidden="true">
-
         </div>
+    </div>
+</footer>
+<!-- footer area end -->
 
-        <div class="scroll-to-top d-none">
-            <i class="las la-angle-up"></i>
-        </div>
+{{-- new product modal - start --}}
+<div class="modal product-quick-view-bg-color" id="product_quick_view" tabindex="-1" role="dialog"
+    aria-labelledby="productModal" aria-hidden="true">
 
-        <!-- jquery -->
-        <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
-        <!-- jquery Migrate -->
-        <script src="{{ asset('assets/js/jquery-migrate.min.js') }}"></script>
-        <!-- bootstrap -->
-        <script src="{{ asset('assets/js/bootstrap5.bundle.min.js') }}"></script>
-        <!-- Lazy Load Js -->
-        <script src="{{ asset('assets/js/jquery.lazy.min.js') }}"></script>
-        <!-- Slick Slider -->
-        <script src="{{ asset('assets/js/slick.js') }}"></script>
-        <!-- All Plugins js -->
-        <script src="{{ asset('assets/js/plugins.js') }}"></script>
-        <!-- Range Slider -->
-        <script src="{{ asset('assets/js/nouislider-8.5.1.min.js') }}"></script>
-        <!-- All Plugins two js -->
-        <script src="{{ asset('assets/js/plugin-two.js') }}"></script>
-        <!-- Nice Scroll -->
-        <script src="{{ asset('assets/js/jquery.nicescroll.min.js') }}"></script>
-        <script src="{{ asset('assets/frontend/js/loopcounter.js') }}"></script>
-        <!-- main js -->
-        <script src="{{ asset('assets/js/select2.min.js') }}"></script>
-        <script src="{{ asset('assets/js/helpers.js') }}"></script>
-        <script src="{{ asset('assets/js/main.js') }}"></script>
+</div>
 
-        <script type="text/javascript">
-            function googleTranslateElementInit() {
+<div class="scroll-to-top d-none">
+    <i class="las la-angle-up"></i>
+</div>
+
+<!-- jquery -->
+<script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
+<!-- jquery Migrate -->
+<script src="{{ asset('assets/js/jquery-migrate.min.js') }}"></script>
+<!-- bootstrap -->
+<script src="{{ asset('assets/js/bootstrap5.bundle.min.js') }}"></script>
+<!-- Lazy Load Js -->
+<script src="{{ asset('assets/js/jquery.lazy.min.js') }}"></script>
+<!-- Slick Slider -->
+<script src="{{ asset('assets/js/slick.js') }}"></script>
+<!-- All Plugins js -->
+<script src="{{ asset('assets/js/plugins.js') }}"></script>
+<!-- Range Slider -->
+<script src="{{ asset('assets/js/nouislider-8.5.1.min.js') }}"></script>
+<!-- All Plugins two js -->
+<script src="{{ asset('assets/js/plugin-two.js') }}"></script>
+<!-- Nice Scroll -->
+<script src="{{ asset('assets/js/jquery.nicescroll.min.js') }}"></script>
+<script src="{{ asset('assets/frontend/js/loopcounter.js') }}"></script>
+<!-- main js -->
+<script src="{{ asset('assets/js/select2.min.js') }}"></script>
+<script src="{{ asset('assets/js/helpers.js') }}"></script>
+<script src="{{ asset('assets/js/main.js') }}"></script>
+
+<script type="text/javascript">
+    function googleTranslateElementInit() {
                 new google.translate.TranslateElement({
                     pageLanguage: 'en', // Default language set to Khmer
                     includedLanguages: 'km,en', // Include English and Khmer
                     layout: google.translate.TranslateElement.InlineLayout.SIMPLE
                 }, 'google_translate_element');
             }
-        </script>
+</script>
 
 
-        <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
-        </script>
-        <style type="text/css">
-            .skiptranslate iframe {
-                display: none !important;
-            }
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
+</script>
+<style type="text/css">
+    .skiptranslate iframe {
+        display: none !important;
+    }
 
-            .goog-te-gadget-simple {
-                background: transparent !important;
-                border: none !important;
-            }
+    .goog-te-gadget-simple {
+        background: transparent !important;
+        border: none !important;
+    }
 
-            body {
-                top: 0 !important;
-            }
-        </style>
-
-
-        <script src="{{ asset('assets/common/js/toastr.min.js') }}"></script>
-        <script src="{{ asset('assets/frontend/js/jquery.nicescroll.min.js') }}"></script>
-        <script src="{{ asset('assets/frontend/js/jquery-ui.js') }}"></script>
-        <script src="{{ asset('assets/frontend/js/md5.js') }}"></script>
-
-        <x-sweet-alert-msg />
+    body {
+        top: 0 !important;
+    }
+</style>
 
 
-        <script>
-            $.ajaxSetup({
+<script src="{{ asset('assets/common/js/toastr.min.js') }}"></script>
+<script src="{{ asset('assets/frontend/js/jquery.nicescroll.min.js') }}"></script>
+<script src="{{ asset('assets/frontend/js/jquery-ui.js') }}"></script>
+<script src="{{ asset('assets/frontend/js/md5.js') }}"></script>
+
+<x-sweet-alert-msg />
+
+
+<script>
+    $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
@@ -125,13 +122,13 @@
                     $('.logo-style-one').removeClass("d-none");
                 }
             });
-        </script>
+</script>
 
-        @yield('scripts')
-        @yield('script')
+@yield('scripts')
+@yield('script')
 
-        <script>
-            $(document).ready(function() {
+<script>
+    $(document).ready(function() {
 
                 if ($('.flashCountdown').length > 0) {
                     loopcounter('flashCountdown');
@@ -1302,9 +1299,9 @@
                     $(this).closest('.categoryNav__inner').find('.submenu').removeClass('menu_visible');
                 });
             @endif
-        </script>
-        <script>
-            $('#search_form_input').on('input', function() {
+</script>
+<script>
+    $('#search_form_input').on('input', function() {
                 const $dismiss = $('.dismissSearcSection');
 
                 if ($(this).val().length) {
@@ -1327,10 +1324,10 @@
                 $(this).hide();
                 $('#search_suggestions_wrap').removeClass('show');
             });
-        </script>
+</script>
 
-        <script>
-            $(document).ready(function() {
+<script>
+    $(document).ready(function() {
                 const shopBaseUrl = "{{ route('frontend.dynamic.page', ['slug' => 'shop']) }}";
 
                 // Keyup event for search input
@@ -1470,11 +1467,52 @@
                     }
                 }
             });
-        </script>
+</script>
+<script>
+    toastr.options = {
+            closeButton: true,
+            progressBar: true,
+            timeOut: 3000
+        };
+</script>
+<script>
+    @if (Session::has('message'))
+        var type = "{{ Session::get('alert-type', 'success') }}";
 
-        <!--Start of Tawk.to Script-->
-        <script type="text/javascript">
-        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+        switch (type) {
+            case 'success':
+                toastr.success("{{ Session::get('message') }}");
+                break;
+
+            case 'info':
+                toastr.info("{{ Session::get('message') }}");
+                break;
+
+            case 'warning':
+                toastr.warning("{{ Session::get('message') }}");
+                break;
+
+            case 'error':
+                toastr.error("{{ Session::get('message') }}");
+                break;
+        }
+    @endif
+</script>
+{!! Toastr::message() !!}
+<script>
+    @if($errors->any())
+                @foreach($errors->all() as $error)
+                    toastr.error('{{ $error }}','Error',{
+                        closeButton:true,
+                        progressBar:true,
+                    });
+                @endforeach
+            @endif
+</script>
+
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
         (function(){
         var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
         s1.async=true;
@@ -1483,10 +1521,10 @@
         s1.setAttribute('crossorigin','*');
         s0.parentNode.insertBefore(s1,s0);
         })();
-        </script>
-        <!--End of Tawk.to Script-->
+</script>
+<!--End of Tawk.to Script-->
 
-        <script src="{{ asset('assets/frontend/js/dynamic-script.js') }}"></script>
-        </body>
+<script src="{{ asset('assets/frontend/js/dynamic-script.js') }}"></script>
+</body>
 
-        </html>
+</html>
