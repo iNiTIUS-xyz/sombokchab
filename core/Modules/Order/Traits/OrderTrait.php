@@ -2,30 +2,32 @@
 
 namespace Modules\Order\Traits;
 
-use App\Http\Services\Commission;
-use Crypt;
-use Exception;
-use Gloudemans\Shoppingcart\Facades\Cart;
-use Hash;
-use Modules\Inventory\Http\Services\Frontend\FrontendInventoryService;
-use Modules\Order\Entities\Order;
-use Modules\Order\Entities\OrderAddress;
-use Modules\Order\Entities\OrderPaymentMeta;
-use Modules\Order\Entities\OrderTrack;
-use Modules\Order\Entities\SubOrderCommission;
-use Modules\Order\Services\ApiCartServices;
-use Modules\Order\Services\CheckoutCouponService;
-use Modules\Order\Services\OrderShippingChargeService;
-use Modules\Order\Services\OrderTaxService;
-use Modules\Order\Services\PaymentGatewayService;
-use Modules\TaxModule\Entities\TaxClassOption;
-use Modules\TaxModule\Services\CalculateTaxBasedOnCustomerAddress;
-use Modules\User\Entities\User;
-use Modules\Wallet\Http\Services\WalletService;
-use App\Action\RegistrationAction;
 use Log;
-use stdClass;
 use Str;
+use Hash;
+use Crypt;
+use stdClass;
+use Exception;
+use Modules\User\Entities\User;
+use App\Http\Services\Commission;
+use Modules\Order\Entities\Order;
+use App\Action\RegistrationAction;
+use Illuminate\Support\Facades\DB;
+use Modules\Order\Entities\SubOrder;
+use Modules\Order\Entities\OrderTrack;
+use Modules\Order\Entities\OrderAddress;
+use Gloudemans\Shoppingcart\Facades\Cart;
+use Modules\Order\Services\ApiCartServices;
+use Modules\Order\Services\OrderTaxService;
+use Modules\Order\Entities\OrderPaymentMeta;
+use Modules\Order\Entities\SubOrderCommission;
+use Modules\TaxModule\Entities\TaxClassOption;
+use Modules\Wallet\Http\Services\WalletService;
+use Modules\Order\Services\CheckoutCouponService;
+use Modules\Order\Services\PaymentGatewayService;
+use Modules\Order\Services\OrderShippingChargeService;
+use Modules\TaxModule\Services\CalculateTaxBasedOnCustomerAddress;
+use Modules\Inventory\Http\Services\Frontend\FrontendInventoryService;
 
 trait OrderTrait
 {
@@ -76,6 +78,7 @@ trait OrderTrait
 
     protected static function orderProcess($request, $type = null): array
     {
+
         $cartContent = self::cartContent($request, $type);
         $groupedData = self::groupByCartContent($cartContent);
 
@@ -86,6 +89,7 @@ trait OrderTrait
 
             $shippingTaxClass = TaxClassOption::where("class_id", get_static_option("shipping_tax_class"))->sum("rate");
             $shippingCost = OrderShippingChargeService::getShippingCharge($request["shipping_cost"]);
+
             $shippingCostTemp = 0;
 
             foreach ($shippingCost["vendor"] ?? [] as $s_cost) {
@@ -155,22 +159,6 @@ trait OrderTrait
 
             $subOrderShippingCost = $totalShippingCharge;
 
-            // after it will be worked
-            // if ($key == "") {
-            //     // This is admin
-            //     $vendor_id = null;
-            //     // :
-            //     if ($type != 'pos') {
-            //         $subOrderShippingCost = $shippingCost['admin']->cost ?? 0;
-            //     }
-
-            // } else {
-            //     if ($type != 'pos') {
-            //         $subOrderShippingCost = $shippingCost['vendor']->where("vendor_id", $key)->first()->cost ?? 0;
-            //     }
-            // }
-
-            // declare a temporary variable for orderItem
             $orderItem = [];
             $orderTotalAmount = 0;
             $subOrderTaxAmount = 0;
@@ -244,9 +232,13 @@ trait OrderTrait
             $totalTaxAmount = ($orderSubTotal * $taxPercentage) / 100;
         }
 
-        $finalAmount = $orderSubTotal + $totalTaxAmount + $totalShippingCharge;
+        $tShippingCharge = SubOrder::query()
+            ->where('order_id', $order->id)
+            ->sum('shipping_cost');
 
-        $orderPaymentMeta = self::storePaymentMeta($order->id, $total_amount, $coupon_amount, $totalShippingCharge, $totalTaxAmount, $finalAmount);
+        $finalAmount = $orderSubTotal + $totalTaxAmount + $tShippingCharge;
+
+        $orderPaymentMeta = self::storePaymentMeta($order->id, $total_amount, $coupon_amount, $tShippingCharge, $totalTaxAmount, $finalAmount);
 
         if (($request['payment_gateway'] == 'Wallet' && auth('web')->check()) && moduleExists("Wallet")) {
             WalletService::updateUserWallet(auth('web')->user()?->id, $finalAmount, false, 'balance', $order->id, checkBalance: true);
@@ -288,7 +280,6 @@ trait OrderTrait
 
     public static function testOrder($request, $type = null)
     {
-
         $order_process = self::orderProcess($request, $type);
         if ($type != 'pos') {
             if (isset($request['create_account']) && $request['create_account']) {
@@ -329,7 +320,7 @@ trait OrderTrait
 
                 Cart::instance(self::cartInstanceName())->destroy();
 
-                return (new PaymentGatewayService)->payment_with_gateway($request['payment_gateway'], $request, $order_process["order_id"], round($order_process['total_amount'], 0));
+                return (new PaymentGatewayService)->payment_with_gateway($request['payment_gateway'], $request, $order_process["order_id"], number_format($order_process['total_amount'], 2));
             }
         } else {
 
@@ -355,7 +346,7 @@ trait OrderTrait
                 ['order_id' => $order_process["order_id"], 'updated_by' => auth("admin")->id(), 'table' => 'admin', 'name' => 'delivered'],
             ]);
 
-            \DB::commit();
+            DB::commit();
             Cart::instance(self::cartInstanceName())->destroy();
 
             $selectedCustomer = User::with("userCountry", "userState", "userCity")->find($request->selected_customer ?? 0);

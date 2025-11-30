@@ -365,6 +365,21 @@
             }
         }
     </style>
+
+    <style>
+        .table th,
+        .table td {
+            vertical-align: middle;
+        }
+
+        .table th {
+            font-weight: 600;
+        }
+
+        .checkout-cart-thumb img {
+            border-radius: 5px;
+        }
+    </style>
 @endsection
 
 @php
@@ -386,7 +401,9 @@
     </div>
     <div class="patment-success-area padding-top-100 padding-bottom-100">
         @if (moduleExists('DeliveryMan'))
-            @if (!empty($payment_details->deliveryMan) && DeliveryManRating::where('delivery_man_id', $payment_details->deliveryMan?->delivery_man_id)->count() < 1)
+            @if (
+                !empty($payment_details->deliveryMan) &&
+                    DeliveryManRating::where('delivery_man_id', $payment_details->deliveryMan?->delivery_man_id)->count() < 1)
                 <div class="end-contract-area section-bg-2">
                     <div class="container">
                         <div class="row gy-4 justify-content-center">
@@ -409,7 +426,7 @@
                                                         method="post">
                                                         @csrf
                                                         <input id="delivery-man-ratting-input" type="hidden" name="ratting"
-                                                            value=""/>
+                                                            value="" />
 
                                                         <div class="end-contract-reaction">
                                                             <div class="end-contract-reaction-item reaction-list"
@@ -671,6 +688,7 @@
                                 @endphp
                                 <div class="row g-4">
                                     @foreach ($orders as $order)
+                                        {{-- @dd($order) --}}
                                         <div class="col-lg-12">
                                             <div class="table-responsive">
                                                 <table class="table table-bordered align-middle">
@@ -758,7 +776,7 @@
                                                                 <td>{{ __('Sub Total') }}</td>
                                                                 <td class="text-end">
                                                                     <strong id="vendor_subtotal">
-                                                                        {{ float_amount_with_currency_symbol($payment_details->paymentMeta?->sub_total) }}
+                                                                        {{ float_amount_with_currency_symbol($order->total_amount) }}
                                                                     </strong>
                                                                 </td>
                                                             </tr>
@@ -782,15 +800,17 @@
                                                                 <td>{{ __('Cost Summary') }}</td>
                                                                 <td class="text-end">
                                                                     <strong id="vendor_shipping_cost">
-                                                                        {{ float_amount_with_currency_symbol($payment_details->paymentMeta?->shipping_cost) }}
+                                                                        {{ float_amount_with_currency_symbol($order->shipping_cost) }}
                                                                     </strong>
                                                                 </td>
                                                             </tr>
                                                             <tr class="border-top">
-                                                                <td class="fw-bold">{{ __('Total') }}</td>
+                                                                <td class="fw-bold">
+                                                                    {{ __('Total') }}
+                                                                </td>
                                                                 <td class="text-end fw-bold text-success">
                                                                     <strong id="vendor_total">
-                                                                        {{ float_amount_with_currency_symbol($payment_details->paymentMeta?->total_amount) }}
+                                                                        {{ float_amount_with_currency_symbol($order->total_amount + $order->shipping_cost + $order->tax_amount) }}
                                                                     </strong>
                                                                 </td>
                                                             </tr>
@@ -799,21 +819,6 @@
                                                 @endif
                                             </div>
                                         </div>
-
-                                        <style>
-                                            .table th,
-                                            .table td {
-                                                vertical-align: middle;
-                                            }
-
-                                            .table th {
-                                                font-weight: 600;
-                                            }
-
-                                            .checkout-cart-thumb img {
-                                                border-radius: 5px;
-                                            }
-                                        </style>
                                     @endforeach
                                 </div>
                             </div>

@@ -2,30 +2,41 @@
 
 namespace Modules\Order\Services;
 
-use App\Helpers\PaymentGatewayCredential;
-use Auth;
+use Carbon\Carbon;
+use App\Mail\BasicMail;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Modules\Order\Entities\SubOrder;
 use Illuminate\Http\RedirectResponse;
+use App\Helpers\PaymentGatewayCredential;
 
 class PaymentGatewayService
 {
     private const CANCEL_ROUTE = 'frontend.order.payment.cancel';
     private const SUCCESS_ROUTE = 'frontend.order.payment.success';
-    public function payment_with_gateway($payment_gateway_name,$request, $order_id,$total)
+    public function payment_with_gateway($payment_gateway_name, $request, $order_id, $total)
     {
         try {
             $payment_gateway_name = strtolower($payment_gateway_name);
             $gateway_function = 'get_' . $payment_gateway_name . '_credential';
             $gateway = PaymentGatewayCredential::$gateway_function();
 
+            $subOrder = SubOrder::query()
+                ->where('order_id', $order_id)
+                ->get();
+
+            $totalAmount = $subOrder->sum('total_amount') + $subOrder->sum('shipping_cost');
+
             return $gateway->charge_customer(
-                $this->common_charge_customer_data($payment_gateway_name,$request, $order_id,$total)
+                $this->common_charge_customer_data($payment_gateway_name, $request, $order_id, $totalAmount)
             );
         } catch (\Exception $e) {
             return back()->with(['msg' => $e->getMessage(), 'type' => 'danger']);
         }
     }
 
-    public function common_charge_customer_data($payment_gateway_name, $request, $order_id,$total): array
+    public function common_charge_customer_data($payment_gateway_name, $request, $order_id, $total): array
     {
         $user = Auth::guard('web')->user() ?? null;
         $email = $user->email ?? $request["email"];
@@ -34,10 +45,10 @@ class PaymentGatewayService
         return [
             'amount' => $total,
             'title' => __("Payment for order"),
-            'description' => __("Payment For Order Id:") .  "#" . $order_id ." ". __("Payer Name:") . $name ." , ". __("Email:") . $email ,
+            'description' => __("Payment For Order Id:") .  "#" . $order_id . " " . __("Payer Name:") . $name . " , " . __("Email:") . $email,
             'ipn_url' => route('frontend.' . strtolower($payment_gateway_name) . '.ipn', $order_id),
             'order_id' => $order_id,
-            'track' => \Str::random(36),
+            'track' => Str::random(36),
             'cancel_url' => route(self::CANCEL_ROUTE, $order_id),
             'success_url' => route(self::SUCCESS_ROUTE, $order_id),
             'email' => $email,
@@ -238,32 +249,31 @@ class PaymentGatewayService
                 $this->send_order_mail($payment_data['order_id']);
                 $this->tenant_create_event_with_credential_mail($payment_data['order_id']);
                 $this->update_tenant($payment_data);
-
             } catch (\Exception $exception) {
                 $message = $exception->getMessage();
-                if(str_contains($message,'Access denied')){
-                    if(request()->ajax()){
-                        abort(462,__('Database created failed, Make sure your database user has permission to create database'));
+                if (str_contains($message, 'Access denied')) {
+                    if (request()->ajax()) {
+                        abort(462, __('Database created failed, Make sure your database user has permission to create database'));
                     }
                 }
 
-                $payment_details = PaymentLogs::where('id',$payment_data['order_id'])->first();
-                if(empty($payment_details))
-                {
-                    abort(462,__('Does not exist, Tenant does not exists'));
+                $payment_details = PaymentLogs::where('id', $payment_data['order_id'])->first();
+                if (empty($payment_details)) {
+                    abort(462, __('Does not exist, Tenant does not exists'));
                 }
-                LandlordPricePlanAndTenantCreate::store_exception($payment_details->tenant_id,'Domain create',$exception->getMessage(), 0);
+                LandlordPricePlanAndTenantCreate::store_exception($payment_details->tenant_id, 'Domain create', $exception->getMessage(), 0);
 
                 //todo: send an email to admin that this user databse could not able to create automatically
 
                 try {
-                    $message = sprintf(__('Database Creating failed for user id %1$s , please checkout admin panel and generate database for this user from admin panel manually'),
-                        $payment_details->user_id);
-                    $subject = sprintf(__('Database Crating failed for user id %1$s'),$payment_details->user_id);
-                    Mail::to(get_static_option('site_global_email'))->send(new BasicMail($message,$subject));
-
+                    $message = sprintf(
+                        __('Database Creating failed for user id %1$s , please checkout admin panel and generate database for this user from admin panel manually'),
+                        $payment_details->user_id
+                    );
+                    $subject = sprintf(__('Database Crating failed for user id %1$s'), $payment_details->user_id);
+                    Mail::to(get_static_option('site_global_email'))->send(new BasicMail($message, $subject));
                 } catch (\Exception $e) {
-                    LandlordPricePlanAndTenantCreate::store_exception($payment_details->tenant_id,'domain failed email',$e->getMessage(), 0);
+                    LandlordPricePlanAndTenantCreate::store_exception($payment_details->tenant_id, 'domain failed email', $e->getMessage(), 0);
                 }
             }
 

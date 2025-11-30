@@ -335,8 +335,8 @@
                 <div class="col-lg-12">
                     <div class="order-complete-wrap">
                         <h4 class="title">
-                            {{ __('Order Details') }}</h4>
-
+                            {{ __('Order Details') }}
+                        </h4>
                         <div class="checkout-page-content-wrapper mt-4">
                             @php
                                 $adminShopManage = \App\AdminShopManage::first();
@@ -397,9 +397,11 @@
 
                                                 <div class="d-flex gap-2 w-20">
                                                     <del class="checkout-cart-price color-heading fw-500">
-                                                        {{ amount_with_currency_symbol($orderItem->sale_price) }} </del>
+                                                        {{ amount_with_currency_symbol($orderItem->sale_price) }}
+                                                    </del>
                                                     <b class="checkout-cart-price color-heading fw-500 font-weight-bold">
-                                                        {{ amount_with_currency_symbol($orderItem->price) }} </b>
+                                                        {{ amount_with_currency_symbol($orderItem->price) }}
+                                                    </b>
                                                 </div>
                                             </div>
 
@@ -422,24 +424,12 @@
                                                             {{ float_amount_with_currency_symbol($order->total_amount) }}
                                                         </b>
                                                     </div>
-                                                    {{-- <div class="d-flex justify-content-between">
-                                                        <b>
-                                                            {{ __('Tax Amount') }}
-                                                        </b>
-                                                        <b id="vendor_tax_amount">
-                                                            @if ($order->tax_type == 'inclusive_price')
-                                                                {{ __('Tax Inclusive') }}
-                                                            @else
-                                                                {{ float_amount_with_currency_symbol($order->tax_amount) }}
-                                                            @endif
-                                                        </b>
-                                                    </div> --}}
                                                     <div class="d-flex justify-content-between">
                                                         <b>
                                                             {{ __('Shipping Cost') }}
                                                         </b>
                                                         <b id="vendor_shipping_cost">
-                                                            {{ float_amount_with_currency_symbol($payment_details->paymentMeta?->shipping_cost) }}
+                                                            {{ float_amount_with_currency_symbol($order->shipping_cost) }}
                                                         </b>
                                                     </div>
                                                     <div class="d-flex justify-content-between">
@@ -447,7 +437,7 @@
                                                             {{ __('Total') }}
                                                         </b>
                                                         <b id="vendor_total">
-                                                            {{ float_amount_with_currency_symbol($order->total_amount + $payment_details->paymentMeta?->shipping_cost + $order->tax_amount) }}
+                                                            {{ float_amount_with_currency_symbol($order->total_amount + $order->shipping_cost + $order->tax_amount) }}
                                                         </b>
                                                     </div>
                                                 </div>
