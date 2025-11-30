@@ -1,98 +1,96 @@
 @extends('frontend.user.dashboard.user-master')
 
 @section('style')
-    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.min.css') }}">
-    <style>
-        .badge.status-open {
-            display: inline-block;
-            background-color: #41695A;
-            padding: 3px 10px;
-            border-radius: 4px;
-            color: #fff;
-            border: none;
-            font-weight: 600;
-        }
+<link rel="stylesheet" href="{{ asset('assets/css/dataTables.min.css') }}">
+<style>
+    .badge.status-open {
+        display: inline-block;
+        background-color: #41695A;
+        padding: 3px 10px;
+        border-radius: 4px;
+        color: #fff;
+        border: none;
+        font-weight: 600;
+    }
 
-        .badge.status-close {
-            display: inline-block;
-            background-color: #dd0303;
-            padding: 3px 10px;
-            border-radius: 4px;
-            color: #fff;
-            border: none;
-            font-weight: 600;
-        }
-    </style>
+    .badge.status-close {
+        display: inline-block;
+        background-color: #dd0303;
+        padding: 3px 10px;
+        border-radius: 4px;
+        color: #fff;
+        border: none;
+        font-weight: 600;
+    }
+</style>
 @endsection
 
 @section('section')
-    <a href="{{ route('frontend.support.ticket') }}" class="cmn_btn btn_bg_1">
-        {{ __('Add New Support Ticket') }}
-    </a>
-    @if (count($all_tickets) > 0)
-        <div class="mt-4">
-            <div class="table-responsive" style="overflow-x: unset !important;">
-                <table class="table" id="dataTable">
-                    <thead>
-                        <tr>
-                            <th>{{ __('Order No.') }}</th>
-                            <th>{{ __('Title') }}</th>
-                            <th>{{ __('Date Created') }}</th>
-                            <th>{{ __('Status') }}</th>
-                            <th>{{ __('Action') }}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($all_tickets as $data)
-                            <tr>
-                                <td>{{ $data->order_id }}</td>
-                                <td>{{ $data->title }}</td>
-                                <td>
-                                    <small>{{ $data->created_at->format('M d, Y') }}</small>
-                                </td>
-                                <td>
-                                    <span
-                                        class="text-capitalize badge {{ $data->status == 'close' ? 'status-close' : 'status-open' }}">
-                                        {{ $data->status == 'close' ? __('Closed') : __($data->status) }}
-                                    </span>
-                                </td>
-                                <td>
-                                    <a href="{{ route('user.dashboard.support.ticket.view', $data->id) }}"
-                                        class="btn btn-secondary btn-sm rounded-btn"
-                                        title="{{ __('View Support Ticket') }}">
-                                        <i class="las la-file-alt"></i>
-                                    </a>
-                                    @if ($data->status == 'open')
-                                        <a href="javascript:;" class="status_change btn btn-danger btn-xs"
-                                            data-id="{{ $data->id }}" data-val="close"
-                                            title="{{ __('Close Ticket') }}">
-                                            <i class="las la-times"></i>
-                                        </a>
-                                    @endif
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    @else
-        <div class="nothing-found mt-4">
-            <div class="alert alert-warning">
-                {{ __('No support ticket found.') }}
-            </div>
-        </div>
-    @endif
+<a href="{{ route('frontend.support.ticket') }}" class="cmn_btn btn_bg_1">
+    {{ __('Add New Support Ticket') }}
+</a>
+@if (count($all_tickets) > 0)
+<div class="mt-4">
+    <div class="table-responsive" style="overflow-x: unset !important;">
+        <table class="table" id="dataTable">
+            <thead>
+                <tr>
+                    <th>{{ __('Order No.') }}</th>
+                    <th>{{ __('Title') }}</th>
+                    <th>{{ __('Date Created') }}</th>
+                    <th>{{ __('Status') }}</th>
+                    <th>{{ __('Action') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($all_tickets as $data)
+                <tr>
+                    <td>{{ $data->order_id }}</td>
+                    <td>{{ $data->title }}</td>
+                    <td>
+                        <small>{{ $data->created_at->format('M d, Y') }}</small>
+                    </td>
+                    <td>
+                        <span
+                            class="text-capitalize badge {{ $data->status == 'close' ? 'status-close' : 'status-open' }}">
+                            {{ $data->status == 'close' ? __('Closed') : __($data->status) }}
+                        </span>
+                    </td>
+                    <td>
+                        <a href="{{ route('user.dashboard.support.ticket.view', $data->id) }}"
+                            class="btn btn-secondary btn-sm rounded-btn" title="{{ __('View Support Ticket') }}">
+                            <i class="las la-file-alt"></i>
+                        </a>
+                        @if ($data->status == 'open')
+                        <a href="javascript:;" class="status_change btn btn-danger btn-xs" data-id="{{ $data->id }}"
+                            data-val="close" title="{{ __('Close Ticket') }}">
+                            <i class="las la-times"></i>
+                        </a>
+                        @endif
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
+@else
+<div class="nothing-found mt-4">
+    <div class="alert alert-warning">
+        {{ __('No support ticket found.') }}
+    </div>
+</div>
+@endif
 @endsection
 
 @section('script')
-    <script src="{{ asset('assets/frontend/js/jquery-3.6.0.min.js') }}"></script>
-    <script src="{{ asset('assets/frontend/js/popper.min.js') }}"></script>
-    <script src="{{ asset('assets/common/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('assets/backend/js/sweetalert2.js') }}"></script>
-    <script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
-    <script>
-        $(document).ready(function() {
+<script src="{{ asset('assets/frontend/js/jquery-3.6.0.min.js') }}"></script>
+<script src="{{ asset('assets/frontend/js/popper.min.js') }}"></script>
+<script src="{{ asset('assets/common/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('assets/backend/js/sweetalert2.js') }}"></script>
+<script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
+<script>
+    $(document).ready(function() {
             if ($('#dataTable').length) {
                 $('#dataTable').DataTable({
                     paging: true,
@@ -124,9 +122,9 @@
                 });
             }
         });
-    </script>
-    <script>
-        (function($) {
+</script>
+<script>
+    (function($) {
             "use strict";
 
             $(document).ready(function() {
@@ -226,5 +224,5 @@
                 });
             });
         })(jQuery);
-    </script>
+</script>
 @endsection
