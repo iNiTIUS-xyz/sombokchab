@@ -46,14 +46,9 @@
 <div class="col-lg-12 col-ml-12">
     <div class="row">
         <div class="col-lg-12 mb-2">
-            {{--
-            <x-msg.error />
-            <x-msg.flash /> --}}
             <div class="dashboard__card">
                 <div class="dashboard__card__header">
-                    <h4 class="dashboard__card__title">
-                        {{ __('Create Campaign') }}
-                    </h4>
+                    <h4 class="dashboard__card__title">{{ __('Create Campaign') }}</h4>
                     @can('view-campaign')
                     <div class="btn-wrapper">
                         <a href="{{ route('admin.campaigns.all') }}" class="cmn_btn btn_bg_profile">
@@ -66,6 +61,7 @@
         </div>
     </div>
 </div>
+
 <div class="col-lg-12 col-ml-12">
     <form action="{{ route('admin.campaigns.new') }}" method="POST" enctype="multipart/form-data">
         @csrf
@@ -74,85 +70,70 @@
                 <div class="row g-4">
                     <div class="col-md-4">
                         <div class="dashboard__card">
+
+                            {{-- Campaign Name --}}
                             <div class="mb-3">
-                                <label class="form-label">
-                                    Campaign Name (English)
-                                    <span class="text-danger">*</span>
-                                </label>
+                                <label class="form-label">Campaign Name (English) <span
+                                        class="text-danger">*</span></label>
                                 <input type="text" class="form-control" name="campaign_name"
-                                    placeholder="Enter campaign name (English)" value="{{ old('campaign_name') }}"
-                                    required>
-                                @error('campaign_name')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
+                                    placeholder="Enter campaign name (English)" required>
                             </div>
+
                             <div class="mb-3">
-                                <label class="form-label">
-                                    ឈ្មោះយុទ្ធនាការ (ខ្មែរ)
-                                    <span class="text-danger">*</span>
-                                </label>
+                                <label class="form-label">ឈ្មោះយុទ្ធនាការ (ខ្មែរ) <span
+                                        class="text-danger">*</span></label>
                                 <input type="text" class="form-control" name="campaign_name_km"
-                                    placeholder="បញ្ចូលឈ្មោះយុទ្ធនាការ (ខ្មែរ)" value="{{ old('campaign_name_km') }}"
-                                    required>
-                                @error('campaign_name_km')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
+                                    placeholder="បញ្ចូលឈ្មោះយុទ្ធនាការ (ខ្មែរ)" required>
                             </div>
+
                             <div class="mb-3">
-                                <label class="form-label">
-                                    Campaign Subtitle (English)
-                                    <span class="text-danger">*</span>
-                                </label>
+                                <label class="form-label">Campaign Subtitle (English) <span
+                                        class="text-danger">*</span></label>
                                 <input type="text" class="form-control" name="campaign_subtitle"
-                                    placeholder="Enter campaign subtitle (English)"
-                                    value="{{ old('campaign_subtitle') }}" required>
-                                @error('campaign_subtitle')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
+                                    placeholder="Enter campaign subtitle (English)" required>
                             </div>
+
                             <div class="mb-3">
-                                <label class="form-label">
-                                    ចំណងជើងរងយុទ្ធនាការ (ខ្មែរ)
-                                    <span class="text-danger">*</span>
-                                </label>
+                                <label class="form-label">ចំណងជើងរងយុទ្ធនាការ (ខ្មែរ) <span
+                                        class="text-danger">*</span></label>
                                 <input type="text" class="form-control" name="campaign_subtitle_km"
-                                    placeholder="បញ្ចូលចំណងជើងរងយុទ្ធនាការ (ខ្មែរ)"
-                                    value="{{ old('campaign_subtitle_km') }}" required>
-                                @error('campaign_subtitle_km')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
+                                    placeholder="បញ្ចូលចំណងជើងរងយុទ្ធនាការ (ខ្មែរ)" required>
                             </div>
+
+                            {{-- Image --}}
                             <div class="mb-3">
-                                <x-media-upload :title="__('Campaign Image')" name="image" :dimentions="'1920x1080'" />
-                                @error('image')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">
-                                    Publish Status
-                                    <span class="text-danger">*</span>
+                                <label class="form-label fw-bold">
+                                    {{ __('Campaign Image') }} <span class="text-danger">*</span>
                                 </label>
+
+                                <x-media-upload :title="__('')" name="image" :dimentions="'1920x1080'"
+                                    required="true" />
+                            </div>
+
+
+                            {{-- Status --}}
+                            <div class="mb-3">
+                                <label class="form-label">Publish Status <span class="text-danger">*</span></label>
                                 <select name="status" class="form-select" required>
-                                    <option value="draft" {{ old('status')=='draft' ? 'selected' : '' }}>
-                                        {{ __('Unpublished') }}</option>
-                                    <option value="publish" {{ old('status')=='publish' ? 'selected' : '' }}>
-                                        {{ __('Published') }}</option>
+                                    <option value="draft">Unpublished</option>
+                                    <option value="publish">Published</option>
                                 </select>
-                                @error('status')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
                             </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="discountCheck">
-                                <label class="form-check-label" for="discountCheck">
-                                    Set Discount Percentage
-                                </label>
-                            </div>
+
+                            {{-- FIXED: Discount Input + Checkbox --}}
                             <div class="mb-3">
                                 <input type="number" class="form-control" id="discountPercentage"
                                     placeholder="Set Discount Percentage" min="0" max="100" step="0.01">
                             </div>
+
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="discountCheck">
+                                <label class="form-check-label" for="discountCheck">
+                                    Apply Discount Percentage
+                                </label>
+                            </div>
+
+                            {{-- Fixed Date Toggle --}}
                             <div class="form-check mb-2">
                                 <input class="form-check-input" type="checkbox" id="set_fixed_date"
                                     name="use_fixed_dates">
@@ -160,280 +141,226 @@
                                     Set Fixed Date Range
                                 </label>
                             </div>
+
+                            {{-- Fixed Date Range --}}
                             <div class="mb-3">
                                 <label class="form-label">Start Date</label>
                                 <input type="text" class="form-control flatpickr" id="fixed_from_date"
-                                    name="campaign_start_date" value="{{ old('campaign_start_date') }}" required>
-                                @error('campaign_start_date')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
+                                    name="campaign_start_date" required>
                             </div>
+
                             <div class="mb-3">
                                 <label class="form-label">End Date</label>
                                 <input type="text" class="form-control flatpickr" id="fixed_to_date"
-                                    name="campaign_end_date" value="{{ old('campaign_end_date') }}" required>
-                                @error('campaign_end_date')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
+                                    name="campaign_end_date" required>
                             </div>
-                            <button class="btn btn-primary py-2 w-100" type="submit">
-                                {{ __('Add Campaign') }}
-                            </button>
+
+                            <button class="btn btn-primary py-2 w-100" type="submit">Add Campaign</button>
+
                         </div>
                     </div>
+
+                    {{-- Product Section --}}
                     <div class="col-md-8">
                         <div class="dashboard__card campain_product_section">
-                            <label class="form-label">
-                                Campaign Products
-                                <span class="text-danger">*</span>
-                            </label>
+                            <label class="form-label">Campaign Products <span class="text-danger">*</span></label>
                             <select class="form-control select2 product_select" id="productId"
                                 onchange="selectCampaignProduct(this)">
-                                <option selected disabled>
-                                    Select One
-                                </option>
+                                <option selected disabled>Select One</option>
                                 @foreach ($all_products as $product)
-                                <option value="{{ $product->id }}" data-product_id="{{ $product->id }}"
-                                    data-product_name="{{ $product->name }}" data-price="{{ $product->price }}"
-                                    data-sale_price="{{ $product->sale_price }}"
+                                <option value="{{ $product->id }}" data-product_name="{{ $product->name }}"
+                                    data-price="{{ $product->price }}" data-sale_price="{{ $product->sale_price }}"
                                     data-stock="{{ optional($product->inventory)->stock_count ?? 0 }}">
-                                    {{ Str::limit($product->name, 100, '...') }}
+                                    {{ Str::limit($product->name, 100) }}
                                 </option>
                                 @endforeach
                             </select>
                         </div>
+
                         <div class="accordion" id="campaignProducts"></div>
-                        @error('product_id')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                        @error('campaign_price')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                        @error('units_for_sale')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
+
                     </div>
+
                 </div>
             </div>
         </div>
     </form>
 </div>
+
 <x-media.markup />
 @endsection
 
 @section('script')
 <x-media.js />
 <script src="{{ asset('assets/backend/js/flatpickr.js') }}"></script>
+
 <script>
     $(document).ready(function() {
-            // Initialize Select2
-            $('.select2.product_select').select2({
-                placeholder: "{{ __('Select Product') }}",
-            });
-        });
-</script>
-<script>
-    flatpickr(".flatpickr", {
-            altInput: true,
-            altFormat: "F j, Y",
-            dateFormat: "Y-m-d",
-        });
+    $('.select2.product_select').select2();
+});
 
-        // Keep track of added products
-        let addedProducts = [];
+flatpickr(".flatpickr", {
+    altInput: true,
+    altFormat: "F j, Y",
+    dateFormat: "Y-m-d",
+});
 
-        function selectCampaignProduct() {
-            let selected = $("#productId option:selected");
-            let productId = selected.data("product_id");
-            let productName = selected.data("product_name");
-            let productPrice = selected.data("price");
-            let productStock = selected.data("stock");
+// Track added products
+let addedProducts = [];
 
-            // Prevent duplicate
-            if (addedProducts.includes(productId)) {
-                toastr.error('This product is already added to the campaign!');
-                return;
-            }
+// Add product
+function selectCampaignProduct() {
+    let selected = $("#productId option:selected");
+    let productId = selected.val();
+    let productName = selected.data("product_name");
+    let productPrice = selected.data("price");
+    let productStock = selected.data("stock");
 
-            addedProducts.push(productId);
+    if (addedProducts.includes(productId)) {
+        toastr.error('This product is already added!');
+        return;
+    }
 
-            let uniqueId = "product_" + productId;
+    addedProducts.push(productId);
 
-            let html = `
-                <div class="accordion-item mb-2" id="accordion-${productId}">
-                    <h2 class="accordion-header d-flex align-items-center">
-                        <input type="hidden" name="product_id[]" value="${productId}">
-                        <button class="accordion-button collapsed" type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#${uniqueId}"
-                            aria-expanded="false"
-                            aria-controls="${uniqueId}">
-                            ${productName}
-                        </button>
-                        <button type="button" class="btn btn-danger ms-2" onclick="removeCampaignProduct(${productId})">
-                            <i class="ti-trash"></i>
-                        </button>
-                    </h2>
-                    <div id="${uniqueId}" class="accordion-collapse collapse">
-                        <div class="accordion-body">
-                            <div class="row g-3">
-                                <div class="col-md-3">
-                                    <label class="form-label">Original Price</label>
-                                    <input type="text" class="form-control original-price" value="${productPrice}" readonly />
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="form-label">Price for Campaign</label>
-                                    <input type="number" class="form-control campaign-price"
-                                        value=""
-                                        step="0.01"
-                                        name="campaign_price[]"
-                                        data-original="${productPrice}"
-                                        oninput="checkCampaignPrice(this)" required />
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="form-label">No. of Units Available</label>
-                                    <input type="text" class="form-control available-units" value="${productStock}" readonly />
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="form-label">No. of Units for Sale</label>
-                                    <input type="number" class="form-control units-for-sale"
-                                        value="0"
-                                        name="units_for_sale[]"
-                                        data-available="${productStock}"
-                                        oninput="checkUnitsForSale(this)" required />
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label">Start Date</label>
-                                    <input type="text" class="form-control dataPickerStart" name="start_date[]" required />
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label">End Date</label>
-                                    <input type="text" class="form-control dataPickerEnd" name="end_date[]" required />
-                                </div>
-                            </div>
+    let uid = "product_" + productId;
+
+    let html = `
+        <div class="accordion-item mb-2" id="accordion-${productId}">
+            <h2 class="accordion-header d-flex align-items-center">
+                <input type="hidden" name="product_id[]" value="${productId}">
+                <button class="accordion-button collapsed" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#${uid}">
+                    ${productName}
+                </button>
+                <button type="button" class="btn btn-danger ms-2"
+                    onclick="removeCampaignProduct(${productId})">
+                    <i class="ti-trash"></i>
+                </button>
+            </h2>
+
+            <div id="${uid}" class="accordion-collapse collapse">
+                <div class="accordion-body">
+                    <div class="row g-3">
+
+                        <div class="col-md-3">
+                            <label class="form-label">Original Price</label>
+                            <input type="text" class="form-control" value="${productPrice}" readonly>
                         </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Price for Campaign</label>
+                            <input type="number" class="form-control campaign-price"
+                                name="campaign_price[]" data-original="${productPrice}"
+                                step="0.01" required>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Units Available</label>
+                            <input type="text" class="form-control" value="${productStock}" readonly>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Units for Sale</label>
+                            <input type="number" class="form-control"
+                                name="units_for_sale[]" data-available="${productStock}"
+                                value="0" required>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Start Date</label>
+                            <input type="text" class="form-control dataPickerStart" name="start_date[]" required>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">End Date</label>
+                            <input type="text" class="form-control dataPickerEnd" name="end_date[]" required>
+                        </div>
+
                     </div>
                 </div>
-            `;
+            </div>
+        </div>
+    `;
 
-            $("#campaignProducts").append(html);
+    $("#campaignProducts").append(html);
 
-            // Initialize flatpickr only for new inputs
-            $("#accordion-" + productId + " .dataPickerStart").flatpickr({
-                altInput: true,
-                altFormat: "F j, Y",
-                dateFormat: "Y-m-d",
-            });
-            $("#accordion-" + productId + " .dataPickerEnd").flatpickr({
-                altInput: true,
-                altFormat: "F j, Y",
-                dateFormat: "Y-m-d",
-            });
+    $("#accordion-" + productId + " .dataPickerStart").flatpickr({
+        altInput: true,
+        altFormat: "F j, Y",
+        dateFormat: "Y-m-d",
+    });
+
+    $("#accordion-" + productId + " .dataPickerEnd").flatpickr({
+        altInput: true,
+        altFormat: "F j, Y",
+        dateFormat: "Y-m-d",
+    });
+}
+
+// Remove product
+function removeCampaignProduct(id) {
+    $("#accordion-" + id).remove();
+    addedProducts = addedProducts.filter(pid => pid != id);
+}
+
+// Set fixed date
+$('#set_fixed_date').on('change', function() {
+    if ($(this).is(':checked')) {
+        let start = $('#fixed_from_date').val();
+        let end = $('#fixed_to_date').val();
+
+        if (!start || !end) {
+            toastr.error("Please choose date range first.");
+            $(this).prop('checked', false);
+            return;
         }
 
-        function checkUnitsForSale(input) {
-            let available = parseInt($(input).data("available"));
-            let entered = parseInt($(input).val());
-
-            if (entered > available) {
-                toastr.error('Cannot exceed available units');
-                $(input).val(available);
-            } else if (entered < 0 || isNaN(entered)) {
-                $(input).val(0);
-            }
-        }
-
-        function checkCampaignPrice(input) {
-            let original = parseFloat($(input).data("original"));
-            let entered = parseFloat($(input).val());
-
-            if (entered > original) {
-                toastr.error('Campaign price cannot be higher than original price');
-                $(input).val(original);
-            } else if (entered < 0 || isNaN(entered)) {
-                $(input).val(0);
-            }
-        }
-
-        $('#set_fixed_date').on('change', function() {
-            if ($(this).is(':checked')) {
-                let from_date = $('#fixed_from_date').val();
-                let to_date = $('#fixed_to_date').val();
-
-                if (from_date && to_date) {
-                    $('.dataPickerStart').each(function() {
-                        if (this._flatpickr) {
-                            this._flatpickr.setDate(from_date, true);
-                        } else {
-                            $(this).flatpickr({
-                                altInput: true,
-                                altFormat: "F j, Y",
-                                dateFormat: "Y-m-d",
-                                defaultDate: from_date
-                            });
-                        }
-                    });
-
-                    $('.dataPickerEnd').each(function() {
-                        if (this._flatpickr) {
-                            this._flatpickr.setDate(to_date, true);
-                        } else {
-                            $(this).flatpickr({
-                                altInput: true,
-                                altFormat: "F j, Y",
-                                dateFormat: "Y-m-d",
-                                defaultDate: to_date
-                            });
-                        }
-                    });
-                } else {
-                    toastr.error("Please select fixed date range first");
-                    $(this).prop('checked', false);
-                }
-            }
+        $('.dataPickerStart').each(function() {
+            this._flatpickr.setDate(start, true);
         });
 
-        function removeCampaignProduct(productId) {
-            $("#accordion-" + productId).remove();
-            addedProducts = addedProducts.filter(id => id !== productId);
-        }
-
-        $('#discountCheck').on('change', function() {
-            if ($(this).is(':checked')) {
-                let discountPercent = parseFloat($('#discountPercentage').val());
-
-                if (isNaN(discountPercent) || discountPercent <= 0) {
-                    toastr.error("Please enter a valid discount percentage first");
-                    $(this).prop('checked', false);
-                    return;
-                }
-
-                $('.campaign-price').each(function() {
-                    let original = parseFloat($(this).data("original"));
-                    let discountedPrice = original - (original * discountPercent / 100);
-
-                    if (discountedPrice < 0) discountedPrice = 0;
-
-                    $(this).val(discountedPrice.toFixed(2));
-                });
-            }
+        $('.dataPickerEnd').each(function() {
+            this._flatpickr.setDate(end, true);
         });
+    }
+});
 
-        $('#discountPercentage').on('input', function() {
-            if ($('#discountCheck').is(':checked')) {
-                let discountPercent = parseFloat($(this).val());
 
-                if (isNaN(discountPercent) || discountPercent < 0) return;
+//
+// ✅ FIXED DISCOUNT LOGIC
+//
 
-                $('.campaign-price').each(function() {
-                    let original = parseFloat($(this).data("original"));
-                    let discountedPrice = original - (original * discountPercent / 100);
+// Checkbox toggle
+$('#discountCheck').on('change', function() {
+    let discount = parseFloat($('#discountPercentage').val());
+    if (isNaN(discount) || discount < 0) discount = 0;
 
-                    if (discountedPrice < 0) discountedPrice = 0;
-
-                    $(this).val(discountedPrice.toFixed(2));
-                });
-            }
+    if ($(this).is(':checked')) {
+        $('.campaign-price').each(function() {
+            let original = parseFloat($(this).data('original')) || 0;
+            let newPrice = original - (original * discount / 100);
+            if (newPrice < 0) newPrice = 0;
+            $(this).val(newPrice.toFixed(2));
         });
+    } else {
+        $('.campaign-price').val('');
+    }
+});
+
+// Live update on typing
+$('#discountPercentage').on('input', function() {
+    if (!$('#discountCheck').is(':checked')) return;
+
+    let discount = parseFloat($(this).val());
+    if (isNaN(discount) || discount < 0) discount = 0;
+
+    $('.campaign-price').each(function() {
+        let original = parseFloat($(this).data('original')) || 0;
+        let newPrice = original - (original * discount / 100);
+        if (newPrice < 0) newPrice = 0;
+        $(this).val(newPrice.toFixed(2));
+    });
+});
 </script>
 @endsection

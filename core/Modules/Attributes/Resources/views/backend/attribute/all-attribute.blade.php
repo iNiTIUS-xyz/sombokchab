@@ -5,7 +5,7 @@
 @endsection
 
 @section('site-title')
-{{ __('All Attributes') }}
+{{ __('Custom Attributes') }}
 @endsection
 
 @section('content')
@@ -26,7 +26,7 @@
             </div>
             <div class="dashboard__card">
                 <div class="dashboard__card__header">
-                    <h4 class="dashboard__card__title">{{ __('All Attributes') }}</h4>
+                    <h4 class="dashboard__card__title">{{ __('Custom Attributes') }}</h4>
                     <div class="dashboard__card__header__right">
                         @can('view-attribute')
                         <x-bulk-action.dropdown />

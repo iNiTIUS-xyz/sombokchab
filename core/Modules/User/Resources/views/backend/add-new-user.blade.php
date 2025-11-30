@@ -19,13 +19,7 @@
     }
 
     /* green */
-    .is-valid {
-        border-color: #28a745 !important;
-    }
 
-    .is-invalid {
-        border-color: #dc3545 !important;
-    }
 
     .btn-disabled {
         pointer-events: none !important;
@@ -169,7 +163,7 @@
                             </div>
 
                             <div class="col-md-6 mb-3">
-                                <div class="form-group">
+                                <div class="form-group position-relative">
                                     <label for="password">
                                         {{ __('Password') }}
                                         <span class="text-danger">*</span>
@@ -177,21 +171,31 @@
                                     <input type="password" class="form-control" id="password" name="password"
                                         placeholder="{{ __('Enter password') }}"
                                         aria-describedby="password_confirmation_error">
+                                    <span class="toggle-password"
+                                        style="position:absolute; right:15px; top:50%; transform:translateY(20%); cursor:pointer;">
+                                        <i class="la la-eye"></i>
+                                    </span>
                                 </div>
                             </div>
 
                             <div class="col-md-6 mb-3">
-                                <div class="form-group">
-                                    <label for="password_confirmation">
-                                        {{ __('Confirm Password') }}
-                                        <span class="text-danger">*</span>
-                                    </label>
-                                    <input type="password" class="form-control" id="password_confirmation"
-                                        name="password_confirmation"
-                                        placeholder="{{ __('Enter password confirmation') }}"
-                                        aria-describedby="password_confirmation_error">
-                                    <small id="password_confirmation_error" class="text-muted"></small>
+                                <div>
+                                    <div class="form-group position-relative">
+                                        <label for="password_confirmation">
+                                            {{ __('Confirm Password') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="password" class="form-control" id="password_confirmation"
+                                            name="password_confirmation"
+                                            placeholder="{{ __('Enter password confirmation') }}"
+                                            aria-describedby="password_confirmation_error">
+                                        <span class="toggle-password"
+                                            style="position:absolute; right:15px; top:50%; transform:translateY(20%); cursor:pointer;">
+                                            <i class="la la-eye"></i>
+                                        </span>
+                                    </div>
                                 </div>
+                                <small id="password_confirmation_error" class="text-muted"></small>
                             </div>
                         </div>
 
@@ -466,4 +470,62 @@
     });
 })(jQuery);
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    // delegated click so it works if markup is added dynamically
+    document.body.addEventListener('click', function(e){
+        const btn = e.target.closest('.toggle-password');
+        if(!btn) return;
+
+        e.preventDefault();
+
+        // find target input: prefer data-target, otherwise find input inside same .form-group
+        let selector = btn.getAttribute('data-target');
+        let input = null;
+        if(selector){
+            input = document.querySelector(selector);
+        }
+        if(!input){
+            const group = btn.closest('.form-group') || btn.parentElement;
+            if(group) input = group.querySelector('input');
+        }
+        if(!input) return;
+
+        // toggle type
+        if(input.type === 'password'){
+            input.type = 'text';
+            btn.innerHTML = '<i class="la la-eye-slash"></i>';
+            btn.setAttribute('aria-pressed', 'true');
+        } else {
+            input.type = 'password';
+            btn.innerHTML = '<i class="la la-eye"></i>';
+            btn.setAttribute('aria-pressed', 'false');
+        }
+
+        // fire input event so your existing listeners / validation react
+        try {
+            const ev = new Event('input', { bubbles: true });
+            input.dispatchEvent(ev);
+
+            // if validatePasswordMatch exists in scope, call it
+            if(typeof validatePasswordMatch === 'function'){
+                validatePasswordMatch();
+            }
+        } catch (err) {
+            console.warn('Toggle password: event dispatch failed', err);
+        }
+    });
+
+    // keyboard accessibility: Enter or Space toggles when focused
+    document.body.addEventListener('keydown', function(e){
+        const btn = e.target.closest && e.target.closest('.toggle-password');
+        if(!btn) return;
+        if(e.key === 'Enter' || e.key === ' '){
+            e.preventDefault();
+            btn.click();
+        }
+    });
+});
+</script>
+
 @endsection

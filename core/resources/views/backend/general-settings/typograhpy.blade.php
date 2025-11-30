@@ -14,7 +14,7 @@
             {{-- @include('backend.partials.message') --}}
             <div class="dashboard__card">
                 <div class="dashboard__card__header">
-                    <h4 class="dashboard__card__title">{{ __('Body Typography Settings') }}</h4>
+                    <h4 class="dashboard__card__title">{{ __('Typography Settings') }}</h4>
                 </div>
                 <div class="dashboard__card__body custom__form mt-4">
                     <form action="{{ route('admin.general.typography.settings') }}" method="POST"
@@ -30,8 +30,8 @@
                                     <select class="form-control " name="body_font_family" id="body_font_family"
                                         required="">
                                         @foreach ($google_fonts as $font_family => $font_variant)
-                                        <option value="{{ $font_family }}" @if
-                                            ($font_family==get_static_option('body_font_family')) selected @endif>{{
+                                        <option value="{{ $font_family }}"
+                                            @if($font_family==get_static_option('body_font_family')) selected @endif>{{
                                             $font_family }}
                                         </option>
                                         @endforeach
@@ -77,8 +77,8 @@
                                         {{ __('Heading Font') }}
                                     </label>
                                     <label class="switch">
-                                        <input type="checkbox" name="heading_font" @if
-                                            (!empty(get_static_option('heading_font'))) checked @endif
+                                        <input type="checkbox" name="heading_font"
+                                            @if(!empty(get_static_option('heading_font'))) checked @endif
                                             id="heading_font">
                                         <span class="slider"></span>
                                     </label>
@@ -93,8 +93,9 @@
                                     </label>
                                     <select class="form-control " name="heading_font_family" id="heading_font_family">
                                         @foreach ($google_fonts as $font_family => $font_variant)
-                                        <option value="{{ $font_family }}" @if
-                                            ($font_family==get_static_option('heading_font_family')) selected @endif>{{
+                                        <option value="{{ $font_family }}"
+                                            @if($font_family==get_static_option('heading_font_family')) selected @endif>
+                                            {{
                                             $font_family }}
                                         </option>
                                         @endforeach
@@ -139,8 +140,8 @@
                                 <div class="form-group">
                                     <label for="heading_font">{{ __('Extra Font') }}</label>
                                     <label class="switch">
-                                        <input type="checkbox" name="extra_font" @if
-                                            (!empty(get_static_option('extra_font'))) checked @endif id="extra_font">
+                                        <input type="checkbox" name="extra_font"
+                                            @if(!empty(get_static_option('extra_font'))) checked @endif id="extra_font">
                                         <span class="slider"></span>
                                     </label>
                                     <small>{{ __('Use different font family for heading tags ( h1,h2,h3,h4,h5,h6)')
@@ -154,8 +155,8 @@
                                     </label>
                                     <select class="form-control " name="extra_font_family" id="extra_font_family">
                                         @foreach ($google_fonts as $font_family => $font_variant)
-                                        <option value="{{ $font_family }}" @if
-                                            ($font_family==get_static_option('extra_font_family')) selected @endif>{{
+                                        <option value="{{ $font_family }}"
+                                            @if($font_family==get_static_option('extra_font_family')) selected @endif>{{
                                             $font_family }}
                                         </option>
                                         @endforeach

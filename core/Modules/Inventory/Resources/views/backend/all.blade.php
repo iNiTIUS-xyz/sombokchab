@@ -1,7 +1,7 @@
 @extends('backend.admin-master')
 
 @section('site-title')
-{{ __('Product Inventory') }}
+{{ __('Inventory Management') }}
 @endsection
 
 @section('style')
@@ -29,7 +29,7 @@
             <x-msg.flash /> --}}
             <div class="dashboard__card">
                 <div class="dashboard__card__header">
-                    <h4 class="dashboard__card__title">{{ __('Product Inventory') }}</h4>
+                    <h4 class="dashboard__card__title">{{ __('Inventory Management') }}</h4>
                     @can('delete-product-inventory')
                     <x-bulk-action.dropdown />
                     @endcan

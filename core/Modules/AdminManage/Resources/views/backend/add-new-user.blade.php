@@ -46,15 +46,20 @@
                             <input type="text" class="form-control" id="email" name="email"
                                 placeholder="{{ __('Enter email') }}" required="">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group position-relative">
                             <label for="password">
                                 {{ __('Password') }}
                                 <span class="text-danger">*</span>
                             </label>
                             <input type="password" class="form-control" id="password" name="password"
                                 placeholder="{{ __('Enter password') }}" required="">
+                            <span class="toggle-password"
+                                style="position:absolute; right:15px; top:50%; transform:translateY(20%); cursor:pointer;">
+                                <i class="la la-eye"></i>
+                            </span>
                         </div>
-                        <div class="form-group">
+
+                        <div class="form-group position-relative">
                             <label for="password_confirmation">
                                 {{ __('Confirm Password') }}
                                 <span class="text-danger">*</span>
@@ -62,6 +67,10 @@
                             <input type="password" class="form-control" id="password_confirmation"
                                 name="password_confirmation" placeholder="{{ __('Enter password confirmation') }}"
                                 required="">
+                            <span class="toggle-password"
+                                style="position:absolute; right:15px; top:50%; transform:translateY(20%); cursor:pointer;">
+                                <i class="la la-eye"></i>
+                            </span>
                         </div>
                         <div class="form-group">
                             <label for="role">
@@ -125,5 +134,25 @@
 @endsection
 @section('script')
 <script src="{{ asset('assets/backend/js/dropzone.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const toggles = document.querySelectorAll('.toggle-password');
+
+    toggles.forEach(toggle => {
+        toggle.addEventListener('click', function () {
+            const input = this.previousElementSibling;
+
+            if (input.type === "password") {
+                input.type = "text";
+                this.innerHTML = '<i class="la la-eye-slash"></i>';
+            } else {
+                input.type = "password";
+                this.innerHTML = '<i class="la la-eye"></i>';
+            }
+        });
+    });
+});
+</script>
+
 @include('backend.partials.media-upload.media-js')
 @endsection

@@ -1,8 +1,8 @@
 <div class="d-flex justify-content-between">
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#basic-info" type="button"
-                role="tab" aria-controls="basic-info" aria-selected="true">Basic</button>
+            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#basic-info"
+                type="button" role="tab" aria-controls="basic-info" aria-selected="true">Basic</button>
         </li>
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#address" type="button"
@@ -45,7 +45,8 @@
                 <div class="mb-3">
                     <strong>Cover Photo:</strong>
                     <div class="border rounded p-2 mt-1 text-center">
-                        {!! \App\Http\Services\Media::render_image($vendor?->vendor_shop_info?->cover_photo, size: 'full') !!}
+                        {!! \App\Http\Services\Media::render_image($vendor?->vendor_shop_info?->cover_photo, size:
+                        'full') !!}
                     </div>
                 </div>
             </div>
@@ -57,7 +58,7 @@
         <div class="card shadow-sm">
             <div class="card-body">
                 <p><strong>Country:</strong> {{ $vendor?->vendor_address?->country?->name }}</p>
-                <p><strong>State:</strong> {{ $vendor?->vendor_address?->state?->name }}</p>
+                <p><strong>Province:</strong> {{ $vendor?->vendor_address?->state?->name }}</p>
                 <p><strong>City:</strong> {{ $vendor?->vendor_address?->city?->name }}</p>
                 <p><strong>Zip Code:</strong> {{ $vendor?->vendor_address?->zip_code }}</p>
                 <p><strong>Address:</strong> {{ $vendor?->vendor_address?->address }}</p>

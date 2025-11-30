@@ -438,7 +438,7 @@
                                                                 class="form-control" placeholder="Select color"
                                                                 value="{{ $vendor?->vendor_shop_info?->colors['store_paragraph_color'] ?? '' }}"
                                                                 id="store_paragraph_color">
-                                                            <small class="text-danger">{{ __('You can change the site
+                                                            <small class="text-danger">{{ __('You may change the site
                                                                 paragraph color from here') }}</small>
                                                         </div>
                                                     </div>

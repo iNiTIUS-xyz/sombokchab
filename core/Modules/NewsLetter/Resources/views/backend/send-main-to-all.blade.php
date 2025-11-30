@@ -15,7 +15,7 @@
         <div class="col-lg-12">
             <div class="m-0">
                 {{-- @include('backend/partials/message') --}}
-                @if ($errors->any())
+                {{-- @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>
                         @foreach ($errors->all() as $error)
@@ -23,7 +23,7 @@
                         @endforeach
                     </ul>
                 </div>
-                @endif
+                @endif --}}
             </div>
         </div>
         <div class="col-lg-12">
