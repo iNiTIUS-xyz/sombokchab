@@ -73,18 +73,10 @@
                 @endif
 
                 <div class="product__card__cart__right">
-                    @if ($stock_count <= 0)
-                        {{-- Disabled Compare for Out of Stock --}}
-                        <button type="button" class="product__card__cart__btn__icon out-of-stock-btn"
-                            title="Unavailable" disabled>
-                            <i class="las la-retweet"></i>
-                        </button>
-                    @else
-                        <a href="javascript:void(0)" data-id="{{ $product->id }}" title="{{ __('Add To Compare') }}"
-                            class="{{ $class ?? '' }} product__card__cart__btn__icon cart-loading icon add_to_compare_ajax">
-                            <i class="las la-retweet"></i>
-                        </a>
-                    @endif
+                    <a href="javascript:void(0)" data-id="{{ $product->id }}" title="{{ __('Add To Compare') }}"
+                        class="{{ $class ?? '' }} product__card__cart__btn__icon cart-loading icon add_to_compare_ajax">
+                        <i class="las la-retweet"></i>
+                    </a>
 
                     @if (isset($attributes) && $attributes > 0)
                         <a class="{{ $class ?? '' }} product-quick-view-ajax favourite icon cart-loading product__card__cart__btn__icon"

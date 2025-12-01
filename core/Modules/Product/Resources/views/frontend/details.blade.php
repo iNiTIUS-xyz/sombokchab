@@ -294,7 +294,7 @@
                                             {{ __('Buy Now') }}
                                         </a>
                                         <a href="#1" data-id="{{ $product->id }}"
-                                            class="btn-wishlist add_to_compare_single_page btn-details btn-buyNow mt-4 {{ $stock_count <= 0 ? 'disabled-link' : '' }}">
+                                            class="btn-wishlist add_to_compare_single_page btn-details btn-buyNow mt-4">
                                             <i class="las la-retweet"></i>
                                             {{ __('Add To Compare') }}
                                         </a>

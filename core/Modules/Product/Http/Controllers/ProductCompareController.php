@@ -23,149 +23,268 @@ class ProductCompareController extends Controller
         return CompareHelper::add($request->product_id);
     }
 
+    // public function add_to_compare(Request $request): JsonResponse
+    // {
+    //     $request->validate([
+    //         'product_id' => 'required',
+    //         'quantity' => 'required',
+    //         'pid_id' => 'nullable',
+    //         'product_variant' => 'nullable',
+    //         'selected_size' => 'nullable',
+    //         'selected_color' => 'nullable',
+    //     ]);
+
+    //     $product_inventory = ProductInventory::where('product_id', $request->product_id)->first();
+    //     if ($request->product_variant) {
+    //         $product_inventory_details = ProductInventoryDetail::where('id', $request->product_variant)->first();
+    //     } else {
+    //         $product_inventory_details = null;
+    //     }
+
+    //     if ($product_inventory_details && $request->quantity > $product_inventory_details->stock_count) {
+    //         return response()->json([
+    //             'type' => 'warning',
+    //             'quantity_msg' => __('Requested quantity is not available. Only available quantity is added to cart'),
+    //         ]);
+    //     } elseif ($product_inventory && $request->quantity > $product_inventory->stock_count) {
+    //         return response()->json([
+    //             'type' => 'warning',
+    //             'quantity_msg' => __('Requested quantity is not available. Only available quantity is added to cart'),
+    //         ]);
+    //     }
+
+    //     if (!empty($product->campaign_product)) {
+    //         $sold_count = CampaignSoldProduct::where('product_id', $request->product_id)->first();
+    //         $product = Product::where('id', $request->product_id)->first();
+
+    //         $product_left = $sold_count !== null ? $product->campaign_product->units_for_sale - $sold_count->sold_count : null;
+    //     } else {
+    //         $product_left = $product_inventory_details->stock_count ?? $product_inventory->stock_count;
+    //     }
+
+    //     // now we will check if product left is equal or bigger than quantity than we will check
+    //     if (!($request->quantity <= $product_left) && $sold_count) {
+    //         return response()->json([
+    //             'type' => 'warning',
+    //             'quantity_msg' => __('Requested amount can not be compare. Campaign product stock limit is over!'),
+    //         ]);
+    //     }
+
+    //     //        try {
+    //     $cart_data = $request->all();
+    //     $product = Product::withAvg('reviews', 'rating')->withCount('reviews')->findOrFail($cart_data['product_id']);
+
+        
+    //     $sale_price = $product->sale_price;
+    //     $additional_price = 0;
+
+    //     if ($product->campaign_product) {
+    //         $sale_price = $product?->campaign_product?->campaign_price;
+    //     }
+
+    //     if ($product_inventory_details) {
+    //         $additional_price = $product_inventory_details->additional_price;
+    //     }
+
+    //     $final_sale_price = $sale_price + $additional_price;
+
+    //     $product_image = $product->image;
+    //     if ($cart_data['product_variant']) {
+    //         $size_name = Size::find($cart_data['selected_size'] ?? 0)->name ?? '';
+    //         $color_name = Color::find($cart_data['selected_color'] ?? 0)->name ?? '';
+
+    //         $product_detail = ProductInventoryDetail::where('id', $cart_data['product_variant'] ?? 0)->first();
+
+    //         $product_attributes = $product_detail->attribute?->pluck('attribute_value', 'attribute_name', 'inventory_details')
+    //             ->toArray();
+
+    //         $options = [
+    //             'variant_id' => $request->product_variant,
+    //             'color_name' => $color_name,
+    //             'size_name' => $size_name,
+    //             'attributes' => $product_attributes,
+    //             'description' => $product->description,
+    //             'sku' => $product?->inventory?->sku,
+    //             'image' => $product_detail->attr_image ?? $product_image,
+    //         ];
+    //     } else {
+    //         $options = ['image' => $product_image];
+    //     }
+
+    //     $category = $product?->category?->id;
+    //     $subcategory = $product?->subCategory?->id ?? null;
+
+    //     $options['used_categories'] = [
+    //         'category' => $category,
+    //         'subcategory' => $subcategory,
+    //     ];
+
+    //     $options['slug'] = $product->slug;
+    //     $options['campaign_product'] = $product->campaign_product;
+    //     $options['campaign_sold_product'] = $product->campaign_sold_product;
+    //     $options['sort_description'] = $product->summary;
+    //     $options['review_count'] = $product->reviews_count;
+    //     $options['avg_review'] = $product->reviews_avg_rating;
+
+
+    //     // Check if product is already in compare list
+    //     $existing = Cart::instance('compare')->content()->first(function ($item) use ($cart_data) {
+
+    //         // Variant-specific check
+    //         if (!empty($cart_data['product_variant'])) {
+    //             return $item->id == $cart_data['product_id']
+    //                 && ($item->options->variant_id ?? null) == $cart_data['product_variant'];
+    //         }
+
+    //         // Regular product check
+    //         return $item->id == $cart_data['product_id'];
+    //     });
+
+    //     if ($existing) {
+    //         return response()->json([
+    //             'type' => 'warning',
+    //             'msg'  => 'This item is already in your compare list.',
+    //             'header_area' => view('frontend.partials.header.navbar.card-and-wishlist-area')->render(),
+    //         ]);
+    //     }
+
+    //     // If not existing → add normally
+    //     Cart::instance('compare')->add([
+    //         'id' => $cart_data['product_id'],
+    //         'name' => $product->name,
+    //         'qty' => $cart_data['quantity'],
+    //         'price' => $final_sale_price,
+    //         'weight' => '0',
+    //         'options' => $options
+    //     ]);
+
+    //     return response()->json([
+    //         'type' => 'success',
+    //         'msg' => 'Item added to compare.',
+    //         'header_area' => view('frontend.partials.header.navbar.card-and-wishlist-area')->render(),
+    //     ]);
+
+
+    // }
+
     public function add_to_compare(Request $request): JsonResponse
     {
         $request->validate([
-            'product_id' => 'required',
-            'quantity' => 'required',
-            'pid_id' => 'nullable',
+            'product_id'      => 'required',
+            'quantity'        => 'required',
+            'pid_id'          => 'nullable',
             'product_variant' => 'nullable',
-            'selected_size' => 'nullable',
-            'selected_color' => 'nullable',
+            'selected_size'   => 'nullable',
+            'selected_color'  => 'nullable',
         ]);
 
+        // MUST LOAD PRODUCT FIRST (fixes your undefined $product issue)
+        $product = Product::with([
+            'campaign_product',
+            'campaign_sold_product',
+            'inventory'
+        ])->findOrFail($request->product_id);
+
+        // Load inventory data
         $product_inventory = ProductInventory::where('product_id', $request->product_id)->first();
-        if ($request->product_variant) {
-            $product_inventory_details = ProductInventoryDetail::where('id', $request->product_variant)->first();
-        } else {
-            $product_inventory_details = null;
-        }
+        $product_inventory_details = $request->product_variant
+            ? ProductInventoryDetail::find($request->product_variant)
+            : null;
 
-        if ($product_inventory_details && $request->quantity > $product_inventory_details->stock_count) {
-            return response()->json([
-                'type' => 'warning',
-                'quantity_msg' => __('Requested quantity is not available. Only available quantity is added to cart'),
-            ]);
-        } elseif ($product_inventory && $request->quantity > $product_inventory->stock_count) {
-            return response()->json([
-                'type' => 'warning',
-                'quantity_msg' => __('Requested quantity is not available. Only available quantity is added to cart'),
-            ]);
-        }
+        // IMPORTANT:
+        // All stock checks are removed — compare works even if out of stock
 
-        if (!empty($product->campaign_product)) {
-            $sold_count = CampaignSoldProduct::where('product_id', $request->product_id)->first();
-            $product = Product::where('id', $request->product_id)->first();
-
-            $product_left = $sold_count !== null ? $product->campaign_product->units_for_sale - $sold_count->sold_count : null;
-        } else {
-            $product_left = $product_inventory_details->stock_count ?? $product_inventory->stock_count;
-        }
-
-        // now we will check if product left is equal or bigger than quantity than we will check
-        if (!($request->quantity <= $product_left) && $sold_count) {
-            return response()->json([
-                'type' => 'warning',
-                'quantity_msg' => __('Requested amount can not be compare. Campaign product stock limit is over!'),
-            ]);
-        }
-
-        //        try {
         $cart_data = $request->all();
-        $product = Product::withAvg('reviews', 'rating')->withCount('reviews')->findOrFail($cart_data['product_id']);
 
-        
-        $sale_price = $product->sale_price;
-        $additional_price = 0;
+        // Calculate price (campaign price + variant price)
+        $sale_price = $product->campaign_product
+            ? optional($product->campaign_product)->campaign_price
+            : $product->sale_price;
 
-        if ($product->campaign_product) {
-            $sale_price = $product?->campaign_product?->campaign_price;
-        }
-
-        if ($product_inventory_details) {
-            $additional_price = $product_inventory_details->additional_price;
-        }
-
+        $additional_price = $product_inventory_details->additional_price ?? 0;
         $final_sale_price = $sale_price + $additional_price;
 
+        // Build compare options
         $product_image = $product->image;
-        if ($cart_data['product_variant']) {
-            $size_name = Size::find($cart_data['selected_size'] ?? 0)->name ?? '';
+
+        if ($product_inventory_details) {
+
+            $size_name  = Size::find($cart_data['selected_size'] ?? 0)->name ?? '';
             $color_name = Color::find($cart_data['selected_color'] ?? 0)->name ?? '';
 
-            $product_detail = ProductInventoryDetail::where('id', $cart_data['product_variant'] ?? 0)->first();
+            $product_detail = $product_inventory_details;
 
-            $product_attributes = $product_detail->attribute?->pluck('attribute_value', 'attribute_name', 'inventory_details')
-                ->toArray();
+            $product_attributes = $product_detail->attribute
+                ? $product_detail->attribute->pluck('attribute_value', 'attribute_name')->toArray()
+                : [];
 
             $options = [
-                'variant_id' => $request->product_variant,
-                'color_name' => $color_name,
-                'size_name' => $size_name,
-                'attributes' => $product_attributes,
-                'description' => $product->description,
-                'sku' => $product?->inventory?->sku,
-                'image' => $product_detail->attr_image ?? $product_image,
+                'variant_id'   => $request->product_variant,
+                'color_name'   => $color_name,
+                'size_name'    => $size_name,
+                'attributes'   => $product_attributes,
+                'description'  => $product->description,
+                'sku'          => $product->inventory->sku ?? null,
+                'image'        => $product_detail->attr_image ?? $product_image,
             ];
+
         } else {
-            $options = ['image' => $product_image];
+            $options = [
+                'image' => $product_image,
+            ];
         }
 
-        $category = $product?->category?->id;
-        $subcategory = $product?->subCategory?->id ?? null;
-
+        // Category info (used on compare page)
         $options['used_categories'] = [
-            'category' => $category,
-            'subcategory' => $subcategory,
+            'category'    => $product->category->id ?? null,
+            'subcategory' => $product->subCategory->id ?? null,
         ];
 
-        $options['slug'] = $product->slug;
-        $options['campaign_product'] = $product->campaign_product;
+        $options['slug']                  = $product->slug;
+        $options['campaign_product']      = $product->campaign_product;
         $options['campaign_sold_product'] = $product->campaign_sold_product;
-        $options['sort_description'] = $product->summary;
-        $options['review_count'] = $product->reviews_count;
-        $options['avg_review'] = $product->reviews_avg_rating;
+        $options['sort_description']      = $product->summary;
+        $options['review_count']          = $product->reviews_count;
+        $options['avg_review']            = $product->reviews_avg_rating;
 
-
-        // Check if product is already in compare list
+        // Check if product already exists in compare
         $existing = Cart::instance('compare')->content()->first(function ($item) use ($cart_data) {
 
-            // Variant-specific check
+            // Variant-specific compare
             if (!empty($cart_data['product_variant'])) {
                 return $item->id == $cart_data['product_id']
                     && ($item->options->variant_id ?? null) == $cart_data['product_variant'];
             }
 
-            // Regular product check
+            // Simple product compare
             return $item->id == $cart_data['product_id'];
         });
 
         if ($existing) {
             return response()->json([
-                'type' => 'warning',
-                'msg'  => 'This item is already in your compare list.',
+                'type'        => 'warning',
+                'msg'         => 'This item is already in your compare list.',
                 'header_area' => view('frontend.partials.header.navbar.card-and-wishlist-area')->render(),
             ]);
         }
 
-        // If not existing → add normally
+        // Add to compare list
         Cart::instance('compare')->add([
-            'id' => $cart_data['product_id'],
-            'name' => $product->name,
-            'qty' => $cart_data['quantity'],
-            'price' => $final_sale_price,
-            'weight' => '0',
+            'id'      => $cart_data['product_id'],
+            'name'    => $product->name,
+            'qty'     => $cart_data['quantity'], // quantity does not matter for compare but kept for compatibility
+            'price'   => $final_sale_price,
+            'weight'  => 0,
             'options' => $options
         ]);
 
         return response()->json([
-            'type' => 'success',
-            'msg' => 'Item added to compare.',
+            'type'        => 'success',
+            'msg'         => 'Item added to compare.',
             'header_area' => view('frontend.partials.header.navbar.card-and-wishlist-area')->render(),
         ]);
-
-
     }
+
 
     public function removeFromCompare(Request $request)
     {
