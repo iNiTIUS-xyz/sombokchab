@@ -189,39 +189,39 @@
                             </h4>
                             <ul class="payment-list margin-top-40">
                                 <li>
-                                    {{ __('Payment Gateway') }}
+                                    {{ __('Payment Gateway') }}:
                                     <span class="payment-strong">
-                                        {{-- {{ render_payment_gateway_name($payment_details->payment_gateway) }} --}}
+                                        {{ render_payment_gateway_name($payment_details?->payment_gateway) }}
                                     </span>
                                 </li>
                                 <li>
-                                    {{ __('Phone') }}
+                                    {{ __('Phone') }}:
                                     <span class="payment-strong">
-                                        {{ $payment_details->address->phone }}
+                                        {{ $payment_details?->address?->phone }}
                                     </span>
                                 </li>
                                 <li>
-                                    {{ __('Name') }}
+                                    {{ __('Name') }}:
                                     <span class="payment-strong">
-                                        {{ $payment_details->address->name }}
+                                        {{ $payment_details?->address?->name }}
                                     </span>
                                 </li>
                                 <li>
-                                    {{ __('Email') }}
+                                    {{ __('Email') }}:
                                     <span class="payment-strong">
-                                        {{ $payment_details->address->email }}
+                                        {{ $payment_details?->address?->email }}
                                     </span>
                                 </li>
                             </ul>
 
                             <ul class="payment-list payment-list-two margin-top-30">
-                                @if ($payment_details->payment_gateway == 'cash_on_delivery')
+                                @if ($payment_details?->payment_gateway == 'cash_on_delivery')
                                     <li>
                                         <span class="list-bold">
-                                            {{ __('Total Amount') }}
+                                            {{ __('Total Amount') }}:
                                         </span>
                                         <span class="payment-strong payment-bold">
-                                            {{ float_amount_with_currency_symbol($payment_details->paymentMeta->total_amount) }}
+                                            {{ float_amount_with_currency_symbol($payment_details?->paymentMeta->total_amount) }}
                                         </span>
                                     </li>
                                 @else
@@ -230,26 +230,26 @@
                                             {{ __('Amount Paid') }}
                                         </span>
                                         <span class="payment-strong payment-bold">
-                                            {{ float_amount_with_currency_symbol($payment_details->paymentMeta->total_amount) }}
+                                            {{ float_amount_with_currency_symbol($payment_details?->paymentMeta->total_amount) }}
                                         </span>
                                     </li>
                                 @endif
                                 <li>
-                                    {{ __('Transaction ID') }}
+                                    {{ __('Transaction ID') }}:
                                     <span class="payment-strong">
-                                        {{ $payment_details->transaction_id }}
+                                        {{ $payment_details?->transaction_id }}
                                     </span>
                                 </li>
                                 <li>
-                                    {{ __('Order Number') }}
+                                    {{ __('Order Number') }}:
                                     <span class="payment-strong">
-                                        {{ $payment_details->order_number }}
+                                        {{ $payment_details?->order_number }}
                                     </span>
                                 </li>
                                 {{-- <li>
                                     {{ __('Tracking No.') }}
                                     <span class="payment-strong">
-                                        {{ $payment_details->tracking_code }}
+                                        {{ $payment_details?->tracking_code }}
                                     </span>
                                 </li> --}}
                             </ul>
@@ -299,31 +299,31 @@
                             <tbody>
                                 <tr>
                                     <td>
-                                        {{ $payment_details->order_number }}
+                                        {{ $payment_details?->order_number }}
                                     </td>
                                     {{-- <td>
-                                        {{ $payment_details->tracking_code }}
+                                        {{ $payment_details?->tracking_code }}
                                     </td> --}}
                                     <td>
-                                        {{ $payment_details->created_at->format('d/m/Y') }}
+                                        {{ $payment_details?->created_at->format('d/m/Y') }}
                                     </td>
                                     <td>
-                                        {{ float_amount_with_currency_symbol($payment_details->paymentMeta?->sub_total) }}
+                                        {{ float_amount_with_currency_symbol($payment_details?->paymentMeta?->sub_total) }}
                                     </td>
                                     <td>
-                                        {{ float_amount_with_currency_symbol($payment_details->paymentMeta?->shipping_cost) }}
+                                        {{ float_amount_with_currency_symbol($payment_details?->paymentMeta?->shipping_cost) }}
                                     </td>
                                     {{-- <td>
-                                        {{ float_amount_with_currency_symbol($payment_details->paymentMeta?->tax_amount) }}
+                                        {{ float_amount_with_currency_symbol($payment_details?->paymentMeta?->tax_amount) }}
                                     </td> --}}
                                     <td>
-                                        {{ float_amount_with_currency_symbol($payment_details->paymentMeta?->coupon_amount) }}
+                                        {{ float_amount_with_currency_symbol($payment_details?->paymentMeta?->coupon_amount) }}
                                     </td>
                                     <td>
-                                        {{ float_amount_with_currency_symbol($payment_details->paymentMeta?->total_amount) }}
+                                        {{ float_amount_with_currency_symbol($payment_details?->paymentMeta?->total_amount) }}
                                     </td>
                                     <td>
-                                        {{ str_replace('_', ' ', render_payment_gateway_name($payment_details->payment_gateway)) }}
+                                        {{ str_replace('_', ' ', render_payment_gateway_name($payment_details?->payment_gateway)) }}
                                     </td>
                                 </tr>
                             </tbody>

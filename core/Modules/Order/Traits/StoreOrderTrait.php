@@ -75,9 +75,10 @@ trait StoreOrderTrait
 
     private static function storeSubOrder($order_id, $vendor_id, $total_amount, $shipping_cost, $tax_amount, $type, $order_address_id): mixed
     {
+        // dd($order_id, $vendor_id, $total_amount, $shipping_cost, $tax_amount, $type, $order_address_id);
         return SubOrder::create(array(
             "order_id" => $order_id,
-            "vendor_id" => $vendor_id,
+            "vendor_id" => $vendor_id ? $vendor_id :  null,
             "total_amount" => $total_amount,
             "shipping_cost" => $shipping_cost,
             "tax_amount" => $tax_amount,

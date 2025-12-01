@@ -269,7 +269,7 @@ trait OrderTrait
 
         return SubOrderCommission::create($commission + [
             "sub_order_id" => $sub_order_id,
-            "vendor_id" => $vendor_id,
+            "vendor_id" => $vendor_id ? $vendor_id : null,
         ]);
     }
 
