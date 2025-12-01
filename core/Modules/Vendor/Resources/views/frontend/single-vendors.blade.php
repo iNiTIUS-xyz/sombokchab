@@ -682,12 +682,9 @@
                                             </div>
                                             <div class="product__card__cart mt-3">
                                                 @if (isset($attributes) && $attributes > 0)
-                                                    <a data-type="text" data-old-text="{{ __('View Details') }}"
-                                                        title="{{ __('View Details') }}"
-                                                        data-action-route="{{ route('frontend.products.single-quick-view', $product->slug) }}"
-                                                        data-attributes="{{ $product->attributes }}"
-                                                        data-id="{{ $product->id }}"
-                                                        class="product__card__cart__btn radius-30 product-quick-view-ajax {{ $class ?? '' }}">
+                                                    <a href="{{ route('frontend.products.single', $product->slug) }}"
+                                                    class="product__card__cart__btn radius-30 {{ $class ?? '' }}"
+                                                    title="{{ __('View Details') }}">
                                                         {{ __('View Details') }}
                                                     </a>
                                                 @else
