@@ -81,7 +81,7 @@
                     <div class="single-checbox mt-3">
                         <div class="checkbox-inlines">
                             <input class="check-input" type="checkbox" id="login_remember" name="remember" checked>
-                            <label class="checkbox-label" for="login_remember"> {{ __('Remember Me') }} </label>
+                            <label class="checkbox-label" for="login_remember"> {{ __('Remember me') }} </label>
                         </div>
                         <div class="forgot-password">
                             <a href="{{ route('vendor.forget.password') }}" class="forgot-btn color-one">
@@ -92,7 +92,7 @@
 
                     <div class="dashboard-bottom-contents" style="display: flex; justify-content: center;">
                         <div class="account-bottom">
-                            <span class="account-title mt-3"> {{ __("Don't have an account?") }} </span>
+                            <span class="account-title mt-3"> {{ __("Dont have account") }} </span>
                             <a href="{{ route('vendor.register') }}" class="signup-login mt-3">
                                 {{ __('Sign Up') }}
                             </a>

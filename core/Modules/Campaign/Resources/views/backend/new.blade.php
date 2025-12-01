@@ -155,7 +155,7 @@
                                     name="campaign_end_date" required>
                             </div>
 
-                            <button class="btn btn-primary py-2 w-100" type="submit">Add Campaign</button>
+                            <button class="cmn_btn btn_bg_profile" type="submit">Add Campaign</button>
 
                         </div>
                     </div>

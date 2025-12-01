@@ -175,7 +175,7 @@
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <button class="btn btn-success w-100" type="submit">
+                            <button class="cmn_btn btn_bg_profile" type="submit">
                                 {{ __('Add Campaign') }}
                             </button>
                         </div>

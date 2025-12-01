@@ -2360,6 +2360,8 @@
     "Sidebar Title": "Sidebar Title",
     "Sidebar Visibility": "Sidebar Visibility",
     "Sign In": "Sign In",
+    "Customer Sign In": "Customer Sign In",
+    "Vendor Sign In": "Vendor Sign In",
     "Sign in": "Sign in",
     "SIGN IN": "SIGN IN",
     "Sign In With facebook": "Sign In With facebook",
@@ -3151,5 +3153,12 @@
     "Zone Name": "Zone Name",
     "Zone wise tax system": "Zone wise tax system",
     "Zone:": "Zone:",
-    "Zone: ": "Zone: "
+    "Zone: ": "Zone: ",
+    "Dont have account": "Don't have an account?",
+    "Use Email": "Use Email",
+    "Use Phone": "Use Phone",
+    "Send OTP": "Send OTP",
+    "Customer Sign Up": "Customer Sign Up",
+    "Re-enter Your Password": "Re-enter Your Password",
+    "Already have an account?": "Already have an account?"
 }

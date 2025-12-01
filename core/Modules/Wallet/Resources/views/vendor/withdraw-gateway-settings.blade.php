@@ -77,25 +77,57 @@
 @endsection
 @section('script')
 <script>
-    $(document).on("change", ".gateway-name", function() {
-            let gatewayInformation = "";
-            $(".gateway-information-wrapper").fadeOut(150);
+    // $(document).on("change", ".gateway-name", function() {
+    //         let gatewayInformation = "";
+    //         $(".gateway-information-wrapper").fadeOut(150);
 
-            JSON.parse($(this).find(":selected").attr("data-fileds")).forEach(function(value, index) {
-                let gateway_name = value.toLowerCase().replaceAll(" ", "_").replaceAll("-", "_");
+    //         JSON.parse($(this).find(":selected").attr("data-fileds")).forEach(function(value, index) {
+    //             let gateway_name = value.toLowerCase().replaceAll(" ", "_").replaceAll("-", "_");
 
-                gatewayInformation += `
-                    <div class="form-group">
-                        <label>
-                            ${ value }
-                            <input type="text" name="gateway_filed[${ gateway_name }]" class="form-control" placeholder="Enter ${ value.toLowerCase() }" />
-                        </label>
-                    </div>
-                `;
-            })
+    //             gatewayInformation += `
+    //                 <div class="form-group">
+    //                     <label>
+    //                         ${ value }
+    //                         <input type="text" name="gateway_filed[${ gateway_name }]" class="form-control" placeholder="Enter ${ value.toLowerCase() }" />
+    //                     </label>
+    //                 </div>
+    //             `;
+    //         })
 
-            $(".gateway-information-wrapper").html(gatewayInformation);
-            $(".gateway-information-wrapper").fadeIn(250);
-        })
+    //         $(".gateway-information-wrapper").html(gatewayInformation);
+    //         $(".gateway-information-wrapper").fadeIn(250);
+    //     })
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        // Loop through all dynamic gateway fields
+        document.querySelectorAll(".gateway-information-wrapper .form-group").forEach(group => {
+
+            let label = group.querySelector("label")?.innerText?.trim().toLowerCase();
+            let input = group.querySelector("input");
+
+            if (!input || !label) return;
+
+            // -------- TEXT ONLY FIELDS --------
+            if (
+                label.includes("bank name") ||
+                label.includes("account holder") ||
+                label.includes("account name")
+            ) {
+                input.addEventListener("input", function () {
+                    this.value = this.value.replace(/[^A-Za-z\s]/g, "");
+                });
+            }
+
+            // -------- NUMERIC ONLY FIELD --------
+            if (label.includes("account number")) {
+                input.addEventListener("input", function () {
+                    this.value = this.value.replace(/[^0-9]/g, "");
+                });
+            }
+
+        });
+
+    });
 </script>
 @endsection

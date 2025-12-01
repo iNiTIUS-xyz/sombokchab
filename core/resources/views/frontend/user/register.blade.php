@@ -54,7 +54,7 @@
                                                         <option value="+855">+855</option>
                                                     </select>
                                                     <input type="number" id="number" name="phone"
-                                                        class="form--control radius-10" placeholder="Enter phone number"
+                                                        class="form--control radius-10" placeholder="{{ __('Enter Phone Number') }}"
                                                         style="width: unset" required>
                                                 </div>
                                                 <small class="text-danger" id="phoneError"></small>
@@ -69,7 +69,7 @@
                                                     <span class="text-danger">*</span>
                                                 </label>
                                                 <input type="text" name="name" id="name"
-                                                    class="form--control radius-10" placeholder="{{ __('Enter name') }}"
+                                                    class="form--control radius-10" placeholder="{{ __('Enter Name') }}"
                                                     required>
                                                 <small class="text-danger" id="nameError"></small>
                                             </div>
@@ -95,7 +95,7 @@
                                                     {{-- <span class="text-danger">*</span> --}}
                                                 </label>
                                                 <input type="email" name="email" id="email"
-                                                    class="form--control radius-10" placeholder="{{ __('Enter email') }}">
+                                                    class="form--control radius-10" placeholder="{{ __('Enter Email') }}">
                                                 <small class="text-danger" id="emailError"></small>
                                             </div>
                                         </div>
@@ -109,7 +109,7 @@
                                                 <div class="position-relative">
                                                     <input type="password" name="password" id="password"
                                                         class="form--control radius-10"
-                                                        placeholder="{{ __('Enter password') }}" required>
+                                                        placeholder="{{ __('Enter Password') }}" required>
                                                     <div class="toggle-password position-absolute"
                                                         style="right: 10px; top: 45%; transform: translateY(-50%); cursor: pointer;">
                                                         <span class="hide-icon" style="display: inline;">
@@ -127,13 +127,13 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="label-title text-bold mb-2">
-                                                    {{ __('Re-enter your password') }}
+                                                    {{ __('Re-enter Your Password') }}
                                                     <span class="text-danger">*</span>
                                                 </label>
                                                 <div class="position-relative">
                                                     <input type="password" name="password_confirmation"
                                                         id="password_confirmation" class="form--control radius-10"
-                                                        placeholder="{{ __('Re-enter your password') }}" required>
+                                                        placeholder="{{ __('Re-enter Your Password') }}" required>
                                                     <div class="toggle-password position-absolute"
                                                         style="right: 10px; top: 45%; transform: translateY(-50%); cursor: pointer;">
                                                         <span class="hide-icon-two" style="display: inline;">

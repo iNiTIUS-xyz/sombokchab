@@ -23,6 +23,7 @@
     "Shipping Method": "វិធីសាស្រ្តដឹកជញ្ជូន",
     "Orders List": "បញ្ជីការបញ្ជាទិញ",
     "Sign In": "ចូលគណនី",
+    "Customer Sign In": "អតិថិជនចូល",
     "Sign Up": "ចុះឈ្មោះ",
     "Become a Vendor": "ក្លាយជាអ្នកលក់",
     "Vendor Sign In": "ចូលគណនីអ្នកលក់",
@@ -247,7 +248,7 @@
     "Email or Username": "អ៊ីមែល ឬឈ្មោះអ្នកប្រើប្រាស់",
     "Remember me": "ចងចាំខ្ញុំ",
     "Enter email or username": "បញ្ចូលអ៊ីមែល ឬឈ្មោះអ្នកប្រើប្រាស់",
-    "Enter password": "បញ្ចូលពាក្យសម្ងាត់",
+    "Enter Password": "បញ្ចូលពាក្យសម្ងាត់",
     "Related Products": "ផលិតផលពាក់ព័ន្ធ",
     "SKU:": "លេខកូដ៖",
     "Color:": "ពណ៌៖",
@@ -331,5 +332,15 @@
     "© 2025 All right reserved by Sombokchab": "© ២០២៥ រក្សាសិទ្ធិគ្រប់យ៉ាងដោយ Sombokchab!",
     "The best multi-vendor ecommerce website for you. You can easily buy your product according to your choice.": "គេហទំព័រពាណិជ្ជកម្មអេឡិចត្រូនិកពហុអ្នកលក់ដ៏ល្អបំផុតសម្រាប់អ្នក។ អ្នកអាចទិញផលិតផលរបស់អ្នកបានយ៉ាងងាយស្រួលតាមជម្រើសរបស់អ្នក។",
     "Filter Terms:": "លក្ខខណ្ឌតម្រង៖",
-    "jk": ""
+    "jk": "",
+    "Forgot Password": "ភ្លេចពាក្យសម្ងាត់",
+    "Forgot Password?": "ភ្លេចលេខសម្ងាត់?",
+    "Dont have account": "មិនមានគណនីមែនទេ?",
+    "Use Email": "ប្រើអ៊ីមែល",
+    "Use Phone": "ប្រើទូរស័ព្ទ",
+    "Send OTP": "ផ្ញើ OTP",
+    "Reset Password": "កំណត់ពាក្យសម្ងាត់ឡើងវិញ",
+    "Customer Sign Up": "អតិថិជនចុះឈ្មោះ",
+    "Re-enter Your Password": "បញ្ចូលពាក្យសម្ងាត់របស់អ្នកឡើងវិញ",
+    "Already have an account?": "មានគណនីរួចហើយ?"
 }

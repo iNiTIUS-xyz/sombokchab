@@ -28,7 +28,7 @@
                                         <option value="+855">+855</option>
                                     </select>
                                     <input id="number" name="phone" type="number" class="form--control radius-10"
-                                        placeholder="{{ __('Phone Number') }}" required
+                                        placeholder="{{ __('Enter Phone Number') }}" required
                                         style="width: 70% !important; border-radius: 0px;">
                                 </div>
                                 <small id="login_phone_error" class="text-danger"></small>
@@ -39,7 +39,7 @@
                                     <span class="text-danger">*</span>
                                 </label>
                                 <input class="form--control" type="email" name="email" id="login_email"
-                                    placeholder="{{ __('Type Email') }}" required>
+                                    placeholder="{{ __('Enter Email') }}" required>
                                 <small id="login_email_error" class="text-danger"></small>
                             </div>
                             <div class="toggle-input-type mb-3 text-end">
@@ -56,7 +56,7 @@
                             </label>
                             <div class="position-relative">
                                 <input class="form--control" type="password" id="login_password" name="password"
-                                    placeholder="{{ __('Type Password') }}">
+                                    placeholder="{{ __('Enter Password') }}">
                                 <div class="toggle-password position-absolute"
                                     style="right: 10px; top: 45%; transform: translateY(-50%); cursor: pointer;">
                                     <span class="hide-icon" style="display: inline;">
@@ -78,7 +78,7 @@
                     <div class="single-checbox mt-3">
                         <div class="checkbox-inlines">
                             <input class="check-input" type="checkbox" id="login_remember" name="remember" checked>
-                            <label class="checkbox-label" for="login_remember"> {{ __('Remember Me') }} </label>
+                            <label class="checkbox-label" for="login_remember"> {{ __('Remember me') }} </label>
                         </div>
                         <div class="forgot-password">
                             <a href="{{ route('user.forget.password') }}" class="forgot-btn color-one">
@@ -87,7 +87,7 @@
                     </div>
                     <div class="dashboard-bottom-contents" style="display: flex; justify-content: center;">
                         <div class="account-bottom">
-                            <span class="account-title mt-3"> {{ __("Don't have an account?") }} </span>
+                            <span class="account-title mt-3"> {{ __("Dont have account") }} </span>
                             <a href="{{ route('user.register') }}" class="signup-login mt-3">
                                 {{ __('Sign Up') }}
                             </a>
