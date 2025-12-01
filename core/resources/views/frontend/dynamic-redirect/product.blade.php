@@ -136,9 +136,6 @@
             }
         }
 
-        .selectder-filter-contents .selected-flex-list li a {
-            color: var(--main-color-one) !important;
-        }
     </style>
 @endsection
 
@@ -795,5 +792,53 @@
             });
 
         });
+    </script>
+    <script>
+        $(document).on('click', '.close-search-selected-item', function () {
+            let key = $(this).data('key');
+
+            // remove main field
+            $("#" + key).val("");
+
+            // remove dependent fields
+            let extraKeys = $(this).data('remove-list') || [];
+            extraKeys.forEach(function (childKey) {
+                $("#" + childKey).val("");
+            });
+
+            // NEW FIX – reset sidebar active classes
+            resetSidebarHighlights(key, extraKeys);
+
+            submitForm();
+        });
+
+        function resetSidebarHighlights(removedKey, cascadedKeys = []) {
+            // Helper: remove active from categories
+            if (removedKey === 'category') {
+                $(".shop-lists .list[data-type='category']").removeClass('active open');
+                $(".shop-lists .submenu").removeClass('show').hide();
+            }
+
+            // Helper: remove active from subcategories
+            if (removedKey === 'sub_category' || cascadedKeys.includes('sub_category')) {
+                $(".shop-lists .list[data-type='sub_category']").removeClass('active');
+            }
+
+            // Helper: remove active from child categories
+            if (removedKey === 'child_category' || cascadedKeys.includes('child_category')) {
+                $(".shop-lists .list[data-type='child_category']").removeClass('active');
+            }
+
+            // Reset brand highlight
+            if (removedKey === 'brand') {
+                $(".brand-list .list").removeClass('active');
+            }
+
+            // Reset rating highlight
+            if (removedKey === 'rating') {
+                $(".review-filter .list").removeClass('active');
+            }
+        }
+
     </script>
 @endsection
