@@ -35,28 +35,34 @@ use Modules\Refund\Http\Requests\HandleUserRefundRequest;
 use Modules\Refund\Http\Services\RefundServices;
 use Str;
 
-class UserDashboardController extends Controller {
+class UserDashboardController extends Controller
+{
     public const BASE_PATH = 'frontend.user.dashboard.';
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware(['auth']);
     }
 
-    public function user_index() {
-        $product_count = ProductSellInfo::where('user_id', auth('web')->user()->id)->count();
+    public function user_index()
+    {
         $support_ticket_count = SupportTicket::where('user_id', auth('web')->user()->id)->count();
         $all_orders = Order::query()
-            ->with(['paymentMeta', 'refundRequest.currentTrackStatus'])
+            ->with([
+                'paymentMeta',
+                'refundRequest.currentTrackStatus'
+            ])
             ->withCount('isDelivered')
             ->where('user_id', auth('web')->user()->id)
             ->orderBy('id', 'DESC')
             ->latest()
             ->get();
 
-        return view(self::BASE_PATH . 'user-home', compact('all_orders', 'product_count', 'support_ticket_count'));
+        return view(self::BASE_PATH . 'user-home', compact('all_orders', 'support_ticket_count'));
     }
 
-    public function user_email_verify_index() {
+    public function user_email_verify_index()
+    {
         $user_details = Auth::guard('web')->user();
         if ($user_details->email_verified == 1) {
             return redirect()->route('user.home');
@@ -79,7 +85,8 @@ class UserDashboardController extends Controller {
         return view('frontend.user.email-verify');
     }
 
-    public function reset_user_email_verify_code() {
+    public function reset_user_email_verify_code()
+    {
         $user_details = Auth::guard('web')->user();
         if ($user_details->email_verified == 1) {
             return redirect()->route('user.home');
@@ -101,7 +108,8 @@ class UserDashboardController extends Controller {
         ]);
     }
 
-    public function user_email_verify(Request $request) {
+    public function user_email_verify(Request $request)
+    {
         $request->validate([
             'verification_code' => 'required',
         ], [
@@ -121,7 +129,8 @@ class UserDashboardController extends Controller {
         return redirect()->route('user.home');
     }
 
-    public function user_profile_update(Request $request) {
+    public function user_profile_update(Request $request)
+    {
         $request->validate([
             'name'     => 'required|string|max:30',
             'username' => [
@@ -171,7 +180,8 @@ class UserDashboardController extends Controller {
         ]);
     }
 
-    public function deactivateAccount(Request $request) {
+    public function deactivateAccount(Request $request)
+    {
         $request->validate([
             'password' => 'required',
         ]);
@@ -239,7 +249,8 @@ class UserDashboardController extends Controller {
     //     }
     // }
 
-    public function sendOtopCode(Request $request) {
+    public function sendOtopCode(Request $request)
+    {
 
         $request->validate([
             'phone' => 'required|string',
@@ -279,7 +290,8 @@ class UserDashboardController extends Controller {
         }
     }
 
-    public function changePhone(ChangePhoneRequest $request) {
+    public function changePhone(ChangePhoneRequest $request)
+    {
 
         try {
             $user = User::query()
@@ -321,7 +333,8 @@ class UserDashboardController extends Controller {
         }
     }
 
-    public function user_password_change(Request $request) {
+    public function user_password_change(Request $request)
+    {
         $request->validate([
             'old_password' => 'required|string',
             'password'     => 'required|string|min:8|confirmed',
@@ -351,16 +364,19 @@ class UserDashboardController extends Controller {
         ]);
     }
 
-    public function edit_profile() {
+    public function edit_profile()
+    {
         return view(self::BASE_PATH . 'edit-profile')
             ->with(['user_details' => $this->logged_user_details()]);
     }
 
-    public function change_password() {
+    public function change_password()
+    {
         return view(self::BASE_PATH . 'change-password');
     }
 
-    public function logged_user_details() {
+    public function logged_user_details()
+    {
         $old_details = '';
         if (empty($old_details)) {
             $old_details = User::findOrFail(Auth::guard('web')->user()->id);
@@ -369,7 +385,8 @@ class UserDashboardController extends Controller {
         return $old_details;
     }
 
-    public function allShippingAddress() {
+    public function allShippingAddress()
+    {
         if (!auth()->check('web')) {
             return redirect()->route('homepage');
         }
@@ -381,13 +398,15 @@ class UserDashboardController extends Controller {
         return view(self::BASE_PATH . 'shipping.all', compact('all_shipping_address', 'all_country'));
     }
 
-    public function createShippingAddress() {
+    public function createShippingAddress()
+    {
         $all_country = Country::where('status', 'publish')->get();
 
         return view(self::BASE_PATH . 'shipping.new', compact('all_country'));
     }
 
-    public function storeShippingAddress(Request $request) {
+    public function storeShippingAddress(Request $request)
+    {
         if (!auth('web')->user()) {
             return back()->with([
                 'message'    => __('Login to add new shipping address.'),
@@ -441,17 +460,18 @@ class UserDashboardController extends Controller {
         $this->makeChangeDefault($user_shipping_address->id);
 
         return $user_shipping_address->id
-        ? redirect()->route('user.shipping.address.all')->with([
-            'message'    => __('Shipping address created successfully.'),
-            'alert-type' => 'success',
-        ])
-        : back()->with([
-            'message'    => __('Shipping address creation failed.'),
-            'alert-type' => 'error',
-        ]);
+            ? redirect()->route('user.shipping.address.all')->with([
+                'message'    => __('Shipping address created successfully.'),
+                'alert-type' => 'success',
+            ])
+            : back()->with([
+                'message'    => __('Shipping address creation failed.'),
+                'alert-type' => 'error',
+            ]);
     }
 
-    public function checkNameAvailability(Request $request) {
+    public function checkNameAvailability(Request $request)
+    {
         $request->validate([
             'name' => 'required|string|max:191',
         ]);
@@ -469,7 +489,8 @@ class UserDashboardController extends Controller {
         }
     }
 
-    private function makeChangeDefault($shippingAddressId) {
+    private function makeChangeDefault($shippingAddressId)
+    {
         $shippingAddress = ShippingAddress::findOrFail($shippingAddressId);
 
         // If the address is not marked as default, do nothing
@@ -486,13 +507,15 @@ class UserDashboardController extends Controller {
         $shippingAddress->update(['is_default' => 1]);
     }
 
-    public function editShippingAddress(Request $request) {
+    public function editShippingAddress(Request $request)
+    {
         $address = ShippingAddress::find($request->id);
         $all_country = Country::where('status', 'publish')->get();
         return view(self::BASE_PATH . 'shipping.edit', compact('all_country', 'address'));
     }
 
-    public function updateShippingAddress(Request $request) {
+    public function updateShippingAddress(Request $request)
+    {
         $request->validate([
             'shipping_address_name' => 'nullable|string|max:191',
             'name'                  => 'required|string|max:191',
@@ -552,7 +575,8 @@ class UserDashboardController extends Controller {
         ]);
     }
 
-    public function makeDefault($id) {
+    public function makeDefault($id)
+    {
         // Reset all to non-default
         ShippingAddress::query()->update(['is_default' => 0]);
         // Set the selected one to default
@@ -566,7 +590,8 @@ class UserDashboardController extends Controller {
         ]);
     }
 
-    public function deleteShippingAddress($id) {
+    public function deleteShippingAddress($id)
+    {
         if (ShippingAddress::findOrFail($id)->delete()) {
             return back()->with([
                 'message'    => __('Default shipping address deleted successfully.'),
@@ -580,7 +605,8 @@ class UserDashboardController extends Controller {
         ]);
     }
 
-    public function allOrdersPage() {
+    public function allOrdersPage()
+    {
 
         $all_orders = Order::with(['paymentMeta', 'refundRequest.currentTrackStatus'])->withCount('isDelivered')
             ->where('user_id', auth('web')->user()->id)
@@ -590,7 +616,8 @@ class UserDashboardController extends Controller {
         return view(self::BASE_PATH . 'order.all', compact('all_orders'));
     }
 
-    public function allRefundsPage() {
+    public function allRefundsPage()
+    {
         if (!moduleExists("Refund")) {
             abort(404);
         }
@@ -604,7 +631,8 @@ class UserDashboardController extends Controller {
         return view(self::BASE_PATH . 'refund.all', compact('refundRequests'));
     }
 
-    public function viewRequest($id) {
+    public function viewRequest($id)
+    {
         if (!moduleExists("Refund")) {
             abort(404);
         }
@@ -631,7 +659,8 @@ class UserDashboardController extends Controller {
         return view(self::BASE_PATH . 'refund.view-request', compact('request'));
     }
 
-    public function orderRefundPage($id) {
+    public function orderRefundPage($id)
+    {
         if (!moduleExists("Refund")) {
             abort(404);
         }
@@ -653,7 +682,8 @@ class UserDashboardController extends Controller {
         return view(self::BASE_PATH . 'order.refund', compact('id', 'order', 'subOrders', 'refundable_items', 'refundReasons', 'refundPreferredOptions'));
     }
 
-    public function handleRefundRequest(HandleUserRefundRequest $request, $id) {
+    public function handleRefundRequest(HandleUserRefundRequest $request, $id)
+    {
         if (!moduleExists("Refund")) {
             abort(404);
         }
@@ -682,7 +712,8 @@ class UserDashboardController extends Controller {
         }
     }
 
-    public function orderDetailsPage($item) {
+    public function orderDetailsPage($item)
+    {
         $payment_details = Order::query()
             ->with(['address', 'paymentMeta'])
             ->when(moduleExists("DeliveryMan"), function ($query) {
@@ -716,7 +747,8 @@ class UserDashboardController extends Controller {
         return view(self::BASE_PATH . 'order.details', compact('item', 'orders', 'payment_details', 'orderTrack'));
     }
 
-    public function reOrder($id) {
+    public function reOrder($id)
+    {
         $orders = SubOrder::query()
             ->with('orderItem')
             ->where('order_id', $id)
@@ -731,7 +763,8 @@ class UserDashboardController extends Controller {
         return redirect()->route('frontend.checkout');
     }
 
-    private function addToCart($productId) {
+    private function addToCart($productId)
+    {
         $quantity = 1;
 
         $product = Product::with([
@@ -792,7 +825,8 @@ class UserDashboardController extends Controller {
         return true;
     }
 
-    public function orderDeliveryManRatting($item, Request $request) {
+    public function orderDeliveryManRatting($item, Request $request)
+    {
         // first verified user input data then insert ratting into database
         $data = $request->validate([
             'ratting' => 'required|integer',
@@ -832,7 +866,8 @@ class UserDashboardController extends Controller {
         throw new \Exception('Delivery man not assigned for this order.');
     }
 
-    public function support_tickets() {
+    public function support_tickets()
+    {
         $all_tickets = SupportTicket::query()
             ->where('user_id', auth('web')->user()->id)
             ->orderBy('created_at', 'DESC')
@@ -841,7 +876,8 @@ class UserDashboardController extends Controller {
         return view(self::BASE_PATH . 'support-tickets.all')->with(['all_tickets' => $all_tickets]);
     }
 
-    public function support_ticket_view(Request $request, $id) {
+    public function support_ticket_view(Request $request, $id)
+    {
         $ticket_details = SupportTicket::findOrFail($id);
         $all_messages = SupportTicketMessage::where(['support_ticket_id' => $id])->get();
         $q = $request->q ?? '';
@@ -849,7 +885,8 @@ class UserDashboardController extends Controller {
         return view(self::BASE_PATH . 'support-tickets.view')->with(['ticket_details' => $ticket_details, 'all_messages' => $all_messages, 'q' => $q]);
     }
 
-    public function support_ticket_message(Request $request) {
+    public function support_ticket_message(Request $request)
+    {
         $request->validate([
             'ticket_id'         => 'required',
             'user_type'         => 'required|string|max:191',
@@ -899,7 +936,8 @@ class UserDashboardController extends Controller {
         ]);
     }
 
-    public function support_ticket_priority_change(Request $request) {
+    public function support_ticket_priority_change(Request $request)
+    {
         $request->validate([
             'priority' => 'required|string|max:191',
         ]);
@@ -910,7 +948,8 @@ class UserDashboardController extends Controller {
         return 'ok';
     }
 
-    public function support_ticket_status_change(Request $request) {
+    public function support_ticket_status_change(Request $request)
+    {
         // $request->validate([
         //     'status' => 'required|string|max:191',
         // ]);
@@ -961,7 +1000,8 @@ class UserDashboardController extends Controller {
     //     return redirect()->back()->with('success', 'Order has been successfully canceled.');
     // }
 
-    public function orderCancel(Request $request, $orderId) {
+    public function orderCancel(Request $request, $orderId)
+    {
         // Fetch the order
         $order = Order::where('id', $orderId)
             ->where('user_id', auth('web')->id()) // Ensure the user owns the order
