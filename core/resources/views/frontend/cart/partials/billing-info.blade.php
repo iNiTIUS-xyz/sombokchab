@@ -23,7 +23,6 @@
                 </h4>
             </div>
         </div>
-
         <div class="checkout-form mt-2">
             @if ($modal)
                 {{-- Shipping Address Name --}}

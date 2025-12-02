@@ -40,7 +40,7 @@ class ProductOrderController extends Controller
     {
         $all_orders = ProductSellInfo::all();
 
-        return view(self::BASE_URL.'all')->with(['all_orders' => $all_orders]);
+        return view(self::BASE_URL . 'all')->with(['all_orders' => $all_orders]);
     }
 
     public function generateInvoice(Request $request)
@@ -52,9 +52,9 @@ class ProductOrderController extends Controller
 
         $user_shipping_address = getUserShippingAddress($order_details->shipping_address_id);
 
-        return view(self::BASE_URL.'pdf', compact('order_details', 'products', 'user_shipping_address'));
+        return view(self::BASE_URL . 'pdf', compact('order_details', 'products', 'user_shipping_address'));
 
-        $pdf = PDF::loadView(self::BASE_URL.'pdf', compact('order_details', 'products', 'user_shipping_address'));
+        $pdf = PDF::loadView(self::BASE_URL . 'pdf', compact('order_details', 'products', 'user_shipping_address'));
 
         return $pdf->download('product-order-invoice.pdf');
     }
@@ -66,7 +66,7 @@ class ProductOrderController extends Controller
         $countries = Country::where('status', 'publish')->get();
         $user_shipping_address = UserShippingAddress::all();
 
-        return view(self::BASE_URL.'new', compact('all_products', 'all_users', 'countries', 'user_shipping_address'));
+        return view(self::BASE_URL . 'new', compact('all_products', 'all_users', 'countries', 'user_shipping_address'));
     }
 
     public function getProductRow(Request $request)
@@ -144,7 +144,7 @@ class ProductOrderController extends Controller
         $order_details = ProductSellInfo::with('shipping')->findOrFail($id);
         $user_shipping_address = getUserShippingAddress($order_details->shipping_address_id);
 
-        return view(self::BASE_URL.'view', compact('order_details', 'user_shipping_address'));
+        return view(self::BASE_URL . 'view', compact('order_details', 'user_shipping_address'));
     }
 
     public function delete(Request $request)
@@ -166,14 +166,14 @@ class ProductOrderController extends Controller
 
         // subject
         $site_title = get_static_option('site_title');
-        $customer_subject = __('You order has been placed in').' '.$site_title;
-        $admin_subject = __('You Have A New Product Order From').' '.$site_title;
+        $customer_subject = __('You order has been placed in') . ' ' . $site_title;
+        $admin_subject = __('You Have A New Product Order From') . ' ' . $site_title;
 
         // message
         $subject = __('Your order has been placed');
-        $message = __('Your order has been placed.').' #'.$payment_details->id;
-        $message .= ' '.__('at').' '.date_format($payment_details->created_at, 'd F Y H:m:s');
-        $message .= ' '.__('via').' '.str_replace('_', ' ', $payment_details->payment_gateway);
+        $message = __('Your order has been placed.') . ' #' . $payment_details->id;
+        $message .= ' ' . __('at') . ' ' . date_format($payment_details->created_at, 'd F Y H:m:s');
+        $message .= ' ' . __('via') . ' ' . str_replace('_', ' ', $payment_details->payment_gateway);
 
         $payment_order_details = $payment_details->order_details ? json_decode($payment_details->order_details, true) : [];
         $order_details = [];
@@ -184,11 +184,11 @@ class ProductOrderController extends Controller
                 $product = $products->find($key);
                 foreach ($order_items as $item) {
                     $price = isset($item['attributes']) && isset($item['attributes']['price'])
-                                ? $item['attributes']['price']
-                                : $product->sale_price;
+                        ? $item['attributes']['price']
+                        : $product->sale_price;
 
                     $order_details[] = [
-                        'name' => optional($product)->title.' '.getItemAttributesName($item['attributes']),
+                        'name' => optional($product)->title . ' ' . getItemAttributesName($item['attributes']),
                         'quantity' => $item['quantity'],
                         'price' => $price,
                     ];
@@ -228,9 +228,9 @@ class ProductOrderController extends Controller
         $order_details->save();
 
         $data['subject'] = __('your order status has been changed');
-        $data['message'] = __('hello').' '.$order_details->name.'<br>';
-        $data['message'] .= __('your order').' #'.$order_details->id.' ';
-        $data['message'] .= __('status has been changed to').' '.str_replace('_', ' ', $request->order_status).'.';
+        $data['message'] = __('hello') . ' ' . $order_details->name . '<br>';
+        $data['message'] .= __('your order') . ' #' . $order_details->id . ' ';
+        $data['message'] .= __('status has been changed to') . ' ' . str_replace('_', ' ', $request->order_status) . '.';
 
         //send mail while order status change
         try {
@@ -253,11 +253,11 @@ class ProductOrderController extends Controller
     {
         //send order reminder mail
         $order_details = ProductSellInfo::find($request->id);
-        $data['subject'] = __('your order is still in pending at').' '.get_static_option('site_title');
-        $data['message'] = __('hello').' '.$order_details->name.'<br>';
-        $data['message'] .= __('your order ').' #'.$order_details->id.' ';
+        $data['subject'] = __('your order is still in pending at') . ' ' . get_static_option('site_title');
+        $data['message'] = __('hello') . ' ' . $order_details->name . '<br>';
+        $data['message'] .= __('your order ') . ' #' . $order_details->id . ' ';
         $data['message'] .= __('is still in pending, to complete your booking go to');
-        $data['message'] .= ' <a href="'.route('user.home').'">'.__('your dashboard').'</a>';
+        $data['message'] .= ' <a href="' . route('user.home') . '">' . __('your dashboard') . '</a>';
 
         try {
             //send mail while order status change
@@ -288,9 +288,9 @@ class ProductOrderController extends Controller
             foreach (json_decode($product_details->variant) as $variant_id => $terms) {
                 $variant_title = get_product_variant_list_by_id($variant_id);
                 if (! empty($variant_title)) {
-                    $product_variant_markup .= '<div class="product-variant-list-wrapper"><h5 class="title">'.$variant_title.'</h5><ul class="product-variant-list">';
+                    $product_variant_markup .= '<div class="product-variant-list-wrapper"><h5 class="title">' . $variant_title . '</h5><ul class="product-variant-list">';
                     foreach ($terms as $term) {
-                        $product_variant_markup .= '<li  data-variantid="'.$variant_id.'" data-variantname="'.$variant_title.'" data-term="'.$term.'">'.$term.'</li>';
+                        $product_variant_markup .= '<li  data-variantid="' . $variant_id . '" data-variantname="' . $variant_title . '" data-term="' . $term . '">' . $term . '</li>';
                     }
                     $product_variant_markup .= '</ul>';
                     $product_variant_markup .= '</div>';
@@ -302,7 +302,7 @@ class ProductOrderController extends Controller
         $tax_amount = 0;
         if (get_static_option('product_tax_type') == 'individual') {
             $tax_amount = ($product_details->sale_price / 100) * $product_details->tax_percentage;
-            $tax_markup = amount_with_currency_symbol($tax_amount).'('.$product_details->tax_percentage.'%)';
+            $tax_markup = amount_with_currency_symbol($tax_amount) . '(' . $product_details->tax_percentage . '%)';
         }
         $subtotal = (get_static_option('product_tax_type') == 'individual') ? $product_details->sale_price + ($tax_amount * 1) : $product_details->sale_price;
         $subtotal_markup = amount_with_currency_symbol($subtotal);

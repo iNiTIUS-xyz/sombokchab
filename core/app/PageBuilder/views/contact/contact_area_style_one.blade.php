@@ -15,7 +15,7 @@
                                 </div>
                                 <div class="content">
                                     <h5 class="title">
-                                        {{ $title }}
+                                        {{ __($title) }}
                                     </h5>
                                     <p class="info">
                                         {{ $settings['contact_page_contact_info_01']['description_'][$loop->index] }}
