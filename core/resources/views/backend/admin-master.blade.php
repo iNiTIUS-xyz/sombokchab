@@ -9,18 +9,18 @@
     <title>
         {{ get_static_option('site_title') }} -
         @if (request()->path() == 'admin-home')
-        {{ get_static_option('site_tag_line') }}
+            {{ get_static_option('site_tag_line') }}
         @else
-        @yield('site-title')
+            @yield('site-title')
         @endif
     </title>
     @php
-    $site_favicon = get_attachment_image_by_id(get_static_option('site_favicon'), 'full', false);
+        $site_favicon = get_attachment_image_by_id(get_static_option('site_favicon'), 'full', false);
     @endphp
     @include('frontend.partials.css-variable')
     @if (!empty($site_favicon))
-    <link rel="icon" href="{{ $site_favicon['img_url'] }}" type="image/png">
-    {!! render_favicon_by_id($site_favicon['img_url']) !!}
+        <link rel="icon" href="{{ $site_favicon['img_url'] }}" type="image/png">
+        {!! render_favicon_by_id($site_favicon['img_url']) !!}
     @endif
     <!-- favicon -->
     <link rel=icon href="{{ asset('assets/favicon-dashboard.png') }}" sizes="16x16" type="icon/png">
@@ -188,7 +188,7 @@
     <x-notification.js />
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             if ($('#dataTable').length) {
                 $('#dataTable').DataTable({
                     paging: true,
@@ -214,7 +214,7 @@
 
 
     <script>
-        $(document).on('click', '.swal_delete_button', function (e) {
+        $(document).on('click', '.swal_delete_button', function(e) {
             e.preventDefault();
             Swal.fire({
                 title: '{{ __('Are you sure?') }}',
@@ -250,16 +250,16 @@
 
 
 
-        $(document).on('click', '.swal_change_language_button', function (e) {
+        $(document).on('click', '.swal_change_language_button', function(e) {
             e.preventDefault();
             Swal.fire({
-                title: '{{__("Are you sure to make this language as a default language?")}}',
-                text: '{{__("Languages will be turn changed as default")}}',
+                title: '{{ __('Are you sure to make this language as a default language?') }}',
+                text: '{{ __('Languages will be turn changed as default') }}',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#55545b',
-                confirmButtonText: "{{__('Yes, Change it!')}}"
+                confirmButtonText: "{{ __('Yes, Change it!') }}"
             }).then((result) => {
                 if (result.isConfirmed) {
                     $(this).next().find('.swal_form_submit_btn').trigger('click');
@@ -267,7 +267,7 @@
             });
         });
 
-        $(document).on('click', '#remove-dummy-data', function (e) {
+        $(document).on('click', '#remove-dummy-data', function(e) {
             e.preventDefault();
             this_el = $(this);
             Swal.fire({
@@ -280,7 +280,7 @@
             }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
-                    send_ajax_request('GET', null, this_el.attr('href'), function () { }, function (res) {
+                    send_ajax_request('GET', null, this_el.attr('href'), function() {}, function(res) {
                         if (res.success) {
                             toastr.success('Dummy Data Deleted Success')
                             setTimeout(() => {
@@ -295,38 +295,46 @@
         })
     </script>
     <script>
+        toastr.options = {
+            closeButton: true,
+            progressBar: true,
+            timeOut: 3000
+        };
+    </script>
+    <script>
         @if (Session::has('message'))
-        var type = "{{ Session::get('alert-type', 'success') }}";
+            var type = "{{ Session::get('alert-type', 'success') }}";
 
-        switch (type) {
-            case 'success':
-                toastr.success("{{ Session::get('message') }}");
-                break;
+            switch (type) {
+                case 'success':
+                    toastr.success("{{ Session::get('message') }}");
+                    break;
 
-            case 'info':
-                toastr.info("{{ Session::get('message') }}");
-                break;
+                case 'info':
+                    toastr.info("{{ Session::get('message') }}");
+                    break;
 
-            case 'warning':
-                toastr.warning("{{ Session::get('message') }}");
-                break;
+                case 'warning':
+                    toastr.warning("{{ Session::get('message') }}");
+                    break;
 
-            case 'error':
-                toastr.error("{{ Session::get('message') }}");
-                break;
-        }
-    @endif
+                case 'error':
+                    toastr.error("{{ Session::get('message') }}");
+                    break;
+            }
+        @endif
     </script>
     {!! Toastr::message() !!}
     <script>
-        @if($errors->any())
-                @foreach($errors->all() as $error)
-                    toastr.error('{{ $error }}','Error',{
-                        closeButton:true,
-                        progressBar:true,
-                    });
-                @endforeach
-            @endif
+        @if ($errors->any())
+            @foreach ($errors->all() as $error)
+                toastr.error('{{ $error }}', 'Error', {
+                    closeButton: true,
+                    progressBar: true,
+
+                });
+            @endforeach
+        @endif
     </script>
 
     @yield('script')

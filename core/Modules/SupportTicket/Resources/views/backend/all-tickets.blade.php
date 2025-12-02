@@ -115,7 +115,7 @@
                                             <td>
                                                 <div class="btn-group badge">
                                                     <button type="button"
-                                                        class="status-{{ $data->status }} {{ $data->status == 'close' ? __('bg-danger status-close') : __('bg-primary status-open') }} dropdown-toggle"
+                                                        class=" status-{{ $data->status }} {{ $data->status == 'close' ? __('bg-danger status-close') : __('bg-primary status-open') }} dropdown-toggle"
                                                         data-bs-toggle="dropdown" aria-haspopup="true"
                                                         aria-expanded="false">
                                                         {{ ucfirst($data->status == 'close' ? __('Closed') : __($data->status)) }}

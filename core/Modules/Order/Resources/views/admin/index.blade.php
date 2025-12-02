@@ -54,7 +54,7 @@
                                 $statusClass = match ($status) {
                                     'canceled' => 'bg-danger',
                                     'pending' => 'bg-warning',
-                                    'complete' => 'bg-success',
+                                    'complete' => 'bg-primary',
                                     'failed' => 'bg-warning',
                                     default => 'bg-secondary',
                                 };
