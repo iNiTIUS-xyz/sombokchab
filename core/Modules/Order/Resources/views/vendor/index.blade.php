@@ -88,11 +88,11 @@
                                                 {{ __('Failed') }}
                                             </span>
                                         @elseif ($order->order->order_status == 'rejected')
-                                            <span class="badge px-2 py-1 text-white" style="background: rgb(255, 0, 0) !important">
+                                            <span class="badge bg-danger px-2 py-1 text-white">
                                                 {{ __('Rejected') }}
                                             </span>
                                         @elseif ($order->order->order_status == 'canceled')
-                                            <span class="badge px-2 py-1 text-white" style="background: rgb(187, 49, 49) !important">
+                                            <span class="badge bg-danger px-2 py-1 text-white">
                                                 {{ __('Canceled') }}
                                             </span>
                                         @endif
