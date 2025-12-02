@@ -306,6 +306,11 @@
     "Track your order": "តាមដានការបញ្ជាទិញរបស់អ្ន",
     "Update order track status": "ធ្វើបច្ចុប្បន្នភាពស្ថានភាពតាមដានការបញ្ជាទិញ",
     "Order information not available": "ព័ត៌មានការបញ្ជាទិញមិនមានទេ",
+    "Information": "ព័ត៌មាន",
+    "Email us:": "ផ្ញើអ៊ីមែលមកយើង៖",
+    "Service Hour:": "ម៉ោងសេវាកម្ម៖",
+    "Address:": "អាសយដ្ឋាន៖",
+    "Call us:": "ទូរស័ព្ទមកយើង៖",
     "Ordered": "បានបញ្ជាទិញ",
     "Picked By Courier": "បានទៅយកដោយអ្នកដឹកជញ្ជូន",
     "On The Way": "កំពុងធ្វើដំណើរ",
@@ -332,7 +337,8 @@
     "© 2025 All right reserved by Sombokchab": "© ២០២៥ រក្សាសិទ្ធិគ្រប់យ៉ាងដោយ Sombokchab!",
     "The best multi-vendor ecommerce website for you. You can easily buy your product according to your choice.": "គេហទំព័រពាណិជ្ជកម្មអេឡិចត្រូនិកពហុអ្នកលក់ដ៏ល្អបំផុតសម្រាប់អ្នក។ អ្នកអាចទិញផលិតផលរបស់អ្នកបានយ៉ាងងាយស្រួលតាមជម្រើសរបស់អ្នក។",
     "Filter Terms:": "លក្ខខណ្ឌតម្រង៖",
-    "jk": "",
+    "Category": "ប្រភេទ",
+    "Sub Category": "ប្រភេទរង",
     "Forgot Password": "ភ្លេចពាក្យសម្ងាត់",
     "Forgot Password?": "ភ្លេចលេខសម្ងាត់?",
     "Dont have account": "មិនមានគណនីមែនទេ?",
@@ -342,5 +348,9 @@
     "Reset Password": "កំណត់ពាក្យសម្ងាត់ឡើងវិញ",
     "Customer Sign Up": "អតិថិជនចុះឈ្មោះ",
     "Re-enter Your Password": "បញ្ចូលពាក្យសម្ងាត់របស់អ្នកឡើងវិញ",
-    "Already have an account?": "មានគណនីរួចហើយ?"
+    "Already have an account?": "មានគណនីរួចហើយ?",
+    "Visit Store": "ចូលមើលហាង",
+    "Sold By": "លក់ដោយ",
+    "Seller's Products": "ផលិតផលរបស់អ្នកលក់",
+    "demo": ""
 }

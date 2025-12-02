@@ -15,7 +15,7 @@
                 <div class="icon"><i class="las la-calendar-alt"></i></div>
                 <div class="content">
                     <h4 class="title">{{ __('Total Orders') }}</h4>
-                    <span class="number">{{ $product_count }}</span>
+                    <span class="number">{{ $all_orders->count() }}</span>
                 </div>
             </div>
         </div>

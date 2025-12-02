@@ -323,7 +323,7 @@
                                     <ul class="stock-category mt-4">
                                         @if ($product?->category)
                                             <li class="category-list">
-                                                <strong>{{ __('Category:') }}</strong>
+                                                <strong>{{ __('Category') }}:</strong>
                                                 <a class="list-item text-primary"
                                                     href="{{ route('frontend.dynamic.page', [
                                                         'slug' => 'shop',
@@ -336,7 +336,7 @@
 
                                         @if ($product?->subCategory)
                                             <li class="category-list">
-                                                <strong>{{ __('Sub Category:') }}</strong>
+                                                <strong>{{ __('Sub Category') }}:</strong>
                                                 <a class="list-item text-primary"
                                                     href="{{ route('frontend.dynamic.page', [
                                                         'slug' => 'shop',
@@ -418,7 +418,9 @@
                                         <li class="{{ $product->reviews_count > 0 ? '' : 'active' }} ff-rubik fw-500"
                                             data-tab="description"> {{ __('Description') }} </li>
                                         <li class="ff-rubik fw-500 {{ empty($product?->vendor) ? 'd-none' : '' }}"
-                                            data-tab="information"> {{ __('Information') }} </li>
+                                            data-tab="information">
+                                            {{ __('Information') }}
+                                        </li>
                                         <li class="{{ $product->reviews_count > 0 ? 'active' : '' }} ff-rubik fw-500"
                                             data-tab="reviews">
                                             {{ __('Reviews') }}
@@ -542,7 +544,8 @@
                                                                             <span class="text-danger">*</span>
                                                                         </label>
                                                                         <input class="form-control" type="text"
-                                                                            name="username" id="login_email" required placeholder="{{ __('Enter email or username') }}"/>
+                                                                            name="username" id="login_email" required
+                                                                            placeholder="{{ __('Enter email or username') }}" />
                                                                     </div>
                                                                     <div class="form-group col-12">
                                                                         <label for="login_password">
@@ -550,8 +553,8 @@
                                                                             <span class="text-danger">*</span>
                                                                         </label>
                                                                         <input class="form-control" type="password"
-                                                                            name="password" id="login_password"
-                                                                            required placeholder="{{ __('Enter password') }}"/>
+                                                                            name="password" id="login_password" required
+                                                                            placeholder="{{ __('Enter password') }}" />
                                                                     </div>
                                                                     <div class="form-group form-check col-12 mx-4">
                                                                         <input type="checkbox" name="remember"
@@ -620,7 +623,9 @@
                         @if ($product->vendor)
                             <div class="single-sidebar-details single-border margin-top-40">
                                 <div class="shop-details-sold center-text">
-                                    <h5 class="title-sidebar-global"> {{ __('Sold By:') }} </h5>
+                                    <h5 class="title-sidebar-global">
+                                        {{ __('Sold By') }}:
+                                    </h5>
                                     <div class="best-seller-sidebar mt-4">
                                         <a href="{{ route('frontend.vendors.single', $product->vendor->username) }}"
                                             class="thumb-brand">
@@ -673,10 +678,15 @@
                                     <ul class="promo-list">
                                         @foreach ($product->productDeliveryOption ?? [] as $option)
                                             <li class="list">
-                                                <div class="icon"> <i class="{{ $option->icon }}"></i> </div>
+                                                <div class="icon">
+                                                    <i class="{{ $option->icon }}"></i>
+                                                </div>
                                                 <div class="promon-icon-contents">
-                                                    <h6 class="promo-title fw-500"> {{ $option->title }} </h6>
-                                                    <span class="promo-para text-primary"> {{ $option->sub_title }}
+                                                    <h6 class="promo-title fw-500">
+                                                        {{ langWiseShowValue($option->title, $option->title_km) }}
+                                                    </h6>
+                                                    <span class="promo-para text-primary">
+                                                        {{ langWiseShowValue($option->sub_title, $option->sub_title_km) }}
                                                     </span>
                                                 </div>
                                             </li>
@@ -704,7 +714,8 @@
                                 <div class="shop-product-slider center-text">
                                     <div class="row">
                                         <div class="col-lg-12">
-                                            <h5 class="title-sidebar-global text-left"> {{ __("Seller's Products") }}
+                                            <h5 class="title-sidebar-global text-left">
+                                                {{ __("Seller's Products") }}
                                             </h5>
                                         </div>
                                     </div>

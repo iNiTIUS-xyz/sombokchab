@@ -29,7 +29,6 @@ class FormBuilderCustom
                 {$render_submit_button}
             </form>
         HTML;
-
     }
 
     private static function render_fields($fields): string
@@ -45,15 +44,15 @@ class FormBuilderCustom
                 if ($value === 'select') {
                     $options = explode("\n", $fields->select_options[$select_index]);
                 }
-                
-                if(is_array($fields->field_required ?? '')){
-                    $fields->field_required=(object) $fields->field_required;
+
+                if (is_array($fields->field_required ?? '')) {
+                    $fields->field_required = (object) $fields->field_required;
                 }
-                if(is_array($fields->field_name ?? '')){
-                    $fields->field_name=(object) $fields->field_name;
+                if (is_array($fields->field_name ?? '')) {
+                    $fields->field_name = (object) $fields->field_name;
                 }
-                if(is_array($fields->field_placeholder ?? '')){
-                    $fields->field_placeholder=(object) $fields->field_placeholder;
+                if (is_array($fields->field_placeholder ?? '')) {
+                    $fields->field_placeholder = (object) $fields->field_placeholder;
                 }
                 $required = $fields->field_required->$key ?? '';
                 $mimes = isset($fields->mimes_type->$key) ? $fields->mimes_type->$key : '';
@@ -70,7 +69,8 @@ class FormBuilderCustom
     private static function render_submit_button($text, $button_class = ''): string
     {
         $preloader = self::render_submit_preloader();
-        $text = SanitizeInput::esc_html($text);
+        $text = __(SanitizeInput::esc_html($text));
+
         return <<<HTML
                 <div class="form-group">
                     <button type="submit" class="btn-submit btn-sm default-btn {$button_class}">{$text}</button>
@@ -114,44 +114,44 @@ HTML;
         switch ($type) {
             case 'email':
                 $required_markup = ! empty($requried) ? $required_markup_html : '';
-                $markup = ' <div class="form-group"> <label for="'.$name.'">'.__($placeholder).'</label> <input type="email" id="'.$name.'" name="'.$name.'" class="form-control" placeholder="'.__($placeholder).'" '.$required_markup.'></div>';
+                $markup = ' <div class="form-group"> <label for="' . $name . '">' . __($placeholder) . '</label> <input type="email" id="' . $name . '" name="' . $name . '" class="form-control" placeholder="' . __($placeholder) . '" ' . $required_markup . '></div>';
                 break;
             case 'tel':
                 $required_markup = ! empty($requried) ? $required_markup_html : '';
-                $markup = ' <div class="form-group"> <label for="'.$name.'">'.__($placeholder).'</label> <input type="tel" id="'.$name.'" name="'.$name.'" class="form-control" placeholder="'.__($placeholder).'" '.$required_markup.'></div>';
+                $markup = ' <div class="form-group"> <label for="' . $name . '">' . __($placeholder) . '</label> <input type="tel" id="' . $name . '" name="' . $name . '" class="form-control" placeholder="' . __($placeholder) . '" ' . $required_markup . '></div>';
                 break;
             case 'date':
                 $required_markup = ! empty($requried) ? $required_markup_html : '';
-                $markup = ' <div class="form-group"><label for="'.$name.'">'.__($placeholder).'</label> <input type="date" id="'.$name.'" name="'.$name.'" class="form-control" placeholder="'.__($placeholder).'" '.$required_markup.'></div>';
+                $markup = ' <div class="form-group"><label for="' . $name . '">' . __($placeholder) . '</label> <input type="date" id="' . $name . '" name="' . $name . '" class="form-control" placeholder="' . __($placeholder) . '" ' . $required_markup . '></div>';
                 break;
             case 'url':
                 $required_markup = ! empty($requried) ? $required_markup_html : '';
-                $markup = ' <div class="form-group"><label for="'.$name.'">'.__($placeholder).'</label> <input type="url" id="'.$name.'" name="'.$name.'" class="form-control" placeholder="'.__($placeholder).'" '.$required_markup.'></div>';
+                $markup = ' <div class="form-group"><label for="' . $name . '">' . __($placeholder) . '</label> <input type="url" id="' . $name . '" name="' . $name . '" class="form-control" placeholder="' . __($placeholder) . '" ' . $required_markup . '></div>';
                 break;
             case 'textarea':
                 $required_markup = ! empty($requried) ? $required_markup_html : '';
-                $markup = ' <div class="form-group textarea"><label for="'.$name.'">'.__($placeholder).'</label> <textarea name="'.$name.'" id="'.$name.'" cols="30" rows="5" class="form-control" placeholder="'.__($placeholder).'" '.$required_markup.'></textarea></div>';
+                $markup = ' <div class="form-group textarea"><label for="' . $name . '">' . __($placeholder) . '</label> <textarea name="' . $name . '" id="' . $name . '" cols="30" rows="5" class="form-control" placeholder="' . __($placeholder) . '" ' . $required_markup . '></textarea></div>';
                 break;
             case 'file':
                 $required_markup = ! empty($requried) ? $required_markup_html : '';
-                $mimes_type_markup = str_replace('mimes:', __('Accept File Type:').' ', $mimes);
-                $markup = ' <div class="form-group file"> <label for="'.$name.'">'.__($placeholder).'</label> <input type="file" id="'.$name.'" name="'.$name.'" '.$required_markup.' class="form-control" > <span class="help-info">'.$mimes_type_markup.'</span></div>';
+                $mimes_type_markup = str_replace('mimes:', __('Accept File Type:') . ' ', $mimes);
+                $markup = ' <div class="form-group file"> <label for="' . $name . '">' . __($placeholder) . '</label> <input type="file" id="' . $name . '" name="' . $name . '" ' . $required_markup . ' class="form-control" > <span class="help-info">' . $mimes_type_markup . '</span></div>';
                 break;
             case 'checkbox':
                 $required_markup = ! empty($requried) ? $required_markup_html : '';
-                $markup = ' <div class="form-group checkbox">  <input type="checkbox" id="'.$name.'" name="'.$name.'" class="form-control" '.$required_markup.'> <label for="'.$name.'">'.__($placeholder).'</label></div>';
+                $markup = ' <div class="form-group checkbox">  <input type="checkbox" id="' . $name . '" name="' . $name . '" class="form-control" ' . $required_markup . '> <label for="' . $name . '">' . __($placeholder) . '</label></div>';
                 break;
             case 'select':
                 $option_markup = '';
                 $required_markup = ! empty($requried) ? $required_markup_html : '';
                 foreach ($options as $opt) {
-                    $option_markup .= '<option value="'.Str::slug($opt).'">'.$opt.'</option>';
+                    $option_markup .= '<option value="' . Str::slug($opt) . '">' . $opt . '</option>';
                 }
-                $markup = ' <div class="form-group select"> <label for="'.$name.'">'.__($placeholder).'</label> <select id="'.$name.'" name="'.$name.'" class="form-control" '.$required_markup.'>'.$option_markup.'</select></div>';
+                $markup = ' <div class="form-group select"> <label for="' . $name . '">' . __($placeholder) . '</label> <select id="' . $name . '" name="' . $name . '" class="form-control" ' . $required_markup . '>' . $option_markup . '</select></div>';
                 break;
             default:
                 $required_markup = ! empty($requried) ? $required_markup_html : '';
-                $markup = ' <div class="form-group"><label for="'.$name.'">'.__($placeholder).'</label> <input type="text" id="'.$name.'" name="'.$name.'" class="form-control" placeholder="'.__($placeholder).'" '.$required_markup.'></div>';
+                $markup = ' <div class="form-group"><label for="' . $name . '">' . __($placeholder) . '</label> <input type="text" id="' . $name . '" name="' . $name . '" class="form-control" placeholder="' . __($placeholder) . '" ' . $required_markup . '></div>';
                 break;
         }
 
@@ -202,59 +202,59 @@ HTML;
 
                     <a data-bs-toggle="collapse" href="#fileds_collapse_' . $key . '" role="button"
                        aria-expanded="false" aria-controls="collapseExample">
-                        '.ucfirst($type).': <span
-                                class="placeholder-name">'.$placeholder.'</span>
+                        ' . ucfirst($type) . ': <span
+                                class="placeholder-name">' . $placeholder . '</span>
                     </a>';
-        $output .= '<div class="collapse" id="fileds_collapse_'.$key.'">
+        $output .= '<div class="collapse" id="fileds_collapse_' . $key . '">
             <div class="card card-body margin-top-30">
                 <input type="hidden" class="form-control" name="field_type[]"
-                       value="'.$type.'">
+                       value="' . $type . '">
                 <div class="form-group">
-                    <label>'.__('Name').'</label>
+                    <label>' . __('Name') . '</label>
                     <input type="text" class="form-control " name="field_name[]"
-                           placeholder="'.__('enter field name').'"
-                           value="'.$name.'" >
+                           placeholder="' . __('enter field name') . '"
+                           value="' . $name . '" >
                 </div>
                 <div class="form-group">
-                    <label>'.__('Placeholder/Label').'</label>
+                    <label>' . __('Placeholder/Label') . '</label>
                     <input type="text" class="form-control field-placeholder"
-                           name="field_placeholder[]" placeholder="'.__('enter field placeholder/label').'"
-                           value="'.$placeholder.'" >
+                           name="field_placeholder[]" placeholder="' . __('enter field placeholder/label') . '"
+                           value="' . $placeholder . '" >
                 </div>
                 <div class="form-group">
-                    <label ><strong>'.__('Required').'</strong></label>
+                    <label ><strong>' . __('Required') . '</strong></label>
                     <label class="switch">
-                        <input type="checkbox" class="field-required" '.$required_check.' name="field_required['.$key.']">
+                        <input type="checkbox" class="field-required" ' . $required_check . ' name="field_required[' . $key . ']">
                         <span class="slider onff"></span>
                     </label>
                 </div>';
         if ($type === 'select') {
             $output .= '<div class="form-group">
-                        <label>'.__('Options').'</label>
+                        <label>' . __('Options') . '</label>
                             <textarea name="select_options[]" class="form-control max-height-120" cols="30" rows="10"
-                                required>'.SanitizeInput::esc_html($args['select_option']).'</textarea>
-                           <small>'.__('separate option by new line').'</small>
+                                required>' . SanitizeInput::esc_html($args['select_option']) . '</textarea>
+                           <small>' . __('separate option by new line') . '</small>
                     </div>';
         }
         if ($type === 'file') {
-            $output .= '<div class="form-group"><label>'.__('File Type').'</label><select name="mimes_type['.$key.']" class="form-control mime-type">';
+            $output .= '<div class="form-group"><label>' . __('File Type') . '</label><select name="mimes_type[' . $key . ']" class="form-control mime-type">';
             $output .= '<option value="mimes:jpg,jpeg,png"';
             if (isset($args['mimes_type']) && $args['mimes_type'] == 'mimes:jpg,jpeg,png') {
                 $output .= 'selected';
             }
-            $output .= '>'.__('mimes:jpg,jpeg,png').'</option>';
+            $output .= '>' . __('mimes:jpg,jpeg,png') . '</option>';
 
             $output .= '<option value="mimes:txt,pdf"';
             if (isset($args['mimes_type']) && $args['mimes_type'] == 'mimes:txt,pdf') {
                 $output .= 'selected';
             }
-            $output .= '>'.__('mimes:txt,pdf').'</option>';
+            $output .= '>' . __('mimes:txt,pdf') . '</option>';
 
             $output .= '<option value="mimes:doc,docx"';
             if (isset($args['mimes_type']) && $args['mimes_type'] == 'mimes:mimes:doc,docx') {
                 $output .= 'selected';
             }
-            $output .= '>'.__('mimes:mimes:doc,docx').'</option>';
+            $output .= '>' . __('mimes:mimes:doc,docx') . '</option>';
 
             $output .= '</select></div>';
         }
