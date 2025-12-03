@@ -14,7 +14,7 @@ class RefundPreferredOption extends Model
         'name',
         'fields',
         'status_id',
-        'is_file'
+        'is_file',
     ];
 
     public function status(): BelongsTo
