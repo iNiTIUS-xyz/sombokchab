@@ -16,13 +16,15 @@
     <input type="hidden" id="email" name="email">
 
     <div class="checkout-contents">
-        <div class="row">
-            <div class="col-md-12 text-center">
-                <h4>
-                    {{ __('New Shipping Address') }}
-                </h4>
+        @if ($modal)
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <h4>
+                        {{ __('New Shipping Address') }}
+                    </h4>
+                </div>
             </div>
-        </div>
+        @endif
         <div class="checkout-form mt-2">
             @if ($modal)
                 {{-- Shipping Address Name --}}
@@ -62,7 +64,6 @@
                     </div>
                 </div>
 
-                {{-- Country / State / City --}}
                 <div class="row mt-4">
                     <div class="col-md-4">
                         <label class="label-title mb-3">
