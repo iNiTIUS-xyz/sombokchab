@@ -299,56 +299,58 @@
                             </h5>
                         </div>
                         <div class="dashboard__card__body mt-4">
-                            <div class="table-wrapper dashboard-table table-wrap">
-                                <table class="table table-responsive">
-                                    <thead>
-                                        <tr>
-                                            <th>{{ __('Serial No.') }}</th>
-                                            <th style="width: 60px">{{ __('Image') }}</th>
-                                            <th>{{ __('Info') }}</th>
-                                            <th>{{ __('QTY') }}</th>
-                                            <th>{{ __('Price') }}</th>
-                                            <th>{{ __('Total') }}</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($request->requestProduct as $item)
-                                            @php
-                                                $product = $request->products->find($item->product_id);
-                                                $variant = $request->productVariant->find($item->variant_id);
-                                            @endphp
-
+                            <div class="table-wrap mt-4">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
                                             <tr>
-                                                <td>{{ $loop->iteration }}</td>
-                                                <td>{!! render_image($product->image, class: 'w-100 h-100') !!}</td>
-                                                <td>
-                                                    <h6>{{ $product->name }}</h6>
-                                                    @if ($variant)
-                                                        <p>
-                                                            @if ($variant->productColor)
-                                                                {{ $variant->productColor->name }},
-                                                            @endif
-                                                            @if ($variant->productSize)
-                                                                {{ $variant->productSize->name }}
-                                                            @endif
-
-                                                            @foreach ($variant->attribute as $attr)
-                                                                , {{ $attr->attribute_name }}:
-                                                                {{ $attr->attribute_value }}
-                                                            @endforeach
-                                                        </p>
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    {{ $item->quantity }}
-                                                </td>
-                                                <td>{{ float_amount_with_currency_symbol($item->amount) }}</td>
-                                                <td>{{ float_amount_with_currency_symbol($item->amount * $item->quantity) }}
-                                                </td>
+                                                <th>{{ __('Serial No.') }}</th>
+                                                <th style="width: 60px">{{ __('Image') }}</th>
+                                                <th>{{ __('Info') }}</th>
+                                                <th>{{ __('QTY') }}</th>
+                                                <th>{{ __('Price') }}</th>
+                                                <th>{{ __('Total') }}</th>
                                             </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($request->requestProduct as $item)
+                                                @php
+                                                    $product = $request->products->find($item->product_id);
+                                                    $variant = $request->productVariant->find($item->variant_id);
+                                                @endphp
+
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>{!! render_image($product->image, class: 'w-100 h-100') !!}</td>
+                                                    <td>
+                                                        <h6>{{ $product->name }}</h6>
+                                                        @if ($variant)
+                                                            <p>
+                                                                @if ($variant->productColor)
+                                                                    {{ $variant->productColor->name }},
+                                                                @endif
+                                                                @if ($variant->productSize)
+                                                                    {{ $variant->productSize->name }}
+                                                                @endif
+
+                                                                @foreach ($variant->attribute as $attr)
+                                                                    , {{ $attr->attribute_name }}:
+                                                                    {{ $attr->attribute_value }}
+                                                                @endforeach
+                                                            </p>
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        {{ $item->quantity }}
+                                                    </td>
+                                                    <td>{{ float_amount_with_currency_symbol($item->amount) }}</td>
+                                                    <td>{{ float_amount_with_currency_symbol($item->amount * $item->quantity) }}
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>

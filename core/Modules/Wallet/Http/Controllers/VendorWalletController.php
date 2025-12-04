@@ -12,25 +12,38 @@ use Modules\Wallet\Entities\Wallet;
 use Modules\Wallet\Entities\WalletHistory;
 use Modules\Wallet\Http\Requests\VendorHandleWithdrawRequest;
 
-class VendorWalletController extends Controller {
-    public function index() {
+class VendorWalletController extends Controller
+{
+    public function index()
+    {
         $data = VendorServices::vendorAccountBanner();
 
         return view("wallet::vendor.index", $data);
     }
 
-    public function withdraw() {
+    public function withdraw()
+    {
         $wallet = Wallet::where("vendor_id", auth()->guard("vendor")->id())->first();
         // first og all get all list of payment gateway that is created bu admin
         $adminGateways = VendorWalletGateway::where("status_id", 1)->get();
         $savedGateway = VendorWalletGatewaySetting::where(["vendor_id" => auth("vendor")->id()])->first();
-        $data = [
-            "total_order_amount"          => (float) SubOrder::where("vendor_id", auth()->guard("vendor")->id())->sum("total_amount"),
-            "total_complete_order_amount" => (float) SubOrder::where("vendor_id", auth()->guard("vendor")->id())->where("order_status", "complete")->whereHas("orderTrack", function ($orderTrack) {
+
+        $wallet = Wallet::where("vendor_id", auth()->guard("vendor")->id())->first();
+
+        // Calculate total complete order amount (delivered only)
+        $total_complete_order_amount = (float) SubOrder::where("vendor_id", auth()->guard("vendor")->id())
+            ->whereHas("orderTrack", function ($orderTrack) {
                 $orderTrack->where("name", "delivered");
-            })->sum("total_amount"),
-            "pending_balance"             => $wallet ? $wallet->pending_balance : 0,
-            "current_balance"             => $wallet ? $wallet->balance : 0,
+            })
+            ->sum("total_amount");
+
+        $total_order_amount = (float) ($total_complete_order_amount + ($wallet->pending_balance ?? 0));
+
+        $data = [
+            "total_order_amount" => $total_order_amount,
+            "total_complete_order_amount" => $total_complete_order_amount,
+            "pending_balance" => toFixed($wallet->pending_balance ?? 0, 0),
+            "current_balance" => toFixed($wallet->balance ?? 0, 0),
             "adminGateways"               => $adminGateways,
             "savedGateway"                => $savedGateway,
         ];
@@ -38,7 +51,8 @@ class VendorWalletController extends Controller {
         return view("wallet::vendor.wallet-withdraw", $data);
     }
 
-    public function withdrawRequestPage() {
+    public function withdrawRequestPage()
+    {
         $withdrawRequests = VendorWithdrawRequest::with("gateway")
             ->where("vendor_id", auth("vendor")->id())
             ->whereHas("gateway")
@@ -48,11 +62,12 @@ class VendorWalletController extends Controller {
         return view("wallet::vendor.wallet-request", compact("withdrawRequests"));
     }
 
-    public function handleWithdraw(VendorHandleWithdrawRequest $request) {
+    public function handleWithdraw(VendorHandleWithdrawRequest $request)
+    {
 
         $qrFileName = null;
 
-        if (isset($this->data['qr_file']) && $request->qr_file) {
+        if ($request->hasFile('qr_file')) {
             if (!file_exists(public_path('uploads/refund-qr'))) {
                 mkdir(public_path('uploads/refund-qr'), 0777, true);
             }
@@ -65,6 +80,7 @@ class VendorWalletController extends Controller {
         $data = $request->validated();
 
         $data['qr_file'] = $qrFileName;
+        $data['gateway_fields'] = $qrFileName ? null : $data['gateway_fields'];
 
         $wallet = Wallet::where("vendor_id", $data["vendor_id"])->first();
 
@@ -84,7 +100,8 @@ class VendorWalletController extends Controller {
         ]);
     }
 
-    public function walletHistory() {
+    public function walletHistory()
+    {
         $histories = WalletHistory::query()
             ->where("vendor_id", auth('vendor')->id())
             ->orderByDesc('id')

@@ -5,8 +5,7 @@
 @endsection
 
 @section('style')
-    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.min.css') }}">
-    <x-bulk-action.css />
+<x-bulk-action.css />
 @endsection
 
 @section('content')
@@ -100,30 +99,4 @@
         });
     </script>
 
-    {{-- {{-- <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script> --}} --}}
-    <script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
-
-    <script>
-        $(document).ready(function() {
-            if ($('#dataTable').length) {
-                $('#dataTable').DataTable({
-                    paging: true,
-                    lengthChange: true,
-                    searching: true,
-                    ordering: true,
-                    info: true,
-                    autoWidth: false,
-                    responsive: true,
-                    language: {
-                        search: "Filter:",
-                        paginate: {
-                            previous: "Prev",
-                            next: "Next"
-                        }
-                    },
-                    pagingType: "simple_numbers" // gives Prev, numbers, Next
-                });
-            }
-        });
-    </script>
 @endsection

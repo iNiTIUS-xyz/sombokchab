@@ -1,9 +1,5 @@
 @extends('frontend.user.dashboard.user-master')
 
-@section('style')
-    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.min.css') }}">
-@endsection
-
 @section('section')
     <div class="btn-wrapper">
         <a href="{{ route('user.shipping.address.new') }}" class="cmn_btn btn_bg_1">
@@ -76,41 +72,6 @@
 @section('script')
     <script src="{{ asset('assets/backend/js/sweetalert2.js') }}"></script>
     <x-table.btn.swal.js />
-    <script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
-    <script>
-        $(document).ready(function() {
-            if ($('#dataTable').length) {
-                $('#dataTable').DataTable({
-                    paging: true,
-                    lengthChange: true,
-                    searching: true,
-                    ordering: true,
-                    info: true,
-                    autoWidth: false,
-                    responsive: true,
-                    order: [
-                        [0, 'desc']
-                    ],
-                    pagingType: "simple_numbers",
-                    language: {
-                        lengthMenu: "{{ __('_MENU_ entries per page') }}",
-                        search: "{{ __('Filter:') }}",
-                        info: "{{ __('Showing _START_ to _END_ of _TOTAL_ entries') }}",
-                        infoEmpty: "{{ __('No entries available') }}",
-                        infoFiltered: "{{ __('(filtered from _MAX_ total entries)') }}",
-
-                        zeroRecords: "{{ __('No matching records found') }}",
-                        emptyTable: "{{ __('No entries available') }}",
-                        paginate: {
-                            previous: "{{ __('Prev') }}",
-                            next: "{{ __('Next') }}"
-                        },
-                        emptyTable: "{{ __('No data available in table') }}"
-                    }
-                });
-            }
-        });
-    </script>
     <script>
         $(document).ready(function() {
             $(document).on('click', '.bodyUser_overlay', function() {

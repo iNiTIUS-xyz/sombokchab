@@ -1,90 +1,112 @@
 @extends('backend.admin-master')
 
 @section('style')
-<x-bulk-action.css />
+    <x-bulk-action.css />
 @endsection
 
 @section('site-title')
-{{ __('Custom Attributes') }}
+    {{ __('Custom Attributes') }}
 @endsection
 
 @section('content')
-<div class="col-lg-12 col-ml-12">
-    <div class="row">
-        <div class="col-lg-12">
-            {{--
+    <div class="col-lg-12 col-ml-12">
+        <div class="row">
+            <div class="col-lg-12">
+                {{--
             <x-msg.error />
             <x-msg.flash /> --}}
-            <div class="mb-4">
-                @can('add-attribute')
-                <div class="btn-wrapper">
-                    <a href="{{ route('admin.products.attributes.store') }}" class="cmn_btn btn_bg_profile">
-                        {{ __('Add New Attribute') }}
-                    </a>
+                <div class="mb-4">
+                    @can('add-attribute')
+                        <div class="btn-wrapper">
+                            <a href="{{ route('admin.products.attributes.store') }}" class="cmn_btn btn_bg_profile">
+                                {{ __('Add New Attribute') }}
+                            </a>
+                        </div>
+                    @endcan
                 </div>
-                @endcan
-            </div>
-            <div class="dashboard__card">
-                <div class="dashboard__card__header">
-                    <h4 class="dashboard__card__title">{{ __('Custom Attributes') }}</h4>
-                    <div class="dashboard__card__header__right">
-                        @can('view-attribute')
-                        <x-bulk-action.dropdown />
-                        @endcan
+                <div class="dashboard__card">
+                    <div class="dashboard__card__header">
+                        <h4 class="dashboard__card__title">{{ __('Custom Attributes') }}</h4>
+                        <div class="dashboard__card__header__right">
+                            @can('view-attribute')
+                                <x-bulk-action.dropdown />
+                            @endcan
+                        </div>
                     </div>
-                </div>
-                <div class="dashboard__card__body mt-4">
-                    <div class="table-responsive">
-                        <table class="table table-default" id="dataTable">
-                            <thead>
-                                <x-bulk-action.th />
-                                {{-- <th>{{ __('ID') }}</th> --}}
-                                <th>{{ __('Title') }}</th>
-                                <th>{{ __('Terms') }}</th>
-                                <th>{{ __('Action') }}</th>
-                            </thead>
-                            <tbody>
-                                @foreach ($all_attributes as $attribute)
-                                <tr>
-                                    <x-bulk-action.td :id="$attribute->id" />
-                                    {{-- <td>{{ $loop->iteration }}</td> --}}
-                                    <td>{{ $attribute->title }}</td>
-                                    <td>
-                                        <ul>
-                                            @foreach (json_decode($attribute->terms) as $term)
-                                            <li>{{ $term }}</li>
-                                            @endforeach
-                                        </ul>
-                                    </td>
-                                    <td>
-                                        @can('edit-attribute')
-                                        <x-table.btn.edit
-                                            :route="route('admin.products.attributes.edit', $attribute->id)" />
-                                        @endcan
-                                        @can('delete-attribute')
-                                        <x-table.btn.swal.delete :route="route(
+                    <div class="dashboard__card__body mt-4">
+                        <div class="table-responsive">
+                            <table class="table table-default" id="dataTable">
+                                <thead>
+                                    <x-bulk-action.th />
+                                    {{-- <th>{{ __('ID') }}</th> --}}
+                                    <th>{{ __('Title') }}</th>
+                                    <th>{{ __('Terms') }}</th>
+                                    <th>{{ __('Action') }}</th>
+                                </thead>
+                                <tbody>
+                                    @foreach ($all_attributes as $attribute)
+                                        <tr>
+                                            <x-bulk-action.td :id="$attribute->id" />
+                                            <td>
+                                                <p>
+                                                    <strong>English :</strong> {{ $attribute->title }}
+                                                </p>
+                                                @if ($attribute->title_km)
+                                                    <p>
+                                                        <strong>Khmer :</strong> {{ $attribute->title_km }}
+                                                    </p>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <ul>
+                                                            <li><strong>English:</strong></li>
+                                                            @foreach (json_decode($attribute->terms) as $term)
+                                                                <li>{{ $term }}</li>
+                                                            @endforeach
+                                                        </ul>
+                                                    </div>
+                                                    @if ($attribute->terms_km)
+                                                        <div class="col-md-6">
+                                                            <ul>
+                                                                <li><strong>Khmer:</strong></li>
+                                                                @foreach (json_decode($attribute->terms_km) as $term_km)
+                                                                    <li>{{ $term_km }}</li>
+                                                                @endforeach
+                                                            </ul>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            </td>
+                                            <td>
+                                                @can('edit-attribute')
+                                                    <x-table.btn.edit :route="route('admin.products.attributes.edit', $attribute->id)" />
+                                                @endcan
+                                                @can('delete-attribute')
+                                                    <x-table.btn.swal.delete :route="route(
                                                         'admin.products.attributes.delete',
                                                         $attribute->id,
                                                     )" />
-                                        @endcan
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                                @endcan
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 @endsection
 
 @section('script')
-<x-table.btn.swal.js />
-@can('delete-attribute')
-<script>
-    (function($) {
+    <x-table.btn.swal.js />
+    @can('delete-attribute')
+        <script>
+            (function($) {
                 $(document).ready(function() {
                     $(document).on('click', '#bulk_delete_btn', function(e) {
                         e.preventDefault();
@@ -157,6 +179,6 @@
                     });
                 });
             })(jQuery);
-</script>
-@endcan
+        </script>
+    @endcan
 @endsection

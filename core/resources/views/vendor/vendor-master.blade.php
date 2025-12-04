@@ -26,6 +26,7 @@
     <link rel=icon href="{{ asset('assets/favicon-dashboard.png') }}" sizes="16x16" type="icon/png">
     <!-- bootstrap -->
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap5.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.min.css') }}">
     <!-- animate -->
     <link rel="stylesheet" href="{{ asset('assets/css/animate.css') }}">
     <!-- slick carousel  -->
@@ -41,6 +42,39 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 
     @yield('style')
+
+    
+    <style>
+        #dataTable th,
+        #dataTable td {
+            text-align: left !important;
+            vertical-align: middle;
+        }
+
+        #dataTable {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        #dataTable th {
+            font-weight: 600;
+        }
+
+        table.dataTable th.dt-type-numeric div.dt-column-header,
+        table.dataTable th.dt-type-numeric div.dt-column-footer,
+        table.dataTable th.dt-type-date div.dt-column-header,
+        table.dataTable th.dt-type-date div.dt-column-footer,
+        table.dataTable td.dt-type-numeric div.dt-column-header,
+        table.dataTable td.dt-type-numeric div.dt-column-footer,
+        table.dataTable td.dt-type-date div.dt-column-header,
+        table.dataTable td.dt-type-date div.dt-column-footer {
+            flex-direction: row !important;
+        }
+
+        table.dataTable .dt-type-numeric span.dt-column-order {
+            position: relative !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -97,6 +131,46 @@
     <script src="{{ asset('assets/js/main.js') }}"></script>
     <!-- Javascript Helpers -->
     <script src="{{ asset('assets/js/helpers.js') }}"></script>
+
+    <script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
+
+    <script>
+        $(document).ready(function () {
+            if ($('#dataTable').length) {
+                new DataTable('#dataTable', {
+                    layout: {
+                        // REMOVE pageLength dropdown from here
+                        topEnd: {
+                            search: {
+                                placeholder: "Type Here"
+                            }
+                        },
+                        bottomStart: 'info',
+                        bottomEnd: 'paging'
+                    },
+
+                    paging: true,
+                    lengthChange: true,   // keep this so DataTables *obeys* your dropdown
+                    searching: true,
+                    ordering: true,
+                    info: true,
+                    autoWidth: false,
+                    responsive: true,
+
+                    language: {
+                        search: "Filter:",
+                        paginate: {
+                            previous: '&laquo;',
+                            next: '&raquo;'
+                        }
+                    },
+
+                    pagingType: "simple_numbers"
+                });
+            }
+        });
+    </script>
+
 
     <x-notification.js />
 

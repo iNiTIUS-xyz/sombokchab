@@ -91,30 +91,6 @@
 
                     @section('script')
                         <script src="{{ asset('assets/backend/js/sweetalert2.js') }}"></script>
-
-                        {{-- <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script> --}}
-                        <script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
-
-                        <script>
-                            $(document).ready(function () {
-                                // Initialize DataTable only if the table exists
-                                if ($('#dataTable').length) {
-                                    $('#dataTable').DataTable({
-                                        paging: true,
-                                        lengthChange: true,
-                                        searching: true,
-                                        ordering: true,
-                                        info: true,
-                                        autoWidth: false,
-                                        responsive: true,
-                                        language: {
-                                            search: "Filter:"
-                                        }
-                                    });
-                                }
-                            });
-                        </script>
-
                         <script>
                             (function ($) {
                                 "use strict";

@@ -53,7 +53,7 @@ $type = $type ?? 'admin';
                 {{ __('Notifications') }}
             </h6>
             <ul class="notification-list">
-                @foreach (xgNotifications()->get() as $notification)
+                @foreach (xgNotifications()->where('is_read_admin', 0)->get() as $notification)
                 @php
                 $namespace = new $notification->model();
                 $productName = '';
@@ -111,8 +111,12 @@ $type = $type ?? 'admin';
             </a>
             @endif
         </div>
+        @php
+            $unreadField = $type === 'vendor' ? 'is_read_vendor' : 'is_read_admin';
+            $unreadCount = xgNotifications()->where($unreadField, 0)->count();
+        @endphp
         <span class="badge-icon" id="top-bar-notification-count">
-            {{ xgUnReadNotifications() }}
+            {{ $unreadCount }}
         </span>
     </div>
 </div>

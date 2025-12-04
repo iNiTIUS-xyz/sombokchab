@@ -2,10 +2,6 @@
 
 @section('site-title', __('Notification list page'))
 
-@section('style')
-    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.min.css') }}">
-@endsection
-
 @section('content')
     <div class="card">
         <div class="card-header">
@@ -104,33 +100,6 @@
 
 
 @section('script')
-    <script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
-
-    <script>
-        $(document).ready(function() {
-            if ($('#dataTable').length) {
-                $('#dataTable').DataTable({
-                    paging: true,
-                    lengthChange: true,
-                    searching: true,
-                    ordering: true,
-                    order: [],
-                    info: true,
-                    autoWidth: false,
-                    responsive: true,
-                    language: {
-                        search: "Filter:",
-                        paginate: {
-                            previous: "Prev",
-                            next: "Next"
-                        }
-                    },
-                    pagingType: "simple_numbers"
-                });
-            }
-        });
-    </script>
-
     <script>
         function markAsReadAndRedirect(markUrl, redirectUrl) {
             console.log("Mark URL:", markUrl);

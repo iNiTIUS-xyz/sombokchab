@@ -46,6 +46,8 @@ $navbar_type = $page_details->navbar_variant ?? (get_static_option('global_navba
 <script src="{{ asset('assets/js/jquery-migrate.min.js') }}"></script>
 <!-- bootstrap -->
 <script src="{{ asset('assets/js/bootstrap5.bundle.min.js') }}"></script>
+
+<script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
 <!-- Lazy Load Js -->
 <script src="{{ asset('assets/js/jquery.lazy.min.js') }}"></script>
 <!-- Slick Slider -->
@@ -63,6 +65,44 @@ $navbar_type = $page_details->navbar_variant ?? (get_static_option('global_navba
 <script src="{{ asset('assets/js/select2.min.js') }}"></script>
 <script src="{{ asset('assets/js/helpers.js') }}"></script>
 <script src="{{ asset('assets/js/main.js') }}"></script>
+
+
+<script>
+    $(document).ready(function () {
+        if ($('#dataTable').length) {
+            new DataTable('#dataTable', {
+                layout: {
+                    // REMOVE pageLength dropdown from here
+                    topEnd: {
+                        search: {
+                            placeholder: "Type Here"
+                        }
+                    },
+                    bottomStart: 'info',
+                    bottomEnd: 'paging'
+                },
+
+                paging: true,
+                lengthChange: true,   // keep this so DataTables *obeys* your dropdown
+                searching: true,
+                ordering: true,
+                info: true,
+                autoWidth: false,
+                responsive: true,
+
+                language: {
+                    search: "Filter:",
+                    paginate: {
+                        previous: '&laquo;',
+                        next: '&raquo;'
+                    }
+                },
+
+                pagingType: "simple_numbers"
+            });
+        }
+    });
+</script>
 
 <script type="text/javascript">
     function googleTranslateElementInit() {

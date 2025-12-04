@@ -5,7 +5,6 @@
 @endsection
 
 @section('style')
-<link rel="stylesheet" href="{{ asset('assets/css/dataTables.min.css') }}">
 <x-bulk-action.css />
 <style>
     .swal_delete_button {
@@ -30,28 +29,6 @@
         color: #fff;
         border: none;
         font-weight: 600;
-    }
-
-    #DataTables_Table_0_wrapper>.row:first-child {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        margin-bottom: 1rem;
-    }
-
-    #DataTables_Table_0_wrapper>.row:first-child .col-12 {
-        flex: 1 1 50%;
-        max-width: 50%;
-    }
-
-    /* Optional: Align content inside each column */
-    #DataTables_Table_0_length {
-        text-align: left;
-    }
-
-    #DataTables_Table_0_filter {
-        text-align: right;
     }
 </style>
 @endsection
@@ -145,32 +122,6 @@
 @endsection
 
 @section('script')
-<script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
-<script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
-<script>
-    $(document).ready(function() {
-            if ($('#dataTable').length) {
-                $('#dataTable').DataTable({
-                    paging: true,
-                    lengthChange: true,
-                    searching: true,
-                    ordering: true,
-                    info: true,
-                    autoWidth: false,
-                    responsive: true,
-                    language: {
-                        search: "Filter:",
-                        paginate: {
-                            previous: "Prev",
-                            next: "Next"
-                        }
-                    },
-                    pagingType: "simple_numbers"
-                });
-            }
-        });
-</script>
-
 <script>
     $(document).ready(function() {
 
