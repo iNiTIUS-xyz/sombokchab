@@ -4,6 +4,7 @@ namespace Modules\Vendor\Http\Requests\Backend;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Modules\Vendor\Entities\BusinessType;
 
 class UpdateVendorRequest extends FormRequest {
     /**
@@ -18,6 +19,20 @@ class UpdateVendorRequest extends FormRequest {
             "username"           => ["required", 'min:3', 'max:25', Rule::unique('vendors')->ignore($this->id)],
             "business_name"      => "required|min:3|max:30|string",
             "business_type_id"   => "required",
+            'tax_id'             => [
+                'nullable',
+                Rule::requiredIf(function () {
+                    $btId = $this->input('business_type_id');
+                    if (!$btId) {
+                        return false;
+                    }
+
+                    $bt = BusinessType::find($btId);
+                    return $bt && $bt->name === 'Business';
+                }),
+                'string',
+                'regex:/^[A-Za-z]\d{12}$/',
+            ],
             "description"        => "nullable",
             "logo_id"            => "nullable",
             "cover_photo_id"     => "nullable",

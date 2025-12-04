@@ -109,7 +109,7 @@ class VendorBackendController extends Controller {
             'states'        => State::where("country_id", 31)->orderBy("name", "ASC")->get(),
             'cities'        => City::orderBy("name", "ASC")->get(),
         ];
-
+        // dd($data);
         return view("vendor::backend.edit", with($data));
     }
 
@@ -126,6 +126,7 @@ class VendorBackendController extends Controller {
     }
 
     public function update($vendor, UpdateVendorRequest $request) {
+
         $data = $request->validated();
 
         DB::beginTransaction();
