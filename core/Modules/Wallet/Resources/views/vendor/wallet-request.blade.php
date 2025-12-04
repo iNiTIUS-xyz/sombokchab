@@ -4,30 +4,6 @@
     {{ __('Wallet settings') }}
 @endsection
 
-@section('style')
-    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.min.css') }}">
-    <style>
-        .payment_attachment {
-            width: 100px;
-        }
-
-        #dataTable th,
-        #dataTable td {
-            text-align: left !important;
-            vertical-align: middle;
-        }
-
-        #dataTable {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        #dataTable th {
-            font-weight: 600;
-        }
-    </style>
-@endsection
-
 @section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row">
@@ -104,34 +80,5 @@
             </div>
         </div>
     </div>
-@endsection
-
-@section('script')
-    {{-- <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script> --}}
-    <script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
-
-    <script>
-        $(document).ready(function() {
-            if ($('#dataTable').length) {
-                $('#dataTable').DataTable({
-                    paging: true,
-                    lengthChange: true,
-                    searching: true,
-                    ordering: true,
-                    info: true,
-                    autoWidth: false,
-                    responsive: true,
-                    language: {
-                        search: "Filter:",
-                        paginate: {
-                            previous: "Prev",
-                            next: "Next"
-                        }
-                    },
-                    // Add this for pagination style
-                    pagingType: "simple_numbers" // options: simple, simple_numbers, full, full_numbers
-                });
-            }
-        });
-    </script>
+</div>
 @endsection

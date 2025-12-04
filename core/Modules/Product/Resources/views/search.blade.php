@@ -1,4 +1,4 @@
-<table class="customs-tables pt-4 position-relative" id="productDataTable">
+<table class="customs-tables pt-4 position-relative" id="dataTable">
     <thead class="head-bg">
         <tr>
             <th class="check-all-rows p-3">

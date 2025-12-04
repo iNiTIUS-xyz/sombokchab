@@ -157,8 +157,6 @@ $currentTitle = $titles[Route::currentRouteName()] ?? __('Customer Dashboard');
 </section>
 @endsection
 
-
-
 @section('script')
 <script>
     $(document).ready(function() {

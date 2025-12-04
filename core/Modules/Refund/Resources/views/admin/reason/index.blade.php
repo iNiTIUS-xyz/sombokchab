@@ -3,17 +3,6 @@
 @section('site-title', __('Refund Reasons'))
 
 @section('content')
-
-<style>
-    #dataTable_wrapper #dataTable_length {
-        display: flex;
-    }
-
-    #dataTable_info {
-        display: flex;
-    }
-</style>
-
 <div class="col-lg-12 col-ml-12">
     {{--
     <x-msg.error />
