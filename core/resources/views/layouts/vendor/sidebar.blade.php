@@ -27,10 +27,9 @@
                     </a>
                 </li>
                 @if (auth('vendor')->user()->is_vendor_verified && auth('vendor')->user()->verified_at)
-                    <li
-                        class="main_dropdown @if (request()->is(['vendor-home/product', 'vendor-home/product/*'])) active open @endif">
+                    <li class="main_dropdown @if (request()->is(['vendor-home/product', 'vendor-home/product/*'])) active open @endif">
                         <a href="#1" aria-expanded="true">
-                            <i class="ti-layout-tab"></i> <span>{{ __('Products') }}
+                            <i class="ti-layout-tab"></i> <span>{{ __('Products Management') }}
                             </span>
                         </a>
 
@@ -50,7 +49,7 @@
                 <li class="{{ active_menu('vendor-home/product-inventory') }}">
                     <a href="{{ route('vendor.products.inventory.all') }}">
                         <i class="ti-package"></i>
-                        <span>{{ __('Inventory') }}</span>
+                        <span>{{ __('Inventory Management') }}</span>
                     </a>
                 </li>
 
@@ -83,8 +82,7 @@
                     </li> --}}
                 @endif
 
-                <li
-                    class="main_dropdown @if (request()->is(['vendor-home/wallet', 'vendor-home/wallet/*'])) active open @endif">
+                <li class="main_dropdown @if (request()->is(['vendor-home/wallet', 'vendor-home/wallet/*'])) active open @endif">
                     <a href="#1" aria-expanded="true">
                         <i class="ti-wallet"></i> <span>{{ __('Wallet') }}
                         </span>
