@@ -27,13 +27,23 @@ class VendorWalletController extends Controller
         // first og all get all list of payment gateway that is created bu admin
         $adminGateways = VendorWalletGateway::where("status_id", 1)->get();
         $savedGateway = VendorWalletGatewaySetting::where(["vendor_id" => auth("vendor")->id()])->first();
-        $data = [
-            "total_order_amount"          => (float) SubOrder::where("vendor_id", auth()->guard("vendor")->id())->sum("total_amount"),
-            "total_complete_order_amount" => (float) SubOrder::where("vendor_id", auth()->guard("vendor")->id())->where("order_status", "complete")->whereHas("orderTrack", function ($orderTrack) {
+
+        $wallet = Wallet::where("vendor_id", auth()->guard("vendor")->id())->first();
+
+        // Calculate total complete order amount (delivered only)
+        $total_complete_order_amount = (float) SubOrder::where("vendor_id", auth()->guard("vendor")->id())
+            ->whereHas("orderTrack", function ($orderTrack) {
                 $orderTrack->where("name", "delivered");
-            })->sum("total_amount"),
-            "pending_balance"             => $wallet ? $wallet->pending_balance : 0,
-            "current_balance"             => $wallet ? $wallet->balance : 0,
+            })
+            ->sum("total_amount");
+
+        $total_order_amount = (float) ($total_complete_order_amount + ($wallet->pending_balance ?? 0));
+
+        $data = [
+            "total_order_amount" => $total_order_amount,
+            "total_complete_order_amount" => $total_complete_order_amount,
+            "pending_balance" => toFixed($wallet->pending_balance ?? 0, 0),
+            "current_balance" => toFixed($wallet->balance ?? 0, 0),
             "adminGateways"               => $adminGateways,
             "savedGateway"                => $savedGateway,
         ];
