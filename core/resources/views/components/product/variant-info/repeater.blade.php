@@ -108,7 +108,8 @@
                     </div>
                 </div>
                 <div class="col-auto">
-                    <button type="button" class="btn btn-primary margin-top-30 add_item_attribute" title="Add Item Attribute">
+                    <button type="button" class="btn btn-primary margin-top-30 add_item_attribute"
+                        title="Add Item Attribute">
                         <i class="las la-arrow-up"></i>
                     </button>
                 </div>

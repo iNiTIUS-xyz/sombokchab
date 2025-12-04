@@ -30,9 +30,11 @@ use Modules\Product\Http\Services\Admin\AdminProductServices;
 use Modules\Product\Http\Services\Admin\DummyProductDeleteServices;
 use Modules\TaxModule\Entities\TaxClass;
 
-class ProductController extends Controller {
+class ProductController extends Controller
+{
 
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
         $products = AdminProductServices::productSearch($request, "admin");
 
         $statuses = Status::all();
@@ -43,19 +45,22 @@ class ProductController extends Controller {
         return view('product::index', compact("products", "statuses", "categories", "sub_categories", "brands"));
     }
 
-    public function create() {
+    public function create()
+    {
         $data = $this->productData();
 
         return view('product::create', compact('data'));
     }
 
-    public function store(ProductStoreRequest $request): JsonResponse {
+    public function store(ProductStoreRequest $request): JsonResponse
+    {
         $data = $request->validated();
 
         return response()->json((new AdminProductServices)->store($data) ? ["success" => true, "type" => "success"] : ["success" => false, "type" => "danger"]);
     }
 
-    public function updateImage(Request $request) {
+    public function updateImage(Request $request)
+    {
         $data = $request->validate([
             "image_id"        => "nullable",
             "product_gallery" => "nullable",
@@ -80,11 +85,13 @@ class ProductController extends Controller {
         ]);
     }
 
-    public function show($id) {
+    public function show($id)
+    {
         return view('product::show');
     }
 
-    public function edit(int $id) {
+    public function edit(int $id)
+    {
         $data = $this->productData();
 
         $product = (new AdminProductServices)->get_edit_product($id, "single");
@@ -98,36 +105,40 @@ class ProductController extends Controller {
         return view('product::edit', compact("data", "product", "sub_categories", "child_categories"));
     }
 
-    public function update(ProductStoreRequest $request, $id) {
+    public function update(ProductStoreRequest $request, $id)
+    {
         $data = $request->validated();
 
         return response()->json(
             (new AdminProductServices)->update($data, $id)
-            ? ["success" => true, "type" => "success"]
-            : ["success" => false, "type" => "danger"]
+                ? ["success" => true, "type" => "success"]
+                : ["success" => false, "type" => "danger"]
         );
     }
 
-    public function clone ($id) {
+    public function clone($id)
+    {
         return (new AdminProductServices)->clone($id)
-        ? back()->with([
-            'message'    => 'Product Cloned Successfully.',
-            'alert-type' => 'success',
-        ])
-        : back()->with([
-            'message'    => 'Product Cloning Failed.',
-            'alert-type' => 'error',
-        ]);
+            ? back()->with([
+                'message'    => 'Product Cloned Successfully.',
+                'alert-type' => 'success',
+            ])
+            : back()->with([
+                'message'    => 'Product Cloning Failed.',
+                'alert-type' => 'error',
+            ]);
     }
 
-    private function validateUpdateStatus($req) {
+    private function validateUpdateStatus($req)
+    {
         return Validator::make($req, [
             "id"        => "required",
             "status_id" => "required",
         ])->validated();
     }
 
-    public function update_status(Request $request) {
+    public function update_status(Request $request)
+    {
         $data = $this->validateUpdateStatus($request->all());
 
         $product = Product::findOrFail($data['id']);
@@ -140,7 +151,8 @@ class ProductController extends Controller {
         ]);
     }
 
-    public function productStatusChange(Request $request, $id) {
+    public function productStatusChange(Request $request, $id)
+    {
 
         $product = Product::findOrFail($id);
         $product->product_status = $request->product_status;
@@ -157,60 +169,72 @@ class ProductController extends Controller {
         ]);
     }
 
-    public function destroy($id) {
+    public function destroy($id)
+    {
         return (new AdminProductServices)->delete($id);
     }
 
-    public function bulk_destroy(Request $request): JsonResponse {
+    public function bulk_destroy(Request $request): JsonResponse
+    {
         return response()->json((new AdminProductServices)->bulk_delete_action($request->ids) ? ["success" => true, "type" => "success"] : ["success" => false, "type" => "danger"]);
     }
 
-    public function trash() {
+    public function trash()
+    {
         $products = Product::with('category', 'subCategory', 'childCategory', 'brand', 'inventory')->onlyTrashed()->get();
         return view('product::trash', compact("products"));
     }
 
-    public function restore($id) {
+    public function restore($id)
+    {
         $restore = Product::onlyTrashed()->findOrFail($id)->restore();
-        return back()->with($restore
-            ? ['message' => 'Trash Product Restored Successfully.',
-                'alert-type' => 'success',
-            ]
-            : ['message' => 'Trash Product Restore Failed.',
-                'alert-type' => 'success',
-            ]
+        return back()->with(
+            $restore
+                ? [
+                    'message' => 'Trash Product Restored Successfully.',
+                    'alert-type' => 'success',
+                ]
+                : [
+                    'message' => 'Trash Product Restore Failed.',
+                    'alert-type' => 'success',
+                ]
         );
     }
 
-    public function trash_delete($id) {
+    public function trash_delete($id)
+    {
         return (new AdminProductServices)->trash_delete($id)
-        ? back()->with([
-            'message'    => 'Trash Product Deleted Successfully.',
-            'alert-type' => 'success',
-        ])
-        : back()->with([
-            'message'    => 'Trash Product Deleting Failed.',
-            'alert-type' => 'error',
-        ]);
+            ? back()->with([
+                'message'    => 'Trash Product Deleted Successfully.',
+                'alert-type' => 'success',
+            ])
+            : back()->with([
+                'message'    => 'Trash Product Deleting Failed.',
+                'alert-type' => 'error',
+            ]);
     }
 
-    public function trash_bulk_destroy(Request $request) {
+    public function trash_bulk_destroy(Request $request)
+    {
         return response()->json((new AdminProductServices)->trash_bulk_delete_action($request->ids) ? ["success" => true, "type" => "success"] : ["success" => false, "type" => "danger"]);
     }
 
-    public function trash_empty(Request $request) {
+    public function trash_empty(Request $request)
+    {
         $ids = explode('|', $request->ids);
         return response()->json((new AdminProductServices)->trash_bulk_delete_action($ids) ? ["success" => true, "type" => "success"] : ["success" => false, "type" => "danger"]);
     }
 
-    public function productSearch(Request $request): string {
+    public function productSearch(Request $request): string
+    {
         $products = AdminProductServices::productSearch($request);
         $statuses = Status::all();
 
         return view('product::search', compact("products", "statuses"))->render();
     }
 
-    public function productData(): array {
+    public function productData(): array
+    {
         return [
             "brands"          => Brand::select("id", "name")->get(),
             "badges"          => Badge::where("status", "active")->get(),
@@ -224,7 +248,8 @@ class ProductController extends Controller {
             "tax_classes"     => TaxClass::all(),
         ];
     }
-    public function delete_dummy_product() {
+    public function delete_dummy_product()
+    {
         $delete = DummyProductDeleteServices::destroy();
         // $delete=true;
         if ($delete) {
@@ -233,7 +258,8 @@ class ProductController extends Controller {
         return response()->json(['success' => false, 'type' => 'danger']);
     }
 
-    public function bulkAction(Request $request) {
+    public function bulkAction(Request $request)
+    {
         $products = Product::query()
             ->select(['id', 'status_id'])
             ->whereIn('id', $request->ids)
@@ -251,11 +277,13 @@ class ProductController extends Controller {
         ]);
     }
 
-    public function productImport() {
+    public function productImport()
+    {
         return view('product::product_import');
     }
 
-    public function importProduct(Request $request) {
+    public function importProduct(Request $request)
+    {
         try {
 
             DB::beginTransaction();
