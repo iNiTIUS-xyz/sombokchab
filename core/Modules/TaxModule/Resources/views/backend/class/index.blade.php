@@ -26,7 +26,7 @@
                         <div class="dashboard__card__header__left">
                             <h3 class="dashboard__card__title">{{ __('Manage Tax Class') }}</h3>
                             <small class="text-secondary mt-1">
-                                {{ __("You cannot delete a class that still has options; either remove all its options first or perform a force delete.") }}
+                                {{ __('You cannot delete a class that still has options; either remove all its options first or perform a force delete.') }}
                             </small>
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                                                 <button data-id="{{ $class->id }}" data-name="{{ $class->name }}"
                                                     id="updateTaxClassButton" class="btn btn-warning text-dark btn-sm"
                                                     data-bs-target="#updateTaxClass" data-bs-toggle="modal"
-                                                    title="{{ __('Edit Data') }}">
+                                                    title="{{ __('Edit') }}">
                                                     <i class="ti-pencil"></i>
                                                 </button>
                                                 <button id="deleteTaxClassButton" data-id="{{ $class->id }}"
@@ -73,7 +73,7 @@
                 </div>
             </div>
         </div>
-  </div>
+    </div>
     <div class="modal fade" id="add_tax_class" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content custom__form">
@@ -90,11 +90,12 @@
                                 <span class="text-danger">*</span>
                             </label>
                             <input name="name" type="text" class="form-control"
-                                placeholder="{{ __('Enter tax name') }}" required=""/>
+                                placeholder="{{ __('Enter tax name') }}" required="" />
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
+                        <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">{{ __('Close') }}</button>
                         <button id="submit" type="submit" class="btn btn-primary">{{ __('Add') }}</button>
                     </div>
                 </form>
@@ -120,7 +121,7 @@
                                 <span class="text-danger">*</span>
                             </label>
                             <input id="update-tax-class-name" name="name" type="text" class="form-control"
-                                placeholder="{{ __('Enter tax name') }}" required=""/>
+                                placeholder="{{ __('Enter tax name') }}" required="" />
                         </div>
                     </div>
 

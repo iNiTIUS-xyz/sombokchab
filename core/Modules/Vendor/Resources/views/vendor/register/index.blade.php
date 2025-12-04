@@ -1,308 +1,340 @@
 @extends('frontend.frontend-master')
 @section('style')
-<style>
-    #vendor-form label {
-        line-height: 20px;
-        color: var(--heading-color);
-        font-size: 16px !important;
-        font-weight: 500 !important;
-    }
+    <style>
+        #vendor-form label {
+            line-height: 20px;
+            color: var(--heading-color);
+            font-size: 16px !important;
+            font-weight: 500 !important;
+        }
 
-    small.text-danger {
-        font-size: 12px;
-    }
+        small.text-danger {
+            font-size: 12px;
+        }
 
-    .btn {
-        font-size: 16px;
-    }
+        .btn {
+            font-size: 16px;
+        }
 
-    .input-group {
-        position: relative;
-        display: flex;
-        flex-wrap: nowrap;
-        align-items: stretch;
-        width: 100%;
-    }
+        .input-group {
+            position: relative;
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: stretch;
+            width: 100%;
+        }
 
-    .btn:disabled {
-        color: #656565;
-        background-color: transparent;
-        border-color: #656565;
-    }
+        .btn:disabled {
+            color: #656565;
+            background-color: transparent;
+            border-color: #656565;
+        }
 
-    #step-1 .btn.btn-next.step-button-outline {
-        border: 1px solid var(--main-color-one);
-        font-weight: bold;
-        font-size: 16px;
-    }
+        #step-1 .btn.btn-next.step-button-outline {
+            border: 1px solid var(--main-color-one);
+            font-weight: bold;
+            font-size: 16px;
+        }
 
-    #step-2 .btn.btn-prev.step-button {
-        border: none;
-        font-weight: bold;
-        border: 1px solid var(--main-color-one);
-    }
+        #step-2 .btn.btn-prev.step-button {
+            border: none;
+            font-weight: bold;
+            border: 1px solid var(--main-color-one);
+        }
 
-    #step-2 .btn.btn-prev {
-        color: #4d4d4d;
-        font-weight: bold;
-        border: 1px solid #4d4d4d;
-    }
+        #step-2 .btn.btn-prev {
+            color: #4d4d4d;
+            font-weight: bold;
+            border: 1px solid #4d4d4d;
+        }
 
-    #step-2 .btn.btn-prev:hover {
-        color: #FFF;
-        font-weight: bold;
-        background: #4d4d4d;
-        border: 1px solid #4d4d4d;
-    }
+        #step-2 .btn.btn-prev:hover {
+            color: #FFF;
+            font-weight: bold;
+            background: #4d4d4d;
+            border: 1px solid #4d4d4d;
+        }
 
-    #step-2 .btn.submit-button {
-        border: 1px solid var(--main-color-one);
-        font-weight: bold;
-        background: var(--main-color-one);
-        color: #FFF;
-    }
+        #step-2 .btn.submit-button {
+            border: 1px solid var(--main-color-one);
+            font-weight: bold;
+            background: var(--main-color-one);
+            color: #FFF;
+        }
 
-    #step-2 .btn.submit-button:hover {
-        border: 1px solid #284137;
-        font-weight: bold;
-        background: #284137;
-        color: #FFF;
-    }
+        #step-2 .btn.submit-button:hover {
+            border: 1px solid #284137;
+            font-weight: bold;
+            background: #284137;
+            color: #FFF;
+        }
 
-    .form--control {
-        width: 100%;
-        font-size: 14px;
-        font-weight: 400;
-        line-height: 20px;
-        color: var(--paragraph-color);
-        height: 55px;
-        border: 1px solid var(--border-two);
-        border-radius: 5px;
-    }
-</style>
+        .form--control {
+            width: 100%;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 20px;
+            color: var(--paragraph-color);
+            height: 55px;
+            border: 1px solid var(--border-two);
+            border-radius: 5px;
+        }
+    </style>
 @endsection
 @section('content')
-<div class="breadcrumb-area breadcrumb-padding bg-item-badge">
-    <div class="breadcrumb-shapes">
-        <img src="{{ asset('assets/img/shop/badge-s1.png') }}" alt="">
-        <img src="{{ asset('assets/img/shop/badge-s2.png') }}" alt="">
-        <img src="{{ asset('assets/img/shop/badge-s3.png') }}" alt="">
-    </div>
-    <div class="container container-one">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="breadcrumb-contents">
-                    <h2 class="breadcrumb-title"> {{ __('Vendor Sign Up') }} </h2>
+    <div class="breadcrumb-area breadcrumb-padding bg-item-badge">
+        <div class="breadcrumb-shapes">
+            <img src="{{ asset('assets/img/shop/badge-s1.png') }}" alt="">
+            <img src="{{ asset('assets/img/shop/badge-s2.png') }}" alt="">
+            <img src="{{ asset('assets/img/shop/badge-s3.png') }}" alt="">
+        </div>
+        <div class="container container-one">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-contents">
+                        <h2 class="breadcrumb-title"> {{ __('Vendor Sign Up') }} </h2>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<section class="vendor-registration-area padding-top-20 padding-bottom-20">
-    <div class="container container-one">
-        <div class="row justify-content-center flex-lg-row flex-column-reverse">
-            <div class="col-lg-5">
-                <x-error-msg />
-                <x-msg.success />
-                <div class="dashboard__card">
-                    <div class="alert alert-danger" id="error" style="display: none;"></div>
-                    <div class="alert alert-success" id="sentSuccess" style="display: none;">
-                        OTP Sent Successfully!
-                    </div>
-                    <div class="alert alert-success" id="verifiedSuccess" style="display: none;">
-                        Account Created Successfully!
-                    </div>
-                    <div id="step-1">
-                        <form id="vendor-form" method="post" enctype="multipart/form-data" novalidate>
-                            @csrf
-                            <input type="hidden" name="captcha_token" id="gcaptcha_token">
-                            <input type="hidden" name="phone" id="verified_phone">
-                            <input type="hidden" name="country_id" value="31">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="label-title mb-2">
-                                            {{ __('Store Name') }}
-                                            <span class="text-danger">*</span>
-                                        </label>
-                                        <input name="business_name" id="business_name" type="text"
-                                            class="form--control radius-10" placeholder="{{ __('Enter Store Name') }}"
-                                            required />
-                                        <small class="text-danger" id="businessNameError"></small>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="label-title mb-2">
-                                            {{ __('Phone Number') }}
-                                            <span class="text-danger">*</span>
-                                        </label>
-                                        <div class="input-group">
-                                            <select id="phone_country_code" name="phone_country_code"
-                                                class="form-select" style="width: 35% !important;">
-                                                <option value="+1" selected>+1</option>
-                                                <option value="+880">+880</option>
-                                                <option value="+855">+855</option>
-                                            </select>
-                                            <input id="number" name="phone" type="number"
-                                                class="form--control radius-10"
-                                                placeholder="{{ __('Enter Phone Number') }}" required
-                                                style="width: 85% !important;" />
-                                        </div>
-                                        <small class="text-danger" id="phoneError"></small>
-                                    </div>
-                                </div>
-                                <!-- Username -->
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="label-title mb-2">
-                                            {{ __('Username') }}
-                                            <span class="text-danger">*</span>
-                                        </label>
-                                        <input name="username" id="username" type="text" class="form--control radius-10"
-                                            placeholder="{{ __('Enter Username') }}" required />
-                                        <small class="text-danger" id="usernameError"></small>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="label-title mb-2">
-                                            {{ __('Email') }}
-                                            {{-- <span class="text-danger">*</span> --}}
-                                        </label>
-                                        <input name="email" id="email" type="text" class="form--control radius-10"
-                                            placeholder="{{ __('Enter Email') }}" />
-                                        <small class="text-danger" id="emailError"></small>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="label-title mb-2">
-                                            {{ __('Passport or National ID') }}
-                                            <span class="text-danger">*</span>
-                                        </label>
-                                        <input name="passport_nid" id="passport_nid" type="number"
-                                            class="form--control radius-10"
-                                            placeholder="{{ __('Enter Passport or National ID') }}" required />
-                                        <small class="text-danger" id="passportNidError"></small>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="label-title mb-2">
-                                            {{ __('Password') }}
-                                            <span class="text-danger">*</span>
-                                        </label>
-                                        <div class="position-relative">
-                                            <input name="password" id="password" type="password"
-                                                class="form--control radius-10" placeholder="{{ __('Enter Password') }}"
+    <section class="vendor-registration-area padding-top-20 padding-bottom-20">
+        <div class="container container-one">
+            <div class="row justify-content-center flex-lg-row flex-column-reverse">
+                <div class="col-lg-5">
+                    <x-error-msg />
+                    <x-msg.success />
+                    <div class="dashboard__card">
+                        <div class="alert alert-danger" id="error" style="display: none;"></div>
+                        <div class="alert alert-success" id="sentSuccess" style="display: none;">
+                            OTP Sent Successfully!
+                        </div>
+                        <div class="alert alert-success" id="verifiedSuccess" style="display: none;">
+                            Account Created Successfully!
+                        </div>
+                        <div id="step-1">
+                            <form id="vendor-form" method="post" enctype="multipart/form-data" novalidate>
+                                @csrf
+                                <input type="hidden" name="captcha_token" id="gcaptcha_token">
+                                <input type="hidden" name="phone" id="verified_phone">
+                                <input type="hidden" name="country_id" value="31">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="label-title mb-2">
+                                                {{ __('Store Name') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <input name="business_name" id="business_name" type="text"
+                                                class="form--control radius-10" placeholder="{{ __('Enter Store Name') }}"
                                                 required />
-                                            <div class="toggle-password position-absolute"
-                                                style="right: 10px; top: 45%; transform: translateY(-50%); cursor: pointer;">
-                                                <span class="hide-icon" style="display: inline;">
-                                                    <i class="las la-eye-slash"></i>
-                                                </span>
-                                                <span class="show-icon" style="display: none;">
-                                                    <i class="las la-eye"></i>
-                                                </span>
+                                            <small class="text-danger" id="businessNameError"></small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="label-title mb-2">
+                                                {{ __('Phone Number') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="input-group">
+                                                <select id="phone_country_code" name="phone_country_code"
+                                                    class="form-select" style="width: 35% !important;">
+                                                    <option value="+1" selected>+1</option>
+                                                    <option value="+880">+880</option>
+                                                    <option value="+855">+855</option>
+                                                </select>
+                                                <input id="number" name="phone" type="number"
+                                                    class="form--control radius-10"
+                                                    placeholder="{{ __('Enter Phone Number') }}" required
+                                                    style="width: 85% !important;" />
+                                            </div>
+                                            <small class="text-danger" id="phoneError"></small>
+                                        </div>
+                                    </div>
+                                    <!-- Username -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="label-title mb-2">
+                                                {{ __('Username') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <input name="username" id="username" type="text"
+                                                class="form--control radius-10" placeholder="{{ __('Enter Username') }}"
+                                                required />
+                                            <small class="text-danger" id="usernameError"></small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="label-title mb-2">
+                                                {{ __('Email') }}
+                                                {{-- <span class="text-danger">*</span> --}}
+                                            </label>
+                                            <input name="email" id="email" type="text"
+                                                class="form--control radius-10" placeholder="{{ __('Enter Email') }}" />
+                                            <small class="text-danger" id="emailError"></small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="label-title mb-2">
+                                                {{ __('Passport or National ID') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <input name="passport_nid" id="passport_nid" type="number"
+                                                class="form--control radius-10"
+                                                placeholder="{{ __('Enter Passport or National ID') }}" required />
+                                            <small class="text-danger" id="passportNidError"></small>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 mb-2">
+                                        <div class="single-input">
+                                            <label class="label-title">
+                                                {{ __('Business Category') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="nice-select-two">
+                                                <select id="business_type" name="business_type_id"
+                                                    style="display: none;">
+                                                    @foreach ($business_type as $item)
+                                                        <option value="{{ $item->id }}">
+                                                            {{ $item->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
-                                        <small class="text-danger" id="passwordError"></small>
+                                    </div>
+                                    <div class="col-sm-12" id="taxIdWrapper">
+                                        <div class="form-group">
+                                            <label class="label-title mb-2">
+                                                {{ __('Tax ID') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <input name="tax_id" id="tax_id" type="text" maxlength="13"
+                                                class="form--control radius-10" placeholder="{{ __('Enter Tax ID') }}" />
+                                            <small class="text-danger" id="taxIdError"></small>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="label-title mb-2">
+                                                {{ __('Password') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="position-relative">
+                                                <input name="password" id="password" type="password"
+                                                    class="form--control radius-10"
+                                                    placeholder="{{ __('Enter Password') }}" required />
+                                                <div class="toggle-password position-absolute"
+                                                    style="right: 10px; top: 45%; transform: translateY(-50%); cursor: pointer;">
+                                                    <span class="hide-icon" style="display: inline;">
+                                                        <i class="las la-eye-slash"></i>
+                                                    </span>
+                                                    <span class="show-icon" style="display: none;">
+                                                        <i class="las la-eye"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <small class="text-danger" id="passwordError"></small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="label-title mb-2">
+                                                {{ __('Confirm Password') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="position-relative">
+                                                <input name="password_confirmation" id="password_confirmation"
+                                                    type="password" class="form--control radius-10"
+                                                    placeholder="{{ __('Enter Confirm Password') }}" required />
+                                                <div class="toggle-password position-absolute"
+                                                    style="right: 10px; top: 45%; transform: translateY(-50%); cursor: pointer;">
+                                                    <span class="hide-icon-two" style="display: inline;">
+                                                        <i class="las la-eye-slash"></i>
+                                                    </span>
+                                                    <span class="show-icon-two" style="display: none;">
+                                                        <i class="las la-eye"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <small class="text-danger" id="passwordConfirmError"></small>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="label-title mb-2">
-                                            {{ __('Confirm Password') }}
-                                            <span class="text-danger">*</span>
+                                <div class="form-group">
+                                    <div class="box-wrap form-check">
+                                        <input type="checkbox" class="form-check-input" id="toc_and_privacy"
+                                            name="agree_terms" required />
+                                        <label class="form-check-label" for="toc_and_privacy"
+                                            style="font-weight: bold !important;">
+                                            {{ __('Accept all') }}
+                                            <a href="{{ url(get_static_option('toc_page_link')) }}" class="text-active"
+                                                target="__blank">{{ __('Terms and Conditions') }}</a> &amp;
+
+                                            <a href="{{ get_static_option('privacy_policy_link') ?: '#' }}"
+                                                class="text-active" target="_blank">
+                                                {{ __('Privacy Policy') }}
+                                            </a>
+
+
                                         </label>
-                                        <div class="position-relative">
-                                            <input name="password_confirmation" id="password_confirmation"
-                                                type="password" class="form--control radius-10"
-                                                placeholder="{{ __('Enter Confirm Password') }}" required />
-                                            <div class="toggle-password position-absolute"
-                                                style="right: 10px; top: 45%; transform: translateY(-50%); cursor: pointer;">
-                                                <span class="hide-icon-two" style="display: inline;">
-                                                    <i class="las la-eye-slash"></i>
-                                                </span>
-                                                <span class="show-icon-two" style="display: none;">
-                                                    <i class="las la-eye"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <small class="text-danger" id="passwordConfirmError"></small>
                                     </div>
+                                    <small class="text-danger" id="termsError"></small>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="box-wrap form-check">
-                                    <input type="checkbox" class="form-check-input" id="toc_and_privacy"
-                                        name="agree_terms" required />
-                                    <label class="form-check-label" for="toc_and_privacy"
-                                        style="font-weight: bold !important;">
-                                        {{ __('Accept all') }}
-                                        <a href="{{ url(get_static_option('toc_page_link')) }}" class="text-active"
-                                            target="__blank">{{ __('Terms and Conditions') }}</a> &amp;
-
-                                        <a href="{{ get_static_option('privacy_policy_link') ?: '#' }}"
-                                            class="text-active" target="_blank">
-                                            {{ __('Privacy Policy') }}
-                                        </a>
-
-
-                                    </label>
+                                <div id="recaptcha-container"></div>
+                                <div class="form-group" style="text-align: center;">
+                                    <button type="button" class="btn btn-next step-button-outline p-2"
+                                        onclick="sendCodeAndContinue()" id="continueButton" disabled>
+                                        <span class="">Next </span>
+                                        <i class="las la-arrow-right"></i>
+                                    </button>
                                 </div>
-                                <small class="text-danger" id="termsError"></small>
-                            </div>
-                            <div id="recaptcha-container"></div>
-                            <div class="form-group" style="text-align: center;">
-                                <button type="button" class="btn btn-next step-button-outline p-2"
-                                    onclick="sendCodeAndContinue()" id="continueButton" disabled>
-                                    <span class="">Next </span>
-                                    <i class="las la-arrow-right"></i>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                    <!-- STEP 2: OTP Verification -->
-                    <div id="step-2" style="display: none;">
-                        <div class="col-12 pb-3 mb-4">
-                            <div class="form-group">
-                                <label class="label-title">Enter OTP</label>
-                                <input type="text" id="verificationCode" class="form--control radius-10"
-                                    placeholder="6-digit Code" style="border-radius: 10px;" />
-                                <small class="text-danger" id="verificationCodeError"></small>
-                                <button type="button"
-                                    style="background: transparent; border: none; text-decoration: underline; color: #41695a; float: right"
-                                    id="resendOtpButton" onclick="resendCode()" disabled>
-                                    Resend OTP <span id="resendTimer">(60s)</span>
-                                </button>
-                            </div>
+                            </form>
                         </div>
-                        <div class="col-12 pb-3">
-                            <div class="mt-4">
-                                <button type="button" class="btn btn-prev p-2 mb-4" onclick="prevStep()">
-                                    <i class="las la-arrow-left"></i>
-                                    <span class="">Back </span>
-                                </button>
-                                <button type="button" class="btn btn-next submit-button p-2"
-                                    onclick="verifyAndCreateAccount()" style="float: right">
-                                    Verify & Create Account
-                                </button>
+                        <!-- STEP 2: OTP Verification -->
+                        <div id="step-2" style="display: none;">
+                            <div class="col-12 pb-3 mb-4">
+                                <div class="form-group">
+                                    <label class="label-title">Enter OTP</label>
+                                    <input type="text" id="verificationCode" class="form--control radius-10"
+                                        placeholder="6-digit Code" style="border-radius: 10px;" />
+                                    <small class="text-danger" id="verificationCodeError"></small>
+                                    <button type="button"
+                                        style="background: transparent; border: none; text-decoration: underline; color: #41695a; float: right"
+                                        id="resendOtpButton" onclick="resendCode()" disabled>
+                                        Resend OTP <span id="resendTimer">(60s)</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-12 pb-3">
+                                <div class="mt-4">
+                                    <button type="button" class="btn btn-prev p-2 mb-4" onclick="prevStep()">
+                                        <i class="las la-arrow-left"></i>
+                                        <span class="">Back </span>
+                                    </button>
+                                    <button type="button" class="btn btn-next submit-button p-2"
+                                        onclick="verifyAndCreateAccount()" style="float: right">
+                                        Verify & Create Account
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 @endsection
 @section('script')
-<script src="https://www.google.com/recaptcha/api.js?render={{ get_static_option('site_google_captcha_v3_site_key') }}">
-</script>
-<script>
-    grecaptcha.ready(function() {
+    <script
+        src="https://www.google.com/recaptcha/api.js?render={{ get_static_option('site_google_captcha_v3_site_key') }}">
+    </script>
+    <script>
+        grecaptcha.ready(function() {
             grecaptcha.execute("{{ get_static_option('site_google_captcha_v3_site_key') }}", {
                 action: 'homepage'
             }).then(function(token) {
@@ -317,6 +349,7 @@
         const passwordField = document.getElementById('password');
         const confirmField = document.getElementById('password_confirmation');
         const passportNidField = document.getElementById('passport_nid');
+        const taxIdField = document.getElementById('tax_id');
         const termsCheckbox = document.getElementById('toc_and_privacy');
         // Error displays
         const phoneErrorEl = document.getElementById('phoneError');
@@ -326,6 +359,7 @@
         const passwordErrorEl = document.getElementById('passwordError');
         const confirmErrorEl = document.getElementById('passwordConfirmError');
         const passportNidErrorEl = document.getElementById('passportNidError');
+        const taxIdErrorEl = document.getElementById('taxIdError');
         const termsErrorEl = document.getElementById('termsError');
         const continueButton = document.getElementById('continueButton');
         // Timer references
@@ -411,6 +445,16 @@
 
             // Numbers only → OK
             // Mix letters + numbers → OK
+
+            return '';
+        }
+
+        function validateTaxId(value) {
+            const re = /^[A-Za-z]\d{12}$/;
+
+            if (!re.test(value)) {
+                return 'Tax ID must be 1 letter followed by 12 digits (e.g., L000000000000)';
+            }
 
             return '';
         }
@@ -512,6 +556,10 @@
             passportNidErrorEl.textContent = validatePassportNid(passportNidField.value);
             updateContinueButton();
         });
+        taxIdField.addEventListener('input', () => {
+            taxIdErrorEl.textContent = validateTaxId(taxIdField.value);
+            updateContinueButton();
+        });
         termsCheckbox.addEventListener('change', () => {
             termsErrorEl.textContent = validateTerms(termsCheckbox.checked);
             updateContinueButton();
@@ -526,6 +574,7 @@
                 passwordErrorEl.textContent ||
                 confirmErrorEl.textContent ||
                 passportNidErrorEl.textContent ||
+                taxIdErrorEl.textContent ||
                 termsErrorEl.textContent
             );
             const requiredFilled = (
@@ -535,6 +584,7 @@
                 passwordField.value.trim() &&
                 confirmField.value.trim() &&
                 passportNidField.value.trim() &&
+                taxIdField.value.trim() &&
                 termsCheckbox.checked
             );
             continueButton.disabled = (!!errorsPresent || !requiredFilled);
@@ -548,7 +598,7 @@
             resendTimerSpan.textContent = '(60s)';
             resendTimer = setInterval(() => {
                 timeLeft--;
-                resendTimerSpan.textContent = `(${timeLeft}s)`;
+                resendTimerSpan.textContent = `${timeLeft}s`; // <-- fixed
                 if (timeLeft <= 0) {
                     clearInterval(resendTimer);
                     resendBtn.disabled = false;
@@ -556,6 +606,7 @@
                 }
             }, 1000);
         }
+
         async function sendCodeAndContinue() {
             const fullPhone = phoneCountryCode.value + phoneField.value;
             const phoneErr = validatePhone(phoneCountryCode.value, phoneField.value);
@@ -563,8 +614,9 @@
                 phoneErrorEl.textContent = phoneErr;
                 return;
             }
+
             try {
-                const response = await fetch("{{ route('send.otp') }}", {
+                const resp = await fetch("{{ route('send.otp') }}", {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -574,8 +626,21 @@
                         phone: fullPhone
                     })
                 });
-                const data = await response.json();
-                if (response.ok) {
+
+                // If server returned non-JSON (HTML error page), handle gracefully:
+                const contentType = resp.headers.get('content-type') || '';
+                let data = {};
+                if (contentType.includes('application/json')) {
+                    data = await resp.json();
+                } else {
+                    const text = await resp.text();
+                    console.error('Non-JSON response from send.otp:', text);
+                    data = {
+                        error: 'Server returned non-JSON response'
+                    };
+                }
+
+                if (resp.ok) {
                     displayTempMessage('sentSuccess', 'OTP Sent Successfully!', 5);
                     setTimeout(() => {
                         document.getElementById('step-1').style.display = 'none';
@@ -583,22 +648,27 @@
                         startResendTimer();
                     }, 1000);
                 } else {
+                    // show server message if exists, otherwise generic
                     displayTempMessage('error', data.error || 'Failed to send OTP. Please try again.', 5);
                 }
-            } catch (error) {
-                console.error('Error sending OTP:', error);
+            } catch (err) {
+                console.error('Error sending OTP:', err);
                 displayTempMessage('error', 'Server error. Please try again later.', 5);
             }
         }
+
+
         async function verifyAndCreateAccount() {
             const code = document.getElementById('verificationCode').value.trim();
             const fullPhone = phoneCountryCode.value + phoneField.value;
+
             if (!code) {
                 document.getElementById('verificationCodeError').textContent = 'Verification code is required';
                 return;
             } else {
                 document.getElementById('verificationCodeError').textContent = '';
             }
+
             try {
                 const response = await fetch("{{ route('verify.otp') }}", {
                     method: 'POST',
@@ -611,7 +681,19 @@
                         otp: code
                     })
                 });
-                const data = await response.json();
+
+                const contentType = response.headers.get('content-type') || '';
+                let data = {};
+                if (contentType.includes('application/json')) {
+                    data = await response.json();
+                } else {
+                    const text = await response.text();
+                    console.error('Non-JSON response from verify.otp:', text);
+                    data = {
+                        error: 'Server returned non-JSON response'
+                    };
+                }
+
                 if (response.ok) {
                     document.getElementById('verified_phone').value = fullPhone;
                     displayTempMessage('verifiedSuccess', 'Account Created Successfully!', 5);
@@ -621,6 +703,7 @@
                         form.submit();
                     }, 2000);
                 } else {
+                    // show server message if exists, otherwise generic
                     document.getElementById('verificationCodeError').textContent = data.error ||
                         'Invalid OTP. Please try again.';
                 }
@@ -629,6 +712,7 @@
                 document.getElementById('verificationCodeError').textContent = 'Server error. Please try again later.';
             }
         }
+
 
         function prevStep() {
             document.getElementById('step-2').style.display = 'none';
@@ -643,9 +727,9 @@
         window.onload = () => {
             updateContinueButton();
         };
-</script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
             const passwordInput = document.getElementById('password');
             const showIcon = document.querySelector('.show-icon');
             const hideIcon = document.querySelector('.hide-icon');
@@ -660,9 +744,9 @@
                 hideIcon.style.display = 'none';
             });
         });
-</script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
             const passwordInput = document.getElementById('password_confirmation');
             const showIcon = document.querySelector('.show-icon-two');
             const hideIcon = document.querySelector('.hide-icon-two');
@@ -677,5 +761,110 @@
                 hideIcon.style.display = 'none';
             });
         });
-</script>
+    </script>
+    <style>
+        /* Select2 visual tweaks to match your screenshot */
+        /* --- Select2 Main Box Styling --- */
+        .select2-container--default .select2-selection--single {
+            height: 48px !important;
+            border: 1px solid var(--border-two);
+            border-radius: 6px;
+            padding: 0 12px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        /* Text inside the select */
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            font-size: 15px !important;
+            /* smaller text */
+            line-height: 48px !important;
+            color: var(--paragraph-color);
+            padding-left: 0 !important;
+            color: #6e6c6c !important;
+        }
+
+        /* Placeholder color fix */
+        .select2-container--default .select2-selection--single .select2-selection__placeholder {
+            color: #6e6c6c !important;
+            font-size: 15px !important;
+        }
+
+        /* --- Arrow Alignment Fix --- */
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 48px !important;
+            top: 50% !important;
+            right: 10px !important;
+            transform: translateY(-50%) !important;
+        }
+
+        /* --- Dropdown Styling --- */
+        .select2-container--default .select2-dropdown {
+            border-radius: 6px;
+            border: 1px solid var(--border-two);
+            margin-top: 2px;
+            z-index: 999999 !important;
+        }
+
+        /* Dropdown option text */
+        .select2-container--default .select2-results__option {
+            padding: 10px 14px !important;
+            font-size: 14px !important;
+            cursor: pointer;
+        }
+
+        /* Highlighted option */
+        .select2-container--default .select2-results__option--highlighted {
+            background-color: #3f5e53 !important;
+            /* your green highlight */
+            color: #fff !important;
+        }
+
+        /* Prevent search box from showing */
+        .select2-search--dropdown {
+            display: none !important;
+        }
+
+        /* Fix dropdown clipping issues */
+        .select2-container {
+            width: 100% !important;
+            z-index: 999999 !important;
+        }
+    </style>
+
+    <script>
+        $(document).ready(function() {
+
+            // Initialize Select2
+            $("#business_type").select2({
+                minimumResultsForSearch: Infinity, // remove search
+                width: "100%",
+                dropdownParent: $("#business_type").closest(".nice-select-two")
+            });
+
+            // Toggle Tax ID field
+            function toggleTaxIdField() {
+                let selectedText = $("#business_type option:selected").text().trim();
+
+                if (selectedText === "Business") {
+                    $("#taxIdWrapper").show();
+                } else {
+                    $("#taxIdWrapper").hide();
+                    $("#tax_id").val("");
+                    $("#taxIdError").text("");
+                }
+            }
+
+            // Run on page load
+            toggleTaxIdField();
+
+            // Run on change
+            $("#business_type").on("change", function() {
+                toggleTaxIdField();
+            });
+
+        });
+    </script>
 @endsection

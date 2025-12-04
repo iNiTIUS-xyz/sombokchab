@@ -121,8 +121,7 @@
                     </a>
 
                     <a data-product-url="{{ route($route . '.products.destroy', $product->id) }}" href="#1"
-                        class="delete-row icon deleted btn-sm text-white btn btn-danger"
-                        title="{{ __('Delete Data') }}">
+                        class="delete-row icon deleted btn-sm text-white btn btn-danger" title="{{ __('Delete') }}">
                         <i class="las la-trash-alt"></i>
                     </a>
                     {{-- </div> --}}

@@ -104,8 +104,8 @@
                                             </td>
                                             <td>
                                                 @if ($request->request_status == 'pending' || $request->request_status == 'processing')
-                                                    <button title="{{ __('Edit Data') }}"
-                                                        data-fields="{{ $fields }}" data-id="{{ $request->id }}"
+                                                    <button title="{{ __('Edit') }}" data-fields="{{ $fields }}"
+                                                        data-id="{{ $request->id }}"
                                                         data-request-status="{{ $request->request_status }}"
                                                         id="update-wallet-request" data-bs-target="#updateWalletStatus"
                                                         data-bs-toggle="modal" class="btn btn-warning text-dark">

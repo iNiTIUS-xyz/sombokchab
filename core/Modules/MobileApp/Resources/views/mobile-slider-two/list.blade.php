@@ -42,7 +42,7 @@
                                         <td>{{ $slider->url }}</td>
                                         <td>
                                             @can('manage-country-province-city')
-                                                <a title="{{ __('Edit Data') }}"
+                                                <a title="{{ __('Edit') }}"
                                                     class="btn btn-warning text-dark btn-xs mb-2 me-1"
                                                     href="{{ route('admin.mobile.slider.two.edit', $slider->id) }}">
                                                     <i class="ti-pencil"></i>

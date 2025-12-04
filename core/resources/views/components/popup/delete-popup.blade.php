@@ -1,4 +1,4 @@
-<a tabindex="0" class="btn btn-danger btn-sm swal_delete_button" title="{{ __('Delete Data') }}">
+<a tabindex="0" class="btn btn-danger btn-sm swal_delete_button" title="{{ __('Delete') }}">
     <i class="ti-trash"></i>
 </a>
 <form method='post' action='{{ $url }}' class="d-none">

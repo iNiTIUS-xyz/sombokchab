@@ -108,7 +108,7 @@
                                             <td>
                                                 @can('edit-page')
                                                     <a class="btn btn-xs btn-warning text-dark btn-sm mb-2 me-1"
-                                                        title="{{ __('Edit Data') }}"
+                                                        title="{{ __('Edit') }}"
                                                         href="{{ route('admin.page.edit', $page->id) }}">
                                                         <i class="ti-pencil"></i>
                                                     </a>

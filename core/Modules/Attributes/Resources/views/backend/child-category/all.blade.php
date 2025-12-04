@@ -77,10 +77,11 @@
                                             </td>
                                             <td>
                                                 @can('edit-category')
-                                                    <a href="#1" title="{{ __('Edit Data') }}" data-bs-toggle="modal"
+                                                    <a href="#1" title="{{ __('Edit') }}" data-bs-toggle="modal"
                                                         data-bs-target="#child-category_edit_modal"
                                                         class="btn btn-sm btn-primary btn-xs mb-2 me-1 child-category_edit_btn"
-                                                        data-id="{{ $child_category->id }}" data-name="{{ $child_category->name }}"
+                                                        data-id="{{ $child_category->id }}"
+                                                        data-name="{{ $child_category->name }}"
                                                         data-slug="{{ $child_category->slug }}"
                                                         data-status="{{ $child_category->status_id }}"
                                                         data-imageid="{!! $child_category->image_id !!}"
@@ -91,7 +92,7 @@
                                                     </a>
                                                 @endcan
                                                 @can('delete-category')
-                                                                                <x-table.btn.swal.delete :route="route(
+                                                    <x-table.btn.swal.delete :route="route(
                                                         'admin.child-category.delete',
                                                         $child_category->id,
                                                     )" />
@@ -164,7 +165,8 @@
                             <x-media-upload :title="__('Image')" :name="'image_id'" :dimentions="'200x200'" />
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">{{ __('Close') }}</button>
                             <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                         </div>
                     </form>
@@ -225,7 +227,8 @@
                             <x-media-upload :title="__('Image')" :name="'image_id'" :dimentions="'200x200'" />
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">{{ __('Close') }}</button>
                             <button type="submit" class="btn btn-primary">{{ __('Add') }}</button>
                         </div>
                     </form>
@@ -238,21 +241,21 @@
 
 @section('script')
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
 
             // Auto-slug generator
-            $('#create-name, #create-slug').on('keyup', function () {
+            $('#create-name, #create-slug').on('keyup', function() {
                 let title_text = $(this).val();
                 $('#create-slug').val(convertToSlug(title_text));
             });
 
-            $('#edit_name, #edit_slug').on('keyup', function () {
+            $('#edit_name, #edit_slug').on('keyup', function() {
                 let title_text = $(this).val();
                 $('#edit_slug').val(convertToSlug(title_text));
             });
 
             // Load Sub Categories on Create Modal
-            $(document).on("change", "#create_category_id", function () {
+            $(document).on("change", "#create_category_id", function() {
                 let category_id = $(this).val();
                 $.ajax({
                     url: '{{ route('admin.subcategory.all') }}/of-category/select/' + category_id,
@@ -261,7 +264,7 @@
                         _token: '{{ csrf_token() }}',
                         "category_id": category_id
                     },
-                    success: function (data) {
+                    success: function(data) {
                         $("#create_sub_category").html(data.option);
                         $(".create-sub-category-wrapper .list").html(data.list);
                         $(".create-sub-category-wrapper span.current").html(
@@ -271,7 +274,7 @@
             });
 
             // Load Sub Categories on Edit Modal when category changes
-            $(document).on("change", "#edit_category_id", function () {
+            $(document).on("change", "#edit_category_id", function() {
                 let category_id = $(this).val();
                 $.ajax({
                     url: '{{ route('admin.subcategory.all') }}/of-category/select/' + category_id,
@@ -280,7 +283,7 @@
                         _token: '{{ csrf_token() }}',
                         "category_id": category_id
                     },
-                    success: function (data) {
+                    success: function(data) {
                         $("#edit_sub_category").html(data.option);
                         $(".edit-sub-category-wrapper .list").html(data.list);
                         $(".edit-sub-category-wrapper span.current").html(
@@ -290,7 +293,7 @@
             });
 
             // Open Edit Modal with data
-            $(document).on('click', '.child-category_edit_btn', function () {
+            $(document).on('click', '.child-category_edit_btn', function() {
                 let el = $(this);
                 let modal = $('#child-category_edit_modal');
 
@@ -319,7 +322,7 @@
                         _token: '{{ csrf_token() }}',
                         "category_id": category_id
                     },
-                    success: function (data) {
+                    success: function(data) {
                         $("#edit_sub_category").html(data.option);
                         $(".edit-sub-category-wrapper .list").html(data.list);
 

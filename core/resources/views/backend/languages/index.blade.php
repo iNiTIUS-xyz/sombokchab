@@ -76,7 +76,7 @@
                                                     </a>
                                                 @endcan
                                                 @can('manage-site-settings')
-                                                    <a href="#1" data-bs-toggle="modal"
+                                                    <a href="#1" data-bs-toggle="modal" title="{{ __('Edit') }}"
                                                         data-bs-target="#language_item_edit_modal"
                                                         class="btn btn-warning btn-xs mb-2 me-1 lang_edit_btn"
                                                         data-id="{{ $data->id }}" data-name="{{ $data->name }}"

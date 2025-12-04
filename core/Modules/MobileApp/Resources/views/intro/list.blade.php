@@ -46,7 +46,7 @@
                                             </td>
                                             <td>
                                                 <a class="btn btn-warning text-dark btn-sm btn-xs mb-2 me-1"
-                                                    title="{{ __('Edit Data') }}"
+                                                    title="{{ __('Edit') }}"
                                                     href="{{ route('admin.mobile.intro.edit', $slider->id) }}">
                                                     <i class="ti-pencil"></i>
                                                 </a>

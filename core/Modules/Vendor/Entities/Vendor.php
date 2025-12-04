@@ -23,8 +23,7 @@ use Modules\ShippingModule\Entities\VendorShippingMethod;
 use Modules\Vendor\Database\factories\VendorFactory;
 use Modules\Wallet\Entities\Wallet;
 
-class Vendor extends Authenticatable
-{
+class Vendor extends Authenticatable {
     use SoftDeletes;
     use HasApiTokens;
     use NotificationRelation;
@@ -38,6 +37,7 @@ class Vendor extends Authenticatable
         "password",
         "business_name",
         "business_type_id",
+        "tax_id",
         "description",
         "status_id",
         "email",
@@ -50,65 +50,54 @@ class Vendor extends Authenticatable
         "commission_type",
         "commission_amount",
         "check_online_status",
-        "firebase_device_token"
+        "firebase_device_token",
     ];
 
     protected $casts = [
-        "check_online_status" => "datetime"
+        "check_online_status" => "datetime",
     ];
 
-    public function vendor_address()
-    {
+    public function vendor_address() {
         return $this->hasOne(VendorAddress::class);
     }
 
-    public function shippingMethod()
-    {
+    public function shippingMethod() {
         return $this->hasMany(VendorShippingMethod::class, "vendor_id", "id");
     }
 
-    public function product()
-    {
+    public function product() {
         return $this->hasMany(Product::class, "vendor_id", "id");
     }
 
-    public function vendorProductRating()
-    {
+    public function vendorProductRating() {
         return $this->hasManyThrough(ProductRating::class, Product::class, "vendor_id", "product_id", "id", "id");
     }
 
-    public function vendor_shop_info()
-    {
+    public function vendor_shop_info() {
         return $this->hasOne(VendorShopInfo::class);
     }
 
-    public function vendor_bank_info()
-    {
+    public function vendor_bank_info() {
         return $this->hasOne(VendorBankInfo::class);
     }
 
-    public function business_type(): BelongsTo
-    {
+    public function business_type(): BelongsTo {
         return $this->belongsTo(BusinessType::class);
     }
 
-    public function status(): BelongsTo
-    {
+    public function status(): BelongsTo {
         return $this->belongsTo(Status::class);
     }
 
-    public function wallet()
-    {
+    public function wallet() {
         return $this->hasOne(Wallet::class, "vendor_id", "id");
     }
 
-    public function logo()
-    {
+    public function logo() {
         return $this->hasOneThrough(MediaUpload::class, VendorShopInfo::class, "vendor_id", "id", "id", "logo_id");
     }
 
-    public function cover_photo()
-    {
+    public function cover_photo() {
         return $this->hasOneThrough(
             MediaUpload::class,
             VendorShopInfo::class,
@@ -119,18 +108,15 @@ class Vendor extends Authenticatable
         );
     }
 
-    public function subOrder()
-    {
+    public function subOrder() {
         return $this->hasMany(SubOrder::class, "vendor_id", "id");
     }
 
-    public function order()
-    {
+    public function order() {
         return $this->hasManyThrough(Order::class, SubOrder::class, "vendor_id", "id", "id", "id");
     }
 
-    public function orderItems()
-    {
+    public function orderItems() {
         return $this->hasManyThrough(SubOrderItem::class, SubOrder::class, "vendor_id", "sub_order_id", "id", "id");
     }
 
@@ -139,8 +125,7 @@ class Vendor extends Authenticatable
         "remember_token",
     ];
 
-    protected static function newFactory()
-    {
-        return VendorFactory::new();
+    protected static function newFactory() {
+        return VendorFactory::new ();
     }
 }

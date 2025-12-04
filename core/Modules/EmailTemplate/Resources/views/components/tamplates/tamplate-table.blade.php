@@ -18,7 +18,7 @@
                         </td>
                         <td>
                             <a href="{{ $route['route'] }}" class="btn btn-warning text-dark btn-xs mb-2 me-1"
-                                title="{{ __('Edit Data') }}">
+                                title="{{ __('Edit') }}">
                                 <i class="ti-pencil"></i>
                             </a>
                         </td>

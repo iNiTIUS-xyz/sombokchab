@@ -91,7 +91,7 @@
                                                             <div class="vendorList__item">
                                                                 <span
                                                                     class="vendorList__label vendor-label">{{ __('Shop
-                                                                                                                                                                                                                                                                                                                                            Number:') }}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Number:') }}
                                                                 </span>
                                                                 <span class="vendorList__value vendor-value">
                                                                     {{ $vendor->vendor_shop_info?->number }}</span>
@@ -99,21 +99,21 @@
                                                             @if (!empty($vendor->commission_type))
                                                                 <div class="vendorList__item">
                                                                     <b class="vendorList__label vendor-label">{{ __('Commission
-                                                                                                                                                                                                                                                                                                                                            Type:') }}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Type:') }}
                                                                     </b>
                                                                     <b class="vendorList__value vendor-value">
                                                                         {{ $vendor->commission_type }}</b>
                                                                 </div>
                                                                 <div class="vendorList__item">
                                                                     <b class="vendorList__label vendor-label">{{ __('Commission
-                                                                                                                                                                                                                                                                                                                                            Amount:') }}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Amount:') }}
                                                                     </b>
                                                                     <b class="vendorList__value vendor-value">
                                                                         {{ $vendor->commission_amount }}</b>
                                                                 </div>
                                                                 <div class="vendorList__item">
                                                                     <b class="vendorList__label vendor-label">{{ __('Update
-                                                                                                                                                                                                                                                                                                                                            Commission:') }}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Commission:') }}
                                                                     </b>
                                                                     <button data-vendor-id="{{ $vendor->id }}"
                                                                         class="btn btn-sm btn-info update-individual-commission"
@@ -183,7 +183,7 @@
                                                         @can('edit-vendor')
                                                             <a href="{{ route('admin.vendor.edit', $vendor->id) }}"
                                                                 class="btn btn-sm btn-warning text-dark"
-                                                                title="{{ __('Edit Data') }}">
+                                                                title="{{ __('Edit') }}">
                                                                 <i class="las la-pencil-alt"></i>
                                                             </a>
                                                         @endcan
@@ -191,7 +191,7 @@
                                                         @can('delete-vendor')
                                                             <a data-vendor-url="{{ route('admin.vendor.delete', $vendor->id) }}"
                                                                 href="#1" class="btn btn-danger btn-sm delete-row"
-                                                                title="{{ __('Delete Data') }}">
+                                                                title="{{ __('Delete') }}">
                                                                 <i class="las la-trash-alt"></i>
                                                             </a>
                                                         @endcan

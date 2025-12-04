@@ -54,7 +54,7 @@
                                             </a>
                                         @endif
                                         <a href="{{ route('user.shipping.address.edit', $address->id) }}"
-                                            class="btn btn-sm btn-warning btn-xs mb-2 me-1" title="{{ __('Edit Data') }}">
+                                            class="btn btn-sm btn-warning btn-xs mb-2 me-1" title="{{ __('Edit') }}">
                                             <i class="las la-edit"></i>
                                         </a>
                                         <x-table.btn.swal.delete :route="route('shipping.address.delete', $address->id)" />

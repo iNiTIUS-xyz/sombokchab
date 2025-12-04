@@ -162,7 +162,7 @@
                 <td>
                     @can('edit-product')
                         <a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-warning text-dark btn-sm"
-                            title="{{ __('Edit Product') }}">
+                            title="{{ __('Edit') }}">
                             <i class="las la-pencil-alt"></i>
                         </a>
                     @endcan
@@ -176,7 +176,7 @@
 
                     @can('delete-product')
                         <a data-product-url="{{ route('admin.products.destroy', $product->id) }}" href="#1"
-                            class="delete-row btn btn-danger btn-sm deleted" title="{{ __('Delete Data') }}">
+                            class="delete-row btn btn-danger btn-sm deleted" title="{{ __('Delete') }}">
                             <i class="las la-trash-alt"></i>
                         </a>
                     @endcan

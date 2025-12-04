@@ -207,8 +207,7 @@
                                             @endcan
                                             @can('edit-order')
                                                 <a href="{{ route('admin.orders.edit', $order->id) }}"
-                                                    class="btn btn-warning text-dark rounded-btn"
-                                                    title="{{ __('Edit Data') }}">
+                                                    class="btn btn-warning text-dark rounded-btn" title="{{ __('Edit') }}">
                                                     <i class="ti-pencil"></i>
                                                 </a>
                                             @endcan

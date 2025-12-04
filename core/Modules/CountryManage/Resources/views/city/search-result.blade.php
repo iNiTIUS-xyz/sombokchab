@@ -54,10 +54,10 @@
                         </div>
                     </td>
                     <td>
-                        <a href="javascript:;" title="{{ __('Edit Data') }}"
+                        <a href="javascript:;" title="{{ __('Edit') }}"
                             class="btn btn-warning btn-sm text-dark edit_city_modal" data-bs-toggle="modal"
                             data-bs-target="#editCityModal" data-city="{{ $city->name }}"
-                            data-city_id="{{ $city->id }}" title="{{ __('Edit Data') }}"
+                            data-city_id="{{ $city->id }}" title="{{ __('Edit') }}"
                             data-state_id="{{ $city->state_id }}" data-country_id="{{ $city->country_id }}"
                             data-city_status="{{ $city->status }}">
                             <i class="ti-pencil"></i>
