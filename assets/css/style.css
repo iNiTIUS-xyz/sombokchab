@@ -18538,8 +18538,8 @@ li.main_dropdown ul {
   margin: 0;
   -webkit-transition: all 0.2s;
   transition: all 0.2s;
-  display: -webkit-box;
-  overflow: hidden;
+  /* display: -webkit-box;
+  overflow: hidden; */
   text-overflow: ellipsis;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;

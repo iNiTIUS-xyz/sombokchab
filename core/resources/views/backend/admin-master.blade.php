@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap5.min.css') }}">
 
     <link rel="stylesheet" href="{{ asset('assets/css/dataTables.min.css') }}">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.0.2/css/buttons.dataTables.min.css">
 
     <link rel="stylesheet" href="{{ asset('assets/css/animate.css') }}">
     <!-- slick carousel  -->
@@ -108,6 +109,28 @@
             border: 1px solid var(--border-two) !important;
             border-radius: 5px !important;
         }
+
+        .dt-button.buttons-excel.buttons-html5{
+            background-color: var(--main-color-one) !important;
+            color: var(--white) !important;
+            border: none !important;
+            padding: 8px 16px !important;
+            border-radius: 4px !important;
+            font-weight: 600 !important;
+            box-shadow: none !important;
+        }
+
+        .dt-button.buttons-excel.buttons-html5:hover {
+            color: var(--main-color-one) !important;
+            background-color: var(--white) !important;
+        }
+
+        div.dt-container div.dt-layout-row div.dt-layout-cell{
+            display: block !important;
+        }
+        table.dataTable .dt-type-numeric span.dt-column-order {
+            position: relative !important;
+        }
     </style>
 
     @yield('style')
@@ -175,6 +198,9 @@
     <script src="{{ asset('assets/js/select2.min.js') }}"></script>
 
     <script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.0.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.html5.min.js"></script>
 
     <script src="{{ asset('assets/js/main.js') }}"></script>
 
@@ -190,7 +216,26 @@
     <script>
         $(document).ready(function () {
             if ($('#dataTable').length) {
-                $('#dataTable').DataTable({
+                new DataTable('#dataTable', {
+                    layout: {
+                        topStart: {
+                            buttons: [
+                                {
+                                    extend: 'excel',
+                                    text: 'Export All'
+                                }
+                            ]
+                        },
+                        topEnd: {
+                            search: {
+                                placeholder: "Type Here"
+                            }
+                        },
+                        top: 'pageLength',
+                        bottomStart: 'info',
+                        bottomEnd: 'paging'
+                    },
+
                     paging: true,
                     lengthChange: true,
                     searching: true,
@@ -199,19 +244,20 @@
                     info: true,
                     autoWidth: false,
                     responsive: true,
+
                     language: {
                         search: "Filter:",
                         paginate: {
-                            previous: "Prev",
-                            next: "Next"
+                            previous: '&laquo;',
+                            next: '&raquo;'
                         }
                     },
-                    pagingType: "simple_numbers" // gives Prev, numbers, Next
+
+                    pagingType: "simple_numbers"
                 });
             }
         });
     </script>
-
 
     <script>
         $(document).on('click', '.swal_delete_button', function (e) {

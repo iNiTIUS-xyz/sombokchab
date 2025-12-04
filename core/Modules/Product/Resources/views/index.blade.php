@@ -5,7 +5,6 @@
 @endsection
 
 @section('style')
-<link rel="stylesheet" href="{{ asset('assets/css/dataTables.min.css') }}">
 <link href="{{ asset('assets/css/flatpickr.min.css') }}" rel="stylesheet">
 <x-product::variant-info.css />
 <x-media.css />
@@ -419,32 +418,6 @@
                     }
                 });
             });
-        });
-</script>
-
-<script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
-
-<script>
-    $(document).ready(function() {
-            if ($('#productDataTable').length) {
-                $('#productDataTable').DataTable({
-                    paging: true,
-                    lengthChange: true,
-                    searching: true,
-                    ordering: true,
-                    info: true,
-                    autoWidth: false,
-                    responsive: true,
-                    language: {
-                        search: "Filter:",
-                        paginate: {
-                            previous: "Prev",
-                            next: "Next"
-                        }
-                    },
-                    pagingType: "simple_numbers"
-                });
-            }
         });
 </script>
 @endsection

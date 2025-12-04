@@ -28,6 +28,8 @@
     @include('frontend.partials.css-variable')
     <!-- bootstrap -->
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap5.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.min.css') }}">
     <!-- animate -->
     <link rel="stylesheet" href="{{ asset('assets/css/animate.css') }}">
     <!-- slick carousel  -->
@@ -38,8 +40,32 @@
     <link rel="stylesheet" href="{{ asset('assets/css/plugins.cs') }}s">
     <!-- Main Stylesheet -->
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
-
+    
     @yield('style')
+    
+    <style>
+        #dataTable_wrapper>.row:first-child {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        #dataTable_wrapper>.row:first-child .col-12 {
+            flex: 1 1 50%;
+            max-width: 50%;
+        }
+
+        /* Optional: Align content inside each column */
+        #DataTables_Table_0_length {
+            text-align: left;
+        }
+
+        #DataTables_Table_0_filter {
+            text-align: right;
+        }
+    </style>
 
     <link rel="stylesheet" href="{{ asset('assets/common/css/toastr.css') }}">
 

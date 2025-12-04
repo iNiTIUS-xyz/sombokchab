@@ -15,11 +15,11 @@
             <x-msg.error />
             <x-msg.flash /> --}}
             <div class="">
-                <div class="dashboard__card__header">
+                {{-- <div class="dashboard__card__header">
                     <h4 class="dashboard__card__title">{{ __('Your Wallet Withdrawals') }}</h4>
-                </div>
+                </div> --}}
                 <div class="dashboard__card__body mt-4">
-                    <div class="row g-4 justify-content-center">
+                    {{-- <div class="row g-4 justify-content-center">
                         <div class="col-xxl-3 col-xl-4 col-sm-6 orders-child">
                             <div class="single-orders">
                                 <div class="orders-shapes">
@@ -86,7 +86,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="row mt-4">
                         <div class="col-lg-5 mx-auto">
                             <div class="dashboard__card">

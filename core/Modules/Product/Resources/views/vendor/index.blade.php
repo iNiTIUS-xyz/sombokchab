@@ -6,7 +6,6 @@
 
 @section('style')
     <link href="{{ asset('assets/css/flatpickr.min.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.min.css') }}">
     <x-product::variant-info.css />
     <x-media.css type="vendor" />
     <link rel="stylesheet" href="{{ asset('assets/css/select2.min.css') }}">
@@ -28,34 +27,6 @@
 
         .select2-container .select2-selection--single .select2-selection__rendered {
             padding-top: 7px !important;
-        }
-    </style>
-
-    <style>
-        #dataTable th,
-        #dataTable td {
-            text-align: left !important;
-            vertical-align: middle;
-        }
-
-        #dataTable {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        #dataTable th {
-            font-weight: 600;
-        }
-
-        table.dataTable th.dt-type-numeric div.dt-column-header,
-        table.dataTable th.dt-type-numeric div.dt-column-footer,
-        table.dataTable th.dt-type-date div.dt-column-header,
-        table.dataTable th.dt-type-date div.dt-column-footer,
-        table.dataTable td.dt-type-numeric div.dt-column-header,
-        table.dataTable td.dt-type-numeric div.dt-column-footer,
-        table.dataTable td.dt-type-date div.dt-column-header,
-        table.dataTable td.dt-type-date div.dt-column-footer {
-            flex-direction: row !important;
         }
     </style>
 @endsection
@@ -366,35 +337,6 @@
                     }
                 });
             });
-        });
-    </script>
-
-    {{-- <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script> --}}
-    <script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
-
-
-    <script>
-        $(document).ready(function() {
-            if ($('#productDataTable').length) {
-                $('#productDataTable').DataTable({
-                    paging: true,
-                    lengthChange: true,
-                    searching: true,
-                    ordering: true,
-                    info: true,
-                    autoWidth: false,
-                    responsive: true,
-                    language: {
-                        search: "Filter:",
-                        paginate: {
-                            previous: "Prev",
-                            next: "Next"
-                        }
-                    },
-                    // Add this for pagination style
-                    pagingType: "simple_numbers" // options: simple, simple_numbers, full, full_numbers
-                });
-            }
         });
     </script>
 @endsection

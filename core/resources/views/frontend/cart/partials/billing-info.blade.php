@@ -16,13 +16,13 @@
     <input type="hidden" id="email" name="email">
 
     <div class="checkout-contents">
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-md-12 text-center">
                 <h4>
                     {{ __('New Shipping Address') }}
                 </h4>
             </div>
-        </div>
+        </div> --}}
         <div class="checkout-form mt-2">
             @if ($modal)
                 {{-- Shipping Address Name --}}

@@ -1,37 +1,5 @@
 @extends('vendor.vendor-master')
 
-@section('style')
-    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.min.css') }}">
-    <style>
-        #dataTable th,
-        #dataTable td {
-            text-align: left !important;
-            vertical-align: middle;
-        }
-
-        #dataTable {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        #dataTable th {
-            font-weight: 600;
-        }
-
-
-        table.dataTable th.dt-type-numeric div.dt-column-header,
-        table.dataTable th.dt-type-numeric div.dt-column-footer,
-        table.dataTable th.dt-type-date div.dt-column-header,
-        table.dataTable th.dt-type-date div.dt-column-footer,
-        table.dataTable td.dt-type-numeric div.dt-column-header,
-        table.dataTable td.dt-type-numeric div.dt-column-footer,
-        table.dataTable td.dt-type-date div.dt-column-header,
-        table.dataTable td.dt-type-date div.dt-column-footer {
-            flex-direction: row !important;
-        }
-    </style>
-@endsection
-
 @section('site-title')
     {{ __('My Orders') }}
 @endsection
@@ -156,33 +124,5 @@
                 });
             })
         })(jQuery)
-    </script>
-
-    {{-- <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script> --}}
-    <script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
-
-    <script>
-        $(document).ready(function() {
-            if ($('#dataTable').length) {
-                $('#dataTable').DataTable({
-                    paging: true,
-                    lengthChange: true,
-                    searching: true,
-                    ordering: true,
-                    info: true,
-                    autoWidth: false,
-                    responsive: true,
-                    language: {
-                        search: "Filter:",
-                        paginate: {
-                            previous: "Prev",
-                            next: "Next"
-                        }
-                    },
-                    // Add this for pagination style
-                    pagingType: "simple_numbers" // options: simple, simple_numbers, full, full_numbers
-                });
-            }
-        });
     </script>
 @endsection
