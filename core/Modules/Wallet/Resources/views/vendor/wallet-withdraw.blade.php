@@ -96,7 +96,8 @@
                                         </h2>
                                     </div>
                                     <div class="dashboard__card__body custom__form mt-4">
-                                        <form action="{{ route('vendor.wallet.withdraw') }}" method="post">
+                                        <form action="{{ route('vendor.wallet.withdraw') }}" method="post"
+                                            enctype="multipart/form-data">
                                             @csrf
                                             <div class="form-group">
                                                 <label>
@@ -216,7 +217,7 @@
             if (isFile === "yes") {
                 gatewayInformation += `
                     <div class="form-group">
-                        <label>QR File</label>
+                        <label>QR File Code</label>
                         <input type="file" name="qr_file" class="form-control" />
                     </div>
                 `;

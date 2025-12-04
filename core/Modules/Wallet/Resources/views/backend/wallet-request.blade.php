@@ -32,7 +32,7 @@
                                         <th>{{ __('Amount') }}</th>
                                         <th>{{ __('Payment Method') }}</th>
                                         <th style="width: 30%">{{ __('Payment Method Details') }}</th>
-                                        <th>{{ __('Image') }}</th>
+                                        <th>{{ __('QR File') }}</th>
                                         <th>{{ __('Status') }}</th>
                                         <th>{{ __('Action') }}</th>
                                         <th>{{ __('Note') }}</th>
@@ -40,73 +40,73 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($withdrawRequests as $request)
+                                    @foreach ($withdrawRequests as $withdrawRequest)
                                         @php
                                             $fields = '';
                                         @endphp
-                                        @foreach (json_decode($request->gateway_fields) as $key => $value)
-                                            @php
-                                                $fields .=
-                                                    ucwords(str_replace('_', ' ', $key)) .
-                                                    ': <strong>' .
-                                                    $value .
-                                                    '</strong> <br>';
-                                            @endphp
-                                        @endforeach
+                                        @if ($withdrawRequest->gateway_fields)
+                                            @foreach (json_decode($withdrawRequest->gateway_fields) as $key => $value)
+                                                @php
+                                                    $fields .=
+                                                        ucwords(str_replace('_', ' ', $key)) .
+                                                        ': <strong>' .
+                                                        $value .
+                                                        '</strong> <br>';
+                                                @endphp
+                                            @endforeach
+                                        @endif
                                         <tr>
                                             <td>
                                                 <div class="table-owner">
                                                     <span>
                                                         {{ __('Vendor Name:') }}
                                                         <strong>
-                                                            {{ $request->vendor->owner_name ?? '' }}
+                                                            {{ $withdrawRequest->vendor->owner_name ?? '' }}
                                                         </strong>
                                                     </span>
                                                     <br />
                                                     <span>
                                                         {{ __('Shop Name:') }}
                                                         <strong>
-                                                            {{ $request->vendor->business_name ?? '' }}
+                                                            {{ $withdrawRequest->vendor->business_name ?? '' }}
                                                         </strong>
                                                     </span>
                                                     <br />
                                                     <span>
                                                         {{ __('Account Balance:') }}
                                                         <strong>
-                                                            {{ float_amount_with_currency_symbol($request->wallet?->balance) ?? '' }}
+                                                            {{ float_amount_with_currency_symbol($withdrawRequest->wallet?->balance) ?? '' }}
                                                         </strong>
                                                     </span>
                                                 </div>
                                             </td>
                                             <td>
                                                 <strong>
-                                                    {{ float_amount_with_currency_symbol($request->amount) ?? '' }}
+                                                    {{ float_amount_with_currency_symbol($withdrawRequest->amount) ?? '' }}
                                                 </strong>
                                             </td>
                                             <td>
                                                 <div class="table-paymentGateway">
-                                                    <strong>{{ $request->gateway?->name }}</strong>
+                                                    <strong>{{ $withdrawRequest->gateway?->name }}</strong>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="table-fields">{!! $fields !!}</div>
                                             </td>
                                             <td>
-                                                @if (!empty($request->image))
-                                                    <div class="table-image">
-                                                        <img src="{{ asset('assets/uploads/wallet-withdraw-request/' . $request->image) }}"
-                                                            alt="{{ $request->gateway->name }}" />
-                                                    </div>
-                                                @endif
+                                                <a href="{{ asset($withdrawRequest->qr_file) }}" target="__blank">
+                                                    <img src="{{ asset($withdrawRequest->qr_file) }}" />
+                                                </a>
                                             </td>
                                             <td>
-                                                <x-status-span :status="$request->request_status" />
+                                                <x-status-span :status="$withdrawRequest->request_status" />
                                             </td>
                                             <td>
-                                                @if ($request->request_status == 'pending' || $request->request_status == 'processing')
+                                                @if ($withdrawRequest->request_status == 'pending' || $withdrawRequest->request_status == 'processing')
                                                     <button title="{{ __('Edit Data') }}"
-                                                        data-fields="{{ $fields }}" data-id="{{ $request->id }}"
-                                                        data-request-status="{{ $request->request_status }}"
+                                                        data-fields="{{ $fields }}"
+                                                        data-id="{{ $withdrawRequest->id }}"
+                                                        data-request-status="{{ $withdrawRequest->request_status }}"
                                                         id="update-wallet-request" data-bs-target="#updateWalletStatus"
                                                         data-bs-toggle="modal" class="btn btn-warning text-dark">
                                                         <i class="ti-pencil"></i>
@@ -114,10 +114,10 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <div class="table-notes">{{ $request?->note }}</div>
+                                                <div class="table-notes">{{ $withdrawRequest?->note }}</div>
                                             </td>
                                             <td>
-                                                {{ date('M j, Y', strtotime($request?->created_at)) }}
+                                                {{ date('M j, Y', strtotime($withdrawRequest?->created_at)) }}
                                             </td>
                                         </tr>
                                     @endforeach

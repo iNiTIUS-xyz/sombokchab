@@ -13,7 +13,8 @@ class VendorHandleWithdrawRequest extends FormRequest
             "gateway_fields" => "required",
             "amount" => "required",
             "vendor_id" => "required",
-            "request_status" => "required"
+            "request_status" => "required",
+            "qr_file" => "nullable"
         ];
     }
 

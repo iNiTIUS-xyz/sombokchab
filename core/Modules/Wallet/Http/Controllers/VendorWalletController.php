@@ -12,14 +12,17 @@ use Modules\Wallet\Entities\Wallet;
 use Modules\Wallet\Entities\WalletHistory;
 use Modules\Wallet\Http\Requests\VendorHandleWithdrawRequest;
 
-class VendorWalletController extends Controller {
-    public function index() {
+class VendorWalletController extends Controller
+{
+    public function index()
+    {
         $data = VendorServices::vendorAccountBanner();
 
         return view("wallet::vendor.index", $data);
     }
 
-    public function withdraw() {
+    public function withdraw()
+    {
         $wallet = Wallet::where("vendor_id", auth()->guard("vendor")->id())->first();
         // first og all get all list of payment gateway that is created bu admin
         $adminGateways = VendorWalletGateway::where("status_id", 1)->get();
@@ -38,7 +41,8 @@ class VendorWalletController extends Controller {
         return view("wallet::vendor.wallet-withdraw", $data);
     }
 
-    public function withdrawRequestPage() {
+    public function withdrawRequestPage()
+    {
         $withdrawRequests = VendorWithdrawRequest::with("gateway")
             ->where("vendor_id", auth("vendor")->id())
             ->whereHas("gateway")
@@ -48,11 +52,12 @@ class VendorWalletController extends Controller {
         return view("wallet::vendor.wallet-request", compact("withdrawRequests"));
     }
 
-    public function handleWithdraw(VendorHandleWithdrawRequest $request) {
+    public function handleWithdraw(VendorHandleWithdrawRequest $request)
+    {
 
         $qrFileName = null;
 
-        if (isset($this->data['qr_file']) && $request->qr_file) {
+        if ($request->hasFile('qr_file')) {
             if (!file_exists(public_path('uploads/refund-qr'))) {
                 mkdir(public_path('uploads/refund-qr'), 0777, true);
             }
@@ -65,6 +70,7 @@ class VendorWalletController extends Controller {
         $data = $request->validated();
 
         $data['qr_file'] = $qrFileName;
+        $data['gateway_fields'] = $qrFileName ? null : $data['gateway_fields'];
 
         $wallet = Wallet::where("vendor_id", $data["vendor_id"])->first();
 
@@ -84,7 +90,8 @@ class VendorWalletController extends Controller {
         ]);
     }
 
-    public function walletHistory() {
+    public function walletHistory()
+    {
         $histories = WalletHistory::query()
             ->where("vendor_id", auth('vendor')->id())
             ->orderByDesc('id')
