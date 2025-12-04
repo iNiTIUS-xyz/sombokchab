@@ -146,20 +146,25 @@
                                                                 </label>
                                                                 <div class="nice-select-two">
                                                                     {{-- disabled so user can't change it in UI --}}
-                                                                    <select id="business_type"
-                                                                        name="business_type_id_display"
-                                                                        class="form--control radius-10 readonly-select"
-                                                                        disabled>
+                                                                    @php
+                                                                        $vendorVerified =
+                                                                            auth('vendor')->user()
+                                                                                ->is_vendor_verified &&
+                                                                            auth('vendor')->user()->verified_at;
+                                                                    @endphp
+                                                                    <select id="business_type" name="business_type_id"
+                                                                        class="form--control radius-10 {{ $vendorVerified ? 'readonly-select' : '' }}"
+                                                                        {{ $vendorVerified ? 'disabled' : '' }}>
                                                                         @foreach ($business_type as $item)
                                                                             <option value="{{ $item->id }}"
                                                                                 {{ $item->id == $vendor->business_type_id ? 'selected' : '' }}>
-                                                                                {{ $item->name }}</option>
+                                                                                {{ $item->name }}
+                                                                            </option>
                                                                         @endforeach
                                                                     </select>
 
-                                                                    {{-- Hidden input holds the real value to be submitted --}}
-                                                                    <input type="hidden" name="business_type_id"
-                                                                        value="{{ $vendor->business_type_id }}">
+
+
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -183,15 +188,16 @@
                                                                     <span class="text-danger">*</span>
                                                                 </label>
 
-                                                                <input disabled name="tax_id" id="tax_id"
-                                                                    type="text" maxlength="13"
-                                                                    class="form--control radius-10"
+                                                                <input name="tax_id" id="tax_id" type="text"
+                                                                    maxlength="13" class="form--control radius-10"
                                                                     value="{{ $vendor?->tax_id }}"
-                                                                    placeholder="{{ __('Enter Tax ID') }}" />
+                                                                    placeholder="{{ __('Enter Tax ID') }}"
+                                                                    {{ $vendorVerified ? 'disabled' : '' }}>
 
                                                                 <small class="text-danger" id="taxIdError"></small>
                                                             </div>
                                                         </div>
+
 
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
@@ -875,23 +881,25 @@
             const taxWrapper = document.getElementById('taxIdWrapper');
             const taxInput = document.getElementById('tax_id');
 
+            const vendorVerified = {{ $vendorVerified ? 'true' : 'false' }};
+
             function toggleTaxField() {
                 const selectedText = businessTypeSelect.options[businessTypeSelect.selectedIndex].text
                     .trim().toLowerCase();
 
                 if (selectedText === "business") {
                     taxWrapper.style.display = "block";
-                    taxInput.disabled = true; // always disabled
+
+                    // editable only if user NOT verified
+                    taxInput.disabled = vendorVerified;
                 } else {
                     taxWrapper.style.display = "none";
-                    taxInput.disabled = true; // keep disabled
-                    taxInput.value = ""; // optional: clear when hidden
+                    taxInput.disabled = true;
+                    taxInput.value = "";
                 }
             }
 
             toggleTaxField();
-
-            // even though select is disabled, safe to keep event listener
             businessTypeSelect.addEventListener('change', toggleTaxField);
         });
     </script>

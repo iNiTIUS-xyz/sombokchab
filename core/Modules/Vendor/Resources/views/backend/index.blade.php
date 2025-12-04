@@ -91,7 +91,7 @@
                                                             <div class="vendorList__item">
                                                                 <span
                                                                     class="vendorList__label vendor-label">{{ __('Shop
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Number:') }}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                Number:') }}
                                                                 </span>
                                                                 <span class="vendorList__value vendor-value">
                                                                     {{ $vendor->vendor_shop_info?->number }}</span>
@@ -99,21 +99,21 @@
                                                             @if (!empty($vendor->commission_type))
                                                                 <div class="vendorList__item">
                                                                     <b class="vendorList__label vendor-label">{{ __('Commission
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Type:') }}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                Type:') }}
                                                                     </b>
                                                                     <b class="vendorList__value vendor-value">
                                                                         {{ $vendor->commission_type }}</b>
                                                                 </div>
                                                                 <div class="vendorList__item">
                                                                     <b class="vendorList__label vendor-label">{{ __('Commission
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Amount:') }}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                Amount:') }}
                                                                     </b>
                                                                     <b class="vendorList__value vendor-value">
                                                                         {{ $vendor->commission_amount }}</b>
                                                                 </div>
                                                                 <div class="vendorList__item">
                                                                     <b class="vendorList__label vendor-label">{{ __('Update
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Commission:') }}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                Commission:') }}
                                                                     </b>
                                                                     <button data-vendor-id="{{ $vendor->id }}"
                                                                         class="btn btn-sm btn-info update-individual-commission"
@@ -126,15 +126,43 @@
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td data-label="Status">
-                                                    <div class="status-dropdown">
-                                                        <select data-vendor-id="{{ $vendor->id }}" name="status"
-                                                            id="vendor-status"
-                                                            class="badge @if ($vendor->status_id == 1) bg-primary @else bg-danger @endif">
-                                                            {!! status_option($type = 'option', $vendor->status_id) !!}
-                                                        </select>
+                                                <td>
+                                                    <div class="btn-group badge m-0 p-0" style="font-size: small;">
+                                                        <button type="button"
+                                                            class="status-btn {{ $vendor->status_id == 1 ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
+                                                            data-bs-toggle="dropdown" aria-haspopup="true"
+                                                            aria-expanded="false">
+
+                                                            {{ $vendor->status_id == 1 ? __('Active') : __('Inactive') }}
+                                                        </button>
+
+                                                        <div class="dropdown-menu">
+
+                                                            {{-- ACTIVE = 1 --}}
+                                                            <form class="vendor-status-form"
+                                                                data-vendor-id="{{ $vendor->id }}">
+                                                                @csrf
+                                                                <input type="hidden" name="status_id" value="1">
+                                                                <button type="button" class="dropdown-item change-status">
+                                                                    {{ __('Active') }}
+                                                                </button>
+                                                            </form>
+
+                                                            {{-- INACTIVE = 2 --}}
+                                                            <form class="vendor-status-form"
+                                                                data-vendor-id="{{ $vendor->id }}">
+                                                                @csrf
+                                                                <input type="hidden" name="status_id" value="2">
+                                                                <button type="button" class="dropdown-item change-status">
+                                                                    {{ __('Inactive') }}
+                                                                </button>
+                                                            </form>
+
+                                                        </div>
                                                     </div>
                                                 </td>
+
+
                                                 <td>
                                                     <div class="btn-group badge m-0 p-0" style="font-size: small;">
                                                         <button type="button"
@@ -262,6 +290,67 @@
 @endsection
 
 @section('script')
+    <script>
+        // Remove old select-based handlers (if you had them)
+        $(document).off("focus", ".status-dropdown select");
+        $(document).off("change", ".status-dropdown select");
+
+        // Handle dropdown-item clicks for status change
+        $(document).on("click", ".change-status", function(e) {
+            e.preventDefault();
+
+            // find the enclosing form and data
+            let button = $(this);
+            let form = button.closest("form.vendor-status-form");
+            let vendorId = form.data("vendor-id");
+            let statusId = form.find('input[name="status_id"]').val();
+
+            if (!confirm("Are you sure to change this vendor status?")) {
+                return;
+            }
+
+            // prepare FormData
+            let data = new FormData();
+            data.append("_token", "{{ csrf_token() }}");
+            data.append("status_id", statusId);
+            data.append("vendor_id", vendorId);
+
+            // send AJAX using your send_ajax_request helper
+            send_ajax_request("post", data, "{{ route('admin.vendor.update-status') }}",
+                // beforeSend
+                () => {
+                    toastr.warning("Request sent, please wait.");
+                },
+                // success callback
+                (response) => {
+                    toastr.success("Vendor Status Changed Successfully");
+
+                    // update the button label and classes immediately in the row
+                    // find the closest .btn-group for this form
+                    let btnGroup = form.closest(".btn-group");
+                    let btn = btnGroup.find("button.dropdown-toggle");
+
+                    if (parseInt(statusId) === 1) {
+                        btn.removeClass("bg-danger status-close").addClass("bg-primary status-open");
+                        btn.text("{{ __('Active') }}");
+                    } else {
+                        btn.removeClass("bg-primary status-open").addClass("bg-danger status-close");
+                        btn.text("{{ __('Inactive') }}");
+                    }
+                },
+                // error callback
+                (errors) => {
+                    // use your error helper if available
+                    if (typeof prepare_errors === "function") {
+                        prepare_errors(errors);
+                    } else {
+                        ajax_toastr_error_message(errors);
+                    }
+                }
+            );
+        });
+    </script>
+
     <script>
         $(document).on("click", ".vendor-detail", function(e) {
             e.preventDefault();
