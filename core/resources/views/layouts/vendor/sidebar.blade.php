@@ -64,7 +64,7 @@
                     <li class="{{ active_menu('vendor-home/orders') }}">
                         <a href="{{ route('vendor.orders.list') }}">
                             <i class="ti-view-list-alt"></i>
-                            <span>{{ __('Orders List') }}</span>
+                            <span>{{ __('Order Management') }}</span>
                         </a>
                     </li>
                     {{-- <li
@@ -84,7 +84,7 @@
 
                 <li class="main_dropdown @if (request()->is(['vendor-home/wallet', 'vendor-home/wallet/*'])) active open @endif">
                     <a href="#1" aria-expanded="true">
-                        <i class="ti-wallet"></i> <span>{{ __('Wallet') }}
+                        <i class="ti-wallet"></i> <span>{{ __('Wallet Management') }}
                         </span>
                     </a>
 
@@ -134,7 +134,7 @@
                     class="main_dropdown {{ active_menu('vendor-home/campaigns') }} @if (request()->is('vendor-home/campaigns/*')) active open @endif">
                     <a href="#1" aria-expanded="true">
                         <i class="ti-announcement"></i>
-                        <span>{{ __('Campaigns') }}</span>
+                        <span>{{ __('Campaigns Management') }}</span>
                     </a>
                     <ul class="collapse">
                         <li class="{{ Route::is('vendor.campaigns.all') ? 'active' : '' }}">
@@ -157,7 +157,7 @@
                     class="main_dropdown {{ active_menu('vendor-home/support-tickets') }} @if (request()->is('vendor-home/support-tickets/*')) active open @endif">
                     <a href="#1" aria-expanded="true">
                         <i class="ti-headphone-alt"></i>
-                        <span>{{ __('Support Tickets') }}</span>
+                        <span>{{ __('Support Tickets Management') }}</span>
                     </a>
                     <ul class="collapse">
                         <li class="{{ active_menu('vendor-home/support-tickets') }}">

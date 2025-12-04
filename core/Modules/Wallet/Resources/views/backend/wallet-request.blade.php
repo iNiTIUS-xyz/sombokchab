@@ -103,8 +103,7 @@
                                             </td>
                                             <td>
                                                 @if ($withdrawRequest->request_status == 'pending' || $withdrawRequest->request_status == 'processing')
-                                                    <button title="{{ __('Edit Data') }}"
-                                                        data-fields="{{ $fields }}"
+                                                    <button title="{{ __('Edit') }}" data-fields="{{ $fields }}"
                                                         data-id="{{ $withdrawRequest->id }}"
                                                         data-request-status="{{ $withdrawRequest->request_status }}"
                                                         id="update-wallet-request" data-bs-target="#updateWalletStatus"
