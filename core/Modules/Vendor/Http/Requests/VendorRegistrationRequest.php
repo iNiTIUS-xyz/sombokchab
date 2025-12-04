@@ -3,6 +3,8 @@
 namespace Modules\Vendor\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use Modules\Vendor\Entities\BusinessType;
 
 class VendorRegistrationRequest extends FormRequest {
     public function rules(): array {
@@ -13,7 +15,20 @@ class VendorRegistrationRequest extends FormRequest {
             "password"         => "required|confirmed|min:6",
             "business_name"    => "nullable",
             "business_type_id" => "nullable",
-            "tax_id"           => "nullable|min:8|max:13",
+            'tax_id'           => [
+                'nullable',
+                Rule::requiredIf(function () {
+                    $btId = $this->input('business_type_id');
+                    if (!$btId) {
+                        return false;
+                    }
+
+                    $bt = BusinessType::find($btId);
+                    return $bt && $bt->name === 'Business';
+                }),
+                'string',
+                'regex:/^[A-Za-z]\d{12}$/',
+            ],
             "description"      => "nullable",
             "status_id"        => "nullable",
             "phone"            => "nullable|unique:vendors",

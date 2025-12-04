@@ -169,7 +169,7 @@
                                         <div class="form-group">
                                             <label class="label-title mb-2">
                                                 {{ __('Email') }}
-                                                {{-- <span class="text-danger">*</span> --}}
+                                                <span class="text-danger">*</span>
                                             </label>
                                             <input name="email" id="email" type="text"
                                                 class="form--control radius-10" placeholder="{{ __('Enter Email') }}" />
@@ -334,13 +334,19 @@
         src="https://www.google.com/recaptcha/api.js?render={{ get_static_option('site_google_captcha_v3_site_key') }}">
     </script>
     <script>
-        grecaptcha.ready(function() {
-            grecaptcha.execute("{{ get_static_option('site_google_captcha_v3_site_key') }}", {
-                action: 'homepage'
-            }).then(function(token) {
-                document.getElementById('gcaptcha_token').value = token;
+        // execute recaptcha if present
+        if (window.grecaptcha) {
+            grecaptcha.ready(function() {
+                grecaptcha.execute("{{ get_static_option('site_google_captcha_v3_site_key') }}", {
+                    action: 'homepage'
+                }).then(function(token) {
+                    const gEl = document.getElementById('gcaptcha_token');
+                    if (gEl) gEl.value = token;
+                });
             });
-        });
+        }
+
+        // --- ELEMENT REFERENCES (grab now; some may be null until DOM ready) ---
         const phoneCountryCode = document.getElementById('phone_country_code');
         const phoneField = document.getElementById('number');
         const businessNameField = document.getElementById('business_name');
@@ -350,7 +356,10 @@
         const confirmField = document.getElementById('password_confirmation');
         const passportNidField = document.getElementById('passport_nid');
         const taxIdField = document.getElementById('tax_id');
+        const businessSelect = document.getElementById('business_type');
+        const taxIdWrapper = document.getElementById('taxIdWrapper');
         const termsCheckbox = document.getElementById('toc_and_privacy');
+
         // Error displays
         const phoneErrorEl = document.getElementById('phoneError');
         const businessNameErrorEl = document.getElementById('businessNameError');
@@ -362,13 +371,16 @@
         const taxIdErrorEl = document.getElementById('taxIdError');
         const termsErrorEl = document.getElementById('termsError');
         const continueButton = document.getElementById('continueButton');
+
         // Timer references
         let resendTimer = null;
         let timeLeft = 60;
 
+        // ----------------- VALIDATORS ----------------- //
         function validatePhone(countryCode, rawNumber) {
-            const fullPhone = (countryCode + rawNumber).trim();
-            if (!rawNumber.trim()) return 'Phone number is required';
+            const fullPhone = (countryCode || '') + (rawNumber || '');
+            const trimmedRaw = (rawNumber || '').toString().trim();
+            if (!trimmedRaw) return 'Phone number is required';
             const phoneDigitsOnly = fullPhone.replace(/\D/g, '');
             if (phoneDigitsOnly.length < 8 || phoneDigitsOnly.length > 14) {
                 return 'Phone number must be between 8 and 14 digits';
@@ -380,27 +392,20 @@
         }
 
         function validateBusinessName(value) {
-            const trimmed = value.trim();
-
+            const trimmed = (value || '').trim();
             if (!trimmed) return 'Store name is required';
             if (trimmed.length < 3) return 'Store name must be at least 3 characters';
-
-            // only letters, numbers and spaces allowed
             if (!/^[A-Za-z0-9 ]+$/.test(trimmed)) {
                 return 'Store name can contain only letters, numbers and spaces';
             }
-
-            // cannot be only digits
             if (/^\d+$/.test(trimmed)) {
                 return 'Store name cannot be only numbers';
             }
-
             return '';
         }
 
-
         function validateEmail(value) {
-            const trimmed = value.trim();
+            const trimmed = (value || '').trim();
             if (!trimmed) return '';
             if (/\s/.test(trimmed)) return 'Email cannot contain spaces';
             const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -408,7 +413,7 @@
         }
 
         function validateUsername(value) {
-            if (!value.trim()) return 'Username is required';
+            if (!value || !value.trim()) return 'Username is required';
             const re = /^[A-Za-z0-9_]{3,20}$/;
             if (!re.test(value)) {
                 return 'Username must be 3–20 characters (letters, numbers, underscore( _ )) with no spaces';
@@ -429,43 +434,32 @@
         }
 
         function validatePassportNid(value) {
-            const trimmed = value.trim();
-
+            const trimmed = (value || '').trim();
             if (!trimmed) return 'Passport/National ID is required';
-
-            // Only alphanumeric allowed
             if (!/^[A-Za-z0-9]+$/.test(trimmed)) {
                 return 'Passport/National ID can contain only letters and numbers';
             }
-
-            // Cannot be only letters
             if (/^[A-Za-z]+$/.test(trimmed)) {
                 return 'Passport/National ID cannot be only letters';
             }
-
-            // Numbers only → OK
-            // Mix letters + numbers → OK
-
             return '';
         }
 
         function validateTaxId(value) {
             const re = /^[A-Za-z]\d{12}$/;
-
-            if (!re.test(value)) {
+            if (!re.test((value || '').trim())) {
                 return 'Tax ID must be 1 letter followed by 12 digits (e.g., L000000000000)';
             }
-
             return '';
         }
-
-
 
         function validateTerms(isChecked) {
             return !isChecked ? 'You must accept the terms and conditions' : '';
         }
+
+        // ----------------- SERVER AVAILABILITY CHECK ----------------- //
         async function checkFieldAvailability(field, value) {
-            if (!value.trim()) return '';
+            if (!value || !String(value).trim()) return '';
             try {
                 const resp = await fetch("{{ route('check.vendor.data.availability') }}", {
                     method: 'POST',
@@ -478,9 +472,7 @@
                         value
                     })
                 });
-                if (resp.ok) {
-                    return '';
-                }
+                if (resp.ok) return '';
                 const errorJson = await resp.json();
                 return errorJson.error || 'Server error. Please try again later.';
             } catch (e) {
@@ -491,118 +483,227 @@
 
         function displayTempMessage(elementId, message, seconds = 5) {
             const el = document.getElementById(elementId);
+            if (!el) return;
             el.textContent = message;
             el.style.display = 'block';
             setTimeout(() => {
                 el.style.display = 'none';
             }, seconds * 1000);
         }
-        // ----------------- REAL-TIME VALIDATION ----------------- //
-        phoneField.addEventListener('input', async () => {
-            const errorMsg = validatePhone(phoneCountryCode.value, phoneField.value);
-            if (!errorMsg) {
-                const fullPhone = phoneCountryCode.value + phoneField.value;
-                const dbError = await checkFieldAvailability('phone', fullPhone);
-                phoneErrorEl.textContent = dbError;
-            } else {
-                phoneErrorEl.textContent = errorMsg;
+
+        // ----------------- TAX ID TOGGLING (ROBUST WITH SELECT2 SUPPORT) ----------------- //
+        (function setupTaxToggle() {
+            // If necessary elements missing, skip setup (but keep rest of script working)
+            if (!businessSelect || !taxIdWrapper || !taxIdField) return;
+
+            // 1) find a reliable option value for visible text "Business" (case-insensitive)
+            let businessOptionValueForBusinessText = null;
+            for (let i = 0; i < businessSelect.options.length; i++) {
+                const opt = businessSelect.options[i];
+                if (!opt || !opt.text) continue;
+                const txt = opt.text.trim().toLowerCase();
+                if (txt === 'business' || txt.includes('business')) {
+                    businessOptionValueForBusinessText = opt.value;
+                    break;
+                }
             }
-            updateContinueButton();
-        });
-        phoneCountryCode.addEventListener('change', async () => {
-            const errorMsg = validatePhone(phoneCountryCode.value, phoneField.value);
-            if (!errorMsg) {
-                const fullPhone = phoneCountryCode.value + phoneField.value;
-                const dbError = await checkFieldAvailability('phone', fullPhone);
-                phoneErrorEl.textContent = dbError;
-            } else {
-                phoneErrorEl.textContent = errorMsg;
+
+            function isBusinessSelected() {
+                const selectedVal = businessSelect.value;
+                const selectedText = (businessSelect.options[businessSelect.selectedIndex] || {}).text || '';
+                if (businessOptionValueForBusinessText !== null && selectedVal !== undefined) {
+                    return String(selectedVal) === String(businessOptionValueForBusinessText);
+                }
+                return String(selectedText).trim().toLowerCase() === 'business' || String(selectedText).toLowerCase()
+                    .includes('business');
             }
-            updateContinueButton();
-        });
-        businessNameField.addEventListener('input', () => {
-            businessNameErrorEl.textContent = validateBusinessName(businessNameField.value);
-            updateContinueButton();
-        });
-        emailField.addEventListener('input', async () => {
-            const localErr = validateEmail(emailField.value);
-            if (!localErr && emailField.value.trim()) {
-                const dbErr = await checkFieldAvailability('email', emailField.value.trim());
-                emailErrorEl.textContent = dbErr;
-            } else {
-                emailErrorEl.textContent = localErr;
+
+            function toggleTaxIdField() {
+                if (isBusinessSelected()) {
+                    taxIdWrapper.style.display = 'block';
+                    taxIdField.setAttribute('required', 'required');
+                } else {
+                    taxIdWrapper.style.display = 'none';
+                    taxIdField.removeAttribute('required');
+                    taxIdField.value = '';
+                    if (taxIdErrorEl) taxIdErrorEl.textContent = '';
+                }
+                if (typeof updateContinueButton === 'function') updateContinueButton();
             }
-            updateContinueButton();
-        });
-        usernameField.addEventListener('input', async () => {
-            const localErr = validateUsername(usernameField.value);
-            if (!localErr && usernameField.value.trim()) {
-                const dbErr = await checkFieldAvailability('username', usernameField.value.trim());
-                usernameErrorEl.textContent = dbErr;
-            } else {
-                usernameErrorEl.textContent = localErr;
+
+            // bind native
+            businessSelect.addEventListener('change', toggleTaxIdField);
+            // also bind jquery/select2 change if jQuery exists
+            if (window.jQuery) {
+                try {
+                    window.jQuery('#business_type').on('change', toggleTaxIdField);
+                } catch (e) {
+                    /* ignore */
+                }
             }
-            updateContinueButton();
-        });
-        passwordField.addEventListener('input', () => {
-            passwordErrorEl.textContent = validatePassword(passwordField.value);
-            updateContinueButton();
-        });
-        confirmField.addEventListener('input', () => {
-            confirmErrorEl.textContent = validateConfirmPassword(confirmField.value, passwordField.value);
-            updateContinueButton();
-        });
-        passportNidField.addEventListener('input', () => {
-            passportNidErrorEl.textContent = validatePassportNid(passportNidField.value);
-            updateContinueButton();
-        });
-        taxIdField.addEventListener('input', () => {
-            taxIdErrorEl.textContent = validateTaxId(taxIdField.value);
-            updateContinueButton();
-        });
-        termsCheckbox.addEventListener('change', () => {
-            termsErrorEl.textContent = validateTerms(termsCheckbox.checked);
-            updateContinueButton();
-        });
+
+            // tax input validate only when required
+            taxIdField.addEventListener('input', function() {
+                if (!taxIdField.hasAttribute('required') || taxIdWrapper.style.display === 'none') {
+                    if (taxIdErrorEl) taxIdErrorEl.textContent = '';
+                    if (typeof updateContinueButton === 'function') updateContinueButton();
+                    return;
+                }
+                if (taxIdErrorEl) taxIdErrorEl.textContent = validateTaxId(taxIdField.value);
+                if (typeof updateContinueButton === 'function') updateContinueButton();
+            });
+
+            // call toggle after short delay so select2 initialization (if used) completes
+            setTimeout(toggleTaxIdField, 200);
+        })();
+
+        // ----------------- REAL-TIME VALIDATION BINDINGS ----------------- //
+        // phone
+        if (phoneField) {
+            phoneField.addEventListener('input', async () => {
+                const errorMsg = validatePhone(phoneCountryCode ? phoneCountryCode.value : '', phoneField
+                    .value);
+                if (!errorMsg) {
+                    const fullPhone = (phoneCountryCode ? phoneCountryCode.value : '') + phoneField.value;
+                    const dbError = await checkFieldAvailability('phone', fullPhone);
+                    if (phoneErrorEl) phoneErrorEl.textContent = dbError;
+                } else {
+                    if (phoneErrorEl) phoneErrorEl.textContent = errorMsg;
+                }
+                if (typeof updateContinueButton === 'function') updateContinueButton();
+            });
+        }
+        if (phoneCountryCode) {
+            phoneCountryCode.addEventListener('change', async () => {
+                const errorMsg = validatePhone(phoneCountryCode.value, phoneField ? phoneField.value : '');
+                if (!errorMsg) {
+                    const fullPhone = phoneCountryCode.value + (phoneField ? phoneField.value : '');
+                    const dbError = await checkFieldAvailability('phone', fullPhone);
+                    if (phoneErrorEl) phoneErrorEl.textContent = dbError;
+                } else {
+                    if (phoneErrorEl) phoneErrorEl.textContent = errorMsg;
+                }
+                if (typeof updateContinueButton === 'function') updateContinueButton();
+            });
+        }
+
+        // business name
+        if (businessNameField) {
+            businessNameField.addEventListener('input', () => {
+                if (businessNameErrorEl) businessNameErrorEl.textContent = validateBusinessName(businessNameField
+                    .value);
+                if (typeof updateContinueButton === 'function') updateContinueButton();
+            });
+        }
+
+        // email
+        if (emailField) {
+            emailField.addEventListener('input', async () => {
+                const localErr = validateEmail(emailField.value);
+                if (!localErr && emailField.value.trim()) {
+                    const dbErr = await checkFieldAvailability('email', emailField.value.trim());
+                    if (emailErrorEl) emailErrorEl.textContent = dbErr;
+                } else {
+                    if (emailErrorEl) emailErrorEl.textContent = localErr;
+                }
+                if (typeof updateContinueButton === 'function') updateContinueButton();
+            });
+        }
+
+        // username
+        if (usernameField) {
+            usernameField.addEventListener('input', async () => {
+                const localErr = validateUsername(usernameField.value);
+                if (!localErr && usernameField.value.trim()) {
+                    const dbErr = await checkFieldAvailability('username', usernameField.value.trim());
+                    if (usernameErrorEl) usernameErrorEl.textContent = dbErr;
+                } else {
+                    if (usernameErrorEl) usernameErrorEl.textContent = localErr;
+                }
+                if (typeof updateContinueButton === 'function') updateContinueButton();
+            });
+        }
+
+        // password
+        if (passwordField) {
+            passwordField.addEventListener('input', () => {
+                if (passwordErrorEl) passwordErrorEl.textContent = validatePassword(passwordField.value);
+                if (typeof updateContinueButton === 'function') updateContinueButton();
+            });
+        }
+
+        // confirm password
+        if (confirmField) {
+            confirmField.addEventListener('input', () => {
+                if (confirmErrorEl) confirmErrorEl.textContent = validateConfirmPassword(confirmField.value,
+                    passwordField ? passwordField.value : '');
+                if (typeof updateContinueButton === 'function') updateContinueButton();
+            });
+        }
+
+        // passport / nid
+        if (passportNidField) {
+            passportNidField.addEventListener('input', () => {
+                if (passportNidErrorEl) passportNidErrorEl.textContent = validatePassportNid(passportNidField
+                    .value);
+                if (typeof updateContinueButton === 'function') updateContinueButton();
+            });
+        }
+
+        // terms
+        if (termsCheckbox) {
+            termsCheckbox.addEventListener('change', () => {
+                if (termsErrorEl) termsErrorEl.textContent = validateTerms(termsCheckbox.checked);
+                if (typeof updateContinueButton === 'function') updateContinueButton();
+            });
+        }
+
         // ----------------- Enable/Disable Continue Button ----------------- //
         function updateContinueButton() {
+            const taxRequired = taxIdField && taxIdField.hasAttribute('required') && (!taxIdWrapper || taxIdWrapper.style
+                .display !== 'none');
+
             const errorsPresent = (
-                phoneErrorEl.textContent ||
-                businessNameErrorEl.textContent ||
-                emailErrorEl.textContent ||
-                usernameErrorEl.textContent ||
-                passwordErrorEl.textContent ||
-                confirmErrorEl.textContent ||
-                passportNidErrorEl.textContent ||
-                taxIdErrorEl.textContent ||
-                termsErrorEl.textContent
+                (phoneErrorEl && phoneErrorEl.textContent) ||
+                (businessNameErrorEl && businessNameErrorEl.textContent) ||
+                (emailErrorEl && emailErrorEl.textContent) ||
+                (usernameErrorEl && usernameErrorEl.textContent) ||
+                (passwordErrorEl && passwordErrorEl.textContent) ||
+                (confirmErrorEl && confirmErrorEl.textContent) ||
+                (passportNidErrorEl && passportNidErrorEl.textContent) ||
+                (taxRequired ? (taxIdErrorEl && taxIdErrorEl.textContent) : '') ||
+                (termsErrorEl && termsErrorEl.textContent)
             );
+
             const requiredFilled = (
-                phoneField.value.trim() &&
-                businessNameField.value.trim() &&
-                usernameField.value.trim() &&
-                passwordField.value.trim() &&
-                confirmField.value.trim() &&
-                passportNidField.value.trim() &&
-                taxIdField.value.trim() &&
-                termsCheckbox.checked
+                (phoneField && phoneField.value && phoneField.value.trim()) &&
+                (businessNameField && businessNameField.value && businessNameField.value.trim()) &&
+                (usernameField && usernameField.value && usernameField.value.trim()) &&
+                (passwordField && passwordField.value && passwordField.value.trim()) &&
+                (confirmField && confirmField.value && confirmField.value.trim()) &&
+                (passportNidField && passportNidField.value && passportNidField.value.trim()) &&
+                (!taxRequired || (taxIdField && taxIdField.value && taxIdField.value.trim())) &&
+                (termsCheckbox && termsCheckbox.checked)
             );
-            continueButton.disabled = (!!errorsPresent || !requiredFilled);
+
+            if (continueButton) continueButton.disabled = (!!errorsPresent || !requiredFilled);
         }
+
         // ----------------- OTP Logic ----------------- //
         function startResendTimer() {
             const resendBtn = document.getElementById('resendOtpButton');
             const resendTimerSpan = document.getElementById('resendTimer');
             timeLeft = 60;
-            resendBtn.disabled = true;
-            resendTimerSpan.textContent = '(60s)';
+            if (resendBtn) resendBtn.disabled = true;
+            if (resendTimerSpan) resendTimerSpan.textContent = '(60s)';
+            if (resendTimer) clearInterval(resendTimer);
             resendTimer = setInterval(() => {
                 timeLeft--;
-                resendTimerSpan.textContent = `${timeLeft}s`; // <-- fixed
+                if (resendTimerSpan) resendTimerSpan.textContent = `${timeLeft}s`;
                 if (timeLeft <= 0) {
                     clearInterval(resendTimer);
-                    resendBtn.disabled = false;
-                    resendTimerSpan.textContent = '';
+                    if (resendBtn) resendBtn.disabled = false;
+                    if (resendTimerSpan) resendTimerSpan.textContent = '';
                 }
             }, 1000);
         }
@@ -614,9 +715,8 @@
                 phoneErrorEl.textContent = phoneErr;
                 return;
             }
-
             try {
-                const resp = await fetch("{{ route('send.otp') }}", {
+                const response = await fetch("{{ route('send.otp') }}", {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -626,21 +726,8 @@
                         phone: fullPhone
                     })
                 });
-
-                // If server returned non-JSON (HTML error page), handle gracefully:
-                const contentType = resp.headers.get('content-type') || '';
-                let data = {};
-                if (contentType.includes('application/json')) {
-                    data = await resp.json();
-                } else {
-                    const text = await resp.text();
-                    console.error('Non-JSON response from send.otp:', text);
-                    data = {
-                        error: 'Server returned non-JSON response'
-                    };
-                }
-
-                if (resp.ok) {
+                const data = await response.json();
+                if (response.ok) {
                     displayTempMessage('sentSuccess', 'OTP Sent Successfully!', 5);
                     setTimeout(() => {
                         document.getElementById('step-1').style.display = 'none';
@@ -648,27 +735,23 @@
                         startResendTimer();
                     }, 1000);
                 } else {
-                    // show server message if exists, otherwise generic
                     displayTempMessage('error', data.error || 'Failed to send OTP. Please try again.', 5);
                 }
-            } catch (err) {
-                console.error('Error sending OTP:', err);
+            } catch (error) {
+                console.error('Error sending OTP:', error);
                 displayTempMessage('error', 'Server error. Please try again later.', 5);
             }
         }
 
-
         async function verifyAndCreateAccount() {
             const code = document.getElementById('verificationCode').value.trim();
             const fullPhone = phoneCountryCode.value + phoneField.value;
-
             if (!code) {
                 document.getElementById('verificationCodeError').textContent = 'Verification code is required';
                 return;
             } else {
                 document.getElementById('verificationCodeError').textContent = '';
             }
-
             try {
                 const response = await fetch("{{ route('verify.otp') }}", {
                     method: 'POST',
@@ -681,19 +764,7 @@
                         otp: code
                     })
                 });
-
-                const contentType = response.headers.get('content-type') || '';
-                let data = {};
-                if (contentType.includes('application/json')) {
-                    data = await response.json();
-                } else {
-                    const text = await response.text();
-                    console.error('Non-JSON response from verify.otp:', text);
-                    data = {
-                        error: 'Server returned non-JSON response'
-                    };
-                }
-
+                const data = await response.json();
                 if (response.ok) {
                     document.getElementById('verified_phone').value = fullPhone;
                     displayTempMessage('verifiedSuccess', 'Account Created Successfully!', 5);
@@ -703,7 +774,6 @@
                         form.submit();
                     }, 2000);
                 } else {
-                    // show server message if exists, otherwise generic
                     document.getElementById('verificationCodeError').textContent = data.error ||
                         'Invalid OTP. Please try again.';
                 }
@@ -713,21 +783,44 @@
             }
         }
 
-
         function prevStep() {
-            document.getElementById('step-2').style.display = 'none';
-            document.getElementById('step-1').style.display = 'block';
-            clearInterval(resendTimer);
+            const s1 = document.getElementById('step-1');
+            const s2 = document.getElementById('step-2');
+            if (s2) s2.style.display = 'none';
+            if (s1) s1.style.display = 'block';
+            if (resendTimer) clearInterval(resendTimer);
         }
 
         function resendCode() {
             timeLeft = 60;
             sendCodeAndContinue();
         }
-        window.onload = () => {
-            updateContinueButton();
-        };
+
+        // ----------------- INITIALIZE ON LOAD ----------------- //
+        window.addEventListener('load', function() {
+            // Ensure tax id visibility/required state is correct on page load
+            try {
+                if (typeof updateContinueButton === 'function') updateContinueButton();
+                // call toggle function if it exists in the closure above (setupTaxToggle executed immediately)
+                // If businessSelect exists, we already set a timeout to toggle; do one immediate check too
+                if (businessSelect && taxIdWrapper && taxIdField) {
+                    // small safety toggle - will be overridden by the setTimeout in the toggle setup if necessary
+                    const evt = new Event('change', {
+                        bubbles: true
+                    });
+                    try {
+                        businessSelect.dispatchEvent(evt);
+                    } catch (e) {
+                        /* ignore */
+                    }
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        });
     </script>
+
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const passwordInput = document.getElementById('password');

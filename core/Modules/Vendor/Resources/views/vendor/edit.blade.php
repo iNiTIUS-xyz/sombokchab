@@ -9,8 +9,6 @@
     <x-datatable.css />
     <x-bulk-action.css />
     <x-select2.select2-css />
-@endsection
-@section('content')
     <style>
         .btn-disabled {
             pointer-events: none !important;
@@ -27,13 +25,20 @@
             color: #28a745 !important;
             /* green */
         }
+
+        /* appearance for readonly select */
+        .readonly-select {
+            pointer-events: none;
+            background-color: #f1f1f1;
+            color: #333;
+        }
     </style>
+@endsection
+
+@section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row">
             <div class="col-lg-12">
-                {{--
-            <x-msg.error />
-            <x-msg.flash /> --}}
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Edit Profile') }}</h4>
@@ -129,25 +134,65 @@
                                                                 <small class="text-danger" id="username_error"></small>
                                                             </div>
                                                         </div>
+
+                                                        {{-- =========================
+                                                             BUSINESS CATEGORY (READONLY)
+                                                             ========================= --}}
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
-                                                                <label class="label-title color-light mb-2"> Business
-                                                                    Category
+                                                                <label class="label-title color-light mb-2">
+                                                                    Business Category
                                                                     <span class="text-danger">*</span>
                                                                 </label>
                                                                 <div class="nice-select-two">
-                                                                    <select id="business_type" name="business_type_id"
-                                                                        style="" class="form--control radius-10"
-                                                                        required="">
+                                                                    {{-- disabled so user can't change it in UI --}}
+                                                                    <select id="business_type"
+                                                                        name="business_type_id_display"
+                                                                        class="form--control radius-10 readonly-select"
+                                                                        disabled>
                                                                         @foreach ($business_type as $item)
                                                                             <option value="{{ $item->id }}"
                                                                                 {{ $item->id == $vendor->business_type_id ? 'selected' : '' }}>
                                                                                 {{ $item->name }}</option>
                                                                         @endforeach
                                                                     </select>
+
+                                                                    {{-- Hidden input holds the real value to be submitted --}}
+                                                                    <input type="hidden" name="business_type_id"
+                                                                        value="{{ $vendor->business_type_id }}">
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        {{-- =========================
+     TAX ID — SHOW ONLY IF BUSINESS TYPE = BUSINESS
+   ========================= --}}
+                                                        @php
+                                                            $vendorBusinessType = $business_type->firstWhere(
+                                                                'id',
+                                                                $vendor->business_type_id,
+                                                            );
+                                                            $isBusinessCategory =
+                                                                strtolower($vendorBusinessType?->name) === 'business';
+                                                        @endphp
+
+                                                        <div class="col-sm-12" id="taxIdWrapper"
+                                                            style="{{ $isBusinessCategory ? '' : 'display:none;' }}">
+                                                            <div class="form-group">
+                                                                <label class="label-title mb-2">
+                                                                    {{ __('Tax ID') }}
+                                                                    <span class="text-danger">*</span>
+                                                                </label>
+
+                                                                <input disabled name="tax_id" id="tax_id"
+                                                                    type="text" maxlength="13"
+                                                                    class="form--control radius-10"
+                                                                    value="{{ $vendor?->tax_id }}"
+                                                                    placeholder="{{ __('Enter Tax ID') }}" />
+
+                                                                <small class="text-danger" id="taxIdError"></small>
+                                                            </div>
+                                                        </div>
+
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
                                                                 <label class="label-title color-light mb-2">
@@ -170,6 +215,8 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                {{-- Address tab --}}
                                 <div class="tab-pane fade" id="address" role="tabpanel" aria-labelledby="profile-tab">
                                     <div class="row g-4 mt-1">
                                         <div class="col-lg-12">
@@ -218,6 +265,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+
 
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
@@ -274,44 +322,32 @@
                                                                         src="https://maps.google.com/maps?hl=en&q=Dhaka&t=&z=14&ie=UTF8&iwloc=B&output=embed">
                                                                     </iframe>
                                                                 </div>
-
-                                                                {{-- <span class="mt-3">
-                                                                {{ __('Example: Google Map Embed Code.') }}
-                                                            </span>
-                                                            <pre><code>&lt;iframe src="https://www.example.com" width="600" height="450"&gt;&lt;/iframe&gt;</code></pre>
-                                                            --}}
                                                             </div>
                                                         </div>
 
                                                         <style>
                                                             .embed-map-container {
                                                                 width: 100%;
-                                                                /* Full width */
                                                                 height: 300px;
-                                                                /* Increase height (you can change this) */
                                                                 position: relative;
                                                                 overflow: hidden;
                                                                 border-radius: 10px;
-                                                                /* Optional rounded corners */
                                                             }
 
                                                             .embed-map-frame {
                                                                 width: 100% !important;
-                                                                /* Full width */
                                                                 height: 100% !important;
-                                                                /* Match container height */
                                                                 border: 0;
                                                             }
                                                         </style>
-
-
-
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
+                                {{-- Shop info --}}
                                 <div class="tab-pane fade" id="shop-info" role="tabpanel" aria-labelledby="contact-tab">
                                     <div class="row g-4 mt-1">
                                         <div class="col-lg-12">
@@ -384,6 +420,7 @@
                                                                     placeholder="{{ __('Enter Website Link') }}">
                                                             </div>
                                                         </div>
+
                                                         <!--color settings start -->
                                                         <span class="label-title color-light mt-3">
                                                             {{ __('Store Color Settings') }}
@@ -432,8 +469,7 @@
                                                                     value="{{ $vendor?->vendor_shop_info?->colors['store_paragraph_color'] ?? '' }}"
                                                                     id="store_paragraph_color">
                                                                 <small
-                                                                    class="text-danger">{{ __('You may change the site
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        paragraph color from here') }}</small>
+                                                                    class="text-danger">{{ __('You may change the site paragraph color from here') }}</small>
                                                             </div>
                                                         </div>
                                                         <!--color settings end -->
@@ -443,6 +479,8 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                {{-- Bank info --}}
                                 <div class="tab-pane fade" id="bank-info" role="tabpanel" aria-labelledby="contact-tab">
                                     <div class="row g-4 mt-1">
                                         <div class="col-lg-12">
@@ -523,6 +561,7 @@
 
     <x-media.markup type="vendor" />
 @endsection
+
 @section('script')
     <script>
         (function($) {
@@ -664,10 +703,7 @@
 
                     // mark touched on first user input/interaction
                     $el.on('focus', function() {
-                        // don't flip touched on focus if already true
                         if (!touched[field]) {
-                            // only mark touched on actual typing/change (not just focus)
-                            // so we set a flag that focus happened; actual typing will set touched true below
                             $el.data('hadFocus', true);
                         }
                     });
@@ -680,9 +716,7 @@
                     $el.on('input change', function() {
                         const v = $(this).val().trim();
 
-                        // mark touched when the user types (first time)
                         if (!touched[field]) {
-                            // require the user to actually change the value after focusing
                             if ($el.data('hadFocus') || v.length > 0) {
                                 touched[field] = true;
                             }
@@ -693,17 +727,14 @@
                             return;
                         }
 
-                        // clear existing success while typing
                         $('#' + field + '_error').removeClass('field-success').text('');
                         $(this).removeClass('is-valid is-invalid');
 
                         debounced();
                     });
 
-                    // Initial server check: only show errors (taken) on load, but do NOT show "available" messages
                     const initial = $el.val() ? $el.val().trim() : '';
                     if (initial) {
-                        // call but ensure touched[field] is false so setFieldSuccess will be silent
                         setTimeout(() => checkFieldUnique(field, initial), 250);
                     }
                 });
@@ -734,48 +765,57 @@
         })(jQuery);
     </script>
 
+    <script src="{{ asset('assets/backend/js/colorpicker.js') }}"></script>
+    <x-datatable.js />
+    <x-media.js type="vendor" />
+    <x-table.btn.swal.js />
+    <x-select2.select2-js />
 
+    <script>
+        function validateZipCode(value) {
+            const trimmed = value.trim();
 
-    <script src="{{ asset('assets/backend/js/colorpicker.js') }}">
-        < /> <
-        x - datatable.js / >
-            <
-            x - media.js type = "vendor" / >
-            <
-            x - table.btn.swal.js / >
-            <
-            x - select2.select2 - js / >
-            <
-            script >
-            function validateZipCode(value) {
-                const trimmed = value.trim();
+            if (!trimmed) return "Postal Code is required";
 
-                if (!trimmed) return "Postal Code is required";
-
-                // Cambodia uses exactly 5 digits
-                if (!/^[0-9]{5}$/.test(trimmed)) {
-                    return "Postal Code must be exactly 5 digits (Cambodia format)";
-                }
-
-                return "";
+            // Cambodia uses exactly 5 digits
+            if (!/^[0-9]{5}$/.test(trimmed)) {
+                return "Postal Code must be exactly 5 digits (Cambodia format)";
             }
 
-        const zipField = document.querySelector('input[name="zip_code"]');
-        const zipErrorEl = document.getElementById('zipCodeError');
+            return "";
+        }
 
-        zipField.addEventListener('input', () => {
-            zipErrorEl.textContent = validateZipCode(zipField.value);
+        document.addEventListener('DOMContentLoaded', function() {
+            const zipField = document.querySelector('input[name="zip_code"]');
+            if (zipField) {
+                const zipErrorEl = document.getElementById('zipCodeError') || document.createElement('small');
+                zipErrorEl.id = 'zipCodeError';
+                zipField.parentNode.appendChild(zipErrorEl);
+
+                zipField.addEventListener('input', () => {
+                    zipErrorEl.textContent = validateZipCode(zipField.value);
+                });
+            }
+
+            // init select2 for other selects
+            $('#country_id,#state_id,#city_id').select2();
+
+            // ensure business_type is not initialized with select2 (it is readonly)
+            // if your theme auto-inits all selects, you can explicitly destroy select2 here:
+            if ($('#business_type').hasClass('select2-hidden-accessible')) {
+                $('#business_type').select2('destroy');
+            }
+
+            // keep the disabled select visually intact in any custom "nice-select-two" widget
+            // (if your JS converts the native select into a custom list, ensure it also shows disabled)
         });
 
-
-        $('#country_id,#state_id,#city_id').select2()
         $(document).on("submit", "#vendor-create-form", function(e) {
             e.preventDefault();
             let url = $(this).data("action-url"),
                 data = new FormData(e.target);
 
             send_ajax_request("post", data, url, () => {
-                // write some code for preloader <i class="las la-spinner"></i>
                 $(".submit_button button").append('<i class="las la-spinner"></i>');
                 toastr.warning("Request Send.. Please Wait...");
             }, (data) => {
@@ -791,44 +831,11 @@
             });
         });
 
-        // $(document).on("change", "#country_id", function() {
-        //     let data = new FormData();
-
-        //     data.append("country_id", $(this).val());
-        //     data.append("_token", "{{ csrf_token() }}");
-
-        //     send_ajax_request("post", data, "{{ route('vendor.get.state') }}", function() {}, (data) => {
-        //         option = "<option value=''>Select an state</option>";
-        //         option += data.option;
-        //         $("#state_id").html(option);
-        //         $(".state_wrapper .list").html(data.li);
-        //     }, (data) => {
-        //         prepare_errors(data);
-        //     })
-        // });
-
-        // $(document).on("change", "#state_id", function() {
-        //     let data = new FormData();
-
-        //     data.append("country_id", $("#country_id").val());
-        //     data.append("state_id", $(this).val());
-        //     data.append("_token", "{{ csrf_token() }}");
-
-        //     send_ajax_request("post", data, "{{ route('vendor.get.city') }}", function() {}, (data) => {
-        //         option = "<option value=''>Select an city</option>";
-        //         option += data.option;
-
-        //         $("#city_id").html(option);
-        //         $(".city_wrapper .list").html(data.li);
-        //     }, (data) => {
-        //         prepare_errors(data);
-        //     })
-        // });
-
         $(document).on("keyup keydown click change", "input[name=username]", function() {
             $(this).val(convertToSlug($(this).val()))
         });
     </script>
+
     <script>
         (function($) {
             "use strict";
@@ -861,5 +868,31 @@
                 }
             });
         }(jQuery));
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const businessTypeSelect = document.getElementById('business_type');
+            const taxWrapper = document.getElementById('taxIdWrapper');
+            const taxInput = document.getElementById('tax_id');
+
+            function toggleTaxField() {
+                const selectedText = businessTypeSelect.options[businessTypeSelect.selectedIndex].text
+                    .trim().toLowerCase();
+
+                if (selectedText === "business") {
+                    taxWrapper.style.display = "block";
+                    taxInput.disabled = true; // always disabled
+                } else {
+                    taxWrapper.style.display = "none";
+                    taxInput.disabled = true; // keep disabled
+                    taxInput.value = ""; // optional: clear when hidden
+                }
+            }
+
+            toggleTaxField();
+
+            // even though select is disabled, safe to keep event listener
+            businessTypeSelect.addEventListener('change', toggleTaxField);
+        });
     </script>
 @endsection
