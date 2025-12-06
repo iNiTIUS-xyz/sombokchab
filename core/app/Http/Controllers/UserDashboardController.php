@@ -610,7 +610,7 @@ class UserDashboardController extends Controller
 
         $all_orders = Order::with(['paymentMeta', 'refundRequest.currentTrackStatus'])->withCount('isDelivered')
             ->where('user_id', auth('web')->user()->id)
-            ->orderBy('id', 'DESC')
+            ->orderBy('created_at', 'DESC')
             ->get();
 
         return view(self::BASE_PATH . 'order.all', compact('all_orders'));

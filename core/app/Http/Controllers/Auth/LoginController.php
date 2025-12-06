@@ -113,93 +113,117 @@ class LoginController extends Controller
     //     return response()->json(['error' => 'Invalid OTP'], 422);
     // }
 
-    public function sendOtp(Request $request)
+    private function normalizePhone($phone)
     {
-        $phone = $request->input('phone');
+        // keep only digits
+        $phone = preg_replace('/[^0-9]/', '', $phone);
 
-        // Ensure phone is in PlasGate format (Bangladesh example)
-        $phone = preg_replace('/[^0-9]/', '', $phone); // keep numbers only
+        // If number starts with 0 → convert to 855
+        // Example: 012345678 → 85512345678
         if (str_starts_with($phone, '0')) {
-            $phone = '88' . $phone; // convert 017xx → 88017xx
+            $phone = '855' . substr($phone, 1);
         }
 
-        // Generate OTP
-        $otp = mt_rand(100000, 999999);
+        // If user enters: +85512345678 or 85512345678 → normalize to 85512345678
+        if (str_starts_with($phone, '855')) {
+            return $phone;
+        }
 
-        // Store OTP for 5 minutes
-        Cache::put('otp_' . $phone, $otp, now()->addMinutes(5));
+        // If none of the above → INVALID number
+        return null;
+    }
 
-        // PlasGate credentials
+    private function isValidCambodian($phone)
+    {
+        return preg_match('/^855[0-9]{7,9}$/', $phone);
+    }
+
+    public function sendOtp(Request $request)
+    {
+        $phone = $this->normalizePhone($request->phone);
+
+        if (!$phone || !$this->isValidCambodian($phone)) {
+            return response()->json([
+                "error" => "Invalid Cambodian phone number"
+            ], 422);
+        }
+
+        $otp = rand(100000, 999999);
+
+        Cache::put('otp_'.$phone, $otp, now()->addMinutes(5));
+
         $secretKey  = '$5$rounds=535000$tnyb7wdR4yyObXuy$XyyR4qHUkXZsbPZM6F8jsUI/CB.ndQWZMg3J1juww03';
         $privateKey = 'oi8-uaNHqBkJ2yX7OLULVBbdwdz2bUjy-x3aSozfFXKeBIrK5S7WUjPZiCC9CvRY9zo-QHXWgUxqVMeEyQf3jA';
         $senderName = 'PlasGateUAT';
 
-        // Build payload
         $payload = [
-            'sender'     => $senderName,
-            'to'         => $phone,
-            'content'    => "Your login OTP code is: {$otp}",
-            'dlr'        => 'yes',
-            'dlr_method' => 'GET',
-            'dlr_level'  => 2,
-            'dlr_url'    => url('/sms/dlr-callback')
+            "sender"  => $senderName,
+            "to"      => $phone,
+            "content" => "Your OTP code is: {$otp}"
         ];
 
-        // Send request
+        $url = "https://cloudapi.plasgate.com/rest/send?private_key={$privateKey}";
+
         $response = Http::withHeaders([
-            'X-Secret'      => $secretKey,
-            'Accept'        => 'application/json',
-            'Content-Type'  => 'application/json',
-        ])->post("https://cloudapi.plasgate.com/rest/send?private_key={$privateKey}", $payload);
+            "X-Secret" => $secretKey,
+            "Content-Type" => "application/json"
+        ])->post($url, $payload);
 
-        // ⛔️ DEBUG HERE
-        // dd([
-        //     'phone'      => $phone,
-        //     'otp'        => $otp,
-        //     'cached_otp' => Cache::get('otp_' . $phone),
-        //     'payload'    => $payload,
-        //     'status'     => $response->status(),
-        //     'response'   => $response->json(),
-        //     'raw'        => $response->body(),
-        // ]);
-
-        // Debug raw body
-        // Log::info('PlasGate Response', ['body' => $response->body()]);
-
-        if ($response->successful()) {
-            $result = $response->json();
-
-            // PlasGate returns status inside JSON. We must check it.
-            if (isset($result['status']) && $result['status'] == 'ACCEPTED') {
-                return response()->json(['success' => true, 'message' => 'OTP sent successfully']);
-            }
-
-            return response()->json(['error' => 'API returned non-success', 'details' => $result], 500);
+        if (!$response->successful()) {
+            return response()->json([
+                "error" => "Failed to send OTP",
+                "details" => $response->body()
+            ], 500);
         }
 
         return response()->json([
-            'error' => 'Failed to send OTP',
-            'details' => $response->body()
-        ], 500);
+            "success" => true,
+            "message" => "OTP sent successfully"
+        ]);
     }
-
-
-
 
     public function verifyOtp(Request $request)
     {
-        $phone = $request->input('phone');
-        $otp = $request->input('otp');
+        $phone = $this->normalizePhone($request->phone);
 
-        $storedOtp = Cache::get('otp_' . $phone);
-
-        if ($storedOtp && $storedOtp == $otp) {
-            Cache::forget('otp_' . $phone);
-            return response()->json(['success' => true, 'message' => 'OTP verified']);
+        if (!$phone || !$this->isValidCambodian($phone)) {
+            return response()->json([
+                "error" => "Invalid Cambodian phone number"
+            ], 422);
         }
 
-        return response()->json(['error' => 'Invalid or expired OTP'], 422);
+        $otp = $request->otp;
+
+        $storedOtp = Cache::get('otp_'.$phone);
+
+        if ($storedOtp && $storedOtp == $otp) {
+            Cache::forget('otp_'.$phone);
+            return response()->json([
+                "success" => true,
+                "message" => "OTP verified"
+            ]);
+        }
+
+        return response()->json([
+            "error" => "Invalid or expired OTP"
+        ], 422);
     }
+
+
+    // public function verifyOtp(Request $request)
+    // {
+    //     $phone = $request->input('phone');
+    //     $otp = $request->input('otp');
+
+    //     $storedOtp = Cache::get('otp_' . $phone);
+
+    //     if ($storedOtp && $storedOtp == $otp) {
+    //         Cache::forget('otp_' . $phone);
+    //         return response()->json(['success' => true, 'message' => 'OTP verified']);
+    //     }
+
+    //     return response()->json(['error' => 'Invalid or expired OTP'], 422);
+    // }
 
 
     // public function sendOtp(Request $request)
