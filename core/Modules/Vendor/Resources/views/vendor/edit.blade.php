@@ -164,7 +164,10 @@
                                                                     </select>
 
 
-
+                                                                    @if ($vendorVerified)
+                                                                        <input type="hidden" name="business_type_id"
+                                                                            value="{{ $vendor->business_type_id }}">
+                                                                    @endif
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -195,6 +198,11 @@
                                                                     {{ $vendorVerified ? 'disabled' : '' }}>
 
                                                                 <small class="text-danger" id="taxIdError"></small>
+                                                                @if ($isBusinessCategory && $vendorVerified)
+                                                                    <input type="hidden" name="tax_id"
+                                                                        id="tax_id_hidden"
+                                                                        value="{{ $vendor?->tax_id }}">
+                                                                @endif
                                                             </div>
                                                         </div>
 
@@ -303,7 +311,7 @@
                                                                     value="{{ $vendor?->vendor_address?->zip_code }}"
                                                                     placeholder="{{ __('Enter Postal Code') }}" required
                                                                     oninput="this.value = this.value.replace(/[^0-9]/g, '');">
-
+                                                                <small class="text-danger" id="zipCodeError"></small>
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
@@ -883,6 +891,23 @@
 
             const vendorVerified = {{ $vendorVerified ? 'true' : 'false' }};
 
+            function ensureHiddenTax(value) {
+                let hidden = document.getElementById('tax_id_hidden');
+                if (!hidden) {
+                    hidden = document.createElement('input');
+                    hidden.type = 'hidden';
+                    hidden.name = 'tax_id';
+                    hidden.id = 'tax_id_hidden';
+                    taxWrapper.appendChild(hidden);
+                }
+                hidden.value = value || '';
+            }
+
+            function removeHiddenTax() {
+                const hidden = document.getElementById('tax_id_hidden');
+                if (hidden) hidden.remove();
+            }
+
             function toggleTaxField() {
                 const selectedText = businessTypeSelect.options[businessTypeSelect.selectedIndex].text
                     .trim().toLowerCase();
@@ -892,11 +917,30 @@
 
                     // editable only if user NOT verified
                     taxInput.disabled = vendorVerified;
+
+                    if (taxInput.disabled) {
+                        // tax input won't be submitted -> ensure hidden input exists with same value
+                        ensureHiddenTax(taxInput.value);
+                    } else {
+                        // ensure no stale hidden input remains
+                        removeHiddenTax();
+                    }
                 } else {
                     taxWrapper.style.display = "none";
                     taxInput.disabled = true;
+                    // clear value from visible input
                     taxInput.value = "";
+                    // also remove hidden because tax not applicable
+                    removeHiddenTax();
                 }
+            }
+
+            // keep hidden updated when tax input changes (useful if enabled)
+            if (taxInput) {
+                taxInput.addEventListener('input', function() {
+                    const hidden = document.getElementById('tax_id_hidden');
+                    if (hidden) hidden.value = this.value;
+                });
             }
 
             toggleTaxField();
