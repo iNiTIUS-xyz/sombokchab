@@ -171,12 +171,13 @@
 @endsection
 
 @php
-    $order = $request->order;
+    $order = $request?->order;
 @endphp
 
 @section('site-title')
     {{ __('Request View') }}
 @endsection
+
 @section('section')
     <div class="dashboard__card">
         <div class="dashboard__card__header">
@@ -192,24 +193,24 @@
                         <div class="dashboard__card__body">
                             <div class="orderRequest__item">
                                 <span class="orderRequest__item__left">{{ __('Order Number') }}</span>
-                                <p class="orderRequest__item__right">{{ $order->order_number }}</p>
+                                <p class="orderRequest__item__right">{{ $order?->order_number }}</p>
                             </div>
                             <div class="orderRequest__item">
                                 <span class="orderRequest__item__left">{{ __('Transaction ID') }}</span>
-                                <p class="orderRequest__item__right">{{ $order->transaction_id }}</p>
+                                <p class="orderRequest__item__right">{{ $order?->transaction_id }}</p>
                             </div>
                             <div class="orderRequest__item">
                                 <span class="orderRequest__item__left">{{ __('Payment Gateway') }}</span>
                                 <p class="orderRequest__item__right">
-                                    {{ ucwords(str_replace(['_', '-'], ' ', $order->payment_gateway)) }}</p>
+                                    {{ ucwords(str_replace(['_', '-'], ' ', $order?->payment_gateway)) }}</p>
                             </div>
                             <div class="orderRequest__item">
                                 <span class="orderRequest__item__left">{{ __('Payment Status') }}</span>
-                                <p class="orderRequest__item__right">{{ str($order->order_status)->ucfirst() }}</p>
+                                <p class="orderRequest__item__right">{{ str($order?->order_status)->ucfirst() }}</p>
                             </div>
                             <div class="orderRequest__item">
                                 <span class="orderRequest__item__left">{{ __('Total Products') }}</span>
-                                <p class="orderRequest__item__right">{{ $order->order_items_count }}</p>
+                                <p class="orderRequest__item__right">{{ $order?->order_items_count }}</p>
                             </div>
                             <div class="orderRequest__item">
                                 <span class="orderRequest__item__left">{{ __('Items Total') }}</span>
@@ -252,7 +253,7 @@
 
                             <div class="orderRequest__item">
                                 <span class="orderRequest__item__left">{{ __('Additional Info') }}: </span>
-                                <p class="orderRequest__item__right">{{ $request->additional_information }}</p>
+                                <p class="orderRequest__item__right">{{ $request?->additional_information }}</p>
                             </div>
 
                             <div class="orderRequest__item">
@@ -262,27 +263,28 @@
 
                             <div class="orderRequest__item">
                                 <span class="orderRequest__item__left">{{ __('Total Products') }}</span>
-                                <p class="orderRequest__item__right">{{ $request->order?->order_items_count }}</p>
+                                <p class="orderRequest__item__right">{{ $request?->order?->order_items_count }}</p>
                             </div>
-                            @if (json_decode($request->preferred_option_fields))
+                            @if (json_decode($request?->preferred_option_fields))
                                 <div class="orderRequest__item">
                                     <span class="orderRequest__item__left">{{ $request?->preferredOption?->name }}: </span>
                                     <p class="orderRequest__item__right">
-                                        @foreach (json_decode($request->preferred_option_fields) ?? [] as $key => $value)
+                                        @foreach (json_decode($request?->preferred_option_fields) ?? [] as $key => $value)
                                             <span>{{ $key }}: </span><b>{{ $value }}</b>
                                         @endforeach
                                     </p>
                                 </div>
                             @endif
                             <br>
-                            @if($request->qr_file)
+                            @if ($request?->qr_file)
                                 <div class="orderRequest__item">
                                     <span class="orderRequest__item__left">
                                         {{ __('Qr File') }}
                                     </span>
                                     <p class="orderRequest__item__right">
-                                        <a href="{{ asset($request->qr_file) }}">
-                                            <img height="100%" width="100%" src="{{ asset($request->qr_file) }}" alt="">
+                                        <a href="{{ asset($request?->qr_file) }}">
+                                            <img height="100%" width="100%" src="{{ asset($request?->qr_file) }}"
+                                                alt="">
                                         </a>
                                     </p>
                                 </div>
@@ -295,7 +297,7 @@
                     <div class="dashboard__card">
                         <div class="dashboard__card__header">
                             <h5 class="">
-                                {{ $request->order?->order_items_count > 1 ? __('Refund Request Items') : __('Refund Request Item') }}
+                                {{ $request?->order?->order_items_count > 1 ? __('Refund Request Items') : __('Refund Request Item') }}
                             </h5>
                         </div>
                         <div class="dashboard__card__body mt-4">
@@ -313,10 +315,10 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($request->requestProduct as $item)
+                                            @foreach ($request?->requestProduct as $item)
                                                 @php
-                                                    $product = $request->products->find($item->product_id);
-                                                    $variant = $request->productVariant->find($item->variant_id);
+                                                    $product = $request?->products->find($item->product_id);
+                                                    $variant = $request?->productVariant->find($item->variant_id);
                                                 @endphp
 
                                                 <tr>
@@ -363,9 +365,10 @@
                         </div>
                         <div class="dashboard__card__body">
                             <div class="track">
-                                @foreach ($request->requestTrack as $track)
+                                @foreach ($request?->requestTrack as $track)
                                     @php
-                                        $trackCondition = $track->reason->count() > 0 || $track->deductedAmount->count() > 0;
+                                        $trackCondition =
+                                            $track->reason->count() > 0 || $track->deductedAmount->count() > 0;
                                     @endphp
                                     <div class="step active">
                                         <span class="icon">
@@ -377,7 +380,7 @@
                                                 <i class="las la-question-circle {{ $trackCondition ? 'stepText' : '' }}"
                                                     data-type="{{ $trackCondition ? ($track->deductedAmount->count() > 0 ? 'deductedAmount' : 'reason') : '' }}"
                                                     data-collection="{{ $trackCondition ? json_encode($track->deductedAmount?->count() > 0 ? $track->deductedAmount?->toArray() : $track->reason?->toArray()) : '' }}"
-                                                    data-refund_fee="{{ $request->refund_fee }}"></i>
+                                                    data-refund_fee="{{ $request?->refund_fee }}"></i>
                                             @endif
                                         </small>
                                     </div>
