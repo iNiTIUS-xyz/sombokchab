@@ -85,7 +85,8 @@ $navbar_type = $page_details->navbar_variant ?? (get_static_option('global_navba
                 paging: true,
                 lengthChange: true,   // keep this so DataTables *obeys* your dropdown
                 searching: true,
-                ordering: false,
+                ordering: true,
+                order: [],
                 info: true,
                 autoWidth: false,
                 responsive: true,

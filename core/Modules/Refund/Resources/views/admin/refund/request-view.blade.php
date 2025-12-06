@@ -185,7 +185,7 @@ $order = $request->order;
 <x-msg.success />
 <x-msg.error /> --}}
 
-<div class="dashboard__card">
+<div class="">
     <div class="dashboard__card__header">
         <h3 class="dashboard__card__title">
             {{ __('Refund Request Details') }}

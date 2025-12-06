@@ -607,14 +607,26 @@ class UserDashboardController extends Controller
 
     public function allOrdersPage()
     {
-
-        $all_orders = Order::with(['paymentMeta', 'refundRequest.currentTrackStatus'])->withCount('isDelivered')
+        $all_orders = Order::query()
+            ->with([
+                'paymentMeta',
+                'refundRequest.currentTrackStatus',
+                'suborders',
+                'suborders.vendor',
+                'suborders.orderItem',
+                'suborders.orderItem.product',
+                'suborders.orderItem.variant',
+                'suborders.orderItem.variant.productColor',
+                'suborders.orderItem.variant.productSize',
+            ])
+            ->withCount('isDelivered')
             ->where('user_id', auth('web')->user()->id)
             ->orderBy('created_at', 'DESC')
             ->get();
 
         return view(self::BASE_PATH . 'order.all', compact('all_orders'));
     }
+
 
     public function allRefundsPage()
     {
