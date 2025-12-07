@@ -256,7 +256,7 @@
                         </button>
                     </span>
                 </div>
-                <div class="btn-wrapper mt-2">
+                <div class="btn-wrapper mt-3">
                     <button type="submit" class="btn btn-danger">
                         {{ __('Deactivate Account') }}
                     </button>

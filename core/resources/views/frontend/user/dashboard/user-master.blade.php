@@ -137,7 +137,7 @@ $currentTitle = $titles[Route::currentRouteName()] ?? __('Customer Dashboard');
                         }
                     </style>
 
-                    <div class="tab-content">
+                    <div class="tab-content dashboard__card">
                         <div class="tab-pane active">
                             <div class="message-show margin-top-10">
                                 <x-msg.success />

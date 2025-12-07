@@ -19,7 +19,7 @@
                                 <th>{{ __('Order No.') }}</th>
                                 <th>{{ __('Order Date') }}</th>
                                 <th>{{ __('Status') }}</th>
-                                <th>{{ __('Amount') }}</th>
+                                <th>{{ __('Total Amount') }}</th>
                                 <th>{{ __('Action') }}</th>
                             </tr>
                         </thead>

@@ -391,15 +391,24 @@
         <x-msg.flash />
     </div>
     <div class="row">
-        <div class="col-lg-12">
-            <div class="breadcrumb-contents">
-                <h2 class="breadcrumb-title">
-                    {{ __('Order Details') }}
-                </h2>
+        <div class="breadcrumb-area breadcrumb-padding bg-item-badge">
+            <div class="breadcrumb-shapes">
+                <img src="{{ asset('assets/img/shop/badge-s1.png') }}" alt="">
+                <img src="{{ asset('assets/img/shop/badge-s2.png') }}" alt="">
+                <img src="{{ asset('assets/img/shop/badge-s3.png') }}" alt="">
+            </div>
+            <div class="container container-one">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="breadcrumb-contents">
+                            <h2 class="breadcrumb-title"> {{ __('Order Details') }} </h2>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="patment-success-area padding-top-100 padding-bottom-100">
+    <div class="patment-success-area padding-top-40 padding-bottom-40">
         @if (moduleExists('DeliveryMan'))
             @if (
                 !empty($payment_details->deliveryMan) &&
@@ -572,7 +581,7 @@
         @endif
 
         <div class="container">
-            <div class="row g-4 gx-5">
+            <div class="row g-4 gx-5 dashboard__card">
                 <div class="col-lg-6">
                     <div class="order__details__single">
                         <div class="payment-success-wrapper">
