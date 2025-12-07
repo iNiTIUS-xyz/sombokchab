@@ -188,24 +188,25 @@
                                             <small class="text-danger" id="passportNidError"></small>
                                         </div>
                                     </div>
-                                    <div class="col-sm-12 mb-2">
-                                        <div class="single-input">
-                                            <label class="label-title">
+                                    <div class="nice-select-two mb-2">
+                                        <div class="form-group">
+                                            <label class="label-title mb-2">
                                                 {{ __('Business Category') }}
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <div class="nice-select-two">
-                                                <select id="business_type" name="business_type_id"
-                                                    style="display: none;">
-                                                    @foreach ($business_type as $item)
-                                                        <option value="{{ $item->id }}">
-                                                            {{ $item->name }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
+                                            <select id="business_type" name="business_type_id" class="form--control"
+                                                aria-label="Business Category">
+                                                <option value="">{{ __('Select business category') }}</option>
+                                                @foreach ($business_type as $item)
+                                                    <option value="{{ $item->id }}"
+                                                        {{ old('business_type_id', $vendor->business_type_id ?? '') == $item->id ? 'selected' : '' }}>
+                                                        {{ $item->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
+
                                     <div class="col-sm-12" id="taxIdWrapper">
                                         <div class="form-group">
                                             <label class="label-title mb-2">
@@ -855,87 +856,13 @@
             });
         });
     </script>
-    <style>
-        /* Select2 visual tweaks to match your screenshot */
-        /* --- Select2 Main Box Styling --- */
-        .select2-container--default .select2-selection--single {
-            height: 48px !important;
-            border: 1px solid var(--border-two);
-            border-radius: 6px;
-            padding: 0 12px;
-            background: #fff;
-            display: flex;
-            align-items: center;
-            box-sizing: border-box;
-        }
 
-        /* Text inside the select */
-        .select2-container--default .select2-selection--single .select2-selection__rendered {
-            font-size: 15px !important;
-            /* smaller text */
-            line-height: 48px !important;
-            color: var(--paragraph-color);
-            padding-left: 0 !important;
-            color: #6e6c6c !important;
-        }
-
-        /* Placeholder color fix */
-        .select2-container--default .select2-selection--single .select2-selection__placeholder {
-            color: #6e6c6c !important;
-            font-size: 15px !important;
-        }
-
-        /* --- Arrow Alignment Fix --- */
-        .select2-container--default .select2-selection--single .select2-selection__arrow {
-            height: 48px !important;
-            top: 50% !important;
-            right: 10px !important;
-            transform: translateY(-50%) !important;
-        }
-
-        /* --- Dropdown Styling --- */
-        .select2-container--default .select2-dropdown {
-            border-radius: 6px;
-            border: 1px solid var(--border-two);
-            margin-top: 2px;
-            z-index: 999999 !important;
-        }
-
-        /* Dropdown option text */
-        .select2-container--default .select2-results__option {
-            padding: 10px 14px !important;
-            font-size: 14px !important;
-            cursor: pointer;
-        }
-
-        /* Highlighted option */
-        .select2-container--default .select2-results__option--highlighted {
-            background-color: #3f5e53 !important;
-            /* your green highlight */
-            color: #fff !important;
-        }
-
-        /* Prevent search box from showing */
-        .select2-search--dropdown {
-            display: none !important;
-        }
-
-        /* Fix dropdown clipping issues */
-        .select2-container {
-            width: 100% !important;
-            z-index: 999999 !important;
-        }
-    </style>
 
     <script>
         $(document).ready(function() {
 
             // Initialize Select2
-            $("#business_type").select2({
-                minimumResultsForSearch: Infinity, // remove search
-                width: "100%",
-                dropdownParent: $("#business_type").closest(".nice-select-two")
-            });
+
 
             // Toggle Tax ID field
             function toggleTaxIdField() {
