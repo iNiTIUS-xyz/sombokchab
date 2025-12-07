@@ -14,29 +14,35 @@ use Modules\Vendor\Entities\Vendor;
 use Modules\Vendor\Http\Requests\VendorRegistrationRequest;
 use Modules\Wallet\Entities\Wallet;
 
-class VendorLoginController extends Controller {
+class VendorLoginController extends Controller
+{
     use AuthenticatesUsers;
 
-    public function redirectTo() {
+    public function redirectTo()
+    {
         return route('vendor.home');
     }
 
-    public function username() {
+    public function username()
+    {
         return 'username';
     }
 
-    public function logout() {
+    public function logout()
+    {
         Auth::logout();
 
         return redirect()->route('vendor.login')
             ->with(['msg' => __('Sign out successful.'), 'type' => 'success']);
     }
 
-    public function login() {
+    public function login()
+    {
         return view('vendor::vendor.login.index');
     }
 
-    public function vendor_login(Request $request) {
+    public function vendor_login(Request $request)
+    {
         // Custom validation to check phone number content
         $validator = \Validator::make($request->all(), [
             'phone'    => [
@@ -116,7 +122,8 @@ class VendorLoginController extends Controller {
         ], 401);
     }
 
-    public function register() {
+    public function register()
+    {
         abort_if(get_static_option('enable_vendor_registration') == 'off', 403);
 
         $data = [
@@ -126,16 +133,17 @@ class VendorLoginController extends Controller {
         return view('vendor::vendor.register.index', $data);
     }
 
-    public function vendor_registration(VendorRegistrationRequest $request) {
+    public function vendor_registration(VendorRegistrationRequest $request)
+    {
         abort_if(get_static_option('enable_vendor_registration') == 'off', 403);
         // store validated data into a temporary variable
         $data = $request->all() ?? $request->validated();
         // now change password value and make it hash
         $rawPassword = $data['password'];
         $data['password'] = Hash::make($data['password']);
-        $data['is_vendor_verified'] = 1;
-
-        $data['verified_at'] = Carbon::now();
+        // if you want to register automatically as verified vendor then change null to 1 and Carbon::now()
+        $data['is_vendor_verified'] = null; // 1
+        $data['verified_at'] = null; // Carbon::now();
         $data['phone'] = $data['phone_country_code'] . $data['phone'];
         $data['owner_name'] = $request->username;
         // dd($data, $request->all());
@@ -184,7 +192,8 @@ class VendorLoginController extends Controller {
         ];
     }
 
-    public function checkVendorDataAvailability(Request $request) {
+    public function checkVendorDataAvailability(Request $request)
+    {
         $field = $request->input('field');
         $value = $request->input('value');
 
