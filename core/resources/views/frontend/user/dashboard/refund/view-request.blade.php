@@ -179,11 +179,8 @@
 @endsection
 
 @section('section')
-    <div class="dashboard__card">
-        <div class="dashboard__card__header">
-            {{-- <h3 class="dashboard__card__title">{{ __('Refund Request Details') }}</h3> --}}
-        </div>
-        <div class="dashboard__card__body mt-4">
+    <div class="">
+        <div class="dashboard__card__body">
             <div class="row g-4">
                 <div class="col-md-6">
                     <div class="dashboard__card card__two">

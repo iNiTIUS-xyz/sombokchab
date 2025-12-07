@@ -75,20 +75,20 @@ trait StoreOrderTrait
 
     private static function storeSubOrder($order_id, $vendor_id, $total_amount, $shipping_cost, $tax_amount, $type, $order_address_id): mixed
     {
-        // dd($order_id, $vendor_id, $total_amount, $shipping_cost, $tax_amount, $type, $order_address_id);
-        return SubOrder::create(array(
+        return SubOrder::create([
             "order_id" => $order_id,
-            "vendor_id" => $vendor_id ? $vendor_id :  null,
+            "vendor_id" => $vendor_id ?: null,
             "total_amount" => $total_amount,
             "shipping_cost" => $shipping_cost,
             "tax_amount" => $tax_amount,
             "tax_type" => $type,
             "order_address_id" => $order_address_id,
-            "order_number" => rand(000000000000, 999999999999),
+            "order_number" => self::generateSubOrderNumber(),
             "payment_status" => 'pending',
             "order_status" => 'pending',
-        ));
+        ]);
     }
+
 
     /**
      * @param $data
@@ -98,14 +98,40 @@ trait StoreOrderTrait
     {
         return SubOrderItem::insert($data);
     }
-    private static function uniqueOrderNumber($id)
+
+    private static function uniqueOrderNumber($id): bool
     {
         $order = Order::find($id);
-        if ($order) {
-            $order->order_number = mt_rand(10000, 99999) . $id . mt_rand(10000, 99999);
-            $order->save();
-            return true;
+
+        if (!$order) {
+            return false;
         }
-        return false;
+
+        $order->order_number = self::generateOrderNumber();
+        $order->save();
+
+        return true;
     }
+
+
+    private static function generateOrderNumber(): string
+    {
+        $today = now()->format('dmY'); // Example: 12072025
+
+        // Find the last main order from today
+        $lastOrder = Order::where('order_number', 'LIKE', $today . '%')
+            ->orderBy('order_number', 'DESC')
+            ->first();
+
+        if ($lastOrder) {
+            // Extract last 4 digits
+            $lastInc = (int) substr($lastOrder->order_number, -4);
+            $newInc  = str_pad($lastInc + 1, 4, '0', STR_PAD_LEFT);
+        } else {
+            $newInc = '0001';
+        }
+
+        return $today . $newInc;
+    }
+
 }
