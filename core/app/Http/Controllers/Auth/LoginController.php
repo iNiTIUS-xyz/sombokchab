@@ -2,46 +2,37 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Http\Request;
 use App\Helpers\CountryHelper;
+use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
-use Twilio\Rest\Client;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use HTTP_Request2;
-use HTTP_Request2_Exception;
-use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Support\Facades\Http;
 
-class LoginController extends Controller
-{
+class LoginController extends Controller {
 
     use AuthenticatesUsers;
 
-    public function redirectTo()
-    {
+    public function redirectTo() {
         return route('homepage');
     }
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('guest')->except('logout');
         $this->middleware('guest:admin')->except('logout');
     }
 
-    public function username()
-    {
+    public function username() {
         return 'username';
     }
 
-    public function showAdminLoginForm()
-    {
+    public function showAdminLoginForm() {
         return view('auth.admin.login');
     }
 
-    public function adminLogin(Request $request)
-    {
+    public function adminLogin(Request $request) {
         $user_login_type = 'username';
         if (filter_var($request->username, FILTER_VALIDATE_EMAIL)) {
             $user_login_type = 'email';
@@ -52,23 +43,23 @@ class LoginController extends Controller
             'password' => 'required|min:6',
         ], [
             'username.required' => sprintf(__('%s is required.'), ucfirst($user_login_type)),
-            'username.string' => sprintf(__('Please enter a valid %s.'), $user_login_type),
+            'username.string'   => sprintf(__('Please enter a valid %s.'), $user_login_type),
             'password.required' => __('Password is required.'),
-            'password.min' => __('Your password must be at least 6 characters long.'),
+            'password.min'      => __('Your password must be at least 6 characters long.'),
         ]);
 
         if (Auth::guard('admin')->attempt([$user_login_type => $request->username, 'password' => $request->password], $request->get('remember'))) {
             Auth::guard('vendor')->logout();
             return response()->json([
-                'msg' => __('Signed in successfully... Redirecting...'),
-                'type' => 'success',
+                'msg'    => __('Signed in successfully... Redirecting...'),
+                'type'   => 'success',
                 'status' => 'ok',
             ]);
         }
 
         return response()->json([
-            'msg' => sprintf(__('Incorrect account details. Please try again!!'), $user_login_type),
-            'type' => 'danger',
+            'msg'    => sprintf(__('Incorrect account details. Please try again!!'), $user_login_type),
+            'type'   => 'danger',
             'status' => 'not_ok',
         ]);
     }
@@ -113,8 +104,7 @@ class LoginController extends Controller
     //     return response()->json(['error' => 'Invalid OTP'], 422);
     // }
 
-    private function normalizePhone($phone)
-    {
+    private function normalizePhone($phone) {
         // keep only digits
         $phone = preg_replace('/[^0-9]/', '', $phone);
 
@@ -133,82 +123,78 @@ class LoginController extends Controller
         return null;
     }
 
-    private function isValidCambodian($phone)
-    {
+    private function isValidCambodian($phone) {
         return preg_match('/^855[0-9]{7,9}$/', $phone);
     }
 
-    public function sendOtp(Request $request)
-    {
+    public function sendOtp(Request $request) {
         $phone = $this->normalizePhone($request->phone);
 
         if (!$phone || !$this->isValidCambodian($phone)) {
             return response()->json([
-                "error" => "Invalid Cambodian phone number"
+                "error" => __('Invalid Cambodian phone number'),
             ], 422);
         }
 
         $otp = rand(100000, 999999);
 
-        Cache::put('otp_'.$phone, $otp, now()->addMinutes(5));
+        Cache::put('otp_' . $phone, $otp, now()->addMinutes(5));
 
-        $secretKey  = '$5$rounds=535000$tnyb7wdR4yyObXuy$XyyR4qHUkXZsbPZM6F8jsUI/CB.ndQWZMg3J1juww03';
+        $secretKey = '$5$rounds=535000$tnyb7wdR4yyObXuy$XyyR4qHUkXZsbPZM6F8jsUI/CB.ndQWZMg3J1juww03';
         $privateKey = 'oi8-uaNHqBkJ2yX7OLULVBbdwdz2bUjy-x3aSozfFXKeBIrK5S7WUjPZiCC9CvRY9zo-QHXWgUxqVMeEyQf3jA';
         $senderName = 'PlasGateUAT';
 
         $payload = [
             "sender"  => $senderName,
             "to"      => $phone,
-            "content" => "Your OTP code is: {$otp}"
+            "content" => "Your OTP code is: {$otp}",
         ];
 
         $url = "https://cloudapi.plasgate.com/rest/send?private_key={$privateKey}";
 
         $response = Http::withHeaders([
-            "X-Secret" => $secretKey,
-            "Content-Type" => "application/json"
+            "X-Secret"     => $secretKey,
+            "Content-Type" => "application/json",
         ])->post($url, $payload);
 
         if (!$response->successful()) {
             return response()->json([
-                "error" => "Failed to send OTP",
-                "details" => $response->body()
+                "error"   => __('Failed to send OTP'),
+                "details" => $response->body(),
             ], 500);
         }
 
         return response()->json([
             "success" => true,
-            "message" => "OTP sent successfully"
+            "message" => __('OTP sent successfully'),
         ]);
     }
 
-    public function verifyOtp(Request $request)
-    {
+    public function verifyOtp(Request $request) {
         $phone = $this->normalizePhone($request->phone);
 
         if (!$phone || !$this->isValidCambodian($phone)) {
             return response()->json([
-                "error" => "Invalid Cambodian phone number"
+                "error" => __('Invalid Cambodian phone number'),
             ], 422);
         }
 
         $otp = $request->otp;
 
-        $storedOtp = Cache::get('otp_'.$phone);
+        $storedOtp = Cache::get('otp_' . $phone);
 
         if ($storedOtp && $storedOtp == $otp) {
-            Cache::forget('otp_'.$phone);
+            Cache::forget('otp_' . $phone);
             return response()->json([
                 "success" => true,
-                "message" => "OTP verified"
+                "message" => __('OTP verified'),
             ]);
         }
 
         return response()->json([
-            "error" => "Invalid or expired OTP"
+            "error" => __('Invalid or expired OTP'),
         ], 422);
     }
-
 
     // public function verifyOtp(Request $request)
     // {
@@ -224,7 +210,6 @@ class LoginController extends Controller
 
     //     return response()->json(['error' => 'Invalid or expired OTP'], 422);
     // }
-
 
     // public function sendOtp(Request $request)
     // {
@@ -297,14 +282,12 @@ class LoginController extends Controller
     //     }
     // }
 
-    public function showLoginForm()
-    {
+    public function showLoginForm() {
         $all_country = CountryHelper::getAllCountries();
         return view('frontend.user.login', compact('all_country'));
     }
 
-    public function logout(Request $request)
-    {
+    public function logout(Request $request) {
         if (Auth::guard('web')->check()) {
             $userId = Auth::guard('web')->id();
 

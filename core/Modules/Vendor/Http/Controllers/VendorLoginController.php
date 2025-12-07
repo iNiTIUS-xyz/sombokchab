@@ -3,7 +3,6 @@
 namespace Modules\Vendor\Http\Controllers;
 
 use App\XGNotification;
-use Carbon\Carbon;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -14,35 +13,29 @@ use Modules\Vendor\Entities\Vendor;
 use Modules\Vendor\Http\Requests\VendorRegistrationRequest;
 use Modules\Wallet\Entities\Wallet;
 
-class VendorLoginController extends Controller
-{
+class VendorLoginController extends Controller {
     use AuthenticatesUsers;
 
-    public function redirectTo()
-    {
+    public function redirectTo() {
         return route('vendor.home');
     }
 
-    public function username()
-    {
+    public function username() {
         return 'username';
     }
 
-    public function logout()
-    {
+    public function logout() {
         Auth::logout();
 
         return redirect()->route('vendor.login')
             ->with(['msg' => __('Sign out successful.'), 'type' => 'success']);
     }
 
-    public function login()
-    {
+    public function login() {
         return view('vendor::vendor.login.index');
     }
 
-    public function vendor_login(Request $request)
-    {
+    public function vendor_login(Request $request) {
         // Custom validation to check phone number content
         $validator = \Validator::make($request->all(), [
             'phone'    => [
@@ -122,8 +115,7 @@ class VendorLoginController extends Controller
         ], 401);
     }
 
-    public function register()
-    {
+    public function register() {
         abort_if(get_static_option('enable_vendor_registration') == 'off', 403);
 
         $data = [
@@ -133,8 +125,7 @@ class VendorLoginController extends Controller
         return view('vendor::vendor.register.index', $data);
     }
 
-    public function vendor_registration(VendorRegistrationRequest $request)
-    {
+    public function vendor_registration(VendorRegistrationRequest $request) {
         abort_if(get_static_option('enable_vendor_registration') == 'off', 403);
         // store validated data into a temporary variable
         $data = $request->all() ?? $request->validated();
@@ -178,13 +169,13 @@ class VendorLoginController extends Controller
         // now make login vendor here
         if (Auth::guard('vendor')->attempt(['username' => $vendor['username'], 'password' => $rawPassword], true)) {
             return redirect()->route('vendor.login')->with([
-                'msg'    => $vendor ? __('Registration success') : __('Registration failed'),
+                'msg'    => $vendor ? __('Registration success.') : __('Registration failed.'),
                 'status' => (bool) $vendor,
             ]);
         }
 
         return $vendor ? [
-            'msg'  => __('registration success.'),
+            'msg'  => __('Registration success.'),
             'type' => 'success',
         ] : [
             'msg'  => __('Failed to register.'),
@@ -192,8 +183,7 @@ class VendorLoginController extends Controller
         ];
     }
 
-    public function checkVendorDataAvailability(Request $request)
-    {
+    public function checkVendorDataAvailability(Request $request) {
         $field = $request->input('field');
         $value = $request->input('value');
 
@@ -204,15 +194,15 @@ class VendorLoginController extends Controller
         if ($field === 'phone') {
             $exists = \DB::table('vendors')->where('phone', $value)->exists();
 
-            $msg = 'Phone number already exists.';
+            $msg = __('Phone number already exists.');
         } elseif ($field === 'email') {
             $exists = \DB::table('vendors')->where('email', $value)->exists();
 
-            $msg = 'Email address already exists.';
+            $msg = __('Email address already exists.');
         } elseif ($field === 'username') {
             $exists = \DB::table('vendors')->where('username', $value)->exists();
 
-            $msg = 'Username already taken.';
+            $msg = __('Username already taken.');
         }
 
         if ($exists) {

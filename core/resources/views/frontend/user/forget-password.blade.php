@@ -13,13 +13,13 @@
                             <!-- Display success/error messages -->
                             <div class="alert alert-danger" id="error" style="display: none;"></div>
                             <div class="alert alert-success" id="sentSuccess" style="display: none;">
-                                OTP sent successfully!
+                                {{ __('OTP sent successfully!') }}
                             </div>
                             <div class="alert alert-success" id="verifiedSuccess" style="display: none;">
-                                Phone verified successfully!
+                                {{ __('Phone verified successfully!') }}
                             </div>
                             <div class="alert alert-success" id="passwordUpdated" style="display: none;">
-                                Password updated successfully!
+                                {{ __('Password updated successfully!') }}
                             </div>
                             <div id="step-1">
                                 <form id="step1-form" method="POST" novalidate>
@@ -133,6 +133,7 @@
             verifiedSuccessDiv.style.display = 'block';
         }
 
+
         function showPasswordUpdated(message = 'Password Updated Successfully!') {
             hideAllMessages();
             passwordUpdatedDiv.textContent = message;
@@ -179,7 +180,10 @@
                     if (data.exists) {
                         sendOTP(phoneVal);
                     } else {
-                        showError('This phone number is not registered!');
+                        showError(@json(__('This phone number is not registered!')));
+
+
+
                     }
                 })
                 .catch(err => {
