@@ -52,7 +52,7 @@ Route::prefix("vendor-home/wallet")->middleware(["auth:vendor", 'userEmailVerify
     });
 });
 
-Route::prefix("user-home/wallet")->middleware(["auth:web", "globalVariable"])->as('user-home.wallet.')->group(function () {
+Route::prefix("user-home/wallet")->middleware(["auth:web", "globalVariable", "setlang:frontend"])->as('user-home.wallet.')->group(function () {
     Route::controller(WalletController::class)->group(function () {
         Route::get('history', 'wallet_history')->name('history');
         Route::get('paginate/data', 'pagination')->name('paginate.data');

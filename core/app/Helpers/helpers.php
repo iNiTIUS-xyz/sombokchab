@@ -2364,7 +2364,7 @@ function render_payment_gateway_for_form($cash_on_delivery = false): string
         $image = render_image_markup_by_attachment_id($gateway->image, '', 'style="height: 30px;"');
 
         // Clean and format the display name
-        $display_name = ucwords(str_replace('_', ' ', $gateway->name));
+        $display_name = __(ucwords(str_replace('_', ' ', $gateway->name)));
 
         $output .= <<<HTML
         <label class="gateway_option" for="{$id}">

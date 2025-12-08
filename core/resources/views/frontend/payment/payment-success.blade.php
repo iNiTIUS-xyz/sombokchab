@@ -246,31 +246,12 @@
                                         {{ $payment_details?->order_number }}
                                     </span>
                                 </li>
-                                {{-- <li>
-                                    {{ __('Tracking No.') }}
-                                    <span class="payment-strong">
-                                        {{ $payment_details?->tracking_code }}
-                                    </span>
-                                </li> --}}
                             </ul>
-
-                            {{-- <div class="btn-wrapper margin-top-40">
-                                @if (auth('web')->check())
-                                    <a href="{{ route('user.home') }}" class="default-btn color-one">
-                                        {{ __('Go to Dashboard') }}
-                                    </a>
-                                @else
-                                    <a href="{{ route('homepage') }}" class="btn btn-primary outline-one">
-                                        {{ __('Back to Home') }}
-                                    </a>
-                                @endif
-                            </div> --}}
                         </div>
                     </div>
                 </div>
 
                 <div class="col-md-7">
-                    {{-- Admin can update order track status --}}
                     <x-order::order-track :order="$payment_details" :disable-form="true" />
                 </div>
             </div>
@@ -286,11 +267,9 @@
                             <thead>
                                 <tr>
                                     <th>{{ __('Order No.') }}</th>
-                                    {{-- <th>{{ __('Tracking No.') }}</th> --}}
                                     <th>{{ __('Date') }}</th>
                                     <th>{{ __('Sub Total') }}</th>
                                     <th>{{ __('Shipping Cost') }}</th>
-                                    {{-- <th>{{ __('Tax Amount') }}</th> --}}
                                     <th>{{ __('Discount Amount') }}</th>
                                     <th>{{ __('Payable Amount') }}</th>
                                     <th>{{ __('Payment Method') }}</th>
@@ -301,9 +280,6 @@
                                     <td>
                                         {{ $payment_details?->order_number }}
                                     </td>
-                                    {{-- <td>
-                                        {{ $payment_details?->tracking_code }}
-                                    </td> --}}
                                     <td>
                                         {{ $payment_details?->created_at->format('d/m/Y') }}
                                     </td>
@@ -313,9 +289,6 @@
                                     <td>
                                         {{ float_amount_with_currency_symbol($payment_details?->paymentMeta?->shipping_cost) }}
                                     </td>
-                                    {{-- <td>
-                                        {{ float_amount_with_currency_symbol($payment_details?->paymentMeta?->tax_amount) }}
-                                    </td> --}}
                                     <td>
                                         {{ float_amount_with_currency_symbol($payment_details?->paymentMeta?->coupon_amount) }}
                                     </td>
@@ -352,7 +325,8 @@
                                     @endphp
 
                                     <div class="card-header">
-                                        {{ __('ITEM') }} {{ $order?->orderItem?->count() }} <br>
+                                        {{ __('ITEM') }} {{ $order?->orderItem?->count() }}
+                                        <br>
                                         {{ __('Sold By:') }}
                                         {{ $order->vendor?->business_name ?? $adminShopManage?->store_name }}
                                     </div>
@@ -374,7 +348,6 @@
                                                 <div class="checkout-cart-img-contents">
                                                     <h6 class="checkout-cart-title fs-18" style="max-width: 350px">
                                                         <a href="#1">
-                                                            {{-- {{Str::words($orderItem->product->name, 5)}}  --}}
                                                             {{ $orderItem->product->name }}
                                                         </a>
                                                         <p>
@@ -393,8 +366,8 @@
                                                 </div>
                                                 <span class="d-block product-items w-10"
                                                     style="display: flex !important; justify-content: center; align-items: center">
-                                                    {{ $orderItem->quantity ?? '0' }} {{ __('QTY') }} </span>
-
+                                                    {{ $orderItem->quantity ?? '0' }} {{ __('QTY') }}
+                                                </span>
                                                 <div class="d-flex gap-2 w-20">
                                                     <del class="checkout-cart-price color-heading fw-500">
                                                         {{ amount_with_currency_symbol($orderItem->sale_price) }}

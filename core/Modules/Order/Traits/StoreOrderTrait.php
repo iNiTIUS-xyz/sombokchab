@@ -83,17 +83,13 @@ trait StoreOrderTrait
             "tax_amount" => $tax_amount,
             "tax_type" => $type,
             "order_address_id" => $order_address_id,
-            "order_number" => self::generateSubOrderNumber(),
+            // "order_number" => self::generateSubOrderNumber(), // vai change to random number as per request
+            "order_number" => rand(000000000000, 999999999999),
             "payment_status" => 'pending',
             "order_status" => 'pending',
         ]);
     }
 
-
-    /**
-     * @param $data
-     * @return mixed
-     */
     private static function storeSubOrderItem($data): mixed
     {
         return SubOrderItem::insert($data);
@@ -133,5 +129,4 @@ trait StoreOrderTrait
 
         return $today . $newInc;
     }
-
 }
