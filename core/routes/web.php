@@ -657,7 +657,7 @@ Route::group(['prefix' => $product_page_slug, 'as' => 'frontend.products.', 'mid
 Route::get("product-search", [FrontendController::class, "search"])->name("frontend.ajax.products.search");
 Route::get('/search-results', [FrontendController::class, 'searchResults'])->name('frontend.search.results');
 
-Route::middleware("globalVariable")->as('frontend.')->controller(PaymentGatewayController::class)->group(function () {
+Route::middleware(["globalVariable", "setlang:frontend"])->as('frontend.')->controller(PaymentGatewayController::class)->group(function () {
     Route::post('paytm-ipn', 'paytm_ipn')->name('paytm.ipn');
     Route::post('toyyibpay-ipn', 'toyyibpay_ipn')->name('toyyibpay.ipn');
     Route::get('mollie-ipn', 'mollie_ipn')->name('mollie.ipn');

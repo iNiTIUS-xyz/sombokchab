@@ -25,18 +25,18 @@ class MobileFeatureProductResource extends JsonResource
         $deleted_price = !is_null($campaign_product) ? $this->sale_price : $this->price;
 
         $campaign_percentage = !is_null($campaign_product) ? getPercentage($this->sale_price, $sale_price) : false;
-        $add_to_cart = ProductInventoryDetail::where("product_id",$this->id)->where("stock_count", ">",0)->count();
+        $add_to_cart = ProductInventoryDetail::where("product_id", $this->id)->where("stock_count", ">", 0)->count();
 
         $end_date_of_campaign = !empty($campaign_product) ? ["end_date" => $campaign_product?->end_date] : [];
 
         return [
             "prd_id" => $this->id,
-            "title" => html_entity_decode(htmlspecialchars_decode($this->name)),
+            "title" => langWiseShowValue(html_entity_decode(htmlspecialchars_decode($this->name)), html_entity_decode(htmlspecialchars_decode($this->name_km))),
             "img_url" => render_image($this->image, render_type: 'path') ?? null,
-            "campaign_percentage" => round($campaign_percentage,0),
-            "price" => calculatePrice(round($deleted_price,0), $this),
+            "campaign_percentage" => round($campaign_percentage, 0),
+            "price" => calculatePrice(round($deleted_price, 0), $this),
             "discount_price" => calculatePrice($sale_price, $this),
-            "badge" => ["badge_name" => $this->badge?->name ?? null,"image" => render_image($this->badge_image, render_type: "path")],
+            "badge" => ["badge_name" => $this->badge?->name ?? null, "image" => render_image($this->badge_image, render_type: "path")],
             "campaign_product" => !empty($campaign_product),
             "campaign_stock" => !empty($campaign_product) ? $campaign_product->units_for_sale - $campaign_product->soldProduct?->sold_count : 0,
             "stock_count" => optional($this->inventory)->stock_count,
@@ -48,8 +48,8 @@ class MobileFeatureProductResource extends JsonResource
             "sub_category_id" => $this->subCategory?->id,
             "child_category_ids" => $this->childCategory?->pluck("id")?->toArray(),
             "url" => route("frontend.products.single", $this->slug),
-            "random_key" => random_int(11111111,99999999) . ($this->tax_options_sum_rate ?? 0) . random_int(111111111111111,999999999999999),
-            "random_secret" => random_int(111111111111111,999999999999999) . round($sale_price,0) . random_int(11111111,99999999)
+            "random_key" => random_int(11111111, 99999999) . ($this->tax_options_sum_rate ?? 0) . random_int(111111111111111, 999999999999999),
+            "random_secret" => random_int(111111111111111, 999999999999999) . round($sale_price, 0) . random_int(11111111, 99999999)
         ] + $end_date_of_campaign;
     }
 }

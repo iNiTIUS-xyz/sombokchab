@@ -125,7 +125,7 @@
                                                     @if ($wishlist)
                                                         {{-- Move to Cart Button --}}
                                                         <a data-label="Move"
-                                                            title="{{ $stock_count > 0 ? 'Move to cart' : 'Out of stock' }}"
+                                                            title="{{ $stock_count > 0 ? __('Move to cart') : __('Out of stock') }}"
                                                             data-type="tr"
                                                             data-product_hash_id="{{ $cart_item->rowId }}"
                                                             href="{{ $stock_count > 0 ? '#1' : 'javascript:void(0)' }}"

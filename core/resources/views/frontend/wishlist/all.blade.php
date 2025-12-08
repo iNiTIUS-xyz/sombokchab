@@ -125,6 +125,7 @@
         </div>
     </div>
 @endsection
+
 @section('script')
     <script>
         (function($) {

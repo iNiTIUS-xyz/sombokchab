@@ -926,10 +926,16 @@
                         let fetchedProdcuts = data['products'];
                         search_result_products.html('');
 
+                        const IN_STOCK_TEXT = "{{ __('In Stock') }}";
+                        const OUT_OF_STOCK_TEXT = "{{ __('Out of Stock') }}";
+
                         if (data['products']) {
                             $('#search_result_products').parent().show();
                             $('#no_product_found_div').hide();
                             Object.values(data['products']).forEach(function(product) {
+
+                                const stockTextInfo = product['stock_count'] > 0 ? IN_STOCK : OUT_OF_STOCK;
+
                                 search_result_products.append(`
                                 <li class="list">
                                     <a href="${product['url']}" class="item">
@@ -944,7 +950,7 @@
                                                     <span class="flash-old-prices">${site_currency_symbol + product['deleted_price']}</span>
                                                 </div>
                                                 <span class="${product['stock_count'] > 0 ? 'stock-in' : 'stock-out'}">
-                                                    ${product['stock_count'] > 0 ? 'In Stock' : 'Out of Stock'}
+                                                    ${stockTextInfo}
                                                 </span>
                                             </div>
                                         </div>
