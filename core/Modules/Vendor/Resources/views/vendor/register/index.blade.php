@@ -274,7 +274,8 @@
                                             style="font-weight: bold !important;">
                                             {{ __('Accept all') }}
                                             <a href="{{ url(get_static_option('toc_page_link')) }}" class="text-active"
-                                                target="__blank">{{ __('Terms and Conditions') }}</a> &amp;
+                                                target="__blank">{{ __('Terms and Conditions') }}</a>
+                                            {{ __('&') }}
 
                                             <a href="{{ get_static_option('privacy_policy_link') ?: '#' }}"
                                                 class="text-active" target="_blank">
@@ -290,7 +291,7 @@
                                 <div class="form-group" style="text-align: center;">
                                     <button type="button" class="btn btn-next step-button-outline p-2"
                                         onclick="sendCodeAndContinue()" id="continueButton" disabled>
-                                        <span class="">Next </span>
+                                        <span class="">{{ __('Next') }} </span>
                                         <i class="las la-arrow-right"></i>
                                     </button>
                                 </div>
