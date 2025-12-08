@@ -37,6 +37,7 @@
                                             <span class="text-danger">*</span>
                                         </label>
                                         <input type="text" class="form-control" name="title"
+                                            oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '');"
                                             placeholder="{{ __('Enter title') }}" required="">
                                     </div>
                                 </div>
@@ -56,6 +57,7 @@
                                             <span class="text-danger">*</span>
                                         </label>
                                         <input type="text" class="form-control" name="author"
+                                            oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '');"
                                             placeholder="{{ __('Enter author') }}" required="">
                                     </div>
                                 </div>
@@ -82,8 +84,8 @@
                                             {{ __('Excerpt') }}
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <textarea name="excerpt" id="excerpt" class="form-control max-height-150" cols="30"
-                                            rows="10" placeholder="{{ __('Enter excerpt') }}" required=""></textarea>
+                                        <textarea name="excerpt" id="excerpt" class="form-control max-height-150" cols="30" rows="10"
+                                            placeholder="{{ __('Enter excerpt') }}" required=""></textarea>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
@@ -103,15 +105,15 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="meta_description">{{ __('Meta Description') }}</label>
-                                        <textarea type="text" class="form-control" name="meta_description" rows="5"
-                                            cols="10" placeholder="{{ __('Enter meta description') }}"></textarea>
+                                        <textarea type="text" class="form-control" name="meta_description" rows="5" cols="10"
+                                            placeholder="{{ __('Enter meta description') }}"></textarea>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="og_meta_description">{{ __('Og Meta Description') }}</label>
-                                        <textarea type="text" class="form-control" name="og_meta_description" rows="5"
-                                            cols="10" placeholder="{{ __('Enter og meta description') }}"></textarea>
+                                        <textarea type="text" class="form-control" name="og_meta_description" rows="5" cols="10"
+                                            placeholder="{{ __('Enter og meta description') }}"></textarea>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
@@ -123,8 +125,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <x-media-upload :title="__('Og Meta Image')" name="og_meta_image"
-                                            id="og_meta_image" />
+                                        <x-media-upload :title="__('Og Meta Image')" name="og_meta_image" id="og_meta_image" />
                                         <small
                                             class="form-text text-danger">{{ __('Allowed image formats: jpg,jpeg,png') }}</small>
                                     </div>
@@ -180,7 +181,7 @@
     <x-summernote.js />
     <x-media.js />
     <script>
-        $(document).on('summernote.change', "textarea[name='blog_content']", function () {
+        $(document).on('summernote.change', "textarea[name='blog_content']", function() {
             var data = $("textarea[name='blog_content']").summernote('code');
             $("textarea[name='blog_content']").val(data)
         })

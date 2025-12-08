@@ -17,9 +17,7 @@
     <div class="col-lg-12 col-ml-12">
         <div class="row">
             <div class="col-lg-12">
-                {{--
-            <x-msg.error />
-            <x-msg.flash /> --}}
+
                 <div class="mb-4">
                     @can('add-category')
                         <a href="#1" data-bs-toggle="modal" data-bs-target="#category_create_modal"
@@ -151,6 +149,7 @@
                                     <span class="text-danger">*</span>
                                 </label>
                                 <input type="text" class="form-control" id="edit_name" name="name"
+                                    oninput="this.value = this.value.replace(/[^A-Za-z &]/g, '');"
                                     placeholder="{{ __('Enter name') }}" required="">
                             </div>
                             <div class="form-group">
@@ -214,6 +213,7 @@
                                     <span class="text-danger">*</span>
                                 </label>
                                 <input type="text" class="form-control" id="create-name" name="name"
+                                    oninput="this.value = this.value.replace(/[^A-Za-z &]/g, '');"
                                     placeholder="{{ __('Enter name (English)') }}" required="">
                             </div>
                             <div class="form-group">

@@ -20,7 +20,8 @@
                             <span class="text-danger">*</span>
                         </label>
                         <input type="text" class="form-control" name="city" id="city_name"
-                            placeholder="Enter city name" required="">
+                            oninput="this.value = this.value.replace(/[^A-Za-z ()]/g, '');"
+                            placeholder="{{ __('Enter city name') }}" required="">
                         <span class="info_msg"></span>
                     </div>
 

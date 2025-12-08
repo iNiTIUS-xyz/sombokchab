@@ -7,9 +7,7 @@
 @endsection
 @section('content')
     <div class="col-lg-12 col-ml-12">
-        {{--
-    <x-msg.error />
-    <x-msg.flash /> --}}
+
         <div class="row">
             <div class="col-lg-12">
                 @can('manage-country-province-city')
@@ -120,6 +118,7 @@
                                     <span class="text-danger">*</span>
                                 </label>
                                 <input type="text" class="form-control" id="edit_name" name="name"
+                                    oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '');"
                                     placeholder="{{ __('Enter country name') }}" required="">
                             </div>
                             <div class="form-group">
@@ -159,6 +158,7 @@
                                     <span class="text-danger">*</span>
                                 </label>
                                 <input type="text" class="form-control" id="name" name="name"
+                                    oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '');"
                                     placeholder="{{ __('Enter country name') }}" required="">
                             </div>
                             <div class="form-group">

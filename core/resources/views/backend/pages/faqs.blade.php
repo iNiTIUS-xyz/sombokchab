@@ -14,9 +14,7 @@
     <div class="col-lg-12 col-ml-12">
         <div class="row g-4">
             <div class="col-lg-12">
-                {{--
-            <x-error-msg />
-            <x-flash-msg /> --}}
+
                 <div class="mb-4">
                     @can('add-faq')
                         <a href="#1" data-bs-toggle="modal" data-bs-target="#faq_add_modal"
@@ -155,6 +153,7 @@
                                         <span class="text-danger">*</span>
                                     </label>
                                     <input type="text" class="form-control" id="title" name="title"
+                                        oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '');"
                                         placeholder="{{ __('Enter title (English)') }}" required="">
                                 </div>
                             </div>
@@ -235,6 +234,7 @@
                                     <span class="text-danger">*</span>
                                 </label>
                                 <input type="text" class="form-control" id="edit_title" name="title"
+                                    oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '');"
                                     placeholder="{{ __('Title') }}" required="">
                             </div>
                             <div class="form-group">

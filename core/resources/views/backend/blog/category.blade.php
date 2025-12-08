@@ -8,9 +8,7 @@
     <div class="col-lg-12 col-ml-12">
         <div class="row">
             <div class="col-lg-12">
-                {{--
-            <x-msg.error />
-            <x-msg.success /> --}}
+
                 @can('manage-blog-settings')
                     <div class="btn-wrapper mb-4">
                         <a data-bs-toggle="modal" data-bs-target="#new_category_modal" class="cmn_btn btn_bg_profile pull-right"
@@ -117,6 +115,7 @@
                                     <span class="text-danger">*</span>
                                 </label>
                                 <input type="text" class="form-control" id="name" name="name"
+                                    oninput="this.value = this.value.replace(/[^A-Za-z &]/g, '');"
                                     placeholder="{{ __('Enter name') }}" required="">
                             </div>
                             <div class="form-group">
@@ -161,6 +160,7 @@
                                     <span class="text-danger">*</span>
                                 </label>
                                 <input type="text" class="form-control" id="edit_name" name="name"
+                                    oninput="this.value = this.value.replace(/[^A-Za-z &]/g, '');"
                                     placeholder="{{ __('Enter name') }}" required="">
                             </div>
                             <div class="form-group">
