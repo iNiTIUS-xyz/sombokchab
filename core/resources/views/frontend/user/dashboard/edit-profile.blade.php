@@ -73,6 +73,7 @@
                                 <span class="text-danger">*</span>
                             </label>
                             <input type="text" class="form-control" id="name" name="name"
+                                oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '');"
                                 value="{{ $user_details->name }}" placeholder="{{ __('Enter Full Name') }}" required="">
                         </div>
                     </div>
@@ -148,7 +149,8 @@
                             <label for="zipcode">
                                 {{ __('Postal Code') }}
                             </label>
-                            <input type="text" class="form-control" id="zipcode" name="zipcode"
+                            <input type="number" class="form-control" id="zipcode" name="zipcode" maxlength="5"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '');"
                                 value="{{ $user_details->zipcode }}" placeholder="{{ __('Enter Postal Code') }}">
                         </div>
                     </div>
