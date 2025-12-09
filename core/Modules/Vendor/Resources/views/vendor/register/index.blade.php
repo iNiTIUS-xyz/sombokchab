@@ -304,7 +304,7 @@
                                 <div class="form-group">
                                     <label class="label-title">Enter OTP</label>
                                     <input type="text" id="verificationCode" class="form--control radius-10"
-                                        placeholder="6-digit Code" style="border-radius: 10px;" />
+                                        maxlength="6" placeholder="6-digit Code" style="border-radius: 10px;" />
                                     <small class="text-danger" id="verificationCodeError"></small>
                                     <button type="button"
                                         style="background: transparent; border: none; text-decoration: underline; color: #41695a; float: right"
