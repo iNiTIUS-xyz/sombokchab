@@ -183,6 +183,7 @@
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <input name="passport_nid" id="passport_nid" type="number" maxlength="30"
+                                                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 30);"
                                                 class="form--control radius-10"
                                                 placeholder="{{ __('Enter Passport or National ID') }}" required />
                                             <small class="text-danger" id="passportNidError"></small>
