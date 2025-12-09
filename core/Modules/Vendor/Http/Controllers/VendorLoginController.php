@@ -137,6 +137,7 @@ class VendorLoginController extends Controller {
         $data['verified_at'] = null; // Carbon::now();
         $data['phone'] = $data['phone_country_code'] . $data['phone'];
         $data['owner_name'] = $request->username;
+        $data['passport_or_nid'] = $request->passport_nid;
         // dd($data, $request->all());
         // now create vendor
         $vendor = Vendor::create($data);

@@ -11,10 +11,11 @@ class VendorRegistrationRequest extends FormRequest {
         // dd(request()->all());
         return [
             "owner_name"       => "nullable",
-            "username"         => "required|unique:vendors",
-            "password"         => "required|confirmed|min:6",
+            "username"         => "required|unique:vendors|min:3|max:20",
+            "password"         => "required|confirmed|min:8|max:25",
             "business_name"    => "nullable",
             "business_type_id" => "nullable",
+            "passport_nid"     => "required",
             'tax_id'           => [
                 'nullable',
                 Rule::requiredIf(function () {

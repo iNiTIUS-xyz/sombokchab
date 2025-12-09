@@ -227,7 +227,7 @@
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <div class="position-relative">
-                                                <input name="password" id="password" type="password" maxlength="30"
+                                                <input name="password" id="password" type="password" maxlength="25"
                                                     class="form--control radius-10"
                                                     placeholder="{{ __('Enter Password') }}" required />
                                                 <div class="toggle-password position-absolute"
@@ -251,7 +251,7 @@
                                             </label>
                                             <div class="position-relative">
                                                 <input name="password_confirmation" id="password_confirmation"
-                                                    maxlength="30" type="password" class="form--control radius-10"
+                                                    maxlength="25" type="password" class="form--control radius-10"
                                                     placeholder="{{ __('Enter Confirm Password') }}" required />
                                                 <div class="toggle-password position-absolute"
                                                     style="right: 10px; top: 45%; transform: translateY(-50%); cursor: pointer;">

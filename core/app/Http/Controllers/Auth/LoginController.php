@@ -171,6 +171,10 @@ class LoginController extends Controller {
     }
 
     public function verifyOtp(Request $request) {
+        $request->validate([
+            'otp'   => 'required|digits:6',
+            'phone' => 'required',
+        ]);
         $phone = $this->normalizePhone($request->phone);
 
         if (!$phone || !$this->isValidCambodian($phone)) {
