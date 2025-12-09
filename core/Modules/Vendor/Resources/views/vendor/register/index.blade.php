@@ -125,7 +125,7 @@
                                                 {{ __('Store Name') }}
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input name="business_name" id="business_name" type="text" maxlength="30"
+                                            <input name="business_name" id="business_name" type="text" maxlength="50"
                                                 class="form--control radius-10" placeholder="{{ __('Enter Store Name') }}"
                                                 required />
                                             <small class="text-danger" id="businessNameError"></small>
@@ -171,7 +171,7 @@
                                                 {{ __('Email') }}
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input name="email" id="email" type="text" maxlength="40"
+                                            <input name="email" id="email" type="text" maxlength="50"
                                                 class="form--control radius-10" placeholder="{{ __('Enter Email') }}" />
                                             <small class="text-danger" id="emailError"></small>
                                         </div>
@@ -226,7 +226,7 @@
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <div class="position-relative">
-                                                <input name="password" id="password" type="password" maxlength="20"
+                                                <input name="password" id="password" type="password" maxlength="30"
                                                     class="form--control radius-10"
                                                     placeholder="{{ __('Enter Password') }}" required />
                                                 <div class="toggle-password position-absolute"
@@ -250,7 +250,7 @@
                                             </label>
                                             <div class="position-relative">
                                                 <input name="password_confirmation" id="password_confirmation"
-                                                    maxlength="20" type="password" class="form--control radius-10"
+                                                    maxlength="30" type="password" class="form--control radius-10"
                                                     placeholder="{{ __('Enter Confirm Password') }}" required />
                                                 <div class="toggle-password position-absolute"
                                                     style="right: 10px; top: 45%; transform: translateY(-50%); cursor: pointer;">
