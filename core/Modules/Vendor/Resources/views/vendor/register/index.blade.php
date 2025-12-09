@@ -198,17 +198,47 @@
                                             <select id="business_type" name="business_type_id" class="form--control"
                                                 aria-label="Business Category">
                                                 <option value="">{{ __('Select business category') }}</option>
+                                                @php
+                                                    use Illuminate\Support\Str;
+                                                @endphp
+
                                                 @foreach ($business_type as $item)
+                                                    @php
+                                                        // Mark option requiring tax if name contains 'business' (adjust if you have $item->requires_tax)
+                                                        $requiresTax = Str::contains(
+                                                            Str::lower($item->name),
+                                                            'business',
+                                                        )
+                                                            ? '1'
+                                                            : '0';
+
+                                                        // Set 'Individual' to selected by default if no old input or vendor value present
+                                                        $isSelected = false;
+                                                        if (old('business_type_id') !== null) {
+                                                            $isSelected = old('business_type_id') == $item->id;
+                                                        } elseif (isset($vendor) && $vendor->business_type_id) {
+                                                            $isSelected = $vendor->business_type_id == $item->id;
+                                                        } else {
+                                                            // default: select 'Individual' if the option label contains 'individual'
+                                                            $isSelected = Str::contains(
+                                                                Str::lower($item->name),
+                                                                'individual',
+                                                            );
+                                                        }
+                                                    @endphp
+
                                                     <option value="{{ $item->id }}"
-                                                        {{ old('business_type_id', $vendor->business_type_id ?? '') == $item->id ? 'selected' : '' }}>
+                                                        data-requires-tax="{{ $requiresTax }}"
+                                                        {{ $isSelected ? 'selected' : '' }}>
                                                         {{ $item->name }}
                                                     </option>
                                                 @endforeach
+
                                             </select>
                                         </div>
                                     </div>
 
-                                    <div class="col-sm-12" id="taxIdWrapper">
+                                    <div class="col-sm-12" id="taxIdWrapper" style="display: none;">
                                         <div class="form-group">
                                             <label class="label-title mb-2">
                                                 {{ __('Tax ID') }}
@@ -219,6 +249,7 @@
                                             <small class="text-danger" id="taxIdError"></small>
                                         </div>
                                     </div>
+
 
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -448,13 +479,8 @@
             return '';
         }
 
-        function validateTaxId(value) {
-            const re = /^[A-Za-z]\d{12}$/;
-            if (!re.test((value || '').trim())) {
-                return 'Tax ID must be 1 letter followed by 12 digits (e.g., L000000000000)';
-            }
-            return '';
-        }
+        // NOTE: the Tax ID validation & toggle are handled by the consolidated script further down.
+        // Avoid duplicate validateTaxId here so the single authoritative handler is used.
 
         function validateTerms(isChecked) {
             return !isChecked ? 'You must accept the terms and conditions' : '';
@@ -493,72 +519,6 @@
                 el.style.display = 'none';
             }, seconds * 1000);
         }
-
-        // ----------------- TAX ID TOGGLING (ROBUST WITH SELECT2 SUPPORT) ----------------- //
-        (function setupTaxToggle() {
-            // If necessary elements missing, skip setup (but keep rest of script working)
-            if (!businessSelect || !taxIdWrapper || !taxIdField) return;
-
-            // 1) find a reliable option value for visible text "Business" (case-insensitive)
-            let businessOptionValueForBusinessText = null;
-            for (let i = 0; i < businessSelect.options.length; i++) {
-                const opt = businessSelect.options[i];
-                if (!opt || !opt.text) continue;
-                const txt = opt.text.trim().toLowerCase();
-                if (txt === 'business' || txt.includes('business')) {
-                    businessOptionValueForBusinessText = opt.value;
-                    break;
-                }
-            }
-
-            function isBusinessSelected() {
-                const selectedVal = businessSelect.value;
-                const selectedText = (businessSelect.options[businessSelect.selectedIndex] || {}).text || '';
-                if (businessOptionValueForBusinessText !== null && selectedVal !== undefined) {
-                    return String(selectedVal) === String(businessOptionValueForBusinessText);
-                }
-                return String(selectedText).trim().toLowerCase() === 'business' || String(selectedText).toLowerCase()
-                    .includes('business');
-            }
-
-            function toggleTaxIdField() {
-                if (isBusinessSelected()) {
-                    taxIdWrapper.style.display = 'block';
-                    taxIdField.setAttribute('required', 'required');
-                } else {
-                    taxIdWrapper.style.display = 'none';
-                    taxIdField.removeAttribute('required');
-                    taxIdField.value = '';
-                    if (taxIdErrorEl) taxIdErrorEl.textContent = '';
-                }
-                if (typeof updateContinueButton === 'function') updateContinueButton();
-            }
-
-            // bind native
-            businessSelect.addEventListener('change', toggleTaxIdField);
-            // also bind jquery/select2 change if jQuery exists
-            if (window.jQuery) {
-                try {
-                    window.jQuery('#business_type').on('change', toggleTaxIdField);
-                } catch (e) {
-                    /* ignore */
-                }
-            }
-
-            // tax input validate only when required
-            taxIdField.addEventListener('input', function() {
-                if (!taxIdField.hasAttribute('required') || taxIdWrapper.style.display === 'none') {
-                    if (taxIdErrorEl) taxIdErrorEl.textContent = '';
-                    if (typeof updateContinueButton === 'function') updateContinueButton();
-                    return;
-                }
-                if (taxIdErrorEl) taxIdErrorEl.textContent = validateTaxId(taxIdField.value);
-                if (typeof updateContinueButton === 'function') updateContinueButton();
-            });
-
-            // call toggle after short delay so select2 initialization (if used) completes
-            setTimeout(toggleTaxIdField, 200);
-        })();
 
         // ----------------- REAL-TIME VALIDATION BINDINGS ----------------- //
         // phone
@@ -804,10 +764,8 @@
             // Ensure tax id visibility/required state is correct on page load
             try {
                 if (typeof updateContinueButton === 'function') updateContinueButton();
-                // call toggle function if it exists in the closure above (setupTaxToggle executed immediately)
-                // If businessSelect exists, we already set a timeout to toggle; do one immediate check too
+                // fire a change to ensure the consolidated tax script picks up initial value
                 if (businessSelect && taxIdWrapper && taxIdField) {
-                    // small safety toggle - will be overridden by the setTimeout in the toggle setup if necessary
                     const evt = new Event('change', {
                         bubbles: true
                     });
@@ -829,16 +787,18 @@
             const passwordInput = document.getElementById('password');
             const showIcon = document.querySelector('.show-icon');
             const hideIcon = document.querySelector('.hide-icon');
-            showIcon.addEventListener('click', function() {
-                passwordInput.type = 'text';
-                showIcon.style.display = 'none';
-                hideIcon.style.display = 'inline';
-            });
-            hideIcon.addEventListener('click', function() {
-                passwordInput.type = 'password';
-                showIcon.style.display = 'inline';
-                hideIcon.style.display = 'none';
-            });
+            if (showIcon && hideIcon && passwordInput) {
+                showIcon.addEventListener('click', function() {
+                    passwordInput.type = 'text';
+                    showIcon.style.display = 'none';
+                    hideIcon.style.display = 'inline';
+                });
+                hideIcon.addEventListener('click', function() {
+                    passwordInput.type = 'password';
+                    showIcon.style.display = 'inline';
+                    hideIcon.style.display = 'none';
+                });
+            }
         });
     </script>
     <script>
@@ -846,47 +806,120 @@
             const passwordInput = document.getElementById('password_confirmation');
             const showIcon = document.querySelector('.show-icon-two');
             const hideIcon = document.querySelector('.hide-icon-two');
-            showIcon.addEventListener('click', function() {
-                passwordInput.type = 'text';
-                showIcon.style.display = 'none';
-                hideIcon.style.display = 'inline';
-            });
-            hideIcon.addEventListener('click', function() {
-                passwordInput.type = 'password';
-                showIcon.style.display = 'inline';
-                hideIcon.style.display = 'none';
-            });
+            if (showIcon && hideIcon && passwordInput) {
+                showIcon.addEventListener('click', function() {
+                    passwordInput.type = 'text';
+                    showIcon.style.display = 'none';
+                    hideIcon.style.display = 'inline';
+                });
+                hideIcon.addEventListener('click', function() {
+                    passwordInput.type = 'password';
+                    showIcon.style.display = 'inline';
+                    hideIcon.style.display = 'none';
+                });
+            }
         });
     </script>
 
-
+    <!-- CONSOLIDATED TAX ID HANDLER (single source-of-truth) -->
     <script>
-        $(document).ready(function() {
+        document.addEventListener('DOMContentLoaded', function() {
+            const businessSelect = document.getElementById('business_type');
+            const taxIdWrapper = document.getElementById('taxIdWrapper');
+            const taxIdField = document.getElementById('tax_id');
+            const taxIdErrorEl = document.getElementById('taxIdError');
 
-            // Initialize Select2
-
-
-            // Toggle Tax ID field
-            function toggleTaxIdField() {
-                let selectedText = $("#business_type option:selected").text().trim();
-
-                if (selectedText === "Business") {
-                    $("#taxIdWrapper").show();
-                } else {
-                    $("#taxIdWrapper").hide();
-                    $("#tax_id").val("");
-                    $("#taxIdError").text("");
-                }
+            if (!businessSelect || !taxIdWrapper || !taxIdField) {
+                console.warn('Tax ID script: missing required element(s)');
+                return;
             }
 
-            // Run on page load
-            toggleTaxIdField();
+            // normalize helper
+            function normalize(v) {
+                return (v || '').toString().replace(/\s+/g, '');
+            }
 
-            // Run on change
-            $("#business_type").on("change", function() {
-                toggleTaxIdField();
+            // Simple validation (adjust as needed)
+            function validateTax(v) {
+                const s = normalize(v);
+                if (!s) return 'Tax ID is required';
+                const letterThen12 = /^[A-Za-z]\d{12}$/;
+                const thirteenDigits = /^\d{13}$/;
+                if (letterThen12.test(s) || thirteenDigits.test(s)) return '';
+                return 'Tax ID must be 1 letter + 12 digits (e.g., L000000000000) or 13 digits';
+            }
+
+            // Decide if selected option requires tax by data attribute first
+            function selectedRequiresTax() {
+                const opt = businessSelect.options[businessSelect.selectedIndex];
+                if (opt && opt.dataset && opt.dataset.requiresTax !== undefined) {
+                    return String(opt.dataset.requiresTax) === '1';
+                }
+                // fallback: check visible text
+                const txt = (opt && opt.text || '').toLowerCase();
+                return txt.includes('business');
+            }
+
+            // Toggle UI + required attribute
+            function updateTaxVisibility() {
+                if (selectedRequiresTax()) {
+                    taxIdWrapper.style.display = 'block';
+                    taxIdField.setAttribute('required', 'required');
+                } else {
+                    taxIdWrapper.style.display = 'none';
+                    taxIdField.removeAttribute('required');
+                    taxIdField.value = '';
+                    if (taxIdErrorEl) taxIdErrorEl.textContent = '';
+                }
+                if (typeof updateContinueButton === 'function') updateContinueButton();
+            }
+
+            // Normalize input and run validation when shown
+            taxIdField.addEventListener('input', function() {
+                const cur = taxIdField.value;
+                const norm = normalize(cur);
+                if (cur !== norm) {
+                    const pos = taxIdField.selectionStart || 0;
+                    taxIdField.value = norm;
+                    try {
+                        taxIdField.setSelectionRange(pos, pos);
+                    } catch (e) {}
+                }
+                if (!taxIdField.hasAttribute('required') || taxIdWrapper.style.display === 'none') {
+                    if (taxIdErrorEl) taxIdErrorEl.textContent = '';
+                    if (typeof updateContinueButton === 'function') updateContinueButton();
+                    return;
+                }
+                if (taxIdErrorEl) taxIdErrorEl.textContent = validateTax(taxIdField.value);
+                if (typeof updateContinueButton === 'function') updateContinueButton();
             });
 
+            // When select changes
+            businessSelect.addEventListener('change', updateTaxVisibility);
+
+            // Support Select2 or other libs: re-run when attributes change
+            if (window.jQuery) {
+                try {
+                    window.jQuery(businessSelect).on('change.select2 taxToggle', function() {
+                        // dispatch native event so handler runs
+                        businessSelect.dispatchEvent(new Event('change', {
+                            bubbles: true
+                        }));
+                    });
+                } catch (e) {}
+            }
+            // observe attribute changes too
+            const mo = new MutationObserver(function() {
+                updateTaxVisibility();
+            });
+            mo.observe(businessSelect, {
+                attributes: true,
+                attributeFilter: ['value', 'class']
+            });
+
+            // INITIAL RUN: ensure the correct initial state (Tax hidden if Individual selected)
+            // We already set tax wrapper to display:none in markup, but this ensures required attr is correct.
+            setTimeout(updateTaxVisibility, 50);
         });
     </script>
 @endsection
