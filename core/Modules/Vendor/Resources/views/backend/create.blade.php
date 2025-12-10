@@ -22,7 +22,8 @@
                         </h4>
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
-                        <form id="vendor-create-form" data-action-url="{{ route('admin.vendor.create') }}">
+                        <!-- NOTE: novalidate added to disable native HTML5 validation -->
+                        <form id="vendor-create-form" data-action-url="{{ route('admin.vendor.create') }}" novalidate>
                             <div class="toast toast-success"></div>
                             @csrf
                             <div class="d-flex justify-content-between">
@@ -65,7 +66,7 @@
                                             <div class="dashboard__card">
                                                 <div class="dashboard__card__header">
                                                     <h4 class="dashboard__card__title">
-                                                        {{ __('Basic Info*') }}
+                                                        {{ __('Basic Info') }}
                                                     </h4>
                                                 </div>
                                                 <div class="dashboard__card__body mt-4">
@@ -77,7 +78,7 @@
                                                                     <span class="text-danger">*</span>
                                                                 </label>
                                                                 <input name="owner_name" type="text"
-                                                                    class="form--control radius-10" maxlength="30"
+                                                                    class="form--control radius-10" maxlength="30" required
                                                                     oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '');"
                                                                     placeholder="{{ __('Enter vendor Name') }}">
                                                             </div>
@@ -91,7 +92,7 @@
                                                                 <input name="business_name" type="text"
                                                                     class="form--control radius-10"
                                                                     oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '');"
-                                                                    maxlength="30"
+                                                                    maxlength="30" required
                                                                     placeholder="{{ __('Enter business Name') }}">
                                                             </div>
                                                         </div>
@@ -242,7 +243,7 @@
                                                                 </label>
                                                                 <div class="nice-select-two country_wrapper">
                                                                     <select id="country_id" name="country_id"
-                                                                        style="display: none;">
+                                                                        style="display: none;" required>
                                                                         <option value="">
                                                                             {{ __('Select Country') }}
                                                                         </option>
@@ -263,7 +264,7 @@
                                                                 </label>
                                                                 <div class="nice-select-two state_wrapper">
                                                                     <select id="state_id" name="state_id"
-                                                                        style="display: none;">
+                                                                        style="display: none;" required>
                                                                         <option value="">
                                                                             {{ __('Select Province') }}
                                                                         </option>
@@ -284,7 +285,7 @@
                                                                 </label>
                                                                 <div class="nice-select-two city_wrapper">
                                                                     <select id="city_id" name="city_id"
-                                                                        style="display: none;">
+                                                                        style="display: none;" required>
                                                                         <option value="">
                                                                             {{ __('Select City') }}
                                                                         </option>
@@ -305,8 +306,8 @@
                                                                 </label>
                                                                 <input type="text" name="zip_code" maxlength="5"
                                                                     oninput="this.value = this.value.replace(/[^0-9]/g, '');"
-                                                                    class="form--control radius-10"
-                                                                    placeholder="Zip Code">
+                                                                    class="form--control radius-10" placeholder="Zip Code"
+                                                                    required>
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
@@ -370,7 +371,7 @@
                                                                 </label>
                                                                 <input type="text" name="shop_email"
                                                                     class="form--control radius-10"
-                                                                    placeholder="{{ __('Enter email') }}">
+                                                                    placeholder="{{ __('Enter email') }}" required>
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
@@ -415,40 +416,45 @@
                                                             <div class="single-input">
                                                                 <label class="label-title">
                                                                     {{ __('Name') }}
+                                                                    <span class="text-danger">*</span>
                                                                 </label>
                                                                 <input name="bank_name" type="text" maxlength="30"
                                                                     class="form--control radius-10"
-                                                                    placeholder="{{ __('Type Name') }}">
+                                                                    placeholder="{{ __('Type Name') }}" required>
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
                                                                 <label class="label-title">
                                                                     {{ __('Email') }}
+                                                                    <span class="text-danger">*</span>
                                                                 </label>
                                                                 <input name="bank_email" type="text"
                                                                     class="form--control radius-10"
-                                                                    placeholder="{{ __('Type Email') }}">
+                                                                    placeholder="{{ __('Type Email') }}" required>
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
                                                                 <label class="label-title">
                                                                     {{ __('Bank Code') }}
+                                                                    <span class="text-danger">*</span>
                                                                 </label>
                                                                 <input name="bank_code" type="tel"
                                                                     class="form--control radius-10"
-                                                                    placeholder="Type Code">
+                                                                    placeholder="Type Code" required>
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
                                                                 <label class="label-title">
                                                                     {{ __('Account Number') }}
+                                                                    <span class="text-danger">*</span>
                                                                 </label>
                                                                 <input name="account_number" type="tel"
                                                                     class="form--control radius-10"
-                                                                    placeholder="{{ __('Type Account Number') }}">
+                                                                    placeholder="{{ __('Type Account Number') }}"
+                                                                    required>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -486,8 +492,6 @@
         .field-success {
             color: #28a745 !important;
         }
-
-
 
         .btn-disabled {
             pointer-events: none !important;
@@ -899,10 +903,174 @@
         })(jQuery);
     </script>
 
+    <!-- ===== AUTO-TAB-SWITCH SCRIPT (must appear BEFORE the final ajax submit handler) ===== -->
+    <script>
+        (function($) {
+            "use strict";
 
+            // Ensure the form's native validation is off
+            document.addEventListener('DOMContentLoaded', function() {
+                const f = document.getElementById('vendor-create-form');
+                if (f) f.noValidate = true;
+            });
 
+            // Auto-tab-switch handler
+            $(document).on('submit', '#vendor-create-form', function(e) {
+                const form = this;
+                form.noValidate = true; // double safety
+                const requiredEls = form.querySelectorAll('[required]');
+                let firstMissing = null;
 
+                for (let i = 0; i < requiredEls.length; i++) {
+                    const el = requiredEls[i];
+                    if (el.disabled) continue;
+                    try {
+                        if (el.validity && el.validity.valueMissing) {
+                            firstMissing = el;
+                            break;
+                        }
+                    } catch (err) {}
+                    const tag = (el.tagName || '').toLowerCase();
+                    if ((tag === 'input' || tag === 'textarea') && String(el.value).trim() === '') {
+                        firstMissing = el;
+                        break;
+                    }
+                    if (tag === 'select' && (el.value === '' || el.selectedIndex === -1)) {
+                        firstMissing = el;
+                        break;
+                    }
+                }
 
+                if (!firstMissing) return; // no missing required field, let other handlers proceed
+
+                // prevent submission and other handlers (like AJAX)
+                e.preventDefault();
+                e.stopImmediatePropagation();
+
+                console.debug('[auto-tab-switch] missing required:', firstMissing.name || firstMissing);
+
+                // try find tab-pane that contains the field
+                let pane = firstMissing.closest ? firstMissing.closest('.tab-pane') : null;
+
+                // fallback A: find matching name inside a tab-pane
+                if (!pane && firstMissing.name) {
+                    const selector = '.tab-pane [name="' + CSS.escape(firstMissing.name) + '"]';
+                    const foundInPane = form.querySelector(selector);
+                    if (foundInPane) pane = foundInPane.closest('.tab-pane');
+                }
+
+                // fallback B: climb up
+                if (!pane) {
+                    let p = firstMissing.parentNode;
+                    for (let depth = 0; p && depth < 8; depth++, p = p.parentNode) {
+                        if (p.classList && p.classList.contains('tab-pane')) {
+                            pane = p;
+                            break;
+                        }
+                    }
+                }
+
+                let tabTarget = null;
+                if (pane && pane.id) {
+                    tabTarget = '#' + pane.id;
+                } else {
+                    // fallback: try map by label text
+                    const lbl = form.querySelector('label[for="' + (firstMissing.id || '') + '"]') ||
+                        (firstMissing.closest ? firstMissing.closest('.single-input')?.querySelector('label') :
+                            null);
+                    const labelText = lbl ? lbl.textContent.trim().split('\n')[0] : '';
+                    if (labelText) {
+                        const panes = form.querySelectorAll('.tab-pane');
+                        for (let j = 0; j < panes.length; j++) {
+                            const paneEl = panes[j];
+                            if (paneEl.innerText && paneEl.innerText.indexOf(labelText) !== -1) {
+                                tabTarget = '#' + (paneEl.id || '');
+                                pane = paneEl;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (tabTarget) {
+                    // find nav trigger button
+                    let tabButton = document.querySelector('[data-bs-target="' + tabTarget + '"]') ||
+                        document.querySelector('[data-target="' + tabTarget + '"]') ||
+                        document.querySelector('.nav [href="' + tabTarget + '"]');
+
+                    if (tabButton) {
+                        if (typeof bootstrap !== 'undefined' && bootstrap.Tab) {
+                            try {
+                                const tab = new bootstrap.Tab(tabButton);
+                                tab.show();
+                            } catch (err) {
+                                tabButton.click();
+                            }
+                        } else {
+                            try {
+                                tabButton.click();
+                            } catch (err) {
+                                $(tabButton).trigger('click');
+                            }
+                        }
+                    }
+
+                    // after small delay, focus the corresponding control inside the pane
+                    setTimeout(function() {
+                        let focusEl = firstMissing;
+                        if (pane && firstMissing.name) {
+                            const real = pane.querySelector('[name="' + CSS.escape(firstMissing.name) +
+                                '"]');
+                            if (real) focusEl = real;
+                        }
+
+                        try {
+                            const style = window.getComputedStyle(focusEl);
+                            if (style && (style.display === 'none' || style.visibility === 'hidden')) {
+                                const alt = pane ? pane.querySelector('[name="' + CSS.escape(
+                                    firstMissing.name) + '"]:not([type="hidden"])') : null;
+                                if (alt) focusEl = alt;
+                            }
+
+                            focusEl.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'center'
+                            });
+                            focusEl.focus({
+                                preventScroll: true
+                            });
+                        } catch (err) {
+                            try {
+                                focusEl.focus();
+                            } catch (e) {}
+                        }
+
+                        // show inline required message if small exists
+                        const parent = focusEl.parentNode || focusEl.closest('.single-input') || focusEl
+                            .closest('.form-group');
+                        if (parent) {
+                            const smallEl = parent.querySelector('small') || parent.querySelector(
+                                '.text-muted');
+                            if (smallEl && smallEl.textContent.trim() === '') {
+                                smallEl.textContent = '{{ __('This field is required') }}';
+                                smallEl.classList.remove('field-success');
+                                smallEl.classList.add('field-error');
+                            }
+                        }
+                    }, 300);
+
+                    return false;
+                } else {
+                    // fallback: just focus the missing field
+                    try {
+                        firstMissing.focus();
+                    } catch (err) {}
+                    return false;
+                }
+            });
+        })(jQuery);
+    </script>
+    <!-- ===== END AUTO-TAB-SWITCH SCRIPT ===== -->
 
     <x-datatable.js />
     <x-media.js />
@@ -934,35 +1102,6 @@
                 $(".submit_button button i").remove()
             })
         })
-
-        // $(document).on("change", "#country_id", function () {
-        //     let data = new FormData();
-
-        //     data.append("country_id", $(this).val());
-        //     data.append("_token", "{{ csrf_token() }}");
-
-        //     send_ajax_request("post", data, "{{ route('admin.vendor.get.state') }}", function () { }, (data) => {
-        //         $("#state_id").html("<option value=''>{{ __('Select an state') }}</option>" + data.option);
-        //         $(".state_wrapper .list").html(data.li);
-        //     }, (data) => {
-        //         prepare_errors(data);
-        //     })
-        // });
-
-        // $(document).on("change", "#state_id", function () {
-        //     let data = new FormData();
-
-        //     data.append("country_id", $("#country_id").val());
-        //     data.append("state_id", $(this).val());
-        //     data.append("_token", "{{ csrf_token() }}");
-
-        //     send_ajax_request("post", data, "{{ route('admin.vendor.get.city') }}", function () { }, (data) => {
-        //         $("#city_id").html("<option value=''>{{ __('Select an city') }}</option>" + data.option);
-        //         $(".city_wrapper .list").html(data.li);
-        //     }, (data) => {
-        //         prepare_errors(data);
-        //     })
-        // });
 
         $(document).on("keyup keydown click change", "input[name=username]", function() {
             $(this).val(convertToSlug($(this).val()))

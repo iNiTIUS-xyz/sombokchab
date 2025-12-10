@@ -391,7 +391,7 @@
                                                                 <input type="text" name="number"
                                                                     value="{{ $vendor?->phone }}"
                                                                     class="form--control radius-10"
-                                                                    placeholder="{{ __('Enter Phone Number') }}"
+                                                                    placeholder="{{ __('Enter Phone Number') }}" required
                                                                     maxlength="15"
                                                                     oninput="this.value = this.value.replace(/[^0-9+]/g, '');">
 
@@ -507,27 +507,27 @@
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
                                                                 <label class="label-title color-light mb-2">
-                                                                    Name
+                                                                    {{ __('Name') }}
                                                                     <span class="text-danger">*</span>
                                                                 </label>
                                                                 <input
                                                                     value="{{ $vendor?->vendor_bank_info?->bank_name }}"
                                                                     name="bank_name" type="text" maxlength="30"
                                                                     class="form--control radius-10"
-                                                                    placeholder="{{ __('Enter name') }}" required="">
+                                                                    placeholder="{{ __('Enter name') }}" required>
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
                                                                 <label class="label-title color-light mb-2">
-                                                                    Email
+                                                                    {{ __('Email') }}
                                                                     <span class="text-danger">*</span>
                                                                 </label>
                                                                 <input
                                                                     value="{{ $vendor?->vendor_bank_info?->bank_email }}"
                                                                     name="bank_email" type="text"
                                                                     class="form--control radius-10"
-                                                                    placeholder="{{ __('Enter email') }}" required="">
+                                                                    placeholder="{{ __('Enter email') }}" required>
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
@@ -778,6 +778,202 @@
 
         })(jQuery);
     </script>
+
+    <script>
+        (function($) {
+            "use strict";
+
+            // Make sure browser native validation is off for this form (double-safety).
+            $(document).on('DOMContentLoaded', function() {
+                const form = document.getElementById('vendor-create-form');
+                if (form) form.noValidate = true; // same as adding novalidate
+            });
+
+            // Robust auto-tab-switch on missing required fields.
+            // Must be bound BEFORE your AJAX submit handler so it can stop submission.
+            $(document).on('submit', '#vendor-create-form', function(e) {
+                const form = this;
+                // Ensure native validation won't run (some browsers may still attempt)
+                form.noValidate = true;
+
+                const requiredEls = form.querySelectorAll('[required]');
+                let firstMissing = null;
+
+                for (let i = 0; i < requiredEls.length; i++) {
+                    const el = requiredEls[i];
+
+                    // skip disabled elements (they can't be required)
+                    if (el.disabled) continue;
+
+                    // Use HTML5 validity to detect missing value (try/catch in case custom element throws)
+                    try {
+                        if (el.validity && el.validity.valueMissing) {
+                            firstMissing = el;
+                            break;
+                        }
+                    } catch (err) {}
+
+                    // Fallback checks
+                    const tag = (el.tagName || '').toLowerCase();
+                    if ((tag === 'input' || tag === 'textarea') && String(el.value).trim() === '') {
+                        firstMissing = el;
+                        break;
+                    }
+                    if (tag === 'select' && (el.value === '' || el.selectedIndex === -1)) {
+                        firstMissing = el;
+                        break;
+                    }
+                }
+
+                if (!firstMissing) {
+                    // no missing required field -> allow other handlers (like your AJAX) to proceed
+                    return;
+                }
+
+                // Prevent submission and other submit handlers (AJAX)
+                e.preventDefault();
+                e.stopImmediatePropagation();
+
+                console.debug('[auto-tab-switch] missing required field detected:', firstMissing.name ||
+                    firstMissing);
+
+                // Try to locate the tab-pane containing this element
+                let pane = firstMissing.closest ? firstMissing.closest('.tab-pane') : null;
+
+                // Fallback A: maybe the visible widget is outside pane (custom select). Find element with same name inside a tab-pane.
+                if (!pane && firstMissing.name) {
+                    const selector = '.tab-pane [name="' + CSS.escape(firstMissing.name) + '"]';
+                    const foundInPane = form.querySelector(selector);
+                    if (foundInPane) {
+                        pane = foundInPane.closest('.tab-pane');
+                        console.debug('[auto-tab-switch] found matching field inside pane for name=',
+                            firstMissing.name);
+                    }
+                }
+
+                // Fallback B: climb DOM via parent containers
+                if (!pane) {
+                    let p = firstMissing.parentNode;
+                    for (let depth = 0; p && depth < 8; depth++, p = p.parentNode) {
+                        if (p.classList && p.classList.contains('tab-pane')) {
+                            pane = p;
+                            break;
+                        }
+                    }
+                }
+
+                // Determine tab target
+                let tabTarget = null;
+                if (pane && pane.id) {
+                    tabTarget = '#' + pane.id;
+                } else {
+                    // try label mapping fallback
+                    const lbl = form.querySelector('label[for="' + (firstMissing.id || '') + '"]') ||
+                        (firstMissing.closest ? firstMissing.closest('.single-input')?.querySelector('label') :
+                            null);
+                    const labelText = lbl ? lbl.textContent.trim().split('\n')[0] : '';
+                    if (labelText) {
+                        const panes = form.querySelectorAll('.tab-pane');
+                        for (let j = 0; j < panes.length; j++) {
+                            const paneEl = panes[j];
+                            if (paneEl.innerText && paneEl.innerText.indexOf(labelText) !== -1) {
+                                tabTarget = '#' + (paneEl.id || '');
+                                pane = paneEl;
+                                console.debug('[auto-tab-switch] fallback mapped label "', labelText,
+                                    '" to pane ', paneEl.id);
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                // Switch to tab if found
+                if (tabTarget) {
+                    console.debug('[auto-tab-switch] switching to tabTarget=', tabTarget);
+
+                    // find the nav trigger button/link
+                    let tabButton = document.querySelector('[data-bs-target="' + tabTarget + '"]') ||
+                        document.querySelector('[data-target="' + tabTarget + '"]') ||
+                        document.querySelector('.nav [href="' + tabTarget + '"]');
+
+                    if (tabButton) {
+                        // Use Bootstrap Tab API if available
+                        if (typeof bootstrap !== 'undefined' && bootstrap.Tab) {
+                            try {
+                                const tab = new bootstrap.Tab(tabButton);
+                                tab.show();
+                            } catch (err) {
+                                tabButton.click();
+                            }
+                        } else {
+                            try {
+                                tabButton.click();
+                            } catch (err) {
+                                $(tabButton).trigger('click');
+                            }
+                        }
+                    }
+
+                    // After tab switch, find the real focusable element inside pane (in case widgets replaced it)
+                    setTimeout(function() {
+                        let focusEl = firstMissing;
+                        if (pane && firstMissing.name) {
+                            const real = pane.querySelector('[name="' + CSS.escape(firstMissing.name) +
+                                '"]');
+                            if (real) focusEl = real;
+                        }
+
+                        try {
+                            // If element is hidden (display:none) it's not focusable — ensure it's visible
+                            const style = window.getComputedStyle(focusEl);
+                            if (style && (style.display === 'none' || style.visibility === 'hidden')) {
+                                // try to find another matching visible element inside the pane
+                                const alt = pane ? pane.querySelector('[name="' + CSS.escape(
+                                    firstMissing.name) + '"]:not([type="hidden"])') : null;
+                                if (alt) focusEl = alt;
+                            }
+
+                            focusEl.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'center'
+                            });
+                            focusEl.focus({
+                                preventScroll: true
+                            });
+                        } catch (err) {
+                            try {
+                                focusEl.focus();
+                            } catch (e) {}
+                        }
+
+                        // show inline "required" message if there's a small element nearby
+                        const parent = focusEl.parentNode || focusEl.closest('.single-input') || focusEl
+                            .closest('.form-group');
+                        if (parent) {
+                            const smallEl = parent.querySelector('small') || parent.querySelector(
+                                '.text-danger');
+                            if (smallEl && smallEl.textContent.trim() === '') {
+                                smallEl.textContent = '{{ __('This field is required') }}';
+                                smallEl.classList.remove('field-success');
+                                smallEl.classList.add('field-error');
+                            }
+                        }
+                    }, 300);
+
+                    return false;
+                } else {
+                    // No tab to switch to — just try to focus the missing field
+                    try {
+                        firstMissing.focus();
+                    } catch (err) {}
+                    return false;
+                }
+            });
+        })(jQuery);
+    </script>
+
+
+    <!-- ======= END NEW SCRIPT ======= -->
 
     <script src="{{ asset('assets/backend/js/colorpicker.js') }}"></script>
     <x-datatable.js />
