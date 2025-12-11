@@ -129,7 +129,7 @@
                                                 {{ __('Store Name') }}
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input name="business_name" id="business_name" type="text"
+                                            <input name="business_name" id="business_name" type="text" maxlength="40"
                                                 class="form--control radius-10" placeholder="{{ __('Enter Store Name') }}"
                                                 required />
                                             <small class="text-danger" id="businessNameError"></small>
@@ -180,7 +180,7 @@
                                                     <option value="+880">+880</option>
                                                     <option value="+855">+855</option>
                                                 </select>
-                                                <input id="number" name="phone" type="number"
+                                                <input id="number" name="phone" type="number" maxlength="20"
                                                     class="form--control radius-10"
                                                     placeholder="{{ __('Enter Phone Number') }}" required
                                                     style="width: 85% !important;" />
@@ -197,7 +197,8 @@
                                             </label>
                                             <input name="username" id="username" type="text"
                                                 class="form--control radius-10" placeholder="{{ __('Enter Username') }}"
-                                                required />
+                                                oninput="this.value = this.value.replace(/[^A-Za-z0-9_]/g, '');"
+                                                maxlength="20" required />
                                             <small class="text-danger" id="usernameError"></small>
                                         </div>
                                     </div>
@@ -207,7 +208,7 @@
                                                 {{ __('Email') }}
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input name="email" id="email" type="text"
+                                            <input name="email" id="email" type="text" maxlength="50"
                                                 class="form--control radius-10" placeholder="{{ __('Enter Email') }}" />
                                             <small class="text-danger" id="emailError"></small>
                                         </div>
