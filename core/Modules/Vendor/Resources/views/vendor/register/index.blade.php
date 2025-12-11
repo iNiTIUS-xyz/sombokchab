@@ -79,6 +79,10 @@
             border: 1px solid var(--border-two);
             border-radius: 5px;
         }
+
+        #tax-hidden {
+            display: none !important;
+        }
     </style>
 @endsection
 @section('content')
@@ -119,18 +123,50 @@
                                 <input type="hidden" name="phone" id="verified_phone">
                                 <input type="hidden" name="country_id" value="31">
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="label-title mb-2">
                                                 {{ __('Store Name') }}
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input name="business_name" id="business_name" type="text" maxlength="50"
+                                            <input name="business_name" id="business_name" type="text"
                                                 class="form--control radius-10" placeholder="{{ __('Enter Store Name') }}"
                                                 required />
                                             <small class="text-danger" id="businessNameError"></small>
                                         </div>
                                     </div>
+
+                                    <div class="nice-select-two col-md-6">
+                                        <div class="form-group">
+                                            <label class="label-title mb-2">
+                                                {{ __('Business Category') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <select id="business_type" name="business_type_id" class="form--control"
+                                                aria-label="Business Category">
+                                                <option value="">{{ __('Select Business Category') }}</option>
+                                                @foreach ($business_type as $item)
+                                                    <option value="{{ $item->id }}"
+                                                        {{ old('business_type_id', $vendor->business_type_id ?? '') == $item->id ? 'selected' : '' }}>
+                                                        {{ $item->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12" id="taxIdWrapper">
+                                        <div class="form-group">
+                                            <label class="label-title mb-2">
+                                                {{ __('Tax ID') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <input name="tax_id" id="tax_id" type="text" maxlength="13"
+                                                class="form--control radius-10" placeholder="{{ __('Enter Tax ID') }}" />
+                                            <small class="text-danger" id="taxIdError"></small>
+                                        </div>
+                                    </div>
+
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="label-title mb-2">
@@ -159,7 +195,7 @@
                                                 {{ __('Username') }}
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input name="username" id="username" type="text" maxlength="20"
+                                            <input name="username" id="username" type="text"
                                                 class="form--control radius-10" placeholder="{{ __('Enter Username') }}"
                                                 required />
                                             <small class="text-danger" id="usernameError"></small>
@@ -171,7 +207,7 @@
                                                 {{ __('Email') }}
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input name="email" id="email" type="text" maxlength="50"
+                                            <input name="email" id="email" type="text"
                                                 class="form--control radius-10" placeholder="{{ __('Enter Email') }}" />
                                             <small class="text-danger" id="emailError"></small>
                                         </div>
@@ -182,74 +218,14 @@
                                                 {{ __('Passport or National ID') }}
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input name="passport_nid" id="passport_nid" type="number" maxlength="30"
-                                                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 30);"
+                                            <input name="passport_nid" id="passport_nid" type="text"
                                                 class="form--control radius-10"
-                                                placeholder="{{ __('Enter Passport or National ID') }}" required />
+                                                oninput="this.value = this.value.replace(/[^A-Za-z0-9]/g,'')"
+                                                maxlength="40" placeholder="{{ __('Enter Passport or National ID') }}"
+                                                required />
                                             <small class="text-danger" id="passportNidError"></small>
                                         </div>
                                     </div>
-                                    <div class="nice-select-two mb-2">
-                                        <div class="form-group">
-                                            <label class="label-title mb-2">
-                                                {{ __('Business Category') }}
-                                                <span class="text-danger">*</span>
-                                            </label>
-                                            <select id="business_type" name="business_type_id" class="form--control"
-                                                aria-label="Business Category">
-                                                <option value="">{{ __('Select business category') }}</option>
-                                                @php
-                                                    use Illuminate\Support\Str;
-                                                @endphp
-
-                                                @foreach ($business_type as $item)
-                                                    @php
-                                                        // Mark option requiring tax if name contains 'business' (adjust if you have $item->requires_tax)
-                                                        $requiresTax = Str::contains(
-                                                            Str::lower($item->name),
-                                                            'business',
-                                                        )
-                                                            ? '1'
-                                                            : '0';
-
-                                                        // Set 'Individual' to selected by default if no old input or vendor value present
-                                                        $isSelected = false;
-                                                        if (old('business_type_id') !== null) {
-                                                            $isSelected = old('business_type_id') == $item->id;
-                                                        } elseif (isset($vendor) && $vendor->business_type_id) {
-                                                            $isSelected = $vendor->business_type_id == $item->id;
-                                                        } else {
-                                                            // default: select 'Individual' if the option label contains 'individual'
-                                                            $isSelected = Str::contains(
-                                                                Str::lower($item->name),
-                                                                'individual',
-                                                            );
-                                                        }
-                                                    @endphp
-
-                                                    <option value="{{ $item->id }}"
-                                                        data-requires-tax="{{ $requiresTax }}"
-                                                        {{ $isSelected ? 'selected' : '' }}>
-                                                        {{ $item->name }}
-                                                    </option>
-                                                @endforeach
-
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-12" id="taxIdWrapper" style="display: none;">
-                                        <div class="form-group">
-                                            <label class="label-title mb-2">
-                                                {{ __('Tax ID') }}
-                                                <span class="text-danger">*</span>
-                                            </label>
-                                            <input name="tax_id" id="tax_id" type="text" maxlength="13"
-                                                class="form--control radius-10" placeholder="{{ __('Enter Tax ID') }}" />
-                                            <small class="text-danger" id="taxIdError"></small>
-                                        </div>
-                                    </div>
-
 
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -258,7 +234,7 @@
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <div class="position-relative">
-                                                <input name="password" id="password" type="password" maxlength="25"
+                                                <input name="password" id="password" type="password"
                                                     class="form--control radius-10"
                                                     placeholder="{{ __('Enter Password') }}" required />
                                                 <div class="toggle-password position-absolute"
@@ -282,7 +258,7 @@
                                             </label>
                                             <div class="position-relative">
                                                 <input name="password_confirmation" id="password_confirmation"
-                                                    maxlength="25" type="password" class="form--control radius-10"
+                                                    type="password" class="form--control radius-10"
                                                     placeholder="{{ __('Enter Confirm Password') }}" required />
                                                 <div class="toggle-password position-absolute"
                                                     style="right: 10px; top: 45%; transform: translateY(-50%); cursor: pointer;">
@@ -335,7 +311,7 @@
                                 <div class="form-group">
                                     <label class="label-title">Enter OTP</label>
                                     <input type="text" id="verificationCode" class="form--control radius-10"
-                                        maxlength="6" placeholder="6-digit Code" style="border-radius: 10px;" />
+                                        placeholder="6-digit Code" style="border-radius: 10px;" />
                                     <small class="text-danger" id="verificationCodeError"></small>
                                     <button type="button"
                                         style="background: transparent; border: none; text-decoration: underline; color: #41695a; float: right"
@@ -479,11 +455,18 @@
             return '';
         }
 
-        // NOTE: the Tax ID validation & toggle are handled by the consolidated script further down.
-        // Avoid duplicate validateTaxId here so the single authoritative handler is used.
+        // TAX ID: logical validation (1 letter + 12 digits after stripping non-alphanumerics)
+        function cleanForValidation(v) {
+            return String(v || '').replace(/[^A-Za-z0-9]/g, '');
+        }
 
-        function validateTerms(isChecked) {
-            return !isChecked ? 'You must accept the terms and conditions' : '';
+        function validateTaxIdLogical(v) {
+            const cleaned = cleanForValidation(v);
+            if (!cleaned) return 'Tax ID must be 1 letter followed by 12 digits (e.g., L000000000000)';
+            if (!/^[A-Za-z]\d{12}$/.test(cleaned)) {
+                return 'Tax ID must be 1 letter followed by 12 digits (e.g., L000000000000)';
+            }
+            return '';
         }
 
         // ----------------- SERVER AVAILABILITY CHECK ----------------- //
@@ -520,7 +503,73 @@
             }, seconds * 1000);
         }
 
-        // ----------------- REAL-TIME VALIDATION BINDINGS ----------------- //
+        // ----------------- TAX ID TOGGLING & REAL-TIME VALIDATION ----------------- //
+        (function setupTaxToggleAndValidation() {
+            // safety checks
+            if (!businessSelect || !taxIdWrapper || !taxIdField) return;
+
+            // sanitize typing: allow letters/digits and a small set of punctuation
+            function sanitizeTyping(value) {
+                let cleaned = String(value || '').replace(/[^A-Za-z0-9\-\.\s\/]*/g, '');
+                cleaned = cleaned.replace(/\s+/g, ' ').replace(/^\s+/, '');
+                return cleaned;
+            }
+
+            function toggleTaxField() {
+                const selText = (businessSelect.options[businessSelect.selectedIndex] || {}).text || '';
+                const isBusiness = String(selText).trim().toLowerCase().includes('business');
+                if (isBusiness) {
+                    taxIdWrapper.style.display = 'block';
+                    taxIdField.setAttribute('required', 'required');
+                } else {
+                    taxIdWrapper.style.display = 'none';
+                    taxIdField.removeAttribute('required');
+                    taxIdField.value = '';
+                    if (taxIdErrorEl) taxIdErrorEl.textContent = '';
+                }
+                if (typeof updateContinueButton === 'function') updateContinueButton();
+            }
+
+            function onTaxInput(e) {
+                if (!taxIdField) return;
+                const orig = taxIdField.value;
+                // allow some punctuation while typing
+                const allowed = orig.replace(/[^A-Za-z0-9\-\.\s\/]/g, '');
+                const normal = allowed.replace(/\s+/g, ' ').replace(/^\s+/, '');
+                if (normal !== orig) {
+                    const pos = Math.max(0, (taxIdField.selectionStart || 0) - (orig.length - normal.length));
+                    taxIdField.value = normal;
+                    try {
+                        taxIdField.setSelectionRange(pos, pos);
+                    } catch (_) {}
+                }
+
+                // validate logical cleaned value
+                const err = validateTaxIdLogical(taxIdField.value);
+                if (taxIdErrorEl) taxIdErrorEl.textContent = err;
+                if (typeof updateContinueButton === 'function') updateContinueButton();
+            }
+
+            // bind
+            businessSelect.addEventListener('change', toggleTaxField);
+            taxIdField.addEventListener('input', onTaxInput);
+            taxIdField.addEventListener('blur', onTaxInput);
+
+            // jQuery/select2 support if present
+            if (window.jQuery) {
+                try {
+                    window.jQuery('#business_type').on('change', toggleTaxField);
+                    window.jQuery('#tax_id').on('input', onTaxInput);
+                } catch (e) {
+                    // ignore
+                }
+            }
+
+            // initial toggle (allow select2 init to finish)
+            setTimeout(toggleTaxField, 150);
+        })();
+
+        // ----------------- REAL-TIME VALIDATION BINDINGS (other fields) ----------------- //
         // phone
         if (phoneField) {
             phoneField.addEventListener('input', async () => {
@@ -761,10 +810,8 @@
 
         // ----------------- INITIALIZE ON LOAD ----------------- //
         window.addEventListener('load', function() {
-            // Ensure tax id visibility/required state is correct on page load
             try {
                 if (typeof updateContinueButton === 'function') updateContinueButton();
-                // fire a change to ensure the consolidated tax script picks up initial value
                 if (businessSelect && taxIdWrapper && taxIdField) {
                     const evt = new Event('change', {
                         bubbles: true
@@ -784,6 +831,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            toggleTaxFieldVisibility(true);
             const passwordInput = document.getElementById('password');
             const showIcon = document.querySelector('.show-icon');
             const hideIcon = document.querySelector('.hide-icon');
@@ -821,48 +869,130 @@
         });
     </script>
 
-    <!-- CONSOLIDATED TAX ID HANDLER (single source-of-truth) -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const businessSelect = document.getElementById('business_type');
-            const taxIdWrapper = document.getElementById('taxIdWrapper');
-            const taxIdField = document.getElementById('tax_id');
-            const taxIdErrorEl = document.getElementById('taxIdError');
 
-            if (!businessSelect || !taxIdWrapper || !taxIdField) {
-                console.warn('Tax ID script: missing required element(s)');
+    <script>
+        $(document).ready(function() {
+
+            // Initialize Select2
+
+
+            // Toggle Tax ID field (legacy jQuery fallback)
+            function toggleTaxIdFieldLegacy() {
+                let selectedText = $("#business_type option:selected").text().trim();
+
+                if (selectedText === "Business" || selectedText.toLowerCase().includes('business')) {
+                    $("#taxIdWrapper").show();
+                } else {
+                    $("#taxIdWrapper").hide();
+                    $("#tax_id").val("");
+                    $("#taxIdError").text("");
+                }
+            }
+
+            // Run on page load
+            toggleTaxIdFieldLegacy();
+
+            // Run on change
+            $("#business_type").on("change", function() {
+                toggleTaxIdFieldLegacy();
+            });
+
+        });
+    </script>
+
+    <script>
+        (function() {
+            // --- safe references ---
+            const taxIdField = document.getElementById('tax_id');
+            const taxIdWrapper = document.getElementById('taxIdWrapper');
+            const taxIdErrorEl = document.getElementById('taxIdError');
+            const businessSelect = document.getElementById('business_type');
+
+            if (!taxIdField || !taxIdWrapper || !businessSelect) {
+                console.warn('Tax ID: required elements missing', {
+                    taxIdField,
+                    taxIdWrapper,
+                    businessSelect
+                });
                 return;
             }
 
-            // normalize helper
-            function normalize(v) {
-                return (v || '').toString().replace(/\s+/g, '');
+            // --- helpers (kept your validation logic) ---
+            function cleanForValidation(v) {
+                return String(v || '').replace(/[^A-Za-z0-9]/g, '');
             }
 
-            // Simple validation (adjust as needed)
-            function validateTax(v) {
-                const s = normalize(v);
-                if (!s) return 'Tax ID is required';
-                const letterThen12 = /^[A-Za-z]\d{12}$/;
-                const thirteenDigits = /^\d{13}$/;
-                if (letterThen12.test(s) || thirteenDigits.test(s)) return '';
-                return 'Tax ID must be 1 letter + 12 digits (e.g., L000000000000) or 13 digits';
-            }
-
-            // Decide if selected option requires tax by data attribute first
-            function selectedRequiresTax() {
-                const opt = businessSelect.options[businessSelect.selectedIndex];
-                if (opt && opt.dataset && opt.dataset.requiresTax !== undefined) {
-                    return String(opt.dataset.requiresTax) === '1';
+            function validateTaxIdLogical(v) {
+                const cleaned = cleanForValidation(v);
+                if (!cleaned) return 'Tax ID must be 1 letter followed by 12 digits (e.g., L000000000000)';
+                if (!/^[A-Za-z]\d{12}$/.test(cleaned)) {
+                    return 'Tax ID must be 1 letter followed by 12 digits (e.g., L000000000000)';
                 }
-                // fallback: check visible text
-                const txt = (opt && opt.text || '').toLowerCase();
-                return txt.includes('business');
+                return '';
             }
 
-            // Toggle UI + required attribute
-            function updateTaxVisibility() {
-                if (selectedRequiresTax()) {
+            // sanitize while typing (kept your permissive punctuation choices)
+            function sanitizeTyping(value) {
+                let cleaned = String(value || '').replace(/[^A-Za-z0-9\-\.\s\/]/g, '');
+                cleaned = cleaned.replace(/\s+/g, ' ').replace(/^\s+/, '');
+                return cleaned;
+            }
+
+            // --- input handler (kept your behaviour) ---
+            function onTaxIdInput(e) {
+                const orig = taxIdField.value || '';
+                const allowed = orig.replace(/[^A-Za-z0-9\-\.\s\/]/g, '');
+                const normal = allowed.replace(/\s+/g, ' ').replace(/^\s+/, '');
+                if (normal !== orig) {
+                    const pos = Math.max(0, (taxIdField.selectionStart || 0) - (orig.length - normal.length));
+                    taxIdField.value = normal;
+                    try {
+                        taxIdField.setSelectionRange(pos, pos);
+                    } catch (_) {}
+                }
+
+                const err = validateTaxIdLogical(taxIdField.value);
+                if (taxIdErrorEl) taxIdErrorEl.textContent = err;
+                if (typeof updateContinueButton === 'function') updateContinueButton();
+            }
+
+            // --- improved toggle function ---
+            function toggleTaxFieldVisibility(init = false) {
+                // Determine selected option text and value robustly
+                let selText = '';
+                let selValue = '';
+                try {
+                    const opt = (businessSelect.options && businessSelect.options[businessSelect.selectedIndex]) ?
+                        businessSelect.options[businessSelect.selectedIndex] :
+                        null;
+                    selText = opt ? (opt.text || '') : (businessSelect.value || '');
+                    selValue = opt ? (opt.value || '') : (businessSelect.value || '');
+                } catch (e) {
+                    selText = businessSelect.value || '';
+                    selValue = businessSelect.value || '';
+                }
+
+                const normText = String(selText || '').trim().toLowerCase();
+                const normValue = String(selValue || '').trim().toLowerCase();
+
+                // Hidden when:
+                // - explicit init requested OR
+                // - value is empty OR
+                // - option text/value contains 'select' (placeholder)
+                // Show only when text/value contains 'business'
+                const isPlaceholder = (normValue === '' || normText.includes('select') || normValue.includes('select'));
+                const isBusiness = (normText.includes('business') || normValue.includes('business'));
+
+                if (init === true || isPlaceholder) {
+                    taxIdWrapper.style.display = 'none';
+                    taxIdField.removeAttribute('required');
+                    taxIdField.value = '';
+                    if (taxIdErrorEl) taxIdErrorEl.textContent = '';
+                    if (typeof updateContinueButton === 'function') updateContinueButton();
+                    return;
+                }
+
+                if (isBusiness) {
                     taxIdWrapper.style.display = 'block';
                     taxIdField.setAttribute('required', 'required');
                 } else {
@@ -871,55 +1001,77 @@
                     taxIdField.value = '';
                     if (taxIdErrorEl) taxIdErrorEl.textContent = '';
                 }
+
                 if (typeof updateContinueButton === 'function') updateContinueButton();
             }
 
-            // Normalize input and run validation when shown
-            taxIdField.addEventListener('input', function() {
-                const cur = taxIdField.value;
-                const norm = normalize(cur);
-                if (cur !== norm) {
-                    const pos = taxIdField.selectionStart || 0;
-                    taxIdField.value = norm;
-                    try {
-                        taxIdField.setSelectionRange(pos, pos);
-                    } catch (e) {}
-                }
-                if (!taxIdField.hasAttribute('required') || taxIdWrapper.style.display === 'none') {
-                    if (taxIdErrorEl) taxIdErrorEl.textContent = '';
-                    if (typeof updateContinueButton === 'function') updateContinueButton();
-                    return;
-                }
-                if (taxIdErrorEl) taxIdErrorEl.textContent = validateTax(taxIdField.value);
-                if (typeof updateContinueButton === 'function') updateContinueButton();
-            });
-
-            // When select changes
-            businessSelect.addEventListener('change', updateTaxVisibility);
-
-            // Support Select2 or other libs: re-run when attributes change
-            if (window.jQuery) {
+            // --- idempotent binding (prevent duplicate listeners) ---
+            const BIND_FLAG = '__taxToggleBound_v2';
+            if (!businessSelect[BIND_FLAG]) {
+                // Best-effort cleanup
                 try {
-                    window.jQuery(businessSelect).on('change.select2 taxToggle', function() {
-                        // dispatch native event so handler runs
-                        businessSelect.dispatchEvent(new Event('change', {
-                            bubbles: true
-                        }));
-                    });
+                    businessSelect.removeEventListener('change', toggleTaxFieldVisibility);
                 } catch (e) {}
-            }
-            // observe attribute changes too
-            const mo = new MutationObserver(function() {
-                updateTaxVisibility();
-            });
-            mo.observe(businessSelect, {
-                attributes: true,
-                attributeFilter: ['value', 'class']
-            });
+                try {
+                    taxIdField.removeEventListener('input', onTaxIdInput);
+                } catch (e) {}
 
-            // INITIAL RUN: ensure the correct initial state (Tax hidden if Individual selected)
-            // We already set tax wrapper to display:none in markup, but this ensures required attr is correct.
-            setTimeout(updateTaxVisibility, 50);
-        });
+                businessSelect.addEventListener('change', () => toggleTaxFieldVisibility(false));
+                taxIdField.addEventListener('input', onTaxIdInput);
+                taxIdField.addEventListener('blur', onTaxIdInput);
+
+                // jQuery/select2 support (namespaced)
+                if (window.jQuery) {
+                    try {
+                        jQuery(businessSelect).off('.taxToggle').on('change.taxToggle select2:select.taxToggle',
+                            function() {
+                                // small delay so select2 updates selectedIndex/value first
+                                setTimeout(() => toggleTaxFieldVisibility(false), 0);
+                            });
+                        jQuery(taxIdField).off('.taxValidate').on('input.taxValidate blur.taxValidate', onTaxIdInput);
+                    } catch (e) {
+                        // ignore
+                    }
+                }
+
+                // MutationObserver: handle plugins that replace the select DOM
+                try {
+                    const observer = new MutationObserver(function(mutations) {
+                        for (const m of mutations) {
+                            if (m.type === 'attributes' || m.type === 'childList') {
+                                toggleTaxFieldVisibility(false);
+                                return;
+                            }
+                        }
+                    });
+                    observer.observe(businessSelect, {
+                        attributes: true,
+                        childList: true,
+                        subtree: false
+                    });
+                } catch (e) {
+                    // ignore
+                }
+
+                businessSelect[BIND_FLAG] = true;
+            }
+
+            // --- immediately hide to avoid flicker, then re-check after short delays ---
+            try {
+                toggleTaxFieldVisibility(true);
+            } catch (e) {}
+            setTimeout(() => {
+                try {
+                    toggleTaxFieldVisibility(true);
+                } catch (e) {}
+            }, 80);
+            setTimeout(() => {
+                try {
+                    toggleTaxFieldVisibility(false);
+                } catch (e) {}
+            }, 200); // allow select2/other inits to show if Business was selected intentionally
+
+            console.info('Tax ID validator (v2) inited');
+        })();
     </script>
 @endsection

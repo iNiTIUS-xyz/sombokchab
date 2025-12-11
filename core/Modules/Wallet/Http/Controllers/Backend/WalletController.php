@@ -24,6 +24,7 @@ class WalletController extends Controller
             ->whereNull("delivery_man_id")
             ->latest()
             ->get(['id', 'user_id', 'balance', 'status']);
+        dd($wallet_lists);
 
         return view('wallet::backend.wallet-lists', compact('wallet_lists', 'type'));
     }

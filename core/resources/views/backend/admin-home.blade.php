@@ -608,21 +608,21 @@
                                 <div
                                     class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
                                     <span>Pending</span>
-                                    <span class="fw-bold text-warning">53</span>
+                                    <span class="fw-bold text-warning">{{ $unpublishProduct->count() }}</span>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div
                                     class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
                                     <span>Approved</span>
-                                    <span class="fw-bold text-success">546</span>
+                                    <span class="fw-bold text-success">{{ $publishProduct->count() }}</span>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div
                                     class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
                                     <span>Rejected</span>
-                                    <span class="fw-bold text-danger">3</span>
+                                    <span class="fw-bold text-danger">{{ $rejectedProduct->count() }}</span>
                                 </div>
                             </div>
                         </div>
@@ -632,21 +632,42 @@
                                 <div
                                     class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
                                     <span>Pending</span>
-                                    <span class="fw-bold text-warning">132</span>
+                                    <span class="fw-bold text-warning">{{ $pendingWithdraw->count() }}</span>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div
                                     class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
-                                    <span>Approved</span>
-                                    <span class="fw-bold text-success">65</span>
+                                    <span>Completed</span>
+                                    <span class="fw-bold text-danger">{{ $completedWithdraw->count() }}</span>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div
                                     class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
-                                    <span>Rejected</span>
-                                    <span class="fw-bold text-danger">7</span>
+                                    <span>Processing</span>
+                                    <span class="fw-bold text-success">{{ $processingWithdraw->count() }}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div
+                                    class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
+                                    <span>Failed</span>
+                                    <span class="fw-bold text-warning">{{ $failedWithdraw->count() }}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div
+                                    class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
+                                    <span>Refunded</span>
+                                    <span class="fw-bold text-success">{{ $refundedWithdraw->count() }}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div
+                                    class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
+                                    <span>Cancelled</span>
+                                    <span class="fw-bold text-danger">{{ $cancelledWithdraw->count() }}</span>
                                 </div>
                             </div>
                         </div>
@@ -662,7 +683,8 @@
                                     class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
                                     <span>Total Tickets Open</span>
                                     <span class="fw-bold text-warning">
-                                        {{ $vendorTicketData['vendorTotalOpenTicket']->count() }}</span>
+                                        {{ $vendorTicketData['vendorTotalOpenTicket']->count() }}
+                                    </span>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -670,7 +692,8 @@
                                     class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
                                     <span>High Priority Tickets</span>
                                     <span class="fw-bold text-success">
-                                        {{ $vendorTicketData['vendorTotalPriorityTicket']->count() }}</span>
+                                        {{ $vendorTicketData['vendorTotalPriorityTicket']->count() }}
+                                    </span>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -678,7 +701,8 @@
                                     class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
                                     <span>Total Tickets Closed</span>
                                     <span class="fw-bold text-danger">
-                                        {{ $vendorTicketData['vendorTotalCloseTicket']->count() }}</span>
+                                        {{ $vendorTicketData['vendorTotalCloseTicket']->count() }}
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -704,7 +728,7 @@
                                     <span>High Priority Tickets</span>
                                     <span class="fw-bold text-success">
                                         {{ $customerTicketData['totalPriorityTicket']->count() }}
-                                        
+
                                     </span>
                                 </div>
                             </div>
@@ -714,7 +738,7 @@
                                     <span>Total Tickets Closed</span>
                                     <span class="fw-bold text-danger">
                                         {{ $customerTicketData['totalCloseTicket']->count() }}
-                                        
+
                                     </span>
                                 </div>
                             </div>
