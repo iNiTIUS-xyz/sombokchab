@@ -119,18 +119,50 @@
                                 <input type="hidden" name="phone" id="verified_phone">
                                 <input type="hidden" name="country_id" value="31">
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="label-title mb-2">
                                                 {{ __('Store Name') }}
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input name="business_name" id="business_name" type="text" maxlength="50"
+                                            <input name="business_name" id="business_name" type="text"
                                                 class="form--control radius-10" placeholder="{{ __('Enter Store Name') }}"
                                                 required />
                                             <small class="text-danger" id="businessNameError"></small>
                                         </div>
                                     </div>
+
+                                    <div class="nice-select-two col-md-6">
+                                        <div class="form-group">
+                                            <label class="label-title mb-2">
+                                                {{ __('Business Category') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <select id="business_type" name="business_type_id" class="form--control"
+                                                aria-label="Business Category">
+                                                <option value="">{{ __('Select Business Category') }}</option>
+                                                @foreach ($business_type as $item)
+                                                    <option value="{{ $item->id }}"
+                                                        {{ old('business_type_id', $vendor->business_type_id ?? '') == $item->id ? 'selected' : '' }}>
+                                                        {{ $item->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12" id="taxIdWrapper">
+                                        <div class="form-group">
+                                            <label class="label-title mb-2">
+                                                {{ __('Tax ID') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <input name="tax_id" id="tax_id" type="text" maxlength="13"
+                                                class="form--control radius-10" placeholder="{{ __('Enter Tax ID') }}" />
+                                            <small class="text-danger" id="taxIdError"></small>
+                                        </div>
+                                    </div>
+
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="label-title mb-2">
@@ -159,7 +191,7 @@
                                                 {{ __('Username') }}
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input name="username" id="username" type="text" maxlength="20"
+                                            <input name="username" id="username" type="text"
                                                 class="form--control radius-10" placeholder="{{ __('Enter Username') }}"
                                                 required />
                                             <small class="text-danger" id="usernameError"></small>
@@ -171,7 +203,7 @@
                                                 {{ __('Email') }}
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input name="email" id="email" type="text" maxlength="50"
+                                            <input name="email" id="email" type="text"
                                                 class="form--control radius-10" placeholder="{{ __('Enter Email') }}" />
                                             <small class="text-danger" id="emailError"></small>
                                         </div>
@@ -182,75 +214,13 @@
                                                 {{ __('Passport or National ID') }}
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input name="passport_nid" id="passport_nid" type="number" maxlength="30"
-                                                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 30);"
+                                            <input name="passport_nid" id="passport_nid" type="number"
                                                 class="form--control radius-10"
                                                 placeholder="{{ __('Enter Passport or National ID') }}" required />
                                             <small class="text-danger" id="passportNidError"></small>
                                         </div>
                                     </div>
-                                    <div class="nice-select-two mb-2">
-                                        <div class="form-group">
-                                            <label class="label-title mb-2">
-                                                {{ __('Business Category') }}
-                                                <span class="text-danger">*</span>
-                                            </label>
-                                            <select id="business_type" name="business_type_id" class="form--control"
-                                                aria-label="Business Category">
-                                                <option value="">{{ __('Select business category') }}</option>
-                                                @php
-                                                    use Illuminate\Support\Str;
-                                                @endphp
-
-                                                @foreach ($business_type as $item)
-                                                    @php
-                                                        // Mark option requiring tax if name contains 'business' (adjust if you have $item->requires_tax)
-                                                        $requiresTax = Str::contains(
-                                                            Str::lower($item->name),
-                                                            'business',
-                                                        )
-                                                            ? '1'
-                                                            : '0';
-
-                                                        // Set 'Individual' to selected by default if no old input or vendor value present
-                                                        $isSelected = false;
-                                                        if (old('business_type_id') !== null) {
-                                                            $isSelected = old('business_type_id') == $item->id;
-                                                        } elseif (isset($vendor) && $vendor->business_type_id) {
-                                                            $isSelected = $vendor->business_type_id == $item->id;
-                                                        } else {
-                                                            // default: select 'Individual' if the option label contains 'individual'
-                                                            $isSelected = Str::contains(
-                                                                Str::lower($item->name),
-                                                                'individual',
-                                                            );
-                                                        }
-                                                    @endphp
-
-                                                    <option value="{{ $item->id }}"
-                                                        data-requires-tax="{{ $requiresTax }}"
-                                                        {{ $isSelected ? 'selected' : '' }}>
-                                                        {{ $item->name }}
-                                                    </option>
-                                                @endforeach
-
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-12" id="taxIdWrapper" style="display: none;">
-                                        <div class="form-group">
-                                            <label class="label-title mb-2">
-                                                {{ __('Tax ID') }}
-                                                <span class="text-danger">*</span>
-                                            </label>
-                                            <input name="tax_id" id="tax_id" type="text" maxlength="13"
-                                                class="form--control radius-10" placeholder="{{ __('Enter Tax ID') }}" />
-                                            <small class="text-danger" id="taxIdError"></small>
-                                        </div>
-                                    </div>
-
-
+                                    
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="label-title mb-2">
@@ -258,7 +228,7 @@
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <div class="position-relative">
-                                                <input name="password" id="password" type="password" maxlength="25"
+                                                <input name="password" id="password" type="password"
                                                     class="form--control radius-10"
                                                     placeholder="{{ __('Enter Password') }}" required />
                                                 <div class="toggle-password position-absolute"
@@ -282,7 +252,7 @@
                                             </label>
                                             <div class="position-relative">
                                                 <input name="password_confirmation" id="password_confirmation"
-                                                    maxlength="25" type="password" class="form--control radius-10"
+                                                    type="password" class="form--control radius-10"
                                                     placeholder="{{ __('Enter Confirm Password') }}" required />
                                                 <div class="toggle-password position-absolute"
                                                     style="right: 10px; top: 45%; transform: translateY(-50%); cursor: pointer;">
@@ -335,7 +305,7 @@
                                 <div class="form-group">
                                     <label class="label-title">Enter OTP</label>
                                     <input type="text" id="verificationCode" class="form--control radius-10"
-                                        maxlength="6" placeholder="6-digit Code" style="border-radius: 10px;" />
+                                        placeholder="6-digit Code" style="border-radius: 10px;" />
                                     <small class="text-danger" id="verificationCodeError"></small>
                                     <button type="button"
                                         style="background: transparent; border: none; text-decoration: underline; color: #41695a; float: right"
@@ -479,8 +449,13 @@
             return '';
         }
 
-        // NOTE: the Tax ID validation & toggle are handled by the consolidated script further down.
-        // Avoid duplicate validateTaxId here so the single authoritative handler is used.
+        function validateTaxId(value) {
+            const re = /^[A-Za-z]\d{12}$/;
+            if (!re.test((value || '').trim())) {
+                return 'Tax ID must be 1 letter followed by 12 digits (e.g., L000000000000)';
+            }
+            return '';
+        }
 
         function validateTerms(isChecked) {
             return !isChecked ? 'You must accept the terms and conditions' : '';
@@ -519,6 +494,72 @@
                 el.style.display = 'none';
             }, seconds * 1000);
         }
+
+        // ----------------- TAX ID TOGGLING (ROBUST WITH SELECT2 SUPPORT) ----------------- //
+        (function setupTaxToggle() {
+            // If necessary elements missing, skip setup (but keep rest of script working)
+            if (!businessSelect || !taxIdWrapper || !taxIdField) return;
+
+            // 1) find a reliable option value for visible text "Business" (case-insensitive)
+            let businessOptionValueForBusinessText = null;
+            for (let i = 0; i < businessSelect.options.length; i++) {
+                const opt = businessSelect.options[i];
+                if (!opt || !opt.text) continue;
+                const txt = opt.text.trim().toLowerCase();
+                if (txt === 'business' || txt.includes('business')) {
+                    businessOptionValueForBusinessText = opt.value;
+                    break;
+                }
+            }
+
+            function isBusinessSelected() {
+                const selectedVal = businessSelect.value;
+                const selectedText = (businessSelect.options[businessSelect.selectedIndex] || {}).text || '';
+                if (businessOptionValueForBusinessText !== null && selectedVal !== undefined) {
+                    return String(selectedVal) === String(businessOptionValueForBusinessText);
+                }
+                return String(selectedText).trim().toLowerCase() === 'business' || String(selectedText).toLowerCase()
+                    .includes('business');
+            }
+
+            function toggleTaxIdField() {
+                if (isBusinessSelected()) {
+                    taxIdWrapper.style.display = 'block';
+                    taxIdField.setAttribute('required', 'required');
+                } else {
+                    taxIdWrapper.style.display = 'none';
+                    taxIdField.removeAttribute('required');
+                    taxIdField.value = '';
+                    if (taxIdErrorEl) taxIdErrorEl.textContent = '';
+                }
+                if (typeof updateContinueButton === 'function') updateContinueButton();
+            }
+
+            // bind native
+            businessSelect.addEventListener('change', toggleTaxIdField);
+            // also bind jquery/select2 change if jQuery exists
+            if (window.jQuery) {
+                try {
+                    window.jQuery('#business_type').on('change', toggleTaxIdField);
+                } catch (e) {
+                    /* ignore */
+                }
+            }
+
+            // tax input validate only when required
+            taxIdField.addEventListener('input', function() {
+                if (!taxIdField.hasAttribute('required') || taxIdWrapper.style.display === 'none') {
+                    if (taxIdErrorEl) taxIdErrorEl.textContent = '';
+                    if (typeof updateContinueButton === 'function') updateContinueButton();
+                    return;
+                }
+                if (taxIdErrorEl) taxIdErrorEl.textContent = validateTaxId(taxIdField.value);
+                if (typeof updateContinueButton === 'function') updateContinueButton();
+            });
+
+            // call toggle after short delay so select2 initialization (if used) completes
+            setTimeout(toggleTaxIdField, 200);
+        })();
 
         // ----------------- REAL-TIME VALIDATION BINDINGS ----------------- //
         // phone
@@ -764,8 +805,10 @@
             // Ensure tax id visibility/required state is correct on page load
             try {
                 if (typeof updateContinueButton === 'function') updateContinueButton();
-                // fire a change to ensure the consolidated tax script picks up initial value
+                // call toggle function if it exists in the closure above (setupTaxToggle executed immediately)
+                // If businessSelect exists, we already set a timeout to toggle; do one immediate check too
                 if (businessSelect && taxIdWrapper && taxIdField) {
+                    // small safety toggle - will be overridden by the setTimeout in the toggle setup if necessary
                     const evt = new Event('change', {
                         bubbles: true
                     });
@@ -787,18 +830,16 @@
             const passwordInput = document.getElementById('password');
             const showIcon = document.querySelector('.show-icon');
             const hideIcon = document.querySelector('.hide-icon');
-            if (showIcon && hideIcon && passwordInput) {
-                showIcon.addEventListener('click', function() {
-                    passwordInput.type = 'text';
-                    showIcon.style.display = 'none';
-                    hideIcon.style.display = 'inline';
-                });
-                hideIcon.addEventListener('click', function() {
-                    passwordInput.type = 'password';
-                    showIcon.style.display = 'inline';
-                    hideIcon.style.display = 'none';
-                });
-            }
+            showIcon.addEventListener('click', function() {
+                passwordInput.type = 'text';
+                showIcon.style.display = 'none';
+                hideIcon.style.display = 'inline';
+            });
+            hideIcon.addEventListener('click', function() {
+                passwordInput.type = 'password';
+                showIcon.style.display = 'inline';
+                hideIcon.style.display = 'none';
+            });
         });
     </script>
     <script>
@@ -806,120 +847,47 @@
             const passwordInput = document.getElementById('password_confirmation');
             const showIcon = document.querySelector('.show-icon-two');
             const hideIcon = document.querySelector('.hide-icon-two');
-            if (showIcon && hideIcon && passwordInput) {
-                showIcon.addEventListener('click', function() {
-                    passwordInput.type = 'text';
-                    showIcon.style.display = 'none';
-                    hideIcon.style.display = 'inline';
-                });
-                hideIcon.addEventListener('click', function() {
-                    passwordInput.type = 'password';
-                    showIcon.style.display = 'inline';
-                    hideIcon.style.display = 'none';
-                });
-            }
+            showIcon.addEventListener('click', function() {
+                passwordInput.type = 'text';
+                showIcon.style.display = 'none';
+                hideIcon.style.display = 'inline';
+            });
+            hideIcon.addEventListener('click', function() {
+                passwordInput.type = 'password';
+                showIcon.style.display = 'inline';
+                hideIcon.style.display = 'none';
+            });
         });
     </script>
 
-    <!-- CONSOLIDATED TAX ID HANDLER (single source-of-truth) -->
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const businessSelect = document.getElementById('business_type');
-            const taxIdWrapper = document.getElementById('taxIdWrapper');
-            const taxIdField = document.getElementById('tax_id');
-            const taxIdErrorEl = document.getElementById('taxIdError');
+        $(document).ready(function() {
 
-            if (!businessSelect || !taxIdWrapper || !taxIdField) {
-                console.warn('Tax ID script: missing required element(s)');
-                return;
-            }
+            // Initialize Select2
 
-            // normalize helper
-            function normalize(v) {
-                return (v || '').toString().replace(/\s+/g, '');
-            }
 
-            // Simple validation (adjust as needed)
-            function validateTax(v) {
-                const s = normalize(v);
-                if (!s) return 'Tax ID is required';
-                const letterThen12 = /^[A-Za-z]\d{12}$/;
-                const thirteenDigits = /^\d{13}$/;
-                if (letterThen12.test(s) || thirteenDigits.test(s)) return '';
-                return 'Tax ID must be 1 letter + 12 digits (e.g., L000000000000) or 13 digits';
-            }
+            // Toggle Tax ID field
+            function toggleTaxIdField() {
+                let selectedText = $("#business_type option:selected").text().trim();
 
-            // Decide if selected option requires tax by data attribute first
-            function selectedRequiresTax() {
-                const opt = businessSelect.options[businessSelect.selectedIndex];
-                if (opt && opt.dataset && opt.dataset.requiresTax !== undefined) {
-                    return String(opt.dataset.requiresTax) === '1';
-                }
-                // fallback: check visible text
-                const txt = (opt && opt.text || '').toLowerCase();
-                return txt.includes('business');
-            }
-
-            // Toggle UI + required attribute
-            function updateTaxVisibility() {
-                if (selectedRequiresTax()) {
-                    taxIdWrapper.style.display = 'block';
-                    taxIdField.setAttribute('required', 'required');
+                if (selectedText === "Business") {
+                    $("#taxIdWrapper").show();
                 } else {
-                    taxIdWrapper.style.display = 'none';
-                    taxIdField.removeAttribute('required');
-                    taxIdField.value = '';
-                    if (taxIdErrorEl) taxIdErrorEl.textContent = '';
+                    $("#taxIdWrapper").hide();
+                    $("#tax_id").val("");
+                    $("#taxIdError").text("");
                 }
-                if (typeof updateContinueButton === 'function') updateContinueButton();
             }
 
-            // Normalize input and run validation when shown
-            taxIdField.addEventListener('input', function() {
-                const cur = taxIdField.value;
-                const norm = normalize(cur);
-                if (cur !== norm) {
-                    const pos = taxIdField.selectionStart || 0;
-                    taxIdField.value = norm;
-                    try {
-                        taxIdField.setSelectionRange(pos, pos);
-                    } catch (e) {}
-                }
-                if (!taxIdField.hasAttribute('required') || taxIdWrapper.style.display === 'none') {
-                    if (taxIdErrorEl) taxIdErrorEl.textContent = '';
-                    if (typeof updateContinueButton === 'function') updateContinueButton();
-                    return;
-                }
-                if (taxIdErrorEl) taxIdErrorEl.textContent = validateTax(taxIdField.value);
-                if (typeof updateContinueButton === 'function') updateContinueButton();
+            // Run on page load
+            toggleTaxIdField();
+
+            // Run on change
+            $("#business_type").on("change", function() {
+                toggleTaxIdField();
             });
 
-            // When select changes
-            businessSelect.addEventListener('change', updateTaxVisibility);
-
-            // Support Select2 or other libs: re-run when attributes change
-            if (window.jQuery) {
-                try {
-                    window.jQuery(businessSelect).on('change.select2 taxToggle', function() {
-                        // dispatch native event so handler runs
-                        businessSelect.dispatchEvent(new Event('change', {
-                            bubbles: true
-                        }));
-                    });
-                } catch (e) {}
-            }
-            // observe attribute changes too
-            const mo = new MutationObserver(function() {
-                updateTaxVisibility();
-            });
-            mo.observe(businessSelect, {
-                attributes: true,
-                attributeFilter: ['value', 'class']
-            });
-
-            // INITIAL RUN: ensure the correct initial state (Tax hidden if Individual selected)
-            // We already set tax wrapper to display:none in markup, but this ensures required attr is correct.
-            setTimeout(updateTaxVisibility, 50);
         });
     </script>
 @endsection
