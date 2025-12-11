@@ -163,6 +163,21 @@ class AdminDashboardController extends Controller
 
         $pass_reset_count = DB::table('password_resets')->count();
 
+
+        $publishProduct = Product::query()->where('product_status', 'publish')->get();
+        $unpublishProduct = Product::query()->where('product_status', 'unpublish')->get();
+        $rejectedProduct = Product::query()->where('product_status', 'rejected')->get();
+
+
+        $pendingWithdraw = VendorWithdrawRequest::query()->where('request_status', 'pending')->get();
+        $processingWithdraw = VendorWithdrawRequest::query()->where('request_status', 'processing')->get();
+        $completedWithdraw = VendorWithdrawRequest::query()->where('request_status', 'completed')->get();
+        $failedWithdraw = VendorWithdrawRequest::query()->where('request_status', 'failed')->get();
+        $refundedWithdraw = VendorWithdrawRequest::query()->where('request_status', 'refunded')->get();
+        $cancelledWithdraw = VendorWithdrawRequest::query()->where('request_status', 'cancelled')->get();
+
+
+
         return view('backend.admin-home')->with([
             'campaign'               => $campaign,
             'vendor'                 => $vendor,
@@ -175,10 +190,18 @@ class AdminDashboardController extends Controller
             'refundRequests'         => $refundRequests,
             'customerTicketData'     => $customerTicketData,
             'vendorTicketData'       => $vendorTicketData,
-
+            'publishProduct'         => $publishProduct,
+            'unpublishProduct'       => $unpublishProduct,
+            'rejectedProduct'        => $rejectedProduct,
             'totalVendors'           => $totalVendors,
             'totalAdmin'             => $totalAdmin,
             'totalCustomer'          => $totalCustomer,
+            'pendingWithdraw'        => $pendingWithdraw,
+            'processingWithdraw'     => $processingWithdraw,
+            'completedWithdraw'      => $completedWithdraw,
+            'failedWithdraw'         => $failedWithdraw,
+            'refundedWithdraw'       => $refundedWithdraw,
+            'cancelledWithdraw'      => $cancelledWithdraw,
 
             'vendorWithdrawData'     => $vendorWithdrawData,
 
