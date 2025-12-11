@@ -341,12 +341,13 @@
                                                 <input type="checkbox" name="send_notify_mail" id="send_notify_mail">
                                                 <label for="send_notify_mail">{{ __('Notify via mail') }}</label>
                                             </div>
-                                            <div class="form-group d-flex align-items-start gap-3">
+                                            {{-- <div class="form-group d-flex align-items-start gap-3">
                                                 <input type="checkbox" name="send_notify_phone"
                                                     id="send_notify_phone_number">
-                                                <label
-                                                    for="send_notify_phone_number">{{ __('Notify via phone number') }}</label>
-                                            </div>
+                                                <label for="send_notify_phone_number">
+                                                    {{ __('Notify via phone number') }}
+                                                </label>
+                                            </div> --}}
                                             <div class="btn-wrapper">
                                                 <button type="submit" class="cmn_btn btn_bg_1 btn-success">
                                                     {{ __('Send Message') }}
