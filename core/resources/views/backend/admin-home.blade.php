@@ -584,21 +584,25 @@
                                 <div
                                     class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
                                     <span>Pending</span>
-                                    <span class="fw-bold text-warning">14</span>
+                                    <span class="fw-bold text-warning">
+                                        {{ $vendorRequest->count() }}
+                                    </span>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div
                                     class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
                                     <span>Approved</span>
-                                    <span class="fw-bold text-success">55</span>
+                                    <span class="fw-bold text-success">
+                                        {{ $approvedVendorCount->count() }}
+                                    </span>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div
                                     class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
                                     <span>Rejected</span>
-                                    <span class="fw-bold text-danger">43</span>
+                                    <span class="fw-bold text-danger">{{ $vendorRequest->count() }}</span>
                                 </div>
                             </div>
                         </div>
@@ -704,7 +708,7 @@
                                     <span>High Priority Tickets</span>
                                     <span class="fw-bold text-success">
                                         {{ $customerTicketData['totalPriorityTicket']->count() }}
-                                        
+
                                     </span>
                                 </div>
                             </div>
@@ -714,7 +718,7 @@
                                     <span>Total Tickets Closed</span>
                                     <span class="fw-bold text-danger">
                                         {{ $customerTicketData['totalCloseTicket']->count() }}
-                                        
+
                                     </span>
                                 </div>
                             </div>
