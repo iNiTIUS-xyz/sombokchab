@@ -83,8 +83,9 @@
                         </div>
                     </div>
                     <div class="col-sm-8 col-md-9 col-lg-8 col-xl-9 col-xxl-10">
+                        <!-- novalidate added so native validation won't block focusing fields in hidden tabs -->
                         <form data-request-route="{{ route('admin.products.create') }}" method="post"
-                            id="product-create-form">
+                            id="product-create-form" novalidate>
                             @csrf
                             <div class="form-button">
                                 <button class="cmn_btn btn_bg_profile">{{ __('Add New Product') }}</button>
@@ -146,6 +147,276 @@
     <x-media.js />
     <x-summernote.js />
     <x-product::variant-info.js :colors="$data['product_colors']" :sizes="$data['product_sizes']" :all-attributes="$data['all_attribute']" />
+    <script>
+        (function($) {
+            'use strict';
+
+            // helper to find the first required field (including those in hidden tabs)
+            function findFirstMissingRequired(form) {
+                const requiredEls = form.querySelectorAll('[required]');
+                for (let i = 0; i < requiredEls.length; i++) {
+                    const el = requiredEls[i];
+                    if (el.disabled) continue;
+                    const tag = (el.tagName || '').toLowerCase();
+
+                    // Prefer HTML5 validity check when available (valueMissing)
+                    try {
+                        if (el.validity && el.validity.valueMissing) {
+                            return el;
+                        }
+                    } catch (e) {}
+
+                    // Fallback checks
+                    if ((tag === 'input' || tag === 'textarea') && String(el.value).trim() === '') {
+                        return el;
+                    }
+                    if (tag === 'select' && (el.value === '' || el.selectedIndex === -1)) {
+                        return el;
+                    }
+                }
+                return null;
+            }
+
+            // Attempts to find a visible/focusable element inside the pane corresponding to the original control
+            function findVisibleControlFor(originalEl, pane) {
+                if (!originalEl) return null;
+
+                // 1) If original is visible, return it
+                try {
+                    const style = window.getComputedStyle(originalEl);
+                    if (style && style.display !== 'none' && style.visibility !== 'hidden' && originalEl
+                        .offsetParent !== null) {
+                        return originalEl;
+                    }
+                } catch (e) {}
+
+                // 2) If it's a select used by Select2 (select is hidden), look for the select2 container
+                if (originalEl.id) {
+                    // Common Select2 container id pattern: select2-<id>-container or select2-<id>-results etc.
+                    let sel2 = document.querySelector('#select2-' + originalEl.id + '-container');
+                    if (!sel2) sel2 = document.querySelector('#select2-' + originalEl.id + '-selection');
+                    if (!sel2) sel2 = document.querySelector('.select2-container--default[aria-hidden="false"]');
+                    if (sel2 && pane && pane.contains(sel2)) return sel2;
+                }
+
+                // 3) If original is replaced by a "nice-select" or other widget, attempt to find sibling widget
+                // nice-select often transforms <select> into .nice-select or .nice-select-wrapper
+                let siblingWidget = originalEl.closest('.nice-select-two') || originalEl.closest('.nice-select') ||
+                    originalEl.closest('.select-wrapper');
+                if (siblingWidget && pane && pane.contains(siblingWidget)) return siblingWidget;
+
+                // 4) Look for any visible input/select/textarea inside the pane with same name
+                if (originalEl.name) {
+                    const candidate = pane.querySelector('[name="' + CSS.escape(originalEl.name) +
+                        '"]:not([type="hidden"])');
+                    if (candidate) {
+                        try {
+                            const style2 = window.getComputedStyle(candidate);
+                            if (style2 && style2.display !== 'none' && style2.visibility !== 'hidden' && candidate
+                                .offsetParent !== null) {
+                                return candidate;
+                            }
+                        } catch (e) {}
+                        // if candidate exists but hidden, try select2 for that candidate id too
+                        if (candidate.id) {
+                            const sel2b = document.querySelector('#select2-' + candidate.id + '-container');
+                            if (sel2b && pane.contains(sel2b)) return sel2b;
+                        }
+                    }
+                }
+
+                // 5) Last resort: find first visible focusable control inside the pane
+                const focusable = pane.querySelector(
+                    'input:not([type=hidden]), textarea, select, [tabindex]:not([tabindex="-1"])');
+                if (focusable) return focusable;
+
+                return null;
+            }
+
+            // Show the tab identified by target (e.g. "#v-price-tab"), then focus inside the pane after it's shown.
+            function showTabAndFocus(tabTarget, focusOriginalEl) {
+                return new Promise((resolve) => {
+                    // find nav button
+                    let tabButton = document.querySelector('[data-bs-target="' + tabTarget + '"]') ||
+                        document.querySelector('[data-target="' + tabTarget + '"]') ||
+                        document.querySelector('.nav [href="' + tabTarget + '"]');
+
+                    if (!tabButton) {
+                        // nothing to show; resolve immediately
+                        return resolve(false);
+                    }
+
+                    // Listen for shown event once
+                    const onShown = function(e) {
+                        // remove listener
+                        try {
+                            tabButton.removeEventListener('shown.bs.tab', onShown);
+                            document.removeEventListener('shown.bs.tab', onShown);
+                        } catch (err) {}
+                        // wait a tick to let rendering complete
+                        setTimeout(() => {
+                            // find pane
+                            const pane = document.querySelector(tabTarget);
+                            let focusEl = pane ? findVisibleControlFor(focusOriginalEl, pane) :
+                                focusOriginalEl;
+
+                            if (focusEl) {
+                                // if the found element is a typical widget container (like select2), try to focus it appropriately
+                                try {
+                                    if (focusEl.classList && focusEl.classList.contains(
+                                            'select2-container')) {
+                                        // focus the inner focusable element if exists
+                                        const inner = focusEl.querySelector(
+                                            '.select2-selection, .select2-selection__rendered');
+                                        if (inner && typeof inner.focus === 'function') inner
+                                            .focus();
+                                        else focusEl.focus();
+                                    } else if (typeof focusEl.focus === 'function') {
+                                        focusEl.focus({
+                                            preventScroll: true
+                                        });
+                                    } else {
+                                        // fallback: try focusing child
+                                        const child = focusEl.querySelector(
+                                            'input, textarea, select, [tabindex]');
+                                        if (child && typeof child.focus === 'function') child
+                                            .focus({
+                                                preventScroll: true
+                                            });
+                                    }
+                                } catch (err) {
+                                    try {
+                                        focusEl.focus();
+                                    } catch (e) {}
+                                }
+
+                                // scroll into view for user
+                                try {
+                                    focusEl.scrollIntoView({
+                                        behavior: 'smooth',
+                                        block: 'center'
+                                    });
+                                } catch (e) {}
+
+                                // show inline hint if possible
+                                const parent = focusEl.parentNode || focusEl.closest('.form-group');
+                                if (parent) {
+                                    const small = parent.querySelector('small') || parent
+                                        .querySelector('.text-muted');
+                                    if (small && small.textContent.trim() === '') {
+                                        small.textContent = '{{ __('This field is required') }}';
+                                        small.classList.remove('field-success');
+                                        small.classList.add('field-error');
+                                    }
+                                }
+                                return resolve(true);
+                            } else {
+                                return resolve(false);
+                            }
+                        }, 90);
+                    };
+
+                    // Use bootstrap Tab API when available so events fire reliably
+                    if (typeof bootstrap !== 'undefined' && bootstrap.Tab) {
+                        try {
+                            const tabObj = new bootstrap.Tab(tabButton);
+                            // Attach global shown listener - we listen to document because some bootstrap versions fire there
+                            document.addEventListener('shown.bs.tab', onShown, {
+                                once: true
+                            });
+                            tabObj.show();
+                        } catch (err) {
+                            // fallback to click then listen a small delay
+                            tabButton.click();
+                            setTimeout(() => onShown(), 200);
+                        }
+                    } else {
+                        // fallback to click
+                        tabButton.click();
+                        // try to detect the pane update after short delay
+                        setTimeout(() => onShown(), 200);
+                    }
+                });
+            }
+
+            // Main submit interception
+            $(document).on('submit', '#product-create-form', function(evt) {
+                const form = this;
+                form.noValidate = true; // ensure native validation doesn't block
+                const firstMissing = findFirstMissingRequired(form);
+
+                if (!firstMissing) {
+                    // let existing handlers run
+                    return;
+                }
+
+                // prevent submission and other handlers
+                evt.preventDefault();
+                evt.stopImmediatePropagation();
+
+                console.debug('[auto-tab-switch] missing required field:', firstMissing.name || firstMissing
+                    .id || firstMissing);
+
+                // try to find the tab pane containing that element
+                let pane = firstMissing.closest ? firstMissing.closest('.tab-pane') : null;
+                if (!pane && firstMissing.name) {
+                    const selector = '.tab-pane [name="' + CSS.escape(firstMissing.name) + '"]';
+                    const found = form.querySelector(selector);
+                    if (found) pane = found.closest('.tab-pane');
+                }
+                if (!pane) {
+                    // climb parents up to find .tab-pane
+                    let p = firstMissing.parentNode;
+                    for (let depth = 0; p && depth < 10; depth++, p = p.parentNode) {
+                        if (p.classList && p.classList.contains('tab-pane')) {
+                            pane = p;
+                            break;
+                        }
+                    }
+                }
+
+                let tabTarget = pane && pane.id ? ('#' + pane.id) : null;
+
+                if (!tabTarget) {
+                    // fallback: attempt to map by label text (best-effort)
+                    const label = form.querySelector('label[for="' + (firstMissing.id || '') + '"]') ||
+                        (firstMissing.closest ? firstMissing.closest('.form-group')?.querySelector('label') :
+                            null);
+                    const labelText = label ? label.textContent.trim().split('\n')[0] : '';
+                    if (labelText) {
+                        const panes = form.querySelectorAll('.tab-pane');
+                        for (let j = 0; j < panes.length; j++) {
+                            if (panes[j].innerText && panes[j].innerText.indexOf(labelText) !== -1) {
+                                tabTarget = '#' + (panes[j].id || '');
+                                pane = panes[j];
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (tabTarget) {
+                    // show the tab and focus inside it
+                    showTabAndFocus(tabTarget, firstMissing).then((ok) => {
+                        if (!ok) {
+                            // if we couldn't focus, try direct focus after small delay
+                            try {
+                                firstMissing.focus();
+                            } catch (e) {}
+                        }
+                    });
+                    return false;
+                } else {
+                    // no tab mapping found — try to focus the control directly
+                    try {
+                        firstMissing.focus();
+                    } catch (e) {}
+                    return false;
+                }
+            });
+
+        })(jQuery);
+    </script>
 
     <script>
         $(document).ready(function() {
@@ -213,6 +484,185 @@
             $(this).closest('.inventory_item').find('.item_attribute_value').html(terms_html);
         })
 
+        // ====== AUTO TAB SWITCHER (for vertical nav-pills) ======
+        // Runs before the normal submit handler and switches to tab that contains
+        // the first missing required field, focusing it.
+        (function($) {
+            'use strict';
+
+            // Ensure native validation is off
+            document.addEventListener('DOMContentLoaded', function() {
+                const f = document.getElementById('product-create-form');
+                if (f) f.noValidate = true;
+            });
+
+            $(document).on('submit', '#product-create-form', function(e) {
+                const form = this;
+                form.noValidate = true; // double safety
+
+                // find required elements in DOM (note: some components may mark required via JS)
+                const requiredEls = form.querySelectorAll('[required]');
+                let firstMissing = null;
+
+                for (let i = 0; i < requiredEls.length; i++) {
+                    const el = requiredEls[i];
+                    // skip disabled
+                    if (el.disabled) continue;
+
+                    // prefer HTML5 validity if available
+                    try {
+                        if (el.validity && el.validity.valueMissing) {
+                            firstMissing = el;
+                            break;
+                        }
+                    } catch (err) {}
+
+                    // fallback checks
+                    const tag = (el.tagName || '').toLowerCase();
+                    if ((tag === 'input' || tag === 'textarea') && String(el.value).trim() === '') {
+                        firstMissing = el;
+                        break;
+                    }
+                    if (tag === 'select' && (el.value === '' || el.selectedIndex === -1 || el.selectedIndex ===
+                            0 && el.value === '')) {
+                        firstMissing = el;
+                        break;
+                    }
+                }
+
+                if (!firstMissing) return; // no missing required field — let other handlers run
+
+                // prevent submit & other handlers (AJAX)
+                e.preventDefault();
+                e.stopImmediatePropagation();
+
+                console.debug('[product auto-tab-switch] missing required:', firstMissing.name || firstMissing);
+
+                // try to find the .tab-pane containing the missing field
+                let pane = firstMissing.closest ? firstMissing.closest('.tab-pane') : null;
+
+                // fallback: find matching element by name inside tab-pane (in case widget moved original)
+                if (!pane && firstMissing.name) {
+                    const selector = '.tab-pane [name="' + CSS.escape(firstMissing.name) + '"]';
+                    const foundInPane = form.querySelector(selector);
+                    if (foundInPane) pane = foundInPane.closest('.tab-pane');
+                }
+
+                // fallback: climb up parents
+                if (!pane) {
+                    let p = firstMissing.parentNode;
+                    for (let depth = 0; p && depth < 8; depth++, p = p.parentNode) {
+                        if (p.classList && p.classList.contains('tab-pane')) {
+                            pane = p;
+                            break;
+                        }
+                    }
+                }
+
+                // determine tab target id
+                let tabTarget = null;
+                if (pane && pane.id) {
+                    tabTarget = '#' + pane.id;
+                } else {
+                    // last-ditch: map by label text
+                    const lbl = form.querySelector('label[for="' + (firstMissing.id || '') + '"]') ||
+                        (firstMissing.closest ? firstMissing.closest('.form-group')?.querySelector('label') :
+                            null);
+                    const labelText = lbl ? lbl.textContent.trim().split('\n')[0] : '';
+                    if (labelText) {
+                        const panes = form.querySelectorAll('.tab-pane');
+                        for (let j = 0; j < panes.length; j++) {
+                            const paneEl = panes[j];
+                            if (paneEl.innerText && paneEl.innerText.indexOf(labelText) !== -1) {
+                                tabTarget = '#' + (paneEl.id || '');
+                                pane = paneEl;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (tabTarget) {
+                    // find nav trigger button with matching data-bs-target
+                    let tabButton = document.querySelector('[data-bs-target="' + tabTarget + '"]') ||
+                        document.querySelector('[data-target="' + tabTarget + '"]') ||
+                        document.querySelector('.nav [href="' + tabTarget + '"]');
+
+                    if (tabButton) {
+                        // use bootstrap Tab API if available
+                        if (typeof bootstrap !== 'undefined' && bootstrap.Tab) {
+                            try {
+                                const tab = new bootstrap.Tab(tabButton);
+                                tab.show();
+                            } catch (err) {
+                                tabButton.click();
+                            }
+                        } else {
+                            try {
+                                tabButton.click();
+                            } catch (err) {
+                                $(tabButton).trigger('click');
+                            }
+                        }
+                    }
+
+                    // after switch focus the real control inside pane
+                    setTimeout(function() {
+                        let focusEl = firstMissing;
+                        if (pane && firstMissing.name) {
+                            const real = pane.querySelector('[name="' + CSS.escape(firstMissing.name) +
+                                '"]');
+                            if (real) focusEl = real;
+                        }
+
+                        try {
+                            const style = window.getComputedStyle(focusEl);
+                            if (style && (style.display === 'none' || style.visibility === 'hidden')) {
+                                const alt = pane ? pane.querySelector('[name="' + CSS.escape(
+                                    firstMissing.name) + '"]:not([type="hidden"])') : null;
+                                if (alt) focusEl = alt;
+                            }
+
+                            focusEl.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'center'
+                            });
+                            focusEl.focus({
+                                preventScroll: true
+                            });
+                        } catch (err) {
+                            try {
+                                focusEl.focus();
+                            } catch (e) {}
+                        }
+
+                        // show inline required helper if present
+                        const parent = focusEl.parentNode || focusEl.closest('.form-group');
+                        if (parent) {
+                            const smallEl = parent.querySelector('small') || parent.querySelector(
+                                '.text-muted');
+                            if (smallEl && smallEl.textContent.trim() === '') {
+                                smallEl.textContent = '{{ __('This field is required') }}';
+                                smallEl.classList.remove('field-success');
+                                smallEl.classList.add('field-error');
+                            }
+                        }
+                    }, 250);
+
+                    return false;
+                } else {
+                    // fallback: try to focus missing field
+                    try {
+                        firstMissing.focus();
+                    } catch (err) {}
+                    return false;
+                }
+            });
+        })(jQuery);
+        // ====== END AUTO TAB SWITCHER ======
+    </script>
+
+    <script>
         $(document).on("submit", "#product-create-form", function(e) {
             e.preventDefault();
 
@@ -230,7 +680,9 @@
                 ajax_toastr_error_message(xhr);
             });
         })
+    </script>
 
+    <script>
         $(document).on("click", ".delivery-item", function() {
             $(this).toggleClass("active");
             $(this).effect("shake", {

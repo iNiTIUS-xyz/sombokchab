@@ -154,6 +154,225 @@
     <x-media.markup />
 @endsection
 @section('script')
+    <script>
+        (function() {
+            // Safe tab auto-switcher for hidden-invalid controls inside tab-panes (Bootstrap pills/tabs)
+            // Paste this near the end of your scripts (after select2, nice-select init).
+
+            // Returns true if element is visible/focusable
+            function isFocusable(el) {
+                if (!el) return false;
+                if (el.disabled) return false;
+                try {
+                    const st = window.getComputedStyle(el);
+                    if (!st) return false;
+                    if (st.display === 'none' || st.visibility === 'hidden' || st.opacity === '0') return false;
+                    if (el.type === 'hidden') return false;
+                    // offsetParent null usually means not in layout (display:none)
+                    if (el.offsetParent === null && el.tagName.toLowerCase() !== 'body') return false;
+                    return true;
+                } catch (e) {
+                    return false;
+                }
+            }
+
+            // Try to find a visible substitute for a hidden control (handles select2, nice-select, wrappers)
+            function findVisibleSubstitute(originalEl) {
+                if (!originalEl) return null;
+                if (isFocusable(originalEl)) return originalEl;
+
+                // select2 container pattern
+                if (originalEl.id) {
+                    const s2 = document.querySelector('#select2-' + originalEl.id + '-container');
+                    if (s2 && isFocusable(s2)) return s2;
+                }
+
+                // nice-select / custom wrappers common classes
+                const wrapper = originalEl.closest(
+                    '.nice-select-two, .nice-select, .select-wrapper, .select2-container');
+                if (wrapper && isFocusable(wrapper)) return wrapper;
+
+                // find same-name control in same tab/card that is visible
+                if (originalEl.name) {
+                    const container = originalEl.closest('.tab-pane, .card, .card-body') || document;
+                    const candidate = container.querySelector('[name="' + CSS.escape(originalEl.name) +
+                        '"]:not([type="hidden"])');
+                    if (candidate && isFocusable(candidate)) return candidate;
+                    if (candidate && candidate.id) {
+                        const s2b = document.querySelector('#select2-' + candidate.id + '-container');
+                        if (s2b && isFocusable(s2b)) return s2b;
+                    }
+                }
+
+                // fallback: first visible focusable in same container
+                const container = originalEl.closest('.tab-pane, .card, .card-body') || document;
+                const fallback = container.querySelector(
+                    'input:not([type=hidden]), textarea, select, [tabindex]:not([tabindex="-1"])');
+                if (fallback && isFocusable(fallback)) return fallback;
+
+                return null;
+            }
+
+            // Show the tab/pane (Bootstrap) and focus the visible element
+            function showTabAndFocus(tabTargetSelector, originalEl) {
+                return new Promise((resolve) => {
+                    if (!tabTargetSelector) return resolve(false);
+                    // find the pill/tab button
+                    let tabButton = document.querySelector('[data-bs-target="' + tabTargetSelector + '"]') ||
+                        document.querySelector('[data-target="' + tabTargetSelector + '"]') ||
+                        document.querySelector('.nav [href="' + tabTargetSelector + '"]');
+
+                    const afterShow = () => {
+                        setTimeout(() => {
+                            const pane = document.querySelector(tabTargetSelector);
+                            const visible = findVisibleSubstitute(originalEl) || (pane ? pane
+                                    .querySelector('input,textarea,select,[tabindex]') : null) ||
+                                originalEl;
+                            try {
+                                if (visible && typeof visible.focus === 'function') visible.focus({
+                                    preventScroll: true
+                                });
+                            } catch (e) {
+                                try {
+                                    originalEl.focus();
+                                } catch (_) {}
+                            }
+                            try {
+                                if (visible) visible.scrollIntoView({
+                                    behavior: 'smooth',
+                                    block: 'center'
+                                });
+                            } catch (e) {}
+                            // small inline hint if there's a <small> text area next to visible
+                            try {
+                                const parent = (visible && visible.parentNode) || (originalEl &&
+                                    originalEl.closest('.form-group'));
+                                if (parent) {
+                                    const small = parent.querySelector('small') || parent
+                                        .querySelector('.text-muted');
+                                    if (small && small.textContent.trim() === '') {
+                                        small.textContent = 'This field is required';
+                                        small.classList.remove('field-success');
+                                        small.classList.add('field-error');
+                                    }
+                                }
+                            } catch (e) {}
+                            resolve(true);
+                        }, 90);
+                    };
+
+                    if (!tabButton) return resolve(false);
+
+                    // if Bootstrap's Tab API is available use it; otherwise click fallback
+                    if (window.bootstrap && bootstrap.Tab) {
+                        try {
+                            document.addEventListener('shown.bs.tab', function once() {
+                                document.removeEventListener('shown.bs.tab', once);
+                                afterShow();
+                            }, {
+                                once: true
+                            });
+                            new bootstrap.Tab(tabButton).show();
+                        } catch (e) {
+                            tabButton.click();
+                            setTimeout(afterShow, 200);
+                        }
+                    } else {
+                        tabButton.click();
+                        setTimeout(afterShow, 200);
+                    }
+                });
+            }
+
+            // Capture native 'invalid' events (useCapture=true so we intercept browser default)
+            document.addEventListener('invalid', function(ev) {
+                ev.preventDefault();
+                ev.stopImmediatePropagation();
+
+                const invalidEl = ev.target;
+                // find enclosing tab-pane if any
+                let pane = invalidEl.closest ? invalidEl.closest('.tab-pane') : null;
+                if (!pane && invalidEl.name) {
+                    const found = document.querySelector('.tab-pane [name="' + CSS.escape(invalidEl.name) +
+                        '"]');
+                    if (found) pane = found.closest('.tab-pane');
+                }
+
+                if (pane && pane.id) {
+                    const target = '#' + pane.id;
+                    showTabAndFocus(target, invalidEl).then(success => {
+                        if (!success) {
+                            try {
+                                (findVisibleSubstitute(invalidEl) || invalidEl).focus();
+                            } catch (e) {}
+                        }
+                    });
+                } else {
+                    // not inside a tab-pane; just focus visible substitute or the element itself
+                    const visible = findVisibleSubstitute(invalidEl) || invalidEl;
+                    try {
+                        visible.focus();
+                    } catch (e) {}
+                    try {
+                        visible.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'center'
+                        });
+                    } catch (e) {}
+                }
+            }, true); // capture phase
+
+            // On submit: temporarily remove required from non-focusable controls to avoid browser error
+            document.addEventListener('submit', function(ev) {
+                try {
+                    const form = ev.target;
+                    if (!form || form.tagName.toLowerCase() !== 'form') return;
+                    const requiredEls = Array.from(form.querySelectorAll('[required]'));
+                    const removed = [];
+                    requiredEls.forEach(el => {
+                        if (!isFocusable(el)) {
+                            removed.push({
+                                el: el,
+                                val: el.getAttribute('required')
+                            });
+                            el.removeAttribute('required');
+                        }
+                    });
+                    // restore after short timeout
+                    if (removed.length) {
+                        setTimeout(() => {
+                            removed.forEach(r => {
+                                try {
+                                    if (r.val !== null) r.el.setAttribute('required', r.val);
+                                } catch (e) {}
+                            });
+                        }, 800);
+                    }
+                } catch (e) {
+                    console.warn('submit-cleanup error', e);
+                }
+            }, true);
+
+            // Dev helper: list hidden required fields in the console (call from console)
+            window.__listHiddenRequired = function(formSelector) {
+                try {
+                    const form = document.querySelector(formSelector || 'form');
+                    if (!form) return console.warn('no form found');
+                    const arr = Array.from(form.querySelectorAll('[required]')).filter(el => !isFocusable(el)).map(
+                        el => ({
+                            name: el.name || el.id || '',
+                            outer: el.outerHTML
+                        }));
+                    console.log('hidden required fields', arr);
+                    return arr;
+                } catch (e) {
+                    console.error(e);
+                }
+            };
+
+        })();
+    </script>
+
     <script src="{{ asset('assets/common/js/jquery-ui.min.js') }}" rel="stylesheet"></script>
     <x-media.js />
     <x-summernote.js />
