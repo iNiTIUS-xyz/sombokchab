@@ -114,10 +114,11 @@
             background-color: var(--main-color-one) !important;
             color: var(--white) !important;
             border: none !important;
-            padding: 8px 16px !important;
+            padding: 6px 16px !important;
             border-radius: 4px !important;
             font-weight: 600 !important;
             box-shadow: none !important;
+            margin-top: 5px;
         }
 
         .dt-button.buttons-excel.buttons-html5:hover {
@@ -125,12 +126,21 @@
             background-color: var(--white) !important;
         }
 
-        div.dt-container div.dt-layout-row div.dt-layout-cell{
+        /* div.dt-container div.dt-layout-row div.dt-layout-cell{
             display: block !important;
-        }
+        } */
         table.dataTable .dt-type-numeric span.dt-column-order {
             position: relative !important;
         }
+
+        #dataTable thead input {
+            border: 1px solid #DDD;
+            width: 100%;
+            box-shadow: 0 0 10px rgb(255 255 255 / 10%);
+            color: var(--body-color);
+            border-radius: 4px;
+        }
+
     </style>
 
     @yield('style')
@@ -214,48 +224,67 @@
     <x-notification.js />
 
     <script>
-        $(document).ready(function() {
-            if ($('#dataTable').length) {
-                new DataTable('#dataTable', {
-                    layout: {
-                        topStart: {
-                            buttons: [
-                                {
-                                    extend: 'excel',
-                                    text: 'Export All'
-                                }
-                            ]
-                        },
-                        topEnd: {
-                            search: {
-                                placeholder: "Type Here"
-                            }
-                        },
-                        top: 'pageLength',
-                        bottomStart: 'info',
-                        bottomEnd: 'paging'
+        $(document).ready(function () {
+
+            // Duplicate header row for filters
+            $('#dataTable thead tr')
+                .clone(true)
+                .addClass('filters')
+                .appendTo('#dataTable thead');
+
+            let table = new DataTable('#dataTable', {
+
+                layout: {
+                    topStart: 'pageLength',
+
+                    topEnd: {
+                        buttons: [
+                            { extend: 'excel', text: 'Export All' }
+                        ],
+                        search: { placeholder: "Type Here" }
                     },
 
-                    paging: true,
-                    lengthChange: true,
-                    searching: true,
-                    ordering: true,
-                    order: [],
-                    info: true,
-                    autoWidth: false,
-                    responsive: true,
+                    bottomStart: 'info',
+                    bottomEnd: 'paging'
+                },
 
-                    language: {
-                        search: "Filter:",
-                        paginate: {
-                            previous: '&laquo;',
-                            next: '&raquo;'
-                        }
-                    },
+                paging: true,
+                lengthChange: true,
+                searching: true,
+                ordering: false,   // ⛔ STOP ALL SORTING
+                order: [],         // Make sure nothing is auto-sorted
+                info: true,
+                autoWidth: false,
+                responsive: true,
 
-                    pagingType: "simple_numbers"
-                });
-            }
+                language: {
+                    search: "Filter:",
+                    paginate: {
+                        previous: '&laquo;',
+                        next: '&raquo;'
+                    }
+                },
+
+                pagingType: "simple_numbers",
+
+                initComplete: function () {
+                    const api = this.api();
+
+                    api.columns().eq(0).each(function (colIdx) {
+
+                        let cell = $('.filters th').eq(colIdx);
+                        let title = $(cell).text();
+
+                        $(cell).html('<input type="text" placeholder="' + title + '" style="width:100%;" />');
+
+                        $('input', cell).on('keyup change clear', function () {
+                            api.column(colIdx)
+                                .search(this.value)
+                                .draw();
+                        });
+                    });
+                }
+            });
         });
     </script>
 
