@@ -92,11 +92,11 @@
                         </div>
                     </div>
                     <div class="col-sm-8 col-md-9 col-lg-8 col-xl-9 col-xxl-10">
-                        <form class="was-validated" data-request-route="{{ route('vendor.products.create') }}"
+                        <form class="was-validated" novalidate data-request-route="{{ route('vendor.products.create') }}"
                             method="post" id="product-create-form">
                             @csrf
                             <div class="form-button">
-                                <button class="cmn_btn btn_bg_profile">
+                                <button type="submit" class="cmn_btn btn_bg_profile">
                                     {{ __('Add New Product') }}
                                 </button>
                             </div>
@@ -169,6 +169,7 @@
                 placeholder: "{{ __('Select Child Category') }}"
             });
         })
+
         $('#product-name , #product-slug').on('keyup', function() {
             let title_text = $(this).val();
             $('#product-slug').val(convertToSlug(title_text))
@@ -183,24 +184,7 @@
             $(this).closest('.inventory_item').find('.item_attribute_value').html(terms_html);
         })
 
-        $(document).on("submit", "#product-create-form", function(e) {
-            e.preventDefault();
-
-            send_ajax_request("post", new FormData(e.target), $(this).attr("data-request-route"), function() {
-                toastr.warning("Request sent successfully ");
-            }, function(data) {
-                if (data.success) {
-                    toastr.success("Product Created Successfully");
-                    toastr.success("You are redirected to products list page");
-                    setTimeout(() => {
-                        window.location.href = "{{ route('vendor.products.all') }}";
-                    }, 800);
-                }
-            }, function(xhr) {
-                ajax_toastr_error_message(xhr);
-            });
-        })
-
+        // category -> subcategory (vendor routes)
         $(document).on("change", "#category", function() {
             let data = new FormData();
             data.append("_token", "{{ csrf_token() }}");
@@ -216,6 +200,7 @@
             });
         });
 
+        // subcategory -> child category (vendor routes)
         $(document).on("change", "#sub_category", function() {
             let data = new FormData();
             data.append("_token", "{{ csrf_token() }}");
@@ -231,6 +216,7 @@
             });
         });
 
+        // delivery item toggle
         $(document).on("click", ".delivery-item", function() {
             $(this).toggleClass("active");
             $(this).effect("shake", {
@@ -249,37 +235,7 @@
             $(".delivery-option-input").val(delivery_option);
         });
 
-        $(document).on("change", "#category", function() {
-            let data = new FormData();
-            data.append("_token", "{{ csrf_token() }}");
-            data.append("category_id", $(this).val());
-
-            send_ajax_request("post", data, '{{ route('admin.product.category.sub-category') }}', function() {
-                $("#sub_category").html("<option value=''>Select Sub Category</option>");
-                $("#child_category").html("<option value=''>Select Child Category</option>");
-                $("#select2-child_category-container").html('');
-            }, function(data) {
-                $("#sub_category").html(data.html);
-            }, function() {
-
-            });
-        });
-
-        $(document).on("change", "#sub_category", function() {
-            let data = new FormData();
-            data.append("_token", "{{ csrf_token() }}");
-            data.append("sub_category_id", $(this).val());
-
-            send_ajax_request("post", data, '{{ route('admin.product.category.child-category') }}', function() {
-                $("#child_category").html("<option value=''>Select Child Category</option>");
-                $("#select2-child_category-container").html('');
-            }, function(data) {
-                $("#child_category").html(data.html);
-            }, function() {
-
-            });
-        });
-
+        // badge selection
         $(document).on('click', '.badge-item', function(e) {
             $(".badge-item").removeClass("active");
             $(this).effect("shake", {
@@ -296,6 +252,7 @@
         });
     </script>
 
+    <!-- Tax Class toggle logic -->
     <script>
         $(document).ready(function() {
             function toggleTaxClass() {
@@ -319,5 +276,156 @@
                 toggleTaxClass();
             });
         });
+    </script>
+
+    <!-- Auto tab-switcher + custom pre-submit validator -->
+    <script>
+        (function($) {
+
+            // Highlight invalid field (optional)
+            function markInvalid($el) {
+                $el.addClass('is-invalid');
+            }
+
+            // Focus correct visible UI element (select2, summernote, etc.)
+            function focusField($el) {
+
+                // SELECT2
+                if ($el.hasClass('select2-hidden-accessible')) {
+                    const id = $el.attr('id');
+                    let $box = $('#select2-' + id + '-container').closest('.select2-container');
+                    if (!$box.length) $box = $el.next('.select2-container');
+                    if ($box.length) {
+                        $box.trigger('focus');
+                        return;
+                    }
+                }
+
+                // SUMMERNOTE
+                if ($el.hasClass('summernote')) {
+                    const $editable = $el.next('.note-editor').find('.note-editable');
+                    if ($editable.length) {
+                        $editable.focus();
+                        return;
+                    }
+                }
+
+                // DEFAULT INPUT
+                $el.trigger('focus');
+            }
+
+            // Find first invalid required input
+            function findInvalid($form) {
+                const fields = $form.find('[required]').toArray();
+
+                for (let el of fields) {
+                    const $el = $(el);
+                    const tag = (el.tagName || '').toLowerCase();
+
+                    if ($el.prop('disabled')) continue;
+
+                    // RADIO
+                    if (el.type === 'radio') {
+                        const name = $el.attr('name');
+                        if (!$form.find(`input[name="${name}"]:checked`).length)
+                            return $el;
+                        continue;
+                    }
+
+                    // CHECKBOX
+                    if (el.type === 'checkbox' && !$el.is(':checked')) return $el;
+
+                    // SELECT
+                    if (tag === 'select') {
+                        const v = $el.val();
+                        if (!v || v.length === 0) return $el;
+                        continue;
+                    }
+
+                    // TEXTAREA + SUMMERNOTE
+                    if (tag === 'textarea') {
+                        let val = ($el.val() || '').trim();
+                        if ($el.hasClass('summernote')) {
+                            const html = $el.summernote('code') || '';
+                            val = html.replace(/<[^>]+>/g, '').trim();
+                        }
+                        if (!val) return $el;
+                        continue;
+                    }
+
+                    // FILE INPUT
+                    if (el.type === 'file' && (!el.files || !el.files.length)) return $el;
+
+                    // TEXT INPUT
+                    if (!($el.val() || '').trim()) return $el;
+                }
+
+                return null;
+            }
+
+            // Switch tab and then focus field
+            function switchTabAndFocus($el) {
+                const pane = $el.closest('.tab-pane');
+                const paneId = pane.attr('id');
+                const btn = document.querySelector(`[data-bs-target="#${paneId}"]`);
+
+                if (btn) {
+                    const tab = new bootstrap.Tab(btn);
+                    tab.show();
+
+                    // Wait for tab animation to finish before focusing (critical!)
+                    setTimeout(() => {
+                        markInvalid($el);
+                        focusField($el);
+
+                        // Smooth scroll
+                        const elNode = $el.get(0);
+                        if (elNode && elNode.scrollIntoView) {
+                            elNode.scrollIntoView({
+                                behavior: "smooth",
+                                block: "center"
+                            });
+                        }
+                    }, 250); // ← this ensures reliable focusing
+                }
+            }
+
+            // Attach form validator
+            $(document).on("submit", "#product-create-form", function(e) {
+                e.preventDefault();
+
+                const $form = $(this);
+
+                // Remove old highlights
+                $form.find('.is-invalid').removeClass('is-invalid');
+
+                const $invalid = findInvalid($form);
+
+                if ($invalid) {
+                    switchTabAndFocus($invalid);
+                    return false;
+                }
+
+                // All Valid → Continue AJAX
+                send_ajax_request("post", new FormData(this), $form.attr("data-request-route"),
+                    function() {
+                        toastr.warning("Request sent successfully");
+                    },
+                    function(data) {
+                        if (data.success) {
+                            toastr.success("Product Created Successfully");
+                            setTimeout(() => window.location.href = "{{ route('vendor.products.all') }}",
+                                800);
+                        }
+                    },
+                    function(xhr) {
+                        ajax_toastr_error_message(xhr);
+                    }
+                );
+
+                return false;
+            });
+
+        })(jQuery);
     </script>
 @endsection

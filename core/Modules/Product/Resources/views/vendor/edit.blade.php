@@ -16,24 +16,7 @@
         $cat = $product?->category?->id ?? null;
         $selectedDeliveryOption = $product?->delivery_option?->pluck('delivery_option_id')?->toArray() ?? [];
     @endphp
-    {{-- <div class="dashboard-top-contents">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="top-inner-contents search-area top-searchbar-wrapper">
-                    <div class="dashboard-flex-contetns w-100">
-                        <div class="dashboard-flex-contetns w-100">
-                            <div class="d-flex align-items-center justify-content-between w-100">
-                                <h3 class="heading-three fw-500"> {{ __('Update Product') }} </h3>
-                                <div class="button-wrappers">
-                                    <a href="{{ route('vendor.products.all') }}" class="btn btn-info">{{ __("Product List") }}</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> --}}
+
     <div class="dashboard-top-contents">
         <div class="row">
             <div class="col-lg-12">
@@ -47,6 +30,7 @@
             </div>
         </div>
     </div>
+
     <div class="dashboard-products-add bg-white radius-20 mt-4">
         <div class="row">
             <div class="col-md-12">
@@ -109,13 +93,13 @@
                     </div>
 
                     <div class="col-md-10">
-                        <form data-request-route="{{ route('vendor.products.edit', $product->id) }}" method="post"
-                            id="product-create-form">
+                        <form novalidate data-request-route="{{ route('vendor.products.edit', $product->id) }}"
+                            method="post" id="product-create-form">
                             @csrf
                             <input name="id" type="hidden" value="{{ $product?->id }}">
 
                             <div class="form-button">
-                                <button class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
+                                <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
                             </div>
 
                             <div class="tab-content margin-top-10" id="v-pills-tabContent">
@@ -170,35 +154,21 @@
     </div>
     <x-media.markup type="vendor" />
 @endsection
+
 @section('script')
     <script src="{{ asset('assets/common/js/jquery-ui.min.js') }}" rel="stylesheet"></script>
     <x-media.js type="vendor" />
     <x-summernote.js />
     <x-product::variant-info.js :colors="$data['product_colors']" :sizes="$data['product_sizes']" :all-attributes="$data['all_attribute']" />
+
     <script>
         $('#product-slug').on('keyup', function() {
             let title_text = $(this).val();
             $('#product-slug').val(convertToSlug(title_text))
         });
 
-        $(document).on("submit", "#product-create-form", function(e) {
-            e.preventDefault();
-
-            send_ajax_request("post", new FormData(e.target), $(this).attr("data-request-route"), function() {
-                toastr.warning("Request sent successfully ");
-            }, function(data) {
-                if (data.success) {
-                    toastr.success("Product updated Successfully");
-                    toastr.success("You are redirected to products list page");
-                    setTimeout(() => {
-                        window.location.href = "{{ route('vendor.products.all') }}";
-                    }, 800);
-                }
-            }, function(xhr) {
-                ajax_toastr_error_message(xhr);
-            });
-        })
-
+        // Removed old direct submit handler; replaced by validator below
+        // Delivery option toggle
         let inventory_item_id = 0;
         $(document).on("click", ".delivery-item", function() {
             $(this).toggleClass("active");
@@ -286,5 +256,174 @@
                 toggleTaxClass();
             });
         });
+    </script>
+
+    <!-- Auto tab-switcher for Edit Product (no error text, focuses after tab switch) -->
+    <script>
+        (function($) {
+
+            // optional visual highlight (remove calls to markInvalid if you don't want any styling)
+            function markInvalid($el) {
+                $el.addClass('is-invalid');
+            }
+
+            // Focus correct visible UI element (select2, summernote, etc.)
+            function focusField($el) {
+                if (!$el || !$el.length) return;
+
+                // SELECT2
+                if ($el.hasClass('select2-hidden-accessible')) {
+                    const id = $el.attr('id');
+                    let $box = $('#select2-' + id + '-container').closest('.select2-container');
+                    if (!$box.length) $box = $el.next('.select2-container');
+                    if ($box.length) {
+                        $box.trigger('focus');
+                        return;
+                    }
+                }
+
+                // SUMMERNOTE
+                if ($el.hasClass('summernote')) {
+                    const $editable = $el.next('.note-editor').find('.note-editable');
+                    if ($editable.length) {
+                        $editable.focus();
+                        return;
+                    }
+                }
+
+                // default
+                $el.trigger('focus');
+            }
+
+            // Find first invalid required input in the form
+            function findInvalid($form) {
+                const fields = $form.find('[required]').toArray();
+
+                for (let el of fields) {
+                    const $el = $(el);
+                    const tag = (el.tagName || '').toLowerCase();
+
+                    if ($el.prop('disabled')) continue;
+
+                    // radio group
+                    if (el.type === 'radio') {
+                        const name = $el.attr('name');
+                        if (!$form.find(`input[name="${name}"]:checked`).length) return $el;
+                        continue;
+                    }
+
+                    // single checkbox
+                    if (el.type === 'checkbox' && !$el.is(':checked')) return $el;
+
+                    // select/select2
+                    if (tag === 'select') {
+                        const v = $el.val();
+                        if (v === null || v === '' || (Array.isArray(v) && v.length === 0)) return $el;
+                        continue;
+                    }
+
+                    // textarea (summernote aware)
+                    if (tag === 'textarea') {
+                        let val = ($el.val() || '').toString().trim();
+                        if ($el.hasClass('summernote') && typeof $el.summernote === 'function') {
+                            try {
+                                const html = $el.summernote('code') || '';
+                                val = html.replace(/<[^>]*>/g, '').trim();
+                            } catch (err) {
+                                val = ($el.val() || '').toString().trim();
+                            }
+                        }
+                        if (!val) return $el;
+                        continue;
+                    }
+
+                    // file
+                    if (el.type === 'file') {
+                        if (!el.files || el.files.length === 0) return $el;
+                        continue;
+                    }
+
+                    // other inputs
+                    const val = ($el.val() || '').toString().trim();
+                    if (!val) return $el;
+
+                    // HTML5 validity fallback
+                    if (el.checkValidity && !el.checkValidity()) return $el;
+                }
+
+                return null;
+            }
+
+            // Switch to tab that contains $el and focus it after tab is shown
+            function switchTabAndFocus($el) {
+                const $pane = $el.closest('.tab-pane');
+                const paneId = $pane.attr('id');
+                if (!paneId) return;
+
+                // find tab button
+                const btn = document.querySelector(`[data-bs-target="#${paneId}"], [data-target="#${paneId}"]`);
+                if (btn) {
+                    const tab = new bootstrap.Tab(btn);
+                    tab.show();
+
+                    // wait for tab transition to end then focus
+                    // 200-300ms is generally safe; adjust if you have long animations
+                    setTimeout(function() {
+                        markInvalid($el); // optional visual
+                        focusField($el);
+
+                        // smooth scroll element into view
+                        try {
+                            const elNode = $el.get(0);
+                            if (elNode && typeof elNode.scrollIntoView === 'function') {
+                                elNode.scrollIntoView({
+                                    behavior: 'smooth',
+                                    block: 'center'
+                                });
+                            }
+                        } catch (err) {
+                            /* ignore */ }
+                    }, 250);
+                }
+            }
+
+            // Attach to submit
+            $(document).on('submit', '#product-create-form', function(e) {
+                e.preventDefault();
+                const $form = $(this);
+
+                // clear old visual highlights
+                $form.find('.is-invalid').removeClass('is-invalid');
+
+                const $invalid = findInvalid($form);
+
+                if ($invalid) {
+                    switchTabAndFocus($invalid);
+                    return false;
+                }
+
+                // All valid -> submit via existing AJAX routine
+                send_ajax_request("post", new FormData(this), $form.attr("data-request-route"),
+                    function() {
+                        toastr.warning("Request sent successfully ");
+                    },
+                    function(data) {
+                        if (data.success) {
+                            toastr.success("Product updated Successfully");
+                            toastr.success("You are redirected to products list page");
+                            setTimeout(() => {
+                                window.location.href = "{{ route('vendor.products.all') }}";
+                            }, 800);
+                        }
+                    },
+                    function(xhr) {
+                        ajax_toastr_error_message(xhr);
+                    }
+                );
+
+                return false;
+            });
+
+        })(jQuery);
     </script>
 @endsection
