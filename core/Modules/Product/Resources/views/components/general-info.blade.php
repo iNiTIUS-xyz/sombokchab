@@ -92,7 +92,7 @@
                             <span class="text-danger">*</span>
                         </label>
                         <div class="nice-select-two">
-                            <select name="brand" class="form-control" id="brand_id">
+                            <select name="brand" class="form-control" id="brand_id" required>
                                 <option value="">
                                     {{ __('Select brand') }}
                                 </option>

@@ -30,7 +30,7 @@
                         <span class="text-danger">*</span>
                     </label>
                     <input type="number" step="0.01" class="form--control radius-10" value="{{ $product?->price }}"
-                        name="price" placeholder="{{ __('Enter Regular Price...') }}">
+                        name="price" placeholder="{{ __('Enter Regular Price...') }}" required>
                     <small>{{ __('This price will display like this') }} <del>( {{ site_currency_symbol() }}
                             10)</del></small>
                 </div>
