@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap5.min.css') }}">
 
     <link rel="stylesheet" href="{{ asset('assets/css/dataTables.min.css') }}">
-<link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.0.2/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.0.2/css/buttons.dataTables.min.css">
 
     <link rel="stylesheet" href="{{ asset('assets/css/animate.css') }}">
     <!-- slick carousel  -->
@@ -110,7 +110,7 @@
             border-radius: 5px !important;
         }
 
-        .dt-button.buttons-excel.buttons-html5{
+        .dt-button.buttons-excel.buttons-html5 {
             background-color: var(--main-color-one) !important;
             color: var(--white) !important;
             border: none !important;
@@ -140,7 +140,6 @@
             color: var(--body-color);
             border-radius: 4px;
         }
-
     </style>
 
     @yield('style')
@@ -224,63 +223,113 @@
     <x-notification.js />
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
 
-            // Duplicate header row for filters
-            $('#dataTable thead tr')
-                .clone(true)
-                .addClass('filters')
-                .appendTo('#dataTable thead');
+            // 1) clone header once (no events) and prepare filter row
+            $('#dataTable thead tr').clone(false).addClass('filters').appendTo('#dataTable thead');
 
+            // 2) clean cloned header: remove dropdown/button/form elements so inputs are clean
+            $('#dataTable thead tr.filters').find('.dropdown-menu, .btn-group, button, a, form, .badge').remove();
+
+            // 3) insert inputs into cloned header
+            $('#dataTable thead tr.filters th').each(function(i) {
+                const title = $(this).text().trim();
+                $(this).html('<input type="text" placeholder="' + title + '" style="width:100%;" />');
+            });
+
+            // Helper: returns a renderer function that preserves HTML for display
+            // but extracts only the dropdown-toggle/button text for filtering/searching.
+            function createStatusRenderer() {
+                return function(data, type, row, meta) {
+                    if (!data) return '';
+                    if (type === 'display') return data;
+
+                    var tmp = document.createElement('div');
+                    tmp.innerHTML = data;
+
+                    // prefer the visible toggle/button text (handles your bootstrap markup)
+                    var btn = tmp.querySelector('.dropdown-toggle, button, .btn');
+                    if (btn && btn.textContent.trim().length) return btn.textContent.trim();
+
+                    // fallback: remove dropdown-menu elements and return remaining text
+                    tmp.querySelectorAll('.dropdown-menu').forEach(function(n) {
+                        n.remove();
+                    });
+                    return tmp.textContent.trim();
+                };
+            }
+
+            // Build dynamic columnDefs: detect columns that contain dropdowns/buttons in first body row
+            const dynamicDefs = [];
+            // find the first non-empty row in tbody (some pages may have no rows)
+            const $firstRow = $('#dataTable tbody tr:visible:first');
+            if ($firstRow.length) {
+                $firstRow.find('td').each(function(idx) {
+                    // check the cell's HTML for typical dropdown/button markers
+                    const html = $(this).html() || '';
+                    // test for presence of dropdown-toggle, btn-group, or dropdown-menu
+                    if (html.indexOf('dropdown-toggle') !== -1 || html.indexOf('btn-group') !== -1 || html
+                        .indexOf('dropdown-menu') !== -1) {
+                        dynamicDefs.push({
+                            targets: idx,
+                            render: createStatusRenderer()
+                        });
+                    }
+                });
+            }
+
+            // OPTIONAL: if you want to also inspect header cells (for columns with no rows yet)
+            // and detect columns that have a .status placeholder in the header,
+            // you could add a fallback scan of the first thead row. (Not enabled by default.)
+            // Example:
+            // if (dynamicDefs.length === 0) {
+            //   $('#dataTable thead tr:first th').each(function(idx) {
+            //     if ($(this).text().toLowerCase().indexOf('status') !== -1) {
+            //       dynamicDefs.push({ targets: idx, render: createStatusRenderer() });
+            //     }
+            //   });
+            // }
+
+            // Initialize DataTable using the dynamic columnDefs
             let table = new DataTable('#dataTable', {
-
+                paging: true,
+                lengthChange: true,
+                searching: true,
+                ordering: false,
+                order: [],
+                info: true,
+                autoWidth: false,
+                responsive: true,
+                pagingType: "simple_numbers",
                 layout: {
                     topStart: 'pageLength',
-
                     topEnd: {
-                        buttons: [
-                            { extend: 'excel', text: 'Export All' }
-                        ],
-                        search: { placeholder: "Type Here" }
+                        buttons: [{
+                            extend: 'excel',
+                            text: 'Export All'
+                        }],
+                        search: {
+                            placeholder: "Type Here"
+                        }
                     },
-
                     bottomStart: 'info',
                     bottomEnd: 'paging'
                 },
 
-                paging: true,
-                lengthChange: true,
-                searching: true,
-                ordering: false,   // ⛔ STOP ALL SORTING
-                order: [],         // Make sure nothing is auto-sorted
-                info: true,
-                autoWidth: false,
-                responsive: true,
+                // add dynamically built columnDefs (may be empty if no matching columns found)
+                columnDefs: dynamicDefs,
 
-                language: {
-                    search: "Filter:",
-                    paginate: {
-                        previous: '&laquo;',
-                        next: '&raquo;'
-                    }
-                },
-
-                pagingType: "simple_numbers",
-
-                initComplete: function () {
+                initComplete: function() {
                     const api = this.api();
-
-                    api.columns().eq(0).each(function (colIdx) {
-
-                        let cell = $('.filters th').eq(colIdx);
-                        let title = $(cell).text();
-
-                        $(cell).html('<input type="text" placeholder="' + title + '" style="width:100%;" />');
-
-                        $('input', cell).on('keyup change clear', function () {
-                            api.column(colIdx)
-                                .search(this.value)
-                                .draw();
+                    // bind the cloned-header inputs to column search
+                    $('#dataTable thead tr.filters th').each(function(i) {
+                        var $input = $('input', this);
+                        if ($input.length === 0) return;
+                        $input.on('keyup change clear', function() {
+                            api.column(i).search(this.value).draw();
+                        });
+                        $input.on('click', function(e) {
+                            e.stopPropagation();
                         });
                     });
                 }
