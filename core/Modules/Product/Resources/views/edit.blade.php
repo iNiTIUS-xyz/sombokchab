@@ -6,6 +6,7 @@
     <x-summernote.css />
     <x-product::variant-info.css />
 @endsection
+
 @section('content')
     @php
         $subCat = $product?->subCategory?->id ?? null;
@@ -13,6 +14,7 @@
         $cat = $product?->category?->id ?? null;
         $selectedDeliveryOption = $product?->delivery_option?->pluck('delivery_option_id')?->toArray() ?? [];
     @endphp
+
     <div class="dashboard-top-contents">
         <div class="row">
             <div class="col-lg-12">
@@ -31,6 +33,7 @@
             </div>
         </div>
     </div>
+
     <div class="dashboard-products-add bg-white radius-20 mt-4">
         <div class="row">
             <div class="col-md-12">
@@ -91,9 +94,11 @@
                             </button>
                         </div>
                     </div>
+
                     <div class="col-xxl-10 col-lg-9 col-md-9">
+                        <!-- novalidate so browser won't try to auto-focus hidden invalid controls -->
                         <form data-request-route="{{ route('admin.products.edit', $product?->id ?? 0) }}" method="post"
-                            id="product-create-form">
+                            id="product-create-form" novalidate>
                             @csrf
                             <input name="id" type="hidden" value="{{ $product?->id }}">
 
@@ -147,19 +152,32 @@
                             </div>
                         </form>
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
+
     <x-media.markup />
 @endsection
-@section('script')
-    <script>
-        (function() {
-            // Safe tab auto-switcher for hidden-invalid controls inside tab-panes (Bootstrap pills/tabs)
-            // Paste this near the end of your scripts (after select2, nice-select init).
 
-            // Returns true if element is visible/focusable
+@section('script')
+    <script src="{{ asset('assets/common/js/jquery-ui.min.js') }}"></script>
+    <x-media.js />
+    <x-summernote.js />
+    <x-product::variant-info.js :colors="$data['product_colors']" :sizes="$data['product_sizes']" :all-attributes="$data['all_attribute']" />
+
+    <script>
+        (function($) {
+            'use strict';
+
+            // -------- helpers --------
+            function textTrimmed(el) {
+                if (!el) return '';
+                return (el.textContent || el.value || '').trim();
+            }
+
+            // Is element visible & focusable
             function isFocusable(el) {
                 if (!el) return false;
                 if (el.disabled) return false;
@@ -168,7 +186,6 @@
                     if (!st) return false;
                     if (st.display === 'none' || st.visibility === 'hidden' || st.opacity === '0') return false;
                     if (el.type === 'hidden') return false;
-                    // offsetParent null usually means not in layout (display:none)
                     if (el.offsetParent === null && el.tagName.toLowerCase() !== 'body') return false;
                     return true;
                 } catch (e) {
@@ -176,48 +193,92 @@
                 }
             }
 
-            // Try to find a visible substitute for a hidden control (handles select2, nice-select, wrappers)
-            function findVisibleSubstitute(originalEl) {
+            // For Summernote: get editor content (text)
+            function getSummernoteText(textareaEl) {
+                // summernote creates sibling .note-editor .note-editable
+                if (!textareaEl) return '';
+                let editor = textareaEl.closest('.note-editor') || ($(textareaEl).nextAll('.note-editor')[0]);
+                if (!editor) {
+                    // sometimes textarea replaced, find by name
+                    const name = textareaEl.name;
+                    if (name) {
+                        const otherEditor = document.querySelector('.note-editable[aria-label]');
+                        if (otherEditor) editor = otherEditor.closest('.note-editor');
+                    }
+                }
+                if (editor) {
+                    const editable = editor.querySelector('.note-editable');
+                    if (editable) return (editable.textContent || '').trim();
+                }
+                // fallback to textarea value
+                return (textareaEl.value || '').trim();
+            }
+
+            // For media upload widgets: check hidden input used by x-media-upload
+            function isMediaPresent(form, name) {
+                // common pattern: hidden input with name image or gallery[] etc.
+                // check any input[name="<name>"] with value
+                try {
+                    const el = form.querySelector('[name="' + CSS.escape(name) + '"]');
+                    if (!el) return false;
+                    if (el.type === 'file') {
+                        // file inputs: check files length
+                        return el.files && el.files.length > 0;
+                    }
+                    return (el.value || '').toString().trim() !== '';
+                } catch (e) {
+                    return false;
+                }
+            }
+
+            // Find a visible substitute to focus inside the pane (select2 container, note-editable, first visible input)
+            function findVisibleControlFor(originalEl, pane) {
                 if (!originalEl) return null;
+
+                // If original is visible, return it
                 if (isFocusable(originalEl)) return originalEl;
 
-                // select2 container pattern
-                if (originalEl.id) {
-                    const s2 = document.querySelector('#select2-' + originalEl.id + '-container');
-                    if (s2 && isFocusable(s2)) return s2;
+                // If summernote textarea, return its editable div
+                if (originalEl.classList && originalEl.classList.contains('summernote')) {
+                    const editable = (pane || document).querySelector('.note-editable');
+                    if (editable && isFocusable(editable)) return editable;
                 }
 
-                // nice-select / custom wrappers common classes
-                const wrapper = originalEl.closest(
-                    '.nice-select-two, .nice-select, .select-wrapper, .select2-container');
-                if (wrapper && isFocusable(wrapper)) return wrapper;
+                // Select2 pattern
+                if (originalEl.id) {
+                    const s2 = document.querySelector('#select2-' + originalEl.id + '-container');
+                    if (s2 && (!pane || pane.contains(s2))) return s2;
+                }
 
-                // find same-name control in same tab/card that is visible
-                if (originalEl.name) {
-                    const container = originalEl.closest('.tab-pane, .card, .card-body') || document;
-                    const candidate = container.querySelector('[name="' + CSS.escape(originalEl.name) +
+                // nice-select / custom wrapper
+                const wrap = originalEl.closest('.nice-select-two, .nice-select, .select-wrapper, .select2-container');
+                if (wrap && (!pane || pane.contains(wrap))) return wrap;
+
+                // find same-name visible field inside pane
+                if (originalEl.name && pane) {
+                    const candidate = pane.querySelector('[name="' + CSS.escape(originalEl.name) +
                         '"]:not([type="hidden"])');
                     if (candidate && isFocusable(candidate)) return candidate;
                     if (candidate && candidate.id) {
                         const s2b = document.querySelector('#select2-' + candidate.id + '-container');
-                        if (s2b && isFocusable(s2b)) return s2b;
+                        if (s2b && pane.contains(s2b)) return s2b;
                     }
                 }
 
-                // fallback: first visible focusable in same container
-                const container = originalEl.closest('.tab-pane, .card, .card-body') || document;
-                const fallback = container.querySelector(
-                    'input:not([type=hidden]), textarea, select, [tabindex]:not([tabindex="-1"])');
-                if (fallback && isFocusable(fallback)) return fallback;
+                // fallback: first visible focusable in pane
+                if (pane) {
+                    const fallback = pane.querySelector(
+                        'input:not([type=hidden]), textarea, select, [tabindex]:not([tabindex="-1"])');
+                    if (fallback && isFocusable(fallback)) return fallback;
+                }
 
                 return null;
             }
 
-            // Show the tab/pane (Bootstrap) and focus the visible element
+            // Show the tab/pane and focus inside it
             function showTabAndFocus(tabTargetSelector, originalEl) {
                 return new Promise((resolve) => {
                     if (!tabTargetSelector) return resolve(false);
-                    // find the pill/tab button
                     let tabButton = document.querySelector('[data-bs-target="' + tabTargetSelector + '"]') ||
                         document.querySelector('[data-target="' + tabTargetSelector + '"]') ||
                         document.querySelector('.nav [href="' + tabTargetSelector + '"]');
@@ -225,7 +286,7 @@
                     const afterShow = () => {
                         setTimeout(() => {
                             const pane = document.querySelector(tabTargetSelector);
-                            const visible = findVisibleSubstitute(originalEl) || (pane ? pane
+                            const visible = findVisibleControlFor(originalEl, pane) || (pane ? pane
                                     .querySelector('input,textarea,select,[tabindex]') : null) ||
                                 originalEl;
                             try {
@@ -243,7 +304,8 @@
                                     block: 'center'
                                 });
                             } catch (e) {}
-                            // small inline hint if there's a <small> text area next to visible
+
+                            // show an inline small hint if present
                             try {
                                 const parent = (visible && visible.parentNode) || (originalEl &&
                                     originalEl.closest('.form-group'));
@@ -251,19 +313,19 @@
                                     const small = parent.querySelector('small') || parent
                                         .querySelector('.text-muted');
                                     if (small && small.textContent.trim() === '') {
-                                        small.textContent = 'This field is required';
+                                        small.textContent = '{{ __('This field is required') }}';
                                         small.classList.remove('field-success');
                                         small.classList.add('field-error');
                                     }
                                 }
                             } catch (e) {}
+
                             resolve(true);
-                        }, 90);
+                        }, 120);
                     };
 
                     if (!tabButton) return resolve(false);
 
-                    // if Bootstrap's Tab API is available use it; otherwise click fallback
                     if (window.bootstrap && bootstrap.Tab) {
                         try {
                             document.addEventListener('shown.bs.tab', function once() {
@@ -273,43 +335,191 @@
                                 once: true
                             });
                             new bootstrap.Tab(tabButton).show();
-                        } catch (e) {
+                        } catch (err) {
                             tabButton.click();
-                            setTimeout(afterShow, 200);
+                            setTimeout(afterShow, 250);
                         }
                     } else {
                         tabButton.click();
-                        setTimeout(afterShow, 200);
+                        setTimeout(afterShow, 250);
                     }
                 });
             }
 
-            // Capture native 'invalid' events (useCapture=true so we intercept browser default)
-            document.addEventListener('invalid', function(ev) {
-                ev.preventDefault();
-                ev.stopImmediatePropagation();
+            // -------- core validator --------
+            function findFirstInvalid(form) {
+                // 1) normal required inputs that are visible/focusable
+                const requiredEls = Array.from(form.querySelectorAll('[required]'));
 
-                const invalidEl = ev.target;
-                // find enclosing tab-pane if any
-                let pane = invalidEl.closest ? invalidEl.closest('.tab-pane') : null;
-                if (!pane && invalidEl.name) {
-                    const found = document.querySelector('.tab-pane [name="' + CSS.escape(invalidEl.name) +
-                        '"]');
+                // We'll test the logical value for each required element; return the first failing element (prefer a visible one).
+                for (let i = 0; i < requiredEls.length; i++) {
+                    const el = requiredEls[i];
+
+                    // skip disabled
+                    if (el.disabled) continue;
+
+                    const tag = (el.tagName || '').toLowerCase();
+
+                    // Special-case Summernote textareas: check editor content
+                    if (el.classList && el.classList.contains('summernote')) {
+                        const txt = getSummernoteText(el);
+                        if (!txt) {
+                            return el;
+                        }
+                        continue; // ok
+                    }
+
+                    // Special-case selects that are transformed (select2/nice-select): if select is hidden, check visible wrapper existence or value
+                    if (tag === 'select') {
+                        const val = (el.value || '').toString().trim();
+                        // If select is present but empty value considered invalid
+                        if (val === '' || el.selectedIndex === -1) {
+                            // but if the select is not focusable (hidden), ensure we still return it to switch tab
+                            return el;
+                        }
+                        continue;
+                    }
+
+                    // File / media widget
+                    if (el.type === 'file') {
+                        if (!(el.files && el.files.length > 0)) {
+                            return el;
+                        }
+                        continue;
+                    }
+
+                    // Hidden inputs used by media uploader (x-media) - check by name presence
+                    if ((el.type === 'hidden') && (el.name && el.name.toLowerCase().indexOf('image') !== -1 || el.name
+                            .toLowerCase().indexOf('gallery') !== -1)) {
+                        if ((el.value || '').trim() === '') {
+                            // treat as invalid (so we can switch to images tab)
+                            return el;
+                        }
+                        continue;
+                    }
+
+                    // Standard fallback for inputs/textareas
+                    if ((tag === 'input' || tag === 'textarea')) {
+                        const val = (el.value || '').toString().trim();
+                        if (val === '') {
+                            return el;
+                        }
+                        continue;
+                    }
+
+                    // Other controls (e.g., custom components) — if value empty treat invalid
+                    try {
+                        if (!el.value && el.value !== 0) {
+                            return el;
+                        }
+                    } catch (e) {}
+                }
+
+                // 2) If none matched above, also check Summernote editors that might not have the textarea required attribute (just in case)
+                const summernotes = Array.from(form.querySelectorAll('.summernote'));
+                for (let s of summernotes) {
+                    const txt = getSummernoteText(s);
+                    const isReq = s.hasAttribute('required') || s.getAttribute('data-required') === '1';
+                    if (isReq && !txt) return s;
+                }
+
+                return null; // no invalids
+            }
+
+            // -------- submit handling (main) --------
+            $(document).on('submit', '#product-create-form', function(e) {
+                const form = this;
+                form.noValidate = true; // ensure browser won't auto-focus hidden invalid controls
+
+                // Run our custom validator
+                const firstInvalid = findFirstInvalid(form);
+
+                if (!firstInvalid) {
+                    // All good — proceed with existing AJAX submission (we block default and call your send_ajax_request below).
+                    // Let the later submit handler trigger (we call preventDefault here then manual send).
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+
+                    // perform original AJAX submission
+                    send_ajax_request("post", new FormData(form), $(form).attr("data-request-route"),
+                function() {
+                        // before
+                    }, function(data) {
+                        if (data.success) {
+                            toastr.success("Product updated Successfully");
+                            toastr.success("You are redirected to products list page");
+                            setTimeout(() => {
+                                window.location.href = "{{ route('admin.products.all') }}";
+                            }, 800);
+                        }
+                    }, function(xhr) {
+                        ajax_toastr_error_message(xhr);
+                    });
+
+                    return false;
+                }
+
+                // Found invalid control - switch to its tab and focus
+                e.preventDefault();
+                e.stopImmediatePropagation();
+
+                // determine the tab-pane that contains the invalid control
+                let pane = null;
+                try {
+                    pane = firstInvalid.closest ? firstInvalid.closest('.tab-pane') : null;
+                } catch (ex) {
+                    pane = null;
+                }
+
+                // if the invalid element is a hidden media hidden input (x-media), try find images pane by checking name
+                if (!pane && firstInvalid.name && (firstInvalid.name.toLowerCase().indexOf('image') !== -1 ||
+                        firstInvalid.name.toLowerCase().indexOf('gallery') !== -1)) {
+                    pane = form.querySelector('#v-images-tab');
+                }
+
+                // fallback: find by name inside panes
+                if (!pane && firstInvalid.name) {
+                    const found = form.querySelector('.tab-pane [name="' + CSS.escape(firstInvalid.name) +
+                    '"]');
                     if (found) pane = found.closest('.tab-pane');
                 }
 
+                // fallback: search panes for label containing text of this control
+                let tabTarget = null;
                 if (pane && pane.id) {
-                    const target = '#' + pane.id;
-                    showTabAndFocus(target, invalidEl).then(success => {
-                        if (!success) {
+                    tabTarget = '#' + pane.id;
+                } else {
+                    // try to find label text
+                    const lab = form.querySelector('label[for="' + (firstInvalid.id || '') + '"]') || (
+                        firstInvalid.closest ? firstInvalid.closest('.form-group')?.querySelector('label') :
+                        null);
+                    const labelText = lab ? lab.textContent.trim().split('\n')[0] : '';
+                    if (labelText) {
+                        const panes = Array.from(form.querySelectorAll('.tab-pane'));
+                        for (let p of panes) {
+                            if (p.innerText && p.innerText.indexOf(labelText) !== -1) {
+                                tabTarget = '#' + (p.id || '');
+                                pane = p;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (!tabTarget && pane && pane.id) tabTarget = '#' + pane.id;
+
+                if (tabTarget) {
+                    showTabAndFocus(tabTarget, firstInvalid).then((ok) => {
+                        if (!ok) {
+                            // fallback: try focusing original
                             try {
-                                (findVisibleSubstitute(invalidEl) || invalidEl).focus();
+                                firstInvalid.focus();
                             } catch (e) {}
                         }
                     });
                 } else {
-                    // not inside a tab-pane; just focus visible substitute or the element itself
-                    const visible = findVisibleSubstitute(invalidEl) || invalidEl;
+                    // no tab found - focus the visible substitute or element itself
+                    const visible = findVisibleControlFor(firstInvalid, null) || firstInvalid;
                     try {
                         visible.focus();
                     } catch (e) {}
@@ -320,43 +530,14 @@
                         });
                     } catch (e) {}
                 }
-            }, true); // capture phase
 
-            // On submit: temporarily remove required from non-focusable controls to avoid browser error
-            document.addEventListener('submit', function(ev) {
-                try {
-                    const form = ev.target;
-                    if (!form || form.tagName.toLowerCase() !== 'form') return;
-                    const requiredEls = Array.from(form.querySelectorAll('[required]'));
-                    const removed = [];
-                    requiredEls.forEach(el => {
-                        if (!isFocusable(el)) {
-                            removed.push({
-                                el: el,
-                                val: el.getAttribute('required')
-                            });
-                            el.removeAttribute('required');
-                        }
-                    });
-                    // restore after short timeout
-                    if (removed.length) {
-                        setTimeout(() => {
-                            removed.forEach(r => {
-                                try {
-                                    if (r.val !== null) r.el.setAttribute('required', r.val);
-                                } catch (e) {}
-                            });
-                        }, 800);
-                    }
-                } catch (e) {
-                    console.warn('submit-cleanup error', e);
-                }
-            }, true);
+                return false;
+            });
 
-            // Dev helper: list hidden required fields in the console (call from console)
+            // Helper for debugging in console:
             window.__listHiddenRequired = function(formSelector) {
                 try {
-                    const form = document.querySelector(formSelector || 'form');
+                    const form = document.querySelector(formSelector || '#product-create-form');
                     if (!form) return console.warn('no form found');
                     const arr = Array.from(form.querySelectorAll('[required]')).filter(el => !isFocusable(el)).map(
                         el => ({
@@ -370,38 +551,24 @@
                 }
             };
 
-        })();
+            // Initialize any cosmetic UI after DOM ready
+            $(document).ready(function() {
+                // If you use nice-select/select2 anywhere, init them here (you likely already do elsewhere)
+                if ($('.nice-select').length) $('.nice-select').niceSelect();
+            });
+
+        })(jQuery);
     </script>
 
-    <script src="{{ asset('assets/common/js/jquery-ui.min.js') }}" rel="stylesheet"></script>
-    <x-media.js />
-    <x-summernote.js />
-    <x-product::variant-info.js :colors="$data['product_colors']" :sizes="$data['product_sizes']" :all-attributes="$data['all_attribute']" />
-
     <script>
+        // other page scripts unchanged:
         $('#product-name , #product-slug').on('keyup', function() {
             let title_text = $(this).val();
             $('#product-slug').val(convertToSlug(title_text))
         });
 
-        $(document).on("submit", "#product-create-form", function(e) {
-            e.preventDefault();
-
-            send_ajax_request("post", new FormData(e.target), $(this).attr("data-request-route"), function() {
-                // toastr.warning("Request sent successfully ");
-            }, function(data) {
-
-                if (data.success) {
-                    toastr.success("Product updated Successfully");
-                    toastr.success("You are redirected to products list page");
-                    setTimeout(() => {
-                        window.location.href = "{{ route('admin.products.all') }}";
-                    }, 800);
-                }
-            }, function(xhr) {
-                ajax_toastr_error_message(xhr);
-            });
-        })
+        // NOTE: we removed the earlier duplicate submit handler to avoid conflicts
+        // send_ajax_request is called from the validator when form is valid.
 
         let inventory_item_id = 0;
         $(document).on("click", ".delivery-item", function() {
@@ -418,7 +585,6 @@
             })
 
             delivery_option = delivery_option.slice(0, -3)
-
             $(".delivery-option-input").val(delivery_option);
         });
 
@@ -455,7 +621,6 @@
 
         $(document).on('click', '.badge-item', function(e) {
             $(".badge-item").removeClass("active");
-            // $(this).effect( "shake", { direction: "up", times: 1, distance: 2}, 500 );
             $(this).addClass("active");
             $("#badge_id_input").val($(this).attr("data-badge-id"));
         });
@@ -463,9 +628,7 @@
         $(document).on("click", ".close-icon", function() {
             $('#media_upload_modal').modal('hide');
         });
-    </script>
 
-    <script>
         $(document).ready(function() {
             function toggleTaxClass() {
                 const isTaxable = $('select[name="is_taxable"]').val();
@@ -481,7 +644,6 @@
             }
 
             toggleTaxClass();
-
             $('select[name="is_taxable"]').on('change', function() {
                 toggleTaxClass();
             });
