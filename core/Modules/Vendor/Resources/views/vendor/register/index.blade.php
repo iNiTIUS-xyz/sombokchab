@@ -119,7 +119,7 @@
                                 <input type="hidden" name="phone" id="verified_phone">
                                 <input type="hidden" name="country_id" value="31">
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="label-title mb-2">
                                                 {{ __('Store Name') }}
@@ -131,6 +131,38 @@
                                             <small class="text-danger" id="businessNameError"></small>
                                         </div>
                                     </div>
+
+                                    <div class="nice-select-two col-md-6">
+                                        <div class="form-group">
+                                            <label class="label-title mb-2">
+                                                {{ __('Business Category') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <select id="business_type" name="business_type_id" class="form--control"
+                                                aria-label="Business Category">
+                                                <option value="">{{ __('Select Business Category') }}</option>
+                                                @foreach ($business_type as $item)
+                                                    <option value="{{ $item->id }}"
+                                                        {{ old('business_type_id', $vendor->business_type_id ?? '') == $item->id ? 'selected' : '' }}>
+                                                        {{ $item->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12" id="taxIdWrapper">
+                                        <div class="form-group">
+                                            <label class="label-title mb-2">
+                                                {{ __('Tax ID') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <input name="tax_id" id="tax_id" type="text" maxlength="13"
+                                                class="form--control radius-10" placeholder="{{ __('Enter Tax ID') }}" />
+                                            <small class="text-danger" id="taxIdError"></small>
+                                        </div>
+                                    </div>
+
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="label-title mb-2">
@@ -188,37 +220,7 @@
                                             <small class="text-danger" id="passportNidError"></small>
                                         </div>
                                     </div>
-                                    <div class="nice-select-two mb-2">
-                                        <div class="form-group">
-                                            <label class="label-title mb-2">
-                                                {{ __('Business Category') }}
-                                                <span class="text-danger">*</span>
-                                            </label>
-                                            <select id="business_type" name="business_type_id" class="form--control"
-                                                aria-label="Business Category">
-                                                <option value="">{{ __('Select business category') }}</option>
-                                                @foreach ($business_type as $item)
-                                                    <option value="{{ $item->id }}"
-                                                        {{ old('business_type_id', $vendor->business_type_id ?? '') == $item->id ? 'selected' : '' }}>
-                                                        {{ $item->name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-12" id="taxIdWrapper">
-                                        <div class="form-group">
-                                            <label class="label-title mb-2">
-                                                {{ __('Tax ID') }}
-                                                <span class="text-danger">*</span>
-                                            </label>
-                                            <input name="tax_id" id="tax_id" type="text" maxlength="13"
-                                                class="form--control radius-10" placeholder="{{ __('Enter Tax ID') }}" />
-                                            <small class="text-danger" id="taxIdError"></small>
-                                        </div>
-                                    </div>
-
+                                    
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="label-title mb-2">
