@@ -929,17 +929,15 @@ class UserDashboardController extends Controller
         event(new SupportMessage($ticket_info));
 
         if ($ticket_info->notify === 'on') {
-            $admin = Admin::where('email', 'admin@gmail.com')
-                ->first();
-
+            $admin = Admin::first();
             $details = [
-                'name'              => "Hi " . $admin->name,
+                'name'              => "Hi " . $admin?->name,
                 'support_ticket_id' => $request->ticket_id,
                 "form_name"         => auth('web')->user()->name,
                 "message"           => $request->message,
             ];
 
-            Mail::to($admin->email)->send(new SupportTicketMail($details));
+            Mail::to($admin?->email)->send(new SupportTicketMail($details));
         }
 
         return back()->with([
