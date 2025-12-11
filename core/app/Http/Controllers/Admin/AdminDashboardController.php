@@ -71,10 +71,6 @@ class AdminDashboardController extends Controller
             ->where('is_vendor_verified', 0)
             ->get();
 
-        $approvedVendorCount = Vendor::query()
-            ->where('is_vendor_verified', 1)
-            ->get();
-
         $products = Product::query()
             ->get();
 
@@ -171,7 +167,6 @@ class AdminDashboardController extends Controller
             'campaign'               => $campaign,
             'vendor'                 => $vendor,
             'vendorRequest'          => $vendorRequest,
-            'approvedVendorCount'    => $approvedVendorCount,
             'products'               => $products,
             'productsPending'        => $productsPending,
             'vendorWithdrawRequests' => $vendorWithdrawRequests,
