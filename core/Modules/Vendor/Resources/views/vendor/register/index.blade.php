@@ -79,6 +79,10 @@
             border: 1px solid var(--border-two);
             border-radius: 5px;
         }
+
+        #tax-hidden {
+            display: none !important;
+        }
     </style>
 @endsection
 @section('content')
@@ -214,13 +218,15 @@
                                                 {{ __('Passport or National ID') }}
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input name="passport_nid" id="passport_nid" type="number"
+                                            <input name="passport_nid" id="passport_nid" type="text"
                                                 class="form--control radius-10"
-                                                placeholder="{{ __('Enter Passport or National ID') }}" required />
+                                                oninput="this.value = this.value.replace(/[^A-Za-z0-9]/g,'')"
+                                                maxlength="40" placeholder="{{ __('Enter Passport or National ID') }}"
+                                                required />
                                             <small class="text-danger" id="passportNidError"></small>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="label-title mb-2">
@@ -449,16 +455,18 @@
             return '';
         }
 
-        function validateTaxId(value) {
-            const re = /^[A-Za-z]\d{12}$/;
-            if (!re.test((value || '').trim())) {
+        // TAX ID: logical validation (1 letter + 12 digits after stripping non-alphanumerics)
+        function cleanForValidation(v) {
+            return String(v || '').replace(/[^A-Za-z0-9]/g, '');
+        }
+
+        function validateTaxIdLogical(v) {
+            const cleaned = cleanForValidation(v);
+            if (!cleaned) return 'Tax ID must be 1 letter followed by 12 digits (e.g., L000000000000)';
+            if (!/^[A-Za-z]\d{12}$/.test(cleaned)) {
                 return 'Tax ID must be 1 letter followed by 12 digits (e.g., L000000000000)';
             }
             return '';
-        }
-
-        function validateTerms(isChecked) {
-            return !isChecked ? 'You must accept the terms and conditions' : '';
         }
 
         // ----------------- SERVER AVAILABILITY CHECK ----------------- //
@@ -495,35 +503,22 @@
             }, seconds * 1000);
         }
 
-        // ----------------- TAX ID TOGGLING (ROBUST WITH SELECT2 SUPPORT) ----------------- //
-        (function setupTaxToggle() {
-            // If necessary elements missing, skip setup (but keep rest of script working)
+        // ----------------- TAX ID TOGGLING & REAL-TIME VALIDATION ----------------- //
+        (function setupTaxToggleAndValidation() {
+            // safety checks
             if (!businessSelect || !taxIdWrapper || !taxIdField) return;
 
-            // 1) find a reliable option value for visible text "Business" (case-insensitive)
-            let businessOptionValueForBusinessText = null;
-            for (let i = 0; i < businessSelect.options.length; i++) {
-                const opt = businessSelect.options[i];
-                if (!opt || !opt.text) continue;
-                const txt = opt.text.trim().toLowerCase();
-                if (txt === 'business' || txt.includes('business')) {
-                    businessOptionValueForBusinessText = opt.value;
-                    break;
-                }
+            // sanitize typing: allow letters/digits and a small set of punctuation
+            function sanitizeTyping(value) {
+                let cleaned = String(value || '').replace(/[^A-Za-z0-9\-\.\s\/]*/g, '');
+                cleaned = cleaned.replace(/\s+/g, ' ').replace(/^\s+/, '');
+                return cleaned;
             }
 
-            function isBusinessSelected() {
-                const selectedVal = businessSelect.value;
-                const selectedText = (businessSelect.options[businessSelect.selectedIndex] || {}).text || '';
-                if (businessOptionValueForBusinessText !== null && selectedVal !== undefined) {
-                    return String(selectedVal) === String(businessOptionValueForBusinessText);
-                }
-                return String(selectedText).trim().toLowerCase() === 'business' || String(selectedText).toLowerCase()
-                    .includes('business');
-            }
-
-            function toggleTaxIdField() {
-                if (isBusinessSelected()) {
+            function toggleTaxField() {
+                const selText = (businessSelect.options[businessSelect.selectedIndex] || {}).text || '';
+                const isBusiness = String(selText).trim().toLowerCase().includes('business');
+                if (isBusiness) {
                     taxIdWrapper.style.display = 'block';
                     taxIdField.setAttribute('required', 'required');
                 } else {
@@ -535,33 +530,46 @@
                 if (typeof updateContinueButton === 'function') updateContinueButton();
             }
 
-            // bind native
-            businessSelect.addEventListener('change', toggleTaxIdField);
-            // also bind jquery/select2 change if jQuery exists
+            function onTaxInput(e) {
+                if (!taxIdField) return;
+                const orig = taxIdField.value;
+                // allow some punctuation while typing
+                const allowed = orig.replace(/[^A-Za-z0-9\-\.\s\/]/g, '');
+                const normal = allowed.replace(/\s+/g, ' ').replace(/^\s+/, '');
+                if (normal !== orig) {
+                    const pos = Math.max(0, (taxIdField.selectionStart || 0) - (orig.length - normal.length));
+                    taxIdField.value = normal;
+                    try {
+                        taxIdField.setSelectionRange(pos, pos);
+                    } catch (_) {}
+                }
+
+                // validate logical cleaned value
+                const err = validateTaxIdLogical(taxIdField.value);
+                if (taxIdErrorEl) taxIdErrorEl.textContent = err;
+                if (typeof updateContinueButton === 'function') updateContinueButton();
+            }
+
+            // bind
+            businessSelect.addEventListener('change', toggleTaxField);
+            taxIdField.addEventListener('input', onTaxInput);
+            taxIdField.addEventListener('blur', onTaxInput);
+
+            // jQuery/select2 support if present
             if (window.jQuery) {
                 try {
-                    window.jQuery('#business_type').on('change', toggleTaxIdField);
+                    window.jQuery('#business_type').on('change', toggleTaxField);
+                    window.jQuery('#tax_id').on('input', onTaxInput);
                 } catch (e) {
-                    /* ignore */
+                    // ignore
                 }
             }
 
-            // tax input validate only when required
-            taxIdField.addEventListener('input', function() {
-                if (!taxIdField.hasAttribute('required') || taxIdWrapper.style.display === 'none') {
-                    if (taxIdErrorEl) taxIdErrorEl.textContent = '';
-                    if (typeof updateContinueButton === 'function') updateContinueButton();
-                    return;
-                }
-                if (taxIdErrorEl) taxIdErrorEl.textContent = validateTaxId(taxIdField.value);
-                if (typeof updateContinueButton === 'function') updateContinueButton();
-            });
-
-            // call toggle after short delay so select2 initialization (if used) completes
-            setTimeout(toggleTaxIdField, 200);
+            // initial toggle (allow select2 init to finish)
+            setTimeout(toggleTaxField, 150);
         })();
 
-        // ----------------- REAL-TIME VALIDATION BINDINGS ----------------- //
+        // ----------------- REAL-TIME VALIDATION BINDINGS (other fields) ----------------- //
         // phone
         if (phoneField) {
             phoneField.addEventListener('input', async () => {
@@ -802,13 +810,9 @@
 
         // ----------------- INITIALIZE ON LOAD ----------------- //
         window.addEventListener('load', function() {
-            // Ensure tax id visibility/required state is correct on page load
             try {
                 if (typeof updateContinueButton === 'function') updateContinueButton();
-                // call toggle function if it exists in the closure above (setupTaxToggle executed immediately)
-                // If businessSelect exists, we already set a timeout to toggle; do one immediate check too
                 if (businessSelect && taxIdWrapper && taxIdField) {
-                    // small safety toggle - will be overridden by the setTimeout in the toggle setup if necessary
                     const evt = new Event('change', {
                         bubbles: true
                     });
@@ -827,19 +831,22 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            toggleTaxFieldVisibility(true);
             const passwordInput = document.getElementById('password');
             const showIcon = document.querySelector('.show-icon');
             const hideIcon = document.querySelector('.hide-icon');
-            showIcon.addEventListener('click', function() {
-                passwordInput.type = 'text';
-                showIcon.style.display = 'none';
-                hideIcon.style.display = 'inline';
-            });
-            hideIcon.addEventListener('click', function() {
-                passwordInput.type = 'password';
-                showIcon.style.display = 'inline';
-                hideIcon.style.display = 'none';
-            });
+            if (showIcon && hideIcon && passwordInput) {
+                showIcon.addEventListener('click', function() {
+                    passwordInput.type = 'text';
+                    showIcon.style.display = 'none';
+                    hideIcon.style.display = 'inline';
+                });
+                hideIcon.addEventListener('click', function() {
+                    passwordInput.type = 'password';
+                    showIcon.style.display = 'inline';
+                    hideIcon.style.display = 'none';
+                });
+            }
         });
     </script>
     <script>
@@ -847,16 +854,18 @@
             const passwordInput = document.getElementById('password_confirmation');
             const showIcon = document.querySelector('.show-icon-two');
             const hideIcon = document.querySelector('.hide-icon-two');
-            showIcon.addEventListener('click', function() {
-                passwordInput.type = 'text';
-                showIcon.style.display = 'none';
-                hideIcon.style.display = 'inline';
-            });
-            hideIcon.addEventListener('click', function() {
-                passwordInput.type = 'password';
-                showIcon.style.display = 'inline';
-                hideIcon.style.display = 'none';
-            });
+            if (showIcon && hideIcon && passwordInput) {
+                showIcon.addEventListener('click', function() {
+                    passwordInput.type = 'text';
+                    showIcon.style.display = 'none';
+                    hideIcon.style.display = 'inline';
+                });
+                hideIcon.addEventListener('click', function() {
+                    passwordInput.type = 'password';
+                    showIcon.style.display = 'inline';
+                    hideIcon.style.display = 'none';
+                });
+            }
         });
     </script>
 
@@ -867,11 +876,11 @@
             // Initialize Select2
 
 
-            // Toggle Tax ID field
-            function toggleTaxIdField() {
+            // Toggle Tax ID field (legacy jQuery fallback)
+            function toggleTaxIdFieldLegacy() {
                 let selectedText = $("#business_type option:selected").text().trim();
 
-                if (selectedText === "Business") {
+                if (selectedText === "Business" || selectedText.toLowerCase().includes('business')) {
                     $("#taxIdWrapper").show();
                 } else {
                     $("#taxIdWrapper").hide();
@@ -881,13 +890,188 @@
             }
 
             // Run on page load
-            toggleTaxIdField();
+            toggleTaxIdFieldLegacy();
 
             // Run on change
             $("#business_type").on("change", function() {
-                toggleTaxIdField();
+                toggleTaxIdFieldLegacy();
             });
 
         });
+    </script>
+
+    <script>
+        (function() {
+            // --- safe references ---
+            const taxIdField = document.getElementById('tax_id');
+            const taxIdWrapper = document.getElementById('taxIdWrapper');
+            const taxIdErrorEl = document.getElementById('taxIdError');
+            const businessSelect = document.getElementById('business_type');
+
+            if (!taxIdField || !taxIdWrapper || !businessSelect) {
+                console.warn('Tax ID: required elements missing', {
+                    taxIdField,
+                    taxIdWrapper,
+                    businessSelect
+                });
+                return;
+            }
+
+            // --- helpers (kept your validation logic) ---
+            function cleanForValidation(v) {
+                return String(v || '').replace(/[^A-Za-z0-9]/g, '');
+            }
+
+            function validateTaxIdLogical(v) {
+                const cleaned = cleanForValidation(v);
+                if (!cleaned) return 'Tax ID must be 1 letter followed by 12 digits (e.g., L000000000000)';
+                if (!/^[A-Za-z]\d{12}$/.test(cleaned)) {
+                    return 'Tax ID must be 1 letter followed by 12 digits (e.g., L000000000000)';
+                }
+                return '';
+            }
+
+            // sanitize while typing (kept your permissive punctuation choices)
+            function sanitizeTyping(value) {
+                let cleaned = String(value || '').replace(/[^A-Za-z0-9\-\.\s\/]/g, '');
+                cleaned = cleaned.replace(/\s+/g, ' ').replace(/^\s+/, '');
+                return cleaned;
+            }
+
+            // --- input handler (kept your behaviour) ---
+            function onTaxIdInput(e) {
+                const orig = taxIdField.value || '';
+                const allowed = orig.replace(/[^A-Za-z0-9\-\.\s\/]/g, '');
+                const normal = allowed.replace(/\s+/g, ' ').replace(/^\s+/, '');
+                if (normal !== orig) {
+                    const pos = Math.max(0, (taxIdField.selectionStart || 0) - (orig.length - normal.length));
+                    taxIdField.value = normal;
+                    try {
+                        taxIdField.setSelectionRange(pos, pos);
+                    } catch (_) {}
+                }
+
+                const err = validateTaxIdLogical(taxIdField.value);
+                if (taxIdErrorEl) taxIdErrorEl.textContent = err;
+                if (typeof updateContinueButton === 'function') updateContinueButton();
+            }
+
+            // --- improved toggle function ---
+            function toggleTaxFieldVisibility(init = false) {
+                // Determine selected option text and value robustly
+                let selText = '';
+                let selValue = '';
+                try {
+                    const opt = (businessSelect.options && businessSelect.options[businessSelect.selectedIndex]) ?
+                        businessSelect.options[businessSelect.selectedIndex] :
+                        null;
+                    selText = opt ? (opt.text || '') : (businessSelect.value || '');
+                    selValue = opt ? (opt.value || '') : (businessSelect.value || '');
+                } catch (e) {
+                    selText = businessSelect.value || '';
+                    selValue = businessSelect.value || '';
+                }
+
+                const normText = String(selText || '').trim().toLowerCase();
+                const normValue = String(selValue || '').trim().toLowerCase();
+
+                // Hidden when:
+                // - explicit init requested OR
+                // - value is empty OR
+                // - option text/value contains 'select' (placeholder)
+                // Show only when text/value contains 'business'
+                const isPlaceholder = (normValue === '' || normText.includes('select') || normValue.includes('select'));
+                const isBusiness = (normText.includes('business') || normValue.includes('business'));
+
+                if (init === true || isPlaceholder) {
+                    taxIdWrapper.style.display = 'none';
+                    taxIdField.removeAttribute('required');
+                    taxIdField.value = '';
+                    if (taxIdErrorEl) taxIdErrorEl.textContent = '';
+                    if (typeof updateContinueButton === 'function') updateContinueButton();
+                    return;
+                }
+
+                if (isBusiness) {
+                    taxIdWrapper.style.display = 'block';
+                    taxIdField.setAttribute('required', 'required');
+                } else {
+                    taxIdWrapper.style.display = 'none';
+                    taxIdField.removeAttribute('required');
+                    taxIdField.value = '';
+                    if (taxIdErrorEl) taxIdErrorEl.textContent = '';
+                }
+
+                if (typeof updateContinueButton === 'function') updateContinueButton();
+            }
+
+            // --- idempotent binding (prevent duplicate listeners) ---
+            const BIND_FLAG = '__taxToggleBound_v2';
+            if (!businessSelect[BIND_FLAG]) {
+                // Best-effort cleanup
+                try {
+                    businessSelect.removeEventListener('change', toggleTaxFieldVisibility);
+                } catch (e) {}
+                try {
+                    taxIdField.removeEventListener('input', onTaxIdInput);
+                } catch (e) {}
+
+                businessSelect.addEventListener('change', () => toggleTaxFieldVisibility(false));
+                taxIdField.addEventListener('input', onTaxIdInput);
+                taxIdField.addEventListener('blur', onTaxIdInput);
+
+                // jQuery/select2 support (namespaced)
+                if (window.jQuery) {
+                    try {
+                        jQuery(businessSelect).off('.taxToggle').on('change.taxToggle select2:select.taxToggle',
+                            function() {
+                                // small delay so select2 updates selectedIndex/value first
+                                setTimeout(() => toggleTaxFieldVisibility(false), 0);
+                            });
+                        jQuery(taxIdField).off('.taxValidate').on('input.taxValidate blur.taxValidate', onTaxIdInput);
+                    } catch (e) {
+                        // ignore
+                    }
+                }
+
+                // MutationObserver: handle plugins that replace the select DOM
+                try {
+                    const observer = new MutationObserver(function(mutations) {
+                        for (const m of mutations) {
+                            if (m.type === 'attributes' || m.type === 'childList') {
+                                toggleTaxFieldVisibility(false);
+                                return;
+                            }
+                        }
+                    });
+                    observer.observe(businessSelect, {
+                        attributes: true,
+                        childList: true,
+                        subtree: false
+                    });
+                } catch (e) {
+                    // ignore
+                }
+
+                businessSelect[BIND_FLAG] = true;
+            }
+
+            // --- immediately hide to avoid flicker, then re-check after short delays ---
+            try {
+                toggleTaxFieldVisibility(true);
+            } catch (e) {}
+            setTimeout(() => {
+                try {
+                    toggleTaxFieldVisibility(true);
+                } catch (e) {}
+            }, 80);
+            setTimeout(() => {
+                try {
+                    toggleTaxFieldVisibility(false);
+                } catch (e) {}
+            }, 200); // allow select2/other inits to show if Business was selected intentionally
+
+            console.info('Tax ID validator (v2) inited');
+        })();
     </script>
 @endsection
