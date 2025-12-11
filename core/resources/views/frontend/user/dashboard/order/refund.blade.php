@@ -14,7 +14,7 @@
 @endsection
 
 @section('section')
-    @if ($order->refund_request_count < 1)
+    @if ($order?->refund_request_count < 1)
         <div class="form-header-wrap d-flex justify-content-between">
             <h3 class="title__two">{{ __('Order Details') }}</h3>
         </div>
@@ -27,32 +27,32 @@
                                 <li>
                                     <span class="payment-list-left">{{ __('Payment Gateway') }}:</span>
                                     <span
-                                        class="payment-list-right">{{ render_payment_gateway_name($order->payment_gateway) }}</span>
+                                        class="payment-list-right">{{ render_payment_gateway_name($order?->payment_gateway) }}</span>
                                 </li>
                                 <li>
                                     <span class="payment-list-left">{{ __('Phone Number') }}:</span>
-                                    <span class="payment-list-right">{{ $order->address->phone }}</span>
+                                    <span class="payment-list-right">{{ $order?->address?->phone }}</span>
                                 </li>
                                 <li>
                                     <span class="payment-list-left">{{ __('Full Name') }}:</span>
-                                    <span class="payment-list-right">{{ $order->address->name }}</span>
+                                    <span class="payment-list-right">{{ $order?->address?->name }}</span>
                                 </li>
                                 <li>
                                     <span class="payment-list-left">{{ __('Email') }}:</span>
-                                    <span class="payment-list-right">{{ $order->address->email }}</span>
+                                    <span class="payment-list-right">{{ $order?->address?->email }}</span>
                                 </li>
                             </ul>
 
                             <ul class="payment-list payment-list-two margin-top-15">
                                 <li>
                                     <span class="payment-list-left">{{ __('Amount Paid') }}:</span>
-                                    <span
-                                        class="payment-list-right">{{ float_amount_with_currency_symbol($order->paymentMeta->total_amount) }}
+                                    <span class="payment-list-right">
+                                        {{ float_amount_with_currency_symbol($order?->paymentMeta?->total_amount) }}
                                     </span>
                                 </li>
                                 <li>
                                     <span class="payment-list-left">{{ __('Transaction ID') }}:</span>
-                                    <span class="payment-list-right">{{ $order->transaction_id }}</span>
+                                    <span class="payment-list-right">{{ $order?->transaction_id }}</span>
                                 </li>
                             </ul>
                         </div>
@@ -155,13 +155,11 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group preferred-option-wrapper">
-                                        <label class="form-label"
-                                            for="#additional-info">{{ __('Payment Option') }}</label>
+                                        <label class="form-label" for="#additional-info">{{ __('Payment Option') }}</label>
                                         <select class="form-control" name="preferred_option" id="preferred_option">
                                             <option value="">{{ __('Select Payment Option') }}</option>
                                             @foreach ($refundPreferredOptions as $option)
-                                                <option
-                                                    value="{{ $option->id }}"
+                                                <option value="{{ $option->id }}"
                                                     data-fields='@json(unserialize($option->fields))'
                                                     data-is-file="{{ $option->is_file ? 1 : 0 }}">
                                                     {{ $option->name }}
@@ -173,8 +171,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-label"
-                                            for="#additional-info">
+                                        <label class="form-label" for="#additional-info">
                                             {{ __('Upload Images') }}
                                         </label>
                                         <input type="file" name="files[]" id="" multiple max="6"
@@ -184,8 +181,7 @@
                                 <div class="col-md-12 preferred-method-fields"></div>
                                 <div class="col-md-12">
                                     <div class="form-group d-flex justify-content-end">
-                                        <button type="submit"
-                                            class="cmn_btn btn_bg_profile refund_request_button">
+                                        <button type="submit" class="cmn_btn btn_bg_profile refund_request_button">
                                             {{ __('Request Refund') }}
                                         </button>
                                     </div>
@@ -207,27 +203,28 @@
 
 @section('script')
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
 
             // Show/hide sidebar
-            $(document).on('click', '.bodyUser_overlay', function () {
+            $(document).on('click', '.bodyUser_overlay', function() {
                 $('.user-dashboard-wrapper, .bodyUser_overlay').removeClass('show');
             });
 
-            $(document).on('click', '.mobile_nav', function () {
+            $(document).on('click', '.mobile_nav', function() {
                 $('.user-dashboard-wrapper, .bodyUser_overlay').addClass('show');
             });
 
             // Checkbox styling logic
-            $(document).on("click", ".request-product-checkbox", function () {
-                $(this).closest('.refunded__product').toggleClass("border-info selected-refund-product", this.checked);
+            $(document).on("click", ".request-product-checkbox", function() {
+                $(this).closest('.refunded__product').toggleClass("border-info selected-refund-product",
+                    this.checked);
             });
 
             // Submit validation logic
-            $(document).on("click", ".refund_request_button", function (e) {
+            $(document).on("click", ".refund_request_button", function(e) {
                 let isValid = true;
 
-                $(".request-product-checkbox").each(function () {
+                $(".request-product-checkbox").each(function() {
                     let parent = $(this).closest('.refunded__product');
 
                     if ($(this).prop('checked')) {
@@ -236,7 +233,8 @@
                         let maxQty = parent.find(".product-refund-quantity input").attr('max');
 
                         if (!reason) {
-                            parent.find(".product-refund-reason .error-info").text("Please select a reason");
+                            parent.find(".product-refund-reason .error-info").text(
+                                "Please select a reason");
                             isValid = false;
                         } else {
                             parent.find(".product-refund-reason .error-info").text("");
@@ -269,7 +267,8 @@
 
                 // Additional info required
                 if ($('#additional-info').val().trim() === '') {
-                    $('.additional-information-wrapper .error-info').text("Please write additional information");
+                    $('.additional-information-wrapper .error-info').text(
+                        "Please write additional information");
                     isValid = false;
                 } else {
                     $('.additional-information-wrapper .error-info').text("");
@@ -281,10 +280,10 @@
     </script>
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
 
             // Triggered when preferred option changes
-            $('#preferred_option').on('change', function () {
+            $('#preferred_option').on('change', function() {
                 let $selected = $(this).find("option:selected");
                 let isFile = parseInt($selected.data("is-file"));
                 let fieldsRaw = $selected.data("fields");
@@ -310,7 +309,7 @@
 
                 // Dynamic input fields (bank name, account number etc)
                 if (isFile === 0 && Array.isArray(fields)) {
-                    fields.forEach(function (field) {
+                    fields.forEach(function(field) {
                         const name = field.replace(/\s+/g, '_').toLowerCase();
                         html += `
                             <div class="form-group mt-3">

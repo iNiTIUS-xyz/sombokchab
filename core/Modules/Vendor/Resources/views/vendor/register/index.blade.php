@@ -463,9 +463,9 @@
 
         function validateTaxIdLogical(v) {
             const cleaned = cleanForValidation(v);
-            if (!cleaned) return 'Tax ID must be 1 letter followed by 12 digits (e.g., L000000000000)';
+            if (!cleaned) return 'Tax ID must be text and numbers only';
             if (!/^[A-Za-z]\d{12}$/.test(cleaned)) {
-                return 'Tax ID must be 1 letter followed by 12 digits (e.g., L000000000000)';
+                return 'Tax ID must be text and numbers only';
             }
             return '';
         }
@@ -925,9 +925,9 @@
 
             function validateTaxIdLogical(v) {
                 const cleaned = cleanForValidation(v);
-                if (!cleaned) return 'Tax ID must be 1 letter followed by 12 digits (e.g., L000000000000)';
+                if (!cleaned) return 'Tax ID must be text and numbers only';
                 if (!/^[A-Za-z]\d{12}$/.test(cleaned)) {
-                    return 'Tax ID must be 1 letter followed by 12 digits (e.g., L000000000000)';
+                    return 'Tax ID must be text and numbers only';
                 }
                 return '';
             }
@@ -1070,9 +1070,8 @@
                 try {
                     toggleTaxFieldVisibility(false);
                 } catch (e) {}
-            }, 200); // allow select2/other inits to show if Business was selected intentionally
+            }, 200);
 
-            console.info('Tax ID validator (v2) inited');
         })();
     </script>
 @endsection
