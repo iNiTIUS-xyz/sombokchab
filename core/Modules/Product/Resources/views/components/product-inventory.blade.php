@@ -60,7 +60,7 @@
                 <span class="text-danger">*</span>
             </label>
             <input type="number" name="uom" class="form--control radius-10" value="{{ $uom?->quantity }}"
-                placeholder="{{ __('Enter Unit Of Measurement') }}">
+                placeholder="{{ __('Enter Unit Of Measurement') }}" required>
             <small class="mt-2 mb-0 d-block">
                 {{ __('Enter the number here') }}
             </small>
