@@ -832,7 +832,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            toggleTaxFieldVisibility(true);
+
             const passwordInput = document.getElementById('password');
             const showIcon = document.querySelector('.show-icon');
             const hideIcon = document.querySelector('.hide-icon');
