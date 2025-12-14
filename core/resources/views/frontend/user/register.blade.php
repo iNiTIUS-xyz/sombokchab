@@ -54,8 +54,9 @@
                                                         <option value="+855">+855</option>
                                                     </select>
                                                     <input type="number" id="number" name="phone"
-                                                        class="form--control radius-10" placeholder="{{ __('Enter Phone Number') }}"
-                                                        style="width: unset" required>
+                                                        class="form--control radius-10"
+                                                        placeholder="{{ __('Enter Phone Number') }}" style="width: unset"
+                                                        required>
                                                 </div>
                                                 <small class="text-danger" id="phoneError"></small>
                                             </div>
@@ -70,7 +71,7 @@
                                                 </label>
                                                 <input type="text" name="name" id="name"
                                                     class="form--control radius-10" placeholder="{{ __('Enter Name') }}"
-                                                    required>
+                                                    oninput="this.value = this.value.replace(/[^A-Za-z.'-]/g, '')" required>
                                                 <small class="text-danger" id="nameError"></small>
                                             </div>
                                         </div>
@@ -170,7 +171,7 @@
                                     <div class="form-group text-center" style="text-align: right;">
                                         <button type="button" class="btn btn-next step-button-outline p-2"
                                             onclick="sendCodeAndContinue()" id="continueButton" disabled>
-                                            <span class="">Next </span>
+                                            <span class="">{{ __('Next') }} </span>
                                             <i class="las la-arrow-right"></i>
                                         </button>
                                     </div>
