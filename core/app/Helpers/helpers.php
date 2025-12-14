@@ -2623,3 +2623,29 @@ function frontendProductPageUrl()
     $page_url = $page->slug ?? 'shop-page';
     return $page_url;
 }
+
+
+if (!function_exists('phoneNumberFormate')) {
+    function phoneNumberFormate($phone)
+    {
+        // Remove everything except digits
+        $phone = preg_replace('/[^0-9]/', '', $phone);
+
+        // Remove possible country codes (BD or Cambodia)
+        if (Str::startsWith($phone, '880')) {
+            $phone = substr($phone, 3);
+        }
+
+        if (Str::startsWith($phone, '855')) {
+            $phone = substr($phone, 3);
+        }
+
+        // Ensure local number starts with 0
+        if (Str::startsWith($phone, '0')) {
+            $phone = substr($phone, 1);
+        }
+
+        // Add Cambodia country code
+        return '+855' . $phone;
+    }
+}

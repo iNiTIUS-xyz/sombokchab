@@ -32,6 +32,20 @@
             background-color: #f1f1f1;
             color: #333;
         }
+
+        .embed-map-container {
+            width: 100%;
+            height: 300px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+
+        .embed-map-frame {
+            width: 100% !important;
+            height: 100% !important;
+            border: 0;
+        }
     </style>
 @endsection
 
@@ -135,9 +149,6 @@
                                                             </div>
                                                         </div>
 
-                                                        {{-- =========================
-                                                             BUSINESS CATEGORY (READONLY)
-                                                             ========================= --}}
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
                                                                 <label class="label-title color-light mb-2">
@@ -145,7 +156,6 @@
                                                                     <span class="text-danger">*</span>
                                                                 </label>
                                                                 <div class="nice-select-two">
-                                                                    {{-- disabled so user can't change it in UI --}}
                                                                     @php
                                                                         $vendorVerified =
                                                                             auth('vendor')->user()
@@ -171,9 +181,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        {{-- =========================
-     TAX ID — SHOW ONLY IF BUSINESS TYPE = BUSINESS
-   ========================= --}}
+
                                                         @php
                                                             $vendorBusinessType = $business_type->firstWhere(
                                                                 'id',
@@ -338,22 +346,6 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-
-                                                        <style>
-                                                            .embed-map-container {
-                                                                width: 100%;
-                                                                height: 300px;
-                                                                position: relative;
-                                                                overflow: hidden;
-                                                                border-radius: 10px;
-                                                            }
-
-                                                            .embed-map-frame {
-                                                                width: 100% !important;
-                                                                height: 100% !important;
-                                                                border: 0;
-                                                            }
-                                                        </style>
                                                     </div>
                                                 </div>
                                             </div>
@@ -486,15 +478,12 @@
                                                                     class="text-danger">{{ __('You may change the site paragraph color from here') }}</small>
                                                             </div>
                                                         </div>
-                                                        <!--color settings end -->
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
-                                {{-- Bank info --}}
                                 <div class="tab-pane fade" id="bank-info" role="tabpanel" aria-labelledby="contact-tab">
                                     <div class="row g-4 mt-1">
                                         <div class="col-lg-12">
@@ -581,17 +570,13 @@
         (function($) {
             "use strict";
 
-            // fields we will validate
             const fields = ['username', 'email', 'number'];
 
-            // track invalid state (true = invalid)
             const errors = {
                 username: false,
                 email: false,
                 number: false
             };
-
-            // track whether user has interacted with field (only show "available" after interaction)
             const touched = {
                 username: false,
                 email: false,
