@@ -283,15 +283,14 @@
                                             style="font-weight: bold !important;">
                                             {{ __('Accept all') }}
                                             <a href="{{ url(get_static_option('toc_page_link')) }}" class="text-active"
-                                                target="__blank">{{ __('Terms and Conditions') }}</a>
+                                                target="__blank">
+                                                {{ __('Terms and Conditions') }}
+                                            </a>
                                             {{ __('&') }}
-
-                                            <a href="{{ get_static_option('privacy_policy_link') ?: '#' }}"
+                                            <a href="{{ url(get_static_option('privacy_policy_link')) ?? '#' }}"
                                                 class="text-active" target="_blank">
                                                 {{ __('Privacy Policy') }}
                                             </a>
-
-
                                         </label>
                                     </div>
                                     <small class="text-danger" id="termsError"></small>
