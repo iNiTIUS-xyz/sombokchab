@@ -15,8 +15,10 @@ use Modules\Vendor\Entities\Vendor;
 use Modules\Vendor\Http\Requests\Backend\UpdateVendorRequest;
 use Modules\Vendor\Http\Services\VendorServices;
 
-class VendorProfileController extends Controller {
-    function vendor_profile() {
+class VendorProfileController extends Controller
+{
+    function vendor_profile()
+    {
         // prepare data for updating vendor profile
         $vendor = auth("vendor")->id();
 
@@ -38,7 +40,8 @@ class VendorProfileController extends Controller {
         return view("vendor::vendor.edit", $data);
     }
 
-    function vendor_profile_update(UpdateVendorRequest $request) {
+    function vendor_profile_update(UpdateVendorRequest $request)
+    {
 
         $request->validate([
             'google_map_location' => 'nullable|string',
@@ -78,7 +81,7 @@ class VendorProfileController extends Controller {
 
             return response()->json(["success" => true, "type" => "success"]);
         } catch (\Exception $e) {
-            dd($e);
+
             DB::rollBack();
             return response()->json([
                 "msg"        => $e,
@@ -89,10 +92,12 @@ class VendorProfileController extends Controller {
         }
     }
 
-    public function vendor_password() {
+    public function vendor_password()
+    {
         return view("vendor::vendor.password.change_password");
     }
-    public function vendor_password_change(Request $request) {
+    public function vendor_password_change(Request $request)
+    {
         $request->validate([
             'old_password' => 'required|string',
             'password'     => 'required|string|min:8|confirmed',
@@ -111,9 +116,9 @@ class VendorProfileController extends Controller {
             'message'    => __('Unable to change the Password. Please try again or check your old Password.'),
             'alert-type' => 'error',
         ]);
-
     }
-    public function validateField(Request $request) {
+    public function validateField(Request $request)
+    {
         $field = $request->input('field');
         $value = $request->input('value');
         $id = $request->input('id') ?: null;

@@ -11,8 +11,10 @@ use Modules\Vendor\Entities\VendorBankInfo;
 use Modules\Vendor\Entities\VendorShopInfo;
 use Modules\Wallet\Entities\Wallet;
 
-class VendorServices {
-    public static function store_vendor($data, $type = "create") {
+class VendorServices
+{
+    public static function store_vendor($data, $type = "create")
+    {
 
         $request = request();
 
@@ -21,7 +23,7 @@ class VendorServices {
             $data['is_vendor_verified'] = $request->is_vendor_verified;
         }
 
-        $data['phone'] = $request->number;
+        // $data['phone'] = phoneNumberFormate($request->number);
         $data['tax_id'] = $request->tax_id;
 
         if ($type == "create") {
@@ -31,7 +33,8 @@ class VendorServices {
         return Vendor::where("id", $data["id"])->update($data);
     }
 
-    public static function store_vendor_address($data, $type = "create") {
+    public static function store_vendor_address($data, $type = "create")
+    {
         if ($type == "create") {
             return VendorAddress::create($data);
         }
@@ -42,7 +45,8 @@ class VendorServices {
         );
     }
 
-    public static function store_vendor_shop_info($data, $type = "create") {
+    public static function store_vendor_shop_info($data, $type = "create")
+    {
         if ($type == "create") {
             return VendorShopInfo::create($data);
         }
@@ -50,7 +54,8 @@ class VendorServices {
         return VendorShopInfo::updateOrCreate(["vendor_id" => $data["vendor_id"]], $data);
     }
 
-    public static function store_vendor_bank_info($data, $type = "create") {
+    public static function store_vendor_bank_info($data, $type = "create")
+    {
         if ($type == "create") {
             return VendorBankInfo::create($data);
         }
@@ -84,16 +89,18 @@ class VendorServices {
         );
     }
 
-    public static function prepare_data_for_update($data, $type): array {
+    public static function prepare_data_for_update($data, $type): array
+    {
         return match ($type) {
-            "vendor"           => ["owner_name" => $data["owner_name"], "username" => $data["username"], "business_name" => $data["business_name"], "business_type_id" => $data["business_type_id"], "description" => $data["description"], "status_id" => $data["status_id"]],
+            "vendor"           => ["owner_name" => $data["owner_name"], "username" => $data["username"], "business_name" => $data["business_name"], "phone" => phoneNumberFormate($data["number"]) ?? null, "business_type_id" => $data["business_type_id"], "description" => $data["description"], "status_id" => $data["status_id"]],
             "vendor_address"   => ["vendor_id" => $data["id"], "country_id" => $data["country_id"], "state_id" => $data["state_id"] ?? null, "city_id" => $data["city_id"] ?? null, "zip_code" => $data["zip_code"] ?? null, "address" => $data["address"] ?? null, "google_map_location" => $data["google_map_location"] ?? null],
-            "vendor_shop_info" => ["vendor_id" => $data["id"], "location" => $data["location"], "number" => $data["number"] ?? null, "email" => $data["email"], "facebook_url" => $data["facebook_url"], "website_url" => $data["website_url"], "logo_id" => $data["logo_id"], "cover_photo_id" => $data["cover_photo_id"], "colors" => $data["colors"] ?? null],
+            "vendor_shop_info" => ["vendor_id" => $data["id"], "location" => $data["location"], "number" => phoneNumberFormate($data["number"]) ?? null, "email" => $data["email"], "facebook_url" => $data["facebook_url"], "website_url" => $data["website_url"], "logo_id" => $data["logo_id"], "cover_photo_id" => $data["cover_photo_id"], "colors" => $data["colors"] ?? null],
             "vendor_bank_info" => ["vendor_id" => $data["id"], "bank_name" => $data["bank_name"], "bank_email" => $data["bank_email"], "bank_code" => $data["bank_code"], "account_number" => $data["account_number"]],
         };
     }
 
-    public static function generateReport($vendor_id, $from, $to = null, $type = "year"): Collection | array | null {
+    public static function generateReport($vendor_id, $from, $to = null, $type = "year"): Collection | array | null
+    {
         if ($to == null) {
             $to = now()->format('Y-m-d');
         }
@@ -114,13 +121,14 @@ class VendorServices {
             ->groupBy('date')->get()?->pluck('amount', 'date') ?? [];
     }
 
-    public static function vendorAccountBanner($type = 'web'): array {
+    public static function vendorAccountBanner($type = 'web'): array
+    {
         // Determine vendor ID based on context (web or API)
         $vendor_id = $type == 'web' ? auth()->guard("vendor")->id() : auth('sanctum')->id();
         $wallet = Wallet::where("vendor_id", $vendor_id)->first();
 
         // Calculate total complete order amount (delivered only)
-        $total_complete_order_amount = (double) SubOrder::where("vendor_id", $vendor_id)
+        $total_complete_order_amount = (float) SubOrder::where("vendor_id", $vendor_id)
             ->whereHas("orderTrack", function ($orderTrack) {
                 $orderTrack->where("name", "delivered");
             })
@@ -138,5 +146,4 @@ class VendorServices {
             "weekly_statement"            => self::generateReport($vendor_id, now()->subWeek(1)->format("Y-m-d"), type: 'week'),
         ];
     }
-
 }
