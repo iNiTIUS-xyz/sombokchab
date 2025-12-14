@@ -135,7 +135,6 @@
                 box-shadow: unset;
             }
         }
-
     </style>
 @endsection
 
@@ -147,7 +146,7 @@
             <div class="shop-contents-wrapper style-02">
                 <div class="shop-icon shop-icon-text">
                     <div class="sidebar-icon sidebar-icon-text">
-                        Filter
+                        {{ __('Filter') }}
                     </div>
                 </div>
                 <div class="shop-sidebar-content">
@@ -794,7 +793,7 @@
         });
     </script>
     <script>
-        $(document).on('click', '.close-search-selected-item', function () {
+        $(document).on('click', '.close-search-selected-item', function() {
             let key = $(this).data('key');
 
             // remove main field
@@ -802,7 +801,7 @@
 
             // remove dependent fields
             let extraKeys = $(this).data('remove-list') || [];
-            extraKeys.forEach(function (childKey) {
+            extraKeys.forEach(function(childKey) {
                 $("#" + childKey).val("");
             });
 
@@ -839,6 +838,5 @@
                 $(".review-filter .list").removeClass('active');
             }
         }
-
     </script>
 @endsection
