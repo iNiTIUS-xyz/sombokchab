@@ -9,82 +9,100 @@
 @section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row">
-            {{-- @include('backend/partials/message')
-        @include('backend/partials/error') --}}
             <div class="col-12">
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Add New Admin') }}</h4>
                     </div>
                     <div class="dashboard__card__body custom__form mt-4">
+
                         <form action="{{ route('admin.new.user') }}" method="post" enctype="multipart/form-data">
                             @csrf
-                            <div class="form-group">
-                                <label for="name">
-                                    {{ __('Name') }}
-                                    <span class="text-danger">*</span>
-                                </label>
-                                <input type="text" class="form-control" id="name" name="name"
-                                    oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '');"
-                                    placeholder="{{ __('Enter full name') }}" required="">
-                            </div>
-                            <div class="form-group">
-                                <label for="username">
-                                    {{ __('Username') }}
-                                    <span class="text-danger">*</span>
-                                </label>
-                                <input type="text" class="form-control" id="username" name="username"
-                                    placeholder="{{ __('Enter username') }}" required="">
-                                <small class="text text-danger">
-                                    {{ __('Remember this username, user will login using this username') }}
-                                </small>
-                            </div>
-                            <div class="form-group">
-                                <label for="email">
-                                    {{ __('Email') }}
-                                    <span class="text-danger">*</span>
-                                </label>
-                                <input type="text" class="form-control" id="email" name="email"
-                                    placeholder="{{ __('Enter email') }}" required="">
-                            </div>
-                            <div class="form-group position-relative">
-                                <label for="password">
-                                    {{ __('Password') }}
-                                    <span class="text-danger">*</span>
-                                </label>
-                                <input type="password" class="form-control" id="password" name="password"
-                                    placeholder="{{ __('Enter password') }}" required="">
-                                <span class="toggle-password"
-                                    style="position:absolute; right:15px; top:50%; transform:translateY(20%); cursor:pointer;">
-                                    <i class="la la-eye"></i>
-                                </span>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <div class="form-group">
+                                        <label for="name">
+                                            {{ __('Name') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" id="name" name="name"
+                                            oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '');"
+                                            placeholder="{{ __('Enter full name') }}" required="">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="form-group">
+                                        <label for="username">
+                                            {{ __('Username') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" id="username" name="username"
+                                            placeholder="{{ __('Enter username') }}" required="">
+                                        <small class="text text-danger">
+                                            {{ __('Remember this username, user will login using this username') }}
+                                        </small>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-6 mb-3">
+                                    <div class="form-group">
+                                        <label for="email">
+                                            {{ __('Email') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" id="email" name="email"
+                                            placeholder="{{ __('Enter email') }}" required="">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="form-group">
+                                        <label for="role">
+                                            {{ 'Role' }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <select name="role" class="form-select" required="">
+                                            <option value="">{{ __('Select role') }}</option>
+                                            @foreach ($roles as $role)
+                                                <option value="{{ $role }}">{{ $role }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-6 mb-3">
+                                    <div class="form-group position-relative">
+                                        <label for="password">
+                                            {{ __('Password') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="password" class="form-control" id="password" name="password"
+                                            placeholder="{{ __('Enter password') }}" required="">
+                                        <span class="toggle-password"
+                                            style="position:absolute; right:15px; top:50%; transform:translateY(20%); cursor:pointer;">
+                                            <i class="la la-eye"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="form-group position-relative">
+                                        <label for="password_confirmation">
+                                            {{ __('Confirm Password') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="password" class="form-control" id="password_confirmation"
+                                            name="password_confirmation"
+                                            placeholder="{{ __('Enter password confirmation') }}" required="">
+                                        <span class="toggle-password"
+                                            style="position:absolute; right:15px; top:50%; transform:translateY(20%); cursor:pointer;">
+                                            <i class="la la-eye"></i>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
 
-                            <div class="form-group position-relative">
-                                <label for="password_confirmation">
-                                    {{ __('Confirm Password') }}
-                                    <span class="text-danger">*</span>
-                                </label>
-                                <input type="password" class="form-control" id="password_confirmation"
-                                    name="password_confirmation" placeholder="{{ __('Enter password confirmation') }}"
-                                    required="">
-                                <span class="toggle-password"
-                                    style="position:absolute; right:15px; top:50%; transform:translateY(20%); cursor:pointer;">
-                                    <i class="la la-eye"></i>
-                                </span>
-                            </div>
-                            <div class="form-group">
-                                <label for="role">
-                                    {{ 'Role' }}
-                                    <span class="text-danger">*</span>
-                                </label>
-                                <select name="role" class="form-select" required="">
-                                    <option value="">{{ __('Select role') }}</option>
-                                    @foreach ($roles as $role)
-                                        <option value="{{ $role }}">{{ $role }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
                             <div class="form-group">
                                 <label for="site_favicon">
                                     {{ __('Profile Image') }}
@@ -129,6 +147,7 @@
                                 Back
                             </a>
                         </form>
+
                     </div>
                 </div>
             </div>
