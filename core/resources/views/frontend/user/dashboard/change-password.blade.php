@@ -37,7 +37,7 @@
         }
 
         .btn-toggle-password:hover {
-            color: #e9e9e9;
+            color: #3f3f3f;
         }
 
         .btn-toggle-password:focus {
