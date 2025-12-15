@@ -41,7 +41,6 @@
                                         {{-- <th>{{ __('Serial No.') }}</th> --}}
                                         <th>{{ __('Payment Method') }}</th>
                                         <th>{{ __('Method Fields') }}</th>
-                                        <th>{{ __('Is File') }}</th>
                                         <th>{{ __('Payment Status') }}</th>
                                         <th>{{ __('Action') }}</th>
                                     </tr>
@@ -49,7 +48,6 @@
                                 <tbody>
                                     @foreach ($preferredOptions as $preferredOption)
                                         <tr>
-                                            {{-- <td>{{ $loop->iteration }}</td> --}}
                                             <td>{{ $preferredOption->name }}</td>
                                             <td>
                                                 @if ($preferredOption->is_file == 'yes')
@@ -59,9 +57,6 @@
                                                         {{ implode(' , ', unserialize($preferredOption->fields)) }}
                                                     @endif
                                                 @endif
-                                            </td>
-                                            <td>
-                                                <x-status-span :status="$preferredOption->is_file" />
                                             </td>
                                             <td>
                                                 <div class="btn-group badge">
@@ -284,85 +279,99 @@
         </form>
     </div>
 @endsection
+
 @section('script')
     <x-table.btn.swal.js />
     <script>
         $(document).ready(function() {
-            // Create section: Show/hide field group
-            $('#is_file_checkbox').change(function() {
-                $('#fields_container').toggle(!this.checked);
-            });
 
-            // Edit Modal: Show/hide field group
-            $('#edit_is_file_checkbox').change(function() {
-                if (this.checked) {
-                    $('#edit_fields_container').hide();
-                    $('.gateway-filed-body').html('');
+            function toggleCreateFields() {
+                if ($('#is_file_checkbox').is(':checked')) {
+                    $('#filed_container').hide();
                 } else {
-                    $('#edit_fields_container').show();
-                    if ($('.gateway-filed-body').children().length === 0) {
-                        $('.gateway-filed-body').html(getGatewayFieldRow(''));
+                    $('#filed_container').show();
+
+                    // Ensure at least one field exists
+                    if ($('#add_gateway_filed_body .form-group.row').length === 0) {
+                        $('#add_gateway_filed_body').append(getGatewayFieldRow(''));
                     }
                 }
+            }
+
+            toggleCreateFields();
+
+            $('#is_file_checkbox').on('change', function() {
+                toggleCreateFields();
             });
 
-            // Add dynamic field row
-            $(document).on("click", ".gateway-filed-add", function() {
-                $(this).closest('.form-group.row').parent().append(getGatewayFieldRow(''));
-            });
-
-            // Remove dynamic field row
-            $(document).on("click", ".gateway-filed-remove", function() {
-                const rows = $(this).closest('.gateway-filed-body').find('.form-group.row');
-                if (rows.length > 1) {
-                    $(this).closest('.form-group.row').remove();
-                }
-            });
-
-            // When clicking edit button
-            $(document).on("click", ".update-gateway", function() {
-                let fileds = JSON.parse($(this).attr("data-blog-filed"));
-                let isFile = $(this).attr("data-is-file") === 'yes';
-
-                $("#edit-gateway-modal input[name='gateway_name']").val($(this).attr("data-name"));
-                $("#edit-gateway-modal select[name='status_id']").val($(this).attr("data-status"));
-                $("#edit-gateway-modal input[name='id']").val($(this).attr("data-id"));
-                $("#edit_is_file_checkbox").prop('checked', isFile);
-
+            function toggleEditFields(isFile, fields = []) {
                 if (isFile) {
                     $('#edit_fields_container').hide();
                     $('.gateway-filed-body').html('');
                 } else {
                     $('#edit_fields_container').show();
-                    let fieldsHtml = '';
-                    if (fileds.length > 0) {
-                        fileds.forEach(field => {
-                            fieldsHtml += getGatewayFieldRow(field);
+                    let html = '';
+
+                    if (fields.length > 0) {
+                        fields.forEach(field => {
+                            html += getGatewayFieldRow(field);
                         });
                     } else {
-                        fieldsHtml = getGatewayFieldRow('');
+                        html = getGatewayFieldRow('');
                     }
-                    $('.gateway-filed-body').html(fieldsHtml);
+
+                    $('.gateway-filed-body').html(html);
+                }
+            }
+
+            $('#edit_is_file_checkbox').on('change', function() {
+                toggleEditFields(this.checked);
+            });
+
+            $(document).on('click', '.gateway-filed-add', function() {
+                $(this)
+                    .closest('.gateway-filed-body')
+                    .append(getGatewayFieldRow(''));
+            });
+
+            $(document).on('click', '.gateway-filed-remove', function() {
+                let container = $(this).closest('.gateway-filed-body');
+                if (container.find('.form-group.row').length > 1) {
+                    $(this).closest('.form-group.row').remove();
                 }
             });
+
+            $(document).on('click', '.update-gateway', function() {
+
+                let fields = JSON.parse($(this).attr('data-blog-filed')) || [];
+                let isFile = $(this).data('is-file') === 'yes';
+
+                $('#edit-gateway-modal input[name="gateway_name"]').val($(this).data('name'));
+                $('#edit-gateway-modal input[name="id"]').val($(this).data('id'));
+                $('#edit-gateway-modal select[name="status_id"]').val($(this).data('status'));
+
+                $('#edit_is_file_checkbox').prop('checked', isFile);
+
+                toggleEditFields(isFile, fields);
+            });
+
         });
 
-        // Helper: Generate input row
         function getGatewayFieldRow(value = '') {
             return `
-                <div class="form-group row">
-                    <div class="w-90 d-flex align-items-center">
-                        <input class="form-control" name="filed[]" value="${value}" placeholder="Enter field name">
-                    </div>
-                    <div class="col-md-1 d-flex flex-column align-items-center justify-content-center pb-2 gap-2">
-                        <button type="button" class="btn btn-primary btn-sm gateway-filed-add">
-                            <i class="las la-plus"></i>
-                        </button>
-                        <button type="button" class="btn btn-danger btn-sm gateway-filed-remove">
-                            <i class="las la-trash-alt"></i>
-                        </button>
-                    </div>
-                </div>`;
+            <div class="form-group row mb-2">
+                <div class="w-90 d-flex align-items-center">
+                    <input class="form-control" name="filed[]" value="${value}" placeholder="Enter field name">
+                </div>
+                <div class="col-md-1 d-flex flex-column align-items-center justify-content-center pb-2 gap-2">
+                    <button type="button" class="btn btn-primary btn-sm gateway-filed-add">
+                        <i class="las la-plus"></i>
+                    </button>
+                    <button type="button" class="btn btn-danger btn-sm gateway-filed-remove">
+                        <i class="las la-trash-alt"></i>
+                    </button>
+                </div>
+            </div>`;
         }
     </script>
 @endsection
