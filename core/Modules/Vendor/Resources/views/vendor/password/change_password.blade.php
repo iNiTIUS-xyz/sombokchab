@@ -20,6 +20,7 @@
                         @endif
                         <form action="{{ route('vendor.password.update') }}" method="POST">
                             @csrf
+
                             <div class="form-group">
                                 <label for="old_password">{{ __('Old Password') }}</label>
                                 <div class="input-group-custom">
@@ -39,29 +40,28 @@
                                     <input type="password" class="form-control" id="password" name="password"
                                         placeholder="{{ __('Enter New Password') }}">
                                     <span class="input-group-btn">
-                                        <button type="button" class="btn-toggle-password" data-target="old_password">
+                                        <button type="button" class="btn-toggle-password" data-target="password">
                                             <i class="la la-eye"></i>
                                         </button>
                                     </span>
                                 </div>
                             </div>
+
                             <div class="form-group">
-                                <label for="password">{{ __('Confirm Password') }}</label>
+                                <label for="password_confirmation">{{ __('Confirm Password') }}</label>
                                 <div class="input-group-custom">
                                     <input type="password" class="form-control" id="password_confirmation"
                                         name="password_confirmation" placeholder="{{ __('Enter Confirm Password') }}">
                                     <span class="input-group-btn">
-                                        <button type="button" class="btn-toggle-password" data-target="old_password">
+                                        <button type="button" class="btn-toggle-password"
+                                            data-target="password_confirmation">
                                             <i class="la la-eye"></i>
                                         </button>
                                     </span>
                                 </div>
                             </div>
 
-                            <div class="form-group">
 
-
-                            </div>
                             <button type="submit" class="btn btn-primary">{{ __('Save Changes') }}</button>
                         </form>
                     </div>
