@@ -41,8 +41,7 @@
                                 <thead>
                                     <tr>
                                         <th>{{ __('Payment Method') }}</th>
-                                        <th>{{ __('Method Field/s') }}</th>
-                                        <th>{{ __('Is File') }}</th>
+                                        <th>{{ __('Method Fields') }}</th>
                                         <th>{{ __('Status') }}</th>
                                         <th>{{ __('Action') }}</th>
                                     </tr>
@@ -53,15 +52,12 @@
                                             <td>{{ $gateway->name }}</td>
                                             <td>
                                                 @if ($gateway->is_file == 'yes')
-                                                    {{ __('File Upload Required') }}
+                                                    {{ __('QR File Upload Required') }}
                                                 @else
                                                     @if ($gateway->filed)
                                                         {{ implode(' , ', unserialize($gateway->filed)) }}
                                                     @endif
                                                 @endif
-                                            </td>
-                                            <td>
-                                                <x-status-span :status="$gateway->is_file" />
                                             </td>
                                             <td>
                                                 <div class="btn-group badge">
