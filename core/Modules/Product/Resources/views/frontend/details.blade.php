@@ -493,7 +493,9 @@
                                                 @if (auth('web')->check())
                                                     @if ($user_has_item && $user_rated_already)
                                                         <div class="ratings select-ratings">
-                                                            <p>{{ __('Your rating') }} <span class="required">*</span>
+                                                            <p>
+                                                                {{ __('Your rating') }}
+                                                                <span class="text-danger">*</span>
                                                             </p>
                                                             <a href="#1">
                                                                 <i data-rating="1" class="lar la-star icon"></i>
@@ -514,12 +516,11 @@
 
                                                                 <div class="form-group">
                                                                     <label for="comment">
-                                                                        {{ filter_static_option_value('your_reviews_text', $setting_text, __('Your review')) }}
-                                                                        &nbsp;
-                                                                        <span class="required">*</span>
+                                                                        {{ __('Your review') }}
+                                                                        <span class="text-danger">*</span>
                                                                     </label>
-                                                                    <textarea class="form-control" id="comment" name="comment" required=""
-                                                                        placeholder="{{ filter_static_option_value('write_your_feedback_text', $setting_text, __('Enter your feedback here')) }}"></textarea>
+                                                                    <textarea class="form-control" id="comment" name="comment" cols="30" rows="10" required=""
+                                                                        placeholder="{{ __('Enter your feedback here') }}"></textarea>
                                                                 </div>
                                                                 <div class="btn-wrapper">
                                                                     <button type="submit"

@@ -418,5 +418,11 @@
     "You have been logged out successfully.": "អ្នកបានចាកចេញដោយជោគជ័យហើយ។",
     "Password must be at least 8 characters.": "ពាក្យសម្ងាត់ត្រូវតែមានយ៉ាងហោចណាស់ ៨ តួអក្សរ។",
     "Enter Name": "បញ្ចូលឈ្មោះ",
+    "Your rating" : "ការវាយតម្លៃរបស់អ្នក",
+    "Your review" : "ការវាយតម្លៃរបស់អ្នក",
+    "Enter your feedback here" : "បញ្ចូលមតិកែលម្អរបស់អ្នកនៅទីនេះ",
+    "Post your feedback" : "បង្ហោះមតិកែលម្អរបស់អ្នក",
+    "Enter password" : "បញ្ចូលពាក្យសម្ងាត់",
+
     "demo": ""
 }
