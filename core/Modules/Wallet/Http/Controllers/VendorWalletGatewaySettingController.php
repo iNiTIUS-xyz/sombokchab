@@ -74,7 +74,6 @@ class VendorWalletGatewaySettingController extends Controller
                 'alert-type' => 'success',
             ]);
         } catch (\Throwable $e) {
-            dd($e);
             DB::rollback();
             return back()->with([
                 'message' =>  __('Failed to update wallet settings'),
