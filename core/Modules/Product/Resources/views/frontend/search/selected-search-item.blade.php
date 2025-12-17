@@ -13,23 +13,20 @@
         'sub_category' => ['child_category'],
     ];
 
-    $activeFilters = collect(request()->all())
-        ->filter(function ($value, $key) {
-            return $value &&
-                !in_array($key, ['_token', 'page', 'keyword']);
-        });
+    $activeFilters = collect(request()->all())->filter(function ($value, $key) {
+        return $value && !in_array($key, ['_token', 'page', 'keyword']);
+    });
 @endphp
 
 
 @foreach ($activeFilters as $key => $value)
-
     @php
         // Default label
         $displayValue = $value;
 
         // ORDER BY LABELS
         if ($key === 'order_by') {
-            $displayValue = $orderMap[$value] ?? $value;
+            continue;
         }
 
         // BRAND LABEL
@@ -39,11 +36,11 @@
 
         // PRICE LABELS
         if ($key === 'min_price') {
-            $displayValue = "Price Min: " . site_currency_symbol() . $value;
+            $displayValue = 'Price Min: ' . site_currency_symbol() . $value;
         }
 
         if ($key === 'max_price') {
-            $displayValue = "Price Max: " . site_currency_symbol() . $value;
+            $displayValue = 'Price Max: ' . site_currency_symbol() . $value;
         }
 
         // RATING LABEL
@@ -60,10 +57,8 @@
     <li class="selected-filter-item">
         <span>{!! $displayValue !!}</span>
 
-        <button type="button"
-                class="remove-filter-btn close-search-selected-item"
-                data-key="{{ $key }}"
-                data-remove-list='{{ $removeTargets }}'>
+        <button type="button" class="remove-filter-btn close-search-selected-item" data-key="{{ $key }}"
+            data-remove-list='{{ $removeTargets }}'>
             <i class="las la-times"></i>
         </button>
     </li>

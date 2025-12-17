@@ -669,7 +669,8 @@
                                             </h6>
 
                                             <div class="rating-wrap">
-                                                <x-product::frontend.common.rating-markup :rating-count="$product->ratings_count" :avg-rattings="$product->ratings_avg_rating ?? 0" />
+                                                <x-product::frontend.common.rating-markup :rating-count="$product->ratings_count"
+                                                    :avg-rattings="$product->ratings_avg_rating ?? 0" />
                                             </div>
 
                                             <div class="product__price">
@@ -683,8 +684,8 @@
                                             <div class="product__card__cart mt-3">
                                                 @if (isset($attributes) && $attributes > 0)
                                                     <a href="{{ route('frontend.products.single', $product->slug) }}"
-                                                    class="product__card__cart__btn radius-30 {{ $class ?? '' }}"
-                                                    title="{{ __('View Details') }}">
+                                                        class="product__card__cart__btn radius-30 {{ $class ?? '' }}"
+                                                        title="{{ __('View Details') }}">
                                                         {{ __('View Details') }}
                                                     </a>
                                                 @else
