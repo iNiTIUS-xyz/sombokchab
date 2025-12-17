@@ -8,9 +8,6 @@
     <div class="col-lg-12 col-ml-12">
         <div class="row">
             <div class="col-lg-12">
-                {{--
-            <x-error-msg />
-            <x-flash-msg /> --}}
             </div>
 
             <div class="col-lg-12">
@@ -80,5 +77,4 @@
             </div>
         </div>
     </div>
-</div>
 @endsection

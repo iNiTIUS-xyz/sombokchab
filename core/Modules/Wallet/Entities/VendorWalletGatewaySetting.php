@@ -11,7 +11,8 @@ class VendorWalletGatewaySetting extends Model
     protected $fillable = [
         "vendor_id",
         "vendor_wallet_gateway_id",
-        "fileds"
+        "fileds",
+        'gateway_qr_file',
     ];
 
     public function vendor(): BelongsTo
