@@ -1502,14 +1502,14 @@
                     </li>
                 @endcanany
 
-                @can('manage-site-settings')
+                {{-- @can('manage-site-settings')
                     <li class="@if (request()->is('admin-home/languages/*') || request()->is('admin-home/languages')) active @endif">
                         <a href="{{ route('admin.languages') }}" aria-expanded="true">
                             <i class="ti-signal"></i>
                             <span>{{ __('Languages Management') }}</span>
                         </a>
                     </li>
-                @endcan
+                @endcan --}}
 
                 {{-- @if (moduleExists('PluginManage') && auth('admin')->user()->hasRole('Super Admin'))
                     @can('manage-site-settings')

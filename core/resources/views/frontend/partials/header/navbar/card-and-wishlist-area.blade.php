@@ -173,11 +173,11 @@
                         {{ __('Refund Requests') }}
                     </a>
                 </li>
-                <li class="list">
+                {{-- <li class="list">
                     <a href="{{ route('user-home.wallet.history') }}">
                         {{ __('Wallet History') }}
                     </a>
-                </li>
+                </li> --}}
                 <li class="list">
                     <a href="{{ route('user.shipping.address.all') }}">
                         {{ __('Shipping Address') }}
