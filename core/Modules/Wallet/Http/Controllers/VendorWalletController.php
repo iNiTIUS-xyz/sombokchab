@@ -59,7 +59,7 @@ class VendorWalletController extends Controller
     {
         $withdrawRequests = VendorWithdrawRequest::with("gateway")
             ->where("vendor_id", auth("vendor")->id())
-            ->whereHas("gateway")
+            // ->whereHas("gateway")
             ->orderByDesc("id")
             ->get();
 
@@ -79,6 +79,7 @@ class VendorWalletController extends Controller
                 ->where('vendor_id', $vendorId)
                 ->findOrFail($request->gateway_id);
 
+            $data['gateway_id']     = $gatewaySetting->vendor_wallet_gateway_id;
             $data['vendor_id']      = $vendorId;
             $data['qr_file']        = $gatewaySetting->gateway_qr_file ? $gatewaySetting->gateway_qr_file : null;
             $data['gateway_fields'] = $gatewaySetting->fileds ? json_encode(unserialize($gatewaySetting->fileds)) : null;
