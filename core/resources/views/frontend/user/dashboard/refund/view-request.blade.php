@@ -279,9 +279,9 @@
                                         {{ __('Qr File') }}
                                     </span>
                                     <p class="orderRequest__item__right">
-                                        <a href="{{ asset($request?->qr_file) }}">
-                                            <img height="100%" width="100%" src="{{ asset($request?->qr_file) }}"
-                                                alt="">
+                                        <a href="{{ asset('core/public/' . $request?->qr_file) }}">
+                                            <img height="100%" width="100%"
+                                                src="{{ asset('core/public/' . $request?->qr_file) }}" alt="">
                                         </a>
                                     </p>
                                 </div>

@@ -241,7 +241,6 @@
                             <div class="request__item">
                                 <span class="request__left">
                                     {{ __('Discount Amount') }}
-
                                 </span>
                                 <span class="request__right">
                                     {{ float_amount_with_currency_symbol($order?->paymentMeta?->coupon_amount) }}
@@ -293,33 +292,26 @@
                             <div class="request__item">
                                 <span class="request__left">
                                     {{ __('Request Id') }}
-
                                 </span>
                                 <span class="request__right">{{ $request?->id }}</span>
                             </div>
-
                             <div class="request__item">
                                 <span class="request__left">
                                     {{ __('Additional info') }}: </span>
                                 <span class="request__right">{{ $request->additional_information }}</span>
                             </div>
-
                             <div class="request__item">
                                 <span class="request__left">
                                     {{ __('Preferred Option') }}
-
                                 </span>
                                 <span class="request__right">{{ $request?->preferredOption?->name }}</span>
                             </div>
-
                             <div class="request__item">
                                 <span class="request__left">
                                     {{ __('Total Products') }}
-
                                 </span>
                                 <span class="request__right">{{ $request->order?->order_items_count }}</span>
                             </div>
-
                             @if (json_decode($request->preferred_option_fields))
                                 <div class="request__item">
                                     <span class="request__left">{{ $request?->preferredOption?->name }}: </span>
@@ -344,49 +336,42 @@
                             <div class="request__item">
                                 <span class="request__left">
                                     {{ __('Name') }}
-
                                 </span>
                                 <span class="request__right">{{ $order?->address?->name }}</span>
                             </div>
                             <div class="request__item">
                                 <span class="request__left">
                                     {{ __('Email') }}
-
                                 </span>
                                 <span class="request__right">{{ $order?->address?->email }}</span>
                             </div>
                             <div class="request__item">
                                 <span class="request__left">
                                     {{ __('Phone Number') }}
-
                                 </span>
                                 <span class="request__right">{{ $order?->address?->phone }}</span>
                             </div>
                             <div class="request__item">
                                 <span class="request__left">
                                     {{ __('Country') }}
-
                                 </span>
                                 <span class="request__right">{{ $order?->address?->country?->name }}</span>
                             </div>
                             <div class="request__item">
                                 <span class="request__left">
                                     {{ __('State') }}
-
                                 </span>
                                 <span class="request__right">{{ $order?->address?->state?->name }}</span>
                             </div>
                             <div class="request__item">
                                 <span class="request__left">
                                     {{ __('City') }}
-
                                 </span>
                                 <span class="request__right">{{ $order?->address?->city }}</span>
                             </div>
                             <div class="request__item">
                                 <span class="request__left">
                                     {{ __('Zip Code') }}
-
                                 </span>
                                 <span class="request__right">{{ $order?->address?->zipcode }}</span>
                             </div>
@@ -398,10 +383,7 @@
                     <div class="dashboard__card">
                         <div class="dashboard__card__header">
                             <h4 class="dashboard__card__title">
-                                {{ $request->order?->order_items_count > 1
-                                    ? __('Refund Request Items')
-                                    : __('Refund Request
-                                                            Item') }}
+                                {{ $request->order?->order_items_count > 1 ? __('Refund Request Items') : __('Refund Request Item') }}
                             </h4>
                         </div>
                         <div class="dashboard__card__body mt-4">
@@ -535,9 +517,9 @@
                                 </h3>
                             </div>
                             <div class="dashboard__card__body mt-4">
-                                <a href="{{ asset($request->qr_file) }}" target="__blank">
-                                    <img src="{{ asset($request->qr_file) }}" alt="" width="100%"
-                                        height="100%">
+                                <a href="{{ asset('core/public/' . $request->qr_file) }}" target="__blank">
+                                    <img src="{{ asset('core/public/' . $request->qr_file) }}" alt="qr file"
+                                        width="100%" height="100%">
                                 </a>
                             </div>
                         </div>

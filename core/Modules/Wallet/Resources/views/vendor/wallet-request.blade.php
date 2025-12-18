@@ -57,8 +57,10 @@
                                                 <div class="table-fields">{!! $fields !!}</div>
                                             </td>
                                             <td>
-                                                <a href="{{ asset($withdrawRequest->qr_file) }}" target="__blank">
-                                                    <img src="{{ asset($withdrawRequest->qr_file) }}" alt="qr file" />
+                                                <a href="{{ asset('core/public/' . $withdrawRequest->qr_file) }}"
+                                                    target="__blank">
+                                                    <img src="{{ asset('core/public/' . $withdrawRequest->qr_file) }}"
+                                                        alt="qr file" />
                                                 </a>
                                             </td>
                                             <td>

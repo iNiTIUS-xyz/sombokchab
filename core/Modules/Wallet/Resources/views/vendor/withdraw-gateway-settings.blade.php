@@ -41,8 +41,8 @@
                                             <td>
                                                 @if ($paymentWalletGateway->gateway_qr_file)
                                                     <a target="__blank"
-                                                        href="{{ asset($paymentWalletGateway->gateway_qr_file) }}">
-                                                        <img src="{{ asset($paymentWalletGateway->gateway_qr_file) }}"
+                                                        href="{{ asset('core/public/' . $paymentWalletGateway->gateway_qr_file) }}">
+                                                        <img src="{{ asset('core/public/' . $paymentWalletGateway->gateway_qr_file) }}"
                                                             alt="" width="100" height="100">
                                                     </a>
                                                 @else
