@@ -259,27 +259,6 @@
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
                                                                 <label class="label-title">
-                                                                    {{ __('Province') }}
-                                                                    <span class="text-danger">*</span>
-                                                                </label>
-                                                                <div class="nice-select-two state_wrapper">
-                                                                    <select id="state_id" name="state_id"
-                                                                        style="display: none;" required>
-                                                                        <option value="">
-                                                                            {{ __('Select Province') }}
-                                                                        </option>
-                                                                        @foreach ($states as $state)
-                                                                            <option value="{{ $state->id }}">
-                                                                                {{ $state->name }}
-                                                                            </option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-12">
-                                                            <div class="single-input">
-                                                                <label class="label-title">
                                                                     {{ __('City') }}
                                                                     <span class="text-danger">*</span>
                                                                 </label>
@@ -298,6 +277,28 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div class="col-sm-12">
+                                                            <div class="single-input">
+                                                                <label class="label-title">
+                                                                    {{ __('Province') }}
+                                                                    <span class="text-danger">*</span>
+                                                                </label>
+                                                                <div class="nice-select-two state_wrapper">
+                                                                    <select id="state_id" name="state_id"
+                                                                        style="display: none;" required>
+                                                                        <option value="">
+                                                                            {{ __('Select Province') }}
+                                                                        </option>
+                                                                        @foreach ($states as $state)
+                                                                            <option value="{{ $state->id }}">
+                                                                                {{ $state->name }}
+                                                                            </option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
                                                                 <label class="label-title">

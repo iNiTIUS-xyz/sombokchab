@@ -75,7 +75,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label for="city">{{ __('Province') }}</label>
                             <select class="form-select" name="city" id="city">
@@ -86,11 +86,18 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label for="zipcode">{{ __('Postal Code') }}</label>
                             <input type="text" class="form-control" name="zipcode" id="zipcode"
                                 placeholder="{{ __('Enter Postal Code') }}" value="{{ $address->zip_code }}">
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="address">{{ __('Address') }}<span class="text-danger">*</span></label>
+                            <textarea class="form-control" name="address" placeholder="{{ __('Enter Address') }}" id="address" rows="3">{{ $address->address }}</textarea>
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -104,12 +111,6 @@
                                     {{ __('No') }}
                                 </option>
                             </select>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="address">{{ __('Address') }}<span class="text-danger">*</span></label>
-                            <textarea class="form-control" name="address" placeholder="{{ __('Enter Address') }}" id="address" rows="3">{{ $address->address }}</textarea>
                         </div>
                     </div>
                     <div class="col-md-12">

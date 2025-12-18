@@ -188,7 +188,21 @@
                                         </select>
                                     </div>
                                 </div>
-
+                                <div class="col-md-6 mb-3">
+                                    <div class="form-group">
+                                        <label for="city">
+                                            {{ __('City') }}
+                                        </label>
+                                        <select id="city_id" name="city" class="form-select">
+                                            <option value="">{{ __('Select city') }}</option>
+                                            @foreach ($cities as $item)
+                                                <option value="{{ $item->id }}">
+                                                    {{ $item->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                                 <div class="col-md-6 mb-3">
                                     <div class="form-group">
                                         <label for="state">
@@ -207,21 +221,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6 mb-3">
-                                    <div class="form-group">
-                                        <label for="city">
-                                            {{ __('City') }}
-                                        </label>
-                                        <select id="city_id" name="city" class="form-select">
-                                            <option value="">{{ __('Select city') }}</option>
-                                            @foreach ($cities as $item)
-                                                <option value="{{ $item->id }}">
-                                                    {{ $item->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
+
 
                                 <div class="col-md-6 mb-3">
                                     <div class="form-group">

@@ -111,7 +111,21 @@
                                         </select>
                                     </div>
                                 </div>
-
+                                <div class="col-md-6 mb-3">
+                                    <div class="form-group">
+                                        <label for="state">
+                                            {{ __('City') }}
+                                        </label>
+                                        <select name="state" id="city_id" class="form-select">
+                                            <option value="" disabled selected>{{ __('Select city') }}</option>
+                                            @foreach ($cities as $item)
+                                                <option value="{{ $item->id }}">
+                                                    {{ $item->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                                 <div class="col-md-6 mb-3">
                                     <div class="form-group">
                                         <label for="city">
@@ -128,21 +142,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6 mb-3">
-                                    <div class="form-group">
-                                        <label for="state">
-                                            {{ __('City') }}
-                                        </label>
-                                        <select name="state" id="city_id" class="form-select">
-                                            <option value="" disabled selected>{{ __('Select city') }}</option>
-                                            @foreach ($cities as $item)
-                                                <option value="{{ $item->id }}">
-                                                    {{ $item->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
+
 
                                 <div class="col-md-6 mb-3">
                                     <div class="form-group">
@@ -156,7 +156,15 @@
                                 </div>
 
 
-
+                                <div class="col-md-12 mb-3">
+                                    <div class="form-group">
+                                        <label for="address">
+                                            {{ __('Address') }}
+                                        </label>
+                                        <input type="text" class="form-control" id="address" name="address"
+                                            placeholder="{{ __('Enter address') }}">
+                                    </div>
+                                </div>
                                 <div class="col-md-6 mb-3">
                                     <div class="form-group position-relative">
                                         <label for="password">
@@ -192,15 +200,7 @@
                                     </div>
                                     <small id="password_confirmation_error" class="text-muted"></small>
                                 </div>
-                                <div class="col-md-12 mb-3">
-                                    <div class="form-group">
-                                        <label for="address">
-                                            {{ __('Address') }}
-                                        </label>
-                                        <input type="text" class="form-control" id="address" name="address"
-                                            placeholder="{{ __('Enter address') }}">
-                                    </div>
-                                </div>
+
                             </div>
 
                             @can('add-customer')

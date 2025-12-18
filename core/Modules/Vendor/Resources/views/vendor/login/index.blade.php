@@ -63,9 +63,12 @@
                                     placeholder="{{ __('Enter Password') }}">
                                 <div class="toggle-password position-absolute"
                                     style="right: 10px; top: 45%; transform: translateY(-50%); cursor: pointer;">
-                                    <span class="hide-icon" style="display: inline;"> <i
-                                            class="las la-eye-slash"></i></span>
-                                    <span class="show-icon" style="display: none;"> <i class="las la-eye"></i></span>
+                                    <span class="hide-icon" style="display: inline;">
+                                        <i class="las la-eye-slash"></i>
+                                    </span>
+                                    <span class="show-icon" style="display: none;">
+                                        <i class="las la-eye"></i>
+                                    </span>
                                 </div>
                             </div>
                             <small id="login_password_error" class="text-danger"></small>
@@ -92,7 +95,7 @@
 
                     <div class="dashboard-bottom-contents" style="display: flex; justify-content: center;">
                         <div class="account-bottom">
-                            <span class="account-title mt-3"> {{ __("Dont have account") }} </span>
+                            <span class="account-title mt-3"> {{ __('Dont have account') }} </span>
                             <a href="{{ route('vendor.register') }}" class="signup-login mt-3">
                                 {{ __('Sign Up') }}
                             </a>
@@ -108,25 +111,25 @@
     <script src="{{ asset('assets/common/js/toastr.min.js') }}"></script>
 
     <script>
-        (function($){
+        (function($) {
             "use strict";
 
-            $(document).ready(function(){
+            $(document).ready(function() {
 
                 /* ===============================
                     READ COOKIES & PREFILL FORM
                 =============================== */
                 const rememberedType = getCookie("vendor_remembered_type");
                 const rememberedValue = getCookie("vendor_remembered_value");
-                const rememberedCode  = getCookie("vendor_remembered_code");
-                const rememberedMe    = getCookie("vendor_remember_me_checked");
+                const rememberedCode = getCookie("vendor_remembered_code");
+                const rememberedMe = getCookie("vendor_remember_me_checked");
 
                 const phoneDiv = $('.phone-input');
                 const emailDiv = $('.email-input');
                 const phoneInput = $('#number');
                 const emailInput = $('#login_email');
-                const codeInput  = $('#phone_country_code');
-                const toggleBtn  = $('#togglePhoneEmail');
+                const codeInput = $('#phone_country_code');
+                const toggleBtn = $('#togglePhoneEmail');
                 const rememberCheckbox = $('#login_remember');
 
                 // Restore "Remember Me" checkbox state
@@ -138,13 +141,13 @@
                     if (rememberedType === "email") {
                         phoneDiv.hide();
                         emailDiv.show();
-                        toggleBtn.text('{{ __("Use Phone") }}');
+                        toggleBtn.text('{{ __('Use Phone') }}');
                         emailInput.val(rememberedValue);
 
                     } else if (rememberedType === "phone") {
                         phoneDiv.show();
                         emailDiv.hide();
-                        toggleBtn.text('{{ __("Use Email") }}');
+                        toggleBtn.text('{{ __('Use Email') }}');
                         phoneInput.val(rememberedValue);
                         if (rememberedCode) codeInput.val(rememberedCode);
                     }
@@ -159,34 +162,27 @@
                 /* ===============================
                     TOGGLE PHONE / EMAIL FIELDS
                 =============================== */
-                toggleBtn.on("click", function(){
+                toggleBtn.on("click", function() {
                     if (phoneDiv.is(":visible")) {
                         phoneDiv.hide();
                         emailDiv.show();
-                        toggleBtn.text('{{ __("Use Phone") }}');
+                        toggleBtn.text('{{ __('Use Phone') }}');
                     } else {
                         phoneDiv.show();
                         emailDiv.hide();
-                        toggleBtn.text('{{ __("Use Email") }}');
+                        toggleBtn.text('{{ __('Use Email') }}');
                     }
                 });
 
 
-                /* ===============================
-                    PASSWORD SHOW/HIDE
-                =============================== */
-                $('.toggle-password').on('click', function() {
-                    const input = $('#login_password');
-                    const isPass = input.attr('type') === 'password';
-                    input.attr('type', isPass ? 'text' : 'password');
-                    $('.show-icon, .hide-icon').toggle();
-                });
+
+
 
 
                 /* ===============================
                     LOGIN CLICK HANDLER
                 =============================== */
-                $('#login_btn').on('click', function(e){
+                $('#login_btn').on('click', function(e) {
                     e.preventDefault();
 
                     let form = $('#login_form_order_page');
@@ -195,11 +191,11 @@
 
                     let phone = $('#number').val();
                     let email = $('#login_email').val();
-                    let code  = $('#phone_country_code').val();
+                    let code = $('#phone_country_code').val();
                     let password = $('#login_password').val();
                     let remember = rememberCheckbox.is(':checked');
 
-                    el.text('{{ __("Please Wait") }}');
+                    el.text('{{ __('Please Wait') }}');
 
                     $.ajax({
                         type: 'POST',
@@ -213,7 +209,7 @@
                         success: function(response) {
 
                             if (response.status === "invalid") {
-                                el.text('{{ __("Sign In") }}');
+                                el.text('{{ __('Sign In') }}');
                                 form.find('.error-wrap').html(
                                     `<div class="alert alert-danger">${response.msg}</div>`
                                 );
@@ -251,20 +247,21 @@
                             setTimeout(() => location.reload(), 800);
                         },
 
-                        error: function(xhr){
-                            el.text('{{ __("Sign In") }}');
+                        error: function(xhr) {
+                            el.text('{{ __('Sign In') }}');
 
                             let res = xhr.responseJSON;
                             let html = '<div class="alert alert-danger"><ul>';
 
                             if (res?.errors) {
-                                $.each(res.errors, function(key, msgs){
-                                    html += `<li>${capitalizeFirstLetter(msgs[0])}</li>`;
+                                $.each(res.errors, function(key, msgs) {
+                                    html +=
+                                        `<li>${capitalizeFirstLetter(msgs[0])}</li>`;
                                 });
                             } else if (res?.msg) {
                                 html += `<li>${res.msg}</li>`;
                             } else {
-                                html += `<li>{{ __("Something went wrong.") }}</li>`;
+                                html += `<li>{{ __('Something went wrong.') }}</li>`;
                             }
 
                             html += '</ul></div>';
@@ -278,13 +275,13 @@
                     HELPERS
                 =============================== */
 
-                function capitalizeFirstLetter(s){
+                function capitalizeFirstLetter(s) {
                     return s.charAt(0).toUpperCase() + s.slice(1);
                 }
 
-                function setCookie(name, value, days){
+                function setCookie(name, value, days) {
                     let expires = "";
-                    if (days){
+                    if (days) {
                         const d = new Date();
                         d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000);
                         expires = "; expires=" + d.toUTCString();
@@ -292,10 +289,10 @@
                     document.cookie = name + "=" + (value || "") + expires + "; path=/";
                 }
 
-                function getCookie(name){
+                function getCookie(name) {
                     const nameEQ = name + "=";
                     const parts = document.cookie.split(";");
-                    for (let c of parts){
+                    for (let c of parts) {
                         while (c.charAt(0) === " ") c = c.substring(1);
                         if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length);
                     }
@@ -303,7 +300,7 @@
                 }
 
                 // FIXED DELETE FUNCTION
-                function eraseCookie(name){
+                function eraseCookie(name) {
                     document.cookie = name + "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
                 }
 
@@ -311,5 +308,23 @@
 
         })(jQuery);
     </script>
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordInput = document.getElementById('login_password');
+            const showIcon = document.querySelector('.show-icon');
+            const hideIcon = document.querySelector('.hide-icon');
+            if (showIcon && hideIcon && passwordInput) {
+                showIcon.addEventListener('click', function() {
+                    passwordInput.type = 'text';
+                    showIcon.style.display = 'none';
+                    hideIcon.style.display = 'inline';
+                });
+                hideIcon.addEventListener('click', function() {
+                    passwordInput.type = 'password';
+                    showIcon.style.display = 'inline';
+                    hideIcon.style.display = 'none';
+                });
+            }
+        });
+    </script>
 @endsection

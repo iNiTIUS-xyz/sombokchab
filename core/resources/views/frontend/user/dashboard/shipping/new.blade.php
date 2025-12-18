@@ -79,7 +79,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label for='city'> {{ __('Province') }} </label>
                             <select id="city" class='form-select select-state' name="city">
@@ -87,7 +87,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label for="zipcode">{{ __('Postal Code') }} </label>
                             <input type="text" class="form-control" name="zipcode" id="zipcode"
@@ -95,6 +95,13 @@
                         </div>
                     </div>
 
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="address">{{ __('Address') }}<span class="text-danger">*</span></label>
+                            <textarea class="form-control" name="address" id="address" rows="3" placeholder="{{ __('Enter Address') }}"></textarea>
+                        </div>
+                    </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="country">{{ __('Is Default') }}</label>
@@ -102,12 +109,6 @@
                                 <option value="1">{{ __('Yes') }}</option>
                                 <option value="0">{{ __('No') }}</option>
                             </select>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="address">{{ __('Address') }}<span class="text-danger">*</span></label>
-                            <textarea class="form-control" name="address" id="address" rows="3" placeholder="{{ __('Enter Address') }}"></textarea>
                         </div>
                     </div>
                     <div class="col-md-12">

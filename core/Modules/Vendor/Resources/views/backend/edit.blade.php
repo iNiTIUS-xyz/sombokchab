@@ -226,7 +226,26 @@
                                                             </select>
                                                         </div>
                                                     </div>
-
+                                                    <div class="form-group">
+                                                        <label class="label-title color-light mb-2">
+                                                            {{ __('City') }}
+                                                            <span class="text-danger">*</span>
+                                                        </label>
+                                                        <div class="nice-select-two city_wrapper">
+                                                            <select id="city_id" name="city_id" class="form-control"
+                                                                required>
+                                                                <option value="" disabled>
+                                                                    {{ __('Select City') }}
+                                                                </option>
+                                                                @foreach ($cities as $city)
+                                                                    <option value="{{ $city->id }}"
+                                                                        {{ $vendor?->vendor_address?->city_id == $city->id ? 'selected' : '' }}>
+                                                                        {{ $city->name }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
                                                     <div class="form-group">
                                                         <label class="label-title color-light mb-2">
                                                             {{ __('Province') }}
@@ -248,26 +267,7 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="form-group">
-                                                        <label class="label-title color-light mb-2">
-                                                            {{ __('City') }}
-                                                            <span class="text-danger">*</span>
-                                                        </label>
-                                                        <div class="nice-select-two city_wrapper">
-                                                            <select id="city_id" name="city_id" class="form-control"
-                                                                required>
-                                                                <option value="" disabled>
-                                                                    {{ __('Select City') }}
-                                                                </option>
-                                                                @foreach ($cities as $city)
-                                                                    <option value="{{ $city->id }}"
-                                                                        {{ $vendor?->vendor_address?->city_id == $city->id ? 'selected' : '' }}>
-                                                                        {{ $city->name }}
-                                                                    </option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                    </div>
+
                                                     <div class="form-group">
                                                         <label class="label-title color-light mb-2">
                                                             {{ __('Postal Code') }}
@@ -397,7 +397,7 @@
                                                                     value="{{ $vendor?->vendor_shop_info?->colors['store_paragraph_color'] ?? '' }}"
                                                                     id="store_paragraph_color">
                                                                 <small>{{ __('you can change site paragraph color from
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                there') }}</small>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                there') }}</small>
                                                             </div>
                                                         </div>
                                                         <!--color settings end -->
