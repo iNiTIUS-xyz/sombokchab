@@ -115,8 +115,8 @@ Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_
 
     Route::prefix("shipping-address")->as("frontend.shipping.address.")
         ->controller(FrontendShippingAddresssController::class)->group(function () {
-        Route::post("/add", "store")->name("store");
-    });
+            Route::post("/add", "store")->name("store");
+        });
     // BLOG AREA FRONTEND ROUTES
     Route::get('/' . $blog_page_slug . '/{slug}', 'FrontendController@blog_single_page')->name('frontend.blog.single');
     Route::get('/' . $blog_page_slug . '-search', 'FrontendController@blog_search_page')->name('frontend.blog.search');
@@ -654,7 +654,7 @@ Route::group(['prefix' => $product_page_slug, 'as' => 'frontend.products.', 'mid
     Route::get("download-invoice/{id}", "FrontendProductController@download_invoice")->name("download-invoice");
 });
 
-Route::get("product-search", [FrontendController::class, "search"])->name("frontend.ajax.products.search");
+Route::get("product-search", [FrontendController::class, "search"])->middleware(["setlang:frontend"])->name("frontend.ajax.products.search");
 Route::get('/search-results', [FrontendController::class, 'searchResults'])->name('frontend.search.results');
 
 Route::middleware(["globalVariable", "setlang:frontend"])->as('frontend.')->controller(PaymentGatewayController::class)->group(function () {

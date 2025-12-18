@@ -139,227 +139,236 @@ class FrontendProductController extends Controller
 
     public function productDetailsPage($slug)
     {
+        try {
+            $date = now();
 
-        $date = now();
-        $product = Product::where('slug', $slug)
-            ->with([
-                'category',
-                'childCategorySingle',
-                'tag',
-                'color',
-                'size',
-                'brand',
-                'campaign_product' => function ($campaignProduct) use ($date) {
-                    $campaignProduct->whereDate("end_date", ">=", $date)->whereDate("start_date", "<=", $date);
-                },
-                'inventoryDetail',
-                'inventoryDetail.productColor',
-                'inventoryDetail.productSize',
-                'inventoryDetail.attribute',
-                'reviews',
-                'reviews.user',
-                'inventory',
-                'gallery_images',
-                'productDeliveryOption',
-                'campaign_sold_product',
-                'metaData',
-                'vendor' => function ($item) {
-                    $item->withAvg("vendorProductRating", "product_ratings.rating")->withCount("product", "vendorProductRating");
-                },
-                'vendor.product',
-                'vendor.vendor_address' => function ($item) {
-                    $item->with("country");
-                },
-                'vendor.product.campaign_product',
-                'vendor.product.reviews',
-                'vendor.product.inventory',
-                'vendor.product.campaign_sold_product',
-                'vendor.product.badge',
-                'vendor.product.uom',
-                'taxOptions:tax_class_options.id,country_id,state_id,city_id,rate',
-                'vendorAddress:vendor_addresses.id,country_id,state_id,city_id'
-            ])
-            ->withAvg("reviews", 'rating')
-            ->withCount("reviews")
-            ->withSum("taxOptions", "rate")
-            ->where("status_id", 1)
-            ->firstOrFail();
-        if (!empty($product->vendor_id) && get_static_option("calculate_tax_based_on") == 'vendor_shop_address') {
-            $vendorAddress = $product->vendorAddress;
-            $product = tax_options_sum_rate($product, $vendorAddress->country_id, $vendorAddress->state_id, $vendorAddress->city_id);
-        } elseif (empty($product->vendor_id) && get_static_option("calculate_tax_based_on") == 'vendor_shop_address') {
-            $vendorAddress = AdminShopManage::select("id", "country_id", "state_id", "city as city_id")->first();
+            $product = Product::query()
+                ->where('slug', $slug)
+                ->with([
+                    'category',
+                    'childCategorySingle',
+                    'tag',
+                    'color',
+                    'size',
+                    'brand',
+                    'campaign_product' => function ($campaignProduct) use ($date) {
+                        $campaignProduct->whereDate("end_date", ">=", $date)->whereDate("start_date", "<=", $date);
+                    },
+                    'inventoryDetail',
+                    'inventoryDetail.productColor',
+                    'inventoryDetail.productSize',
+                    'inventoryDetail.attribute',
+                    'reviews',
+                    'reviews.user',
+                    'inventory',
+                    'gallery_images',
+                    'productDeliveryOption',
+                    'campaign_sold_product',
+                    'metaData',
+                    'vendor' => function ($item) {
+                        $item->withAvg("vendorProductRating", "product_ratings.rating")->withCount("product", "vendorProductRating");
+                    },
+                    'vendor.product',
+                    'vendor.vendor_address' => function ($item) {
+                        $item->with("country");
+                    },
+                    'vendor.product.campaign_product',
+                    'vendor.product.reviews',
+                    'vendor.product.inventory',
+                    'vendor.product.campaign_sold_product',
+                    'vendor.product.badge',
+                    'vendor.product.uom',
+                    'taxOptions:tax_class_options.id,country_id,state_id,city_id,rate',
+                    'vendorAddress:vendor_addresses.id,country_id,state_id,city_id'
+                ])
+                ->withAvg("reviews", 'rating')
+                ->withCount("reviews")
+                ->withSum("taxOptions", "rate")
+                ->where("status_id", 1)
+                ->firstOrFail();
 
-            $product = tax_options_sum_rate($product, $vendorAddress->country_id, $vendorAddress->state_id, $vendorAddress->city_id);
-        }
+            if (!empty($product->vendor_id) && get_static_option("calculate_tax_based_on") == 'vendor_shop_address') {
+                $vendorAddress = $product->vendorAddress;
+                $product = tax_options_sum_rate($product, $vendorAddress->country_id, $vendorAddress->state_id, $vendorAddress->city_id);
+            } elseif (empty($product->vendor_id) && get_static_option("calculate_tax_based_on") == 'vendor_shop_address') {
+                $vendorAddress = AdminShopManage::select("id", "country_id", "state_id", "city as city_id")->first();
 
-        // get selected attributes in this product ( $available_attributes )
-        $inventoryDetails = optional($product->inventoryDetail);
-        $product_inventory_attributes = $inventoryDetails->toArray();
+                $product = tax_options_sum_rate($product, $vendorAddress->country_id, $vendorAddress->state_id, $vendorAddress->city_id);
+            }
 
-
-        $all_included_attributes = array_filter(array_column($product_inventory_attributes, 'attribute', 'id'));
-        $all_included_attributes_prd_id = array_keys($all_included_attributes);
-
+            // get selected attributes in this product ( $available_attributes )
+            $inventoryDetails = optional($product->inventoryDetail);
+            $product_inventory_attributes = $inventoryDetails->toArray();
 
 
-
-        $available_attributes = [];  // FRONTEND : All displaying attributes
-        $product_inventory_set = []; // FRONTEND : attribute_store
-        $additional_info_store = []; // FRONTEND : $additional_info_store
-
-        foreach ($all_included_attributes as $id => $included_attributes) {
-            $single_inventory_item = [];
-            foreach ($included_attributes as $included_attribute_single) {
-
-                $available_attributes[$included_attribute_single['attribute_name']][$included_attribute_single['attribute_value']] = 1;
-
-                // individual inventory item
-                $single_inventory_item[$included_attribute_single['attribute_name']] = $included_attribute_single['attribute_value'];
+            $all_included_attributes = array_filter(array_column($product_inventory_attributes, 'attribute', 'id'));
+            $all_included_attributes_prd_id = array_keys($all_included_attributes);
 
 
 
-                if (optional($inventoryDetails->find($id))->productColor) {
-                    $single_inventory_item['Color'] = optional(optional($inventoryDetails->find($id))->productColor)->name;
+
+            $available_attributes = [];  // FRONTEND : All displaying attributes
+            $product_inventory_set = []; // FRONTEND : attribute_store
+            $additional_info_store = []; // FRONTEND : $additional_info_store
+
+            foreach ($all_included_attributes as $id => $included_attributes) {
+                $single_inventory_item = [];
+                foreach ($included_attributes as $included_attribute_single) {
+
+                    $available_attributes[$included_attribute_single['attribute_name']][$included_attribute_single['attribute_value']] = 1;
+
+                    // individual inventory item
+                    $single_inventory_item[$included_attribute_single['attribute_name']] = $included_attribute_single['attribute_value'];
+
+
+
+                    if (optional($inventoryDetails->find($id))->productColor) {
+                        $single_inventory_item['Color'] = optional(optional($inventoryDetails->find($id))->productColor)->name;
+                    }
+
+                    if (optional($inventoryDetails->find($id))->productSize) {
+                        $single_inventory_item['Size'] = optional(optional($inventoryDetails->find($id))->productSize)->name;
+                    }
                 }
 
-                if (optional($inventoryDetails->find($id))->productSize) {
-                    $single_inventory_item['Size'] = optional(optional($inventoryDetails->find($id))->productSize)->name;
+                $item_additional_price = optional(optional($product->inventoryDetail)->find($id))->additional_price ?? 0;
+                $item_additional_stock = optional(optional($product->inventoryDetail)->find($id))->stock_count ?? 0;
+                $image = get_attachment_image_by_id(optional(optional($product->inventoryDetail)->find($id))->image)['img_url'] ?? '';
+
+                $product_inventory_set[] = $single_inventory_item;
+
+                $sorted_inventory_item = $single_inventory_item;
+                ksort($sorted_inventory_item);
+
+                $additional_info_store[md5(json_encode($sorted_inventory_item))] = [
+                    'pid_id' => $id, // ProductInventoryDetails->id
+                    'additional_price' => $item_additional_price,
+                    'stock_count' => $item_additional_stock,
+                    'image' => $image,
+                ];
+            }
+
+            $productColors = $product->color->unique();
+            $productSizes = $product->size->unique();
+
+            if ((empty($available_attributes) && !empty($product_inventory_attributes)) || count($all_included_attributes) < $product->inventoryDetail->count()) {
+                $sorted_inventory_item = [];
+                $product_id = $product_inventory_attributes[0]['id'];
+                // check inventory color and size exists or not
+
+                if (!empty($product->inventoryDetail)) {
+                    foreach ($product->inventoryDetail as $inventory) {
+                        // if this inventory has attributes, then it will fire a continue statement
+                        if (in_array($inventory->product_id, $all_included_attributes_prd_id)) {
+                            continue;
+                        }
+
+                        $single_inventory_item = [];
+
+                        if (optional($inventoryDetails->find($product_id))->color) {
+                            $single_inventory_item['Color'] = optional($inventory->productColor)->name;
+                        }
+
+                        if (optional($inventoryDetails->find($product_id))->size) {
+                            $single_inventory_item['Size'] = optional($inventory->productSize)->name;
+                        }
+
+                        $product_inventory_set[] = $single_inventory_item;
+
+                        $item_additional_price = optional($inventory)->additional_price ?? 0;
+                        $item_additional_stock = optional($inventory)->stock_count ?? 0;
+                        $image = get_attachment_image_by_id(optional($inventory)->image)['img_url'] ?? '';
+
+                        $sorted_inventory_item = $single_inventory_item;
+                        ksort($sorted_inventory_item);
+
+                        $additional_info_store[md5(json_encode($sorted_inventory_item))] = [
+                            'pid_id' => $product_id,
+                            'additional_price' => $item_additional_price,
+                            'stock_count' => $item_additional_stock,
+                            'image' => $image,
+                        ];
+                    }
                 }
             }
 
-            $item_additional_price = optional(optional($product->inventoryDetail)->find($id))->additional_price ?? 0;
-            $item_additional_stock = optional(optional($product->inventoryDetail)->find($id))->stock_count ?? 0;
-            $image = get_attachment_image_by_id(optional(optional($product->inventoryDetail)->find($id))->image)['img_url'] ?? '';
+            $available_attributes = array_map(fn($i) => array_keys($i), $available_attributes);
 
-            $product_inventory_set[] = $single_inventory_item;
 
-            $sorted_inventory_item = $single_inventory_item;
-            ksort($sorted_inventory_item);
+            $product_category = $product?->category?->id;
+            $product_id = $product->id;
+            $related_products = Product::with('campaign_product', 'campaign_sold_product', 'reviews', 'inventory', 'badge', 'uom')->where('status_id', 1)
+                ->whereIn('id', function ($query) use ($product_id, $product_category) {
+                    $query->select('product_categories.product_id')
+                        ->from(with(new ProductCategory())->getTable())
+                        ->where('product_id', '!=', $product_id)
+                        ->where('category_id', '=', $product_category)
+                        ->get();
+                })
+                ->inRandomOrder()
+                ->take(5)
+                ->get();
 
-            $additional_info_store[md5(json_encode($sorted_inventory_item))] = [
-                'pid_id' => $id, // ProductInventoryDetails->id
-                'additional_price' => $item_additional_price,
-                'stock_count' => $item_additional_stock,
-                'image' => $image,
-            ];
-        }
+            // (bool) Check logged-in user bought this item (needed for review)
+            $user = getUserByGuard(); // default guard is web
 
-        $productColors = $product->color->unique();
-        $productSizes = $product->size->unique();
+            $user_rated_already = !!!ProductRating::where('product_id', optional($product)->id)->where('user_id', optional($user)->id)->count();
 
-        if ((empty($available_attributes) && !empty($product_inventory_attributes)) || count($all_included_attributes) < $product->inventoryDetail->count()) {
-            $sorted_inventory_item = [];
-            $product_id = $product_inventory_attributes[0]['id'];
-            // check inventory color and size exists or not
+            $user_has_item = $user
+                ? SubOrderItem::query()->whereHas("order", function ($query) use ($user) {
+                    $query->where("user_id", $user->id);
+                })->where('product_id', $product->id)->count()
+                : null;
 
-            if (!empty($product->inventoryDetail)) {
-                foreach ($product->inventoryDetail as $inventory) {
-                    // if this inventory has attributes, then it will fire a continue statement
-                    if (in_array($inventory->product_id, $all_included_attributes_prd_id)) {
-                        continue;
-                    }
+            $setting_text = StaticOption::whereIn('option_name', [
+                'product_in_stock_text',
+                'product_out_of_stock_text',
+                'details_tab_text',
+                'additional_information_text',
+                'reviews_text',
+                'your_reviews_text',
+                'write_your_feedback_text',
+                'post_your_feedback_text',
+            ])->get()->mapWithKeys(fn($item) => [$item->option_name => $item->option_value])->toArray();
 
-                    $single_inventory_item = [];
+            // sidebar data
+            $all_category = ProductCategory::all();
+            $all_units = ProductUom::all();
+            $maximum_available_price = Product::query()->with('category')->max('price');
+            $min_price = request()->pr_min ? request()->pr_min : Product::query()->min('price');
+            $max_price = request()->pr_max ? request()->pr_max : $maximum_available_price;
+            $all_tags = ProductTag::all();
+            $paymentGateways = PaymentGateway::with('oldImage')->where("status", 1)->get();
 
-                    if (optional($inventoryDetails->find($product_id))->color) {
-                        $single_inventory_item['Color'] = optional($inventory->productColor)->name;
-                    }
-
-                    if (optional($inventoryDetails->find($product_id))->size) {
-                        $single_inventory_item['Size'] = optional($inventory->productSize)->name;
-                    }
-
-                    $product_inventory_set[] = $single_inventory_item;
-
-                    $item_additional_price = optional($inventory)->additional_price ?? 0;
-                    $item_additional_stock = optional($inventory)->stock_count ?? 0;
-                    $image = get_attachment_image_by_id(optional($inventory)->image)['img_url'] ?? '';
-
-                    $sorted_inventory_item = $single_inventory_item;
-                    ksort($sorted_inventory_item);
-
-                    $additional_info_store[md5(json_encode($sorted_inventory_item))] = [
-                        'pid_id' => $product_id,
-                        'additional_price' => $item_additional_price,
-                        'stock_count' => $item_additional_stock,
-                        'image' => $image,
-                    ];
-                }
+            if (empty($product_inventory_set[0] ?? [])) {
+                $product_inventory_set = "";
             }
+
+            return view('product::frontend.details', compact(
+                'product',
+                'related_products',
+                'user_has_item',
+                'user_rated_already',
+                'available_attributes',
+                'product_inventory_set',
+                'additional_info_store',
+                'all_category',
+                'all_units',
+                'maximum_available_price',
+                'min_price',
+                'max_price',
+                'all_tags',
+                'productColors',
+                'productSizes',
+                'setting_text',
+                'paymentGateways'
+            ));
+        } catch (\Throwable $e) {
+            return back()->with([
+                'message' =>  __('Something went wrong. Please try again.'),
+                'alert-type' => 'error',
+            ]);
         }
-
-        $available_attributes = array_map(fn($i) => array_keys($i), $available_attributes);
-
-
-        $product_category = $product?->category?->id;
-        $product_id = $product->id;
-        $related_products = Product::with('campaign_product', 'campaign_sold_product', 'reviews', 'inventory', 'badge', 'uom')->where('status_id', 1)
-            ->whereIn('id', function ($query) use ($product_id, $product_category) {
-                $query->select('product_categories.product_id')
-                    ->from(with(new ProductCategory())->getTable())
-                    ->where('product_id', '!=', $product_id)
-                    ->where('category_id', '=', $product_category)
-                    ->get();
-            })
-            ->inRandomOrder()
-            ->take(5)
-            ->get();
-
-        // (bool) Check logged-in user bought this item (needed for review)
-        $user = getUserByGuard(); // default guard is web
-
-        $user_rated_already = !!!ProductRating::where('product_id', optional($product)->id)->where('user_id', optional($user)->id)->count();
-
-        $user_has_item = $user
-            ? SubOrderItem::query()->whereHas("order", function ($query) use ($user) {
-                $query->where("user_id", $user->id);
-            })->where('product_id', $product->id)->count()
-            : null;
-
-        $setting_text = StaticOption::whereIn('option_name', [
-            'product_in_stock_text',
-            'product_out_of_stock_text',
-            'details_tab_text',
-            'additional_information_text',
-            'reviews_text',
-            'your_reviews_text',
-            'write_your_feedback_text',
-            'post_your_feedback_text',
-        ])->get()->mapWithKeys(fn($item) => [$item->option_name => $item->option_value])->toArray();
-
-        // sidebar data
-        $all_category = ProductCategory::all();
-        $all_units = ProductUom::all();
-        $maximum_available_price = Product::query()->with('category')->max('price');
-        $min_price = request()->pr_min ? request()->pr_min : Product::query()->min('price');
-        $max_price = request()->pr_max ? request()->pr_max : $maximum_available_price;
-        $all_tags = ProductTag::all();
-        $paymentGateways = PaymentGateway::with('oldImage')->where("status", 1)->get();
-
-        if (empty($product_inventory_set[0] ?? [])) {
-            $product_inventory_set = "";
-        }
-
-        return view('product::frontend.details', compact(
-            'product',
-            'related_products',
-            'user_has_item',
-            'user_rated_already',
-            'available_attributes',
-            'product_inventory_set',
-            'additional_info_store',
-            'all_category',
-            'all_units',
-            'maximum_available_price',
-            'min_price',
-            'max_price',
-            'all_tags',
-            'productColors',
-            'productSizes',
-            'setting_text',
-            'paymentGateways'
-        ));
     }
 
     public function productQuickViewPage($slug)
