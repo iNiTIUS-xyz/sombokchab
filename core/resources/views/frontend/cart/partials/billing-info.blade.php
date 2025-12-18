@@ -42,83 +42,103 @@
                     <label class="label-title mb-3">
                         {{ __('Full Name') }}
                     </label>
-                    <input class="form--control" id="modal_full_name" type="text" name="full_name"
+                    <input class="form--control" id="modal_full_name" type="text" name="name"
                         value="{{ old('full_name') }}" placeholder="{{ __('Enter full name') }}">
                 </div>
 
                 {{-- Address & Postal Code --}}
-                <div class="row">
-                    <div class="col-md-6 mt-4">
-                        <label class="label-title mb-3">
-                            {{ __('Address') }}
-                        </label>
-                        <input class="form--control" id="modal_address" type="text" name="address"
-                            value="{{ old('address') }}" placeholder="{{ __('Enter Address') }}">
-                    </div>
-                    <div class="col-md-6 mt-4">
-                        <label class="label-title mb-3">
-                            {{ __('Postal Code') }}
-                        </label>
-                        <input class="form--control" id="modal_zip_code" type="text" name="zip_code"
-                            value="{{ old('zip_code') }}" placeholder="{{ __('Enter Postal Code') }}">
-                    </div>
-                </div>
-
                 <div class="row mt-4">
                     <div class="col-md-4">
-                        <label class="label-title mb-3">
-                            {{ __('Country') }}
-                        </label>
-                        <select class="form--control" id="modal_country_id" name="country_id">
-                            @foreach ($countries as $country)
-                                <option value="{{ $country->id }}">{{ $country->name }}</option>
-                            @endforeach
-                        </select>
+                        <div class="single-input">
+                            <label class="label-title mb-3">
+                                {{ __('Country') }}
+                            </label>
+                            <select class="form--control" id="modal_country_id" name="country_id">
+                                @foreach ($countries as $country)
+                                    <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                     <div class="col-md-4">
-                        <label class="label-title mb-3">
-                            {{ __('Province') }}
-                        </label>
-                        <select class="form--control" id="modal_state_id" name="state_id">
-                            <option value="">
-                                {{ __('Select Province') }}
-                            </option>
-                            @foreach ($states as $state)
-                                <option value="{{ $state->id }}">{{ $state->name }}</option>
-                            @endforeach
-                        </select>
+                        <div class="single-input">
+                            <label class="label-title mb-3">
+                                {{ __('City') }}
+                            </label>
+                            <select class="form--control" id="modal_city_id" name="city">
+                                <option value="">
+                                    {{ __('Select City') }}
+                                </option>
+                                @foreach ($cities as $city)
+                                    <option value="{{ $city->id }}">{{ $city->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                     <div class="col-md-4">
-                        <label class="label-title mb-3">
-                            {{ __('City') }}
-                        </label>
-                        <select class="form--control" id="modal_city_id" name="city">
-                            <option value="">
-                                {{ __('Select City') }}
-                            </option>
-                            @foreach ($cities as $city)
-                                <option value="{{ $city->id }}">{{ $city->name }}</option>
-                            @endforeach
-                        </select>
+                        <div class="single-input">
+                            <label class="label-title mb-3">
+                                {{ __('Province') }}
+                            </label>
+                            <select class="form--control" id="modal_state_id" name="state_id">
+                                <option value="">
+                                    {{ __('Select Province') }}
+                                </option>
+                                @foreach ($states as $state)
+                                    <option value="{{ $state->id }}">{{ $state->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
+
+
                 </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="single-input mt-4">
+                            <label class="label-title mb-3">
+                                {{ __('Postal Code') }}
+                            </label>
+                            <input class="form--control" id="modal_zip_code" type="text" name="zip_code"
+                                value="{{ old('zip_code') }}" placeholder="{{ __('Enter Postal Code') }}">
+                        </div>
+                    </div>
+                    <div class=" col-md-6">
+                        <div class="single-input mt-4">
+                            <label class="label-title mb-3">
+                                {{ __('Address') }}
+                            </label>
+                            <input class="form--control" id="modal_address" type="text" name="address"
+                                value="{{ old('address') }}" placeholder="{{ __('Enter Address') }}">
+                        </div>
+                    </div>
+
+
+                </div>
+
+
 
                 {{-- Phone & Email --}}
                 <div class="row mt-4">
                     <div class="col-md-6">
-                        <label class="label-title mb-3">
-                            {{ __('Phone Number') }}
-                        </label>
-                        <input class="form--control" id="modal_phone" type="tel" name="phone"
-                            value="{{ old('phone') }}" placeholder="{{ __('Enter Phone Number') }}">
+                        <div class="single-input">
+                            <label class="label-title mb-3">
+                                {{ __('Phone Number') }}
+                            </label>
+                            <input class="form--control" id="modal_phone" type="tel" name="phone"
+                                value="{{ old('phone') }}" placeholder="{{ __('Enter Phone Number') }}">
+                        </div>
                     </div>
                     <div class="col-md-6">
-                        <label class="label-title mb-3">
-                            {{ __('Email Address') }}
-                        </label>
-                        <input class="form--control" id="modal_email" type="email" name="email"
-                            value="{{ old('email') }}" placeholder="{{ __('Enter Email Address') }}">
+                        <div class="single-input">
+                            <label class="label-title mb-3">
+                                {{ __('Email Address') }}
+                            </label>
+                            <input class="form--control" id="modal_email" type="email" name="email"
+                                value="{{ old('email') }}" placeholder="{{ __('Enter Email Address') }}">
+                        </div>
                     </div>
+
                 </div>
 
                 {{-- Notes --}}
