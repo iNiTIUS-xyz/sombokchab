@@ -157,7 +157,7 @@
                     </div>
                 </td>
                 <td>
-                    {{ $product->created_at->format('M j, Y') }}
+                    {{ $product->created_at->format('M d, Y') }}
                 </td>
                 <td>
                     @can('edit-product')

@@ -8,19 +8,16 @@ use App\Helpers\WishlistHelper;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-class ProductWishlistController extends Controller
-{
-    public function getTotalItem()
-    {
+class ProductWishlistController extends Controller {
+    public function getTotalItem() {
         return response()->json([
             'total' => WishlistHelper::getTotalItem(),
         ], 200);
     }
 
-    public function addToWishlist(Request $request)
-    {
+    public function addToWishlist(Request $request) {
         $request->validate([
-            'product_id' => 'required|exists:products,id',
+            'product_id'         => 'required|exists:products,id',
             'product_attributes' => 'nullable|array',
         ]);
 
@@ -32,10 +29,9 @@ class ProductWishlistController extends Controller
         return back()->with(FlashMsg::explain('success', __('Item added to Save for later.')));
     }
 
-    public function addToWishlistAjax(Request $request)
-    {
+    public function addToWishlistAjax(Request $request) {
         $request->validate([
-            'product_id' => 'required|exists:products,id',
+            'product_id'         => 'required|exists:products,id',
             'product_attributes' => 'nullable|array',
         ]);
 
@@ -47,26 +43,23 @@ class ProductWishlistController extends Controller
         return response()->json(FlashMsg::explain('success', __('Item added to Save for later.')), 200);
     }
 
-    public function removeWishlistItem(Request $request)
-    {
+    public function removeWishlistItem(Request $request) {
         $request->validate([
-            'id' => 'required|string',
+            'id'                 => 'required|string',
             'product_attributes' => 'required|array',
         ]);
         WishlistHelper::remove($request->id, $request->product_attributes);
 
-        return response()->json(FlashMsg::explain('success', __('Item removed from save for letter.')), 200);
+        return response()->json(FlashMsg::explain('success', __('Item removed from save for later.')), 200);
     }
 
-    public function clearWishlist(Request $request)
-    {
+    public function clearWishlist(Request $request) {
         WishlistHelper::clear();
 
         return response()->json(FlashMsg::explain('success', __('Wishlist cleared')), 200);
     }
 
-    public function sendToCartAjax(Request $request)
-    {
+    public function sendToCartAjax(Request $request) {
         $wishlist_items = WishlistHelper::getItems();
 
         foreach ($wishlist_items as $wishlist_item) {

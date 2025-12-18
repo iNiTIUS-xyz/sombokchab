@@ -77,7 +77,7 @@
                                         {{ $user->email }}
                                     </td>
                                     <td>
-                                        {{ $user->created_at->format('M j, Y') }}
+                                        {{ $user->created_at->format('M d, Y') }}
                                     </td>
                                     <td>
                                         @can('edit-customer')

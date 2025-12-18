@@ -61,7 +61,7 @@
                                     </span>
                                 </td>
 
-                                <td>{{ $request->created_at->format('M j, Y') }}</td>
+                                <td>{{ $request->created_at->format('M d, Y') }}</td>
                                 <td>
                                     <a href="{{ route('user.product.refund-request.view', $request->id) }}"
                                         class="btn btn-secondary btn-sm rounded-btn" title="{{ __('View Details') }}"

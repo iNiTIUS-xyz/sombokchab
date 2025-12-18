@@ -6,46 +6,35 @@ use App\Helpers\CartHelper;
 use App\Helpers\FlashMsg;
 use App\Helpers\WishlistHelper;
 use Auth;
-use DB;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Attributes\Entities\Color;
 use Modules\Attributes\Entities\Size;
-use Modules\Campaign\Entities\CampaignSoldProduct;
 use Modules\Product\Entities\Product;
 use Modules\Product\Entities\ProductInventory;
 use Modules\Product\Entities\ProductInventoryDetail;
 
-use function __;
-use function auth;
-use function back;
-use function response;
-
-class ProductWishlistController extends Controller
-{
-    public function getWishlistInfoAjax(): array
-    {
+class ProductWishlistController extends Controller {
+    public function getWishlistInfoAjax(): array {
         $all_wishlist_items = WishlistHelper::getItems();
         $products = Product::whereIn('id', array_keys($all_wishlist_items))->get();
 
         return [
             'item_total' => WishlistHelper::getTotalItem(),
-            'wishlist' => view('frontend.partials.mini-wishlist', compact('all_wishlist_items', 'products'))->render(),
+            'wishlist'   => view('frontend.partials.mini-wishlist', compact('all_wishlist_items', 'products'))->render(),
         ];
     }
 
-    public function getTotalItem()
-    {
+    public function getTotalItem() {
         return response()->json([
             'total' => WishlistHelper::getTotalItem(),
         ], 200);
     }
 
-    public function addToWishlist(Request $request)
-    {
+    public function addToWishlist(Request $request) {
         $request->validate([
-            'product_id' => 'required|exists:products,id',
+            'product_id'         => 'required|exists:products,id',
             'product_attributes' => 'nullable|array',
         ]);
 
@@ -202,15 +191,14 @@ class ProductWishlistController extends Controller
     //     }
     // }
 
-    public function addToWishlistAjax(Request $request)
-    {
+    public function addToWishlistAjax(Request $request) {
         $request->validate([
-            'product_id' => 'required',
-            'quantity' => 'required',
-            'pid_id' => 'nullable',
+            'product_id'      => 'required',
+            'quantity'        => 'required',
+            'pid_id'          => 'nullable',
             'product_variant' => 'nullable',
-            'selected_size' => 'nullable',
-            'selected_color' => 'nullable',
+            'selected_size'   => 'nullable',
+            'selected_color'  => 'nullable',
         ]);
 
         $product_inventory = ProductInventory::where('product_id', $request->product_id)->first();
@@ -223,7 +211,7 @@ class ProductWishlistController extends Controller
 
         if (!Auth::guard('web')->check()) {
             return response()->json([
-                'type' => 'warning',
+                'type'         => 'warning',
                 'quantity_msg' => __('Sign in first to add product to wishlist.'),
             ]);
         }
@@ -237,7 +225,7 @@ class ProductWishlistController extends Controller
         if ($alreadyInWishlist) {
             return response()->json([
                 'type' => 'error',
-                'msg' => __('Product is already in your save for later.'),
+                'msg'  => __('Product is already in your save for later.'),
             ]);
         }
 
@@ -276,9 +264,9 @@ class ProductWishlistController extends Controller
                 $options = [
                     'variant_id' => $request->product_variant,
                     'color_name' => $color_name,
-                    'size_name' => $size_name,
+                    'size_name'  => $size_name,
                     'attributes' => $product_attributes,
-                    'image' => $product_detail->image ?? $product_image,
+                    'image'      => $product_detail->image ?? $product_image,
                 ];
             } else {
                 $options = ['image' => $product_image];
@@ -288,7 +276,7 @@ class ProductWishlistController extends Controller
             $subcategory = $product?->subCategory?->id ?? null;
 
             $options['used_categories'] = [
-                'category' => $category,
+                'category'    => $category,
                 'subcategory' => $subcategory,
             ];
 
@@ -299,32 +287,29 @@ class ProductWishlistController extends Controller
             Cart::instance('wishlist')->content();
             Cart::instance('wishlist')->restore($username);
             Cart::instance('wishlist')->add([
-                'id' => $cart_data['product_id'],
-                'name' => $product->name,
-                'qty' => $cart_data['quantity'],
-                'price' => $final_sale_price,
-                'weight' => '0',
+                'id'      => $cart_data['product_id'],
+                'name'    => $product->name,
+                'qty'     => $cart_data['quantity'],
+                'price'   => $final_sale_price,
+                'weight'  => '0',
                 'options' => $options,
             ]);
             Cart::instance('wishlist')->store($username);
 
             return response()->json([
-                'type' => 'success',
-                'msg' => 'Item added to save for later.',
+                'type'        => 'success',
+                'msg'         => 'Item added to save for later.',
                 'header_area' => view('frontend.partials.header.navbar.card-and-wishlist-area')->render(),
             ]);
         } catch (\Exception $exception) {
             return response()->json([
-                'type' => 'warning',
+                'type'      => 'warning',
                 'error_msg' => __('Something went wrong!'),
             ]);
         }
     }
 
-
-
-    public function removeWishlistItem(Request $request)
-    {
+    public function removeWishlistItem(Request $request) {
         $request->validate([
             'rowId' => 'required|string',
         ]);
@@ -339,24 +324,22 @@ class ProductWishlistController extends Controller
             Cart::instance('wishlist')->erase($userId);
         } else {
             // Overwrite the existing stored wishlist
-            Cart::instance('wishlist')->erase($userId);  // Clear first
-            Cart::instance('wishlist')->store($userId);  // Then store
+            Cart::instance('wishlist')->erase($userId); // Clear first
+            Cart::instance('wishlist')->store($userId); // Then store
         }
 
-        return response()->json(FlashMsg::explain('success', __('Item removed from save for letter.')) + [
+        return response()->json(FlashMsg::explain('success', __('Item removed from save for later.')) + [
             'header_area' => view('frontend.partials.header.navbar.card-and-wishlist-area')->render(),
         ], 200);
     }
 
-    public function clearWishlist(Request $request)
-    {
+    public function clearWishlist(Request $request) {
         WishlistHelper::clear();
 
         return response()->json(FlashMsg::explain('success', __('Wishlist cleared')), 200);
     }
 
-    public function sendToCartAjax(Request $request)
-    {
+    public function sendToCartAjax(Request $request) {
         $wishlist_items = WishlistHelper::getItems();
 
         foreach ($wishlist_items as $wishlist_item) {
@@ -370,11 +353,10 @@ class ProductWishlistController extends Controller
         return back()->with(FlashMsg::explain('success', __('All items are sent to cart')));
     }
 
-    public function sendSingleItemToCartAjax(Request $request): \Illuminate\Http\JsonResponse
-    {
+    public function sendSingleItemToCartAjax(Request $request): \Illuminate\Http\JsonResponse {
         $request->validate([
-            'id' => 'required|string',
-            'quantity' => 'required|numeric',
+            'id'                 => 'required|string',
+            'quantity'           => 'required|numeric',
             'product_attributes' => 'nullable',
         ]);
 
@@ -385,8 +367,7 @@ class ProductWishlistController extends Controller
         return response()->json(FlashMsg::explain('success', __('Item sent to cart')), 200);
     }
 
-    private function formatProductAttribute(array $attributes): array
-    {
+    private function formatProductAttribute(array $attributes): array {
         if (isset($attributes['price'])) {
             $attributes['price'] = floatval($attributes['price']);
         }

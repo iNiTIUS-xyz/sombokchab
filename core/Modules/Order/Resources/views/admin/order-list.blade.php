@@ -94,7 +94,7 @@
                                         {{ $order->order_number }}
                                     </td>
                                     <td>
-                                        {{ $order->created_at->format('M j, Y') }}
+                                        {{ $order->created_at->format('M d, Y') }}
                                     </td>
                                     <td class="amount">
                                         {{ float_amount_with_currency_symbol($order->paymentMeta->total_amount ?? 0) }}
@@ -189,7 +189,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        {{ $order->created_at->format('M j, Y') }}
+                                        {{ $order->created_at->format('M d, Y') }}
                                     </td>
                                     <td class="table-btn">
                                         <div class="btn-wrapper d-flex flex-wrap gap-2">

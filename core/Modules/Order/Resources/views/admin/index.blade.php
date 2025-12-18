@@ -67,7 +67,7 @@
                                     {{ $order->vendor?->business_name }}
                                 </td>
                                 <td class="date">
-                                    {{ $order->order->created_at->format('M j, Y') }}
+                                    {{ $order->order->created_at->format('M d, Y') }}
                                 </td>
                                 <td class="amount">
                                     {{ float_amount_with_currency_symbol($order->total_amount) }}

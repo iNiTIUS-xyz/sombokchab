@@ -32,7 +32,7 @@
                         {{ $order->tracking_code }}
                     </td> --}}
                     <td class="date">
-                        {{ $order->created_at->format('M j, Y') }}
+                        {{ $order->created_at->format('M d, Y') }}
                     </td>
                     <td class="status">
                         @if ($order->hasRefundRequest && $order->refundRequest->currentTrackStatus)

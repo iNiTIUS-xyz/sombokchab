@@ -1,129 +1,130 @@
 @extends('vendor.vendor-master')
 
 @section('site-title')
-{{ __('All Tickets') }}
+    {{ __('All Tickets') }}
 @endsection
 
 @section('style')
-<x-bulk-action.css />
-<style>
-    .swal_delete_button {
-        margin: 0px !important
-    }
+    <x-bulk-action.css />
+    <style>
+        .swal_delete_button {
+            margin: 0px !important
+        }
 
-    .badge.status-open {
-        display: inline-block;
-        background-color: #41695A;
-        padding: 3px 10px;
-        border-radius: 4px;
-        color: #fff;
-        border: none;
-        font-weight: 600;
-    }
+        .badge.status-open {
+            display: inline-block;
+            background-color: #41695A;
+            padding: 3px 10px;
+            border-radius: 4px;
+            color: #fff;
+            border: none;
+            font-weight: 600;
+        }
 
-    .badge.status-close {
-        display: inline-block;
-        background-color: #dd0303;
-        padding: 3px 10px;
-        border-radius: 4px;
-        color: #fff;
-        border: none;
-        font-weight: 600;
-    }
-</style>
+        .badge.status-close {
+            display: inline-block;
+            background-color: #dd0303;
+            padding: 3px 10px;
+            border-radius: 4px;
+            color: #fff;
+            border: none;
+            font-weight: 600;
+        }
+    </style>
 @endsection
 
 @section('content')
-<div class="col-lg-12 col-ml-12">
-    <div class="row">
-        <div class="col-lg-12">
-            {{--
+    <div class="col-lg-12 col-ml-12">
+        <div class="row">
+            <div class="col-lg-12">
+                {{--
             <x-msg.flash />
             <x-msg.error /> --}}
-            <div class="btn-wrapper mb-4">
-                <a href="{{ route('vendor.support.ticket.new') }}" class="cmn_btn btn_bg_profile">{{ __('Add New Support
-                    Ticket') }}
-                </a>
-            </div>
-            <div class="dashboard__card">
-                <div class="dashboard__card__header">
-                    <h4 class="dashboard__card__title">{{ __('All Support Tickets') }}</h4>
-                    <div class="dashboard__card__header__right">
-                        <div class="bulk-delete-wrapper my-3">
-                            <div class="select-box-wrap">
-                                <select name="bulk_option" id="bulk_option">
-                                    <option value="">{{ __('Bulk Action') }}</option>
-                                    <option value="delete">{{ __('Delete') }}</option>
-                                </select>
-                                <button class="btn btn-primary btn-sm" id="bulk_delete_btn">
-                                    {{ __('Apply') }}
-                                </button>
-                            </div>
-                        </div>
-
-                    </div>
+                <div class="btn-wrapper mb-4">
+                    <a href="{{ route('vendor.support.ticket.new') }}"
+                        class="cmn_btn btn_bg_profile">{{ __('Add New Support
+                                            Ticket') }}
+                    </a>
                 </div>
-                <div class="dashboard__card__body mt-4">
-                    <div class="table-wrap mt-4">
-                        <div class="table-responsive">
-                            <table class="table" id="dataTable">
-                                <thead>
-                                    <tr>
-                                        <x-bulk-action.th />
-                                        <th>{{ __('Title') }}</th>
-                                        <th>{{ __('Department') }}</th>
-                                        <th>{{ __('Created On') }}</th>
-                                        <th>{{ __('Status') }}</th>
-                                        <th>{{ __('Action') }}</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($all_tickets as $data)
-                                    <tr>
-                                        <x-bulk-action.td :id="$data->id" />
-                                        <td>{{ $data->title }}</td>
-                                        <td style="text-align: left;">
-                                            {{ $data->department->name ?? __('anonymous') }}</td>
-                                        <td>
-                                            <small>{{ $data->created_at->format('M j, Y') }}</small>
-                                        </td>
-                                        <td>
-                                            <span
-                                                class="text-capitalize badge {{ $data->status == 'close' ? 'status-close' : 'status-open' }}">
-                                                {{ $data->status == 'close' ? __('Closed') : __($data->status) }}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            @if ($data->status == 'open')
-                                            <a href="#1" class="ticket_status_change btn btn-danger btn-xs"
-                                                data-id="{{ $data->id }}" data-val="close" title="Close Ticket">
-                                                <i class="las la-times"></i>
-                                            </a>
-                                            @endif
-                                            <a href="{{ route('vendor.support.ticket.view', $data->id) }}"
-                                                class="btn btn-secondary btn-xs" title="View Support Ticket">
-                                                <i class="las la-file-invoice"></i>
-                                            </a>
+                <div class="dashboard__card">
+                    <div class="dashboard__card__header">
+                        <h4 class="dashboard__card__title">{{ __('All Support Tickets') }}</h4>
+                        <div class="dashboard__card__header__right">
+                            <div class="bulk-delete-wrapper my-3">
+                                <div class="select-box-wrap">
+                                    <select name="bulk_option" id="bulk_option">
+                                        <option value="">{{ __('Bulk Action') }}</option>
+                                        <option value="delete">{{ __('Delete') }}</option>
+                                    </select>
+                                    <button class="btn btn-primary btn-sm" id="bulk_delete_btn">
+                                        {{ __('Apply') }}
+                                    </button>
+                                </div>
+                            </div>
 
-                                            <x-delete-popover :url="route('vendor.support.ticket.delete', $data->id)"
-                                                style="margin: 0px !important" />
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                        </div>
+                    </div>
+                    <div class="dashboard__card__body mt-4">
+                        <div class="table-wrap mt-4">
+                            <div class="table-responsive">
+                                <table class="table" id="dataTable">
+                                    <thead>
+                                        <tr>
+                                            <x-bulk-action.th />
+                                            <th>{{ __('Title') }}</th>
+                                            <th>{{ __('Department') }}</th>
+                                            <th>{{ __('Created On') }}</th>
+                                            <th>{{ __('Status') }}</th>
+                                            <th>{{ __('Action') }}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($all_tickets as $data)
+                                            <tr>
+                                                <x-bulk-action.td :id="$data->id" />
+                                                <td>{{ $data->title }}</td>
+                                                <td style="text-align: left;">
+                                                    {{ $data->department->name ?? __('anonymous') }}</td>
+                                                <td>
+                                                    <small>{{ $data->created_at->format('M d, Y') }}</small>
+                                                </td>
+                                                <td>
+                                                    <span
+                                                        class="text-capitalize badge {{ $data->status == 'close' ? 'status-close' : 'status-open' }}">
+                                                        {{ $data->status == 'close' ? __('Closed') : __($data->status) }}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    @if ($data->status == 'open')
+                                                        <a href="#1" class="ticket_status_change btn btn-danger btn-xs"
+                                                            data-id="{{ $data->id }}" data-val="close"
+                                                            title="Close Ticket">
+                                                            <i class="las la-times"></i>
+                                                        </a>
+                                                    @endif
+                                                    <a href="{{ route('vendor.support.ticket.view', $data->id) }}"
+                                                        class="btn btn-secondary btn-xs" title="View Support Ticket">
+                                                        <i class="las la-file-invoice"></i>
+                                                    </a>
+
+                                                    <x-delete-popover :url="route('vendor.support.ticket.delete', $data->id)" style="margin: 0px !important" />
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 @endsection
 
 @section('script')
-<script>
-    $(document).ready(function() {
+    <script>
+        $(document).ready(function() {
 
             $(document).on('click', '.ticket_status_change', function(e) {
                 e.preventDefault();
@@ -166,9 +167,9 @@
                 });
             });
         });
-</script>
-<script>
-    (function($) {
+    </script>
+    <script>
+        (function($) {
             $(document).ready(function() {
                 $(document).on('click', '#bulk_delete_btn', function(e) {
                     e.preventDefault();
@@ -241,7 +242,7 @@
                 });
             });
         })(jQuery);
-</script>
+    </script>
 
-<script src="{{ asset('assets/backend/js/sweetalert2.js') }}"></script>
+    <script src="{{ asset('assets/backend/js/sweetalert2.js') }}"></script>
 @endsection
