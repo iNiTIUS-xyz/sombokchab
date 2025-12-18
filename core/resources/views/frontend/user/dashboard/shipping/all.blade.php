@@ -7,7 +7,7 @@
         </a>
     </div>
     @if ($all_shipping_address && $all_shipping_address->count())
-        <div class="dashboard__card__shipping mt-4">
+        <div class="dashboard__card__shipping">
             <div class="dashboard__card__header">
                 {{-- <h4 class="dashboard__card__title">
                     {{ __('Shipping Address') }}

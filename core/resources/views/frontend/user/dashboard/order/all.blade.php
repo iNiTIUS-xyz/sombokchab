@@ -8,7 +8,7 @@
     <div class="dashboard__card__order">
         <div class="dashboard__card__header">
         </div>
-        <div class="dashboard__card__table mt-4">
+        <div class="dashboard__card__table ">
             <div class="table-responsive">
                 <table class="table" id="dataTable">
                     <thead>

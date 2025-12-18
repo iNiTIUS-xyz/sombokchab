@@ -48,7 +48,7 @@
                                                 {{ __('Completed') }}
                                             </span>
                                         @elseif ($order->order->order_status == 'pending')
-                                            <span class="badge bg-warning px-2 py-1" style="color: white !important">
+                                            <span class="badge bg-warning px-2 py-1">
                                                 {{ __('Pending') }}
                                             </span>
                                         @elseif ($order->order->order_status == 'failed')
