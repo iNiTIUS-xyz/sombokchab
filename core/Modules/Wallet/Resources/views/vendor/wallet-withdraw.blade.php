@@ -105,6 +105,7 @@
                                             <div class="form-group">
                                                 <label>
                                                     {{ __('Withdraw Amount') }}
+                                                    <span class="text-danger">*</span>
                                                     <small class="text-info">
                                                         ( Minimum withdrawal amount is =
                                                         ${{ get_static_option('minimum_withdraw_amount') }})
@@ -115,55 +116,26 @@
                                                     min="{{ get_static_option('minimum_withdraw_amount') }}"
                                                     max="{{ $current_balance }}" class="form-control" step="0.01"
                                                     placeholder="{{ __('Enter withdraw amount') }}"
-                                                    min="{{ get_static_option('minimum_withdraw_amount') }}" />
+                                                    min="{{ get_static_option('minimum_withdraw_amount') }}" required />
                                             </div>
 
                                             <div class="form-group">
-                                                <label>{{ __('Payment Method') }}</label>
-                                                <select name="gateway_name" class="form-select gateway-name">
+                                                <label>
+                                                    {{ __('Payment Method') }}
+                                                    <span class="text-danger">*</span>
+                                                </label>
+                                                <select name="gateway_name" class="form-select gateway-name" required>
                                                     <option value="" selected disabled>
                                                         {{ __('Select payment method') }}
                                                     </option>
-                                                    @foreach ($adminGateways as $gateway)
-                                                        <option
-                                                            {{ $savedGateway?->vendor_wallet_gateway_id === $gateway->id ? 'selected' : '' }}
-                                                            value="{{ $gateway->id }}"
-                                                            data-fileds="{{ json_encode(unserialize($gateway->filed)) }}"
-                                                            data-is_file="{{ $gateway->is_file }}">
-                                                            {{ $gateway->name }}</option>
+                                                    @foreach ($vendorWalletGatewaySettingLists as $walletGateway)
+                                                        <option value="{{ $walletGateway->id }}">
+                                                            {{ $walletGateway?->vendorWalletGateway?->name }}
+                                                        </option>
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <div class="form-group gateway-information-wrapper">
-                                                @php
-                                                    $gatewayFields = $savedGateway?->fileds
-                                                        ? unserialize($savedGateway?->fileds)
-                                                        : [];
-                                                @endphp
-                                                @foreach ($gatewayFields as $key => $value)
-                                                    @php
-                                                        $label = ucwords(str_replace('_', ' ', $key));
-                                                        if ($label === 'Account Name') {
-                                                            $label = 'Account Holder Full Name';
-                                                        }
-                                                    @endphp
-                                                    <div class="form-group">
-                                                        <label>
-                                                            {{ $label }}
-                                                        </label>
-                                                        @if ($key === 'qr_file')
-                                                            <input type="file" name="gateway_filed[{{ $key }}]"
-                                                                class="form-control" />
-                                                        @else
-                                                            <input type="text" name="gateway_filed[{{ $key }}]"
-                                                                class="form-control" value="{{ $value }}"
-                                                                placeholder="Enter {{ str_replace('_', ' ', $key) }}" />
-                                                        @endif
-                                                    </div>
-                                                @endforeach
-                                            </div>
                                             <div class="form-group">
-                                                <hr>
                                                 <div class="btn-wrapper">
                                                     <button class="cmn_btn btn_bg_profile" type="submit">
                                                         {{ __('Send Withdraw Request') }}
@@ -189,44 +161,4 @@
 @endsection
 
 @section('script')
-    <script>
-        $(document).on("change", ".gateway-name", function() {
-            let gatewayInformation = "";
-            $(".gateway-information-wrapper").fadeOut(150);
-
-            const selectedOption = $(this).find(":selected");
-            const isFile = selectedOption.attr("data-is_file");
-            let fields = selectedOption.attr("data-fileds");
-
-            try {
-                fields = JSON.parse(fields);
-
-                // Loop through object entries if fields is an object
-                Object.entries(fields).forEach(function([key, value]) {
-                    let gateway_name = key.toLowerCase().replaceAll(" ", "_").replaceAll("-", "_");
-
-                    gatewayInformation += `
-                        <div class="form-group">
-                            <label>${ value }</label>
-                            <input type="text" name="gateway_filed[${ gateway_name }]" class="form-control" placeholder="Enter ${ value }" />
-                        </div>
-                    `;
-                });
-            } catch (e) {
-                console.error("Invalid JSON in data-fileds", e);
-            }
-
-            if (isFile === "yes") {
-                gatewayInformation += `
-                    <div class="form-group">
-                        <label>QR File</label>
-                        <input type="file" name="qr_file" class="form-control" />
-                    </div>
-                `;
-            }
-
-            $(".gateway-information-wrapper").html(gatewayInformation);
-            $(".gateway-information-wrapper").fadeIn(250);
-        });
-    </script>
 @endsection

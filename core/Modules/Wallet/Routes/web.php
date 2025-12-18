@@ -49,8 +49,8 @@ Route::prefix("vendor-home/wallet")->middleware(["auth:vendor", 'userEmailVerify
     Route::prefix("/gateway")->name("withdraw.gateway.")->controller(VendorWalletGatewaySettingController::class)->group(function () {
         Route::get("/", "index")->name("index");
         Route::post("/create", "create")->name("create");
-        Route::post("/update", "update")->name("update");
-        Route::get("/delete/{id}", "delete")->name("delete");
+        Route::post("/update/{id}", "update")->name("update");
+        Route::post("/delete/{id}", "delete")->name("delete");
     });
 });
 

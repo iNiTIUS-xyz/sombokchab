@@ -36,6 +36,18 @@ class VendorWalletGatewaySettingController extends Controller
                 "gateway_qr_file" => "nullable",
             ]);
 
+            $VendorWalletGatewaySetting = VendorWalletGatewaySetting::query()
+                ->where("vendor_id", auth("vendor")->id())
+                ->where("vendor_wallet_gateway_id", $request->gateway_name)
+                ->get();
+
+            if ($VendorWalletGatewaySetting->count() > 0) {
+                return back()->with([
+                    'message' =>  __('Vendor wallet payment gateway already exit with this gateway.'),
+                    'alert-type' => 'error',
+                ]);
+            }
+
             if (isset($data['gateway_filed'])) {
                 foreach ($data['gateway_filed'] as $key => $value) {
                     $data['gateway_filed'][$key] = SanitizeInput::esc_html($value);
@@ -70,13 +82,108 @@ class VendorWalletGatewaySettingController extends Controller
             DB::commit();
 
             return back()->with([
-                'message' => __('Successfully updated wallet settings'),
+                'message' => __('Successfully created wallet gateway settings'),
                 'alert-type' => 'success',
             ]);
         } catch (\Throwable $e) {
             DB::rollback();
             return back()->with([
-                'message' =>  __('Failed to update wallet settings'),
+                'message' =>  __('Failed to create wallet gateway settings'),
+                'alert-type' => 'error',
+            ]);
+        }
+    }
+
+    public function update(Request $request, $id)
+    {
+        try {
+            DB::beginTransaction();
+
+            $data = $request->validate([
+                "gateway_name"    => "nullable",
+                "gateway_filed"   => "nullable|array",
+                "gateway_filed.*" => "nullable|string",
+                "gateway_qr_file" => "nullable",
+            ]);
+
+            $VendorWalletGatewaySetting = VendorWalletGatewaySetting::query()
+                ->where("vendor_id", auth("vendor")->id())
+                ->where('id', '!=', $id)
+                ->where("vendor_wallet_gateway_id", $request->gateway_name)
+                ->get();
+
+            if ($VendorWalletGatewaySetting->count() > 0) {
+                return back()->with([
+                    'message' =>  __('Vendor wallet payment gateway already exit with this gateway.'),
+                    'alert-type' => 'error',
+                ]);
+            }
+
+            $walletGatewaySetting = VendorWalletGatewaySetting::where('vendor_id', auth("vendor")->id())->findOrFail($id);
+
+            $gatewayQrFile = null;
+
+            if ($request->hasFile('gateway_qr_file')) {
+
+                if ($gatewayQrFile && file_exists(public_path($gatewayQrFile))) {
+                    unlink(public_path($gatewayQrFile));
+                }
+
+                $file = $request->file('gateway_qr_file');
+                $fileName = 'qr_' . time() . '.' . $file->getClientOriginalExtension();
+                $path = 'uploads/vendor/qr';
+
+                $file->move(public_path($path), $fileName);
+                $gatewayQrFile = $path . '/' . $fileName;
+                $walletGatewaySetting->gateway_qr_file = $gatewayQrFile;
+            }
+
+            $walletGatewaySetting->vendor_wallet_gateway_id = $request->gateway_name;
+
+            if (isset($data['gateway_filed'])) {
+                foreach ($data['gateway_filed'] as $key => $value) {
+                    $data['gateway_filed'][$key] = SanitizeInput::esc_html($value);
+                }
+            }
+
+            $walletGatewaySetting->fileds                   = isset($data['gateway_filed']) ? serialize($data['gateway_filed']) : null;
+
+            $walletGatewaySetting->save();
+
+            DB::commit();
+
+            return back()->with([
+                'message' => __('Successfully updated wallet gateway settings'),
+                'alert-type' => 'success',
+            ]);
+        } catch (\Throwable $e) {
+            DB::rollback();
+            return back()->with([
+                'message' =>  __('Failed to update wallet gateway settings'),
+                'alert-type' => 'error',
+            ]);
+        }
+    }
+
+    public function delete(Request $request, $id)
+    {
+        try {
+
+            DB::beginTransaction();
+
+            $walletGatewaySetting = VendorWalletGatewaySetting::where('vendor_id', auth("vendor")->id())->findOrFail($id);
+            $walletGatewaySetting->delete();
+
+            DB::commit();
+
+            return back()->with([
+                'message' => __('Successfully deleted wallet gateway settings'),
+                'alert-type' => 'success',
+            ]);
+        } catch (\Throwable $e) {
+            DB::rollback();
+            return back()->with([
+                'message' =>  __('Failed to delete wallet gateway settings'),
                 'alert-type' => 'error',
             ]);
         }

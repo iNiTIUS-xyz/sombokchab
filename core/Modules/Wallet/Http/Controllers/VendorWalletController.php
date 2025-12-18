@@ -3,13 +3,13 @@
 namespace Modules\Wallet\Http\Controllers;
 
 use Illuminate\Routing\Controller;
-use Modules\Order\Entities\SubOrder;
-use Modules\Vendor\Http\Services\VendorServices;
-use Modules\Wallet\Entities\VendorWalletGateway;
-use Modules\Wallet\Entities\VendorWalletGatewaySetting;
-use Modules\Wallet\Entities\VendorWithdrawRequest;
+use Illuminate\Support\Facades\DB;
 use Modules\Wallet\Entities\Wallet;
+use Modules\Order\Entities\SubOrder;
 use Modules\Wallet\Entities\WalletHistory;
+use Modules\Vendor\Http\Services\VendorServices;
+use Modules\Wallet\Entities\VendorWithdrawRequest;
+use Modules\Wallet\Entities\VendorWalletGatewaySetting;
 use Modules\Wallet\Http\Requests\VendorHandleWithdrawRequest;
 
 class VendorWalletController extends Controller
@@ -24,8 +24,12 @@ class VendorWalletController extends Controller
     public function withdraw()
     {
         $wallet = Wallet::where("vendor_id", auth()->guard("vendor")->id())->first();
-        // first og all get all list of payment gateway that is created bu admin
-        $adminGateways = VendorWalletGateway::where("status_id", 1)->get();
+
+        $vendorWalletGatewaySettingLists = VendorWalletGatewaySetting::query()
+            ->where(["vendor_id" => auth("vendor")->id()])
+            ->with(['vendorWalletGateway'])
+            ->get();
+
         $savedGateway = VendorWalletGatewaySetting::where(["vendor_id" => auth("vendor")->id()])->first();
 
         $wallet = Wallet::where("vendor_id", auth()->guard("vendor")->id())->first();
@@ -44,7 +48,7 @@ class VendorWalletController extends Controller
             "total_complete_order_amount" => $total_complete_order_amount,
             "pending_balance" => toFixed($wallet->pending_balance ?? 0, 0),
             "current_balance" => toFixed($wallet->balance ?? 0, 0),
-            "adminGateways"               => $adminGateways,
+            "vendorWalletGatewaySettingLists" => $vendorWalletGatewaySettingLists,
             "savedGateway"                => $savedGateway,
         ];
 
@@ -64,41 +68,48 @@ class VendorWalletController extends Controller
 
     public function handleWithdraw(VendorHandleWithdrawRequest $request)
     {
+        DB::beginTransaction();
 
-        $qrFileName = null;
+        try {
 
-        if ($request->hasFile('qr_file')) {
-            if (!file_exists(public_path('uploads/refund-qr'))) {
-                mkdir(public_path('uploads/refund-qr'), 0777, true);
+            $vendorId = auth('vendor')->id();
+            $data     = $request->validated();
+
+            $gatewaySetting = VendorWalletGatewaySetting::with('vendorWalletGateway')
+                ->where('vendor_id', $vendorId)
+                ->findOrFail($request->gateway_id);
+
+            $data['vendor_id']      = $vendorId;
+            $data['qr_file']        = $gatewaySetting->gateway_qr_file ? $gatewaySetting->gateway_qr_file : null;
+            $data['gateway_fields'] = $gatewaySetting->fileds ? json_encode(unserialize($gatewaySetting->fileds)) : null;
+
+            $wallet = Wallet::where('vendor_id', $vendorId)->lockForUpdate()->firstOrFail();
+
+            if ($wallet->balance < $data['amount']) {
+                return back()->with([
+                    'message'    => 'Your requested amount is greater than your available balance',
+                    'alert-type' => 'error',
+                ]);
             }
 
-            $filename = time() . rand(1111, 9999) . '.' . $request->qr_file->getClientOriginalExtension();
-            $request->qr_file->move(public_path('uploads/refund-qr'), $filename);
-            $qrFileName = 'uploads/refund-qr/' . $filename;
-        }
+            VendorWithdrawRequest::create($data);
 
-        $data = $request->validated();
-
-        $data['qr_file'] = $qrFileName;
-        $data['gateway_fields'] = $qrFileName ? null : $data['gateway_fields'];
-
-        $wallet = Wallet::where("vendor_id", $data["vendor_id"])->first();
-
-        if ($wallet->balance >= $data["amount"]) {
-
-            $withdraw = VendorWithdrawRequest::create($data);
+            DB::commit();
 
             return back()->with([
-                'message'    => $withdraw ? 'Successfully sent your request' : 'Failed to send request',
-                'alert-type' => $withdraw ? 'success' : 'error',
+                'message'    => 'Successfully sent your request',
+                'alert-type' => 'success',
+            ]);
+        } catch (\Throwable $e) {
+
+            DB::rollBack();
+            return back()->with([
+                'message'    => 'Something went wrong. Please try again.',
+                'alert-type' => 'error',
             ]);
         }
-
-        return back()->with([
-            'message'    => 'Your requested amount is greater than your available balance',
-            'alert-type' => 'error',
-        ]);
     }
+
 
     public function walletHistory()
     {
