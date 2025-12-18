@@ -1,7 +1,7 @@
 @props(['all_products'])
 
 @if (($all_products['total_page'] ?? 0) > 1)
-    {{-- <ul class="pagination-list">
+    <ul class="pagination-list">
         @foreach ($all_products['links'] as $link)
             <li>
                 <a data-page-index="{{ $loop->iteration }}" href="{{ $link }}"
@@ -10,9 +10,9 @@
                 </a>
             </li>
         @endforeach
-    </ul> --}}
+    </ul>
 
-    <div class="col-lg-12 text-center mt-5">
+    {{-- <div class="col-lg-12 text-center mt-5">
         <button id="load_more_button" class="btn-load-more" data-current-page="{{ $all_products['current_page'] ?? 1 }}"
             data-total-pages="{{ $all_products['total_page'] ?? 1 }}">
             {{ __('Load More') }}
@@ -20,7 +20,7 @@
                 <i class="las la-spinner la-spin"></i>
             </span>
         </button>
-    </div>
+    </div> --}}
 @endcan
 
 
