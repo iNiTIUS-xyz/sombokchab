@@ -10,9 +10,9 @@ class VendorHandleWithdrawRequest extends FormRequest
     {
         return [
             "gateway_id" => "required",
-            "gateway_fields" => "required",
+            "gateway_fields" => "nullable",
             "amount" => "required",
-            "vendor_id" => "required",
+            "vendor_id" => "nullable",
             "request_status" => "required",
             "qr_file" => "nullable"
         ];

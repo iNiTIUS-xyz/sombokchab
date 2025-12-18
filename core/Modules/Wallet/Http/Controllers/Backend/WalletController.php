@@ -125,8 +125,8 @@ class WalletController extends Controller
     public function withdrawRequestPage()
     {
         $withdrawRequests = VendorWithdrawRequest::query()
-            ->with("gateway", "vendor", "wallet")
-            ->whereHas("gateway")
+            ->with(["gateway", "vendor", "wallet"])
+            // ->whereHas("gateway")
             ->orderByDesc("id")
             ->get();
 

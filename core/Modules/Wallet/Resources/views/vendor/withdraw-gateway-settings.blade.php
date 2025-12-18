@@ -10,7 +10,7 @@
             <div class="col-md-12">
                 <div class="btn-wrapper" style="width: 98%">
                     <button type="button" class="cmn_btn btn_bg_profile mb-3" data-bs-toggle="modal"
-                        data-bs-target="#staticBackdrop">
+                        data-bs-target="#createPaymentMethod">
                         {{ __('Add New Payment Method ') }}
                     </button>
                 </div>
@@ -61,12 +61,17 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <a href="" class="btn btn-warning text-dark btn-sm mb-2"
-                                                    title="Edit">
+                                                <button type="button"
+                                                    class="btn btn-warning text-dark btn-sm mb-2 edit-gateway"
+                                                    data-bs-toggle="modal" data-bs-target="#updatePaymentMethod"
+                                                    data-route="{{ route('vendor.wallet.withdraw.gateway.update', $paymentWalletGateway->id) }}"
+                                                    data-gateway="{{ $paymentWalletGateway->vendor_wallet_gateway_id }}"
+                                                    data-fileds="{{ json_encode(unserialize($paymentWalletGateway->fileds)) }}"
+                                                    data-is_file="{{ $paymentWalletGateway->gateway_qr_file ? 'yes' : 'no' }}">
                                                     <i class="las la-pencil-alt"></i>
-                                                </a>
+                                                </button>
                                                 <x-delete-popover :url="route(
-                                                    'vendor.support.ticket.delete',
+                                                    'vendor.wallet.withdraw.gateway.delete',
                                                     $paymentWalletGateway->id,
                                                 )" style="margin: 0px !important" />
                                             </td>
@@ -81,7 +86,7 @@
         </div>
 
         <!-- Modal -->
-        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        <div class="modal fade" id="createPaymentMethod" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -126,19 +131,57 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="updatePaymentMethod" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">
+                            {{ __('Update Payment Method') }}
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form method="post" enctype="multipart/form-data" class="update-form">
+                        @csrf
+                        @method('POST')
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>
+                                    {{ __('Payment Method') }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <select name="gateway_name" class="form-select gateway-name">
+                                    <option value="" selected disabled>
+                                        {{ __('Select Payment Method') }}
+                                    </option>
+                                    @foreach ($adminGateways as $gateway)
+                                        <option value="{{ $gateway->id }}" data-is_file="{{ $gateway->is_file }}"
+                                            data-fileds="{{ json_encode(unserialize($gateway->filed)) }}">
+                                            {{ $gateway->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group gateway-information-wrapper"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                Close
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                Save
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 
 @section('script')
     <script>
-        document.querySelector(".gateway-name")?.addEventListener("change", function() {
-
-            let wrapper = document.querySelector(".gateway-information-wrapper");
-            let selectedOption = this.options[this.selectedIndex];
-
-            let fields = selectedOption.dataset.fileds;
-            let isFile = selectedOption.dataset.is_file
-
+        function renderFields(wrapper, fields, isFile, oldValues = {}) {
             wrapper.innerHTML = "";
 
             if (isFile === 'yes') {
@@ -154,32 +197,84 @@
                 return;
             }
 
-            if (!fields) {
-                return;
-            }
+            if (!fields) return;
 
-            fields = JSON.parse(fields);
+            fields = Object.values(fields);
             let html = "";
 
-            Object.values(fields).forEach(fieldName => {
-                let label = fieldName === "Account Name" ?
-                    "Account Holder Full Name" :
-                    fieldName;
-
-                let inputKey = fieldName.toLowerCase().replace(/\s+/g, "_");
+            fields.forEach(fieldName => {
+                let key = fieldName.toLowerCase().replace(/\s+/g, "_");
+                let value = oldValues[key] ?? "";
 
                 html += `
                 <div class="form-group">
-                    <label>${label}</label>
+                    <label>${fieldName}</label>
                     <input type="text"
-                        name="gateway_filed[${inputKey}]"
+                        name="gateway_filed[${key}]"
                         class="form-control"
-                        placeholder="Enter ${label}">
+                        value="${value}"
+                        placeholder="Enter ${fieldName}">
                 </div>
-        `;
+            `;
             });
 
             wrapper.innerHTML = html;
+        }
+
+        // CREATE MODAL
+        document.querySelector('#createPaymentMethod .gateway-name')
+            ?.addEventListener('change', function() {
+
+                let option = this.options[this.selectedIndex];
+                let wrapper = document.querySelector('#createPaymentMethod .gateway-information-wrapper');
+
+                renderFields(
+                    wrapper,
+                    JSON.parse(option.dataset.fileds || '{}'),
+                    option.dataset.is_file
+                );
+            });
+
+        // UPDATE MODAL OPEN
+        document.querySelectorAll('.edit-gateway').forEach(btn => {
+            btn.addEventListener('click', function() {
+
+                let modal = document.querySelector('#updatePaymentMethod');
+                let form = modal.querySelector('.update-form');
+                let select = modal.querySelector('.gateway-name');
+                let wrapper = modal.querySelector('.gateway-information-wrapper');
+
+                // set action
+                form.action = this.dataset.route;
+
+                let oldFields = JSON.parse(this.dataset.fileds || '{}');
+
+                // select gateway
+                select.value = this.dataset.gateway;
+
+                let option = select.options[select.selectedIndex];
+
+                renderFields(
+                    wrapper,
+                    JSON.parse(option.dataset.fileds || '{}'),
+                    option.dataset.is_file,
+                    oldFields
+                );
+            });
         });
+
+        // UPDATE GATEWAY CHANGE
+        document.querySelector('#updatePaymentMethod .gateway-name')
+            ?.addEventListener('change', function() {
+
+                let option = this.options[this.selectedIndex];
+                let wrapper = document.querySelector('#updatePaymentMethod .gateway-information-wrapper');
+
+                renderFields(
+                    wrapper,
+                    JSON.parse(option.dataset.fileds || '{}'),
+                    option.dataset.is_file
+                );
+            });
     </script>
 @endsection

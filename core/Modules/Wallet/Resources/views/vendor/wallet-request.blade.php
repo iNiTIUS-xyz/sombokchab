@@ -29,7 +29,6 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {{-- @dd($withdrawRequests); --}}
                                     @foreach ($withdrawRequests as $withdrawRequest)
                                         @php
                                             $fields = '';
@@ -37,10 +36,11 @@
                                         @if ($withdrawRequest->gateway_fields)
                                             @foreach (json_decode($withdrawRequest->gateway_fields) as $key => $value)
                                                 @php
-                                                    $fields .= ucwords(str_replace('_', ' ', $key)) . ' => ' . $value;
-                                                    if (!$loop->last) {
-                                                        $fields .= ' , ';
-                                                    }
+                                                    $fields .=
+                                                        ucwords(str_replace('_', ' ', $key)) .
+                                                        ': <strong>' .
+                                                        $value .
+                                                        '</strong> <br>';
                                                 @endphp
                                             @endforeach
                                         @endif
@@ -50,11 +50,11 @@
                                             </td>
                                             <td>
                                                 <div class="table-paymentGateway">
-                                                    {{ $withdrawRequest->gateway->name }}
+                                                    {{ $withdrawRequest?->gateway?->name }}
                                                 </div>
                                             </td>
                                             <td>
-                                                <div class="table-fields">{{ $fields }}</div>
+                                                <div class="table-fields">{!! $fields !!}</div>
                                             </td>
                                             <td>
                                                 <a href="{{ asset($withdrawRequest->qr_file) }}" target="__blank">
