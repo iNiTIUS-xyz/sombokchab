@@ -12,6 +12,9 @@ class VendorWalletGatewaySetting extends Model
         "vendor_id",
         "vendor_wallet_gateway_id",
         "fileds",
+        "merchant_id",
+        "merchant_name",
+        "wallet_option_name",
         'gateway_qr_file',
     ];
 

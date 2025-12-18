@@ -36,18 +36,6 @@ class VendorWalletGatewaySettingController extends Controller
                 "gateway_qr_file" => "nullable",
             ]);
 
-            $VendorWalletGatewaySetting = VendorWalletGatewaySetting::query()
-                ->where("vendor_id", auth("vendor")->id())
-                ->where("vendor_wallet_gateway_id", $request->gateway_name)
-                ->get();
-
-            if ($VendorWalletGatewaySetting->count() > 0) {
-                return back()->with([
-                    'message' =>  __('Vendor wallet payment gateway already exit with this gateway.'),
-                    'alert-type' => 'error',
-                ]);
-            }
-
             if (isset($data['gateway_filed'])) {
                 foreach ($data['gateway_filed'] as $key => $value) {
                     $data['gateway_filed'][$key] = SanitizeInput::esc_html($value);
@@ -74,6 +62,9 @@ class VendorWalletGatewaySettingController extends Controller
                 ->create([
                     "vendor_id" => auth("vendor")->id(),
                     "vendor_wallet_gateway_id" => $request->gateway_name,
+                    "wallet_option_name"          => $request->wallet_option_name,
+                    "merchant_name"       => $request->merchant_name,
+                    "merchant_id"            => $request->merchant_id,
                     "vendor_id"                => auth("vendor")->id(),
                     "fileds"                   => isset($data['gateway_filed']) ? serialize($data['gateway_filed']) : null,
                     "gateway_qr_file"          => $gatewayQrFile,
@@ -106,19 +97,6 @@ class VendorWalletGatewaySettingController extends Controller
                 "gateway_qr_file" => "nullable",
             ]);
 
-            $VendorWalletGatewaySetting = VendorWalletGatewaySetting::query()
-                ->where("vendor_id", auth("vendor")->id())
-                ->where('id', '!=', $id)
-                ->where("vendor_wallet_gateway_id", $request->gateway_name)
-                ->get();
-
-            if ($VendorWalletGatewaySetting->count() > 0) {
-                return back()->with([
-                    'message' =>  __('Vendor wallet payment gateway already exit with this gateway.'),
-                    'alert-type' => 'error',
-                ]);
-            }
-
             $walletGatewaySetting = VendorWalletGatewaySetting::where('vendor_id', auth("vendor")->id())->findOrFail($id);
 
             $gatewayQrFile = null;
@@ -139,6 +117,9 @@ class VendorWalletGatewaySettingController extends Controller
             }
 
             $walletGatewaySetting->vendor_wallet_gateway_id = $request->gateway_name;
+            $walletGatewaySetting->wallet_option_name = $request->wallet_option_name;
+            $walletGatewaySetting->merchant_name = $request->merchant_name;
+            $walletGatewaySetting->merchant_id = $request->merchant_id;
 
             if (isset($data['gateway_filed'])) {
                 foreach ($data['gateway_filed'] as $key => $value) {
@@ -146,7 +127,7 @@ class VendorWalletGatewaySettingController extends Controller
                 }
             }
 
-            $walletGatewaySetting->fileds                   = isset($data['gateway_filed']) ? serialize($data['gateway_filed']) : null;
+            $walletGatewaySetting->fileds = isset($data['gateway_filed']) ? serialize($data['gateway_filed']) : null;
 
             $walletGatewaySetting->save();
 

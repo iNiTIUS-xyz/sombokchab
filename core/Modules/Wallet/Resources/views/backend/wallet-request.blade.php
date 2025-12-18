@@ -32,7 +32,6 @@
                                         <th>{{ __('Amount') }}</th>
                                         <th>{{ __('Payment Method') }}</th>
                                         <th style="width: 30%">{{ __('Payment Method Details') }}</th>
-                                        <th>{{ __('QR File') }}</th>
                                         <th>{{ __('Status') }}</th>
                                         <th>{{ __('Action') }}</th>
                                         <th>{{ __('Note') }}</th>
@@ -91,13 +90,27 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <div class="table-fields">{!! $fields !!}</div>
-                                            </td>
-                                            <td>
-                                                <a href="{{ asset('core/public/' . $withdrawRequest->qr_file) }}"
-                                                    target="__blank" title="View QR File">
-                                                    <img src="{{ asset('core/public/' . $withdrawRequest->qr_file) }}" />
-                                                </a>
+                                                @if ($withdrawRequest->qr_file)
+                                                    <a href="{{ asset('core/public/' . $withdrawRequest->qr_file) }}"
+                                                        target="__blank" title="View QR File">
+                                                        <img src="{{ asset('core/public/' . $withdrawRequest->qr_file) }}"
+                                                            width="100" height="100" />
+                                                    </a>
+                                                    <p>
+                                                        <strong>
+                                                            Merchant Name:
+                                                        </strong>
+                                                        {{ $withdrawRequest->merchant_name }}
+                                                    </p>
+                                                    <p>
+                                                        <strong>
+                                                            Merchant ID:
+                                                        </strong>
+                                                        {{ $withdrawRequest->merchant_id }}
+                                                    </p>
+                                                @else
+                                                    <div class="table-fields">{!! $fields !!}</div>
+                                                @endif
                                             </td>
                                             <td>
                                                 <x-status-span :status="$withdrawRequest->request_status" />
