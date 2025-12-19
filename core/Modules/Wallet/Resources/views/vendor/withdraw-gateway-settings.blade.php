@@ -11,7 +11,7 @@
                 <div class="btn-wrapper" style="width: 98%">
                     <button type="button" class="cmn_btn btn_bg_profile mb-3" data-bs-toggle="modal"
                         data-bs-target="#createPaymentMethod">
-                        {{ __('Add New Payment Method ') }}
+                        {{ __('Add New Withdraw Option') }}
                     </button>
                 </div>
             </div>
@@ -111,7 +111,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="staticBackdropLabel">
-                            {{ __('Add New Payment Method ') }}
+                            {{ __('Add New Withdraw Option ') }}
                         </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
@@ -155,7 +155,6 @@
                 </div>
             </div>
         </div>
-
         <!-- Update Modal -->
         <div class="modal fade" id="updatePaymentMethod" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -163,7 +162,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="staticBackdropLabel">
-                            {{ __('Update Payment Method') }}
+                            {{ __('Update Withdraw Option') }}
                         </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
