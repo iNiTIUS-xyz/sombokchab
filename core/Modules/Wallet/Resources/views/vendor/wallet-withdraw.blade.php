@@ -1,7 +1,7 @@
 @extends('vendor.vendor-master')
 
 @section('site-title')
-    {{ __('Wallet Withdrawals') }}
+    {{ __('Withdraw') }}
 @endsection
 
 @section('style')
@@ -13,7 +13,9 @@
             <div class="col-lg-12">
                 <div class="">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Your Wallet Withdrawals') }}</h4>
+                        <h4 class="dashboard__card__title">
+                            {{ __('Withdraw') }}
+                        </h4>
                     </div>
                     <div class="dashboard__card__body mt-4">
 
@@ -121,12 +123,12 @@
 
                                             <div class="form-group">
                                                 <label>
-                                                    {{ __('Withdrawal Options') }}
+                                                    {{ __('Withdraw Option') }}
                                                     <span class="text-danger">*</span>
                                                 </label>
                                                 <select name="gateway_name" class="form-select gateway-name" required>
                                                     <option value="" selected disabled>
-                                                        {{ __('Select One') }}
+                                                        {{ __('Select Withdraw Option') }}
                                                     </option>
                                                     @foreach ($vendorWalletGatewaySettingLists as $walletGateway)
                                                         <option value="{{ $walletGateway->id }}">

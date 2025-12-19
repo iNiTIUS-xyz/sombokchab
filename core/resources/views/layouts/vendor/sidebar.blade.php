@@ -98,7 +98,7 @@
 
                         <li class="{{ active_menu('vendor-home/wallet/gateway') }}">
                             <a href="{{ route('vendor.wallet.withdraw.gateway.index') }}">
-                                <span>{{ __('Withdrawal Options') }}</span>
+                                <span>{{ __('Withdraw Options') }}</span>
                             </a>
                         </li>
 

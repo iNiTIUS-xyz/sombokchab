@@ -11,7 +11,7 @@
                 <div class="btn-wrapper" style="width: 98%">
                     <button type="button" class="cmn_btn btn_bg_profile mb-3" data-bs-toggle="modal"
                         data-bs-target="#createPaymentMethod">
-                        {{ __('Add New Withdrawal Options') }}
+                        {{ __('Add New Withdraw Options') }}
                     </button>
                 </div>
             </div>
@@ -19,7 +19,7 @@
                 <div class="dashboard__card card__two">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">
-                            {{ __('Payment Method Settings') }}
+                            {{ __('Withdraw Options') }}
                         </h4>
                     </div>
                     <div class="dashboard__card__body">
@@ -27,9 +27,9 @@
                             <table class="table" id="dataTable">
                                 <thead>
                                     <tr>
-                                        <th>{{ __('Withdrawal Options Name') }}</th>
-                                        <th>{{ __('Payment Method Name') }}</th>
-                                        <th>{{ __('Payment Method Details') }}</th>
+                                        <th>{{ __('Option Name') }}</th>
+                                        <th>{{ __('Method Name') }}</th>
+                                        <th>{{ __('Method Details') }}</th>
                                         <th>{{ __('Action') }}</th>
                                     </tr>
                                 </thead>
@@ -111,7 +111,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="staticBackdropLabel">
-                            {{ __('Add New Withdrawal Options ') }}
+                            {{ __('Add New Withdraw Options') }}
                         </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
@@ -126,12 +126,12 @@
                             </div>
                             <div class="form-group">
                                 <label>
-                                    {{ __('Payment Method') }}
+                                    {{ __('Withdraw Method') }}
                                     <span class="text-danger">*</span>
                                 </label>
                                 <select name="gateway_name" class="form-select gateway-name">
                                     <option value="" selected disabled>
-                                        {{ __('Select Payment Method') }}
+                                        {{ __('Select Withdraw Method') }}
                                     </option>
                                     @foreach ($adminGateways as $gateway)
                                         <option value="{{ $gateway->id }}" data-is_file="{{ $gateway->is_file }}"
@@ -162,7 +162,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="staticBackdropLabel">
-                            {{ __('Update Withdraw Option') }}
+                            {{ __('Update Withdraw Options') }}
                         </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
@@ -177,12 +177,12 @@
                             </div>
                             <div class="form-group">
                                 <label>
-                                    {{ __('Payment Method') }}
+                                    {{ __('Withdraw Method') }}
                                     <span class="text-danger">*</span>
                                 </label>
                                 <select name="gateway_name" class="form-select gateway-name">
                                     <option value="" selected disabled>
-                                        {{ __('Select Payment Method') }}
+                                        {{ __('Select Withdraw Method') }}
                                     </option>
                                     @foreach ($adminGateways as $gateway)
                                         <option value="{{ $gateway->id }}" data-is_file="{{ $gateway->is_file }}"
