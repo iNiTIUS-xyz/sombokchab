@@ -226,7 +226,9 @@
         $(document).ready(function() {
 
             // 1) clone header once (no events) and prepare filter row
-            $('#dataTable thead tr').clone(false).addClass('filters').appendTo('#dataTable thead');
+            // $('#dataTable thead tr').clone(false).addClass('filters').appendTo('#dataTable thead');
+            $('#dataTable thead tr').clone(false).addClass('filters').prependTo('#dataTable thead');
+
 
             // 2) clean cloned header: remove dropdown/button/form elements so inputs are clean
             $('#dataTable thead tr.filters').find('.dropdown-menu, .btn-group, button, a, form, .badge').remove();
