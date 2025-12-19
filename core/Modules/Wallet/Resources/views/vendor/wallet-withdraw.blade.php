@@ -121,12 +121,12 @@
 
                                             <div class="form-group">
                                                 <label>
-                                                    {{ __('Payment Method') }}
+                                                    {{ __('Withdrawal Options') }}
                                                     <span class="text-danger">*</span>
                                                 </label>
                                                 <select name="gateway_name" class="form-select gateway-name" required>
                                                     <option value="" selected disabled>
-                                                        {{ __('Select payment method') }}
+                                                        {{ __('Select One') }}
                                                     </option>
                                                     @foreach ($vendorWalletGatewaySettingLists as $walletGateway)
                                                         <option value="{{ $walletGateway->id }}">

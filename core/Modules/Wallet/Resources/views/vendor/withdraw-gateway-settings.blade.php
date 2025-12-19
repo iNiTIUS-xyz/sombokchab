@@ -11,7 +11,7 @@
                 <div class="btn-wrapper" style="width: 98%">
                     <button type="button" class="cmn_btn btn_bg_profile mb-3" data-bs-toggle="modal"
                         data-bs-target="#createPaymentMethod">
-                        {{ __('Add New Withdraw Option') }}
+                        {{ __('Add New Withdrawal Options') }}
                     </button>
                 </div>
             </div>
@@ -27,7 +27,7 @@
                             <table class="table" id="dataTable">
                                 <thead>
                                     <tr>
-                                        <th>{{ __('Wallet Option Name') }}</th>
+                                        <th>{{ __('Withdrawal Options Name') }}</th>
                                         <th>{{ __('Payment Method Name') }}</th>
                                         <th>{{ __('Payment Method Details') }}</th>
                                         <th>{{ __('Action') }}</th>
@@ -111,7 +111,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="staticBackdropLabel">
-                            {{ __('Add New Withdraw Option ') }}
+                            {{ __('Add New Withdrawal Options ') }}
                         </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
@@ -120,9 +120,9 @@
                         @csrf
                         <div class="modal-body">
                             <div class="form-group">
-                                <label>Wallet Option Name</label>
+                                <label>Withdrawal Options Name</label>
                                 <input type="text" name="wallet_option_name" class="form-control"
-                                    placeholder="Enter Wallet Option Name">
+                                    placeholder="Enter Withdrawal Options Name">
                             </div>
                             <div class="form-group">
                                 <label>
@@ -171,9 +171,9 @@
                         @method('POST')
                         <div class="modal-body">
                             <div class="form-group">
-                                <label>Wallet Option Name</label>
+                                <label>Withdrawal Options Name</label>
                                 <input type="text" name="wallet_option_name" class="form-control wallet-option-name"
-                                    placeholder="Enter Wallet Option Name">
+                                    placeholder="Enter Withdrawal Options Name">
                             </div>
                             <div class="form-group">
                                 <label>
@@ -295,7 +295,7 @@
                 // Set form action
                 form.action = this.dataset.route;
 
-                // Pre-fill wallet option name
+                // Pre-fill Withdrawal Options name
                 walletInput.value = this.dataset.wallet_option_name || '';
 
                 // Pre-select gateway
