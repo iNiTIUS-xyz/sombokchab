@@ -132,8 +132,7 @@
                                                     </option>
                                                     @foreach ($vendorWalletGatewaySettingLists as $walletGateway)
                                                         <option value="{{ $walletGateway->id }}">
-                                                            {{ $walletGateway->wallet_option_name }} (
-                                                            {{ $walletGateway?->vendorWalletGateway?->name }})
+                                                            {{ $walletGateway->wallet_option_name }} ( {{ $walletGateway?->vendorWalletGateway?->name }} )
                                                         </option>
                                                     @endforeach
                                                 </select>

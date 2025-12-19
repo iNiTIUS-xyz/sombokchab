@@ -73,13 +73,13 @@ class VendorWalletGatewaySettingController extends Controller
             DB::commit();
 
             return back()->with([
-                'message' => __('Successfully created wallet gateway settings'),
+                'message' => __('Successfully created withdraw option'),
                 'alert-type' => 'success',
             ]);
         } catch (\Throwable $e) {
             DB::rollback();
             return back()->with([
-                'message' =>  __('Failed to create wallet gateway settings'),
+                'message' =>  __('Failed to create withdraw option'),
                 'alert-type' => 'error',
             ]);
         }
@@ -134,13 +134,13 @@ class VendorWalletGatewaySettingController extends Controller
             DB::commit();
 
             return back()->with([
-                'message' => __('Successfully updated wallet gateway settings'),
+                'message' => __('Successfully updated withdraw option'),
                 'alert-type' => 'success',
             ]);
         } catch (\Throwable $e) {
             DB::rollback();
             return back()->with([
-                'message' =>  __('Failed to update wallet gateway settings'),
+                'message' =>  __('Failed to update withdraw option'),
                 'alert-type' => 'error',
             ]);
         }
@@ -158,13 +158,13 @@ class VendorWalletGatewaySettingController extends Controller
             DB::commit();
 
             return back()->with([
-                'message' => __('Successfully deleted wallet gateway settings'),
+                'message' => __('Successfully deleted withdraw option'),
                 'alert-type' => 'success',
             ]);
         } catch (\Throwable $e) {
             DB::rollback();
             return back()->with([
-                'message' =>  __('Failed to delete wallet gateway settings'),
+                'message' =>  __('Failed to delete withdraw option'),
                 'alert-type' => 'error',
             ]);
         }
