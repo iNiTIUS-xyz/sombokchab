@@ -20,6 +20,7 @@
                         <tr>
                             <th>{{ __('Customer Details') }}</th>
                             <th>{{ __('Order Details') }}</th>
+                            <th>{{ __('Created On') }}</th>
                             <th>{{ __('Refund Details') }}</th>
                             <th>{{ __('Action') }}</th>
                         </tr>
@@ -61,7 +62,9 @@
                                         {{ float_amount_with_currency_symbol($request->order?->paymentMeta?->total_amount) }}<br>
                                     </span>
                                 </td>
-
+                                <td>
+                                    {{ date('M j, Y', strtotime($request->order?->created_at)) }}
+                                </td>
                                 <td>
                                     <span class="user-info text-left">
                                         {{ __('Status') }}:
