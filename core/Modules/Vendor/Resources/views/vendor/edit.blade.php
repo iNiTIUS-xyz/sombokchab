@@ -341,7 +341,7 @@
                                                                 <div class="embed-map-container">
                                                                     <iframe class="embed-map-frame" frameborder="0"
                                                                         scrolling="no" marginheight="0" marginwidth="0"
-                                                                        src="https://maps.google.com/maps?hl=en&q=Dhaka&t=&z=14&ie=UTF8&iwloc=B&output=embed">
+                                                                        src="https://maps.google.com/maps?hl=en&q={{ $vendor?->vendor_address?->address }}&t=&z=14&ie=UTF8&iwloc=B&output=embed">
                                                                     </iframe>
                                                                 </div>
                                                             </div>
@@ -366,7 +366,7 @@
                                                         <div class="col-sm-12">
                                                             <div class="single-input">
                                                                 <label class="label-title color-light mb-2">
-                                                                    {{ __('Link/URL') }}
+                                                                    {{ __('Location') }}
                                                                 </label>
                                                                 <input value="{{ $vendor?->vendor_shop_info?->location }}"
                                                                     name="location" type="text"

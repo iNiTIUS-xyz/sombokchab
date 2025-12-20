@@ -149,7 +149,15 @@
                     <textarea class="form--control" name="note" id="modal_note"
                         placeholder="{{ __('Enter your note (optional)') }}">{{ old('note') }}</textarea>
                 </div>
-
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="country">{{ __('Is Default') }}</label>
+                        <select class="form-select" name="is_default" required>
+                            <option value="1">{{ __('Yes') }}</option>
+                            <option value="0">{{ __('No') }}</option>
+                        </select>
+                    </div>
+                </div>
                 @include('frontend.cart.partials.create-account')
 
                 <button type="submit" class="btn btn-primary mt-4 w-100">

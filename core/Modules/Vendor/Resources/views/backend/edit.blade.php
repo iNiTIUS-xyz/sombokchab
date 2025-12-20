@@ -284,6 +284,20 @@
                                                         </label>
                                                         <textarea name="address" type="text" placeholder="{{ __('Enter address') }}" class="form--control radius-10">{{ $vendor?->vendor_address?->address }}</textarea>
                                                     </div>
+                                                    <div class="col-sm-12">
+                                                        <div class="single-input">
+                                                            <label class="label-title color-light mb-2">
+                                                                {{ __('Google Map Location') }}
+                                                            </label>
+
+                                                            <div class="embed-map-container">
+                                                                <iframe class="embed-map-frame" frameborder="0"
+                                                                    scrolling="no" marginheight="0" marginwidth="0"
+                                                                    src="https://maps.google.com/maps?hl=en&q={{ $vendor?->vendor_address?->address }}&t=&z=14&ie=UTF8&iwloc=B&output=embed">
+                                                                </iframe>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -397,7 +411,7 @@
                                                                     value="{{ $vendor?->vendor_shop_info?->colors['store_paragraph_color'] ?? '' }}"
                                                                     id="store_paragraph_color">
                                                                 <small>{{ __('you can change site paragraph color from
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                there') }}</small>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                there') }}</small>
                                                             </div>
                                                         </div>
                                                         <!--color settings end -->
@@ -520,6 +534,20 @@
             pointer-events: none !important;
             opacity: 0.5 !important;
             cursor: not-allowed !important;
+        }
+
+        .embed-map-frame {
+            width: 100% !important;
+            height: 100% !important;
+            border: 0;
+        }
+
+        .embed-map-container {
+            width: 100%;
+            height: 300px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
         }
     </style>
 
